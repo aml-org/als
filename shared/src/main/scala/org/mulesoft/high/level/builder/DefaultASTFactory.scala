@@ -88,7 +88,7 @@ abstract class DefaultASTFactory extends IASTFactory {
                 case em: ElementMatchResult =>
                     var hlNode = ASTNodeImpl(
                     em.node, baseUnit, Option(node), discriminate(range,em.node), Option(prop))
-                    em.yamlNode.foreach(x=>hlNode.sourceInfo.setSources(List(x)))
+                    em.yamlNode.foreach(x=>hlNode.sourceInfo.withSources(List(x)))
                     determineUserType(em.node,hlNode,Option(node),bundle).foreach(hlNode.setLocalType)
                     hlNode
             })

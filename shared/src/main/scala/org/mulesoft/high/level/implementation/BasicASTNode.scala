@@ -15,7 +15,7 @@ class BasicASTNode(
 
     private var _sourceInfo:SourceInfo = SourceInfo()
     _node.annotations.find(classOf[SourceAST]).map(_.ast) match {
-        case Some(yPart) => _sourceInfo.setSources(List(yPart))
+        case Some(yPart) => _sourceInfo.withSources(List(yPart))
         case None =>
     }
 

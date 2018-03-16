@@ -78,7 +78,7 @@ trait IValueBuffer {
     protected var rangesOpt:Option[Seq[NodeRange]] = None
 
     var _sourceInfo:SourceInfo = SourceInfo()
-    _sourceInfo.setSources(yamlNodes)
+    _sourceInfo.withSources(yamlNodes)
 
     def getValue: Option[Any]
 
@@ -182,7 +182,7 @@ class CompositeValueBuffer(buffers:Seq[IValueBuffer]) extends IValueBuffer {
     }
 
     override def initSourceInfo(project:IProject,referingUnit:Option[ASTUnit],externalPath:Option[String]): Unit = {
-        _sourceInfo.setSources(buffers.flatten(_.yamlNodes).distinct)
+        _sourceInfo.withSources(buffers.flatten(_.yamlNodes).distinct)
         _sourceInfo.init(project,referingUnit,externalPath)
         buffers.foreach(_.initSourceInfo(project,referingUnit,externalPath))
     }
@@ -199,7 +199,7 @@ class JSONValueBuffer(element:AmfElement,hlNode:IHighLevelNode, json:Option[JSON
 
     json match {
         case Some(n) => n match {
-            case yjw:YJSONWrapper => _sourceInfo.setSources(List(yjw.source))
+            case yjw:YJSONWrapper => _sourceInfo.withSources(List(yjw.source))
             case _ =>
         }
         case _ =>

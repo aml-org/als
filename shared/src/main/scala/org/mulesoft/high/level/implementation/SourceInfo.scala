@@ -1,6 +1,6 @@
 package org.mulesoft.high.level.implementation
 
-import org.mulesoft.high.level.interfaces.{IProject, ISourceInfo}
+import org.mulesoft.high.level.interfaces.{IASTUnit, IProject, ISourceInfo}
 import org.mulesoft.positioning.{IPositionsMapper, YamlLocation}
 import org.mulesoft.typesystem.json.interfaces.NodeRange
 import org.mulesoft.typesystem.syaml.to.json.YRange
@@ -15,7 +15,7 @@ class SourceInfo private extends ISourceInfo {
     var _positionsMapper:Option[IPositionsMapper] = None
     var _content: Option[String] = None
     var _isInitialized:Boolean = false
-    var _referingUnit: Option[ASTUnit] = None
+    var _referingUnit: Option[IASTUnit] = None
     var _includePathLabel: Option[String] = None
     var _externalLocationPath: Option[String] = None
 
@@ -85,9 +85,12 @@ class SourceInfo private extends ISourceInfo {
         }
     }
 
-    def setSources(sources:Seq[YPart]):Unit = _yamlSources = sources
+    def withSources(sources:Seq[YPart]):SourceInfo = {
+        _yamlSources = sources
+        this
+    }
 
-    def init(project:IProject,referingUnit:Option[ASTUnit],inExternalFile:Option[String] = None): Unit ={
+    def init(project:IProject,referingUnit:Option[IASTUnit],inExternalFile:Option[String] = None): Unit ={
 
         if(_yamlSources.isEmpty){
             _ranges = List(YRange.empty)
@@ -126,13 +129,13 @@ class SourceInfo private extends ISourceInfo {
 
     override def isEmpty: Boolean = !_isInitialized
 
-    override def referingUnit: Option[ASTUnit] = _referingUnit
+    override def referingUnit: Option[IASTUnit] = _referingUnit
 
     override def includePathLabel: Option[String] = _includePathLabel
 
     override def externalLocationPath: Option[String] = _externalLocationPath
 
-    def withReferingUnit(unit:ASTUnit):SourceInfo = {
+    def withReferingUnit(unit:IASTUnit):SourceInfo = {
         _referingUnit = Option(unit)
         this
     }
