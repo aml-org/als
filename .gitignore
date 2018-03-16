@@ -1,11 +1,14 @@
-*.class
-*.log
+.DS_Store
+
 *.iml
 .idea
+.project
 
 /target
-*/target/*
-*/target/**
-*.cache
-build/
-.gradle
+
+js/target
+jvm/target
+shared/target
+
+project/project/target
+project/target

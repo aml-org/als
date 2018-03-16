@@ -1,0 +1,137 @@
+#%RAML 1.0
+title: test API
+
+baseUri: http://www.example.com/{version}/{param1}/{param2}
+version: 1.0
+protocols:
+  - HTTP
+  - HTTPS
+
+mediaType: [ application/json, application/xml ]
+annotationTypes:
+  MyAnnotationType:
+    type: MyType1
+    displayName: My Annotaton Type
+    allowedTargets: [ Method, Resource ]
+types:
+  RootType:
+    displayName: The Root Type
+    properties:
+      rp1:
+        default: defaultValue
+    facets:
+      f1:
+      f2:
+        properties:
+          fp1:
+          fp2:
+  MyType1:
+    type: RootType
+    xml:
+      wrapped: true
+      name: XMLElement
+      namespace: ns1
+    properties:
+      p1:
+        xml:
+          attribute: true
+          name: XMLAttribute
+          prefix: prefixValue
+      p2:
+    f1: stringValue
+    f2:
+      fp1: sv1
+      fp2: sv2
+  MyType2:
+    type:
+      displayName: The Aux Type
+      properties:
+        p11:
+        p22:
+    properties:
+      q1:
+      q2:
+    example:
+      p11: vp11
+      p22: vp22
+      q1: vq1
+      q2: vq2
+  MyType3:
+    default: defaultValue
+    examples:
+      e1: strinvValue1
+      e2: strinvValue2
+
+resourceTypes:
+  ResourceType1:
+    queryParameters:
+      q1: <<t1>>
+      q2: <<t2>>
+    post:
+      body: MyType
+  ResourceType2:
+
+securitySchemes:
+  OAUTH20:
+    type: OAuth 2.0
+    describedBy:
+      queryString: MyType2
+
+/resource1/{param}:
+  get:
+    queryParameters:
+      qp1: MyType1
+      qp2:
+        example: some string parameter value
+      qp3:
+        displayName: The Param Type
+        description: param description
+        type: RootType
+        required: false
+        f1: stringValue
+        f2:
+          fp1: sv1
+          fp2: sv2
+      qp4:
+        type:
+          properties:
+            p11:
+        properties:
+          p22:
+        examples:
+          e1:
+            p11: param_vp11
+            p22: param_vp22
+          e2:
+            p11: param_vp1111
+            p22: param_vp2222
+    responses:
+      200:
+        body: MyType1
+      201:
+        body:
+          example: some string body value
+      202:
+        body:
+          application/atom-xml:
+            description: body description
+            displayName: The Body Type
+            type: RootType
+            f1: stringValue
+            f2:
+              fp1: sv1
+              fp2: sv2
+      203:
+        body:
+          type:
+            properties:
+              p11:
+          properties:
+            p22:
+          examples:
+            e1:
+              p11: body_vp11
+              p22: body_vp22
+            e2:
+              p11: body_vp1111
+              p22: body_vp2222

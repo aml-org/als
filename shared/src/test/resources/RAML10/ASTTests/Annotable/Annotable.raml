@@ -1,0 +1,13 @@
+#%RAML 1.0
+title: API
+annotationTypes:
+  cba: string
+  bca: boolean
+  abc:
+    properties:
+      length: number
+/res:
+  (abc):
+    length: 4
+  (cba): aoe
+  (bca): true

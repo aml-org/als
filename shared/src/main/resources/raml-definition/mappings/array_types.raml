@@ -1,0 +1,70 @@
+#%RAML 1.0
+title: test API
+
+baseUri: http://www.example.com/{version}/{param1}/{param2}
+version: 1.0
+protocols:
+  - HTTP
+  - HTTPS
+
+mediaType: [ application/json, application/xml ]
+annotationTypes:
+  MyAnnotationType:
+    type: MyType1
+    displayName: My Annotaton Type
+    allowedTargets: [ Method, Resource ]
+
+types:
+  Entity1: object
+  Entity2:
+    type: object
+  StringArray1: string[]
+  StringArray2:
+    type: string[]
+  StringArray3:
+    type: array
+    items: string
+
+  ObjectArray1: Entity1[]
+  ObjectArray2:
+    type: Entity1[]
+  ObjectArray3:
+    type: array
+    items: Entity1
+
+
+/resource1/{param}:
+  get:
+    queryParameters:
+      NumberParam1: number[]
+      NumberParam2:
+        type: number[]
+      NumberParam3:
+        type: array
+        items: number
+      ObjectParam1: Entity1[]
+      ObjectParam2:
+        type: Entity1[]
+      ObjectParam3:
+        type: array
+        items: Entity1
+    responses:
+      200:
+        body: number[]
+      201:
+        body:
+          type: number[]
+      202:
+        body:
+          application/atom-xml:
+            type: array
+            items: number
+      203:
+        body: Entity1[]
+      204:
+        body:
+          type: Entity1[]
+      205:
+        body:
+          type: array
+          items: Entity1

@@ -1,0 +1,38 @@
+#%RAML 1.0
+
+title: test API
+mediaType: application/json
+baseUri: www.{domain}/{airplane}
+baseUriParameters:
+  airplane:
+    type: airplane
+types:
+  airplane:
+    type: array
+    items: string
+    uniqueItems: false
+    minItems: 2
+    maxItems: 4
+/resource/{airplane}:
+  uriParameters:
+    airplane:
+      type: array
+      items: string
+      uniqueItems: false
+      minItems: 2
+      maxItems: 4
+  post:
+    queryParameters:
+      airplane:
+        type: array
+        items: string
+        uniqueItems: false
+        minItems: 2
+        maxItems: 4
+    headers:
+      A-IM:
+        type: array
+        items: string
+        uniqueItems: false
+        minItems: 2
+        maxItems: 4

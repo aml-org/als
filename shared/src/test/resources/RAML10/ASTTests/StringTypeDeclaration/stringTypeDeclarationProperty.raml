@@ -1,0 +1,13 @@
+#%RAML 1.0
+
+title: test API
+types:
+  airport:
+    type: object
+    properties:
+      aircraft:
+        type: string
+        pattern: [abc]
+        minLength: 2
+        maxLength: 6
+        enum: [abc]

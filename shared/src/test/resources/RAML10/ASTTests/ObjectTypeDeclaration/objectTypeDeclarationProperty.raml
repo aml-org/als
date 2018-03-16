@@ -1,0 +1,14 @@
+#%RAML 1.0
+
+title: test API
+types:
+  airport:
+    type: object
+    properties:
+      aircraft:
+        properties:
+          count: number
+          length: number
+        minProperties: 1
+        maxProperties: 2
+        additionalProperties: false

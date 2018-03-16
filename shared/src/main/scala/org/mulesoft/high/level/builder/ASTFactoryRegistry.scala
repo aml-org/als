@@ -1,0 +1,20 @@
+package org.mulesoft.high.level.builder
+
+import amf.core.remote.{Oas, Raml10, Vendor}
+
+import scala.language.postfixOps
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+
+object ASTFactoryRegistry {
+
+    def getFactory(format:Vendor):Option[IASTFactory] = format match {
+        case Raml10 => Some(RAML10ASTFactory.instance)
+        case Oas => Some(OAS20ASTFactory.instance)
+        case _ => None
+    }
+
+    def init():Future[Unit] = {
+        Future.sequence(RAML10ASTFactory.init() :: OAS20ASTFactory.init() :: Nil).map(x=>{})
+    }
+}
