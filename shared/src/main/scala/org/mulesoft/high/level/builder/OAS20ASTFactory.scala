@@ -68,8 +68,8 @@ class OAS20ASTFactory private extends DefaultASTFactory {
 
         "description"       -> FieldMatcher(ShapeModel.Description),
         "default"           -> FieldMatcher(AnyShapeModel.Default),
-        "displayName"             -> FieldMatcher(AnyShapeModel.DisplayName)
-        //TODO:"collectionFormat"  -> FieldMatcher(ArrayShapeModel.Format)
+        "displayName"             -> FieldMatcher(AnyShapeModel.DisplayName),
+        "collectionFormat"  -> FieldMatcher(ArrayShapeModel.CollectionFormat)
         //TODO:"readOnly"          -> FieldMatcher(AnyShapeModel.ReDisplayName),
     )
 
@@ -170,6 +170,7 @@ class OAS20ASTFactory private extends DefaultASTFactory {
         registerPropertyMatcher("ItemsObject", "multipleOf", shapeMatcher + builtinFacetMatchers("multipleOf"))
         registerPropertyMatcher("ItemsObject", "example", shapeMatcher + AnyShapeModel.Examples)
         registerPropertyMatcher("ItemsObject", "items", shapeMatcher + ArrayShapeModel.Items)
+        registerPropertyMatcher("ItemsObject", "collectionFormat", shapeMatcher + builtinFacetMatchers("collectionFormat"))
         //TODO:registerPropertyMatcher("ItemsObject", "collectionFormat", ParameterModel.Binding)
 
         registerPropertyMatcher("SchemaObject", "name",
@@ -211,7 +212,7 @@ class OAS20ASTFactory private extends DefaultASTFactory {
         registerPropertyMatcher("OAuth2", "flow", ThisMatcher() + SecuritySchemeModel.Settings + OAuth2SettingsModel.Flow)
         registerPropertyMatcher("OAuth2", "authorizationUrl", ThisMatcher() + SecuritySchemeModel.Settings + OAuth2SettingsModel.AuthorizationUri)
         registerPropertyMatcher("OAuth2", "tokenUrl", ThisMatcher() + SecuritySchemeModel.Settings + OAuth2SettingsModel.AccessTokenUri)
-        registerPropertyMatcher("OAuth2", "scopes", ThisMatcher() + SecuritySchemeModel.Settings)
+        registerPropertyMatcher("OAuth2", "scopes", (ThisMatcher() + SecuritySchemeModel.Settings).withYamlPath("scopes"))
 
         registerPropertyMatcher("ScopesObject", "scopes", OAuth2SettingsModel.Scopes)
 
