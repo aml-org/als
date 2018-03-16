@@ -237,27 +237,37 @@ class OAS20ASTFactory private extends DefaultASTFactory {
                 var universe = clazz.universe
                 if(clazz.isAssignableFrom("ParameterObject")){
                     var isDefinition = clazz.isAssignableFrom("ParameterDefinitionObject")
-                    opt = Option(dElement.fields.getValue(ParameterModel.Schema)) match {
-                        case Some(fieldValue) => fieldValue.value match {
-                            case sch:Shape => sch.meta match {
-                                case NodeShapeModel =>
-                                    if(isDefinition) {
-                                        universe.`type`("BodyParameterDefinitionObject")
-                                    }
-                                    else {
-                                        universe.`type`("BodyParameterObject")
-                                    }
-                                case _ =>
-                                    if(isDefinition) {
-                                        universe.`type`("CommonParameterDefinitionObject")
-                                    }
-                                    else {
-                                        universe.`type`("CommonParameterObject")
-                                    }
+                    opt = if(dElement.meta == PayloadModel){
+                        if (isDefinition) {
+                            universe.`type`("BodyParameterDefinitionObject")
+                        }
+                        else {
+                            universe.`type`("BodyParameterObject")
+                        }
+                    }
+                    else {
+                        Option(dElement.fields.getValue(ParameterModel.Schema)) match {
+                            case Some(fieldValue) => fieldValue.value match {
+                                case sch: Shape => sch.meta match {
+                                    case NodeShapeModel =>
+                                        if (isDefinition) {
+                                            universe.`type`("BodyParameterDefinitionObject")
+                                        }
+                                        else {
+                                            universe.`type`("BodyParameterObject")
+                                        }
+                                    case _ =>
+                                        if (isDefinition) {
+                                            universe.`type`("CommonParameterDefinitionObject")
+                                        }
+                                        else {
+                                            universe.`type`("CommonParameterObject")
+                                        }
+                                }
+                                case _ => None
                             }
                             case _ => None
                         }
-                        case _ => None
                     }
                 }
                 else if (clazz.isAssignableFrom("SecurityDefinitionObject")) {
