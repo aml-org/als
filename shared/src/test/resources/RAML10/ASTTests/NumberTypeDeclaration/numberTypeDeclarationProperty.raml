@@ -1,0 +1,14 @@
+#%RAML 1.0
+
+title: test API
+types:
+  airport:
+    type: object
+    properties:
+      aircraft:
+        type: number
+        minimum: 2
+        maximum: 6
+        format: int32
+        multipleOf: 2
+        enum: [2,4]

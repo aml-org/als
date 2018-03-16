@@ -1,0 +1,25 @@
+#%RAML 1.0
+title: test API
+
+types:
+  MyStringType:
+    pattern: [a-z]+
+    minLength: 1
+    maxLength: 5
+    enum: [ aaaa, bbb ]
+
+  MyNumberType:
+    minimum: 1
+    maximum: 10
+    enum: [ 2,4,8 ]
+    multipleOf: 2
+    format: int64
+
+  MyBooleanType:
+    enum: [ false ]
+
+  MyFileType:
+    type: file
+    fileTypes: [ 'image/jpg', 'image/png' ]
+    minLength: 0
+    maxLength: 1024

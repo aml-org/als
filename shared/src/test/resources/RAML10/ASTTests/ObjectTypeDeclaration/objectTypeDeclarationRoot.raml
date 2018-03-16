@@ -1,0 +1,12 @@
+#%RAML 1.0
+title: Api
+types:
+  airplane:
+    properties:
+      count: string
+      length: number
+    minProperties: 1
+    maxProperties: 2
+    additionalProperties: false
+    discriminator: count
+    discriminatorValue: d2

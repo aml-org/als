@@ -1,0 +1,119 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.9-abcd
+  title: Swagger Sample API
+paths:
+  "/pets/{id}":
+    parameters:
+    - name: idHeader
+      in: body
+      description: ID of pet to use
+      required: true
+      type: array
+      items:
+        type: string
+      collectionFormat: csv
+      schema:
+        title: text
+        description: text
+        properties:
+          name:
+            type: string
+          tag:
+            type: string
+        descriminator: name
+        xml:
+          attribute: true # serialize it as an XML attribute
+          name: "fullname"
+          wrapped: true
+          namespace: "air"
+          prefix: "air"
+        externalDocs:
+          description: Find more info here
+          url: https://swagger.io
+        allOf:
+        - object
+        required: true
+    post:
+      description: Returns a pet based on ID
+      summary: Find pet by ID
+      operationId: getPetsById
+      externalDocs:
+        description: Find more info here
+        url: https://swagger.io
+      schemes:
+      - http
+      - https
+      deprecated: true
+      security:
+      - githubAccessCode:
+        - user
+        - gist
+      - internalApiKey: []
+      tags:
+      - foo
+      - bar
+      produces:
+      - application/json
+      - text/html
+      consumes:
+      - application/json
+      parameters:
+      - name: idHeader
+        in: body
+        description: ID of pet to use
+        required: true
+        type: array
+        items:
+          type: string
+        collectionFormat: csv
+        schema:
+          title: text
+          description: text
+          properties:
+            name:
+              type: string
+            tag:
+              type: string
+          descriminator: name
+          xml:
+            attribute: true # serialize it as an XML attribute
+            name: "fullname"
+            wrapped: true
+            namespace: "air"
+            prefix: "air"
+          externalDocs:
+            description: Find more info here
+            url: https://swagger.io
+          allOf:
+          - object
+          required: true
+      responses:
+        '200':
+          description: a pet to be returned
+          schema:
+            "$ref": "#/definitions/Pet"
+          headers:
+            X-Rate-Limit-Limit:
+              description: The number of allowed requests in the current period
+              type: integer
+            X-Rate-Limit-Remaining:
+              description: The number of remaining requests in the current period
+              type: integer
+            X-Rate-Limit-Reset:
+              description: The number of seconds left in the current period
+              type: integer
+          examples:
+            application/json:
+              name: Puma
+              type: Dog
+              color: Black
+              gender: Female
+              breed: Mixed
+        default:
+          description: Unexpected error
+          schema:
+            "$ref": "#/definitions/ErrorModel"
+    x-end-point-annotation: some string value
+  x-paths-object-annotation: some string value

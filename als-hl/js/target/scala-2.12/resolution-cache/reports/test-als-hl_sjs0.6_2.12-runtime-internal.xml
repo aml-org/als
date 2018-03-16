@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="test"
+		module="als-hl_sjs0.6_2.12"
+		revision="0.5.5-SNAPSHOT"
+		conf="runtime-internal"
+		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool, phantom-js-jetty, scoveragePlugin"
+		date="20181214115040"/>
+	<dependencies>
+		<module organisation="com.lihaoyi" name="upickle_sjs0.6_2.12">
+			<revision name="0.5.1" status="release" pubdate="20171217023759" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/lihaoyi/upickle" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="13">
+				<license name="MIT license" url="http://www.opensource.org/licenses/mit-license.php"/>
+				<metadata-artifact status="no" details="" size="3678" time="0" location="/Users/hnajles/.ivy2/cache/com.lihaoyi/upickle_sjs0.6_2.12/ivy-0.5.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/lihaoyi/upickle_sjs0.6_2.12/0.5.1/upickle_sjs0.6_2.12-0.5.1.pom"/>
+				<caller organisation="test" name="als-hl_sjs0.6_2.12" conf="compile, runtime-internal, runtime, optional" rev="0.5.1" rev-constraint-default="0.5.1" rev-constraint-dynamic="0.5.1" callerrev="0.5.5-SNAPSHOT"/>
+				<artifacts>
+					<artifact name="upickle_sjs0.6_2.12" type="jar" ext="jar" status="no" details="" size="610306" time="0" location="/Users/hnajles/.ivy2/cache/com.lihaoyi/upickle_sjs0.6_2.12/jars/upickle_sjs0.6_2.12-0.5.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/lihaoyi/upickle_sjs0.6_2.12/0.5.1/upickle_sjs0.6_2.12-0.5.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.lihaoyi" name="sourcecode_sjs0.6_2.12">
+			<revision name="0.1.3" status="release" pubdate="20161031153300" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/lihaoyi/sourcecode" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="14">
+				<license name="MIT license" url="http://www.opensource.org/licenses/mit-license.php"/>
+				<metadata-artifact status="no" details="" size="3268" time="0" location="/Users/hnajles/.ivy2/cache/com.lihaoyi/sourcecode_sjs0.6_2.12/ivy-0.1.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/lihaoyi/sourcecode_sjs0.6_2.12/0.1.3/sourcecode_sjs0.6_2.12-0.1.3.pom"/>
+				<caller organisation="com.lihaoyi" name="upickle_sjs0.6_2.12" conf="default, compile, runtime, master" rev="0.1.3" rev-constraint-default="0.1.3" rev-constraint-dynamic="0.1.3" callerrev="0.5.1"/>
+				<artifacts>
+					<artifact name="sourcecode_sjs0.6_2.12" type="jar" ext="jar" status="no" details="" size="190228" time="0" location="/Users/hnajles/.ivy2/cache/com.lihaoyi/sourcecode_sjs0.6_2.12/jars/sourcecode_sjs0.6_2.12-0.1.3.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/lihaoyi/sourcecode_sjs0.6_2.12/0.1.3/sourcecode_sjs0.6_2.12-0.1.3.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.chuusai" name="shapeless_2.12">
+			<revision name="2.3.3" status="release" pubdate="20171231115153" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/milessabin/shapeless" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="11">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3230" time="0" location="/Users/hnajles/.ivy2/cache/com.chuusai/shapeless_2.12/ivy-2.3.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/chuusai/shapeless_2.12/2.3.3/shapeless_2.12-2.3.3.pom"/>
+				<caller organisation="test" name="als-hl_sjs0.6_2.12" conf="compile, runtime-internal, runtime, optional" rev="2.3.3" rev-constraint-default="2.3.3" rev-constraint-dynamic="2.3.3" callerrev="0.5.5-SNAPSHOT"/>
+				<artifacts>
+					<artifact name="shapeless_2.12" type="bundle" ext="jar" status="no" details="" size="3243337" time="0" location="/Users/hnajles/.ivy2/cache/com.chuusai/shapeless_2.12/bundles/shapeless_2.12-2.3.3.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/chuusai/shapeless_2.12/2.3.3/shapeless_2.12-2.3.3.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.typelevel" name="macro-compat_2.12">
+			<revision name="1.1.1" status="release" pubdate="20161102054258" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/milessabin/macro-compat" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="12">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2964" time="0" location="/Users/hnajles/.ivy2/cache/org.typelevel/macro-compat_2.12/ivy-1.1.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/macro-compat_2.12/1.1.1/macro-compat_2.12-1.1.1.pom"/>
+				<caller organisation="com.chuusai" name="shapeless_2.12" conf="default, compile, runtime, master" rev="1.1.1" rev-constraint-default="1.1.1" rev-constraint-dynamic="1.1.1" callerrev="2.3.3"/>
+				<artifacts>
+					<artifact name="macro-compat_2.12" type="jar" ext="jar" status="no" details="" size="3180" time="0" location="/Users/hnajles/.ivy2/cache/org.typelevel/macro-compat_2.12/jars/macro-compat_2.12-1.1.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/typelevel/macro-compat_2.12/1.1.1/macro-compat_2.12-1.1.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.amlorg" name="amf-client_sjs0.6_2.12">
+			<revision name="3.2.0-SNAPSHOT" status="integration" pubdate="20181214113720" resolver="MuleSoft snapshots" artresolver="MuleSoft snapshots" homepage="" downloaded="true" searched="true" default="false" conf="default, compile, runtime, default(compile), master" position="8">
+				<metadata-artifact status="successful" details="" size="3347" time="60815" location="/Users/hnajles/.ivy2/cache/com.github.amlorg/amf-client_sjs0.6_2.12/ivy-3.2.0-SNAPSHOT.xml" searched="true" original-local-location="/Users/hnajles/.ivy2/cache/com.github.amlorg/amf-client_sjs0.6_2.12/ivy-3.2.0-SNAPSHOT.xml.original" origin-is-local="false" origin-location="https://repository-master.mulesoft.org/nexus/content/repositories/snapshots/com/github/amlorg/amf-client_sjs0.6_2.12/3.2.0-SNAPSHOT/amf-client_sjs0.6_2.12-3.2.0-SNAPSHOT.pom"/>
+				<caller organisation="test" name="als-hl_sjs0.6_2.12" conf="compile, runtime-internal, runtime, optional" rev="3.2.0-SNAPSHOT" rev-constraint-default="3.2.0-SNAPSHOT" rev-constraint-dynamic="3.2.0-SNAPSHOT" callerrev="0.5.5-SNAPSHOT"/>
+				<artifacts>
+					<artifact name="amf-client_sjs0.6_2.12" type="jar" ext="jar" status="successful" details="" size="494452" time="2417" location="/Users/hnajles/.ivy2/cache/com.github.amlorg/amf-client_sjs0.6_2.12/jars/amf-client_sjs0.6_2.12-3.2.0-SNAPSHOT.jar">
+						<origin-location is-local="false" location="https://repository-master.mulesoft.org/nexus/content/repositories/snapshots/com/github/amlorg/amf-client_sjs0.6_2.12/3.2.0-SNAPSHOT/amf-client_sjs0.6_2.12-3.2.0-SNAPSHOT.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.amlorg" name="amf-validation_sjs0.6_2.12">
+			<revision name="3.2.0-SNAPSHOT" status="integration" pubdate="20181214113659" resolver="MuleSoft snapshots" artresolver="MuleSoft snapshots" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="10">
+				<metadata-artifact status="successful" details="" size="2959" time="690" location="/Users/hnajles/.ivy2/cache/com.github.amlorg/amf-validation_sjs0.6_2.12/ivy-3.2.0-SNAPSHOT.xml" searched="true" original-local-location="/Users/hnajles/.ivy2/cache/com.github.amlorg/amf-validation_sjs0.6_2.12/ivy-3.2.0-SNAPSHOT.xml.original" origin-is-local="false" origin-location="https://repository-master.mulesoft.org/nexus/content/repositories/snapshots/com/github/amlorg/amf-validation_sjs0.6_2.12/3.2.0-SNAPSHOT/amf-validation_sjs0.6_2.12-3.2.0-SNAPSHOT.pom"/>
+				<caller organisation="com.github.amlorg" name="amf-client_sjs0.6_2.12" conf="default, compile, runtime, master" rev="3.2.0-SNAPSHOT" rev-constraint-default="3.2.0-SNAPSHOT" rev-constraint-dynamic="3.2.0-SNAPSHOT" callerrev="3.2.0-SNAPSHOT"/>
+				<artifacts>
+					<artifact name="amf-validation_sjs0.6_2.12" type="jar" ext="jar" status="successful" details="" size="605921" time="3421" location="/Users/hnajles/.ivy2/cache/com.github.amlorg/amf-validation_sjs0.6_2.12/jars/amf-validation_sjs0.6_2.12-3.2.0-SNAPSHOT.jar">
+						<origin-location is-local="false" location="https://repository-master.mulesoft.org/nexus/content/repositories/snapshots/com/github/amlorg/amf-validation_sjs0.6_2.12/3.2.0-SNAPSHOT/amf-validation_sjs0.6_2.12-3.2.0-SNAPSHOT.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.amlorg" name="amf-aml_sjs0.6_2.12">
+			<revision name="3.2.0-SNAPSHOT" status="integration" pubdate="20181214113644" resolver="MuleSoft snapshots" artresolver="MuleSoft snapshots" homepage="" downloaded="true" searched="true" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="9">
+				<metadata-artifact status="successful" details="" size="2743" time="695" location="/Users/hnajles/.ivy2/cache/com.github.amlorg/amf-aml_sjs0.6_2.12/ivy-3.2.0-SNAPSHOT.xml" searched="true" original-local-location="/Users/hnajles/.ivy2/cache/com.github.amlorg/amf-aml_sjs0.6_2.12/ivy-3.2.0-SNAPSHOT.xml.original" origin-is-local="false" origin-location="https://repository-master.mulesoft.org/nexus/content/repositories/snapshots/com/github/amlorg/amf-aml_sjs0.6_2.12/3.2.0-SNAPSHOT/amf-aml_sjs0.6_2.12-3.2.0-SNAPSHOT.pom"/>
+				<caller organisation="com.github.amlorg" name="amf-client_sjs0.6_2.12" conf="default, compile, runtime, master" rev="3.2.0-SNAPSHOT" rev-constraint-default="3.2.0-SNAPSHOT" rev-constraint-dynamic="3.2.0-SNAPSHOT" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="test" name="als-hl_sjs0.6_2.12" conf="compile, runtime-internal, runtime, optional" rev="3.2.0-SNAPSHOT" rev-constraint-default="3.2.0-SNAPSHOT" rev-constraint-dynamic="3.2.0-SNAPSHOT" callerrev="0.5.5-SNAPSHOT"/>
+				<caller organisation="com.github.amlorg" name="amf-validation_sjs0.6_2.12" conf="compile, runtime" rev="3.2.0-SNAPSHOT" rev-constraint-default="3.2.0-SNAPSHOT" rev-constraint-dynamic="3.2.0-SNAPSHOT" callerrev="3.2.0-SNAPSHOT"/>
+				<artifacts>
+					<artifact name="amf-aml_sjs0.6_2.12" type="jar" ext="jar" status="successful" details="" size="2215226" time="8004" location="/Users/hnajles/.ivy2/cache/com.github.amlorg/amf-aml_sjs0.6_2.12/jars/amf-aml_sjs0.6_2.12-3.2.0-SNAPSHOT.jar">
+						<origin-location is-local="false" location="https://repository-master.mulesoft.org/nexus/content/repositories/snapshots/com/github/amlorg/amf-aml_sjs0.6_2.12/3.2.0-SNAPSHOT/amf-aml_sjs0.6_2.12-3.2.0-SNAPSHOT.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.amlorg" name="amf-webapi_sjs0.6_2.12">
+			<revision name="3.2.0-SNAPSHOT" status="integration" pubdate="20181214113717" resolver="MuleSoft snapshots" artresolver="MuleSoft snapshots" homepage="" downloaded="true" searched="true" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="2">
+				<metadata-artifact status="successful" details="" size="2752" time="665" location="/Users/hnajles/.ivy2/cache/com.github.amlorg/amf-webapi_sjs0.6_2.12/ivy-3.2.0-SNAPSHOT.xml" searched="true" original-local-location="/Users/hnajles/.ivy2/cache/com.github.amlorg/amf-webapi_sjs0.6_2.12/ivy-3.2.0-SNAPSHOT.xml.original" origin-is-local="false" origin-location="https://repository-master.mulesoft.org/nexus/content/repositories/snapshots/com/github/amlorg/amf-webapi_sjs0.6_2.12/3.2.0-SNAPSHOT/amf-webapi_sjs0.6_2.12-3.2.0-SNAPSHOT.pom"/>
+				<caller organisation="com.github.amlorg" name="amf-client_sjs0.6_2.12" conf="default, compile, runtime, master" rev="3.2.0-SNAPSHOT" rev-constraint-default="3.2.0-SNAPSHOT" rev-constraint-dynamic="3.2.0-SNAPSHOT" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="test" name="als-hl_sjs0.6_2.12" conf="compile, runtime-internal, runtime, optional" rev="3.2.0-SNAPSHOT" rev-constraint-default="3.2.0-SNAPSHOT" rev-constraint-dynamic="3.2.0-SNAPSHOT" callerrev="0.5.5-SNAPSHOT"/>
+				<artifacts>
+					<artifact name="amf-webapi_sjs0.6_2.12" type="jar" ext="jar" status="successful" details="" size="10143704" time="28042" location="/Users/hnajles/.ivy2/cache/com.github.amlorg/amf-webapi_sjs0.6_2.12/jars/amf-webapi_sjs0.6_2.12-3.2.0-SNAPSHOT.jar">
+						<origin-location is-local="false" location="https://repository-master.mulesoft.org/nexus/content/repositories/snapshots/com/github/amlorg/amf-webapi_sjs0.6_2.12/3.2.0-SNAPSHOT/amf-webapi_sjs0.6_2.12-3.2.0-SNAPSHOT.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.amlorg" name="amf-core_sjs0.6_2.12">
+			<revision name="3.2.0-SNAPSHOT" status="integration" pubdate="20181214113631" resolver="MuleSoft snapshots" artresolver="MuleSoft snapshots" homepage="" downloaded="true" searched="true" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="3">
+				<metadata-artifact status="successful" details="" size="2731" time="658" location="/Users/hnajles/.ivy2/cache/com.github.amlorg/amf-core_sjs0.6_2.12/ivy-3.2.0-SNAPSHOT.xml" searched="true" original-local-location="/Users/hnajles/.ivy2/cache/com.github.amlorg/amf-core_sjs0.6_2.12/ivy-3.2.0-SNAPSHOT.xml.original" origin-is-local="false" origin-location="https://repository-master.mulesoft.org/nexus/content/repositories/snapshots/com/github/amlorg/amf-core_sjs0.6_2.12/3.2.0-SNAPSHOT/amf-core_sjs0.6_2.12-3.2.0-SNAPSHOT.pom"/>
+				<caller organisation="com.github.amlorg" name="amf-webapi_sjs0.6_2.12" conf="default, compile, runtime, master" rev="3.2.0-SNAPSHOT" rev-constraint-default="3.2.0-SNAPSHOT" rev-constraint-dynamic="3.2.0-SNAPSHOT" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="com.github.amlorg" name="amf-client_sjs0.6_2.12" conf="default, compile, runtime, master" rev="3.2.0-SNAPSHOT" rev-constraint-default="3.2.0-SNAPSHOT" rev-constraint-dynamic="3.2.0-SNAPSHOT" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="test" name="als-hl_sjs0.6_2.12" conf="compile, runtime-internal, runtime, optional" rev="3.2.0-SNAPSHOT" rev-constraint-default="3.2.0-SNAPSHOT" rev-constraint-dynamic="3.2.0-SNAPSHOT" callerrev="0.5.5-SNAPSHOT"/>
+				<caller organisation="com.github.amlorg" name="amf-aml_sjs0.6_2.12" conf="compile, runtime" rev="3.2.0-SNAPSHOT" rev-constraint-default="3.2.0-SNAPSHOT" rev-constraint-dynamic="3.2.0-SNAPSHOT" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="com.github.amlorg" name="amf-validation_sjs0.6_2.12" conf="compile, runtime" rev="3.2.0-SNAPSHOT" rev-constraint-default="3.2.0-SNAPSHOT" rev-constraint-dynamic="3.2.0-SNAPSHOT" callerrev="3.2.0-SNAPSHOT"/>
+				<artifacts>
+					<artifact name="amf-core_sjs0.6_2.12" type="jar" ext="jar" status="successful" details="" size="3740519" time="13218" location="/Users/hnajles/.ivy2/cache/com.github.amlorg/amf-core_sjs0.6_2.12/jars/amf-core_sjs0.6_2.12-3.2.0-SNAPSHOT.jar">
+						<origin-location is-local="false" location="https://repository-master.mulesoft.org/nexus/content/repositories/snapshots/com/github/amlorg/amf-core_sjs0.6_2.12/3.2.0-SNAPSHOT/amf-core_sjs0.6_2.12-3.2.0-SNAPSHOT.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-js" name="scalajs-dom_sjs0.6_2.12">
+			<revision name="0.9.2" status="release" pubdate="20170506142914" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://scala-js.org/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="7">
+				<license name="MIT" url="http://opensource.org/licenses/mit-license.php"/>
+				<metadata-artifact status="no" details="" size="2941" time="0" location="/Users/hnajles/.ivy2/cache/org.scala-js/scalajs-dom_sjs0.6_2.12/ivy-0.9.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-js/scalajs-dom_sjs0.6_2.12/0.9.2/scalajs-dom_sjs0.6_2.12-0.9.2.pom"/>
+				<caller organisation="com.github.amlorg" name="amf-core_sjs0.6_2.12" conf="compile, runtime" rev="0.9.2" rev-constraint-default="0.9.2" rev-constraint-dynamic="0.9.2" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="com.github.amlorg" name="amf-webapi_sjs0.6_2.12" conf="default, compile, runtime, master" rev="0.9.2" rev-constraint-default="0.9.2" rev-constraint-dynamic="0.9.2" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="com.github.amlorg" name="amf-client_sjs0.6_2.12" conf="default, compile, runtime, master" rev="0.9.2" rev-constraint-default="0.9.2" rev-constraint-dynamic="0.9.2" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="test" name="als-hl_sjs0.6_2.12" conf="compile, runtime-internal, runtime, optional" rev="0.9.2" rev-constraint-default="0.9.2" rev-constraint-dynamic="0.9.2" callerrev="0.5.5-SNAPSHOT"/>
+				<caller organisation="com.github.amlorg" name="amf-aml_sjs0.6_2.12" conf="compile, runtime" rev="0.9.2" rev-constraint-default="0.9.2" rev-constraint-dynamic="0.9.2" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="com.github.amlorg" name="amf-validation_sjs0.6_2.12" conf="compile, runtime" rev="0.9.2" rev-constraint-default="0.9.2" rev-constraint-dynamic="0.9.2" callerrev="3.2.0-SNAPSHOT"/>
+				<artifacts>
+					<artifact name="scalajs-dom_sjs0.6_2.12" type="jar" ext="jar" status="no" details="" size="1939741" time="0" location="/Users/hnajles/.ivy2/cache/org.scala-js/scalajs-dom_sjs0.6_2.12/jars/scalajs-dom_sjs0.6_2.12-0.9.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-js/scalajs-dom_sjs0.6_2.12/0.9.2/scalajs-dom_sjs0.6_2.12-0.9.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.scopt" name="scopt_sjs0.6_2.12">
+			<revision name="3.7.0" status="release" pubdate="20170825062652" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/scopt/scopt" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="6">
+				<license name="MIT License" url="http://www.opensource.org/licenses/mit-license.php"/>
+				<metadata-artifact status="no" details="" size="3103" time="0" location="/Users/hnajles/.ivy2/cache/com.github.scopt/scopt_sjs0.6_2.12/ivy-3.7.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/scopt/scopt_sjs0.6_2.12/3.7.0/scopt_sjs0.6_2.12-3.7.0.pom"/>
+				<caller organisation="com.github.amlorg" name="amf-core_sjs0.6_2.12" conf="compile, runtime" rev="3.7.0" rev-constraint-default="3.7.0" rev-constraint-dynamic="3.7.0" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="com.github.amlorg" name="amf-webapi_sjs0.6_2.12" conf="default, compile, runtime, master" rev="3.7.0" rev-constraint-default="3.7.0" rev-constraint-dynamic="3.7.0" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="com.github.amlorg" name="amf-client_sjs0.6_2.12" conf="default, compile, runtime, master" rev="3.7.0" rev-constraint-default="3.7.0" rev-constraint-dynamic="3.7.0" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="com.github.amlorg" name="amf-aml_sjs0.6_2.12" conf="compile, runtime" rev="3.7.0" rev-constraint-default="3.7.0" rev-constraint-dynamic="3.7.0" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="com.github.amlorg" name="amf-validation_sjs0.6_2.12" conf="compile, runtime" rev="3.7.0" rev-constraint-default="3.7.0" rev-constraint-dynamic="3.7.0" callerrev="3.2.0-SNAPSHOT"/>
+				<artifacts>
+					<artifact name="scopt_sjs0.6_2.12" type="jar" ext="jar" status="no" details="" size="148699" time="0" location="/Users/hnajles/.ivy2/cache/com.github.scopt/scopt_sjs0.6_2.12/jars/scopt_sjs0.6_2.12-3.7.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/scopt/scopt_sjs0.6_2.12/3.7.0/scopt_sjs0.6_2.12-3.7.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.mule.syaml" name="syaml_sjs0.6_2.12">
+			<revision name="0.6.2" status="release" pubdate="20181204162814" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="4">
+				<metadata-artifact status="no" details="" size="3114" time="0" location="/Users/hnajles/.ivy2/cache/org.mule.syaml/syaml_sjs0.6_2.12/ivy-0.6.2.xml" searched="false" origin-is-local="false" origin-location="https://repository-master.mulesoft.org/nexus/content/repositories/releases/org/mule/syaml/syaml_sjs0.6_2.12/0.6.2/syaml_sjs0.6_2.12-0.6.2.pom"/>
+				<caller organisation="com.github.amlorg" name="amf-core_sjs0.6_2.12" conf="compile, runtime" rev="0.6.2" rev-constraint-default="0.6.2" rev-constraint-dynamic="0.6.2" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="test" name="als-hl_sjs0.6_2.12" conf="compile, runtime-internal, runtime, optional" rev="0.6.2" rev-constraint-default="0.6.2" rev-constraint-dynamic="0.6.2" callerrev="0.5.5-SNAPSHOT"/>
+				<artifacts>
+					<artifact name="syaml_sjs0.6_2.12" type="jar" ext="jar" status="no" details="" size="778367" time="0" location="/Users/hnajles/.ivy2/cache/org.mule.syaml/syaml_sjs0.6_2.12/jars/syaml_sjs0.6_2.12-0.6.2.jar">
+						<origin-location is-local="false" location="https://repository-master.mulesoft.org/nexus/content/repositories/releases/org/mule/syaml/syaml_sjs0.6_2.12/0.6.2/syaml_sjs0.6_2.12-0.6.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.mule.common" name="scala-common_sjs0.6_2.12">
+			<revision name="0.4.0" status="release" pubdate="20181101163402" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="5">
+				<metadata-artifact status="no" details="" size="3108" time="0" location="/Users/hnajles/.ivy2/cache/org.mule.common/scala-common_sjs0.6_2.12/ivy-0.4.0.xml" searched="false" origin-is-local="false" origin-location="https://repository-master.mulesoft.org/nexus/content/repositories/releases/org/mule/common/scala-common_sjs0.6_2.12/0.4.0/scala-common_sjs0.6_2.12-0.4.0.pom"/>
+				<caller organisation="test" name="als-hl_sjs0.6_2.12" conf="compile, runtime-internal, runtime, optional" rev="0.4.0" rev-constraint-default="0.4.0" rev-constraint-dynamic="0.4.0" callerrev="0.5.5-SNAPSHOT"/>
+				<caller organisation="org.mule.syaml" name="syaml_sjs0.6_2.12" conf="compile, runtime" rev="0.4.0" rev-constraint-default="0.4.0" rev-constraint-dynamic="0.4.0" callerrev="0.6.2"/>
+				<artifacts>
+					<artifact name="scala-common_sjs0.6_2.12" type="jar" ext="jar" status="no" details="" size="319844" time="0" location="/Users/hnajles/.ivy2/cache/org.mule.common/scala-common_sjs0.6_2.12/jars/scala-common_sjs0.6_2.12-0.4.0.jar">
+						<origin-location is-local="false" location="https://repository-master.mulesoft.org/nexus/content/repositories/releases/org/mule/common/scala-common_sjs0.6_2.12/0.4.0/scala-common_sjs0.6_2.12-0.4.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-js" name="scalajs-library_2.12">
+			<revision name="0.6.25" status="release" pubdate="20180831090204" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://scala-js.org/" extra-info.apiURL="http://www.scala-js.org/api/scalajs-library/0.6.25/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="1">
+				<license name="BSD New" url="https://github.com/scala-js/scala-js/blob/master/LICENSE"/>
+				<metadata-artifact status="no" details="" size="2996" time="0" location="/Users/hnajles/.ivy2/cache/org.scala-js/scalajs-library_2.12/ivy-0.6.25.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-js/scalajs-library_2.12/0.6.25/scalajs-library_2.12-0.6.25.pom"/>
+				<caller organisation="org.mule.common" name="scala-common_sjs0.6_2.12" conf="compile, runtime" rev="0.6.25" rev-constraint-default="0.6.25" rev-constraint-dynamic="0.6.25" callerrev="0.4.0"/>
+				<caller organisation="com.github.amlorg" name="amf-core_sjs0.6_2.12" conf="compile, runtime" rev="0.6.25" rev-constraint-default="0.6.25" rev-constraint-dynamic="0.6.25" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="com.github.amlorg" name="amf-webapi_sjs0.6_2.12" conf="default, compile, runtime, master" rev="0.6.25" rev-constraint-default="0.6.25" rev-constraint-dynamic="0.6.25" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="org.scala-js" name="scalajs-dom_sjs0.6_2.12" conf="compile, runtime" rev="0.6.16" rev-constraint-default="0.6.16" rev-constraint-dynamic="0.6.16" callerrev="0.9.2"/>
+				<caller organisation="com.lihaoyi" name="upickle_sjs0.6_2.12" conf="default, compile, runtime, master" rev="0.6.21" rev-constraint-default="0.6.21" rev-constraint-dynamic="0.6.21" callerrev="0.5.1"/>
+				<caller organisation="com.github.scopt" name="scopt_sjs0.6_2.12" conf="compile, runtime" rev="0.6.19" rev-constraint-default="0.6.19" rev-constraint-dynamic="0.6.19" callerrev="3.7.0"/>
+				<caller organisation="com.github.amlorg" name="amf-client_sjs0.6_2.12" conf="default, compile, runtime, master" rev="0.6.25" rev-constraint-default="0.6.25" rev-constraint-dynamic="0.6.25" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="test" name="als-hl_sjs0.6_2.12" conf="compile, runtime-internal, runtime, optional" rev="0.6.25" rev-constraint-default="0.6.25" rev-constraint-dynamic="0.6.25" callerrev="0.5.5-SNAPSHOT"/>
+				<caller organisation="com.github.amlorg" name="amf-aml_sjs0.6_2.12" conf="compile, runtime" rev="0.6.25" rev-constraint-default="0.6.25" rev-constraint-dynamic="0.6.25" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="org.mule.syaml" name="syaml_sjs0.6_2.12" conf="compile, runtime" rev="0.6.25" rev-constraint-default="0.6.25" rev-constraint-dynamic="0.6.25" callerrev="0.6.2"/>
+				<caller organisation="com.github.amlorg" name="amf-validation_sjs0.6_2.12" conf="compile, runtime" rev="0.6.25" rev-constraint-default="0.6.25" rev-constraint-dynamic="0.6.25" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="com.lihaoyi" name="sourcecode_sjs0.6_2.12" conf="compile, runtime" rev="0.6.13" rev-constraint-default="0.6.13" rev-constraint-dynamic="0.6.13" callerrev="0.1.3"/>
+				<artifacts>
+					<artifact name="scalajs-library_2.12" type="jar" ext="jar" status="no" details="" size="6513510" time="0" location="/Users/hnajles/.ivy2/cache/org.scala-js/scalajs-library_2.12/jars/scalajs-library_2.12-0.6.25.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-js/scalajs-library_2.12/0.6.25/scalajs-library_2.12-0.6.25.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+			<revision name="0.6.13" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*)" position="-1">
+				<evicted-by rev="0.6.25"/>
+				<caller organisation="com.lihaoyi" name="sourcecode_sjs0.6_2.12" conf="compile, runtime" rev="0.6.13" rev-constraint-default="0.6.13" rev-constraint-dynamic="0.6.13" callerrev="0.1.3"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+			<revision name="0.6.21" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<evicted-by rev="0.6.25"/>
+				<caller organisation="com.lihaoyi" name="upickle_sjs0.6_2.12" conf="default, compile, runtime, master" rev="0.6.21" rev-constraint-default="0.6.21" rev-constraint-dynamic="0.6.21" callerrev="0.5.1"/>
+				<caller organisation="com.lihaoyi" name="sourcecode_sjs0.6_2.12" conf="compile, runtime" rev="0.6.13" rev-constraint-default="0.6.13" rev-constraint-dynamic="0.6.13" callerrev="0.1.3"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+			<revision name="0.6.16" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<evicted-by rev="0.6.25"/>
+				<caller organisation="org.scala-js" name="scalajs-dom_sjs0.6_2.12" conf="compile, runtime" rev="0.6.16" rev-constraint-default="0.6.16" rev-constraint-dynamic="0.6.16" callerrev="0.9.2"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+			<revision name="0.6.19" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<evicted-by rev="0.6.25"/>
+				<caller organisation="com.github.scopt" name="scopt_sjs0.6_2.12" conf="compile, runtime" rev="0.6.19" rev-constraint-default="0.6.19" rev-constraint-dynamic="0.6.19" callerrev="3.7.0"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang" name="scala-library">
+			<revision name="2.12.6" status="release" pubdate="20180427054006" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.12.6/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="0">
+				<license name="BSD 3-Clause" url="http://www.scala-lang.org/license.html"/>
+				<metadata-artifact status="no" details="" size="2653" time="0" location="/Users/hnajles/.ivy2/cache/org.scala-lang/scala-library/ivy-2.12.6.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.6/scala-library-2.12.6.pom"/>
+				<caller organisation="com.github.amlorg" name="amf-webapi_sjs0.6_2.12" conf="default, compile, runtime, master" rev="2.12.6" rev-constraint-default="2.12.6" rev-constraint-dynamic="2.12.6" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="org.scala-js" name="scalajs-dom_sjs0.6_2.12" conf="compile, runtime" rev="2.12.6" rev-constraint-default="2.12.6" rev-constraint-dynamic="2.12.6" callerrev="0.9.2"/>
+				<caller organisation="com.github.scopt" name="scopt_sjs0.6_2.12" conf="compile, runtime" rev="2.12.6" rev-constraint-default="2.12.6" rev-constraint-dynamic="2.12.6" callerrev="3.7.0"/>
+				<caller organisation="test" name="als-hl_sjs0.6_2.12" conf="compile, runtime-internal, runtime, optional" rev="2.12.6" rev-constraint-default="2.12.6" rev-constraint-dynamic="2.12.6" callerrev="0.5.5-SNAPSHOT"/>
+				<caller organisation="com.github.amlorg" name="amf-aml_sjs0.6_2.12" conf="compile, runtime" rev="2.12.6" rev-constraint-default="2.12.6" rev-constraint-dynamic="2.12.6" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="org.mule.syaml" name="syaml_sjs0.6_2.12" conf="compile, runtime" rev="2.12.6" rev-constraint-default="2.12.6" rev-constraint-dynamic="2.12.6" callerrev="0.6.2"/>
+				<caller organisation="com.github.amlorg" name="amf-validation_sjs0.6_2.12" conf="compile, runtime" rev="2.12.6" rev-constraint-default="2.12.6" rev-constraint-dynamic="2.12.6" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="org.mule.common" name="scala-common_sjs0.6_2.12" conf="compile, runtime" rev="2.12.6" rev-constraint-default="2.12.6" rev-constraint-dynamic="2.12.6" callerrev="0.4.0"/>
+				<caller organisation="com.github.amlorg" name="amf-core_sjs0.6_2.12" conf="compile, runtime" rev="2.12.6" rev-constraint-default="2.12.6" rev-constraint-dynamic="2.12.6" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="org.scala-js" name="scalajs-library_2.12" conf="default, compile, runtime, master" rev="2.12.6" rev-constraint-default="2.12.6" rev-constraint-dynamic="2.12.6" callerrev="0.6.25"/>
+				<caller organisation="com.lihaoyi" name="upickle_sjs0.6_2.12" conf="default, compile, runtime, master" rev="2.12.6" rev-constraint-default="2.12.6" rev-constraint-dynamic="2.12.6" callerrev="0.5.1"/>
+				<caller organisation="com.github.amlorg" name="amf-client_sjs0.6_2.12" conf="default, compile, runtime, master" rev="2.12.6" rev-constraint-default="2.12.6" rev-constraint-dynamic="2.12.6" callerrev="3.2.0-SNAPSHOT"/>
+				<caller organisation="com.chuusai" name="shapeless_2.12" conf="default, compile, runtime, master" rev="2.12.6" rev-constraint-default="2.12.6" rev-constraint-dynamic="2.12.6" callerrev="2.3.3"/>
+				<caller organisation="org.typelevel" name="macro-compat_2.12" conf="compile, runtime" rev="2.12.6" rev-constraint-default="2.12.6" rev-constraint-dynamic="2.12.6" callerrev="1.1.1"/>
+				<caller organisation="com.lihaoyi" name="sourcecode_sjs0.6_2.12" conf="compile, runtime" rev="2.12.6" rev-constraint-default="2.12.6" rev-constraint-dynamic="2.12.6" callerrev="0.1.3"/>
+				<artifacts>
+					<artifact name="scala-library" type="jar" ext="jar" status="no" details="" size="5267302" time="0" location="/Users/hnajles/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.12.6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.6/scala-library-2.12.6.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>
