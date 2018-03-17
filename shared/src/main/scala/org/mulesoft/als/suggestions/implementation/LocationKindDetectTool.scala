@@ -41,7 +41,7 @@ object LocationKindDetectTool {
             else if(checkIfDirective(posLine,column)){
                 DIRECTIVE_COMPLETION
             }
-            else if(posLine.indexOf(':',column) < 0){
+            else if(posLine.lastIndexOf(':',column) < 0){
                 KEY_COMPLETION
             }
             else {
