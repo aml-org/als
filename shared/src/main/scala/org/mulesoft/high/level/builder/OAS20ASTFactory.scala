@@ -237,7 +237,15 @@ class OAS20ASTFactory private extends DefaultASTFactory {
                 var universe = clazz.universe
                 if(clazz.isAssignableFrom("ParameterObject")){
                     var isDefinition = clazz.isAssignableFrom("ParameterDefinitionObject")
-                    opt = if(dElement.meta == PayloadModel){
+                    var isInBody = false
+                    Option(amfNode.fields.get(ParameterModel.Binding)) match {
+                        case Some(x) => x match {
+                            case scalar:AmfScalar => isInBody = scalar.value == "body"
+                            case _ =>
+                        }
+                        case None =>
+                    }
+                    opt = if(dElement.meta == PayloadModel || isInBody){
                         if (isDefinition) {
                             universe.`type`("BodyParameterDefinitionObject")
                         }

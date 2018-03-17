@@ -491,8 +491,8 @@ class RAML10ASTFactory private extends DefaultASTFactory {
                 }
                 case de: DomainElement =>
                     node.property.flatMap(_.nameId).orNull match {
-                        case "types" => bundle.getType(shape.id,shape.name)
-                        case "annotationTypes" => bundle.getAnnotationType(shape.id,shape.name)
+                        case "types" => bundle.getType(shape.id,shape.name.value())
+                        case "annotationTypes" => bundle.getAnnotationType(shape.id,shape.name.value())
                         case "properties" => None
                             var pName = shape.name
                             parent.flatMap(_.localType).flatMap(_.properties.find(_.nameId.get == pName)).flatMap(_.range)
