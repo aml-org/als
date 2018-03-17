@@ -23,7 +23,24 @@ class StructureCompletionPlugin extends ICompletionPlugin {
             }
             else {
                 request.actualYamlLocation match {
-                    case Some(l) => l.inKey(request.position) || request.yamlLocation.get.hasSameValue(l)
+                    case Some(l) =>
+                        if(l.inKey(request.position)){
+                            true
+                        }
+                        else if(request.yamlLocation.get.hasSameValue(l)){
+                            if(l.keyValue.isDefined) {
+                                request.astNode.map(_.astUnit.positionsMapper) match {
+                                    case Some(pm) => pm.point(request.position).line > l.keyValue.get.range.start.line
+                                    case None => false
+                                }
+                            }
+                            else {
+                                false
+                            }
+                        }
+                        else {
+                            false
+                        }
                     case _ => false
                 }
             }

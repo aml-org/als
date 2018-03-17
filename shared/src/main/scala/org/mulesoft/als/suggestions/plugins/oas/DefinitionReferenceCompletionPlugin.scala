@@ -8,7 +8,6 @@ import org.mulesoft.high.level.builder.UniverseProvider
 import org.mulesoft.high.level.interfaces.{IASTUnit, IHighLevelNode, IParseResult}
 import org.mulesoft.typesystem.nominal_interfaces.IProperty
 import org.mulesoft.als.suggestions.plugins.oas.DefinitionReferenceCompletionPlugin._
-import org.mulesoft.als.suggestions.plugins.oas.RefCompletionCase._
 import org.mulesoft.high.level.implementation.SourceInfo
 import org.mulesoft.positioning.{IPositionsMapper, YamlLocation, YamlPartWithRange}
 import org.yaml.model.{YScalar, YValue}
@@ -32,9 +31,9 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
                         .map(x=>s"#/definitions/${x.attribute("name").get.value.get}")
 
                     x match {
-                        case SCHEMA_PROPERTY_VALUE =>
-                            refs.map(x=>s"\n   %%ref: $x").map(x=>Suggestion(x,x,x,request.prefix))
-                        case REF_PROPERTY_VALUE =>
+                        case spv:SCHEMA_PROPERTY_VALUE =>
+                            refs.map(x=>"\n" + " " * spv.refPropOffset + "$ref: \"" + x + "\"").map(x=>Suggestion(x,x,x,request.prefix))
+                        case rpv:REF_PROPERTY_VALUE =>
                             refs.map(x=>Suggestion(x,x,x,request.prefix))
                         case _ => Seq()
                     }
@@ -82,7 +81,7 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
                     keyValue.yPart match {
                         case scalar: YScalar =>
                             if (p.nameId.contains(scalar.value)) {
-                                selectPreciseCompletionStyle(position, actualLocation, pm, keyValue, node.astUnit)
+                                selectPreciseCompletionStyle(position, actualLocation, pm,  node.astUnit)
                             }
                             else {
                                 None
@@ -94,35 +93,39 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
         }
     }
 
-    private def selectPreciseCompletionStyle(position: Int, actualLocation: YamlLocation, pm: IPositionsMapper, keyValue: YamlPartWithRange[YValue],astUnit: IASTUnit) = {
+    private def selectPreciseCompletionStyle(position: Int, actualLocation: YamlLocation, pm: IPositionsMapper, astUnit: IASTUnit):Option[RefCompletionCase] = {
+        var keyValue = actualLocation.keyValue.get
         val keyStart = keyValue.range.start
         val posPoint = pm.point(position)
         if (keyStart.line == posPoint.line) {
-            Some(SCHEMA_PROPERTY_VALUE)
+            var si = SourceInfo().withSources(List(actualLocation.mapEntry.get.yPart))
+            si.init(astUnit.project,Some(astUnit))
+            var valOffset = si.valueOffset.get
+            Some(SCHEMA_PROPERTY_VALUE(valOffset))
         }
-        else if (posPoint.line > keyStart.line) {
-            if (actualLocation.value.isDefined) {
-                var si = SourceInfo().withSources(List(actualLocation.mapEntry.get.yPart))
-                si.init(astUnit.project,Some(astUnit))
-                var valOffset = si.valueOffset
-                if (valOffset.contains(posPoint.column)) {
-                    Some(REF_PROPERTY_VALUE)
-                }
-                else {
-                    None
-                }
-
-            }
-            else {
-                var valOffset = keyStart.column + YAML_OFFSET
-                if (valOffset == posPoint.column) {
-                    Some(REF_PROPERTY_VALUE)
-                }
-                else {
-                    None
-                }
-            }
-        }
+//        else if (posPoint.line > keyStart.line) {
+//            if (actualLocation.value.isDefined) {
+//                var si = SourceInfo().withSources(List(actualLocation.mapEntry.get.yPart))
+//                si.init(astUnit.project,Some(astUnit))
+//                var valOffset = si.valueOffset
+//                if (valOffset.contains(posPoint.column)) {
+//                    Some(REF_PROPERTY_VALUE())
+//                }
+//                else {
+//                    None
+//                }
+//
+//            }
+//            else {
+//                var valOffset = keyStart.column + YAML_OFFSET
+//                if (valOffset == posPoint.column) {
+//                    Some(REF_PROPERTY_VALUE())
+//                }
+//                else {
+//                    None
+//                }
+//            }
+//        }
         else {
             None
         }
@@ -135,6 +138,9 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
         else if (request.actualYamlLocation.isEmpty
             || request.actualYamlLocation.get.isEmpty
             || request.actualYamlLocation.get.keyNode.isEmpty) {
+            None
+        }
+        else if(request.yamlLocation.get.value.get.yPart!=request.actualYamlLocation.get.value.get.yPart){
             None
         }
         else {
@@ -151,7 +157,7 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
                             None
                         }
                         else if(actualLocation.keyValue.isDefined){
-                            selectPreciseCompletionStyle (position, actualLocation, pm, actualLocation.keyValue.get,node.astUnit)
+                            selectPreciseCompletionStyle (position, actualLocation, pm,node.astUnit)
                         }
                         else {
                             None
@@ -209,11 +215,16 @@ object DefinitionReferenceCompletionPlugin {
 
 }
 
-private sealed class RefCompletionCase private {}
+private sealed class RefCompletionCase {}
 
-private object RefCompletionCase{
+private sealed class REF_PROPERTY_VALUE() extends RefCompletionCase{}
 
-    object REF_PROPERTY_VALUE extends RefCompletionCase{}
+private object REF_PROPERTY_VALUE{
+    def apply():REF_PROPERTY_VALUE = new REF_PROPERTY_VALUE()
+}
 
-    object SCHEMA_PROPERTY_VALUE extends RefCompletionCase{}
+private sealed class SCHEMA_PROPERTY_VALUE(val refPropOffset: Int) extends RefCompletionCase{}
+
+private object SCHEMA_PROPERTY_VALUE{
+    def apply(refPropOffset:Int):SCHEMA_PROPERTY_VALUE = new SCHEMA_PROPERTY_VALUE(refPropOffset)
 }
