@@ -56,7 +56,7 @@ object TypeBuilder {
 
     private def getOrCreate(shape:Shape,universe:IUniverse,ctx:Context):AbstractType = {
         Option(shape.name).flatMap(name=>
-            ctx.bundle.getType(shape.id,name)) match {
+            ctx.bundle.getType(shape.id,name.value())) match {
             case Some(t) => t
             case _ =>
                 val inlineType = initType(shape, universe, ctx)
@@ -67,7 +67,7 @@ object TypeBuilder {
 
     private def createProperty(pShape:PropertyShape, universe:IUniverse, ctx:Context):Property = {
         var t = getOrCreate(pShape.range,universe,ctx)
-        new Property(pShape.name).withRequired(pShape.minCount>0).withRange(t)
+        new Property(pShape.name.value()).withRequired(pShape.minCount.value()>0).withRange(t)
     }
 
     private def fillType(t:AbstractType,ctx:Context):Unit = {
@@ -82,7 +82,7 @@ object TypeBuilder {
             }
             else if(linkTargetOpt.isDefined && linkTargetOpt.get.isInstanceOf[Shape]){
                 var superShape = linkTargetOpt.get.asInstanceOf[Shape]
-                ctx.bundle.getType(superShape.id,superShape.name).foreach(t.addSuperType)
+                ctx.bundle.getType(superShape.id,superShape.name.value()).foreach(t.addSuperType)
             }
             else {
                 var st = ctx.factory.discriminateShape(shape,ctx.parentUniverse)
@@ -122,7 +122,7 @@ object TypeBuilder {
                     case sn: ScalarNode => sn.value
                     case _ => value
                 }
-                t.fixFacet(fName,fValue)
+                t.fixFacet(fName.value(),fValue)
             })
         })
     }
@@ -150,11 +150,11 @@ object TypeBuilder {
         val name = shape.name
         val id = shape.id
         var result = shape.meta match {
-            case UnionShapeModel => new Union(name,universe,id)
-            case ArrayShapeModel => new Array(name,universe,id)
-            case ScalarShapeModel => new ValueType(name,universe,id)
+            case UnionShapeModel => new Union(name.value(),universe,id)
+            case ArrayShapeModel => new Array(name.value(),universe,id)
+            case ScalarShapeModel => new ValueType(name.value(),universe,id)
             case NilShapeModel => NilType
-            case _ => new StructuredType(name,universe,id)
+            case _ => new StructuredType(name.value(),universe,id)
         }
         if(result != NilType) {
            result.putExtra(Extras.SOURCE_SHAPE, shape)
