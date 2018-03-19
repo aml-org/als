@@ -1,4 +1,3 @@
-import Dependencies.deps
 import sbt.Keys.{scalacOptions, _}
 import sbt.{Def, _}
 
@@ -10,7 +9,7 @@ object Common {
   val releases: MavenRepository  = "MuleSoft releases" at s"$nexus/releases"
 
   val settings: Seq[Def.Setting[_]] = Seq(
-    scalaVersion := deps("scala"),
+    scalaVersion := "2.12.2",
     parallelExecution in Test := false,
     fork in Test := false,
     scalacOptions ++= Seq("-unchecked" /*, "-deprecation", "-Xfatal-warnings" */ ),

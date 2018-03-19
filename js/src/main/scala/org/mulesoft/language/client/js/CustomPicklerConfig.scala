@@ -1,4 +1,3 @@
-// $COVERAGE-OFF$
 package org.mulesoft.language.client.js
 
 import upickle.Js
@@ -14,4 +13,3 @@ object CustomPicklerConfig extends upickle.AttributeTagged {
     case v: Js.Value => Some(implicitly[Reader[T]].read.apply(v))
   }
 }
-// $COVERAGE-ON$

@@ -1,0 +1,134 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "/someChildUri",
+        "typeText": null,
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "children": [
+          {
+            "text": "get",
+            "typeText": null,
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "children": [
+              {
+                "text": "200",
+                "typeText": null,
+                "children": [
+                  {
+                    "text": "application/xml",
+                    "typeText": null,
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "children": [],
+                    "key": "application/xml :: 200 :: get :: /someChildUri :: ",
+                    "start": 177,
+                    "end": 192
+                  }
+                ],
+                "key": "200 :: get :: /someChildUri :: ",
+                "start": 148,
+                "end": 151
+              }
+            ],
+            "key": "get :: /someChildUri :: ",
+            "start": 122,
+            "end": 125
+          },
+          {
+            "text": "/anotherChild",
+            "typeText": null,
+            "icon": "PRIMITIVE_SQUARE",
+            "textStyle": "HIGHLIGHT",
+            "children": [
+              {
+                "text": "put",
+                "typeText": null,
+                "icon": "PRIMITIVE_DOT",
+                "textStyle": "WARNING",
+                "children": [
+                  {
+                    "text": "application/json",
+                    "typeText": null,
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "children": [],
+                    "key": "application/json :: put :: /anotherChild :: /someChildUri :: ",
+                    "start": 291,
+                    "end": 307
+                  }
+                ],
+                "key": "put :: /anotherChild :: /someChildUri :: ",
+                "start": 266,
+                "end": 269
+              }
+            ],
+            "key": "/anotherChild :: /someChildUri :: ",
+            "start": 247,
+            "end": 260
+          }
+        ],
+        "key": "/someChildUri :: ",
+        "start": 105,
+        "end": 118,
+        "category": "ResourcesCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "base",
+        "typeText": null,
+        "children": [
+          {
+            "text": "paging",
+            "typeText": ":number",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "paging :: base :: ",
+            "start": 65,
+            "end": 71
+          }
+        ],
+        "key": "base :: ",
+        "start": 32,
+        "end": 36,
+        "category": "ResourceTypesAndTraitsCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

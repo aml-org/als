@@ -8,12 +8,3 @@ case class ProtocolMessage[PayloadType](
 )
 {
 }
-
-case class ProtocolSeqMessage[PayloadType](
- `type`: String,
- payload: Seq[PayloadType],
- id: Option[String] = None,
- errorMessage: Option[String] = None
-)
-{
-}

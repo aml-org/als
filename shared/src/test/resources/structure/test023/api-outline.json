@@ -1,0 +1,126 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "deprecated",
+        "typeText": ":nil",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [],
+        "key": "deprecated :: ",
+        "start": 90,
+        "end": 100,
+        "category": "OtherCategory"
+      },
+      {
+        "text": "experimental",
+        "typeText": ":nil | string",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [],
+        "key": "experimental :: ",
+        "start": 108,
+        "end": 120,
+        "category": "OtherCategory"
+      },
+      {
+        "text": "feedbackRequested",
+        "typeText": ":string?",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [],
+        "key": "feedbackRequested :: ",
+        "start": 137,
+        "end": 154,
+        "category": "OtherCategory"
+      },
+      {
+        "text": "testHarness",
+        "typeText": ":string",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [],
+        "key": "testHarness :: ",
+        "start": 166,
+        "end": 177,
+        "category": "OtherCategory"
+      },
+      {
+        "text": "badge",
+        "typeText": null,
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [],
+        "key": "badge :: ",
+        "start": 250,
+        "end": 255,
+        "category": "OtherCategory"
+      },
+      {
+        "text": "clearanceLevel",
+        "typeText": null,
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "level",
+            "typeText": null,
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "level :: clearanceLevel :: ",
+            "start": 354,
+            "end": 359
+          },
+          {
+            "text": "signature",
+            "typeText": null,
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "signature :: clearanceLevel :: ",
+            "start": 426,
+            "end": 435
+          }
+        ],
+        "key": "clearanceLevel :: ",
+        "start": 316,
+        "end": 330,
+        "category": "OtherCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

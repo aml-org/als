@@ -1,0 +1,154 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "/someChildUri",
+        "typeText": ":main",
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "children": [
+          {
+            "text": "post",
+            "typeText": null,
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "children": [
+              {
+                "text": "200",
+                "typeText": null,
+                "children": [
+                  {
+                    "text": "application/xml",
+                    "typeText": null,
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "children": [],
+                    "key": "application/xml :: 200 :: post :: /someChildUri :: ",
+                    "start": 294,
+                    "end": 309
+                  }
+                ],
+                "key": "200 :: post :: /someChildUri :: ",
+                "start": 265,
+                "end": 268
+              }
+            ],
+            "key": "post :: /someChildUri :: ",
+            "start": 238,
+            "end": 242
+          },
+          {
+            "text": "/anotherChild",
+            "typeText": null,
+            "icon": "PRIMITIVE_SQUARE",
+            "textStyle": "HIGHLIGHT",
+            "children": [
+              {
+                "text": "put",
+                "typeText": null,
+                "icon": "PRIMITIVE_DOT",
+                "textStyle": "WARNING",
+                "children": [
+                  {
+                    "text": "application/json",
+                    "typeText": null,
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "children": [],
+                    "key": "application/json :: put :: /anotherChild :: /someChildUri :: ",
+                    "start": 408,
+                    "end": 424
+                  }
+                ],
+                "key": "put :: /anotherChild :: /someChildUri :: ",
+                "start": 383,
+                "end": 386
+              }
+            ],
+            "key": "/anotherChild :: /someChildUri :: ",
+            "start": 364,
+            "end": 377
+          }
+        ],
+        "key": "/someChildUri :: ",
+        "start": 208,
+        "end": 221,
+        "category": "ResourcesCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "main",
+        "typeText": null,
+        "children": [
+          {
+            "text": "get",
+            "typeText": null,
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "children": [
+              {
+                "text": "200",
+                "typeText": null,
+                "children": [
+                  {
+                    "text": "application/json",
+                    "typeText": null,
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "children": [],
+                    "key": "application/json :: 200 :: get :: main :: ",
+                    "start": 112,
+                    "end": 128
+                  }
+                ],
+                "key": "200 :: get :: main :: ",
+                "start": 79,
+                "end": 82
+              }
+            ],
+            "key": "get :: main :: ",
+            "start": 49,
+            "end": 52
+          }
+        ],
+        "key": "main :: ",
+        "start": 39,
+        "end": 43,
+        "category": "ResourceTypesAndTraitsCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

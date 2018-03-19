@@ -31,13 +31,6 @@ trait IEditorTextBuffer {
   def getTextInRange(range: IRange): String
 
   /**
-    * Gets line number by offset
-    * @param offset
-    * @return
-    */
-  def lineByOffset(offset: Int) : Int
-
-  /**
     * Sets (replacing if needed) text in range
     * @param range - text range
     * @param text - text to set

@@ -1,0 +1,86 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "custom_scheme",
+        "typeText": ":x-custom",
+        "icon": "FILE_SUBMODULE",
+        "textStyle": "NORMAL",
+        "children": [
+          {
+            "text": "describedBy",
+            "typeText": null,
+            "children": [
+              {
+                "text": "SpecialToken",
+                "typeText": ":string",
+                "icon": "FILE_BINARY",
+                "textStyle": "SUCCESS",
+                "children": [],
+                "key": "SpecialToken :: describedBy :: custom_scheme :: ",
+                "start": 254,
+                "end": 266
+              },
+              {
+                "text": "401",
+                "typeText": null,
+                "children": [],
+                "key": "401 :: describedBy :: custom_scheme :: ",
+                "start": 382,
+                "end": 385
+              },
+              {
+                "text": "403",
+                "typeText": null,
+                "children": [],
+                "key": "403 :: describedBy :: custom_scheme :: ",
+                "start": 443,
+                "end": 446
+              }
+            ],
+            "key": "describedBy :: custom_scheme :: ",
+            "start": 218,
+            "end": 229
+          }
+        ],
+        "key": "custom_scheme :: ",
+        "start": 101,
+        "end": 114,
+        "category": "OtherCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

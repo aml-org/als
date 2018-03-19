@@ -1,16 +1,9 @@
-.DS_Store
-
+*.class
+*.log
 *.iml
 .idea
-.project
 
 /target
-
-js/target
-jvm/target
-shared/target
-
-project/project/target
-project/target
-build/
-.gradle
+*/target/*
+*/target/**
+*.cache

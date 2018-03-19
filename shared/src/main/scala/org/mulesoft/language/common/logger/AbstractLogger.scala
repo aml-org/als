@@ -57,7 +57,7 @@ trait AbstractLogger extends ILogger {
   def debugDetail(message: String, component: String, subcomponent: String): Unit = {
     this.log(message, MessageSeverity.DEBUG_DETAIL, component, subcomponent);
   }
-// $COVERAGE-OFF$
+
   /**
     * Logs a DEBUG_OVERVIEW severity message.
     * @param message - message text
@@ -93,8 +93,7 @@ trait AbstractLogger extends ILogger {
     * @param loggerSettings
     */
   def setLoggerConfiguration(loggerSettings: ILoggerSettings): Unit = {
-    //TODO restore setting
-    //this.loggerSettings = Option(loggerSettings);
+    this.loggerSettings = Option(loggerSettings);
   }
 
   private def filterLogMessage(msg: LogMessage, settings: Option[ILoggerSettings]): Option[LogMessage] = {
@@ -138,21 +137,7 @@ trait AbstractLogger extends ILogger {
           }
         }
       }
-      case _ => {
-
-        val maxLength = 400
-        val resultMessage = if (msg.message.length > maxLength)
-          msg.message.substring(0, maxLength)
-        else
-          msg.message
-
-        Option(new LogMessage {
-          var message = resultMessage
-          var severity = msg.severity
-          var component = msg.component
-          var subcomponent = msg.subcomponent
-        })
-      }
+      case _ => Option(msg)
     }
 
 //    if (!settings.isDefined) {
@@ -190,6 +175,6 @@ trait AbstractLogger extends ILogger {
 //      var component = msg.component
 //      var subcomponent = msg.subcomponent
 //    })
-      // $COVERAGE-ON$
+
   }
 }
