@@ -1,0 +1,140 @@
+{
+  "title": "UserJSON",
+  "description": "Alias for the equivalent \"types\" property, for compatibility with RAML 0.8. Deprecated - API definitions should use the \"types\" property, as the \"schemas\" alias for that property name may be removed in a future RAML version. The \"types\" property allows for XML and JSON schemas.",
+  "type": null,
+  "children": [
+    {
+      "title": "name",
+      "description": "Type name for top level types. For properties and parameters -- property o parameter name, respectively. For bodies -- media type.",
+      "type": "ATTRIBUTETEXT",
+      "children": [],
+      "valueText": "UserJSON",
+      "id": ".UserJSON#name"
+    },
+    {
+      "title": "General",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "allowedTargets",
+          "description": "Restrictions on where annotations of this type can be applied. If this property is specified, annotations of this type may only be applied on a property corresponding to one of the target names specified as the value of this property.",
+          "type": "MULTIEDITOR",
+          "children": [],
+          "valueText": "",
+          "id": ".UserJSON#allowedTargets"
+        },
+        {
+          "title": "default",
+          "description": "Provides default value for a property",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": ".UserJSON#default"
+        },
+        {
+          "title": "isAnnotation",
+          "description": "Whether the type represents annotation",
+          "type": "CHECKBOX",
+          "children": [],
+          "valueText": "false",
+          "id": ".UserJSON#isAnnotation"
+        },
+        {
+          "title": "facets",
+          "description": "Insert facets",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".UserJSON#facets#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "example",
+          "description": "Insert example",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".UserJSON#example#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "examples",
+          "description": "Insert examples",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".UserJSON#examples#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "xml",
+          "description": "Insert xml",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".UserJSON#xml#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "Delete",
+          "description": "",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".UserJSON#DELETE_DETAILS_ACTION",
+          "subType": "DELETE"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#General"
+    },
+    {
+      "title": "Documentation",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "displayName",
+          "description": "The displayName attribute specifies the type display name. It is a friendly name used only for  display or documentation purposes. If displayName is not specified, it defaults to the element's key (the name of the property itself).",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": ".UserJSON#displayName"
+        },
+        {
+          "title": "description",
+          "description": "A longer, human-friendly description of the type",
+          "type": "MARKDOWN",
+          "children": [],
+          "valueText": null,
+          "id": ".UserJSON#description"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#Documentation"
+    },
+    {
+      "title": "type",
+      "description": "A base type which the current type extends, or more generally a type expression.",
+      "type": "JSONSCHEMA",
+      "children": [],
+      "valueText": "{\n  \"$schema\": \"http://json-schema.org/draft-03/schema\",\n  \"properties\": {\n    \"input\": {\n      \"required\": false,\n      \"type\": \"string\"\n    }\n  },\n  \"required\": false,\n  \"type\": \"object\"\n}",
+      "id": ".UserJSON#type"
+    },
+    {
+      "title": "Type",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "Type",
+          "description": "A base type which the current type extends, or more generally a type expression.",
+          "type": "TYPEDISPLAY",
+          "children": [],
+          "valueText": "{\n  \"$schema\": \"http://json-schema.org/draft-03/schema\",\n  \"properties\": {\n    \"input\": {\n      \"required\": false,\n      \"type\": \"string\"\n    }\n  },\n  \"required\": false,\n  \"type\": \"object\"\n}",
+          "id": ".UserJSON#type"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#Type"
+    }
+  ],
+  "valueText": null,
+  "id": "Category#UserJSON"
+}

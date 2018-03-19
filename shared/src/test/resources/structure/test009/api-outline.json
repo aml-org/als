@@ -1,0 +1,179 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "Person",
+        "typeText": ":object",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "firstname",
+            "typeText": ":string",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "firstname :: Person :: ",
+            "start": 102,
+            "end": 111
+          },
+          {
+            "text": "lastname",
+            "typeText": ":string",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "lastname :: Person :: ",
+            "start": 126,
+            "end": 134
+          },
+          {
+            "text": "title?",
+            "typeText": ":string",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "title? :: Person :: ",
+            "start": 150,
+            "end": 156
+          }
+        ],
+        "key": "Person :: ",
+        "start": 55,
+        "end": 61,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "Phone",
+        "typeText": ":string",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [],
+        "key": "Phone :: ",
+        "start": 170,
+        "end": 175,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "Manager",
+        "typeText": ":Person",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "reports",
+            "typeText": ":Person[]",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "reports :: Manager :: ",
+            "start": 268,
+            "end": 275
+          },
+          {
+            "text": "phone",
+            "typeText": ":Phone",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "phone :: Manager :: ",
+            "start": 292,
+            "end": 297
+          }
+        ],
+        "key": "Manager :: ",
+        "start": 220,
+        "end": 227,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "Admin",
+        "typeText": ":Person",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "clearanceLevel",
+            "typeText": null,
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "clearanceLevel :: Admin :: ",
+            "start": 354,
+            "end": 368
+          }
+        ],
+        "key": "Admin :: ",
+        "start": 308,
+        "end": 313,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "AlertableAdmin",
+        "typeText": ":Admin",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "phone",
+            "typeText": ":Phone",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "phone :: AlertableAdmin :: ",
+            "start": 454,
+            "end": 459
+          }
+        ],
+        "key": "AlertableAdmin :: ",
+        "start": 400,
+        "end": 414,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "Alertable",
+        "typeText": ":(Manager | AlertableAdmin)[]",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [],
+        "key": "Alertable :: ",
+        "start": 469,
+        "end": 478,
+        "category": "SchemasAndTypesCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

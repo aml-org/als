@@ -1,0 +1,102 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "oauth_2_0",
+        "typeText": ":OAuth 2.0",
+        "children": [
+          {
+            "text": "describedBy",
+            "typeText": null,
+            "children": [
+              {
+                "text": "Authorization",
+                "typeText": ":string",
+                "icon": "FILE_BINARY",
+                "textStyle": "SUCCESS",
+                "children": [],
+                "key": "Authorization :: describedBy :: oauth_2_0 :: ",
+                "start": 263,
+                "end": 276
+              },
+              {
+                "text": "access_token",
+                "typeText": ":string",
+                "icon": "FILE_BINARY",
+                "textStyle": "SUCCESS",
+                "children": [],
+                "key": "access_token :: describedBy :: oauth_2_0 :: ",
+                "start": 485,
+                "end": 497
+              },
+              {
+                "text": "401",
+                "typeText": null,
+                "children": [],
+                "key": "401 :: describedBy :: oauth_2_0 :: ",
+                "start": 685,
+                "end": 688
+              },
+              {
+                "text": "403",
+                "typeText": null,
+                "children": [],
+                "key": "403 :: describedBy :: oauth_2_0 :: ",
+                "start": 896,
+                "end": 899
+              }
+            ],
+            "key": "describedBy :: oauth_2_0 :: ",
+            "start": 227,
+            "end": 238
+          },
+          {
+            "text": "settings",
+            "typeText": null,
+            "children": [],
+            "key": "settings :: oauth_2_0 :: ",
+            "start": 1090,
+            "end": 1098
+          }
+        ],
+        "key": "oauth_2_0 :: ",
+        "start": 103,
+        "end": 112,
+        "category": "OtherCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}
