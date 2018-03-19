@@ -1,0 +1,18 @@
+#%RAML 1.0
+title: My API With Types
+types:
+  Person:
+    properties:
+      name:
+        type: string
+        xm*l:
+          attribute: true # serialize it as an XML attribute
+          name: "fullname" # attribute should be called fullname
+      addresses:
+        type: Address[]
+        xml:
+          wrapped: true # serialize it into its own <addresses>...</addresses> XML element
+  Address:
+    properties:
+      street: string
+      city: string

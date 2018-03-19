@@ -1,4 +1,3 @@
-// $COVERAGE-OFF$
 package org.mulesoft.language.client.js
 
 import scala.scalajs.js
@@ -23,4 +22,3 @@ import scala.scalajs.js.JSConverters._
 //  }
 //}
 
-// $COVERAGE-ON$

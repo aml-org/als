@@ -1,32 +1,20 @@
 package org.mulesoft.language.server.server.modules.astManager
 
-import java.io.{PrintWriter, StringWriter}
-
 import amf.core.client.ParserConfig
 
 import scala.collection.mutable.Buffer
 import scala.collection.mutable.ArrayBuffer
 import amf.core.model.document.BaseUnit
 import amf.core.unsafe.TrunkPlatform
-import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IOpenedDocument}
-import org.mulesoft.language.server.common.reconciler.Reconciler
+import org.mulesoft.language.common.typeInterfaces.{IChangedDocument, IOpenedDocument}
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.core.connections.IServerConnection
-import org.mulesoft.language.server.core.platform.ProxyContentPlatform
-import org.mulesoft.language.server.modules.astManager.DocumentChangedRunnable
 import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
 
 import scala.collection.mutable
-import scala.util.{Failure, Success, Try}
-import scala.concurrent.{Future, Promise}
+import scala.concurrent.Future
+import scala.util.{Success, Try}
 import scala.concurrent.ExecutionContext.Implicits.global
-
-import amf.core.AMF
-import amf.core.unsafe.PlatformSecrets
-import amf.plugins.document.vocabularies.AMLPlugin
-import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
-import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
-import amf.plugins.features.validation.AMFValidatorPlugin
 
 
 /**
@@ -34,7 +22,9 @@ import amf.plugins.features.validation.AMFValidatorPlugin
   */
 class ASTManager extends AbstractServerModule with IASTManagerModule {
 
-  val moduleDependencies: Array[String] = Array(IEditorManagerModule.moduleId)
+  val moduleDependencies: Array[String] = Array("EDITOR_MANAGER")
+
+  val mainInterfaceName: Option[String] = None//Some(TypeName.get[IASTManagerModule])
 
   /**
     * Current AST listeners
@@ -46,17 +36,20 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
     */
   var currentASTs: mutable.Map[String, BaseUnit] = mutable.HashMap()
 
-  private var initialized: Boolean = false;
+  //TODO add when reconciler is ready
+  //var reconciler: Reconciler = _
 
-  private var reconciler: Reconciler = new Reconciler(connection, 500);
-  
+//  def this(connection: IServerConnection, editorManager: IEditorManagerModule) = {
+//    (this.reconciler = new Reconciler(connection, 250))
+//
+//  }
+
   protected def getEditorManager: IEditorManagerModule = {
     this.getDependencyById(IEditorManagerModule.moduleId).get
   }
 
   override def launch(): Try[IServerModule] = {
-    
-    
+
     val superLaunch = super.launch()
 
     if (superLaunch.isSuccess) {
@@ -67,45 +60,11 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
       this.connection.onCloseDocument(this.onCloseDocument _)
 
-      amfInit()
-
       Success(this)
     } else {
 
       superLaunch
     }
-  }
-
-  def init():Future[Unit] = {
-
-    var promise = Promise[Unit]();
-
-    if(initialized) {
-      promise.success();
-    } else {
-      amfInit().map(nothing => {
-        initialized = true;
-
-        promise.success();
-      });
-    }
-
-    promise.future;
-
-  } recoverWith {
-    case e: Throwable => Future.successful()
-    case _ => Future.successful()
-  }
-
-  def amfInit():Future[Unit] = {
-    amf.core.AMF.registerPlugin(AMLPlugin)
-    amf.core.AMF.registerPlugin(Raml10Plugin)
-    amf.core.AMF.registerPlugin(Raml08Plugin)
-    amf.core.AMF.registerPlugin(Oas20Plugin)
-    amf.core.AMF.registerPlugin(Oas30Plugin)
-    amf.core.AMF.registerPlugin(AMFValidatorPlugin)
-    amf.core.AMF.registerPlugin(PayloadValidatorPlugin)
-    AMF.init()
   }
 
   override def stop(): Unit = {
@@ -123,36 +82,53 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
   }
 
   def forceGetCurrentAST(uri: String): Future[BaseUnit] = {
-    val current = this.currentASTs.get(uri);
-    
-    if(current.isDefined) {
-      Future.successful(current.get);
+
+    // TODO use runnable
+
+    val current = this.currentASTs.get(uri)
+
+    if (current.isDefined) {
+
+      Future.successful(current.get)
     } else {
-      val editorOption = this.getEditorManager.getEditor(uri);
-      
-      if(editorOption.isDefined) {
 
-        var promise = Promise[BaseUnit]();
+      val editorOption = this.getEditorManager.getEditor(uri)
+      if (editorOption.isDefined) {
 
-        this.init().map(_=> {
+        this.parse(uri, editorOption.get.text).map(unit=>{
 
-          this.parse(uri).andThen {
-            case Success(result) => {
-              this.registerNewAST(uri, 0, result);
+          this.registerNewAST(uri, 0, unit)
 
-              promise.success(result);
-            }
-
-            case Failure(throwable) => promise.failure(throwable);
-          }
-
+          unit
         })
 
-        promise.future;
       } else {
-        Future.failed(new Exception("No editor found for uri " + uri));
+        Future.failed(new Exception("No editor found for uri " + uri))
       }
     }
+
+//    val current = this.currentASTs(uri)
+//    if (current) {
+//      return Promise.resolve(current)
+//
+//    }
+//    val runner = new ParseDocumentRunnable(uri, null, this.editorManager, this.connection, this.connection)
+//    val newASTPromise = runner.run()
+//    if ((!newASTPromise)) {
+//      return null
+//
+//    }
+//    return newASTPromise.then((newAST => {
+//      var version = null
+//      val editor = this.editorManager.getEditor(uri)
+//      if (editor) {
+//        (version = editor.getVersion())
+//
+//      }
+//      this.registerNewAST(uri, version, newAST)
+//      return newAST
+//
+//    }))
 
   }
 
@@ -163,7 +139,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
   def onOpenDocument(document: IOpenedDocument): Unit = {
 
-    this.parse(document.uri).foreach(unit=>{
+    this.parse(document.uri, document.text).foreach(unit=>{
       this.registerNewAST(document.uri, document.version, unit)
     })
 
@@ -171,17 +147,21 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
   }
 
   def onChangeDocument(document: IChangedDocument): Unit = {
-    this.connection.debug(s"document ${document.uri} is changed", "ASTManager", "onChangeDocument");
-    
-    reconciler.shedule(new DocumentChangedRunnable(document.uri, () => this.parse(this.platform.resolvePath(document.uri)))).future.map(unit=>{
+    this.connection.debug(" document is changed", "ASTManager", "onChangeDocument")
+
+    this.parse(document.uri, document.text.get).foreach(unit=>{
       this.registerNewAST(document.uri, document.version, unit)
-    }).recover{
-      case e:Throwable => {
-        val writer = new StringWriter()
-        e.printStackTrace(new PrintWriter(writer))
-        this.connection.debug(s"Failed to parse ${document.uri} with exception ${writer}", "ASTManager", "onChangeDocument")
-      }
-    };
+    })
+//    this.reconciler.schedule(new ParseDocumentRunnable(document.uri, document.version, this.editorManager, this.connection, this.connection)).then((newAST => {
+//      this.connection.debugDetail("On change document handler promise returned new ast", "ASTManager", "onChangeDocument")
+//      this.registerNewAST(document.uri, document.version, newAST)
+//
+//    }), (error => {
+//      this.connection.debugDetail("On change document handler promise returned new ast error", "ASTManager", "onChangeDocument")
+//      this.registerASTParseError(document.uri, error)
+//
+//    }))
+
   }
 
   def onCloseDocument(uri: String): Unit = {
@@ -236,29 +216,16 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
   }
 
-  /**
-    * Gets current AST if there is any.
-    * If not, performs immediate asynchronous parsing and returns the results.
-    * @param uri
-    */
-  def forceBuildNewAST(uri: String, text: String): Future[BaseUnit] = {
+  def parse(uri: String, content: String): Future[BaseUnit] = {
 
-      this.parseWithContentSubstitution(uri, text).map(unit=>{
+    //TODO move to runnable and handle external file contents
+    val platform = TrunkPlatform(content)
 
-        unit
-      })
-  }
-
-  def parse(uri: String): Future[BaseUnit] = {
-
-    val language = getEditorManager.getEditor(uri).map(_.language).getOrElse("OAS 2.0");
-
-    val protocolUri = this.platform.resolvePath(uri)
-    this.connection.debugDetail(s"Protocol uri is ${protocolUri}", "ASTManager", "parse");
+    val language = if (uri.endsWith(".raml")) "RAML 1.0" else "OAS 2.0";
 
     var cfg = new ParserConfig(
       Some(ParserConfig.PARSE),
-      Some(protocolUri),
+      Some("api.raml"),
       Some(language),
       Some("application/yaml"),
       None,
@@ -266,70 +233,8 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
       Some("application/ld+json")
     )
 
-    val startTime = System.currentTimeMillis()
+    val helper = ParserHelper(platform)
 
-    val helper = ParserHelper(this.platform)
-
-    var promise = Promise[BaseUnit]();
-
-    try {
-  
-      helper.parse(cfg, this.platform.defaultEnvironment).andThen {
-        case Success(result) => {
-          val endTime = System.currentTimeMillis();
-
-          this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to build AMF ast", "ASTManager", "parse");
-
-          promise.success(result);
-        }
-
-        case Failure(throwable) => promise.failure(throwable);
-      }
-
-    } catch {
-      case e: Throwable => {
-        promise.failure(e)
-      }
-    }
-  
-    promise.future;
-  }
-
-  def parseWithContentSubstitution(uri: String, content: String): Future[BaseUnit] = {
-
-    val proxyPlatform = new ProxyContentPlatform(this.platform,
-      uri, content)
-
-    val language = getEditorManager.getEditor(uri).map(_.language).getOrElse("OAS 2.0");
-
-    val cfg = new ParserConfig(
-      Some(ParserConfig.PARSE),
-      Some(uri),
-      Some(language),
-      Some("application/yaml"),
-      None,
-      Some("AMF Graph"),
-      Some("application/ld+json")
-    )
-
-    val startTime = System.currentTimeMillis()
-
-    val helper = ParserHelper(proxyPlatform)
-
-    var promise = Promise[BaseUnit]();
-  
-    helper.parse(cfg, proxyPlatform.defaultEnvironment).andThen {
-      case Success(result) => {
-        val endTime = System.currentTimeMillis();
-      
-        this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to build AMF ast", "ASTManager", "parseWithContentSubstitution");
-      
-        promise.success(result);
-      }
-    
-      case Failure(throwable) => promise.failure(throwable);
-    }
-  
-    promise.future;
+    helper.parse(cfg)
   }
 }

@@ -1,14 +1,12 @@
 package org.mulesoft.language.server.server.core.connectionsImpl
 
-import org.mulesoft.als.suggestions.interfaces.ISuggestion
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
-import org.mulesoft.language.common.dtoTypes._
+import org.mulesoft.language.common.typeInterfaces._
 import org.mulesoft.language.server.core.connections.IServerConnection
 
 import scala.collection.mutable.Buffer
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Future
-import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 
 
 trait AbstractServerConnection extends IServerConnection {
@@ -23,7 +21,7 @@ trait AbstractServerConnection extends IServerConnection {
     Buffer[(String) => Unit] = ArrayBuffer()
 
   protected var documentStructureListeners:
-    Buffer[(String) => Future[Map[String, StructureNodeJSON]]] = ArrayBuffer()
+    Buffer[(String) => Future[Map[String, StructureNode]]] = ArrayBuffer()
 
   protected var documentCompletionListeners:
     Buffer[(String, Int) => Future[Seq[ISuggestion]]] = ArrayBuffer()
@@ -38,7 +36,7 @@ trait AbstractServerConnection extends IServerConnection {
     Buffer[(String, Int) => Future[Seq[IRange]]] = ArrayBuffer()
 
   protected var renameListeners:
-    Buffer[(String, Int, String) => Future[Seq[IChangedDocument]]] = ArrayBuffer()
+    Buffer[(String, Int, String) => Seq[IChangedDocument]] = ArrayBuffer()
 
   protected var documentDetailsListeners:
     Buffer[(String, Int) => Future[Seq[ISuggestion]]] = ArrayBuffer()
@@ -113,7 +111,7 @@ trait AbstractServerConnection extends IServerConnection {
     * @param listener (uri: String) => Future[Map[String, StructureNodeJSON] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onDocumentStructure(listener: (String) => Future[Map[String, StructureNodeJSON]],
+  def onDocumentStructure(listener: (String) => Future[Map[String, StructureNode]],
                           unsubscribe: Boolean = false): Unit = {
 
     this.addListener(this.documentStructureListeners, listener, unsubscribe)
@@ -157,7 +155,7 @@ trait AbstractServerConnection extends IServerConnection {
     * @param listener (uri: String, position: Int, newName: String) => Seq[IChangedDocument]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onRename(listener: (String, Int, String) => Future[Seq[IChangedDocument]],
+  def onRename(listener: (String, Int, String) => Seq[IChangedDocument],
                unsubscribe: Boolean = false): Unit = {
 
     this.addListener(this.renameListeners, listener, unsubscribe)

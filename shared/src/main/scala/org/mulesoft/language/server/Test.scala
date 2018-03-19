@@ -1,4 +1,3 @@
-// $COVERAGE-OFF$
 package org.mulesoft.language.server
 
 import amf.client.commands.{CmdLineParser, ParseCommand, TranslateCommand, ValidateCommand}
@@ -45,4 +44,3 @@ object Test extends PlatformSecrets {
   def runValidate(config: ParserConfig): Future[Any]  = ValidateCommand(platform).run(config)
   def runParse(config: ParserConfig): Future[Any]     = ParseCommand(platform).run(config)
 }
-// $COVERAGE-ON$

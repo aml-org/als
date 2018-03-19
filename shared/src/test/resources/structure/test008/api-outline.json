@@ -1,0 +1,245 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "Email",
+        "typeText": ":string",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [],
+        "key": "Email :: ",
+        "start": 55,
+        "end": 60,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "Weight",
+        "typeText": ":number",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [],
+        "key": "Weight :: ",
+        "start": 138,
+        "end": 144,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "Age",
+        "typeText": ":integer",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [],
+        "key": "Age :: ",
+        "start": 231,
+        "end": 234,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "IsMarried",
+        "typeText": ":boolean",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [],
+        "key": "IsMarried :: ",
+        "start": 321,
+        "end": 330,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "birthday",
+        "typeText": ":date-only",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "example",
+            "typeText": null,
+            "children": [],
+            "key": "example :: birthday :: ",
+            "start": 425,
+            "end": 432
+          }
+        ],
+        "key": "birthday :: ",
+        "start": 352,
+        "end": 360,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "lunchtime",
+        "typeText": ":time-only",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "example",
+            "typeText": null,
+            "children": [],
+            "key": "example :: lunchtime :: ",
+            "start": 521,
+            "end": 528
+          }
+        ],
+        "key": "lunchtime :: ",
+        "start": 447,
+        "end": 456,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "fireworks",
+        "typeText": ":datetime-only",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "example",
+            "typeText": null,
+            "children": [],
+            "key": "example :: fireworks :: ",
+            "start": 611,
+            "end": 618
+          }
+        ],
+        "key": "fireworks :: ",
+        "start": 541,
+        "end": 550,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "created",
+        "typeText": ":datetime",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "example",
+            "typeText": null,
+            "children": [],
+            "key": "example :: created :: ",
+            "start": 674,
+            "end": 681
+          }
+        ],
+        "key": "created :: ",
+        "start": 642,
+        "end": 649,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "If-Modified-Since",
+        "typeText": ":datetime",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "example",
+            "typeText": null,
+            "children": [],
+            "key": "example :: If-Modified-Since :: ",
+            "start": 809,
+            "end": 816
+          }
+        ],
+        "key": "If-Modified-Since :: ",
+        "start": 767,
+        "end": 784,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "userPicture",
+        "typeText": ":file",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [],
+        "key": "userPicture :: ",
+        "start": 938,
+        "end": 949,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "customFile",
+        "typeText": ":file",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [],
+        "key": "customFile :: ",
+        "start": 1036,
+        "end": 1046,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "NilValue",
+        "typeText": ":object",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "name",
+            "typeText": null,
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "name :: NilValue :: ",
+            "start": 1187,
+            "end": 1191
+          },
+          {
+            "text": "comment",
+            "typeText": ":nil",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "comment :: NilValue :: ",
+            "start": 1199,
+            "end": 1206
+          },
+          {
+            "text": "example",
+            "typeText": null,
+            "children": [],
+            "key": "example :: NilValue :: ",
+            "start": 1216,
+            "end": 1223
+          }
+        ],
+        "key": "NilValue :: ",
+        "start": 1138,
+        "end": 1146,
+        "category": "SchemasAndTypesCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

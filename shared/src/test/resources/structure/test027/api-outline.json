@@ -1,0 +1,94 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "/books",
+        "typeText": null,
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "children": [
+          {
+            "text": "post",
+            "typeText": null,
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "children": [],
+            "key": "post :: /books :: ",
+            "start": 89,
+            "end": 93
+          },
+          {
+            "text": "get",
+            "typeText": null,
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "children": [],
+            "key": "get :: /books :: ",
+            "start": 288,
+            "end": 291
+          }
+        ],
+        "key": "/books :: ",
+        "start": 79,
+        "end": 85,
+        "category": "ResourcesCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "Introduction",
+        "typeText": null,
+        "icon": "BOOK",
+        "textStyle": "NORMAL",
+        "children": [],
+        "key": " :: ",
+        "start": -1,
+        "end": -1,
+        "category": "OtherCategory"
+      },
+      {
+        "text": "Licensing",
+        "typeText": null,
+        "icon": "BOOK",
+        "textStyle": "NORMAL",
+        "children": [],
+        "key": " :: ",
+        "start": -1,
+        "end": -1,
+        "category": "OtherCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

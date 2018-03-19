@@ -1,0 +1,26 @@
+#%RAML 1.0
+
+title: test
+
+types:
+  PropType:
+    type: object
+  PropType2:
+    type: string
+  TestType:
+    type: object
+    properties:
+      numberProp1:
+        type: number
+        minimum: 10
+      numberProp2: number
+      numberProp3:
+        type: number
+      stringProp1:
+        type: string
+      string*Prop2: string
+      stringProp3:
+        type: string
+        minLength: 5
+      objectProp1: PropType
+      objectProp2: PropType2

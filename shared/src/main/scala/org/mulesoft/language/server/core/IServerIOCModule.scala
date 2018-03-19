@@ -1,7 +1,6 @@
 package org.mulesoft.language.server.core
 
 import org.mulesoft.language.server.core.connections.IServerConnection
-import org.mulesoft.language.server.core.platform.ConnectionBasedPlatform
 
 /**
   * For modules that has this trait, the server engine initializes and
@@ -10,6 +9,11 @@ import org.mulesoft.language.server.core.platform.ConnectionBasedPlatform
   * All possible pushes are guaranteed to be made before each launch
   */
 trait IServerIOCModule extends IServerModule {
+
+  /**
+    * An alternative indentifier to obtain module by its main interface
+    */
+  val mainInterfaceName: Option[String]
 
   /**
     * Pushes dependency to the module.
@@ -22,10 +26,4 @@ trait IServerIOCModule extends IServerModule {
     * @param serverConnection
     */
   def insertConnection(serverConnection: IServerConnection)
-
-  /**
-    * Pushes platform dependency
-    * @param platform
-    */
-  def insertPlatform(platform: ConnectionBasedPlatform)
 }
