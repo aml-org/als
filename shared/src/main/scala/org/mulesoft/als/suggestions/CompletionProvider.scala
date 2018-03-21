@@ -12,7 +12,6 @@ import scala.language.postfixOps
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class CompletionProvider {
-
     var _config:ICompletionConfig = _
 
     var _pluginsRegistry:ICompletionPluginsRegistry = CompletionPluginsRegistry.instance
@@ -38,17 +37,28 @@ class CompletionProvider {
     }
 
     def composeRequest:ICompletionRequest = {
-
-        var prefix:String = ""
-        var position:Int = -1
-
+        var prefix: String = "";
+        
+        var position: Int = -1;
+        
+        var currentIndent: String = "";
+    
+        var indentCount: Int = 0;
+        
         _config.editorStateProvider match {
             case Some(esp) =>
-                prefix = CompletionProvider.getPrefix(esp)
-                position = esp.getOffset
+                prefix = CompletionProvider.getPrefix(esp);
+                
+                position = esp.getOffset;
+    
+                currentIndent = CompletionProvider.getCurrentIndent(esp);
+    
+                indentCount = CompletionProvider.getCurrentIndentCount(esp);
             case none => throw new Error("Editor state provider must be supplied")
         }
-        var result = CompletionRequest(requestKind,prefix,position,_config)
+        
+        var result = CompletionRequest(requestKind, prefix, position, _config, currentIndent, indentCount);
+        
         _config.astProvider match {
             case Some(ap) =>
                 var ast = CompletionProvider.getAstNode(position,prefix,ap)
@@ -90,17 +100,64 @@ object CompletionProvider {
         opt.getOrElse("")
     }
 
-    def getLine(content:IEditorStateProvider): String = {
-
+    def getLine(content: IEditorStateProvider): String = {
         var offset: Int = content.getOffset
         var text: String = content.getText
 
         var result = ""
-        var ind = text.lastIndexWhere(c=>{c == '\r' || c == '\n' || c == ' ' || c == '\t'},offset-1)
-        if(ind>=0){
-            result = text.substring(ind+1,offset)
+        var ind = text.lastIndexWhere(c => {c == '\r' || c == '\n' || c == ' ' || c == '\t'}, offset - 1)
+        
+        if(ind >= 0) {
+            result = text.substring(ind+1, offset)
         }
+        
         result
+    }
+    
+    def getCurrentIndent(content: IEditorStateProvider): String = {
+        var currentIndentation = getIndentation(content.getText, content.getOffset);
+        
+        var startIndex = getLineStart(content.getText, content.getOffset);
+        
+        var previousIndentation = getIndentation(content.getText, startIndex);
+        
+        var count = currentIndentation.length - previousIndentation.length;
+        
+        currentIndentation.substring(0, count);
+    }
+    
+    def getLineStart(text: String, offset: Int): Int = {
+        text.lastIndexWhere(c => {c == '\r' || c == '\n'}, offset - 1);
+    }
+    
+    def getIndentation(text: String, offset: Int): String = {
+        var lineStartPosition: Int = getLineStart(text, offset);
+    
+        if(lineStartPosition <= 0) {
+            return "";
+        }
+    
+        var line = text.substring(lineStartPosition + 1, offset);
+        
+        var trimmed = line.trim;
+        
+        if(trimmed.length == 0) {
+            line
+        } else {
+            var end = line.indexOf(trimmed)
+    
+            line.substring(0, end);
+        }
+    }
+    
+    def getCurrentIndentCount(content: IEditorStateProvider): Int = {
+        var indentWidth: Int = getCurrentIndent(content).length;
+        
+        if(indentWidth <= 0) {
+            return 0;
+        }
+        
+        getIndentation(content.getText, content.getOffset).length / indentWidth;
     }
 
     def valuePrefix(content:IEditorStateProvider): String = {
