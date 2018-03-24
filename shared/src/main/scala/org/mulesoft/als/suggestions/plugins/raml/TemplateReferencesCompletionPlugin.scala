@@ -30,8 +30,8 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
         }
         else {
             var result: Seq[ISuggestion] = Seq();
-			//var range: YRange = YRange(YPoint(21, 2), YPoint(23, 0));
-			//request.astNode.get.astUnit.positionsMapper.initRange(range);
+			
+			var paramFor = inParamOf(request).get;
 			
             request.astNode match {
                 case Some(n) =>
@@ -52,6 +52,24 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
 							}
 							
 							case _=> Seq();
+						}
+						
+						if(paramFor != null) {
+							var foundDeclarations = declarations.filter(declaration => paramFor == declaration.node.attribute("name").get.value.asInstanceOf[Some[String]].get);
+							
+							if(foundDeclarations.size < 1) {
+								return Seq();
+							}
+							
+							var declaration = foundDeclarations(0);
+							
+							var paramNames = declaration.node.attributes("parameters").map(param => param.value.asInstanceOf[Some[String]].get);
+							
+							if(actualPrefix.indexOf("{") >= 0) {
+								actualPrefix = actualPrefix.substring(actualPrefix.indexOf("{") + 1).trim();
+							}
+							
+							return paramNames.map(name => Suggestion(name, id, name, actualPrefix));
 						}
 						
 						result = declarations.map(declaration => {
@@ -105,6 +123,42 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
             result
         }
     }
+	
+	def inParamOf(request: ICompletionRequest): Option[String] = {
+		var text: String = request.config.editorStateProvider.get.getText;
+		
+		var currentPosition = request.position;
+		
+		var lineStart = text.substring(0, currentPosition).lastIndexOf("\n") + 1;
+		
+		if(lineStart < 0) {
+			return Some(null);
+		}
+		
+		var line = text.substring(lineStart, currentPosition);
+		
+		var openSquaresCount = line.count(_ == "{".charAt(0));
+		
+		if(openSquaresCount < 2) {
+			return Some(null);
+		}
+		
+		if(line.last == "{".charAt(0)) {
+			line = line + " ";
+		}
+		
+		var rightExps = line.split("\\{");
+		
+		var canContainReference = rightExps(rightExps.size - 2);
+		
+		var referenceParts = canContainReference.split(":");
+		
+		if(referenceParts.length != 2) {
+			return Some(null);
+		}
+		
+		Some(referenceParts(0));
+	}
 }
 
 object TemplateReferencesCompletionPlugin {
