@@ -21,25 +21,17 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
     override def languages: Seq[Vendor] = DefinitionReferenceCompletionPlugin.supportedLanguages
 
     override def suggest(request: ICompletionRequest): Seq[ISuggestion] = {
-        if(!isApplicable(request)) {
-            Seq()
+        determineRefCompletionCase(request) match {
+            case Some(spv: SCHEMA_PROPERTY_VALUE) => extractRefs(request).map(x=>"\n" + " " * spv.refPropOffset + "$ref: \"" + x + "\"").map(x=>Suggestion(x,x,x,request.prefix));
+            
+            case Some(rpv: REF_PROPERTY_VALUE) => extractRefs(request).map(x=>Suggestion(x,x,x,request.prefix));
+            
+            case _ => Seq();
         }
-        else {
-            determineRefCompletionCase(request) match {
-                case Some(x) =>
-                    var refs = request.astNode.get.astUnit.rootNode.elements("definitions")
-                        .map(x=>s"#/definitions/${x.attribute("name").get.value.get}")
-
-                    x match {
-                        case spv:SCHEMA_PROPERTY_VALUE =>
-                            refs.map(x=>"\n" + " " * spv.refPropOffset + "$ref: \"" + x + "\"").map(x=>Suggestion(x,x,x,request.prefix))
-                        case rpv:REF_PROPERTY_VALUE =>
-                            refs.map(x=>Suggestion(x,x,x,request.prefix))
-                        case _ => Seq()
-                    }
-                case None => Seq()
-            }
-        }
+    }
+    
+    def extractRefs(request: ICompletionRequest): Seq[String] = {
+        request.astNode.get.astUnit.rootNode.elements("definitions").map(x=>s"#/definitions/${x.attribute("name").get.value.get}");
     }
 
     override def isApplicable(request: ICompletionRequest): Boolean = {
