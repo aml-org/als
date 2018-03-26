@@ -11,6 +11,7 @@ trait IUniverse {
     def types: Seq[ITypeDefinition]
 
     def parent:Option[IUniverse]
-
+    
+    def builtInNames(): Seq[String]
     //def matched: scala.collection.Map[String, NamedId]
 }
