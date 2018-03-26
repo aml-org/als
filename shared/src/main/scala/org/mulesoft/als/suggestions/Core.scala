@@ -4,7 +4,7 @@ import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.plugins.StructureCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.oas.{DefinitionReferenceCompletionPlugin, OasDeclarationReferencePlugin}
-import org.mulesoft.als.suggestions.plugins.raml.{MasterReferenceCompletionPlugin, TemplateReferencesCompletionPlugin}
+import org.mulesoft.als.suggestions.plugins.raml.{MasterReferenceCompletionPlugin, TemplateReferencesCompletionPlugin, TypeReferenceCompletionPlugin}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -17,6 +17,7 @@ object Core {
         CompletionPluginsRegistry.registerPlugin(OasDeclarationReferencePlugin());
         CompletionPluginsRegistry.registerPlugin(DefinitionReferenceCompletionPlugin());
         CompletionPluginsRegistry.registerPlugin(MasterReferenceCompletionPlugin());
+        CompletionPluginsRegistry.registerPlugin(TypeReferenceCompletionPlugin());
     });
     
     def prepareText(text:String, offset:Int, syntax:Syntax):String = {
