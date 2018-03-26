@@ -15,6 +15,8 @@ class EmptyUniverse private extends IUniverse {
     def matched = scala.collection.immutable.Map()
 
     def parent: Option[IUniverse] = None
+    
+    def builtInNames(): Seq[String] = Seq();
 }
 
 object EmptyUniverse extends EmptyUniverse {}

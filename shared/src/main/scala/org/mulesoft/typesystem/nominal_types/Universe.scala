@@ -5,8 +5,6 @@ import org.mulesoft.typesystem.nominal_interfaces.{ITypeDefinition, IUniverse}
 import scala.collection.mutable.ListBuffer
 
 class Universe(_name:String,_parent:Option[IUniverse] = None,_uversion:String) extends IUniverse {
-
-
     private var _classes: ListBuffer[AbstractType] = ListBuffer[AbstractType]()
 
     private var aMap:scala.collection.mutable.Map[String,AbstractType] = scala.collection.mutable.Map[String,AbstractType]()
@@ -53,5 +51,6 @@ class Universe(_name:String,_parent:Option[IUniverse] = None,_uversion:String) e
     def register(t:AbstractType):Unit = _classes += t
 
     def registerAlias(a: String, t: AbstractType):Unit = aMap.put(a,t)
-
+    
+    def builtInNames(): Seq[String] = ListBuffer() ++= aMap.keys;
 }
