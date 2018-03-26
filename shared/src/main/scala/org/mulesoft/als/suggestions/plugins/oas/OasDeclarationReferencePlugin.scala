@@ -29,10 +29,6 @@ class OasDeclarationReferencePlugin extends ICompletionPlugin {
     }
 	
     override def suggest(request: ICompletionRequest): Seq[ISuggestion] = {
-        if(!isApplicable(request)) {
-            return Seq();
-        }
-        
         request.astNode match {
             case Some(n) => if(n.isElement) {
                 var element = n.asElement.get;
@@ -72,8 +68,8 @@ class OasDeclarationReferencePlugin extends ICompletionPlugin {
     
     def oasDeclarationReference(declaration: Declaration): String = {
         var declarationName = declaration.node.attribute("key").get.value.get;
-    
-        var propertyName = declaration.node.property.get.nameId.get;
+		
+		var propertyName = declaration.node.property.get.nameId.get;
         
         "#/" + propertyName + "/" + declarationName;
     }

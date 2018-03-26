@@ -78,7 +78,7 @@ class CompletionProvider {
     }
 
     def fulfillRequest(request:ICompletionRequest):Future[Seq[ISuggestion]] = Future {
-        _pluginsRegistry.plugins.flatMap(_.suggest(request))
+        _pluginsRegistry.plugins.filter(_ isApplicable request).flatMap(_.suggest(request))
     }
 
     def filter(suggestions:Seq[ISuggestion], request:ICompletionRequest):Seq[ISuggestion] = {

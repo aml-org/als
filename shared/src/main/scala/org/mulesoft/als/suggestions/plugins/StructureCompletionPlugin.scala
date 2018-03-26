@@ -48,22 +48,16 @@ class StructureCompletionPlugin extends ICompletionPlugin {
     }
 
     override def suggest(request: ICompletionRequest): Seq[ISuggestion] = {
-
-        if(!isApplicable(request)){
-            Seq()
-        }
-        else {
-            var result: Seq[ISuggestion] = Seq()
-            request.astNode match {
-                case Some(n) =>
-                    if (n.isElement) {
-                        var element = n.asElement.get
-                        result = extractSuggestableProperties(element).map(_.nameId.get)
-                            .map(pName => Suggestion(pName, id, pName, request.prefix))
-                    }
-                case _ =>
+        request.astNode match {
+            case Some(n) => if(n.isElement) {
+                var element = n.asElement.get;
+                
+                extractSuggestableProperties(element).map(_.nameId.get).map(pName => Suggestion(pName, id, pName, request.prefix));
+            } else {
+                Seq();
             }
-            result
+            
+            case _ => Seq();
         }
     }
 
