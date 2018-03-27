@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.raml
 
-import java.io.File
-import java.net.URI
+//import java.io.File
+//import java.net.URI
 
 import amf.core.remote.{Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.Suggestion
@@ -20,13 +20,16 @@ class MasterReferenceCompletionPlugin extends ICompletionPlugin {
     }
 	
     override def suggest(request: ICompletionRequest): Seq[ISuggestion] = {
-		var fsProvider = request.astNode.get.astUnit.project.fsProvider;
+		//TODO: fix fs access using fsprovider
+//		var fsProvider = request.astNode.get.astUnit.project.fsProvider;
+//
+//		var baseDir = new File(request.astNode.get.astUnit.project.rootPath).getParent + "/";
+//
+//		var files = new File(baseDir).list().filter(_.toLowerCase.endsWith(".raml"));
+//
+//		files.map(name => Suggestion(name, id, name, request.prefix));
 		
-		var baseDir = new File(request.astNode.get.astUnit.project.rootPath).getParent + "/";
-		
-		var files = new File(baseDir).list().filter(_.toLowerCase.endsWith(".raml"));
-	
-		files.map(name => Suggestion(name, id, name, request.prefix));
+		Seq();
     }
 	
 	def isExtendable(request: ICompletionRequest): Boolean = {

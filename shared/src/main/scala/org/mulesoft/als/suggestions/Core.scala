@@ -16,7 +16,8 @@ object Core {
         CompletionPluginsRegistry.registerPlugin(TemplateReferencesCompletionPlugin());
         CompletionPluginsRegistry.registerPlugin(OasDeclarationReferencePlugin());
         CompletionPluginsRegistry.registerPlugin(DefinitionReferenceCompletionPlugin());
-        CompletionPluginsRegistry.registerPlugin(MasterReferenceCompletionPlugin());
+        //TODO: uncoment after fs access fixes
+        //CompletionPluginsRegistry.registerPlugin(MasterReferenceCompletionPlugin());
         CompletionPluginsRegistry.registerPlugin(TypeReferenceCompletionPlugin());
     });
     
