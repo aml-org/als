@@ -7,8 +7,8 @@ import org.yaml.parser.YamlParser
 import scala.language.postfixOps
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.io.Source
-import java.io.File
+//import scala.io.Source
+//import java.io.File
 
 import org.mulesoft.typesystem.json.interfaces.JSONWrapper
 import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
@@ -22,30 +22,39 @@ object RamlUniverseProvider {
 
     def raml10Universe():Future[IUniverse] = {
 
-        getUniverse("RAML","10","raml-definition")
+        Future {
+            buildUniverse("RAML", "10", RAML10Universe.value)
+        }
+        //getUniverse("RAML","10","raml-definition")
     }
 
     def raml08Universe():Future[IUniverse] = {
-        getUniverse("RAML","08","raml-definition")
+        Future {
+            buildUniverse("RAML", "08", RAML08Universe.value)
+        }
+        //getUniverse("RAML","08","raml-definition")
     }
 
     def oas20Universe():Future[IUniverse] = {
-        getUniverse("OAS","20","oas-definition")
-    }
-
-    private def getUniverse(vendor:String,version:String,rootPath:String): Future[IUniverse] = {
-
         Future {
-            var bld: StringBuilder = new StringBuilder()
-            try {
-                bld.append(Source.fromResource(s"$rootPath/$vendor$version.json").mkString)
-            }
-            catch {
-                case e:Throwable => println(e)
-            }
-            buildUniverse(vendor,version,bld.toString())
+            buildUniverse("OAS", "20", OASUniverse.value)
         }
+        //getUniverse("OAS","20","oas-definition")
     }
+
+//    private def getUniverse(vendor:String,version:String,rootPath:String): Future[IUniverse] = {
+//
+//        Future {
+//            var bld: StringBuilder = new StringBuilder()
+//            try {
+//                bld.append(Source.fromResource(s"$rootPath/$vendor$version.json").mkString)
+//            }
+//            catch {
+//                case e:Throwable => println(e)
+//            }
+//            buildUniverse(vendor,version,bld.toString())
+//        }
+//    }
 
     private def buildUniverse(vendor:String,version: String, content: String): IUniverse = {
 
