@@ -94,7 +94,7 @@ object Suggestions {
     val patchedContent = Core.prepareText(fileContentsStr, position, YAML)
 
     File.unapply(fileUrl).foreach(x=>this.platform.cacheResourceText(
-      x, fileContentsStr, content.mime))
+      x, patchedContent, content.mime))
   }
 
   def buildHighLevel(model:BaseUnit):Future[IProject] = {
