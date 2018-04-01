@@ -4,7 +4,7 @@ import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.plugins.StructureCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.oas.{DefinitionReferenceCompletionPlugin, OasDeclarationReferencePlugin}
-import org.mulesoft.als.suggestions.plugins.raml.{MasterReferenceCompletionPlugin, TemplateReferencesCompletionPlugin, TypeReferenceCompletionPlugin}
+import org.mulesoft.als.suggestions.plugins.raml.{AnnotationReferencesCompletionPlugin, MasterReferenceCompletionPlugin, TemplateReferencesCompletionPlugin, TypeReferenceCompletionPlugin}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -19,6 +19,7 @@ object Core {
         //TODO: uncoment after fs access fixes
         //CompletionPluginsRegistry.registerPlugin(MasterReferenceCompletionPlugin());
         CompletionPluginsRegistry.registerPlugin(TypeReferenceCompletionPlugin());
+        CompletionPluginsRegistry.registerPlugin(AnnotationReferencesCompletionPlugin());
     });
     
     def prepareText(text:String, offset:Int, syntax:Syntax):String = {
