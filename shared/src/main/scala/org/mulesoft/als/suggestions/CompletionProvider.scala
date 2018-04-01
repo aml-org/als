@@ -82,7 +82,7 @@ class CompletionProvider {
     }
 
     def filter(suggestions:Seq[ISuggestion], request:ICompletionRequest):Seq[ISuggestion] = {
-        suggestions.filter(s => s.displayText.toLowerCase.startsWith(s.prefix));
+        suggestions.filter(s => s.displayText.toLowerCase.startsWith(s.prefix.toLowerCase));
     }
 
     def requestKind:CompletionRequestKind = CompletionRequestKind.PROPERTY_NAMES

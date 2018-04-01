@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.plugins
 import amf.core.remote.{Oas, Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.Suggestion
 import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
+import org.mulesoft.als.suggestions.plugins.raml.AnnotationReferencesCompletionPlugin
 import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
 import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition}
@@ -16,12 +17,12 @@ class StructureCompletionPlugin extends ICompletionPlugin {
     override def languages: Seq[Vendor] = StructureCompletionPlugin.supportedLanguages
 
     override def isApplicable(request:ICompletionRequest): Boolean = request.config.astProvider match {
-
         case Some(astProvider) =>
-            if(languages.indexOf(astProvider.language)<0){
-                false
-            }
-            else {
+			if(AnnotationReferencesCompletionPlugin().isApplicable(request)) {
+				false;
+			} else if(languages.indexOf(astProvider.language)<0){
+                false;
+            } else {
                 request.actualYamlLocation match {
                     case Some(l) =>
                         if(l.inKey(request.position)){
