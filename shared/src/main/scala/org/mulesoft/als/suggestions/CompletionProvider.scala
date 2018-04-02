@@ -123,6 +123,10 @@ object CompletionProvider {
         
         var count = currentIndentation.length - previousIndentation.length;
         
+        if(count < 0) {
+            count = -count;
+        }
+        
         currentIndentation.substring(0, count);
     }
     
