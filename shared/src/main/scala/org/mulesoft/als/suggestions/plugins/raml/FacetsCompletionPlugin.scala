@@ -7,11 +7,12 @@ import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
 
 import scala.collection.mutable
+import scala.concurrent.{Future, Promise}
 
 class FacetsCompletionPlugin extends ICompletionPlugin {
-	override def id: String = TemplateReferencesCompletionPlugin.ID;
+	override def id: String = FacetsCompletionPlugin.ID;
 	
-	override def languages: Seq[Vendor] = TemplateReferencesCompletionPlugin.supportedLanguages;
+	override def languages: Seq[Vendor] = FacetsCompletionPlugin.supportedLanguages;
 	
 	override def isApplicable(request:ICompletionRequest): Boolean = request.config.astProvider match {
 		case Some(astProvider) => languages.indexOf(astProvider.language) >= 0 && (request.actualYamlLocation match {
@@ -37,14 +38,16 @@ class FacetsCompletionPlugin extends ICompletionPlugin {
 		case _ => false;
 	}
 	
-	override def suggest(request: ICompletionRequest): Seq[ISuggestion] = {
+	override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
 		var facets = mutable.MutableList[String]();
 		
 		extendsDeclaredTypes(request.astNode.get.asElement.get, extractTypeDeclarations(request)).foreach(extractFacetsFromDeclaration(_).foreach(facets += _));
 		
 		extractFacetsFromDeclaration(request.astNode.get.asElement.get).foreach(facets += _);
 		
-		facets.map(facetName => Suggestion(facetName, id, facetName, request.prefix));
+		val result = facets.map(facetName => Suggestion(facetName, id, facetName, request.prefix));
+
+		Promise.successful(result).future
 	}
 	
 	def extractTypeDeclarations(request: ICompletionRequest): Seq[IHighLevelNode] = {

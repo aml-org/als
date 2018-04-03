@@ -1,14 +1,15 @@
 package org.mulesoft.als.suggestions.plugins.oas;
 
-import amf.core.remote.{Oas, Vendor};
-import org.mulesoft.als.suggestions.implementation.Suggestion;
-import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion};
-import org.mulesoft.high.level.interfaces.IHighLevelNode;
-import org.mulesoft.high.level.{Declaration, Search};
-import org.mulesoft.typesystem.nominal_interfaces.IProperty;
-import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra;
+import amf.core.remote.{Oas, Vendor}
+import org.mulesoft.als.suggestions.implementation.Suggestion
+import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
+import org.mulesoft.high.level.interfaces.IHighLevelNode
+import org.mulesoft.high.level.{Declaration, Search}
+import org.mulesoft.typesystem.nominal_interfaces.IProperty
+import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
 
 import scala.collection.mutable
+import scala.concurrent.{Future, Promise}
 
 class OasDeclarationReferencePlugin extends ICompletionPlugin {
 	override def id: String = OasDeclarationReferencePlugin.ID
@@ -28,8 +29,8 @@ class OasDeclarationReferencePlugin extends ICompletionPlugin {
 		case _ => false
     }
 	
-    override def suggest(request: ICompletionRequest): Seq[ISuggestion] = {
-        request.astNode match {
+    override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+        val result = request.astNode match {
             case Some(n) => if(n.isElement) {
                 var element = n.asElement.get;
                 
@@ -54,6 +55,8 @@ class OasDeclarationReferencePlugin extends ICompletionPlugin {
             
             case _ => Seq();
         }
+
+        Promise.successful(result).future
     }
     
     def wrapDeclarationReference(reference: String, request: ICompletionRequest): String = {

@@ -4,6 +4,8 @@ import amf.core.remote.{Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.Suggestion
 import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
 
+import scala.concurrent.{Future, Promise}
+
 class TypeReferenceCompletionPlugin extends ICompletionPlugin {
 	override def id: String = TemplateReferencesCompletionPlugin.ID;
 	
@@ -15,10 +17,12 @@ class TypeReferenceCompletionPlugin extends ICompletionPlugin {
 		case _ => false;
 	}
 	
-	override def suggest(request: ICompletionRequest): Seq[ISuggestion] = {
+	override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+
 		var builtIns = request.astNode.get.asAttr.get.definition.get.universe.builtInNames() :+ "object";
 		
-		builtIns.map(name => Suggestion(name, id, name, request.prefix));
+		val result = builtIns.map(name => Suggestion(name, id, name, request.prefix));
+		Promise.successful(result).future
 	}
 	
 	def isInTypeTypeProperty(request: ICompletionRequest): Boolean = {

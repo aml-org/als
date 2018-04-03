@@ -1,12 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.raml
 
-//import java.io.File
-//import java.net.URI
-
 import amf.core.remote.{Raml10, Vendor}
-import org.mulesoft.als.suggestions.implementation.Suggestion
+import org.mulesoft.als.suggestions.implementation.{PathCompletion, Suggestion}
 import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
 import org.yaml.model.YScalar
+
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class MasterReferenceCompletionPlugin extends ICompletionPlugin {
     override def id: String = TemplateReferencesCompletionPlugin.ID;
@@ -19,17 +19,14 @@ class MasterReferenceCompletionPlugin extends ICompletionPlugin {
 		case _ => false;
     }
 	
-    override def suggest(request: ICompletionRequest): Seq[ISuggestion] = {
-		//TODO: fix fs access using fsprovider
-//		var fsProvider = request.astNode.get.astUnit.project.fsProvider;
-//
-//		var baseDir = new File(request.astNode.get.astUnit.project.rootPath).getParent + "/";
-//
-//		var files = new File(baseDir).list().filter(_.toLowerCase.endsWith(".raml"));
-//
-//		files.map(name => Suggestion(name, id, name, request.prefix));
-		
-		Seq();
+    override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+
+			val baseDir = request.astNode.get.astUnit.project.rootPath
+
+			PathCompletion.complete(baseDir, request.prefix, request.config.fsProvider.get)
+				.map(paths=>{
+					paths.map(path=>Suggestion(path, id, path, request.prefix))
+				})
     }
 	
 	def isExtendable(request: ICompletionRequest): Boolean = {
