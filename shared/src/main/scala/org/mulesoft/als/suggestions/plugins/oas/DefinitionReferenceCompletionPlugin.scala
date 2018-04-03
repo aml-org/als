@@ -13,6 +13,7 @@ import org.mulesoft.positioning.{IPositionsMapper, YamlLocation, YamlPartWithRan
 import org.yaml.model.{YScalar, YValue}
 
 import scala.collection.mutable.ArrayBuffer
+import scala.concurrent.{Future, Promise}
 
 class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
 
@@ -20,14 +21,16 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
 
     override def languages: Seq[Vendor] = DefinitionReferenceCompletionPlugin.supportedLanguages
 
-    override def suggest(request: ICompletionRequest): Seq[ISuggestion] = {
-        determineRefCompletionCase(request) match {
+    override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+        val result = determineRefCompletionCase(request) match {
             case Some(spv: SCHEMA_PROPERTY_VALUE) => extractRefs(request).map(x=>"\n" + " " * spv.refPropOffset + "$ref: \"" + x + "\"").map(x=>Suggestion(x,x,x,request.prefix));
             
             case Some(rpv: REF_PROPERTY_VALUE) => extractRefs(request).map(x=>Suggestion(x,x,x,request.prefix));
             
             case _ => Seq();
         }
+
+        Promise.successful(result).future
     }
     
     def extractRefs(request: ICompletionRequest): Seq[String] = {

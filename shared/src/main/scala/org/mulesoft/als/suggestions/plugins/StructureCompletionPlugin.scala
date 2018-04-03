@@ -7,6 +7,7 @@ import org.mulesoft.als.suggestions.plugins.raml.AnnotationReferencesCompletionP
 import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
 import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition}
+import scala.concurrent.{Future, Promise}
 
 import scala.collection.mutable
 
@@ -48,18 +49,20 @@ class StructureCompletionPlugin extends ICompletionPlugin {
         case _ => false
     }
 
-    override def suggest(request: ICompletionRequest): Seq[ISuggestion] = {
-        request.astNode match {
+    override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+        val result = request.astNode match {
             case Some(n) => if(n.isElement) {
                 var element = n.asElement.get;
-                
+
                 extractSuggestableProperties(element).map(_.nameId.get).map(pName => Suggestion(pName, id, pName, request.prefix));
             } else {
                 Seq();
             }
-            
+
             case _ => Seq();
         }
+
+        Promise.successful(result).future
     }
 
     def extractSuggestableProperties(node:IHighLevelNode):Seq[IProperty] = {

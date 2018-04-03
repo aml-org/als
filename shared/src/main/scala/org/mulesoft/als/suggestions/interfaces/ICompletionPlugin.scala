@@ -1,6 +1,8 @@
 package org.mulesoft.als.suggestions.interfaces
 
 import amf.core.remote.Vendor
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 trait ICompletionPlugin {
 
@@ -8,7 +10,7 @@ trait ICompletionPlugin {
 
     def languages:Seq[Vendor]
 
-    def suggest(request:ICompletionRequest):Seq[ISuggestion]
+    def suggest(request:ICompletionRequest):Future[Seq[ISuggestion]]
 
     def isApplicable(request:ICompletionRequest):Boolean
 

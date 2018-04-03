@@ -9,6 +9,7 @@ import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
 import org.mulesoft.high.level.Search
 
 import scala.collection.mutable
+import scala.concurrent.{Future, Promise}
 
 class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
 
@@ -23,96 +24,99 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
         case _ => false
     }
 
-    override def suggest(request: ICompletionRequest): Seq[ISuggestion] = {
-		var paramFor = inParamOf(request).get;
+    override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+			var paramFor = inParamOf(request).get;
 		
-		request.astNode match {
-			case Some(n) => if(n.isElement) {
-				var actualPrefix = request.prefix;
-				
-				var squareBracketsRequired = false;
-				
-				var declarations = n.asElement.get.definition.nameId match {
-					case Some("ResourceTypeRef")  => {
-						Search.getDeclarations(n.astUnit, "ResourceType");
+			val result = request.astNode match {
+				case Some(n) => if(n.isElement) {
+					var actualPrefix = request.prefix;
+
+					var squareBracketsRequired = false;
+
+					var declarations = n.asElement.get.definition.nameId match {
+						case Some("ResourceTypeRef")  => {
+							Search.getDeclarations(n.astUnit, "ResourceType");
+						}
+
+						case Some("TraitRef")  => {
+							squareBracketsRequired = true;
+
+							Search.getDeclarations(n.astUnit, "Trait");
+						}
+
+						case _=> Seq();
 					}
-					
-					case Some("TraitRef")  => {
-						squareBracketsRequired = true;
-						
-						Search.getDeclarations(n.astUnit, "Trait");
+
+					if(paramFor != null) {
+						var foundDeclarations = declarations.filter(declaration => paramFor == declaration.node.attribute("name").get.value.asInstanceOf[Some[String]].get);
+
+						if(foundDeclarations.size < 1) {
+							return Promise.successful(Seq()).future;
+						}
+
+						var declaration = foundDeclarations(0);
+
+						var paramNames = declaration.node.attributes("parameters").map(param => param.value.asInstanceOf[Some[String]].get);
+
+						if(actualPrefix.indexOf("{") >= 0) {
+							actualPrefix = actualPrefix.substring(actualPrefix.indexOf("{") + 1).trim();
+						}
+
+						return Promise.successful(
+							paramNames.map(name => Suggestion(name, id, name, actualPrefix))).future;
 					}
-					
-					case _=> Seq();
+
+					declarations.map(declaration => {
+						var declarationName = declaration.node.attribute("name").get.value.asInstanceOf[Some[String]].get
+
+						var bracketsRequired = request.prefix.indexOf("{") != 0;
+
+						squareBracketsRequired = squareBracketsRequired && request.prefix.indexOf("[") != 0;
+
+						var snippet = declarationName;
+
+						var params = declaration.node.attributes("parameters");
+
+						if(!params.isEmpty) {
+							snippet = snippet + ": {";
+
+							var count = 0;
+
+							params.foreach(param => {
+								var needComma = param != params.last;
+
+								snippet += param.value.asInstanceOf[Some[String]].get + " : ";
+
+								if(needComma) {
+									snippet += ", ";
+								}
+							});
+
+							snippet += "}";
+						}
+
+						if(bracketsRequired) {
+							snippet = "{" + snippet + "}";
+						} else {
+							actualPrefix = actualPrefix.substring(actualPrefix.indexOf("{") + 1).trim();
+						}
+
+						if(squareBracketsRequired) {
+							snippet = "[" + snippet + "]";
+						} else {
+							actualPrefix = actualPrefix.substring(actualPrefix.indexOf("[") + 1).trim();
+						}
+
+						Suggestion(snippet, id, declarationName, actualPrefix);
+					});
+				} else {
+					Seq();
 				}
-				
-				if(paramFor != null) {
-					var foundDeclarations = declarations.filter(declaration => paramFor == declaration.node.attribute("name").get.value.asInstanceOf[Some[String]].get);
-					
-					if(foundDeclarations.size < 1) {
-						return Seq();
-					}
-					
-					var declaration = foundDeclarations(0);
-					
-					var paramNames = declaration.node.attributes("parameters").map(param => param.value.asInstanceOf[Some[String]].get);
-					
-					if(actualPrefix.indexOf("{") >= 0) {
-						actualPrefix = actualPrefix.substring(actualPrefix.indexOf("{") + 1).trim();
-					}
-					
-					return paramNames.map(name => Suggestion(name, id, name, actualPrefix));
-				}
-				
-				declarations.map(declaration => {
-					var declarationName = declaration.node.attribute("name").get.value.asInstanceOf[Some[String]].get
-					
-					var bracketsRequired = request.prefix.indexOf("{") != 0;
-					
-					squareBracketsRequired = squareBracketsRequired && request.prefix.indexOf("[") != 0;
-					
-					var snippet = declarationName;
-					
-					var params = declaration.node.attributes("parameters");
-					
-					if(!params.isEmpty) {
-						snippet = snippet + ": {";
-						
-						var count = 0;
-						
-						params.foreach(param => {
-							var needComma = param != params.last;
-							
-							snippet += param.value.asInstanceOf[Some[String]].get + " : ";
-							
-							if(needComma) {
-								snippet += ", ";
-							}
-						});
-						
-						snippet += "}";
-					}
-					
-					if(bracketsRequired) {
-						snippet = "{" + snippet + "}";
-					} else {
-						actualPrefix = actualPrefix.substring(actualPrefix.indexOf("{") + 1).trim();
-					}
-					
-					if(squareBracketsRequired) {
-						snippet = "[" + snippet + "]";
-					} else {
-						actualPrefix = actualPrefix.substring(actualPrefix.indexOf("[") + 1).trim();
-					}
-					
-					Suggestion(snippet, id, declarationName, actualPrefix);
-				});
-			} else {
-				Seq();
+
+				case _ => Seq();
 			}
-			
-			case _ => Seq();
-		}
+
+			Promise.successful(result).future
     }
 	
 	def inParamOf(request: ICompletionRequest): Option[String] = {
