@@ -78,8 +78,8 @@ class OAS20ASTFactory private extends DefaultASTFactory {
     protected def init():Future[Unit] = Future {
         universe = UniverseProvider.universe(format)
         registerPropertyMatcher("SwaggerObject", "info", ThisMatcher().withYamlPath("info"))
-        registerPropertyMatcher("SwaggerObject", "host", WebApiModel.Host)
-        registerPropertyMatcher("SwaggerObject", "basePath", WebApiModel.BasePath)
+        registerPropertyMatcher("SwaggerObject", "host", ThisMatcher() + WebApiModel.Servers + ServerModel.Url)
+        registerPropertyMatcher("SwaggerObject", "basePath", ThisMatcher() + WebApiModel.Servers + ServerModel.Url)
         registerPropertyMatcher("SwaggerObject", "schemes", WebApiModel.Schemes)
         registerPropertyMatcher("SwaggerObject", "consumes", WebApiModel.Accepts)
         registerPropertyMatcher("SwaggerObject", "produces", WebApiModel.ContentType)
