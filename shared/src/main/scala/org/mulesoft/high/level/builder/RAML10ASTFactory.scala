@@ -131,12 +131,12 @@ class RAML10ASTFactory private extends DefaultASTFactory {
         registerPropertyMatcher("Api", "version", WebApiModel.Version)
         registerPropertyMatcher("Api", "resources", ResourceExtractor())
         registerPropertyMatcher("Api", "securedBy", WebApiModel.Security)
-        registerPropertyMatcher("Api", "baseUriParameters", WebApiModel.BaseUriParameters)
+        registerPropertyMatcher("Api", "baseUriParameters", ThisMatcher() + WebApiModel.Servers + ServerModel.Variables)
         registerPropertyMatcher("Api", "protocols", WebApiModel.Schemes)
         registerPropertyMatcher("Api", "documentation", WebApiModel.Documentations)
         registerPropertyMatcher("Api", "mediaType", ThisMatcher() + WebApiModel.ContentType
             & ThisMatcher() + WebApiModel.Accepts)
-        registerPropertyMatcher("Api", "baseUri", (ThisMatcher() + WebApiModel.Host).withCustomBuffer((e, hl) => new BaseUriValueBuffer(e, hl)))
+        registerPropertyMatcher("Api", "baseUri", ThisMatcher() + WebApiModel.Servers + ServerModel.Url)
 
 
         registerPropertyMatcher("DocumentationItem", "title", CreativeWorkModel.Title)
@@ -516,33 +516,33 @@ class RAML10ASTFactory private extends DefaultASTFactory {
     }
 }
 
-class BaseUriValueBuffer(element:AmfObject,hlNode:IHighLevelNode) extends IValueBuffer {
-
-    override def getValue: Option[Any] = {
-        element match {
-            case de:DomainElement =>
-                var hostOpt = Option(de.fields.get(WebApiModel.Host))
-                hostOpt match {
-                    case Some(host) => host.annotations.find (classOf[SourceAST] ).map (_.ast.asInstanceOf[YNode].value.asInstanceOf[YScalar].value)
-                    case _ => None
-                }
-            case _ => None
-        }
-    }
-
-    override def setValue(value: Any): Unit = {}
-
-    override def yamlNodes: Seq[YPart] = getFildValues.flatMap(_.annotations.find(classOf[SourceAST])).map(_.ast)
-
-    def getFildValues:List[AmfElement] = List(
-        element.fields.getValue(WebApiModel.Schemes),
-        element.fields.getValue(WebApiModel.Host),
-        element.fields.getValue(WebApiModel.BasePath)).filter(_ != null).map(_.value)
-}
-
-object BaseUriValueBuffer{
-    def apply (element:AmfObject,hlNode:IHighLevelNode):BaseUriValueBuffer = new BaseUriValueBuffer(element,hlNode)
-}
+//class BaseUriValueBuffer(element:AmfObject,hlNode:IHighLevelNode) extends IValueBuffer {
+//
+//    override def getValue: Option[Any] = {
+//        element match {
+//            case de:DomainElement =>
+//                var hostOpt = Option(de.fields.get(WebApiModel.Host))
+//                hostOpt match {
+//                    case Some(host) => host.annotations.find (classOf[SourceAST] ).map (_.ast.asInstanceOf[YNode].value.asInstanceOf[YScalar].value)
+//                    case _ => None
+//                }
+//            case _ => None
+//        }
+//    }
+//
+//    override def setValue(value: Any): Unit = {}
+//
+//    override def yamlNodes: Seq[YPart] = getFildValues.flatMap(_.annotations.find(classOf[SourceAST])).map(_.ast)
+//
+//    def getFildValues:List[AmfElement] = List(
+//        element.fields.getValue(WebApiModel.Schemes),
+//        element.fields.getValue(WebApiModel.Host),
+//        element.fields.getValue(WebApiModel.BasePath)).filter(_ != null).map(_.value)
+//}
+//
+//object BaseUriValueBuffer{
+//    def apply (element:AmfObject,hlNode:IHighLevelNode):BaseUriValueBuffer = new BaseUriValueBuffer(element,hlNode)
+//}
 
 class RequiredPropertyValueBuffer(element:AmfObject,hlNode:IHighLevelNode) extends BasicValueBuffer(element,PropertyShapeModel.MinCount) {
 
@@ -630,7 +630,7 @@ class ExamplesFilter(single:Boolean) extends IPropertyMatcher {
     override def doOperate(obj: AmfObject, hlNode: IHighLevelNode): Seq[MatchResult] = {
         obj match {
             case e:Example =>
-                var hasNullName = Option(e.name).isEmpty
+                var hasNullName = Option(e.name.value()).isEmpty
                 if(single == hasNullName){
                     List(ElementMatchResult(e))
                 }
