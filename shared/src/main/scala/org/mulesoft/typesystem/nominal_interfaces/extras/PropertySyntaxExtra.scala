@@ -41,6 +41,8 @@ class PropertySyntaxExtra extends Extra[PropertySyntaxExtra]{
     def isHiddenFromUI:Boolean = _isHiddenFromUi
 
     def enum:Seq[Any] = _enum
+    
+    def oftenValues: Seq[Any] = _oftenKeys
 
     def isSufficient:Boolean = sufficient
 
