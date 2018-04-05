@@ -4,11 +4,12 @@ import amf.core.remote.{Oas, Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.Suggestion
 import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
 import org.mulesoft.als.suggestions.plugins.raml.AnnotationReferencesCompletionPlugin
-import org.mulesoft.high.level.interfaces.IHighLevelNode
+import org.mulesoft.high.level.interfaces.{IHighLevelNode, IParseResult}
 import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
-import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition}
-import scala.concurrent.{Future, Promise}
+import org.mulesoft.typesystem.nominal_interfaces.IProperty
+import org.yaml.model.YScalar
 
+import scala.concurrent.{Future, Promise}
 import scala.collection.mutable
 
 class StructureCompletionPlugin extends ICompletionPlugin {
@@ -16,13 +17,34 @@ class StructureCompletionPlugin extends ICompletionPlugin {
     override def id: String = StructureCompletionPlugin.ID
 
     override def languages: Seq[Vendor] = StructureCompletionPlugin.supportedLanguages
+    
+    def prnt(node: IParseResult, tab: String, pos: Int): Unit = {
+        var prop1 = node.property;
+        
+        var prop2 = "NONE";
+        
+        if(prop1 != None) {
+            prop2 = prop1.get.nameId.get;
+        }
+        
+        var pozs = "";
+        
+        
+        node.sourceInfo.ranges.foreach(r => pozs += " " + r.start.position + ":" + r.end.position);
+        
+        println(tab + prop2 + ": " + node.sourceInfo.containsPosition(pos) + pozs + "\n");
+        
+        node.children.foreach(n => prnt(n, tab + "\t", pos));
+    }
 
-    override def isApplicable(request:ICompletionRequest): Boolean = request.config.astProvider match {
+    override def isApplicable(request: ICompletionRequest): Boolean = request.config.astProvider match {
         case Some(astProvider) =>
-			if(AnnotationReferencesCompletionPlugin().isApplicable(request)) {
+            if(AnnotationReferencesCompletionPlugin().isApplicable(request)) {
 				false;
 			} else if(languages.indexOf(astProvider.language)<0){
                 false;
+            } else if(isContentType(request)) {
+                true;
             } else {
                 request.actualYamlLocation match {
                     case Some(l) =>
@@ -48,10 +70,59 @@ class StructureCompletionPlugin extends ICompletionPlugin {
             }
         case _ => false
     }
+    
+    def contentTypes(request: ICompletionRequest): Seq[String] = {
+        var extra = request.astNode.get.asElement.get.definition.universe.`type`("Api").get.property("mediaType").get.getExtra(PropertySyntaxExtra).get;
+        
+        extra.oftenValues.map(_.asInstanceOf[String]);
+    }
+    
+    def isBody(node: IParseResult): Boolean = {
+        node.property.get.nameId.get == "body"
+    }
+    
+    def isContentType(request: ICompletionRequest): Boolean = {
+        getBody(request) match {
+            case Some(body) => if(!isBody(body)) {
+                return false
+            }
+            case _ => {
+                return false
+            }
+        }
+        
+        request.actualYamlLocation match {
+            case Some(location) => location.keyValue match {
+                case Some(yPart) => yPart.toString() == "body";
+                
+                case _ => return false;
+            }
+            
+            case _ => return false;
+        }
+        
+        request.actualYamlLocation.get.keyValue.get.yPart.asInstanceOf[YScalar].text == "body"
+    }
+    
+    def isMethodKey(request: ICompletionRequest): Boolean = {
+        if(!request.astNode.get.isElement) {
+            return false;
+        }
+        
+        request.astNode.get.asElement.get.definition.isAssignableFrom("ResourceBase")
+    }
+    
+    def methodsList(request: ICompletionRequest): Seq[String] = {
+        var extra = request.astNode.get.asElement.get.definition.universe.`type`("Method").get.property("method").get.getExtra(PropertySyntaxExtra).get;
+    
+        extra.enum.map(_.asInstanceOf[String]);
+    }
 
     override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
-        val result = request.astNode match {
-            case Some(n) => if(n.isElement) {
+        var result = request.astNode match {
+            case Some(n) => if(isContentType(request)) {
+                contentTypes(request).map(value => Suggestion(value, id, value, request.prefix));
+            } else if(n.isElement) {
                 var element = n.asElement.get;
 
                 extractSuggestableProperties(element).map(_.nameId.get).map(pName => Suggestion(pName, id, pName, request.prefix));
@@ -61,8 +132,17 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 
             case _ => Seq();
         }
+        
+        if(isMethodKey(request)) {
+            result = result ++ methodsList(request).map(value => Suggestion(value, id, value, request.prefix))
+        }
 
         Promise.successful(result).future
+    }
+    
+    def getBody(request: ICompletionRequest): Option[IParseResult] = {
+        //TODO: implement when node searching will be fixed.
+        Option.empty;
     }
 
     def extractSuggestableProperties(node:IHighLevelNode):Seq[IProperty] = {
@@ -103,10 +183,9 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 }
 
 object StructureCompletionPlugin {
-
-    val ID = "structure.completion"
-
-    val supportedLanguages:List[Vendor] = List(Raml10, Oas)
-
-    def apply():StructureCompletionPlugin = new StructureCompletionPlugin()
+    val ID = "structure.completion";
+    
+    val supportedLanguages:List[Vendor] = List(Raml10, Oas);
+    
+    def apply():StructureCompletionPlugin = new StructureCompletionPlugin();
 }

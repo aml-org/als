@@ -10,4 +10,8 @@ class StructureTests extends RAMLTest {
 	test("facets test") {
 		this.runTest("facets/test01.raml", Set("testFacet1", "testFacet2", "testFacet3", "testFacet5"));
 	}
+	
+	test("methods test") {
+		this.runTest("methods/test01.raml", Set("displayName", "type", "description", "get", "put", "post", "delete", "options", "head", "patch", "trace", "connect"));
+	}
 }
