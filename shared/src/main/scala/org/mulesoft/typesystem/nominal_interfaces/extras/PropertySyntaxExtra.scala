@@ -23,7 +23,9 @@ class PropertySyntaxExtra extends Extra[PropertySyntaxExtra]{
     private var _isHiddenFromUi:Boolean = false
 
     private var _enum: Seq[Any] = Seq()
-
+    
+    private var _oftenKeys: Seq[Any] = Seq()
+    
     private var sufficient = false
 
     def isKey:Boolean = _isKey
@@ -71,10 +73,15 @@ class PropertySyntaxExtra extends Extra[PropertySyntaxExtra]{
         _isExample = true
         sufficient = true
     }
-
+    
     def setEnum(value:Seq[Any]):Unit = {
         _enum = value
         sufficient = _enum.nonEmpty
+    }
+    
+    def setOftenValues(value:Seq[Any]): Unit = {
+		_oftenKeys = value
+        sufficient = true
     }
 }
 
@@ -93,6 +100,8 @@ private class DefaultProperySyntaxExtra extends PropertySyntaxExtra{
     override def setIsExample():Unit = {}
 
     override def setEnum(value:Seq[Any]):Unit = {}
+    
+    override def setOftenValues(value:Seq[Any]):Unit = {}
 }
 
 object PropertySyntaxExtra extends PropertySyntaxExtra{

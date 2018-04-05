@@ -156,6 +156,9 @@ object RamlUniverseProvider {
                 case Some("MetaModel.oneOf") =>
                     var innerArray:Option[Seq[JSONWrapper]] = a.propertyValue("arguments",ARRAY).flatMap(_.headOption).flatMap(_.value(ARRAY))
                     innerArray.foreach(arr=>syntaxExtra.setEnum(arr.map(_.value)))
+				case Some("MetaModel.oftenKeys") =>
+					var innerArray:Option[Seq[JSONWrapper]] = a.propertyValue("arguments",ARRAY).flatMap(_.headOption).flatMap(_.value(ARRAY))
+					innerArray.foreach(arr=>syntaxExtra.setOftenValues(arr.map(_.value)))
                 case _ =>
             })
             case _ =>
