@@ -3,7 +3,9 @@ package org.mulesoft.als.suggestions.plugins.raml
 import amf.core.remote.{Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.Suggestion
 import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
+import org.mulesoft.high.level.Search
 
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.{Future, Promise}
 
 class TypeReferenceCompletionPlugin extends ICompletionPlugin {
@@ -21,7 +23,16 @@ class TypeReferenceCompletionPlugin extends ICompletionPlugin {
 
 		var builtIns = request.astNode.get.asAttr.get.definition.get.universe.builtInNames() :+ "object";
 		
-		val result = builtIns.map(name => Suggestion(name, id, name, request.prefix));
+		val result = ListBuffer[Suggestion]() ++= builtIns.map(name => Suggestion(name, id, name, request.prefix));
+        request.astNode.map(_.astUnit).foreach(u=>{
+            Search.getDeclarations(u,"TypeDeclaration").foreach(d=>{
+                d.node.attribute("name").flatMap(_.value).foreach(name=>{
+                    var proposal:String = name.toString
+                    d.namspace.foreach(ns=>proposal = s"$ns.$proposal")
+                    result += Suggestion(proposal, id, proposal, request.prefix)
+                })
+            })
+        })
 		Promise.successful(result).future
 	}
 	
