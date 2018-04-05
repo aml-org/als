@@ -18,25 +18,6 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 
     override def languages: Seq[Vendor] = StructureCompletionPlugin.supportedLanguages
     
-    def prnt(node: IParseResult, tab: String, pos: Int): Unit = {
-        var prop1 = node.property;
-        
-        var prop2 = "NONE";
-        
-        if(prop1 != None) {
-            prop2 = prop1.get.nameId.get;
-        }
-        
-        var pozs = "";
-        
-        
-        node.sourceInfo.ranges.foreach(r => pozs += " " + r.start.position + ":" + r.end.position);
-        
-        println(tab + prop2 + ": " + node.sourceInfo.containsPosition(pos) + pozs + "\n");
-        
-        node.children.foreach(n => prnt(n, tab + "\t", pos));
-    }
-
     override def isApplicable(request: ICompletionRequest): Boolean = request.config.astProvider match {
         case Some(astProvider) =>
             if(AnnotationReferencesCompletionPlugin().isApplicable(request)) {
