@@ -101,7 +101,11 @@ object CompletionProvider {
     def getPrefix(content: IEditorStateProvider): String = {
         var line = getLine(content)
         var opt = prefixRegex.findFirstIn(line)
-        opt.getOrElse("")
+        var result = opt.getOrElse("")
+        if(result.startsWith("\"")){
+            result = result.substring(1)
+        }
+        result
     }
 
     def getLine(content: IEditorStateProvider): String = {
@@ -199,6 +203,61 @@ object CompletionProvider {
 
             case _ => text
         }
+    }
+
+    def prepareJsonContent(text:String, offset:Int):String = {
+
+        var lineStart = text.lastIndexOf("\n",offset)
+        if(lineStart<0)
+            lineStart = 0
+        else
+            lineStart += 1
+
+        var lineEnd = text.indexOf("\n",offset)
+        if(lineEnd<0)
+            lineEnd = text.length
+
+        var line = text.substring(lineStart,lineEnd)
+        var off = offset - lineStart
+        var lineTrim = line.trim
+
+        var needComa = !(lineTrim.endsWith(",") || lineTrim.endsWith("{") || lineTrim.endsWith("}") || lineTrim.endsWith("[") || lineTrim.endsWith("]"))
+        if(needComa) {
+            val textEnding = text.substring(lineEnd).trim
+            needComa = textEnding.nonEmpty && !(textEnding.startsWith(",") || textEnding.startsWith("{") || textEnding.startsWith("}") || textEnding.startsWith("[") || textEnding.startsWith("]"))
+        }
+
+        var colonIndex = line.indexOf(":")
+        var newLine = line
+        if(colonIndex<0){
+            if(lineTrim.startsWith("\"")){
+                var openQuoteInd = line.indexOf("\"")
+                if(off>openQuoteInd){
+                    if(!lineTrim.endsWith("\"")){
+                        newLine += "\""
+                    }
+                    lineTrim += ": \"\""
+                }
+            }
+        }
+        else if(colonIndex<=off){
+
+        }
+        else {
+            if(line.substring(colonIndex+1).trim.startsWith("\"")){
+                var openQuoteInd = line.indexOf("\"",colonIndex)
+                if(off>openQuoteInd){
+                    if(!lineTrim.endsWith("\"")){
+                        newLine += "\""
+                    }
+                }
+            }
+        }
+        if(needComa){
+            newLine += ","
+        }
+        val result = text.substring(0,lineStart) + newLine + text.substring(lineEnd)
+        result
     }
 
 }
