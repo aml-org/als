@@ -24,9 +24,15 @@ object Core {
     });
     
     def prepareText(text:String, offset:Int, syntax:Syntax):String = {
-        syntax match {
-            case YAML => CompletionProvider.prepareYamlContent(text,offset);
-            case _ => throw new Error(s"Syntax not supported: $syntax");
+        var isJSON = text.trim.startsWith("{")
+        if(isJSON){
+            CompletionProvider.prepareJsonContent(text,offset);
+        }
+        else {
+            syntax match {
+                case YAML => CompletionProvider.prepareYamlContent(text, offset);
+                case _ => throw new Error(s"Syntax not supported: $syntax");
+            }
         }
     }
 }
