@@ -16,6 +16,8 @@ class YamlLocation private {
 
     private var _keyValue: Option[YamlPartWithRange[YValue]] = None
 
+    private var _parentStack: List[YamlLocation] = List()
+
     var _isEmpty:Boolean = true
 
     def node:Option[YamlPartWithRange[YNode]] = _node
@@ -27,6 +29,8 @@ class YamlLocation private {
     def keyNode:Option[YamlPartWithRange[YNode]] = _keyNode
 
     def keyValue:Option[YamlPartWithRange[YValue]] = _keyValue
+
+    def parentStack: List[YamlLocation] = _parentStack
 
     def isEmpty:Boolean = _isEmpty
 
@@ -62,6 +66,11 @@ class YamlLocation private {
         this
     }
 
+    def withParentStack(parentStack:List[YamlLocation]):YamlLocation = {
+        this._parentStack = parentStack
+        this
+    }
+
     def inKey(position:Int):Boolean = innerContainsPosition(position,_keyNode)
 
     def inValue(position:Int):Boolean = innerContainsPosition(position,_node)
@@ -94,9 +103,14 @@ object YamlLocation {
 
     def empty:YamlLocation = new YamlLocation()
 
-    def apply(yPart:YPart,mapper:IPositionsMapper):YamlLocation = apply(yPart,Option(mapper))
+    def apply(yPart:YPart,mapper:IPositionsMapper):YamlLocation = apply(yPart,Option(mapper), List())
 
-    def apply(yPart:YPart,mapper:Option[IPositionsMapper]):YamlLocation = {
+    def apply(yPart:YPart,mapper:Option[IPositionsMapper]):YamlLocation = apply(yPart,mapper, List())
+
+    def apply(yPart:YPart,mapper:IPositionsMapper, parentStack: List[YamlLocation]):YamlLocation =
+        apply(yPart,Option(mapper), parentStack)
+
+    def apply(yPart:YPart,mapper:Option[IPositionsMapper], parentStack: List[YamlLocation]):YamlLocation = {
 
         var result = new YamlLocation()
 
@@ -111,17 +125,19 @@ object YamlLocation {
                 val _keyNode = YamlPartWithRange(keyNode,mapper)
                 val keyValue = keyNode.value
                 val _keyValue = YamlPartWithRange(keyValue,mapper)
-                result.withMapEntry(_mapEntry).withNode(_node).withValue(_value).withKeyNode(_keyNode).withKeyValue(_keyValue)
+                result.withMapEntry(_mapEntry).withNode(_node)
+                  .withValue(_value).withKeyNode(_keyNode)
+                  .withKeyValue(_keyValue).withParentStack(parentStack)
 
             case node:YNode =>
                 val _node = YamlPartWithRange(node,mapper)
                 val value = node.value
                 val _value = YamlPartWithRange(value,mapper)
-                result.withNode(_node).withValue(_value)
+                result.withNode(_node).withValue(_value).withParentStack(parentStack)
 
             case value:YValue =>
                 val _value = YamlPartWithRange(value,mapper)
-                result.withValue(_value)
+                result.withValue(_value).withParentStack(parentStack)
 
             case _ =>
         }

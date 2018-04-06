@@ -15,19 +15,38 @@ class PlatformFsProvider(platform:Platform) extends IFSProvider{
     override def resolve(absBasePath: String, path: String): Option[String]
         = Option(Context(platform,absBasePath).resolve(path))
 
-    override def dirName(fullPath: String): String = throw new Error("not implemented")
+    override def dirName(fullPath: String): String = {
+        val lastSeparatorIndex = fullPath.lastIndexOf(platform.fs.separatorChar)
+
+        if (lastSeparatorIndex == -1 || lastSeparatorIndex == 0) {
+            ""
+        } else {
+            fullPath.substring(0, lastSeparatorIndex)
+        }
+    }
 
 //    override def exists(fullPath: String): Boolean = ???
 
-    override def existsAsync(path: String): Future[Boolean] = throw new Error("not implemented")
+    override def existsAsync(path: String): Future[Boolean] = {
 
-    override def isDirectory(fullPath: String): Boolean = throw new Error("not implemented")
+        platform.fs.asyncFile(path).exists
+    }
+
+    override def isDirectory(fullPath: String): Boolean = {
+
+        platform.fs.syncFile(fullPath).isDirectory
+    }
 //
 //    override def readDir(fullPath: String): Seq[String] = ???
 
-    override def readDirAsync(path: String): Future[Seq[String]] = throw new Error("not implemented")
+    override def readDirAsync(path: String): Future[Seq[String]] = {
+        platform.fs.asyncFile(path).list.map(array=>array.toSeq)
+    }
 
-    override def isDirectoryAsync(path: String): Future[Boolean] = throw new Error("not implemented")
+    override def isDirectoryAsync(path: String): Future[Boolean] = {
+
+        platform.fs.asyncFile(path).isDirectory
+    }
 }
 
 object PlatformFsProvider {
