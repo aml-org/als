@@ -3,9 +3,9 @@ package org.mulesoft.als.suggestions.plugins.raml
 import amf.core.remote.{Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.{PathCompletion, Suggestion}
 import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
-import org.yaml.model.YScalar
+import org.yaml.model.{YNode, YScalar, YType}
 
-import scala.concurrent.Future
+import scala.concurrent.{Future, Promise}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class IncludeCompletionPlugin extends ICompletionPlugin {
@@ -26,28 +26,36 @@ class IncludeCompletionPlugin extends ICompletionPlugin {
 
     val baseDir = request.astNode.get.astUnit.project.rootPath
 
+    val relativePath = request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar].text
 
-    val prefixPath = request.prefix.substring("!include".length + 1)
+    if (!relativePath.endsWith(request.prefix)) {
 
-    PathCompletion.complete(baseDir, prefixPath, request.config.fsProvider.get)
-      .map(paths=>{
-        paths.map(path=>Suggestion(path, id, path, request.prefix))
-      })
+      Promise.successful(Seq[ISuggestion]()).future
+    } else {
+
+      val diff = relativePath.length - request.prefix.length
+
+      PathCompletion.complete(baseDir, relativePath, request.config.fsProvider.get)
+        .map(paths=>{
+          paths.map(path=>{
+
+            val pathStartingWithPrefix = if(diff != 0) path.substring(diff) else path
+
+            Suggestion(pathStartingWithPrefix, id,
+              pathStartingWithPrefix, request.prefix)
+          })
+        })
+    }
   }
 
   def isInInclude(request: ICompletionRequest): Boolean = {
-    if(request.actualYamlLocation.get == null) {
-      return false;
-    }
 
-    if(request.actualYamlLocation.get.value.get == null) {
-      return false;
-    }
-
-    val valueText =
-      request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar].text
-
-    valueText.startsWith("!include")
+    request.actualYamlLocation.isDefined &&
+      request.actualYamlLocation.get.node.isDefined &&
+      request.actualYamlLocation.get.node.get.yPart.isInstanceOf[YNode] &&
+      request.actualYamlLocation.get.node.get.yPart.asInstanceOf[YNode].tagType == YType.Include &&
+      request.actualYamlLocation.get.value.isDefined &&
+      request.actualYamlLocation.get.value.get.yPart.isInstanceOf[YScalar]
   }
 }
 

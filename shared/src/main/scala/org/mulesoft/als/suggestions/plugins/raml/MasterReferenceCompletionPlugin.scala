@@ -5,13 +5,13 @@ import org.mulesoft.als.suggestions.implementation.{PathCompletion, Suggestion}
 import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
 import org.yaml.model.YScalar
 
-import scala.concurrent.Future
+import scala.concurrent.{Future, Promise}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class MasterReferenceCompletionPlugin extends ICompletionPlugin {
-    override def id: String = TemplateReferencesCompletionPlugin.ID;
+    override def id: String = MasterReferenceCompletionPlugin.ID;
 	
-    override def languages: Seq[Vendor] = TemplateReferencesCompletionPlugin.supportedLanguages;
+    override def languages: Seq[Vendor] = MasterReferenceCompletionPlugin.supportedLanguages;
 	
     override def isApplicable(request:ICompletionRequest): Boolean = request.config.astProvider match {
 		case Some(astProvider) => languages.indexOf(astProvider.language) >= 0 && isExtendable(request) && isInExtendsProperty(request);
@@ -23,10 +23,26 @@ class MasterReferenceCompletionPlugin extends ICompletionPlugin {
 
 			val baseDir = request.astNode.get.astUnit.project.rootPath
 
-			PathCompletion.complete(baseDir, request.prefix, request.config.fsProvider.get)
-				.map(paths=>{
-					paths.map(path=>Suggestion(path, id, path, request.prefix))
-				})
+			val relativePath = request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar].text
+
+			if (!relativePath.endsWith(request.prefix)) {
+
+				Promise.successful(Seq[ISuggestion]()).future
+			} else {
+
+				val diff = relativePath.length - request.prefix.length
+
+				PathCompletion.complete(baseDir, relativePath, request.config.fsProvider.get)
+					.map(paths=>{
+						paths.map(path=>{
+
+							val pathStartingWithPrefix = if(diff != 0) path.substring(diff) else path
+
+							Suggestion(pathStartingWithPrefix, id,
+								pathStartingWithPrefix, request.prefix)
+						})
+					})
+			}
     }
 	
 	def isExtendable(request: ICompletionRequest): Boolean = {
