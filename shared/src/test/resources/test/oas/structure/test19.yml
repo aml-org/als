@@ -1,0 +1,16 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.9-abcd
+  title: Swagger
+  description: A sample specification
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: Swagger API Team
+    url: http://swagger.io
+    email: example@somehost.com
+  lice*
+    name: Creative Commons
+    url: http://creativecommons.org/licenses/by/4.0/
+host: my.api.com
+basePath: "/v1"
