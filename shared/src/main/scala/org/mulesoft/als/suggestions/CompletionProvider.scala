@@ -79,8 +79,14 @@ class CompletionProvider {
 
     def fulfillRequest(request:ICompletionRequest):Future[Seq[ISuggestion]] = {
 
+        val filteredPlugins = _pluginsRegistry.plugins.filter(plugin=>{
+            plugin.isApplicable(request)
+        })
+
         Future.sequence(
-            _pluginsRegistry.plugins.filter(_ isApplicable request).map(_.suggest(request))
+
+          filteredPlugins.map(_.suggest(request))
+
         ).map(suggestions=>suggestions.flatten)
 
     }

@@ -40,7 +40,9 @@ class AnnotationReferencesCompletionPlugin extends ICompletionPlugin {
 	}
 	
 	def isInAnnotationName(request: ICompletionRequest): Boolean = {
-		if(request.astNode.get.property.get == null) {
+		if(!request.astNode.isDefined || !request.astNode.get.property.isDefined ||
+			request.astNode.get.property.get == null) {
+
 			return false;
 		}
 		

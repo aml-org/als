@@ -4,10 +4,11 @@ import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote.JvmPlatform
 import amf.core.unsafe.PlatformSecrets
-import org.mulesoft.als.suggestions.{CompletionProvider}
+import org.mulesoft.als.suggestions.{CompletionProvider, PlatformBasedExtendedFSProvider}
 import org.mulesoft.als.suggestions.implementation.{CompletionConfig, DummyASTProvider, DummyEditorStateProvider}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.high.level.Core
+import org.mulesoft.high.level.implementation.PlatformFsProvider
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.test.ParserHelper
 import org.scalatest.{Assertion, AsyncFunSuite}
@@ -82,9 +83,8 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
     }).flatMap(_.suggest)
       .map(suggestions=>suggestions.map(suggestion=>{
-        println("Here5 " + suggestion)
-        suggestion.text
 
+        suggestion.text
       }))
   }
 
@@ -128,9 +128,12 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
     val editorStateProvider = new DummyEditorStateProvider(rootUnit.text,url,baseName,position)
 
+    val platformFSProvider = new PlatformBasedExtendedFSProvider(this.platform)
+
     val completionConfig = new CompletionConfig()
       .withAstProvider(astProvider)
       .withEditorStateProvider(editorStateProvider)
+      .withFsProvider(platformFSProvider)
 
     CompletionProvider().withConfig(completionConfig)
   }

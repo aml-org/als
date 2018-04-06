@@ -1,5 +1,7 @@
 package org.mulesoft.als.suggestions.js
 
+import org.mulesoft.als.suggestions.PlatformBasedExtendedFSProvider
+
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 //import amf.core.client.ExitCodes
@@ -112,9 +114,12 @@ object Suggestions {
 
     val editorStateProvider = new DummyEditorStateProvider(rootUnit.text,url,baseName,position)
 
+    val platformFSProvider = new PlatformBasedExtendedFSProvider(this.platform)
+
     val completionConfig = new CompletionConfig()
       .withAstProvider(astProvider)
       .withEditorStateProvider(editorStateProvider)
+      .withFsProvider(platformFSProvider)
 
     CompletionProvider().withConfig(completionConfig)
   }

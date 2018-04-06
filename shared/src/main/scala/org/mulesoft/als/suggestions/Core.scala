@@ -12,15 +12,16 @@ import scala.language.postfixOps
 
 object Core {
     def init():Future[Unit] = org.mulesoft.high.level.Core.init().map(x => {
-        CompletionPluginsRegistry.registerPlugin(StructureCompletionPlugin());
-        CompletionPluginsRegistry.registerPlugin(TemplateReferencesCompletionPlugin());
-        CompletionPluginsRegistry.registerPlugin(OasDeclarationReferencePlugin());
-        CompletionPluginsRegistry.registerPlugin(DefinitionReferenceCompletionPlugin());
-        //TODO: uncoment after fs access fixes
-        //CompletionPluginsRegistry.registerPlugin(MasterReferenceCompletionPlugin());
-        CompletionPluginsRegistry.registerPlugin(TypeReferenceCompletionPlugin());
-        CompletionPluginsRegistry.registerPlugin(AnnotationReferencesCompletionPlugin());
-        CompletionPluginsRegistry.registerPlugin(FacetsCompletionPlugin());
+        CompletionPluginsRegistry.registerPlugin(StructureCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(TemplateReferencesCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(OasDeclarationReferencePlugin())
+        CompletionPluginsRegistry.registerPlugin(DefinitionReferenceCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(MasterReferenceCompletionPlugin());
+        CompletionPluginsRegistry.registerPlugin(TypeReferenceCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(AnnotationReferencesCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(FacetsCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(UsesCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(IncludeCompletionPlugin())
     });
     
     def prepareText(text:String, offset:Int, syntax:Syntax):String = {
