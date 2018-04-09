@@ -89,7 +89,7 @@ class OAS20ASTFactory private extends DefaultASTFactory {
         registerPropertyMatcher("SwaggerObject", "responses", BaseUnitMatcher() + DocumentModel.Declares ifType ResponseModel)
         registerPropertyMatcher("SwaggerObject", "securityDefinitions", BaseUnitMatcher() + DocumentModel.Declares ifType SecuritySchemeModel)
         registerPropertyMatcher("SwaggerObject", "security", WebApiModel.Security)
-        //TODO:registerPropertyMatcher("SwaggerObject", "tags", ThisMatcher())
+        registerPropertyMatcher("SwaggerObject", "tags", WebApiModel.Tags)
         registerPropertyMatcher("SwaggerObject", "externalDocs", WebApiModel.Documentations)
 
         registerPropertyMatcher("InfoObject", "title", WebApiModel.Name)
@@ -149,6 +149,7 @@ class OAS20ASTFactory private extends DefaultASTFactory {
         //TODO:registerPropertyMatcher("CommonParameterObject", "allowEmptyValue", ParameterModel.Binding)
 
         registerPropertyMatcher("BodyParameterObject", "schema", ParameterModel.Schema)
+        registerPropertyMatcher("BodyParameterObject", "name", ThisMatcher() + ParameterModel.Schema + SchemaShapeModel.Name)
 
 
         registerPropertyMatcher("DefinitionObject", "name", ShapeModel.Name)
@@ -224,6 +225,10 @@ class OAS20ASTFactory private extends DefaultASTFactory {
         registerPropertyMatcher("XMLObject", "name", XMLSerializerModel.Name)
         registerPropertyMatcher("XMLObject", "namespace", XMLSerializerModel.Namespace)
         registerPropertyMatcher("XMLObject", "prefix", XMLSerializerModel.Prefix)
+
+        registerPropertyMatcher("TagObject", "name", TagModel.Name)
+        registerPropertyMatcher("TagObject", "description", TagModel.Description)
+        registerPropertyMatcher("TagObject", "externalDocs", TagModel.Documentation)
     }
 
 

@@ -25,6 +25,8 @@ class PropertySyntaxExtra extends Extra[PropertySyntaxExtra]{
     private var _enum: Seq[Any] = Seq()
     
     private var _oftenKeys: Seq[Any] = Seq()
+
+    private var _parentPropertiesRestriction: Seq[String] = Seq()
     
     private var sufficient = false
 
@@ -43,6 +45,8 @@ class PropertySyntaxExtra extends Extra[PropertySyntaxExtra]{
     def enum:Seq[Any] = _enum
     
     def oftenValues: Seq[Any] = _oftenKeys
+
+    def parentPropertiesRestriction: Seq[String] = _parentPropertiesRestriction
 
     def isSufficient:Boolean = sufficient
 
@@ -85,6 +89,15 @@ class PropertySyntaxExtra extends Extra[PropertySyntaxExtra]{
 		_oftenKeys = value
         sufficient = true
     }
+
+    def setParentPropertiesRestriction(value: Seq[String]): Unit = {
+        _parentPropertiesRestriction = value
+        sufficient = true
+    }
+
+    def allowsParentProperty(pNameOpt:Option[String]):Boolean =
+        _parentPropertiesRestriction.isEmpty || ( pNameOpt.isDefined &&
+            _parentPropertiesRestriction.contains(pNameOpt.get))
 }
 
 private class DefaultProperySyntaxExtra extends PropertySyntaxExtra{
@@ -104,6 +117,8 @@ private class DefaultProperySyntaxExtra extends PropertySyntaxExtra{
     override def setEnum(value:Seq[Any]):Unit = {}
     
     override def setOftenValues(value:Seq[Any]):Unit = {}
+
+    override def setParentPropertiesRestriction(value:Seq[String]):Unit = {}
 }
 
 object PropertySyntaxExtra extends PropertySyntaxExtra{
