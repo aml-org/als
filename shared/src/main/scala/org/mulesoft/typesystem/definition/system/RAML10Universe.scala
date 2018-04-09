@@ -2413,6 +2413,14 @@ val value3 =
                 "arguments": [
                   true
                 ]
+              },
+              {
+                "name": "MetaModel.parentPropertiesRestriction",
+                "arguments": [
+                  [
+                    "properties, queryParameters, headers"
+                  ]
+                ]
               }
             ],
             "valueConstraint": null,
@@ -2508,6 +2516,14 @@ val value3 =
                 "name": "MetaModel.valueDescription",
                 "arguments": [
                   "An array, or single, of names allowed target nodes."
+                ]
+              },
+              {
+                "name": "MetaModel.parentPropertiesRestriction",
+                "arguments": [
+                  [
+                    "annotationTypes"
+                  ]
                 ]
               }
             ],
