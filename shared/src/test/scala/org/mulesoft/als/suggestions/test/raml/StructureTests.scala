@@ -180,6 +180,10 @@ class StructureTests extends RAMLTest {
     this.runTest("structure/test98.raml", Set("displayName"))
   }
 
+  test("Declaring Annotation Type facet 'allowedTargets'"){
+    this.runTest("structure/test99.raml", Set("allowedTargets"))
+  }
+
   test("Declaring Annotation Type facet minLength completion"){
     this.runTest("structure/test100.raml", Set("minLength"))
   }
@@ -204,12 +208,24 @@ class StructureTests extends RAMLTest {
     this.runTest("structure/test106.raml", Set("description"))
   }
 
+  test("Declaring Annotation Type facet required completion"){
+    this.runTest("structure/test107.raml", Set())
+  }
+
+  test("Declaring Annotation Type facet repeat completion"){
+    this.runTest("structure/test108.raml", Set())
+  }
+
   test("Declaring Annotation Type facet pattern completion"){
     this.runTest("structure/test109.raml", Set("pattern"))
   }
 
   test("Declaring Annotation Type facet type completion"){
     this.runTest("structure/test110.raml", Set("type"))
+  }
+
+  test("Declaring Annotation Type facet properties completion"){
+    this.runTest("structure/test111.raml", Set("properties"))
   }
 
   test("Declaring Annotation Type facet schema completion"){
@@ -246,6 +262,14 @@ class StructureTests extends RAMLTest {
 
   test("Type facet description completion"){
     this.runTest("structure/test121.raml", Set("description"))
+  }
+
+  test("Type facet required completion"){
+    this.runTest("structure/test122.raml", Set())
+  }
+
+  test("Type facet repeat completion"){
+    this.runTest("structure/test123.raml", Set())
   }
 
   test("Type facet pattern completion"){
@@ -290,6 +314,10 @@ class StructureTests extends RAMLTest {
 
   test("Parameter facet description completion"){
     this.runTest("structure/test136.raml", Set("description"))
+  }
+
+  test("Parameter facet repeat completion"){
+    this.runTest("structure/test138.raml", Set())
   }
 
   test("Parameter facet pattern completion"){

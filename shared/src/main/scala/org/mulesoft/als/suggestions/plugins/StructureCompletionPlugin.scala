@@ -5,12 +5,14 @@ import org.mulesoft.als.suggestions.implementation.Suggestion
 import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
 import org.mulesoft.als.suggestions.plugins.raml.AnnotationReferencesCompletionPlugin
 import org.mulesoft.high.level.interfaces.{IHighLevelNode, IParseResult}
+import org.mulesoft.positioning.YamlLocation
 import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
-import org.mulesoft.typesystem.nominal_interfaces.IProperty
-import org.yaml.model.YScalar
+import org.mulesoft.typesystem.nominal_interfaces.{IArrayType, IProperty}
+import org.yaml.model.{YMap, YScalar}
 
 import scala.concurrent.{Future, Promise}
 import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 
 class StructureCompletionPlugin extends ICompletionPlugin {
 
@@ -137,17 +139,35 @@ class StructureCompletionPlugin extends ICompletionPlugin {
             case _ =>
         })
 
-        var result = node.definition.allProperties
+        val definition = node.definition
+        var propName = node.property.flatMap(_.nameId)
+        var result:ListBuffer[IProperty] = ListBuffer()
+        result ++= definition.allProperties
             .filter(p => p.nameId match {
             case Some(n) =>
                 if(!existingProperties.contains(n)){
                     var e = p.getExtra(PropertySyntaxExtra).getOrElse(PropertySyntaxExtra.empty)
-
-                    if(e.isKey || e.isValue || e.isHiddenFromUI){
+                    if(!e.allowsParentProperty(propName)){
+                        false
+                    }
+                    else if(e.isKey || e.isValue || e.isHiddenFromUI){
                         false
                     }
                     else if(p.isMultiValue){
-                        if(e.isEmbeddedInArray||e.isEmbeddedInMaps){
+                        val isPrimitive = p.range match {
+                            case Some(t) => t match {
+                                case arr: IArrayType => arr.componentType match {
+                                    case Some(ct) => ct.isValueType
+                                    case _ => false
+                                }
+                                case _ => false
+                            }
+                            case _ => false
+                        }
+                        if(isPrimitive){
+                            true
+                        }
+                        else if(e.isEmbeddedInArray||e.isEmbeddedInMaps){
                             true
                         }
                         else {
@@ -159,6 +179,32 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                 else false
             case _ => false
         })
+        if(definition.isAssignableFrom("TypeDeclaration")){
+            var typeIsSet = false
+            node.sourceInfo.yamlSources.foreach(ys=>{
+                YamlLocation(ys,node.astUnit.positionsMapper).value.foreach(v=>{
+                    v.yPart match {
+                        case map:YMap => map.entries.find(e=>{
+                            e.key.value match {
+                                case sc:YScalar => sc.value match {
+                                    case "type" => e.value != null
+                                    case _ => false
+                                }
+                                case _ => false
+                            }
+                        }) match {
+                            case Some(e) => typeIsSet = true
+                                case _ =>
+                        }
+                        case _ =>
+                    }
+                })
+            })
+            if(!typeIsSet){
+                definition.universe.`type`("ObjectTypeDeclaration").flatMap(_.property("properties"))
+                    .foreach(p => result += p)
+            }
+        }
         result
     }
 }
