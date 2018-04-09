@@ -3588,7 +3588,16 @@ val value4 =
         ],
         "isInterface": false,
         "annotations": [],
-        "extends": [],
+        "extends": [
+          {
+            "typeName": "WithSpecificationExtensions",
+            "nameSpace": "",
+            "basicName": "WithSpecificationExtensions",
+            "typeKind": 0,
+            "typeArguments": [],
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\oas-definition\\oas-2.0\\core.ts"
+          }
+        ],
         "moduleName": null,
         "annotationOverridings": {}
       }
@@ -3597,7 +3606,8 @@ val value4 =
     "enumDeclarations": [],
     "imports": {
       "MetaModel": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\metamodel.ts",
-      "Sys": "C:\\GIT-repos\\AMF\\raml-definition-system\\oas-definition\\oas-2.0\\systemTypes.ts"
+      "Sys": "C:\\GIT-repos\\AMF\\raml-definition-system\\oas-definition\\oas-2.0\\systemTypes.ts",
+      "extensions": "C:\\GIT-repos\\AMF\\raml-definition-system\\oas-definition\\oas-2.0\\extensions.ts"
     },
     "name": "C:\\GIT-repos\\AMF\\raml-definition-system\\oas-definition\\oas-2.0\\core.ts"
   },
