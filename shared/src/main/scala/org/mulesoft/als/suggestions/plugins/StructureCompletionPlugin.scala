@@ -28,6 +28,8 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                 false;
             } else if(isContentType(request)) {
                 true;
+            } else if(isDiscriminatorValue(request)) {
+                true;
             } else {
                 request.actualYamlLocation match {
                     case Some(l) =>
@@ -62,6 +64,18 @@ class StructureCompletionPlugin extends ICompletionPlugin {
     
     def isBody(node: IParseResult): Boolean = {
         node.property.get.nameId.get == "body"
+    }
+    
+    def isDiscriminatorValue(request: ICompletionRequest): Boolean = {
+        if(request.astNode.get.property.isEmpty || request.astNode.get.property.get == null) {
+            return false;
+        }
+        
+        if(request.astNode.get.property.get.nameId.get != "discriminator") {
+            return false;
+        }
+        
+        request.astNode.get.property.get.domain.get.isAssignableFrom("TypeDeclaration");
     }
     
     def isContentType(request: ICompletionRequest): Boolean = {
@@ -105,6 +119,8 @@ class StructureCompletionPlugin extends ICompletionPlugin {
         var result = request.astNode match {
             case Some(n) => if(isContentType(request)) {
                 contentTypes(request).map(value => Suggestion(value, id, value, request.prefix));
+            } else if(isDiscriminatorValue(request)) {
+                extractFirstLevelScalars(request).map(name => Suggestion(name, id, name, request.prefix));
             } else if(n.isElement) {
                 var element = n.asElement.get;
 
@@ -121,6 +137,17 @@ class StructureCompletionPlugin extends ICompletionPlugin {
         }
 
         Promise.successful(result).future
+    }
+    
+    def extractFirstLevelScalars(request: ICompletionRequest): Seq[String] = {
+        request.astNode.get.parent.get.elements("properties").filter(_.definition.nameId match {
+            case Some("StringTypeDeclaration") => true
+            case Some("NumberTypeDeclaration") => true
+            case Some("BooleanTypeDeclaration") => true
+            case _ => false
+        }).map(p => p.attributeValue("name")).filter(_ match {
+            case Some(name) => true
+        }).map(_.get.asInstanceOf[Some[String]].get);
     }
     
     def getBody(request: ICompletionRequest): Option[IParseResult] = {
