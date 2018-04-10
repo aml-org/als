@@ -65,12 +65,14 @@ trait IParseResult {
         selectNodeWhichContainsPosition(pos).map(n=>{
             var posOffset = astUnit.positionsMapper.offset(pos)
             var result = n
-            while(
-                result.parent.isDefined
-                && result.sourceInfo.valueOffset.isDefined
-                && result.sourceInfo.valueOffset.get > posOffset){
+            if(result.sourceInfo.isYAML) {
+                while (
+                    result.parent.isDefined
+                        && result.sourceInfo.valueOffset.isDefined
+                        && result.sourceInfo.valueOffset.get > posOffset) {
 
-                result = result.parent.get
+                    result = result.parent.get
+                }
             }
             result
         })

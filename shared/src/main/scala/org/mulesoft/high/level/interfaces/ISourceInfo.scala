@@ -30,4 +30,6 @@ trait ISourceInfo {
     def includePathLabel:Option[String]
 
     def externalLocationPath:Option[String]
+
+    def isYAML:Boolean
 }
