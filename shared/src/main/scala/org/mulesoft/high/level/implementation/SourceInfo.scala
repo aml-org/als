@@ -149,6 +149,8 @@ class SourceInfo private extends ISourceInfo {
         _externalLocationPath = Option(ip)
         this
     }
+
+    override def isYAML: Boolean = content.isDefined && !content.get.trim.startsWith("{")
 }
 
 object SourceInfo {
