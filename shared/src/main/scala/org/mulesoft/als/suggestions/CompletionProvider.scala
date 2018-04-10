@@ -213,7 +213,7 @@ object CompletionProvider {
 
     def prepareJsonContent(text:String, offset:Int):String = {
 
-        var lineStart = text.lastIndexOf("\n",offset)
+        var lineStart = text.lastIndexOf("\n",Math.max(0,offset-1))
         if(lineStart<0)
             lineStart = 0
         else
@@ -238,11 +238,11 @@ object CompletionProvider {
         if(colonIndex<0){
             if(lineTrim.startsWith("\"")){
                 var openQuoteInd = line.indexOf("\"")
-                if(off>openQuoteInd){
-                    if(!lineTrim.endsWith("\"")){
+                if(openQuoteInd>=0 && off>openQuoteInd){
+                    if(!line.substring(openQuoteInd+1).trim.endsWith("\"")){
                         newLine += "\""
                     }
-                    lineTrim += ": \"\""
+                    newLine += ": \"\""
                 }
             }
         }
