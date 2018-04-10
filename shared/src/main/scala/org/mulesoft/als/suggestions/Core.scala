@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.plugins.StructureCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.oas.{DefinitionReferenceCompletionPlugin, OasDeclarationReferencePlugin}
+import org.mulesoft.als.suggestions.plugins.oas.{DefinitionReferenceCompletionPlugin, ParameterReferencePlugin, ResponseReferencePlugin}
 import org.mulesoft.als.suggestions.plugins.raml._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -14,7 +14,8 @@ object Core {
     def init():Future[Unit] = org.mulesoft.high.level.Core.init().map(x => {
         CompletionPluginsRegistry.registerPlugin(StructureCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(TemplateReferencesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(OasDeclarationReferencePlugin())
+        CompletionPluginsRegistry.registerPlugin(ResponseReferencePlugin())
+        CompletionPluginsRegistry.registerPlugin(ParameterReferencePlugin())
         CompletionPluginsRegistry.registerPlugin(DefinitionReferenceCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(MasterReferenceCompletionPlugin());
         CompletionPluginsRegistry.registerPlugin(TypeReferenceCompletionPlugin())
