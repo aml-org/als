@@ -339,4 +339,20 @@ class StructureTests extends RAMLTest {
   test("Parameter facet xml completion"){
     this.runTest("structure/test143.raml", Set("xml"))
   }
+  
+  test("discriminator"){
+    this.runTest("structure/test145.raml", Set("one", "two"))
+  }
+  
+  test("test") {
+    this.runTest("test01.raml", Set("responses"));
+  }
+  
+  test("facets test") {
+    this.runTest("facets/test01.raml", Set("testFacet1", "testFacet2", "testFacet3", "testFacet5"));
+  }
+  
+  test("methods test") {
+    this.runTest("methods/test01.raml", Set("displayName", "type", "description", "get", "put", "post", "delete", "options", "head", "patch", "trace", "connect"));
+  }
 }
