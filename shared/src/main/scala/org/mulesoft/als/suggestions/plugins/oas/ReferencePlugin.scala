@@ -11,10 +11,9 @@ import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
 import scala.collection.mutable
 import scala.concurrent.{Future, Promise}
 
-class OasDeclarationReferencePlugin extends ICompletionPlugin {
-	override def id: String = OasDeclarationReferencePlugin.ID
+abstract class ReferencePlugin extends ICompletionPlugin {
 
-    override def languages: Seq[Vendor] = OasDeclarationReferencePlugin.supportedLanguages
+    override def languages: Seq[Vendor] = ReferencePlugin.supportedLanguages
 
     override def isApplicable(request:ICompletionRequest): Boolean = request.config.astProvider match {
         case Some(astProvider) => if(languages.indexOf(astProvider.language) < 0) {
@@ -33,11 +32,9 @@ class OasDeclarationReferencePlugin extends ICompletionPlugin {
         val result = request.astNode match {
             case Some(n) => if(n.isElement) {
                 var element = n.asElement.get;
-                
-                var ir = isOASResponseReference(element);
-                
+
                 if(isOASResponseReference(element)) {
-                    var ds = Search.getDeclarations(element.astUnit, "ResponseDefinitionObject");
+                    var ds = Search.getDeclarations(element.astUnit, definitionClass);
                     
                     ds.map(declaration => {
                         var uri = oasDeclarationReference(declaration);
@@ -58,7 +55,9 @@ class OasDeclarationReferencePlugin extends ICompletionPlugin {
 
         Promise.successful(result).future
     }
-    
+
+    def definitionClass:String
+
     def wrapDeclarationReference(reference: String, request: ICompletionRequest): String = {
         var indentation = "\n";
 	
@@ -86,19 +85,17 @@ class OasDeclarationReferencePlugin extends ICompletionPlugin {
             return false;
         }
         
-        if(node.definition.nameId.get != "Response") {
+        if(!node.definition.isAssignableFrom(targetClass)) {
             return false
         }
         
         true;
     }
+
+    def targetClass:String
 }
 
-object OasDeclarationReferencePlugin {
-    val ID = "oasDeclarationReference.completion";
-    
+object ReferencePlugin {
     val supportedLanguages:List[Vendor] = List(Oas);
-    
-    def apply(): OasDeclarationReferencePlugin = new OasDeclarationReferencePlugin();
 }
 
