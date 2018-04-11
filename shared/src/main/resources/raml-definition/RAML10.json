@@ -4747,7 +4747,12 @@
               },
               "typeKind": 1
             },
-            "annotations": [],
+            "annotations": [
+              {
+                "name": "MetaModel.hideFromUI",
+                "arguments": []
+              }
+            ],
             "valueConstraint": null,
             "optional": false
           }
@@ -6444,7 +6449,12 @@
               },
               "typeKind": 1
             },
-            "annotations": [],
+            "annotations": [
+              {
+                "name": "MetaModel.hideFromUI",
+                "arguments": []
+              }
+            ],
             "valueConstraint": null,
             "optional": false
           }
