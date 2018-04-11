@@ -10,7 +10,7 @@ class EnumTests extends RAMLTest {
     }
 
     test("NumberType format completion") {
-        this.runTest("uses/testGroup01/test02.raml",
+        this.runTest("enums/test002.raml",
             Set("int32", "int64", "int", "long", "float", "double", "int16", "int8"))
     }
 }
