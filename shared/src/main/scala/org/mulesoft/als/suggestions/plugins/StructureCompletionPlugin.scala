@@ -22,7 +22,9 @@ class StructureCompletionPlugin extends ICompletionPlugin {
     
     override def isApplicable(request: ICompletionRequest): Boolean = request.config.astProvider match {
         case Some(astProvider) =>
-            if(AnnotationReferencesCompletionPlugin().isApplicable(request)) {
+            if(request.astNode.isEmpty || request.astNode.get == null) {
+                false;
+            } else if(AnnotationReferencesCompletionPlugin().isApplicable(request)) {
 				false;
 			} else if(languages.indexOf(astProvider.language)<0){
                 false;

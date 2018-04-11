@@ -14,7 +14,7 @@ class TypeReferenceCompletionPlugin extends ICompletionPlugin {
 	override def languages: Seq[Vendor] = TemplateReferencesCompletionPlugin.supportedLanguages;
 	
 	override def isApplicable(request:ICompletionRequest): Boolean = request.config.astProvider match {
-		case Some(astProvider) => languages.indexOf(astProvider.language) >= 0 && isInTypeTypeProperty(request);
+		case Some(astProvider) => languages.indexOf(astProvider.language) >= 0 && request.astNode.isDefined && request.astNode.get != null && isInTypeTypeProperty(request);
 		
 		case _ => false;
 	}

@@ -57,7 +57,7 @@ class CompletionProvider {
             case none => throw new Error("Editor state provider must be supplied")
         }
         
-        var result = CompletionRequest(requestKind, prefix, position, _config, currentIndent, indentCount);
+        var result = CompletionRequest(LocationKindDetectTool.determineCompletionKind(_config.editorStateProvider.get.getText, position), prefix, position, _config, currentIndent, indentCount);
         
         _config.astProvider match {
             case Some(ap) =>
@@ -94,8 +94,6 @@ class CompletionProvider {
     def filter(suggestions:Seq[ISuggestion], request:ICompletionRequest):Seq[ISuggestion] = {
         suggestions.filter(s => s.displayText.toLowerCase.startsWith(s.prefix.toLowerCase));
     }
-
-    def requestKind:CompletionRequestKind = CompletionRequestKind.PROPERTY_NAMES
 }
 
 object CompletionProvider {
@@ -131,17 +129,27 @@ object CompletionProvider {
     def getCurrentIndent(content: IEditorStateProvider): String = {
         var currentIndentation = getIndentation(content.getText, content.getOffset);
         
+        if(currentIndentation.contains(" ")) {
+            return "  ";
+        }
+    
+        if(currentIndentation.contains("\t")) {
+            return "\t";
+        }
+        
         var startIndex = getLineStart(content.getText, content.getOffset);
         
         var previousIndentation = getIndentation(content.getText, startIndex);
-        
-        var count = currentIndentation.length - previousIndentation.length;
-        
-        if(count < 0) {
-            count = -count;
+    
+        if(previousIndentation.contains(" ")) {
+            return "  ";
+        }
+    
+        if(previousIndentation.contains("\t")) {
+            return "\t";
         }
         
-        currentIndentation.substring(0, count);
+        "  ";
     }
     
     def getLineStart(text: String, offset: Int): Int = {
@@ -199,18 +207,31 @@ object CompletionProvider {
         }
         (astNodeOpt,yamlNodes.headOption)
     }
-
-    def prepareYamlContent(text:String, offset:Int):String = {
-
-        var completionkind = LocationKindDetectTool.determineCompletionKind(text,offset)
+    
+    def prepareYamlContent(text:String, offset:Int): String = {
+        var completionkind = LocationKindDetectTool.determineCompletionKind(text,offset);
+        
         completionkind match {
-            case KEY_COMPLETION =>
-                text.substring(0,offset) + "k:" + text.substring(offset)
-
-            case _ => text
+            case KEY_COMPLETION => {
+                var newLineIndex = text.indexOf("\n", offset);
+                
+                var rightPart = if(newLineIndex < 0) {
+                    text.substring(offset);
+                } else {
+                    text.substring(offset, newLineIndex);
+                }
+                
+                if(rightPart.indexOf(":") < 0) {
+                    text.substring(0, offset) + "k:" + text.substring(offset);
+                } else {
+                    text;
+                }
+            }
+            
+            case _ => text;
         }
     }
-
+    
     def prepareJsonContent(text:String, offset:Int):String = {
 
         var lineStart = text.lastIndexOf("\n",Math.max(0,offset-1))
