@@ -60,6 +60,10 @@ class StructureTests extends RAMLTest {
     this.runTest("structure/test24.raml", Set("displayName"))
   }
 
+  test("StructureTests resource node put, post, patch"){
+    this.runTest("structure/test26.raml", Set("put", "post", "patch"))
+  }
+
   test("StructureTests method node queryString, queryParameters"){
     this.runTest("structure/test32.raml", Set("queryString", "queryParameters"))
   }
@@ -102,6 +106,10 @@ class StructureTests extends RAMLTest {
 
   test("StructureTests resourceType node displayName"){
     this.runTest("structure/test47.raml", Set("displayName"))
+  }
+
+  test("StructureTests resourceType node put, post, patch"){
+    this.runTest("structure/test49.raml", Set("put", "post", "patch"))
   }
 
   test("StructureTests resourceType node usage"){

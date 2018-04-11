@@ -60,6 +60,10 @@ class StructureTests extends OASTest {
     this.runTest("structure/test27.yml", Set("description"))
   }
 
+  test("PathItemObject post, put, patch"){
+    this.runTest("structure/test29.yml", Set("post", "put", "patch"))
+  }
+
   test("PathItemObject parameters"){
     this.runTest("structure/test33.yml", Set("parameters"))
   }

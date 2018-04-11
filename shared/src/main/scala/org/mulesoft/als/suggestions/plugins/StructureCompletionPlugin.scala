@@ -102,20 +102,6 @@ class StructureCompletionPlugin extends ICompletionPlugin {
         
         request.actualYamlLocation.get.keyValue.get.yPart.asInstanceOf[YScalar].text == "body"
     }
-    
-    def isMethodKey(request: ICompletionRequest): Boolean = {
-        if(!request.astNode.get.isElement) {
-            return false;
-        }
-        
-        request.astNode.get.asElement.get.definition.isAssignableFrom("ResourceBase")
-    }
-    
-    def methodsList(request: ICompletionRequest): Seq[String] = {
-        var extra = request.astNode.get.asElement.get.definition.universe.`type`("Method").get.property("method").get.getExtra(PropertySyntaxExtra).get;
-    
-        extra.enum.map(_.asInstanceOf[String]);
-    }
 
     override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
         var result = request.astNode match {
@@ -132,10 +118,6 @@ class StructureCompletionPlugin extends ICompletionPlugin {
             }
 
             case _ => Seq();
-        }
-        
-        if(isMethodKey(request)) {
-            result = result ++ methodsList(request).map(value => Suggestion(value, id, value, request.prefix))
         }
 
         Promise.successful(result).future
