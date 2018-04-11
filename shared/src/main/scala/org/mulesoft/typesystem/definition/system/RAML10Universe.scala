@@ -4759,7 +4759,12 @@ val value4 =
               },
               "typeKind": 1
             },
-            "annotations": [],
+            "annotations": [
+              {
+                "name": "MetaModel.hideFromUI",
+                "arguments": []
+              }
+            ],
             "valueConstraint": null,
             "optional": false
           }
@@ -6459,7 +6464,12 @@ val value5 =
               },
               "typeKind": 1
             },
-            "annotations": [],
+            "annotations": [
+              {
+                "name": "MetaModel.hideFromUI",
+                "arguments": []
+              }
+            ],
             "valueConstraint": null,
             "optional": false
           }
