@@ -228,7 +228,13 @@ object CompletionProvider {
                 }
             }
             
-            case _ => text;
+            case _ =>
+                if(offset==text.length){
+                    text + "\n"
+                }
+                else {
+                    text;
+                }
         }
     }
     
