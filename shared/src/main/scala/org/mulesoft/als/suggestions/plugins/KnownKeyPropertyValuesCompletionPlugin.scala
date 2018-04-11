@@ -64,7 +64,7 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
  }
 
 object KnownKeyPropertyValuesCompletionPlugin {
-    val ID = "known.keys.completion";
+    val ID = "known.key.property.values.completion";
 
     val supportedLanguages:List[Vendor] = List(Raml10, Oas);
 
