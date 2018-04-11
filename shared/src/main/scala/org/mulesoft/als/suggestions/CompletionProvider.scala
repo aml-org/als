@@ -268,7 +268,26 @@ object CompletionProvider {
             }
         }
         else if(colonIndex<=off){
-
+            var valueOpenQuoteIndex = line.indexOf("\"",colonIndex)
+            if(valueOpenQuoteIndex>=0){
+                if(valueOpenQuoteIndex<off){
+                    var valueCloseQuoteIndex = line.indexOf("\"",off)
+                    if(valueCloseQuoteIndex<0){
+                        newLine += "x\""
+                    }
+                    else if(valueCloseQuoteIndex == off){
+                        newLine = newLine.substring(0,off) + "x" + newLine.substring(off)
+                    }
+                }
+                else{
+                    newLine = newLine.substring(0,off)
+                }
+            }
+            else {
+                if(off == newLine.length || newLine.charAt(off)==','){
+                    newLine = newLine.substring(0,off) + "x" + newLine.substring(off)
+                }
+            }
         }
         else {
             if(line.substring(colonIndex+1).trim.startsWith("\"")){
