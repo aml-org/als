@@ -4,7 +4,7 @@ import org.mulesoft.high.level.test.RAML10.RAML10TypesystemTest
 
 class Tests extends RAML10TypesystemTest {
 
-    test("Annotable annotations") {
+    test("Local type existence") {
         runTest("test001/api.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").head
