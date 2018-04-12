@@ -1,0 +1,99 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.9-abcd",
+    "title": "Swagger Sample API"
+  },
+  "paths": {
+    "/pets/{id}": {
+      "parameters": [
+        {
+          "type": "string",
+          "exclusiveMaximum": true,
+          "exclusiveMinimum": true,
+          "pattern": "a-zA-Z",
+          "default": "str",
+          "name": "petId",
+          "in": "path",
+          "example": "strr",
+          "items": null,
+          "en*": [
+            "strr",
+            "str"
+          ],
+          "description": "ID of pet that needs to be fetched",
+          "required": true
+        }
+      ],
+      "post": {
+        "description": "Returns a pet based on ID",
+        "summary": "Find pet by ID",
+        "operationId": "getPetsById",
+        "externalDocs": {
+          "description": "Find more info here",
+          "url": "https://swagger.io"
+        },
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "deprecated": true,
+        "security": [
+          {
+            "githubAccessCode": [
+              "user",
+              "gist"
+            ]
+          },
+          {
+            "internalApiKey": [
+
+            ]
+          }
+        ],
+        "tags": [
+          "foo",
+          "bar"
+        ],
+        "produces": [
+          "application/json",
+          "text/html"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "default": 222,
+            "maximum": 2222,
+            "exclusiveMaximum": 2222,
+            "minimum": 22,
+            "exclusiveMinimum": 22,
+            "maxLength": 4,
+            "minLength": 1,
+            "pattern": [
+              "0-9"
+            ],
+            "maxItems": 1,
+            "minItems": 1,
+            "uniqueItems": false,
+            "enum": [
+              222
+            ],
+            "multipleOf": 2,
+            "name": "petId",
+            "in": "path",
+            "example": 222,
+            "items": [
+              222
+            ],
+            "description": "ID of pet that needs to be fetched",
+            "required": true
+          }
+        ]
+      }
+    }
+  }
+}
