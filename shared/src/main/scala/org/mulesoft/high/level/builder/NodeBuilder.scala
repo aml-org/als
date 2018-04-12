@@ -13,12 +13,13 @@ object NodeBuilder {
         factory: IASTFactory): Option[ASTNodeImpl] = {
 
         var result: Option[ASTNodeImpl] = None
-        factory.determineRootType(baseUnit) match {
+        val nominalType = factory.determineUserType(baseUnit,None,None,bundle)
+        factory.determineRootType(baseUnit, nominalType) match {
             case Some(rootType) =>
                 determineRootNode(baseUnit) match {
                     case Some(rootNode) =>
                         val node = ASTNodeImpl(rootNode, baseUnit, None, rootType, None)
-                        factory.determineUserType(baseUnit,node,None,bundle).foreach(node.setLocalType)
+                        nominalType.foreach(node.setLocalType)
                         fillChildren(node, factory,bundle)
                         result = Some(node)
                     case _ => throw new Error("Unable to determine root node")

@@ -85,7 +85,7 @@ object TypeBuilder {
                 ctx.bundle.getType(superShape.id,superShape.name.value()).foreach(t.addSuperType)
             }
             else {
-                var st = ctx.factory.discriminateShape(shape,ctx.parentUniverse)
+                var st = ctx.factory.builtinSuperType(shape)
                 st.foreach(t.addSuperType)
             }
             shape.meta match {
@@ -110,7 +110,7 @@ object TypeBuilder {
             var facets = customShapePropertyDefinitions.map(createProperty(_,t.universe,ctx))
             facets.foreach(t.addFacet)
 
-            builtinTypesFamily(t).flatMap(_.allProperties).foreach(prop=>{
+            builtinDefinitionsFamily(t,ctx).flatMap(_.allProperties).foreach(prop=>{
                 var pName = prop.nameId.get
                 ctx.factory.builtInFacetValue(pName,shape).foreach(t.fixFacet(pName,_,BUILTIN))
             })
@@ -212,19 +212,17 @@ object TypeBuilder {
 
 
 
-    def builtinTypesFamily(
+    def builtinDefinitionsFamily(
             t:ITypeDefinition,
-            occured:mutable.Map[String,ITypeDefinition]=mutable.Map()):Seq[ITypeDefinition] = {
+            ctx:Context):Seq[ITypeDefinition] = {
 
-        t.allSuperTypes.foreach(x=>{
-            if(x.isBuiltIn){
-                occured(x.nameId.get) = x
-            }
-            else if(x.isUnion){
-                x.asInstanceOf[IUnionType].options.foreach(builtinTypesFamily(_,occured))
-            }
-        })
-        ListBuffer[ITypeDefinition]() ++= occured.values
+        val tArray:ListBuffer[ITypeDefinition] = ListBuffer()
+        tArray += t
+        tArray ++= t.allSuperTypes
+        var result = tArray.flatMap(_.getExtra(Extras.SOURCE_SHAPE)).flatMap(shape=>{
+            ctx.factory.discriminateShape(shape,ctx.parentUniverse)
+        }).distinct
+        result
     }
 }
 
