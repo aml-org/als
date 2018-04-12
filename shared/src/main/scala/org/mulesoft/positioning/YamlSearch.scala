@@ -4,22 +4,41 @@ import org.mulesoft.typesystem.syaml.to.json.YRange
 import org.yaml.model._
 
 object YamlSearch {
-
-    def getLocation(position:Int, yPart:YPart, mapper:IPositionsMapper,
-                    parentStack: List[YamlLocation] = List()):YamlLocation = {
-
-        val range = YRange(yPart)
-        val offset = mapper.offset(position)
-        mapper.initRange(range)
-        if(!range.containsPosition(position)){
-            YamlLocation.empty
+    private def nodeStartOffset(yPart: YPart, range: YRange, mapper:IPositionsMapper): Int = yPart match {
+        case node: YNode => if(node.children.isEmpty || node.children.length < 3) {
+            mapper.offset(range.start.position);
+        } else {
+            var nodeContent = node.children(1);
+            
+            var range = YRange(node.children(1) match {
+                case map: YMap => if(map.entries.isEmpty) {
+                    node;
+                } else {
+                    map.entries(0);
+                }
+                
+                case _ => yPart;
+            });
+            
+            mapper.initRange(range);
+            mapper.offset(range.start.position);
         }
-        else if(offset<mapper.offset(range.start.position)){
-            YamlLocation.empty
-        }
-        else {
-
-            yPart match {
+        
+        case _ => mapper.offset(range.start.position);
+    }
+    
+    def getLocation(position: Int, yPart: YPart, mapper: IPositionsMapper, parentStack: List[YamlLocation] = List()): YamlLocation = {
+        val range = YRange(yPart);
+        
+        val offset = mapper.offset(position);
+        
+        mapper.initRange(range);
+        
+        if(!range.containsPosition(position)) {
+            YamlLocation.empty;
+        } else if(offset < nodeStartOffset(yPart, range, mapper)) {
+            YamlLocation.empty;
+        } else yPart match {
                 case mapEntry: YMapEntry =>
                     val thisLocation = YamlLocation(mapEntry, mapper, parentStack)
                     var keyLocation = getLocation(position,mapEntry.key,mapper, thisLocation :: parentStack)
@@ -98,7 +117,7 @@ object YamlSearch {
 
                 case _ => YamlLocation(yPart,mapper, parentStack)
             }
-        }
     }
+    
 
 }
