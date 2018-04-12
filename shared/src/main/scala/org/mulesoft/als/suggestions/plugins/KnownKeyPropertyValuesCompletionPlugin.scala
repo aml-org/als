@@ -15,25 +15,18 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
 
     override def languages: Seq[Vendor] = StructureCompletionPlugin.supportedLanguages
     
-    override def isApplicable(request: ICompletionRequest): Boolean = {
-        if(request.astNode.isEmpty
-            || !request.astNode.get.isElement){
-            false
-        }
-        else if(request.actualYamlLocation.isEmpty){
-            false
-        }
-        else if (request.kind != LocationKind.KEY_COMPLETION){
-            false
-        }
-        else if(request.actualYamlLocation.isEmpty || request.yamlLocation.isEmpty){
-            false
-        }
-        else {
-            request.actualYamlLocation.get.hasSameValue(request.yamlLocation.get)
-        }
+    override def isApplicable(request: ICompletionRequest): Boolean = if(request.astNode.isEmpty || !request.astNode.get.isElement) {
+        false;
+    } else if(request.actualYamlLocation.isEmpty) {
+        false;
+    } else if(request.kind != LocationKind.KEY_COMPLETION) {
+        false;
+    } else if(request.actualYamlLocation.isEmpty || request.yamlLocation.isEmpty) {
+        false;
+    } else {
+        request.actualYamlLocation.get.parentStack.nonEmpty && request.actualYamlLocation.get.parentStack.last.hasSameValue(request.yamlLocation.get);
     }
-
+    
     override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
         var result:ListBuffer[ISuggestion] = ListBuffer()
         request.astNode.get.asElement.get.definition.allProperties.foreach(p=>{
