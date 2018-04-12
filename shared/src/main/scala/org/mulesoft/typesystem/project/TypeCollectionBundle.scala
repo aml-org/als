@@ -12,18 +12,12 @@ class TypeCollectionBundle  extends ITypeCollectionBundle {
 
     def getType(id: String, name:String): Option[AbstractType] = {
         var path: String = TypeCollectionBundle.pathFromID(id)
-        if(path + "#/declarations/"+name == id) {
-            typeCollections.get(path).flatMap(_.types.ownType(name))
-        }
-        else None
+        typeCollections.get(path).flatMap(_.types.ownType(name))
     }
 
     def getAnnotationType(id: String, name:String): Option[AbstractType] = {
         var path: String = TypeCollectionBundle.pathFromID(id)
-        if(path + "#/declarations/"+name == id) {
-            typeCollections.get(path).flatMap(_.annotationTypes.ownType(name))
-        }
-        else None
+        typeCollections.get(path).flatMap(_.annotationTypes.ownType(name))
     }
 
 
@@ -32,7 +26,7 @@ class TypeCollectionBundle  extends ITypeCollectionBundle {
 object TypeCollectionBundle {
     def pathFromID(id: String):String = {
         var ind = id.indexOf("#")
-        var path = if (ind < 0) id else id.substring(ind + 1)
+        var path = if (ind < 0) id else id.substring(0,ind)
         path
     }
     def apply():TypeCollectionBundle = new TypeCollectionBundle()
