@@ -13,7 +13,7 @@ class StructuredType(_name:String, _universe:IUniverse = EmptyUniverse, _path: S
     def propertyIndex(name: String): Int = properties.indexWhere(_.nameId==name)
 
     def addProperty(name: String, range: ITypeDefinition): Property = {
-        new Property(name).withDomain(this).withRange(range)
+        new Property(name).withDomain(this).withRange(range).withMultiValue(range.isArray)
     }
 
     def allPropertyIndex(name: String): Int = allProperties.indexWhere(_.nameId==name)

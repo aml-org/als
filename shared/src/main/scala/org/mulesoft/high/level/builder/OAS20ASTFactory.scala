@@ -15,7 +15,7 @@ import org.mulesoft.high.level.implementation.BasicValueBuffer
 import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.high.level.typesystem.TypeBuilder
 import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
-import org.mulesoft.typesystem.nominal_interfaces.{IArrayType, ITypeDefinition, IUniverse}
+import org.mulesoft.typesystem.nominal_interfaces.{IArrayType, IProperty, ITypeDefinition, IUniverse}
 import org.mulesoft.typesystem.project.{ITypeCollectionBundle, TypeCollectionBundle}
 import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
 
@@ -232,9 +232,9 @@ class OAS20ASTFactory private extends DefaultASTFactory {
     }
 
 
-    override def determineRootType(baseUnit: BaseUnit): Option[ITypeDefinition] = universe.get.`type`("SwaggerObject")
+    override def determineRootType(baseUnit: BaseUnit, nominalType:Option[ITypeDefinition]): Option[ITypeDefinition] = universe.get.`type`("SwaggerObject")
 
-    override def discriminate(clazz: ITypeDefinition, amfNode: AmfObject): ITypeDefinition = {
+    override def discriminate(clazz: ITypeDefinition, amfNode: AmfObject, nominalType:Option[ITypeDefinition]): ITypeDefinition = {
 
         var opt: Option[ITypeDefinition] = None
         amfNode match {
@@ -313,9 +313,11 @@ class OAS20ASTFactory private extends DefaultASTFactory {
 
     override def discriminateShape(shape: Shape, universe: IUniverse): Option[ITypeDefinition] = None
 
+    override def builtinSuperType(shape:Shape):Option[ITypeDefinition] = None
+
     def builtInFacetValue(name:String,shape:Shape):Option[Any] = None
 
-    def determineUserType(amfNode:AmfObject, node:IHighLevelNode, parent:Option[IHighLevelNode], _bundle:ITypeCollectionBundle):Option[ITypeDefinition] = {
+    def determineUserType(amfNode:AmfObject, nodeProperty:Option[IProperty], parent:Option[IHighLevelNode], _bundle:ITypeCollectionBundle):Option[ITypeDefinition] = {
 
         var shapeOpt = extractShape(amfNode)
         if(shapeOpt.isEmpty){
@@ -329,7 +331,7 @@ class OAS20ASTFactory private extends DefaultASTFactory {
             var bundle = _bundle.asInstanceOf[TypeCollectionBundle]
             var result = amfNode match {
                 case de: DomainElement =>
-                    node.property.flatMap(_.nameId).orNull match {
+                    nodeProperty.flatMap(_.nameId).orNull match {
                         case "parameters" | "declarations" | "headers" =>
                             Option(TypeBuilder.getOrCreate(shape,universe.get,bundle,this))
                         case "properties" => None

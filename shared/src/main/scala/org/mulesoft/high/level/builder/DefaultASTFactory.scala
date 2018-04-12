@@ -84,12 +84,13 @@ abstract class DefaultASTFactory extends IASTFactory {
 
             propertyMatches.map({
                 case am: AttributeMatchResult => ASTPropImpl (
-                    am.node, baseUnit, Option (node), discriminate(range,am.node), Option(prop), am.buffer)
+                    am.node, baseUnit, Option (node), discriminate(range,am.node,None), Option(prop), am.buffer)
                 case em: ElementMatchResult =>
+                    val nominalType = determineUserType(em.node, Option(prop), Option(node), bundle)
                     var hlNode = ASTNodeImpl(
-                    em.node, baseUnit, Option(node), discriminate(range,em.node), Option(prop))
+                    em.node, baseUnit, Option(node), discriminate(range,em.node,nominalType), Option(prop))
                     em.yamlNode.foreach(x=>hlNode.sourceInfo.withSources(List(x)))
-                    determineUserType(em.node,hlNode,Option(node),bundle).foreach(hlNode.setLocalType)
+                    nominalType.foreach(hlNode.setLocalType)
                     hlNode
             })
         }

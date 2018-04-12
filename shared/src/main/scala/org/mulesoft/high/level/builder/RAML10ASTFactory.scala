@@ -25,9 +25,10 @@ import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.high.level.typesystem.TypeBuilder
 import org.mulesoft.typesystem.json.interfaces.{JSONWrapper, NodeRange}
 import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
+import org.mulesoft.typesystem.nominal_interfaces.extras.UserDefinedExtra
 import org.mulesoft.typesystem.syaml.to.json.{YJSONWrapper, YRange}
-import org.mulesoft.typesystem.nominal_interfaces.{IArrayType, ITypeDefinition, IUniverse}
-import org.mulesoft.typesystem.nominal_types.{AbstractType, StructuredType}
+import org.mulesoft.typesystem.nominal_interfaces.{IArrayType, IProperty, ITypeDefinition, IUniverse}
+import org.mulesoft.typesystem.nominal_types.{AbstractType, BuiltinUniverse, Property, StructuredType}
 import org.mulesoft.typesystem.project.{ITypeCollectionBundle, TypeCollectionBundle}
 import org.yaml.model.{YNode, YPart, YScalar}
 
@@ -359,7 +360,7 @@ class RAML10ASTFactory private extends DefaultASTFactory {
         registerPropertyMatcher("Library", "usage", BaseUnitMatcher() + BaseUnitModel.Usage)
     }
 
-    override def discriminate(clazz: ITypeDefinition, amfNode: AmfObject): ITypeDefinition = {
+    override def discriminate(clazz: ITypeDefinition, amfNode: AmfObject, nominalType:Option[ITypeDefinition]): ITypeDefinition = {
 
         var opt: Option[ITypeDefinition] = None
         amfNode match {
@@ -367,7 +368,17 @@ class RAML10ASTFactory private extends DefaultASTFactory {
                 var universe = clazz.universe
                 if (clazz.isAssignableFrom("TypeDeclaration")) {
                     var shapeOpt: Option[Shape] = extractShape(dElement)
-                    opt = shapeOpt.flatMap(discriminateShape(_,universe))
+                    opt = shapeOpt.flatMap(shape=>discriminateShape(shape,universe)).map(builtInDeclaration=>{
+
+                        var result = new StructuredType(shapeOpt.get.name.value(),builtInDeclaration.universe)
+                        result.addSuperType(builtInDeclaration)
+                        result.putExtra(UserDefinedExtra)
+
+                        nominalType.foreach(_.allFacets.filter(f=>f.nameId.isDefined && f.range.isDefined)foreach(f=>{
+                            result.addProperty(f.nameId.get,f.range.get)
+                        }))
+                        result
+                    })
                 }
                 else if (clazz.isAssignableFrom("SecuritySchemeSettings")) {
                     opt = dElement.meta match {
@@ -412,7 +423,37 @@ class RAML10ASTFactory private extends DefaultASTFactory {
         }
     }
 
-    override def determineRootType(baseUnit: BaseUnit): Option[ITypeDefinition] = {
+    override def builtinSuperType(shape:Shape):Option[ITypeDefinition] = {
+        shape.meta match {
+            case AnyShapeModel => Some(BuiltinUniverse.ANY)
+            case NodeShapeModel => Some(BuiltinUniverse.OBJECT)
+            case FileShapeModel => Some(BuiltinUniverse.FILE)
+            case UnionShapeModel => Some(BuiltinUniverse.UNION)
+            case ArrayShapeModel => Some(BuiltinUniverse.ARRAY)
+            case NilShapeModel => Some(BuiltinUniverse.NIL)
+            case ScalarShapeModel =>
+                var simpleType = Option(shape.fields.get(ScalarShapeModel.DataType))
+                    .map(dt=>{
+                        var dataType = dt.asInstanceOf[AmfScalar].value.toString
+                        dataType.substring(dataType.indexOf("#") + 1)
+                    }).getOrElse("string")
+                simpleType match {
+                    case "string" => Some(BuiltinUniverse.STRING)
+                    case "number" => Some(BuiltinUniverse.NUMBER)
+                    case "float" => Some(BuiltinUniverse.FLOAT)
+                    case "integer" => Some(BuiltinUniverse.INTEGER)
+                    case "boolean" => Some(BuiltinUniverse.BOOLEAN)
+                    case "date" => Some(BuiltinUniverse.DATE_ONLY)
+                    case "time" => Some(BuiltinUniverse.TIME_ONLY)
+                    case "dateTime" => Some(BuiltinUniverse.DATETIME)
+                    case "dateTimeOnly" => Some(BuiltinUniverse.DATETIME_ONLY)
+                    case _ => None
+                }
+            case _ => Some(BuiltinUniverse.ANY)
+        }
+    }
+
+    override def determineRootType(baseUnit: BaseUnit, nominalType:Option[ITypeDefinition]): Option[ITypeDefinition] = {
         var u = universe.get
         var uName = u.name.orNull
         if (uName == "RAML") {
@@ -430,7 +471,7 @@ class RAML10ASTFactory private extends DefaultASTFactory {
                     }
                     typeOpt match {
                         case Some(t) =>
-                            var discriminated = discriminate(t, fragment.encodes)
+                            var discriminated = discriminate(t, fragment.encodes, nominalType)
                             var fragmentTypeOpt = u.`type`("FragmentDeclaration")
                             fragmentTypeOpt match {
                                 case Some(ft) =>
@@ -466,7 +507,7 @@ class RAML10ASTFactory private extends DefaultASTFactory {
         }
     }
 
-    def determineUserType(amfNode:AmfObject, node:IHighLevelNode, parent:Option[IHighLevelNode], _bundle:ITypeCollectionBundle):Option[ITypeDefinition] = {
+    def determineUserType(amfNode:AmfObject, nodeProperty:Option[IProperty], parent:Option[IHighLevelNode], _bundle:ITypeCollectionBundle):Option[ITypeDefinition] = {
 
         var shapeOpt = extractShape(amfNode)
         if(shapeOpt.isEmpty){
@@ -490,7 +531,7 @@ class RAML10ASTFactory private extends DefaultASTFactory {
                     case _ => None
                 }
                 case de: DomainElement =>
-                    node.property.flatMap(_.nameId).orNull match {
+                    nodeProperty.flatMap(_.nameId).orNull match {
                         case "types" => bundle.getType(shape.id,shape.name.value())
                         case "annotationTypes" => bundle.getAnnotationType(shape.id,shape.name.value())
                         case "properties" => None

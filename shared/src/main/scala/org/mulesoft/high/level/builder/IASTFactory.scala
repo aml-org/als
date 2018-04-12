@@ -15,13 +15,15 @@ trait IASTFactory {
 
     def getPropertyValues(node:IHighLevelNode, prop:IProperty, bundle:ITypeCollectionBundle):Seq[BasicASTNode]
 
-    def discriminate(clazz:ITypeDefinition,amfNode:AmfObject):ITypeDefinition = clazz
+    def discriminate(clazz:ITypeDefinition,amfNode:AmfObject, nominalType:Option[ITypeDefinition]):ITypeDefinition = clazz
 
     def discriminateShape(shape:Shape,universe:IUniverse):Option[ITypeDefinition]
 
-    def determineRootType(baseUnit: BaseUnit): Option[ITypeDefinition]
+    def builtinSuperType(shape:Shape):Option[ITypeDefinition]
 
-    def determineUserType(amfNode:AmfObject,node:IHighLevelNode,parent:Option[IHighLevelNode], _bundle:ITypeCollectionBundle):Option[ITypeDefinition]
+    def determineRootType(baseUnit: BaseUnit, nominalType:Option[ITypeDefinition]): Option[ITypeDefinition]
+
+    def determineUserType(amfNode:AmfObject,nodeProperty:Option[IProperty],parent:Option[IHighLevelNode], _bundle:ITypeCollectionBundle):Option[ITypeDefinition]
 
     def builtInFacetValue(name:String,shape:Shape):Option[Any]
 
