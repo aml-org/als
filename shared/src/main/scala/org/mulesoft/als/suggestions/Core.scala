@@ -25,6 +25,7 @@ object Core {
         CompletionPluginsRegistry.registerPlugin(FacetsCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(UsesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(IncludeCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(ExampleCompletionPlugin())
     });
     
     def prepareText(text:String, offset:Int, syntax:Syntax):String = {
