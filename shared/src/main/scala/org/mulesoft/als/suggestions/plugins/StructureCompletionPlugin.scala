@@ -109,6 +109,8 @@ class StructureCompletionPlugin extends ICompletionPlugin {
             case Some(n) => if(isContentType(request)) {
                 contentTypes(request).map(value => Suggestion(value, id, value, request.prefix));
             } else if(isDiscriminatorValue(request)) {
+                var a = extractFirstLevelScalars(request);
+                
                 extractFirstLevelScalars(request).map(name => Suggestion(name, id, name, request.prefix));
             } else if(n.isElement) {
                 var element = n.asElement.get;
@@ -124,16 +126,11 @@ class StructureCompletionPlugin extends ICompletionPlugin {
         Promise.successful(result).future
     }
     
-    def extractFirstLevelScalars(request: ICompletionRequest): Seq[String] = {
-        request.astNode.get.parent.get.elements("properties").filter(_.definition.nameId match {
-            case Some("StringTypeDeclaration") => true
-            case Some("NumberTypeDeclaration") => true
-            case Some("BooleanTypeDeclaration") => true
-            case _ => false
-        }).map(p => p.attributeValue("name")).filter(_ match {
-            case Some(name) => true
-        }).map(_.get.asInstanceOf[Some[String]].get);
-    }
+    def extractFirstLevelScalars(request: ICompletionRequest): Seq[String] = request.astNode.get.parent.get.elements("properties").filter(_.definition match {
+        case propertyType => Seq("StringTypeDeclaration", "NumberTypeDeclaration", "BooleanTypeDeclaration").exists(propertyType.isAssignableFrom(_));
+        
+        case _ => false;
+    }).map(p => p.definition.nameId.get);
     
     def getBody(request: ICompletionRequest): Option[IParseResult] = {
         //TODO: implement when node searching will be fixed.
