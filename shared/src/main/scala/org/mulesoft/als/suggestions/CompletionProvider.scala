@@ -72,7 +72,7 @@ class CompletionProvider {
                     actualYamlLoaction = ast._2.map(YamlSearch.getLocation(position,_,positionsMapper.get))
                 }
                 result.withAstNode(ast._1).withYamlLocation(yamlLoaction).withActualYamlLocation(actualYamlLoaction)
-            case None => throw new Error("AST provider must be supplied")
+            case None =>
         }
         result
     }

@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.oas;
 
 import amf.core.remote.{Oas, Vendor}
 import org.mulesoft.als.suggestions.implementation.Suggestion
-import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
+import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion, Syntax}
 import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.high.level.{Declaration, Search}
 import org.mulesoft.typesystem.nominal_interfaces.IProperty
@@ -59,13 +59,19 @@ abstract class ReferencePlugin extends ICompletionPlugin {
     def definitionClass:String
 
     def wrapDeclarationReference(reference: String, request: ICompletionRequest): String = {
-        var indentation = "\n";
-	
-		for(i <- 0 until request.indentCount + 1) {
-            indentation += request.currentIndent;
+        var isJSON = request.config.astProvider.get.syntax == Syntax.JSON
+        if(isJSON){
+            "{ \"$ref\": \"" + reference + "\" }"
         }
-		
-		indentation + "$ref: " + reference;
+        else {
+            var indentation = "\n";
+
+            for (i <- 0 until request.indentCount + 1) {
+                indentation += request.currentIndent;
+            }
+
+            indentation + "$ref: \"" + reference + "\"";
+        }
     }
     
     def oasDeclarationReference(declaration: Declaration): String = {
