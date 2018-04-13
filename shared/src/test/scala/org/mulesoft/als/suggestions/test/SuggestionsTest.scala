@@ -14,6 +14,7 @@ import org.mulesoft.test.ParserHelper
 import org.scalatest.{Assertion, AsyncFunSuite}
 import org.scalatest.{Assertion, Succeeded}
 
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.{ExecutionContext, Future}
 
 object File {
@@ -44,7 +45,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
         val diff2 = originalSuggestions.diff(resultSet)
 
         if (diff1.isEmpty && diff2.isEmpty) succeed
-        else fail(s"Difference for $path: got [${suggestions.mkString(", ")}] while expecting [${originalSuggestions.mkString(", ")}]")
+        else fail(s"Difference for $path: got [${suggestions.mkString}] while expecting [${originalSuggestions.mkString}]")
     })
 
 
@@ -59,33 +60,52 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
     var position = 0;
 
+    var contentOpt:Option[String] = None
     this.platform.resolve(url,None).map(content => {
 
       val fileContentsStr = content.stream.toString
-
       val markerInfo = this.findMarker(fileContentsStr)
 
       position = markerInfo.position
-
+      contentOpt = Some(markerInfo.content)
       this.cacheUnit(url, markerInfo.content, position, content.mime)
 
     }).flatMap(_=>{
 
       this.amfParse(config)
 
-    }).flatMap(amfUnit=>{
+    }).flatMap {
+        case amfUnit: BaseUnit => this.buildHighLevel(amfUnit).map(project => {
 
-      this.buildHighLevel(amfUnit)
+            this.buildCompletionProvider(project, url, position)
 
-    }).map(project=>{
+            }).flatMap(_.suggest)
+                .map(suggestions => suggestions.map(suggestion => {
 
-      this.buildCompletionProvider(project, url, position)
-
-    }).flatMap(_.suggest)
-      .map(suggestions=>suggestions.map(suggestion=>{
-
-        suggestion.text
-      }))
+                suggestion.text
+            }))
+        case _ =>
+            contentOpt match {
+                case Some(c) =>
+                    var cProvider = this.buildCompletionProviderNoAST(c, url, position)
+                    cProvider.suggest.map(suggestions => suggestions.map(suggestion => {
+                        suggestion.text
+                    }))
+                case None => Future.successful(Seq())
+            }
+    } recoverWith {
+        case e:Throwable =>
+            println(e)
+            contentOpt match {
+                case Some(c) =>
+                    var cProvider = this.buildCompletionProviderNoAST(c, url, position)
+                    cProvider.suggest.map(suggestions => suggestions.map(suggestion => {
+                        suggestion.text
+                    }))
+                case None => Future.successful(Seq())
+            }
+        case _ => Future.successful(Seq())
+    }
   }
 
   def buildParserConfig(language: String, url: String): ParserConfig = {
@@ -137,6 +157,21 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
     CompletionProvider().withConfig(completionConfig)
   }
+
+  def buildCompletionProviderNoAST(text:String, url: String, position: Int): CompletionProvider = {
+
+        val baseName = url.substring(url.lastIndexOf('/') + 1)
+
+        val editorStateProvider = new DummyEditorStateProvider(text, url, baseName, position)
+
+        val platformFSProvider = new PlatformBasedExtendedFSProvider(this.platform)
+
+        val completionConfig = new CompletionConfig()
+            .withEditorStateProvider(editorStateProvider)
+            .withFsProvider(platformFSProvider)
+
+        CompletionProvider().withConfig(completionConfig)
+    }
 
   def filePath(path:String):String = {
     var rootDir = System.getProperty("user.dir")

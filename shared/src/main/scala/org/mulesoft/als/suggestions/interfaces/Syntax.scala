@@ -6,7 +6,9 @@ sealed class Syntax private (label:String) {
 
 object Syntax {
 
-    private def apply():Syntax = new Syntax("YAML")
+    private def apply(name:String):Syntax = new Syntax(name)
 
-    val YAML = Syntax()
+    val YAML = Syntax("YAML")
+
+    val JSON = Syntax("JSON")
 }

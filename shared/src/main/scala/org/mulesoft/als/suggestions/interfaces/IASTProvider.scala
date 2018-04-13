@@ -9,4 +9,6 @@ trait IASTProvider {
     def getSelectedNode: Option[IParseResult]
 
     def language:Vendor
+
+    def syntax: Syntax
 }

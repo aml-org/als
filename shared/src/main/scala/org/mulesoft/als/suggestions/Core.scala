@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.plugins.{KnownKeyPropertyValuesCompletionPlugin, KnownPropertyValuesCompletionPlugin, StructureCompletionPlugin}
-import org.mulesoft.als.suggestions.plugins.oas.{DefinitionReferenceCompletionPlugin, ParameterReferencePlugin, ResponseReferencePlugin}
+import org.mulesoft.als.suggestions.plugins.oas.{DefinitionReferenceCompletionPlugin, EmptyFileCompletionPlugin, ParameterReferencePlugin, ResponseReferencePlugin}
 import org.mulesoft.als.suggestions.plugins.raml._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -26,6 +26,7 @@ object Core {
         CompletionPluginsRegistry.registerPlugin(UsesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(IncludeCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(ExampleCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(EmptyFileCompletionPlugin())
     });
     
     def prepareText(text:String, offset:Int, syntax:Syntax):String = {

@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.plugins.oas
 import amf.core.model.domain.AmfScalar
 import amf.core.remote.{Oas, Vendor}
 import org.mulesoft.als.suggestions.implementation.Suggestion
-import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
+import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion, Syntax}
 import org.mulesoft.high.level.builder.UniverseProvider
 import org.mulesoft.high.level.interfaces.{IASTUnit, IHighLevelNode, IParseResult}
 import org.mulesoft.typesystem.nominal_interfaces.IProperty
@@ -23,7 +23,15 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
 
     override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
         val result = determineRefCompletionCase(request) match {
-            case Some(spv: SCHEMA_PROPERTY_VALUE) => extractRefs(request).map(x=>"\n" + " " * spv.refPropOffset + "$ref: \"" + x + "\"").map(x=>Suggestion(x,x,x,request.prefix));
+            case Some(spv: SCHEMA_PROPERTY_VALUE) => extractRefs(request).map(x=>{
+                var isJSON = request.config.astProvider.get.syntax == Syntax.JSON
+                if(isJSON){
+                    "{ \"$ref\": \"" + x + "\" }"
+                }
+                else {
+                    "\n" + " " * spv.refPropOffset + "$ref: \"" + x + "\""
+                }
+            }).map(x=>Suggestion(x,x,x,request.prefix));
             
             case Some(rpv: REF_PROPERTY_VALUE) => extractRefs(request).map(x=>Suggestion(x,x,x,request.prefix));
             
