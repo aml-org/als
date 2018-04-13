@@ -36,7 +36,7 @@ object YamlSearch {
         
         if(!range.containsPosition(position)) {
             YamlLocation.empty;
-        } else if(!ignoreIndents && offset < mapper.offset(range.start.position)) {
+        } else if(!ignoreIndents && offset < nodeStartOffset(yPart, range, mapper)) {
             YamlLocation.empty;
         } else yPart match {
                 case mapEntry: YMapEntry =>
