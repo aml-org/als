@@ -27,7 +27,7 @@ object YamlSearch {
         case _ => mapper.offset(range.start.position);
     }
     
-    def getLocation(position: Int, yPart: YPart, mapper: IPositionsMapper, parentStack: List[YamlLocation] = List()): YamlLocation = {
+    def getLocation(position: Int, yPart: YPart, mapper: IPositionsMapper, parentStack: List[YamlLocation] = List(), ignoreIndents: Boolean = false): YamlLocation = {
         val range = YRange(yPart);
         
         val offset = mapper.offset(position);
@@ -36,12 +36,12 @@ object YamlSearch {
         
         if(!range.containsPosition(position)) {
             YamlLocation.empty;
-        } else if(offset < nodeStartOffset(yPart, range, mapper)) {
+        } else if(!ignoreIndents && offset < mapper.offset(range.start.position)) {
             YamlLocation.empty;
         } else yPart match {
                 case mapEntry: YMapEntry =>
                     val thisLocation = YamlLocation(mapEntry, mapper, parentStack)
-                    var keyLocation = getLocation(position,mapEntry.key,mapper, thisLocation :: parentStack)
+                    var keyLocation = getLocation(position,mapEntry.key,mapper, thisLocation :: parentStack, ignoreIndents)
                     if(keyLocation.nonEmpty){
                         thisLocation
                     }
@@ -49,7 +49,7 @@ object YamlSearch {
                         YamlLocation.empty
                     }
                     else {
-                        var valLocation = getLocation(position,mapEntry.value,mapper, thisLocation :: parentStack)
+                        var valLocation = getLocation(position,mapEntry.value,mapper, thisLocation :: parentStack, ignoreIndents)
                         if(valLocation.isEmpty){
                             thisLocation
                         }
@@ -63,7 +63,7 @@ object YamlSearch {
 
                 case node:YNode =>
                     var thisLocation = YamlLocation(node,mapper, parentStack)
-                    var valLocation = getLocation(position,node.value,mapper, thisLocation :: parentStack)
+                    var valLocation = getLocation(position,node.value,mapper, thisLocation :: parentStack, ignoreIndents)
                     if(valLocation.isEmpty){
                         thisLocation
                     }
@@ -83,7 +83,7 @@ object YamlSearch {
                     val thisLocation = YamlLocation (map, mapper, parentStack)
                     entryOpt match {
                         case Some(me) =>
-                            var entryLocation = getLocation(position, me, mapper, thisLocation :: parentStack)
+                            var entryLocation = getLocation(position, me, mapper, thisLocation :: parentStack, ignoreIndents)
                             if (entryLocation.nonEmpty) {
                                 entryLocation
                             }
@@ -103,7 +103,7 @@ object YamlSearch {
                     })
                     componentOpt match {
                         case Some(me) =>
-                            var componentLocation = getLocation(position, me, mapper, thisLocation :: parentStack)
+                            var componentLocation = getLocation(position, me, mapper, thisLocation :: parentStack, ignoreIndents)
                             if (componentLocation.nonEmpty) {
                                 componentLocation
                             }
