@@ -2,7 +2,7 @@ package org.mulesoft.high.level.test.RAML10.user.typesystem
 
 import org.mulesoft.high.level.test.RAML10.RAML10TypesystemTest
 
-class Tests extends RAML10TypesystemTest {
+class UserTypesystemTests extends RAML10TypesystemTest {
 
     test("Local type existence") {
         runTest("test001/api.raml", project => {
@@ -26,11 +26,34 @@ class Tests extends RAML10TypesystemTest {
         })
     }
 
+    test("Local type options") {
+        runTest("test004.raml", project => {
+
+            var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("arr")).get
+            var unionSuperType = typeNode.localType.flatMap(_.superTypes.find(_.isUnion)).flatMap(_.union)
+            if (unionSuperType.isDefined && unionSuperType.get.options.length == 2)
+                succeed
+            else
+                fail("Local type is not defined for the node")
+        })
+    }
+
     test("Local type superTypes") {
         runTest("test005.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("arr")).get
             if (typeNode.localType.get.superTypes.length == 2)
+                succeed
+            else
+                fail("Local type is not defined for the node")
+        })
+    }
+
+    test("Local type subTypes") {
+        runTest("test006.raml", project => {
+
+            var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("CustomDate")).get
+            if (typeNode.localType.get.subTypes.length == 1)
                 succeed
             else
                 fail("Local type is not defined for the node")
@@ -48,11 +71,35 @@ class Tests extends RAML10TypesystemTest {
         })
     }
 
+    test("Local type allSuperTypes") {
+        runTest("test008.raml", project => {
+
+            var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
+            var actualValue = typeNode.localType.get.allSuperTypes.length
+            var expectedValue = 3
+            if (expectedValue == actualValue)
+                succeed
+            else
+                fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+        })
+    }
+
     test("Local type properties") {
         runTest("test009.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
             if (typeNode.localType.get.properties.length == 2)
+                succeed
+            else
+                fail("Local type is not defined for the node")
+        })
+    }
+
+    test("Local type facet") {
+        runTest("test010.raml", project => {
+
+            var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("CustomDate")).get
+            if (typeNode.localType.get.facet("noHolidays").get.nameId.get == "noHolidays")
                 succeed
             else
                 fail("Local type is not defined for the node")
@@ -225,4 +272,5 @@ class Tests extends RAML10TypesystemTest {
                 fail(s"Expected value: $expectedValue, actual: ${actualValue}")
         })
     }
+
 }
