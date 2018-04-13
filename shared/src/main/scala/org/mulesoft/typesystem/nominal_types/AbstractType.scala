@@ -67,7 +67,7 @@ class AbstractType(_name:String, _universe:IUniverse = EmptyUniverse, _path: Str
 
     def facets: Seq[IProperty] = _facets.clone()
 
-    def facet(name: String):Option[IProperty] = allFacets().find(x => x.nameId == name)
+    def facet(name: String):Option[IProperty] = allFacets().find(x => x.nameId.contains(name))
 
     def typeId: Option[String] = nameId
 
