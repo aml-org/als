@@ -1,0 +1,39 @@
+#%RAML 1.0
+title: test
+
+types:
+  AnotherType:
+    properties:
+      valueOne: string
+      valueTwo: number
+      valueThree:
+        properties:
+              valueFour: string
+              valueFive: string
+              valueSix:
+                properties:
+                  valueSeven: string
+                  valueEight: boolean
+    example: |
+        {
+        "valueOne": "somestring",
+        "valueTwo": 0,
+        "valueThree": {
+            "valueFour": "somestring",
+
+             "valueFive": "somestring",
+            "valueSix": {
+              "value*Seven": "",
+              "valueEight": true1
+            }
+        }
+         }
+
+
+
+
+
+
+
+
+
