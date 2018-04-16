@@ -273,4 +273,107 @@ class UserTypesystemTests extends RAML10TypesystemTest {
         })
     }
 
+    test("Local type isValueType") {
+        runTest("test025.raml", project => {
+
+            var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
+            var actualValue = typeNode.localType.get.isValueType
+            var expectedValue = false
+            if (expectedValue == actualValue)
+                succeed
+            else
+                fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+        })
+    }
+
+    test("Local type isArray") {
+        runTest("test027.raml", project => {
+
+            var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("bb")).get
+            var actualValue = typeNode.localType.get.isArray
+            var expectedValue = true
+            if (expectedValue == actualValue)
+                succeed
+            else
+                fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+        })
+    }
+
+    test("Local type isObject") {
+        runTest("test028.raml", project => {
+
+            var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("bb")).get
+            var actualValue = typeNode.localType.get.isObject
+            var expectedValue = false
+            if (expectedValue == actualValue)
+                succeed
+            else
+                fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+        })
+    }
+
+    test("Local type array") {
+        runTest("test030.raml", project => {
+
+            var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("bb")).get
+            var actualValue = typeNode.localType.get.array.get.nameId.get
+            var expectedValue = "bb"
+            if (expectedValue == actualValue)
+                succeed
+            else
+                fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+        })
+    }
+
+    test("Local type hasStructure") {
+        runTest("test037.raml", project => {
+
+            var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
+            var actualValue = typeNode.localType.get.hasStructure
+            var expectedValue = true
+            if (expectedValue == actualValue)
+                succeed
+            else
+                fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+        })
+    }
+
+    test("Local type property") {
+        runTest("test044.raml", project => {
+
+            var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
+            var actualValue = typeNode.localType.get.property("aa").get.nameId.get
+            var expectedValue = "aa"
+            if (expectedValue == actualValue)
+                succeed
+            else
+                fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+        })
+    }
+
+    test("Local type printDetails") {
+        runTest("test045.raml", project => {
+
+            var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("prmn")).get
+            var actualValue = typeNode.localType.get.printDetails
+            var expectedValue = "prmn[org.mulesoft.typesystem.nominal_types.ValueType]\n  Super types:\n    string[org.mulesoft.typesystem.nominal_types.ValueType]\n      Super types:\n        scalar[org.mulesoft.typesystem.nominal_types.ValueType]\n          Super types:\n            any[org.mulesoft.typesystem.nominal_types.StructuredType]"
+            if (actualValue.trim == expectedValue.trim)
+                succeed
+            else
+                fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+        })
+    }
+
+    test("Local type kind") {
+        runTest("test049.raml", project => {
+
+            var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
+            var actualValue = typeNode.localType.get.kind.length
+            var expectedValue = 1
+            if (expectedValue == actualValue)
+                succeed
+            else
+                fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+        })
+    }
 }
