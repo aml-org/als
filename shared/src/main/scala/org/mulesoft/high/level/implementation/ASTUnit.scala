@@ -12,6 +12,8 @@ class ASTUnit(_baseUnit:BaseUnit, typeCollection:TypeCollection, _project:Projec
 
     private var _dependencies: mutable.Map[String,DependencyEntry[ASTUnit]] = mutable.Map()
 
+    private var _dependants: mutable.Map[String,DependencyEntry[ASTUnit]] = mutable.Map()
+
     private var _rootNode:Option[ASTNodeImpl] = None
 
     private var _positionsMapper:IPositionsMapper = PositionsMapper(_baseUnit.location).withText(_baseUnit.raw.getOrElse(""))
@@ -19,6 +21,8 @@ class ASTUnit(_baseUnit:BaseUnit, typeCollection:TypeCollection, _project:Projec
     def path:String = _baseUnit.id
 
     override def dependencies: Map[String, DependencyEntry[ASTUnit]] = _dependencies
+
+    override def dependants: Map[String, DependencyEntry[ASTUnit]] = _dependants
 
     override def universe: Universe = typeCollection.types
 
@@ -32,7 +36,13 @@ class ASTUnit(_baseUnit:BaseUnit, typeCollection:TypeCollection, _project:Projec
 
     def setRootNode(n:ASTNodeImpl):Unit = _rootNode = Option(n)
 
-    def registerDependency(dep:DependencyEntry[ASTUnit]):Unit = _dependencies.put(dep.path,dep)
+    def registerDependency(dep:DependencyEntry[ASTUnit]):Unit = {
+        _dependencies.put(dep.path,dep)
+    }
+
+    def registerReverseDependency(dep:DependencyEntry[ASTUnit]):Unit = {
+        _dependants.put(dep.path,dep)
+    }
 
     def positionsMapper: IPositionsMapper = _positionsMapper
 

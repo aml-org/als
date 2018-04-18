@@ -64,13 +64,19 @@ object ProjectBuilder {
                         for(usesEntry <- aliases){
                             var dep = new ModuleDependencyEntry(ref.id,refAstUnit,usesEntry._1,usesEntry._2)
                             astUnit.registerDependency(dep)
+                            var reverseDep = new ModuleDependencyEntry(astUnit.path,astUnit,usesEntry._1,usesEntry._2)
+                            refAstUnit.registerReverseDependency(reverseDep)
                         }
                     case ef:ExternalFragment =>
                         var dep = new DependencyEntry(ref.id,refAstUnit)
                         astUnit.registerDependency(dep)
+                        var reverseDep = new DependencyEntry(astUnit.path,astUnit)
+                        refAstUnit.registerReverseDependency(reverseDep)
                     case f: Fragment =>
                         var dep = new FragmentDependencyEntry(ref.id,refAstUnit)
                         astUnit.registerDependency(dep)
+                        var reverseDep = new FragmentDependencyEntry(astUnit.path,astUnit)
+                        refAstUnit.registerReverseDependency(reverseDep)
                     case _ =>
                 }
             })

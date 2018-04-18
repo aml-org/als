@@ -15,6 +15,8 @@ trait IASTUnit {
 
     def dependencies: Map[String,DependencyEntry[_ <: IASTUnit]]
 
+    def dependants: Map[String,DependencyEntry[_ <: IASTUnit]]
+
     def types: ITypeCollection
 
     def project:IProject
