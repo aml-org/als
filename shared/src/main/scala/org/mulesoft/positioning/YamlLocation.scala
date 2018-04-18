@@ -73,7 +73,9 @@ class YamlLocation private {
 
     def inKey(position:Int):Boolean = innerContainsPosition(position,_keyNode)
 
-    def inValue(position:Int):Boolean = innerContainsPosition(position,_node)
+    def inValue(position:Int):Boolean = {
+        innerContainsPosition(position, _node) || innerContainsPosition(position, _value)
+    }
 
     private def innerContainsPosition(pos:Int,arg:Option[YamlPartWithRange[_]]):Boolean
             = arg match {

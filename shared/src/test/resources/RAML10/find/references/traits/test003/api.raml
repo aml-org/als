@@ -1,0 +1,17 @@
+#%RAML 1.0
+
+title: test API
+
+traits:
+  tr*:
+    body:
+      application/json:
+
+/resource:
+  is: [ tr ]
+  get:
+    is: [ tr ]
+  /subresource:
+    is: [ tr ]
+    post:
+      is: [ tr ]
