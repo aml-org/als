@@ -58,6 +58,18 @@ class TypeDeclarationBody extends RAML10ASTTest {
     })
   }
 
+  test("TypeDeclaration facet name"){
+    runTest( "ASTTests/TypeDeclaration/typeDeclarationBody.raml", project => {
+
+      var expectedValue = "b"
+      var actualValue = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("body").head.elements("facets").head.attribute("name").get.value
+      if (actualValue == Some(expectedValue))
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+    })
+  }
+
   test("TypeDeclaration examples"){
     runTest( "ASTTests/TypeDeclaration/typeDeclarationBody.raml", project => {
 

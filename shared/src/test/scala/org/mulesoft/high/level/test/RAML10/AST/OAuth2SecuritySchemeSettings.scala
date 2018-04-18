@@ -40,6 +40,18 @@ class OAuth2SecuritySchemeSettings  extends RAML10ASTTest {
     })
   }
 
+  test("OAuth2SecuritySchemeSettings scope name") {
+    runTest("ASTTests/OAuth2SecuritySchemeSettings/OAuth2SecuritySchemeSettings.raml", project => {
+
+      var expectedValue = "ADMINISTRATOR"
+      var actualValue = project.rootASTUnit.rootNode.elements("securitySchemes").head.elements("settings").head.elements("scopes").head.attribute("name").get.value
+      if (actualValue == Some(expectedValue))
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+    })
+  }
+
   test("OAuth2SecuritySchemeSettings authorizationGrants") {
     runTest("ASTTests/OAuth2SecuritySchemeSettings/OAuth2SecuritySchemeSettings.raml", project => {
 

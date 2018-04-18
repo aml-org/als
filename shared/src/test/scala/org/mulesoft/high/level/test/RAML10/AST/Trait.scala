@@ -28,6 +28,18 @@ class Trait extends RAML10ASTTest {
     })
   }
 
+  test("Trait parameter name") {
+    runTest("ASTTests/Trait/api.raml", project => {
+
+      var expectedValue = "limitDefault"
+      var actualValue = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("is").head.elements("parameters").head.attribute("name").get.value.get
+      if (actualValue == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+    })
+  }
+
   test("Trait queryParameters") {
     runTest("ASTTests/Trait/api.raml", project => {
 
@@ -40,11 +52,35 @@ class Trait extends RAML10ASTTest {
     })
   }
 
+  test("Trait queryParameter name") {
+    runTest("ASTTests/Trait/api.raml", project => {
+
+      var expectedValue = "limit"
+      var actualValue = project.rootASTUnit.rootNode.elements("traits").head.elements("queryParameters").head.attribute("name").get.value.get
+      if (actualValue == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+    })
+  }
+
   test("Trait headers") {
     runTest("ASTTests/Trait/api.raml", project => {
 
       var expectedValue = 1
       var actualValue = project.rootASTUnit.rootNode.elements("traits").head.elements("headers").length
+      if (actualValue == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+    })
+  }
+
+  test("Trait header name") {
+    runTest("ASTTests/Trait/api.raml", project => {
+
+      var expectedValue = "If-Match"
+      var actualValue = project.rootASTUnit.rootNode.elements("traits").head.elements("headers").head.attribute("name").get.value.get
       if (actualValue == expectedValue)
         succeed
       else
@@ -112,11 +148,35 @@ class Trait extends RAML10ASTTest {
     })
   }
 
+  test("Trait is value") {
+    runTest("ASTTests/Trait/api.raml", project => {
+
+      var expectedValue = "TR"
+      var actualValue = project.rootASTUnit.rootNode.elements("traits").head.elements("is").head.attribute("name").get.value.get
+      if (actualValue == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+    })
+  }
+
   test("Trait securedBy") {
     runTest("ASTTests/Trait/api.raml", project => {
 
       var expectedValue = 1
       var actualValue = project.rootASTUnit.rootNode.elements("traits").head.elements("securedBy").length
+      if (actualValue == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+    })
+  }
+
+  test("Trait securedBy value") {
+    runTest("ASTTests/Trait/api.raml", project => {
+
+      var expectedValue = "oauth"
+      var actualValue = project.rootASTUnit.rootNode.elements("traits").head.elements("securedBy").head.attribute("name").get.value.get
       if (actualValue == expectedValue)
         succeed
       else
