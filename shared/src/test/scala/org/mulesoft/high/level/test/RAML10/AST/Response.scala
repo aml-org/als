@@ -30,6 +30,18 @@ class Response extends RAML10ASTTest {
     })
   }
 
+  test("Response header name") {
+    runTest("ASTTests/Response/api.raml", project => {
+
+      var expectedValue = "If-Match"
+      var actualValue = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("responses").head.elements("headers").head.attribute("name").get.value.get
+      if (actualValue == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+    })
+  }
+
   test("Response body") {
     runTest("ASTTests/Response/api.raml", project => {
 

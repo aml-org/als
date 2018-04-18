@@ -40,6 +40,18 @@ class Method extends RAML10ASTTest {
     })
   }
 
+  test("Method queryString name"){
+    runTest( "ASTTests/Method/query_string.raml", project => {
+
+      var expectedValue = "queryString"
+      var actualValue = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("queryString").head.attribute("name").get.value
+      if (actualValue == Some(expectedValue))
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+    })
+  }
+
   test("Method responses") {
     runTest("ASTTests/Method/responses.raml", project => {
 
@@ -94,6 +106,18 @@ class Method extends RAML10ASTTest {
       var expectedValue = 1
       var length = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("securedBy").length
       if (length == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${length}")
+    })
+  }
+
+  test("Method securedBy name") {
+    runTest("ASTTests/Method/secured_by.raml", project => {
+
+      var expectedValue = "oauth2"
+      var length = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("securedBy").head.attribute("name").get.value
+      if (length == Some(expectedValue))
         succeed
       else
         fail(s"Expected value: $expectedValue, actual: ${length}")

@@ -54,6 +54,18 @@ class ResourceType  extends RAML10ASTTest {
     })
   }
 
+  test("ResourceType method name") {
+    runTest("ASTTests/ResourceType/api.raml", project => {
+
+      var expectedValue = "post"
+      var length = project.rootASTUnit.rootNode.elements("resourceTypes").head.elements("methods").head.attribute("method").get.value
+      if (length == Some(expectedValue))
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${length}")
+    })
+  }
+
   test("ResourceType is") {
     runTest("ASTTests/ResourceType/api.raml", project => {
 
@@ -66,12 +78,36 @@ class ResourceType  extends RAML10ASTTest {
     })
   }
 
+  test("ResourceType trait name") {
+    runTest("ASTTests/ResourceType/api.raml", project => {
+
+      var expectedValue = "trait"
+      var actualValue = project.rootASTUnit.rootNode.elements("resourceTypes").head.elements("is").head.attribute("name").get.value
+      if (actualValue == Some(expectedValue))
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+    })
+  }
+
   test("ResourceType type"){
     runTest("ASTTests/ResourceType/api.raml", project => {
 
       var expectedValue = 1
       var actualValue = project.rootASTUnit.rootNode.elements("resourceTypes").head.elements("type").length
       if (actualValue == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+    })
+  }
+
+  test("ResourceType type name"){
+    runTest("ASTTests/ResourceType/api.raml", project => {
+
+      var expectedValue = "bb"
+      var actualValue = project.rootASTUnit.rootNode.elements("resourceTypes").head.elements("type").head.attribute("name").get.value
+      if (actualValue == Some(expectedValue))
         succeed
       else
         fail(s"Expected value: $expectedValue, actual: ${actualValue}")
@@ -102,6 +138,18 @@ class ResourceType  extends RAML10ASTTest {
     })
   }
 
+  test("ResourceType securedBy value") {
+    runTest("ASTTests/ResourceType/api.raml", project => {
+
+      var expectedValue = "oauth"
+      var actualValue = project.rootASTUnit.rootNode.elements("resourceTypes").head.elements("securedBy").head.attribute("name").get.value
+      if (actualValue == Some(expectedValue))
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+    })
+  }
+
   test("ResourceType uriParameters") {
     runTest("ASTTests/ResourceType/api.raml", project => {
 
@@ -111,6 +159,18 @@ class ResourceType  extends RAML10ASTTest {
         succeed
       else
         fail(s"Expected value: $expectedValue, actual: ${length}")
+    })
+  }
+
+  test("ResourceType uriParameter name") {
+    runTest("ASTTests/ResourceType/api.raml", project => {
+
+      var expectedValue = "id"
+      var actualValue = project.rootASTUnit.rootNode.elements("resourceTypes").head.elements("uriParameters").head.attribute("name").get.value
+      if (actualValue == Some(expectedValue))
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
     })
   }
 
