@@ -206,16 +206,7 @@ class JSONValueBuffer(element:AmfElement,hlNode:IHighLevelNode, json:Option[JSON
         case _ =>
     }
 
-    override def getValue: Option[Any] = json match {
-        case Some(j) => j.kind match {
-            case STRING => j.value(STRING)
-            case NUMBER => j.value(NUMBER)
-            case BOOLEAN => j.value(BOOLEAN)
-            case _ => json
-        }
-
-        case _ => json
-    }
+    override def getValue: Option[JSONWrapper] = json
 
     override def setValue(value: Any): Unit = {}
 
