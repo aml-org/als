@@ -9,19 +9,19 @@ class TemplateReferencesTests extends RamlFindReferencesTest{
     test("Resource type references test 1. Positive") {
         var templateName = "rt"
         var templateType = "ResourceType"
-        runFindReferencesTest("resourceTypes/test001/api.raml", x => testFindTemplateReferencesPositive(x,templateType,templateName,2))
+        runFindReferencesTest("resourceTypes/test001/api.raml", x => testFindReferencesPositive(x,templateType,templateName,2))
     }
 
     test("Resource type references test 2. Positive") {
         var templateName = "rt"
         var templateType = "ResourceType"
-        runFindReferencesTest("resourceTypes/test002/api.raml", x => testFindTemplateReferencesPositive(x,templateType,templateName,2))
+        runFindReferencesTest("resourceTypes/test002/api.raml", x => testFindReferencesPositive(x,templateType,templateName,2))
     }
 
     test("Resource type references test 3. Positive") {
         var templateName = "rt"
         var templateType = "ResourceType"
-        runFindReferencesTest("resourceTypes/test003/api.raml", x => testFindTemplateReferencesPositive(x,templateType,templateName,2))
+        runFindReferencesTest("resourceTypes/test003/api.raml", x => testFindReferencesPositive(x,templateType,templateName,2))
     }
 
     test("Resource type references test 4. Negative") {
@@ -35,19 +35,19 @@ class TemplateReferencesTests extends RamlFindReferencesTest{
     test("Trait references test 1. Positive") {
         var templateName = "tr"
         var templateType = "Trait"
-        runFindReferencesTest("traits/test001/api.raml", x => testFindTemplateReferencesPositive(x,templateType,templateName,4))
+        runFindReferencesTest("traits/test001/api.raml", x => testFindReferencesPositive(x,templateType,templateName,4))
     }
 
     test("Trait references test 2. Positive") {
         var templateName = "tr"
         var templateType = "Trait"
-        runFindReferencesTest("traits/test002/api.raml", x => testFindTemplateReferencesPositive(x,templateType,templateName,4))
+        runFindReferencesTest("traits/test002/api.raml", x => testFindReferencesPositive(x,templateType,templateName,4))
     }
 
     test("Trait references test 3. Positive") {
         var templateName = "tr"
         var templateType = "Trait"
-        runFindReferencesTest("traits/test003/api.raml", x => testFindTemplateReferencesPositive(x,templateType,templateName,4))
+        runFindReferencesTest("traits/test003/api.raml", x => testFindReferencesPositive(x,templateType,templateName,4))
     }
 
     test("Trait references test 4. Negative") {
@@ -58,22 +58,40 @@ class TemplateReferencesTests extends RamlFindReferencesTest{
         runFindReferencesTest("traits/test005/api.raml", x => testFindTemplateReferencesNegative(x))
     }
 
+    test("Type references test 1. Positive") {
+        var templateName = "t1"
+        var templateType = "ObjectTypeDeclaration"
+        runFindReferencesTest("types/test001/api.raml", x => testFindReferencesPositive(x,templateType,templateName,2))
+    }
+
+    test("Type references test 2. Positive") {
+        var templateName = "t1"
+        var templateType = "ObjectTypeDeclaration"
+        runFindReferencesTest("types/test002/api.raml", x => testFindReferencesPositive(x,templateType,templateName,2))
+    }
+
+    test("Type references test 3. Positive") {
+        var templateName = "t1"
+        var templateType = "ObjectTypeDeclaration"
+        runFindReferencesTest("types/test003/api.raml", x => testFindReferencesPositive(x,templateType,templateName,2))
+    }
 
 
 
-    def testFindTemplateReferencesPositive(opt:Option[ReferenceSearchResult], templateType:String, templateName:String, refsCount:Int):Assertion = {
+
+    def testFindReferencesPositive(opt:Option[ReferenceSearchResult], typeName:String, name:String, refsCount:Int):Assertion = {
         opt match {
             case Some(c) =>
                 c.definition.attribute("name") match {
                     case Some(a) => a.value match {
                         case Some(aVal) =>
-                            if(aVal != templateName){
-                                fail(s"ExpectedName: $templateName, actual:$aVal")
+                            if(aVal != name){
+                                fail(s"ExpectedName: $name, actual: $aVal")
                             }
                             else {
                                 val definition = c.definition.definition
-                                if (!definition.nameId.contains(templateType)) {
-                                    fail(s"$templateType is expected but found  ${definition.nameId.get}")
+                                if (!definition.isAssignableFrom(typeName)) {
+                                    fail(s"$typeName is expected but found  ${definition.nameId.get}")
                                 }
                                 else if(c.references.lengthCompare(refsCount)!=0){
                                     fail(s"References array length is expected to be $refsCount but got ${c.references.length}")

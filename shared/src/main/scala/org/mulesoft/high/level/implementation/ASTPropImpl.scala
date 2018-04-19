@@ -7,6 +7,7 @@ import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition}
 import amf.core.model.domain._
 import amf.core.parser.{Annotations, Value}
 import org.mulesoft.high.level.interfaces.{IAttribute, IHighLevelNode, IProject, ISourceInfo}
+import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
 import org.mulesoft.typesystem.json.interfaces.{JSONWrapper, NodeRange}
 import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
 import org.yaml.model.YPart
@@ -205,7 +206,16 @@ class JSONValueBuffer(element:AmfElement,hlNode:IHighLevelNode, json:Option[JSON
         case _ =>
     }
 
-    override def getValue: Option[JSONWrapper] = json
+    override def getValue: Option[Any] = json match {
+        case Some(j) => j.kind match {
+            case STRING => j.value(STRING)
+            case NUMBER => j.value(NUMBER)
+            case BOOLEAN => j.value(BOOLEAN)
+            case _ => json
+        }
+
+        case _ => json
+    }
 
     override def setValue(value: Any): Unit = {}
 

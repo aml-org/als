@@ -102,29 +102,51 @@ object Search {
         }
     }
 
-    def findReferences(node:IHighLevelNode,position:Int):Option[ReferenceSearchResult] = {
+    def findReferences(node:IParseResult,position:Int):Option[ReferenceSearchResult] = {
         val pm = node.astUnit.positionsMapper
         var locOpt = node.sourceInfo.yamlSources.headOption.map(YamlLocation(_, pm))
         if(locOpt.isEmpty){
             None
         }
-        else if (!locOpt.get.inKey(position) && !locOpt.get.inKey(position-1)) {
-            None
+        else if(node.isElement) {
+            var eNode = node.asElement.get
+            if (!locOpt.get.inKey(position) && !locOpt.get.inKey(position-1)) {
+                None
+            }
+            else if (eNode.definition.nameId.contains("ResourceType") || eNode.definition.nameId.contains("Trait")) {
+                var refs = getTemplateReferences(eNode, node.astUnit.project.rootASTUnit)
+                Some(ReferenceSearchResult(eNode, refs))
+            }
+            else if (eNode.definition.isAssignableFrom("TypeDeclaration")) {
+                val refs = typeReferences(eNode)
+                Some(ReferenceSearchResult(eNode, refs))
+            }
+            else {
+                None
+            }
         }
-        else if(node.definition.nameId.contains("ResourceType")||node.definition.nameId.contains("Trait")){
-            var refs = getTemplateReferences(node,node.astUnit.project.rootASTUnit)
-            Some(ReferenceSearchResult(node,refs))
-        }
-        else if(node.definition.isAssignableFrom("TypeDeclaration")){
-            val refs = typeReferences(node)
-            Some(ReferenceSearchResult(node,refs))
+        else if(node.isAttr){
+            var attr = node.asAttr.get
+            val parentOpt = node.parent
+            if(parentOpt.isDefined
+                && parentOpt.get.definition.isAssignableFrom("TypeDeclaration")
+                && node.property.flatMap(_.nameId).contains("name")){
+
+                val parent = parentOpt.get
+                val refs = typeReferences(parent)
+                Some(ReferenceSearchResult(parent, refs))
+            }
+            else {
+                None
+            }
         }
         else {
             None
         }
+
     }
 
-    def findReferencesByPosition(unit:IASTUnit,position:Int):Option[ReferenceSearchResult] = unit.rootNode.getNodeByPosition(position).flatMap(_.asElement).flatMap(findReferences(_,position))
+    def findReferencesByPosition(unit:IASTUnit,position:Int):Option[ReferenceSearchResult] = unit.rootNode.getNodeByPosition(position).flatMap(findReferences(_,position))
 
     def findDefinition(_node:IParseResult,position:Int):Option[ReferenceSearchResult] = {
         if (_node.isElement) {
@@ -241,12 +263,18 @@ object Search {
     }
 
     def extractTypeName(text:String,position:Int):Option[String] = {
-        if(position<0||position>text.length){
+        if(text.isEmpty || position < 0 || position > text.length){
             None
         }
         else {
             var start = position
-            while (start>0 && ("" + text.charAt(start)).replaceAll("[^\\[\\]|]","").isEmpty){
+            if(text.lengthCompare(start)==0){
+                start -= 1
+            }
+            if(start > 0 && ("" + text.charAt(start)).replaceAll("[\\[\\]|]","").isEmpty){
+                start -= 1
+            }
+            while (start>0 && ("" + text.charAt(start-1)).replaceAll("[^\\[\\]|]","").isEmpty){
                 start -= 1
             }
             var end = position
@@ -294,7 +322,6 @@ object Search {
 
                 case None => None
             }
-            None
         }
     }
 
