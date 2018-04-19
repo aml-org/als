@@ -4,7 +4,10 @@ import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.domain.AmfScalar
 import org.mulesoft.high.level.interfaces.{IASTUnit, IHighLevelNode, IParseResult}
 import org.mulesoft.positioning.YamlLocation
+import org.mulesoft.typesystem.json.interfaces.JSONWrapper
+import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
 import org.mulesoft.typesystem.project.ModuleDependencyEntry
+import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
 import org.yaml.model.{YMap, YScalar}
 
 import scala.collection.mutable.ListBuffer
@@ -294,29 +297,32 @@ object Search {
             var typeAttr = _typeAttr.asAttr.get
             typeAttr.value match {
                 case Some(v) => v match {
-                    case str:String =>
-                        var sources = typeAttr.sourceInfo.yamlSources
-                        if(sources.isEmpty){
-                            None
-                        }
-                        else {
-                            var pm = typeAttr.astUnit.positionsMapper
-                            var loc = YamlLocation(sources.head,pm)
-                            loc.value match {
-                                case Some(yv) => yv.yPart match {
-                                    case sc:YScalar =>
-                                        var off = position - yv.range.start.position
-                                        var text = sc.value.toString
-                                        extractTypeName(text,off) match {
-                                            case Some(name) => findDefinitionByName(typeAttr.astUnit,"TypeDeclaration",name)
-                                            case _ => None
-                                        }
+                    case w:JSONWrapper => w.kind match {
+                        case STRING =>
+                            var sources = typeAttr.sourceInfo.yamlSources
+                            if (sources.isEmpty) {
+                                None
+                            }
+                            else {
+                                var pm = typeAttr.astUnit.positionsMapper
+                                var loc = YamlLocation(sources.head, pm)
+                                loc.value match {
+                                    case Some(yv) => yv.yPart match {
+                                        case sc: YScalar =>
+                                            var off = position - yv.range.start.position
+                                            var text = sc.value.toString
+                                            extractTypeName(text, off) match {
+                                                case Some(name) => findDefinitionByName(typeAttr.astUnit, "TypeDeclaration", name)
+                                                case _ => None
+                                            }
 
+                                        case _ => None
+                                    }
                                     case _ => None
                                 }
-                                case _ => None
                             }
-                        }
+                        case _ => None
+                    }
                     case _ => None
                 }
 
@@ -362,6 +368,10 @@ object Search {
             node.attribute("type") match {
                 case Some(a) => a.value match {
                     case Some(v) => v match {
+                        case w:JSONWrapper => w.kind match {
+                            case STRING => w.value(STRING).get.contains(name)
+                            case _ => false
+                        }
                         case str: String => str.contains(name)
                         case _ => false
                     }
