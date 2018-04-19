@@ -9,7 +9,7 @@ import amf.core.model.domain._
 import amf.core.metamodel.{Field, Obj}
 import amf.plugins.domain.webapi.metamodel.{ParameterModel, PayloadModel}
 import org.mulesoft.high.level.implementation._
-import org.mulesoft.high.level.interfaces.IHighLevelNode
+import org.mulesoft.high.level.interfaces.{IASTUnit, IHighLevelNode}
 import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition}
 import org.mulesoft.typesystem.project.ITypeCollectionBundle
 import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
@@ -125,6 +125,17 @@ abstract class DefaultASTFactory extends IASTFactory {
             }
             shapeOpt
         }
+    }
+
+    def determineUnit(obj:AmfObject, unit:IASTUnit):IASTUnit = {
+
+        var id = obj.id
+        var ind = id.indexOf("#")
+        if(ind<0){
+            ind = id.length
+        }
+
+        unit
     }
 }
 
