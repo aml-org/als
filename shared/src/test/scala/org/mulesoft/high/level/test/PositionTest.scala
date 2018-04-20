@@ -55,6 +55,22 @@ trait PositionTest extends AstTest{
 
     }
 
+    def testFindDefinitionNegative(opt:Option[ReferenceSearchResult]):Assertion = {
+        opt match {
+            case Some(c) =>
+                fail(s"No definition is expected to be found, but a ${c.definition.definition.nameId.get} is found")
+            case None => succeed
+        }
+    }
+
+    def testFindTemplateReferencesNegative(opt:Option[ReferenceSearchResult]):Assertion = {
+        opt match {
+            case Some(c) =>
+                fail(s"No definition is expected to be found, but a ${c.definition.definition.nameId.get} is found")
+            case None => succeed
+        }
+    }
+
 }
 
 class CompletionInput(val content:String, val position:Int) {}

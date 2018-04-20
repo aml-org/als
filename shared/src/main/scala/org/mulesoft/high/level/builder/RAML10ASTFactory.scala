@@ -23,6 +23,7 @@ import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
 import org.mulesoft.high.level.implementation.{BasicValueBuffer, IValueBuffer, JSONValueBuffer}
 import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.high.level.typesystem.TypeBuilder
+import org.mulesoft.positioning.YamlLocation
 import org.mulesoft.typesystem.json.interfaces.{JSONWrapper, NodeRange}
 import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
 import org.mulesoft.typesystem.nominal_interfaces.extras.UserDefinedExtra
@@ -30,7 +31,7 @@ import org.mulesoft.typesystem.syaml.to.json.{YJSONWrapper, YRange}
 import org.mulesoft.typesystem.nominal_interfaces.{IArrayType, IProperty, ITypeDefinition, IUniverse}
 import org.mulesoft.typesystem.nominal_types.{AbstractType, BuiltinUniverse, Property, StructuredType}
 import org.mulesoft.typesystem.project.{ITypeCollectionBundle, TypeCollectionBundle}
-import org.yaml.model.{YNode, YPart, YScalar}
+import org.yaml.model.{YMap, YNode, YPart, YScalar}
 
 import scala.language.postfixOps
 import scala.concurrent.ExecutionContext.Implicits.global
