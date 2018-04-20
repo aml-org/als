@@ -27,7 +27,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
 
     val superLaunch = super.launch()
 
-    if (superLaunch.isSuccess) {
+    if(superLaunch.isSuccess) {
 
       this.connection.onOpenDocument(this.onOpenDocument _)
 
@@ -96,38 +96,36 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
     this.documentChangeExecutor
   }
 
-  def documentWasChanged(document: IChangedDocument): Unit = {
-
-    this.connection.debug("Document is changed", "EditorManager", "onChangeDocument")
-
-    this.connection.debugDetail("Text is:\n " + document.text,
-      "EditorManager", "onChangeDocument")
-
-    val current = this.uriToEditor.get(document.uri)
-
-    if (current.isDefined) {
-
-      val currentVersion = current.get.version
-      val currentText = current.get.text
-      if (currentVersion == document.version) {
-
-        this.connection.debugDetail("Version of the reported change is equal to the previous one", "EditorManager", "onChangeDocument")
-      } else if (document.version < currentVersion && document.text == currentText) {
-
-        this.connection.debugDetail("No changes detected", "EditorManager", "onChangeDocument")
-      }
-    } else {
-
-      this.uriToEditor(document.uri) =
-        new TextEditorInfo(document.uri, document.version,
-          document.text.get, /*this,*/ this.connection)
-
-      this.documentChangeListeners.foreach { listener =>
-        listener(document)
-      }
-    }
+  def documentWasChanged(document: IChangedDocument) {
+	  this.connection.debug("Document is changed", "EditorManager", "onChangeDocument");
+	  
+	  this.connection.debugDetail("Text is:\n " + document.text, "EditorManager", "onChangeDocument");
+	  
+	  val current = this.uriToEditor.get(document.uri);
+	  
+	  if(current.isDefined) {
+		  val currentVersion = current.get.version;
+		  
+		  val currentText = current.get.text;
+		  
+		  if(currentVersion == document.version) {
+			  this.connection.debugDetail("Version of the reported change is equal to the previous one", "EditorManager", "onChangeDocument");
+			  
+			  return;
+		  }
+		  
+		  if(document.version < currentVersion && document.text == currentText) {
+			  this.connection.debugDetail("No changes detected", "EditorManager", "onChangeDocument");
+			  
+			  return;
+		  }
+	  }
+	  
+	  this.uriToEditor(document.uri) = new TextEditorInfo(document.uri, document.version, document.text.get, this.connection);
+	  
+      this.documentChangeListeners.foreach(listener => listener(document));
   }
-
+  
   def onCloseDocument(uri: String): Unit = {
 
     this.uriToEditor.remove(uri)
