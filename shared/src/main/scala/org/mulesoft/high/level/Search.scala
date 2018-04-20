@@ -2,6 +2,8 @@ package org.mulesoft.high.level
 
 import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.domain.AmfScalar
+import amf.core.remote._
+import org.mulesoft.high.level.Search.collectOASReferences
 import org.mulesoft.high.level.interfaces.{IASTUnit, IHighLevelNode, IParseResult}
 import org.mulesoft.positioning.YamlLocation
 import org.mulesoft.typesystem.json.interfaces.JSONWrapper
@@ -108,43 +110,119 @@ object Search {
     def findReferences(node:IParseResult,position:Int):Option[ReferenceSearchResult] = {
         val pm = node.astUnit.positionsMapper
         var locOpt = node.sourceInfo.yamlSources.headOption.map(YamlLocation(_, pm))
+        var language = node.astUnit.project.language
         if(locOpt.isEmpty){
             None
         }
-        else if(node.isElement) {
-            var eNode = node.asElement.get
-            if (!locOpt.get.inKey(position) && !locOpt.get.inKey(position-1)) {
-                None
-            }
-            else if (eNode.definition.nameId.contains("ResourceType") || eNode.definition.nameId.contains("Trait")) {
-                var refs = getTemplateReferences(eNode, node.astUnit.project.rootASTUnit)
-                Some(ReferenceSearchResult(eNode, refs))
-            }
-            else if (eNode.definition.isAssignableFrom("TypeDeclaration")) {
-                val refs = typeReferences(eNode)
-                Some(ReferenceSearchResult(eNode, refs))
-            }
-            else {
-                None
-            }
-        }
-        else if(node.isAttr){
-            var attr = node.asAttr.get
-            val parentOpt = node.parent
-            if(parentOpt.isDefined
-                && parentOpt.get.definition.isAssignableFrom("TypeDeclaration")
-                && node.property.flatMap(_.nameId).contains("name")){
-
-                val parent = parentOpt.get
-                val refs = typeReferences(parent)
-                Some(ReferenceSearchResult(parent, refs))
-            }
-            else {
-                None
-            }
-        }
         else {
-            None
+            val prop = node.property
+            if (node.isElement) {
+                var eNode = node.asElement.get
+                if (!locOpt.get.inKey(position) && !locOpt.get.inKey(position - 1)) {
+                    None
+                }
+                else if (language == Raml || language == Raml10) {
+                    if (eNode.definition.nameId.contains("ResourceType") || eNode.definition.nameId.contains("Trait")) {
+                        var refs = getTemplateReferences(eNode, node.astUnit.project.rootASTUnit)
+                        Some(ReferenceSearchResult(eNode, refs))
+                    }
+                    else if (eNode.definition.isAssignableFrom("TypeDeclaration")) {
+                        val refs = typeReferences(eNode)
+                        Some(ReferenceSearchResult(eNode, refs))
+                    }
+                    else {
+                        None
+                    }
+                }
+                else if (language == Oas || language == Oas || language == Oas2Yaml) {
+                    if (prop.isEmpty) {
+                        None
+                    }
+                    else {
+                        var targetDef: Option[String] = None
+                        var keyAttrName: Option[String] = Some("key")
+                        eNode.definition.nameId match {
+                            case Some("DefinitionObject") =>
+                                targetDef = Some("SchemaObject")
+                                keyAttrName = Some("name")
+                            case Some("ParameterDefinitionObject") => targetDef = Some("ParameterObject")
+                            case Some("ResponseDefinitionObject") => targetDef = Some("ResponseObject")
+                            case _ =>
+                        }
+                        var refOpt = eNode.attribute(keyAttrName.get).flatMap(_.value).map(v => s"#/${prop.get.nameId.get}/${v.toString}")
+                        if (targetDef.isEmpty || refOpt.isEmpty) {
+                            None
+                        }
+                        else {
+                            var refs = collectOASReferences(refOpt.get, targetDef.get, eNode.astUnit)
+                            Some(ReferenceSearchResult(eNode, refs))
+                        }
+                    }
+                }
+                else {
+                    None
+                }
+            }
+            else if (node.isAttr) {
+                var lattr = node.asAttr.get
+                val parentOpt = node.parent
+                if (parentOpt.isDefined) {
+                    var pDef = parentOpt.get.definition
+                    if (language == Raml || language == Raml10) {
+                        if (pDef.isAssignableFrom("TypeDeclaration")
+                            && prop.flatMap(_.nameId).contains("name")) {
+
+                            val parent = parentOpt.get
+                            val refs = typeReferences(parent)
+                            Some(ReferenceSearchResult(parent, refs))
+                        }
+                        else {
+                            None
+                        }
+                    }
+                    else if (language == Oas || language == Oas || language == Oas2Yaml) {
+                        var targetDef: Option[String] = None
+                        var keyAttrName: Option[String] = None
+                        pDef.nameId match {
+                            case Some("DefinitionObject") =>
+                                targetDef = Some("SchemaObject")
+                                keyAttrName = Some("name")
+                            case Some("ParameterDefinitionObject") =>
+                                targetDef = Some("ParameterObject")
+                                keyAttrName = Some("key")
+                            case Some("ResponseDefinitionObject") =>
+                                targetDef = Some("ResponseObject")
+                                keyAttrName = Some("key")
+                            case _ =>
+                        }
+                        if(targetDef.isDefined
+                            && keyAttrName.contains(prop.get.nameId.get)
+                            && parentOpt.get.property.isDefined){
+                            var parentProp = parentOpt.get.property.get.nameId.get
+                            var refOpt = lattr.value.map(v=>s"#/$parentProp/${v.toString}")
+                            if(refOpt.isDefined){
+                                var refs = collectOASReferences(refOpt.get, targetDef.get, node.astUnit)
+                                Some(ReferenceSearchResult(parentOpt.get, refs))
+                            }
+                            else{
+                                None
+                            }
+                        }
+                        else {
+                            None
+                        }
+                    }
+                    else {
+                        None
+                    }
+                }
+                else {
+                    None
+                }
+            }
+            else {
+                None
+            }
         }
 
     }
@@ -152,74 +230,101 @@ object Search {
     def findReferencesByPosition(unit:IASTUnit,position:Int):Option[ReferenceSearchResult] = unit.rootNode.getNodeByPosition(position).flatMap(findReferences(_,position))
 
     def findDefinition(_node:IParseResult,position:Int):Option[ReferenceSearchResult] = {
+        var language = _node.astUnit.project.language
+        val pm = _node.astUnit.positionsMapper
+        var yLoc = _node.sourceInfo.yamlSources.headOption.map(YamlLocation(_, pm))
         if (_node.isElement) {
             var node = _node.asElement.get
-            val pm = node.astUnit.positionsMapper
-            var yLoc = node.sourceInfo.yamlSources.headOption.map(YamlLocation(_, pm))
-            if(yLoc.nonEmpty && yLoc.get.value.nonEmpty){
-                yLoc.get.value.get.yPart match {
-                    case map:YMap =>
-                        if(map.entries.nonEmpty) {
-                            yLoc = Some(YamlLocation(map.entries.head.key, pm))
-                        }
-                    case _ =>
-                }
-            }
-            if (yLoc.isEmpty) {
-                None
-            }
-            else if (!yLoc.get.inValue(position)) {
-                None
-            }
-            else {
-                var refNode: Option[IHighLevelNode] = None
-                var defNode: Option[IHighLevelNode] = None
-                var definition = node.definition
-                var targetName: Option[String] = None
-                var typeName: Option[String] = None
-                if (definition.nameId.contains("ResourceTypeRef")) {
-                    targetName = Some("resourceType")
-                    typeName = Some("ResourceType")
-                }
-                else if (definition.nameId.contains("TraitRef")) {
-                    targetName = Some("trait")
-                    typeName = Some("Trait")
-                }
-                if (targetName.isDefined && typeName.isDefined) {
-                    refNode = Some(node)
-                    defNode = yLoc.get.value.get.yPart match {
-                        case sc:YScalar =>
-                            var name = sc.value.toString
-                            findDefinitionByName(refNode.get.astUnit,typeName.get,name)
-                        case _ => None
+            if(language == Raml || language == Raml10) {
+                if (yLoc.nonEmpty && yLoc.get.value.nonEmpty) {
+                    yLoc.get.value.get.yPart match {
+                        case map: YMap =>
+                            if (map.entries.nonEmpty) {
+                                yLoc = Some(YamlLocation(map.entries.head.key, pm))
+                            }
+                        case _ =>
                     }
                 }
-                if (refNode.isDefined && defNode.isDefined) {
-                    Option(ReferenceSearchResult(defNode.get, ListBuffer(refNode.get)))
-                }
-                else {
+                if (yLoc.isEmpty) {
                     None
                 }
-            }
-
-        }
-        else if(_node.isAttr){
-            var attr = _node.asAttr.get
-            attr.parent match {
-                case Some(p) =>
-                    if(p.definition.isAssignableFrom("TypeDeclaration")
-                        && attr.property.isDefined
-                        && attr.property.get.nameId.contains("type")){
-
-                        typeDeclarationByPosition(attr,position) match {
-                            case Some(decl) => Option(ReferenceSearchResult(decl, ListBuffer(attr.parent.get)))
+                else if (!yLoc.get.inValue(position)) {
+                    None
+                }
+                else {
+                    var refNode: Option[IHighLevelNode] = None
+                    var defNode: Option[IHighLevelNode] = None
+                    var definition = node.definition
+                    var targetName: Option[String] = None
+                    var typeName: Option[String] = None
+                    if (definition.nameId.contains("ResourceTypeRef")) {
+                        targetName = Some("resourceType")
+                        typeName = Some("ResourceType")
+                    }
+                    else if (definition.nameId.contains("TraitRef")) {
+                        targetName = Some("trait")
+                        typeName = Some("Trait")
+                    }
+                    if (targetName.isDefined && typeName.isDefined) {
+                        refNode = Some(node)
+                        defNode = yLoc.get.value.get.yPart match {
+                            case sc: YScalar =>
+                                var name = sc.value.toString
+                                findDefinitionByName(refNode.get.astUnit, typeName.get, name)
                             case _ => None
                         }
+                    }
+                    if (refNode.isDefined && defNode.isDefined) {
+                        Option(ReferenceSearchResult(defNode.get, List(refNode.get)))
                     }
                     else {
                         None
                     }
-                case _ => None
+                }
+            }
+            else if(language == Oas || language == Oas2 || language == Oas2Yaml){
+                 oasReference(node,position).flatMap(oasDeclarationByReference(node.astUnit,_)).filter(_.definition.isAssignableFrom(node.definition.nameId.get)).map(x=>ReferenceSearchResult(x, List(node)))
+            }
+            else {
+                None
+            }
+        }
+        else if(_node.isAttr){
+            var attr = _node.asAttr.get
+            val parent = attr.parent.get
+            if(language == Raml || language == Raml10) {
+                attr.parent match {
+                    case Some(p) =>
+                        if (p.definition.isAssignableFrom("TypeDeclaration")
+                            && attr.property.isDefined
+                            && attr.property.get.nameId.contains("type")) {
+
+                            typeDeclarationByPosition(attr, position) match {
+                                case Some(decl) => Option(ReferenceSearchResult(decl, List(parent)))
+                                case _ => None
+                            }
+                        }
+                        else {
+                            None
+                        }
+                    case _ => None
+                }
+            }
+            else if(language == Oas || language == Oas2 || language == Oas2Yaml){
+                if(yLoc.nonEmpty && yLoc.get.inValue(position)) {
+                    if (attr.property.get.nameId.contains("$ref")) {
+                        attr.value.map(_.toString).flatMap(oasDeclarationByReference(attr.astUnit, _)).filter(_.definition.isAssignableFrom(parent.definition.nameId.get)).map(x => ReferenceSearchResult(x, List(parent)))
+                    }
+                    else {
+                        None
+                    }
+                }
+                else{
+                    None
+                }
+            }
+            else {
+                None
             }
         }
         else {
@@ -381,6 +486,65 @@ object Search {
             }
         }
         getNodesOfType(unit,"TypeDeclaration",filter,false)
+    }
+
+    def oasReference(node:IParseResult,position:Int = -1):Option[String] = {
+//        val pm = node.astUnit.positionsMapper
+//        node.sourceInfo.yamlSources.headOption.flatMap(YamlLocation(_,pm).value).flatMap(x=> x.yPart match {
+//            case map:YMap => map.entries.find(e=>e.key.value match {
+//                case sc:YScalar => sc.value == "$ref"
+//                case _ => false
+//            }).map(YamlLocation(_,pm))
+//            case _ => None
+//        }).filter(x => position < 0 || x.inValue(position)).flatMap(_.value).map(_.yPart).flatMap({
+//            case sc:YScalar => Option(sc.value.toString)
+//            case _ => None
+//        })
+        node.asElement.flatMap(_.attribute("$ref")).flatMap(a =>
+            a.sourceInfo.yamlSources.headOption match {
+                case Some(yPart) =>
+                    if(position < 0 || YamlLocation(yPart,node.astUnit.positionsMapper).inValue(position)) {
+                        a.value
+                    }
+                    else {
+                        None
+                    }
+                case _ => None
+            }).map(_.toString)
+    }
+
+    def oasDeclarationByReference(unit:IASTUnit,reference:String):Option[IHighLevelNode] = {
+        if(reference.isEmpty){
+            None
+        }
+        else {
+            var arr: Array[String] = reference.split("/").filter(x=>x.nonEmpty&&x!="#")
+            if(arr.length==2){
+                var propName = arr(0)
+                var key = arr(1)
+                unit.rootNode.elements(propName).find(x=>{
+                    var keyAttrName = "key"
+                    if(x.definition.nameId.contains("DefinitionObject")){
+                        keyAttrName = "name"
+                    }
+                    x.attribute(keyAttrName).flatMap(_.value).map({
+                        case str:String => str == key
+                        case _ => false
+                    }).orElse(Some(false)).get
+                })
+            }
+            else {
+                None
+            }
+        }
+    }
+
+    def collectOASReferences(ref:String,typeName:String,unit:IASTUnit):Seq[IHighLevelNode] = {
+
+        var filter: IHighLevelNode => Boolean = n => {
+            oasReference(n).contains(ref)
+        }
+        getNodesOfType(unit,typeName,filter)
     }
 
 }

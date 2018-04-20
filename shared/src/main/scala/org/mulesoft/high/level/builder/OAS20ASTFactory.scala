@@ -11,13 +11,15 @@ import amf.plugins.document.webapi.model.{AnnotationTypeDeclarationFragment, Dat
 import amf.plugins.domain.shapes.metamodel._
 import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.metamodel.security._
-import org.mulesoft.high.level.implementation.BasicValueBuffer
+import org.mulesoft.high.level.implementation.{BasicValueBuffer, IValueBuffer}
 import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.high.level.typesystem.TypeBuilder
+import org.mulesoft.positioning.YamlLocation
 import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
 import org.mulesoft.typesystem.nominal_interfaces.{IArrayType, IProperty, ITypeDefinition, IUniverse}
 import org.mulesoft.typesystem.project.{ITypeCollectionBundle, TypeCollectionBundle}
 import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
+import org.yaml.model._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -135,6 +137,8 @@ class OAS20ASTFactory private extends DefaultASTFactory {
 
         registerPropertyMatcher("ResponseDefinitionObject", "key", ResponseModel.Name)
         registerPropertyMatcher("Response", "code", ResponseModel.StatusCode)
+
+        registerPropertyMatcher("ResponseObject", "$ref", ThisMatcher().withCustomBuffer((obj,node)=>ReferenceValueBuffer(obj,node)))
         registerPropertyMatcher("ResponseObject", "description", ResponseModel.Description)
         registerPropertyMatcher("ResponseObject", "schema", ThisMatcher() + ResponseModel.Payloads + PayloadModel.Schema)
         registerPropertyMatcher("ResponseObject", "headers", ResponseModel.Headers)
@@ -142,6 +146,8 @@ class OAS20ASTFactory private extends DefaultASTFactory {
 
 
         registerPropertyMatcher("ParameterDefinitionObject", "key", ParameterModel.Name)
+
+        registerPropertyMatcher("ParameterObject", "$ref", ThisMatcher().withCustomBuffer((obj,node)=>ReferenceValueBuffer(obj,node)))
         registerPropertyMatcher("ParameterObject", "name", ParameterModel.ParameterName)
         registerPropertyMatcher("ParameterObject", "description", ParameterModel.Description)
         registerPropertyMatcher("ParameterObject", "in", ParameterModel.Binding)
@@ -191,17 +197,12 @@ class OAS20ASTFactory private extends DefaultASTFactory {
         registerPropertyMatcher("SchemaObject", "additionalProperties", builtinFacetMatchers("additionalProperties"))
         registerPropertyMatcher("SchemaObject", "additionalPropertiesSchema", shapeMatcher + NodeShapeModel.AdditionalPropertiesSchema)
         //TODO: registerPropertyMatcher("SchemaObject", "readOnly", ShapeModel.Name)
-        //TODO:registerPropertyMatcher("SchemaObject", "$ref", ShapeModel.Name)
+        registerPropertyMatcher("SchemaObject", "$ref", ThisMatcher().withCustomBuffer((obj,node)=>ReferenceValueBuffer(obj,node)))
 
         registerPropertyMatcher("HeaderObject", "name", ParameterModel.Name)
         registerPropertyMatcher("HeaderObject", "description", shapeMatcher + SchemaShapeModel.Description & ParameterModel.Description)
 
         registerPropertyMatcher("WithSpecificationExtensions", "specificationExtensions", DomainElementModel.CustomDomainProperties)
-//
-//TODO: tags
-//        registerPropertyMatcher("TagObject", "name", ShapeModel.Name)
-//        registerPropertyMatcher("TagObject", "description", ShapeModel.Name)
-//        registerPropertyMatcher("TagObject", "externalDocs", ShapeModel.Name)
 
         registerPropertyMatcher("SecurityDefinitionObject", "name", SecuritySchemeModel.Name)
         registerPropertyMatcher("SecurityDefinitionObject", "type", SecuritySchemeModel.Type)
@@ -392,4 +393,47 @@ class TypePropertyValueBuffer(element:AmfObject,hlNode:IHighLevelNode) extends B
 
 object TypePropertyValueBuffer{
     def apply(element:AmfObject,hlNode:IHighLevelNode):TypePropertyValueBuffer = new TypePropertyValueBuffer(element,hlNode)
+}
+
+
+class ReferenceValueBuffer(val element:AmfObject,val hlNode:IHighLevelNode)
+    extends IValueBuffer {
+
+    var src:Option[YPart] = None
+
+    private var initialized:Boolean = false
+
+    def init():Unit = {
+        if(initialized){
+            return
+        }
+        initialized = true
+        src = element.annotations.find(classOf[SourceAST])
+            .flatMap(x => x.ast match {
+                case e:YMapEntry => Some(e.value.value)
+                case v:YValue => Some(v)
+                case _ => None
+            }).flatMap({
+            case map: YMap => Some(map)
+            case _ => None
+        }).flatMap(_.entries.find(_.key.value match {
+            case sc: YScalar => sc.value == "$ref"
+            case _ => false
+        }))
+    }
+
+    override def getValue: Option[String] = src.flatMap(YJSONWrapper(_)).flatMap(_.value(STRING))
+
+    override def setValue(value: Any): Unit = {}
+
+    override def yamlNodes: Seq[YPart] = {
+        init()
+        List(src).flatten
+    }
+    init()
+
+}
+
+object ReferenceValueBuffer {
+    def apply(element: AmfObject, hlNode: IHighLevelNode): ReferenceValueBuffer = new ReferenceValueBuffer(element, hlNode)
 }

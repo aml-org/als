@@ -4,7 +4,7 @@ import org.mulesoft.high.level.ReferenceSearchResult
 import org.mulesoft.high.level.test.RAML10.RamlFindDefinitionTest
 import org.scalatest.Assertion
 
-class TemplateDefinitionTests extends RamlFindDefinitionTest{
+class DefinitionTests extends RamlFindDefinitionTest{
 
     test("Resource type definition test 1. Positive") {
         var templateName = "rt"
@@ -257,14 +257,6 @@ class TemplateDefinitionTests extends RamlFindDefinitionTest{
                     case _ => fail("'name' attribute not found")
                 }
             case None => fail("Search result is empty")
-        }
-    }
-
-    def testFindDefinitionNegative(opt:Option[ReferenceSearchResult]):Assertion = {
-        opt match {
-            case Some(c) =>
-                fail(s"No definition is expected to be found, but a ${c.definition.definition.nameId.get} is found")
-            case None => succeed
         }
     }
 }

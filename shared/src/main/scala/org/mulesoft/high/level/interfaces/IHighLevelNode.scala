@@ -59,7 +59,10 @@ trait IHighLevelNode extends IParseResult {
     override protected def selectNodeWhichContainsPosition(pos:Int):Option[IParseResult] = {
         if (sourceInfo.containsPosition(pos)){
             var path = astUnit.path
-            var matchedSiblings = children.filter(x=>x.unitPath==path).flatMap(_.getNodeByPosition(pos))
+            var matchedSiblings = children.filter(x=>{
+                val up = x.unitPath
+                up.isEmpty||up.contains(path)
+            }).flatMap(_.getNodeByPosition(pos))
             if(matchedSiblings.nonEmpty){
                 matchedSiblings.headOption
             }

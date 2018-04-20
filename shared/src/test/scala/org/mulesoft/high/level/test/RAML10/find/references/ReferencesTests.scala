@@ -4,7 +4,7 @@ import org.mulesoft.high.level.ReferenceSearchResult
 import org.mulesoft.high.level.test.RAML10.RamlFindReferencesTest
 import org.scalatest.Assertion
 
-class TemplateReferencesTests extends RamlFindReferencesTest{
+class ReferencesTests extends RamlFindReferencesTest{
 
     test("Resource type references test 1. Positive") {
         var templateName = "rt"
@@ -108,14 +108,5 @@ class TemplateReferencesTests extends RamlFindReferencesTest{
             case None => fail("Search result is empty")
         }
     }
-
-    def testFindTemplateReferencesNegative(opt:Option[ReferenceSearchResult]):Assertion = {
-        opt match {
-            case Some(c) =>
-                fail(s"No definition is expected to be found, but a ${c.definition.definition.nameId.get} is found")
-            case None => succeed
-        }
-    }
-
 }
 

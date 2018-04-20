@@ -81,12 +81,18 @@ trait IParseResult {
         if (sourceInfo.containsPosition(pos)) Some(this)
         else None
 
-    def unitPath:String = {
+    def unitPath:Option[String] = {
         var id = amfNode.id
-        var ind = id.indexOf("#")
-        if(ind>=0){
-            id = id.substring(0,ind)
+        Option(id) match {
+            case Some(str) =>
+                var result = str
+                var ind = str.indexOf("#")
+                if(ind>=0){
+                    result = str.substring(0,ind)
+                }
+                Some(result)
+            case _ => None
         }
-        id
+
     }
 }

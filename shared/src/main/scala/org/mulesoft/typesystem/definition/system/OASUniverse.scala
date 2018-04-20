@@ -2130,6 +2130,20 @@ val value3 =
         "implements": [],
         "fields": [
           {
+            "name": "$ref",
+            "type": {
+              "typeName": "string",
+              "nameSpace": "",
+              "basicName": "string",
+              "typeKind": 0,
+              "typeArguments": [],
+              "modulePath": null
+            },
+            "annotations": [],
+            "valueConstraint": null,
+            "optional": false
+          },
+          {
             "name": "description",
             "type": {
               "typeName": "Sys.MarkdownString",
@@ -2920,6 +2934,20 @@ val value3 =
         "typeParameterConstraint": [],
         "implements": [],
         "fields": [
+          {
+            "name": "$ref",
+            "type": {
+              "typeName": "string",
+              "nameSpace": "",
+              "basicName": "string",
+              "typeKind": 0,
+              "typeArguments": [],
+              "modulePath": null
+            },
+            "annotations": [],
+            "valueConstraint": null,
+            "optional": false
+          },
           {
             "name": "description",
             "type": {
