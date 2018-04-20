@@ -88,8 +88,6 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
         dynamicMessage.payload.$type = typeToPatchWith
 
         val serializedJson = Globals.JSON.stringify(dynamicMessage)
-        this.debugDetail("NodeMessageDispatcher", "deserializeMessage",
-          "Patched string: " + serializedJson)
 
         val protocolMessage = read[ProtocolMessage[ProtocolMessagePayload]](
           serializedJson)

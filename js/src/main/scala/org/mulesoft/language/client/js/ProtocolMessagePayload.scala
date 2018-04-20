@@ -466,7 +466,7 @@ case class LoggerSettings (
    /**
      * If true, disables all logging.
      */
-   //var disabled: Option[Boolean],
+   var disabled: Option[Boolean],
 
    /**
      * List of components, which are allowed to appear in log.
@@ -477,7 +477,7 @@ case class LoggerSettings (
    /**
      * Components, which never appear in the log
      */
-   //var deniedComponents: Option[Seq[String]],
+   var deniedComponents: Option[Seq[String]],
 
    /**
      * Messages with lower severity will not appear in log.
@@ -500,9 +500,9 @@ object LoggerSettings {
     from: LoggerSettings): ILoggerSettings = {
 
     new ILoggerSettings() {
-      var disabled = Some(false)//from.disabled
+      var disabled = from.disabled
       var allowedComponents = from.allowedComponents
-      var deniedComponents = Some(List())//from.deniedComponents
+      var deniedComponents = from.deniedComponents
       var maxSeverity = if(from.maxSeverity.isDefined) Some(MessageSeverity.sharedToTransport(from.maxSeverity.get)) else None
       var maxMessageLength = from.maxMessageLength
     }
