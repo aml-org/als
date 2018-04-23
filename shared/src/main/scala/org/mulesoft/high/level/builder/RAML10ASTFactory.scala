@@ -535,18 +535,27 @@ class RAML10ASTFactory private extends DefaultASTFactory {
                     nodeProperty.flatMap(_.nameId).orNull match {
                         case "types" => bundle.getType(shape.id,shape.name.value())
                         case "annotationTypes" => bundle.getAnnotationType(shape.id,shape.name.value())
-                        case "properties" => None
-                            var pName = shape.name
-                            parent.flatMap(_.localType).flatMap(_.properties.find(_.nameId.get == pName)).flatMap(_.range)
-                        case "items" => None
-                            var pName = shape.name
+                        case "properties" =>
+                            if(shape.name.nonEmpty) {
+                                var pName = shape.name.value()
+                                parent.flatMap(_.localType).flatMap(_.properties.find(_.nameId.get == pName)).flatMap(_.range)
+                            }
+                            else{
+                                None
+                            }
+                        case "items" =>
                             parent.flatMap(_.localType).flatMap({
                                 case at:IArrayType => at.componentType
                                 case _ => None
                             })
-                        case "facets" => None
-                            var pName = shape.name
-                            parent.flatMap(_.localType).flatMap(_.facets.find(_.nameId.get == pName)).flatMap(_.range)
+                        case "facets" =>
+                            if(shape.name.nonEmpty) {
+                                var pName = shape.name.value()
+                                parent.flatMap(_.localType).flatMap(_.facets.find(_.nameId.get == pName)).flatMap(_.range)
+                            }
+                            else {
+                                None
+                            }
                         case "headers" | "queryParameners" | "uriParameters" | "queryString" | "body" =>
                             Some(TypeBuilder.getOrCreate(shape,universe.get,bundle,this))
                         case _ => None
