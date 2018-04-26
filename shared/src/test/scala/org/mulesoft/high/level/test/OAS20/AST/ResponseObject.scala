@@ -4,6 +4,17 @@ import org.mulesoft.high.level.test.OAS20.OAS20ASTTest
 
 class ResponseObject extends OAS20ASTTest{
 
+  test("ResponsesObject responses"){
+    runTest( "ASTTests/OperationObject/OperationObject.yml", project => {
+      var expectedValue = 1
+      var actualValue = project.rootASTUnit.rootNode.element("paths").get.elements("paths").head.elements("operations").head.elements("responses").length
+      if (actualValue == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+    })
+  }
+
   test("Response code"){
     runTest( "ASTTests/OperationObject/OperationObject.yml", project => {
       var expectedValue = "200"

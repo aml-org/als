@@ -107,7 +107,6 @@ class SwaggerObject extends OAS20ASTTest{
         })
     }
 
-/*
     test("Swagger Object responses"){
         runTest( "ASTTests/SwaggerObject/SwaggerObject.yml", project => {
             var expectedValue = 2
@@ -118,7 +117,6 @@ class SwaggerObject extends OAS20ASTTest{
                 fail(s"Expected value: $expectedValue, actual: ${actualValue}")
         })
     }
-*/
 
     test("Swagger Object securityDefinitions"){
         runTest( "ASTTests/SwaggerObject/SwaggerObject.yml", project => {
