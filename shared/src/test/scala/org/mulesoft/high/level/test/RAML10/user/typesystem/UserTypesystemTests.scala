@@ -5,7 +5,7 @@ import org.mulesoft.high.level.test.RAML10.RAML10TypesystemTest
 class UserTypesystemTests extends RAML10TypesystemTest {
 
     test("Local type existence") {
-        runTest("test001/api.raml", project => {
+        runTest("rootType/test001/api.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").head
             if (typeNode.localType.isDefined)
@@ -16,7 +16,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type componentType") {
-        runTest("test003.raml", project => {
+        runTest("rootType/test003.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").head
             if (typeNode.localType.get.array.get.componentType.get.nameId.get == "items")
@@ -27,7 +27,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type options") {
-        runTest("test004.raml", project => {
+        runTest("rootType/test004.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("arr")).get
             var unionSuperType = typeNode.localType.flatMap(_.superTypes.find(_.isUnion)).flatMap(_.union)
@@ -39,7 +39,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type superTypes") {
-        runTest("test005.raml", project => {
+        runTest("rootType/test005.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("arr")).get
             if (typeNode.localType.get.superTypes.length == 2)
@@ -50,7 +50,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type subTypes") {
-        runTest("test006.raml", project => {
+        runTest("rootType/test006.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("CustomDate")).get
             if (typeNode.localType.get.subTypes.length == 1)
@@ -61,7 +61,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type allSubTypes") {
-        runTest("test007.raml", project => {
+        runTest("rootType/test007.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("CustomDate")).get
             if (typeNode.localType.get.allSubTypes.length == 2)
@@ -72,7 +72,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type allSuperTypes") {
-        runTest("test008.raml", project => {
+        runTest("rootType/test008.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
             var actualValue = typeNode.localType.get.allSuperTypes.length
@@ -85,7 +85,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type properties") {
-        runTest("test009.raml", project => {
+        runTest("rootType/test009.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
             if (typeNode.localType.get.properties.length == 2)
@@ -96,7 +96,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type facet") {
-        runTest("test010.raml", project => {
+        runTest("rootType/test010.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("CustomDate")).get
             if (typeNode.localType.get.facet("noHolidays").get.nameId.get == "noHolidays")
@@ -107,7 +107,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type allProperties") {
-        runTest("test011.raml", project => {
+        runTest("rootType/test011.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("arr")).get
             if (typeNode.localType.get.allProperties.length == 2)
@@ -118,7 +118,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type allFacets") {
-        runTest("test012.raml", project => {
+        runTest("rootType/test012.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("PossibleMeetingDate")).get
             var actualValue = typeNode.localType.get.allFacets.length
@@ -131,7 +131,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type facets") {
-        runTest("test013.raml", project => {
+        runTest("rootType/test013.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("PossibleMeetingDate")).get
             var actualValue = typeNode.localType.get.facets.length
@@ -144,7 +144,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type isAnnotationType") {
-        runTest("test014.raml", project => {
+        runTest("rootType/test014.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("PossibleMeetingDate")).get
             var actualValue = typeNode.localType.get.isAnnotationType
@@ -157,7 +157,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type isBuiltIn") {
-        runTest("test015.raml", project => {
+        runTest("rootType/test015.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("PossibleMeetingDate")).get
             var actualValue = typeNode.localType.get.isBuiltIn
@@ -170,7 +170,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type requiredProperties") {
-        runTest("test016.raml", project => {
+        runTest("rootType/test016.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
             var actualValue = typeNode.localType.get.requiredProperties.length
@@ -183,7 +183,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type getFixedFacets") {
-        runTest("test017.raml", project => {
+        runTest("rootType/test017.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("PossibleMeetingDate")).get
             var actualValue = typeNode.localType.get.getFixedFacets.size
@@ -196,7 +196,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type fixedFacets") {
-        runTest("test018.raml", project => {
+        runTest("rootType/test018.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("PossibleMeetingDate")).get
             var actualValue = typeNode.localType.get.fixedFacets.size
@@ -209,7 +209,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type allFixedFacets") {
-        runTest("test019.raml", project => {
+        runTest("rootType/test019.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("PossibleMeetingDate")).get
             var actualValue = typeNode.localType.get.allFixedFacets.size
@@ -222,7 +222,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type fixedBuiltInFacets") {
-        runTest("test020.raml", project => {
+        runTest("rootType/test020.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
             var actualValue = typeNode.localType.get.fixedBuiltInFacets.size
@@ -235,7 +235,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type allFixedBuiltInFacets") {
-        runTest("test021.raml", project => {
+        runTest("rootType/test021.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
             var actualValue = typeNode.localType.get.allFixedBuiltInFacets.size
@@ -248,7 +248,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type isTopLevel") {
-        runTest("test022.raml", project => {
+        runTest("rootType/test022.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
             var actualValue = typeNode.localType.get.isTopLevel
@@ -261,7 +261,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type isUserDefined") {
-        runTest("test023.raml", project => {
+        runTest("rootType/test023.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
             var actualValue = typeNode.localType.get.isUserDefined
@@ -274,7 +274,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type isValueType") {
-        runTest("test025.raml", project => {
+        runTest("rootType/test025.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
             var actualValue = typeNode.localType.get.isValueType
@@ -287,7 +287,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type isArray") {
-        runTest("test027.raml", project => {
+        runTest("rootType/test027.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("bb")).get
             var actualValue = typeNode.localType.get.isArray
@@ -300,7 +300,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type isObject") {
-        runTest("test028.raml", project => {
+        runTest("rootType/test028.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("bb")).get
             var actualValue = typeNode.localType.get.isObject
@@ -313,7 +313,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type array") {
-        runTest("test030.raml", project => {
+        runTest("rootType/test030.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("bb")).get
             var actualValue = typeNode.localType.get.array.get.nameId.get
@@ -326,7 +326,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type hasStructure") {
-        runTest("test037.raml", project => {
+        runTest("rootType/test037.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
             var actualValue = typeNode.localType.get.hasStructure
@@ -339,7 +339,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type property") {
-        runTest("test044.raml", project => {
+        runTest("rootType/test044.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
             var actualValue = typeNode.localType.get.property("aa").get.nameId.get
@@ -352,7 +352,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type printDetails") {
-        runTest("test045.raml", project => {
+        runTest("rootType/test045.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("prmn")).get
             var actualValue = typeNode.localType.get.printDetails
@@ -365,7 +365,7 @@ class UserTypesystemTests extends RAML10TypesystemTest {
     }
 
     test("Local type kind") {
-        runTest("test049.raml", project => {
+        runTest("rootType/test049.raml", project => {
 
             var typeNode = project.rootASTUnit.rootNode.elements("types").find(t=> t.attribute("name").get.value.contains("abc")).get
             var actualValue = typeNode.localType.get.kind.length
