@@ -18,7 +18,8 @@
     "application/xml"
   ],
   "paths": {
-    "/pets/{id}": {}
+    "/pets/{id}": {
+    }
   },
   "parameters": {
     "skipParam": {
@@ -65,10 +66,15 @@
   },
   "security": [
     {
-      "githubAccessCode": [ "user", "gist" ]
+      "githubAccessCode": [
+        "user",
+        "gist"
+      ]
     },
     {
-      "internalApiKey": []
+      "internalApiKey": [
+
+      ]
     }
   ],
   "responses": {
@@ -108,5 +114,5 @@
     "description": "Find more info here",
     "url": "https://swagger.io"
   },
-  "x-web-api-annotation" : "some string value"
+  "x-web-api-annotation": "some string value"
 }

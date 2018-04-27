@@ -52,6 +52,10 @@ definitions:
           type: integer
           format: int64
     required: true
+    additionalProperties:
+      type: boolean
+    additionalPropertiesSchema:
+      $ref: '#/definitions/Pet'
 securityDefinitions:
   petstoreImplicit:
     type: oauth2
