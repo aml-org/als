@@ -2,7 +2,7 @@ package org.mulesoft.language.server.js
 
 import CustomPicklerConfig.{macroRW, ReadWriter => RW}
 import org.mulesoft.language.common.logger.{ILoggerSettings, MessageSeverity => SharedMessageSeverity}
-import org.mulesoft.language.common.typeInterfaces.{IChangedPosition => SharedChangedPosition, IChangedDocument => SharedChangedDocument, IOpenedDocument => SharedOpenDocument, IRange => SharedRange, IStructureReport => SharedStructureReport, ITextEdit => SharedTextEdit, IValidationIssue => SharedValidationIssue, IValidationReport => SharedValidationReport, StructureNode => SharedStructureNode}
+import org.mulesoft.language.common.dtoTypes.{IChangedPosition => SharedChangedPosition, IChangedDocument => SharedChangedDocument, IOpenedDocument => SharedOpenDocument, IRange => SharedRange, IStructureReport => SharedStructureReport, ITextEdit => SharedTextEdit, IValidationIssue => SharedValidationIssue, IValidationReport => SharedValidationReport, StructureNode => SharedStructureNode}
 
 sealed trait ProtocolMessagePayload;
 

@@ -6,7 +6,7 @@ import scala.collection.mutable.Buffer
 import scala.collection.mutable.ArrayBuffer
 import amf.core.model.document.BaseUnit
 import amf.core.unsafe.TrunkPlatform
-import org.mulesoft.language.common.typeInterfaces.{IChangedDocument, IOpenedDocument}
+import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IOpenedDocument}
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.core.connections.IServerConnection
 import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule

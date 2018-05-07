@@ -1,0 +1,72 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "Getting Started",
+        "typeText": null,
+        "icon": "BOOK",
+        "textStyle": "NORMAL",
+        "children": [],
+        "key": " :: ",
+        "start": -1,
+        "end": -1,
+        "category": "OtherCategory"
+      },
+      {
+        "text": "Basics of Authentication",
+        "typeText": null,
+        "icon": "BOOK",
+        "textStyle": "NORMAL",
+        "children": [],
+        "key": " :: ",
+        "start": -1,
+        "end": -1,
+        "category": "OtherCategory"
+      },
+      {
+        "text": "Rendering Data as Graphs",
+        "typeText": null,
+        "icon": "BOOK",
+        "textStyle": "NORMAL",
+        "children": [],
+        "key": " :: ",
+        "start": -1,
+        "end": -1,
+        "category": "OtherCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

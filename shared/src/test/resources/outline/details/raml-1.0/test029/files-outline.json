@@ -1,0 +1,91 @@
+{
+  "title": "Library",
+  "description": "",
+  "type": null,
+  "children": [
+    {
+      "title": "Documentation",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "usage",
+          "description": "contains description of why library exist",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": "#usage"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#Documentation"
+    },
+    {
+      "title": "General",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "uses",
+          "description": "Insert uses",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": "#uses#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "schemas",
+          "description": "Insert schemas",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": "#schemas#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "traits",
+          "description": "Insert traits",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": "#traits#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "resourceTypes",
+          "description": "Insert resourceTypes",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": "#resourceTypes#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "annotationTypes",
+          "description": "Insert annotationTypes",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": "#annotationTypes#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "securitySchemes",
+          "description": "Insert securitySchemes",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": "#securitySchemes#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "Delete",
+          "description": "",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": "#DELETE_DETAILS_ACTION",
+          "subType": "DELETE"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#General"
+    }
+  ],
+  "valueText": null,
+  "id": "Category#Library"
+}

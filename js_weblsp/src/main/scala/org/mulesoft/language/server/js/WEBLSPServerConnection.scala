@@ -1,7 +1,7 @@
 package org.mulesoft.language.server.js;
 
 import org.mulesoft.language.common.logger.{ILoggerSettings, IPrintlnLogger};
-import org.mulesoft.language.common.typeInterfaces._;
+import org.mulesoft.language.common.dtoTypes._;
 import org.mulesoft.language.server.server.core.connectionsImpl.AbstractServerConnection;
 
 import scala.concurrent.Future;

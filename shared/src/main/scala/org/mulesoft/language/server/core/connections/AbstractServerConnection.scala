@@ -1,7 +1,7 @@
 package org.mulesoft.language.server.server.core.connectionsImpl
 
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
-import org.mulesoft.language.common.typeInterfaces._
+import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.server.core.connections.IServerConnection
 
 import scala.collection.mutable.Buffer

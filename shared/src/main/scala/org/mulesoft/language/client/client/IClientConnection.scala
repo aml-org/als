@@ -1,7 +1,7 @@
 package org.mulesoft.language.client
 
 import org.mulesoft.language.common.logger.ILogger
-import org.mulesoft.language.common.typeInterfaces._
+import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
 
 import scala.concurrent.Future

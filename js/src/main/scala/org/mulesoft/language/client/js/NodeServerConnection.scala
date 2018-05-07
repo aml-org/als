@@ -6,7 +6,7 @@ import amf.core.unsafe.TrunkPlatform
 import amf.plugins.domain.webapi.models.WebApi
 import org.mulesoft.language.client.js.CustomPicklerConfig.write
 import org.mulesoft.language.common.logger.{AbstractLogger, IPrintlnLogger, MessageSeverity, PrintlnLogger}
-import org.mulesoft.language.common.typeInterfaces._
+import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.server.core.connections.IServerConnection
 import org.mulesoft.language.server.server.core.connectionsImpl.AbstractServerConnection
 import org.mulesoft.language.server.server.modules.astManager.{ParseResult, ParserHelper}

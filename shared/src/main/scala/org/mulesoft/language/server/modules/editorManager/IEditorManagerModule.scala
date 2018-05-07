@@ -1,6 +1,6 @@
 package org.mulesoft.language.server.server.modules.editorManager
 
-import org.mulesoft.language.common.typeInterfaces.{IChangedDocument, IDocumentChangeExecutor}
+import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IDocumentChangeExecutor}
 import org.mulesoft.language.server.core.IServerIOCModule
 import org.mulesoft.language.server.server.modules.commonInterfaces.IAbstractTextEditorWithCursor
 

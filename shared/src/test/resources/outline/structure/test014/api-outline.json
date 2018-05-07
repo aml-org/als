@@ -1,0 +1,184 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "/locations",
+        "typeText": null,
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "children": [
+          {
+            "text": "get",
+            "typeText": null,
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "children": [
+              {
+                "text": "queryString",
+                "typeText": ":paging",
+                "icon": "FILE_BINARY",
+                "textStyle": "SUCCESS",
+                "children": [
+                  {
+                    "text": "first",
+                    "typeText": null,
+                    "children": [],
+                    "key": "first :: queryString :: get :: /locations :: ",
+                    "start": 498,
+                    "end": 503
+                  },
+                  {
+                    "text": "second",
+                    "typeText": null,
+                    "children": [],
+                    "key": "second :: queryString :: get :: /locations :: ",
+                    "start": 592,
+                    "end": 598
+                  },
+                  {
+                    "text": "third",
+                    "typeText": null,
+                    "children": [],
+                    "key": "third :: queryString :: get :: /locations :: ",
+                    "start": 698,
+                    "end": 703
+                  }
+                ],
+                "key": "queryString :: get :: /locations :: ",
+                "start": 422,
+                "end": 433
+              }
+            ],
+            "key": "get :: /locations :: ",
+            "start": 413,
+            "end": 416
+          }
+        ],
+        "key": "/locations :: ",
+        "start": 399,
+        "end": 409,
+        "category": "ResourcesCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "lat-long",
+        "typeText": null,
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "lat",
+            "typeText": ":number",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "lat :: lat-long :: ",
+            "start": 153,
+            "end": 156
+          },
+          {
+            "text": "long",
+            "typeText": ":number",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "long :: lat-long :: ",
+            "start": 171,
+            "end": 175
+          }
+        ],
+        "key": "lat-long :: ",
+        "start": 65,
+        "end": 73,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "loc",
+        "typeText": null,
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "location",
+            "typeText": null,
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "location :: loc :: ",
+            "start": 269,
+            "end": 277
+          }
+        ],
+        "key": "loc :: ",
+        "start": 186,
+        "end": 189,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "paging",
+        "typeText": null,
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "start?",
+            "typeText": ":number",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "start? :: paging :: ",
+            "start": 359,
+            "end": 365
+          },
+          {
+            "text": "page-size?",
+            "typeText": ":number",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "page-size? :: paging :: ",
+            "start": 380,
+            "end": 390
+          }
+        ],
+        "key": "paging :: ",
+        "start": 281,
+        "end": 287,
+        "category": "SchemasAndTypesCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

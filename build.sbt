@@ -31,7 +31,10 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
         "org.mule.amf" %%% "amf-vocabularies" % "1.4.0-SNAPSHOT",
         "org.mule.common" %%% "scala-common" % "0.1.2",
         "org.scalatest"    %%% "scalatest" % "3.0.0" % Test,
-        "com.chuusai" %% "shapeless" % "2.3.3"
+        "com.chuusai" %% "shapeless" % "2.3.3",
+        "org.mule.amf" %%% "typesystem-project" % "0.1-SNAPSHOT",
+        "org.mule.amf" %%% "als-suggestions" % "0.1-SNAPSHOT",
+        "org.mule.amf" %%% "als-outline" % "0.1-SNAPSHOT"
     )
 )
 

@@ -1,0 +1,11 @@
+#%RAML 1.0
+title: Illustrating allowed targets
+mediaType: application/json
+uses:
+  files: files.raml
+/resource:
+  get:
+    responses:
+      200:
+        body:
+          application/json: files.File

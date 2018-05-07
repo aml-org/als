@@ -1,0 +1,56 @@
+#%RAML 1.0
+title: API
+baseUri: /some/base/uri
+types:
+  Email:
+    type: string
+    minLength: 2
+    maxLength: 6
+    pattern: ^note\d+$
+  Weight:
+    type: number
+    minimum: 3
+    maximum: 5
+    format: int64
+    multipleOf: 4
+  Age:
+    type: integer
+    minimum: 3
+    maximum: 5
+    format: int8
+    multipleOf: 1
+  IsMarried:
+    type: boolean
+  birthday:
+    type: date-only # no implications about time or offset
+    example: 2015-05-23
+  lunchtime:
+    type: time-only # no implications about date or offset
+    example: 12:30:00
+  fireworks:
+    type: datetime-only # no implications about offset
+    example: 2015-07-04T21:00:00
+  created:
+    type: datetime
+    example: 2016-02-28T16:41:41.090Z
+    format: rfc3339 # the default, so no need to specify
+  If-Modified-Since:
+    type: datetime
+    example: Sun, 28 Feb 2016 16:41:41 GMT
+    format: rfc2616 # this time it's required, otherwise, the example format is invalid
+  userPicture:
+     type: file
+     fileTypes: ['image/jpeg', 'image/png']
+     maxLength: 307200
+  customFile:
+     type: file
+     fileTypes: ['*/*'] # any file type allowed
+     maxLength: 1048576
+  NilValue:
+    type: object
+    properties:
+      name:
+      comment: nil
+    example:
+      name: Fred
+      comment: # Providing no value here is not allowed.

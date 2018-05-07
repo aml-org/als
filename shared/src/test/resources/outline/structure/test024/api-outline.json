@@ -1,0 +1,121 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "/resource",
+        "typeText": null,
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "children": [
+          {
+            "text": "get",
+            "typeText": null,
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "children": [
+              {
+                "text": "200",
+                "typeText": null,
+                "children": [
+                  {
+                    "text": "application/raml+yaml",
+                    "typeText": null,
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "children": [],
+                    "key": "application/raml+yaml :: 200 :: get :: /resource :: ",
+                    "start": 143,
+                    "end": 164
+                  },
+                  {
+                    "text": "text/yaml",
+                    "typeText": null,
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "children": [],
+                    "key": "text/yaml :: 200 :: get :: /resource :: ",
+                    "start": 176,
+                    "end": 185
+                  },
+                  {
+                    "text": "text/x-yaml",
+                    "typeText": null,
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "children": [],
+                    "key": "text/x-yaml :: 200 :: get :: /resource :: ",
+                    "start": 197,
+                    "end": 208
+                  },
+                  {
+                    "text": "application/yaml",
+                    "typeText": null,
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "children": [],
+                    "key": "application/yaml :: 200 :: get :: /resource :: ",
+                    "start": 220,
+                    "end": 236
+                  },
+                  {
+                    "text": "application/x-yaml",
+                    "typeText": null,
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "children": [],
+                    "key": "application/x-yaml :: 200 :: get :: /resource :: ",
+                    "start": 248,
+                    "end": 266
+                  }
+                ],
+                "key": "200 :: get :: /resource :: ",
+                "start": 114,
+                "end": 117
+              }
+            ],
+            "key": "get :: /resource :: ",
+            "start": 88,
+            "end": 91
+          }
+        ],
+        "key": "/resource :: ",
+        "start": 75,
+        "end": 84,
+        "category": "ResourcesCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

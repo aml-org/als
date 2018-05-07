@@ -5,7 +5,7 @@ import amf.core.model.document.BaseUnit
 import amf.core.services.RuntimeValidator
 import amf.core.unsafe.TrunkPlatform
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
-import org.mulesoft.language.common.typeInterfaces.{IRange, IValidationIssue, IValidationReport}
+import org.mulesoft.language.common.dtoTypes.{IRange, IValidationIssue, IValidationReport}
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.server.modules.astManager.{IASTListener, IASTManagerModule, ParserHelper}
 import org.mulesoft.language.server.server.modules.commonInterfaces.{IEditorTextBuffer, IPoint}
