@@ -120,7 +120,7 @@
           "type": "string"
         }
       },
-      "required": true,
+      "required": ["name"],
       "discriminator": "name",
       "xml": {
         "attribute": true,
