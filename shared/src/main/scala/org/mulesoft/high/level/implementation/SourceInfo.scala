@@ -19,7 +19,17 @@ class SourceInfo private extends ISourceInfo {
     var _includePathLabel: Option[String] = None
     var _externalLocationPath: Option[String] = None
 
-    override def content: Option[String] = _content
+    override def content: Option[String] = {
+        if (_content.isDefined) {
+            _content
+        }
+        else if (_referingUnit.isDefined) {
+            Option(_referingUnit.get.text)
+        }
+        else {
+            None
+        }
+    }
 
     override def yamlSources: Seq[YPart] = _yamlSources
 
@@ -151,6 +161,8 @@ class SourceInfo private extends ISourceInfo {
     }
 
     override def isYAML: Boolean = content.isDefined && !content.get.trim.startsWith("{")
+
+    override def positionsMapper: Option[IPositionsMapper] = _positionsMapper
 }
 
 object SourceInfo {

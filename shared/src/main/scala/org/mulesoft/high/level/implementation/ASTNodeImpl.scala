@@ -3,12 +3,14 @@ package org.mulesoft.high.level.implementation
 import amf.core.model.document.BaseUnit
 import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition, IUniverse}
 import amf.core.model.domain.AmfObject
+import org.mulesoft.high.level.builder.{ASTFactoryRegistry, NodeBuilder}
 import org.mulesoft.high.level.interfaces.{IAttribute, IHighLevelNode, IParseResult}
 import org.mulesoft.positioning.IPositionsMapper
 import org.yaml.model.YPart
 
 import scala.collection.GenTraversableOnce
 import scala.collection.mutable.ListBuffer
+import scala.concurrent.Future
 
 class ASTNodeImpl(
         _node: AmfObject,
@@ -116,6 +118,23 @@ class ASTNodeImpl(
 
     protected def initChildrenSources(referingUnit:Option[ASTUnit],externalPath:Option[String]):Unit
             = _children.foreach(_.initSources(referingUnit,externalPath))
+
+    def newChild(prop:IProperty):Option[IParseResult] = {
+
+        var format = astUnit.project.language
+        ASTFactoryRegistry.getFactory(format) match {
+            case Some(factory) =>
+                factory.newChild(this,prop).flatMap({
+                    case bn:BasicASTNode =>
+                        addChild(bn)
+                        bn.setASTUnit(astUnit)
+                        //bn.asElement.foreach(NodeBuilder.fillChildren(_,factory,astUnit.project.types))
+                        Some(bn)
+                    case _ => None
+                })
+            case _ => None
+        }
+    }
 
 }
 

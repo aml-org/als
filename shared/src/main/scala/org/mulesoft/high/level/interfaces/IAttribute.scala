@@ -2,6 +2,8 @@ package org.mulesoft.high.level.interfaces
 
 import org.mulesoft.typesystem.nominal_interfaces.ITypeDefinition
 
+import scala.concurrent.Future
+
 trait IAttribute extends IParseResult {
 
     def name: String
@@ -14,7 +16,7 @@ trait IAttribute extends IParseResult {
 
     //def setKey(k: String): Unit
 
-    def setValue(newValue: Any): Unit
+    def setValue(newValue: Any): Future[IModelModificationResult]
 
 //    def setValues(values: Seq[Any]): Unit
 //

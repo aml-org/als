@@ -1,8 +1,10 @@
 package org.mulesoft.high.level.interfaces
 
 import amf.core.model.document.Document
-import org.mulesoft.typesystem.nominal_interfaces.ITypeDefinition
+import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition}
 import amf.core.model.domain.{AmfObject, DomainElement}
+
+import scala.concurrent.Future
 
 trait IHighLevelNode extends IParseResult {
     //def types(): IParsedTypeCollection
@@ -74,4 +76,6 @@ trait IHighLevelNode extends IParseResult {
             None
         }
     }
+
+    def newChild(prop:IProperty):Option[IParseResult]
 }

@@ -66,29 +66,29 @@ class ReferencesTests extends OASFindReferencesTest{
         runFindReferencesTest("definitions/test006/spec.yml", x => testFindTemplateReferencesNegative(x))
     }
 
-//    test("Parameter type references test 1 JSON. Positive") {
-//        var templateName = "param2"
-//        var templateType = "ParameterObject"
-//        runFindReferencesTest("parameters/test001/spec.json", x => testFindReferencesPositive(x,templateType,templateName,3))
-//    }
-//
-//    test("Parameter references test 1 YAML. Positive") {
-//        var templateName = "param2"
-//        var templateType = "ParameterObject"
-//        runFindReferencesTest("parameters/test001/spec.yml", x => testFindReferencesPositive(x,templateType,templateName,3))
-//    }
-//
-//    test("Response type references test 1 JSON. Positive") {
-//        var templateName = "r2"
-//        var templateType = "ResponseObject"
-//        runFindReferencesTest("responses/test001/spec.json", x => testFindReferencesPositive(x,templateType,templateName,3,"key"))
-//    }
-//
-//    test("Response references test 1 YAML. Positive") {
-//        var templateName = "r2"
-//        var templateType = "ResponseObject"
-//        runFindReferencesTest("responses/test001/spec.yml", x => testFindReferencesPositive(x,templateType,templateName,3,"key"))
-//    }
+    test("Parameter references test 1 JSON. Positive") {
+        var templateName = "param2"
+        var templateType = "ParameterObject"
+        runFindReferencesTest("parameters/test001/spec.json", x => testFindReferencesPositive(x,templateType,templateName,2))
+    }
+
+    test("Parameter references test 1 YAML. Positive") {
+        var templateName = "param2"
+        var templateType = "ParameterObject"
+        runFindReferencesTest("parameters/test001/spec.yml", x => testFindReferencesPositive(x,templateType,templateName,2))
+    }
+
+    test("Response references test 1 JSON. Positive") {
+        var templateName = "r2"
+        var templateType = "ResponseObject"
+        runFindReferencesTest("responses/test001/spec.json", x => testFindReferencesPositive(x,templateType,templateName,3,"key"))
+    }
+
+    test("Response references test 1 YAML. Positive") {
+        var templateName = "r2"
+        var templateType = "ResponseObject"
+        runFindReferencesTest("responses/test001/spec.yml", x => testFindReferencesPositive(x,templateType,templateName,3,"key"))
+    }
 
     def testFindReferencesPositive(opt:Option[ReferenceSearchResult], typeName:String, name:String, refsCount:Int,attrName:String="name"):Assertion = {
         opt match {

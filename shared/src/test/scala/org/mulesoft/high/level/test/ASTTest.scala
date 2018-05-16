@@ -2,9 +2,12 @@ package org.mulesoft.high.level.test
 
 import java.io.File
 
+import amf.client.remote.Content
 import amf.core.client.ParserConfig
 import amf.core.remote.JvmPlatform
 import amf.core.unsafe.PlatformSecrets
+import amf.internal.environment.Environment
+import amf.internal.resource.ResourceLoader
 import org.mulesoft.high.level.Core
 import org.mulesoft.high.level.interfaces.IProject
 import org.scalatest.{Assertion, AsyncFunSuite}
@@ -20,7 +23,7 @@ trait AstTest extends AsyncFunSuite with PlatformSecrets{
 
     def format:String
 
-    def parse(path:String): Future[IProject] = {
+    def parse(path:String,env:Environment=Environment()): Future[IProject] = {
 
         var cfg = new ParserConfig(
             Some(ParserConfig.PARSE),
@@ -34,7 +37,7 @@ trait AstTest extends AsyncFunSuite with PlatformSecrets{
 
         val helper = ParserHelper(platform)
         Core.init().flatMap(_=>
-            helper.parse(cfg).flatMap(unit =>
+            helper.parse(cfg,env).flatMap(unit =>
                 Core.buildModel(unit,platform)))
     }
 
@@ -43,6 +46,16 @@ trait AstTest extends AsyncFunSuite with PlatformSecrets{
     def filePath(path:String):String = {
         var rootDir = System.getProperty("user.dir")
         s"file://$rootDir/shared/src/test/resources/$rootPath/$path".replace('\\','/')
+    }
+
+    def bulbLoaders(path: String, content:String) = {
+        var loaders: Seq[ResourceLoader] = List(new ResourceLoader {
+            override def accepts(resource: String): Boolean = resource == path
+
+            override def fetch(resource: String): Future[Content] = Future.successful(new Content(content, path))
+        })
+        loaders ++= platform.loaders()
+        loaders
     }
 
 }

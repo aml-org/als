@@ -55,28 +55,33 @@ object ProjectBuilder {
 
         for (astUnit <- astUnits.values) {
             astUnit.baseUnit.references.foreach(ref=>{
-                var refAstUnit = astUnits(ref.id)
-                refAstUnit.baseUnit match {
+                var referedAstUnit = astUnits(ref.id)
+                referedAstUnit.baseUnit match {
                     case m:Module =>
                         var aliases = m.annotations.find(classOf[Aliases])
-                            .map(_.aliases).getOrElse((null,null)::Nil)
+                            .map(_.aliases).getOrElse((null,(null,null))::Nil)
                         //TODO aliases validity filter needed
                         for(usesEntry <- aliases){
-                            var dep = new ModuleDependencyEntry(ref.id,refAstUnit,usesEntry._1,usesEntry._2)
-                            astUnit.registerDependency(dep)
-                            var reverseDep = new ModuleDependencyEntry(astUnit.path,astUnit,usesEntry._1,usesEntry._2)
-                            refAstUnit.registerReverseDependency(reverseDep)
+                            val namespace = usesEntry._1
+                            val referingModulePath = usesEntry._2._1
+                            val libPath = usesEntry._2._2
+                            astUnits.get(referingModulePath).foreach(referingAstUnit=>{
+                                var dep = new ModuleDependencyEntry(ref.id,referedAstUnit,namespace,libPath)
+                                referingAstUnit.registerDependency(dep)
+                                var reverseDep = new ModuleDependencyEntry(referingAstUnit.path,referingAstUnit,namespace,libPath)
+                                referedAstUnit.registerReverseDependency(reverseDep)
+                            })
                         }
                     case ef:ExternalFragment =>
-                        var dep = new DependencyEntry(ref.id,refAstUnit)
+                        var dep = new DependencyEntry(ref.id,referedAstUnit)
                         astUnit.registerDependency(dep)
                         var reverseDep = new DependencyEntry(astUnit.path,astUnit)
-                        refAstUnit.registerReverseDependency(reverseDep)
+                        referedAstUnit.registerReverseDependency(reverseDep)
                     case f: Fragment =>
-                        var dep = new FragmentDependencyEntry(ref.id,refAstUnit)
+                        var dep = new FragmentDependencyEntry(ref.id,referedAstUnit)
                         astUnit.registerDependency(dep)
                         var reverseDep = new FragmentDependencyEntry(astUnit.path,astUnit)
-                        refAstUnit.registerReverseDependency(reverseDep)
+                        referedAstUnit.registerReverseDependency(reverseDep)
                     case _ =>
                 }
             })

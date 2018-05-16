@@ -10,7 +10,7 @@ import scala.concurrent.Future
 class PlatformFsProvider(platform:Platform) extends IFSProvider{
 
     override def content(fullPath: String): Future[String]
-        = platform.resolve(fullPath,None).map(_.stream.toString)
+        = platform.resolve(fullPath).map(_.stream.toString)
 
     override def resolve(absBasePath: String, path: String): Option[String]
         = Option(Context(platform,absBasePath).resolve(path))

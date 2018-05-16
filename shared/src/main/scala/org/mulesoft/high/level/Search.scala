@@ -141,13 +141,17 @@ object Search {
                     else {
                         var targetDef: Option[String] = None
                         var keyAttrName: Option[String] = Some("key")
-                        eNode.definition.nameId match {
-                            case Some("DefinitionObject") =>
-                                targetDef = Some("SchemaObject")
-                                keyAttrName = Some("name")
-                            case Some("ParameterDefinitionObject") => targetDef = Some("ParameterObject")
-                            case Some("ResponseDefinitionObject") => targetDef = Some("ResponseObject")
-                            case _ =>
+                        if(eNode.definition.isAssignableFrom("ParameterDefinitionObject")){
+                            targetDef = Some("ParameterObject")
+                        }
+                        else {
+                            eNode.definition.nameId match {
+                                case Some("DefinitionObject") =>
+                                    targetDef = Some("SchemaObject")
+                                    keyAttrName = Some("name")
+                                case Some("ResponseDefinitionObject") => targetDef = Some("ResponseObject")
+                                case _ =>
+                            }
                         }
                         var refOpt = eNode.attribute(keyAttrName.get).flatMap(_.value).map(v => s"#/${prop.get.nameId.get}/${v.toString}")
                         if (targetDef.isEmpty || refOpt.isEmpty) {
@@ -313,7 +317,11 @@ object Search {
             else if(language == Oas || language == Oas2 || language == Oas2Yaml){
                 if(yLoc.nonEmpty && yLoc.get.inValue(position)) {
                     if (attr.property.get.nameId.contains("$ref")) {
-                        attr.value.map(_.toString).flatMap(oasDeclarationByReference(attr.astUnit, _)).filter(_.definition.isAssignableFrom(parent.definition.nameId.get)).map(x => ReferenceSearchResult(x, List(parent)))
+                        var superCalssName = parent.definition.nameId.get
+                        if(parent.definition.isAssignableFrom("ResponseObject")){
+                            superCalssName = "ResponseObject"
+                        }
+                        attr.value.map(_.toString).flatMap(oasDeclarationByReference(attr.astUnit, _)).filter(_.definition.isAssignableFrom(superCalssName)).map(x => ReferenceSearchResult(x, List(parent)))
                     }
                     else {
                         None

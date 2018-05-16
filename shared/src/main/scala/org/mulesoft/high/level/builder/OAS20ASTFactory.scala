@@ -3,11 +3,12 @@ package org.mulesoft.high.level.builder
 import amf.core.annotations.SourceAST
 import amf.core.metamodel.document.DocumentModel
 import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
+import amf.core.metamodel.domain.{DomainElementModel, LinkableElementModel, ShapeModel}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
 import amf.core.remote.{Oas, Vendor}
 import amf.plugins.document.webapi.model.{AnnotationTypeDeclarationFragment, DataTypeFragment}
+import amf.plugins.document.webapi.parser.spec.BaseUriSplitter
 import amf.plugins.domain.shapes.metamodel._
 import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.metamodel.security._
@@ -71,8 +72,8 @@ class OAS20ASTFactory private extends DefaultASTFactory {
         "description"       -> FieldMatcher(ShapeModel.Description),
         "default"           -> FieldMatcher(AnyShapeModel.Default),
         "displayName"             -> FieldMatcher(AnyShapeModel.DisplayName),
-        "collectionFormat"  -> FieldMatcher(ArrayShapeModel.CollectionFormat)
-        //TODO:"readOnly"          -> FieldMatcher(AnyShapeModel.ReDisplayName),
+        "collectionFormat"  -> FieldMatcher(ArrayShapeModel.CollectionFormat),
+        "readOnly"          -> FieldMatcher(PropertyShapeModel.ReadOnly)
     )
 
     val shapeMatcher:IPropertyMatcher = createShapeMatcher
@@ -80,8 +81,8 @@ class OAS20ASTFactory private extends DefaultASTFactory {
     protected def init():Future[Unit] = Future {
         universe = UniverseProvider.universe(format)
         registerPropertyMatcher("SwaggerObject", "info", ThisMatcher().withYamlPath("info"))
-        registerPropertyMatcher("SwaggerObject", "host", ThisMatcher() + WebApiModel.Servers + ServerModel.Url)
-        registerPropertyMatcher("SwaggerObject", "basePath", ThisMatcher() + WebApiModel.Servers + ServerModel.Url)
+        registerPropertyMatcher("SwaggerObject", "host", (ThisMatcher() + WebApiModel.Servers + ServerModel.Url).withCustomBuffer((x,y)=>HostValueBuffer(x,y)))
+        registerPropertyMatcher("SwaggerObject", "basePath", (ThisMatcher() + WebApiModel.Servers + ServerModel.Url).withCustomBuffer((x,y)=>BasePathValueBuffer(x,y)))
         registerPropertyMatcher("SwaggerObject", "schemes", WebApiModel.Schemes)
         registerPropertyMatcher("SwaggerObject", "consumes", WebApiModel.Accepts)
         registerPropertyMatcher("SwaggerObject", "produces", WebApiModel.ContentType)
@@ -136,7 +137,7 @@ class OAS20ASTFactory private extends DefaultASTFactory {
         registerPropertyMatcher("ResponsesObject", "responses", OperationModel.Responses)
 
         registerPropertyMatcher("ResponseDefinitionObject", "key", ResponseModel.Name)
-        registerPropertyMatcher("Response", "code", ResponseModel.StatusCode)
+        registerPropertyMatcher("Response", "code", (ThisMatcher() + ResponseModel.StatusCode) & (ThisMatcher() + ResponseModel.Name))
 
         registerPropertyMatcher("ResponseObject", "$ref", ThisMatcher().withCustomBuffer((obj,node)=>ReferenceValueBuffer(obj,node)))
         registerPropertyMatcher("ResponseObject", "description", ResponseModel.Description)
@@ -196,7 +197,7 @@ class OAS20ASTFactory private extends DefaultASTFactory {
         registerPropertyMatcher("SchemaObject", "required", ((ThisMatcher() ifType PropertyShapeModel) + PropertyShapeModel.MinCount).withCustomBuffer((e, hl) => new RequiredPropertyValueBuffer(e, hl)))
         registerPropertyMatcher("SchemaObject", "additionalProperties", builtinFacetMatchers("additionalProperties"))
         registerPropertyMatcher("SchemaObject", "additionalPropertiesSchema", shapeMatcher + NodeShapeModel.AdditionalPropertiesSchema)
-        //TODO: registerPropertyMatcher("SchemaObject", "readOnly", ShapeModel.Name)
+        registerPropertyMatcher("SchemaObject", "readOnly", builtinFacetMatchers("readOnly"))
         registerPropertyMatcher("SchemaObject", "$ref", ThisMatcher().withCustomBuffer((obj,node)=>ReferenceValueBuffer(obj,node)))
 
         registerPropertyMatcher("HeaderObject", "name", ParameterModel.Name)
@@ -320,7 +321,7 @@ class OAS20ASTFactory private extends DefaultASTFactory {
 
     def determineUserType(amfNode:AmfObject, nodeProperty:Option[IProperty], parent:Option[IHighLevelNode], _bundle:ITypeCollectionBundle):Option[ITypeDefinition] = {
 
-        var shapeOpt = extractShape(amfNode)
+        var shapeOpt = DefaultASTFactory.extractShape(amfNode)
         if(shapeOpt.isEmpty){
             None
         }
@@ -424,7 +425,17 @@ class ReferenceValueBuffer(val element:AmfObject,val hlNode:IHighLevelNode)
 
     override def getValue: Option[String] = src.flatMap(YJSONWrapper(_)).flatMap(_.value(STRING))
 
-    override def setValue(value: Any): Unit = {}
+    override def setValue(value: Any): Unit = {
+        var str = value.toString
+        while(str.startsWith("/")){
+            str = str.substring(1)
+        }
+        var newValue = hlNode.astUnit.path + str
+        hlNode.amfNode.fields.setWithoutId(LinkableElementModel.TargetId,AmfScalar(newValue))
+        var ind = str.lastIndexOf("/")
+        var newLabel = str.substring(ind+1)
+        hlNode.amfNode.fields.setWithoutId(LinkableElementModel.Label,AmfScalar(newLabel))
+    }
 
     override def yamlNodes: Seq[YPart] = {
         init()
@@ -436,4 +447,42 @@ class ReferenceValueBuffer(val element:AmfObject,val hlNode:IHighLevelNode)
 
 object ReferenceValueBuffer {
     def apply(element: AmfObject, hlNode: IHighLevelNode): ReferenceValueBuffer = new ReferenceValueBuffer(element, hlNode)
+}
+
+class HostValueBuffer(element:AmfObject,hlNode:IHighLevelNode)
+    extends BasicValueBuffer(element,ServerModel.Url) {
+
+    override def getValue: Option[Any] = super.getValue.map(url=>
+        BaseUriSplitter(url.toString).domain)
+
+    override def setValue(value: Any): Unit = {
+        var urlOpt = super.getValue
+        var host = value.toString
+        var basePath = urlOpt.map(x=>BaseUriSplitter(x.toString).path).getOrElse("")
+        var splitter = BaseUriSplitter("",host,basePath)
+        super.setValue(splitter.url)
+    }
+}
+
+object HostValueBuffer {
+    def apply(element: AmfObject, hlNode: IHighLevelNode): HostValueBuffer = new HostValueBuffer(element, hlNode)
+}
+
+class BasePathValueBuffer(element:AmfObject,hlNode:IHighLevelNode)
+    extends BasicValueBuffer(element,ServerModel.Url) {
+
+    override def getValue: Option[Any] = super.getValue.map(url=>
+        BaseUriSplitter(url.toString).path)
+
+    override def setValue(value: Any): Unit = {
+        var urlOpt = super.getValue
+        var host = urlOpt.map(x=>BaseUriSplitter(x.toString).domain).getOrElse("")
+        var basePath = value.toString
+        var splitter = BaseUriSplitter("",host,basePath)
+        super.setValue(splitter.url)
+    }
+}
+
+object BasePathValueBuffer {
+    def apply(element: AmfObject, hlNode: IHighLevelNode): BasePathValueBuffer = new BasePathValueBuffer(element, hlNode)
 }
