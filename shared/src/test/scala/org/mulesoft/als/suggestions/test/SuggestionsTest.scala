@@ -1,12 +1,16 @@
 package org.mulesoft.als.suggestions.test
 
+import amf.client.remote.Content
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote.JvmPlatform
 import amf.core.unsafe.PlatformSecrets
+import amf.internal.environment.Environment
+import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.suggestions.{CompletionProvider, PlatformBasedExtendedFSProvider}
 import org.mulesoft.als.suggestions.implementation.{CompletionConfig, DummyASTProvider, DummyEditorStateProvider}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
+import org.mulesoft.als.suggestions.test.MainCompletion.platform
 import org.mulesoft.high.level.Core
 import org.mulesoft.high.level.implementation.PlatformFsProvider
 import org.mulesoft.high.level.interfaces.IProject
@@ -45,7 +49,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
         val diff2 = originalSuggestions.diff(resultSet)
 
         if (diff1.isEmpty && diff2.isEmpty) succeed
-        else fail(s"Difference for $path: got [${suggestions.mkString}] while expecting [${originalSuggestions.mkString}]")
+        else fail(s"Difference for $path: got [${suggestions.mkString(", ")}] while expecting [${originalSuggestions.mkString(", ")}]")
     })
 
 
@@ -61,18 +65,18 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     var position = 0;
 
     var contentOpt:Option[String] = None
-    this.platform.resolve(url,None).map(content => {
+    this.platform.resolve(url).map(content => {
 
       val fileContentsStr = content.stream.toString
       val markerInfo = this.findMarker(fileContentsStr)
 
       position = markerInfo.position
       contentOpt = Some(markerInfo.content)
-      this.cacheUnit(url, markerInfo.content, position, content.mime)
+      var env = this.buildEnvironment(url, markerInfo.content, position, content.mime)
+      env
+    }).flatMap(env=>{
 
-    }).flatMap(_=>{
-
-      this.amfParse(config)
+      this.amfParse(config,env)
 
     }).flatMap {
         case amfUnit: BaseUnit => this.buildHighLevel(amfUnit).map(project => {
@@ -121,16 +125,21 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     )
   }
 
-  def amfParse(config: ParserConfig): Future[BaseUnit] = {
+  def amfParse(config: ParserConfig,env:Environment=Environment()): Future[BaseUnit] = {
 
     val helper = ParserHelper(this.platform)
-    helper.parse(config)
+    helper.parse(config,env)
   }
 
-  def cacheUnit(fileUrl: String, content: String, position: Int, mime: Option[String]): Unit = {
+  def buildEnvironment(fileUrl: String, content: String, position: Int, mime: Option[String]): Environment = {
 
-    File.unapply(fileUrl).foreach(x=>this.platform.cacheResourceText(
-      x, content, mime))
+      var loaders:Seq[ResourceLoader] = List(new ResourceLoader {override def accepts(resource: String): Boolean = resource == fileUrl
+
+          override def fetch(resource: String): Future[Content] = Future.successful(new Content(content,fileUrl))
+      })
+      loaders ++= platform.loaders()
+      var env:Environment = Environment(loaders)
+      env
   }
 
   def buildHighLevel(model:BaseUnit):Future[IProject] = {
