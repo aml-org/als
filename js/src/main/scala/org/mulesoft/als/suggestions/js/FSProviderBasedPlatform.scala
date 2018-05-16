@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.js
 import amf.core.lexer.CharSequenceStream
 
 import amf.core.remote._
+import amf.client.remote._
 import org.mulesoft.common.io.FileSystem
 import org.scalajs.dom.ext.Ajax
 
