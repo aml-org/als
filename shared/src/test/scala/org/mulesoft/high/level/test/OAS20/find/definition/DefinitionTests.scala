@@ -67,37 +67,37 @@ class DefinitionTests extends OASFindDefinitionTest{
     }
 
     test("Parameter definition test 1 JSON. Positive") {
-        var templateName = "param2"
+        var templateName = "p2"
         var templateType = "ParameterObject"
         runFindDefinitionTest("parameters/test001/spec.json", x => testFindDefinitionPositive(x,templateType,templateName))
     }
 
     test("Parameter definition test 1 YAML. Positive") {
-        var templateName = "param2"
+        var templateName = "p2"
         var templateType = "ParameterObject"
         runFindDefinitionTest("parameters/test001/spec.yml", x => testFindDefinitionPositive(x,templateType,templateName))
     }
 
     test("Parameter definition test 2 JSON. Positive") {
-        var templateName = "param2"
+        var templateName = "p2"
         var templateType = "ParameterObject"
         runFindDefinitionTest("parameters/test002/spec.json", x => testFindDefinitionPositive(x,templateType,templateName))
     }
 
     test("Parameter definition test 2 YAML. Positive") {
-        var templateName = "param2"
+        var templateName = "p2"
         var templateType = "ParameterObject"
         runFindDefinitionTest("parameters/test002/spec.yml", x => testFindDefinitionPositive(x,templateType,templateName))
     }
 
     test("Parameter definition test 3 JSON. Positive") {
-        var templateName = "param2"
+        var templateName = "p2"
         var templateType = "ParameterObject"
         runFindDefinitionTest("parameters/test003/spec.json", x => testFindDefinitionPositive(x,templateType,templateName))
     }
 
     test("Parameter definition test 3 YAML. Positive") {
-        var templateName = "param2"
+        var templateName = "p2"
         var templateType = "ParameterObject"
         runFindDefinitionTest("parameters/test003/spec.yml", x => testFindDefinitionPositive(x,templateType,templateName))
     }
@@ -126,34 +126,38 @@ class DefinitionTests extends OASFindDefinitionTest{
         runFindDefinitionTest("parameters/test006/spec.yml", x => testFindDefinitionNegative(x))
     }
 
-//    test("Response definition test 1 JSON. Positive") {
-//        var templateName = "r2"
-//        var templateType = "ResponseObject"
-//        runFindDefinitionTest("responses/test001/spec.json", x => testFindDefinitionPositive(x,templateType,templateName))
-//    }
-//
-//    test("Response definition test 1 YAML. Positive") {
-//        var templateName = "r2"
-//        var templateType = "ResponseObject"
-//        runFindDefinitionTest("responses/test001/spec.yml", x => testFindDefinitionPositive(x,templateType,templateName))
-//    }
-//
-//    test("Response definition test 2 JSON. Positive") {
-//        var templateName = "r2"
-//        var templateType = "ResponseObject"
-//        runFindDefinitionTest("responses/test002/spec.json", x => testFindDefinitionPositive(x,templateType,templateName))
-//    }
-//
-//    test("Response definition test 2 YAML. Positive") {
-//        var templateName = "r2"
-//        var templateType = "ResponseObject"
-//        runFindDefinitionTest("responses/test002/spec.yml", x => testFindDefinitionPositive(x,templateType,templateName))
-//    }
+    test("Response definition test 1 JSON. Positive") {
+        var templateName = "r2"
+        var templateType = "ResponseObject"
+        runFindDefinitionTest("responses/test001/spec.json", x => testFindDefinitionPositive(x,templateType,templateName))
+    }
+
+    test("Response definition test 1 YAML. Positive") {
+        var templateName = "r2"
+        var templateType = "ResponseObject"
+        runFindDefinitionTest("responses/test001/spec.yml", x => testFindDefinitionPositive(x,templateType,templateName))
+    }
+
+    test("Response definition test 2 JSON. Positive") {
+        var templateName = "r2"
+        var templateType = "ResponseObject"
+        runFindDefinitionTest("responses/test002/spec.json", x => testFindDefinitionPositive(x,templateType,templateName))
+    }
+
+    test("Response definition test 2 YAML. Positive") {
+        var templateName = "r2"
+        var templateType = "ResponseObject"
+        runFindDefinitionTest("responses/test002/spec.yml", x => testFindDefinitionPositive(x,templateType,templateName))
+    }
 
     def testFindDefinitionPositive(opt:Option[ReferenceSearchResult], typeName:String, name:String):Assertion = {
         opt match {
             case Some(c) =>
-                c.definition.attribute("name") match {
+                var keyAttrName = "key"
+                if(c.definition.definition.nameId.contains("DefinitionObject")){
+                    keyAttrName = "name"
+                }
+                c.definition.attribute(keyAttrName) match {
                     case Some(a) => a.value match {
                         case Some(aVal) =>
                             if(aVal != name){

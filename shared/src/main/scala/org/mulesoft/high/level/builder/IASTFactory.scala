@@ -4,7 +4,7 @@ import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfObject, Shape}
 import amf.core.remote.Vendor
 import org.mulesoft.high.level.implementation.BasicASTNode
-import org.mulesoft.high.level.interfaces.IHighLevelNode
+import org.mulesoft.high.level.interfaces.{IHighLevelNode, IParseResult}
 import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition, IUniverse}
 import org.mulesoft.typesystem.project.ITypeCollectionBundle
 
@@ -28,6 +28,8 @@ trait IASTFactory {
     def builtInFacetValue(name:String,shape:Shape):Option[Any]
 
     def format:Vendor
+
+    def newChild(node:IHighLevelNode, prop:IProperty):Option[IParseResult]
 
     protected def init():Future[Unit]
 }

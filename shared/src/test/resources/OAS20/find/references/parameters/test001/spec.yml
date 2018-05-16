@@ -21,13 +21,13 @@ paths:
     get:
       parameters:
         - $ref: "#/parameters/p2"
-/pets1:
-  parameters:
-    - $ref: "#/parameters/p2"
+  /pets1:
+    parameters:
+      - $ref: "#/parameters/p2"
 
-/pets2:
-  parameters:
-    - $ref: "#/parameters/p1"
+  /pets2:
+    parameters:
+      - $ref: "#/parameters/p1"
 
 parameters:
   p1:
@@ -38,5 +38,3 @@ parameters:
     type: string
     in: query
     name: param2
-  p3:
-    $ref: "#/parameters/p2"

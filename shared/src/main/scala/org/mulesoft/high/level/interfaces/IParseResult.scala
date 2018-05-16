@@ -69,7 +69,8 @@ trait IParseResult {
                 while (
                     result.parent.isDefined
                         && result.sourceInfo.valueOffset.isDefined
-                        && result.sourceInfo.valueOffset.get > posOffset) {
+                        && result.sourceInfo.valueOffset.get > posOffset
+                        && !result.sourceInfo.containsPositionInKey(pos)) {
 
                     result = result.parent.get
                 }

@@ -1,6 +1,9 @@
 package org.mulesoft.high.level.test
 
+import amf.client.remote.Content
 import amf.core.remote.File
+import amf.internal.environment.Environment
+import amf.internal.resource.ResourceLoader
 import org.mulesoft.high.level.{ReferenceSearchResult, Search}
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.test.MainCompletion.{getPositions, platform}
@@ -27,14 +30,16 @@ trait PositionTest extends AstTest{
     }
 
 
-    override def parse(path:String): Future[IProject] = {
+    def parse(path:String): Future[IProject] = {
 
-        platform.resolve(path,None).map(c => {
+        platform.resolve(path).map(c => {
             var ci = getPositions(c.stream.toString)
             _position = ci.position
-            File.unapply(path).foreach(x=>platform.cacheResourceText(x, ci.content))
-        }).flatMap(x=>{
-            super.parse(path)
+            var loaders: Seq[ResourceLoader] = bulbLoaders(path, ci.content)
+            var env:Environment = Environment(loaders)
+            env
+        }).flatMap(env=>{
+            super.parse(path,env)
         })
     }
 

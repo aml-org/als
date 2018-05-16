@@ -1,6 +1,6 @@
 package org.mulesoft.high.level.interfaces
 
-import org.mulesoft.positioning.IPositionsMapper
+import org.mulesoft.positioning.{IPositionsMapper, YamlLocation}
 import org.mulesoft.typesystem.json.interfaces.{JSONWrapper, NodeRange}
 import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
 import org.yaml.model.YPart
@@ -19,6 +19,9 @@ trait ISourceInfo {
 
     def containsPosition(pos:Int):Boolean = ranges.exists(_.containsPosition(pos))
 
+    def containsPositionInKey(pos:Int):Boolean = yamlSources.exists(x=>
+        positionsMapper.exists(pm=>YamlLocation(x,pm).inKey(pos)))
+
     def isInitialized:Boolean
 
     def isEmpty:Boolean
@@ -26,6 +29,8 @@ trait ISourceInfo {
     def content: Option[String]
 
     def referingUnit:Option[IASTUnit]
+
+    def positionsMapper:Option[IPositionsMapper]
 
     def includePathLabel:Option[String]
 

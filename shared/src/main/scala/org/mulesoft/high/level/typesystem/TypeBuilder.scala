@@ -186,22 +186,27 @@ object TypeBuilder {
         for (unit <- units.values) {
             var tc = bundle.typeCollections(unit.id)
             unit.references.foreach(ref=>{
-                var refTc = bundle.typeCollections(ref.id)
+                var referedTc = bundle.typeCollections(ref.id)
                 var refUnit = units(ref.id)
                 refUnit match {
                     case m:Module =>
                         var aliases = m.annotations.find(classOf[Aliases])
-                            .map(_.aliases).getOrElse((null,null)::Nil)
+                            .map(_.aliases).getOrElse((null,(null,null))::Nil)
                         //TODO aliases validity filter needed
                         for(usesEntry <- aliases){
-                            var dep = new ModuleDependencyEntry(ref.id,refTc,usesEntry._1,usesEntry._2)
-                            tc.registerDependency(dep)
+                            val namespace = usesEntry._1
+                            val referingModulePath = usesEntry._2._1
+                            val libPath = usesEntry._2._2
+                            bundle.typeCollections.get(referingModulePath).foreach(referingTc=>{
+                                var dep = new ModuleDependencyEntry(ref.id,referedTc,namespace,libPath)
+                                referingTc.registerDependency(dep)
+                            })
                         }
                     case ef:ExternalFragment =>
-                        var dep = new DependencyEntry(ref.id,refTc)
+                        var dep = new DependencyEntry(ref.id,referedTc)
                         tc.registerDependency(dep)
                     case f: Fragment =>
-                        var dep = new FragmentDependencyEntry(ref.id,refTc)
+                        var dep = new FragmentDependencyEntry(ref.id,referedTc)
                         tc.registerDependency(dep)
                     case _ =>
                 }

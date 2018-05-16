@@ -7,21 +7,23 @@ import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, DomainEx
 import amf.core.metamodel.domain.templates.{AbstractDeclarationModel, ParametrizedDeclarationModel, VariableValueModel}
 import amf.core.model.document.{BaseUnit, Document, Fragment, Module}
 import amf.core.model.domain.{AmfElement, _}
+import amf.core.parser.{Annotations, Fields}
 import amf.core.remote.{Raml10, Vendor}
 import amf.plugins.document.webapi.metamodel.FragmentsTypesModels._
 import amf.plugins.document.webapi.metamodel.{ExtensionModel, OverlayModel}
 import amf.plugins.document.webapi.model.{AnnotationTypeDeclarationFragment, DataTypeFragment}
 import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorDeclaration
+import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.shapes.metamodel._
-import amf.plugins.domain.shapes.models.Example
+import amf.plugins.domain.shapes.models.{Example, NodeShape}
 import amf.plugins.domain.webapi.annotations.ParentEndPoint
 import amf.plugins.domain.webapi.metamodel.security._
 import amf.plugins.domain.webapi.metamodel.templates.{ParametrizedResourceTypeModel, ParametrizedTraitModel, ResourceTypeModel, TraitModel}
 import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.models.EndPoint
 import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
-import org.mulesoft.high.level.implementation.{BasicValueBuffer, IValueBuffer, JSONValueBuffer}
-import org.mulesoft.high.level.interfaces.IHighLevelNode
+import org.mulesoft.high.level.implementation.{ASTPropImpl, BasicValueBuffer, IValueBuffer, JSONValueBuffer}
+import org.mulesoft.high.level.interfaces.{IAttribute, IHighLevelNode}
 import org.mulesoft.high.level.typesystem.TypeBuilder
 import org.mulesoft.positioning.YamlLocation
 import org.mulesoft.typesystem.json.interfaces.{JSONWrapper, NodeRange}
@@ -33,6 +35,7 @@ import org.mulesoft.typesystem.nominal_types.{AbstractType, BuiltinUniverse, Pro
 import org.mulesoft.typesystem.project.{ITypeCollectionBundle, TypeCollectionBundle}
 import org.yaml.model.{YMap, YNode, YPart, YScalar}
 
+import scala.collection.mutable.ListBuffer
 import scala.language.postfixOps
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -346,7 +349,7 @@ class RAML10ASTFactory private extends DefaultASTFactory {
         registerPropertyMatcher("XMLFacetInfo", "namespace", XMLSerializerModel.Namespace)
         registerPropertyMatcher("XMLFacetInfo", "prefix", XMLSerializerModel.Prefix)
 
-        registerPropertyMatcher("ExampleSpec", "value", ExampleModel.Value)
+        registerPropertyMatcher("ExampleSpec", "value", ExampleModel.ExternalValue)
         registerPropertyMatcher("ExampleSpec", "strict", ExampleModel.Strict)
         registerPropertyMatcher("ExampleSpec", "name", ExampleModel.Name)
         registerPropertyMatcher("ExampleSpec", "displayName", ExampleModel.DisplayName)
@@ -368,7 +371,7 @@ class RAML10ASTFactory private extends DefaultASTFactory {
             case dElement: DomainElement =>
                 var universe = clazz.universe
                 if (clazz.isAssignableFrom("TypeDeclaration")) {
-                    var shapeOpt: Option[Shape] = extractShape(dElement)
+                    var shapeOpt: Option[Shape] = DefaultASTFactory.extractShape(dElement)
                     opt = shapeOpt.flatMap(shape=>discriminateShape(shape,universe)).map(builtInDeclaration=>{
 
                         var result = new StructuredType(shapeOpt.get.name.value(),builtInDeclaration.universe)
@@ -510,7 +513,7 @@ class RAML10ASTFactory private extends DefaultASTFactory {
 
     def determineUserType(amfNode:AmfObject, nodeProperty:Option[IProperty], parent:Option[IHighLevelNode], _bundle:ITypeCollectionBundle):Option[ITypeDefinition] = {
 
-        var shapeOpt = extractShape(amfNode)
+        var shapeOpt = DefaultASTFactory.extractShape(amfNode)
         if(shapeOpt.isEmpty){
             None
         }
@@ -634,6 +637,10 @@ class RequiredPropertyValueBuffer(element:AmfObject,hlNode:IHighLevelNode) exten
 class RelativeUriValueBuffer(element:AmfObject,hlNode:IHighLevelNode) extends
     BasicValueBuffer(element,EndPointModel.Path) {
 
+    private val UPDATE_CHILDREN:Boolean = true
+
+    private val DO_NOT_UPDATE_CHILDREN:Boolean = false
+
     override def getValue: Option[Any] = {
         element match {
             case de:AmfObject =>
@@ -651,7 +658,51 @@ class RelativeUriValueBuffer(element:AmfObject,hlNode:IHighLevelNode) extends
         }
     }
 
-    override def setValue(value: Any): Unit = {}
+    override def setValue(value: Any): Unit = setValue(value,UPDATE_CHILDREN)
+
+    def setValue(value: Any, updateChildren:Boolean): Unit = {
+        element match {
+            case de:AmfObject =>
+                var pathValue = Helpers.parentResource(element) match {
+                    case Some(parent) => Helpers.resourcePath(parent) match {
+                        case Some(parentPath) => parentPath + value.toString
+                        case None => value.toString
+                    }
+                    case None => value.toString
+                }
+                var toUpdate = collectResourceTree
+                toAmfElement(pathValue,Annotations()).map(element.set(EndPointModel.Path, _))
+                var apiOpt = Helpers.rootApi(hlNode)
+                apiOpt.foreach(api=>{
+                    element.adopted(api.id)
+                })
+                toUpdate.foreach(e=>e._2.setValue(e._1,DO_NOT_UPDATE_CHILDREN))
+            case _ =>
+        }
+    }
+
+    def collectResourceTree: Seq[(String,RelativeUriValueBuffer,IAttribute,IHighLevelNode)] = {
+        var result:ListBuffer[(String,RelativeUriValueBuffer,IAttribute,IHighLevelNode)] = ListBuffer() ++= extractTuples(hlNode)
+        var i = 0
+        while(result.lengthCompare(i)>0){
+            result ++= extractTuples(result(i)._4)
+            i += 1
+        }
+        result
+    }
+
+    def extractTuples(n: IHighLevelNode): Seq[(String, RelativeUriValueBuffer, IAttribute, IHighLevelNode)]
+    = {
+        n.elements("resources").map(x => (x.attribute("relativeUri").get,x))
+            .filter(e => e._1 match {
+                case a: ASTPropImpl =>
+                    a.buffer match {
+                        case b: RelativeUriValueBuffer => true
+                        case _ => false
+                    }
+                case _ => false
+            }).map(e => (e._1.value.get.toString, e._1.asInstanceOf[ASTPropImpl].buffer.asInstanceOf[RelativeUriValueBuffer], e._1, e._2))
+    }
 }
 
 class AdditionalPropertiesValueBuffer(element:AmfObject,hlNode:IHighLevelNode)
@@ -691,6 +742,8 @@ class ExamplesFilter(single:Boolean) extends IPropertyMatcher {
             case _ => Seq()
         }
     }
+
+    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = None
 }
 
 object ExamplesFilter{
@@ -740,6 +793,35 @@ class ResourceExtractor extends IPropertyMatcher {
             result
         }
     }
+
+    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = {
+        var isApi: Boolean = false
+        var resource: Option[EndPoint] = None
+        obj match {
+            case de: DomainElement =>
+                de.meta match {
+                    case EndPointModel => resource = Some(de.asInstanceOf[EndPoint])
+                    case WebApiModel => isApi = true
+                    case _ =>
+                }
+            case _ =>
+        }
+        if (!isApi && resource.isEmpty) {
+            None
+        }
+        else {
+            var annoations:ListBuffer[Annotation] = ListBuffer[Annotation]()
+            annoations ++= resource.map(ParentEndPoint(_))
+            var newResource = EndPoint(Annotations(annoations))
+            var oldResources = Helpers.allResources(hlNode)
+            var newResources:ListBuffer[EndPoint] = ListBuffer() ++= oldResources
+            newResources += newResource
+
+            Helpers.rootApi(hlNode).foreach(api=>api.fields.setWithoutId(WebApiModel.EndPoints,AmfArray(newResources)))
+            var result = Some(ElementMatchResult(newResource))
+            result
+        }
+    }
 }
 
 object ResourceExtractor {
@@ -761,10 +843,22 @@ class TypePropertyMatcher() extends IPropertyMatcher {
                       case _ => Seq()
         })
         jsonNodes match {
-            case Some(nodes) => nodes.map(x => AttributeMatchResult(obj, JSONValueBuffer(obj, hlNode, Option(x))))
+            case Some(nodes) => nodes.map(x => AttributeMatchResult(obj, new JSONValueBuffer(obj, hlNode, Option(x)){
+
+                override def setValue(value:Any): Unit = {
+                    var a = ParsedFromTypeExpression(value.toString)
+                    var annotations = Annotations(List(a))
+                    var shape = NodeShape(Fields(), annotations)
+                    var arr = AmfArray(List(shape))
+                    DefaultASTFactory.extractShape(hlNode.amfNode).foreach(x=>
+                        x.fields.setWithoutId(ShapeModel.Inherits,arr))
+                }
+            }))
             case _ => Seq()
         }
     }
+
+    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = None
 }
 
 object TypePropertyMatcher{
@@ -791,6 +885,8 @@ class ThisResourceBaseMatcher() extends IPropertyMatcher {
             case _ => Seq()
         }
     }
+
+    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = doOperate(obj,hlNode).headOption
 }
 
 object ThisResourceBaseMatcher {
@@ -817,6 +913,8 @@ class ThisMethodBaseMatcher() extends IPropertyMatcher {
             case _ => Seq()
         }
     }
+
+    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = doOperate(obj,hlNode).headOption
 }
 
 object ThisMethodBaseMatcher {
@@ -827,6 +925,11 @@ object ThisMethodBaseMatcher {
 object Helpers {
 
     private val allResourcesMatcher: IPropertyMatcher = BaseUnitMatcher() + DocumentModel.Encodes + WebApiModel.EndPoints
+
+    private val rootApiMatcher: IPropertyMatcher = BaseUnitMatcher() + DocumentModel.Encodes
+
+    def rootApi(hlNode:IHighLevelNode):Option[AmfObject] =
+        rootApiMatcher.operate(hlNode.amfNode, hlNode).headOption.map(_.node)
 
     def allResources(hlNode:IHighLevelNode):Seq[EndPoint] = {
         allResourcesMatcher.operate(hlNode.amfBaseUnit,hlNode).flatMap({

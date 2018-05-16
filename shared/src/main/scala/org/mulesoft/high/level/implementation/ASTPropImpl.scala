@@ -1,17 +1,26 @@
 package org.mulesoft.high.level.implementation
 
+import amf.core.AMFSerializer
 import amf.core.annotations.SourceAST
+import amf.core.emitter.RenderOptions
 import amf.core.metamodel.Field
+import amf.core.metamodel.domain.ShapeModel
 import amf.core.model.document.BaseUnit
 import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition}
 import amf.core.model.domain._
-import amf.core.parser.{Annotations, Value}
+import amf.core.parser.{Annotations, Fields, Value}
+import amf.core.services.RuntimeSerializer
+import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
+import amf.plugins.domain.shapes.models.NodeShape
 import org.mulesoft.high.level.interfaces.{IAttribute, IHighLevelNode, IProject, ISourceInfo}
+import org.mulesoft.positioning.YamlLocation
 import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
 import org.mulesoft.typesystem.json.interfaces.{JSONWrapper, NodeRange}
 import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
-import org.yaml.model.YPart
+import org.yaml.model.{YPart, YScalar}
 
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class ASTPropImpl(
         _node: AmfObject,
@@ -19,7 +28,7 @@ class ASTPropImpl(
         _parent: Option[IHighLevelNode],
         _def: ITypeDefinition,
         _prop: Option[IProperty],
-        buffer: IValueBuffer) extends BasicASTNode(_node, _unit, _parent) with IAttribute {
+        val buffer: IValueBuffer) extends BasicASTNode(_node, _unit, _parent) with IAttribute {
 
 
     def definition: Option[ITypeDefinition] = Option(_def)
@@ -33,7 +42,29 @@ class ASTPropImpl(
 
     def value:Option[Any] = buffer.getValue
 
-    def setValue(newValue: Any): Unit = buffer.setValue(newValue)
+    def setValue(newValue: Any): Future[ModelModificationResult] = {
+        buffer.setValue(newValue)
+        var u = astUnit.project.rootASTUnit.baseUnit
+        var si:ISourceInfo = sourceInfo
+        var p = parent
+        while (si.isEmpty && p.isDefined){
+            si = p.get.sourceInfo
+            p = p.get.parent
+        }
+        var mediaType = if(si.isYAML)
+            "application/yaml" else "application/json"
+
+        var language = astUnit.project.language
+
+        var str = RuntimeSerializer(
+            u,
+            mediaType,
+            language.name.toUpperCase,
+            RenderOptions()
+        )
+        var result = ModelModificationResult(str)
+        Future.successful(result)
+    }
 
     def name:String = _prop.flatMap(_.nameId).getOrElse("")
 
@@ -96,11 +127,11 @@ trait IValueBuffer {
 class BasicValueBuffer(domainElement:AmfObject, field:Field, index:Int = -1) extends IValueBuffer {
 
     override def getValue: Option[Any] = domainElement.fields.get(field) match {
-        case scalar:AmfScalar => Some(scalar.value)
+        case scalar:AmfScalar => Option(scalar.value)
         case array:AmfArray =>
             if(index>=0 && array.values.lengthCompare(index)>0){
                 array.values(index) match {
-                    case scalar: AmfScalar => Some(scalar.value)
+                    case scalar: AmfScalar => Option(scalar.value)
                     case obj: AmfObject => Some(obj)
                     case _ => None
                 }
