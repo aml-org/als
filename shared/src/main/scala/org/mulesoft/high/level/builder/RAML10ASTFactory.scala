@@ -671,7 +671,7 @@ class RelativeUriValueBuffer(element:AmfObject,hlNode:IHighLevelNode) extends
                     case None => value.toString
                 }
                 var toUpdate = collectResourceTree
-                toAmfElement(pathValue,Annotations()).map(element.set(EndPointModel.Path, _))
+                toAmfElement(pathValue,field.`type`,Annotations()).map(element.set(EndPointModel.Path, _))
                 var apiOpt = Helpers.rootApi(hlNode)
                 apiOpt.foreach(api=>{
                     element.adopted(api.id)

@@ -18,6 +18,8 @@ trait IAttribute extends IParseResult {
 
     def setValue(newValue: Any): Future[IModelModificationResult]
 
+    def modify(newValue: Any):Unit
+
 //    def setValues(values: Seq[Any]): Unit
 //
 //    def addValue(value: Any): Unit

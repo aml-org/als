@@ -3,8 +3,8 @@ package org.mulesoft.high.level.implementation
 import amf.core.AMFSerializer
 import amf.core.annotations.SourceAST
 import amf.core.emitter.RenderOptions
-import amf.core.metamodel.Field
-import amf.core.metamodel.domain.ShapeModel
+import amf.core.metamodel.{Field, Type}
+import amf.core.metamodel.domain.{DataNodeModel, ShapeModel}
 import amf.core.model.document.BaseUnit
 import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition}
 import amf.core.model.domain._
@@ -43,7 +43,7 @@ class ASTPropImpl(
     def value:Option[Any] = buffer.getValue
 
     def setValue(newValue: Any): Future[ModelModificationResult] = {
-        buffer.setValue(newValue)
+        modify(newValue)
         var u = astUnit.project.rootASTUnit.baseUnit
         var si:ISourceInfo = sourceInfo
         var p = parent
@@ -65,6 +65,8 @@ class ASTPropImpl(
         var result = ModelModificationResult(str)
         Future.successful(result)
     }
+
+    def modify(newValue: Any):Unit = buffer.setValue(newValue)
 
     def name:String = _prop.flatMap(_.nameId).getOrElse("")
 
@@ -124,7 +126,7 @@ trait IValueBuffer {
             = _sourceInfo.init(project,referingUnit,externalPath)
 }
 
-class BasicValueBuffer(domainElement:AmfObject, field:Field, index:Int = -1) extends IValueBuffer {
+class BasicValueBuffer(domainElement:AmfObject, val field:Field, index:Int = -1) extends IValueBuffer {
 
     override def getValue: Option[Any] = domainElement.fields.get(field) match {
         case scalar:AmfScalar => Option(scalar.value)
@@ -155,7 +157,7 @@ class BasicValueBuffer(domainElement:AmfObject, field:Field, index:Int = -1) ext
 //                }
             case _ =>
                 var annotations = getValueNode.map(_.annotations).getOrElse(Annotations())
-                toAmfElement(value,annotations).map(domainElement.set(field, _))
+                toAmfElement(value,field.`type`,annotations).map(domainElement.set(field, _))
         }
     }
 
@@ -167,14 +169,29 @@ class BasicValueBuffer(domainElement:AmfObject, field:Field, index:Int = -1) ext
         Option(domainElement.fields.getValue(field))
     }
 
-    protected def toAmfElement(_value: Any, annotations:Annotations): Option[AmfElement] = _value match {
-            case value: String => Some(AmfScalar(value,annotations))
-            case value: Boolean => Some(AmfScalar(value,annotations))
-            case value: Int => Some(AmfScalar(value,annotations))
-            case value: Float => Some(AmfScalar(value,annotations))
+    protected def toAmfElement(_value: Any, t: Type, annotations: Annotations): Option[AmfElement] = t match {
+        case DataNodeModel =>
+            var valType:String = _value match {
+                case value: String => "string"
+                case value: Boolean => "boolean"
+                case value: Int => "number"
+                case value: Float => "number"
+                case value: AmfElement => "string"
+                case _ => "string"
+            }
+            var valString:String = if(_value==null) null else ""+_value
+            Some(ScalarNode(valString,Some(valType), annotations))
+        case _ => _value match {
+            case value: String => Some(AmfScalar(value, annotations))
+            case value: Boolean => Some(AmfScalar(value, annotations))
+            case value: Int => Some(AmfScalar(value, annotations))
+            case value: Float => Some(AmfScalar(value, annotations))
             case value: AmfElement => Some(value)
             case _ => None
+        }
     }
+
+
 
     def yamlNodes: Seq[YPart] = getAMFValue.flatMap(amfValue => amfValue.value match {
 
