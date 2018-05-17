@@ -2,7 +2,7 @@ package org.mulesoft.high.level.builder
 
 import amf.core.annotations.SourceAST
 import amf.core.metamodel.document.DocumentModel
-import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
+import amf.core.metamodel.domain.{DataNodeModel,DomainElementModel, ShapeModel}
 import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, PropertyShapeModel}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
@@ -303,7 +303,7 @@ class BaseUnitMatcher extends IPropertyMatcher {
 
     override def doOperate(obj: AmfObject, hlNode:IHighLevelNode): Seq[MatchResult] = List(ElementMatchResult(hlNode.amfBaseUnit))
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = None
+    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = Some(ElementMatchResult(hlNode.amfBaseUnit))
 }
 
 object BaseUnitMatcher {
@@ -539,7 +539,14 @@ class FieldMatcher(field: Field) extends IPropertyMatcher {
                         else
                             BasicValueBuffer(obj,field)
                     matchResultOpt = Some(AttributeMatchResult(obj,buffer))
-
+                case DataNodeModel =>
+                    valueObjOpt = Some(null)
+                    var buffer =
+                        if(isArray)
+                            BasicValueBuffer(obj,field,index)
+                        else
+                            BasicValueBuffer(obj,field)
+                    matchResultOpt = Some(AttributeMatchResult(obj,buffer))
                 case dem:DomainElementModel =>
                     try {
                         val instance = dem.modelInstance

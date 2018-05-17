@@ -1,5 +1,7 @@
 package org.mulesoft.high.level.test.RAML10.AST.editing
 
+import amf.core.metamodel.domain.templates.AbstractDeclarationModel
+import amf.core.model.domain.ObjectNode
 import org.mulesoft.high.level.test.RAML10.RAML10ASTEditingTest
 
 
@@ -78,6 +80,40 @@ class Api extends RAML10ASTEditingTest{
             runAttributeCreationTest1(project, project => {
                 Some(project.rootASTUnit.rootNode.elements("resources").head.elements("resources").head.elements("methods").head)
             }, "method", "get")
+        })
+    }
+
+    test("Api. Creating Trait."){
+        var fp = "Api/api_empty.raml"
+        parse(filePath(fp)).flatMap(project=>{
+            var apiNode = project.rootASTUnit.rootNode
+            var apiDef = apiNode.definition
+            var traitNode = apiNode.newChild(apiDef.property("traits").get).flatMap(_.asElement).get
+
+            traitNode.amfNode.fields.setWithoutId(AbstractDeclarationModel.DataNode,ObjectNode())
+
+            var traitDef = traitNode.definition
+
+            runAttributeCreationTest1(project, project => {
+                Some(project.rootASTUnit.rootNode.elements("traits").head)
+            },"name","trait1")
+        })
+    }
+
+    test("Api. Creating Resource Type."){
+        var fp = "Api/api_empty.raml"
+        parse(filePath(fp)).flatMap(project=>{
+            var apiNode = project.rootASTUnit.rootNode
+            var apiDef = apiNode.definition
+            var resourceTypeNode = apiNode.newChild(apiDef.property("resourceTypes").get).flatMap(_.asElement).get
+
+            resourceTypeNode.amfNode.fields.setWithoutId(AbstractDeclarationModel.DataNode,ObjectNode())
+
+            var traitDef = resourceTypeNode.definition
+
+            runAttributeCreationTest1(project, project => {
+                Some(project.rootASTUnit.rootNode.elements("resourceTypes").head)
+            },"name","resourceType1")
         })
     }
 }
