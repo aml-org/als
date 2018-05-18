@@ -116,4 +116,16 @@ class Api extends RAML10ASTEditingTest{
             },"name","resourceType1")
         })
     }
+
+    test("Api. Creating Type Declaration 1."){
+        var fp = "Api/api_empty.raml"
+        parse(filePath(fp)).flatMap(project=>{
+            var apiNode = project.rootASTUnit.rootNode
+            var apiDef = apiNode.definition
+            var typeNode = apiNode.newChild(apiDef.property("types").get).flatMap(_.asElement).get
+            runAttributeCreationTest1(project, project => {
+                Some(project.rootASTUnit.rootNode.elements("types").head)
+            },"name","type1")
+        })
+    }
 }
