@@ -40,6 +40,30 @@ class TypeDeclaration extends RAML10ASTEditingTest {
         }, "T1 | T2")
     }
 
+    test("TypeDeclaration 'type' editing 3") {
+        runAttributeEditingTest("TypeDeclaration/typeDeclarationRoot.raml", project => {
+            project.rootASTUnit.rootNode.elements("types")(3).attribute("type")
+        }, "string")
+    }
+
+    test("TypeDeclaration 'type' editing 4") {
+        runAttributeEditingTest("TypeDeclaration/typeDeclarationRoot2.raml", project => {
+            project.rootASTUnit.rootNode.elements("types").head.attribute("type")
+        }, "number")
+    }
+
+    test("TypeDeclaration 'type' editing 5") {
+        runAttributeEditingTest("TypeDeclaration/typeDeclarationRoot2.raml", project => {
+            project.rootASTUnit.rootNode.elements("types").head.attribute("type")
+        }, "object")
+    }
+
+    test("TypeDeclaration 'type' editing 6") {
+        runAttributeEditingTest("TypeDeclaration/typeDeclarationRoot2.raml", project => {
+            project.rootASTUnit.rootNode.elements("types").head.attribute("type")
+        }, "not_existing")
+    }
+
     test("TypeDeclaration property 'type' editing 1") {
         runAttributeEditingTest("TypeDeclaration/typeDeclarationProperty.raml", project => {
             project.rootASTUnit.rootNode.elements("types").head.elements("properties").head.attribute("type")

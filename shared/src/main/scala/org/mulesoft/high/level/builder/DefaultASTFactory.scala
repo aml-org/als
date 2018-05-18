@@ -2,11 +2,12 @@ package org.mulesoft.high.level.builder
 
 import amf.core.annotations.SourceAST
 import amf.core.metamodel.document.DocumentModel
-import amf.core.metamodel.domain.{DataNodeModel,DomainElementModel, ShapeModel}
+import amf.core.metamodel.domain.{DataNodeModel, DomainElementModel, ShapeModel}
 import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, PropertyShapeModel}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
 import amf.core.metamodel.{Field, Obj, Type}
+import amf.plugins.domain.shapes.metamodel.AnyShapeModel
 import amf.plugins.domain.webapi.metamodel.{ParameterModel, PayloadModel}
 import org.mulesoft.high.level.implementation._
 import org.mulesoft.high.level.interfaces.{IASTUnit, IHighLevelNode, IParseResult}
@@ -349,6 +350,9 @@ class TypeFilter(_clazz:Obj,strict:Boolean) extends IPropertyMatcher {
         case fmr: FieldMatchResult =>
             var instanceOpt:Option[AmfObject] = None
             _clazz match {
+                case sm:ShapeModel =>
+                    val instance = AnyShapeModel.modelInstance
+                    instanceOpt = Option(instance)
                 case de: DomainElementModel =>
                     try {
                         val instance = de.modelInstance
@@ -406,7 +410,22 @@ class AndMatcher(matchers:Seq[IPropertyMatcher]) extends IPropertyMatcher {
         }
     }
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = None
+    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = {
+        if(matchers.isEmpty){
+            None
+        }
+        else{
+            var results:Seq[AttributeMatchResult]
+                = matchers.flatMap(_.appendNewValue(obj,hlNode)).filter(_.isInstanceOf[AttributeMatchResult]).map(_.asInstanceOf[AttributeMatchResult])
+
+            var result: Option[AttributeMatchResult] = results.length match {
+                case 0 => None
+                case 1 => results.headOption
+                case _ => Some(AttributeMatchResult(results.head.node,CompositeValueBuffer(results.map(_.buffer))))
+            }
+            result
+        }
+    }
 }
 
 object AndMatcher {
@@ -569,6 +588,10 @@ class FieldMatcher(field: Field) extends IPropertyMatcher {
         var isArray = fieldType.isInstanceOf[amf.core.metamodel.Type.Array]
         val currentValueOpt = Option(obj.fields.get(field))
         var arrOpt:Option[AmfArray] = None
+        valueObj match {
+            case o:AmfObject => o.withId(obj.id + "/" + field + "/new-node")
+            case _ =>
+        }
         if(isArray && currentValueOpt.nonEmpty){
             currentValueOpt.get match {
                 case arr:AmfArray =>
