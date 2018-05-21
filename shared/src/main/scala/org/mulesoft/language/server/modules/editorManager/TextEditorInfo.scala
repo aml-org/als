@@ -9,6 +9,8 @@ import org.mulesoft.language.server.server.modules.commonInterfaces.{IAbstractTe
 class TextEditorInfo (private val uri: String,
                       var version: Int,
                       _text: String,
+                      val language: String,
+                      val syntax: String,
 //                      private val editorManager: EditorManager,
                       private val logger: ILogger)
   extends IAbstractTextEditorWithCursor {

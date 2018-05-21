@@ -119,7 +119,7 @@ class WEBLSPServerProcess extends js.Object {
 		
 		println("configure connection");
 		
-		var server = new core.Server(this.scalaConnection);
+		var server = new core.Server(this.scalaConnection, WebJSHttpFetcher);
 		
 		var editorManager = new EditorManager();
 		var astManager = new ASTManager();

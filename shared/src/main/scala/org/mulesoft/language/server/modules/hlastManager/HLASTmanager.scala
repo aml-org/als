@@ -13,23 +13,20 @@ import scala.concurrent.Future
 import scala.util.{Failure, Success, Try}
 import scala.concurrent.ExecutionContext.Implicits.global
 import org.mulesoft.high.level.Core
-import org.mulesoft.high.level.project.IProject
+import org.mulesoft.high.level.interfaces.IProject
+import amf.core.model.document.BaseUnit
 
 import scala.collection.mutable
 
 
-class HLASTManager extends AbstractServerModule {
+class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
 
-  /**
-    * Module ID
-    */
-  val moduleId: String = "HL_AST_MANAGER"
 
-  val moduleDependencies: Array[String] = Array("EDITOR_MANAGER", "AST_MANAGER")
 
-  val mainInterfaceName: Option[String] = None
+  val moduleDependencies: Array[String] = Array(
+    IEditorManagerModule.moduleId, IASTManagerModule.moduleId)
 
-  var astListeners: Buffer[IASTListener] = ArrayBuffer()
+  var astListeners: Buffer[IHLASTListener] = ArrayBuffer()
 
   var currentASTs: mutable.Map[String, IProject] = mutable.HashMap()
 
@@ -73,14 +70,22 @@ class HLASTManager extends AbstractServerModule {
     this.getASTManager.onNewASTAvailable(this.onNewASTAvailableListener, true)
   }
 
+  def onNewASTAvailable(listener: IHLASTListener, unsubscribe: Boolean = false): Unit = {
+
+    this.addListener(this.astListeners, listener, unsubscribe)
+  }
+
   def newASTAvailable(uri: String, version: Int, ast: BaseUnit): Unit = {
 
     this.connection.debug("Got new AST:\n" + ast.toString,
       "HLASTManager", "newASTAvailable")
 
-    val project = this.hlFromAST(ast);
+    val projectFuture = this.hlFromAST(ast);
 
-    this.notifyASTChanged(uri, version, project)
+    projectFuture.map(project => {
+
+      this.notifyASTChanged(uri, version, project)
+    })
   }
 
   def notifyASTChanged(uri: String, version: Int, project: IProject) = {
@@ -95,9 +100,9 @@ class HLASTManager extends AbstractServerModule {
 
   }
 
-  def hlFromAST(ast: BaseUnit): IProject {
+  def hlFromAST(ast: BaseUnit): Future[IProject] = {
 
-    Core.buildModel(ast)
+    Core.buildModel(ast, this.platform)
   }
 
   def forceGetCurrentAST(uri: String): Future[IProject] = {
@@ -111,12 +116,29 @@ class HLASTManager extends AbstractServerModule {
       Future.successful(current.get)
     } else {
 
-      this.getASTManager.forceGetCurrentAST(uri).map(ast=>{
+      this.getASTManager.forceGetCurrentAST(uri).flatMap(ast=>{
         this.hlFromAST(ast)
       })
     }
   }
 
+  def addListener[T](memberListeners: Buffer[T], listener: T, unsubscribe: Boolean = false): Unit = {
+
+    if (unsubscribe) {
+
+      val index = memberListeners.indexOf(listener)
+      if (index != -1) {
+        memberListeners.remove(index)
+      }
+
+    }
+    else {
+
+      memberListeners += listener
+
+    }
+
+  }
 }
 object HLASTManager {
 

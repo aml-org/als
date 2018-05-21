@@ -15,8 +15,8 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
     organization := "test",
     
     resolvers ++= List(
-        Common.releases,
-        Common.snapshots,
+        /*Common.releases,
+        Common.snapshots,*/
         Resolver.mavenLocal,
         Resolver.sonatypeRepo("releases"),
         Resolver.sonatypeRepo("snapshots")
@@ -33,8 +33,8 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
         "org.scalatest"    %%% "scalatest" % "3.0.0" % Test,
         "com.chuusai" %% "shapeless" % "2.3.3",
         "org.mule.amf" %%% "typesystem-project" % "0.1-SNAPSHOT",
-        "org.mule.amf" %%% "als-suggestions" % "0.1-SNAPSHOT",
-        "org.mule.amf" %%% "als-outline" % "0.1-SNAPSHOT"
+        "org.mule.amf" %%% "als-suggestions" % "0.1-SNAPSHOT"/*,
+        "org.mule.amf" %%% "als-outline" % "0.1-SNAPSHOT"*/
     )
 )
 
@@ -44,7 +44,7 @@ lazy val core = crossProject.settings(
     Seq(
         name := "api-language-server",
         
-        libraryDependencies += "org.mule.syaml" %%% "syaml" % "0.0.10"
+        libraryDependencies += "org.mule.syaml" %%% "syaml" % "0.1.3"
     )
 ).in(file(".")).settings(settings: _*).jvmSettings(
     libraryDependencies += "org.scala-js"           %% "scalajs-stubs"          % scalaJSVersion % "provided",
@@ -55,7 +55,7 @@ lazy val core = crossProject.settings(
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
     scalaJSModuleKind := ModuleKind.CommonJSModule,
     scalaJSUseMainModuleInitializer := true,
-    mainClass in Compile := Some("org.mulesoft.language.client.js.Main"),
+    mainClass in Compile := Some("org.mulesoft.language.client.js.ServerProcess"),
     artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"serverProcess.js"
 )
 
@@ -63,7 +63,7 @@ lazy val core_mslsp = crossProject.settings(
     Seq(
         name := "api-language-server-mslsp",
         
-        libraryDependencies += "org.mule.syaml" %%% "syaml" % "0.0.10"
+        libraryDependencies += "org.mule.syaml" %%% "syaml" % "0.1.3"
     )
 ).in(file(".")).settings(settings: _*).jvmSettings(
     libraryDependencies += "org.scala-js"           %% "scalajs-stubs"          % scalaJSVersion % "provided"
@@ -81,7 +81,7 @@ lazy val core_weblsp = crossProject.settings(
     Seq(
         name := "api-language-server-weblsp",
         
-        libraryDependencies += "org.mule.syaml" %%% "syaml" % "0.0.10"
+        libraryDependencies += "org.mule.syaml" %%% "syaml" % "0.1.3"
     )
 ).in(file(".")).settings(settings: _*).jvmSettings(
     libraryDependencies += "org.scala-js"           %% "scalajs-stubs"          % scalaJSVersion % "provided"

@@ -1,4 +1,4 @@
-package org.mulesoft.language.client.js
+package org.mulesoft.language.client.js.serverConnection
 
 /**
   * Metadata for node protocol message type.

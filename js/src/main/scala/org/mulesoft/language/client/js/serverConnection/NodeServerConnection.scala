@@ -1,23 +1,14 @@
-package org.mulesoft.language.client.js
+package org.mulesoft.language.client.js.serverConnection
 
-import amf.core.client.ParserConfig
-import amf.core.model.document.{BaseUnit, Document}
-import amf.core.unsafe.TrunkPlatform
-import amf.plugins.domain.webapi.models.WebApi
-import org.mulesoft.language.client.js.CustomPicklerConfig.write
-import org.mulesoft.language.common.logger.{AbstractLogger, IPrintlnLogger, MessageSeverity, PrintlnLogger}
+import org.mulesoft.language.client.js.dtoTypes._
+import org.mulesoft.language.client.js.{Globals, dtoTypes}
 import org.mulesoft.language.common.dtoTypes._
-import org.mulesoft.language.server.core.connections.IServerConnection
+import org.mulesoft.language.common.logger.IPrintlnLogger
 import org.mulesoft.language.server.server.core.connectionsImpl.AbstractServerConnection
-import org.mulesoft.language.server.server.modules.astManager.{ParseResult, ParserHelper}
-import org.mulesoft.language.server.server.modules.commonInterfaces.IPoint
-import org.mulesoft.language.server.server.modules.editorManager.TextBufferInfo
 
-import scala.collection.mutable.ArrayBuffer
-import scala.concurrent.{Future, Promise}
-import scala.scalajs.js
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.Success
+import scala.concurrent.Future
+import scala.scalajs.js
 
 class NodeServerConnection extends IPrintlnLogger
   with NodeMessageDispatcher with AbstractServerConnection {
@@ -51,7 +42,7 @@ class NodeServerConnection extends IPrintlnLogger
     firstOpt match  {
       case Some(listener) =>
         listener(getStructure.wrapped).map(resultMap=>{
-          GetStructureResponse(resultMap.map{case (key, value) => (key, value.asInstanceOf[StructureNode])})
+          GetStructureResponse(resultMap.map{case (key, value) => (key, value.asInstanceOf[dtoTypes.StructureNode])})
         })
       case _ => Future.failed(new Exception("No structure providers found"))
     }

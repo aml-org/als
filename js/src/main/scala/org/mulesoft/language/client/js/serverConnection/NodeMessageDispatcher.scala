@@ -1,16 +1,14 @@
-package org.mulesoft.language.client.js
+package org.mulesoft.language.client.js.serverConnection
 
-import CustomPicklerConfig._
-import CustomPicklerConfig.{macroRW, ReadWriter => RW}
+import org.mulesoft.language.client.js.CustomPicklerConfig.{macroRW, read, write}
+import org.mulesoft.language.client.js.Globals
+import org.mulesoft.language.client.js.dtoTypes.ProtocolMessagePayload
 import org.mulesoft.language.common.logger.ILogger
+import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage => SharedProtocolMessage}
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.JSGlobalScope
-import scala.util.{Failure, Success, Try}
-import org.mulesoft.language.entryPoints.common.MessageDispatcher
-import org.mulesoft.language.entryPoints.common.{ProtocolMessage => SharedProtocolMessage}
-
 import scala.scalajs.js.JSON
+import scala.util.{Failure, Success, Try}
 
 trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, NodeMsgTypeMeta] with ILogger {
 

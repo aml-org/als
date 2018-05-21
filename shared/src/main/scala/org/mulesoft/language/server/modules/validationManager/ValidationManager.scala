@@ -26,9 +26,9 @@ class ValidationManager extends AbstractServerModule {
     */
   val moduleId: String = "VALIDATION_MANAGER"
 
-  val moduleDependencies: Array[String] = Array("EDITOR_MANAGER", "AST_MANAGER")
-
-  val mainInterfaceName: Option[String] = None//Some(TypeName.get[IASTManagerModule])
+  val moduleDependencies: Array[String] = Array(
+    IEditorManagerModule.moduleId,
+    IASTManagerModule.moduleId)
 
   val onNewASTAvailableListener: IASTListener = new IASTListener {
 

@@ -3,6 +3,8 @@ package org.mulesoft.language.client.js
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSGlobalScope, JSImport}
 import CustomPicklerConfig._
+import org.mulesoft.language.client.js.dtoTypes.{ProtocolMessagePayload, StructureReport}
+import org.mulesoft.language.client.js.serverConnection.{NodeServerConnection, ProtocolMessage}
 import org.mulesoft.language.common.logger.PrintlnLogger
 import org.mulesoft.language.server.common.utils.TypeName
 import org.mulesoft.language.server.server.modules.astManager.{ASTManager, ParseResult, ParserHelper}
@@ -53,7 +55,7 @@ trait JSON extends js.Object {
   def stringify(value: js.Any): String = js.native
 }
 
-object Main {
+object ServerProcess {
 
   var lastStructureReport: Option[StructureReport] = None
 
@@ -68,8 +70,8 @@ object Main {
       connection.handleJSONMessageRecieved(data)
     })
 
-    val server = new Server(connection)
-    server.registerModule(new EditorManager())
+    val server = new Server(connection, JSHttpFetcher)
+
     server.registerModule(new ASTManager())
     server.registerModule(new ValidationManager())
   }

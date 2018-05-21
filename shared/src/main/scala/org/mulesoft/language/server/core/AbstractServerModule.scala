@@ -1,5 +1,6 @@
 package org.mulesoft.language.server.core
 import org.mulesoft.language.server.core.connections.IServerConnection
+import org.mulesoft.language.server.core.platform.ConnectionBasedPlatform
 
 import scala.collection.mutable.Buffer
 import scala.collection.mutable.ArrayBuffer
@@ -22,6 +23,11 @@ abstract class AbstractServerModule extends IServerIOCModule {
   protected var connection: IServerConnection = null
 
   /**
+    * Platform.
+    */
+  protected var platform: ConnectionBasedPlatform = null
+
+  /**
     * Whether module is launched
     */
   protected var launched = false
@@ -35,17 +41,17 @@ abstract class AbstractServerModule extends IServerIOCModule {
   }
 
 
-  def dependencyByInterface[T <: IServerModule](interfaceName: String): Option[T] = {
-
-    val moduleOption = this.initializedDependencies.find(
-      dependencyModule => {
-        dependencyModule.isInstanceOf[IServerIOCModule] &&
-          dependencyModule.asInstanceOf[IServerIOCModule].mainInterfaceName.isDefined &&
-          dependencyModule.asInstanceOf[IServerIOCModule].mainInterfaceName.get == interfaceName
-      })
-
-    moduleOption.map(module=>module.asInstanceOf[T])
-  }
+//  def dependencyByInterface[T <: IServerModule](interfaceName: String): Option[T] = {
+//
+//    val moduleOption = this.initializedDependencies.find(
+//      dependencyModule => {
+//        dependencyModule.isInstanceOf[IServerIOCModule] &&
+//          dependencyModule.asInstanceOf[IServerIOCModule].mainInterfaceName.isDefined &&
+//          dependencyModule.asInstanceOf[IServerIOCModule].mainInterfaceName.get == interfaceName
+//      })
+//
+//    moduleOption.map(module=>module.asInstanceOf[T])
+//  }
 
   /**
     * Launches module. Either returns this or launch failure reason.
@@ -97,6 +103,15 @@ abstract class AbstractServerModule extends IServerIOCModule {
   override def insertConnection(serverConnection: IServerConnection): Unit = {
 
     this.connection = serverConnection
+  }
+
+  /**
+    * Pushes platform dependency
+    * @param platform
+    */
+  override def insertPlatform(platform: ConnectionBasedPlatform) = {
+
+    this.platform = platform
   }
 
   protected def checkDependencies(): Try[IServerModule] = {

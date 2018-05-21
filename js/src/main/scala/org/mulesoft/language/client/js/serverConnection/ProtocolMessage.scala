@@ -1,5 +1,4 @@
-package org.mulesoft.language.client.js
-
+package org.mulesoft.language.client.js.serverConnection
 
 import org.mulesoft.language.entryPoints.common.{ProtocolMessage => SharedProtocolMessage}
 

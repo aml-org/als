@@ -22,9 +22,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
   */
 class ASTManager extends AbstractServerModule with IASTManagerModule {
 
-  val moduleDependencies: Array[String] = Array("EDITOR_MANAGER")
-
-  val mainInterfaceName: Option[String] = None//Some(TypeName.get[IASTManagerModule])
+  val moduleDependencies: Array[String] = Array(IEditorManagerModule.moduleId)
 
   /**
     * Current AST listeners

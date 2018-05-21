@@ -1,11 +1,11 @@
 package org.mulesoft.language.server.js
 
+import org.mulesoft.language.client.js.MSLSPHttpFetcher
+
 import scalajs.js
 import js.annotation._
 import js.JSConverters._
-
 import concurrent.ExecutionContext.Implicits.global
-
 import org.mulesoft.language.server.core
 import org.mulesoft.language.server.server.modules.astManager.ASTManager
 import org.mulesoft.language.server.server.modules.editorManager.EditorManager
@@ -173,7 +173,8 @@ class MSLSPServerProcess extends js.Object {
 		
 		println("configure connection");
 		
-		var server = new core.Server(this.scalaConnection);
+		var server = new core.Server(this.scalaConnection,
+			MSLSPHttpFetcher);
 		
 		
 		var editorManager = new EditorManager();
