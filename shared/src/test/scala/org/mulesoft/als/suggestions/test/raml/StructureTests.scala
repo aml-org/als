@@ -12,6 +12,10 @@ class StructureTests extends RAMLTest {
     this.runTest("structure/test02.raml", Set("types"))
   }
 
+  test("StructureTests root node resourceTypes"){
+    this.runTest("structure/test03.raml", Set("resourceTypes"))
+  }
+
   test("StructureTests root node title"){
     this.runTest("structure/test04.raml", Set("title"))
   }
@@ -24,8 +28,24 @@ class StructureTests extends RAMLTest {
     this.runTest("structure/test06.raml", Set("description"))
   }
 
+  test("StructureTests root node documentation"){
+    this.runTest("structure/test07.raml", Set("documentation"))
+ }
+
   test("StructureTests root node version"){
     this.runTest("structure/test08.raml", Set("version"))
+  }
+
+  test("StructureTests root node baseUri"){
+    this.runTest("structure/test09.raml", Set("baseUri", "baseUriParameters"))
+  }
+
+  test("StructureTests root node protocols"){
+    this.runTest("structure/test10.raml", Set("protocols"))
+  }
+
+  test("StructureTests root node mediaType"){
+    this.runTest("structure/test11.raml", Set("mediaType"))
   }
 
   test("StructureTests root node schemas"){
@@ -34,6 +54,10 @@ class StructureTests extends RAMLTest {
 
   test("StructureTests root node securitySchemes"){
     this.runTest("structure/test13.raml", Set("securitySchemes"))
+  }
+
+  test("StructureTests root node securedBy"){
+    this.runTest("structure/test14.raml", Set("securedBy"))
   }
 
   test("StructureTests root node annotationTypes"){
