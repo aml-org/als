@@ -37,13 +37,18 @@ class ParserHelper(val platform:Platform) extends CommandHelper{
         }
     }
 
-    def parse(config: ParserConfig,env: Environment = Environment()): Future[BaseUnit] = {
+    def parse(config: ParserConfig,env:Environment = Environment()): Future[BaseUnit] = {
         val res = for {
             _          <- AMFInit()
             _          <- processDialects(config)
             model      <- parseInput(config,env)
         } yield {
+            //            if(config.inputFormat.isDefined) {
+            //                RuntimeResolver.resolve(config.inputFormat.get, model, ResolutionPipeline.EDITING_PIPELINE)
+            //            }
+            //            else {
             model
+            //            }
         }
         res
     }
