@@ -2,7 +2,7 @@ package org.mulesoft.positioning
 
 import org.mulesoft.typesystem.json.interfaces.NodeRange
 import org.mulesoft.typesystem.syaml.to.json.YRange
-import org.yaml.model.{YMapEntry, YNode, YPart, YValue}
+import org.yaml.model._
 
 class YamlLocation private {
 
@@ -71,7 +71,30 @@ class YamlLocation private {
         this
     }
 
-    def inKey(position:Int):Boolean = innerContainsPosition(position,_keyNode)
+    def inKey(position:Int):Boolean = {
+        if(innerContainsPosition(position,_keyNode)){
+            true
+        }
+        else if(_keyNode.exists(_.range.end.position == position)){
+            _keyNode.get.yPart.value match {
+                case sc:YScalar =>
+                    var valString = sc.value
+                    var start = _keyNode.get.range.start.position
+                    var end = _keyNode.get.range.end.position
+                    if(start + ("_"+valString).trim.length - 1 == end){
+                        true
+                    }
+                    else {
+                        false
+                    }
+                case _ => false
+            }
+        }
+        else {
+            false
+        }
+
+    }
 
     def inValue(position:Int):Boolean = {
         innerContainsPosition(position, _node) || innerContainsPosition(position, _value)

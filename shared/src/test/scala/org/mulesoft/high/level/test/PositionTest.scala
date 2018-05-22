@@ -6,7 +6,6 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.high.level.{ReferenceSearchResult, Search}
 import org.mulesoft.high.level.interfaces.IProject
-import org.mulesoft.test.MainCompletion.{getPositions, platform}
 import org.scalatest.Assertion
 
 import scala.concurrent.Future
