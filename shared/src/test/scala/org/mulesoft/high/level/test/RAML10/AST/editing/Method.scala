@@ -1,8 +1,7 @@
 package org.mulesoft.high.level.test.RAML10.AST.editing
 
-import amf.core.model.domain.{ObjectNode, ScalarNode}
-import amf.core.model.domain.templates.{Variable, VariableValue}
-import org.mulesoft.high.level.interfaces.IProject
+import amf.core.model.domain.extensions.PropertyShape
+import amf.plugins.domain.shapes.models.NodeShape
 import org.mulesoft.high.level.test.RAML10.RAML10ASTEditingTest
 import org.mulesoft.typesystem.json.interfaces.JSONWrapper
 import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind.STRING
@@ -156,6 +155,47 @@ class Method extends RAML10ASTEditingTest{
                 else {
                     succeed
                 }
+            }
+        })
+    }
+
+    test("Method. Creating new body and a property for it."){
+        parse(filePath("Method/method_method.raml")).flatMap(project=>{
+
+            var methodNode = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head
+            var methodDef = methodNode.definition
+
+            var bodyNode = methodNode.newChild(methodDef.property("body").get).flatMap(_.asElement).get
+
+            runAttributeCreationTest1Internal(project, project => {
+                Some(project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("body").head)
+            }, "name", "application/json")
+        }).flatMap(r=>{
+            if(r.result != succeed){
+                Future.successful(r)
+            }
+            else {
+                var project = r.modifiedProject
+                runAttributeCreationTest1Internal(project, project => {
+                    Some(project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("body").head)
+                }, "type", "object")
+            }
+        }).flatMap(r=>{
+            if(r.result != succeed){
+                r.result
+            }
+            else {
+                var project = r.modifiedProject
+                var bodyNode = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("body").head
+                var bodyDef = bodyNode.definition
+                var propNode = bodyNode.newChild(bodyDef.property("properties").get).flatMap(_.asElement).get
+
+                val propType = NodeShape()
+                propNode.amfNode.asInstanceOf[PropertyShape].withRange(propType)
+
+                runAttributeCreationTest1(project, project => {
+                    Some(project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("body").head.elements("properties").head)
+                }, "name", "newProperty1")
             }
         })
     }
