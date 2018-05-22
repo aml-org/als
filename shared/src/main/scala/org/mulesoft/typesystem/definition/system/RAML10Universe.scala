@@ -471,7 +471,11 @@ val value1 =
               "typeKind": 1
             },
             "annotations": [
-              {
+                {
+                  "name": "MetaModel.embeddedInMaps",
+                  "arguments": []
+                },
+                {
                 "name": "MetaModel.setsContextValue",
                 "arguments": [
                   "location",
@@ -593,7 +597,11 @@ val value1 =
               "typeKind": 1
             },
             "annotations": [
-              {
+                {
+                  "name": "MetaModel.embeddedInArray",
+                  "arguments": []
+                },
+                {
                 "name": "MetaModel.description",
                 "arguments": [
                   "The security schemes that apply to every resource and method in the API"
@@ -653,7 +661,11 @@ val value1 =
               "typeKind": 1
             },
             "annotations": [
-              {
+                {
+                  "name": "MetaModel.embeddedInArray",
+                  "arguments": []
+                },
+                {
                 "name": "MetaModel.description",
                 "arguments": [
                   "Additional overall documentation for the API"
