@@ -118,7 +118,7 @@ object Search {
             val prop = node.property
             if (node.isElement) {
                 var eNode = node.asElement.get
-                if (!locOpt.get.inKey(position) && !locOpt.get.inKey(position - 1)) {
+                if (!locOpt.get.inKey(position)) {
                     None
                 }
                 else if (language == Raml || language == Raml10) {
