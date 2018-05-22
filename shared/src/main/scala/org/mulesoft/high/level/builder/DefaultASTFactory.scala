@@ -201,10 +201,16 @@ object ElementMatchResult{
             = new ElementMatchResult(node,yamlNodeOpt)
 }
 
-class FieldMatchResult(node:AmfObject,val fMatcher:FieldMatcher) extends MatchResult(node) {}
+class FieldMatchResult(node:AmfObject, val value:AmfElement, val fMatcher:FieldMatcher) extends MatchResult(node) {}
 
 object FieldMatchResult {
-    def apply(node: AmfObject, fMatcher: FieldMatcher): FieldMatchResult = new FieldMatchResult(node, fMatcher)
+    def apply(node:AmfObject, value:AmfElement, fMatcher:FieldMatcher): FieldMatchResult = new FieldMatchResult(node,value,fMatcher)
+}
+
+class FieldOwnerMatchResult(node:AmfObject, val fMatcher:FieldMatcher) extends MatchResult(node) {}
+
+object FieldOwnerMatchResult {
+    def apply(fieldOwner: AmfObject, fMatcher: FieldMatcher): FieldOwnerMatchResult = new FieldOwnerMatchResult(fieldOwner, fMatcher)
 }
 
 trait IPropertyMatcher {
@@ -347,7 +353,7 @@ class TypeFilter(_clazz:Obj,strict:Boolean) extends IPropertyMatcher {
 
     override def appendNewValue(mr:MatchResult, hlNode: IHighLevelNode):Option[MatchResult] = mr match {
 
-        case fmr: FieldMatchResult =>
+        case fmr: FieldOwnerMatchResult =>
             var instanceOpt:Option[AmfObject] = None
             _clazz match {
                 case sm:ShapeModel =>
@@ -526,6 +532,17 @@ class FieldMatcher(field: Field) extends IPropertyMatcher {
         result
     }
 
+    override def appendNewValue(mr:MatchResult, hlNode: IHighLevelNode):Option[MatchResult]
+    = {
+        mr match {
+            case fmr:FieldMatchResult => fmr.value match {
+                case obj:AmfObject => appendNewValue(obj,hlNode)
+                case _ => None
+            }
+            case _ => super.appendNewValue(mr,hlNode)
+        }
+    }
+
     override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode): Option[MatchResult] = {
         var result: ListBuffer[MatchResult] = ListBuffer()
         val fieldType = field.`type`
@@ -534,7 +551,7 @@ class FieldMatcher(field: Field) extends IPropertyMatcher {
 
         val currentValueOpt = Option(obj.fields.get(field))
         if(!isArray && currentValueOpt.nonEmpty){
-            None
+            currentValueOpt.map(x=>FieldMatchResult(obj,x,this))
         }
         else {
             var index = 0
@@ -574,7 +591,7 @@ class FieldMatcher(field: Field) extends IPropertyMatcher {
                     }
                     catch{
                         case x:Throwable =>
-                            matchResultOpt = Some(FieldMatchResult(obj,this))
+                            matchResultOpt = Some(FieldOwnerMatchResult(obj,this))
                     }
                 case _ =>
             }

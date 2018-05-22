@@ -829,7 +829,9 @@ object ResourceExtractor {
 }
 
 class TypePropertyMatcher() extends IPropertyMatcher {
-    override def doOperate(obj: AmfObject, hlNode: IHighLevelNode): Seq[MatchResult] = {
+
+    override def doOperate(obj: AmfObject, hlNode: IHighLevelNode):Seq[MatchResult] = doOperate(obj,hlNode,false)
+    def doOperate(obj: AmfObject, hlNode: IHighLevelNode, forceCreate:Boolean=false): Seq[MatchResult] = {
         var jsonNodes: Option[Seq[JSONWrapper]] = obj.annotations.find(classOf[SourceAST]).flatMap(yn => YJSONWrapper(yn.ast)).map(w => w.kind match {
                       case STRING => List(w)
                       case OBJECT => w.propertyValue("type") match {
@@ -842,6 +844,9 @@ class TypePropertyMatcher() extends IPropertyMatcher {
                       case ARRAY => w.value(ARRAY).get
                       case _ => Seq()
         })
+        if(forceCreate && (jsonNodes.isEmpty || jsonNodes.get.isEmpty)){
+            jsonNodes = Some(List(YJSONWrapper(YScalar(""))))
+        }
         jsonNodes match {
             case Some(nodes) => nodes.map(x => AttributeMatchResult(obj, new JSONValueBuffer(obj, hlNode, Option(x)){
 
@@ -858,7 +863,8 @@ class TypePropertyMatcher() extends IPropertyMatcher {
         }
     }
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = None
+    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult]
+        = doOperate(obj,hlNode,true).headOption
 }
 
 object TypePropertyMatcher{
