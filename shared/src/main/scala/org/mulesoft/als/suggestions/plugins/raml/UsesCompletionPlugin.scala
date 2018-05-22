@@ -50,7 +50,7 @@ class UsesCompletionPlugin extends ICompletionPlugin {
   }
 
   def isUses(request: ICompletionRequest): Boolean = {
-    request.astNode.get.isElement &&
+      request.astNode.isDefined && request.astNode.get.isElement &&
       request.astNode.get.asElement.get.definition.isAssignableFrom("LibraryBase") &&
       request.actualYamlLocation.isDefined &&
       request.actualYamlLocation.get.parentStack.length >= 3 &&

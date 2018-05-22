@@ -46,7 +46,7 @@ class MasterReferenceCompletionPlugin extends ICompletionPlugin {
     }
 	
 	def isExtendable(request: ICompletionRequest): Boolean = {
-		request.astNode.get.isElement && (request.astNode.get.asElement.get.definition.isAssignableFrom("Overlay") || request.astNode.get.asElement.get.definition.isAssignableFrom("Extension"));
+        request.astNode.nonEmpty && request.astNode.get.isElement && (request.astNode.get.asElement.get.definition.isAssignableFrom("Overlay") || request.astNode.get.asElement.get.definition.isAssignableFrom("Extension"));
 	}
 	
 	def isInExtendsProperty(request: ICompletionRequest): Boolean = {
