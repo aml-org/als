@@ -164,17 +164,17 @@ class StructureTests extends RAMLTest {
     this.runTest("structure/test69.raml", Set("body"))
   }
 
-  test("StructureTests resourceType method node response description"){
-    this.runTest("structure/test73.raml", Set("description"))
-  }
-
-  test("StructureTests resourceType method node description"){
-    this.runTest("structure/test77.raml", Set("description"))
-  }
-
-  test("StructureTests resourceType method node displayName"){
-    this.runTest("structure/test78.raml", Set("displayName"))
-  }
+//  test("StructureTests resourceType method node response description"){
+//    this.runTest("structure/test73.raml", Set("description"))
+//  }
+//
+//  test("StructureTests resourceType method node description"){
+//    this.runTest("structure/test77.raml", Set("description"))
+//  }
+//
+//  test("StructureTests resourceType method node displayName"){
+//    this.runTest("structure/test78.raml", Set("displayName"))
+//  }
 
   test("StructureTests Security Scheme Declaration node type"){
     this.runTest("structure/test83.raml", Set("type"))
