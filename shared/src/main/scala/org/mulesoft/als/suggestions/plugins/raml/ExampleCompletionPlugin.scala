@@ -141,7 +141,7 @@ class ExampleCompletionPlugin extends ICompletionPlugin {
 		case _ => Option.empty;
 	}
 	
-	override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = Promise.successful(findProperties(extractAstPath(request), extractLocalType(request)).map(propertyName => Suggestion(propertyName, id, propertyName, request.prefix))).future
+	override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = Promise.successful(findProperties(extractAstPath(request), extractLocalType(request)).map(propertyName => Suggestion(propertyName + ":", id, propertyName, request.prefix))).future
 	
 	def findProperties(path: Seq[String], localType: ITypeDefinition): Seq[String] = if(localType == null) {
 		Seq();

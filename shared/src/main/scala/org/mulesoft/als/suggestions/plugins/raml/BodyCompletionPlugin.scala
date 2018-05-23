@@ -35,7 +35,7 @@ class BodyCompletionPlugin extends ICompletionPlugin {
             "application/xml",
             "multipart/formdata",
             "application/x-www-form-urlencoded"
-        ).filter(!existing.contains(_)).map(x=>Suggestion(x, id,
+        ).filter(!existing.contains(_)).map(x=>Suggestion(x + ":", id,
             x, request.prefix))
 
         Promise.successful(result).future
