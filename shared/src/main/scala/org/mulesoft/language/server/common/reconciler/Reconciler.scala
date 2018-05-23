@@ -1,15 +1,18 @@
 package org.mulesoft.language.server.common.reconciler;
 
-import org.mulesoft.language.common.logger.ILogger;
+import org.mulesoft.language.common.logger.ILogger
 
-import scala.collection.mutable.ListBuffer;
+import scala.collection.mutable.ListBuffer
+import scala.concurrent.{Future, Promise}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{Failure, Success}
+import java.util.{Timer, TimerTask}
 
-import scala.concurrent.{Future, Promise};
-import scala.concurrent.ExecutionContext.Implicits.global;
-
-import scala.util.{Success, Failure};
-
-class Reconciler(logger: ILogger, timeout: Int, setTimeout: Function2[Function0[Unit], Int, Unit]) {
+class Reconciler(logger: ILogger, timeout: Int, setTimeout: Function2[Function0[Unit], Int, Unit] = (task: Function0[Unit], timeout: Int) => {
+	new Timer().schedule(new TimerTask {
+		def run = task();
+	}, timeout);
+}) {
 	private var waitingList: ListBuffer[Runnable[Any]] = ListBuffer[Runnable[Any]]();
 	private var runningList: ListBuffer[Runnable[Any]] = ListBuffer[Runnable[Any]]();
 	
