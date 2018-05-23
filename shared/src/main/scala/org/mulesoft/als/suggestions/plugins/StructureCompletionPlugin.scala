@@ -36,10 +36,17 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                 request.actualYamlLocation match {
                     case Some(l) =>
                         if(l.inKey(request.position)){
-                            true
+                            request.yamlLocation.get.value.get.yPart match {
+                                case m:YMap => l.mapEntry match {
+                                    case Some(me) =>
+                                        m.entries.contains(me.yPart)
+                                    case _ => false
+                                }
+                                case _ => false
+                            }
                         } else if(l.parentStack.nonEmpty && request.yamlLocation.get.hasSameValue(l.parentStack.last)) {
                             var parent = l.parentStack.last;
-                            
+
                             if(parent.keyValue.isDefined) {
                                 request.astNode.map(_.astUnit.positionsMapper) match {
                                     case Some(pm) => pm.point(request.position).line > parent.keyValue.get.range.start.line
