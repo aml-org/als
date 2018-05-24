@@ -57,6 +57,10 @@ class ParserHelper(val platform:Platform) extends CommandHelper{
             }
         )
     }
+
+    def printModel(model:BaseUnit, config: ParserConfig): Future[Unit] = {
+        generateOutput(config,model)
+    }
 }
 
 object ParserHelper {

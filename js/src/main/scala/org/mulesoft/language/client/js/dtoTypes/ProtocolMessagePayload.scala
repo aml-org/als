@@ -1,10 +1,9 @@
 package org.mulesoft.language.client.js.dtoTypes
 
 import org.mulesoft.language.client.js.CustomPicklerConfig.macroRW
+import org.mulesoft.language.client.js.CustomPicklerConfig.{ReadWriter => RW}
 import org.mulesoft.language.common.dtoTypes.{IChangedDocument => SharedChangedDocument, IOpenedDocument => SharedOpenDocument, IRange => SharedRange, IStructureReport => SharedStructureReport, ITextEdit => SharedTextEdit, IValidationIssue => SharedValidationIssue, IValidationReport => SharedValidationReport, StructureNode => SharedStructureNode}
 import org.mulesoft.language.common.logger.{ILoggerSettings, MessageSeverity => SharedMessageSeverity}
-
-//import upickle.default.{ReadWriter => RW, macroRW}
 
 /**
   * Tag for potential payloads, in order to serialize/deserialize to JSON
@@ -88,13 +87,13 @@ case class ChangedDocument (
     /**
       * Optional document content
       */
-    var text: Option[String],
+    var text: Option[String]
 
     /**
       * Optional set of text edits instead of complete text replacement.
       * Is only taken into account if text is null.
       */
-    var textEdits: Option[Seq[TextEdit]]
+    //var textEdits: Option[Seq[TextEdit]]
 
   ) extends ProtocolMessagePayload
 {
@@ -110,9 +109,10 @@ object ChangedDocument {
       from.uri,
       from.version,
       from.text,
-      if(from.textEdits.isDefined)
-        Some(from.textEdits.get.map(edit=>TextEdit.transportToShared(edit)))
-      else None
+      None
+//      if(from.textEdits.isDefined)
+//        Some(from.textEdits.get.map(edit=>TextEdit.transportToShared(edit)))
+//      else None
     )
   }
 
@@ -466,7 +466,7 @@ case class LoggerSettings (
    /**
      * If true, disables all logging.
      */
-   var disabled: Option[Boolean],
+   //var disabled: Option[Boolean],
 
    /**
      * List of components, which are allowed to appear in log.
@@ -477,7 +477,7 @@ case class LoggerSettings (
    /**
      * Components, which never appear in the log
      */
-   var deniedComponents: Option[Seq[String]],
+   //var deniedComponents: Option[Seq[String]],
 
    /**
      * Messages with lower severity will not appear in log.
@@ -488,7 +488,7 @@ case class LoggerSettings (
      * Messages having more length will be cut off to this number.
      */
    var maxMessageLength: Option[Int]
- )
+ ) extends ProtocolMessagePayload
 {
 
 }
@@ -499,10 +499,11 @@ object LoggerSettings {
   def transportToShared(
     from: LoggerSettings): ILoggerSettings = {
 
+
     new ILoggerSettings() {
-      var disabled = from.disabled
+      var disabled = None.asInstanceOf[Option[Boolean]]//from.disabled
       var allowedComponents = from.allowedComponents
-      var deniedComponents = from.deniedComponents
+      var deniedComponents = None.asInstanceOf[Option[Seq[String]]]//from.deniedComponents
       var maxSeverity = if(from.maxSeverity.isDefined) Some(MessageSeverity.sharedToTransport(from.maxSeverity.get)) else None
       var maxMessageLength = from.maxMessageLength
     }

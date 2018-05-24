@@ -20,16 +20,16 @@ class NodeServerConnection extends IPrintlnLogger
   protected def initialize(): Unit = {
 
     this.newVoidHandler("OPEN_DOCUMENT", this.handleOpenDocument _,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.OpenedDocument")))
+      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.OpenedDocument")))
 
     this.newVoidHandler("CHANGE_DOCUMENT", this.handleChangedDocument _,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.ChangedDocument")))
+      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ChangedDocument")))
 
-    this.newFutureHandler("GET_STRUCTURE", this.handleGetStructure _,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.GetStructure", true, true)))
+//    this.newFutureHandler("GET_STRUCTURE", this.handleGetStructure _,
+//      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.GetStructureRequest", true, true)))
 
     this.newVoidHandler("SET_LOGGER_CONFIGURATION", this.handleSetLoggerConfiguration _,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.LoggerSettings")))
+      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.LoggerSettings")))
   }
 
   protected def internalSendJSONMessage(message: js.Any): Unit = {
@@ -76,7 +76,7 @@ class NodeServerConnection extends IPrintlnLogger
     * @param report - structure report.
     */
   def structureAvailable(report: IStructureReport): Unit = {
-    this.send("STRUCTURE_REPORT", report.asInstanceOf[StructureReport])
+    this.send("STRUCTURE_REPORT", StructureReport.sharedToTransport(report))
   }
 
   /**
@@ -85,7 +85,7 @@ class NodeServerConnection extends IPrintlnLogger
     * @param report
     */
   override def validated(report: IValidationReport): Unit = {
-    this.send("VALIDATION_REPORT", report.asInstanceOf[ValidationReport])
+    this.send("VALIDATION_REPORT", ValidationReport.sharedToTransport(report))
   }
 
   /**

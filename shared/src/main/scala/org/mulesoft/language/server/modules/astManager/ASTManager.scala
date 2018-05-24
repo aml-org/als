@@ -223,7 +223,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
     var cfg = new ParserConfig(
       Some(ParserConfig.PARSE),
-      Some("api.raml"),
+      Some(uri),
       Some(language),
       Some("application/yaml"),
       None,
@@ -233,6 +233,10 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
     val helper = ParserHelper(platform)
 
-    helper.parse(cfg)
+    helper.parse(cfg).map(unit=>{
+
+//      helper.printModel(unit,cfg)
+      unit
+    })
   }
 }

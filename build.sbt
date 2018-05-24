@@ -17,9 +17,9 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
     resolvers ++= List(
         /*Common.releases,
         Common.snapshots,*/
-        Resolver.mavenLocal,
+        Resolver.mavenLocal/*,
         Resolver.sonatypeRepo("releases"),
-        Resolver.sonatypeRepo("snapshots")
+        Resolver.sonatypeRepo("snapshots")*/
     ),
     
     credentials ++= Common.credentials(),

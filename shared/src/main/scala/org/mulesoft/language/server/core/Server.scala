@@ -46,11 +46,19 @@ class Server(val connection: IServerConnection,
     if (moduleOption.isDefined) {
       val module = moduleOption.get
 
+      this.connection.debugDetail("Starting to Enable module dependencies " + moduleName,
+        "server", "enableModule")
       this.enableModuleDependencies(module)
 
+      this.connection.debugDetail("Done enabling module dependencies " + moduleName,
+        "server", "enableModule")
+
       if (module.isInstanceOf[IServerIOCModule]) {
+
         this.pushModuleDependencies(module.asInstanceOf[IServerIOCModule])
       }
+
+      module.launch()
 
     } else {
 
@@ -74,6 +82,9 @@ class Server(val connection: IServerConnection,
 
   def pushModuleDependencies(module: IServerIOCModule): Unit = {
 
+    this.connection.debugDetail("Starting to push module dependencies " + module.moduleId,
+      "server", "pushModuleDependencies")
+
     module.insertConnection(this.connection)
 
     module.insertPlatform(this.platform)
@@ -90,6 +101,9 @@ class Server(val connection: IServerConnection,
           "server", "enableModuleDependencies")
       }
     })
+
+    this.connection.debugDetail("Finished to push module dependencies " + module.moduleId,
+      "server", "pushModuleDependencies")
   }
 
   def disableModule(moduleName: String): Unit = {

@@ -93,7 +93,8 @@ trait AbstractLogger extends ILogger {
     * @param loggerSettings
     */
   def setLoggerConfiguration(loggerSettings: ILoggerSettings): Unit = {
-    this.loggerSettings = Option(loggerSettings);
+    //TODO restore setting
+    //this.loggerSettings = Option(loggerSettings);
   }
 
   private def filterLogMessage(msg: LogMessage, settings: Option[ILoggerSettings]): Option[LogMessage] = {

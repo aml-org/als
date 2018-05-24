@@ -7,7 +7,7 @@ import org.mulesoft.language.client.js.dtoTypes.{ProtocolMessagePayload, Structu
 import org.mulesoft.language.client.js.serverConnection.{NodeServerConnection, ProtocolMessage}
 import org.mulesoft.language.common.logger.PrintlnLogger
 import org.mulesoft.language.server.common.utils.TypeName
-import org.mulesoft.language.server.server.modules.astManager.{ASTManager, ParseResult, ParserHelper}
+import org.mulesoft.language.server.server.modules.astManager.{ASTManager, IASTManagerModule, ParseResult, ParserHelper}
 import org.mulesoft.language.server.server.modules.commonInterfaces.{IEditorTextBuffer, IPoint}
 import org.mulesoft.language.server.server.modules.editorManager.{EditorManager, TextBufferInfo}
 import org.mulesoft.language.server.server.modules.validationManager.ValidationManager
@@ -74,6 +74,9 @@ object ServerProcess {
 
     server.registerModule(new ASTManager())
     server.registerModule(new ValidationManager())
+
+    server.enableModule(IASTManagerModule.moduleId)
+    server.enableModule(ValidationManager.moduleId)
   }
 }
 
