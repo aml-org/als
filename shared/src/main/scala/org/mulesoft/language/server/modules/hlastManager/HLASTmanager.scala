@@ -9,7 +9,7 @@ import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerM
 
 import scala.collection.mutable.Buffer
 import scala.collection.mutable.ArrayBuffer
-import scala.concurrent.Future
+import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success, Try}
 import scala.concurrent.ExecutionContext.Implicits.global
 import org.mulesoft.high.level.Core
@@ -20,9 +20,8 @@ import scala.collection.mutable
 
 
 class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
-
-
-
+  private var initialized: Boolean = false;
+  
   val moduleDependencies: Array[String] = Array(
     IEditorManagerModule.moduleId, IASTManagerModule.moduleId)
 
@@ -49,7 +48,11 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
 
   override def launch(): Try[IServerModule] = {
 
-    val superLaunch = super.launch()
+    val superLaunch = super.launch();
+  
+    Core.init().map(nothing => {
+      initialized = true;
+    });
 
     if (superLaunch.isSuccess) {
 
@@ -99,12 +102,37 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
     }
 
   }
-
-  def hlFromAST(ast: BaseUnit): Future[IProject] = {
-
-    Core.buildModel(ast, this.platform)
+  
+  private def checkInitialization(): Future[Unit] = {
+    var promise = Promise[Unit]();
+  
+    if(initialized) {
+      promise.success();
+    } else {
+      Core.init().map(nothing => {
+        initialized = true;
+        
+        promise.success();
+      });
+    }
+  
+    promise.future;
   }
 
+  def hlFromAST(ast: BaseUnit): Future[IProject] = {
+    var promise = Promise[IProject]();
+  
+    checkInitialization().map(nothing => Core.buildModel(ast, this.platform) andThen {
+      case Success(result) => {
+        promise.success(result);
+      };
+      
+      case Failure(error) => promise.failure(error);
+    });
+    
+    promise.future;
+  }
+  
   def forceGetCurrentAST(uri: String): Future[IProject] = {
 
     // TODO use runnable
@@ -115,10 +143,17 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
 
       Future.successful(current.get)
     } else {
-
-      this.getASTManager.forceGetCurrentAST(uri).flatMap(ast=>{
-        this.hlFromAST(ast)
+      var result = Promise[IProject]();
+      
+      getASTManager.forceGetCurrentAST(uri).map(hlFromAST(_) andThen {
+        case Success(project) => {
+          result.success(project);
+        }
+        
+        case Failure(error) => result.failure(error);
       })
+      
+      result.future;
     }
   }
 

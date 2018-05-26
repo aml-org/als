@@ -7,6 +7,9 @@ import org.mulesoft.language.client.js.dtoTypes.{ProtocolMessagePayload, Structu
 import org.mulesoft.language.client.js.serverConnection.{NodeServerConnection, ProtocolMessage}
 import org.mulesoft.language.common.logger.PrintlnLogger
 import org.mulesoft.language.server.common.utils.TypeName
+import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
+import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
+import org.mulesoft.language.server.modules.hlastManager.HLASTManager
 import org.mulesoft.language.server.server.modules.astManager.{ASTManager, IASTManagerModule, ParseResult, ParserHelper}
 import org.mulesoft.language.server.server.modules.commonInterfaces.{IEditorTextBuffer, IPoint}
 import org.mulesoft.language.server.server.modules.editorManager.{EditorManager, TextBufferInfo}
@@ -73,10 +76,18 @@ object ServerProcess {
     val server = new Server(connection, JSHttpFetcher)
 
     server.registerModule(new ASTManager())
+    server.registerModule(new HLASTManager())
     server.registerModule(new ValidationManager())
+  
+    server.registerModule(new FindReferencesModule());
+    server.registerModule(new FIndDeclarationModule());
 
     server.enableModule(IASTManagerModule.moduleId)
+    server.enableModule(HLASTManager.moduleId)
     server.enableModule(ValidationManager.moduleId)
+    
+    server.enableModule("FIND_REFERENCES");
+    server.enableModule("FIND_DECLARATION");
   }
 }
 
