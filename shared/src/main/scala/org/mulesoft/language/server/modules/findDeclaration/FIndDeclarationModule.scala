@@ -32,8 +32,8 @@ class FIndDeclarationModule  extends AbstractServerModule {
 		var promise = Promise[Seq[ILocation]]();
 		
 		currentAst(uri) andThen {
-			case Success(project) => promise.success(Search.findDefinition(project.rootASTUnit.rootNode, position) match {
-				case Some(searchResult) => searchResult.references.map(_.sourceInfo.ranges.headOption).filter(_ match {
+			case Success(project) => promise.success(Search.findDefinitionByPosition(project.rootASTUnit, position) match {
+				case Some(searchResult) => Seq(searchResult.definition).map(_.sourceInfo.ranges.headOption).filter(_ match {
 					case Some(range) => range.start.resolved;
 					
 					case _ => false;
