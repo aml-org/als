@@ -31,9 +31,9 @@ class FIndDeclarationModule  extends AbstractServerModule {
 	private def findDeclaration(uri: String, position: Int): Future[Seq[ILocation]] = {
 		var promise = Promise[Seq[ILocation]]();
 		
-		currentAst(uri).andThen {
-			case Success(project) => Search.findDefinition(project.rootASTUnit.rootNode, position) match {
-				case Some(searchResult) => promise.success(searchResult.references.map(_.sourceInfo.ranges.headOption).filter(_ match {
+		currentAst(uri) andThen {
+			case Success(project) => promise.success(Search.findDefinition(project.rootASTUnit.rootNode, position) match {
+				case Some(searchResult) => searchResult.references.map(_.sourceInfo.ranges.headOption).filter(_ match {
 					case Some(range) => range.start.resolved;
 					
 					case _ => false;
@@ -43,10 +43,10 @@ class FIndDeclarationModule  extends AbstractServerModule {
 					var uri: String = project.rootASTUnit.path;
 					
 					override var version: Int = -1;
-				}));
+				});
 				
 				case _ => Seq();
-			};
+			});
 			
 			case Failure(error) => promise.failure(error);
 		}
@@ -55,6 +55,6 @@ class FIndDeclarationModule  extends AbstractServerModule {
 	}
 	
 	private def currentAst(uri: String): Future[IProject] = {
-		this.getDependencyById(HLASTManager.moduleId).get.asInstanceOf[HLASTManager].forceGetCurrentAST(uri);
+		getDependencyById(HLASTManager.moduleId).get.asInstanceOf[HLASTManager].forceGetCurrentAST(uri);
 	}
 }

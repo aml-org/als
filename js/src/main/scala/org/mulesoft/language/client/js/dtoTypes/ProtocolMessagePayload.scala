@@ -2,7 +2,7 @@ package org.mulesoft.language.client.js.dtoTypes
 
 import org.mulesoft.language.client.js.CustomPicklerConfig.macroRW
 import org.mulesoft.language.client.js.CustomPicklerConfig.{ReadWriter => RW}
-import org.mulesoft.language.common.dtoTypes.{IChangedDocument => SharedChangedDocument, IOpenedDocument => SharedOpenDocument, IRange => SharedRange, IStructureReport => SharedStructureReport, ITextEdit => SharedTextEdit, IValidationIssue => SharedValidationIssue, IValidationReport => SharedValidationReport, StructureNode => SharedStructureNode}
+import org.mulesoft.language.common.dtoTypes.{ILocation => SharedLocation, IFindRequest => SharedFindRequest, IChangedDocument => SharedChangedDocument, IOpenedDocument => SharedOpenDocument, IRange => SharedRange, IStructureReport => SharedStructureReport, ITextEdit => SharedTextEdit, IValidationIssue => SharedValidationIssue, IValidationReport => SharedValidationReport, StructureNode => SharedStructureNode}
 import org.mulesoft.language.common.logger.{ILoggerSettings, MessageSeverity => SharedMessageSeverity}
 
 /**
@@ -67,6 +67,30 @@ object OpenedDocument {
 //
 //    genTo.from(genFrom.to(from))
 //  }
+}
+
+case class FindDeclarationRequest(var uri: String, var position: Int) extends ProtocolMessagePayload;
+
+object FindDeclarationRequest {
+  implicit def rw: RW[FindDeclarationRequest] = macroRW;
+  
+  implicit def transportToShared(from: FindDeclarationRequest): SharedFindRequest = SharedFindRequest(from.uri, from.position);
+}
+
+case class FindReferencesRequest(var uri: String, var position: Int) extends ProtocolMessagePayload;
+
+object FindReferencesRequest {
+  implicit def rw: RW[FindReferencesRequest] = macroRW;
+  
+  implicit def transportToShared(from: FindReferencesRequest): SharedFindRequest = SharedFindRequest(from.uri, from.position);
+}
+
+case class Location(var uri: String, var range: Range, version: Int);
+
+object Location {
+  implicit def rw: RW[Location] = macroRW;
+  
+  implicit def sharedToTransport(from: SharedLocation): Location = Location(from.uri, Range(from.range.start, from.range.end), from.version);
 }
 
 /**
@@ -456,6 +480,12 @@ case class GetStructureResponse (
 
 object GetStructureResponse {
   implicit def rw: RW[GetStructureResponse] = macroRW
+}
+
+case class LocationsResponse(wrapped: Seq[Location]) extends ProtocolMessagePayload;
+
+object LocationsResponse {
+  implicit def rw: RW[LocationsResponse] = macroRW;
 }
 
 /**

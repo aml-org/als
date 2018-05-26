@@ -109,7 +109,7 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
               `type` =  message.`type`,
               payload = None,
               id = message.id,
-              errorMessage = Option(failure.toString)
+              errorMessage = Option(failure.getStackTrace.map(_.toString).mkString("\n"))
             )
           )
         }
