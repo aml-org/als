@@ -9,6 +9,18 @@ import org.mulesoft.language.server.server.core.connectionsImpl.AbstractServerCo
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
+import scala.scalajs.js.annotation.ScalaJSDefined
+
+
+@ScalaJSDefined
+class WrappedPayload extends js.Object {
+  var wrapped: js.Object = null;
+}
+
+@ScalaJSDefined
+class WrappedMessage extends js.Object {
+  var payload: js.Object = null;
+}
 
 class NodeServerConnection extends IPrintlnLogger
   with NodeMessageDispatcher with AbstractServerConnection {
@@ -35,9 +47,14 @@ class NodeServerConnection extends IPrintlnLogger
     this.newFutureHandler[FindReferencesRequest, LocationsResponse]("FIND_REFERENCES", (request: FindReferencesRequest) => findReferencesListeners.head(request.uri, request.position).map(result => new LocationsResponse(result.map(location => location.asInstanceOf[Location]))), Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.FindReferencesRequest")));
   }
 
-  protected def internalSendJSONMessage(message: js.Any): Unit = {
-
-    Globals.process.send(message)
+  protected def internalSendJSONMessage(message: js.Object): Unit = {
+    if(message.hasOwnProperty("payload") && message.asInstanceOf[WrappedMessage].payload.hasOwnProperty("wrapped")) {
+      var payload = message.asInstanceOf[WrappedMessage].payload.asInstanceOf[WrappedPayload];
+      
+      message.asInstanceOf[WrappedMessage].payload = payload.wrapped;
+    }
+    
+    Globals.process.send(message);
   }
 
   def handleGetStructure(getStructure: GetStructureRequest) : Future[GetStructureResponse] = {

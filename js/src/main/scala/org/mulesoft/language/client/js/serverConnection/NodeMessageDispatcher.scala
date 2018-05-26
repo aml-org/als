@@ -18,7 +18,7 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
     * To be implemented by the trait users. Sends JSON message.
     * @param message - message to send.
     */
-  protected def internalSendJSONMessage(message: js.Any): Unit
+  protected def internalSendJSONMessage(message: js.Object): Unit
 
   /**
     * To be called by the trait user to handle recieved JSON messages.
@@ -67,7 +67,7 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
     this.debugDetail("NodeMessageDispatcher", "internalSendMessage",
       "Serialized message: " + JSON.stringify(protocolMessage))
 
-    this.internalSendJSONMessage(protocolMessage)
+    this.internalSendJSONMessage(protocolMessage.asInstanceOf[js.Object])
   }
 
   protected def deserializeMessage(message: js.Any) : Try[ProtocolMessage[ProtocolMessagePayload]] = {
