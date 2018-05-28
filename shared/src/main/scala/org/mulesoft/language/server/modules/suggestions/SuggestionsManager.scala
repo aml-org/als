@@ -17,7 +17,7 @@ import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.language.common.dtoTypes.IStructureReport
 import org.mulesoft.als.suggestions.implementation.CompletionConfig
 import org.mulesoft.als.suggestions.{CompletionProvider, PlatformBasedExtendedFSProvider}
-import org.mulesoft.als.suggestions.interfaces.Syntax
+import org.mulesoft.als.suggestions.interfaces.{ISuggestion, Syntax}
 
 class SuggestionsManager extends AbstractServerModule {
 
@@ -49,6 +49,8 @@ class SuggestionsManager extends AbstractServerModule {
 
     if (superLaunch.isSuccess) {
 
+      org.mulesoft.als.suggestions.Core.init()
+
       this.connection.onDocumentCompletion(this.onDocumentCompletionListener)
 
       Success(this)
@@ -69,30 +71,29 @@ class SuggestionsManager extends AbstractServerModule {
 
   protected def onDocumentCompletion(url: String, position: Int) : Future[Seq[ISuggestion]] = {
 
+    this.connection.debug(s"Calling for completion for uri ${url} and position ${position}",
+      "SuggestionsManager", "onDocumentCompletion")
+
     val editorOption: Option[IAbstractTextEditorWithCursor] =
       this.getEditorManager.getEditor(url)
 
     if (editorOption.isDefined) {
       val editor = editorOption.get
 
-      val text = editor.text
+      val syntax = if (editor.syntax == "YAML") Syntax.YAML else Syntax.JSON
+
+      val text = org.mulesoft.als.suggestions.Core.prepareText(editor.text, position, syntax)
 
       val vendorOption = Vendor.unapply(editor.language)
       val vendor: Vendor = vendorOption.getOrElse(Raml10)
 
       //TODO add unapply to suggestion's Syntax
-      val syntax = if (editor.syntax == "YAML") Syntax.YAML else Syntax.JSON
+
 
       this.buildCompletionProviderAST(text, url, position,
         vendor, syntax).flatMap(provider=>{
 
-        provider.suggest.map(suggestions => suggestions.map(suggestion => ISuggestion(
-          suggestion.text,
-          if(suggestion.description!=null) Some(suggestion.description) else None,
-          if(suggestion.displayText!=null) Some(suggestion.displayText) else None,
-          if(suggestion.prefix!=null) Some(suggestion.prefix) else None,
-          if(suggestion.category!=null) Some(suggestion.category) else None
-        )))
+        provider.suggest
 
       })
     } else {
@@ -124,3 +125,9 @@ class SuggestionsManager extends AbstractServerModule {
   }
 }
 
+object SuggestionsManager {
+  /**
+    * Module ID
+    */
+  val moduleId: String = "SUGGESTIONS_MANAGER"
+}

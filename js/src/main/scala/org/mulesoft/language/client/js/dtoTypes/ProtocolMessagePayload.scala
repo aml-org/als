@@ -4,6 +4,7 @@ import org.mulesoft.language.client.js.CustomPicklerConfig.macroRW
 import org.mulesoft.language.client.js.CustomPicklerConfig.{ReadWriter => RW}
 import org.mulesoft.language.common.dtoTypes.{ILocation => SharedLocation, IFindRequest => SharedFindRequest, IChangedDocument => SharedChangedDocument, IOpenedDocument => SharedOpenDocument, IRange => SharedRange, IStructureReport => SharedStructureReport, ITextEdit => SharedTextEdit, IValidationIssue => SharedValidationIssue, IValidationReport => SharedValidationReport, StructureNode => SharedStructureNode}
 import org.mulesoft.language.common.logger.{ILoggerSettings, MessageSeverity => SharedMessageSeverity}
+import org.mulesoft.als.suggestions.interfaces.ISuggestion
 
 /**
   * Tag for potential payloads, in order to serialize/deserialize to JSON
@@ -464,6 +465,28 @@ object GetStructureRequest {
 }
 
 /**
+  * Request from client to server to obtain completion
+  */
+case class GetCompletionRequest (
+   /**
+     * Url
+     */
+   uri: String,
+
+   /**
+     * Completion position
+     */
+   position: Int
+
+) extends ProtocolMessagePayload
+{
+}
+
+object GetCompletionRequest {
+  implicit def rw: RW[GetCompletionRequest] = macroRW
+}
+
+/**
   * Request from client to server to obtain structure
   * @param wrapped
   */
@@ -481,6 +504,51 @@ case class GetStructureResponse (
 object GetStructureResponse {
   implicit def rw: RW[GetStructureResponse] = macroRW
 }
+
+case class Suggestion (
+   /**
+     * Full text to insert, including the index.
+     */
+   text: String,
+
+   /**
+     * Description of the suggestion.
+     */
+   description: Option[String],
+
+   /**
+     * Text to display.
+     */
+   displayText: Option[String],
+   /**
+     * Detected suggestion prefix.
+     */
+   prefix: Option[String],
+
+   /**
+     * Suggestion category.
+     */
+   category: Option[String]
+ ) extends ProtocolMessagePayload
+{
+
+}
+
+object Suggestion {
+  implicit def rw: RW[Suggestion] = macroRW
+
+  implicit def sharedToTransport(from: ISuggestion): Suggestion = {
+
+    Suggestion(
+      from.text,
+      if (from.description != null) Some(from.description) else None,
+      if (from.displayText != null) Some(from.displayText) else None,
+      if (from.prefix != null) Some(from.prefix) else None,
+      if (from.category != null) Some(from.category) else None
+    )
+  }
+}
+
 
 case class LocationsResponse(wrapped: Seq[Location]) extends ProtocolMessagePayload;
 

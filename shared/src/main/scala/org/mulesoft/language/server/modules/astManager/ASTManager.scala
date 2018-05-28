@@ -1,5 +1,7 @@
 package org.mulesoft.language.server.server.modules.astManager
 
+import java.io.{PrintWriter, StringWriter}
+
 import amf.core.client.ParserConfig
 
 import scala.collection.mutable.Buffer
@@ -145,11 +147,18 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
   }
 
   def onChangeDocument(document: IChangedDocument): Unit = {
-    this.connection.debug(" document is changed", "ASTManager", "onChangeDocument")
+    this.connection.debug(s"document ${document.uri} is changed", "ASTManager", "onChangeDocument")
 
-    this.parse(document.uri, document.text.get).foreach(unit=>{
+    val resolvedUri = this.platform.resolvePath(document.uri)
+    this.parse(resolvedUri, document.text.get).map(unit=>{
       this.registerNewAST(document.uri, document.version, unit)
-    })
+    }).recover{
+      case e:Throwable => {
+        val writer = new StringWriter()
+        e.printStackTrace(new PrintWriter(writer))
+        this.connection.debug(s"Failed to parse ${document.uri} with exception ${writer}", "ASTManager", "onChangeDocument")
+      }
+    }
 //    this.reconciler.schedule(new ParseDocumentRunnable(document.uri, document.version, this.editorManager, this.connection, this.connection)).then((newAST => {
 //      this.connection.debugDetail("On change document handler promise returned new ast", "ASTManager", "onChangeDocument")
 //      this.registerNewAST(document.uri, document.version, newAST)
@@ -217,7 +226,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
   def parse(uri: String, content: String): Future[BaseUnit] = {
 
     //TODO move to runnable and handle external file contents
-    val platform = TrunkPlatform(content)
+//    val platform = TrunkPlatform(content)
 
     val language = if (uri.endsWith(".raml")) "RAML 1.0" else "OAS 2.0";
 
@@ -231,7 +240,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
       Some("application/ld+json")
     )
 
-    val helper = ParserHelper(platform)
+    val helper = ParserHelper(this.platform)
 
     helper.parse(cfg).map(unit=>{
 

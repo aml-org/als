@@ -42,6 +42,9 @@ class NodeServerConnection extends IPrintlnLogger
 
     this.newVoidHandler("SET_LOGGER_CONFIGURATION", this.handleSetLoggerConfiguration _,
       Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.LoggerSettings")))
+      
+   this.newFutureSeqHandler("GET_SUGGESTIONS", this.handleGetSuggestions _,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.GetCompletionRequest")))
     
     this.newFutureHandler[FindDeclarationRequest, LocationsResponse]("OPEN_DECLARATION", (request: FindDeclarationRequest) => openDeclarationListeners.head(request.uri, request.position).map(result => new LocationsResponse(result.map(location => location.asInstanceOf[Location]))), Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.FindDeclarationRequest")));
     this.newFutureHandler[FindReferencesRequest, LocationsResponse]("FIND_REFERENCES", (request: FindReferencesRequest) => findReferencesListeners.head(request.uri, request.position).map(result => new LocationsResponse(result.map(location => location.asInstanceOf[Location]))), Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.FindReferencesRequest")));
@@ -63,6 +66,17 @@ class NodeServerConnection extends IPrintlnLogger
       case Some(listener) =>
         listener(getStructure.wrapped).map(resultMap=>{
           GetStructureResponse(resultMap.map{case (key, value) => (key, value.asInstanceOf[dtoTypes.StructureNode])})
+        })
+      case _ => Future.failed(new Exception("No structure providers found"))
+    }
+  }
+  
+    def handleGetSuggestions(getCompletion: GetCompletionRequest) : Future[Seq[Suggestion]] = {
+    val firstOpt = this.documentCompletionListeners.find(_=>true)
+    firstOpt match  {
+      case Some(listener) =>
+        listener(getCompletion.uri, getCompletion.position).map(result=>{
+          result.map(suggestion=>Suggestion.sharedToTransport(suggestion))
         })
       case _ => Future.failed(new Exception("No structure providers found"))
     }

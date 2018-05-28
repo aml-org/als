@@ -4,7 +4,8 @@ import org.mulesoft.language.client.js.CustomPicklerConfig.{macroRW, read, write
 import org.mulesoft.language.client.js.Globals
 import org.mulesoft.language.client.js.dtoTypes.ProtocolMessagePayload
 import org.mulesoft.language.common.logger.ILogger
-import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage => SharedProtocolMessage}
+import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage => SharedProtocolMessage,
+  ProtocolSeqMessage => SharedProtocolSeqMessage}
 
 import scala.scalajs.js
 import scala.scalajs.js.JSON
@@ -13,6 +14,7 @@ import scala.util.{Failure, Success, Try}
 trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, NodeMsgTypeMeta] with ILogger {
 
   implicit def rw: RW[ProtocolMessage[ProtocolMessagePayload]] = macroRW
+  implicit def rwSeq: RW[SharedProtocolSeqMessage[ProtocolMessagePayload]] = macroRW
 
   /**
     * To be implemented by the trait users. Sends JSON message.
@@ -70,6 +72,26 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
     this.internalSendJSONMessage(protocolMessage.asInstanceOf[js.Object])
   }
 
+  /**
+    * Performs actual message sending.
+    * Not intended to be called directly, instead is being used by
+    * send() and sendWithResponse() methods
+    * Called by the trait.
+    * @param message - message to send
+    */
+  def internalSendSeqMessage(message: SharedProtocolSeqMessage[ProtocolMessagePayload]): Unit = {
+
+    this.debugDetail("NodeMessageDispatcher", "internalSendMessage",
+      "Sending message of type: " + message.`type`)
+
+    val protocolMessage = this.serializeSeqMessage(message)
+
+    this.debugDetail("NodeMessageDispatcher", "internalSendMessage",
+      "Serialized message: " + JSON.stringify(protocolMessage))
+
+    this.internalSendJSONMessage(protocolMessage.asInstanceOf[js.Object])
+  }
+
   protected def deserializeMessage(message: js.Any) : Try[ProtocolMessage[ProtocolMessagePayload]] = {
 
     try {
@@ -117,6 +139,13 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
 
   protected def serializeMessage(
     message: ProtocolMessage[ProtocolMessagePayload]) : js.Any = {
+    val messageString = write(message);
+
+    Globals.JSON.parse(messageString)
+  }
+
+  protected def serializeSeqMessage(
+                                  message: SharedProtocolSeqMessage[ProtocolMessagePayload]) : js.Any = {
     val messageString = write(message);
 
     Globals.JSON.parse(messageString)

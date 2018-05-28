@@ -160,7 +160,6 @@ class ValidationManager extends AbstractServerModule {
   def report(uri: String, baseUnit: BaseUnit): Future[AMFValidationReport] = {
 
     val language = if (uri.endsWith(".raml")) "RAML 1.0" else "OAS 2.0";
-    println("Language is: " + language)
 
     //move config initialization elsewhere
     var config = new ParserConfig(
@@ -172,32 +171,31 @@ class ValidationManager extends AbstractServerModule {
       Some("AMF Graph"),
       Some("application/ld+json")
     )
-
-    val text = this.getEditorManager.getEditor(uri).get.text
-
-    val platform = TrunkPlatform(text)
-
-    val helper = ParserHelper(platform)
-
-    helper.report(baseUnit, config)
-
-//    val customProfileLoaded = if (config.customProfile.isDefined) {
-//      RuntimeValidator.loadValidationProfile(config.customProfile.get) map { profileName =>
-//        profileName
-//      }
-//    } else {
-//      Future {
-//        config.validationProfile
-//      }
-//    }
 //
-//    customProfileLoaded.flatMap(profileName => {
+//    val text = this.getEditorManager.getEditor(uri).get.text
 //
-//        val result = RuntimeValidator(baseUnit, profileName)
-//        RuntimeValidator.reset()
-//        result
-//      }
-//    )
+//    val platform = TrunkPlatform(text)
+//
+//    val helper = ParserHelper(platform)
+//
+//    helper.report(baseUnit, config)
+
+    val customProfileLoaded = if (config.customProfile.isDefined) {
+      RuntimeValidator.loadValidationProfile(config.customProfile.get) map { profileName =>
+        profileName
+      }
+    } else {
+      Future {
+        config.validationProfile
+      }
+    }
+
+    customProfileLoaded.flatMap(profileName => {
+
+        val result = RuntimeValidator(baseUnit, profileName)
+        result
+      }
+    )
   }
 }
 

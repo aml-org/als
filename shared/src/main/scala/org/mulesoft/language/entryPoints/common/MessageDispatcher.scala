@@ -33,6 +33,12 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
   private val tryHandlers =
     new mutable.HashMap[String, (PayloadType)=>Try[PayloadType]]
 
+  /**
+    * Handlers returning promise with array
+    */
+  private val promiseSeqHandlers =
+    new mutable.HashMap[String, (PayloadType)=>Future[Seq[PayloadType]]]
+
   private val messageTypeMetas =
     new mutable.HashMap[String, MessageTypeMetaType]
 
@@ -53,6 +59,15 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
     * @param message - message to send
     */
   def internalSendMessage(message: ProtocolMessage[PayloadType]): Unit;
+
+  /**
+    * Performs actual message sending.
+    * Not intended to be called directly, instead is being used by
+    * send() and sendWithResponse() methods
+    * Called by the trait.
+    * @param message - message to send
+    */
+  def internalSendSeqMessage(message: ProtocolSeqMessage[PayloadType]): Unit
 
   /**
     * To be called by the trait user to handle recieved messages
@@ -82,6 +97,7 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
       val promiseHandler = this.promiseHandlers.get(message.`type`);
       val directHandler = this.directHandlers.get(message.`type`);
       val tryHandler = this.tryHandlers.get(message.`type`);
+      val promiseSeqHandler = this.promiseSeqHandlers.get(message.`type`);
 
       if (voidHandler.isDefined) {
 
@@ -147,6 +163,31 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
               payload = None,
               id = message.id,
               errorMessage = Option(failure.toString)
+            )
+          )
+        }
+
+      } else if (promiseSeqHandler.isDefined) {
+
+        val handler = promiseSeqHandler.get
+        val future = handler(message.payload.get)
+
+        future.onComplete {
+
+          case Success(result) => this.internalSendSeqMessage(
+            ProtocolSeqMessage[PayloadType](
+              `type` =  message.`type`,
+              payload = result,
+              id = message.id,
+              errorMessage = None
+            )
+          )
+          case Failure(failure) => this.internalSendMessage(
+            ProtocolMessage[PayloadType](
+              `type` =  message.`type`,
+              payload = None,
+              id = message.id,
+              errorMessage = Option(failure.getStackTrace.map(_.toString).mkString("\n"))
             )
           )
         }
@@ -242,6 +283,16 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
                                                                         messageTypeMeta: Option[MessageTypeMetaType] = None): Unit = {
 
     this.tryHandlers(messageType) = handler.asInstanceOf[(PayloadType)=>Try[PayloadType]]
+
+    this.registerMeta(messageType, messageTypeMeta)
+  }
+
+  def newFutureSeqHandler[ArgType <: PayloadType, ResultType <: PayloadType](
+                                                                           messageType: String,
+                                                                           handler: (ArgType)=>Future[Seq[ResultType]],
+                                                                           messageTypeMeta: Option[MessageTypeMetaType] = None): Unit = {
+
+    this.promiseSeqHandlers(messageType) = handler.asInstanceOf[(PayloadType)=>Future[Seq[PayloadType]]]
 
     this.registerMeta(messageType, messageTypeMeta)
   }

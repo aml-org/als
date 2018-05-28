@@ -1,5 +1,6 @@
 package org.mulesoft.language.client
 
+import org.mulesoft.als.suggestions.interfaces.ISuggestion
 import org.mulesoft.language.common.logger.ILogger
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.server.common.configuration.IServerConfiguration

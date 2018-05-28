@@ -48,7 +48,7 @@ abstract class ConnectionBasedPlatform (connection: IServerConnection,
 
   override def resolvePath(uri: String): String = {
 
-    uri match {
+    val result = uri match {
       case File(path) =>
         if (path.startsWith("/")) {
           File.FILE_PROTOCOL + path
@@ -57,14 +57,22 @@ abstract class ConnectionBasedPlatform (connection: IServerConnection,
         }
 
       case Http(protocol, host, path) => protocol + host + withTrailingSlash(path)
+
+      case default => File.FILE_PROTOCOL + uri
     }
+
+    connection.debugDetail(s"Resolved ${uri} as ${result}", "ConnectionBasedPlatform", "resolvePath")
+
+    result
   }
 
   override protected def fetchFile(path: String): Future[Content] = {
 
-    val uri = if(path.startsWith(File.FILE_PROTOCOL)) path else File.FILE_PROTOCOL + path
+    //val uri = if(path.startsWith(File.FILE_PROTOCOL)) path else File.FILE_PROTOCOL + path
+    val uri = path
 
     val editorOption = this.editorManager.getEditor(uri)
+    connection.debugDetail(s"Result of editor check for uri ${uri}: ${editorOption.isDefined}", "ConnectionBasedPlatform", "fetchFile")
 
     val contentFuture =
       if (editorOption.isDefined){
