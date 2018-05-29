@@ -157,6 +157,26 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
     }
   }
 
+  /**
+    * Builds new AST for content
+    * @param uri
+    * @param text
+    * @return
+    */
+  def forceBuildNewAST(uri: String, text: String): Future[IProject] = {
+    val result = Promise[IProject]();
+
+    getASTManager.forceBuildNewAST(uri, text).map(hlFromAST(_) andThen {
+      case Success(project) => {
+      result.success(project);
+    }
+
+      case Failure(error) => result.failure(error);
+    })
+
+    result.future;
+  }
+
   def addListener[T](memberListeners: Buffer[T], listener: T, unsubscribe: Boolean = false): Unit = {
 
     if (unsubscribe) {

@@ -126,7 +126,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
 	  }
 
     val language = this.determineLanguage(document.uri, document.text.get)
-    val syntax = this.determineLanguage(document.uri, document.text.get)
+    val syntax = this.determineSyntax(document.uri, document.text.get)
 	  
 	  this.uriToEditor(document.uri) = new TextEditorInfo(
       document.uri,

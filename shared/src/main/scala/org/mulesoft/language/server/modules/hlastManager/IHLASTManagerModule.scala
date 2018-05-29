@@ -27,6 +27,14 @@ trait IHLASTManagerModule {
     * @param unsubscribe
     */
   def onNewASTAvailable(listener: IHLASTListener, unsubscribe: Boolean = false): Unit
+
+  /**
+    * Builds new AST for content
+    * @param uri
+    * @param text
+    * @return
+    */
+  def forceBuildNewAST(uri: String, text: String): Future[IProject]
 }
 
 object IHLASTManagerModule {

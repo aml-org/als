@@ -11,6 +11,7 @@ import amf.core.unsafe.TrunkPlatform
 import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IOpenedDocument}
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.core.connections.IServerConnection
+import org.mulesoft.language.server.core.platform.ProxyContentPlatform
 import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
 
 import scala.collection.mutable
@@ -95,7 +96,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
       val editorOption = this.getEditorManager.getEditor(uri)
       if (editorOption.isDefined) {
 
-        this.parse(uri, editorOption.get.text).map(unit=>{
+        this.parse(uri).map(unit=>{
 
           this.registerNewAST(uri, 0, unit)
 
@@ -139,7 +140,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
   def onOpenDocument(document: IOpenedDocument): Unit = {
 
-    this.parse(document.uri, document.text).foreach(unit=>{
+    this.parse(document.uri).foreach(unit=>{
       this.registerNewAST(document.uri, document.version, unit)
     })
 
@@ -150,7 +151,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
     this.connection.debug(s"document ${document.uri} is changed", "ASTManager", "onChangeDocument")
 
     val resolvedUri = this.platform.resolvePath(document.uri)
-    this.parse(resolvedUri, document.text.get).map(unit=>{
+    this.parse(resolvedUri).map(unit=>{
       this.registerNewAST(document.uri, document.version, unit)
     }).recover{
       case e:Throwable => {
@@ -223,10 +224,20 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
   }
 
-  def parse(uri: String, content: String): Future[BaseUnit] = {
+  /**
+    * Gets current AST if there is any.
+    * If not, performs immediate asynchronous parsing and returns the results.
+    * @param uri
+    */
+  def forceBuildNewAST(uri: String, text: String): Future[BaseUnit] = {
 
-    //TODO move to runnable and handle external file contents
-//    val platform = TrunkPlatform(content)
+      this.parseWithContentSubstitution(uri, text).map(unit=>{
+
+        unit
+      })
+  }
+
+  def parse(uri: String): Future[BaseUnit] = {
 
     val language = if (uri.endsWith(".raml")) "RAML 1.0" else "OAS 2.0";
 
@@ -245,6 +256,30 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
     helper.parse(cfg).map(unit=>{
 
 //      helper.printModel(unit,cfg)
+      unit
+    })
+  }
+
+  def parseWithContentSubstitution(uri: String, content: String): Future[BaseUnit] = {
+
+    val proxyPlatform = new ProxyContentPlatform(this.platform,
+      uri, content)
+
+    val language = if (uri.endsWith(".raml")) "RAML 1.0" else "OAS 2.0";
+
+    val cfg = new ParserConfig(
+      Some(ParserConfig.PARSE),
+      Some(uri),
+      Some(language),
+      Some("application/yaml"),
+      None,
+      Some("AMF Graph"),
+      Some("application/ld+json")
+    )
+
+    val helper = ParserHelper(proxyPlatform)
+
+    helper.parse(cfg).map(unit=>{
       unit
     })
   }

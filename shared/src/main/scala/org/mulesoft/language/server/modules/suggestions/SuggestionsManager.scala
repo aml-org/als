@@ -82,18 +82,35 @@ class SuggestionsManager extends AbstractServerModule {
 
       val syntax = if (editor.syntax == "YAML") Syntax.YAML else Syntax.JSON
 
-      val text = org.mulesoft.als.suggestions.Core.prepareText(editor.text, position, syntax)
+      val text = if(syntax == Syntax.YAML)
+        org.mulesoft.als.suggestions.Core.prepareText(editor.text, position, syntax)
+      else
+        editor.text
 
       val vendorOption = Vendor.unapply(editor.language)
       val vendor: Vendor = vendorOption.getOrElse(Raml10)
+//      this.connection.debug("Vendor is: " + vendor,
+//        "SuggestionsManager", "onDocumentCompletion")
 
       //TODO add unapply to suggestion's Syntax
 
+//      this.connection.debug(s"TEXT:",
+//        "SuggestionsManager", "onDocumentCompletion")
+//      this.connection.debug(text,
+//        "SuggestionsManager", "onDocumentCompletion")
+//
+//      this.connection.debug("Completion substring: " + text.substring(position-10, position),
+//        "SuggestionsManager", "onDocumentCompletion")
 
       this.buildCompletionProviderAST(text, url, position,
         vendor, syntax).flatMap(provider=>{
 
-        provider.suggest
+        provider.suggest.map(result=>{
+          this.connection.debug(s"Got ${result.length} proposals",
+            "SuggestionsManager", "onDocumentCompletion")
+
+          result
+        })
 
       })
     } else {
@@ -104,10 +121,13 @@ class SuggestionsManager extends AbstractServerModule {
   def buildCompletionProviderAST(text:String, url: String, position: Int,
                                  vendor: Vendor, syntax: Syntax): Future[CompletionProvider] = {
 
-    this.getHLASTManager.forceGetCurrentAST(url).map(hlAST=>{
+    this.getHLASTManager.forceBuildNewAST(url, text).map(hlAST=>{
+      this.connection.debugDetail(hlAST.rootASTUnit.rootNode.printDetails,
+        "SuggestionsManager", "buildCompletionProviderAST")
       val baseName = url.substring(url.lastIndexOf('/') + 1)
 
-      val astProvider = new ASTProvider(hlAST.rootASTUnit.rootNode, vendor, syntax)
+      val astProvider = new ASTProvider(hlAST.rootASTUnit.rootNode, vendor, syntax,
+        position)
 
       val editorStateProvider = new EditorStateProvider(text, url, baseName, position)
 

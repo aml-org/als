@@ -8,7 +8,8 @@ import org.mulesoft.als.suggestions.interfaces.Syntax
 
 class ASTProvider(ast: IParseResult,
                   val language:Vendor,
-                  val syntax: Syntax) extends IASTProvider {
+                  val syntax: Syntax,
+                  val position: Int) extends IASTProvider {
   /**
     * Returns the root of AST
     * @return
@@ -22,7 +23,7 @@ class ASTProvider(ast: IParseResult,
     * @return
     */
   def getSelectedNode: Option[IParseResult] = {
-    return Some(this.ast.asInstanceOf[IHighLevelNode])
+    this.ast.getNodeByPosition(this.position)
   }
 
 }

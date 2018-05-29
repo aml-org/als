@@ -27,7 +27,7 @@ class Server(val connection: IServerConnection,
 
     new ConnectionBasedPlatform(this.connection, editorManager) {
 
-      override protected def fetchHttp(url: String): Future[Content] =
+      override def fetchHttp(url: String): Future[Content] =
         httpFetcher.fetchHttp(url)
     }
   }

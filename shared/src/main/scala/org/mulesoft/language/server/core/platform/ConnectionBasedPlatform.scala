@@ -40,11 +40,13 @@ object File {
   * Platform based on connection.
   * Intended for subclassing to implement fetchHttp method
   */
-abstract class ConnectionBasedPlatform (connection: IServerConnection,
+abstract class ConnectionBasedPlatform (val connection: IServerConnection,
                                         val editorManager: IEditorManagerModule)
   extends Platform {
 
   override val fs: FileSystem = new ConnectionBasedFS(connection, editorManager)
+
+  override def fetchHttp(url: String): Future[Content]
 
   override def resolvePath(uri: String): String = {
 
@@ -53,7 +55,7 @@ abstract class ConnectionBasedPlatform (connection: IServerConnection,
         if (path.startsWith("/")) {
           File.FILE_PROTOCOL + path
         } else {
-          File.FILE_PROTOCOL + withTrailingSlash(path).substring(1)
+          File.FILE_PROTOCOL + withTrailingSlash(path)
         }
 
       case Http(protocol, host, path) => protocol + host + withTrailingSlash(path)
@@ -66,7 +68,10 @@ abstract class ConnectionBasedPlatform (connection: IServerConnection,
     result
   }
 
-  override protected def fetchFile(path: String): Future[Content] = {
+  override def fetchFile(path: String): Future[Content] = {
+
+    this.connection.debugDetail("Asked to fetch file " + path,
+      "ConnectionBasedPlatform", "fetchFile")
 
     //val uri = if(path.startsWith(File.FILE_PROTOCOL)) path else File.FILE_PROTOCOL + path
     val uri = path
