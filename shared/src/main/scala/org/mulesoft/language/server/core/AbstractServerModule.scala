@@ -82,7 +82,7 @@ abstract class AbstractServerModule extends IServerIOCModule {
     * @return
     */
   override def isLaunched(): Boolean = {
-    isLaunched
+    this.launched;
   }
 
   /**

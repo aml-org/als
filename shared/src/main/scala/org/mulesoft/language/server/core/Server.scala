@@ -58,7 +58,9 @@ class Server(val connection: IServerConnection,
         this.pushModuleDependencies(module.asInstanceOf[IServerIOCModule])
       }
 
-      module.launch()
+      if(!module.isLaunched()) {
+        module.launch();
+      }
 
     } else {
 
