@@ -9,6 +9,7 @@ import scala.collection.mutable.ArrayBuffer
 import amf.core.model.document.BaseUnit
 import amf.core.unsafe.TrunkPlatform
 import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IOpenedDocument}
+import org.mulesoft.language.server.common.reconciler.{DocumentChangedRunnable, Reconciler, Runnable}
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.core.connections.IServerConnection
 import org.mulesoft.language.server.core.platform.ProxyContentPlatform
@@ -37,20 +38,15 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
     */
   var currentASTs: mutable.Map[String, BaseUnit] = mutable.HashMap()
 
-  //TODO add when reconciler is ready
-  //var reconciler: Reconciler = _
-
-//  def this(connection: IServerConnection, editorManager: IEditorManagerModule) = {
-//    (this.reconciler = new Reconciler(connection, 250))
-//
-//  }
-
+  private var reconciler: Reconciler = new Reconciler(connection, 250);
+  
   protected def getEditorManager: IEditorManagerModule = {
     this.getDependencyById(IEditorManagerModule.moduleId).get
   }
 
   override def launch(): Try[IServerModule] = {
-
+    
+    
     val superLaunch = super.launch()
 
     if (superLaunch.isSuccess) {
@@ -148,10 +144,9 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
   }
 
   def onChangeDocument(document: IChangedDocument): Unit = {
-    this.connection.debug(s"document ${document.uri} is changed", "ASTManager", "onChangeDocument")
-
-    val resolvedUri = this.platform.resolvePath(document.uri)
-    this.parse(resolvedUri).map(unit=>{
+    this.connection.debug(s"document ${document.uri} is changed", "ASTManager", "onChangeDocument");
+    
+    reconciler.shedule(new DocumentChangedRunnable(document.uri, () => this.parse(this.platform.resolvePath(document.uri)))).future.map(unit=>{
       this.registerNewAST(document.uri, document.version, unit)
     }).recover{
       case e:Throwable => {
@@ -159,17 +154,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
         e.printStackTrace(new PrintWriter(writer))
         this.connection.debug(s"Failed to parse ${document.uri} with exception ${writer}", "ASTManager", "onChangeDocument")
       }
-    }
-//    this.reconciler.schedule(new ParseDocumentRunnable(document.uri, document.version, this.editorManager, this.connection, this.connection)).then((newAST => {
-//      this.connection.debugDetail("On change document handler promise returned new ast", "ASTManager", "onChangeDocument")
-//      this.registerNewAST(document.uri, document.version, newAST)
-//
-//    }), (error => {
-//      this.connection.debugDetail("On change document handler promise returned new ast error", "ASTManager", "onChangeDocument")
-//      this.registerASTParseError(document.uri, error)
-//
-//    }))
-
+    };
   }
 
   def onCloseDocument(uri: String): Unit = {
