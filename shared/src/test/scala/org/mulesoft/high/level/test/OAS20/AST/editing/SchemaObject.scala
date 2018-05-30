@@ -28,6 +28,18 @@ class SchemaObject extends OAS20ASTEditingTest{
         }, "#/definitions/T1")
     }
 
+    test("SchemaObject '$ref' creation. YAML"){
+        runAttributeCreationTest("SchemaObject/SchemaObject.yml", project => {
+            Some(project.rootASTUnit.rootNode.elements("definitions").head)
+        }, "$ref", "#/definitions/T1")
+    }
+
+    test("SchemaObject '$ref' creation. JSON"){
+        runAttributeCreationTest("SchemaObject/SchemaObject.json", project => {
+            Some(project.rootASTUnit.rootNode.elements("definitions").head)
+        }, "$ref", "#/definitions/T1")
+    }
+
     test("SchemaObject property 'name' editing. YAML"){
         runAttributeEditingTest("SchemaObject/SchemaObject.yml", project => {
             project.rootASTUnit.rootNode.elements("definitions").head.elements("properties").head.attribute("name")

@@ -12,6 +12,7 @@ import amf.plugins.document.webapi.parser.spec.BaseUriSplitter
 import amf.plugins.domain.shapes.metamodel._
 import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.metamodel.security._
+import org.mulesoft.high.level.Search
 import org.mulesoft.high.level.implementation.{BasicValueBuffer, IValueBuffer}
 import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.high.level.typesystem.TypeBuilder
@@ -434,7 +435,18 @@ class ReferenceValueBuffer(val element:AmfObject,val hlNode:IHighLevelNode)
         hlNode.amfNode.fields.setWithoutId(LinkableElementModel.TargetId,AmfScalar(newValue))
         var ind = str.lastIndexOf("/")
         var newLabel = str.substring(ind+1)
-        hlNode.amfNode.fields.setWithoutId(LinkableElementModel.Label,AmfScalar(newLabel))
+
+        var d = hlNode.definition
+        var types = ("ResponseObject"->"key") :: ("ParameterObject"->"key") :: ("SchemaObject"->"name") :: Nil
+        var typeName:Option[(String,String)] = types.find(x=>d.isAssignableFrom(x._1))
+        typeName.foreach(e=>{
+            var nodeOpt = Search.getNodesOfType(hlNode.astUnit,e._1,
+                x=>x.attribute(e._2).flatMap(_.value).contains(newLabel))
+            nodeOpt.foreach(x=>{
+                hlNode.amfNode.fields.setWithoutId(LinkableElementModel.Target,x.amfNode)
+                hlNode.amfNode.fields.setWithoutId(LinkableElementModel.Label, AmfScalar(newLabel))
+            })
+        })
     }
 
     override def yamlNodes: Seq[YPart] = {
