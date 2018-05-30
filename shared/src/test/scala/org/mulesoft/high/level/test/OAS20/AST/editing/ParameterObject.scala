@@ -1,5 +1,6 @@
 package org.mulesoft.high.level.test.OAS20.AST.editing
 
+import amf.core.metamodel.domain.LinkableElementModel
 import org.mulesoft.high.level.test.OAS20.OAS20ASTEditingTest
 
 class ParameterObject extends OAS20ASTEditingTest{
@@ -122,5 +123,42 @@ class ParameterObject extends OAS20ASTEditingTest{
         runAttributeEditingTest("ParameterObject/ParameterObject.json", project => {
             project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("parameters").head.attribute("in")
         }, "formData")
+    }
+
+    test("Parameter Object '$ref' editing for refering parameter. YAML"){
+        runAttributeEditingTest("ParameterObject/ParameterObjectRef.json", project => {
+            project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("operations").head.elements("parameters").head.attribute("$ref")
+        }, "#/parameters/skipParam1")
+    }
+
+    test("Parameter Object '$ref' editing for refering parameter. JSON"){
+        runAttributeEditingTest("ParameterObject/ParameterObjectRef.json", project => {
+            project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("operations").head.elements("parameters").head.attribute("$ref")
+        }, "#/parameters/skipParam1")
+    }
+
+    test("Parameter Object '$ref' editing for parameter expressed as AMF Parameter. YAML") {
+
+        runAttributeCreationTest("ParameterObject/ParameterObjectRef.yml", project => {
+            Some(project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("operations").head.elements("parameters")(1))
+        }, "$ref", "#/parameters/skipParam1")
+    }
+
+    test("Parameter Object '$ref' editing for parameter expressed as AMF Parameter. JSON") {
+        runAttributeCreationTest("ParameterObject/ParameterObjectRef.json", project => {
+            Some(project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("operations").head.elements("parameters")(1))
+        }, "$ref", "#/parameters/skipParam1")
+    }
+
+    test("Parameter Object '$ref' editing for parameter expressed as AMF Payload. YAML") {
+        runAttributeCreationTest("ParameterObject/ParameterObjectRef.yml", project => {
+            Some(project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("operations").head.elements("parameters")(2))
+        }, "$ref", "#/parameters/skipParam1")
+    }
+
+    test("Parameter Object '$ref' editing for parameter expressed as AMF Payload. JSON") {
+        runAttributeCreationTest("ParameterObject/ParameterObjectRef.json", project => {
+            Some(project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("operations").head.elements("parameters")(2))
+        }, "$ref", "#/parameters/skipParam1")
     }
 }
