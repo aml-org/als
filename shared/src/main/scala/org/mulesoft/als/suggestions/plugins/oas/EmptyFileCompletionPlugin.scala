@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.oas
 
-import amf.core.remote.{Oas, Vendor}
+import amf.core.remote.{Oas, Oas2, Oas2Yaml, Vendor}
 import org.mulesoft.als.suggestions.implementation.Suggestion
 import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
 
@@ -54,8 +54,8 @@ object EmptyFileCompletionPlugin {
     val ID = "empty.file.completion.plugin";
 
     def apply(): EmptyFileCompletionPlugin = new EmptyFileCompletionPlugin();
-
-    val supportedLanguages:List[Vendor] = List(Oas);
+    
+    val supportedLanguages:List[Vendor] = List(Oas, Oas2, Oas2Yaml);
 }
 
 

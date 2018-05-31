@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.oas;
 
-import amf.core.remote.{Oas, Vendor}
+import amf.core.remote.{Oas, Oas2, Oas2Yaml, Vendor}
 import org.mulesoft.als.suggestions.implementation.Suggestion
 import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion, Syntax}
 import org.mulesoft.high.level.interfaces.IHighLevelNode
@@ -102,6 +102,6 @@ abstract class ReferencePlugin extends ICompletionPlugin {
 }
 
 object ReferencePlugin {
-    val supportedLanguages:List[Vendor] = List(Oas);
+    val supportedLanguages:List[Vendor] = List(Oas, Oas2, Oas2Yaml);
 }
 
