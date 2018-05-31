@@ -13,7 +13,7 @@ class StructureTests extends RAMLTest {
   }
 
   test("StructureTests root node resourceTypes"){
-    this.runTest("structure/test03.raml", Set("resourceTypes:"))
+    this.runTest("structure/test03.raml", Set("resourceTypes"))
   }
 
   test("StructureTests root node title"){
@@ -380,11 +380,19 @@ class StructureTests extends RAMLTest {
     this.runTest("test01.raml", Set("responses:"));
   }
   
-  test("facets test") {
-    this.runTest("facets/test01.raml", Set("testFacet1:", "testFacet2:", "testFacet3:", "testFacet5:"));
+  test("facets test 1") {
+    this.runTest("facets/test01.raml", Set("testFacet1", "testFacet2", "testFacet3", "testFacet5"));
+  }
+
+  test("facets test 1") {
+    this.runTest("facets/test01.raml", Set("testFacet1:", "testFacet2:", "testFacet3:","testFacet5:"));
   }
   
-  test("methods test") {
-    this.runTest("methods/test01.raml", Set("displayName:", "type:", "description:", "get:", "put:", "post:", "delete:", "options:", "head:", "patch:", "trace:", "connect:"));
+  test("methods test 1") {
+    this.runTest("methods/test01.raml", Set("displayName", "type", "description", "get", "put", "post", "delete", "options", "head", "patch", "trace", "connect:"));
+  }
+
+    test("methods test 2") {
+      this.runTest("methods/test01.raml", Set("displayName:", "type:", "description:", "get:", "put:", "post:", "delete:", "options:", "head:", "patch:", "trace:", "connect:"));
   }
 }

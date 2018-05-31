@@ -25,7 +25,7 @@ class StructureTestsJson extends OASTest {
   }
 
   test("InfoObject version"){
-    this.runTest("structure_json/test16.json", Set("version"))
+    this.runTest("structure_json/test16.json", Set("version\":"))
   }
 
   test("InfoObject contact"){
@@ -33,7 +33,7 @@ class StructureTestsJson extends OASTest {
   }
 
   test("OperationObject summary"){
-    this.runTest("structure_json/test34.json", Set("summary"))
+    this.runTest("structure_json/test34.json", Set("summary\":"))
   }
 
   test("OperationObject description"){
@@ -89,7 +89,7 @@ class StructureTestsJson extends OASTest {
   }
 
   test("ItemsObject exclusiveMinimum"){
-    this.runTest("structure_json/test63.json", Set("exclusiveMinimum"))
+    this.runTest("structure_json/test63.json", Set("exclusiveMinimum\":"))
   }
 
   test("ItemsObject maxLength"){
@@ -97,19 +97,19 @@ class StructureTestsJson extends OASTest {
   }
 
   test("ItemsObject pattern"){
-    this.runTest("structure_json/test66.json", Set("pattern"))
+    this.runTest("structure_json/test66.json", Set("pattern\":"))
   }
 
   test("ItemsObject maxItems"){
-    this.runTest("structure_json/test67.json", Set("maxItems"))
+    this.runTest("structure_json/test67.json", Set("maxItems\":"))
   }
 
   test("ItemsObject minItems"){
-    this.runTest("structure_json/test68.json", Set("minItems"))
+    this.runTest("structure_json/test68.json", Set("minItems\":"))
   }
 
   test("ItemsObject example"){
-    this.runTest("structure_json/test72.json", Set("example"))
+    this.runTest("structure_json/test72.json", Set("example\":"))
   }
 
   test("ItemsObject items"){
@@ -117,15 +117,15 @@ class StructureTestsJson extends OASTest {
   }
 
   test("ItemsObject collectionFormat"){
-    this.runTest("structure_json/test74.json", Set("collectionFormat"))
+    this.runTest("structure_json/test74.json", Set("collectionFormat\":"))
   }
 
   test("SchemaObject title"){
-    this.runTest("structure_json/test75.json", Set("title"))
+    this.runTest("structure_json/test75.json", Set("title\":"))
   }
 
   test("SchemaObject description"){
-    this.runTest("structure_json/test76.json", Set("description"))
+    this.runTest("structure_json/test76.json", Set("description\":"))
   }
 
   test("SchemaObject properties"){
@@ -133,15 +133,15 @@ class StructureTestsJson extends OASTest {
   }
 
   test("SchemaObject discriminator"){
-    this.runTest("structure_json/test78.json", Set("discriminator"))
+    this.runTest("structure_json/test78.json", Set("discriminator\":"))
   }
 
   test("SchemaObject readOnly"){
-    this.runTest("structure_json/test85.json", Set("readOnly"))
+    this.runTest("structure_json/test85.json", Set("readOnly\":"))
   }
 
   test("TagObject description"){
-    this.runTest("structure_json/test88.json", Set("description"))
+    this.runTest("structure_json/test88.json", Set("description\":"))
   }
 
   test("TagObject externalDocs"){
@@ -149,10 +149,10 @@ class StructureTestsJson extends OASTest {
   }
 
   test("XMLObject namespace"){
-    this.runTest("structure_json/test104.json", Set("namespace"))
+    this.runTest("structure_json/test104.json", Set("namespace\":"))
   }
 
   test("XMLObject prefix"){
-    this.runTest("structure_json/test105.json", Set("prefix"))
+    this.runTest("structure_json/test105.json", Set("prefix\":"))
   }
 }

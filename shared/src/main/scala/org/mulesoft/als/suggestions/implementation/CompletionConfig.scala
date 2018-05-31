@@ -10,11 +10,15 @@ class CompletionConfig extends ICompletionConfig{
 
     var _fsProvider:Option[IExtendedFSProvider] = None
 
+    var _originalContent:Option[String] = None
+
     override def astProvider: Option[IASTProvider] = _astProvider
 
     override def editorStateProvider: Option[IEditorStateProvider] = _editorStateProvider
 
     override def fsProvider: Option[IExtendedFSProvider] = _fsProvider
+
+    override def originalContent: Option[String]  = _originalContent
 
     override def withAstProvider(obj: IASTProvider): CompletionConfig = {
         _astProvider = Option(obj)
@@ -28,6 +32,11 @@ class CompletionConfig extends ICompletionConfig{
 
     override def withFsProvider(obj: IExtendedFSProvider): CompletionConfig = {
         _fsProvider = Option(obj)
+        this
+    }
+
+    override def withOriginalContent(str:String): CompletionConfig = {
+        _originalContent = Option(str)
         this
     }
 }

@@ -4,7 +4,7 @@ import org.mulesoft.als.suggestions.implementation.{CompletionRequest, LocationK
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.als.suggestions.interfaces.LocationKind._
 import org.mulesoft.high.level.interfaces.IParseResult
-import org.mulesoft.positioning.{YamlLocation, YamlSearch}
+import org.mulesoft.positioning.{PositionsMapper, YamlLocation, YamlSearch}
 import org.yaml.model.YPart
 
 import scala.concurrent.Future
@@ -96,12 +96,52 @@ class CompletionProvider {
     def adjustedSuggestions(response:ICompletionResponse):Seq[ISuggestion] = {
         var isKey = response.kind == LocationKind.KEY_COMPLETION
         var isYAML = response.request.config.astProvider.exists(_.syntax == Syntax.YAML)
+        var isJSON = response.request.config.astProvider.exists(_.syntax == Syntax.JSON)
+
+        var hasQuote = false
+        var hasColon = false
+        var hasLine = false
+        if(_config.originalContent.isDefined){
+            val position = response.request.position
+            val pm = PositionsMapper("original.text").withText(_config.originalContent.get)
+            var lineOpt = pm.lineContainingPosition(position)
+            var point = pm.point(position)
+            if(lineOpt.isDefined){
+                hasLine = true
+                val tail = lineOpt.get.substring(point.column)
+                hasQuote = tail.contains("\"")
+                hasColon = tail.contains(":")
+            }
+        }
 
         var result = response.suggestions
-        if(!response.noColon && isKey && isYAML){
-            result = result.map(x=>{
-                Suggestion(x.text + ":",x.description,x.displayText,x.prefix)
-            })
+        if(isYAML) {
+            if (!response.noColon && isKey) {
+                if(!hasLine || !hasColon) {
+                    result = result.map(x => {
+                        Suggestion(x.text + ":", x.description, x.displayText, x.prefix)
+                    })
+                }
+            }
+        }
+        else if (isJSON) {
+            var postfix = ""
+            if(isKey){
+                if (!hasColon && !response.noColon) {
+                    postfix += "\":"
+                }
+                else if(!hasQuote){
+                    postfix += "\""
+                }
+            }
+            else if (!hasQuote) {
+                postfix += "\""
+            }
+            if (postfix.nonEmpty) {
+                result = result.map(x => {
+                    Suggestion(x.text + postfix, x.description, x.displayText, x.prefix)
+                })
+            }
         }
         result
     }

@@ -1,24 +1,21 @@
 package org.mulesoft.als.suggestions.test
 
-import amf.client.remote.Content
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote.JvmPlatform
 import amf.core.unsafe.PlatformSecrets
-import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.suggestions.{CompletionProvider, PlatformBasedExtendedFSProvider}
 import org.mulesoft.als.suggestions.implementation.{CompletionConfig, DummyASTProvider, DummyEditorStateProvider}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.high.level.Core
 import org.mulesoft.high.level.implementation.PlatformFsProvider
 import org.mulesoft.high.level.interfaces.IProject
+import org.mulesoft.test.ParserHelper
 import org.scalatest.{Assertion, AsyncFunSuite}
 import org.scalatest.{Assertion, Succeeded}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.{ExecutionContext, Future}
-
-import amf.internal.environment.Environment
 
 object File {
   val FILE_PROTOCOL = "file://"
@@ -57,16 +54,6 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
   def format:String
   def rootPath:String
 
-  def bulbLoaders(path: String, content:String): Seq[ResourceLoader] = {
-    var loaders: Seq[ResourceLoader] = List(new ResourceLoader {
-      override def accepts(resource: String): Boolean = resource == path
-
-      override def fetch(resource: String): Future[Content] = Future.successful(new Content(content, path))
-    })
-    loaders ++= platform.loaders()
-    loaders
-  }
-
   def suggest(url: String): Future[Seq[String]] = {
 
     val config = this.buildParserConfig(format, url)
@@ -74,25 +61,25 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     var position = 0;
 
     var contentOpt:Option[String] = None
-    this.platform.resolve(url).map(content => {
+    var originalContent:Option[String] = None
+    this.platform.resolve(url,None).map(content => {
 
       val fileContentsStr = content.stream.toString
+      originalContent = Some(fileContentsStr)
       val markerInfo = this.findMarker(fileContentsStr)
 
       position = markerInfo.position
       contentOpt = Some(markerInfo.content)
-      //this.cacheUnit(url, markerInfo.content, position, content.mime)
-      val loaders = this.bulbLoaders(url, markerInfo.content)
-      new Environment(loaders)
+      this.cacheUnit(url, markerInfo.content, position, content.mime)
 
-    }).flatMap(environment=>{
+    }).flatMap(_=>{
 
-      this.amfParse(config, environment)
+      this.amfParse(config)
 
     }).flatMap {
         case amfUnit: BaseUnit => this.buildHighLevel(amfUnit).map(project => {
 
-            this.buildCompletionProvider(project, url, position)
+            this.buildCompletionProvider(project, url, position, originalContent)
 
             }).flatMap(_.suggest)
                 .map(suggestions => suggestions.map(suggestion => {
@@ -136,24 +123,24 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     )
   }
 
-  def amfParse(config: ParserConfig, environment: Environment): Future[BaseUnit] = {
+  def amfParse(config: ParserConfig): Future[BaseUnit] = {
 
     val helper = ParserHelper(this.platform)
-    helper.parse(config, environment)
+    helper.parse(config)
   }
 
-//  def cacheUnit(fileUrl: String, content: String, position: Int, mime: Option[String]): Unit = {
-//
-//    File.unapply(fileUrl).foreach(x=>this.platform.cacheResourceText(
-//      x, content, mime))
-//  }
+  def cacheUnit(fileUrl: String, content: String, position: Int, mime: Option[String]): Unit = {
+
+    File.unapply(fileUrl).foreach(x=>this.platform.cacheResourceText(
+      x, content, mime))
+  }
 
   def buildHighLevel(model:BaseUnit):Future[IProject] = {
 
     Core.init().flatMap(_=>org.mulesoft.high.level.Core.buildModel(model,platform))
   }
 
-  def buildCompletionProvider(project: IProject, url: String, position: Int): CompletionProvider = {
+  def buildCompletionProvider(project: IProject, url: String, position: Int, originalContent:Option[String]): CompletionProvider = {
 
     val rootUnit = project.rootASTUnit
 
@@ -169,6 +156,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
       .withAstProvider(astProvider)
       .withEditorStateProvider(editorStateProvider)
       .withFsProvider(platformFSProvider)
+      .withOriginalContent(originalContent.orNull)
 
     CompletionProvider().withConfig(completionConfig)
   }
