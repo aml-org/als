@@ -2,6 +2,7 @@ package org.mulesoft.language.server.js
 
 import org.mulesoft.language.common.logger.{ILoggerSettings, IPrintlnLogger}
 import org.mulesoft.language.common.dtoTypes._
+import org.mulesoft.language.entryPoints.common.ProtocolSeqMessage
 import org.mulesoft.language.server.server.core.connectionsImpl.AbstractServerConnection
 
 import scala.concurrent.{Future, Promise}
@@ -37,6 +38,10 @@ class MSLSPServerConnection() extends MSLSPMessageDispatcher with AbstractServer
 	}
 	
 	protected def internalSendJSONMessage(message: js.Any): Unit = {
+	
+	}
+	
+	def internalSendSeqMessage(message: ProtocolSeqMessage[ProtocolMessagePayload]) {
 	
 	}
 	

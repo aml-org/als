@@ -1,13 +1,13 @@
 package org.mulesoft.language.server.js;
 
-import org.mulesoft.language.common.logger.{ILoggerSettings, IPrintlnLogger};
-import org.mulesoft.language.common.dtoTypes._;
-import org.mulesoft.language.server.server.core.connectionsImpl.AbstractServerConnection;
+import org.mulesoft.language.common.logger.{ILoggerSettings, IPrintlnLogger}
+import org.mulesoft.language.common.dtoTypes._
+import org.mulesoft.language.entryPoints.common.ProtocolSeqMessage
+import org.mulesoft.language.server.server.core.connectionsImpl.AbstractServerConnection
 
-import scala.concurrent.Future;
-import scala.concurrent.ExecutionContext.Implicits.global;
-import scala.scalajs.js;
-
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.scalajs.js
 import scala.scalajs.js.annotation.JSGlobalScope;
 
 @js.native
@@ -50,6 +50,10 @@ class WEBLSPServerConnection() extends WEBLSPMessageDispatcher with AbstractServ
 	
 	protected def internalSendJSONMessage(message: js.Any): Unit = {
 		WorkerGlobals.postMessage(message);
+	}
+	
+	def internalSendSeqMessage(message: ProtocolSeqMessage[ProtocolMessagePayload]) {
+	
 	}
 	
 	def getStructure(uri: String): Future[GetStructureResponse] = {

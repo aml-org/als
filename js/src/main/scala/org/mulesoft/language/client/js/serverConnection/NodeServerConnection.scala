@@ -33,6 +33,8 @@ class NodeServerConnection extends IPrintlnLogger
 
     this.newVoidHandler("OPEN_DOCUMENT", this.handleOpenDocument _,
       Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.OpenedDocument")))
+    
+    //this.newVoidHandler("CLOSE_DOCUMENT", (document: ChangedDocument) => Unit)
 
     this.newVoidHandler("CHANGE_DOCUMENT", this.handleChangedDocument _,
       Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ChangedDocument")))
@@ -127,28 +129,36 @@ class NodeServerConnection extends IPrintlnLogger
     *
     * @param path
     */
-  override def exists(path: String): Future[Boolean] = ???
+  override def exists(path: String): Future[Boolean] = {
+    Future.successful(false);
+  }
 
   /**
     * Returns directory content list.
     *
     * @param path
     */
-  override def readDir(path: String): Future[Seq[String]] = ???
+  override def readDir(path: String): Future[Seq[String]] = {
+    Future.successful(Seq());
+  }
 
   /**
     * Returns whether path/url represents a directory
     *
     * @param path
     */
-  override def isDirectory(path: String): Future[Boolean] = ???
+  override def isDirectory(path: String): Future[Boolean] = {
+    Future.successful(false);
+  }
 
   /**
     * File contents by full path/url.
     *
     * @param fullPath
     */
-  override def content(fullPath: String): Future[String] = ???
+  override def content(fullPath: String): Future[String] = {
+    Future.successful("");
+  }
 
   /**
     * Adds a listener to document details request. Must notify listeners in order of registration.
