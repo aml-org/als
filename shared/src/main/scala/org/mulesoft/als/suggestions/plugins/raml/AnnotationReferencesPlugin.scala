@@ -35,7 +35,7 @@ class AnnotationReferencesCompletionPlugin extends ICompletionPlugin {
 		}).map(value => Suggestion(
 			value.asInstanceOf[String], id, value.asInstanceOf[String], actualPrefix
 		));
-        val response = CompletionResponse(result, LocationKind.KEY_COMPLETION, request)
+        val response = CompletionResponse(result, LocationKind.KEY_COMPLETION, request).withNoColon()
 		Promise.successful(response).future
 	}
 	

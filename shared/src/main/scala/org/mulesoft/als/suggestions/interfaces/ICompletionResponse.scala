@@ -10,4 +10,6 @@ trait ICompletionResponse {
     def isEmpty:Boolean
 
     def nonEmpty:Boolean
+
+    def noColon: Boolean
 }

@@ -30,7 +30,6 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
     override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
         var result:ListBuffer[ISuggestion] = ListBuffer()
         var isYAML = request.config.astProvider.get.syntax == Syntax.YAML
-        var postfix = if(isYAML) ":" else ""
         request.astNode.get.asElement.get.definition.allProperties.foreach(p=>{
             var isEmbeddedInMaps = false
             p.getExtra(PropertySyntaxExtra).foreach(extra=>{
@@ -44,7 +43,7 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
                                 if (extra.isKey) {
                                     extra.enum.foreach(x => {
                                         var text = x.toString
-                                        result += Suggestion(text + postfix, id, text, request.prefix)
+                                        result += Suggestion(text, id, text, request.prefix)
                                     })
                                 }
                             })

@@ -4,6 +4,8 @@ import org.mulesoft.als.suggestions.interfaces.{ICompletionRequest, ICompletionR
 
 class CompletionResponse(_suggestions:Seq[ISuggestion], _kind:LocationKind, _request:ICompletionRequest) extends ICompletionResponse {
 
+    private var _noColon:Boolean = false
+
     override def kind: LocationKind = _kind
 
     override def request: ICompletionRequest = _request
@@ -13,6 +15,13 @@ class CompletionResponse(_suggestions:Seq[ISuggestion], _kind:LocationKind, _req
     override def isEmpty: Boolean = _suggestions.isEmpty
 
     override def nonEmpty: Boolean = _suggestions.nonEmpty
+
+    override def noColon: Boolean = _noColon
+
+    def withNoColon(v:Boolean=true):CompletionResponse = {
+        _noColon = v
+        this
+    }
 }
 
 object CompletionResponse {

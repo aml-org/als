@@ -116,17 +116,16 @@ class StructureCompletionPlugin extends ICompletionPlugin {
         var result = request.astNode match {
             case Some(n) =>
                 var isYAML = request.config.astProvider.get.syntax == Syntax.YAML
-                var postfix = if (isYAML) ":" else ""
                 if (isContentType(request)) {
-                    contentTypes(request).map(value => Suggestion(value + postfix, id, value, request.prefix));
+                    contentTypes(request).map(value => Suggestion(value, id, value, request.prefix));
                 } else if (isDiscriminatorValue(request)) {
                     var a = extractFirstLevelScalars(request);
 
-                    extractFirstLevelScalars(request).map(name => Suggestion(name + postfix, id, name, request.prefix));
+                    extractFirstLevelScalars(request).map(name => Suggestion(name, id, name, request.prefix));
                 } else if (n.isElement) {
                     var element = n.asElement.get;
 
-                    extractSuggestableProperties(element).map(_.nameId.get).map(pName => Suggestion(pName + postfix, id, pName, request.prefix));
+                    extractSuggestableProperties(element).map(_.nameId.get).map(pName => Suggestion(pName, id, pName, request.prefix));
                 } else {
                     Seq();
                 }
