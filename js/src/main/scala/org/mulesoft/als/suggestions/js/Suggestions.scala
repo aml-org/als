@@ -16,16 +16,18 @@ import org.mulesoft.high.level.interfaces.IProject
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js.JSConverters._
+import amf.client.remote.Content
+import amf.internal.environment.Environment
 
 @JSExportTopLevel("Suggestions")
 object Suggestions {
 
-  private var platform: Platform = null;
+  private var platform: ProxyContentPlatform = null;
 
   @JSExport
   def init(fsProvider: IFSProvider): Unit = {
 
-    this.platform = new FSProviderBasedPlatform(fsProvider)
+    this.platform = new ProxyContentPlatform(fsProvider)
   }
 
   @JSExport
@@ -33,7 +35,7 @@ object Suggestions {
 
     val config = this.buildParserConfig(language, url)
 
-    val result = this.platform.resolve(url,None).map(content => {
+    val result = this.platform.resolve(url).map(content => {
 
       this.cacheUnit(url, content, position)
 
@@ -86,7 +88,7 @@ object Suggestions {
   def amfParse(config: ParserConfig): Future[BaseUnit] = {
 
     val helper = ParserHelper(this.platform)
-    helper.parse(config)
+    helper.parse(config, new Environment(this.platform.loaders))
   }
 
   def cacheUnit(fileUrl: String, content: Content, position: Int): Unit = {
@@ -95,8 +97,7 @@ object Suggestions {
 
     val patchedContent = Core.prepareText(fileContentsStr, position, YAML)
 
-    File.unapply(fileUrl).foreach(x=>this.platform.cacheResourceText(
-      x, patchedContent, content.mime))
+    File.unapply(fileUrl).foreach(x=>this.platform.withOverride(x, patchedContent))
   }
 
   def buildHighLevel(model:BaseUnit):Future[IProject] = {

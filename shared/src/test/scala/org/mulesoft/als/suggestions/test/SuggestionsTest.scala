@@ -5,21 +5,20 @@ import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote.JvmPlatform
 import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.suggestions.{CompletionProvider, PlatformBasedExtendedFSProvider}
 import org.mulesoft.als.suggestions.implementation.{CompletionConfig, DummyASTProvider, DummyEditorStateProvider}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.als.suggestions.test.MainCompletion.platform
 import org.mulesoft.high.level.Core
 import org.mulesoft.high.level.implementation.PlatformFsProvider
 import org.mulesoft.high.level.interfaces.IProject
-import org.mulesoft.test.ParserHelper
 import org.scalatest.{Assertion, AsyncFunSuite}
 import org.scalatest.{Assertion, Succeeded}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.{ExecutionContext, Future}
+
+import amf.internal.environment.Environment
 
 object File {
   val FILE_PROTOCOL = "file://"
@@ -49,7 +48,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
         val diff2 = originalSuggestions.diff(resultSet)
 
         if (diff1.isEmpty && diff2.isEmpty) succeed
-        else fail(s"Difference for $path: got [${suggestions.mkString(", ")}] while expecting [${originalSuggestions.mkString(", ")}]")
+        else fail(s"Difference for $path: got [${suggestions.mkString}] while expecting [${originalSuggestions.mkString}]")
     })
 
 
@@ -57,6 +56,16 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
   def format:String
   def rootPath:String
+
+  def bulbLoaders(path: String, content:String): Seq[ResourceLoader] = {
+    var loaders: Seq[ResourceLoader] = List(new ResourceLoader {
+      override def accepts(resource: String): Boolean = resource == path
+
+      override def fetch(resource: String): Future[Content] = Future.successful(new Content(content, path))
+    })
+    loaders ++= platform.loaders()
+    loaders
+  }
 
   def suggest(url: String): Future[Seq[String]] = {
 
@@ -72,11 +81,13 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
       position = markerInfo.position
       contentOpt = Some(markerInfo.content)
-      var env = this.buildEnvironment(url, markerInfo.content, position, content.mime)
-      env
-    }).flatMap(env=>{
+      //this.cacheUnit(url, markerInfo.content, position, content.mime)
+      val loaders = this.bulbLoaders(url, markerInfo.content)
+      new Environment(loaders)
 
-      this.amfParse(config,env)
+    }).flatMap(environment=>{
+
+      this.amfParse(config, environment)
 
     }).flatMap {
         case amfUnit: BaseUnit => this.buildHighLevel(amfUnit).map(project => {
@@ -125,22 +136,17 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     )
   }
 
-  def amfParse(config: ParserConfig,env:Environment=Environment()): Future[BaseUnit] = {
+  def amfParse(config: ParserConfig, environment: Environment): Future[BaseUnit] = {
 
     val helper = ParserHelper(this.platform)
-    helper.parse(config,env)
+    helper.parse(config, environment)
   }
 
-  def buildEnvironment(fileUrl: String, content: String, position: Int, mime: Option[String]): Environment = {
-
-      var loaders:Seq[ResourceLoader] = List(new ResourceLoader {override def accepts(resource: String): Boolean = resource == fileUrl
-
-          override def fetch(resource: String): Future[Content] = Future.successful(new Content(content,fileUrl))
-      })
-      loaders ++= platform.loaders()
-      var env:Environment = Environment(loaders)
-      env
-  }
+//  def cacheUnit(fileUrl: String, content: String, position: Int, mime: Option[String]): Unit = {
+//
+//    File.unapply(fileUrl).foreach(x=>this.platform.cacheResourceText(
+//      x, content, mime))
+//  }
 
   def buildHighLevel(model:BaseUnit):Future[IProject] = {
 
