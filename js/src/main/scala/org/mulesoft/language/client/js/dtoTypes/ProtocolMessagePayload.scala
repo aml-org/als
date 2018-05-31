@@ -94,6 +94,12 @@ object Location {
   implicit def sharedToTransport(from: SharedLocation): Location = Location(from.uri, Range(from.range.start, from.range.end), from.version);
 }
 
+case class ClosedDocument(var wrapped: String) extends ProtocolMessagePayload;
+
+object ClosedDocument {
+  implicit def rw: RW[ClosedDocument] = macroRW;
+}
+
 /**
   * Document being opened.
   */

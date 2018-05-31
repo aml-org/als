@@ -34,7 +34,7 @@ class NodeServerConnection extends IPrintlnLogger
     this.newVoidHandler("OPEN_DOCUMENT", this.handleOpenDocument _,
       Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.OpenedDocument")))
     
-    //this.newVoidHandler("CLOSE_DOCUMENT", (document: ChangedDocument) => Unit)
+    this.newVoidHandler("CLOSE_DOCUMENT", (document: ClosedDocument) => Unit, Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClosedDocument", true)));
 
     this.newVoidHandler("CHANGE_DOCUMENT", this.handleChangedDocument _,
       Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ChangedDocument")))
