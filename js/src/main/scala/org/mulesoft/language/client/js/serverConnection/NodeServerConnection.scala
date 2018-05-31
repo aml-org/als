@@ -128,74 +128,34 @@ class NodeServerConnection extends IPrintlnLogger
   override def validated(report: IValidationReport): Unit = {
     this.send("VALIDATION_REPORT", ValidationReport.sharedToTransport(report))
   }
-
+  
   /**
     * Returns whether path/url exists.
     *
     * @param path
     */
-  override def exists(path: String): Future[Boolean] = {
-    var p = Promise[Boolean]();
-    
-    this.sendWithResponse[ClientBoolResponse]("EXISTS", ClientPathRequest(path)) andThen {
-      case Success(value) => p.success(value.wrapped);
-      
-      case Failure(error) => p.failure(error);
-    };
-    
-    p.future;
-  }
-
+  override def exists(path: String): Future[Boolean] = FS.exists(path);
+  
   /**
     * Returns directory content list.
     *
     * @param path
     */
-  override def readDir(path: String): Future[Seq[String]] = {
-    var p = Promise[Seq[String]]();
-    
-    this.sendWithResponse[ClientStringSeqResponse]("READ_DIR", ClientPathRequest(path)) andThen {
-      case Success(value) => p.success(value.wrapped);
-      
-      case Failure(error) => p.failure(error);
-    };
-    
-    p.future;
-  }
-
+  override def readDir(path: String): Future[Seq[String]] = FS.readDir(path);
+  
   /**
     * Returns whether path/url represents a directory
     *
     * @param path
     */
-  override def isDirectory(path: String): Future[Boolean] = {
-    var p = Promise[Boolean]();
+  override def isDirectory(path: String): Future[Boolean] = FS.isDirectory(path)
   
-    this.sendWithResponse[ClientBoolResponse]("IS_DIRECTORY", ClientPathRequest(path)) andThen {
-      case Success(value) => p.success(value.wrapped);
-    
-      case Failure(error) => p.failure(error);
-    };
-  
-    p.future;
-  }
-
   /**
     * File contents by full path/url.
     *
     * @param fullPath
     */
-  override def content(fullPath: String): Future[String] = {
-    var p = Promise[String]();
-    
-    this.sendWithResponse[ClientStringResponse]("CONTENT", ClientPathRequest(fullPath)) andThen {
-      case Success(value) => p.success(value.wrapped);
-      
-      case Failure(error) => p.failure(error);
-    };
-    
-    p.future;
-  }
+  override def content(fullPath: String): Future[String] = FS.content(fullPath);
 
   /**
     * Adds a listener to document details request. Must notify listeners in order of registration.
