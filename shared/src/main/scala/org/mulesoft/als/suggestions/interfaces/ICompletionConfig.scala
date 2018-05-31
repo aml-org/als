@@ -8,10 +8,13 @@ trait ICompletionConfig {
 
     def fsProvider:Option[IExtendedFSProvider]
 
+    def originalContent:Option[String]
+
     def withAstProvider(obj:IASTProvider):ICompletionConfig
 
     def withEditorStateProvider(obj:IEditorStateProvider):ICompletionConfig
 
     def withFsProvider(obj:IExtendedFSProvider):ICompletionConfig
 
+    def withOriginalContent(str:String):ICompletionConfig
 }
