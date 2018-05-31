@@ -210,7 +210,7 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
     val messageID = this.newRandomId();
 
     val promise = Promise[ResultType]()
-    callbacks(messageID) = promise.asInstanceOf
+    callbacks(messageID) = promise.asInstanceOf[Promise[PayloadType]];
 
     this.internalSendMessage(
       ProtocolMessage[PayloadType](
@@ -245,6 +245,10 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
       s"Meta for type ${messageType} found: ${result.isDefined}")
 
     result
+  }
+  
+  def newMeta(messageType: String, messageTypeMeta: Option[MessageTypeMetaType]) {
+    this.registerMeta(messageType, messageTypeMeta);
   }
 
   def newVoidHandler[ArgType <: PayloadType](

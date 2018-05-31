@@ -7,9 +7,10 @@ import org.mulesoft.language.common.logger.IPrintlnLogger
 import org.mulesoft.language.server.server.core.connectionsImpl.AbstractServerConnection
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{Future, Promise}
 import scala.scalajs.js
 import scala.scalajs.js.annotation.ScalaJSDefined
+import scala.util.{Failure, Success}
 
 
 @ScalaJSDefined
@@ -30,7 +31,11 @@ class NodeServerConnection extends IPrintlnLogger
   initialize()
 
   protected def initialize(): Unit = {
-
+    this.newMeta("EXISTS", Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientBoolResponse", true)));
+    this.newMeta("READ_DIR", Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientStringSeqResponse", true)));
+    this.newMeta("IS_DIRECTORY", Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientBoolResponse", true)));
+    this.newMeta("CONTENT", Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientStringResponse", true)));
+    
     this.newVoidHandler("OPEN_DOCUMENT", this.handleOpenDocument _,
       Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.OpenedDocument")))
     
@@ -130,7 +135,15 @@ class NodeServerConnection extends IPrintlnLogger
     * @param path
     */
   override def exists(path: String): Future[Boolean] = {
-    Future.successful(false);
+    var p = Promise[Boolean]();
+    
+    this.sendWithResponse[ClientBoolResponse]("EXISTS", ClientPathRequest(path)) andThen {
+      case Success(value) => p.success(value.wrapped);
+      
+      case Failure(error) => p.failure(error);
+    };
+    
+    p.future;
   }
 
   /**
@@ -139,7 +152,15 @@ class NodeServerConnection extends IPrintlnLogger
     * @param path
     */
   override def readDir(path: String): Future[Seq[String]] = {
-    Future.successful(Seq());
+    var p = Promise[Seq[String]]();
+    
+    this.sendWithResponse[ClientStringSeqResponse]("READ_DIR", ClientPathRequest(path)) andThen {
+      case Success(value) => p.success(value.wrapped);
+      
+      case Failure(error) => p.failure(error);
+    };
+    
+    p.future;
   }
 
   /**
@@ -148,7 +169,15 @@ class NodeServerConnection extends IPrintlnLogger
     * @param path
     */
   override def isDirectory(path: String): Future[Boolean] = {
-    Future.successful(false);
+    var p = Promise[Boolean]();
+  
+    this.sendWithResponse[ClientBoolResponse]("IS_DIRECTORY", ClientPathRequest(path)) andThen {
+      case Success(value) => p.success(value.wrapped);
+    
+      case Failure(error) => p.failure(error);
+    };
+  
+    p.future;
   }
 
   /**
@@ -157,7 +186,15 @@ class NodeServerConnection extends IPrintlnLogger
     * @param fullPath
     */
   override def content(fullPath: String): Future[String] = {
-    Future.successful("");
+    var p = Promise[String]();
+    
+    this.sendWithResponse[ClientStringResponse]("CONTENT", ClientPathRequest(fullPath)) andThen {
+      case Success(value) => p.success(value.wrapped);
+      
+      case Failure(error) => p.failure(error);
+    };
+    
+    p.future;
   }
 
   /**

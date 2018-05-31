@@ -562,6 +562,30 @@ object LocationsResponse {
   implicit def rw: RW[LocationsResponse] = macroRW;
 }
 
+case class ClientPathRequest(wrapped: String) extends ProtocolMessagePayload;
+
+object ClientPathRequest {
+  implicit def rw: RW[ClientPathRequest] = macroRW;
+}
+
+case class ClientBoolResponse(wrapped: Boolean) extends ProtocolMessagePayload;
+
+object ClientBoolResponse {
+  implicit def rw: RW[ClientBoolResponse] = macroRW;
+}
+
+case class ClientStringResponse(wrapped: String) extends ProtocolMessagePayload;
+
+object ClientStringResponse {
+  implicit def rw: RW[ClientStringResponse] = macroRW;
+}
+
+case class ClientStringSeqResponse(wrapped: Seq[String]) extends ProtocolMessagePayload;
+
+object ClientStringSeqResponse {
+	implicit def rw: RW[ClientStringSeqResponse] = macroRW;
+}
+
 /**
   * Logger configuration / settings
   */
