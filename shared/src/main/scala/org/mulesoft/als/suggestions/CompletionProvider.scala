@@ -56,8 +56,10 @@ class CompletionProvider {
                 indentCount = CompletionProvider.getCurrentIndentCount(esp);
             case none => throw new Error("Editor state provider must be supplied")
         }
-        
-        var result = CompletionRequest(LocationKindDetectTool.determineCompletionKind(_config.editorStateProvider.get.getText, position), prefix, position, _config, currentIndent, indentCount);
+
+        val text = _config.editorStateProvider.get.getText
+        var isJSON = text.trim.startsWith("{")
+        var result = CompletionRequest(LocationKindDetectTool.determineCompletionKind(text, position), prefix, position, _config, currentIndent, indentCount);
         
         _config.astProvider match {
             case Some(ap) =>
@@ -69,7 +71,7 @@ class CompletionProvider {
                 var actualYamlLoaction:Option[YamlLocation] = None
                 if(positionsMapper.isDefined){
                     yamlLoaction = ast._2.map(YamlLocation(_,positionsMapper.get))
-                    actualYamlLoaction = ast._2.map(YamlSearch.getLocation(position,_,positionsMapper.get))
+                    actualYamlLoaction = ast._2.map(YamlSearch.getLocation(position,_,positionsMapper.get,List(),isJSON))
                 }
                 result.withAstNode(ast._1).withYamlLocation(yamlLoaction).withActualYamlLocation(actualYamlLoaction)
             case None =>
