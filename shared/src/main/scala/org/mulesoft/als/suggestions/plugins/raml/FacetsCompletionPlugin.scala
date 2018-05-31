@@ -47,8 +47,8 @@ class FacetsCompletionPlugin extends ICompletionPlugin {
 		
 		extractFacetsFromDeclaration(request.astNode.get.asElement.get).foreach(facets += _);
 		
-		val result = facets.map(facetName => Suggestion(facetName + ":", id, facetName, request.prefix));
-        var response = CompletionResponse(result,LocationKind.VALUE_COMPLETION,request)
+		val result = facets.map(facetName => Suggestion(facetName, id, facetName, request.prefix));
+        var response = CompletionResponse(result,LocationKind.KEY_COMPLETION,request)
 		Promise.successful(response).future
 	}
 	

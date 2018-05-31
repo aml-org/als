@@ -95,10 +95,12 @@ class CompletionProvider {
 
     def adjustedSuggestions(response:ICompletionResponse):Seq[ISuggestion] = {
         var isKey = response.kind == LocationKind.KEY_COMPLETION
+        var isYAML = response.request.config.astProvider.exists(_.syntax == Syntax.YAML)
+
         var result = response.suggestions
-        if(isKey){
+        if(!response.noColon && isKey && isYAML){
             result = result.map(x=>{
-                Suggestion(x.text,x.description,x.displayText,x.prefix)
+                Suggestion(x.text + ":",x.description,x.displayText,x.prefix)
             })
         }
         result
