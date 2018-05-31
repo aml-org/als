@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins
 
-import amf.core.remote.{Oas, Raml10, Vendor}
+import amf.core.remote.{Oas, Oas2, Oas2Yaml, Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.Suggestion
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.typesystem.nominal_interfaces.IArrayType
@@ -60,8 +60,8 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
 
 object KnownKeyPropertyValuesCompletionPlugin {
     val ID = "known.key.property.values.completion";
-
-    val supportedLanguages:List[Vendor] = List(Raml10, Oas);
+    
+    val supportedLanguages:List[Vendor] = List(Raml10, Oas, Oas2, Oas2Yaml);
 
     def apply():KnownKeyPropertyValuesCompletionPlugin = new KnownKeyPropertyValuesCompletionPlugin();
 }
