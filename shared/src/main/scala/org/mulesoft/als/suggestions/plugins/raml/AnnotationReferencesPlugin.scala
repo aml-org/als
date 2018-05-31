@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.raml
 
 import amf.core.remote.{Raml10, Vendor}
-import org.mulesoft.als.suggestions.implementation.Suggestion
-import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
+import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
+import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.Search
 import org.mulesoft.high.level.interfaces.{IHighLevelNode, IParseResult}
 
@@ -19,7 +19,7 @@ class AnnotationReferencesCompletionPlugin extends ICompletionPlugin {
 		case _ => false;
 	}
 	
-	override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+	override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 		var actualPrefix = request.prefix;
 		
 		if(actualPrefix.trim.startsWith("(")) {
@@ -35,8 +35,8 @@ class AnnotationReferencesCompletionPlugin extends ICompletionPlugin {
 		}).map(value => Suggestion(
 			value.asInstanceOf[String], id, value.asInstanceOf[String], actualPrefix
 		));
-
-		Promise.successful(result).future
+        val response = CompletionResponse(result, LocationKind.KEY_COMPLETION, request)
+		Promise.successful(response).future
 	}
 	
 	def isInAnnotationName(request: ICompletionRequest): Boolean = {

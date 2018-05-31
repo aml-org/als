@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.raml
 
 import amf.core.remote.{Raml10, Vendor}
-import org.mulesoft.als.suggestions.implementation.Suggestion
-import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion, LocationKind}
+import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
+import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.positioning.{PositionsMapper, YamlLocation, YamlSearch}
 import org.mulesoft.typesystem.nominal_interfaces.ITypeDefinition
 import org.yaml.model._
@@ -141,7 +141,11 @@ class ExampleCompletionPlugin extends ICompletionPlugin {
 		case _ => Option.empty;
 	}
 	
-	override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = Promise.successful(findProperties(extractAstPath(request), extractLocalType(request)).map(propertyName => Suggestion(propertyName + ":", id, propertyName, request.prefix))).future
+	override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
+        val suggestions = findProperties(extractAstPath(request), extractLocalType(request)).map(propertyName => Suggestion(propertyName + ":", id, propertyName, request.prefix))
+        var response = CompletionResponse(suggestions,LocationKind.KEY_COMPLETION,request)
+        Promise.successful(response).future
+    }
 	
 	def findProperties(path: Seq[String], localType: ITypeDefinition): Seq[String] = if(localType == null) {
 		Seq();

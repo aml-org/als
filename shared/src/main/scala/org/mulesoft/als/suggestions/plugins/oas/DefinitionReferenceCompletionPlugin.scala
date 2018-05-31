@@ -2,8 +2,8 @@ package org.mulesoft.als.suggestions.plugins.oas
 
 import amf.core.model.domain.AmfScalar
 import amf.core.remote.{Oas, Vendor}
-import org.mulesoft.als.suggestions.implementation.Suggestion
-import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion, Syntax}
+import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
+import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.builder.UniverseProvider
 import org.mulesoft.high.level.interfaces.{IASTUnit, IHighLevelNode, IParseResult}
 import org.mulesoft.typesystem.nominal_interfaces.IProperty
@@ -21,7 +21,7 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
 
     override def languages: Seq[Vendor] = DefinitionReferenceCompletionPlugin.supportedLanguages
 
-    override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+    override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
         val result = determineRefCompletionCase(request) match {
             case Some(spv: SCHEMA_PROPERTY_VALUE) => extractRefs(request).map(x=>{
                 var isJSON = request.config.astProvider.get.syntax == Syntax.JSON
@@ -38,7 +38,8 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
             case _ => Seq();
         }
 
-        Promise.successful(result).future
+        val response = CompletionResponse(result, LocationKind.VALUE_COMPLETION, request)
+        Promise.successful(response).future
     }
     
     def extractRefs(request: ICompletionRequest): Seq[String] = {

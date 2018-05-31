@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.oas;
 
 import amf.core.remote.{Oas, Oas2, Oas2Yaml, Vendor}
-import org.mulesoft.als.suggestions.implementation.Suggestion
-import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion, Syntax}
+import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
+import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.high.level.{Declaration, Search}
 import org.mulesoft.typesystem.nominal_interfaces.IProperty
@@ -28,7 +28,7 @@ abstract class ReferencePlugin extends ICompletionPlugin {
 		case _ => false
     }
 	
-    override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+    override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
         val result = request.astNode match {
             case Some(n) => if(n.isElement) {
                 var element = n.asElement.get;
@@ -53,7 +53,8 @@ abstract class ReferencePlugin extends ICompletionPlugin {
             case _ => Seq();
         }
 
-        Promise.successful(result).future
+        val response = CompletionResponse(result, LocationKind.VALUE_COMPLETION, request)
+        Promise.successful(response).future
     }
 
     def definitionClass:String

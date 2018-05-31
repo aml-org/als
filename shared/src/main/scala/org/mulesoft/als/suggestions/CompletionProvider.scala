@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions
 
-import org.mulesoft.als.suggestions.implementation.{CompletionRequest, LocationKindDetectTool}
+import org.mulesoft.als.suggestions.implementation.{CompletionRequest, LocationKindDetectTool, Suggestion}
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.als.suggestions.interfaces.LocationKind._
 import org.mulesoft.high.level.interfaces.IParseResult
@@ -89,8 +89,19 @@ class CompletionProvider {
 
           filteredPlugins.map(_.suggest(request))
 
-        ).map(suggestions=>suggestions.flatten)
+        ).map(responses=>responses.flatMap(adjustedSuggestions))
 
+    }
+
+    def adjustedSuggestions(response:ICompletionResponse):Seq[ISuggestion] = {
+        var isKey = response.kind == LocationKind.KEY_COMPLETION
+        var result = response.suggestions
+        if(isKey){
+            result = result.map(x=>{
+                Suggestion(x.text,x.description,x.displayText,x.prefix)
+            })
+        }
+        result
     }
 
     def filter(suggestions:Seq[ISuggestion], request:ICompletionRequest):Seq[ISuggestion] = {

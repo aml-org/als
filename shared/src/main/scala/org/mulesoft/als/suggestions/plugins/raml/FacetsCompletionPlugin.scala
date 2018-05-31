@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.raml
 
 import amf.core.remote.{Raml10, Vendor}
-import org.mulesoft.als.suggestions.implementation.Suggestion
-import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
+import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
+import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
 
@@ -40,7 +40,7 @@ class FacetsCompletionPlugin extends ICompletionPlugin {
 		case _ => false;
 	}
 	
-	override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+	override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 		var facets = mutable.MutableList[String]();
 		
 		extendsDeclaredTypes(request.astNode.get.asElement.get, extractTypeDeclarations(request)).foreach(extractFacetsFromDeclaration(_).foreach(facets += _));
@@ -48,8 +48,8 @@ class FacetsCompletionPlugin extends ICompletionPlugin {
 		extractFacetsFromDeclaration(request.astNode.get.asElement.get).foreach(facets += _);
 		
 		val result = facets.map(facetName => Suggestion(facetName + ":", id, facetName, request.prefix));
-
-		Promise.successful(result).future
+        var response = CompletionResponse(result,LocationKind.VALUE_COMPLETION,request)
+		Promise.successful(response).future
 	}
 	
 	def extractTypeDeclarations(request: ICompletionRequest): Seq[IHighLevelNode] = {
