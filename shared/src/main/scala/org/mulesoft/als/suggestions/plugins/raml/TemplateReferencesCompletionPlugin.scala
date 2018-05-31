@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.raml
 
 import amf.core.remote.{Oas, Raml10, Vendor}
-import org.mulesoft.als.suggestions.implementation.Suggestion
-import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
+import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
+import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.typesystem.nominal_interfaces.IProperty
 import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
@@ -24,7 +24,7 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
         case _ => false
     }
 
-    override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+    override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 			var paramFor = inParamOf(request).get;
 		
 			val result = request.astNode match {
@@ -50,65 +50,68 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
 					if(paramFor != null) {
 						var foundDeclarations = declarations.filter(declaration => paramFor == declaration.node.attribute("name").get.value.asInstanceOf[Some[String]].get);
 
-						if(foundDeclarations.size < 1) {
-							return Promise.successful(Seq()).future;
+						if(foundDeclarations.isEmpty) {
+							Seq()
 						}
+                        else {
 
-						var declaration = foundDeclarations(0);
+                            var declaration = foundDeclarations(0);
 
-						var paramNames = declaration.node.attributes("parameters").map(param => param.value.asInstanceOf[Some[String]].get);
+                            var paramNames = declaration.node.attributes("parameters").map(param => param.value.asInstanceOf[Some[String]].get);
 
-						if(actualPrefix.indexOf("{") >= 0) {
-							actualPrefix = actualPrefix.substring(actualPrefix.indexOf("{") + 1).trim();
-						}
+                            if (actualPrefix.indexOf("{") >= 0) {
+                                actualPrefix = actualPrefix.substring(actualPrefix.indexOf("{") + 1).trim();
+                            }
 
-						return Promise.successful(
-							paramNames.map(name => Suggestion(name, id, name, actualPrefix))).future;
+                            paramNames.map(name => Suggestion(name, id, name, actualPrefix));
+                        }
 					}
+                    else {
 
-					declarations.map(declaration => {
-						var declarationName = declaration.node.attribute("name").get.value.asInstanceOf[Some[String]].get
+                        declarations.map(declaration => {
+                            var declarationName = declaration.node.attribute("name").get.value.asInstanceOf[Some[String]].get
 
-						var bracketsRequired = request.prefix.indexOf("{") != 0;
+                            var bracketsRequired = request.prefix.indexOf("{") != 0;
 
-						squareBracketsRequired = squareBracketsRequired && request.prefix.indexOf("[") != 0;
+                            squareBracketsRequired = squareBracketsRequired && request.prefix.indexOf("[") != 0;
 
-						var snippet = declarationName;
+                            var snippet = declarationName;
 
-						var params = declaration.node.attributes("parameters");
+                            var params = declaration.node.attributes("parameters");
 
-						if(!params.isEmpty) {
-							snippet = snippet + ": {";
+                            if (!params.isEmpty) {
+                                snippet = snippet + ": {";
 
-							var count = 0;
+                                var count = 0;
 
-							params.foreach(param => {
-								var needComma = param != params.last;
+                                params.foreach(param => {
+                                    var needComma = param != params.last;
 
-								snippet += param.value.asInstanceOf[Some[String]].get + " : ";
+                                    snippet += param.value.asInstanceOf[Some[String]].get + " : ";
 
-								if(needComma) {
-									snippet += ", ";
-								}
-							});
+                                    if (needComma) {
+                                        snippet += ", ";
+                                    }
+                                });
 
-							snippet += "}";
-						}
+                                snippet += "}";
+                            }
 
-						if(bracketsRequired) {
-							snippet = "{" + snippet + "}";
-						} else {
-							actualPrefix = actualPrefix.substring(actualPrefix.indexOf("{") + 1).trim();
-						}
+                            if (bracketsRequired) {
+                                snippet = "{" + snippet + "}";
+                            } else {
+                                actualPrefix = actualPrefix.substring(actualPrefix.indexOf("{") + 1).trim();
+                            }
 
-						if(squareBracketsRequired) {
-							snippet = "[" + snippet + "]";
-						} else {
-							actualPrefix = actualPrefix.substring(actualPrefix.indexOf("[") + 1).trim();
-						}
+                            if (squareBracketsRequired) {
+                                snippet = "[" + snippet + "]";
+                            } else {
+                                actualPrefix = actualPrefix.substring(actualPrefix.indexOf("[") + 1).trim();
+                            }
 
-						Suggestion(snippet, id, declarationName, actualPrefix);
-					});
+                            Suggestion(snippet, id, declarationName, actualPrefix);
+                        });
+                    }
 				} else {
 					Seq();
 				}
@@ -116,7 +119,8 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
 				case _ => Seq();
 			}
 
-			Promise.successful(result).future
+        var response = CompletionResponse(result,LocationKind.VALUE_COMPLETION,request)
+        Promise.successful(response).future
     }
 	
 	def inParamOf(request: ICompletionRequest): Option[String] = {

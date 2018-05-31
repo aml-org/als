@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.oas
 
 import amf.core.remote.{Oas, Oas2, Oas2Yaml, Vendor}
-import org.mulesoft.als.suggestions.implementation.Suggestion
-import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
+import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
+import org.mulesoft.als.suggestions.interfaces._
 
 import scala.concurrent.Future
 
@@ -11,27 +11,27 @@ class EmptyFileCompletionPlugin extends ICompletionPlugin {
 
     override def languages: Seq[Vendor] = EmptyFileCompletionPlugin.supportedLanguages
 
-    override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+    override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
         val text = request.config.editorStateProvider.get.getText
         var tTrim = text.trim
+        var suggestions:Seq[ISuggestion] = Seq()
         if(tTrim.startsWith("{")&&tTrim.endsWith("}")){
             var openInd = text.indexOf("{")
             var closeInd = text.indexOf("}")
             if(request.position>openInd && request.position <= closeInd){
                 val sText = "\"swagger\": \"2.0\""
                 var suggestion = Suggestion(sText,id,sText,request.prefix)
-                Future.successful(List(suggestion))
-            }
-            else {
-                Future.successful(Seq())
+                suggestions = List(suggestion)
             }
         }
         else {
             val sText = "swagger: '2.0'"
             var suggestion = Suggestion(sText,id,sText,request.prefix)
-            Future.successful(List(suggestion))
+            suggestions = List(suggestion)
         }
+        val response = CompletionResponse(suggestions, LocationKind.VALUE_COMPLETION, request)
+        Future.successful(response)
     }
 
     override def isApplicable(request: ICompletionRequest): Boolean = request.config.editorStateProvider match {

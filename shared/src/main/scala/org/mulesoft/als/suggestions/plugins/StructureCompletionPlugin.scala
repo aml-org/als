@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins
 
-import amf.core.remote.{Oas, Raml10, Oas2, Oas2Yaml, Vendor}
-import org.mulesoft.als.suggestions.implementation.Suggestion
-import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion, Syntax}
+import amf.core.remote.{Oas, Oas2, Oas2Yaml, Raml10, Vendor}
+import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
+import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, Syntax, LocationKind, ICompletionResponse}
 import org.mulesoft.als.suggestions.plugins.raml.AnnotationReferencesCompletionPlugin
 import org.mulesoft.high.level.interfaces.{IHighLevelNode, IParseResult}
 import org.mulesoft.positioning.YamlLocation
@@ -111,7 +111,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
         request.actualYamlLocation.get.keyValue.get.yPart.asInstanceOf[YScalar].text == "body"
     }
 
-    override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+    override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
         var result = request.astNode match {
             case Some(n) =>
@@ -133,8 +133,8 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 
             case _ => Seq();
         }
-
-        Promise.successful(result).future
+        val response = CompletionResponse(result, LocationKind.KEY_COMPLETION, request)
+        Promise.successful(response).future
     }
     
     def extractFirstLevelScalars(request: ICompletionRequest): Seq[String] = request.astNode.get.parent.get.elements("properties").filter(_.definition match {

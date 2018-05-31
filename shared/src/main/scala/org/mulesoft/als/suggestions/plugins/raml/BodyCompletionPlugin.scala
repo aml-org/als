@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.raml
 
 import amf.core.remote.{Raml10, Vendor}
-import org.mulesoft.als.suggestions.implementation.{PathCompletion, Suggestion}
-import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
+import org.mulesoft.als.suggestions.implementation.{CompletionResponse, PathCompletion, Suggestion}
+import org.mulesoft.als.suggestions.interfaces._
 import org.yaml.model.{YMap, YScalar}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -23,7 +23,7 @@ class BodyCompletionPlugin extends ICompletionPlugin {
         case _ => false;
     }
 
-    override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+    override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
         var existing:Seq[String] = request.actualYamlLocation.get.parentStack(2).value.get.yPart match {
             case map:YMap => map.entries.map(e=>e.key.value.asInstanceOf[YScalar].value.toString)
@@ -38,7 +38,8 @@ class BodyCompletionPlugin extends ICompletionPlugin {
         ).filter(!existing.contains(_)).map(x=>Suggestion(x + ":", id,
             x, request.prefix))
 
-        Promise.successful(result).future
+        var response = CompletionResponse(result,LocationKind.VALUE_COMPLETION,request)
+        Promise.successful(response).future
     }
 
     def isBody(request: ICompletionRequest): Boolean = {

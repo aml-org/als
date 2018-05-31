@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins
 
 import amf.core.remote.{Oas, Oas2, Oas2Yaml, Raml10, Vendor}
-import org.mulesoft.als.suggestions.implementation.Suggestion
+import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.typesystem.nominal_interfaces.IArrayType
 import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
@@ -27,7 +27,7 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
         request.actualYamlLocation.get.parentStack.nonEmpty && request.actualYamlLocation.get.parentStack.last.hasSameValue(request.yamlLocation.get);
     }
     
-    override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+    override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
         var result:ListBuffer[ISuggestion] = ListBuffer()
         var isYAML = request.config.astProvider.get.syntax == Syntax.YAML
         var postfix = if(isYAML) ":" else ""
@@ -53,8 +53,8 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
                 })
             }
         })
-        result
-        Promise.successful(result).future
+        val response = CompletionResponse(result, LocationKind.KEY_COMPLETION, request)
+        Promise.successful(response).future
     }
  }
 

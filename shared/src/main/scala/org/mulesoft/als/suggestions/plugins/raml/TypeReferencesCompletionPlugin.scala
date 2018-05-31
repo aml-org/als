@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.raml
 
 import amf.core.remote.{Raml10, Vendor}
-import org.mulesoft.als.suggestions.implementation.Suggestion
-import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ISuggestion}
+import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
+import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.Search
 
 import scala.collection.mutable.ListBuffer
@@ -19,7 +19,7 @@ class TypeReferenceCompletionPlugin extends ICompletionPlugin {
 		case _ => false;
 	}
 	
-	override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+	override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
 		var builtIns = request.astNode.get.asAttr.get.definition.get.universe.builtInNames() :+ "object";
 		
@@ -33,7 +33,8 @@ class TypeReferenceCompletionPlugin extends ICompletionPlugin {
                 })
             })
         })
-		Promise.successful(result).future
+        var response = CompletionResponse(result,LocationKind.VALUE_COMPLETION,request)
+		Promise.successful(response).future
 	}
 	
 	def isInTypeTypeProperty(request: ICompletionRequest): Boolean = {

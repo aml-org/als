@@ -10,7 +10,7 @@ trait ICompletionPlugin {
 
     def languages:Seq[Vendor]
 
-    def suggest(request:ICompletionRequest):Future[Seq[ISuggestion]]
+    def suggest(request:ICompletionRequest):Future[ICompletionResponse]
 
     def isApplicable(request:ICompletionRequest):Boolean
 

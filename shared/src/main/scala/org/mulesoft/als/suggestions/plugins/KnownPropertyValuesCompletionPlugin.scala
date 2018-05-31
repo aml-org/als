@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins
 
 import amf.core.remote.{Oas, Oas2, Oas2Yaml, Raml10, Vendor}
-import org.mulesoft.als.suggestions.implementation.Suggestion
+import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.positioning.YamlLocation
@@ -41,7 +41,7 @@ class KnownPropertyValuesCompletionPlugin extends ICompletionPlugin {
         }
     }
 
-    override def suggest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+    override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
         var prop:Option[IProperty] = None
         val astNode = request.astNode.get
@@ -93,7 +93,8 @@ class KnownPropertyValuesCompletionPlugin extends ICompletionPlugin {
                 })
             })
         })
-        Promise.successful(result).future
+        val response = CompletionResponse(result, LocationKind.VALUE_COMPLETION, request)
+        Promise.successful(response).future
     }
  }
 
