@@ -21,4 +21,8 @@ trait IPositionsMapper{
     def getText:String
 
     def textLength:Int
+
+    def line(lineIndex:Int):Option[String]
+
+    def lineContainingPosition(position:Int):Option[String]
 }

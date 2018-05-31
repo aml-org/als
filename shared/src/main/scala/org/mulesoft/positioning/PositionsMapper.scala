@@ -162,6 +162,21 @@ class PositionsMapper(uri: String) extends  IPositionsMapper {
     override def getText:String = text
 
     override def textLength: Int = text.length
+
+    override def line(lineIndex: Int): Option[String] = {
+        if(lineIndex<0||lineIndex>lineLengthSums.length-1){
+            None
+        }
+        else {
+            var start = lineLengthSums(lineIndex)
+            var end = lineLengthSums(lineIndex+1)
+            Some(text.substring(start,end))
+        }
+    }
+
+    override def lineContainingPosition(position: Int): Option[String] = {
+        line(point(position).line)
+    }
 }
 
 object PositionsMapper{
