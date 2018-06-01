@@ -4916,7 +4916,11 @@ val value4 =
               "typeKind": 1
             },
             "annotations": [
-              {
+                {
+                  "name": "MetaModel.embeddedInArray",
+                  "arguments": []
+                },
+                {
                 "name": "MetaModel.description",
                 "arguments": [
                   "Instantiation of applyed traits"
@@ -4940,6 +4944,10 @@ val value4 =
               "typeKind": 1
             },
             "annotations": [
+              {
+                "name": "MetaModel.embeddedInArray",
+                "arguments": []
+              },
               {
                 "name": "MetaModel.allowNull",
                 "arguments": []
@@ -6297,8 +6305,9 @@ val value5 =
         ],
         "moduleName": null,
         "annotationOverridings": {}
-      },
-      {
+      },"""
+    val value6 =
+    """{
         "name": "CustomSecurityScheme",
         "methods": [],
         "typeParameters": [],
@@ -6605,6 +6614,10 @@ val value5 =
             },
             "annotations": [
               {
+                "name": "MetaModel.embeddedInArray",
+                "arguments": []
+              },
+              {
                 "name": "MetaModel.description",
                 "arguments": [
                   "A list of the traits to apply to all methods declared (implicitly or explicitly) for this resource. Individual methods may override this declaration"
@@ -6676,6 +6689,10 @@ val value5 =
             },
             "annotations": [
               {
+                "name": "MetaModel.embeddedInArray",
+                "arguments": []
+              },
+              {
                 "name": "MetaModel.allowNull",
                 "arguments": []
               },
@@ -6709,6 +6726,10 @@ val value5 =
               "typeKind": 1
             },
             "annotations": [
+              {
+                "name": "MetaModel.embeddedInMaps",
+                "arguments": []
+              },
               {
                 "name": "MetaModel.setsContextValue",
                 "arguments": [
@@ -7031,6 +7052,6 @@ val value5 =
   }
 ]
 """
-val value = value1 + value2 + value3 + value4 + value5
+val value = value1 + value2 + value3 + value4 + value5 + value6
 
 }

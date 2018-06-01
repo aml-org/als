@@ -4905,6 +4905,10 @@
             },
             "annotations": [
               {
+                "name": "MetaModel.embeddedInArray",
+                "arguments": []
+              },
+              {
                 "name": "MetaModel.description",
                 "arguments": [
                   "Instantiation of applyed traits"
@@ -4928,6 +4932,10 @@
               "typeKind": 1
             },
             "annotations": [
+              {
+                "name": "MetaModel.embeddedInArray",
+                "arguments": []
+              },
               {
                 "name": "MetaModel.allowNull",
                 "arguments": []
@@ -6590,6 +6598,10 @@
             },
             "annotations": [
               {
+                "name": "MetaModel.embeddedInArray",
+                "arguments": []
+              },
+              {
                 "name": "MetaModel.description",
                 "arguments": [
                   "A list of the traits to apply to all methods declared (implicitly or explicitly) for this resource. Individual methods may override this declaration"
@@ -6661,6 +6673,10 @@
             },
             "annotations": [
               {
+                "name": "MetaModel.embeddedInArray",
+                "arguments": []
+              },
+              {
                 "name": "MetaModel.allowNull",
                 "arguments": []
               },
@@ -6694,6 +6710,10 @@
               "typeKind": 1
             },
             "annotations": [
+              {
+                "name": "MetaModel.embeddedInMaps",
+                "arguments": []
+              },
               {
                 "name": "MetaModel.setsContextValue",
                 "arguments": [
