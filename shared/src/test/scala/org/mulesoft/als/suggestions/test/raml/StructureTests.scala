@@ -72,6 +72,10 @@ class StructureTests extends RAMLTest {
     this.runTest("structure/test18.raml", Set("body:"))
   }
 
+  test("StructureTests resource node is"){
+    this.runTest("structure/test21.raml", Set("is:"))
+  }
+
   test("StructureTests resource node type"){
     this.runTest("structure/test22.raml", Set("type:"))
   }
@@ -82,6 +86,27 @@ class StructureTests extends RAMLTest {
 
   test("StructureTests resource node displayName"){
     this.runTest("structure/test24.raml", Set("displayName:"))
+  }
+
+
+  test("StructureTests resource node uriParameters"){
+    this.runTest("structure/test27.raml", Set("uriParameters:"))
+  }
+
+  test("StructureTests resource node options"){
+    this.runTest("structure/test28.raml", Set("options:"))
+  }
+
+  test("StructureTests resource node head"){
+    this.runTest("structure/test29.raml", Set("head:"))
+  }
+
+  test("StructureTests resource node trace"){
+    this.runTest("structure/test30.raml", Set("trace:"))
+  }
+
+  test("StructureTests resource node connect"){
+    this.runTest("structure/test31.raml", Set("connect:"))
   }
 
   test("StructureTests resource node put, post, patch"){
@@ -104,6 +129,10 @@ class StructureTests extends RAMLTest {
     this.runTest("structure/test35.raml", Set("responses:"))
   }
 
+  test("StructureTests method node is"){
+    this.runTest("structure/test37.raml", Set("is:"))
+  }
+
   test("StructureTests method node description"){
     this.runTest("structure/test38.raml", Set("description:"))
   }
@@ -118,6 +147,10 @@ class StructureTests extends RAMLTest {
 
   test("StructureTests method node response body"){
     this.runTest("structure/test42.raml", Set("body:"))
+  }
+
+  test("StructureTests resourceType node is"){
+    this.runTest("structure/test44.raml", Set("is:"))
   }
 
   test("StructureTests resourceType node type"){
@@ -135,6 +168,27 @@ class StructureTests extends RAMLTest {
   test("StructureTests resourceType node put, post, patch"){
     this.runTest("structure/test49.raml", Set("put:", "post:", "patch:"))
   }
+
+  test("StructureTests resourceType node uriParameters"){
+    this.runTest("structure/test50.raml", Set("uriParameters:"))
+  }
+
+  test("StructureTests resourceType node options"){
+    this.runTest("structure/test51.raml", Set("options:"))
+  }
+
+  test("StructureTests resourceType node head"){
+    this.runTest("structure/test52.raml", Set("head:"))
+  }
+
+  test("StructureTests resourceType node trace"){
+    this.runTest("structure/test53.raml", Set("trace:"))
+  }
+
+  test("StructureTests resourceType node connect"){
+    this.runTest("structure/test54.raml", Set("connect:"))
+  }
+
 
   test("StructureTests resourceType node usage"){
     this.runTest("structure/test55.raml", Set("usage:"))
@@ -163,18 +217,6 @@ class StructureTests extends RAMLTest {
   test("StructureTests trait node body"){
     this.runTest("structure/test69.raml", Set("body:"))
   }
-
-//  test("StructureTests resourceType method node response description"){
-//    this.runTest("structure/test73.raml", Set("description:"))
-//  }
-//
-//  test("StructureTests resourceType method node description"){
-//    this.runTest("structure/test77.raml", Set("description:"))
-//  }
-//
-//  test("StructureTests resourceType method node displayName"){
-//    this.runTest("structure/test78.raml", Set("displayName:"))
-//  }
 
   test("StructureTests Security Scheme Declaration node type"){
     this.runTest("structure/test83.raml", Set("type:"))
@@ -384,15 +426,15 @@ class StructureTests extends RAMLTest {
     this.runTest("facets/test01.raml", Set("testFacet1", "testFacet2", "testFacet3", "testFacet5"));
   }
 
-  test("facets test 1") {
-    this.runTest("facets/test01.raml", Set("testFacet1:", "testFacet2:", "testFacet3:","testFacet5:"));
+  test("facets test 2") {
+    this.runTest("facets/test02.raml", Set("testFacet1:", "testFacet2:", "testFacet3:","testFacet5:"));
   }
   
   test("methods test 1") {
-    this.runTest("methods/test01.raml", Set("displayName", "type", "description", "get", "put", "post", "delete", "options", "head", "patch", "trace", "connect:"));
+    this.runTest("methods/test01.raml", Set("displayName", "type", "description", "get", "put", "post", "delete", "options", "head", "patch", "trace", "connect", "securedBy", "is", "uriParameters"));
   }
 
     test("methods test 2") {
-      this.runTest("methods/test01.raml", Set("displayName:", "type:", "description:", "get:", "put:", "post:", "delete:", "options:", "head:", "patch:", "trace:", "connect:"));
+      this.runTest("methods/test02.raml", Set("displayName:", "type:", "description:", "get:", "put:", "post:", "delete:", "options:", "head:", "patch:", "trace:", "connect:", "securedBy:", "is:", "uriParameters:"));
   }
 }

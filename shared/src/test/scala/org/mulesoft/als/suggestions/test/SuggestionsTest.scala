@@ -65,7 +65,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     this.platform.resolve(url,None).map(content => {
 
       val fileContentsStr = content.stream.toString
-      originalContent = Some(fileContentsStr)
+      originalContent = Some(fileContentsStr.replace("*",""))
       val markerInfo = this.findMarker(fileContentsStr)
 
       position = markerInfo.position
