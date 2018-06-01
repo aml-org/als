@@ -1,0 +1,59 @@
+{
+  "title": "Response",
+  "description": "Information about the expected responses to a request",
+  "type": null,
+  "children": [
+    {
+      "title": "code",
+      "description": "Responses MUST be a map of one or more HTTP status codes, where each status code itself is a map that describes that status code.",
+      "type": "ATTRIBUTETEXT",
+      "children": [],
+      "valueText": "200",
+      "id": ".collection.get.200#code"
+    },
+    {
+      "title": "Documentation",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "description",
+          "description": "A longer, human-friendly description of the response",
+          "type": "MARKDOWN",
+          "children": [],
+          "valueText": null,
+          "id": ".collection.get.200#description"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#Documentation"
+    },
+    {
+      "title": "General",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "headers",
+          "description": "Insert headers",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".collection.get.200#headers#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "Delete",
+          "description": "",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".collection.get.200#DELETE_DETAILS_ACTION",
+          "subType": "DELETE"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#General"
+    }
+  ],
+  "valueText": null,
+  "id": "Category#Response"
+}

@@ -1,0 +1,121 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "Person",
+        "typeText": null,
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "name",
+            "typeText": ":string",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [
+              {
+                "text": "xml",
+                "typeText": null,
+                "children": [],
+                "key": "xml :: name :: Person :: ",
+                "start": 110,
+                "end": 113
+              }
+            ],
+            "key": "name :: Person :: ",
+            "start": 75,
+            "end": 79
+          },
+          {
+            "text": "addresses",
+            "typeText": ":Address[]",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [
+              {
+                "text": "xml",
+                "typeText": null,
+                "children": [],
+                "key": "xml :: addresses :: Person :: ",
+                "start": 290,
+                "end": 293
+              }
+            ],
+            "key": "addresses :: Person :: ",
+            "start": 247,
+            "end": 256
+          }
+        ],
+        "key": "Person :: ",
+        "start": 45,
+        "end": 51,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "Address",
+        "typeText": null,
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "children": [
+          {
+            "text": "street",
+            "typeText": ":string",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "street :: Address :: ",
+            "start": 419,
+            "end": 425
+          },
+          {
+            "text": "city",
+            "typeText": ":string",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [],
+            "key": "city :: Address :: ",
+            "start": 440,
+            "end": 444
+          }
+        ],
+        "key": "Address :: ",
+        "start": 388,
+        "end": 395,
+        "category": "SchemasAndTypesCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

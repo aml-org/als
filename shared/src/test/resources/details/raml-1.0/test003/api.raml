@@ -1,0 +1,12 @@
+#%RAML 1.0
+title: API
+baseUri: /some/base/uri
+types:
+  Per*son:
+    type: array
+    maxItems: 4
+    minItems: 2
+    uniqueItems: true
+    example:
+      - 2
+      - oa

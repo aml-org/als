@@ -1,0 +1,81 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "/media/popular",
+        "typeText": null,
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "children": [
+          {
+            "text": "get",
+            "typeText": null,
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "children": [
+              {
+                "text": "503",
+                "typeText": null,
+                "children": [
+                  {
+                    "text": "X-waiting-period",
+                    "typeText": ":integer",
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "children": [],
+                    "key": "X-waiting-period :: 503 :: get :: /media/popular :: ",
+                    "start": 437,
+                    "end": 453
+                  }
+                ],
+                "key": "503 :: get :: /media/popular :: ",
+                "start": 250,
+                "end": 253
+              }
+            ],
+            "key": "get :: /media/popular :: ",
+            "start": 143,
+            "end": 146
+          }
+        ],
+        "key": "/media/popular :: ",
+        "start": 91,
+        "end": 105,
+        "category": "ResourcesCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

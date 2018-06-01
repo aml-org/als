@@ -1,0 +1,15 @@
+#%RAML 1.0
+title: API
+baseUri: /some/base/uri
+types:
+  Per*son:
+    type: number
+    enum:
+      - 2
+      - 4
+      - 6
+      - 8
+    format: int
+    maximum: 12
+    minimum: 0
+    multipleOf: 2
