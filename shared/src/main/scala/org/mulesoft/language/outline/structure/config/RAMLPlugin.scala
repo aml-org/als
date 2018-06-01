@@ -40,7 +40,7 @@ class RAMLPlugin extends IStructurePlugin {
   def buildCategories(): mutable.Map[String, CategoryFilter] = {
     val result = new mutable.HashMap[String, CategoryFilter]()
 
-    result("Resources") = new CategoryFilter {
+    result("ResourcesCategory") = new CategoryFilter {
 
       override def apply(node: IParseResult): Boolean = {
 
@@ -48,7 +48,7 @@ class RAMLPlugin extends IStructurePlugin {
       }
     }
 
-    result("Schemas & Types") = new CategoryFilter {
+    result("SchemasAndTypesCategory") = new CategoryFilter {
       /**
         * Checks whether current node is applicable to a category
         */
@@ -68,7 +68,7 @@ class RAMLPlugin extends IStructurePlugin {
       }
     }
 
-    result("Resource Types & Traits") = new CategoryFilter {
+    result("ResourceTypesAndTraitsCategory") = new CategoryFilter {
       /**
         * Checks whether current node is applicable to a category
         */
@@ -79,7 +79,7 @@ class RAMLPlugin extends IStructurePlugin {
       }
     }
 
-    result("Other") = new CategoryFilter {
+    result("OtherCategory") = new CategoryFilter {
       /**
         * Checks whether current node is applicable to a category
         */

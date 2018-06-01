@@ -48,18 +48,24 @@ class OASPlugin extends IStructurePlugin {
         if(node.isElement && node.asElement.get.definition.nameId.isDefined){
           val defName = node.asElement.get.definition.nameId.get
 
-          defName == OASDefinitionKeys.PathItemObject ||
+          val result = defName == OASDefinitionKeys.PathItemObject ||
+            defName == OASDefinitionKeys.PathsObject ||
             defName == OASDefinitionKeys.ParameterObject ||
             defName == OASDefinitionKeys.ParameterDefinitionObject ||
             defName == OASDefinitionKeys.Response ||
             defName == OASDefinitionKeys.ResponseDefinitionObject
-        }
 
-        false
+          println("CategoryFilter Checking node " + NodeNameProvider.getNodeName(node) + " with definition " + defName +
+            " and getting result: " + result)
+
+          result
+        } else {
+          false
+        }
 
       }
     }
-    result("Resources") = resourcesCategoryFilter
+    result("ResourcesCategory") = resourcesCategoryFilter
 
     val schemasCategoryFilter = new CategoryFilter {
       /**
@@ -67,22 +73,21 @@ class OASPlugin extends IStructurePlugin {
         */
       override def apply(node: IParseResult): Boolean = {
 
-        if (node.isElement && node.asElement.get.property.isDefined &&
-          node.asElement.get.property.get.nameId.isDefined) {
+        if(node.isElement && node.asElement.get.definition.nameId.isDefined){
+          val defName = node.asElement.get.definition.nameId.get
 
-          val propertyName = node.asElement.get.property.get.nameId.get
-
-          propertyName == "schemas" ||
-            propertyName == "types"
+          defName == OASDefinitionKeys.SchemaObject ||
+            defName == OASDefinitionKeys.ItemsObject ||
+            defName == OASDefinitionKeys.DefinitionObject
         } else {
-
           false
         }
+
       }
     }
-    result("Schemas & Types") = schemasCategoryFilter
+    result("SchemasAndTypesCategory") = schemasCategoryFilter
 
-    result("Resource Types & Traits") = new CategoryFilter {
+    result("ResourceTypesAndTraitsCategory") = new CategoryFilter {
       /**
         * Checks whether current node is applicable to a category
         */
@@ -91,7 +96,7 @@ class OASPlugin extends IStructurePlugin {
       }
     }
 
-    result("Other") = new CategoryFilter {
+    result("OtherCategory") = new CategoryFilter {
       /**
         * Checks whether current node is applicable to a category
         */

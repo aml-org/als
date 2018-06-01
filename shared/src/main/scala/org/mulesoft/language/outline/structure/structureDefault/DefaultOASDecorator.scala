@@ -16,17 +16,29 @@ class DefaultOASDecorator extends Decorator {
   }
 
   def getNodeType(node: IParseResult): String = {
-    if (node.isAttr) {
 
+    println("getNodeType, node " + NodeNameProvider.getNodeName(node))
+
+    if (node.isAttr) {
       OASNodeTypes.ATTRIBUTE
     } else if (node.isElement){
+      println("getNodeType, node " + NodeNameProvider.getNodeName(node) + " is element")
+
 
       val hlNode = node.asElement.get
-      if (hlNode.definition.key.isDefined){
+      println("getNodeType, node " + NodeNameProvider.getNodeName(node) + " definition is defined: " +
+        hlNode.definition.nameId.isDefined)
 
-        val nodeDefinition = hlNode.definition.key.get.name
+      if (hlNode.definition.nameId.isDefined){
 
-        if (nodeDefinition == OASDefinitionKeys.PathItemObject) {
+        val nodeDefinition = hlNode.definition.nameId.get
+
+        println("getNodeType for node with definition name " + nodeDefinition)
+
+        if (nodeDefinition == OASDefinitionKeys.PathsObject) {
+          OASNodeTypes.PATHS_OBJECT
+        }
+        else if (nodeDefinition == OASDefinitionKeys.PathItemObject) {
           OASNodeTypes.PATH_ITEM
         }
         else if (nodeDefinition == OASDefinitionKeys.OperationObject) {
