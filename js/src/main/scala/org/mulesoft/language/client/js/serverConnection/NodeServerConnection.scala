@@ -1,5 +1,6 @@
 package org.mulesoft.language.client.js.serverConnection
 
+import amf.core.remote.{Content, Platform}
 import org.mulesoft.language.client.js.dtoTypes._
 import org.mulesoft.language.client.js.{Globals, dtoTypes}
 import org.mulesoft.language.common.dtoTypes._
@@ -36,6 +37,8 @@ class NodeServerConnection extends IPrintlnLogger
     this.newMeta("IS_DIRECTORY", Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientBoolResponse", true)));
     this.newMeta("CONTENT", Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientStringResponse", true)));
     
+    this.newVoidHandler("CHANGE_POSITION", handleChangedPosition _, Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ChangedPosition")));
+    
     this.newVoidHandler("OPEN_DOCUMENT", this.handleOpenDocument _,
       Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.OpenedDocument")))
     
@@ -65,6 +68,10 @@ class NodeServerConnection extends IPrintlnLogger
     }
     
     Globals.process.send(message);
+  }
+  
+  def handleChangedPosition(changedPosition: ChangedPosition): Unit = {
+  
   }
 
   def handleGetStructure(getStructure: GetStructureRequest) : Future[GetStructureResponse] = {

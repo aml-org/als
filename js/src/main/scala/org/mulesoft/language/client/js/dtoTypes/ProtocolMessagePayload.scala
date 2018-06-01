@@ -2,7 +2,7 @@ package org.mulesoft.language.client.js.dtoTypes
 
 import org.mulesoft.language.client.js.CustomPicklerConfig.macroRW
 import org.mulesoft.language.client.js.CustomPicklerConfig.{ReadWriter => RW}
-import org.mulesoft.language.common.dtoTypes.{ILocation => SharedLocation, IFindRequest => SharedFindRequest, IChangedDocument => SharedChangedDocument, IOpenedDocument => SharedOpenDocument, IRange => SharedRange, IStructureReport => SharedStructureReport, ITextEdit => SharedTextEdit, IValidationIssue => SharedValidationIssue, IValidationReport => SharedValidationReport, StructureNode => SharedStructureNode}
+import org.mulesoft.language.common.dtoTypes.{IChangedPosition => SharedChangedPosition, ILocation => SharedLocation, IFindRequest => SharedFindRequest, IChangedDocument => SharedChangedDocument, IOpenedDocument => SharedOpenDocument, IRange => SharedRange, IStructureReport => SharedStructureReport, ITextEdit => SharedTextEdit, IValidationIssue => SharedValidationIssue, IValidationReport => SharedValidationReport, StructureNode => SharedStructureNode}
 import org.mulesoft.language.common.logger.{ILoggerSettings, MessageSeverity => SharedMessageSeverity}
 import org.mulesoft.als.suggestions.interfaces.ISuggestion
 
@@ -155,6 +155,14 @@ object ChangedDocument {
 //
 //    genTo.from(genFrom.to(from))
 //  }
+}
+
+case class ChangedPosition (var uri: String, var position: Int) extends ProtocolMessagePayload;
+
+object ChangedPosition {
+  implicit def rw: RW[ChangedPosition] = macroRW
+  
+  implicit def transportToShared(from: ChangedPosition): SharedChangedPosition = SharedChangedPosition(from.uri, from.position);
 }
 
 /**
