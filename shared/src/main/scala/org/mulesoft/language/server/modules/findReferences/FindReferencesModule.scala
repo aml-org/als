@@ -58,3 +58,7 @@ class FindReferencesModule extends AbstractServerModule {
 		this.getDependencyById(HLASTManager.moduleId).get.asInstanceOf[HLASTManager].forceGetCurrentAST(uri);
 	}
 }
+
+object FindReferencesModule {
+	val moduleId: String = "FIND_REFERENCES";
+}

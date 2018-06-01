@@ -33,8 +33,8 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
         "org.scalatest"    %%% "scalatest" % "3.0.0" % Test,
         "com.chuusai" %% "shapeless" % "2.3.3",
         "org.mule.amf" %%% "typesystem-project" % "0.1-SNAPSHOT",
-        "org.mule.amf" %%% "als-suggestions" % "0.1-SNAPSHOT"/*,
-        "org.mule.amf" %%% "als-outline" % "0.1-SNAPSHOT"*/
+        "org.mule.amf" %%% "als-suggestions" % "0.1-SNAPSHOT",
+        "org.mule.amf" %%% "als-outline" % "0.1-SNAPSHOT"
     )
 )
 

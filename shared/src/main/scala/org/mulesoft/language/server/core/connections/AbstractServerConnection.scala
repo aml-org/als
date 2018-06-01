@@ -8,6 +8,7 @@ import org.mulesoft.language.server.core.connections.IServerConnection
 import scala.collection.mutable.Buffer
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Future
+import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 
 
 trait AbstractServerConnection extends IServerConnection {
@@ -22,7 +23,7 @@ trait AbstractServerConnection extends IServerConnection {
     Buffer[(String) => Unit] = ArrayBuffer()
 
   protected var documentStructureListeners:
-    Buffer[(String) => Future[Map[String, StructureNode]]] = ArrayBuffer()
+    Buffer[(String) => Future[Map[String, StructureNodeJSON]]] = ArrayBuffer()
 
   protected var documentCompletionListeners:
     Buffer[(String, Int) => Future[Seq[ISuggestion]]] = ArrayBuffer()
@@ -112,7 +113,7 @@ trait AbstractServerConnection extends IServerConnection {
     * @param listener (uri: String) => Future[Map[String, StructureNodeJSON] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onDocumentStructure(listener: (String) => Future[Map[String, StructureNode]],
+  def onDocumentStructure(listener: (String) => Future[Map[String, StructureNodeJSON]],
                           unsubscribe: Boolean = false): Unit = {
 
     this.addListener(this.documentStructureListeners, listener, unsubscribe)

@@ -58,3 +58,7 @@ class FIndDeclarationModule  extends AbstractServerModule {
 		getDependencyById(HLASTManager.moduleId).get.asInstanceOf[HLASTManager].forceGetCurrentAST(uri);
 	}
 }
+
+object FIndDeclarationModule {
+	val moduleId: String = "FIND_DECLARATION";
+}

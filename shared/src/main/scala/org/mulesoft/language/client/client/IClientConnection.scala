@@ -4,6 +4,7 @@ import org.mulesoft.als.suggestions.interfaces.ISuggestion
 import org.mulesoft.language.common.logger.ILogger
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
+import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 
 import scala.concurrent.Future
 
@@ -52,7 +53,7 @@ trait IClientConnection extends ILogger {
     * Requests server for the document structure.
     * @param uri
     */
-  def getStructure(uri: String): Future[Map[String, StructureNode]]
+  def getStructure(uri: String): Future[Map[String, StructureNodeJSON]]
 
   /**
     * Requests server for the suggestions.

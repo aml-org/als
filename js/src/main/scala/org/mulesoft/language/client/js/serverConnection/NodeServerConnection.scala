@@ -42,13 +42,14 @@ class NodeServerConnection extends IPrintlnLogger
     this.newVoidHandler("OPEN_DOCUMENT", this.handleOpenDocument _,
       Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.OpenedDocument")))
     
-    this.newVoidHandler("CLOSE_DOCUMENT", (document: ClosedDocument) => Unit, Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClosedDocument", true)));
+    this.newVoidHandler("CLOSE_DOCUMENT", (document: ClosedDocument) => Unit,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClosedDocument", true)));
 
     this.newVoidHandler("CHANGE_DOCUMENT", this.handleChangedDocument _,
       Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ChangedDocument")))
 
-//    this.newFutureHandler("GET_STRUCTURE", this.handleGetStructure _,
-//      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.GetStructureRequest", true, true)))
+    this.newFutureHandler("GET_STRUCTURE", this.handleGetStructure _,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.GetStructureRequest", true, true)))
 
     this.newVoidHandler("SET_LOGGER_CONFIGURATION", this.handleSetLoggerConfiguration _,
       Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.LoggerSettings")))
@@ -61,6 +62,7 @@ class NodeServerConnection extends IPrintlnLogger
   }
 
   protected def internalSendJSONMessage(message: js.Object): Unit = {
+
     if(message.hasOwnProperty("payload") && message.asInstanceOf[WrappedMessage].payload.hasOwnProperty("wrapped")) {
       var payload = message.asInstanceOf[WrappedMessage].payload.asInstanceOf[WrappedPayload];
       
@@ -79,7 +81,7 @@ class NodeServerConnection extends IPrintlnLogger
     firstOpt match  {
       case Some(listener) =>
         listener(getStructure.wrapped).map(resultMap=>{
-          GetStructureResponse(resultMap.map{case (key, value) => (key, value.asInstanceOf[dtoTypes.StructureNode])})
+          GetStructureResponse(resultMap.map{case (key, value) => (key, StructureNode.sharedToTransport(value))})
         })
       case _ => Future.failed(new Exception("No structure providers found"))
     }

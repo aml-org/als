@@ -4,6 +4,7 @@ import org.mulesoft.als.suggestions.interfaces.ISuggestion
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
 import org.mulesoft.language.common.logger._
 import org.mulesoft.language.common.dtoTypes._
+import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 
 import scala.concurrent.Future
 
@@ -49,7 +50,7 @@ trait IServerConnection extends ILogger {
     * @param listener (uri: String) => Future[Map[String, StructureNodeJSON] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onDocumentStructure(listener: (String) => Future[Map[String, StructureNode]],
+  def onDocumentStructure(listener: (String) => Future[Map[String, StructureNodeJSON]],
                           unsubscribe: Boolean = false): Unit
 
   /**

@@ -12,6 +12,7 @@ import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
 import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
 import org.mulesoft.language.server.modules.hlastManager.HLASTManager
+import org.mulesoft.language.server.modules.outline.StructureManager
 import org.mulesoft.language.server.server.modules.astManager.{ASTManager, IASTManagerModule, ParseResult, ParserHelper}
 import org.mulesoft.language.server.server.modules.commonInterfaces.{IEditorTextBuffer, IPoint}
 import org.mulesoft.language.server.server.modules.editorManager.{EditorManager, TextBufferInfo}
@@ -68,7 +69,7 @@ object ServerProcess {
   implicit def rwSeq: RW[ProtocolSeqMessage[ProtocolMessagePayload]] = macroRW
 
   def main(args: Array[String]): Unit = {
-    Globals.SHACLValidator = SHACLValidator;
+    Globals.SHACLValidator = SHACLValidator
 
     val connection = new NodeServerConnection()
 
@@ -82,17 +83,19 @@ object ServerProcess {
     server.registerModule(new HLASTManager())
     server.registerModule(new ValidationManager())
     server.registerModule(new SuggestionsManager())
+    server.registerModule(new StructureManager())
   
-    server.registerModule(new FindReferencesModule());
-    server.registerModule(new FIndDeclarationModule());
+    server.registerModule(new FindReferencesModule())
+    server.registerModule(new FIndDeclarationModule())
 
     server.enableModule(IASTManagerModule.moduleId)
     server.enableModule(HLASTManager.moduleId)
     server.enableModule(ValidationManager.moduleId)
     server.enableModule(SuggestionsManager.moduleId)
+    server.enableModule(StructureManager.moduleId)
     
-    server.enableModule("FIND_REFERENCES");
-    server.enableModule("FIND_DECLARATION");
+    server.enableModule(FindReferencesModule.moduleId)
+    server.enableModule(FIndDeclarationModule.moduleId)
   }
 }
 

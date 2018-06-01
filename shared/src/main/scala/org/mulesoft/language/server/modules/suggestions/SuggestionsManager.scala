@@ -82,10 +82,8 @@ class SuggestionsManager extends AbstractServerModule {
 
       val syntax = if (editor.syntax == "YAML") Syntax.YAML else Syntax.JSON
 
-      val text = if(syntax == Syntax.YAML)
-        org.mulesoft.als.suggestions.Core.prepareText(editor.text, position, syntax)
-      else
-        editor.text
+      val text = org.mulesoft.als.suggestions.Core.prepareText(editor.text, position, syntax)
+
 
       val vendorOption = Vendor.unapply(editor.language)
       val vendor: Vendor = vendorOption.getOrElse(Raml10)
@@ -122,8 +120,7 @@ class SuggestionsManager extends AbstractServerModule {
                                  vendor: Vendor, syntax: Syntax): Future[CompletionProvider] = {
 
     this.getHLASTManager.forceBuildNewAST(url, text).map(hlAST=>{
-      this.connection.debugDetail(hlAST.rootASTUnit.rootNode.printDetails,
-        "SuggestionsManager", "buildCompletionProviderAST")
+
       val baseName = url.substring(url.lastIndexOf('/') + 1)
 
       val astProvider = new ASTProvider(hlAST.rootASTUnit.rootNode, vendor, syntax,

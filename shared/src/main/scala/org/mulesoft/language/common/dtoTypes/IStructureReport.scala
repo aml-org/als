@@ -1,5 +1,7 @@
 package org.mulesoft.language.common.dtoTypes
 
+import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
+
 /**
   * Report for document structure.
   */
@@ -18,7 +20,7 @@ case class IStructureReport (
  /**
    * Document structure.
    */
- var structure: Map[String, StructureNode]
+ var structure: Map[String, StructureNodeJSON]
 )
 {
 

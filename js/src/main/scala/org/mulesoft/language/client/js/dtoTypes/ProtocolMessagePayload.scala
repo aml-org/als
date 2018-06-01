@@ -2,7 +2,8 @@ package org.mulesoft.language.client.js.dtoTypes
 
 import org.mulesoft.language.client.js.CustomPicklerConfig.macroRW
 import org.mulesoft.language.client.js.CustomPicklerConfig.{ReadWriter => RW}
-import org.mulesoft.language.common.dtoTypes.{IChangedPosition => SharedChangedPosition, ILocation => SharedLocation, IFindRequest => SharedFindRequest, IChangedDocument => SharedChangedDocument, IOpenedDocument => SharedOpenDocument, IRange => SharedRange, IStructureReport => SharedStructureReport, ITextEdit => SharedTextEdit, IValidationIssue => SharedValidationIssue, IValidationReport => SharedValidationReport, StructureNode => SharedStructureNode}
+import org.mulesoft.language.common.dtoTypes.{IChangedPosition => SharedChangedPosition, ILocation => SharedLocation, IFindRequest => SharedFindRequest, IChangedDocument => SharedChangedDocument, IOpenedDocument => SharedOpenDocument, IRange => SharedRange, IStructureReport => SharedStructureReport, ITextEdit => SharedTextEdit, IValidationIssue => SharedValidationIssue, IValidationReport => SharedValidationReport}
+import org.mulesoft.language.outline.structure.structureInterfaces.{StructureNodeJSON => SharedStructureNode}
 import org.mulesoft.language.common.logger.{ILoggerSettings, MessageSeverity => SharedMessageSeverity}
 import org.mulesoft.als.suggestions.interfaces.ISuggestion
 
@@ -445,7 +446,7 @@ object StructureNode {
   implicit def sharedToTransport(
     from: SharedStructureNode): StructureNode = {
 
-    StructureNode(
+    val result = StructureNode(
       from.text,
       from.typeText,
       from.icon,
@@ -457,6 +458,7 @@ object StructureNode {
       from.children.map(child=>StructureNode.sharedToTransport(child)),
       from.category
     )
+    result
   }
 }
 
