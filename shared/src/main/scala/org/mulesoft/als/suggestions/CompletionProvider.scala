@@ -275,10 +275,15 @@ object CompletionProvider {
                 } else {
                     text.substring(offset, newLineIndex);
                 }
-                
-                if(rightPart.indexOf(":") < 0) {
+
+                val colonIndex = rightPart.indexOf(":")
+                if(colonIndex < 0) {
                     text.substring(0, offset) + "k:" + text.substring(offset);
-                } else {
+                }
+                else if(colonIndex == 0){
+                    text.substring(0, offset) + "k" + text.substring(offset);
+                }
+                else {
                     text;
                 }
             }
