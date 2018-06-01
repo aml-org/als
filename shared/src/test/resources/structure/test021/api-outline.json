@@ -1,0 +1,78 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "passthrough",
+        "typeText": ":Pass Through",
+        "children": [
+          {
+            "text": "describedBy",
+            "typeText": null,
+            "children": [
+              {
+                "text": "query",
+                "typeText": ":string",
+                "icon": "FILE_BINARY",
+                "textStyle": "SUCCESS",
+                "children": [],
+                "key": "query :: describedBy :: passthrough :: ",
+                "start": 259,
+                "end": 264
+              },
+              {
+                "text": "api_key",
+                "typeText": ":string",
+                "icon": "FILE_BINARY",
+                "textStyle": "SUCCESS",
+                "children": [],
+                "key": "api_key :: describedBy :: passthrough :: ",
+                "start": 312,
+                "end": 319
+              }
+            ],
+            "key": "describedBy :: passthrough :: ",
+            "start": 215,
+            "end": 226
+          }
+        ],
+        "key": "passthrough :: ",
+        "start": 103,
+        "end": 114,
+        "category": "OtherCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

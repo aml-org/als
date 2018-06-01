@@ -1,0 +1,98 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "collection",
+        "typeText": null,
+        "children": [
+          {
+            "text": "get",
+            "typeText": null,
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "children": [],
+            "key": "get :: collection :: ",
+            "start": 203,
+            "end": 206
+          },
+          {
+            "text": "post",
+            "typeText": null,
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "children": [],
+            "key": "post :: collection :: ",
+            "start": 281,
+            "end": 285
+          }
+        ],
+        "key": "collection :: ",
+        "start": 59,
+        "end": 69,
+        "category": "ResourceTypesAndTraitsCategory"
+      },
+      {
+        "text": "secured",
+        "typeText": null,
+        "children": [
+          {
+            "text": "access_token",
+            "typeText": null,
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "children": [
+              {
+                "text": "example",
+                "typeText": null,
+                "children": [],
+                "key": "example :: access_token :: secured :: ",
+                "start": 565,
+                "end": 572
+              }
+            ],
+            "key": "access_token :: secured :: ",
+            "start": 509,
+            "end": 521
+          }
+        ],
+        "key": "secured :: ",
+        "start": 365,
+        "end": 372,
+        "category": "ResourceTypesAndTraitsCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

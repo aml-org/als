@@ -1,0 +1,197 @@
+{
+  "title": "ObjectTypeDeclaration",
+  "description": "Declarations of (data) types for use within this API",
+  "type": null,
+  "children": [
+    {
+      "title": "name",
+      "description": "Type name for top level types. For properties and parameters -- property o parameter name, respectively. For bodies -- media type.",
+      "type": "ATTRIBUTETEXT",
+      "children": [],
+      "valueText": "NewType",
+      "id": ".NewType#name"
+    },
+    {
+      "title": "General",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "allowedTargets",
+          "description": "Restrictions on where annotations of this type can be applied. If this property is specified, annotations of this type may only be applied on a property corresponding to one of the target names specified as the value of this property.",
+          "type": "MULTIEDITOR",
+          "children": [],
+          "valueText": "",
+          "id": ".NewType#allowedTargets"
+        },
+        {
+          "title": "default",
+          "description": "Provides default value for a property",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": ".NewType#default"
+        },
+        {
+          "title": "isAnnotation",
+          "description": "Whether the type represents annotation",
+          "type": "CHECKBOX",
+          "children": [],
+          "valueText": "false",
+          "id": ".NewType#isAnnotation"
+        },
+        {
+          "title": "facets",
+          "description": "Insert facets",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".NewType#facets#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "example",
+          "description": "Insert example",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".NewType#example#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "examples",
+          "description": "Insert examples",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".NewType#examples#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "xml",
+          "description": "Insert xml",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".NewType#xml#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "Delete",
+          "description": "",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".NewType#DELETE_DETAILS_ACTION",
+          "subType": "DELETE"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#General"
+    },
+    {
+      "title": "Facets",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "discriminator",
+          "description": "Type property name to be used as discriminator, or boolean",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": ".NewType#discriminator"
+        },
+        {
+          "title": "discriminatorValue",
+          "description": "The value of discriminator for the type.",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": ".NewType#discriminatorValue"
+        },
+        {
+          "title": "enum",
+          "description": "",
+          "type": "MULTIEDITOR",
+          "children": [],
+          "valueText": "",
+          "id": ".NewType#enum"
+        },
+        {
+          "title": "maxProperties",
+          "description": "The maximum number of properties allowed for instances of this type.",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": ".NewType#maxProperties"
+        },
+        {
+          "title": "minProperties",
+          "description": "The minimum number of properties allowed for instances of this type.",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": ".NewType#minProperties"
+        },
+        {
+          "title": "additionalProperties",
+          "description": "A Boolean that indicates if an object instance has additional properties.",
+          "type": "CHECKBOX",
+          "children": [],
+          "valueText": "false",
+          "id": ".NewType#additionalProperties"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#Facets"
+    },
+    {
+      "title": "Documentation",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "displayName",
+          "description": "The displayName attribute specifies the type display name. It is a friendly name used only for  display or documentation purposes. If displayName is not specified, it defaults to the element's key (the name of the property itself).",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": ".NewType#displayName"
+        },
+        {
+          "title": "description",
+          "description": "A longer, human-friendly description of the type",
+          "type": "MARKDOWN",
+          "children": [],
+          "valueText": null,
+          "id": ".NewType#description"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#Documentation"
+    },
+    {
+      "title": "type",
+      "description": "A base type which the current type extends, or more generally a type expression.",
+      "type": "MULTIEDITOR",
+      "children": [],
+      "valueText": "",
+      "id": ".NewType#type"
+    },
+    {
+      "title": "Type",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "Type",
+          "description": "A base type which the current type extends, or more generally a type expression.",
+          "type": "TYPEDISPLAY",
+          "children": [],
+          "valueText": null,
+          "id": ".NewType#type"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#Type"
+    }
+  ],
+  "valueText": null,
+  "id": "Category#ObjectTypeDeclaration"
+}
