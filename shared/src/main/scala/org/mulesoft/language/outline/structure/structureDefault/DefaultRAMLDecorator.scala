@@ -23,9 +23,9 @@ class DefaultRAMLDecorator extends Decorator {
     } else if (node.isElement){
 
       val hlNode = node.asElement.get
-      if (hlNode.definition.key.isDefined){
+      if (hlNode.definition.nameId.isDefined){
 
-        val nodeDefinition = hlNode.definition.key.get.name
+        val nodeDefinition = hlNode.definition.nameId.get
 
         if (nodeDefinition == RamlDefinitionKeys.RESOURCE) {
           RamlNodeTypes.RESOURCE
@@ -74,7 +74,7 @@ class DefaultRAMLDecorator extends Decorator {
     if (decoration.isDefined){
       Some(decoration.get.icon)
     } else {
-      None
+      Some(Icons.TAG)
     }
   }
 
@@ -84,7 +84,7 @@ class DefaultRAMLDecorator extends Decorator {
     if (decoration.isDefined){
       Some(decoration.get.textStyle)
     } else {
-      None
+      Some(TextStyles.NORMAL)
     }
   }
 }

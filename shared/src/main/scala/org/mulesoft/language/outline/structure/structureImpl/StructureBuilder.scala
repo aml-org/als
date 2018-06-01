@@ -10,7 +10,7 @@ import scala.collection.mutable.ArrayBuffer
 class StructureBuilder (private val config: StructureConfiguration) {
 
   def getStructureForAllCategories: Map[String, StructureNode] = {
-    println("Starting to build structure")
+
     val hlRootOption = this.config.astProvider.getASTRoot
 
     if (hlRootOption.isEmpty){
@@ -26,9 +26,7 @@ class StructureBuilder (private val config: StructureConfiguration) {
         this.config.keyProvider,
         this.config.decorators)
 
-      println("Starting to build tree")
       this.buildTreeRecursively(structureRoot, this.config.contentProvider)
-      println("Finished to build tree")
 
       val result: mutable.HashMap[String, StructureNode] = mutable.HashMap()
 
@@ -41,7 +39,6 @@ class StructureBuilder (private val config: StructureConfiguration) {
         }
       }
 
-      println("Finished to build structure")
       result
     }
   }
@@ -78,7 +75,16 @@ class StructureBuilder (private val config: StructureConfiguration) {
 
       var filteredChildren = root.children
 
-      filteredChildren = root.children.filter(child=>categoryFilter.apply(child.getSource))//_underscore_.filter(root.children, (child => filter(child.getSource()))))
+      filteredChildren = root.children.filter(child=>{
+
+        val result = categoryFilter.apply(child.getSource)
+
+        println("Filtering child " + child.text + " for category " + categoryName +
+          " and result is: " + result)
+
+        result
+      })//_underscore_.filter(root.children, (child => filter(child.getSource()))))
+
       filteredChildren.foreach(child => child.asInstanceOf[StructureNodeImpl].category = categoryName)
 
 
@@ -117,11 +123,9 @@ object StructureBuilder {
                             keyProvider: KeyProvider,
                             decorators: Seq[Decorator]): StructureNodeImpl = {
 
-    println("Converting node ")
     val result = new StructureNodeImpl(hlNode)
 
     result.text = labelProvider.getLabelText(hlNode)
-    println("Node text is: " + result.text)
 
 //    println("Converting node " +
 //      (if(hlNode.isElement) hlNode.asElement.get.definition.nameId.get else if (hlNode.isAttr)hlNode.asAttr.get.name else "Unknown"))
@@ -148,8 +152,6 @@ object StructureBuilder {
     if (selected.isDefined && selected.get == hlNode) {
       result.selected = true
     }
-
-    println("Finished converting node")
 
     result
 

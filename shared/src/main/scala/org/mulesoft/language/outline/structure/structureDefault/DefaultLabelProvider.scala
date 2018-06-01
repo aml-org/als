@@ -9,11 +9,9 @@ import org.mulesoft.language.outline.common.commonInterfaces.LabelProvider
 class DefaultLabelProvider extends LabelProvider {
 
   def getLabelText(node: IParseResult): String = {
-    println("Getting node text")
     if (node.isAttr) {
       var attr = node.asInstanceOf[IAttribute]
       if (attr.value.isDefined) {
-        println("Here1")
         return (attr.name + ":") + attr.value.get.toString
       }
 
@@ -26,16 +24,13 @@ class DefaultLabelProvider extends LabelProvider {
 
         val titleAttribute = hlNode.attribute("title")
         if (titleAttribute.isDefined) {
-          println("Here2")
           return titleAttribute.get.value.toString
         }
 
       }
     }
 
-    println("Here3")
     val result = NodeNameProvider.getNodeName(node)
-    println("Here4")
     result
   }
 

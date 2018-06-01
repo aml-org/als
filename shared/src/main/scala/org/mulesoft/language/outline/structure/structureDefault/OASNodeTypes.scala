@@ -2,6 +2,7 @@ package org.mulesoft.language.outline.structure.structureDefault
 
 object OASNodeTypes {
 
+  val PATHS_OBJECT: String = "PATHS_OBJECT"
   val PATH_ITEM: String = "PATH_ITEM"
   val OPERATION_OBJECT: String = "OPERATION_OBJECT"
   val SCHEMA_OBJECT: String = "SCHEMA_OBJECT"
