@@ -153,7 +153,7 @@ class CompletionProvider {
 
 object CompletionProvider {
 
-    private var prefixRegex = """(\b|['"~`!@#\$%^&*\(\)\{\}\[\]=\+,\/\?>])((\w+[\w-]*)|([.:;\[{\(< ]+))$""".r
+    private var prefixRegex = """(\b|['"~`!@#\$%^&*\(\)\{\}\[\]=\+,\/\?>])((\w+[\w-]*)|()|([.:;\[{\(< ]+))$""".r
 
     def apply():CompletionProvider = new CompletionProvider()
 
