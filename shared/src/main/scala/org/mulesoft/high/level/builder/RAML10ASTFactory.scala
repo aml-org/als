@@ -810,9 +810,8 @@ class ResourceExtractor extends IPropertyMatcher {
             None
         }
         else {
-            var annoations:ListBuffer[Annotation] = ListBuffer[Annotation]()
-            annoations ++= resource.map(ParentEndPoint(_))
-            var newResource = EndPoint(Annotations(annoations))
+            var annoations:Annotations = Annotations() ++= resource.map(ParentEndPoint(_))
+            var newResource = EndPoint(annoations)
             var oldResources = Helpers.allResources(hlNode)
             var newResources:ListBuffer[EndPoint] = ListBuffer() ++= oldResources
             newResources += newResource
@@ -852,7 +851,7 @@ class TypePropertyMatcher() extends IPropertyMatcher {
 
                 override def setValue(value:Any): Unit = {
                     var a = ParsedFromTypeExpression(value.toString)
-                    var annotations = Annotations(List(a))
+                    var annotations = Annotations(a)
                     var shape = NodeShape(Fields(), annotations)
                     var arr = AmfArray(List(shape))
                     DefaultASTFactory.extractShape(hlNode.amfNode).foreach(x=>
