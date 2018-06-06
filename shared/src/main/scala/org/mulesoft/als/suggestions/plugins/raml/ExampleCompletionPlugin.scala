@@ -147,24 +147,19 @@ class ExampleCompletionPlugin extends ICompletionPlugin {
         Promise.successful(response).future
     }
 	
-	def findProperties(path: Seq[String], localType: ITypeDefinition): Seq[String] = if(localType == null) {
+	def findProperties(path: Seq[String], localType: Option[ITypeDefinition]): Seq[String] = if(localType.isEmpty) {
 		Seq();
 	} else if(path.isEmpty) {
-		localType.allProperties.map(_.nameId.get);
-	} else localType.property(path.last) match {
-		case Some(property) => findProperties(path.dropRight(1), property.range.get);
+		localType.get.allProperties.map(_.nameId.get);
+	} else localType.get.property(path.last) match {
+		case Some(property) => findProperties(path.dropRight(1), property.range);
 		
 		case _ => Seq();
 	}
 	
-	def extractLocalType(request: ICompletionRequest): ITypeDefinition = request.astNode.get.parent match {
-        case Some(typeDeclaration) => typeDeclaration.localType match {
-            case Some(localType) => localType
-
-            case _ => null
-        }
-
-        case _ => null;
+	def extractLocalType(request: ICompletionRequest): Option[ITypeDefinition] = {
+        var node = if(request.astNode.get.isElement) request.astNode else request.astNode.get.parent
+        node.flatMap(_.parent).flatMap(_.localType)
     }
 
 	def extractAstPath(request: ICompletionRequest): Seq[String] = (extractScalarNode(request) match {
@@ -181,17 +176,20 @@ class ExampleCompletionPlugin extends ICompletionPlugin {
 		case _ => Seq();
 	}
 
-	def isExample(request: ICompletionRequest): Boolean = request.astNode.get.property.get.domain match {
-        case Some(domain) => if (domain.nameId.get == "ExampleSpec") {
-            true
-        } else {
-            val result = request.astNode.flatMap(_.asElement).map(_.definition).flatMap(_.nameId).contains("ExampleSpec")
-            result;
-        };
-
-        case _ =>
-            val result = request.astNode.flatMap(_.asElement).map(_.definition).flatMap(_.nameId).contains("ExampleSpec")
-            result;
+	def isExample(request: ICompletionRequest): Boolean = {
+        var node = request.astNode.get
+        if(node.isElement) {
+            var result = node.asElement.get.definition.nameId.contains("ExampleSpec")
+            result
+        }
+        else {
+            node.parent match {
+                case Some(p) =>
+                    var result = p.definition.nameId.contains("ExampleSpec")
+                    result
+                case _ => false
+            }
+        }
     }
 }
 
