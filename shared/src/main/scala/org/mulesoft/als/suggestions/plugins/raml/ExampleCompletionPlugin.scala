@@ -158,19 +158,15 @@ class ExampleCompletionPlugin extends ICompletionPlugin {
 	}
 	
 	def extractLocalType(request: ICompletionRequest): ITypeDefinition = request.astNode.get.parent match {
-		case Some(parent) => parent.parent match {
-			case Some(typeDeclaration) => typeDeclaration.localType match {
-				case Some(localType) => localType
-				
-				case _ => null
-			}
-			
-			case _ => null;
-		}
-		
-		case _ => null;
-	}
-	
+        case Some(typeDeclaration) => typeDeclaration.localType match {
+            case Some(localType) => localType
+
+            case _ => null
+        }
+
+        case _ => null;
+    }
+
 	def extractAstPath(request: ICompletionRequest): Seq[String] = (extractScalarNode(request) match {
 		case Some(node) => findLocationInParsedScalar(request, extractParsedScalar(request).get);
 		
@@ -186,10 +182,17 @@ class ExampleCompletionPlugin extends ICompletionPlugin {
 	}
 
 	def isExample(request: ICompletionRequest): Boolean = request.astNode.get.property.get.domain match {
-		case Some(domain) => domain.nameId.get == "ExampleSpec";
+        case Some(domain) => if (domain.nameId.get == "ExampleSpec") {
+            true
+        } else {
+            val result = request.astNode.flatMap(_.asElement).map(_.definition).flatMap(_.nameId).contains("ExampleSpec")
+            result;
+        };
 
-		case _ => false;
-	}
+        case _ =>
+            val result = request.astNode.flatMap(_.asElement).map(_.definition).flatMap(_.nameId).contains("ExampleSpec")
+            result;
+    }
 }
 
 object ExampleCompletionPlugin {

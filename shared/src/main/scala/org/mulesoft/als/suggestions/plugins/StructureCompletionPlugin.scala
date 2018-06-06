@@ -150,12 +150,16 @@ class StructureCompletionPlugin extends ICompletionPlugin {
     def extractSuggestableProperties(node:IHighLevelNode):Seq[IProperty] = {
 
         var existingProperties:mutable.Map[String,IProperty] = mutable.Map()
-        node.children.foreach(x=>x.property match {
-            case Some(p) => p.nameId match {
-                case Some(n) => existingProperties(n) = p
-                case _ =>
+        node.children.foreach(x=>{
+            if(x.sourceInfo.yamlSources.nonEmpty) {
+                x.property match {
+                    case Some(p) => p.nameId match {
+                        case Some(n) => existingProperties(n) = p
+                        case _ =>
+                    }
+                    case _ =>
+                }
             }
-            case _ =>
         })
 
         val definition = node.definition
