@@ -233,6 +233,10 @@ class OAS20ASTFactory private extends DefaultASTFactory {
         registerPropertyMatcher("TagObject", "name", TagModel.Name)
         registerPropertyMatcher("TagObject", "description", TagModel.Description)
         registerPropertyMatcher("TagObject", "externalDocs", TagModel.Documentation)
+
+        registerInitializer("OperationObject", "parameters", ParameterInitializer)
+        registerInitializer("PathItemObject", "parameters", ParameterInitializer)
+        registerInitializer("SwaggerObject", "parameters", ParameterInitializer)
     }
 
 
@@ -502,7 +506,10 @@ object BasePathValueBuffer {
 object ParameterInitializer extends INodeInitializer {
     override def initNode(node: IParseResult): Unit = {
         node.asElement.map(_.definition).foreach(definition=>{
-
+            if(definition.isAssignableFrom("CommonParameterObject")){
+                val amfNode = node.asElement.get.amfNode
+                amfNode.fields.setWithoutId(ParameterModel.Schema,ScalarShapeModel.modelInstance)
+            }
         })
     }
 }
