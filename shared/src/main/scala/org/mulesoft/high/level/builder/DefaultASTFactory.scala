@@ -165,6 +165,7 @@ abstract class DefaultASTFactory extends IASTFactory {
                     val nominalType = determineUserType(em.node, Option(prop), Option(node), bundle)
                     var hlNode = ASTNodeImpl(
                         em.node, baseUnit, Option(node), discriminate(range, em.node, nominalType), Option(prop))
+                    initNode(hlNode)
                     em.yamlNode.foreach(x => hlNode.sourceInfo.withSources(List(x)))
                     nominalType.foreach(hlNode.setLocalType)
                     Some(hlNode)
@@ -192,11 +193,19 @@ abstract class DefaultASTFactory extends IASTFactory {
                         newNode, baseUnit, Option(node), discriminate(range, newNode, nominalType), Option(prop))
                     //em.yamlNode.foreach(x => hlNode.sourceInfo.withSources(List(x)))
                     nominalType.foreach(hlNode.setLocalType)
+                    initNode(hlNode)
                     Some(hlNode)
                 case _ => None
             })
         }
         resultOpt.flatten
+    }
+
+    def initNode(hlNode:IHighLevelNode):Unit = {
+        if(hlNode.property.isDefined && hlNode.parent.isDefined) {
+            var propName = hlNode.property.get.nameId.get
+            getInitializer(hlNode.parent.get.definition,propName).foreach(_.initNode(hlNode))
+        }
     }
 
 

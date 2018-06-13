@@ -29,6 +29,8 @@ class OperationObject extends OAS20ASTEditingTest{
 
             var paramNode = operationNode.newChild(prop,typeHint).flatMap(_.asElement).get
             var paramDef = paramNode.definition
+            var typeNode = paramNode.newChild(paramDef.property("type").get).flatMap(_.asAttr).get
+            typeNode.modify("string")
             var inNode = paramNode.newChild(paramDef.property("in").get).flatMap(_.asAttr).get
             inNode.modify("query")
             runAttributeCreationTest1Internal(project, project => {
@@ -41,9 +43,7 @@ class OperationObject extends OAS20ASTEditingTest{
                     var project = x.modifiedProject
                     var paramNode = project.rootASTUnit.rootNode.element("paths").get.elements("paths").head.elements("operations").head.elements("parameters").headOption.flatMap(_.asElement).get
 
-                    paramNode.amfNode.fields.setWithoutId(ParameterModel.Schema,ScalarShapeModel.modelInstance)
-                    var typeNode = paramNode.newChild(paramDef.property("type").get).flatMap(_.asAttr).get
-                    typeNode.modify("string")
+
                     runAttributeCreationTest1(project, project => {
                         project.rootASTUnit.rootNode.element("paths").get.elements("paths").head.elements("operations").head.elements("parameters").headOption
                     }, "maxLength", 8)
