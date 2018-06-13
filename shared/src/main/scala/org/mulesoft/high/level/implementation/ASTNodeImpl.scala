@@ -119,12 +119,12 @@ class ASTNodeImpl(
     protected def initChildrenSources(referingUnit:Option[ASTUnit],externalPath:Option[String]):Unit
             = _children.foreach(_.initSources(referingUnit,externalPath))
 
-    def newChild(prop:IProperty):Option[IParseResult] = {
+    def newChild(prop:IProperty,typeHint:Option[ITypeDefinition]=None):Option[IParseResult] = {
 
         var format = astUnit.project.language
         ASTFactoryRegistry.getFactory(format) match {
             case Some(factory) =>
-                factory.newChild(this,prop).flatMap({
+                factory.newChild(this,prop,typeHint).flatMap({
                     case bn:BasicASTNode =>
                         addChild(bn)
                         bn.setASTUnit(astUnit)

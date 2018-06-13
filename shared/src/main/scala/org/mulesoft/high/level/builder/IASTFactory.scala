@@ -29,7 +29,7 @@ trait IASTFactory {
 
     def format:Vendor
 
-    def newChild(node:IHighLevelNode, prop:IProperty):Option[IParseResult]
+    def newChild(node:IHighLevelNode, prop:IProperty, typeHint:Option[ITypeDefinition] = None):Option[IParseResult]
 
     protected def init():Future[Unit]
 }
