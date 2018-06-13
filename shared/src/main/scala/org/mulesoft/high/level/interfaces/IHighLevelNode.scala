@@ -77,5 +77,5 @@ trait IHighLevelNode extends IParseResult {
         }
     }
 
-    def newChild(prop:IProperty):Option[IParseResult]
+    def newChild(prop:IProperty, typeHint:Option[ITypeDefinition]=None):Option[IParseResult]
 }

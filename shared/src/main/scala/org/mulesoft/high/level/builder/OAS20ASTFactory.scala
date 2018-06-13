@@ -7,6 +7,7 @@ import amf.core.metamodel.domain.{DomainElementModel, LinkableElementModel, Shap
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
 import amf.core.remote.{Oas, Vendor}
+import amf.core.vocabulary.Namespace
 import amf.plugins.document.webapi.model.{AnnotationTypeDeclarationFragment, DataTypeFragment}
 import amf.plugins.document.webapi.parser.spec.BaseUriSplitter
 import amf.plugins.domain.shapes.metamodel._
@@ -14,7 +15,7 @@ import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.metamodel.security._
 import org.mulesoft.high.level.Search
 import org.mulesoft.high.level.implementation.{BasicValueBuffer, IValueBuffer}
-import org.mulesoft.high.level.interfaces.IHighLevelNode
+import org.mulesoft.high.level.interfaces.{IHighLevelNode, IParseResult}
 import org.mulesoft.high.level.typesystem.TypeBuilder
 import org.mulesoft.positioning.YamlLocation
 import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
@@ -150,14 +151,14 @@ class OAS20ASTFactory private extends DefaultASTFactory {
         registerPropertyMatcher("ParameterDefinitionObject", "key", ParameterModel.Name)
 
         registerPropertyMatcher("ParameterObject", "$ref", ThisMatcher().withCustomBuffer((obj,node)=>ReferenceValueBuffer(obj,node)))
-        registerPropertyMatcher("ParameterObject", "name", ParameterModel.ParameterName)
+        registerPropertyMatcher("ParameterObject", "name", ParameterModel.Name)
         registerPropertyMatcher("ParameterObject", "description", ParameterModel.Description)
         registerPropertyMatcher("ParameterObject", "in", ParameterModel.Binding)
         registerPropertyMatcher("ParameterObject", "required", ParameterModel.Required)
         //TODO:registerPropertyMatcher("CommonParameterObject", "allowEmptyValue", ParameterModel.Binding)
 
         registerPropertyMatcher("BodyParameterObject", "schema", ParameterModel.Schema)
-        registerPropertyMatcher("BodyParameterObject", "name", ThisMatcher() + ParameterModel.Schema + SchemaShapeModel.Name)
+        registerPropertyMatcher("BodyParameterObject", "name", (ThisMatcher() + PayloadModel.Schema + SchemaShapeModel.Name) & PayloadModel.Name)
 
 
         registerPropertyMatcher("DefinitionObject", "name", ShapeModel.Name)
@@ -282,7 +283,7 @@ class OAS20ASTFactory private extends DefaultASTFactory {
                                 }
                                 case _ => None
                             }
-                            case _ => None
+                            case _ => universe.`type`("CommonParameterObject")
                         }
                     }
                 }
@@ -389,8 +390,7 @@ class TypePropertyValueBuffer(element:AmfObject,hlNode:IHighLevelNode) extends B
         }
     }
 
-    override def setValue(value: Any): Unit = {
-    }
+    override def setValue(value: Any): Unit = super.setValue((Namespace.Xsd + value.toString).iri())
 }
 
 object TypePropertyValueBuffer{
@@ -497,4 +497,12 @@ class BasePathValueBuffer(element:AmfObject,hlNode:IHighLevelNode)
 
 object BasePathValueBuffer {
     def apply(element: AmfObject, hlNode: IHighLevelNode): BasePathValueBuffer = new BasePathValueBuffer(element, hlNode)
+}
+
+object ParameterInitializer extends INodeInitializer {
+    override def initNode(node: IParseResult): Unit = {
+        node.asElement.map(_.definition).foreach(definition=>{
+
+        })
+    }
 }

@@ -743,7 +743,7 @@ class ExamplesFilter(single:Boolean) extends IPropertyMatcher {
         }
     }
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = None
+    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = None
 }
 
 object ExamplesFilter{
@@ -794,10 +794,10 @@ class ResourceExtractor extends IPropertyMatcher {
         }
     }
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = {
+    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = {
         var isApi: Boolean = false
         var resource: Option[EndPoint] = None
-        obj match {
+        cfg.obj match {
             case de: DomainElement =>
                 de.meta match {
                     case EndPointModel => resource = Some(de.asInstanceOf[EndPoint])
@@ -812,11 +812,11 @@ class ResourceExtractor extends IPropertyMatcher {
         else {
             var annoations:Annotations = Annotations() ++= resource.map(ParentEndPoint(_))
             var newResource = EndPoint(annoations)
-            var oldResources = Helpers.allResources(hlNode)
+            var oldResources = Helpers.allResources(cfg.hlNode)
             var newResources:ListBuffer[EndPoint] = ListBuffer() ++= oldResources
             newResources += newResource
 
-            Helpers.rootApi(hlNode).foreach(api=>api.fields.setWithoutId(WebApiModel.EndPoints,AmfArray(newResources)))
+            Helpers.rootApi(cfg.hlNode).foreach(api=>api.fields.setWithoutId(WebApiModel.EndPoints,AmfArray(newResources)))
             var result = Some(ElementMatchResult(newResource))
             result
         }
@@ -862,8 +862,8 @@ class TypePropertyMatcher() extends IPropertyMatcher {
         }
     }
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult]
-        = doOperate(obj,hlNode,true).headOption
+    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult]
+        = doOperate(cfg.obj,cfg.hlNode,true).headOption
 }
 
 object TypePropertyMatcher{
@@ -891,7 +891,7 @@ class ThisResourceBaseMatcher() extends IPropertyMatcher {
         }
     }
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = doOperate(obj,hlNode).headOption
+    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = doOperate(cfg.obj,cfg.hlNode).headOption
 }
 
 object ThisResourceBaseMatcher {
@@ -919,7 +919,7 @@ class ThisMethodBaseMatcher() extends IPropertyMatcher {
         }
     }
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = doOperate(obj,hlNode).headOption
+    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = doOperate(cfg.obj,cfg.hlNode).headOption
 }
 
 object ThisMethodBaseMatcher {

@@ -25,16 +25,31 @@ abstract class DefaultASTFactory extends IASTFactory {
     val matchers:mutable.Map[String,mutable.Map[String,IPropertyMatcher]]
             = mutable.Map[String,mutable.Map[String,IPropertyMatcher]]()
 
+    val initializers:mutable.Map[String,mutable.Map[String,INodeInitializer]]
+            = mutable.Map[String,mutable.Map[String,INodeInitializer]]()
+
     def registerPropertyMatcher(typeName:String,propertyName:String,matcher:IPropertyMatcher):Unit = {
-        var mapOpt:Option[mutable.Map[String,IPropertyMatcher]] = matchers.get(typeName)
+        registerObject(typeName,propertyName,matcher,matchers)
+    }
+
+    def registerInitializer(typeName:String,propertyName:String,matcher:INodeInitializer):Unit = {
+        registerObject(typeName,propertyName,matcher,initializers)
+    }
+
+    private def registerObject[T](
+            typeName:String,
+            propertyName:String,
+            obj:T,
+            map:mutable.Map[String,mutable.Map[String,T]]):Unit = {
+        var mapOpt:Option[mutable.Map[String,T]] = map.get(typeName)
         mapOpt match {
             case Some(m) =>
             case None =>
-                val m = mutable.Map[String, IPropertyMatcher]()
-                matchers.put(typeName,m)
+                val m = mutable.Map[String, T]()
+                map.put(typeName,m)
                 mapOpt = Some(m)
         }
-        mapOpt.get.put(propertyName,matcher)
+        mapOpt.get.put(propertyName,obj)
     }
 
     def registerPropertyMatcher(typeName:String,propertyName:String,field:Field):Unit = {
@@ -42,18 +57,38 @@ abstract class DefaultASTFactory extends IASTFactory {
     }
 
     def getMatcherByTypeName(typeName:String, propertyName:String):Option[IPropertyMatcher]
-        = matchers.get(typeName).flatMap(_.get(propertyName))
+        = getObjectByTypeName(typeName,propertyName,matchers)
+
+    def getInitializerByTypeName(typeName:String, propertyName:String):Option[INodeInitializer]
+        = getObjectByTypeName(typeName,propertyName,initializers)
+
+    private def getObjectByTypeName[T](
+            typeName:String,
+            propertyName:String,
+            map:mutable.Map[String,mutable.Map[String,T]]):Option[T]
+        = map.get(typeName).flatMap(_.get(propertyName))
 
     def getMatcher(t:ITypeDefinition,propertyName:String):Option[IPropertyMatcher] = {
+        getObject(t,propertyName,matchers)
+    }
 
-        t.nameId.flatMap(getMatcherByTypeName(_,propertyName)) match {
+    def getInitializer(t:ITypeDefinition,propertyName:String):Option[INodeInitializer] = {
+        getObject(t,propertyName,initializers)
+    }
+
+    private def getObject[T](
+            t:ITypeDefinition,
+            propertyName:String,
+            map:mutable.Map[String,mutable.Map[String,T]]):Option[T] = {
+
+        t.nameId.flatMap(getObjectByTypeName(_,propertyName,map)) match {
             case Some(matcher) => Some(matcher)
             case None =>
                 var gotMatcher = false
-                var result:Option[IPropertyMatcher] = None
+                var result:Option[T] = None
                 t.allSuperTypes.foreach(st => {
                     if(!gotMatcher){
-                        st.nameId.flatMap(getMatcherByTypeName(_,propertyName)) match {
+                        st.nameId.flatMap(getObjectByTypeName(_,propertyName,map)) match {
                             case Some(matcher) =>
                                 result = Some(matcher)
                                 gotMatcher = true
@@ -102,7 +137,7 @@ abstract class DefaultASTFactory extends IASTFactory {
         resultOpt.getOrElse(Seq())
     }
 
-    def newChild(node:IHighLevelNode, prop:IProperty):Option[BasicASTNode] = {
+    def newChild(node:IHighLevelNode, prop:IProperty, typeHint:Option[ITypeDefinition] = None):Option[BasicASTNode] = {
 
         var baseUnit = node.amfBaseUnit
         var bundle = node.astUnit.project.types
@@ -111,7 +146,8 @@ abstract class DefaultASTFactory extends IASTFactory {
             matcher <- getMatcher(node.definition, propName)
         }
         yield {
-            var propertyMatches = matcher.appendNewValue(node.amfNode, node)
+            var cfg = NodeCreationConfig(node.amfNode, node, prop, this, typeHint)
+            var propertyMatches = matcher.appendNewValue(cfg)
             var range: ITypeDefinition = prop.range.get
             for {
                 array <- range.array
@@ -130,6 +166,31 @@ abstract class DefaultASTFactory extends IASTFactory {
                     var hlNode = ASTNodeImpl(
                         em.node, baseUnit, Option(node), discriminate(range, em.node, nominalType), Option(prop))
                     em.yamlNode.foreach(x => hlNode.sourceInfo.withSources(List(x)))
+                    nominalType.foreach(hlNode.setLocalType)
+                    Some(hlNode)
+                case fmr: FieldOwnerMatchResult =>
+                    val fieldType = fmr.fMatcher.field.`type`
+                    var isArray = fieldType.isInstanceOf[amf.core.metamodel.Type.Array]
+                    var actualType = if(isArray) fieldType.asInstanceOf[amf.core.metamodel.Type.Array].element else fieldType
+
+                    var instanceOpt:Option[AmfObject] = None
+                    actualType match {
+                        case sm:ShapeModel =>
+                            val instance = AnyShapeModel.modelInstance
+                            instanceOpt = Option(instance)
+                        case _ =>
+                    }
+                    instanceOpt match {
+                        case Some(x) =>
+                            fmr.fMatcher.appendValueToAMFModel(fmr.node,x)
+                            Some(ElementMatchResult(x))
+                        case _ => None
+                    }
+                    val newNode = instanceOpt.get
+                    val nominalType = determineUserType(newNode, Option(prop), Option(node), bundle)
+                    var hlNode = ASTNodeImpl(
+                        newNode, baseUnit, Option(node), discriminate(range, newNode, nominalType), Option(prop))
+                    //em.yamlNode.foreach(x => hlNode.sourceInfo.withSources(List(x)))
                     nominalType.foreach(hlNode.setLocalType)
                     Some(hlNode)
                 case _ => None
@@ -213,6 +274,11 @@ object FieldOwnerMatchResult {
     def apply(fieldOwner: AmfObject, fMatcher: FieldMatcher): FieldOwnerMatchResult = new FieldOwnerMatchResult(fieldOwner, fMatcher)
 }
 
+trait INodeInitializer {
+
+    def initNode(node:IParseResult)
+}
+
 trait IPropertyMatcher {
 
     var bufferConstructor:Option[(AmfObject,IHighLevelNode)=>IValueBuffer] = None
@@ -262,24 +328,29 @@ trait IPropertyMatcher {
 
     def doOperate(obj:AmfObject, hlNode:IHighLevelNode):Seq[MatchResult]
 
-    def appendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = {
-        var result = doAppendNewValue(obj,hlNode)
+    def appendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = {
+        var result = doAppendNewValue(cfg)
         bufferConstructor match {
-            case Some(c) => result = result.map(mr=>AttributeMatchResult(mr.node,c(mr.node,hlNode)))
+            case Some(c) => result = result.map({
+                case fmr:FieldMatchResult => AttributeMatchResult(fmr.node,c(fmr.value.asInstanceOf[AmfObject],cfg.hlNode))
+                case mr:MatchResult => AttributeMatchResult(mr.node,c(mr.node,cfg.hlNode))
+            })
             case None =>
         }
         result
     }
 
-    def appendNewValue(mr:MatchResult, hlNode: IHighLevelNode):Option[MatchResult]
+    def appendNewValue(mr:MatchResult, cfg:NodeCreationConfig):Option[MatchResult]
         = {
         mr match {
-            case emr:ElementMatchResult => appendNewValue(emr.node,hlNode)
+            case emr:ElementMatchResult =>
+                var newCfg = cfg.newConfigWithObject(emr.node)
+                appendNewValue(newCfg)
             case _ => None
         }
     }
 
-    def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult]
+    def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult]
 
     def + (that:IPropertyMatcher):IPropertyMatcher = MatchersChain(this,that)
     def + (field:Field):IPropertyMatcher = this + FieldMatcher(field)
@@ -299,7 +370,7 @@ class ThisMatcher extends IPropertyMatcher {
 
     override def + (that:IPropertyMatcher):IPropertyMatcher = that.withCustomBuffer(this.bufferConstructor.orNull)
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = Some(ElementMatchResult(obj))
+    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = Some(ElementMatchResult(cfg.obj))
 }
 
 object ThisMatcher {
@@ -310,7 +381,7 @@ class BaseUnitMatcher extends IPropertyMatcher {
 
     override def doOperate(obj: AmfObject, hlNode:IHighLevelNode): Seq[MatchResult] = List(ElementMatchResult(hlNode.amfBaseUnit))
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = Some(ElementMatchResult(hlNode.amfBaseUnit))
+    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = Some(ElementMatchResult(cfg.hlNode.amfBaseUnit))
 }
 
 object BaseUnitMatcher {
@@ -325,7 +396,7 @@ class ParentMatcher extends IPropertyMatcher {
             case None => Seq()
         }
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = None
+    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = None
 }
 
 object ParentMatcher {
@@ -349,9 +420,9 @@ class TypeFilter(_clazz:Obj,strict:Boolean) extends IPropertyMatcher {
         }
     }
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = doOperate(obj,hlNode).headOption
+    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = doOperate(cfg.obj,cfg.hlNode).headOption
 
-    override def appendNewValue(mr:MatchResult, hlNode: IHighLevelNode):Option[MatchResult] = mr match {
+    override def appendNewValue(mr:MatchResult, cfg:NodeCreationConfig):Option[MatchResult] = mr match {
 
         case fmr: FieldOwnerMatchResult =>
             var instanceOpt:Option[AmfObject] = None
@@ -375,7 +446,9 @@ class TypeFilter(_clazz:Obj,strict:Boolean) extends IPropertyMatcher {
                     Some(ElementMatchResult(x))
                 case _ => None
             }
-        case emr:ElementMatchResult => appendNewValue(emr.node,hlNode)
+        case emr:ElementMatchResult =>
+            var newCfg = cfg.newConfigWithObject(emr.node)
+            appendNewValue(newCfg)
         case _ => None
     }
 }
@@ -416,13 +489,13 @@ class AndMatcher(matchers:Seq[IPropertyMatcher]) extends IPropertyMatcher {
         }
     }
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = {
+    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = {
         if(matchers.isEmpty){
             None
         }
         else{
             var results:Seq[AttributeMatchResult]
-                = matchers.flatMap(_.appendNewValue(obj,hlNode)).filter(_.isInstanceOf[AttributeMatchResult]).map(_.asInstanceOf[AttributeMatchResult])
+                = matchers.flatMap(_.appendNewValue(cfg)).filter(_.isInstanceOf[AttributeMatchResult]).map(_.asInstanceOf[AttributeMatchResult])
 
             var result: Option[AttributeMatchResult] = results.length match {
                 case 0 => None
@@ -449,10 +522,10 @@ class OrMatcher(matchers:Seq[IPropertyMatcher]) extends IPropertyMatcher {
         result
     }
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = {
+    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = {
         var result:Option[MatchResult] = None
         matchers.find(x=>{
-            result = x.appendNewValue(obj,hlNode)
+            result = x.appendNewValue(cfg)
             result.nonEmpty
         })
         result
@@ -475,8 +548,8 @@ class MatchersChain(left: IPropertyMatcher, right: IPropertyMatcher) extends IPr
         result
     }
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode): Option[MatchResult] = {
-        left.appendNewValue(obj, hlNode).flatMap(x=>right.appendNewValue(x, hlNode))
+    override def doAppendNewValue(cfg:NodeCreationConfig): Option[MatchResult] = {
+        left.appendNewValue(cfg).flatMap(mr=>right.appendNewValue(mr,cfg))
     }
 }
 
@@ -493,14 +566,59 @@ class CompositeMatcher(first: IPropertyMatcher, second: IPropertyMatcher) extend
         result
     }
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode):Option[MatchResult] = None
+    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = {
+
+        cfg.typeHint match {
+            case Some(hint) =>
+
+                var newCfg = cfg.cloneWithNoAppend
+                var res1 = first.appendNewValue(newCfg)
+                var res2 = second.appendNewValue(newCfg)
+                var results = (res1 :: res2 :: Nil).flatten
+
+                var rangeOpt = cfg.prop.range
+                var names:mutable.Set[String] = mutable.Set()
+                while(rangeOpt.isDefined
+                    && rangeOpt.get.isArray
+                    && !names.contains(rangeOpt.get.nameId.getOrElse(""))){
+                    names.add(rangeOpt.get.nameId.getOrElse(""))
+                    rangeOpt = rangeOpt.get.array.get.componentType
+                }
+
+                rangeOpt match {
+                    case Some(r) =>
+                        if(res1.exists(mr => cfg.factory.discriminate(r, mr.node, None) == hint)){
+                            if(cfg.appendValueToTree){
+                                first.appendNewValue(cfg)
+                            }
+                            else {
+                                res1
+                            }
+                        }
+                        else if(res2.exists(mr => cfg.factory.discriminate(r, mr.node, None) == hint)){
+                            if(cfg.appendValueToTree){
+                                second.appendNewValue(cfg)
+                            }
+                            else {
+                                res2
+                            }
+                        }
+                        else {
+                            res1
+                        }
+                    case None => None
+                }
+            case None =>
+                first.appendNewValue(cfg).orElse(second.appendNewValue(cfg))
+        }
+    }
 }
 
 object CompositeMatcher {
     def apply(left: IPropertyMatcher, right: IPropertyMatcher):CompositeMatcher = new CompositeMatcher(left,right)
 }
 
-class FieldMatcher(field: Field) extends IPropertyMatcher {
+class FieldMatcher(val field: Field) extends IPropertyMatcher {
 
     override def doOperate(obj: AmfObject, hlNode: IHighLevelNode): Seq[MatchResult] = {
         var result: ListBuffer[MatchResult] = ListBuffer()
@@ -532,26 +650,26 @@ class FieldMatcher(field: Field) extends IPropertyMatcher {
         result
     }
 
-    override def appendNewValue(mr:MatchResult, hlNode: IHighLevelNode):Option[MatchResult]
+    override def appendNewValue(mr:MatchResult, cfg:NodeCreationConfig):Option[MatchResult]
     = {
         mr match {
             case fmr:FieldMatchResult => fmr.value match {
-                case obj:AmfObject => appendNewValue(obj,hlNode)
+                case obj:AmfObject => appendNewValue(cfg.newConfigWithObject(obj))
                 case _ => None
             }
-            case _ => super.appendNewValue(mr,hlNode)
+            case _ => super.appendNewValue(mr,cfg)
         }
     }
 
-    override def doAppendNewValue(obj: AmfObject, hlNode: IHighLevelNode): Option[MatchResult] = {
+    override def doAppendNewValue(cfg:NodeCreationConfig): Option[MatchResult] = {
         var result: ListBuffer[MatchResult] = ListBuffer()
         val fieldType = field.`type`
         var isArray = fieldType.isInstanceOf[amf.core.metamodel.Type.Array]
         var actualType = if(isArray) fieldType.asInstanceOf[amf.core.metamodel.Type.Array].element else fieldType
 
-        val currentValueOpt = Option(obj.fields.get(field))
+        val currentValueOpt = Option(cfg.obj.fields.get(field))
         if(!isArray && currentValueOpt.nonEmpty){
-            currentValueOpt.map(x=>FieldMatchResult(obj,x,this))
+            currentValueOpt.map(x=>FieldMatchResult(cfg.obj,x,this))
         }
         else {
             var index = 0
@@ -571,18 +689,18 @@ class FieldMatcher(field: Field) extends IPropertyMatcher {
                     valueObjOpt = Some(AmfScalar(null))
                     var buffer =
                         if(isArray)
-                            BasicValueBuffer(obj,field,index)
+                            BasicValueBuffer(cfg.obj,field,index)
                         else
-                            BasicValueBuffer(obj,field)
-                    matchResultOpt = Some(AttributeMatchResult(obj,buffer))
+                            BasicValueBuffer(cfg.obj,field)
+                    matchResultOpt = Some(AttributeMatchResult(cfg.obj,buffer))
                 case DataNodeModel =>
                     valueObjOpt = Some(null)
                     var buffer =
                         if(isArray)
-                            BasicValueBuffer(obj,field,index)
+                            BasicValueBuffer(cfg.obj,field,index)
                         else
-                            BasicValueBuffer(obj,field)
-                    matchResultOpt = Some(AttributeMatchResult(obj,buffer))
+                            BasicValueBuffer(cfg.obj,field)
+                    matchResultOpt = Some(AttributeMatchResult(cfg.obj,buffer))
                 case dem:DomainElementModel =>
                     try {
                         val instance = dem.modelInstance
@@ -591,11 +709,20 @@ class FieldMatcher(field: Field) extends IPropertyMatcher {
                     }
                     catch{
                         case x:Throwable =>
-                            matchResultOpt = Some(FieldOwnerMatchResult(obj,this))
+                            dem match {
+                                case ShapeModel =>
+                                    val instance = AnyShapeModel.modelInstance
+                                    valueObjOpt = Option(instance)
+                                    matchResultOpt = Some(ElementMatchResult(instance))
+                                case _ =>
+                                    matchResultOpt = Some(FieldOwnerMatchResult(cfg.obj,this))
+                            }
                     }
                 case _ =>
             }
-            valueObjOpt.foreach(x=>appendValueToAMFModel(obj,x))
+            if(cfg.appendValueToTree) {
+                valueObjOpt.foreach(x => appendValueToAMFModel(cfg.obj, x))
+            }
             matchResultOpt
         }
     }
@@ -635,4 +762,28 @@ class FieldMatcher(field: Field) extends IPropertyMatcher {
 
 object FieldMatcher {
     def apply(field: Field) = new FieldMatcher(field)
+}
+
+class NodeCreationConfig(
+    val obj: AmfObject,
+    val hlNode: IHighLevelNode,
+    val prop: IProperty,
+    val factory: IASTFactory,
+    val typeHint:Option[ITypeDefinition] = None){
+
+    private var _appendValueToTree:Boolean = true
+
+    def appendValueToTree:Boolean = _appendValueToTree
+
+    def newConfigWithObject(o:AmfObject):NodeCreationConfig = new NodeCreationConfig(o,hlNode,prop,factory,typeHint)
+
+    def cloneWithNoAppend:NodeCreationConfig = {
+        var result = new NodeCreationConfig(obj,hlNode,prop,factory,typeHint)
+        result._appendValueToTree = false
+        result
+    }
+}
+
+object NodeCreationConfig {
+    def apply(obj: AmfObject, hlNode: IHighLevelNode, prop: IProperty, factory: IASTFactory, typeHint: Option[ITypeDefinition] = None): NodeCreationConfig = new NodeCreationConfig(obj, hlNode, prop, factory, typeHint)
 }
