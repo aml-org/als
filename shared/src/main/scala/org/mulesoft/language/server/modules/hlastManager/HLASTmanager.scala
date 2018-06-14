@@ -87,6 +87,8 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
 
     projectFuture.map(project => {
 
+      this.currentASTs(uri) = project
+
       this.notifyASTChanged(uri, version, project)
     })
   }
@@ -121,7 +123,9 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
 
   def hlFromAST(ast: BaseUnit): Future[IProject] = {
     var promise = Promise[IProject]();
-  
+
+    val startTime = System.currentTimeMillis()
+
     checkInitialization().map(nothing => Core.buildModel(ast, this.platform) andThen {
       case Success(result) => {
         promise.success(result);
@@ -130,7 +134,14 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
       case Failure(error) => promise.failure(error);
     });
     
-    promise.future;
+    promise.future.map(result=>{
+
+      val endTime = System.currentTimeMillis()
+      this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to build ALS ast",
+        "HLASTManager", "hlFromAST")
+
+      result
+    })
   }
   
   def forceGetCurrentAST(uri: String): Future[IProject] = {

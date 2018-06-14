@@ -6,7 +6,9 @@ import amf.core.services.RuntimeValidator
 import amf.core.unsafe.TrunkPlatform
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
 import org.mulesoft.language.common.dtoTypes.{IRange, IValidationIssue, IValidationReport}
+import org.mulesoft.language.server.common.reconciler.Reconciler
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
+import org.mulesoft.language.server.modules.validationManager.ValidationRunnable
 import org.mulesoft.language.server.server.modules.astManager.{IASTListener, IASTManagerModule, ParserHelper}
 import org.mulesoft.language.server.server.modules.commonInterfaces.{IEditorTextBuffer, IPoint}
 import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
@@ -25,6 +27,8 @@ class ValidationManager extends AbstractServerModule {
     * Module ID
     */
   val moduleId: String = "VALIDATION_MANAGER"
+
+  private var reconciler: Reconciler = new Reconciler(connection, 500);
 
   val moduleDependencies: Array[String] = Array(
     IEditorManagerModule.moduleId,
@@ -75,6 +79,17 @@ class ValidationManager extends AbstractServerModule {
     this.connection.debug("Got new AST:\n" + ast.toString,
       "ValidationManager", "newASTAvailable")
 
+//    reconciler.shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, version, ast))).future.onComplete{
+//      case Success(report) => {
+//
+//        this.connection.debug("Number of errors is:\n" + report.issues.length,
+//          "ValidationManager", "newASTAvailable")
+//
+//        this.connection.validated(report)
+//      }
+//      case Failure(exception) => this.connection.error("Error on validation: " + exception.toString,
+//        "ValidationManager", "newASTAvailable")
+//    }
     val errors = this.gatherValidationErrors(uri, version, ast).onComplete{
       case Success(report) => {
 
@@ -95,7 +110,13 @@ class ValidationManager extends AbstractServerModule {
 
     if (editorOption.isDefined){
 
+      val startTime = System.currentTimeMillis()
+
       this.report(docUri, astNode).map(report=>{
+
+        val endTime = System.currentTimeMillis()
+        this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to validate",
+          "ValidationManager", "gatherValidationErrors")
 
         val issues = report.results.map(validationResult=>{
 

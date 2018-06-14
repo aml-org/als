@@ -65,7 +65,7 @@ class NodeServerConnection extends IPrintlnLogger
 
     if(message.hasOwnProperty("payload") && message.asInstanceOf[WrappedMessage].payload.hasOwnProperty("wrapped")) {
       var payload = message.asInstanceOf[WrappedMessage].payload.asInstanceOf[WrappedPayload];
-      
+
       message.asInstanceOf[WrappedMessage].payload = payload.wrapped;
     }
     

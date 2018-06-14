@@ -9,10 +9,11 @@ import scala.collection.mutable.ArrayBuffer
 import amf.core.model.document.BaseUnit
 import amf.core.unsafe.TrunkPlatform
 import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IOpenedDocument}
-import org.mulesoft.language.server.common.reconciler.{DocumentChangedRunnable, Reconciler, Runnable}
+import org.mulesoft.language.server.common.reconciler.Reconciler
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.core.connections.IServerConnection
 import org.mulesoft.language.server.core.platform.ProxyContentPlatform
+import org.mulesoft.language.server.modules.astManager.DocumentChangedRunnable
 import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
 
 import scala.collection.mutable
@@ -38,7 +39,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
     */
   var currentASTs: mutable.Map[String, BaseUnit] = mutable.HashMap()
 
-  private var reconciler: Reconciler = new Reconciler(connection, 250);
+  private var reconciler: Reconciler = new Reconciler(connection, 500);
   
   protected def getEditorManager: IEditorManagerModule = {
     this.getDependencyById(IEditorManagerModule.moduleId).get
@@ -80,8 +81,6 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
   def forceGetCurrentAST(uri: String): Future[BaseUnit] = {
 
-    // TODO use runnable
-
     val current = this.currentASTs.get(uri)
 
     if (current.isDefined) {
@@ -103,29 +102,6 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
         Future.failed(new Exception("No editor found for uri " + uri))
       }
     }
-
-//    val current = this.currentASTs(uri)
-//    if (current) {
-//      return Promise.resolve(current)
-//
-//    }
-//    val runner = new ParseDocumentRunnable(uri, null, this.editorManager, this.connection, this.connection)
-//    val newASTPromise = runner.run()
-//    if ((!newASTPromise)) {
-//      return null
-//
-//    }
-//    return newASTPromise.then((newAST => {
-//      var version = null
-//      val editor = this.editorManager.getEditor(uri)
-//      if (editor) {
-//        (version = editor.getVersion())
-//
-//      }
-//      this.registerNewAST(uri, version, newAST)
-//      return newAST
-//
-//    }))
 
   }
 
@@ -236,9 +212,16 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
       Some("application/ld+json")
     )
 
+    val startTime = System.currentTimeMillis()
+
     val helper = ParserHelper(this.platform)
 
     helper.parse(cfg).map(unit=>{
+
+      val endTime = System.currentTimeMillis()
+
+      this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to build AMF ast",
+        "ASTManager", "parse")
 
 //      helper.printModel(unit,cfg)
       unit
@@ -262,9 +245,16 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
       Some("application/ld+json")
     )
 
+    val startTime = System.currentTimeMillis()
+
     val helper = ParserHelper(proxyPlatform)
 
     helper.parse(cfg).map(unit=>{
+
+      val endTime = System.currentTimeMillis()
+      this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to build AMF ast",
+        "ASTManager", "parseWithContentSubstitution")
+
       unit
     })
   }

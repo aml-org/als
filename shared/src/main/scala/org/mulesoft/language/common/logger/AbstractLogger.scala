@@ -122,6 +122,7 @@ trait AbstractLogger extends ILogger {
                           case _ => msg.message
                         }
 
+                        println("Here12")
                         Option(new LogMessage {
                           var message = resultMessage
                           var severity = msg.severity
@@ -138,7 +139,21 @@ trait AbstractLogger extends ILogger {
           }
         }
       }
-      case _ => Option(msg)
+      case _ => {
+
+        val maxLength = 200
+        val resultMessage = if (msg.message.length > maxLength)
+          msg.message.substring(0, maxLength)
+        else
+          msg.message
+
+        Option(new LogMessage {
+          var message = resultMessage
+          var severity = msg.severity
+          var component = msg.component
+          var subcomponent = msg.subcomponent
+        })
+      }
     }
 
 //    if (!settings.isDefined) {

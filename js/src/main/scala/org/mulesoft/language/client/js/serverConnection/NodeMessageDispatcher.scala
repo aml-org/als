@@ -28,8 +28,10 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
     */
   def handleJSONMessageRecieved(message: js.Any): Unit = {
 
-    this.debugDetail("NodeMessageDispatcher", "handleJSONMessageRecieved",
-      "Recieved message: " + JSON.stringify(message))
+    var messageStr = JSON.stringify(message)
+
+    this.debugDetail("Recieved message: " + messageStr,
+      "NodeMessageDispatcher", "handleJSONMessageRecieved")
 
     val dynamicMessage = message.asInstanceOf[js.Dynamic]
 
@@ -39,9 +41,9 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
 
       val protocolMessageTry = this.deserializeMessage(message);
 
-      this.debugDetail("NodeMessageDispatcher", "handleJSONMessageRecieved",
-        "Deserialized message: " +
-          (if(protocolMessageTry.isSuccess) protocolMessageTry.get.`type` else "failed"))
+      this.debugDetail("Deserialized message: " +
+          (if(protocolMessageTry.isSuccess) protocolMessageTry.get.`type` else "failed"),
+        "NodeMessageDispatcher", "handleJSONMessageRecieved")
 
       protocolMessageTry match {
         case Success(protocolMessage) =>
@@ -61,13 +63,13 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
     */
   def internalSendMessage(message: SharedProtocolMessage[ProtocolMessagePayload]): Unit = {
 
-    this.debugDetail("NodeMessageDispatcher", "internalSendMessage",
-      "Sending message of type: " + message.`type`)
+    this.debugDetail("Sending message of type: " + message.`type`,
+      "NodeMessageDispatcher", "internalSendMessage")
 
     val protocolMessage = this.serializeMessage(message)
 
-    this.debugDetail("NodeMessageDispatcher", "internalSendMessage",
-      "Serialized message: " + JSON.stringify(protocolMessage))
+    this.debugDetail("Serialized message: " + JSON.stringify(protocolMessage),
+      "NodeMessageDispatcher", "internalSendMessage")
 
     this.internalSendJSONMessage(protocolMessage.asInstanceOf[js.Object])
   }
@@ -81,13 +83,13 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
     */
   def internalSendSeqMessage(message: SharedProtocolSeqMessage[ProtocolMessagePayload]): Unit = {
 
-    this.debugDetail("NodeMessageDispatcher", "internalSendMessage",
-      "Sending message of type: " + message.`type`)
+    this.debugDetail("Sending message of type: " + message.`type`,
+      "NodeMessageDispatcher", "internalSendMessage")
 
     val protocolMessage = this.serializeSeqMessage(message)
 
-    this.debugDetail("NodeMessageDispatcher", "internalSendMessage",
-      "Serialized message: " + JSON.stringify(protocolMessage))
+    this.debugDetail("Serialized message: " + JSON.stringify(protocolMessage),
+      "NodeMessageDispatcher", "internalSendMessage")
 
     this.internalSendJSONMessage(protocolMessage.asInstanceOf[js.Object])
   }
@@ -95,8 +97,8 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
   protected def deserializeMessage(message: js.Any) : Try[ProtocolMessage[ProtocolMessagePayload]] = {
 
     try {
-      this.debugDetail("NodeMessageDispatcher", "deserializeMessage",
-        "Original recieved message: " + JSON.stringify(message))
+      this.debugDetail("Original recieved message: " + JSON.stringify(message),
+        "NodeMessageDispatcher", "deserializeMessage")
 
       val dynamicMessage = message.asInstanceOf[js.Dynamic]
 
@@ -119,8 +121,8 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
 
         val serializedJson = Globals.JSON.stringify(dynamicMessage)
 
-        this.debugDetail("NodeMessageDispatcher", "deserializeMessage",
-          "Patched recieved message: " + serializedJson)
+        this.debugDetail("Patched recieved message: " + serializedJson,
+          "NodeMessageDispatcher", "deserializeMessage")
 
         val protocolMessage = read[ProtocolMessage[ProtocolMessagePayload]](
           serializedJson)

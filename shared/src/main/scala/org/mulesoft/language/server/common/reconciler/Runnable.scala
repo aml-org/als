@@ -31,28 +31,3 @@ class TestRunnable(var message: String, var kind: String) extends Runnable[Strin
 	def isCanceled(): Boolean = canceled;
 }
 
-class DocumentChangedRunnable(var uri: String, task: () => Future[BaseUnit]) extends Runnable[BaseUnit] {
-	private var canceled = false;
-	
-	private var kind = "DocumentChanged";
-	
-	def run(): Promise[BaseUnit] = {
-		var promise = Promise[BaseUnit]();
-		
-		task() andThen {
-			case Success(unit) => promise.success(unit);
-			
-			case Failure(error) => promise.failure(error);
-		}
-		
-		promise;
-	};
-	
-	def conflicts(other: Runnable[Any]): Boolean = other.asInstanceOf[DocumentChangedRunnable].kind == kind && uri == other.asInstanceOf[DocumentChangedRunnable].uri;
-	
-	def cancel() {
-		canceled = true;
-	}
-	
-	def isCanceled(): Boolean = canceled;
-}
