@@ -101,6 +101,7 @@ class CompletionProvider {
         var hasQuote = false
         var hasColon = false
         var hasLine = false
+        var hasKeyClosingQuote = false
         if(_config.originalContent.isDefined){
             val position = response.request.position
             val pm = PositionsMapper("original.text").withText(_config.originalContent.get)
@@ -110,7 +111,11 @@ class CompletionProvider {
                 hasLine = true
                 val tail = lineOpt.get.substring(point.column)
                 hasQuote = tail.contains("\"")
-                hasColon = tail.contains(":")
+                var colonIndex = tail.indexOf(":")
+                hasColon = colonIndex >= 0
+                if(colonIndex>0){
+                    hasKeyClosingQuote = tail.substring(0,colonIndex).trim.endsWith("\"")
+                }
             }
         }
 
@@ -127,7 +132,13 @@ class CompletionProvider {
         else if (isJSON) {
             var postfix = ""
             if(isKey){
-                if (!hasColon && !response.noColon) {
+                if(!hasKeyClosingQuote){
+                    postfix += "\""
+                    if(!hasColon && !response.noColon){
+                        postfix += ":"
+                    }
+                }
+                else if (!hasColon && !response.noColon) {
                     postfix += "\":"
                 }
                 else if(!hasQuote){
@@ -313,8 +324,13 @@ object CompletionProvider {
         var line = text.substring(lineStart,lineEnd)
         var off = offset - lineStart
         var lineTrim = line.trim
-
-        var needComa = !(lineTrim.endsWith(",") || lineTrim.endsWith("{") || lineTrim.endsWith("}") || lineTrim.endsWith("[") || lineTrim.endsWith("]"))
+        var textEnding = text.substring(lineEnd+1).trim
+        val hasComplexValueStartSameLine = lineTrim.endsWith("{") || lineTrim.endsWith("[")
+        var hasComplexValueSameLine = hasComplexValueStartSameLine ||lineTrim.endsWith("}") ||  lineTrim.endsWith("]")
+        val hasComplexValueStartNextLine = !lineTrim.endsWith(",") &&(textEnding.startsWith("{") || textEnding.startsWith("["))
+        var hasComplexValueNextLine = !lineTrim.endsWith(",") & (hasComplexValueStartNextLine ||textEnding.startsWith("}") ||  textEnding.startsWith("]"))
+        val hasComplexValueStart = hasComplexValueStartNextLine || hasComplexValueStartSameLine
+        var needComa = !(lineTrim.endsWith(",")  || hasComplexValueNextLine || hasComplexValueSameLine)
         if(needComa) {
             val textEnding = text.substring(lineEnd).trim
             needComa = textEnding.nonEmpty && !(textEnding.startsWith(",") || textEnding.startsWith("{") || textEnding.startsWith("}") || textEnding.startsWith("[") || textEnding.startsWith("]"))
@@ -324,35 +340,22 @@ object CompletionProvider {
         var newLine = line
         if(colonIndex<0){
             if(lineTrim.startsWith("\"")){
-                var openQuoteInd = line.indexOf("\"")
-                if(openQuoteInd>=0 && off>openQuoteInd){
-                    if(!line.substring(openQuoteInd+1).trim.endsWith("\"")){
-                        newLine += "\""
-                    }
-                    newLine += ": \"\""
+                newLine = line.substring(0,off) + "x\" : "
+                if(!hasComplexValueStart){
+                    newLine += "\"\""
+                }
+                if(!(hasComplexValueSameLine||hasComplexValueNextLine)){
+                    newLine += ","
                 }
             }
         }
         else if(colonIndex<=off){
-            var valueOpenQuoteIndex = line.indexOf("\"",colonIndex)
-            if(valueOpenQuoteIndex>=0){
-                if(valueOpenQuoteIndex<off){
-                    var valueCloseQuoteIndex = line.indexOf("\"",off)
-                    if(valueCloseQuoteIndex<0){
-                        newLine += "x\""
-                    }
-                    else if(valueCloseQuoteIndex == off){
-                        newLine = newLine.substring(0,off) + "x" + newLine.substring(off)
-                    }
-                }
-                else{
-                    newLine = newLine.substring(0,off)
-                }
+            newLine = line.substring(0,off) + "x\" : "
+            if(!hasComplexValueStart){
+                newLine += "\"\""
             }
-            else {
-                if(off == newLine.length || newLine.charAt(off)==','){
-                    newLine = newLine.substring(0,off) + "x" + newLine.substring(off)
-                }
+            if(!(hasComplexValueSameLine||hasComplexValueNextLine)){
+                newLine += ","
             }
         }
         else {
@@ -364,9 +367,9 @@ object CompletionProvider {
                     }
                 }
             }
-        }
-        if(needComa){
-            newLine += ","
+            if(needComa){
+                newLine += ","
+            }
         }
         val result = text.substring(0,lineStart) + newLine + text.substring(lineEnd)
         result
