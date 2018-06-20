@@ -1,9 +1,10 @@
 package org.mulesoft.als.suggestions.plugins
 
 import amf.core.remote.{Oas, Oas2, Oas2Yaml, Raml10, Vendor}
-import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
-import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, Syntax, LocationKind, ICompletionResponse}
+import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion, SuggestionCategoryRegistry}
+import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ICompletionResponse, LocationKind, Syntax}
 import org.mulesoft.als.suggestions.plugins.raml.AnnotationReferencesCompletionPlugin
+import org.mulesoft.high.level.builder.ProjectBuilder
 import org.mulesoft.high.level.interfaces.{IHighLevelNode, IParseResult}
 import org.mulesoft.positioning.YamlLocation
 import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
@@ -125,7 +126,12 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                 } else if (n.isElement) {
                     var element = n.asElement.get;
 
-                    extractSuggestableProperties(element).map(_.nameId.get).map(pName => Suggestion(pName, id, pName, request.prefix));
+                    extractSuggestableProperties(element).map(prop => {
+                        var pName = prop.nameId.get
+                        var suggestion = Suggestion(pName, id, pName, request.prefix)
+                        ProjectBuilder.determineFormat(element.astUnit.baseUnit).flatMap(SuggestionCategoryRegistry.getCategory(_,pName,Option(element.definition),prop.range)).foreach(suggestion.withCategory)
+                        suggestion
+                    })
                 } else {
                     Seq();
                 }
