@@ -1,8 +1,9 @@
 package org.mulesoft.als.suggestions.plugins
 
 import amf.core.remote.{Oas, Oas2, Oas2Yaml, Raml10, Vendor}
-import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
+import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion, SuggestionCategoryRegistry}
 import org.mulesoft.als.suggestions.interfaces._
+import org.mulesoft.high.level.builder.ProjectBuilder
 import org.mulesoft.typesystem.nominal_interfaces.IArrayType
 import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
 
@@ -30,7 +31,8 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
     override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
         var result:ListBuffer[ISuggestion] = ListBuffer()
         var isYAML = request.config.astProvider.get.syntax == Syntax.YAML
-        request.astNode.get.asElement.get.definition.allProperties.foreach(p=>{
+        val definition = request.astNode.get.asElement.get.definition
+        definition.allProperties.foreach(p=>{
             var isEmbeddedInMaps = false
             p.getExtra(PropertySyntaxExtra).foreach(extra=>{
                 isEmbeddedInMaps = extra.isEmbeddedInMaps
@@ -38,12 +40,15 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
             if(p.isMultiValue && !isEmbeddedInMaps){
                 p.range.foreach(range=>{
                     if(range.isArray && range.asInstanceOf[IArrayType].componentType.isDefined) {
-                        range.asInstanceOf[IArrayType].componentType.get.properties.foreach(p => {
+                        val rangeComponentType = range.asInstanceOf[IArrayType].componentType.get
+                        rangeComponentType.properties.foreach(p => {
                             p.getExtra(PropertySyntaxExtra).foreach(extra => {
                                 if (extra.isKey) {
                                     extra.enum.foreach(x => {
                                         var text = x.toString
-                                        result += Suggestion(text, id, text, request.prefix)
+                                        val suggestion = Suggestion(text, id, text, request.prefix)
+                                        ProjectBuilder.determineFormat(request.astNode.get.astUnit.baseUnit).flatMap(SuggestionCategoryRegistry.getCategory(_,text,Option(definition),Option(rangeComponentType))).foreach(suggestion.withCategory)
+                                        result += suggestion
                                     })
                                 }
                             })

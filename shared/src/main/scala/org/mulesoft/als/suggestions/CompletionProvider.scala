@@ -124,7 +124,7 @@ class CompletionProvider {
             if (!response.noColon && isKey) {
                 if(!hasLine || !hasColon) {
                     result = result.map(x => {
-                        Suggestion(x.text + ":", x.description, x.displayText, x.prefix)
+                        Suggestion(x.text + ":", x.description, x.displayText, x.prefix).withCategory(x.category)
                     })
                 }
             }
@@ -150,7 +150,7 @@ class CompletionProvider {
             }
             if (postfix.nonEmpty) {
                 result = result.map(x => {
-                    Suggestion(x.text + postfix, x.description, x.displayText, x.prefix)
+                    Suggestion(x.text + postfix, x.description, x.displayText, x.prefix).withCategory(x.category)
                 })
             }
         }

@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions
 
+import org.mulesoft.als.suggestions.implementation.SuggestionCategoryRegistry
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.plugins.{KnownKeyPropertyValuesCompletionPlugin, KnownPropertyValuesCompletionPlugin, StructureCompletionPlugin}
@@ -11,7 +12,9 @@ import scala.concurrent.Future
 import scala.language.postfixOps
 
 object Core {
-    def init():Future[Unit] = org.mulesoft.high.level.Core.init().map(x => {
+    def init():Future[Unit] = org.mulesoft.high.level.Core.init()
+        .flatMap(x=>SuggestionCategoryRegistry.init()).map(x => {
+
         CompletionPluginsRegistry.registerPlugin(StructureCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(KnownKeyPropertyValuesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(KnownPropertyValuesCompletionPlugin())

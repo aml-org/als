@@ -14,7 +14,7 @@ class Suggestion(_text:String,_description:String,_displayText:String, _prefix:S
 
     override def prefix: String = _prefix
 
-    override def category: String = categoryOpt.orNull
+    override def category: String = categoryOpt.getOrElse("unknown")
 
     def withCategory(cat:String):Suggestion = {
         categoryOpt = Option(cat)
