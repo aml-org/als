@@ -1,6 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.raml
 
 import amf.core.remote.{Raml10, Vendor}
+import amf.plugins.domain.shapes.models.AnyShape
+import amf.plugins.domain.webapi.models.Payload
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, PathCompletion, Suggestion}
 import org.mulesoft.als.suggestions.interfaces._
 import org.yaml.model.{YMap, YScalar}
@@ -43,15 +45,43 @@ class BodyCompletionPlugin extends ICompletionPlugin {
     }
 
     def isBody(request: ICompletionRequest): Boolean = {
-        request.astNode.isDefined && request.astNode.get.isElement &&
-            request.astNode.get.asElement.get.definition.isAssignableFrom("MethodBase") &&
-            request.actualYamlLocation.isDefined &&
-            request.actualYamlLocation.get.parentStack.length >= 3 &&
-            request.actualYamlLocation.get.parentStack(2).keyValue.isDefined &&
-            request.actualYamlLocation.get.parentStack(2).keyValue.get.yPart.isInstanceOf[YScalar] &&
-            request.actualYamlLocation.get.parentStack(2).keyValue.get.yPart.asInstanceOf[YScalar].text == "body" &&
-            request.actualYamlLocation.get.value.isDefined &&
-            request.actualYamlLocation.get.value.get.yPart.isInstanceOf[YScalar]
+
+        val isElement = request.astNode.isDefined && request.astNode.get.isElement
+        if(!isElement){
+            false
+        }
+        else {
+            request.astNode.get.amfNode match {
+                case pl:Payload =>
+                    if(pl.fields.size != 1){
+                        false
+                    }
+                    else if(Option(pl.schema).isEmpty){
+                        false
+                    }
+                    else if(!pl.schema.isInstanceOf[AnyShape]){
+                        false
+                    }
+                    else if(pl.schema.fields.size != 1){
+                        false
+                    }
+                    else {
+                        Option(pl.schema.name).map(_.value()).contains("default")
+                    }
+                case _ =>
+                    val isPayloadKey = isElement &&
+                        (request.astNode.get.asElement.get.definition.isAssignableFrom("MethodBase")
+                            ||request.astNode.get.asElement.get.definition.isAssignableFrom("Request")) &&
+                        request.actualYamlLocation.isDefined &&
+                        request.actualYamlLocation.get.parentStack.length >= 3 &&
+                        request.actualYamlLocation.get.parentStack(2).keyValue.isDefined &&
+                        request.actualYamlLocation.get.parentStack(2).keyValue.get.yPart.isInstanceOf[YScalar] &&
+                        request.actualYamlLocation.get.parentStack(2).keyValue.get.yPart.asInstanceOf[YScalar].text == "body" &&
+                        request.actualYamlLocation.get.value.isDefined &&
+                        request.actualYamlLocation.get.value.get.yPart.isInstanceOf[YScalar]
+                    isPayloadKey
+            }
+        }
     }
 }
 
