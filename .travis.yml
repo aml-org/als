@@ -10,4 +10,4 @@ scala:
 
 before_script: sbt clean
 
-script: sbt compile
+script: sbt compile && sbt publish
