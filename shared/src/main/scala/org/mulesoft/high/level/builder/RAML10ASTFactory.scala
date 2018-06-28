@@ -4,38 +4,31 @@ import amf.core.annotations.SourceAST
 import amf.core.metamodel.document.{BaseUnitModel, DocumentModel, ExtensionLikeModel}
 import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
 import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, DomainExtensionModel, PropertyShapeModel, ShapeExtensionModel}
-import amf.core.metamodel.domain.templates.{AbstractDeclarationModel, ParametrizedDeclarationModel, VariableValueModel}
 import amf.core.model.document.{BaseUnit, Document, Fragment, Module}
-import amf.core.model.domain.{AmfElement, _}
+import amf.core.model.domain._
 import amf.core.parser.{Annotations, Fields}
 import amf.core.remote.{Raml10, Vendor}
 import amf.plugins.document.webapi.metamodel.FragmentsTypesModels._
 import amf.plugins.document.webapi.metamodel.{ExtensionModel, OverlayModel}
 import amf.plugins.document.webapi.model.{AnnotationTypeDeclarationFragment, DataTypeFragment}
-import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorDeclaration
 import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.shapes.metamodel._
-import amf.plugins.domain.shapes.models.{Example, NodeShape}
-import amf.plugins.domain.webapi.annotations.ParentEndPoint
+import amf.plugins.domain.shapes.models.NodeShape
 import amf.plugins.domain.webapi.metamodel.security._
-import amf.plugins.domain.webapi.metamodel.templates.{ParametrizedResourceTypeModel, ParametrizedTraitModel, ResourceTypeModel, TraitModel}
+import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
 import amf.plugins.domain.webapi.metamodel._
-import amf.plugins.domain.webapi.models.EndPoint
-import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
-import org.mulesoft.high.level.implementation.{ASTPropImpl, BasicValueBuffer, IValueBuffer, JSONValueBuffer}
-import org.mulesoft.high.level.interfaces.{IAttribute, IHighLevelNode}
+import org.mulesoft.high.level.implementation.{BasicValueBuffer, JSONValueBuffer}
+import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.high.level.typesystem.TypeBuilder
-import org.mulesoft.positioning.YamlLocation
-import org.mulesoft.typesystem.json.interfaces.{JSONWrapper, NodeRange}
+import org.mulesoft.typesystem.json.interfaces.JSONWrapper
 import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
 import org.mulesoft.typesystem.nominal_interfaces.extras.UserDefinedExtra
-import org.mulesoft.typesystem.syaml.to.json.{YJSONWrapper, YRange}
+import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
 import org.mulesoft.typesystem.nominal_interfaces.{IArrayType, IProperty, ITypeDefinition, IUniverse}
-import org.mulesoft.typesystem.nominal_types.{AbstractType, BuiltinUniverse, Property, StructuredType}
+import org.mulesoft.typesystem.nominal_types.{AbstractType, StructuredType}
 import org.mulesoft.typesystem.project.{ITypeCollectionBundle, TypeCollectionBundle}
-import org.yaml.model.{YMap, YNode, YPart, YScalar}
+import org.yaml.model.YScalar
 
-import scala.collection.mutable.ListBuffer
 import scala.language.postfixOps
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -55,39 +48,9 @@ object RAML10ASTFactory {
     }
 }
 
-class RAML10ASTFactory private extends DefaultASTFactory {
+class RAML10ASTFactory private extends RAMLASTFactory {
 
-    var STRICT:Boolean = true
 
-    var universe:Option[IUniverse] = None
-
-    val builtinFacetMatchers:Map[String,IPropertyMatcher] = Map(
-        "maximum"              -> FieldMatcher(ScalarShapeModel.Maximum),
-        "minimum"              -> FieldMatcher(ScalarShapeModel.Minimum),
-        "enum"                 -> FieldMatcher(ScalarShapeModel.Values),
-        "format"               -> FieldMatcher(ScalarShapeModel.Format),
-        "multipleOf"           -> FieldMatcher(ScalarShapeModel.MultipleOf),
-        "minLength"            -> FieldMatcher(ScalarShapeModel.MinLength),
-        "maxLength"            -> FieldMatcher(ScalarShapeModel.MaxLength),
-        "pattern"              -> FieldMatcher(ScalarShapeModel.Pattern),
-
-        "minItems"             -> FieldMatcher(ArrayShapeModel.MinItems),
-        "maxItems"             -> FieldMatcher(ArrayShapeModel.MaxItems),
-        "uniqueItems"          -> FieldMatcher(ArrayShapeModel.UniqueItems),
-
-        "discriminator"        -> FieldMatcher(NodeShapeModel.Discriminator),
-        "discriminatorValue"   -> FieldMatcher(NodeShapeModel.DiscriminatorValue),
-        "additionalProperties" -> FieldMatcher(NodeShapeModel.Closed)
-                .withCustomBuffer((e,n)=> AdditionalPropertiesValueBuffer(e,n)),
-        "minProperties"        -> FieldMatcher(NodeShapeModel.MinProperties),
-        "maxProperties"        -> FieldMatcher(NodeShapeModel.MaxProperties),
-
-        "fileTypes"            -> FieldMatcher(FileShapeModel.FileTypes),
-
-        "default"               -> FieldMatcher(ShapeModel.Default),
-        "description"          -> FieldMatcher(ShapeModel.Description),
-        "displayName"          -> FieldMatcher(ShapeModel.DisplayName)
-    )
 
     val shapeMatcher:IPropertyMatcher =
         ((ThisMatcher() ifType PayloadModel) + PayloadModel.Schema
@@ -96,29 +59,11 @@ class RAML10ASTFactory private extends DefaultASTFactory {
             | ((ThisMatcher() ifType PropertyShapeModel) + PropertyShapeModel.Range)
             | (ThisMatcher() ifSubtype ShapeModel))
 
-    val thisResourceBaseMatcher:IPropertyMatcher = ThisResourceBaseMatcher()
-    val thisMethodBaseMatcher:IPropertyMatcher = ThisMethodBaseMatcher()
-
     def format:Vendor = Raml10
 
-    def builtInFacetValue(name:String,shape:Shape):Option[Any]
-        = builtinFacetMatchers.get(name).flatMap(matcher => {
-                var results = matcher.operate(shape,null)
-                if(results.isEmpty){
-                    None
-                }
-                else{
-                    results.head match {
-                        case amr:AttributeMatchResult => amr.buffer.getValue
-                        case _ => None
-                    }
-                }
-            }
-    )
+    override protected def init():Future[Unit] = Future {
 
-    protected def init():Future[Unit] = Future {
-
-        universe = UniverseProvider.universe(format)
+        super.init()
 
         registerPropertyMatcher("LibraryBase", "types", BaseUnitMatcher()
             + DocumentModel.Declares ifSubtype ShapeModel)
@@ -130,76 +75,6 @@ class RAML10ASTFactory private extends DefaultASTFactory {
             + DocumentModel.Declares ifSubtype CustomDomainPropertyModel)
         registerPropertyMatcher("LibraryBase", "securitySchemes", BaseUnitMatcher()
             + DocumentModel.Declares ifSubtype SecuritySchemeModel)
-
-        registerPropertyMatcher("Api", "title", WebApiModel.Name)
-        registerPropertyMatcher("Api", "description", WebApiModel.Description)
-        registerPropertyMatcher("Api", "version", WebApiModel.Version)
-        registerPropertyMatcher("Api", "resources", ResourceExtractor())
-        registerPropertyMatcher("Api", "securedBy", WebApiModel.Security)
-        registerPropertyMatcher("Api", "baseUriParameters", ThisMatcher() + WebApiModel.Servers + ServerModel.Variables)
-        registerPropertyMatcher("Api", "protocols", WebApiModel.Schemes)
-        registerPropertyMatcher("Api", "documentation", WebApiModel.Documentations)
-        registerPropertyMatcher("Api", "mediaType", ThisMatcher() + WebApiModel.ContentType
-            & ThisMatcher() + WebApiModel.Accepts)
-        registerPropertyMatcher("Api", "baseUri", ThisMatcher() + WebApiModel.Servers + ServerModel.Url)
-
-
-        registerPropertyMatcher("DocumentationItem", "title", CreativeWorkModel.Title)
-        registerPropertyMatcher("DocumentationItem", "content", CreativeWorkModel.Description)
-
-        registerPropertyMatcher("MethodBase", "queryParameters", thisMethodBaseMatcher + OperationModel.Request + RequestModel.QueryParameters)
-        registerPropertyMatcher("MethodBase", "headers", thisMethodBaseMatcher + OperationModel.Request + RequestModel.Headers)
-        registerPropertyMatcher("MethodBase", "queryString", thisMethodBaseMatcher + OperationModel.Request + RequestModel.QueryString)
-        registerPropertyMatcher("MethodBase", "responses", thisMethodBaseMatcher + OperationModel.Responses)
-        registerPropertyMatcher("MethodBase", "body", thisMethodBaseMatcher + OperationModel.Request + RequestModel.Payloads)
-        registerPropertyMatcher("MethodBase", "protocols", thisMethodBaseMatcher + OperationModel.Schemes)
-        registerPropertyMatcher("MethodBase", "securedBy", thisMethodBaseMatcher + OperationModel.Security)
-        registerPropertyMatcher("MethodBase", "description", thisMethodBaseMatcher + OperationModel.Description)
-        registerPropertyMatcher("MethodBase", "displayName", thisMethodBaseMatcher + OperationModel.Name)
-        registerPropertyMatcher("MethodBase", "is", thisMethodBaseMatcher + DomainElementModel.Extends ifType ParametrizedTraitModel)
-
-        registerPropertyMatcher("Method", "method", OperationModel.Method)
-
-        registerPropertyMatcher("Response", "code", ResponseModel.StatusCode)
-        registerPropertyMatcher("Response", "headers", ResponseModel.Headers)
-        registerPropertyMatcher("Response", "body", ResponseModel.Payloads)
-        registerPropertyMatcher("Response", "description", ResponseModel.Description)
-
-        registerPropertyMatcher("ResourceBase", "methods", thisResourceBaseMatcher + EndPointModel.Operations)
-        registerPropertyMatcher("ResourceBase", "is", thisResourceBaseMatcher + DomainElementModel.Extends ifType ParametrizedTraitModel)
-        registerPropertyMatcher("ResourceBase", "type", thisResourceBaseMatcher + DomainElementModel.Extends ifType ParametrizedResourceTypeModel)
-        registerPropertyMatcher("ResourceBase", "description", thisResourceBaseMatcher + EndPointModel.Description)
-        registerPropertyMatcher("ResourceBase", "securedBy", thisResourceBaseMatcher + EndPointModel.Security)
-        registerPropertyMatcher("ResourceBase", "uriParameters", thisResourceBaseMatcher + EndPointModel.Parameters)
-        registerPropertyMatcher("ResourceBase", "displayName", thisResourceBaseMatcher + EndPointModel.Name)
-
-        registerPropertyMatcher("Resource", "relativeUri", ThisMatcher().withCustomBuffer((e, hl) => new RelativeUriValueBuffer(e, hl)))
-        registerPropertyMatcher("Resource", "resources", ResourceExtractor())
-
-        registerPropertyMatcher("ResourceType", "name", AbstractDeclarationModel.Name)
-        registerPropertyMatcher("ResourceType", "parameters", AbstractDeclarationModel.Variables)
-        //TODO:registerPropertyMatcher("ResourceType", "usage", AbstractDeclarationModel.Usage)
-
-        registerPropertyMatcher("Trait", "name", AbstractDeclarationModel.Name)
-        registerPropertyMatcher("Trait", "parameters", AbstractDeclarationModel.Variables)
-        //TODO:registerPropertyMatcher("Trait", "usage", AbstractDeclarationModel.Usage)
-
-        registerPropertyMatcher("AbstractSecurityScheme", "name", SecuritySchemeModel.Name)
-        registerPropertyMatcher("AbstractSecurityScheme", "type", SecuritySchemeModel.Type)
-        registerPropertyMatcher("AbstractSecurityScheme", "description", SecuritySchemeModel.Description)
-        registerPropertyMatcher("AbstractSecurityScheme", "describedBy", ThisMatcher().withYamlPath("describedBy"))
-        registerPropertyMatcher("AbstractSecurityScheme", "displayName", SecuritySchemeModel.DisplayName)
-        registerPropertyMatcher("AbstractSecurityScheme", "settings", SecuritySchemeModel.Settings)
-
-        registerPropertyMatcher("SecuritySchemePart", "queryParameters", SecuritySchemeModel.QueryParameters)
-        registerPropertyMatcher("SecuritySchemePart", "headers", SecuritySchemeModel.Headers)
-        registerPropertyMatcher("SecuritySchemePart", "queryString", SecuritySchemeModel.QueryString)
-        registerPropertyMatcher("SecuritySchemePart", "responses", SecuritySchemeModel.Responses)
-
-
-
-        registerPropertyMatcher("Scope", "name", ScopeModel.Name)
-
 
         registerPropertyMatcher("TypeDeclaration", "name",
             (ThisMatcher() ifType PayloadModel) + PayloadModel.MediaType
@@ -302,46 +177,12 @@ class RAML10ASTFactory private extends DefaultASTFactory {
                 | ((ThisMatcher() ifType PayloadModel) + PayloadModel.Schema + DomainElementModel.CustomDomainProperties)
                 | DomainElementModel.CustomDomainProperties)
 
-        registerPropertyMatcher("Reference", "name",
-            (ThisMatcher() ifType DomainExtensionModel) + DomainExtensionModel.Name
-                | (ThisMatcher() ifSubtype ParametrizedDeclarationModel) + ParametrizedDeclarationModel.Name
-                | (ThisMatcher() ifType ParametrizedSecuritySchemeModel) + ParametrizedSecuritySchemeModel.Name)
-
-        registerPropertyMatcher("TemplateRef", "parameters",
-            (ThisMatcher() ifSubtype ParametrizedDeclarationModel) + ParametrizedDeclarationModel.Variables)
-
-        registerPropertyMatcher("TraitRef", "trait",
-            (ThisMatcher() ifType ParametrizedTraitModel) + ParametrizedDeclarationModel.Target)
-
-        registerPropertyMatcher("ResourceTypeRef", "resourceType",
-            (ThisMatcher() ifType ParametrizedResourceTypeModel) + ParametrizedDeclarationModel.Target)
-
         registerPropertyMatcher("AnnotationRef", "name",
             (ThisMatcher() ifType DomainExtensionModel) + DomainExtensionModel.Name)
         registerPropertyMatcher("AnnotationRef", "annotation",
             (ThisMatcher() ifType DomainExtensionModel) + DomainExtensionModel.DefinedBy)
         registerPropertyMatcher("AnnotationRef", "value",
             ((ThisMatcher() ifType DomainExtensionModel) + DomainExtensionModel.Extension).withCustomBuffer((e,n)=>JSONValueBuffer(e,n)))
-
-        registerPropertyMatcher("TemplateParameter", "name",
-            (ThisMatcher() ifType VariableValueModel) + VariableValueModel.Name)
-        registerPropertyMatcher("TemplateParameter", "value",
-            (ThisMatcher() ifType VariableValueModel) + VariableValueModel.Value)
-
-        registerPropertyMatcher("SecuritySchemeRef", "securityScheme",
-            (ThisMatcher() ifType ParametrizedSecuritySchemeModel) + ParametrizedSecuritySchemeModel.Scheme)
-        registerPropertyMatcher("SecuritySchemeRef", "settings",
-            (ThisMatcher() ifType ParametrizedSecuritySchemeModel) + ParametrizedSecuritySchemeModel.Settings)
-
-        registerPropertyMatcher("OAuth1SecuritySchemeSettings", "authorizationUri", OAuth1SettingsModel.AuthorizationUri)
-        registerPropertyMatcher("OAuth1SecuritySchemeSettings", "requestTokenUri", OAuth1SettingsModel.RequestTokenUri)
-        registerPropertyMatcher("OAuth1SecuritySchemeSettings", "tokenCredentialsUri", OAuth1SettingsModel.TokenCredentialsUri)
-        registerPropertyMatcher("OAuth1SecuritySchemeSettings", "signatures", OAuth1SettingsModel.Signatures)
-
-        registerPropertyMatcher("OAuth2SecuritySchemeSettings", "accessTokenUri", OAuth2SettingsModel.AccessTokenUri)
-        registerPropertyMatcher("OAuth2SecuritySchemeSettings", "authorizationUri", OAuth2SettingsModel.AuthorizationUri)
-        registerPropertyMatcher("OAuth2SecuritySchemeSettings", "scopes", OAuth2SettingsModel.Scopes)
-        registerPropertyMatcher("OAuth2SecuritySchemeSettings", "authorizationGrants", OAuth2SettingsModel.AuthorizationGrants)
 
         registerPropertyMatcher("XMLFacetInfo", "attribute", XMLSerializerModel.Attribute)
         registerPropertyMatcher("XMLFacetInfo", "wrapped", XMLSerializerModel.Wrapped)
@@ -424,36 +265,6 @@ class RAML10ASTFactory private extends DefaultASTFactory {
                     case _ => None
                 }
             case _ => universe.`type`("TypeDeclaration")
-        }
-    }
-
-    override def builtinSuperType(shape:Shape):Option[ITypeDefinition] = {
-        shape.meta match {
-            case AnyShapeModel => Some(BuiltinUniverse.ANY)
-            case NodeShapeModel => Some(BuiltinUniverse.OBJECT)
-            case FileShapeModel => Some(BuiltinUniverse.FILE)
-            case UnionShapeModel => Some(BuiltinUniverse.UNION)
-            case ArrayShapeModel => Some(BuiltinUniverse.ARRAY)
-            case NilShapeModel => Some(BuiltinUniverse.NIL)
-            case ScalarShapeModel =>
-                var simpleType = Option(shape.fields.get(ScalarShapeModel.DataType))
-                    .map(dt=>{
-                        var dataType = dt.asInstanceOf[AmfScalar].value.toString
-                        dataType.substring(dataType.indexOf("#") + 1)
-                    }).getOrElse("string")
-                simpleType match {
-                    case "string" => Some(BuiltinUniverse.STRING)
-                    case "number" => Some(BuiltinUniverse.NUMBER)
-                    case "float" => Some(BuiltinUniverse.FLOAT)
-                    case "integer" => Some(BuiltinUniverse.INTEGER)
-                    case "boolean" => Some(BuiltinUniverse.BOOLEAN)
-                    case "date" => Some(BuiltinUniverse.DATE_ONLY)
-                    case "time" => Some(BuiltinUniverse.TIME_ONLY)
-                    case "dateTime" => Some(BuiltinUniverse.DATETIME)
-                    case "dateTimeOnly" => Some(BuiltinUniverse.DATETIME_ONLY)
-                    case _ => None
-                }
-            case _ => Some(BuiltinUniverse.ANY)
         }
     }
 
@@ -570,34 +381,6 @@ class RAML10ASTFactory private extends DefaultASTFactory {
     }
 }
 
-//class BaseUriValueBuffer(element:AmfObject,hlNode:IHighLevelNode) extends IValueBuffer {
-//
-//    override def getValue: Option[Any] = {
-//        element match {
-//            case de:DomainElement =>
-//                var hostOpt = Option(de.fields.get(WebApiModel.Host))
-//                hostOpt match {
-//                    case Some(host) => host.annotations.find (classOf[SourceAST] ).map (_.ast.asInstanceOf[YNode].value.asInstanceOf[YScalar].value)
-//                    case _ => None
-//                }
-//            case _ => None
-//        }
-//    }
-//
-//    override def setValue(value: Any): Unit = {}
-//
-//    override def yamlNodes: Seq[YPart] = getFildValues.flatMap(_.annotations.find(classOf[SourceAST])).map(_.ast)
-//
-//    def getFildValues:List[AmfElement] = List(
-//        element.fields.getValue(WebApiModel.Schemes),
-//        element.fields.getValue(WebApiModel.Host),
-//        element.fields.getValue(WebApiModel.BasePath)).filter(_ != null).map(_.value)
-//}
-//
-//object BaseUriValueBuffer{
-//    def apply (element:AmfObject,hlNode:IHighLevelNode):BaseUriValueBuffer = new BaseUriValueBuffer(element,hlNode)
-//}
-
 class RequiredPropertyValueBuffer(element:AmfObject,hlNode:IHighLevelNode) extends BasicValueBuffer(element,PropertyShapeModel.MinCount) {
 
     override def getValue: Option[Any] = {
@@ -633,78 +416,6 @@ class RequiredPropertyValueBuffer(element:AmfObject,hlNode:IHighLevelNode) exten
     }
 }
 
-
-class RelativeUriValueBuffer(element:AmfObject,hlNode:IHighLevelNode) extends
-    BasicValueBuffer(element,EndPointModel.Path) {
-
-    private val UPDATE_CHILDREN:Boolean = true
-
-    private val DO_NOT_UPDATE_CHILDREN:Boolean = false
-
-    override def getValue: Option[Any] = {
-        element match {
-            case de:AmfObject =>
-                Helpers.resourcePath(de) match {
-                    case Some(ownPath) => Helpers.parentResource(element) match {
-                        case Some(parent) => Helpers.resourcePath(parent) match {
-                            case Some(parentPath) => Some(ownPath.substring(parentPath.length))
-                            case None => Some(ownPath)
-                        }
-                        case None => Some(ownPath)
-                    }
-                    case _ => None
-                }
-            case _ => None
-        }
-    }
-
-    override def setValue(value: Any): Unit = setValue(value,UPDATE_CHILDREN)
-
-    def setValue(value: Any, updateChildren:Boolean): Unit = {
-        element match {
-            case de:AmfObject =>
-                var pathValue = Helpers.parentResource(element) match {
-                    case Some(parent) => Helpers.resourcePath(parent) match {
-                        case Some(parentPath) => parentPath + value.toString
-                        case None => value.toString
-                    }
-                    case None => value.toString
-                }
-                var toUpdate = collectResourceTree
-                toAmfElement(pathValue,field.`type`,Annotations()).map(element.set(EndPointModel.Path, _))
-                var apiOpt = Helpers.rootApi(hlNode)
-                apiOpt.foreach(api=>{
-                    element.adopted(api.id)
-                })
-                toUpdate.foreach(e=>e._2.setValue(e._1,DO_NOT_UPDATE_CHILDREN))
-            case _ =>
-        }
-    }
-
-    def collectResourceTree: Seq[(String,RelativeUriValueBuffer,IAttribute,IHighLevelNode)] = {
-        var result:ListBuffer[(String,RelativeUriValueBuffer,IAttribute,IHighLevelNode)] = ListBuffer() ++= extractTuples(hlNode)
-        var i = 0
-        while(result.lengthCompare(i)>0){
-            result ++= extractTuples(result(i)._4)
-            i += 1
-        }
-        result
-    }
-
-    def extractTuples(n: IHighLevelNode): Seq[(String, RelativeUriValueBuffer, IAttribute, IHighLevelNode)]
-    = {
-        n.elements("resources").map(x => (x.attribute("relativeUri").get,x))
-            .filter(e => e._1 match {
-                case a: ASTPropImpl =>
-                    a.buffer match {
-                        case b: RelativeUriValueBuffer => true
-                        case _ => false
-                    }
-                case _ => false
-            }).map(e => (e._1.value.get.toString, e._1.asInstanceOf[ASTPropImpl].buffer.asInstanceOf[RelativeUriValueBuffer], e._1, e._2))
-    }
-}
-
 class AdditionalPropertiesValueBuffer(element:AmfObject,hlNode:IHighLevelNode)
     extends BasicValueBuffer(element,NodeShapeModel.Closed) {
 
@@ -726,105 +437,6 @@ class AdditionalPropertiesValueBuffer(element:AmfObject,hlNode:IHighLevelNode)
 
 object AdditionalPropertiesValueBuffer{
     def apply (element:AmfObject,hlNode:IHighLevelNode):AdditionalPropertiesValueBuffer = new AdditionalPropertiesValueBuffer(element,hlNode)
-}
-
-class ExamplesFilter(single:Boolean) extends IPropertyMatcher {
-    override def doOperate(obj: AmfObject, hlNode: IHighLevelNode): Seq[MatchResult] = {
-        obj match {
-            case e:Example =>
-                var hasNullName = Option(e.name.value()).isEmpty
-                if(single == hasNullName){
-                    List(ElementMatchResult(e))
-                }
-                else{
-                    Seq()
-                }
-            case _ => Seq()
-        }
-    }
-
-    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = None
-}
-
-object ExamplesFilter{
-    def apply (single:Boolean=false):ExamplesFilter = new ExamplesFilter(single)
-}
-
-class ResourceExtractor extends IPropertyMatcher {
-
-
-
-    override def doOperate(obj: AmfObject, hlNode: IHighLevelNode): Seq[MatchResult] = {
-        var isApi: Boolean = false
-        var resource: Option[EndPoint] = None
-        obj match {
-            case de: DomainElement =>
-                de.meta match {
-                    case EndPointModel => resource = Some(de.asInstanceOf[EndPoint])
-                    case WebApiModel => isApi = true
-                    case _ =>
-                }
-            case _ =>
-        }
-        if (!isApi && resource.isEmpty) {
-            Seq()
-        }
-        else {
-            var result: Seq[MatchResult] = Seq()
-            var rawResult = Helpers.allResources(hlNode)
-            if (isApi) {
-                result = rawResult.flatMap(x => Helpers.parentResource(x) match {
-                    case None => Some(ElementMatchResult(x))
-                    case _ => None
-                })
-            }
-            else if (resource.isDefined) {
-                var resourceID = resource.get.id
-                result = rawResult.flatMap(
-                    x => Helpers.parentResource(x) match {
-                        case Some(parent) =>
-                            if(parent.id == resourceID){
-                                Some(ElementMatchResult(x))
-                            }
-                            else None
-                        case _ => None
-                    })
-            }
-            result
-        }
-    }
-
-    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = {
-        var isApi: Boolean = false
-        var resource: Option[EndPoint] = None
-        cfg.obj match {
-            case de: DomainElement =>
-                de.meta match {
-                    case EndPointModel => resource = Some(de.asInstanceOf[EndPoint])
-                    case WebApiModel => isApi = true
-                    case _ =>
-                }
-            case _ =>
-        }
-        if (!isApi && resource.isEmpty) {
-            None
-        }
-        else {
-            var annoations:Annotations = Annotations() ++= resource.map(ParentEndPoint(_))
-            var newResource = EndPoint(annoations)
-            var oldResources = Helpers.allResources(cfg.hlNode)
-            var newResources:ListBuffer[EndPoint] = ListBuffer() ++= oldResources
-            newResources += newResource
-
-            Helpers.rootApi(cfg.hlNode).foreach(api=>api.fields.setWithoutId(WebApiModel.EndPoints,AmfArray(newResources)))
-            var result = Some(ElementMatchResult(newResource))
-            result
-        }
-    }
-}
-
-object ResourceExtractor {
-    def apply():ResourceExtractor = new ResourceExtractor()
 }
 
 class TypePropertyMatcher() extends IPropertyMatcher {
@@ -869,104 +481,3 @@ class TypePropertyMatcher() extends IPropertyMatcher {
 object TypePropertyMatcher{
     def apply():TypePropertyMatcher = new TypePropertyMatcher()
 }
-
-class ThisResourceBaseMatcher() extends IPropertyMatcher {
-
-    override def doOperate(obj: AmfObject, hlNode: IHighLevelNode): Seq[MatchResult] = {
-
-        obj match {
-            case de:DomainElement =>
-                de.meta match {
-                    case  EndPointModel => List(ElementMatchResult(de))
-                    case ResourceTypeModel =>
-                        val matchedNode = de match {
-                            case ed:ErrorDeclaration => de
-                            case rt:ResourceType => rt.asEndpoint(hlNode.amfBaseUnit)
-                            case _ => de
-                        }
-                        List(ElementMatchResult(matchedNode))
-                    case _ => Seq()
-                }
-            case _ => Seq()
-        }
-    }
-
-    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = doOperate(cfg.obj,cfg.hlNode).headOption
-}
-
-object ThisResourceBaseMatcher {
-    def apply():ThisResourceBaseMatcher = new ThisResourceBaseMatcher()
-}
-
-class ThisMethodBaseMatcher() extends IPropertyMatcher {
-
-    override def doOperate(obj: AmfObject, hlNode: IHighLevelNode): Seq[MatchResult] = {
-
-        obj match {
-            case de:DomainElement =>
-                de.meta match {
-                    case  OperationModel => List(ElementMatchResult(de))
-                    case TraitModel =>
-                        val matchedNode = de match {
-                            case ed:ErrorDeclaration => de
-                            case tr:Trait => tr.asOperation(hlNode.amfBaseUnit)
-                            case _ => de
-                        }
-                        List(ElementMatchResult(matchedNode))
-                    case _ => Seq()
-                }
-            case _ => Seq()
-        }
-    }
-
-    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult] = doOperate(cfg.obj,cfg.hlNode).headOption
-}
-
-object ThisMethodBaseMatcher {
-    def apply():ThisMethodBaseMatcher = new ThisMethodBaseMatcher()
-}
-
-
-object Helpers {
-
-    private val allResourcesMatcher: IPropertyMatcher = BaseUnitMatcher() + DocumentModel.Encodes + WebApiModel.EndPoints
-
-    private val rootApiMatcher: IPropertyMatcher = BaseUnitMatcher() + DocumentModel.Encodes
-
-    def rootApi(hlNode:IHighLevelNode):Option[AmfObject] =
-        rootApiMatcher.operate(hlNode.amfNode, hlNode).headOption.map(_.node)
-
-    def allResources(hlNode:IHighLevelNode):Seq[EndPoint] = {
-        allResourcesMatcher.operate(hlNode.amfBaseUnit,hlNode).flatMap({
-            case em: ElementMatchResult => em.node match {
-                case de:DomainElement => de.meta match {
-                    case EndPointModel => Some(de.asInstanceOf[EndPoint])
-                    case _ => None
-                }
-                case _ => None
-            }
-            case _ => None
-        })
-    }
-
-    def parentResource(de:AmfElement):Option[EndPoint] = {
-        de.annotations.find(classOf[ParentEndPoint]) match {
-            case Some(pep) => Option(pep.parent)
-            case _ => None
-        }
-    }
-
-    def resourcePath(element:AmfObject):Option[String] = {
-        Option(element.fields.get(EndPointModel.Path)) match {
-            case Some(ownPath) => ownPath match {
-                case sc: AmfScalar => Option(sc.value) match {
-                    case Some(v) => Some(v.toString)
-                    case _ => None
-                }
-                case _ => None
-            }
-            case _ => None
-        }
-    }
-}
-
