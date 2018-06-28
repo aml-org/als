@@ -1,9 +1,8 @@
 package org.mulesoft.language.server.core.platform
 
-import amf.core.remote.Content
+import amf.client.remote.Content
 import amf.core.lexer.CharSequenceStream
 import amf.core.remote._
-
 import amf.core.lexer.CharSequenceStream
 import amf.core.remote._
 import org.mulesoft.common.io.FileSystem
@@ -12,23 +11,49 @@ import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerM
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import amf.client.remote.Content
+import amf.internal.environment.Environment
+import amf.internal.resource.ResourceLoader
+
+class ProxyFileLoader(platform: ProxyContentPlatform) extends ResourceLoader {
+
+    override def accepts(resource: String): Boolean = {
+      !(resource.startsWith("http") || resource.startsWith("HTTP"))
+    }
+
+    override def fetch(resource: String): Future[Content] = {
+      platform.fetchFile(resource)
+    }
+}
 
 class ProxyContentPlatform(protected val source: ConnectionBasedPlatform,
-                           protected val overrideUrl: String,
-                           protected val overrideContent: String) extends Platform {
+                           val overrideUrl: String,
+                           val overrideContent: String)
+  extends Platform {  self =>
 
   override val fs: FileSystem = source.fs
 
-  override def resolvePath(uri: String): String = {
-    source.resolvePath(uri)
-  }
+  val fileLoader = new ProxyFileLoader(this)
 
-  override protected def fetchFile(path: String): Future[Content] = {
+  val httpLoader = source.httpLoader
 
-    source.connection.debugDetail("Asked to fetch file " + path,
+  val loaders: Seq[ResourceLoader] = Seq(
+    fileLoader,
+    httpLoader
+  )
+
+  val defaultEnvironment = new Environment(this.loaders)
+
+  override def resolvePath(uri: String): String = source.resolvePath(uri)
+
+  def fetchFile(path: String): Future[Content] = {
+
+    source.connection.debugDetail("Asked to fetch file " + path + " while override url is " + overrideUrl,
       "ProxyContentPlatform", "fetchFile")
 
-    if (path == this.overrideUrl) {
+    if (path == this.overrideUrl ||
+      (path.startsWith("file://") && this.overrideUrl == path.substring("file://".length))) {
+
       source.connection.debugDetail("Path found to be overriden " + path,
         "ProxyContentPlatform", "fetchFile")
 
@@ -40,11 +65,26 @@ class ProxyContentPlatform(protected val source: ConnectionBasedPlatform,
     }
   }
 
-  override protected def fetchHttp(url: String): Future[Content] = {
-    source.fetchHttp(url)
-  }
+  def fetchHttp(url: String): Future[Content] = source.fetchHttp(url)
 
-  override def tmpdir(): String = {
-    source.tmpdir()
-  }
+  override def tmpdir(): String = source.tmpdir()
+
+  /** encodes a complete uri. Not encodes chars like / */
+  override def encodeURI(url: String): String = source.encodeURI(url)
+
+  /** encodes a uri component, including chars like / and : */
+  override def encodeURIComponent(url: String): String = source.encodeURIComponent(url)
+
+  /** decode a complete uri. */
+  override def decodeURI(url: String): String = source.decodeURI(url)
+
+  /** decodes a uri component */
+  override def decodeURIComponent(url: String): String = source.decodeURIComponent(url)
+
+  override def normalizeURL(url: String): String = source.normalizeURL(url)
+
+  override def normalizePath(url: String): String = source.normalizePath(url)
+
+  override def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] =
+    source.findCharInCharSequence(stream)(p)
 }

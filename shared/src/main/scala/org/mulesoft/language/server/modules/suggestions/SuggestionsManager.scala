@@ -100,7 +100,7 @@ class SuggestionsManager extends AbstractServerModule {
 //      this.connection.debug("Completion substring: " + text.substring(position-10, position),
 //        "SuggestionsManager", "onDocumentCompletion")
 
-      this.buildCompletionProviderAST(text, url, position,
+      this.buildCompletionProviderAST(text, editor.text, url, position,
         vendor, syntax).flatMap(provider=>{
 
         provider.suggest.map(result=>{
@@ -116,7 +116,7 @@ class SuggestionsManager extends AbstractServerModule {
     }
   }
 
-  def buildCompletionProviderAST(text:String, url: String, position: Int,
+  def buildCompletionProviderAST(text:String, unmodifiedContent: String, url: String, position: Int,
                                  vendor: Vendor, syntax: Syntax): Future[CompletionProvider] = {
 
     this.getHLASTManager.forceBuildNewAST(url, text).map(hlAST=>{
@@ -134,6 +134,7 @@ class SuggestionsManager extends AbstractServerModule {
         .withEditorStateProvider(editorStateProvider)
         .withAstProvider(astProvider)
         .withFsProvider(platformFSProvider)
+        .withOriginalContent(unmodifiedContent)
 
       CompletionProvider().withConfig(completionConfig)
     })

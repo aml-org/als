@@ -77,7 +77,7 @@ object ServerProcess {
       connection.handleJSONMessageRecieved(data)
     })
 
-    val server = new Server(connection, JSHttpFetcher)
+    val server = new Server(connection, JSPlatformDependentPart)
 
     server.registerModule(new ASTManager())
     server.registerModule(new HLASTManager())

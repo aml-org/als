@@ -1,8 +1,8 @@
 package org.mulesoft.language.server.core
 
-import amf.core.remote.Content
+import amf.client.remote.Content
 import org.mulesoft.language.server.core.connections.IServerConnection
-import org.mulesoft.language.server.core.platform.{ConnectionBasedPlatform, HttpFetcher}
+import org.mulesoft.language.server.core.platform.{ConnectionBasedPlatform, PlatformDependentPart}
 import org.mulesoft.language.server.server.modules.editorManager.{EditorManager, IEditorManagerModule}
 
 import scala.collection.mutable
@@ -10,7 +10,7 @@ import scala.concurrent.Future
 
 
 class Server(val connection: IServerConnection,
-             protected val httpFetcher: HttpFetcher) {
+             protected val httpFetcher: PlatformDependentPart) {
 
   var modules: mutable.Map[String, IServerModule] = new mutable.HashMap()
 
@@ -25,11 +25,7 @@ class Server(val connection: IServerConnection,
 
     val httpFetcher = this.httpFetcher
 
-    new ConnectionBasedPlatform(this.connection, editorManager) {
-
-      override def fetchHttp(url: String): Future[Content] =
-        httpFetcher.fetchHttp(url)
-    }
+    new ConnectionBasedPlatform(this.connection, editorManager, httpFetcher)
   }
 
   def registerModule(module: IServerModule): Unit = {

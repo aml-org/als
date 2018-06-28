@@ -80,11 +80,9 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
   }
 
   def forceGetCurrentAST(uri: String): Future[BaseUnit] = {
-
     val current = this.currentASTs.get(uri)
 
     if (current.isDefined) {
-
       Future.successful(current.get)
     } else {
 
@@ -216,7 +214,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
     val helper = ParserHelper(this.platform)
 
-    helper.parse(cfg).map(unit=>{
+    helper.parse(cfg, this.platform.defaultEnvironment).map(unit=>{
 
       val endTime = System.currentTimeMillis()
 
@@ -249,7 +247,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
     val helper = ParserHelper(proxyPlatform)
 
-    helper.parse(cfg).map(unit=>{
+    helper.parse(cfg, proxyPlatform.defaultEnvironment).map(unit=>{
 
       val endTime = System.currentTimeMillis()
       this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to build AMF ast",

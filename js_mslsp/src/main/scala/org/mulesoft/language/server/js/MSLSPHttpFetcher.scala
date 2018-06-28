@@ -1,21 +1,25 @@
 package org.mulesoft.language.client.js
 
+import java.net.URI
+
 import amf.core.lexer.CharSequenceStream
 import amf.core.remote.Content
-import amf.core.remote.server.{Http, Https}
+import amf.core.remote.server.{Http, Https, Path}
 import org.mulesoft.language.server.core.connections.IServerConnection
 import org.mulesoft.language.server.core.platform.ConnectionBasedPlatform
 import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
 
 import scala.concurrent.{Future, Promise}
 import scala.scalajs.js
-import org.mulesoft.language.server.core.platform.HttpFetcher
+import org.mulesoft.language.server.core.platform.PlatformDependentPart
+
+import scala.scalajs.js.URIUtils
 
 /**
   * Connection-based platform being able to fetch http resources
   * via standard JS tools
   */
-object MSLSPHttpFetcher extends HttpFetcher {
+object MSLSPHttpFetcher extends PlatformDependentPart {
 
   def fetchHttp(url: String): Future[Content] = {
     val promise: Promise[Content] = Promise()
@@ -73,5 +77,19 @@ object MSLSPHttpFetcher extends HttpFetcher {
 
     promise.future
   }
+
+  /** encodes a complete uri. Not encodes chars like / */
+  override def encodeURI(url: String): String = URIUtils.encodeURI(url)
+
+  /** encodes a uri component, including chars like / and : */
+  override def encodeURIComponent(url: String): String = URIUtils.encodeURIComponent(url)
+
+  /** decode a complete uri. */
+  override def decodeURI(url: String): String = URIUtils.decodeURI(url)
+
+  /** decodes a uri component */
+  override def decodeURIComponent(url: String): String = URIUtils.decodeURIComponent(url)
+
+  override def normalizeURL(url: String): String = Path.resolve(url)
 }
 

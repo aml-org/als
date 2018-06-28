@@ -1,6 +1,7 @@
 package org.mulesoft.language.client.js.serverConnection
 
-import amf.core.remote.{Content, Platform}
+import amf.client.remote.Content
+import amf.core.remote.{Platform}
 import org.mulesoft.language.client.js.dtoTypes._
 import org.mulesoft.language.client.js.{Globals, dtoTypes}
 import org.mulesoft.language.common.dtoTypes._
@@ -56,9 +57,12 @@ class NodeServerConnection extends IPrintlnLogger
       
    this.newFutureSeqHandler("GET_SUGGESTIONS", this.handleGetSuggestions _,
       Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.GetCompletionRequest")))
-    
-    this.newFutureHandler[FindDeclarationRequest, LocationsResponse]("OPEN_DECLARATION", (request: FindDeclarationRequest) => openDeclarationListeners.head(request.uri, request.position).map(result => new LocationsResponse(result.map(location => location.asInstanceOf[Location]))), Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.FindDeclarationRequest")));
-    this.newFutureHandler[FindReferencesRequest, LocationsResponse]("FIND_REFERENCES", (request: FindReferencesRequest) => findReferencesListeners.head(request.uri, request.position).map(result => new LocationsResponse(result.map(location => location.asInstanceOf[Location]))), Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.FindReferencesRequest")));
+
+    this.newFutureHandler[FindDeclarationRequest, LocationsResponse]("OPEN_DECLARATION",
+      (request: FindDeclarationRequest) => openDeclarationListeners.head(request.uri, request.position).map(result => new LocationsResponse(result.map(location => Location.sharedToTransport(location)))), Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.FindDeclarationRequest")));
+
+    this.newFutureHandler[FindReferencesRequest, LocationsResponse]("FIND_REFERENCES",
+      (request: FindReferencesRequest) => findReferencesListeners.head(request.uri, request.position).map(result => new LocationsResponse(result.map(location => Location.sharedToTransport(location)))), Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.FindReferencesRequest")));
   }
 
   protected def internalSendJSONMessage(message: js.Object): Unit = {

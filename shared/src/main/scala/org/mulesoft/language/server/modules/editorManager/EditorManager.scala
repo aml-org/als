@@ -61,10 +61,58 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
     }
   }
 
+//  def getEditor(uri: String): Option[IAbstractTextEditorWithCursor] = {
+//
+//    this.connection.debugDetail(s"Asked for uri ${uri}, while having following editors registered: " +
+//      this.uriToEditor.keys.mkString(","),
+//      "EditorManager", "onOpenDocument")
+//
+//    val directResult = this.uriToEditor.get(uri)
+//
+//    if (directResult.isDefined) {
+//
+//      directResult
+//    } else if (uri.startsWith("file://") || uri.startsWith("FILE://")) {
+//
+//      val path = uri.substring("file://".length)
+//      val result = this.uriToEditor.get(path)
+//      println(s"Checking uri $path and getting result: $result")
+//      result
+//    } else {
+//
+//      None
+//    }
+//  }
+
   def getEditor(uri: String): Option[IAbstractTextEditorWithCursor] = {
 
-    this.uriToEditor.get(uri)
+    this.connection.debugDetail(s"Asked for uri ${uri}, while having following editors registered: " +
+      this.uriToEditor.keys.mkString(","),
+      "EditorManager", "onOpenDocument")
+
+    val directResult = this.uriToEditor.get(uri)
+
+    if (directResult.isDefined) {
+
+      directResult
+    } else if (uri.startsWith("file://") || uri.startsWith("FILE://")) {
+
+      var path:String = uri
+      if (uri.startsWith("file:///")){
+        path = uri.substring("file:///".length).replace("%5C","\\")
+      }
+      else {
+        path = uri.substring("file://".length)
+      }
+      val result = this.uriToEditor.get(path)
+      println(s"Checking uri $path and getting result: $result")
+      result
+    } else {
+
+      None
+    }
   }
+
 
   def onOpenDocument(document: IOpenedDocument): Unit = {
 

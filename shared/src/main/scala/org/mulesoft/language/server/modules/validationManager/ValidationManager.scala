@@ -1,5 +1,6 @@
 package org.mulesoft.language.server.server.modules.validationManager
 
+import amf.ProfileNames
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.services.RuntimeValidator
@@ -28,7 +29,7 @@ class ValidationManager extends AbstractServerModule {
     */
   val moduleId: String = "VALIDATION_MANAGER"
 
-  private var reconciler: Reconciler = new Reconciler(connection, 500);
+  private var reconciler: Reconciler = new Reconciler(connection, 2000);
 
   val moduleDependencies: Array[String] = Array(
     IEditorManagerModule.moduleId,
@@ -184,22 +185,22 @@ class ValidationManager extends AbstractServerModule {
 
     //move config initialization elsewhere
     var config = new ParserConfig(
-      Some(ParserConfig.PARSE),
+      Some(ParserConfig.VALIDATE),
       Some(uri),
       Some(language),
       Some("application/yaml"),
       None,
-      Some("AMF Graph"),
-      Some("application/ld+json")
+      Some(language),
+      Some("application/yaml"),
+      false,
+      true
     )
 //
 //    val text = this.getEditorManager.getEditor(uri).get.text
 //
 //    val platform = TrunkPlatform(text)
 //
-//    val helper = ParserHelper(platform)
-//
-//    helper.report(baseUnit, config)
+    val helper = ParserHelper(platform)
 
     val customProfileLoaded = if (config.customProfile.isDefined) {
       RuntimeValidator.loadValidationProfile(config.customProfile.get) map { profileName =>

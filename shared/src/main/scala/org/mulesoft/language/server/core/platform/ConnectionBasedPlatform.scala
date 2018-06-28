@@ -1,5 +1,7 @@
 package org.mulesoft.language.server.core.platform
 
+import java.net.URI
+
 import amf.core.lexer.CharSequenceStream
 import amf.core.remote._
 import org.mulesoft.common.io.FileSystem
@@ -8,6 +10,9 @@ import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerM
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import amf.client.remote.Content
+import amf.internal.environment.Environment
+import amf.internal.resource.ResourceLoader
 
 object Http {
   def unapply(uri: String): Option[(String, String, String)] = uri match {
@@ -36,17 +41,51 @@ object File {
   }
 }
 
+class DefaultFileLoader(platform: ConnectionBasedPlatform)
+  extends ResourceLoader {
+
+  override def accepts(resource: String): Boolean = {
+    !(resource.startsWith("http") || resource.startsWith("HTTP"))
+  }
+
+  override def fetch(resource: String): Future[Content] = {
+    platform.fetchFile(resource)
+  }
+}
+
+class DefaultHttpLoader(platform: ConnectionBasedPlatform)
+  extends ResourceLoader {
+
+    override def accepts(resource: String): Boolean = {
+      resource.startsWith("http") || resource.startsWith("HTTP")
+    }
+
+    override def fetch(resource: String): Future[Content] = {
+      platform.fetchHttp(resource)
+    }
+}
+
 /**
   * Platform based on connection.
   * Intended for subclassing to implement fetchHttp method
   */
-abstract class ConnectionBasedPlatform (val connection: IServerConnection,
-                                        val editorManager: IEditorManagerModule)
-  extends Platform {
+class ConnectionBasedPlatform (val connection: IServerConnection,
+                                        val editorManager: IEditorManagerModule,
+                                        val platformPart: PlatformDependentPart)
+  extends Platform { self =>
 
   override val fs: FileSystem = new ConnectionBasedFS(connection, editorManager)
 
-  override def fetchHttp(url: String): Future[Content]
+  val fileLoader = new DefaultFileLoader(this)
+
+  val httpLoader = new DefaultHttpLoader(this)
+
+  val loaders: Seq[ResourceLoader] = Seq(
+    fileLoader,
+    httpLoader
+  )
+
+  val defaultEnvironment = new Environment(this.loaders)
 
   override def resolvePath(uri: String): String = {
 
@@ -68,7 +107,7 @@ abstract class ConnectionBasedPlatform (val connection: IServerConnection,
     result
   }
 
-  override def fetchFile(path: String): Future[Content] = {
+  def fetchFile(path: String): Future[Content] = {
 
     this.connection.debugDetail("Asked to fetch file " + path,
       "ConnectionBasedPlatform", "fetchFile")
@@ -98,10 +137,31 @@ abstract class ConnectionBasedPlatform (val connection: IServerConnection,
         })
   }
 
+  def fetchHttp(url: String): Future[Content] = platformPart.fetchHttp(url)
+
   override def tmpdir(): String = ???
 
   private def withTrailingSlash(path: String) = {
     (if (!path.startsWith("/")) "/" else "") + path
   }
+
+  /** encodes a complete uri. Not encodes chars like / */
+  override def encodeURI(url: String): String = platformPart.encodeURI(url)
+
+  /** encodes a uri component, including chars like / and : */
+  override def encodeURIComponent(url: String): String = platformPart.encodeURIComponent(url)
+
+  /** decode a complete uri. */
+  override def decodeURI(url: String): String = platformPart.decodeURI(url)
+
+  /** decodes a uri component */
+  override def decodeURIComponent(url: String): String = platformPart.decodeURIComponent(url)
+
+  override def normalizeURL(url: String): String = platformPart.normalizeURL(url)
+
+  override def normalizePath(url: String): String = platformPart.normalizePath(url)
+
+  override def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] =
+    platformPart.findCharInCharSequence(stream)(p)
 }
 
