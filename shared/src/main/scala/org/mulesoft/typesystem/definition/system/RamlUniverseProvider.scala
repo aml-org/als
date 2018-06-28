@@ -103,7 +103,8 @@ object RamlUniverseProvider {
 
     def fillClasses(m:Module):Unit = {
         m.node.propertyValue("classes",ARRAY).foreach(_.foreach(classNode=>{
-            classNode.propertyValue("name",STRING).foreach(m.getClass(_).foreach(cl=>{
+            val classNameOpt = classNode.propertyValue("name", STRING)
+            classNameOpt.foreach(m.getClass(_).foreach(cl=>{
 
                 var clModel = m.getClassModel(cl.nameId.get).get
                 clModel.superTypes.foreach(stModel=>{

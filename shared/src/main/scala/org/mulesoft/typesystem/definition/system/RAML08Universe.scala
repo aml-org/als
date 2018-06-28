@@ -229,6 +229,10 @@ val value1 =
             },
             "annotations": [
               {
+                "name": "MetaModel.embeddedInMaps",
+                "arguments": []
+              },
+              {
                 "name": "MetaModel.setsContextValue",
                 "arguments": [
                   "location",
@@ -385,6 +389,10 @@ val value1 =
             },
             "annotations": [
               {
+                "name": "MetaModel.embeddedInArray",
+                "arguments": []
+              },
+              {
                 "name": "MetaModel.allowNull",
                 "arguments": []
               },
@@ -498,6 +506,10 @@ val value1 =
               "typeKind": 1
             },
             "annotations": [
+              {
+                "name": "MetaModel.embeddedInArray",
+                "arguments": []
+              },
               {
                 "name": "MetaModel.description",
                 "arguments": [
@@ -678,6 +690,12 @@ val value1 =
             "arguments": [
               "string"
             ]
+          },
+          {
+            "name": "MetaModel.alias",
+            "arguments": [
+              "string"
+            ]
           }
         ],
         "extends": [
@@ -704,6 +722,12 @@ val value1 =
         "annotations": [
           {
             "name": "MetaModel.nameAtRuntime",
+            "arguments": [
+              "any"
+            ]
+          },
+          {
+            "name": "MetaModel.alias",
             "arguments": [
               "any"
             ]
@@ -736,6 +760,47 @@ val value1 =
             "arguments": [
               "number"
             ]
+          },
+          {
+            "name": "MetaModel.alias",
+            "arguments": [
+              "number"
+            ]
+          }
+        ],
+        "extends": [
+          {
+            "typeName": "ValueType",
+            "nameSpace": "",
+            "basicName": "ValueType",
+            "typeKind": 0,
+            "typeArguments": [],
+            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+          }
+        ],
+        "moduleName": null,
+        "annotationOverridings": {}
+      },
+      {
+        "name": "IntegerType",
+        "methods": [],
+        "typeParameters": [],
+        "typeParameterConstraint": [],
+        "implements": [],
+        "fields": [],
+        "isInterface": false,
+        "annotations": [
+          {
+            "name": "MetaModel.nameAtRuntime",
+            "arguments": [
+              "integer"
+            ]
+          },
+          {
+            "name": "MetaModel.alias",
+            "arguments": [
+              "integer"
+            ]
           }
         ],
         "extends": [
@@ -762,6 +827,12 @@ val value1 =
         "annotations": [
           {
             "name": "MetaModel.nameAtRuntime",
+            "arguments": [
+              "boolean"
+            ]
+          },
+          {
+            "name": "MetaModel.alias",
             "arguments": [
               "boolean"
             ]
@@ -1584,31 +1655,6 @@ val value2 =
             "optional": false
           },
           {
-            "name": "location",
-            "type": {
-              "typeName": "ParameterLocation",
-              "nameSpace": "",
-              "basicName": "ParameterLocation",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.system",
-                "arguments": []
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Location of the parameter (can not be edited by user)"
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
             "name": "required",
             "type": {
               "typeName": "boolean",
@@ -1719,31 +1765,6 @@ val value2 =
                 "name": "MetaModel.description",
                 "arguments": [
                   "The description attribute describes the intended use or meaning of the $self. This value MAY be formatted using Markdown."
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "parametrizedProperties",
-            "type": {
-              "typeName": "Sys.TypeInstance",
-              "nameSpace": "Sys",
-              "basicName": "TypeInstance",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.customHandling",
-                "arguments": []
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "For parameters defined inside traits and resource types returns object representation of parametrized properties"
                 ]
               }
             ],
@@ -2301,6 +2322,10 @@ val value3 =
             },
             "annotations": [
               {
+                "name": "MetaModel.embeddedInMaps",
+                "arguments": []
+              },
+              {
                 "name": "MetaModel.setsContextValue",
                 "arguments": [
                   "location",
@@ -2311,31 +2336,6 @@ val value3 =
                 "name": "MetaModel.description",
                 "arguments": [
                   "Web forms REQUIRE special encoding and custom declaration. If the API's media type is either application/x-www-form-urlencoded or multipart/form-data, the formParameters property MUST specify the name-value pairs that the API is expecting. The formParameters property is a map in which the key is the name of the web form parameter, and the value is itself a map the specifies the web form parameter's attributes."
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "schemaContent",
-            "type": {
-              "typeName": "string",
-              "nameSpace": "",
-              "basicName": "string",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": null
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.customHandling",
-                "arguments": []
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Returns schema content for the cases when schema is inlined, when schema is included, and when schema is a reference."
                 ]
               }
             ],
@@ -2362,31 +2362,6 @@ val value3 =
             ],
             "valueConstraint": null,
             "optional": false
-          },
-          {
-            "name": "parametrizedProperties",
-            "type": {
-              "typeName": "Sys.TypeInstance",
-              "nameSpace": "Sys",
-              "basicName": "TypeInstance",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.customHandling",
-                "arguments": []
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "For bodies defined inside traits and resource types returns object representation of parametrized properties"
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
           }
         ],
         "isInterface": false,
@@ -2399,120 +2374,6 @@ val value3 =
           }
         ],
         "extends": [],
-        "moduleName": null,
-        "annotationOverridings": {}
-      },
-      {
-        "name": "XMLBody",
-        "methods": [],
-        "typeParameters": [],
-        "typeParameterConstraint": [],
-        "implements": [],
-        "fields": [
-          {
-            "name": "schema",
-            "type": {
-              "typeName": "Sys.XMLSchemaString",
-              "nameSpace": "Sys",
-              "basicName": "XMLSchemaString",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "XSD Schema"
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          }
-        ],
-        "isInterface": false,
-        "annotations": [
-          {
-            "name": "MetaModel.functionalDescriminator",
-            "arguments": [
-              "this.mime.isXML()"
-            ]
-          },
-          {
-            "name": "MetaModel.description",
-            "arguments": [
-              "Needed to set connection between xml related mime types and xsd schema"
-            ]
-          }
-        ],
-        "extends": [
-          {
-            "typeName": "BodyLike",
-            "nameSpace": "",
-            "basicName": "BodyLike",
-            "typeKind": 0,
-            "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
-          }
-        ],
-        "moduleName": null,
-        "annotationOverridings": {}
-      },
-      {
-        "name": "JSONBody",
-        "methods": [],
-        "typeParameters": [],
-        "typeParameterConstraint": [],
-        "implements": [],
-        "fields": [
-          {
-            "name": "schema",
-            "type": {
-              "typeName": "Sys.JSonSchemaString",
-              "nameSpace": "Sys",
-              "basicName": "JSonSchemaString",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "JSON Schema"
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          }
-        ],
-        "isInterface": false,
-        "annotations": [
-          {
-            "name": "MetaModel.functionalDescriminator",
-            "arguments": [
-              "this.mime.isJSON()"
-            ]
-          },
-          {
-            "name": "MetaModel.description",
-            "arguments": [
-              "Needed to set connection between json related mime types and json schema"
-            ]
-          }
-        ],
-        "extends": [
-          {
-            "typeName": "BodyLike",
-            "nameSpace": "",
-            "basicName": "BodyLike",
-            "typeKind": 0,
-            "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
-          }
-        ],
         "moduleName": null,
         "annotationOverridings": {}
       },
@@ -2569,6 +2430,10 @@ val value3 =
             },
             "annotations": [
               {
+                "name": "MetaModel.embeddedInMaps",
+                "arguments": []
+              },
+              {
                 "name": "MetaModel.setsContextValue",
                 "arguments": [
                   "location",
@@ -2606,6 +2471,10 @@ val value3 =
             },
             "annotations": [
               {
+                "name": "MetaModel.embeddedInMaps",
+                "arguments": []
+              },
+              {
                 "name": "MetaModel.newInstanceName",
                 "arguments": [
                   "New Body"
@@ -2641,31 +2510,6 @@ val value3 =
             ],
             "valueConstraint": null,
             "optional": false
-          },
-          {
-            "name": "parametrizedProperties",
-            "type": {
-              "typeName": "Sys.TypeInstance",
-              "nameSpace": "Sys",
-              "basicName": "TypeInstance",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.customHandling",
-                "arguments": []
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "For responses defined inside traits and resource types returns object representation of parametrized properties"
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
           }
         ],
         "isInterface": false,
@@ -2688,37 +2532,76 @@ val value3 =
   {
     "classes": [
       {
-        "name": "Resource",
+        "name": "ResourceBase",
         "methods": [],
         "typeParameters": [],
         "typeParameterConstraint": [],
-        "implements": [],
+        "implements": [
+          {
+            "typeName": "DeclaresDynamicType",
+            "nameSpace": "",
+            "basicName": "DeclaresDynamicType",
+            "typeKind": 0,
+            "typeArguments": [
+              {
+                "typeName": "ResourceType",
+                "nameSpace": "",
+                "basicName": "ResourceType",
+                "typeKind": 0,
+                "typeArguments": [],
+                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+              }
+            ],
+            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+          }
+        ],
         "fields": [
           {
-            "name": "relativeUri",
+            "name": "methods",
             "type": {
-              "typeName": "Sys.RelativeUriString",
-              "nameSpace": "Sys",
-              "basicName": "RelativeUriString",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+              "base": {
+                "typeName": "Methods.Method",
+                "nameSpace": "Methods",
+                "basicName": "Method",
+                "typeKind": 0,
+                "typeArguments": [],
+                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+              },
+              "typeKind": 1
             },
             "annotations": [
               {
-                "name": "MetaModel.key",
-                "arguments": []
-              },
-              {
-                "name": "MetaModel.startFrom",
+                "name": "MetaModel.description",
                 "arguments": [
-                  "/"
+                  "Methods that are part of this resource type definition"
                 ]
+              }
+            ],
+            "valueConstraint": null,
+            "optional": false
+          },
+          {
+            "name": "is",
+            "type": {
+              "base": {
+                "typeName": "Methods.TraitRef",
+                "nameSpace": "Methods",
+                "basicName": "TraitRef",
+                "typeKind": 0,
+                "typeArguments": [],
+                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+              },
+              "typeKind": 1
+            },
+            "annotations": [
+              {
+                "name": "MetaModel.embeddedInArray",
+                "arguments": []
               },
               {
                 "name": "MetaModel.description",
                 "arguments": [
-                  "Relative URL of this resource from the parent resource"
+                  "Instantiation of applyed traits"
                 ]
               }
             ],
@@ -2747,35 +2630,11 @@ val value3 =
             "optional": false
           },
           {
-            "name": "is",
-            "type": {
-              "base": {
-                "typeName": "TraitRef",
-                "nameSpace": "",
-                "basicName": "TraitRef",
-                "typeKind": 0,
-                "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
-              },
-              "typeKind": 1
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Instantiation of applyed traits"
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
             "name": "securedBy",
             "type": {
               "base": {
-                "typeName": "SecuritySchemeRef",
-                "nameSpace": "",
+                "typeName": "Security.SecuritySchemeRef",
+                "nameSpace": "Security",
                 "basicName": "SecuritySchemeRef",
                 "typeKind": 0,
                 "typeArguments": [],
@@ -2784,6 +2643,10 @@ val value3 =
               "typeKind": 1
             },
             "annotations": [
+              {
+                "name": "MetaModel.embeddedInArray",
+                "arguments": []
+              },
               {
                 "name": "MetaModel.allowNull",
                 "arguments": []
@@ -2813,11 +2676,8 @@ val value3 =
             },
             "annotations": [
               {
-                "name": "MetaModel.setsContextValue",
-                "arguments": [
-                  "fieldOrParam",
-                  true
-                ]
+                "name": "MetaModel.embeddedInMaps",
+                "arguments": []
               },
               {
                 "name": "MetaModel.setsContextValue",
@@ -2830,66 +2690,6 @@ val value3 =
                 "name": "MetaModel.description",
                 "arguments": [
                   "Uri parameters of this resource"
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "methods",
-            "type": {
-              "base": {
-                "typeName": "Methods.Method",
-                "nameSpace": "Methods",
-                "basicName": "Method",
-                "typeKind": 0,
-                "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
-              },
-              "typeKind": 1
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.newInstanceName",
-                "arguments": [
-                  "New Method"
-                ]
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Methods that can be called on this resource"
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "resources",
-            "type": {
-              "base": {
-                "typeName": "Resource",
-                "nameSpace": "",
-                "basicName": "Resource",
-                "typeKind": 0,
-                "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
-              },
-              "typeKind": 1
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.newInstanceName",
-                "arguments": [
-                  "New Resource"
-                ]
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Children resources"
                 ]
               }
             ],
@@ -2910,7 +2710,7 @@ val value3 =
               {
                 "name": "MetaModel.description",
                 "arguments": [
-                  "An alternate, human-friendly name for the resource"
+                  "An alternate, human-friendly name for the resource type"
                 ]
               }
             ],
@@ -2931,6 +2731,10 @@ val value3 =
               "typeKind": 1
             },
             "annotations": [
+              {
+                "name": "MetaModel.embeddedInMaps",
+                "arguments": []
+              },
               {
                 "name": "MetaModel.setsContextValue",
                 "arguments": [
@@ -2980,6 +2784,90 @@ val value3 =
         "isInterface": false,
         "annotations": [],
         "extends": [],
+        "moduleName": null,
+        "annotationOverridings": {}
+      },
+      {
+        "name": "Resource",
+        "methods": [],
+        "typeParameters": [],
+        "typeParameterConstraint": [],
+        "implements": [],
+        "fields": [
+          {
+            "name": "relativeUri",
+            "type": {
+              "typeName": "Sys.RelativeUriString",
+              "nameSpace": "Sys",
+              "basicName": "RelativeUriString",
+              "typeKind": 0,
+              "typeArguments": [],
+              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+            },
+            "annotations": [
+              {
+                "name": "MetaModel.key",
+                "arguments": []
+              },
+              {
+                "name": "MetaModel.startFrom",
+                "arguments": [
+                  "/"
+                ]
+              },
+              {
+                "name": "MetaModel.description",
+                "arguments": [
+                  "Relative URL of this resource from the parent resource"
+                ]
+              }
+            ],
+            "valueConstraint": null,
+            "optional": false
+          },
+          {
+            "name": "resources",
+            "type": {
+              "base": {
+                "typeName": "Resource",
+                "nameSpace": "",
+                "basicName": "Resource",
+                "typeKind": 0,
+                "typeArguments": [],
+                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+              },
+              "typeKind": 1
+            },
+            "annotations": [
+              {
+                "name": "MetaModel.newInstanceName",
+                "arguments": [
+                  "New Resource"
+                ]
+              },
+              {
+                "name": "MetaModel.description",
+                "arguments": [
+                  "Children resources"
+                ]
+              }
+            ],
+            "valueConstraint": null,
+            "optional": false
+          }
+        ],
+        "isInterface": false,
+        "annotations": [],
+        "extends": [
+          {
+            "typeName": "ResourceBase",
+            "nameSpace": "",
+            "basicName": "ResourceBase",
+            "typeKind": 0,
+            "typeArguments": [],
+            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+          }
+        ],
         "moduleName": null,
         "annotationOverridings": {}
       },
@@ -3112,233 +3000,22 @@ val value3 =
             "optional": false
           },
           {
-            "name": "methods",
+            "name": "parameters",
             "type": {
               "base": {
-                "typeName": "Methods.Method",
-                "nameSpace": "Methods",
-                "basicName": "Method",
+                "typeName": "string",
+                "nameSpace": "",
+                "basicName": "string",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+                "modulePath": null
               },
               "typeKind": 1
             },
             "annotations": [
               {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Methods that are part of this resource type definition"
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "is",
-            "type": {
-              "base": {
-                "typeName": "Security.TraitRef",
-                "nameSpace": "Security",
-                "basicName": "TraitRef",
-                "typeKind": 0,
-                "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
-              },
-              "typeKind": 1
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Instantiation of applyed traits"
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "type",
-            "type": {
-              "typeName": "ResourceTypeRef",
-              "nameSpace": "",
-              "basicName": "ResourceTypeRef",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Instantiation of applyed resource type"
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "securedBy",
-            "type": {
-              "base": {
-                "typeName": "Security.SecuritySchemeRef",
-                "nameSpace": "Security",
-                "basicName": "SecuritySchemeRef",
-                "typeKind": 0,
-                "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
-              },
-              "typeKind": 1
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.allowNull",
+                "name": "MetaModel.hideFromUI",
                 "arguments": []
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "securityScheme may also be applied to a resource by using the securedBy key, which is equivalent to applying the securityScheme to all methods that may be declared, explicitly or implicitly, by defining the resourceTypes or traits property for that resource. To indicate that the method may be called without applying any securityScheme, the method may be annotated with the null securityScheme."
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "uriParameters",
-            "type": {
-              "base": {
-                "typeName": "Params.Parameter",
-                "nameSpace": "Params",
-                "basicName": "Parameter",
-                "typeKind": 0,
-                "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
-              },
-              "typeKind": 1
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.setsContextValue",
-                "arguments": [
-                  "location",
-                  "Params.ParameterLocation.URI"
-                ]
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Uri parameters of this resource"
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "displayName",
-            "type": {
-              "typeName": "string",
-              "nameSpace": "",
-              "basicName": "string",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": null
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "An alternate, human-friendly name for the resource type"
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "baseUriParameters",
-            "type": {
-              "base": {
-                "typeName": "Params.Parameter",
-                "nameSpace": "Params",
-                "basicName": "Parameter",
-                "typeKind": 0,
-                "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
-              },
-              "typeKind": 1
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.setsContextValue",
-                "arguments": [
-                  "fieldOrParam",
-                  true
-                ]
-              },
-              {
-                "name": "MetaModel.setsContextValue",
-                "arguments": [
-                  "location",
-                  "Params.ParameterLocation.BURI"
-                ]
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "A resource or a method can override a base URI template's values. This is useful to restrict or change the default or parameter selection in the base URI. The baseUriParameters property MAY be used to override any or all parameters defined at the root level baseUriParameters property, as well as base URI parameters not specified at the root level."
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "parametrizedProperties",
-            "type": {
-              "typeName": "Sys.TypeInstance",
-              "nameSpace": "Sys",
-              "basicName": "TypeInstance",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.customHandling",
-                "arguments": []
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Returns object representation of parametrized properties of the resource type"
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "description",
-            "type": {
-              "typeName": "Sys.MarkdownString",
-              "nameSpace": "Sys",
-              "basicName": "MarkdownString",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "The description attribute describes the intended use or meaning of the $self. This value MAY be formatted using Markdown."
-                ]
               }
             ],
             "valueConstraint": null,
@@ -3346,17 +3023,17 @@ val value3 =
           }
         ],
         "isInterface": false,
-        "annotations": [
+        "annotations": [],
+        "extends": [
           {
-            "name": "MetaModel.inlinedTemplates",
-            "arguments": []
-          },
-          {
-            "name": "MetaModel.allowQuestion",
-            "arguments": []
+            "typeName": "ResourceBase",
+            "nameSpace": "",
+            "basicName": "ResourceBase",
+            "typeKind": 0,
+            "typeArguments": [],
+            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
           }
         ],
-        "extends": [],
         "moduleName": null,
         "annotationOverridings": {}
       }
@@ -3398,6 +3075,10 @@ val value3 =
             },
             "annotations": [
               {
+                "name": "MetaModel.embeddedInMaps",
+                "arguments": []
+              },
+              {
                 "name": "MetaModel.newInstanceName",
                 "arguments": [
                   "New Response"
@@ -3427,6 +3108,10 @@ val value3 =
               "typeKind": 1
             },
             "annotations": [
+              {
+                "name": "MetaModel.embeddedInMaps",
+                "arguments": []
+              },
               {
                 "name": "MetaModel.newInstanceName",
                 "arguments": [
@@ -3491,6 +3176,10 @@ val value3 =
             },
             "annotations": [
               {
+                "name": "MetaModel.embeddedInArray",
+                "arguments": []
+              },
+              {
                 "name": "MetaModel.allowNull",
                 "arguments": []
               },
@@ -3518,6 +3207,10 @@ val value3 =
               "typeKind": 1
             },
             "annotations": [
+              {
+                "name": "MetaModel.embeddedInMaps",
+                "arguments": []
+              },
               {
                 "name": "MetaModel.setsContextValue",
                 "arguments": [
@@ -3560,6 +3253,10 @@ val value4 =
             },
             "annotations": [
               {
+                "name": "MetaModel.embeddedInMaps",
+                "arguments": []
+              },
+              {
                 "name": "MetaModel.setsContextValue",
                 "arguments": [
                   "location",
@@ -3596,6 +3293,10 @@ val value4 =
               "typeKind": 1
             },
             "annotations": [
+              {
+                "name": "MetaModel.embeddedInMaps",
+                "arguments": []
+              },
               {
                 "name": "MetaModel.setsContextValue",
                 "arguments": [
@@ -3716,34 +3417,13 @@ val value4 =
             },
             "annotations": [
               {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Instantiation of applyed traits"
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "parametrizedProperties",
-            "type": {
-              "typeName": "Sys.TypeInstance",
-              "nameSpace": "Sys",
-              "basicName": "TypeInstance",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.customHandling",
+                "name": "MetaModel.embeddedInArray",
                 "arguments": []
               },
               {
                 "name": "MetaModel.description",
                 "arguments": [
-                  "For methods defined inside resource types returns object representation of parametrized properties"
+                  "Instantiation of applyed traits"
                 ]
               }
             ],
@@ -3838,25 +3518,22 @@ val value4 =
             "optional": false
           },
           {
-            "name": "parametrizedProperties",
+            "name": "parameters",
             "type": {
-              "typeName": "Sys.TypeInstance",
-              "nameSpace": "Sys",
-              "basicName": "TypeInstance",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+              "base": {
+                "typeName": "string",
+                "nameSpace": "",
+                "basicName": "string",
+                "typeKind": 0,
+                "typeArguments": [],
+                "modulePath": null
+              },
+              "typeKind": 1
             },
             "annotations": [
               {
-                "name": "MetaModel.customHandling",
+                "name": "MetaModel.hideFromUI",
                 "arguments": []
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Returns object representation of parametrized properties of the trait"
-                ]
               }
             ],
             "valueConstraint": null,
@@ -4022,6 +3699,10 @@ val value4 =
               "typeKind": 1
             },
             "annotations": [
+              {
+                "name": "MetaModel.embeddedInArray",
+                "arguments": []
+              },
               {
                 "name": "MetaModel.description",
                 "arguments": [
@@ -4335,31 +4016,6 @@ val value4 =
         "implements": [],
         "fields": [
           {
-            "name": "securitySchemeName",
-            "type": {
-              "typeName": "string",
-              "nameSpace": "",
-              "basicName": "string",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": null
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.customHandling",
-                "arguments": []
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Returns the name of security scheme, this reference refers to."
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
             "name": "securityScheme",
             "type": {
               "typeName": "AbstractSecurityScheme",
@@ -4383,15 +4039,24 @@ val value4 =
             ],
             "valueConstraint": null,
             "optional": false
+          },
+          {
+            "name": "settings",
+            "type": {
+              "typeName": "SecuritySchemeSettings",
+              "nameSpace": "",
+              "basicName": "SecuritySchemeSettings",
+              "typeKind": 0,
+              "typeArguments": [],
+              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+            },
+            "annotations": [],
+            "valueConstraint": null,
+            "optional": false
           }
         ],
         "isInterface": false,
-        "annotations": [
-          {
-            "name": "MetaModel.allowAny",
-            "arguments": []
-          }
-        ],
+        "annotations": [],
         "extends": [
           {
             "typeName": "Reference",
@@ -4644,12 +4309,12 @@ val value4 =
             "name": "scopes",
             "type": {
               "base": {
-                "typeName": "string",
+                "typeName": "Scope",
                 "nameSpace": "",
-                "basicName": "string",
+                "basicName": "Scope",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": null
+                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
               },
               "typeKind": 1
             },
@@ -4682,6 +4347,48 @@ val value4 =
             "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
           }
         ],
+        "moduleName": null,
+        "annotationOverridings": {}
+      },
+      {
+        "name": "Scope",
+        "methods": [],
+        "typeParameters": [],
+        "typeParameterConstraint": [],
+        "implements": [],
+        "fields": [
+          {
+            "name": "name",
+            "type": {
+              "typeName": "string",
+              "nameSpace": "",
+              "basicName": "string",
+              "typeKind": 0,
+              "typeArguments": [],
+              "modulePath": null
+            },
+            "annotations": [],
+            "valueConstraint": null,
+            "optional": false
+          },
+          {
+            "name": "description",
+            "type": {
+              "typeName": "string",
+              "nameSpace": "",
+              "basicName": "string",
+              "typeKind": 0,
+              "typeArguments": [],
+              "modulePath": null
+            },
+            "annotations": [],
+            "valueConstraint": null,
+            "optional": false
+          }
+        ],
+        "isInterface": false,
+        "annotations": [],
+        "extends": [],
         "moduleName": null,
         "annotationOverridings": {}
       },
