@@ -1,5 +1,6 @@
 package org.mulesoft.high.level.builder
 
+import amf.core.metamodel.document.DocumentModel
 import amf.core.metamodel.domain.extensions.PropertyShapeModel
 import amf.core.metamodel.domain.{ExternalSourceElementModel, ShapeModel}
 import amf.core.model.document.BaseUnit
@@ -9,6 +10,7 @@ import amf.plugins.domain.shapes.metamodel._
 import amf.plugins.domain.shapes.models.ArrayShape
 import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.metamodel.security._
+import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
 import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.typesystem.nominal_interfaces.extras.UserDefinedExtra
 import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition, IUniverse}
@@ -51,6 +53,17 @@ class RAML08ASTFactory private extends RAMLASTFactory {
 
         super.init()
 
+        registerPropertyMatcher("Api", "schemas", BaseUnitMatcher()
+            + DocumentModel.Declares ifSubtype ShapeModel)
+        registerPropertyMatcher("Api", "traits", BaseUnitMatcher()
+            + DocumentModel.Declares ifSubtype TraitModel)
+        registerPropertyMatcher("Api", "resourceTypes", BaseUnitMatcher()
+            + DocumentModel.Declares ifSubtype ResourceTypeModel)
+        registerPropertyMatcher("Api", "securitySchemes", BaseUnitMatcher()
+            + DocumentModel.Declares ifSubtype SecuritySchemeModel)
+
+        registerPropertyMatcher("GlobalSchema", "key", SchemaShapeModel.Name)
+        //registerPropertyMatcher("GlobalSchema", "value", SchemaShapeModel.Name)
 
         registerPropertyMatcher("Parameter", "name",
             ((ThisMatcher() ifType ParameterModel) + ParameterModel.Name) |
