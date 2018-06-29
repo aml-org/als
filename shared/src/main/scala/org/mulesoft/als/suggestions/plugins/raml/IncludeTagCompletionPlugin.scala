@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.raml
 
-import amf.core.remote.{Raml10, Vendor}
+import amf.core.remote.{Raml08, Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
 import org.mulesoft.als.suggestions.interfaces._
 
@@ -43,7 +43,7 @@ object IncludeTagCompletionPlugin {
 
     val ID = "include.tag.completion";
 
-    val supportedLanguages: List[Vendor] = List(Raml10);
+    val supportedLanguages: List[Vendor] = List(Raml08, Raml10);
 
     def apply(): IncludeTagCompletionPlugin = new IncludeTagCompletionPlugin();
 }

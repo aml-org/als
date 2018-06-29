@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.raml
 
-import amf.core.remote.{Raml10, Vendor}
+import amf.core.remote.{Raml08, Raml10, Vendor}
 import amf.plugins.domain.shapes.models.AnyShape
 import amf.plugins.domain.webapi.models.Payload
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, PathCompletion, Suggestion}
@@ -88,7 +88,7 @@ class BodyCompletionPlugin extends ICompletionPlugin {
 object BodyCompletionPlugin {
     val ID = "body.completion";
 
-    val supportedLanguages: List[Vendor] = List(Raml10);
+    val supportedLanguages: List[Vendor] = List(Raml08,Raml10);
 
     def apply(): BodyCompletionPlugin = new BodyCompletionPlugin();
 }

@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.raml
 
-import amf.core.remote.{Raml10, Vendor}
+import amf.core.remote.{Raml08, Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, PathCompletion, Suggestion}
 import org.mulesoft.als.suggestions.interfaces._
 import org.yaml.model.{YNode, YScalar, YType}
@@ -64,7 +64,7 @@ object IncludeCompletionPlugin {
 
   val ID = "include.completion";
 
-  val supportedLanguages: List[Vendor] = List(Raml10);
+  val supportedLanguages: List[Vendor] = List(Raml08, Raml10);
 
   def apply(): IncludeCompletionPlugin = new IncludeCompletionPlugin();
 }
