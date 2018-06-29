@@ -6,16 +6,19 @@ import amf.core.metamodel.domain.{ExternalSourceElementModel, ShapeModel}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
 import amf.core.remote.{Raml08, Vendor}
+import amf.plugins.document.webapi.annotations.ParsedJSONSchema
 import amf.plugins.domain.shapes.metamodel._
 import amf.plugins.domain.shapes.models.ArrayShape
 import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.metamodel.security._
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
+import org.mulesoft.high.level.implementation.IValueBuffer
 import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.typesystem.nominal_interfaces.extras.UserDefinedExtra
 import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition, IUniverse}
 import org.mulesoft.typesystem.nominal_types.StructuredType
 import org.mulesoft.typesystem.project.ITypeCollectionBundle
+import org.yaml.model.YPart
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -40,6 +43,10 @@ class RAML08ASTFactory private extends RAMLASTFactory {
 
     def format:Vendor = Raml08
 
+    private def parameterShapeRawMatcher:IPropertyMatcher =
+        ((ThisMatcher() ifType ParameterModel) + ParameterModel.Schema) |
+        ((ThisMatcher() ifType PropertyShapeModel) + PropertyShapeModel.Range)
+
     private val parameterShapeMatcher =
         (((((ThisMatcher() ifType ParameterModel) + ParameterModel.Schema) |
             ((ThisMatcher() ifType PropertyShapeModel) + PropertyShapeModel.Range))
@@ -63,15 +70,13 @@ class RAML08ASTFactory private extends RAMLASTFactory {
             + DocumentModel.Declares ifSubtype SecuritySchemeModel)
 
         registerPropertyMatcher("GlobalSchema", "key", SchemaShapeModel.Name)
-        //registerPropertyMatcher("GlobalSchema", "value", SchemaShapeModel.Name)
+        registerPropertyMatcher("GlobalSchema", "value", ThisMatcher().withCustomBuffer((obj,node)=>SchemaTextValueBuffer(obj,node)))
 
         registerPropertyMatcher("Parameter", "name",
             ((ThisMatcher() ifType ParameterModel) + ParameterModel.Name) |
             ((ThisMatcher() ifType PropertyShapeModel) + PropertyShapeModel.Name))
 
-        //registerPropertyMatcher("Parameter", "type", ThisMatcher() + TypePropertyMatcher())
-
-
+        registerPropertyMatcher("Parameter", "type", parameterShapeMatcher + TypePropertyMatcher())
         registerPropertyMatcher("Parameter", "displayName", parameterShapeMatcher + ShapeModel.DisplayName)
         registerPropertyMatcher("Parameter", "description", parameterShapeMatcher + ShapeModel.Description)
         registerPropertyMatcher("Parameter", "default",parameterShapeMatcher + ShapeModel.Default)
@@ -82,12 +87,16 @@ class RAML08ASTFactory private extends RAMLASTFactory {
         registerPropertyMatcher("Parameter", "minLength", parameterShapeMatcher + ScalarShapeModel.MinLength)
         registerPropertyMatcher("Parameter", "maxLength", parameterShapeMatcher + ScalarShapeModel.MaxLength)
         registerPropertyMatcher("Parameter", "enum", parameterShapeMatcher + ScalarShapeModel.Values)
+        registerPropertyMatcher("Parameter", "required", ParameterModel.Required)
+        registerPropertyMatcher("Parameter", "repeat", parameterShapeRawMatcher.withCustomBuffer((obj,node)=>RepeatPropertyValueBuffer(obj,node)))
 
         registerPropertyMatcher("BodyLike", "name", PayloadModel.MediaType)
         registerPropertyMatcher("BodyLike", "example", payloadSchemaMatcher + AnyShapeModel.Examples + ExamplesFilter(true) + ExternalSourceElementModel.Raw )
         registerPropertyMatcher("BodyLike", "formParameters", payloadSchemaMatcher + NodeShapeModel.Properties )
 
-//        registerPropertyMatcher("BodyLike", "schema", payloadSchemaMatcher + ExamplesFilter(true) + ExternalSourceElementModel.Raw )
+
+
+        registerPropertyMatcher("BodyLike", "schema", (payloadSchemaMatcher + ShapeModel.Inherits).withCustomBuffer((obj,node)=>SchemaTextValueBuffer(obj,node)))
 
    }
 
@@ -152,4 +161,32 @@ class RAML08ASTFactory private extends RAMLASTFactory {
     override def determineRootType(baseUnit: BaseUnit, nominalType:Option[ITypeDefinition]): Option[ITypeDefinition] = universe.get.`type`("Api")
 
     def determineUserType(amfNode:AmfObject, nodeProperty:Option[IProperty], parent:Option[IHighLevelNode], _bundle:ITypeCollectionBundle):Option[ITypeDefinition] = None
+}
+
+class SchemaTextValueBuffer(shape:AmfObject,hlNode:IHighLevelNode) extends IValueBuffer {
+
+    override def getValue: Option[Any] = shape.annotations.find(classOf[ParsedJSONSchema]).map(_.rawText)
+
+    override def setValue(value: Any): Unit = {}
+
+    override def yamlNodes: Seq[YPart] = Seq()
+}
+
+object SchemaTextValueBuffer {
+    def apply(shape: AmfObject, hlNode: IHighLevelNode): SchemaTextValueBuffer = new SchemaTextValueBuffer(shape, hlNode)
+}
+
+class RepeatPropertyValueBuffer(shape:AmfObject,hlNode:IHighLevelNode) extends IValueBuffer {
+    override def getValue: Option[Any] = shape match {
+        case as:ArrayShape => Some(true)
+        case _ => Some(false)
+    }
+
+    override def setValue(value: Any): Unit = {}
+
+    override def yamlNodes: Seq[YPart] = Seq()
+}
+
+object RepeatPropertyValueBuffer {
+    def apply(shape: AmfObject, hlNode: IHighLevelNode): RepeatPropertyValueBuffer = new RepeatPropertyValueBuffer(shape, hlNode)
 }

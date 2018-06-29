@@ -1,19 +1,15 @@
 package org.mulesoft.high.level.builder
 
-import amf.core.annotations.SourceAST
 import amf.core.metamodel.document.{BaseUnitModel, DocumentModel, ExtensionLikeModel}
 import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
 import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, DomainExtensionModel, PropertyShapeModel, ShapeExtensionModel}
 import amf.core.model.document.{BaseUnit, Document, Fragment, Module}
 import amf.core.model.domain._
-import amf.core.parser.{Annotations, Fields}
 import amf.core.remote.{Raml10, Vendor}
 import amf.plugins.document.webapi.metamodel.FragmentsTypesModels._
 import amf.plugins.document.webapi.metamodel.{ExtensionModel, OverlayModel}
 import amf.plugins.document.webapi.model.{AnnotationTypeDeclarationFragment, DataTypeFragment}
-import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.shapes.metamodel._
-import amf.plugins.domain.shapes.models.NodeShape
 import amf.plugins.domain.webapi.metamodel.security._
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
 import amf.plugins.domain.webapi.metamodel._
@@ -27,7 +23,6 @@ import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
 import org.mulesoft.typesystem.nominal_interfaces.{IArrayType, IProperty, ITypeDefinition, IUniverse}
 import org.mulesoft.typesystem.nominal_types.{AbstractType, StructuredType}
 import org.mulesoft.typesystem.project.{ITypeCollectionBundle, TypeCollectionBundle}
-import org.yaml.model.YScalar
 
 import scala.language.postfixOps
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -95,7 +90,7 @@ class RAML10ASTFactory private extends RAMLASTFactory {
         registerPropertyMatcher("TypeDeclaration", "default",shapeMatcher + builtinFacetMatchers("default"))
         registerPropertyMatcher("TypeDeclaration", "required",
             (ThisMatcher() ifType ParameterModel) + ParameterModel.Required
-            | ((ThisMatcher() ifType PropertyShapeModel) + PropertyShapeModel.MinCount).withCustomBuffer((e, hl) => new RequiredPropertyValueBuffer(e, hl)))
+            | ((ThisMatcher() ifType PropertyShapeModel) + PropertyShapeModel.MinCount).withCustomBuffer((e, hl) => RequiredPropertyValueBuffer(e, hl)))
 
         registerPropertyMatcher("TypeDeclaration", "facets", shapeMatcher + ShapeModel.CustomShapePropertyDefinitions)
         registerPropertyMatcher("TypeDeclaration", "fixedFacets", shapeMatcher + ShapeModel.CustomShapeProperties)
@@ -416,6 +411,10 @@ class RequiredPropertyValueBuffer(element:AmfObject,hlNode:IHighLevelNode) exten
     }
 }
 
+object RequiredPropertyValueBuffer {
+    def apply(element: AmfObject, hlNode: IHighLevelNode): RequiredPropertyValueBuffer = new RequiredPropertyValueBuffer(element, hlNode)
+}
+
 class AdditionalPropertiesValueBuffer(element:AmfObject,hlNode:IHighLevelNode)
     extends BasicValueBuffer(element,NodeShapeModel.Closed) {
 
@@ -437,47 +436,4 @@ class AdditionalPropertiesValueBuffer(element:AmfObject,hlNode:IHighLevelNode)
 
 object AdditionalPropertiesValueBuffer{
     def apply (element:AmfObject,hlNode:IHighLevelNode):AdditionalPropertiesValueBuffer = new AdditionalPropertiesValueBuffer(element,hlNode)
-}
-
-class TypePropertyMatcher() extends IPropertyMatcher {
-
-    override def doOperate(obj: AmfObject, hlNode: IHighLevelNode):Seq[MatchResult] = doOperate(obj,hlNode,false)
-    def doOperate(obj: AmfObject, hlNode: IHighLevelNode, forceCreate:Boolean=false): Seq[MatchResult] = {
-        var jsonNodes: Option[Seq[JSONWrapper]] = obj.annotations.find(classOf[SourceAST]).flatMap(yn => YJSONWrapper(yn.ast)).map(w => w.kind match {
-                      case STRING => List(w)
-                      case OBJECT => w.propertyValue("type") match {
-                          case Some(t) => t.kind match {
-                              case ARRAY => t.value(ARRAY).get
-                              case _ => List(t)
-                          }
-                          case _ => Seq()
-                      }
-                      case ARRAY => w.value(ARRAY).get
-                      case _ => Seq()
-        })
-        if(forceCreate && (jsonNodes.isEmpty || jsonNodes.get.isEmpty)){
-            jsonNodes = Some(List(YJSONWrapper(YScalar(""))))
-        }
-        jsonNodes match {
-            case Some(nodes) => nodes.map(x => AttributeMatchResult(obj, new JSONValueBuffer(obj, hlNode, Option(x)){
-
-                override def setValue(value:Any): Unit = {
-                    var a = ParsedFromTypeExpression(value.toString)
-                    var annotations = Annotations(a)
-                    var shape = NodeShape(Fields(), annotations)
-                    var arr = AmfArray(List(shape))
-                    DefaultASTFactory.extractShape(hlNode.amfNode).foreach(x=>
-                        x.fields.setWithoutId(ShapeModel.Inherits,arr))
-                }
-            }))
-            case _ => Seq()
-        }
-    }
-
-    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult]
-        = doOperate(cfg.obj,cfg.hlNode,true).headOption
-}
-
-object TypePropertyMatcher{
-    def apply():TypePropertyMatcher = new TypePropertyMatcher()
 }
