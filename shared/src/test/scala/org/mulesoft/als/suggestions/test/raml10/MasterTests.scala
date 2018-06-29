@@ -1,8 +1,6 @@
-package org.mulesoft.als.suggestions.test.raml
+package org.mulesoft.als.suggestions.test.raml10
 
-import org.mulesoft.als.suggestions.test.RAMLTest
-
-class MasterTests extends RAMLTest {
+class MasterTests extends RAML10Test {
 
   test("test01") {
     this.runTest("masterRef/testGroup01/test01.raml",

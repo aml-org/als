@@ -1,8 +1,6 @@
-package org.mulesoft.als.suggestions.test.raml
+package org.mulesoft.als.suggestions.test.raml10
 
-import org.mulesoft.als.suggestions.test.RAMLTest
-
-class StructureTests extends RAMLTest {
+class StructureTests extends RAML10Test {
 
   test("StructureTests responses"){
     this.runTest("structure/test01.raml", Set("responses:"))

@@ -1,8 +1,6 @@
-package org.mulesoft.als.suggestions.test.raml
+package org.mulesoft.als.suggestions.test.raml10
 
-import org.mulesoft.als.suggestions.test.RAMLTest
-
-class ProtocolsTests extends RAMLTest {
+class ProtocolsTests extends RAML10Test {
 
     test("Protocols test 01") {
         this.runTest("protocols/test01.raml", Set("HTTP", "HTTPS"))
