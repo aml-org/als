@@ -198,6 +198,10 @@ val value1 =
             },
             "annotations": [
               {
+                "name": "MetaModel.embeddedInMaps",
+                "arguments": []
+              },
+              {
                 "name": "MetaModel.setsContextValue",
                 "arguments": [
                   "location",
@@ -514,31 +518,6 @@ val value1 =
                 "name": "MetaModel.description",
                 "arguments": [
                   "The API definition can include a variety of documents that serve as a user guides and reference documentation for the API. Such documents can clarify how the API works or provide business context. Documentation-generators MUST include all the sections in an API definition's documentation property in the documentation output, and they MUST preserve the order in which the documentation is declared. To add user documentation to the API, include the documentation property at the root of the API definition. The documentation property MUST be an array of documents. Each document MUST contain title and content attributes, both of which are REQUIRED. If the documentation property is specified, it MUST include at least one document. Documentation-generators MUST process the content field as if it was defined using Markdown."
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "RAMLVersion",
-            "type": {
-              "typeName": "string",
-              "nameSpace": "",
-              "basicName": "string",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": null
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.customHandling",
-                "arguments": []
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Returns AST node of security scheme, this reference refers to, or null."
                 ]
               }
             ],
