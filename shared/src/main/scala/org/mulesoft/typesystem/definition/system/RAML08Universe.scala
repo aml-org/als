@@ -3873,7 +3873,7 @@ val value4 =
                     "OAuth 1.0",
                     "OAuth 2.0",
                     "Basic Authentication",
-                    "DigestSecurityScheme Authentication",
+                    "Digest Authentication",
                     "x-{other}"
                   ]
                 ]
