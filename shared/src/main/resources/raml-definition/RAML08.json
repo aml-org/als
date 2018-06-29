@@ -19,10 +19,10 @@
                 "basicName": "SchemaString",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
               }
             ],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
           }
         ],
         "fields": [
@@ -59,7 +59,7 @@
               "basicName": "SchemaString",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
             },
             "annotations": [
               {
@@ -99,7 +99,7 @@
             "basicName": "RAMLSimpleElement",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
           }
         ],
         "moduleName": "RAMLSpec",
@@ -166,7 +166,7 @@
               "basicName": "FullUriTemplateString",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
             },
             "annotations": [
               {
@@ -188,7 +188,7 @@
                 "basicName": "Parameter",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
               },
               "typeKind": 1
             },
@@ -223,7 +223,7 @@
                 "basicName": "Parameter",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
               },
               "typeKind": 1
             },
@@ -290,7 +290,7 @@
               "basicName": "MimeType",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
             },
             "annotations": [
               {
@@ -327,7 +327,7 @@
                 "basicName": "GlobalSchema",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
               },
               "typeKind": 1
             },
@@ -355,7 +355,7 @@
                 "basicName": "Trait",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
               },
               "typeKind": 1
             },
@@ -383,7 +383,7 @@
                 "basicName": "SecuritySchemeRef",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
               },
               "typeKind": 1
             },
@@ -415,7 +415,7 @@
                 "basicName": "AbstractSecurityScheme",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
               },
               "typeKind": 1
             },
@@ -443,7 +443,7 @@
                 "basicName": "ResourceType",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
               },
               "typeKind": 1
             },
@@ -471,7 +471,7 @@
                 "basicName": "Resource",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
               },
               "typeKind": 1
             },
@@ -501,7 +501,7 @@
                 "basicName": "DocumentationItem",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
               },
               "typeKind": 1
             },
@@ -514,31 +514,6 @@
                 "name": "MetaModel.description",
                 "arguments": [
                   "The API definition can include a variety of documents that serve as a user guides and reference documentation for the API. Such documents can clarify how the API works or provide business context. Documentation-generators MUST include all the sections in an API definition's documentation property in the documentation output, and they MUST preserve the order in which the documentation is declared. To add user documentation to the API, include the documentation property at the root of the API definition. The documentation property MUST be an array of documents. Each document MUST contain title and content attributes, both of which are REQUIRED. If the documentation property is specified, it MUST include at least one document. Documentation-generators MUST process the content field as if it was defined using Markdown."
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "RAMLVersion",
-            "type": {
-              "typeName": "string",
-              "nameSpace": "",
-              "basicName": "string",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": null
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.customHandling",
-                "arguments": []
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Returns AST node of security scheme, this reference refers to, or null."
                 ]
               }
             ],
@@ -592,7 +567,7 @@
               "basicName": "MarkdownString",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
             },
             "annotations": [
               {
@@ -619,7 +594,7 @@
             "basicName": "RAMLSimpleElement",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
           }
         ],
         "moduleName": "RAMLSpec",
@@ -629,16 +604,16 @@
     "aliases": [],
     "enumDeclarations": [],
     "imports": {
-      "MetaModel": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\metamodel.ts",
-      "Sys": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts",
-      "Params": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts",
-      "Common": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts",
-      "Bodies": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts",
-      "Resources": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts",
-      "Methods": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts",
-      "Security": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+      "MetaModel": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\metamodel.ts",
+      "Sys": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts",
+      "Params": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts",
+      "Common": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts",
+      "Bodies": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts",
+      "Resources": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts",
+      "Methods": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts",
+      "Security": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
     },
-    "name": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
+    "name": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\api.ts"
   },
   {
     "classes": [
@@ -659,7 +634,7 @@
     "aliases": [],
     "enumDeclarations": [],
     "imports": {},
-    "name": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\metamodel.ts"
+    "name": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\metamodel.ts"
   },
   {
     "classes": [
@@ -705,7 +680,7 @@
             "basicName": "ValueType",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -740,7 +715,7 @@
             "basicName": "ValueType",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -775,7 +750,7 @@
             "basicName": "ValueType",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -810,7 +785,7 @@
             "basicName": "ValueType",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -845,7 +820,7 @@
             "basicName": "ValueType",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -887,7 +862,7 @@
               "basicName": "TypeInstance",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
             },
             "annotations": [
               {
@@ -939,7 +914,7 @@
             "basicName": "ValueType",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -971,10 +946,10 @@
                 "basicName": "T",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
               }
             ],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -1003,7 +978,7 @@
             "basicName": "StringType",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -1032,7 +1007,7 @@
             "basicName": "UriTemplate",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -1061,7 +1036,7 @@
             "basicName": "UriTemplate",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -1090,7 +1065,7 @@
             "basicName": "StringType",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -1125,7 +1100,7 @@
             "basicName": "StringType",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -1154,7 +1129,7 @@
             "basicName": "StringType",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -1189,7 +1164,7 @@
             "basicName": "SchemaString",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -1224,7 +1199,7 @@
             "basicName": "SchemaString",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -1246,7 +1221,7 @@
             "basicName": "StringType",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -1268,7 +1243,7 @@
             "basicName": "StringType",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -1297,7 +1272,7 @@
             "basicName": "ExampleString",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -1326,7 +1301,7 @@
             "basicName": "ExampleString",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
           }
         ],
         "moduleName": null,
@@ -1348,7 +1323,7 @@
                 "basicName": "TypeInstanceProperty",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
               },
               "typeKind": 1
             },
@@ -1453,7 +1428,7 @@
               "basicName": "TypeInstance",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
             },
             "annotations": [
               {
@@ -1475,7 +1450,7 @@
                 "basicName": "TypeInstance",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
               },
               "typeKind": 1
             },
@@ -1527,10 +1502,10 @@
     "aliases": [],
     "enumDeclarations": [],
     "imports": {
-      "MetaModel": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\metamodel.ts",
-      "Common": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts"
+      "MetaModel": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\metamodel.ts",
+      "Common": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts"
     },
-    "name": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+    "name": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
   },
   {
     "classes": [
@@ -1551,10 +1526,10 @@
     "aliases": [],
     "enumDeclarations": [],
     "imports": {
-      "MetaModel": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\metamodel.ts",
-      "Sys": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
+      "MetaModel": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\metamodel.ts",
+      "Sys": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
     },
-    "name": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts"
+    "name": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts"
   },
   {
     "classes": [
@@ -1756,7 +1731,7 @@
               "basicName": "MarkdownString",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
             },
             "annotations": [
               {
@@ -1897,7 +1872,7 @@
             "basicName": "Parameter",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
           }
         ],
         "moduleName": null,
@@ -1937,7 +1912,7 @@
             "basicName": "Parameter",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
           }
         ],
         "moduleName": null,
@@ -2019,7 +1994,7 @@
             "basicName": "Parameter",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
           }
         ],
         "moduleName": null,
@@ -2059,7 +2034,7 @@
             "basicName": "NumberTypeDeclaration",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
           }
         ],
         "moduleName": null,
@@ -2099,7 +2074,7 @@
             "basicName": "Parameter",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
           }
         ],
         "moduleName": null,
@@ -2146,7 +2121,7 @@
             "basicName": "Parameter",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
           }
         ],
         "moduleName": null,
@@ -2167,11 +2142,11 @@
       }
     ],
     "imports": {
-      "MetaModel": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\metamodel.ts",
-      "Sys": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts",
-      "Common": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts"
+      "MetaModel": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\metamodel.ts",
+      "Sys": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts",
+      "Common": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts"
     },
-    "name": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
+    "name": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
   },
   {
     "classes": [
@@ -2198,7 +2173,7 @@
             "basicName": "StringType",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
           }
         ],
         "moduleName": null,
@@ -2261,7 +2236,7 @@
               "basicName": "SchemaString",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
             },
             "annotations": [
               {
@@ -2289,7 +2264,7 @@
               "basicName": "ExampleString",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
             },
             "annotations": [
               {
@@ -2311,7 +2286,7 @@
                 "basicName": "Parameter",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
               },
               "typeKind": 1
             },
@@ -2345,7 +2320,7 @@
               "basicName": "MarkdownString",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
             },
             "annotations": [
               {
@@ -2387,7 +2362,7 @@
               "basicName": "StatusCodeString",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
             },
             "annotations": [
               {
@@ -2419,7 +2394,7 @@
                 "basicName": "Parameter",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
               },
               "typeKind": 1
             },
@@ -2460,7 +2435,7 @@
                 "basicName": "BodyLike",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
               },
               "typeKind": 1
             },
@@ -2493,7 +2468,7 @@
               "basicName": "MarkdownString",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
             },
             "annotations": [
               {
@@ -2517,12 +2492,12 @@
     "aliases": [],
     "enumDeclarations": [],
     "imports": {
-      "MetaModel": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\metamodel.ts",
-      "Sys": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts",
-      "Params": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts",
-      "Common": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts"
+      "MetaModel": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\metamodel.ts",
+      "Sys": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts",
+      "Params": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts",
+      "Common": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts"
     },
-    "name": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
+    "name": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts"
   },
   {
     "classes": [
@@ -2544,10 +2519,10 @@
                 "basicName": "ResourceType",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
               }
             ],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
           }
         ],
         "fields": [
@@ -2560,7 +2535,7 @@
                 "basicName": "Method",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
               },
               "typeKind": 1
             },
@@ -2584,7 +2559,7 @@
                 "basicName": "TraitRef",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
               },
               "typeKind": 1
             },
@@ -2611,7 +2586,7 @@
               "basicName": "ResourceTypeRef",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
             },
             "annotations": [
               {
@@ -2633,7 +2608,7 @@
                 "basicName": "SecuritySchemeRef",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
               },
               "typeKind": 1
             },
@@ -2665,7 +2640,7 @@
                 "basicName": "Parameter",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
               },
               "typeKind": 1
             },
@@ -2721,7 +2696,7 @@
                 "basicName": "Parameter",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
               },
               "typeKind": 1
             },
@@ -2762,7 +2737,7 @@
               "basicName": "MarkdownString",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
             },
             "annotations": [
               {
@@ -2797,7 +2772,7 @@
               "basicName": "RelativeUriString",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
             },
             "annotations": [
               {
@@ -2829,7 +2804,7 @@
                 "basicName": "Resource",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
               },
               "typeKind": 1
             },
@@ -2860,7 +2835,7 @@
             "basicName": "ResourceBase",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
           }
         ],
         "moduleName": null,
@@ -2881,7 +2856,7 @@
               "basicName": "ResourceType",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
             },
             "annotations": [
               {
@@ -2914,10 +2889,10 @@
                 "basicName": "ResourceType",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
               }
             ],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
           }
         ],
         "moduleName": null,
@@ -2941,10 +2916,10 @@
                 "basicName": "ResourceType",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
               }
             ],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
           }
         ],
         "fields": [
@@ -3026,7 +3001,7 @@
             "basicName": "ResourceBase",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
           }
         ],
         "moduleName": null,
@@ -3036,15 +3011,15 @@
     "aliases": [],
     "enumDeclarations": [],
     "imports": {
-      "MetaModel": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\metamodel.ts",
-      "Sys": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts",
-      "Params": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts",
-      "Bodies": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts",
-      "Common": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts",
-      "Methods": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts",
-      "Security": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+      "MetaModel": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\metamodel.ts",
+      "Sys": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts",
+      "Params": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts",
+      "Bodies": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts",
+      "Common": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts",
+      "Methods": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts",
+      "Security": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
     },
-    "name": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
+    "name": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\resources.ts"
   },
   {
     "classes": [
@@ -3064,7 +3039,7 @@
                 "basicName": "Response",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
               },
               "typeKind": 1
             },
@@ -3098,7 +3073,7 @@
                 "basicName": "BodyLike",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
               },
               "typeKind": 1
             },
@@ -3165,7 +3140,7 @@
                 "basicName": "SecuritySchemeRef",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
               },
               "typeKind": 1
             },
@@ -3197,7 +3172,7 @@
                 "basicName": "Parameter",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
               },
               "typeKind": 1
             },
@@ -3239,7 +3214,7 @@
                 "basicName": "Parameter",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
               },
               "typeKind": 1
             },
@@ -3280,7 +3255,7 @@
                 "basicName": "Parameter",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
               },
               "typeKind": 1
             },
@@ -3320,7 +3295,7 @@
               "basicName": "MarkdownString",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
             },
             "annotations": [],
             "valueConstraint": null,
@@ -3403,7 +3378,7 @@
                 "basicName": "TraitRef",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
               },
               "typeKind": 1
             },
@@ -3432,7 +3407,7 @@
             "basicName": "MethodBase",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
           }
         ],
         "moduleName": null,
@@ -3456,10 +3431,10 @@
                 "basicName": "Trait",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
               }
             ],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
           }
         ],
         "fields": [
@@ -3571,7 +3546,7 @@
             "basicName": "MethodBase",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
           }
         ],
         "moduleName": null,
@@ -3592,7 +3567,7 @@
               "basicName": "Trait",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
             },
             "annotations": [
               {
@@ -3625,10 +3600,10 @@
                 "basicName": "Trait",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
               }
             ],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
           }
         ],
         "moduleName": null,
@@ -3638,14 +3613,14 @@
     "aliases": [],
     "enumDeclarations": [],
     "imports": {
-      "MetaModel": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\metamodel.ts",
-      "Sys": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts",
-      "Params": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts",
-      "Bodies": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts",
-      "Common": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts",
-      "Security": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+      "MetaModel": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\metamodel.ts",
+      "Sys": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts",
+      "Params": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts",
+      "Bodies": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts",
+      "Common": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts",
+      "Security": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
     },
-    "name": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+    "name": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
   },
   {
     "classes": [
@@ -3686,7 +3661,7 @@
                 "basicName": "TraitRef",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
               },
               "typeKind": 1
             },
@@ -3715,7 +3690,7 @@
             "basicName": "MethodBase",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
           }
         ],
         "moduleName": null,
@@ -3822,10 +3797,10 @@
                 "basicName": "AbstractSecurityScheme",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
               }
             ],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
           }
         ],
         "fields": [
@@ -3919,7 +3894,7 @@
               "basicName": "MarkdownString",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
             },
             "annotations": [
               {
@@ -3940,7 +3915,7 @@
               "basicName": "SecuritySchemePart",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
             },
             "annotations": [
               {
@@ -3961,7 +3936,7 @@
               "basicName": "SecuritySchemeSettings",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
             },
             "annotations": [
               {
@@ -4015,7 +3990,7 @@
               "basicName": "AbstractSecurityScheme",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
             },
             "annotations": [
               {
@@ -4040,7 +4015,7 @@
               "basicName": "SecuritySchemeSettings",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
             },
             "annotations": [],
             "valueConstraint": null,
@@ -4062,10 +4037,10 @@
                 "basicName": "AbstractSecurityScheme",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
               }
             ],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
           }
         ],
         "moduleName": null,
@@ -4086,7 +4061,7 @@
               "basicName": "FixedUri",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
             },
             "annotations": [
               {
@@ -4117,7 +4092,7 @@
               "basicName": "FixedUri",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
             },
             "annotations": [
               {
@@ -4148,7 +4123,7 @@
               "basicName": "FixedUri",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
             },
             "annotations": [
               {
@@ -4192,7 +4167,7 @@
             "basicName": "SecuritySchemeSettings",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
           }
         ],
         "moduleName": null,
@@ -4213,7 +4188,7 @@
               "basicName": "FixedUri",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
             },
             "annotations": [
               {
@@ -4244,7 +4219,7 @@
               "basicName": "FixedUri",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
             },
             "annotations": [
               {
@@ -4306,7 +4281,7 @@
                 "basicName": "Scope",
                 "typeKind": 0,
                 "typeArguments": [],
-                "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+                "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
               },
               "typeKind": 1
             },
@@ -4336,7 +4311,7 @@
             "basicName": "SecuritySchemeSettings",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
           }
         ],
         "moduleName": null,
@@ -4409,7 +4384,7 @@
               "basicName": "OAuth2SecuritySchemeSettings",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
             },
             "annotations": [],
             "valueConstraint": null,
@@ -4444,7 +4419,7 @@
             "basicName": "AbstractSecurityScheme",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
           }
         ],
         "moduleName": null,
@@ -4475,7 +4450,7 @@
               "basicName": "OAuth1SecuritySchemeSettings",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
             },
             "annotations": [],
             "valueConstraint": null,
@@ -4510,7 +4485,7 @@
             "basicName": "AbstractSecurityScheme",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
           }
         ],
         "moduleName": null,
@@ -4562,7 +4537,7 @@
             "basicName": "AbstractSecurityScheme",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
           }
         ],
         "moduleName": null,
@@ -4614,7 +4589,7 @@
             "basicName": "AbstractSecurityScheme",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
           }
         ],
         "moduleName": null,
@@ -4666,7 +4641,7 @@
             "basicName": "AbstractSecurityScheme",
             "typeKind": 0,
             "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+            "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
           }
         ],
         "moduleName": null,
@@ -4676,13 +4651,13 @@
     "aliases": [],
     "enumDeclarations": [],
     "imports": {
-      "MetaModel": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\metamodel.ts",
-      "Sys": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts",
-      "Params": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts",
-      "Bodies": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts",
-      "Common": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts",
-      "Methods": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
+      "MetaModel": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\metamodel.ts",
+      "Sys": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts",
+      "Params": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts",
+      "Bodies": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\bodies.ts",
+      "Common": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\common.ts",
+      "Methods": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\methods.ts"
     },
-    "name": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
+    "name": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-0.8\\security.ts"
   }
 ]
