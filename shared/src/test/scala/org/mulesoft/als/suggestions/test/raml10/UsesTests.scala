@@ -1,8 +1,6 @@
-package org.mulesoft.als.suggestions.test.raml
+package org.mulesoft.als.suggestions.test.raml10
 
-import org.mulesoft.als.suggestions.test.RAMLTest
-
-class UsesTests extends RAMLTest {
+class UsesTests extends RAML10Test {
 
   test("test01") {
     this.runTest("uses/testGroup01/test01.raml",

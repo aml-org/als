@@ -1,8 +1,6 @@
-package org.mulesoft.als.suggestions.test.raml
+package org.mulesoft.als.suggestions.test.raml10
 
-import org.mulesoft.als.suggestions.test.RAMLTest
-
-class BodyTests extends RAMLTest {
+class BodyTests extends RAML10Test {
 
     test("Method with no bodies") {
         this.runTest("body/test001.raml",

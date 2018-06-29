@@ -1,8 +1,6 @@
-package org.mulesoft.als.suggestions.test.raml
+package org.mulesoft.als.suggestions.test.raml10
 
-import org.mulesoft.als.suggestions.test.RAMLTest
-
-class EnumTests extends RAMLTest {
+class EnumTests extends RAML10Test {
 
     test("Security scheme types completion") {
         this.runTest("enums/test001.raml",

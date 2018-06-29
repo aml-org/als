@@ -1,8 +1,6 @@
-package org.mulesoft.als.suggestions.test.oas
+package org.mulesoft.als.suggestions.test.oas20
 
-import org.mulesoft.als.suggestions.test.OASTest
-
-class StructureTestsJson extends OASTest {
+class StructureTestsJson extends OAS20Test {
 
   test("SwaggerObject info"){
     this.runTest("structure_json/test01.json", Set("info"))

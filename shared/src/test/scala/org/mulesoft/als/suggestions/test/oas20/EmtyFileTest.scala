@@ -1,8 +1,6 @@
-package org.mulesoft.als.suggestions.test.oas
+package org.mulesoft.als.suggestions.test.oas20
 
-import org.mulesoft.als.suggestions.test.OASTest
-
-class EmtyFileTest extends OASTest {
+class EmtyFileTest extends OAS20Test {
 
     test("Empty YAML file completion"){
         this.runTest("empty/file/empty.yml", Set("swagger: '2.0'"))
