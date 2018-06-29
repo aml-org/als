@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins
 
-import amf.core.remote.{Oas, Oas2, Oas2Yaml, Raml10, Vendor}
+import amf.core.remote.{Oas, Oas2, Oas2Yaml, Raml08, Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion, SuggestionCategoryRegistry}
 import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ICompletionResponse, LocationKind, Syntax}
 import org.mulesoft.als.suggestions.plugins.raml.AnnotationReferencesCompletionPlugin
@@ -241,7 +241,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 object StructureCompletionPlugin {
     val ID = "structure.completion";
     
-    val supportedLanguages:List[Vendor] = List(Raml10, Oas, Oas2, Oas2Yaml);
+    val supportedLanguages:List[Vendor] = List(Raml08, Raml10, Oas, Oas2, Oas2Yaml);
     
     def apply():StructureCompletionPlugin = new StructureCompletionPlugin();
 }
