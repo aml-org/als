@@ -43,7 +43,7 @@ class NumberTypeDeclarationParameter extends RAML10ASTTest {
   test("NumberTypeDeclarationParameter multipleOf"){
     runTest( "ASTTests/NumberTypeDeclaration/numberTypeDeclarationParameter.raml", project => {
 
-      var expectedValue = 2
+      var expectedValue = "2"
       var length = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("queryParameters").head.attribute("multipleOf").get.value
       if (length == Some(expectedValue))
         succeed

@@ -43,7 +43,7 @@ class NumberTypeDeclarationBody extends RAML10ASTTest {
   test("NumberTypeDeclarationBody multipleOf"){
     runTest( "ASTTests/NumberTypeDeclaration/numberTypeDeclarationBody.raml", project => {
 
-      var expectedValue = 2
+      var expectedValue = "2"
       var length = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("body").head.attribute("multipleOf").get.value
       if (length == Some(expectedValue))
         succeed

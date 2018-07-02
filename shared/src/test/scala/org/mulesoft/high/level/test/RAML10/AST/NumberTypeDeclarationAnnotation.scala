@@ -43,7 +43,7 @@ class NumberTypeDeclarationAnnotation extends RAML10ASTTest {
   test("NumberTypeDeclarationAnnotation multipleOf"){
     runTest( "ASTTests/NumberTypeDeclaration/numberTypeDeclarationAnnotation.raml", project => {
 
-      var expectedValue = 2
+      var expectedValue = "2"
       var length = project.rootASTUnit.rootNode.elements("annotationTypes").head.attribute("multipleOf").get.value.get
       if (length == expectedValue)
         succeed
