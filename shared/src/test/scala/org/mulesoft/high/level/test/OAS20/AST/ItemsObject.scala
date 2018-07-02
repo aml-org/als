@@ -47,7 +47,7 @@ class ItemsObject extends OAS20ASTTest{
 
   test("ItemsObject maximum"){
     runTest( "ASTTests/ItemsObject/ItemsObject.yml", project => {
-      var expectedValue = 2222
+      var expectedValue = "2222"
       var actualValue = project.rootASTUnit.rootNode.element("paths").get.elements("paths").head.elements("parameters").head.attribute("maximum").get.value
       if (actualValue == Some(expectedValue))
         succeed
@@ -69,7 +69,7 @@ class ItemsObject extends OAS20ASTTest{
 
   test("ItemsObject minimum"){
     runTest( "ASTTests/ItemsObject/ItemsObject.yml", project => {
-      var expectedValue = 22
+      var expectedValue = "22"
       var actualValue = project.rootASTUnit.rootNode.element("paths").get.elements("paths").head.elements("parameters").head.attribute("minimum").get.value
       if (actualValue == Some(expectedValue))
         succeed
@@ -168,7 +168,7 @@ class ItemsObject extends OAS20ASTTest{
 
   test("ItemsObject multipleOf"){
     runTest( "ASTTests/ItemsObject/ItemsObject.yml", project => {
-      var expectedValue = 2
+      var expectedValue = "2"
       var actualValue = project.rootASTUnit.rootNode.element("paths").get.elements("paths").head.elements("parameters").head.attribute("multipleOf").get.value
       if (actualValue == Some(expectedValue))
         succeed

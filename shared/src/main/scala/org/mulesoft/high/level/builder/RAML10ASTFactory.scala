@@ -1,7 +1,7 @@
 package org.mulesoft.high.level.builder
 
 import amf.core.metamodel.document.{BaseUnitModel, DocumentModel, ExtensionLikeModel}
-import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
+import amf.core.metamodel.domain.{DomainElementModel, ExternalSourceElementModel, ShapeModel}
 import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, DomainExtensionModel, PropertyShapeModel, ShapeExtensionModel}
 import amf.core.model.document.{BaseUnit, Document, Fragment, Module}
 import amf.core.model.domain._
@@ -185,7 +185,7 @@ class RAML10ASTFactory private extends RAMLASTFactory {
         registerPropertyMatcher("XMLFacetInfo", "namespace", XMLSerializerModel.Namespace)
         registerPropertyMatcher("XMLFacetInfo", "prefix", XMLSerializerModel.Prefix)
 
-        registerPropertyMatcher("ExampleSpec", "value", ExampleModel.ExternalValue)
+        registerPropertyMatcher("ExampleSpec", "value", ThisMatcher() + ExampleModel.ExternalValue | ExternalSourceElementModel.Raw)
         registerPropertyMatcher("ExampleSpec", "strict", ExampleModel.Strict)
         registerPropertyMatcher("ExampleSpec", "name", ExampleModel.Name)
         registerPropertyMatcher("ExampleSpec", "displayName", ExampleModel.DisplayName)

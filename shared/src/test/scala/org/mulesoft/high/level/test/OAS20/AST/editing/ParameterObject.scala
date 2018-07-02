@@ -101,29 +101,29 @@ class ParameterObject extends OAS20ASTEditingTest{
         }, "header")
     }
 
-    test("Parameter Definition Object (located in path item) 'in' editing ('query'->'body'). YAML"){
-        runAttributeEditingTest("ParameterObject/ParameterObject.yml", project => {
-            project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("parameters").head.attribute("in")
-        }, "body")
-    }
-
-    test("Parameter Definition Object (located in path item) 'in' editing ('query'->'body'). JSON"){
-        runAttributeEditingTest("ParameterObject/ParameterObject.json", project => {
-            project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("parameters").head.attribute("in")
-        }, "body")
-    }
-
-    test("Parameter Definition Object (located in path item) 'in' editing ('query'->'formData'). YAML"){
-        runAttributeEditingTest("ParameterObject/ParameterObject.yml", project => {
-            project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("parameters").head.attribute("in")
-        }, "formData")
-    }
-
-    test("Parameter Definition Object (located in path item) 'in' editing ('query'->'formData'). JSON"){
-        runAttributeEditingTest("ParameterObject/ParameterObject.json", project => {
-            project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("parameters").head.attribute("in")
-        }, "formData")
-    }
+//    test("Parameter Definition Object (located in path item) 'in' editing ('query'->'body'). YAML"){
+//        runAttributeEditingTest("ParameterObject/ParameterObject.yml", project => {
+//            project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("parameters").head.attribute("in")
+//        }, "body")
+//    }
+//
+//    test("Parameter Definition Object (located in path item) 'in' editing ('query'->'body'). JSON"){
+//        runAttributeEditingTest("ParameterObject/ParameterObject.json", project => {
+//            project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("parameters").head.attribute("in")
+//        }, "body")
+//    }
+//
+//    test("Parameter Definition Object (located in path item) 'in' editing ('query'->'formData'). YAML"){
+//        runAttributeEditingTest("ParameterObject/ParameterObject.yml", project => {
+//            project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("parameters").head.attribute("in")
+//        }, "formData")
+//    }
+//
+//    test("Parameter Definition Object (located in path item) 'in' editing ('query'->'formData'). JSON"){
+//        runAttributeEditingTest("ParameterObject/ParameterObject.json", project => {
+//            project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("parameters").head.attribute("in")
+//        }, "formData")
+//    }
 
     test("Parameter Object '$ref' editing for refering parameter. YAML"){
         runAttributeEditingTest("ParameterObject/ParameterObjectRef.json", project => {
@@ -150,15 +150,15 @@ class ParameterObject extends OAS20ASTEditingTest{
         }, "$ref", "#/parameters/skipParam1")
     }
 
-    test("Parameter Object '$ref' editing for parameter expressed as AMF Payload. YAML") {
-        runAttributeCreationTest("ParameterObject/ParameterObjectRef.yml", project => {
-            Some(project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("operations").head.elements("parameters")(2))
-        }, "$ref", "#/parameters/skipParam1")
-    }
-
-    test("Parameter Object '$ref' editing for parameter expressed as AMF Payload. JSON") {
-        runAttributeCreationTest("ParameterObject/ParameterObjectRef.json", project => {
-            Some(project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("operations").head.elements("parameters")(2))
-        }, "$ref", "#/parameters/skipParam1")
-    }
+//    test("Parameter Object '$ref' editing for parameter expressed as AMF Payload. YAML") {
+//        runAttributeCreationTest("ParameterObject/ParameterObjectRef.yml", project => {
+//            Some(project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("operations").head.elements("parameters")(2))
+//        }, "$ref", "#/parameters/skipParam1")
+//    }
+//
+//    test("Parameter Object '$ref' editing for parameter expressed as AMF Payload. JSON") {
+//        runAttributeCreationTest("ParameterObject/ParameterObjectRef.json", project => {
+//            Some(project.rootASTUnit.rootNode.elements("paths").head.elements("paths").head.elements("operations").head.elements("parameters")(2))
+//        }, "$ref", "#/parameters/skipParam1")
+//    }
 }

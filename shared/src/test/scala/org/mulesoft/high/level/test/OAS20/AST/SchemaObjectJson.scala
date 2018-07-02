@@ -81,16 +81,16 @@ class SchemaObjectJson extends OAS20ASTTest{
     })
   }
 
-  test("SchemaObjectJson allOf"){
-    runTest( "ASTTests/SchemaObject/SchemaObject.json", project => {
-      var expectedValue = 1
-      var actualValue = project.rootASTUnit.rootNode.elements("definitions").head.elements("allOf").length
-      if (actualValue == expectedValue)
-        succeed
-      else
-        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
-    })
-  }
+//  test("SchemaObjectJson allOf"){
+//    runTest( "ASTTests/SchemaObject/SchemaObject.json", project => {
+//      var expectedValue = 1
+//      var actualValue = project.rootASTUnit.rootNode.elements("definitions").head.elements("allOf").length
+//      if (actualValue == expectedValue)
+//        succeed
+//      else
+//        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+//    })
+//  }
 
   test("SchemaObjectJson required"){
     runTest( "ASTTests/SchemaObject/SchemaObject.json", project => {

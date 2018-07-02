@@ -151,7 +151,7 @@ class OAS20ASTFactory private extends DefaultASTFactory {
         registerPropertyMatcher("ParameterDefinitionObject", "key", ParameterModel.Name)
 
         registerPropertyMatcher("ParameterObject", "$ref", ThisMatcher().withCustomBuffer((obj,node)=>ReferenceValueBuffer(obj,node)))
-        registerPropertyMatcher("ParameterObject", "name", ParameterModel.Name)
+        registerPropertyMatcher("ParameterObject", "name", ParameterModel.ParameterName)
         registerPropertyMatcher("ParameterObject", "description", ParameterModel.Description)
         registerPropertyMatcher("ParameterObject", "in", ParameterModel.Binding)
         registerPropertyMatcher("ParameterObject", "required", ParameterModel.Required)
