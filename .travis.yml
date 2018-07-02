@@ -5,9 +5,9 @@ notifications:
     on_success: change
     on_failure: change
 
+jdk: oraclejdk8
+
 scala:
    - 2.12.2
 
-before_script: sbt clean
-
-script: sbt compile && sbt publish
+script: sbt test && sbt publish
