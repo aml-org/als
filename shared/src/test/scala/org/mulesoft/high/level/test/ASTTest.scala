@@ -17,6 +17,9 @@ import scala.concurrent.{ExecutionContext, Future}
 
 trait AstTest extends AsyncFunSuite with PlatformSecrets{
 
+    implicit override def executionContext:ExecutionContext =
+        scala.concurrent.ExecutionContext.Implicits.global
+
     def runTest(path:String,test:IProject => Assertion):Future[Assertion] = {
         parse(filePath(path)).map(test)
     }

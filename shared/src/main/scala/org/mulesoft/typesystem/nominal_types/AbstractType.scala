@@ -357,7 +357,7 @@ class AbstractType(_name:String, _universe:IUniverse = EmptyUniverse, _path: Str
     }
 
     def getTypeClassName: String = {
-        getClass.getCanonicalName
+        getClass.getName
     }
 
     def isStandardSuperclass(nId: String, className: String):Boolean = {
