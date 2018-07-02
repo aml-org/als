@@ -10,4 +10,4 @@ jdk: oraclejdk8
 scala:
    - 2.12.2
 
-script: sbt test && sbt publish
+script: sbt typesystemJVM/test && sbt publish
