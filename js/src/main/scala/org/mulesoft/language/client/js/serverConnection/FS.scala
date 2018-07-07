@@ -13,7 +13,7 @@ object FSFacade extends js.Object {
 	
 	def isDirectory(path: String, handler: js.Function2[js.Error, Boolean, Unit]): Unit = js.native
 	
-	def content(path: String, handler: js.Function2[js.Error, String, Unit]): Unit = js.native
+	def readFile(path: String, handler: js.Function2[js.Error, js.Object, Unit]): Unit = js.native
 }
 
 object FS {
@@ -50,12 +50,12 @@ object FS {
 	def content(path: String): Future[String] = {
 		var promise = Promise[String]();
 		
-		FSFacade.content(this.removeProtocol(path), (error, result) => {
-			if(error == null) {
-				promise.success(result);
+		FSFacade.readFile(this.removeProtocol(path), (error, result) => {
+			if(js.isUndefined(error) || error == null) {
+				promise.success(result.toString());
+			} else {
+				promise.failure(new Throwable(error.message))
 			}
-			
-			promise.failure(new Throwable(error.message))
 		});
 		
 		promise.future;
