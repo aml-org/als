@@ -1,0 +1,10 @@
+#%RAML 0.8
+title: test
+traits:
+  - TestTrait:
+      queryParameters:
+        limit:
+          type: integer
+/test:
+  get:
+    is: [TestTrait]

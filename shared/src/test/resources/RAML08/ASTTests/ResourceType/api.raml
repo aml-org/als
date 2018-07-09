@@ -1,0 +1,25 @@
+#%RAML 0.8
+title: test
+traits:
+  - trait:
+securitySchemes:
+  - oauth:
+      type: OAuth 2.0
+resourceTypes:
+  - TestResorceType:
+      type: bb
+      is: [trait]
+      description: RT
+      securedBy: [oauth]
+      uriParameters:
+        id:
+      displayName: TRT
+      usage: usage
+      post:
+        description: Allows to create new <<objectName | !singularize>>
+        body:
+          application/json:
+  - bb:
+      get:
+/resource/{id}:
+  type:  { TestResorceType: {objectName : TestType} }
