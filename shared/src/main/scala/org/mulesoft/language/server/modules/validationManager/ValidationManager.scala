@@ -99,8 +99,11 @@ class ValidationManager extends AbstractServerModule {
 
         this.connection.validated(report)
       }
-      case Failure(exception) => this.connection.error("Error on validation: " + exception.toString,
-        "ValidationManager", "newASTAvailable")
+      case Failure(exception) => {
+        exception.printStackTrace()
+        this.connection.error("Error on validation: " + exception.toString,
+          "ValidationManager", "newASTAvailable")
+      }
     }
 
   }
@@ -166,8 +169,6 @@ class ValidationManager extends AbstractServerModule {
         startOffset, endOffset
       )
     }
-
-    println("Found error with message: " + messageText)
 
     IValidationIssue(
       "PROPERTY_UNUSED",

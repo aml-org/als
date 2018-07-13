@@ -97,16 +97,25 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
       directResult
     } else if (uri.startsWith("file://") || uri.startsWith("FILE://")) {
 
-      var path:String = uri
-      if (uri.startsWith("file:///")){
-        path = uri.substring("file:///".length).replace("%5C","\\")
+      var found: Option[TextEditorInfo] = None
+
+      if (uri.startsWith("file:///") || uri.startsWith("FILE:///")){
+        val path:String = uri.substring("file:///".length).replace("%5C","\\")
+        val result = this.uriToEditor.get(path)
+        if (result.isDefined) {
+          found = result
+        }
       }
-      else {
-        path = uri.substring("file://".length)
+
+      if (uri.startsWith("file://") || uri.startsWith("FILE://")){
+        val path:String = uri.substring("file://".length).replace("%5C","\\")
+        val result = this.uriToEditor.get(path)
+        if (result.isDefined) {
+          found = result
+        }
       }
-      val result = this.uriToEditor.get(path)
-      println(s"Checking uri $path and getting result: $result")
-      result
+
+      found
     } else {
 
       None

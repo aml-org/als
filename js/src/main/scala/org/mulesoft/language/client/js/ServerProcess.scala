@@ -15,7 +15,7 @@ import org.mulesoft.language.server.modules.hlastManager.HLASTManager
 import org.mulesoft.language.server.modules.outline.StructureManager
 import org.mulesoft.language.server.server.modules.astManager.{ASTManager, IASTManagerModule, ParseResult, ParserHelper}
 import org.mulesoft.language.server.server.modules.commonInterfaces.{IEditorTextBuffer, IPoint}
-import org.mulesoft.language.server.server.modules.editorManager.{EditorManager, TextBufferInfo}
+import org.mulesoft.language.server.server.modules.editorManager.{EditorManager, IEditorManagerModule, TextBufferInfo}
 import org.mulesoft.language.server.server.modules.validationManager.ValidationManager
 import upickle.json
 
@@ -96,6 +96,11 @@ object ServerProcess {
     
     server.enableModule(FindReferencesModule.moduleId)
     server.enableModule(FIndDeclarationModule.moduleId)
+
+    val editorManager = server.modules.get(IEditorManagerModule.moduleId)
+    if (editorManager.isDefined) {
+      connection.editorManager = Some(editorManager.get.asInstanceOf[IEditorManagerModule])
+    }
   }
 }
 

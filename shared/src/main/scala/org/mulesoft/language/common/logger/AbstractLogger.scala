@@ -122,7 +122,6 @@ trait AbstractLogger extends ILogger {
                           case _ => msg.message
                         }
 
-                        println("Here12")
                         Option(new LogMessage {
                           var message = resultMessage
                           var severity = msg.severity
@@ -141,7 +140,7 @@ trait AbstractLogger extends ILogger {
       }
       case _ => {
 
-        val maxLength = 200
+        val maxLength = 400
         val resultMessage = if (msg.message.length > maxLength)
           msg.message.substring(0, maxLength)
         else

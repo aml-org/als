@@ -225,6 +225,5 @@ class TextBufferInfo (uri: String, logger: ILogger) extends IEditorTextBuffer {
     }
 
     this.lineLengths += (l - ind);
-    println("Line lengths: " + this.lineLengths.mkString(","))
   }
 }

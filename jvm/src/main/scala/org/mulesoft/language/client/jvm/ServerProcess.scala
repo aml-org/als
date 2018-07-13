@@ -89,6 +89,30 @@ object ServerProcess {
 		}
 	}
 	
+	def openDeclaration(uri: String, position: Int, locationsHandler: LocationsHandler) {
+		connection.findDeclaration(uri, position) andThen {
+			case Success(result) => {
+				var list: util.List[ILocation] = new util.ArrayList[ILocation]();
+				
+				result.foreach(location => list.add(location));
+				
+				locationsHandler.success(list);
+			}
+		}
+	}
+	
+	def findReferences(uri: String, position: Int, locationsHandler: LocationsHandler) {
+		connection.findReferences(uri, position) andThen {
+			case Success(result) => {
+				var list: util.List[ILocation] = new util.ArrayList[ILocation]();
+				
+				result.foreach(location => list.add(location));
+				
+				locationsHandler.success(list);
+			}
+		}
+	}
+	
 	def setFS(fs: FS) {
 		connection.fs = fs;
 	}
@@ -110,6 +134,12 @@ trait SuggestionsHandler {
 
 trait StructureHandler {
 	def success(map: util.Map[String, JAVAStructureNode]);
+	
+	def failure(throwable: Throwable);
+}
+
+trait LocationsHandler {
+	def success(list: util.List[ILocation]);
 	
 	def failure(throwable: Throwable);
 }

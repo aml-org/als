@@ -37,7 +37,6 @@ class ParserHelper(val platform:Platform) extends CommandHelper{
             unit <- parse(config, env)
             report <- report(unit,config)
         } yield {
-            println("Finished parsing and validating in ParserHelper")
             ParseResult(unit,report)
         }
     }
@@ -54,7 +53,6 @@ class ParserHelper(val platform:Platform) extends CommandHelper{
     }
 
     def report(model: BaseUnit, config: ParserConfig):Future[AMFValidationReport] = {
-        println("Reporting unit")
         val customProfileLoaded = if (config.customProfile.isDefined) {
             RuntimeValidator.loadValidationProfile(config.customProfile.get) map { profileName =>
                 profileName

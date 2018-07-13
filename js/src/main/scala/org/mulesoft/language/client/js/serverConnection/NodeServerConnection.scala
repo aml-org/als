@@ -1,12 +1,11 @@
 package org.mulesoft.language.client.js.serverConnection
 
-import amf.client.remote.Content
-import amf.core.remote.{Platform}
 import org.mulesoft.language.client.js.dtoTypes._
 import org.mulesoft.language.client.js.{Globals, dtoTypes}
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.common.logger.IPrintlnLogger
 import org.mulesoft.language.server.server.core.connectionsImpl.AbstractServerConnection
+import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
@@ -29,6 +28,8 @@ class NodeServerConnection extends IPrintlnLogger
   with NodeMessageDispatcher with AbstractServerConnection {
 
   var lastStructureReport: Option[StructureReport] = None
+
+  var editorManager: Option[IEditorManagerModule] = None
 
   initialize()
 
@@ -168,7 +169,24 @@ class NodeServerConnection extends IPrintlnLogger
     *
     * @param fullPath
     */
-  override def content(fullPath: String): Future[String] = FS.content(fullPath);
+  override def content(fullPath: String): Future[String] = {
+
+    if (editorManager.isDefined) {
+
+      val editor = editorManager.get.getEditor(fullPath)
+      if (editor.isDefined) {
+
+        Future.successful(editor.get.text)
+      } else {
+
+        FS.content(fullPath)
+      }
+    } else {
+
+      FS.content(fullPath)
+    }
+
+  };
 
   /**
     * Adds a listener to document details request. Must notify listeners in order of registration.

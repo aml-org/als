@@ -145,7 +145,6 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
   }
   
   def forceGetCurrentAST(uri: String): Future[IProject] = {
-    println("Asked for HL AST")
 
     // TODO use runnable
 
@@ -153,7 +152,6 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
 
     if (current.isDefined) {
 
-      println("Got current HL AST")
       Future.successful(current.get)
     } else {
       var result = Promise[IProject]();
