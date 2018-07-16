@@ -243,10 +243,7 @@ class RAML10ASTFactory private extends RAMLASTFactory {
             case NilShapeModel => universe.`type`("NilTypeDeclaration")
             case ScalarShapeModel =>
                 var simpleType = Option(shape.fields.get(ScalarShapeModel.DataType))
-                    .map(dt=>{
-                        var dataType = dt.asInstanceOf[AmfScalar].value.toString
-                        dataType.substring(dataType.indexOf("#") + 1)
-                    }).getOrElse("string")
+                    .map(RAMLASTFactory.dataTypeToString).getOrElse("string")
                 simpleType match {
                     case "string" => universe.`type`("StringTypeDeclaration")
                     case "number" => universe.`type`("NumberTypeDeclaration")

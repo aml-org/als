@@ -9,6 +9,7 @@ import amf.core.remote.{Raml08, Vendor}
 import amf.plugins.document.webapi.annotations.ParsedJSONSchema
 import amf.plugins.domain.shapes.metamodel._
 import amf.plugins.domain.shapes.models.ArrayShape
+import amf.plugins.domain.shapes.parser.{TypeDefXsdMapping, XsdTypeDefMapping}
 import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.metamodel.security._
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
@@ -76,7 +77,7 @@ class RAML08ASTFactory private extends RAMLASTFactory {
             ((ThisMatcher() ifType ParameterModel) + ParameterModel.Name) |
             ((ThisMatcher() ifType PropertyShapeModel) + PropertyShapeModel.Name))
 
-        registerPropertyMatcher("Parameter", "type", parameterShapeMatcher + TypePropertyMatcher())
+        registerPropertyMatcher("Parameter", "type", parameterShapeRawMatcher.withCustomBuffer((obj,node)=>TypePropertyValueBuffer08(obj,node)))
         registerPropertyMatcher("Parameter", "displayName", parameterShapeMatcher + ShapeModel.DisplayName)
         registerPropertyMatcher("Parameter", "description", parameterShapeMatcher + ShapeModel.Description)
         registerPropertyMatcher("Parameter", "default",parameterShapeMatcher + ShapeModel.Default)
@@ -176,17 +177,69 @@ object SchemaTextValueBuffer {
     def apply(shape: AmfObject, hlNode: IHighLevelNode): SchemaTextValueBuffer = new SchemaTextValueBuffer(shape, hlNode)
 }
 
-class RepeatPropertyValueBuffer(shape:AmfObject,hlNode:IHighLevelNode) extends IValueBuffer {
+class RepeatPropertyValueBuffer(var shape:AmfObject,hlNode:IHighLevelNode) extends IValueBuffer {
     override def getValue: Option[Any] = shape match {
         case as:ArrayShape => Some(true)
         case _ => Some(false)
     }
 
-    override def setValue(value: Any): Unit = {}
+    override def setValue(value: Any): Unit = shape match {
+        case as:ArrayShape => value match {
+            case true =>
+            case false => Option(as.items) match {
+                case Some(s) =>
+                    hlNode.amfNode.fields.setWithoutId(ParameterModel.Schema,s)
+                    shape = s
+                case _ =>
+            }
+            case _ =>
+        }
+        case s:Shape => value match {
+            case true =>
+                val aShape = ArrayShapeModel.modelInstance.withItems(s)
+                aShape.fields.setWithoutId(ShapeModel.Name,s.fields.get(ShapeModel.Name))
+                s.fields.setWithoutId(ShapeModel.Name,AmfScalar("items"))
+                hlNode.amfNode.fields.setWithoutId(ParameterModel.Schema,aShape)
+                shape = aShape
+            case false =>
+            case _ =>
+        }
+        case _ =>
+    }
 
     override def yamlNodes: Seq[YPart] = Seq()
 }
 
 object RepeatPropertyValueBuffer {
     def apply(shape: AmfObject, hlNode: IHighLevelNode): RepeatPropertyValueBuffer = new RepeatPropertyValueBuffer(shape, hlNode)
+}
+
+class TypePropertyValueBuffer08(var shape:AmfObject, hlNode:IHighLevelNode) extends IValueBuffer {
+    override def getValue: Option[Any] = {
+        var actualShape = shape match {
+            case as:ArrayShape => Option(as.items)
+            case s:Shape => Some(s)
+            case _ => None
+        }
+        actualShape.map(_.fields.get(ScalarShapeModel.DataType)).map(x=>TypeDefXsdMapping.typeDef08(x.asInstanceOf[AmfScalar].value.toString))
+    }
+
+    override def setValue(value: Any): Unit = {
+        var actualShape = shape match {
+            case as:ArrayShape => Option(as.items)
+            case s:Shape => Some(s)
+            case _ => None
+        }
+        XsdTypeDefMapping.xsdFromString(value.toString)._1.foreach(v=>{
+            actualShape.foreach(s=>{
+                s.fields.setWithoutId(ScalarShapeModel.DataType,AmfScalar(v))
+            })
+        })
+    }
+
+    override def yamlNodes: Seq[YPart] = Seq()
+}
+
+object TypePropertyValueBuffer08 {
+    def apply(shape: AmfObject, hlNode: IHighLevelNode): TypePropertyValueBuffer08 = new TypePropertyValueBuffer08(shape, hlNode)
 }
