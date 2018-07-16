@@ -5,6 +5,7 @@ import java.net.URI
 import amf.client.remote.Content
 import amf.core.lexer.CharSequenceStream
 import amf.core.remote._
+import amf.core.remote.server.JsServerPlatform.OS
 import amf.core.remote.server.Path
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.common.io.FileSystem
@@ -133,5 +134,13 @@ class FSProviderBasedPlatform (fsProvider: IFSProvider) extends Platform {
 
   protected def createHttpLoader(): ResourceLoader = {
     new HTTPLoader()
+  }
+
+  override def operativeSystem(): String = {
+      OS.platform() match {
+          case so if so.contains("darwin") => "mac"
+          case so if so.contains("win")    => "win"
+          case _                           => "nux"
+      }
   }
 }
