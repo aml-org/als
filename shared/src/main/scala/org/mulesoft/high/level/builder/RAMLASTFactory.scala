@@ -227,6 +227,13 @@ abstract class RAMLASTFactory protected extends DefaultASTFactory {
     }
 }
 
+object RAMLASTFactory {
+    def dataTypeToString(dt: AmfElement): String = {
+        var dataType = dt.asInstanceOf[AmfScalar].value.toString
+        dataType.substring(dataType.indexOf("#") + 1)
+    }
+}
+
 class RelativeUriValueBuffer(element:AmfObject,hlNode:IHighLevelNode) extends
     BasicValueBuffer(element,EndPointModel.Path) {
 
