@@ -210,13 +210,13 @@ class ValidationManager extends AbstractServerModule {
       }
     } else {
       Future {
-        config.validationProfile
+        config.profile
       }
     }
 
-    customProfileLoaded.flatMap(profileName => {
+    customProfileLoaded.flatMap(profile => {
 
-        val result = RuntimeValidator(baseUnit, profileName)
+        val result = RuntimeValidator(baseUnit, profile)
         result
       }
     )
