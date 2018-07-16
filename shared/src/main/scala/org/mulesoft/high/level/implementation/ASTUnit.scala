@@ -16,7 +16,7 @@ class ASTUnit(_baseUnit:BaseUnit, typeCollection:TypeCollection, _project:Projec
 
     private var _rootNode:Option[ASTNodeImpl] = None
 
-    private var _positionsMapper:IPositionsMapper = PositionsMapper(_baseUnit.location).withText(_baseUnit.raw.getOrElse(""))
+    private var _positionsMapper:IPositionsMapper = PositionsMapper(_baseUnit.location().getOrElse("")).withText(_baseUnit.raw.getOrElse(""))
 
     def path:String = _baseUnit.id
 
