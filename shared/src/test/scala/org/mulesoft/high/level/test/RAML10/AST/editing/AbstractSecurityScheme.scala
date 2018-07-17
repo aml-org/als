@@ -38,7 +38,7 @@ class AbstractSecurityScheme extends RAML10ASTEditingTest{
       project.rootASTUnit.rootNode.elements("securitySchemes").head.elements("settings").head.attribute("accessTokenUri")
     }, "b")
   }
-  //abstractSecuritySchemeCreation.raml
+
   test("AbstractSecurityScheme name creation") {
     var fp = "Api/api_empty.raml"
     parse(filePath(fp)).flatMap(project=>{
@@ -79,4 +79,20 @@ class AbstractSecurityScheme extends RAML10ASTEditingTest{
       Option(project.rootASTUnit.rootNode.elements("securitySchemes").head)
     },"displayName", "text")
   }
+
+//  test("AbstractSecurityScheme settings creation" ) {
+//    //    runAttributeCreationTest("/SecurityScheme/abstractSecuritySchemeCreation.raml", project => {
+//    //      project.rootASTUnit.rootNode.elements("securitySchemes").head.elements("settings").head.attribute("accessTokenUri")
+//    //    }, "b")
+//    parse(filePath("/SecurityScheme/abstractSecuritySchemeCreation.raml")).flatMap(project=>{
+//      var apiNode = project.rootASTUnit.rootNode.elements("securitySchemes").head.elements("settings").head
+//      var apiDef = apiNode.definition
+//      var param2Node = apiNode.newChild(apiDef.property("settings").get).flatMap(_.asElement).get
+//      var paramDef = param2Node.definition
+//      var typeNode = apiNode.newChild(apiDef.property("accessTokenUri").get).flatMap(_.asAttr).get
+//      runAttributeCreationTest1(project, project => {
+//        Some(project.rootASTUnit.rootNode.elements("securitySchemes").head.elements("settings")(1))
+//      },"accessTokenUri","b")
+//    })
+//  }
 }

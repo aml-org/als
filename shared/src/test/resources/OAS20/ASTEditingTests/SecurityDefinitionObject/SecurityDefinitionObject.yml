@@ -18,12 +18,14 @@ paths:
 securityDefinitions:
   petstoreImplicit:
     type: oauth2
+    description: pet
     scopes:
       user: Grants read/write access to profile info only. Note that this scope includes
         user:email and user:follow.
       user:email: Grants read access to a user’s email addresses.
     flow: implicit
     authorizationUrl: http://petstore.swagger.io/oauth/dialog
+    tokenUrl: http://example.io/api/oauth/dialog
   internalApiKey:
     type: apiKey
     in: header
