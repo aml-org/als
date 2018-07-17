@@ -1,0 +1,34 @@
+#%RAML 1.0
+
+title: test API
+mediaType: application/json
+baseUri: www.{domain}/{airplane}
+baseUriParameters:
+  airplane:
+    type: boolean
+types:
+  airport:
+    type: boolean
+annotationTypes:
+  airport:
+    type: boolean
+/resource/{airplane}:
+  uriParameters:
+    airplane:
+      type: boolean
+
+  post:
+    queryParameters:
+      airplane:
+        type: boolean
+
+    headers:
+      A-IM:
+        type: boolean
+
+    body:
+      type: boolean
+
+    responses:
+      201:
+        body: airport

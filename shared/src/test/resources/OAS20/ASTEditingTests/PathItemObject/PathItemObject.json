@@ -19,7 +19,9 @@
   ],
   "paths": {
     "/pets/{id}": {
-      "post": {}
+      "post": {
+        "description":"text"
+      }
     }
   }
 }

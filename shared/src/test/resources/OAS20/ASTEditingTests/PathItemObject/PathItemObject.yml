@@ -16,3 +16,4 @@ produces:
 paths:
   "/pets/{id}":
     post:
+      description: text
