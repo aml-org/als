@@ -7,6 +7,7 @@ import amf.core.validation.{AMFValidationReport, AMFValidationResult}
 import org.mulesoft.language.common.dtoTypes.{IRange, IValidationIssue, IValidationReport}
 import org.mulesoft.language.server.common.reconciler.Reconciler
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
+import org.mulesoft.language.server.modules.validationManager.ValidationRunnable
 import org.mulesoft.language.server.server.modules.astManager.{IASTListener, IASTManagerModule, ParserHelper}
 import org.mulesoft.language.server.server.modules.commonInterfaces.{IEditorTextBuffer, IPoint}
 import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
@@ -18,7 +19,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class ValidationManager extends AbstractServerModule {
 	val moduleId: String = "VALIDATION_MANAGER";
 	
-	private var reconciler: Reconciler = new Reconciler(connection, 2000);
+	private var reconciler: Reconciler = new Reconciler(connection, 1000);
 	
 	val moduleDependencies: Array[String] = Array(IEditorManagerModule.moduleId, IASTManagerModule.moduleId);
 	
@@ -53,7 +54,7 @@ class ValidationManager extends AbstractServerModule {
 	def newASTAvailable(uri: String, version: Int, ast: BaseUnit) {
 		this.connection.debug("Got new AST:\n" + ast.toString, "ValidationManager", "newASTAvailable");
 		
-		val errors = this.gatherValidationErrors(uri, version, ast) andThen {
+		reconciler.shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, version, ast))).future andThen {
 			case Success(report) => {
 				this.connection.debug("Number of errors is:\n" + report.issues.length, "ValidationManager", "newASTAvailable");
 				
@@ -70,7 +71,7 @@ class ValidationManager extends AbstractServerModule {
 		}
 	}
 	
-	def gatherValidationErrors(docUri: String, docVersion: Int, astNode: BaseUnit): Future[IValidationReport] = {
+	private def gatherValidationErrors(docUri: String, docVersion: Int, astNode: BaseUnit): Future[IValidationReport] = {
 		val editorOption = this.getEditorManager.getEditor(docUri);
 		
 		if(editorOption.isDefined) {
@@ -112,7 +113,7 @@ class ValidationManager extends AbstractServerModule {
 		IValidationIssue("PROPERTY_UNUSED", "Error", uri, messageText, resultRange, List());
 	}
 	
-	def report(uri: String, baseUnit: BaseUnit): Future[AMFValidationReport] = {
+	private def report(uri: String, baseUnit: BaseUnit): Future[AMFValidationReport] = {
 		val language = if (uri.endsWith(".raml")) "RAML 1.0" else "OAS 2.0";
 		
 		var config = new ParserConfig(

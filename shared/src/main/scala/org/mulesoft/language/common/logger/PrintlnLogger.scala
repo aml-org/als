@@ -19,3 +19,10 @@ trait IPrintlnLogger extends AbstractLogger {
     println(msg)
   }
 }
+
+trait MutedLogger extends AbstractLogger {
+  
+  protected def internalLog(msg: String, severity: MessageSeverity.Value): Unit = {
+  
+  }
+}
