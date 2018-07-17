@@ -35,7 +35,7 @@ class DefaultContentProvider(visibilityFilter: VisibilityFilter,
 
         val result = filteredSourceChildren.filter(child=>visibilityFilter.apply(child)).map(child=>{
           StructureBuilder.hlNodeToStructureNode(child, None, labelProvider, keyProvider, decorators)
-        })
+        }).filter(child=>child.text.length > 0)
 
         result
       } else {

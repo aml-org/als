@@ -79,9 +79,6 @@ class StructureBuilder (private val config: StructureConfiguration) {
 
         val result = categoryFilter.apply(child.getSource)
 
-        println("Filtering child " + child.text + " for category " + categoryName +
-          " and result is: " + result)
-
         result
       })//_underscore_.filter(root.children, (child => filter(child.getSource()))))
 
@@ -127,6 +124,7 @@ object StructureBuilder {
 
     result.text = labelProvider.getLabelText(hlNode)
 
+
 //    println("Converting node " +
 //      (if(hlNode.isElement) hlNode.asElement.get.definition.nameId.get else if (hlNode.isAttr)hlNode.asAttr.get.name else "Unknown"))
 
@@ -134,7 +132,9 @@ object StructureBuilder {
     result.typeText = labelProvider.getTypeText(hlNode)
 
     val decoratorOption = getDecorator(result, decorators)
+
     if (decoratorOption.isDefined) {
+
       val iconOption = decoratorOption.get.getIcon(hlNode)
       result.icon = if(iconOption.isDefined) iconOption.get else ""
 
@@ -154,7 +154,6 @@ object StructureBuilder {
     }
 
     result
-
   }
 
   def getDecorator(node: StructureNode, decorators: Seq[Decorator]): Option[Decorator] = {
