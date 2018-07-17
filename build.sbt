@@ -3,7 +3,7 @@ import sbt.Keys.{libraryDependencies, resolvers}
 
 name := "api-language-server"
 
-version := "0.1"
+version := "0.3"
 
 scalaVersion := "2.12.2"
 
@@ -35,7 +35,7 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
         "com.chuusai" %% "shapeless" % "2.3.3",
         "org.mule.amf" %%% "typesystem-project" % "0.2.0-SNAPSHOT",
         "org.mule.amf" %%% "als-suggestions" % "0.4.0-SNAPSHOT",
-        "org.mule.amf" %%% "als-outline" % "0.1-SNAPSHOT"
+        "org.mule.amf" %%% "als-outline" % "0.1.0-SNAPSHOT"
     )
 )
 
