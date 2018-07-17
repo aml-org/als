@@ -55,8 +55,6 @@ class OASPlugin extends IStructurePlugin {
             defName == OASDefinitionKeys.Response ||
             defName == OASDefinitionKeys.ResponseDefinitionObject
 
-          println("CategoryFilter Checking node " + NodeNameProvider.getNodeName(node) + " with definition " + defName +
-            " and getting result: " + result)
 
           result
         } else {

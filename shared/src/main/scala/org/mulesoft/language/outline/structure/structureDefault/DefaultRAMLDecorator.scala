@@ -17,6 +17,12 @@ class DefaultRAMLDecorator extends Decorator {
   }
 
   def getNodeType(node: IParseResult): String = {
+//    try {
+//      println(s"Getting type for node name of ${NodeNameProvider.getNodeName(node)}")
+//    } catch {
+//      case th: Throwable => th.printStackTrace()
+//    }
+
     if (node.isAttr) {
 
       RamlNodeTypes.ATTRIBUTE
@@ -40,7 +46,8 @@ class DefaultRAMLDecorator extends Decorator {
 //
 //          RamlNodeTypes.ANNOTATION_DECLARATION
 //        }
-        else if (nodeDefinition == RamlDefinitionKeys.TYPE_DECLARATION) {
+        else if (nodeDefinition == RamlDefinitionKeys.TYPE_DECLARATION ||
+          hlNode.definition.isAssignableFrom("TypeDeclaration")) {
 
           RamlNodeTypes.TYPE_DECLARATION
         }
@@ -51,15 +58,17 @@ class DefaultRAMLDecorator extends Decorator {
 //          return defaultInterfaces.NodeType.EXTERNAL_UNIT
 //
 //        }
+        else {
+          RamlNodeTypes.OTHER
+        }
 
-        RamlNodeTypes.OTHER
       } else {
         RamlNodeTypes.OTHER
       }
 
+    } else {
+      RamlNodeTypes.OTHER
     }
-
-    RamlNodeTypes.OTHER
   }
 
   def getDecoration(node: IParseResult): Option[Decoration] = {
@@ -71,6 +80,7 @@ class DefaultRAMLDecorator extends Decorator {
   def getIcon(node: IParseResult): Option[String] = {
 
     val decoration = this.getDecoration(node)
+
     if (decoration.isDefined){
       Some(decoration.get.icon)
     } else {
