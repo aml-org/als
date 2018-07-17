@@ -1,7 +1,7 @@
 package org.mulesoft.language.server.modules.findReferences;
 
-import org.mulesoft.high.level.Search
-import org.mulesoft.high.level.interfaces.IProject
+import org.mulesoft.high.level.{ReferenceSearchResult, Search}
+import org.mulesoft.high.level.interfaces.{IASTUnit, IProject}
 import org.mulesoft.language.common.dtoTypes.{ILocation, IRange}
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.hlastManager.HLASTManager
@@ -72,7 +72,13 @@ class FindReferencesModule extends AbstractServerModule {
 	}
 
 	private def isBreaker(index: Int, content: String): Boolean = breakers.contains(content.charAt(index));
-
+	
+	private def findReferencesByPosition(unit: IASTUnit, position: Int): Option[ReferenceSearchResult] = {
+		var res = Search.findReferencesByPosition(unit, position);
+		
+		res;
+	}
+	
 	def findReferences(uri: String, position: Int): Future[Seq[ILocation]] = {
 		this.connection.debug(s"Finding references at position ${position}",
 			"FindReferencesModule", "findReferences")
@@ -82,8 +88,7 @@ class FindReferencesModule extends AbstractServerModule {
 		currentAst(uri).andThen {
 
 			case Success(project) => {
-
-				Search.findReferencesByPosition(project.rootASTUnit, position) match {
+				findReferencesByPosition(project.rootASTUnit, position) match {
 					case Some(searchResult) => {
 						var result: ListBuffer[ILocation] = ListBuffer();
 
@@ -134,6 +139,8 @@ class FindReferencesModule extends AbstractServerModule {
 		val hlmanager = this.getDependencyById(HLASTManager.moduleId).get.asInstanceOf[HLASTManager]
 
 		hlmanager.forceGetCurrentAST(uri).map(ast=>{
+			println("ASTFOUND: " + ast.rootASTUnit.path + " " + ast.rootASTUnit.text);
+			
 			ast
 		})
 	}

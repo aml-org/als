@@ -76,36 +76,37 @@ class ValidationManager extends AbstractServerModule {
   }
 
   def newASTAvailable(uri: String, version: Int, ast: BaseUnit): Unit = {
-
+  
     this.connection.debug("Got new AST:\n" + ast.toString,
       "ValidationManager", "newASTAvailable")
-
-//    reconciler.shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, version, ast))).future.onComplete{
-//      case Success(report) => {
-//
-//        this.connection.debug("Number of errors is:\n" + report.issues.length,
-//          "ValidationManager", "newASTAvailable")
-//
-//        this.connection.validated(report)
-//      }
-//      case Failure(exception) => this.connection.error("Error on validation: " + exception.toString,
-//        "ValidationManager", "newASTAvailable")
-//    }
-    val errors = this.gatherValidationErrors(uri, version, ast).onComplete{
+  
+    //    reconciler.shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, version, ast))).future.onComplete{
+    //      case Success(report) => {
+    //
+    //        this.connection.debug("Number of errors is:\n" + report.issues.length,
+    //          "ValidationManager", "newASTAvailable")
+    //
+    //        this.connection.validated(report)
+    //      }
+    //      case Failure(exception) => this.connection.error("Error on validation: " + exception.toString,
+    //        "ValidationManager", "newASTAvailable")
+    //    }
+    val errors = this.gatherValidationErrors(uri, version, ast) andThen {
       case Success(report) => {
-
+  
         this.connection.debug("Number of errors is:\n" + report.issues.length,
           "ValidationManager", "newASTAvailable")
-
+  
         this.connection.validated(report)
       }
       case Failure(exception) => {
         exception.printStackTrace()
         this.connection.error("Error on validation: " + exception.toString,
-          "ValidationManager", "newASTAvailable")
+          "ValidationManager", "newASTAvailable");
+        
+        this.connection.validated(new IValidationReport(uri, 0, Seq()));
       }
     }
-
   }
 
   def gatherValidationErrors(docUri: String, docVersion: Int, astNode: BaseUnit): Future[IValidationReport] = {
