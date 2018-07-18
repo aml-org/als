@@ -1,9 +1,14 @@
 import org.scalajs.core.tools.linker.ModuleKind
-import sbt.Keys.{libraryDependencies, resolvers}
 
 name := "api-language-server"
 
-version := "0.3"
+val VERSION = "0.3.1-SNAPSHOT"
+val hlVersion = "0.2.1-SNAPSHOT"
+val suggestionsVersion = "0.4.1-SNAPSHOT"
+val outlineVersion = "0.1.1-SNAPSHOT"
+val amfVersion = "1.7.0-SNAPSHOT"
+val syamlVersion = "0.2.7"
+val scalaCommonVersion = "0.1.3"
 
 scalaVersion := "2.12.2"
 
@@ -25,25 +30,27 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
     credentials ++= Common.credentials(),
     
     libraryDependencies ++= Seq(
-        "com.github.amlorg" %%% "amf-webapi" % "1.5.0",
-        "com.github.amlorg" %%% "amf-core" % "1.5.0",
-        "com.github.amlorg" %%% "amf-client" % "1.5.0",
-        "com.github.amlorg" %%% "amf-aml" % "1.5.0",
-        "org.mule.common" %%% "scala-common" % "0.1.3",
-        "org.mule.syaml" %%% "syaml" % "0.2.0",
+        "com.github.amlorg" %%% "amf-webapi" % amfVersion,
+        "com.github.amlorg" %%% "amf-core" % amfVersion,
+        "com.github.amlorg" %%% "amf-client" % amfVersion,
+        "com.github.amlorg" %%% "amf-aml" % amfVersion,
+        "org.mule.common" %%% "scala-common" % scalaCommonVersion,
+        "org.mule.syaml" %%% "syaml" % syamlVersion,
         "org.scalatest"    %%% "scalatest" % "3.0.0" % Test,
         "com.chuusai" %% "shapeless" % "2.3.3",
-        "org.mule.amf" %%% "typesystem-project" % "0.2.0-SNAPSHOT",
-        "org.mule.amf" %%% "als-suggestions" % "0.4.0-SNAPSHOT",
-        "org.mule.amf" %%% "als-outline" % "0.1.0-SNAPSHOT"
+        "org.mule.amf" %%% "typesystem-project" % hlVersion,
+        "org.mule.amf" %%% "als-suggestions" % suggestionsVersion,
+        "org.mule.amf" %%% "als-outline" % outlineVersion
     )
 )
 
-lazy val sharedProject = (project in file("shared")).settings(settings: _*).settings(name := "api-language-server-shared-project")
+lazy val sharedProject = (project in file("shared")).settings(settings: _*).settings(name := "api-language-server-shared-project",
+    version := VERSION)
 
 lazy val core = crossProject.settings(
     Seq(
-        name := "api-language-server"
+        name := "api-language-server",
+        version := VERSION
     )
 ).in(file(".")).settings(settings: _*).jvmSettings(
     assemblyMergeStrategy in assembly := {

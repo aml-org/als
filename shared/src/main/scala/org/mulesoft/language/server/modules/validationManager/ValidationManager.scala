@@ -17,6 +17,7 @@ import scala.util.{Failure, Success, Try}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class ValidationManager extends AbstractServerModule {
+
 	val moduleId: String = "VALIDATION_MANAGER";
 	
 	private var reconciler: Reconciler = new Reconciler(connection, 1000);
@@ -132,10 +133,10 @@ class ValidationManager extends AbstractServerModule {
 		val customProfileLoaded = if(config.customProfile.isDefined) {
 			RuntimeValidator.loadValidationProfile(config.customProfile.get);
 		} else {
-			Future.successful(config.validationProfile);
+			Future.successful(config.profile);
 		};
 		
-		customProfileLoaded.flatMap(profileName => RuntimeValidator(baseUnit, profileName));
+		customProfileLoaded.flatMap(profile => RuntimeValidator(baseUnit, profile));
 	}
 }
 

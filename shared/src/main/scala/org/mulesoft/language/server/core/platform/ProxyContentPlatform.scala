@@ -87,4 +87,6 @@ class ProxyContentPlatform(protected val source: ConnectionBasedPlatform,
 
   override def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] =
     source.findCharInCharSequence(stream)(p)
+
+  override def operativeSystem(): String = source.operativeSystem()
 }

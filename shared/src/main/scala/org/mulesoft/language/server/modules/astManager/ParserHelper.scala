@@ -59,11 +59,11 @@ class ParserHelper(val platform:Platform) extends CommandHelper{
             }
         } else {
             Future {
-                config.validationProfile
+                config.profile
             }
         }
-        customProfileLoaded.flatMap(profileName => {
-                val result = RuntimeValidator(model, profileName)
+        customProfileLoaded.flatMap(profile => {
+                val result = RuntimeValidator(model, profile)
                 //RuntimeValidator.reset()
                 result
             }
