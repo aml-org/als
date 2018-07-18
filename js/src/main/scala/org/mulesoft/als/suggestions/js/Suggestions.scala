@@ -35,9 +35,11 @@ object Suggestions {
 
     val config = this.buildParserConfig(language, url)
 
+    var originalContent:Option[String] = None
     val result = this.platform.resolve(url).map(content => {
-
-      this.cacheUnit(url, content, position)
+      val fileContentsStr = content.stream.toString
+      originalContent = Option(fileContentsStr)
+      this.cacheUnit(url, fileContentsStr, position)
 
     }).flatMap(_=>{
 
@@ -49,7 +51,7 @@ object Suggestions {
 
     }).map(project=>{
 
-      this.buildCompletionProvider(project, url, position)
+      this.buildCompletionProvider(project, url, position, originalContent)
 
     }).flatMap(_.suggest)
       .map(suggestions=>suggestions.map(suggestion=>{
@@ -91,9 +93,7 @@ object Suggestions {
     helper.parse(config, new Environment(this.platform.loaders))
   }
 
-  def cacheUnit(fileUrl: String, content: Content, position: Int): Unit = {
-
-    val fileContentsStr = content.stream.toString
+  def cacheUnit(fileUrl: String, fileContentsStr: String, position: Int): Unit = {
 
     val patchedContent = Core.prepareText(fileContentsStr, position, YAML)
 
@@ -105,7 +105,7 @@ object Suggestions {
       Core.init().flatMap(_=>org.mulesoft.high.level.Core.buildModel(model,platform))
   }
 
-  def buildCompletionProvider(project: IProject, url: String, position: Int): CompletionProvider = {
+  def buildCompletionProvider(project: IProject, url: String, position: Int, originalContent:Option[String]): CompletionProvider = {
 
     val rootUnit = project.rootASTUnit
 
@@ -121,6 +121,7 @@ object Suggestions {
       .withAstProvider(astProvider)
       .withEditorStateProvider(editorStateProvider)
       .withFsProvider(platformFSProvider)
+      .withOriginalContent(originalContent.orNull)
 
     CompletionProvider().withConfig(completionConfig)
   }
