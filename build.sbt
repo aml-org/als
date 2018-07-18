@@ -26,6 +26,7 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
         Resolver.sonatypeRepo("releases"),
         Resolver.sonatypeRepo("snapshots")*/
     ),
+    resolvers += "jitpack" at "https://jitpack.io",
     
     credentials ++= Common.credentials(),
     
