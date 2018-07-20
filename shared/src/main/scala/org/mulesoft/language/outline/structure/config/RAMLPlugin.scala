@@ -44,7 +44,7 @@ class RAMLPlugin extends IStructurePlugin {
 
       override def apply(node: IParseResult): Boolean = {
 
-        node.isElement && node.asElement.get.definition.nameId.get == RamlDefinitionKeys.RESOURCE
+        node.isElement && node.asElement.get.definition.nameId.contains(RamlDefinitionKeys.RESOURCE)
       }
     }
 
@@ -74,8 +74,8 @@ class RAMLPlugin extends IStructurePlugin {
         */
       override def apply(node: IParseResult): Boolean = {
         node.isElement && (
-          node.asElement.get.definition.nameId.get == RamlDefinitionKeys.RESOURCE_TYPE ||
-            node.asElement.get.definition.nameId.get == RamlDefinitionKeys.TRAIT)
+          node.asElement.get.definition.nameId.contains(RamlDefinitionKeys.RESOURCE_TYPE) ||
+            node.asElement.get.definition.nameId.contains(RamlDefinitionKeys.TRAIT))
       }
     }
 

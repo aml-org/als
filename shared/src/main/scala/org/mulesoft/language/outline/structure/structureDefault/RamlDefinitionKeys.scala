@@ -3,6 +3,7 @@ package org.mulesoft.language.outline.structure.structureDefault
 object RamlDefinitionKeys {
 
   val EXAMPLE_SPEC: String = "ExampleSpec"
+  val XML_FACET_INFO: String = "XMLFacetInfo"
   val TYPE_DECLARATION: String = "TypeDeclaration"
   val RESPONSE: String = "Response"
   val TRAIT: String = "Trait"

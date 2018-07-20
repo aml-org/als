@@ -35,7 +35,14 @@ object NodeNameProvider {
           getLowLevelNodeName(node)
         }
       } else {
-        getLowLevelNodeName(node)
+        var result = getLowLevelNodeName(node)
+        if(result.isEmpty && node.property.isDefined) {
+            var range = node.property.get.range
+            if (range.isDefined && !range.get.isArray) {
+              result = node.property.get.nameId.map(_.toString).getOrElse("")
+            }
+        }
+        result
       }
 
     } else if (node.isUnknown) {

@@ -1,0 +1,198 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 733,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 733,
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 733,
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 733,
+    "children": [
+      {
+        "text": "secured",
+        "typeText": "",
+        "icon": "TAG",
+        "textStyle": "NORMAL",
+        "key": "secured :: ",
+        "start": 455,
+        "end": 733,
+        "children": [
+          {
+            "text": "<<methodName>>",
+            "typeText": "",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "<<methodName>> :: secured :: ",
+            "start": 0,
+            "end": 0,
+            "children": [
+              {
+                "text": "example",
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "example :: <<methodName>> :: secured :: ",
+                "start": 0,
+                "end": 0,
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "ResourceTypesAndTraitsCategory"
+      },
+      {
+        "text": "collection",
+        "typeText": "",
+        "icon": "TAG",
+        "textStyle": "NORMAL",
+        "key": "collection :: ",
+        "start": 87,
+        "end": 329,
+        "children": [
+          {
+            "text": "get",
+            "typeText": "",
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "key": "get :: collection :: ",
+            "start": 0,
+            "end": 0,
+            "children": [
+              {
+                "text": "200",
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "200 :: get :: collection :: ",
+                "start": 0,
+                "end": 0,
+                "children": [
+                  {
+                    "text": "default",
+                    "typeText": ":<<resourcePathName>>",
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "key": "default :: 200 :: get :: collection :: ",
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
+          },
+          {
+            "text": "post",
+            "typeText": "",
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "key": "post :: collection :: ",
+            "start": 0,
+            "end": 0,
+            "children": [
+              {
+                "text": "200",
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "200 :: post :: collection :: ",
+                "start": 0,
+                "end": 0,
+                "children": [
+                  {
+                    "text": "default",
+                    "typeText": ":<<resourcePathName | !singularize>>",
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "key": "default :: 200 :: post :: collection :: ",
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "ResourceTypesAndTraitsCategory"
+      },
+      {
+        "text": "member",
+        "typeText": "",
+        "icon": "TAG",
+        "textStyle": "NORMAL",
+        "key": "member :: ",
+        "start": 331,
+        "end": 445,
+        "children": [
+          {
+            "text": "get",
+            "typeText": "",
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "key": "get :: member :: ",
+            "start": 0,
+            "end": 0,
+            "children": [
+              {
+                "text": "200",
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "200 :: get :: member :: ",
+                "start": 0,
+                "end": 0,
+                "children": [
+                  {
+                    "text": "default",
+                    "typeText": ":<<resourcePathName>>",
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "key": "default :: 200 :: get :: member :: ",
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "ResourceTypesAndTraitsCategory"
+      }
+    ],
+    "category": ""
+  }
+}

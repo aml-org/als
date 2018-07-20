@@ -1,0 +1,88 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 343,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 343,
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 343,
+    "children": [
+      {
+        "text": "passthrough",
+        "typeText": ":Pass Through",
+        "icon": "FILE_SUBMODULE",
+        "textStyle": "NORMAL",
+        "key": "passthrough :: ",
+        "start": 103,
+        "end": 343,
+        "children": [
+          {
+            "text": "describedBy",
+            "typeText": "",
+            "icon": "TAG",
+            "textStyle": "NORMAL",
+            "key": "describedBy :: passthrough :: ",
+            "start": 215,
+            "end": 343,
+            "children": [
+              {
+                "text": "query",
+                "typeText": ":string",
+                "icon": "FILE_BINARY",
+                "textStyle": "SUCCESS",
+                "key": "query :: describedBy :: passthrough :: ",
+                "start": 259,
+                "end": 289,
+                "category": ""
+              },
+              {
+                "text": "api_key",
+                "typeText": ":string",
+                "icon": "FILE_BINARY",
+                "textStyle": "SUCCESS",
+                "key": "api_key :: describedBy :: passthrough :: ",
+                "start": 312,
+                "end": 343,
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "OtherCategory"
+      }
+    ],
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 343,
+    "category": ""
+  }
+}

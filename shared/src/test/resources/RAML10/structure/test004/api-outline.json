@@ -1,0 +1,148 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 361,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 361,
+    "children": [
+      {
+        "text": "/someChildUri",
+        "typeText": "",
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "key": "/someChildUri :: ",
+        "start": 105,
+        "end": 361,
+        "children": [
+          {
+            "text": "/anotherChild",
+            "typeText": "",
+            "icon": "PRIMITIVE_SQUARE",
+            "textStyle": "HIGHLIGHT",
+            "key": "/anotherChild :: /someChildUri :: ",
+            "start": 247,
+            "end": 361,
+            "children": [
+              {
+                "text": "put",
+                "typeText": "",
+                "icon": "PRIMITIVE_DOT",
+                "textStyle": "WARNING",
+                "key": "put :: /anotherChild :: /someChildUri :: ",
+                "start": 266,
+                "end": 361,
+                "children": [
+                  {
+                    "text": "application/json",
+                    "typeText": "",
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "key": "application/json :: put :: /anotherChild :: /someChildUri :: ",
+                    "start": 291,
+                    "end": 361,
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
+          },
+          {
+            "text": "get",
+            "typeText": "",
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "key": "get :: /someChildUri :: ",
+            "start": 122,
+            "end": 245,
+            "children": [
+              {
+                "text": "200",
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "200 :: get :: /someChildUri :: ",
+                "start": 148,
+                "end": 245,
+                "children": [
+                  {
+                    "text": "application/xml",
+                    "typeText": "",
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "key": "application/xml :: 200 :: get :: /someChildUri :: ",
+                    "start": 177,
+                    "end": 245,
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "ResourcesCategory"
+      }
+    ],
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 361,
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 361,
+    "children": [
+      {
+        "text": "base",
+        "typeText": "",
+        "icon": "TAG",
+        "textStyle": "NORMAL",
+        "key": "base :: ",
+        "start": 32,
+        "end": 80,
+        "children": [
+          {
+            "text": "paging",
+            "typeText": ":number",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "paging :: base :: ",
+            "start": 0,
+            "end": 0,
+            "category": ""
+          }
+        ],
+        "category": "ResourceTypesAndTraitsCategory"
+      }
+    ],
+    "category": ""
+  }
+}
