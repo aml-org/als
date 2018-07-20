@@ -1,5 +1,7 @@
 package org.mulesoft.typesystem.json.interfaces
 
+import org.mulesoft.common.time.SimpleDateTime
+
 sealed trait JSONWrapperKind[T] {
     def cast(v: Any): Option[T]
 }
@@ -51,6 +53,15 @@ object JSONWrapperKind {
         }
     }
 
+    object DATE extends JSONWrapperKind[SimpleDateTime] {
+        def cast(v: Any): Option[SimpleDateTime] = {
+            v match {
+                case x:SimpleDateTime => Some(x)
+                case _ => None
+            }
+        }
+    }
+
     object NULL extends JSONWrapperKind[Null] {
         def cast(v: Any): Option[Null] = {
             v match {
@@ -68,6 +79,7 @@ object JSONWrapperKind {
             case x:Number => NUMBER
             case x:String => STRING
             case x:Boolean => BOOLEAN
+            case x:SimpleDateTime => DATE
             case _ =>
                 Option(value) match {
                     case Some(x) => throw new Error("Unsupported JSON value: " + value)

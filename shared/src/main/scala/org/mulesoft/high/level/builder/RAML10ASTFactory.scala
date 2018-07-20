@@ -1,15 +1,19 @@
 package org.mulesoft.high.level.builder
 
+import amf.core.annotations.SourceAST
 import amf.core.metamodel.document.{BaseUnitModel, DocumentModel, ExtensionLikeModel}
 import amf.core.metamodel.domain.{DomainElementModel, ExternalSourceElementModel, ShapeModel}
 import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, DomainExtensionModel, PropertyShapeModel, ShapeExtensionModel}
 import amf.core.model.document.{BaseUnit, Document, Fragment, Module}
 import amf.core.model.domain._
+import amf.core.parser.{Annotations, Fields}
 import amf.core.remote.{Raml10, Vendor}
 import amf.plugins.document.webapi.metamodel.FragmentsTypesModels._
 import amf.plugins.document.webapi.metamodel.{ExtensionModel, OverlayModel}
 import amf.plugins.document.webapi.model.{AnnotationTypeDeclarationFragment, DataTypeFragment}
+import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.shapes.metamodel._
+import amf.plugins.domain.shapes.models.NodeShape
 import amf.plugins.domain.webapi.metamodel.security._
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
 import amf.plugins.domain.webapi.metamodel._
@@ -23,6 +27,7 @@ import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
 import org.mulesoft.typesystem.nominal_interfaces.{IArrayType, IProperty, ITypeDefinition, IUniverse}
 import org.mulesoft.typesystem.nominal_types.{AbstractType, StructuredType}
 import org.mulesoft.typesystem.project.{ITypeCollectionBundle, TypeCollectionBundle}
+import org.yaml.model.{YMap, YScalar}
 
 import scala.language.postfixOps
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -41,6 +46,17 @@ object RAML10ASTFactory {
             _instance.get.init()
         }
     }
+
+    val typeNameMatcher:IPropertyMatcher =
+        ((ThisMatcher() ifType PayloadModel) + PayloadModel.MediaType
+            | (ThisMatcher() ifType PayloadModel) + PayloadModel.Schema + ShapeModel.Name
+            | (ThisMatcher() ifType ParameterModel) + ParameterModel.Name
+            | ((ThisMatcher() ifType CustomDomainPropertyModel) + CustomDomainPropertyModel.Name
+                & (ThisMatcher() ifType CustomDomainPropertyModel) + CustomDomainPropertyModel.Schema + ShapeModel.Name)
+            | ((ThisMatcher() ifType PropertyShapeModel) + PropertyShapeModel.Name
+                & (ThisMatcher() ifType PropertyShapeModel) + PropertyShapeModel.Range + ShapeModel.Name)
+            | (ThisMatcher() ifSubtype ShapeModel) + ShapeModel.Name)
+
 }
 
 class RAML10ASTFactory private extends RAMLASTFactory {
@@ -81,7 +97,7 @@ class RAML10ASTFactory private extends RAMLASTFactory {
                 & (ThisMatcher() ifType PropertyShapeModel) + PropertyShapeModel.Range + ShapeModel.Name)
                 | (ThisMatcher() ifSubtype ShapeModel) + ShapeModel.Name)
 
-        registerPropertyMatcher("TypeDeclaration", "type", ThisMatcher() + TypePropertyMatcher())
+        registerPropertyMatcher("TypeDeclaration", "type", shapeMatcher + TypePropertyMatcher())
 
         registerPropertyMatcher("TypeDeclaration", "displayName", shapeMatcher + builtinFacetMatchers("displayName"))
         registerPropertyMatcher("TypeDeclaration", "description",
@@ -433,4 +449,98 @@ class AdditionalPropertiesValueBuffer(element:AmfObject,hlNode:IHighLevelNode)
 
 object AdditionalPropertiesValueBuffer{
     def apply (element:AmfObject,hlNode:IHighLevelNode):AdditionalPropertiesValueBuffer = new AdditionalPropertiesValueBuffer(element,hlNode)
+}
+
+
+class TypePropertyMatcher() extends IPropertyMatcher {
+
+    override def doOperate(obj: AmfObject, hlNode: IHighLevelNode):Seq[MatchResult] = doOperate(obj,hlNode,false)
+    def doOperate(obj: AmfObject, hlNode: IHighLevelNode, forceCreate:Boolean=false): Seq[MatchResult] = {
+        var jsonNodes: Option[Seq[JSONWrapper]] = obj.annotations.find(classOf[SourceAST]).flatMap(yn => YJSONWrapper(yn.ast)).map(w => w.kind match {
+            case STRING => List(w)
+            case OBJECT => w.propertyValue("type") match {
+                case Some(t) => t.kind match {
+                    case ARRAY => t.value(ARRAY).get
+                    case _ => List(t)
+                }
+                case _ => Seq()
+            }
+            case ARRAY => w.value(ARRAY).get
+            case _ => Seq()
+        })
+        if(jsonNodes.isEmpty){
+            var nodeSources = hlNode.sourceInfo.yamlSources
+            if(nodeSources.nonEmpty){
+                val sourceWrappers = nodeSources.flatMap(x => YJSONWrapper(x))
+                if(sourceWrappers.nonEmpty) {
+                    jsonNodes = Some(sourceWrappers)
+                }
+            }
+        }
+        if(jsonNodes.isEmpty && hlNode.parent.isDefined){
+            hlNode.parent.get.sourceInfo.yamlSources.headOption.foreach({
+                case ym:YMap =>
+                    val propName = hlNode.property.get.nameId.get
+                    YJSONWrapper(ym).propertyValue(propName,OBJECT).foreach(map=>{
+                        RAML10ASTFactory.typeNameMatcher.operate(hlNode.amfNode,hlNode).headOption match {
+                            case Some(r) => r match {
+                                case amr: AttributeMatchResult =>
+                                    var name: String = amr.buffer.getValue.map(_.toString).getOrElse("")
+                                    map.asInstanceOf[YJSONWrapper].propertyValue(name).map(x => {
+                                        jsonNodes = Some(Seq(x))
+                                    })
+                                case _ =>
+                            }
+                            case _ =>
+                        }
+
+                    })
+                case _ =>
+            })
+        }
+        if(forceCreate && (jsonNodes.isEmpty || jsonNodes.get.isEmpty)){
+            jsonNodes = Some(List(YJSONWrapper(YScalar(""))))
+        }
+        jsonNodes match {
+            case Some(nodes) => nodes.map(x => AttributeMatchResult(obj, new JSONValueBuffer(obj, hlNode, Option(x)){
+
+                override def setValue(value:Any): Unit = {
+                    var a = ParsedFromTypeExpression(value.toString)
+                    var annotations = Annotations(a)
+                    var shape = NodeShape(Fields(), annotations)
+                    var arr = AmfArray(List(shape))
+                    DefaultASTFactory.extractShape(hlNode.amfNode).foreach(x=>
+                        x.fields.setWithoutId(ShapeModel.Inherits,arr))
+                }
+            }))
+            case _ => obj.annotations.find(classOf[ParsedFromTypeExpression]) match {
+                case Some(a) =>
+                    val am = AttributeMatchResult(obj, new JSONValueBuffer(obj, hlNode, None){
+
+                        override def getValue:Option[JSONWrapper] = {
+                            var str = obj.annotations.find(classOf[ParsedFromTypeExpression]).map(_.value).get
+                            YJSONWrapper(YScalar(str))
+                        }
+
+                        override def setValue(value:Any): Unit = {
+                            var a = ParsedFromTypeExpression(value.toString)
+                            var annotations = Annotations(a)
+                            var shape = NodeShape(Fields(), annotations)
+                            var arr = AmfArray(List(shape))
+                            DefaultASTFactory.extractShape(hlNode.amfNode).foreach(x=>
+                                x.fields.setWithoutId(ShapeModel.Inherits,arr))
+                        }
+                    })
+                    Seq(am)
+                case _ => Seq()
+            }
+        }
+    }
+
+    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult]
+    = doOperate(cfg.obj,cfg.hlNode,true).headOption
+}
+
+object TypePropertyMatcher{
+    def apply():TypePropertyMatcher = new TypePropertyMatcher()
 }
