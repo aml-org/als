@@ -355,6 +355,9 @@ trait IPropertyMatcher {
             case emr:ElementMatchResult =>
                 var newCfg = cfg.newConfigWithObject(emr.node)
                 appendNewValue(newCfg)
+            case fmr:FieldMatchResult =>
+                var newCfg = cfg.newConfigWithObject(fmr.node)
+                appendNewValue(newCfg)
             case _ => None
         }
     }

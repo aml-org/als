@@ -850,39 +850,10 @@ val value1 =
       {
         "name": "Reference",
         "methods": [],
-        "typeParameters": [
-          "T"
-        ],
-        "typeParameterConstraint": [
-          null
-        ],
+        "typeParameters": [],
+        "typeParameterConstraint": [],
         "implements": [],
         "fields": [
-          {
-            "name": "structuredValue",
-            "type": {
-              "typeName": "TypeInstance",
-              "nameSpace": "",
-              "basicName": "TypeInstance",
-              "typeKind": 0,
-              "typeArguments": [],
-              "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.customHandling",
-                "arguments": []
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "Returns a structured object if the reference point to one."
-                ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
           {
             "name": "name",
             "type": {
@@ -911,16 +882,7 @@ val value1 =
         ],
         "isInterface": false,
         "annotations": [],
-        "extends": [
-          {
-            "typeName": "ValueType",
-            "nameSpace": "",
-            "basicName": "ValueType",
-            "typeKind": 0,
-            "typeArguments": [],
-            "modulePath": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\systemTypes.ts"
-          }
-        ],
+        "extends": [],
         "moduleName": null,
         "annotationOverridings": {}
       },

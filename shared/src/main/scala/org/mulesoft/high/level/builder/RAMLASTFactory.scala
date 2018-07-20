@@ -18,14 +18,10 @@ import amf.plugins.domain.webapi.metamodel.templates.{ParametrizedResourceTypeMo
 import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.models.EndPoint
 import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
-import org.mulesoft.high.level.implementation.{ASTPropImpl, BasicValueBuffer, JSONValueBuffer}
+import org.mulesoft.high.level.implementation.{ASTPropImpl, BasicValueBuffer}
 import org.mulesoft.high.level.interfaces.{IAttribute, IHighLevelNode}
-import org.mulesoft.typesystem.json.interfaces.JSONWrapper
-import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind.{ARRAY, OBJECT, STRING}
 import org.mulesoft.typesystem.nominal_interfaces.{ITypeDefinition, IUniverse}
 import org.mulesoft.typesystem.nominal_types.BuiltinUniverse
-import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
-import org.yaml.model.YScalar
 
 import scala.collection.mutable.ListBuffer
 import scala.language.postfixOps
@@ -503,46 +499,4 @@ object Helpers {
 }
 
 
-class TypePropertyMatcher() extends IPropertyMatcher {
-
-    override def doOperate(obj: AmfObject, hlNode: IHighLevelNode):Seq[MatchResult] = doOperate(obj,hlNode,false)
-    def doOperate(obj: AmfObject, hlNode: IHighLevelNode, forceCreate:Boolean=false): Seq[MatchResult] = {
-        var jsonNodes: Option[Seq[JSONWrapper]] = obj.annotations.find(classOf[SourceAST]).flatMap(yn => YJSONWrapper(yn.ast)).map(w => w.kind match {
-            case STRING => List(w)
-            case OBJECT => w.propertyValue("type") match {
-                case Some(t) => t.kind match {
-                    case ARRAY => t.value(ARRAY).get
-                    case _ => List(t)
-                }
-                case _ => Seq()
-            }
-            case ARRAY => w.value(ARRAY).get
-            case _ => Seq()
-        })
-        if(forceCreate && (jsonNodes.isEmpty || jsonNodes.get.isEmpty)){
-            jsonNodes = Some(List(YJSONWrapper(YScalar(""))))
-        }
-        jsonNodes match {
-            case Some(nodes) => nodes.map(x => AttributeMatchResult(obj, new JSONValueBuffer(obj, hlNode, Option(x)){
-
-                override def setValue(value:Any): Unit = {
-                    var a = ParsedFromTypeExpression(value.toString)
-                    var annotations = Annotations(a)
-                    var shape = NodeShape(Fields(), annotations)
-                    var arr = AmfArray(List(shape))
-                    DefaultASTFactory.extractShape(hlNode.amfNode).foreach(x=>
-                        x.fields.setWithoutId(ShapeModel.Inherits,arr))
-                }
-            }))
-            case _ => Seq()
-        }
-    }
-
-    override def doAppendNewValue(cfg:NodeCreationConfig):Option[MatchResult]
-    = doOperate(cfg.obj,cfg.hlNode,true).headOption
-}
-
-object TypePropertyMatcher{
-    def apply():TypePropertyMatcher = new TypePropertyMatcher()
-}
 
