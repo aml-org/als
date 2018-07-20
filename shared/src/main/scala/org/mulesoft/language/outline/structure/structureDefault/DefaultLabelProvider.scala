@@ -1,10 +1,9 @@
 package org.mulesoft.language.outline.structure.structureDefault
 
 import org.mulesoft.high.level.interfaces.{IAttribute, IHighLevelNode, IParseResult}
-import org.mulesoft.typesystem.nominal_interfaces.IProperty
-import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
-import org.yaml.model.{YMapEntry, YScalar}
 import org.mulesoft.language.outline.common.commonInterfaces.LabelProvider
+import org.mulesoft.typesystem.json.interfaces.JSONWrapper
+import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
 
 class DefaultLabelProvider extends LabelProvider {
 
@@ -19,14 +18,19 @@ class DefaultLabelProvider extends LabelProvider {
 
       val hlNode = node.asInstanceOf[IHighLevelNode]
 
-      if (hlNode.definition.key.isDefined &&
-        hlNode.definition.key.get.name == RamlDefinitionKeys.DOCUMENTATION_ITEM) {
+      if (hlNode.definition.nameId.contains(RamlDefinitionKeys.DOCUMENTATION_ITEM)) {
 
         val titleAttribute = hlNode.attribute("title")
         if (titleAttribute.isDefined) {
-          return titleAttribute.get.value.toString
+          return titleAttribute.get.value.map(_.toString).getOrElse("")
         }
 
+      }
+      else if (hlNode.definition.nameId.contains(RamlDefinitionKeys.USES_DECLARATION)) {
+        val titleAttribute = hlNode.attribute("key")
+        if (titleAttribute.isDefined) {
+          return titleAttribute.get.value.map(_.toString).getOrElse("")
+        }
       }
     }
 
@@ -40,14 +44,23 @@ class DefaultLabelProvider extends LabelProvider {
 
     val hlNode = node.asElement.get
 
-    val typeAttribute = hlNode.attribute("type")
-    if (typeAttribute.isDefined) {
-      var typeValue = typeAttribute.get.value
-      if (typeValue.isDefined) {
-        Some(":" + typeValue)
-      }
+    var typeAttribute:Option[IAttribute] = None
+    if(hlNode.definition.isAssignableFrom("ResourceBase")){
+      typeAttribute = hlNode.element("type").flatMap(_.attribute("name"))
     }
-
-    Some("")
+    else {
+      typeAttribute = hlNode.attribute("type")
+    }
+    typeAttribute.flatMap(_.value).map(x => x match {
+        case jw:JSONWrapper =>
+            var strVal:String = jw.kind match {
+                case STRING => s":${jw.value(STRING).get}"
+                case NUMBER => s":${jw.value(NUMBER).get}"
+                case BOOLEAN => s":${jw.value(BOOLEAN).get}"
+                case _ => ""
+            }
+            strVal
+        case _ => s":$x"
+    }).orElse(Some(""))
   }
 }

@@ -1,0 +1,90 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 296,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 296,
+    "children": [
+      {
+        "text": "/users",
+        "typeText": "",
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "key": "/users :: ",
+        "start": 37,
+        "end": 296,
+        "children": [
+          {
+            "text": "/{userIds}",
+            "typeText": "",
+            "icon": "PRIMITIVE_SQUARE",
+            "textStyle": "HIGHLIGHT",
+            "key": "/{userIds} :: /users :: ",
+            "start": 72,
+            "end": 296,
+            "children": [
+              {
+                "text": "userIds",
+                "typeText": ":array",
+                "icon": "FILE_BINARY",
+                "textStyle": "SUCCESS",
+                "key": "userIds :: /{userIds} :: /users :: ",
+                "start": 142,
+                "end": 296,
+                "children": [
+                  {
+                    "text": "items",
+                    "typeText": "",
+                    "icon": "TAG",
+                    "textStyle": "NORMAL",
+                    "key": "items :: userIds :: /{userIds} :: /users :: ",
+                    "start": 218,
+                    "end": 271,
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "ResourcesCategory"
+      }
+    ],
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 296,
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 296,
+    "category": ""
+  }
+}

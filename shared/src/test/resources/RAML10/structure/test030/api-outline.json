@@ -1,0 +1,74 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 301,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 301,
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 301,
+    "children": [
+      {
+        "text": "Getting Started",
+        "typeText": "",
+        "icon": "BOOK",
+        "textStyle": "NORMAL",
+        "key": " :: ",
+        "start": 91,
+        "end": 154,
+        "category": "OtherCategory"
+      },
+      {
+        "text": "Basics of Authentication",
+        "typeText": "",
+        "icon": "BOOK",
+        "textStyle": "NORMAL",
+        "key": " :: ",
+        "start": 157,
+        "end": 238,
+        "category": "OtherCategory"
+      },
+      {
+        "text": "Rendering Data as Graphs",
+        "typeText": "",
+        "icon": "BOOK",
+        "textStyle": "NORMAL",
+        "key": " :: ",
+        "start": 241,
+        "end": 301,
+        "category": "OtherCategory"
+      }
+    ],
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 301,
+    "category": ""
+  }
+}
