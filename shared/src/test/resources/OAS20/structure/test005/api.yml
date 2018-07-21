@@ -1,0 +1,15 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.9-abcd
+  title: Swagger Sample API
+responses:
+  r1:
+    description: simple string response
+    schema:
+      type: string
+  r2:
+    description: oops
+    schema:
+      type: integer
+      format: int32

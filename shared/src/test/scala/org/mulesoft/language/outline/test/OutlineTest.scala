@@ -34,6 +34,9 @@ object File {
 
 trait OutlineTest extends AsyncFunSuite with PlatformSecrets {
 
+    implicit override def executionContext:ExecutionContext =
+        scala.concurrent.ExecutionContext.Implicits.global
+
     def runTest(path:String,jsonPath:String):Future[Assertion] = {
 
         val fullFilePath = filePath(path)
@@ -160,7 +163,7 @@ trait OutlineTest extends AsyncFunSuite with PlatformSecrets {
 
     def filePath(path:String):String = {
         var rootDir = System.getProperty("user.dir")
-        s"file://$rootDir/shared/src/test/resources/$rootPath/$path".replace('\\','/')
+        s"file://$rootDir/shared/src/test/resources/$rootPath/$path".replace('\\','/').replace("null/", "")
     }
 
     def findMarker(str:String,label:String="*", cut: Boolean = true): MarkerInfo = {
@@ -224,8 +227,8 @@ trait OutlineTest extends AsyncFunSuite with PlatformSecrets {
         //comparePrimitiveValue("textStyle",n1.textStyle,n2.textStyle,prefix1,prefix2,path,result)
         comparePrimitiveValue("key",n1.key,n2.key,prefix1,prefix2,path,result)
         if(!noBounds) {
-            //comparePrimitiveValue("start", n1.start, n2.start, prefix1, prefix2, path, result)
-            //comparePrimitiveValue("end", n1.end, n2.end, prefix1, prefix2, path, result)
+            comparePrimitiveValue("start", n1.start, n2.start, prefix1, prefix2, path, result)
+            comparePrimitiveValue("end", n1.end, n2.end, prefix1, prefix2, path, result)
         }
         //comparePrimitiveValue("selected",n1.selected,n2.selected,prefix1,prefix2,path,result)
         comparePrimitiveValue("category",n1.category,n2.category,prefix1,prefix2,path,result)

@@ -32,6 +32,12 @@ class DefaultLabelProvider extends LabelProvider {
           return titleAttribute.get.value.map(_.toString).getOrElse("")
         }
       }
+      else if (hlNode.definition.isAssignableFrom(OASDefinitionKeys.ParameterObject)||hlNode.definition.nameId.contains(OASDefinitionKeys.TagObject)) {
+        val titleAttribute = hlNode.attribute("name")
+        if (titleAttribute.isDefined) {
+          return titleAttribute.get.value.map(_.toString).getOrElse("")
+        }
+      }
     }
 
     val result = NodeNameProvider.getNodeName(node)

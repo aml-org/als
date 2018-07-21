@@ -45,13 +45,14 @@ class OASPlugin extends IStructurePlugin {
 
       override def apply(node: IParseResult): Boolean = {
 
-        if(node.isElement && node.asElement.get.definition.nameId.isDefined){
-          val defName = node.asElement.get.definition.nameId.get
+          val definition = node.asElement.get.definition
+          if(node.isElement && definition.nameId.isDefined){
+          val defName = definition.nameId.get
 
           val result = defName == OASDefinitionKeys.PathItemObject ||
             defName == OASDefinitionKeys.PathsObject ||
             defName == OASDefinitionKeys.ParameterObject ||
-            defName == OASDefinitionKeys.ParameterDefinitionObject ||
+            definition.isAssignableFrom(OASDefinitionKeys.ParameterDefinitionObject) ||
             defName == OASDefinitionKeys.Response ||
             defName == OASDefinitionKeys.ResponseDefinitionObject
 

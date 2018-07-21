@@ -1,0 +1,86 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 419,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 419,
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 419,
+    "children": [
+      {
+        "text": "info",
+        "typeText": "",
+        "icon": "",
+        "textStyle": "",
+        "key": "info :: ",
+        "start": 24,
+        "end": 100,
+        "category": "OtherCategory"
+      },
+      {
+        "text": "pet",
+        "typeText": "",
+        "icon": "",
+        "textStyle": "",
+        "key": " :: ",
+        "start": 118,
+        "end": 319,
+        "children": [
+          {
+            "text": "externalDocs",
+            "typeText": "",
+            "icon": "",
+            "textStyle": "",
+            "key": "externalDocs ::  :: ",
+            "start": 222,
+            "end": 313,
+            "category": ""
+          }
+        ],
+        "category": "OtherCategory"
+      },
+      {
+        "text": "pet1",
+        "typeText": "",
+        "icon": "",
+        "textStyle": "",
+        "key": " :: ",
+        "start": 325,
+        "end": 413,
+        "category": "OtherCategory"
+      }
+    ],
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 419,
+    "category": ""
+  }
+}
