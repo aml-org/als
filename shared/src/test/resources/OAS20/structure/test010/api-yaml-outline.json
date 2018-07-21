@@ -1,0 +1,188 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 4,
+    "end": 987,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 4,
+    "end": 987,
+    "children": [
+      {
+        "text": "paths",
+        "typeText": "",
+        "icon": "",
+        "textStyle": "",
+        "key": "paths :: ",
+        "start": 75,
+        "end": 987,
+        "children": [
+          {
+            "text": "/pets/{id}",
+            "typeText": "",
+            "icon": "PRIMITIVE_SQUARE",
+            "textStyle": "HIGHLIGHT",
+            "key": "/pets/{id} :: paths :: ",
+            "start": 84,
+            "end": 987,
+            "children": [
+              {
+                "text": "post",
+                "typeText": "",
+                "icon": "PRIMITIVE_DOT",
+                "textStyle": "WARNING",
+                "key": "post :: /pets/{id} :: paths :: ",
+                "start": 102,
+                "end": 987,
+                "children": [
+                  {
+                    "text": "responses",
+                    "typeText": "",
+                    "icon": "",
+                    "textStyle": "",
+                    "key": "responses :: post :: /pets/{id} :: paths :: ",
+                    "start": 114,
+                    "end": 987,
+                    "children": [
+                      {
+                        "text": "200",
+                        "typeText": "",
+                        "icon": "",
+                        "textStyle": "",
+                        "key": "200 :: responses :: post :: /pets/{id} :: paths :: ",
+                        "start": 133,
+                        "end": 865,
+                        "children": [
+                          {
+                            "text": "schema",
+                            "typeText": "",
+                            "icon": "FILE_BINARY",
+                            "textStyle": "SUCCESS",
+                            "key": "schema :: 200 :: responses :: post :: /pets/{id} :: paths :: ",
+                            "start": 202,
+                            "end": 242,
+                            "category": ""
+                          },
+                          {
+                            "text": "X-Rate-Limit-Limit",
+                            "typeText": ":integer",
+                            "icon": "",
+                            "textStyle": "",
+                            "key": "X-Rate-Limit-Limit :: 200 :: responses :: post :: /pets/{id} :: paths :: ",
+                            "start": 273,
+                            "end": 401,
+                            "category": ""
+                          },
+                          {
+                            "text": "X-Rate-Limit-Remaining",
+                            "typeText": ":integer",
+                            "icon": "",
+                            "textStyle": "",
+                            "key": "X-Rate-Limit-Remaining :: 200 :: responses :: post :: /pets/{id} :: paths :: ",
+                            "start": 413,
+                            "end": 547,
+                            "category": ""
+                          },
+                          {
+                            "text": "X-Rate-Limit-Reset",
+                            "typeText": ":integer",
+                            "icon": "",
+                            "textStyle": "",
+                            "key": "X-Rate-Limit-Reset :: 200 :: responses :: post :: /pets/{id} :: paths :: ",
+                            "start": 559,
+                            "end": 683,
+                            "category": ""
+                          },
+                          {
+                            "text": "application/json",
+                            "typeText": "",
+                            "icon": "",
+                            "textStyle": "",
+                            "key": "application/json :: 200 :: responses :: post :: /pets/{id} :: paths :: ",
+                            "start": 715,
+                            "end": 865,
+                            "category": ""
+                          }
+                        ],
+                        "category": ""
+                      },
+                      {
+                        "text": "200",
+                        "typeText": "",
+                        "icon": "",
+                        "textStyle": "",
+                        "key": "200 :: responses :: post :: /pets/{id} :: paths :: ",
+                        "start": 873,
+                        "end": 987,
+                        "children": [
+                          {
+                            "text": "schema",
+                            "typeText": "",
+                            "icon": "FILE_BINARY",
+                            "textStyle": "SUCCESS",
+                            "key": "schema :: 200 :: responses :: post :: /pets/{id} :: paths :: ",
+                            "start": 940,
+                            "end": 987,
+                            "category": ""
+                          }
+                        ],
+                        "category": ""
+                      }
+                    ],
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "ResourcesCategory"
+      }
+    ],
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 4,
+    "end": 987,
+    "children": [
+      {
+        "text": "info",
+        "typeText": "",
+        "icon": "",
+        "textStyle": "",
+        "key": "info :: ",
+        "start": 19,
+        "end": 75,
+        "category": "OtherCategory"
+      }
+    ],
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 4,
+    "end": 987,
+    "category": ""
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 201,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 201,
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 201,
+    "children": [
+      {
+        "text": "externalDocs",
+        "typeText": "",
+        "icon": "",
+        "textStyle": "",
+        "key": "externalDocs :: ",
+        "start": 120,
+        "end": 199,
+        "category": "OtherCategory"
+      },
+      {
+        "text": "info",
+        "typeText": "",
+        "icon": "",
+        "textStyle": "",
+        "key": "info :: ",
+        "start": 24,
+        "end": 100,
+        "category": "OtherCategory"
+      }
+    ],
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 201,
+    "category": ""
+  }
+}

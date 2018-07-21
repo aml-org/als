@@ -1,0 +1,76 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 4,
+    "end": 494,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 4,
+    "end": 494,
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 4,
+    "end": 494,
+    "children": [
+      {
+        "text": "info",
+        "typeText": "",
+        "icon": "",
+        "textStyle": "",
+        "key": "info :: ",
+        "start": 19,
+        "end": 361,
+        "children": [
+          {
+            "text": "contact",
+            "typeText": "",
+            "icon": "",
+            "textStyle": "",
+            "key": "contact :: info :: ",
+            "start": 163,
+            "end": 254,
+            "category": ""
+          },
+          {
+            "text": "license",
+            "typeText": "",
+            "icon": "",
+            "textStyle": "",
+            "key": "license :: info :: ",
+            "start": 265,
+            "end": 343,
+            "category": ""
+          }
+        ],
+        "category": "OtherCategory"
+      }
+    ],
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 4,
+    "end": 494,
+    "category": ""
+  }
+}

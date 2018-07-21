@@ -1,4 +1,4 @@
-package org.mulesoft.language.outline.test.raml10.Structure
+package org.mulesoft.language.outline.test.raml10.structure
 
 import org.mulesoft.language.outline.test.raml10.RAML10Test
 
