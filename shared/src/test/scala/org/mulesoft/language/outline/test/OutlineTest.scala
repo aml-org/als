@@ -32,10 +32,18 @@ object File {
     }
 }
 
-trait OutlineTest extends AsyncFunSuite with PlatformSecrets {
+trait OutlineTest[T] extends AsyncFunSuite with PlatformSecrets {
 
     implicit override def executionContext:ExecutionContext =
         scala.concurrent.ExecutionContext.Implicits.global
+
+    def readDataFromAST(project:IProject,position:Int):T
+
+    def readDataFromString(dataString:String):T
+
+    def emptyData():T
+
+    def compare(obj1:T, obj2:T, prefix1:String, prefix2:String):Seq[Diff]
 
     def runTest(path:String,jsonPath:String):Future[Assertion] = {
 
@@ -48,11 +56,8 @@ trait OutlineTest extends AsyncFunSuite with PlatformSecrets {
 
             this.getExpectedOutline(fullJsonPath).flatMap(expectedOutlineStr=>{
 
-              val expectedOutline:Map[String,StructureNode] = read[Map[String,StructureNode]](expectedOutlineStr)
-
-                val ao1:Map[String, StructureNode] = actualOutline.asInstanceOf[Map[String, StructureNode]]
-                val diffs = compareStructureNodeMaps(ao1,expectedOutline,"actual","expected","/",ListBuffer[Diff](),true)
-
+              val expectedOutline:T = readDataFromString(expectedOutlineStr)
+                val diffs = compare(actualOutline,expectedOutline,"actual","expected")
                 //var actualJSON = write(ao1,2)
                 //platform.write(fullJsonPath,actualJSON)
                 if(diffs.isEmpty) {
@@ -82,7 +87,7 @@ trait OutlineTest extends AsyncFunSuite with PlatformSecrets {
     def getExpectedOutline(url: String): Future[String]
         = this.platform.resolve(url).map(_.stream.toString)
 
-    def getActualOutline(url: String): Future[Map[_<:String, StructureNode]] = {
+    def getActualOutline(url: String): Future[T] = {
 
         val config = this.buildParserConfig(format, url)
 
@@ -104,20 +109,15 @@ trait OutlineTest extends AsyncFunSuite with PlatformSecrets {
 
         }).flatMap(x => x match {
             case amfUnit: BaseUnit => this.buildHighLevel(amfUnit).map(project => {
-
-                val sharedStructureMap: Map[String, StructureNodeJSON] = this.getStructureFromAST(project.rootASTUnit.rootNode, format, position)
-
-                val transportStructureMap:Map[String, StructureNode] = sharedStructureMap.map(e => (e._1,StructureNode.sharedToTransport(e._2)))
-
-                transportStructureMap
+                readDataFromAST(project,position)
             })
             case _ =>
-                Future.successful(Map())
+                Future.successful(emptyData())
         }) recoverWith {
             case e:Throwable =>
                 println(e)
-                Future.successful(Map())
-            case _ => Future.successful(Map())
+                Future.successful(emptyData())
+            case _ => Future.successful(emptyData())
         }
     }
 
@@ -219,7 +219,7 @@ trait OutlineTest extends AsyncFunSuite with PlatformSecrets {
         })
     }
 
-    private def compareStructureNodes(n1:StructureNode,n2:StructureNode,prefix1:String,prefix2:String,path:String="",result:ListBuffer[Diff]=ListBuffer(),noBounds:Boolean=false):Seq[Diff] = {
+    protected def compareStructureNodes(n1:StructureNode,n2:StructureNode,prefix1:String,prefix2:String,path:String="",result:ListBuffer[Diff]=ListBuffer(),noBounds:Boolean=false):Seq[Diff] = {
 
         comparePrimitiveValue("text",n1.text,n2.text,prefix1,prefix2,path,result)
         comparePrimitiveValue("typeText",n1.typeText,n2.typeText,prefix1,prefix2,path,result)
