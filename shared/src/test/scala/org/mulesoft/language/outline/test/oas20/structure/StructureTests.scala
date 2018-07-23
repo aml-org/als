@@ -1,8 +1,9 @@
 package org.mulesoft.language.outline.test.oas20.structure
 
-import org.mulesoft.language.outline.test.oas20.OAS20Test
+import org.mulesoft.language.outline.test.oas20.OAS20StructureTest
 
-class StructureTests extends OAS20Test {
+
+class StructureTests extends OAS20StructureTest {
 
     override def rootPath: String = "OAS20/structure"
 

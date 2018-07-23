@@ -1,8 +1,9 @@
 package org.mulesoft.language.outline.test.raml10.structure
 
-import org.mulesoft.language.outline.test.raml10.RAML10Test
+import org.mulesoft.language.outline.test.raml10.RAML10StructureTest
 
-class StructureTests extends RAML10Test {
+
+class StructureTests extends RAML10StructureTest {
 
     override def rootPath:String = "RAML10/structure"
 
