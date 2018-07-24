@@ -1,0 +1,112 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "/users/{id}",
+        "typeText": null,
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "children": [
+          {
+            "text": "get",
+            "typeText": null,
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "children": [
+              {
+                "text": "200",
+                "typeText": null,
+                "children": [
+                  {
+                    "text": "application/json",
+                    "typeText": ":object",
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "children": [
+                      {
+                        "text": "firstname",
+                        "typeText": ":string",
+                        "icon": "FILE_BINARY",
+                        "textStyle": "SUCCESS",
+                        "children": [],
+                        "key": "firstname :: application/json :: 200 :: get :: /users/{id} :: ",
+                        "start": 187,
+                        "end": 196
+                      },
+                      {
+                        "text": "lastname",
+                        "typeText": ":string",
+                        "icon": "FILE_BINARY",
+                        "textStyle": "SUCCESS",
+                        "children": [],
+                        "key": "lastname :: application/json :: 200 :: get :: /users/{id} :: ",
+                        "start": 241,
+                        "end": 249
+                      },
+                      {
+                        "text": "age",
+                        "typeText": ":number",
+                        "icon": "FILE_BINARY",
+                        "textStyle": "SUCCESS",
+                        "children": [],
+                        "key": "age :: application/json :: 200 :: get :: /users/{id} :: ",
+                        "start": 294,
+                        "end": 297
+                      }
+                    ],
+                    "key": "application/json :: 200 :: get :: /users/{id} :: ",
+                    "start": 106,
+                    "end": 122
+                  }
+                ],
+                "key": "200 :: get :: /users/{id} :: ",
+                "start": 77,
+                "end": 80
+              }
+            ],
+            "key": "get :: /users/{id} :: ",
+            "start": 51,
+            "end": 54
+          }
+        ],
+        "key": "/users/{id} :: ",
+        "start": 36,
+        "end": 47,
+        "category": "ResourcesCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

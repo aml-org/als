@@ -1,0 +1,18 @@
+#%RAML 1.0
+title: Example of Optional Properties
+resourceTypes:
+  corp!Resource:
+    post?:
+      description: Some info about <<TextAboutPost>>.
+      headers:
+        X-Chargeback:
+          required: true
+/servers:
+  type:
+    corp*Resource:
+      TextAboutPost: post method # post defined which will force to define the TextAboutPost parameter
+  get:
+  post: # will require the X-Chargeback header
+/queues:
+  type:  { corpResource: {TextAboutPost : node serever} }
+  get:

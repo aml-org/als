@@ -1,0 +1,25 @@
+#%RAML 1.0
+title: Example API
+version: v1
+mediaType: application/json
+traits:
+  pagination: !include pagination.raml
+  showHidden: !include showHidden.raml
+  showOwner: !include showOwner.raml
+resourceTypes:
+  collection: !include collectitonRT.raml
+  member:
+    type: item
+    get:
+      responses:
+        200:
+          body:
+            type: <<resourcePathName>> # e.g. User
+  item:
+    put:
+      is:  [pagination, showOwner]
+  bucket:
+    type: collection
+    patch:
+/res:
+  type: bucket

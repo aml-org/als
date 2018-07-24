@@ -1,0 +1,38 @@
+#%RAML 1.0
+title: Slack
+description: My slack 
+#baseUri: https://slack.com/api
+baseUri: http://ec2-52-201-242-128.compute-1.amazonaws.com/mocks/249c6ca4-4540-4d4f-b241-1c0cf5866637/api
+uses: 
+  myTypes: libraries/types.raml
+types: 
+  MyChannelInfo :
+    type: myTypes.ChannelInfo
+    description: My Own Channel Info
+    properties: 
+      creationDate : date-only  
+    
+/channels.info: 
+  get: 
+    description: Gets information about a channel.
+    queryParameters: 
+      channel: 
+        description: Channel to fetch history for.
+        required: true
+        example: C1234567890        
+    responses: 
+      200: 
+        body: 
+          application/json: 
+            type: myTypes.ChannelInfo
+            example: !include examples/channelsInfo-example.json
+            
+/myChannels.info:
+  get:
+    description: Testing examples.
+    queryParameters: 
+      channel:
+        description: Channel to get info for
+        required: true
+        example: CH11
+    

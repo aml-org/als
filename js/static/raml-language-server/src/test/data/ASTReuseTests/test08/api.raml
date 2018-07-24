@@ -1,0 +1,10 @@
+#%RAML 1.0
+title: Dropbox API
+version: 1
+baseUri: https://api.dropbox.com/{version}
+securitySchemes:
+  oauth_2_0: !include oauth2.0Security.raml
+  oauth_1_0: !include oauth1.0.raml
+/res:
+  get:
+    securedBy: oauth_2_0

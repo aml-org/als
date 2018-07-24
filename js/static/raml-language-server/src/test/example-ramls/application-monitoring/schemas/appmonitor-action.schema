@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [ "scaleup", "scaledown", "notify", "webhook" ],
+      "required": true
+    },
+    "scaleType": {
+      "type": "string",
+      "enum": ["workerCount", "workerSize"]
+    },
+    "minScale": {
+      "type": "number"
+    },
+    "maxScale": {
+      "type": "number"
+    },
+    "webhookUrl": {
+      "type": "string"
+    }
+  }
+}

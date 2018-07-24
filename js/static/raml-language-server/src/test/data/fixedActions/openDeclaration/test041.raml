@@ -1,0 +1,11 @@
+#%RAML 1.0
+title: Example of request bodies
+mediaType: application/json
+types:
+  Us!er:
+    properties:
+      firstName:
+      lastName:
+/users:
+  post:
+    body: Us*er

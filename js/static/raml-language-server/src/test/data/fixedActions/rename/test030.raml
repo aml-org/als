@@ -1,0 +1,27 @@
+#%RAML 1.0
+title: test
+traits:
+  ao:
+    body:
+types:
+  NewTestType:
+    type: object
+    properties:
+      field: string
+    example:
+      field: value
+resourceTypes:
+  Aooo!RT:
+    get:
+  TestResorceType:
+    post:
+      description: Allows to create new <<objectName | !singularize>>
+      body:
+        application/json:
+          type: <<objectName | !singularize>>
+/test:
+  type:  { TestResorceType: {objectName : NewTestType} }
+  get:
+    is: [ao]
+  /chld:
+    type: Aooo*RT

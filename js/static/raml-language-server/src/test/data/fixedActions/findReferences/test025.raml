@@ -1,0 +1,14 @@
+#%RAML 1.0
+title: test
+
+types:
+  Test*Type:
+    type: object
+  TestType2:
+    type: Test!Type
+    properties:
+      testProp: Test!Type
+  TestType3:
+    type: TestType2
+    properties:
+      testProp2: Test!Type

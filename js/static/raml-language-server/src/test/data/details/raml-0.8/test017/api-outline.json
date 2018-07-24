@@ -1,0 +1,67 @@
+{
+  "title": "OAuth1SecurityScheme",
+  "description": "Security schemes that can be applied using securedBy",
+  "type": null,
+  "children": [
+    {
+      "title": "name",
+      "description": "Name of the security scheme",
+      "type": "ATTRIBUTETEXT",
+      "children": [],
+      "valueText": "oauth_1_0",
+      "id": ".oauth_1_0#name"
+    },
+    {
+      "title": "type",
+      "description": "The securitySchemes property MUST be used to specify an API's security mechanisms, including the required settings and the authentication methods that the API supports. one authentication method is allowed if the API supports them.",
+      "type": "ATTRIBUTETEXT",
+      "children": [],
+      "valueText": "OAuth 1.0",
+      "id": ".oauth_1_0#type"
+    },
+    {
+      "title": "Documentation",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "description",
+          "description": "The description attribute MAY be used to describe a security schemes property.",
+          "type": "MARKDOWN",
+          "children": [],
+          "valueText": "OAuth 1.0 continues to be supported for all API requests, but OAuth 2.0 is now preferred.\n",
+          "id": ".oauth_1_0#description"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#Documentation"
+    },
+    {
+      "title": "General",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "describedBy",
+          "description": "Insert describedBy",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".oauth_1_0#describedBy#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "Delete",
+          "description": "",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".oauth_1_0#DELETE_DETAILS_ACTION",
+          "subType": "DELETE"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#General"
+    }
+  ],
+  "valueText": null,
+  "id": "Category#OAuth1SecurityScheme"
+}

@@ -1,0 +1,11 @@
+#%RAML 1.0
+title: test
+traits:
+    Test!Trait:
+      queryParameters:
+        limit:
+          type: integer
+          default: <<limit!Default>>
+/test:
+  get:
+    is:  [Test*Trait: {limit*Default : 4}]

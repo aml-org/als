@@ -1,0 +1,23 @@
+#%RAML 0.8
+title: RAML
+mediaType: application/json
+securedBy: [ oauth_2_0, oauth_1_0 ]
+securitySchemes:
+  - oauth_2_0:
+      type: OAuth 2.0
+  - oauth_1_0:
+      type: OAuth 1.0
+/node:
+  description: A resource
+  securedBy:
+    - oauth_1_0
+  post:
+    description: A method
+/res:
+  securedBy: [oauth_2_0, oauth_1_0]
+  post:
+    securedBy:
+      - oauth_2_0
+  /chld:
+    patch:
+      securedBy: [oauth_2_0, oauth_1_0]

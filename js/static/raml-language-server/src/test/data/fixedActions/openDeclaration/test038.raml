@@ -1,0 +1,23 @@
+#%RAML 1.0
+title: Example with headers
+types: 
+  X-hea!der:
+    type: string
+    pattern: ^\w{16}$
+    description: A code to track API calls end to end
+    example: abcdefghijklmnop
+traits:
+  chargeable:
+    headers:
+      X-Dept:
+        type: array
+        description: |
+          A department code to be charged.
+          Multiple of such headers are allowed.
+        items:
+          pattern: ^\d+\-\w+$
+          example: 230-OCTO
+  traceable:
+    headers:
+      X-Tracker:
+        type: X-hea*der

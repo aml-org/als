@@ -1,0 +1,24 @@
+#%RAML 1.0
+title: Example API
+version: v1
+resourceTypes:
+  searchableCollection:
+    get:
+      queryParameters:
+        <<queryParamName>>:
+          description: Return <<resourcePathName>> that have their <<queryParamName>> matching the given value
+        <<fallbackParamName>>:
+          description: If no values match the value given for <<queryParamName>>, use <<fallbackParamName>> instead
+traits:
+  secured:
+    queryParameters:
+      <<tokenN!ame>>:
+        description: A valid <<token!Name>> is required
+  paged:
+    queryParameters:
+      numPages:
+        description: The number of pages to return, not to exceed <<maxPages>>
+/books:
+  type: { searchableCollection: { queryParamName: title, fallbackParamName: digest_all_fields } }
+  get:
+    is: [ secured: { token*Name: access_token }, paged: { maxPages: 10 } ]

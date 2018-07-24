@@ -1,0 +1,30 @@
+#%RAML 1.0
+title: Some Api
+version: v1
+baseUri: https://example.com/
+types:
+  TestTypeObject:
+    type: object
+    properties:
+      aa: string
+  PartOne:
+    type: object
+    properties:
+      aa: string
+  PartTwo:
+    type: object
+    properties:
+      bb: integer
+  TestTypeWithInheritance:
+    type: [PartOne, PartTwo]
+  TestTypePrimitive:
+    type: string
+  TestTypeUnion:
+    type: TestTypePrimitive | TestType | string
+  TestType:
+    type: object
+    properties:
+      count: integer
+  TestType1: TestTypePrimitive | TestTypeUnion
+  TestType2:
+    type: TestTypeUnion | TestTypePrimitive 

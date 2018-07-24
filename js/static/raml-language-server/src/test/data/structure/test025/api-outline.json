@@ -1,0 +1,91 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "/resource",
+        "typeText": null,
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "children": [
+          {
+            "text": "get",
+            "typeText": null,
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "children": [
+              {
+                "text": "200",
+                "typeText": null,
+                "children": [
+                  {
+                    "text": "application/json",
+                    "typeText": ":files.File",
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "children": [],
+                    "key": "application/json :: 200 :: get :: /resource :: ",
+                    "start": 169,
+                    "end": 185
+                  }
+                ],
+                "key": "200 :: get :: /resource :: ",
+                "start": 140,
+                "end": 143
+              }
+            ],
+            "key": "get :: /resource :: ",
+            "start": 114,
+            "end": 117
+          }
+        ],
+        "key": "/resource :: ",
+        "start": 101,
+        "end": 110,
+        "category": "ResourcesCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "files",
+        "typeText": null,
+        "children": [],
+        "key": "files :: ",
+        "start": 83,
+        "end": 88,
+        "category": "OtherCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

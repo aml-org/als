@@ -1,0 +1,30 @@
+#%RAML 0.8
+title: Example API
+version: v1
+mediaType: application/json
+resourceTypes:
+  - collection:
+      post:
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<resourcePathName | !singularize>>  # e.g. User
+      get:
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<resourcePathName | !pluralize>>
+      put:
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<resourcePathName | !uppercase>>
+      patch:
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<resourcePathName | !lowercase>>

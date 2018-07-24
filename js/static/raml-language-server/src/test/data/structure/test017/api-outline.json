@@ -1,0 +1,57 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "oauth_1_0",
+        "typeText": ":OAuth 1.0",
+        "children": [
+          {
+            "text": "settings",
+            "typeText": null,
+            "children": [],
+            "key": "settings :: oauth_1_0 :: ",
+            "start": 201,
+            "end": 209
+          }
+        ],
+        "key": "oauth_1_0 :: ",
+        "start": 51,
+        "end": 60,
+        "category": "OtherCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

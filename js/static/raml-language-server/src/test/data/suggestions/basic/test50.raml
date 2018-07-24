@@ -1,0 +1,26 @@
+#%RAML 0.8
+title: SPEC
+/node:
+  is:
+  type:
+  description:
+  uriParameters:
+  get:
+  put:
+    queryParameters:
+    headers:
+      Last-Modified:
+    body:
+    responses:
+      101:
+        headers:
+          Last-Modified:
+        body:
+          application/json:
+        description:
+    protocols:
+      HTTP
+    is:
+    description:
+  options:
+  head:

@@ -1,0 +1,13 @@
+#%RAML 1.0
+title: Example API
+version: v1
+resourceTypes:
+  apiResource:
+    get:
+      is: [ secu!red]
+traits:
+  sec*ured:
+    queryParameters:
+/servers:
+  get:
+    is: [ secu!red]

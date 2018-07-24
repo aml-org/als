@@ -1,3 +1,5 @@
+import java.io.{FileInputStream, FileOutputStream}
+
 import org.scalajs.core.tools.linker.ModuleKind
 
 name := "api-language-server"
@@ -123,7 +125,57 @@ val buildJS_MSLSP = TaskKey[Unit]("buildJSMSLSP")
 val buildJS_WEBLSP = TaskKey[Unit]("buildJSWEBLSP")
 
 buildJS := {
-    val _ = (fastOptJS in Compile in coreJS).value
+    val _ = (fastOptJS in Compile in coreJS).map((value) => {
+        var copyDir1: Function2[File, File, Unit] = null;
+        
+        var copyDir: Function2[File, File, Unit] = (src: File, dst: File) => {
+            src.list().foreach(name => {
+                var srcf = src / name;
+                var dstf = dst / name;
+                
+                if(srcf.isFile) {
+                    dstf.createNewFile();
+    
+                    var is = new FileInputStream(srcf);
+                    var os = new FileOutputStream(dstf);
+                    
+                    var bytes = new Array[Byte](is.available());
+    
+                    is.read(bytes);
+                    
+                    os.write(bytes);
+    
+                    is.close();
+                    os.close();
+                } else if(srcf.isDirectory) {
+                    dstf.mkdir();
+                    
+                    copyDir1(srcf, dstf);
+                }
+            });
+        };
+    
+        copyDir1 = copyDir;
+        
+        var baseDir = value.data.getParentFile.getParentFile.getParentFile;
+        
+        var srcDir = baseDir / "static" / "raml-language-server";
+        var dstDir = baseDir / "target" / "raml-language-server";
+        
+        dstDir.delete();
+        dstDir.mkdir();
+        
+        copyDir(srcDir, dstDir);
+        
+        var srcDir1 = baseDir / "target/artifact";
+        var dstDir1 = baseDir / "target" / "raml-language-server" / "dist/entryPoints/node/server";
+        
+        dstDir1.mkdir();
+        
+        copyDir(srcDir1, dstDir1);
+        
+        value;
+    }).value;
 }
 
 //buildJS_MSLSP := {

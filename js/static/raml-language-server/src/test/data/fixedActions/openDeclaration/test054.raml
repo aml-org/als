@@ -1,0 +1,15 @@
+#%RAML 1.0
+title: test
+resourceTypes:
+  testResourceType:
+    type: third*ResourceType
+    post:
+    get:
+  anotherResourceType:
+    type: testResourceType
+    patch:
+  third!ResourceType:
+    options:
+    put:
+/res:
+  type: third*ResourceType

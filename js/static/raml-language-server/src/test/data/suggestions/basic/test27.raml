@@ -1,0 +1,30 @@
+#%RAML 1.0
+title: SPEC
+annotationTypes:
+  annotaion:
+/node:
+  (annotaion):
+  is:
+  type:
+  description:
+  uriParameters:
+  get:
+  put:
+    queryParameters:
+    headers:
+      Last-Modified:
+    body:
+    responses:
+      101:
+        headers:
+          Last-Modified:
+        body:
+          application/json:
+        description:
+    protocols:
+      HTTP
+    is:
+    description:
+  options:
+    (annotaion):
+  head:

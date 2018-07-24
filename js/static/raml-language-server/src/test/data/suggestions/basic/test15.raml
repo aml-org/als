@@ -1,0 +1,11 @@
+#%RAML 1.0
+title: test
+traits:
+  TestTrait:
+    queryParameters:
+      limit:
+        type: integer
+        default: <<limitDefault>>
+/test:
+  get:
+    is: 

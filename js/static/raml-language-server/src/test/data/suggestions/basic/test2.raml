@@ -1,0 +1,67 @@
+#%RAML 1.0
+title: API with Types
+baseUri: /media
+
+types:
+  Person:
+    type: object
+    properties:
+      firstname:
+        type: string
+        description: example description
+        xml:
+          attribute: true
+      lastname:
+        type: string
+        required: false
+      addresses:
+        type: SimpleType[]
+        xml:
+          wrapped: true
+      age: number
+  SimpleType1:
+      properties:
+        prop1: string
+        attr:
+          type: string
+          xml:
+            attribute: true
+
+
+  SimpleType2:
+    properties:
+      prop2: string
+      attr:
+        type: string
+        xml:
+          attribute: false
+
+
+  SimpleType:
+    type: SimpleType1 | SimpleType2
+
+/users:
+  post:
+    body:
+      application/json:
+
+  get:
+    body:
+      application/json:
+        type: object
+        properties:
+          developer: string
+          test: string
+          animal: string
+          car: string
+
+    responses:
+      200:
+        body:
+          application/xml:
+            type: Person
+            properties:
+              juan: string
+            example:
+              juan: sadasd
+              a

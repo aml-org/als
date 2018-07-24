@@ -1,0 +1,10 @@
+#%RAML 1.0
+title: GitHub API
+version: v3
+baseUri: https://api.github.com
+securitySchemes:
+  oau*th_2_0: 
+    type: OAuth 2.0
+/users/{userid}/gists:
+  get:
+    securedBy: [null, oau!th_2_0: { scopes: [ ADMINISTRATOR ] } ]

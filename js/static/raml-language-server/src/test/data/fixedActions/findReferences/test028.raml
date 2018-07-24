@@ -1,0 +1,20 @@
+#%RAML 1.0
+title: test
+schemas:
+  test*Schema: |
+      {
+        "$schema": "http://json-schema.org/draft-03/schema",
+        "type": "object" ,
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+/test:
+  post:
+    body: 
+      schema: test!Schema

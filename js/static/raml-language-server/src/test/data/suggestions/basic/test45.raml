@@ -1,0 +1,19 @@
+#%RAML 0.8
+title: API
+/res:
+  get:
+    queryParameters:
+      page:
+        enum:
+          - stat
+          - user
+        example: stat
+        minLength: 4
+        maxLength: 8
+        default: user
+        displayName:
+        description:
+        required: false
+        repeat: false
+        pattern: ^[a-zA-Z0-9][-a-zA-Z0-9]*$
+        type: string

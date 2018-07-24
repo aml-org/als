@@ -1,0 +1,31 @@
+#%RAML 1.0
+title: Example API
+version: v1
+uses:
+  types: types.raml
+traits:
+  qParams: !include paramsTrait.raml
+  type:
+resourceTypes:
+  searchableCollection:
+   get:
+     is:  [qParams]
+     responses:
+       200:
+         body:
+           application/json:
+             type: types.collection
+/rest:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              length: string
+  type: searchableCollection
+/res:
+  post:
+  /{resId}:
+    get:

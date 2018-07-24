@@ -1,0 +1,10 @@
+#%RAML 1.0
+title: Illustrating allowed targets
+(me*ta): on an API
+annotationTypes:
+  me!ta:
+    allowedTargets: [ Resource, Method, API ]
+/users:
+  (me!ta): on a resource
+  get:
+    (me!ta): on a method

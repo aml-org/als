@@ -1,0 +1,74 @@
+{
+  "name": "raml-language-server",
+  "version": "0.0.8",
+  "description": "RAML Language Server based on the Language Server Protocol",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "test": "gulp test",
+    "testComplete": "gulp testComplete",
+    "generateBrowserVersion": "npm run build && node dist/entryPoints/web_worker/packaging/webGenerator.js",
+    "buildBrowserPublishNpm": "npm run build && node dist/entryPoints/web_worker/packaging/webGenerator.js --type 'npm'",
+    "lint": "tslint \"src/**/*.ts\" -e \"src/test/**\"",
+    "pullall": "dev-env-installer pullall",
+    "buildall": "dev-env-installer buildall",
+    "testall": "dev-env-installer testall",
+    "devInstall": "dev-env-installer install",
+    "test-cov": " ./node_modules/.bin/istanbul cover _mocha dist/test/**/*Tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raml-org/raml-language-server.git"
+  },
+  "keywords": [
+    "raml"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/raml-org/raml-language-server/issues"
+  },
+  "homepage": "https://github.com/raml-org/raml-language-server#readme",
+  "typings": "./dist/index.d.ts",
+  "dependencies": {
+    "raml-1-parser": "1.1.37",
+    "raml-outline": "0.0.15",
+    "raml-suggestions": "0.0.43",
+    "raml-actions": "0.0.24",
+    "shortid": "^2.2.6",
+    "vscode-languageserver": "^3.2.0",
+    "promise-polyfill": "6.0.2",
+    "urijs": "1.19.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "@types/chai": "4.0.4",
+    "@types/es6-promise": "0.0.33",
+    "@types/mocha": "2.2.43",
+    "@types/node": "8.0.47",
+    "@types/underscore": "1.8.3",
+    "chai": "4.1.2",
+    "chai-as-promised": "7.1.1",
+    "dev-env-installer": "0.0.14",
+    "gulp": "^3.8.11",
+    "gulp-compass": "^2.0.4",
+    "gulp-connect": "5.0.0",
+    "gulp-istanbul": "1.1.2",
+    "gulp-mocha": "4.3.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "2.6.1",
+    "gulp-typescript": "3.2.3",
+    "istanbul": "^0.4.2",
+    "json-loader": "0.5.7",
+    "mkdirp": "^0.5.0",
+    "mocha": "4.0.1",
+    "rimraf": "^2.6.2",
+    "tslint": "5.8.0",
+    "typescript": "^2.1.5",
+    "webpack": "1.15.0"
+  },
+  "engines": {
+    "node": "*",
+    "vscode": "*"
+  }
+}

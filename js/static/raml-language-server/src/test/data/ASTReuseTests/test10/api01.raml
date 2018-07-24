@@ -1,0 +1,11 @@
+#%RAML 1.0
+title: Example API
+version: v1
+annotationTypes:
+  deprecated: !include deprecated.raml
+  experimental: nil | boolean
+resourceTypes:
+  collection: !include collection.raml
+/rest:
+  type: collection
+  (deprecated): false

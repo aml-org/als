@@ -1,0 +1,10 @@
+#%RAML 1.0
+title: test
+
+traits:
+  Test!Trait:
+  TestTrait2:
+    is: [Test*Trait]
+/test:
+  is: [Test*Trait, TestTrait2]
+  post:

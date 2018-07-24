@@ -1,0 +1,100 @@
+{
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [
+      {
+        "text": "/jobs",
+        "typeText": null,
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "children": [
+          {
+            "text": "post",
+            "typeText": null,
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "children": [
+              {
+                "text": "X-Dept",
+                "typeText": ":array",
+                "icon": "FILE_BINARY",
+                "textStyle": "SUCCESS",
+                "children": [
+                  {
+                    "text": "example",
+                    "typeText": null,
+                    "children": [],
+                    "key": "example :: X-Dept :: post :: /jobs :: ",
+                    "start": 191,
+                    "end": 198
+                  }
+                ],
+                "key": "X-Dept :: post :: /jobs :: ",
+                "start": 155,
+                "end": 161
+              },
+              {
+                "text": "X-Tracker",
+                "typeText": null,
+                "icon": "FILE_BINARY",
+                "textStyle": "SUCCESS",
+                "children": [
+                  {
+                    "text": "example",
+                    "typeText": null,
+                    "children": [],
+                    "key": "example :: X-Tracker :: post :: /jobs :: ",
+                    "start": 334,
+                    "end": 341
+                  }
+                ],
+                "key": "X-Tracker :: post :: /jobs :: ",
+                "start": 231,
+                "end": 240
+              }
+            ],
+            "key": "post :: /jobs :: ",
+            "start": 100,
+            "end": 104
+          }
+        ],
+        "key": "/jobs :: ",
+        "start": 91,
+        "end": 96,
+        "category": "ResourcesCategory"
+      }
+    ],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": null,
+    "children": [],
+    "key": "",
+    "start": -1,
+    "end": -1,
+    "selected": true
+  }
+}

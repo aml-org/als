@@ -1,0 +1,13 @@
+#%RAML 1.0
+title: test
+
+types:
+  Test*Type:
+    type: object
+  TestType2: string
+
+/test:
+  post:
+    body:
+      application/json:
+        type: Test!Type

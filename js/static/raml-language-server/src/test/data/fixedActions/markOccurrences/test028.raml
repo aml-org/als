@@ -1,0 +1,10 @@
+#%RAML 1.0
+title: Illustrating allowed targets
+(meta-resou*rce-method): on an API
+annotationTypes:
+  meta-reso!urce-method:
+    allowedTargets: [ Resource, Method, API ]
+/users:
+  (meta-reso!urce-method): on a resource
+  get:
+    (meta-reso!urce-method): on a method

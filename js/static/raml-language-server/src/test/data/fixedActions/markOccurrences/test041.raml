@@ -1,0 +1,20 @@
+#%RAML 1.0
+title: test
+types:
+  TestType:
+    type: object
+    properties:
+      field: string
+    example:
+      field: value
+resourceTypes:
+  TestResorceType:
+    post:
+      description: Allows to create new <<objec!tName>>
+      body:
+        application/json:
+          schema: <<objectName>>
+  ResourceType:
+    type: { TestResorceType: {obje*ctName : TestType} } 
+/test:
+  type:  { TestResorceType: {objectName : TestType} }

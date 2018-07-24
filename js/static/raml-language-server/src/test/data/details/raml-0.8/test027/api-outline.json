@@ -1,0 +1,42 @@
+{
+  "title": "GlobalSchema",
+  "description": "To better achieve consistency and simplicity, the API definition SHOULD include an OPTIONAL schemas property in the root section. The schemas property specifies collections of schemas that could be used anywhere in the API definition. The value of the schemas property is an array of maps; in each map, the keys are the schema name, and the values are schema definitions. The schema definitions MAY be included inline or by using the RAML !include user-defined data type.",
+  "type": null,
+  "children": [
+    {
+      "title": "key",
+      "description": "Name of the global schema, used to refer on schema content",
+      "type": "ATTRIBUTETEXT",
+      "children": [],
+      "valueText": "UserJSON",
+      "id": ".UserJSON#key"
+    },
+    {
+      "title": "General",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "value",
+          "description": "Content of the schema",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": "{\n  \"$schema\": \"http://json-schema.org/draft-03/schema\",\n  \"properties\": {\n    \"input\": {\n      \"required\": false,\n      \"type\": \"string\"\n    }\n  },\n  \"required\": false,\n  \"type\": \"object\"\n}",
+          "id": ".UserJSON#value"
+        },
+        {
+          "title": "Delete",
+          "description": "",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".UserJSON#DELETE_DETAILS_ACTION",
+          "subType": "DELETE"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#General"
+    }
+  ],
+  "valueText": null,
+  "id": "Category#GlobalSchema"
+}

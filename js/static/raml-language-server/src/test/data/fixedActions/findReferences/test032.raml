@@ -1,0 +1,16 @@
+#%RAML 1.0
+title: Illustrating annotations
+annotationTypes:
+  deprec*ated: boolean
+  experimental: string
+  feedbackRequested: string?
+/users:
+  get:
+    (deprec!ated): true
+    (experimental): method
+    (feedbackRequested): committed
+    responses:
+      200:
+        body:
+          application/json:
+        

@@ -1,0 +1,65 @@
+#%RAML 1.0 Library
+usage: Defines types
+types: 
+  Channel:
+    type: object
+    properties:
+      id:
+        type: string
+        required: false
+      name:
+        type: string
+        required: false
+      created:
+        type: string
+        required: false
+      creator:
+        type: string
+        required: false
+      is_archived:
+        type: boolean
+        required: false
+      is_general:
+        type: boolean
+        required: false
+      is_member:
+        type: boolean
+        required: false
+      members:
+        type: string
+        required: false
+      topic:
+        type: string
+        required: false
+      purpose:
+        type: string
+        required: false
+      last_read:
+        type: string
+        required: false
+      latest:
+        type: string
+        required: false
+      unread_count:
+        type: number
+        required: false
+  PrivateChannel:
+    type: Channel
+    properties: 
+      owner:
+        type : string
+        required: true
+  ChannelInfo: 
+    type: object
+    properties:
+      ok:
+        type: boolean
+        required: false
+      channel:
+        type: PrivateChannel
+        required: true
+    example: 
+      ok : false
+      channel: 
+        owner: "pp"
+      

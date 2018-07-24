@@ -1,0 +1,23 @@
+#%RAML 1.0
+title: Example with headers
+types: 
+  X-hea*der:
+    type: string
+    pattern: ^\w{16}$
+    description: A code to track API calls end to end
+    example: abcdefghijklmnop
+/users:
+  get:
+    description: |
+      The HTTP interaction will look like
+
+      GET /users HTTP/1.1
+      X-Dept: 18-FINANCE
+      X-Dept: 200-MISC
+      X-Tracker: gfr456d03ygh38s2
+    headers:
+      X-Dept:
+        type: X-hea!der
+        example: [ 18-FINANCE, 200-MISC ]
+      X-Tracker:
+        example: gfr456d03ygh38s2

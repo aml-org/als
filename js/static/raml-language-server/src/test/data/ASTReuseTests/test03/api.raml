@@ -1,0 +1,11 @@
+#%RAML 1.0
+title: My API With Types
+uses:
+  types: types.raml
+/users/{id}:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: types.User

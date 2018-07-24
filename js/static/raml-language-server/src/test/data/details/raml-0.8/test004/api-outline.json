@@ -1,0 +1,124 @@
+{
+  "title": "Trait",
+  "description": "Declarations of traits used in this API",
+  "type": null,
+  "children": [
+    {
+      "title": "name",
+      "description": "Name of the trait",
+      "type": "ATTRIBUTETEXT",
+      "children": [],
+      "valueText": "base",
+      "id": ".base#name"
+    },
+    {
+      "title": "Documentation",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "displayName",
+          "description": "An alternate, human-friendly name for the trait",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": "base",
+          "id": ".base#displayName"
+        },
+        {
+          "title": "usage",
+          "description": "Instructions on how and when the trait should be used.",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": "method",
+          "id": ".base#usage"
+        },
+        {
+          "title": "description",
+          "description": "",
+          "type": "MARKDOWN",
+          "children": [],
+          "valueText": null,
+          "id": ".base#description"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#Documentation"
+    },
+    {
+      "title": "General",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "protocols",
+          "description": "A method can override an API's protocols value for that single method by setting a different value for the fields.",
+          "type": "MULTIEDITOR",
+          "children": [],
+          "valueText": "HTTPS",
+          "id": ".base#protocols"
+        },
+        {
+          "title": "responses",
+          "description": "Insert responses",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".base#responses#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "body",
+          "description": "Insert body",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".base#body#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "baseUriParameters",
+          "description": "Insert baseUriParameters",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".base#baseUriParameters#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "headers",
+          "description": "Insert headers",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".base#headers#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "Delete",
+          "description": "",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".base#DELETE_DETAILS_ACTION",
+          "subType": "DELETE"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#General"
+    },
+    {
+      "title": "References",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "securedBy",
+          "description": "A list of the security schemas to apply, these must be defined in the securitySchemes declaration. To indicate that the method may be called without applying any securityScheme, the method may be annotated with the null securityScheme. Security schemas may also be applied to a resource with securedBy, which is equivalent to applying the security schemas to all methods that may be declared, explicitly or implicitly, by defining the resourceTypes or traits property for that resource.",
+          "type": "MULTIEDITOR",
+          "children": [],
+          "valueText": "basic, null",
+          "id": ".base#securedBy"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#References"
+    }
+  ],
+  "valueText": null,
+  "id": "Category#Trait"
+}

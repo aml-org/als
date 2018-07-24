@@ -1,0 +1,10 @@
+#%RAML 1.0
+title: API
+uses:
+  types: types.raml
+/anotherChild:
+  put:
+    body:
+      application/json:
+        description: another very useful resource
+        type: types.Person

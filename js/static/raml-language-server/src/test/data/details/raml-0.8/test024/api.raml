@@ -1,0 +1,13 @@
+#%RAML 0.8
+title: Illustrating allowed targets
+mediaType: application/json
+/resource:
+  get:
+    responses:
+      200:
+        body:
+          applic*ation/raml+yaml:
+          text/yaml:
+          text/x-yaml:
+          application/yaml:
+          application/x-yaml:

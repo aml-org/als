@@ -1,0 +1,50 @@
+{
+  "title": "OAuth1SecuritySchemeSettings",
+  "description": "",
+  "type": null,
+  "children": [
+    {
+      "title": "authorizationUri",
+      "description": "The URI of the Resource Owner Authorization endpoint as defined in RFC5849 Section 2.2",
+      "type": "ATTRIBUTETEXT",
+      "children": [],
+      "valueText": "https://api.mysampleapi.com/1/oauth/authorize",
+      "id": ".oauth_1_0.settings#authorizationUri"
+    },
+    {
+      "title": "requestTokenUri",
+      "description": "The URI of the Temporary Credential Request endpoint as defined in RFC5849 Section 2.1",
+      "type": "ATTRIBUTETEXT",
+      "children": [],
+      "valueText": "https://api.mysampleapi.com/1/oauth/request_token",
+      "id": ".oauth_1_0.settings#requestTokenUri"
+    },
+    {
+      "title": "tokenCredentialsUri",
+      "description": "The URI of the Token Request endpoint as defined in RFC5849 Section 2.3",
+      "type": "ATTRIBUTETEXT",
+      "children": [],
+      "valueText": "https://api.mysampleapi.com/1/oauth/access_token",
+      "id": ".oauth_1_0.settings#tokenCredentialsUri"
+    },
+    {
+      "title": "General",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "Delete",
+          "description": "",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".oauth_1_0.settings#DELETE_DETAILS_ACTION",
+          "subType": "DELETE"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#General"
+    }
+  ],
+  "valueText": null,
+  "id": "Category#OAuth1SecuritySchemeSettings"
+}

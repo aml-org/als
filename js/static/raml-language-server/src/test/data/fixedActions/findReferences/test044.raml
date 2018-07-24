@@ -1,0 +1,15 @@
+#%RAML 1.0
+title: Example API
+version: v1
+resourceTypes:
+  apiResource:
+    get:
+      is: [ { secu!red : { tokenName: access_token } } ]
+traits:
+  sec*ured:
+    queryParameters:
+      <<tokenName>>:
+        description: A valid <<tokenName>> is required
+/servers:
+  get:
+    is: [ { secu!red : { tokenName: token } } ]

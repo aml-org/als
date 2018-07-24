@@ -1,0 +1,17 @@
+#%RAML 1.0
+title: API
+types:
+  AclResourceResponse:
+    type: object
+    properties:
+        kind?: string
+        etag?: string
+        id?: string
+        scope?:
+          type : object
+          properties :
+            type?: string
+            value?: string
+        role?: string
+    example:
+      kind:

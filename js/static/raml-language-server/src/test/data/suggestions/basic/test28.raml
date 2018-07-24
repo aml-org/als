@@ -1,0 +1,18 @@
+#%RAML 1.0
+title: Example API
+version: v1
+mediaType: application/json
+types:
+resourceTypes:
+  collection:
+    post:
+      responses:
+        200:
+          body:
+            type: <<resourcePathName | !singularize>>  # e.g. User
+          body:
+            type: <<resourcePathName | !pluralize>>
+          body:
+            type: <<resourcePathName | !uppercase>>
+          body:
+            type: <<resourcePathName | !lowercase>>

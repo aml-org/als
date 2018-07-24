@@ -1,0 +1,21 @@
+#%RAML 1.0
+title: New API
+version: v1
+baseUri: http://api.samplehost.com
+types:
+  Test*Type:
+    type: object
+    properties:
+      id: number
+      optional?: string
+      expanded:
+        type: object
+        properties:
+          count: number
+/helloWorld:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: Test!Type

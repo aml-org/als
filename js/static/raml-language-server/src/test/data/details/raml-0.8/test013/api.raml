@@ -1,0 +1,15 @@
+#%RAML 0.8
+title: ZEncoder API
+version: v2
+baseUri: https://app.zencoder.com/api/{version}
+/jobs:
+  post:
+    description: Create a job
+    headers:
+      X-Dept:
+        repeat: true
+        example: 18-FINANCE
+      X-Trac*ker:
+        description: A code to track API calls end to end
+        pattern: ^\w{16}$
+        example: abcdefghijklmnop

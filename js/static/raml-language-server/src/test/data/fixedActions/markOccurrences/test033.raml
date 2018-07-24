@@ -1,0 +1,28 @@
+#%RAML 1.0
+title: Example with headers
+traits:
+  charg*eable:
+    headers:
+      X-Dept:
+        type: array
+        description: |
+          A department code to be charged.
+          Multiple of such headers are allowed.
+        items:
+          pattern: ^\d+\-\w+$
+          example: 230-OCTO
+  traceable:
+    headers:
+      X-Tracker:
+        description: A code to track API calls end to end
+        example: abcdefghi
+        maxLength: <<maxLength>>
+/users:
+  get:
+    is: [ charg!eable, traceable: {maxLength : 10} ]
+    description: |
+      The HTTP interaction will look like
+  post:
+    is: [charg!eable]
+  patch:
+    is: [traceable: {maxLength : 10}]

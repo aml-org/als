@@ -1,0 +1,22 @@
+#%RAML 1.0
+title: GitHub API
+version: v3
+baseUri: https://api.github.com/{version}
+types: 
+  Pa*ge:
+    description: Specify the page that you want to retrieve
+    type:        integer
+/users:
+  get:
+    description: Get a list of users
+    queryParameters:
+      page:
+        type: Pa!ge
+        required:    true
+        example:     1
+      per_page:
+        type: Pa!ge
+        minimum:     10
+        maximum:     200
+        default:     30
+        example:     50

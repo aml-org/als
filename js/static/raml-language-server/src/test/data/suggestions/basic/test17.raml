@@ -1,0 +1,7 @@
+#%RAML 1.0
+title: API
+schemas:
+  include: !i
+  comic: !include ./XKCD/schemas/comic-schema.json
+uses:
+  types: XKCD/types.raml

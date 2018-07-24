@@ -1,0 +1,30 @@
+#%RAML 1.0
+title: E
+schemas:
+  it!em: |
+    {
+      "required" : true ,
+      "$schema" : "http://json-schema.org/draft-03/schema" ,
+      "type" : "object" ,
+      "properties" : {
+        "ok" : {
+          "type" : "boolean" ,
+          "required" : false
+        } ,
+        "ts" : {
+          "type" : "string" ,
+          "required" : false
+        } ,
+        "channel" : {
+          "type" : "string" ,
+          "required" : false
+        }
+      }
+    }
+/:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            schema: it*em

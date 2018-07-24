@@ -1,0 +1,21 @@
+#%RAML 1.0
+title: test
+
+types:
+  TestType:
+    type: object
+  Test!Type2:
+    type: object
+    properties:
+      testProp: TestType
+  TestType3:
+    type: object
+    properties:
+      testProp2: TestType
+/test:
+  post:
+    body:
+      application/json:
+        type: object
+        properties:
+          testProp: [Test*Type2, TestType3]

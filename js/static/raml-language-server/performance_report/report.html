@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover{background-color:#f5f5f5}
+    </style>
+</head>
+<body>
+
+<div id = "container" class="container">
+    <h2>Performance Measures Report</h2>
+    <table class="table">
+        <thead>
+        <tr id = 'heads' style="font-size: x-small">
+        </tr>
+        </thead>
+        <tbody id = "rows">
+        </tbody>
+    </table>
+    <h2>Comments</h2>
+
+</div>
+<script>
+    var jsonData = {"apis":{"Jira-v2/api.raml":1,"LinkedIn-v1/api.raml":2,"MarketingCloudAPIServices-v1/api.raml":3,"Z_System_API-v1.0.0.1/Z_System_API-v1.0.0/api.raml":4,"Zendesk-v2/api.raml":5,"huge_api/api.raml":6,"huge_api_0/api.raml":7,"huge_api_1/api.raml":8,"huge_api_2/api.raml":9,"huge_api_3/api.raml":10,"huge_api_4/api.raml":11,"huge_api_5/api.raml":12,"huge_api_6/api.raml":13,"huge_api_7/api.raml":14},"table":[{"api/case":1,"FULL_LIFECYCLE":"4288ms","LOADING":"2161ms","LOADING_THEN_STRUCTURE":"4327ms"},{"api/case":2,"FULL_LIFECYCLE":"5028ms","LOADING":"2320ms","LOADING_THEN_STRUCTURE":"3602ms"},{"api/case":3,"FULL_LIFECYCLE":"1504ms","LOADING":"1229ms","LOADING_THEN_STRUCTURE":"2083ms"},{"api/case":4,"FULL_LIFECYCLE":"276ms","LOADING":"269ms","LOADING_THEN_STRUCTURE":"18ms"},{"api/case":5,"FULL_LIFECYCLE":"5529ms","LOADING":"4627ms","LOADING_THEN_STRUCTURE":"8747ms"},{"api/case":6,"FULL_LIFECYCLE":"3260ms","LOADING":"3061ms","LOADING_THEN_STRUCTURE":"5747ms"},{"api/case":7,"FULL_LIFECYCLE":"2791ms","LOADING":"2735ms","LOADING_THEN_STRUCTURE":"5824ms"},{"api/case":8,"FULL_LIFECYCLE":"2096ms","LOADING":"2083ms","LOADING_THEN_STRUCTURE":"2193ms"},{"api/case":9,"FULL_LIFECYCLE":"1860ms","LOADING":"1755ms","LOADING_THEN_STRUCTURE":"3875ms"},{"api/case":10,"FULL_LIFECYCLE":"1768ms","LOADING":"1774ms","LOADING_THEN_STRUCTURE":"3278ms"},{"api/case":11,"FULL_LIFECYCLE":"1837ms","LOADING":"1738ms","LOADING_THEN_STRUCTURE":"3186ms"},{"api/case":12,"FULL_LIFECYCLE":"1569ms","LOADING":"1521ms","LOADING_THEN_STRUCTURE":"2798ms"},{"api/case":13,"FULL_LIFECYCLE":"400ms","LOADING":"390ms","LOADING_THEN_STRUCTURE":"1596ms"},{"api/case":14,"FULL_LIFECYCLE":"867ms","LOADING":"856ms","LOADING_THEN_STRUCTURE":"682ms"}],"messages":{}};
+
+    var headers = [];
+
+    var apis = {};
+
+    var containerDiv = document.getElementById("container");
+
+    jsonData.table.forEach(function(record) {
+        Object.keys(record).forEach(function(key) {
+            if(headers.indexOf(key) < 0) {
+                headers.push(key);
+            }
+        });
+    });
+
+    Object.keys(jsonData.apis).forEach(function(api) {
+        apis[jsonData.apis[api]] = api;
+    });
+
+    var heads = document.getElementById('heads');
+
+    headers.forEach(function(header) {
+        var head = document.createElement('th');
+
+        head.innerHTML = header;
+
+        heads.appendChild(head);
+    });
+
+    var rows = document.getElementById('rows');
+
+    jsonData.table.forEach(function(record) {
+        var row = document.createElement('tr');
+
+        headers.forEach(function(header) {
+            var cell = document.createElement('td');
+
+            if(header === 'api/case') {
+                var apiName = apis[record[header]];
+
+                cell.innerHTML = apiName;
+
+                if(jsonData.messages[apiName]) {
+                    var commentHeader = document.createElement('h3');
+
+                    commentHeader.innerHTML = apiName;
+
+                    var comment = document.createElement('p');
+
+                    comment.innerHTML = jsonData.messages[apiName];
+
+                    containerDiv.appendChild(commentHeader);
+                    containerDiv.appendChild(comment);
+                }
+            } else {
+                cell.innerHTML = record[header] || "";
+            }
+
+            row.appendChild(cell);
+        });
+
+        rows.appendChild(row);
+    });
+</script>
+</body>
+</html>

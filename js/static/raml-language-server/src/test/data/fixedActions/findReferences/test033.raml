@@ -1,0 +1,40 @@
+#%RAML 1.0
+title: Illustrating annotations
+annotationTypes:
+  deprecated: boolean
+  experimental: string
+  feedbackRequested: string?
+  testHarness:
+    type: string # This line can be omitted as it's the default type
+    displayName: test
+    allowedTargets: Resource
+  badge:         # This annotation type allows string values, too
+  clearance*Level:
+    properties:
+      level:
+        enum: [ low, medium, high ]
+        required: true
+      signature:
+        pattern: "\\d{3}-\\w{12}"
+        required: true
+/groups:
+  (experimental): resource
+  (feedbackRequested):
+/users:
+  (testHarness): usersTest
+  (badge): tested.gif
+  (clearance!Level):
+    level: low
+    signature: 230-ghtwvfrs1itr
+  get:
+    (deprecated): true
+    (experimental): method
+    (feedbackRequested): Feedback committed
+    (clearance!Level):
+        level: low
+        signature: 230-ghtwvfrs1itr
+    responses:
+      200:
+        body:
+          application/json:
+        

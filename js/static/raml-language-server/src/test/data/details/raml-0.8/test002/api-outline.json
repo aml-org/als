@@ -1,0 +1,180 @@
+{
+  "title": "ResourceType",
+  "description": "Declaration of resource types used in this API",
+  "type": null,
+  "children": [
+    {
+      "title": "name",
+      "description": "Name of the resource type",
+      "type": "ATTRIBUTETEXT",
+      "children": [],
+      "valueText": "main",
+      "id": ".main#name"
+    },
+    {
+      "title": "Documentation",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "displayName",
+          "description": "An alternate, human-friendly name for the resource type",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": ".main#displayName"
+        },
+        {
+          "title": "usage",
+          "description": "Instructions on how and when the resource type should be used.",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": ".main#usage"
+        },
+        {
+          "title": "description",
+          "description": "The description attribute describes the intended use or meaning of the $self. This value MAY be formatted using Markdown.",
+          "type": "MARKDOWN",
+          "children": [],
+          "valueText": null,
+          "id": ".main#description"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#Documentation"
+    },
+    {
+      "title": "References",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "is",
+          "description": "Instantiation of applyed traits",
+          "type": "MULTIEDITOR",
+          "children": [],
+          "valueText": "",
+          "id": ".main#is"
+        },
+        {
+          "title": "securedBy",
+          "description": "securityScheme may also be applied to a resource by using the securedBy key, which is equivalent to applying the securityScheme to all methods that may be declared, explicitly or implicitly, by defining the resourceTypes or traits property for that resource. To indicate that the method may be called without applying any securityScheme, the method may be annotated with the null securityScheme.",
+          "type": "MULTIEDITOR",
+          "children": [],
+          "valueText": "",
+          "id": ".main#securedBy"
+        },
+        {
+          "title": "type",
+          "description": "Instantiation of applyed resource type",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": ".main#type"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#References"
+    },
+    {
+      "title": "General",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "uriParameters",
+          "description": "Insert uriParameters",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".main#uriParameters#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "baseUriParameters",
+          "description": "Insert baseUriParameters",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".main#baseUriParameters#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "put",
+          "description": "Insert methods",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".main#methods#put",
+          "subType": "INSERT_VALUE"
+        },
+        {
+          "title": "post",
+          "description": "Insert methods",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".main#methods#post",
+          "subType": "INSERT_VALUE"
+        },
+        {
+          "title": "delete",
+          "description": "Insert methods",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".main#methods#delete",
+          "subType": "INSERT_VALUE"
+        },
+        {
+          "title": "patch",
+          "description": "Insert methods",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".main#methods#patch",
+          "subType": "INSERT_VALUE"
+        },
+        {
+          "title": "options",
+          "description": "Insert methods",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".main#methods#options",
+          "subType": "INSERT_VALUE"
+        },
+        {
+          "title": "head",
+          "description": "Insert methods",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".main#methods#head",
+          "subType": "INSERT_VALUE"
+        },
+        {
+          "title": "trace",
+          "description": "Insert methods",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".main#methods#trace",
+          "subType": "INSERT_VALUE"
+        },
+        {
+          "title": "connect",
+          "description": "Insert methods",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".main#methods#connect",
+          "subType": "INSERT_VALUE"
+        },
+        {
+          "title": "Delete",
+          "description": "",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".main#DELETE_DETAILS_ACTION",
+          "subType": "DELETE"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#General"
+    }
+  ],
+  "valueText": null,
+  "id": "Category#ResourceType"
+}
