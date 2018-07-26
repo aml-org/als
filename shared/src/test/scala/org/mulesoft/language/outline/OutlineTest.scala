@@ -31,11 +31,9 @@ trait OutlineTest[SharedType,TransportType] extends LanguageServerTest {
     implicit override def executionContext:ExecutionContext =
         scala.concurrent.ExecutionContext.Implicits.global
 
-    def readDataFromString(dataString:String):SharedType
+    def readDataFromString(dataString:String):TransportType
 
-    def emptyData():SharedType
-
-    def compare(obj1:SharedType, obj2:SharedType, prefix1:String, prefix2:String):Seq[Diff]
+    def compare(obj1:SharedType, obj2:TransportType, prefix1:String, prefix2:String):Seq[Diff]
 
     def runTest(path:String,jsonPath:String):Future[Assertion] = {
 
@@ -48,7 +46,7 @@ trait OutlineTest[SharedType,TransportType] extends LanguageServerTest {
 
             this.getExpectedOutline(fullJsonPath).flatMap(expectedOutlineStr=>{
 
-                val expectedOutline:SharedType = readDataFromString(expectedOutlineStr)
+                val expectedOutline:TransportType = readDataFromString(expectedOutlineStr)
                 val diffs = compare(actualOutline,expectedOutline,"actual","expected")
                 //var actualJSON = write(ao1,2)
                 //platform.write(fullJsonPath,actualJSON)
