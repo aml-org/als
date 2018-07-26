@@ -1,50 +1,54 @@
 {
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": null,
-    "children": [],
-    "key": "",
-    "start": -1,
-    "end": -1,
-    "selected": true
-  },
   "SchemasAndTypesCategory": {
     "text": "",
-    "typeText": null,
-    "children": [],
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
     "key": "",
-    "start": -1,
-    "end": -1,
-    "selected": true
+    "start": 11,
+    "end": 101,
+    "category": ""
   },
-  "ResourceTypesAndTraitsCategory": {
+  "ResourcesCategory": {
     "text": "",
-    "typeText": null,
-    "children": [],
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
     "key": "",
-    "start": -1,
-    "end": -1,
-    "selected": true
+    "start": 11,
+    "end": 101,
+    "category": ""
   },
   "OtherCategory": {
     "text": "",
-    "typeText": null,
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 101,
     "children": [
       {
         "text": "doc",
-        "typeText": null,
+        "typeText": "",
         "icon": "BOOK",
         "textStyle": "NORMAL",
-        "children": [],
         "key": " :: ",
-        "start": -1,
-        "end": -1,
+        "start": 65,
+        "end": 101,
         "category": "OtherCategory"
       }
     ],
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
     "key": "",
-    "start": -1,
-    "end": -1,
-    "selected": true
+    "start": 11,
+    "end": 101,
+    "category": ""
   }
 }

@@ -7,7 +7,6 @@ import org.mulesoft.language.common.dtoTypes.IOpenedDocument
 import org.mulesoft.language.test.LanguageServerTest
 import org.mulesoft.language.test.dtoTypes.StructureNode
 import org.scalatest.Assertion
-import upickle.default.{ReadWriter => RW}
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
@@ -35,6 +34,8 @@ trait OutlineTest[SharedType,TransportType] extends LanguageServerTest {
 
     def compare(obj1:SharedType, obj2:TransportType, prefix1:String, prefix2:String):Seq[Diff]
 
+    def serialize(obj:SharedType):String
+
     def runTest(path:String,jsonPath:String):Future[Assertion] = {
 
         val fullFilePath = filePath(path)
@@ -48,8 +49,8 @@ trait OutlineTest[SharedType,TransportType] extends LanguageServerTest {
 
                 val expectedOutline:TransportType = readDataFromString(expectedOutlineStr)
                 val diffs = compare(actualOutline,expectedOutline,"actual","expected")
-                //var actualJSON = write(ao1,2)
-                //platform.write(fullJsonPath,actualJSON)
+//                var actualJSON = serialize(actualOutline)
+//                platform.write(fullJsonPath,actualJSON)
                 if(diffs.isEmpty) {
                     succeed
                 }
@@ -85,10 +86,12 @@ trait OutlineTest[SharedType,TransportType] extends LanguageServerTest {
         this.platform.resolve(url).flatMap(content => {
 
             var doc = IOpenedDocument(shortUrl, 0, content.stream.toString)
-            getClient.documentOpened(doc)
-            getClient.getStructure(shortUrl).map(result=>{
-                getClient.documentClosed(shortUrl)
-                result
+            getClient.flatMap(client=>{
+                client.documentOpened(doc)
+                client.getStructure(shortUrl).map(result=>{
+                    client.documentClosed(shortUrl)
+                    result
+                })
             })
         }).map(x=>x.asInstanceOf[SharedType])
     }
@@ -170,6 +173,24 @@ trait OutlineTest[SharedType,TransportType] extends LanguageServerTest {
         }
         if(val2!= null && val2.isInstanceOf[String] && val2.asInstanceOf[String].isEmpty && val1 ==null){
             return
+        }
+        if(val1 == null && val2 != null && val2.isInstanceOf[Option[_]]){
+            var opt = val2.asInstanceOf[Option[_]]
+            if(opt.isEmpty){
+                return
+            }
+            if(opt.contains("")){
+                return
+            }
+        }
+        if(val2 == null && val1 != null && val1.isInstanceOf[Option[_]]){
+            var opt = val1.asInstanceOf[Option[_]]
+            if(opt.isEmpty){
+                return
+            }
+            if(opt.contains("")){
+                return
+            }
         }
         if(val1 != val2){
             var message = s"values mismatch: $prefix1: $val1, $prefix2: $val2"

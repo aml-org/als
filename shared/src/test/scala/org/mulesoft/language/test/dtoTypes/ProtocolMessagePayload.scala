@@ -401,7 +401,7 @@ case class StructureNode (
   /**
     * Node type label, if any.
     */
-  typeText: Option[String] = None,
+  typeText: String = null,
   /**
     * Node icon. Structure module is not setting up, how icons are represented in the client
     * system, or what icons exist,
@@ -453,7 +453,7 @@ object StructureNode {
 
           override def children: Seq[SharedStructureNode] = from.children.map(StructureNode.transportToShared)
 
-          override def typeText: Option[String] = from.typeText
+          override def typeText: Option[String] = Option(from.typeText)
 
           override def end: Int = from.end
 
@@ -474,7 +474,7 @@ object StructureNode {
 
     val result = StructureNode(
       from.text,
-      from.typeText,
+      from.typeText.orNull,
       from.icon,
       from.textStyle,
       from.key,

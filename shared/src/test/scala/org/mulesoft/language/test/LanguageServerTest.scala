@@ -1,6 +1,7 @@
 package org.mulesoft.language.test
 
 import amf.core.unsafe.PlatformSecrets
+import org.mulesoft.language.common.dtoTypes.IOpenedDocument
 import org.mulesoft.language.server.core.Server
 import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
@@ -11,10 +12,12 @@ import org.mulesoft.language.server.server.modules.astManager.{ASTManager, IASTM
 import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
 import org.mulesoft.language.server.server.modules.validationManager.ValidationManager
 import org.mulesoft.language.test.clientConnection.TestClientConnetcion
+import org.mulesoft.language.test.dtoTypes.{GetCompletionRequest, OpenedDocument}
 import org.mulesoft.language.test.serverConnection.TestServerConnection
 import org.scalatest.AsyncFunSuite
 
 import scala.collection.mutable.ListBuffer
+import scala.concurrent.Future
 
 abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets{
 
@@ -24,10 +27,10 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets{
 
     var clientOpt:Option[TestClientConnetcion] = None
 
-    def getClient:TestClientConnetcion = {
+    def getClient: Future[TestClientConnetcion] = {
 
         if(clientOpt.nonEmpty){
-            return clientOpt.get
+            return Future.successful(clientOpt.get)
         }
 
         var serverOpt:Option[TestServerConnection] = None
@@ -66,8 +69,16 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets{
         thread.run
 
         clientList += new TestClientConnetcion(serverOpt)
-        clientOpt = clientList.headOption
-        clientOpt.get
+        Future.successful(clientList.head).flatMap(client=>{
+            val content = "#%RAML 1.0\n title: init\n\n"
+            val url = "/init.raml"
+            client.documentOpened(IOpenedDocument(url,0,content))
+            client.getSuggestions(url,content.length-1).map(x=>{
+                client.documentClosed(url)
+                clientOpt = clientList.headOption
+                client
+            })
+        })
     }
 
     def filePath(path:String):String = {

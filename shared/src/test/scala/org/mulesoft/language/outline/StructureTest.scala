@@ -4,7 +4,7 @@ import org.mulesoft.language.outline.structure.structureInterfaces.StructureNode
 import org.mulesoft.language.test.dtoTypes.StructureNode
 
 import scala.collection.mutable.ListBuffer
-import upickle.default.read
+import upickle.default.{read, write}
 
 abstract class StructureTest extends OutlineTest[Map[String, StructureNodeJSON],Map[String, StructureNode]]{
 
@@ -15,5 +15,11 @@ abstract class StructureTest extends OutlineTest[Map[String, StructureNodeJSON],
         val diffs = compareStructureNodeMaps(obj1, obj2, prefix1, prefix2, "/", ListBuffer[Diff](), true)
 
         diffs
+    }
+
+    override def serialize(obj:Map[String, StructureNodeJSON]):String = {
+        var transport = obj.map(e=>(e._1,StructureNode.sharedToTransport(e._2)))
+        var result = write(transport,2)
+        result
     }
 }

@@ -1,139 +1,33 @@
 {
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": null,
-    "children": [],
-    "key": "",
-    "start": -1,
-    "end": -1,
-    "selected": true
-  },
   "SchemasAndTypesCategory": {
     "text": "",
-    "typeText": null,
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 1299,
     "children": [
-      {
-        "text": "Email",
-        "typeText": ":string",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "children": [],
-        "key": "Email :: ",
-        "start": 55,
-        "end": 60,
-        "category": "SchemasAndTypesCategory"
-      },
-      {
-        "text": "Weight",
-        "typeText": ":number",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "children": [],
-        "key": "Weight :: ",
-        "start": 138,
-        "end": 144,
-        "category": "SchemasAndTypesCategory"
-      },
-      {
-        "text": "Age",
-        "typeText": ":integer",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "children": [],
-        "key": "Age :: ",
-        "start": 231,
-        "end": 234,
-        "category": "SchemasAndTypesCategory"
-      },
-      {
-        "text": "IsMarried",
-        "typeText": ":boolean",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "children": [],
-        "key": "IsMarried :: ",
-        "start": 321,
-        "end": 330,
-        "category": "SchemasAndTypesCategory"
-      },
       {
         "text": "birthday",
         "typeText": ":date-only",
         "icon": "FILE_BINARY",
         "textStyle": "SUCCESS",
-        "children": [
-          {
-            "text": "example",
-            "typeText": null,
-            "children": [],
-            "key": "example :: birthday :: ",
-            "start": 425,
-            "end": 432
-          }
-        ],
         "key": "birthday :: ",
         "start": 352,
-        "end": 360,
-        "category": "SchemasAndTypesCategory"
-      },
-      {
-        "text": "lunchtime",
-        "typeText": ":time-only",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
+        "end": 445,
         "children": [
           {
             "text": "example",
-            "typeText": null,
-            "children": [],
-            "key": "example :: lunchtime :: ",
-            "start": 521,
-            "end": 528
+            "typeText": "",
+            "icon": "TAG",
+            "textStyle": "NORMAL",
+            "key": "example :: birthday :: ",
+            "start": 434,
+            "end": 444,
+            "category": ""
           }
         ],
-        "key": "lunchtime :: ",
-        "start": 447,
-        "end": 456,
-        "category": "SchemasAndTypesCategory"
-      },
-      {
-        "text": "fireworks",
-        "typeText": ":datetime-only",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "children": [
-          {
-            "text": "example",
-            "typeText": null,
-            "children": [],
-            "key": "example :: fireworks :: ",
-            "start": 611,
-            "end": 618
-          }
-        ],
-        "key": "fireworks :: ",
-        "start": 541,
-        "end": 550,
-        "category": "SchemasAndTypesCategory"
-      },
-      {
-        "text": "created",
-        "typeText": ":datetime",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "children": [
-          {
-            "text": "example",
-            "typeText": null,
-            "children": [],
-            "key": "example :: created :: ",
-            "start": 674,
-            "end": 681
-          }
-        ],
-        "key": "created :: ",
-        "start": 642,
-        "end": 649,
         "category": "SchemasAndTypesCategory"
       },
       {
@@ -141,41 +35,63 @@
         "typeText": ":datetime",
         "icon": "FILE_BINARY",
         "textStyle": "SUCCESS",
+        "key": "If-Modified-Since :: ",
+        "start": 767,
+        "end": 936,
         "children": [
           {
             "text": "example",
-            "typeText": null,
-            "children": [],
+            "typeText": "",
+            "icon": "TAG",
+            "textStyle": "NORMAL",
             "key": "example :: If-Modified-Since :: ",
-            "start": 809,
-            "end": 816
+            "start": 818,
+            "end": 847,
+            "category": ""
           }
         ],
-        "key": "If-Modified-Since :: ",
-        "start": 767,
-        "end": 784,
         "category": "SchemasAndTypesCategory"
       },
       {
-        "text": "userPicture",
-        "typeText": ":file",
+        "text": "Email",
+        "typeText": ":string",
         "icon": "FILE_BINARY",
         "textStyle": "SUCCESS",
-        "children": [],
-        "key": "userPicture :: ",
-        "start": 938,
-        "end": 949,
+        "key": "Email :: ",
+        "start": 55,
+        "end": 136,
         "category": "SchemasAndTypesCategory"
       },
       {
-        "text": "customFile",
-        "typeText": ":file",
+        "text": "lunchtime",
+        "typeText": ":time-only",
         "icon": "FILE_BINARY",
         "textStyle": "SUCCESS",
-        "children": [],
-        "key": "customFile :: ",
-        "start": 1036,
-        "end": 1046,
+        "key": "lunchtime :: ",
+        "start": 447,
+        "end": 539,
+        "children": [
+          {
+            "text": "example",
+            "typeText": "",
+            "icon": "TAG",
+            "textStyle": "NORMAL",
+            "key": "example :: lunchtime :: ",
+            "start": 530,
+            "end": 538,
+            "category": ""
+          }
+        ],
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "Weight",
+        "typeText": ":number",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "Weight :: ",
+        "start": 138,
+        "end": 229,
         "category": "SchemasAndTypesCategory"
       },
       {
@@ -183,63 +99,158 @@
         "typeText": ":object",
         "icon": "FILE_BINARY",
         "textStyle": "SUCCESS",
+        "key": "NilValue :: ",
+        "start": 1138,
+        "end": 1299,
         "children": [
           {
             "text": "name",
-            "typeText": null,
+            "typeText": "",
             "icon": "FILE_BINARY",
             "textStyle": "SUCCESS",
-            "children": [],
             "key": "name :: NilValue :: ",
             "start": 1187,
-            "end": 1191
+            "end": 1193,
+            "category": ""
           },
           {
             "text": "comment",
             "typeText": ":nil",
             "icon": "FILE_BINARY",
             "textStyle": "SUCCESS",
-            "children": [],
             "key": "comment :: NilValue :: ",
             "start": 1199,
-            "end": 1206
+            "end": 1212,
+            "category": ""
           },
           {
             "text": "example",
-            "typeText": null,
-            "children": [],
+            "typeText": "",
+            "icon": "TAG",
+            "textStyle": "NORMAL",
             "key": "example :: NilValue :: ",
-            "start": 1216,
-            "end": 1223
+            "start": 1225,
+            "end": 1299,
+            "category": ""
           }
         ],
-        "key": "NilValue :: ",
-        "start": 1138,
-        "end": 1146,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "Age",
+        "typeText": ":integer",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "Age :: ",
+        "start": 231,
+        "end": 319,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "userPicture",
+        "typeText": ":file",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "userPicture :: ",
+        "start": 951,
+        "end": 1034,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "customFile",
+        "typeText": ":file",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "customFile :: ",
+        "start": 1048,
+        "end": 1136,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "IsMarried",
+        "typeText": ":boolean",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "IsMarried :: ",
+        "start": 321,
+        "end": 350,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "fireworks",
+        "typeText": ":datetime-only",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "fireworks :: ",
+        "start": 541,
+        "end": 640,
+        "children": [
+          {
+            "text": "example",
+            "typeText": "",
+            "icon": "TAG",
+            "textStyle": "NORMAL",
+            "key": "example :: fireworks :: ",
+            "start": 620,
+            "end": 639,
+            "category": ""
+          }
+        ],
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "created",
+        "typeText": ":datetime",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "created :: ",
+        "start": 642,
+        "end": 765,
+        "children": [
+          {
+            "text": "example",
+            "typeText": "",
+            "icon": "TAG",
+            "textStyle": "NORMAL",
+            "key": "example :: created :: ",
+            "start": 683,
+            "end": 707,
+            "category": ""
+          }
+        ],
         "category": "SchemasAndTypesCategory"
       }
     ],
-    "key": "",
-    "start": -1,
-    "end": -1,
-    "selected": true
+    "category": ""
   },
-  "ResourceTypesAndTraitsCategory": {
+  "ResourcesCategory": {
     "text": "",
-    "typeText": null,
-    "children": [],
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
     "key": "",
-    "start": -1,
-    "end": -1,
-    "selected": true
+    "start": 11,
+    "end": 1299,
+    "category": ""
   },
   "OtherCategory": {
     "text": "",
-    "typeText": null,
-    "children": [],
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
     "key": "",
-    "start": -1,
-    "end": -1,
-    "selected": true
+    "start": 11,
+    "end": 1299,
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 1299,
+    "category": ""
   }
 }

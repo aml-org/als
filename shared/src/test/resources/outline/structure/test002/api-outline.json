@@ -1,154 +1,228 @@
 {
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 478,
+    "category": ""
+  },
   "ResourcesCategory": {
     "text": "",
-    "typeText": null,
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 478,
     "children": [
       {
         "text": "/someChildUri",
         "typeText": ":main",
         "icon": "PRIMITIVE_SQUARE",
         "textStyle": "HIGHLIGHT",
+        "key": "/someChildUri :: ",
+        "start": 208,
+        "end": 478,
         "children": [
           {
-            "text": "post",
-            "typeText": null,
-            "icon": "PRIMITIVE_DOT",
-            "textStyle": "WARNING",
-            "children": [
-              {
-                "text": "200",
-                "typeText": null,
-                "children": [
-                  {
-                    "text": "application/xml",
-                    "typeText": null,
-                    "icon": "FILE_BINARY",
-                    "textStyle": "SUCCESS",
-                    "children": [],
-                    "key": "application/xml :: 200 :: post :: /someChildUri :: ",
-                    "start": 294,
-                    "end": 309
-                  }
-                ],
-                "key": "200 :: post :: /someChildUri :: ",
-                "start": 265,
-                "end": 268
-              }
-            ],
-            "key": "post :: /someChildUri :: ",
-            "start": 238,
-            "end": 242
-          },
-          {
             "text": "/anotherChild",
-            "typeText": null,
+            "typeText": "",
             "icon": "PRIMITIVE_SQUARE",
             "textStyle": "HIGHLIGHT",
+            "key": "/anotherChild :: /someChildUri :: ",
+            "start": 364,
+            "end": 478,
             "children": [
               {
                 "text": "put",
-                "typeText": null,
+                "typeText": "",
                 "icon": "PRIMITIVE_DOT",
                 "textStyle": "WARNING",
+                "key": "put :: /anotherChild :: /someChildUri :: ",
+                "start": 383,
+                "end": 478,
                 "children": [
                   {
                     "text": "application/json",
-                    "typeText": null,
+                    "typeText": "",
                     "icon": "FILE_BINARY",
                     "textStyle": "SUCCESS",
-                    "children": [],
                     "key": "application/json :: put :: /anotherChild :: /someChildUri :: ",
                     "start": 408,
-                    "end": 424
+                    "end": 478,
+                    "category": ""
                   }
                 ],
-                "key": "put :: /anotherChild :: /someChildUri :: ",
-                "start": 383,
-                "end": 386
+                "category": ""
               }
             ],
-            "key": "/anotherChild :: /someChildUri :: ",
-            "start": 364,
-            "end": 377
-          }
-        ],
-        "key": "/someChildUri :: ",
-        "start": 208,
-        "end": 221,
-        "category": "ResourcesCategory"
-      }
-    ],
-    "key": "",
-    "start": -1,
-    "end": -1,
-    "selected": true
-  },
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": null,
-    "children": [],
-    "key": "",
-    "start": -1,
-    "end": -1,
-    "selected": true
-  },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": null,
-    "children": [
-      {
-        "text": "main",
-        "typeText": null,
-        "children": [
+            "category": ""
+          },
           {
-            "text": "get",
-            "typeText": null,
+            "text": "post",
+            "typeText": "",
             "icon": "PRIMITIVE_DOT",
             "textStyle": "WARNING",
+            "key": "post :: /someChildUri :: ",
+            "start": 238,
+            "end": 362,
             "children": [
               {
                 "text": "200",
-                "typeText": null,
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "200 :: post :: /someChildUri :: ",
+                "start": 265,
+                "end": 362,
                 "children": [
                   {
-                    "text": "application/json",
-                    "typeText": null,
+                    "text": "application/xml",
+                    "typeText": "",
                     "icon": "FILE_BINARY",
                     "textStyle": "SUCCESS",
-                    "children": [],
-                    "key": "application/json :: 200 :: get :: main :: ",
-                    "start": 112,
-                    "end": 128
+                    "key": "application/xml :: 200 :: post :: /someChildUri :: ",
+                    "start": 294,
+                    "end": 362,
+                    "category": ""
                   }
                 ],
-                "key": "200 :: get :: main :: ",
-                "start": 79,
-                "end": 82
+                "category": ""
               }
             ],
-            "key": "get :: main :: ",
-            "start": 49,
-            "end": 52
+            "category": ""
+          },
+          {
+            "text": "type",
+            "typeText": "",
+            "icon": "TAG",
+            "textStyle": "NORMAL",
+            "key": "type :: /someChildUri :: ",
+            "start": 231,
+            "end": 236,
+            "children": [
+              {
+                "text": "resourceType",
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "resourceType :: type :: /someChildUri :: ",
+                "children": [
+                  {
+                    "text": "get",
+                    "typeText": "",
+                    "icon": "PRIMITIVE_DOT",
+                    "textStyle": "WARNING",
+                    "key": "get :: resourceType :: type :: /someChildUri :: ",
+                    "start": 0,
+                    "end": 0,
+                    "children": [
+                      {
+                        "text": "200",
+                        "typeText": "",
+                        "icon": "TAG",
+                        "textStyle": "NORMAL",
+                        "key": "200 :: get :: resourceType :: type :: /someChildUri :: ",
+                        "start": 0,
+                        "end": 0,
+                        "children": [
+                          {
+                            "text": "application/json",
+                            "typeText": "",
+                            "icon": "FILE_BINARY",
+                            "textStyle": "SUCCESS",
+                            "key": "application/json :: 200 :: get :: resourceType :: type :: /someChildUri :: ",
+                            "start": 0,
+                            "end": 0,
+                            "category": ""
+                          }
+                        ],
+                        "category": ""
+                      }
+                    ],
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
           }
         ],
-        "key": "main :: ",
-        "start": 39,
-        "end": 43,
-        "category": "ResourceTypesAndTraitsCategory"
+        "category": "ResourcesCategory"
       }
     ],
-    "key": "",
-    "start": -1,
-    "end": -1,
-    "selected": true
+    "category": ""
   },
   "OtherCategory": {
     "text": "",
-    "typeText": null,
-    "children": [],
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
     "key": "",
-    "start": -1,
-    "end": -1,
-    "selected": true
+    "start": 11,
+    "end": 478,
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 478,
+    "children": [
+      {
+        "text": "main",
+        "typeText": "",
+        "icon": "TAG",
+        "textStyle": "NORMAL",
+        "key": "main :: ",
+        "start": 39,
+        "end": 183,
+        "children": [
+          {
+            "text": "get",
+            "typeText": "",
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "key": "get :: main :: ",
+            "start": 0,
+            "end": 0,
+            "children": [
+              {
+                "text": "200",
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "200 :: get :: main :: ",
+                "start": 0,
+                "end": 0,
+                "children": [
+                  {
+                    "text": "application/json",
+                    "typeText": "",
+                    "icon": "FILE_BINARY",
+                    "textStyle": "SUCCESS",
+                    "key": "application/json :: 200 :: get :: main :: ",
+                    "start": 0,
+                    "end": 0,
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "ResourceTypesAndTraitsCategory"
+      }
+    ],
+    "category": ""
   }
 }

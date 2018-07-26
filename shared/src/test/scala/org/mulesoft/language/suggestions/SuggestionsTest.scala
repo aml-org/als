@@ -16,13 +16,15 @@ abstract class SuggestionsTest extends LanguageServerTest {
             val fileContentsStr = content.stream.toString
             val markerInfo = this.findMarker(fileContentsStr)
             val position = markerInfo.position
-            val client = getClient
-            val filePath = s"/$path"
-            client.documentOpened(IOpenedDocument(filePath,0,markerInfo.rawContent))
-            client.getSuggestions(filePath,position)
+            getClient.flatMap(client=>{
+                val filePath = s"/$path"
+                client.documentOpened(IOpenedDocument(filePath,0,markerInfo.rawContent))
+                client.getSuggestions(filePath,position).map(suggestions=>{
+                    client.documentClosed(filePath)
+                    suggestions
+                })
+            })
         }).map(suggestions=>{
-            val filePath = s"/$path"
-            getClient.documentClosed(filePath)
             val resultSet = suggestions.map(_.text).toSet
             val diff1 = resultSet.diff(expectedSuggestions)
             val diff2 = expectedSuggestions.diff(resultSet)
