@@ -43,7 +43,9 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
         "com.chuusai" %% "shapeless" % "2.3.3",
         "org.mule.amf" %%% "typesystem-project" % hlVersion,
         "org.mule.amf" %%% "als-suggestions" % suggestionsVersion,
-        "org.mule.amf" %%% "als-outline" % outlineVersion
+        "org.mule.amf" %%% "als-outline" % outlineVersion,
+
+        "com.lihaoyi" %%% "upickle" % "0.5.1" % Test
     )
 )
 
