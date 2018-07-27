@@ -2,7 +2,7 @@ package org.mulesoft.language.server.modules.findReferences;
 
 import org.mulesoft.high.level.{ReferenceSearchResult, Search}
 import org.mulesoft.high.level.interfaces.{IASTUnit, IProject}
-import org.mulesoft.language.common.dtoTypes.{ILocation, IRange}
+import org.mulesoft.language.common.dtoTypes.{IChangedDocument, ILocation, IRange, ITextEdit}
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.SearchUtils
 import org.mulesoft.language.server.modules.hlastManager.HLASTManager
@@ -12,51 +12,46 @@ import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success, Try}
 import scala.concurrent.ExecutionContext.Implicits.global;
 
-class FindReferencesModule extends AbstractServerModule {
-	override val moduleId: String = "FIND_REFERENCES";
+private class TextIssue(var label: String, var start: Int, var end: Int);
 
+class RenameModule extends AbstractServerModule {
+	override val moduleId: String = "RENAME";
+	
 	val moduleDependencies: Array[String] = Array(HLASTManager.moduleId);
 	
 	override def launch(): Try[IServerModule] = {
 		val superLaunch = super.launch();
-
+		
 		if(superLaunch.isSuccess) {
-			connection.onFindReferences(findReferences, false);
-
+			connection.onRename(findTargets);
+			
 			Success(this);
 		} else {
 			superLaunch;
 		}
 	}
 	
-	def findReferences(uri: String, position: Int): Future[Seq[ILocation]] = {
-		this.connection.debug(s"Finding references at position ${position}",
-			"FindReferencesModule", "findReferences")
-
-		var promise = Promise[Seq[ILocation]]();
-
+	private def findTargets(uri: String, position: Int, newName: String): Future[Seq[IChangedDocument]] = {
+		var promise = Promise[Seq[IChangedDocument]]();
+		
 		currentAst(uri).andThen {
 			case Success(project) => {
-				SearchUtils.findReferences(project, position) match {
-					case Some(searchResult) => promise.success(searchResult);
+				SearchUtils.findAll(project, position) match {
+					case Some(found) => promise.success(found.map(location => new IChangedDocument(location.uri, 0, None, Some(Seq(new ITextEdit(location.range, newName))))));
 					
-					case _ => {
-						Seq();
-					}
+					case _ => promise.success(Seq());
 				}
-			};
+			}
 			
-			case Failure(error) => {
-				promise.failure(error)
-			};
+			case Failure(error) => promise.failure(error);
 		}
-
+		
 		promise.future;
 	}
-
+	
 	private def currentAst(uri: String): Future[IProject] = {
 		val hlmanager = this.getDependencyById(HLASTManager.moduleId).get.asInstanceOf[HLASTManager]
-
+		
 		hlmanager.forceGetCurrentAST(uri).map(ast=>{
 			println("ASTFOUND: " + ast.rootASTUnit.path + " " + ast.rootASTUnit.text);
 			
@@ -65,6 +60,6 @@ class FindReferencesModule extends AbstractServerModule {
 	}
 }
 
-object FindReferencesModule {
-	val moduleId: String = "FIND_REFERENCES";
+object RenameModule {
+	val moduleId: String = "RENAME";
 }

@@ -9,7 +9,7 @@ import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import org.mulesoft.language.server.core.Server
 import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
-import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
+import org.mulesoft.language.server.modules.findReferences.{FindReferencesModule, RenameModule}
 import org.mulesoft.language.server.modules.hlastManager.HLASTManager
 import org.mulesoft.language.server.modules.outline.StructureManager
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
@@ -33,6 +33,7 @@ object ServerProcess {
 		
 		server.registerModule(new FindReferencesModule());
 		server.registerModule(new FIndDeclarationModule());
+		server.registerModule(new RenameModule());
 		
 		server.enableModule(IASTManagerModule.moduleId);
 		server.enableModule(HLASTManager.moduleId);
@@ -42,6 +43,8 @@ object ServerProcess {
 		
 		server.enableModule(FindReferencesModule.moduleId)
 		server.enableModule(FIndDeclarationModule.moduleId)
+		
+		server.enableModule(RenameModule.moduleId);
 	}
 	
 	def documentOpened(document: IOpenedDocument) {
@@ -109,6 +112,24 @@ object ServerProcess {
 				result.foreach(location => list.add(location));
 				
 				locationsHandler.success(list);
+			}
+		}
+	}
+	
+	def rename(uri: String, position: Int, newName: String, renameHandler: LocationsHandler) {
+		connection.rename(uri, position, newName) andThen {
+			case Success(result) => {
+				var list: util.List[ILocation] = new util.ArrayList[ILocation]();
+				
+				result.map(item => new ILocation {
+					override var range: IRange = item.textEdits.get.head.range;
+					
+					override var uri: String = item.uri;
+					
+					override var version: Int = 0;
+				}).foreach(location => list.add(location));
+				
+				renameHandler.success(list);
 			}
 		}
 	}

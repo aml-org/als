@@ -38,7 +38,7 @@ trait AbstractServerConnection extends IServerConnection {
     Buffer[(String, Int) => Future[Seq[IRange]]] = ArrayBuffer()
 
   protected var renameListeners:
-    Buffer[(String, Int, String) => Seq[IChangedDocument]] = ArrayBuffer()
+    Buffer[(String, Int, String) => Future[Seq[IChangedDocument]]] = ArrayBuffer()
 
   protected var documentDetailsListeners:
     Buffer[(String, Int) => Future[Seq[ISuggestion]]] = ArrayBuffer()
@@ -157,7 +157,7 @@ trait AbstractServerConnection extends IServerConnection {
     * @param listener (uri: String, position: Int, newName: String) => Seq[IChangedDocument]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onRename(listener: (String, Int, String) => Seq[IChangedDocument],
+  def onRename(listener: (String, Int, String) => Future[Seq[IChangedDocument]],
                unsubscribe: Boolean = false): Unit = {
 
     this.addListener(this.renameListeners, listener, unsubscribe)
