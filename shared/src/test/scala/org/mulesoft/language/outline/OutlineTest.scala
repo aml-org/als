@@ -27,9 +27,6 @@ object File {
 
 trait OutlineTest[SharedType,TransportType] extends LanguageServerTest {
 
-    implicit override def executionContext:ExecutionContext =
-        scala.concurrent.ExecutionContext.Implicits.global
-
     def readDataFromString(dataString:String):TransportType
 
     def compare(obj1:SharedType, obj2:TransportType, prefix1:String, prefix2:String):Seq[Diff]
@@ -61,9 +58,6 @@ trait OutlineTest[SharedType,TransportType] extends LanguageServerTest {
             })
         })
     }
-
-    def format:String
-    def rootPath:String
 
     def bulbLoaders(path: String, content:String): Seq[ResourceLoader] = {
         var loaders: Seq[ResourceLoader] = List(new ResourceLoader {

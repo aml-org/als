@@ -98,7 +98,7 @@ override def stop(): Unit = {}
       * @param uri      - document uri
       * @param position - position in the document
       */
-    override def openDeclaration(uri: String, position: Int): Future[Seq[ILocation]] = this.sendWithResponse[LocationsResponse]("OPEN_DECLARATION", GetCompletionRequest(uri,position)).map(r=>r.wrapped.map(Location.transportToShared))
+    override def openDeclaration(uri: String, position: Int): Future[Seq[ILocation]] = this.sendWithResponse[LocationsResponse]("OPEN_DECLARATION", FindDeclarationRequest(uri,position)).map(r=>r.wrapped.map(Location.transportToShared))
 
     /**
       * Requests server for the positions of the references of the element defined

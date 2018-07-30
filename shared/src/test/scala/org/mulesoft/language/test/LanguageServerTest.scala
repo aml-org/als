@@ -1,6 +1,7 @@
 package org.mulesoft.language.test
 
 import amf.core.unsafe.PlatformSecrets
+import org.mulesoft.als.suggestions.interfaces.ISuggestion
 import org.mulesoft.language.common.dtoTypes.IOpenedDocument
 import org.mulesoft.language.server.core.Server
 import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
@@ -14,16 +15,20 @@ import org.mulesoft.language.server.server.modules.validationManager.ValidationM
 import org.mulesoft.language.test.clientConnection.TestClientConnetcion
 import org.mulesoft.language.test.dtoTypes.{GetCompletionRequest, OpenedDocument}
 import org.mulesoft.language.test.serverConnection.TestServerConnection
-import org.scalatest.AsyncFunSuite
+import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.collection.mutable.ListBuffer
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets{
 
 
+    implicit override def executionContext:ExecutionContext =
+        scala.concurrent.ExecutionContext.Implicits.global
 
     def rootPath:String
+
+    def format:String
 
     var clientOpt:Option[TestClientConnetcion] = None
 
@@ -73,11 +78,23 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets{
             val content = "#%RAML 1.0\n title: init\n\n"
             val url = "/init.raml"
             client.documentOpened(IOpenedDocument(url,0,content))
-            client.getSuggestions(url,content.length-1).map(x=>{
-                client.documentClosed(url)
-                clientOpt = clientList.headOption
-                client
-            })
+            try {
+                var f = client.getSuggestions(url, content.length - 1).recoverWith({
+                    case e: Throwable => Future.successful(Seq[ISuggestion]())
+                    case _ => Future.successful(Seq[ISuggestion]())
+                })
+                f.map(x => {
+                    client.documentClosed(url)
+                    clientOpt = clientList.headOption
+                    client
+                })
+            }
+            catch {
+                case e:Throwable =>
+                    clientOpt = clientList.headOption
+                    Future.successful(client)
+            }
+
         })
     }
 

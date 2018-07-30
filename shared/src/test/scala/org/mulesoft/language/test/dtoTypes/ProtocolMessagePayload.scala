@@ -83,7 +83,7 @@ object FindReferencesRequest {
   
   implicit def transportToShared(from: FindReferencesRequest): SharedFindRequest = SharedFindRequest(from.uri, from.position);
 
-  def apply(uri: String, position: Int):FindDeclarationRequest = new FindDeclarationRequest(uri,position)
+  def apply(uri: String, position: Int):FindReferencesRequest = new FindReferencesRequest(uri,position)
 }
 
 case class Location(uri: String, range: Range, version: Int)
