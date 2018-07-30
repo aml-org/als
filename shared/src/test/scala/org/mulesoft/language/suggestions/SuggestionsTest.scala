@@ -10,30 +10,31 @@ import scala.concurrent.Future
 abstract class SuggestionsTest extends LanguageServerTest {
 
     def runTest(path:String, expectedSuggestions:Set[String]):Future[Assertion] = {
-        var resolved = filePath(path)
-        this.platform.resolve(resolved).flatMap(content => {
+        init().flatMap(_=>{
+            var resolved = filePath(path)
+            this.platform.resolve(resolved).flatMap(content => {
 
-            val fileContentsStr = content.stream.toString
-            val markerInfo = this.findMarker(fileContentsStr)
-            val position = markerInfo.position
-            getClient.flatMap(client=>{
-                val filePath = s"/$path"
-                client.documentOpened(IOpenedDocument(filePath,0,markerInfo.rawContent))
-                client.getSuggestions(filePath,position).map(suggestions=>{
-                    client.documentClosed(filePath)
-                    suggestions
+                val fileContentsStr = content.stream.toString
+                val markerInfo = this.findMarker(fileContentsStr)
+                val position = markerInfo.position
+                getClient.flatMap(client=>{
+                    val filePath = s"/$path"
+                    client.documentOpened(IOpenedDocument(filePath,0,markerInfo.rawContent))
+                    client.getSuggestions(filePath,position).map(suggestions=>{
+                        client.documentClosed(filePath)
+                        suggestions
+                    })
                 })
+            }).map(suggestions=>{
+                val resultSet = suggestions.map(_.text).toSet
+                val diff1 = resultSet.diff(expectedSuggestions)
+                val diff2 = expectedSuggestions.diff(resultSet)
+
+                if (diff1.isEmpty && diff2.isEmpty) succeed
+                else fail(s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
+                succeed
             })
-        }).map(suggestions=>{
-            val resultSet = suggestions.map(_.text).toSet
-            val diff1 = resultSet.diff(expectedSuggestions)
-            val diff2 = expectedSuggestions.diff(resultSet)
-
-            if (diff1.isEmpty && diff2.isEmpty) succeed
-            else fail(s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
-            succeed
         })
-
     }
     def findMarker(str:String,label:String="*", cut: Boolean = true): MarkerInfo = {
 

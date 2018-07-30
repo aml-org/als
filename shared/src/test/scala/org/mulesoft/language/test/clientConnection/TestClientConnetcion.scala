@@ -14,7 +14,7 @@ import org.mulesoft.language.test.serverConnection.{NodeMsgTypeMeta, TestServerC
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class TestClientConnetcion(serverProcess:Option[TestServerConnection]) extends IPrintlnLogger
+class TestClientConnetcion(serverProcess:Seq[TestServerConnection]) extends IPrintlnLogger
     with MessageDispatcher[ProtocolMessagePayload,NodeMsgTypeMeta] with AbstractClientConnection {
 
     val versionManager: VersionedDocumentManager = new VersionedDocumentManager(this)

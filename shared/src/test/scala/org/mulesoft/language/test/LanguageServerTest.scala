@@ -1,8 +1,11 @@
 package org.mulesoft.language.test
 
+import amf.core.AMF
 import amf.core.unsafe.PlatformSecrets
-import org.mulesoft.als.suggestions.interfaces.ISuggestion
-import org.mulesoft.language.common.dtoTypes.IOpenedDocument
+import amf.plugins.document.vocabularies.AMLPlugin
+import amf.plugins.document.webapi.{OAS20Plugin, OAS30Plugin, RAML08Plugin, RAML10Plugin}
+import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
+import amf.plugins.features.validation.AMFValidatorPlugin
 import org.mulesoft.language.server.core.Server
 import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
@@ -32,70 +35,95 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets{
 
     var clientOpt:Option[TestClientConnetcion] = None
 
+    def init():Future[Unit] = {
+        amf.core.AMF.registerPlugin(AMLPlugin)
+        amf.core.AMF.registerPlugin(RAML10Plugin)
+        amf.core.AMF.registerPlugin(RAML08Plugin)
+        amf.core.AMF.registerPlugin(OAS20Plugin)
+        amf.core.AMF.registerPlugin(OAS30Plugin)
+        amf.core.AMF.registerPlugin(AMFValidatorPlugin)
+        amf.core.AMF.registerPlugin(PayloadValidatorPlugin)
+        AMF.init()
+    } recoverWith {
+        case e: Throwable => Future.successful()
+        case _ => Future.successful()
+    }
+
     def getClient: Future[TestClientConnetcion] = {
 
         if(clientOpt.nonEmpty){
             return Future.successful(clientOpt.get)
         }
 
-        var serverOpt:Option[TestServerConnection] = None
+        var serverList:ListBuffer[TestServerConnection] = ListBuffer()
         var clientList:ListBuffer[TestClientConnetcion] = ListBuffer()
         var thread = new Runnable {
             def run {
                 var serverConnection = new TestServerConnection(clientList)
-                serverOpt = Some(serverConnection)
+                serverList += serverConnection
+
+
+                    val server = new Server(serverConnection, TestPlatformDependentPart())
+
+                    server.registerModule(new ASTManager())
+                    server.registerModule(new HLASTManager())
+                    server.registerModule(new ValidationManager())
+                    server.registerModule(new SuggestionsManager())
+                    server.registerModule(new StructureManager())
+
+                    server.registerModule(new FindReferencesModule())
+                    server.registerModule(new FIndDeclarationModule())
+
+                    server.enableModule(IASTManagerModule.moduleId)
+                    server.enableModule(HLASTManager.moduleId)
+                    server.enableModule(ValidationManager.moduleId)
+                    server.enableModule(SuggestionsManager.moduleId)
+                    server.enableModule(StructureManager.moduleId)
+
+                    server.enableModule(FindReferencesModule.moduleId)
+                    server.enableModule(FIndDeclarationModule.moduleId)
+
+                    val editorManager = server.modules.get(IEditorManagerModule.moduleId)
+                    if (editorManager.isDefined) {
+                        serverConnection.editorManager = Some(editorManager.get.asInstanceOf[IEditorManagerModule])
+                    }
+
+            }
+        }
+        thread.run
+        clientList += new TestClientConnetcion(serverList)
+        clientOpt = clientList.headOption
+        Future.successful(clientList.head)
+    }
+
+    var emptyClientOpt:Option[TestClientConnetcion] = None
+
+    def getEmptyClient: Future[TestClientConnetcion] = {
+
+        if(emptyClientOpt.nonEmpty){
+            return Future.successful(emptyClientOpt.get)
+        }
+
+        var serverList:ListBuffer[TestServerConnection] = ListBuffer()
+        var clientList:ListBuffer[TestClientConnetcion] = ListBuffer()
+        var thread = new Runnable {
+            def run {
+                var serverConnection = new TestServerConnection(clientList)
+                serverList += serverConnection
 
                 val server = new Server(serverConnection, TestPlatformDependentPart())
-
-                server.registerModule(new ASTManager())
-                server.registerModule(new HLASTManager())
-                server.registerModule(new ValidationManager())
-                server.registerModule(new SuggestionsManager())
-                server.registerModule(new StructureManager())
-
-                server.registerModule(new FindReferencesModule())
-                server.registerModule(new FIndDeclarationModule())
-
-                server.enableModule(IASTManagerModule.moduleId)
-                server.enableModule(HLASTManager.moduleId)
-                server.enableModule(ValidationManager.moduleId)
-                server.enableModule(SuggestionsManager.moduleId)
-                server.enableModule(StructureManager.moduleId)
-
-                server.enableModule(FindReferencesModule.moduleId)
-                server.enableModule(FIndDeclarationModule.moduleId)
 
                 val editorManager = server.modules.get(IEditorManagerModule.moduleId)
                 if (editorManager.isDefined) {
                     serverConnection.editorManager = Some(editorManager.get.asInstanceOf[IEditorManagerModule])
                 }
+
             }
         }
         thread.run
-
-        clientList += new TestClientConnetcion(serverOpt)
-        Future.successful(clientList.head).flatMap(client=>{
-            val content = "#%RAML 1.0\n title: init\n\n"
-            val url = "/init.raml"
-            client.documentOpened(IOpenedDocument(url,0,content))
-            try {
-                var f = client.getSuggestions(url, content.length - 1).recoverWith({
-                    case e: Throwable => Future.successful(Seq[ISuggestion]())
-                    case _ => Future.successful(Seq[ISuggestion]())
-                })
-                f.map(x => {
-                    client.documentClosed(url)
-                    clientOpt = clientList.headOption
-                    client
-                })
-            }
-            catch {
-                case e:Throwable =>
-                    clientOpt = clientList.headOption
-                    Future.successful(client)
-            }
-
-        })
+        clientList += new TestClientConnetcion(serverList)
+        emptyClientOpt = clientList.headOption
+        Future.successful(clientList.head)
     }
 
     def filePath(path:String):String = {
