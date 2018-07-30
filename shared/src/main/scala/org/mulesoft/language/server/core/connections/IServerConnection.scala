@@ -94,7 +94,7 @@ trait IServerConnection extends ILogger {
     * @param listener (uri: String, position: Int, newName: String) => Seq[IChangedDocument]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onRename(listener: (String, Int, String) => Seq[IChangedDocument],
+  def onRename(listener: (String, Int, String) => Future[Seq[IChangedDocument]],
                unsubscribe: Boolean = false): Unit
 
   /**

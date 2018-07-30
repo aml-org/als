@@ -68,6 +68,10 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
 		openDeclarationListeners.head(uri, position);
 	}
 	
+	def rename(uri: String, position: Int, newName: String): Future[Seq[IChangedDocument]] = {
+		renameListeners.head(uri, position, newName);
+	}
+	
 	def handleGetStructure(getStructure: GetStructureRequest): Future[GetStructureResponse] = {
 		val firstOpt = this.documentStructureListeners.find(_ => true);
 		
