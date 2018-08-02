@@ -51,12 +51,36 @@ class IncludeCompletionPlugin extends ICompletionPlugin {
 
   def isInInclude(request: ICompletionRequest): Boolean = {
 
-    request.actualYamlLocation.isDefined &&
-      request.actualYamlLocation.get.node.isDefined &&
-      request.actualYamlLocation.get.node.get.yPart.isInstanceOf[YNode] &&
-      request.actualYamlLocation.get.node.get.yPart.asInstanceOf[YNode].tagType == YType.Include &&
-      request.actualYamlLocation.get.value.isDefined &&
-      request.actualYamlLocation.get.value.get.yPart.isInstanceOf[YScalar]
+    if(request.actualYamlLocation.isEmpty){
+        false
+    }
+    else if(request.actualYamlLocation.get.node.isEmpty){
+        false
+    }
+    else if(!request.actualYamlLocation.get.node.get.yPart.isInstanceOf[YNode]){
+        false
+    }
+    else{
+
+        if(request.actualYamlLocation.get.value.isEmpty){
+            false
+        }
+        else if(!request.actualYamlLocation.get.value.get.yPart.isInstanceOf[YScalar]){
+            false
+        }
+        else {
+            var nodePart = request.actualYamlLocation.get.node.get.yPart.asInstanceOf[YNode]
+            var valuePart = request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar]
+            val tagText = nodePart.tag.text
+            val valueString = valuePart.value.toString
+            if (tagText != "!include" && !valueString.startsWith("!include")) {
+                false
+            }
+            else {
+                true
+            }
+        }
+    }
   }
 }
 

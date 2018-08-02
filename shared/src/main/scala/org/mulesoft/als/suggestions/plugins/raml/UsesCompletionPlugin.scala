@@ -46,7 +46,7 @@ class UsesCompletionPlugin extends ICompletionPlugin {
             Suggestion(pathStartingWithPrefix, id,
               pathStartingWithPrefix, request.prefix)
           })
-          CompletionResponse(suggestions, LocationKind.KEY_COMPLETION, request)
+          CompletionResponse(suggestions, LocationKind.VALUE_COMPLETION, request)
         })
     }
   }
