@@ -3,7 +3,7 @@ package org.mulesoft.high.level.implementation
 import org.mulesoft.high.level.interfaces.{IASTUnit, IProject, ISourceInfo}
 import org.mulesoft.positioning.{IPositionsMapper, YamlLocation}
 import org.mulesoft.typesystem.json.interfaces.NodeRange
-import org.mulesoft.typesystem.syaml.to.json.YRange
+import org.mulesoft.typesystem.syaml.to.json.{YPoint, YRange}
 import org.yaml.lexer.YamlToken._
 import org.yaml.model.YNode.MutRef
 import org.yaml.model._
@@ -102,14 +102,31 @@ class SourceInfo private extends ISourceInfo {
 
     def init(project:IProject,referingUnit:Option[IASTUnit],inExternalFile:Option[String] = None): Unit ={
 
+        referingUnit.foreach(withReferingUnit)
         if(_yamlSources.isEmpty){
             _ranges = List(YRange.empty)
         }
         else{
-            _ranges = _yamlSources.map(YRange(_))
+            _ranges = _yamlSources.map(x=>{
+                var r = YRange(x)
+
+                referingUnit.foreach(u=>{
+                    val isScalar = x.isInstanceOf[YScalar] || (x.isInstanceOf[YNode]&&x.asInstanceOf[YNode].value.isInstanceOf[YScalar])
+                    val end = r.end
+                    var endPos = u.positionsMapper.mapToPosition(end.line,end.column)
+                    if(endPos >=0 && isScalar && content.exists(_.length > endPos)){
+                        val ch = content.get.charAt(endPos)
+                        if(ch=='\r'||ch=='\n'){
+                            var startPoint = r.start
+                            var endPoint = YPoint(r.end.line,r.end.column+1,endPos+1)
+                            r = YRange(startPoint,endPoint)
+                        }
+                    }
+                })
+                r
+            })
         }
         _positionsMapper = referingUnit.map(_.positionsMapper)
-        referingUnit.foreach(withReferingUnit)
 
         if(_yamlSources.lengthCompare(1)==0){
             var yl = YamlLocation(_yamlSources.head,_positionsMapper)
