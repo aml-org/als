@@ -407,12 +407,17 @@ class ThisResourceBaseMatcher() extends IPropertyMatcher {
                 de.meta match {
                     case  EndPointModel => List(ElementMatchResult(de))
                     case ResourceTypeModel =>
-                        val matchedNode = de match {
-                            case ed:ErrorDeclaration => de
-                            case rt:ResourceType => rt.asEndpoint(hlNode.amfBaseUnit)
-                            case _ => de
+                        try{
+                            val matchedNode = de match {
+                                case ed:ErrorDeclaration => de
+                                case rt:ResourceType => rt.asEndpoint(hlNode.amfBaseUnit)
+                                case _ => de
+                            }
+                            List(ElementMatchResult(matchedNode))
                         }
-                        List(ElementMatchResult(matchedNode))
+                        catch {
+                            case e:Throwable => Seq()
+                        }
                     case _ => Seq()
                 }
             case _ => Seq()
@@ -435,12 +440,17 @@ class ThisMethodBaseMatcher() extends IPropertyMatcher {
                 de.meta match {
                     case  OperationModel => List(ElementMatchResult(de))
                     case TraitModel =>
-                        val matchedNode = de match {
-                            case ed:ErrorDeclaration => de
-                            case tr:Trait => tr.asOperation(hlNode.amfBaseUnit)
-                            case _ => de
+                        try {
+                            val matchedNode = de match {
+                                case ed: ErrorDeclaration => de
+                                case tr: Trait => tr.asOperation(hlNode.amfBaseUnit)
+                                case _ => de
+                            }
+                            List(ElementMatchResult(matchedNode))
                         }
-                        List(ElementMatchResult(matchedNode))
+                        catch {
+                            case e:Throwable => Seq()
+                        }
                     case _ => Seq()
                 }
             case _ => Seq()
