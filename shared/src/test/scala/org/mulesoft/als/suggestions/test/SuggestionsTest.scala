@@ -34,6 +34,9 @@ object File {
 
 trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
+  implicit override def executionContext:ExecutionContext =
+        scala.concurrent.ExecutionContext.Implicits.global
+
   def runTest(path:String,originalSuggestions: Set[String]):Future[Assertion] = {
 
     val fullFilePath = filePath(path)
@@ -200,7 +203,9 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
   def filePath(path:String):String = {
     var rootDir = System.getProperty("user.dir")
-    s"file://$rootDir/shared/src/test/resources/test/$rootPath/$path".replace('\\','/')
+    var result = s"file://$rootDir/shared/src/test/resources/test/$rootPath/$path".replace('\\','/')
+    result = result.replace("/null", "")
+    result
   }
 
   def findMarker(str:String,label:String="*", cut: Boolean = true): MarkerInfo = {
