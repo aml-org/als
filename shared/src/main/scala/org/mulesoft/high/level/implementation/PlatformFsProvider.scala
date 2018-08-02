@@ -16,7 +16,9 @@ class PlatformFsProvider(platform:Platform) extends IFSProvider{
         = Option(Context(platform,absBasePath).resolve(path))
 
     override def dirName(fullPath: String): String = {
-        val lastSeparatorIndex = fullPath.lastIndexOf(platform.fs.separatorChar)
+        val lastSeparatorIndex1 = fullPath.lastIndexOf(platform.fs.separatorChar)
+        val lastSeparatorIndex2 = fullPath.lastIndexOf("/")
+        val lastSeparatorIndex = Math.max(lastSeparatorIndex1,lastSeparatorIndex2)
 
         if (lastSeparatorIndex == -1 || lastSeparatorIndex == 0) {
             ""
@@ -28,24 +30,37 @@ class PlatformFsProvider(platform:Platform) extends IFSProvider{
 //    override def exists(fullPath: String): Boolean = ???
 
     override def existsAsync(path: String): Future[Boolean] = {
-
+        var p = path
+        if(p.startsWith("file://")){
+            p = p.substring("file://".length)
+        }
         platform.fs.asyncFile(path).exists
     }
 
     override def isDirectory(fullPath: String): Boolean = {
-
-        platform.fs.syncFile(fullPath).isDirectory
+        var p = fullPath
+        if(p.startsWith("file://")){
+            p = p.substring("file://".length)
+        }
+        platform.fs.syncFile(p).isDirectory
     }
 //
 //    override def readDir(fullPath: String): Seq[String] = ???
 
     override def readDirAsync(path: String): Future[Seq[String]] = {
-        platform.fs.asyncFile(path).list.map(array=>array.toSeq)
+        var p = path
+        if(p.startsWith("file://")){
+            p = p.substring("file://".length)
+        }
+        platform.fs.asyncFile(p).list.map(array=>array.toSeq)
     }
 
     override def isDirectoryAsync(path: String): Future[Boolean] = {
-
-        platform.fs.asyncFile(path).isDirectory
+        var p = path
+        if(p.startsWith("file://")){
+            p = p.substring("file://".length)
+        }
+        platform.fs.asyncFile(p).isDirectory
     }
 }
 
