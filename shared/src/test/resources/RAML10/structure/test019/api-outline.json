@@ -37,6 +37,14 @@
         "start": 103,
         "end": 205,
         "category": "OtherCategory"
+      },
+      {
+        "text": "version",
+        "typeText": "",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "version :: ",
+        "category": "OtherCategory"
       }
     ],
     "category": ""
