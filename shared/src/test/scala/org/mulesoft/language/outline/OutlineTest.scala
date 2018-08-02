@@ -46,12 +46,12 @@ trait OutlineTest[SharedType,TransportType] extends LanguageServerTest {
 
                 val expectedOutline:TransportType = readDataFromString(expectedOutlineStr)
                 val diffs = compare(actualOutline,expectedOutline,"actual","expected")
-//                var actualJSON = serialize(actualOutline)
-//                platform.write(fullJsonPath,actualJSON)
                 if(diffs.isEmpty) {
                     succeed
                 }
                 else {
+                    //var actualJSON = serialize(actualOutline)
+                    //platform.write(fullJsonPath,actualJSON)
                     var message = diffs.mkString("\n")
                     fail(message)
                 }
