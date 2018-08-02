@@ -101,6 +101,14 @@
           }
         ],
         "category": "OtherCategory"
+      },
+      {
+        "text": "version",
+        "typeText": ":string",
+        "icon": "TAG",
+        "textStyle": "NORMAL",
+        "key": "version :: ",
+        "category": "OtherCategory"
       }
     ],
     "category": ""

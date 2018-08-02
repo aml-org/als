@@ -74,7 +74,7 @@
                     "textStyle": "NORMAL",
                     "key": "example :: X-Tracker :: post :: /jobs :: ",
                     "start": 343,
-                    "end": 359,
+                    "end": 360,
                     "category": ""
                   }
                 ],
@@ -97,6 +97,16 @@
     "key": "",
     "start": 11,
     "end": 360,
+    "children": [
+      {
+        "text": "version",
+        "typeText": "",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "version :: ",
+        "category": "OtherCategory"
+      }
+    ],
     "category": ""
   },
   "ResourceTypesAndTraitsCategory": {

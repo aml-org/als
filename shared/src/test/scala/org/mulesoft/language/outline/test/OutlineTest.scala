@@ -58,12 +58,12 @@ trait OutlineTest[T] extends AsyncFunSuite with PlatformSecrets {
 
               val expectedOutline:T = readDataFromString(expectedOutlineStr)
                 val diffs = compare(actualOutline,expectedOutline,"actual","expected")
-                //var actualJSON = write(ao1,2)
-                //platform.write(fullJsonPath,actualJSON)
                 if(diffs.isEmpty) {
                     succeed
                 }
                 else {
+//                    var actualJSON = write(actualOutline.asInstanceOf[Map[String,StructureNode]],2)
+//                    platform.write(fullJsonPath,actualJSON)
                     var message = diffs.mkString("\n")
                     fail(message)
                 }
