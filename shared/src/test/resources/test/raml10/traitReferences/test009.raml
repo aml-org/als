@@ -1,0 +1,18 @@
+#%RAML 1.0
+title: test API
+
+traits:
+  trait1:
+    description: <<param1>>
+    queryParameters:
+      qp1:
+        description: <<param2>>
+  trait2:
+    description: <<param1>>
+    queryParameters:
+      qp2:
+        description: <<param2>>
+
+/resource:
+  get:
+    is: [ trait1, tr* ]

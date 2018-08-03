@@ -28,7 +28,7 @@ class TypeReferencesCompletionPlugin extends ICompletionPlugin {
             Search.getDeclarations(u,"TypeDeclaration").foreach(d=>{
                 d.node.attribute("name").flatMap(_.value).foreach(name=>{
                     var proposal:String = name.toString
-                    d.namspace.foreach(ns=>proposal = s"$ns.$proposal")
+                    d.namespace.foreach(ns=>proposal = s"$ns.$proposal")
                     result += Suggestion(proposal, id, proposal, request.prefix)
                 })
             })

@@ -6,7 +6,10 @@ import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.typesystem.nominal_interfaces.IProperty
 import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
-import org.mulesoft.high.level.Search
+import org.mulesoft.high.level.{Declaration, Search}
+import org.mulesoft.positioning.IPositionsMapper
+import org.mulesoft.typesystem.syaml.to.json.{YPoint, YRange}
+import org.yaml.model._
 
 import scala.collection.mutable
 import scala.concurrent.{Future, Promise}
@@ -29,23 +32,38 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
 		
 			val result = request.astNode match {
 				case Some(n) => if(n.isElement) {
+                    var usedTemplateNames = n.parent.map(_.elements(n.property.get.nameId.get)).getOrElse(Seq()).flatMap(_.asElement).flatMap(_.attribute("name").map(_.value).map(_.toString))
+
 					var actualPrefix = request.prefix;
 
 					var squareBracketsRequired = false;
 
+                    var refYamlKind:Option[RefYamlKind] = None
 					var declarations = n.asElement.get.definition.nameId match {
 						case Some("ResourceTypeRef")  => {
+                            refYamlKind = templateRefYamlKind(request,"type")
 							Search.getDeclarations(n.astUnit, "ResourceType");
 						}
 
 						case Some("TraitRef")  => {
 							squareBracketsRequired = true;
-
+                            refYamlKind = templateRefYamlKind(request,"is")
 							Search.getDeclarations(n.astUnit, "Trait");
 						}
 
 						case _=> Seq();
 					}
+                    declarations = declarations.filter(x => {
+                        var nameOpt = x.node.attribute("name").map(_.value).map(name=>{
+                            if(x.namespace.isDefined){
+                                s"${x.namespace}.$name"
+                            }
+                            else{
+                                name.toString
+                            }
+                        })
+                        nameOpt.isDefined && !usedTemplateNames.contains(nameOpt.get)
+                    })
 
 					if(paramFor != null) {
 						var foundDeclarations = declarations.filter(declaration => paramFor == declaration.node.attribute("name").get.value.asInstanceOf[Some[String]].get);
@@ -67,49 +85,9 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
                         }
 					}
                     else {
-
                         declarations.map(declaration => {
-                            var declarationName = declaration.node.attribute("name").get.value.asInstanceOf[Some[String]].get
-
-                            var bracketsRequired = request.prefix.indexOf("{") != 0;
-
-                            squareBracketsRequired = squareBracketsRequired && request.prefix.indexOf("[") != 0;
-
-                            var snippet = declarationName;
-
-                            var params = declaration.node.attributes("parameters");
-
-                            if (!params.isEmpty) {
-                                snippet = snippet + ": {";
-
-                                var count = 0;
-
-                                params.foreach(param => {
-                                    var needComma = param != params.last;
-
-                                    snippet += param.value.asInstanceOf[Some[String]].get + " : ";
-
-                                    if (needComma) {
-                                        snippet += ", ";
-                                    }
-                                });
-
-                                snippet += "}";
-                            }
-
-                            if (bracketsRequired) {
-                                snippet = "{" + snippet + "}";
-                            } else {
-                                actualPrefix = actualPrefix.substring(actualPrefix.indexOf("{") + 1).trim();
-                            }
-
-                            if (squareBracketsRequired) {
-                                snippet = "[" + snippet + "]";
-                            } else {
-                                actualPrefix = actualPrefix.substring(actualPrefix.indexOf("[") + 1).trim();
-                            }
-
-                            Suggestion(snippet, id, declarationName, actualPrefix);
+                            var ts = toTemplateSuggestion(declaration,refYamlKind.get)
+                            Suggestion(ts.get.text, id, ts.get.name, request.prefix);
                         });
                     }
 				} else {
@@ -122,42 +100,232 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
         var response = CompletionResponse(result,LocationKind.VALUE_COMPLETION,request)
         Promise.successful(response).future
     }
-	
+
 	def inParamOf(request: ICompletionRequest): Option[String] = {
 		var text: String = request.config.editorStateProvider.get.getText;
-		
+
 		var currentPosition = request.position;
-		
+
 		var lineStart = text.substring(0, currentPosition).lastIndexOf("\n") + 1;
-		
+
 		if(lineStart < 0) {
 			return Some(null);
 		}
-		
+
 		var line = text.substring(lineStart, currentPosition);
-		
+
 		var openSquaresCount = line.count(_ == "{".charAt(0));
-		
+
 		if(openSquaresCount < 2) {
 			return Some(null);
 		}
-		
+
 		if(line.last == "{".charAt(0)) {
 			line = line + " ";
 		}
-		
+
 		var rightExps = line.split("\\{");
-		
+
 		var canContainReference = rightExps(rightExps.size - 2);
-		
+
 		var referenceParts = canContainReference.split(":");
-		
+
 		if(referenceParts.length != 2) {
 			return Some(null);
 		}
-		
+
 		Some(referenceParts(0));
 	}
+
+
+    def templateRefYamlKind(request: ICompletionRequest, propName: String): Option[RefYamlKind] = {
+        request.astNode.flatMap(node => {
+            var pos = request.position
+            var pm = node.astUnit.positionsMapper
+            node.parent.flatMap(pNode => {
+                var si = pNode.sourceInfo
+                si.yamlSources.headOption
+                    .filter(_.isInstanceOf[YMapEntry])
+                    .map(_.asInstanceOf[YMapEntry].value.value)
+                    .filter(_.isInstanceOf[YMap])
+                    .flatMap(_.asInstanceOf[YMap].entries.find(e =>
+                        e.key.value.toString == propName))
+                    .flatMap(propNode => {
+                        var line = YRange(propNode).start.line
+                        var lineStr = pm.lineString(line)
+                        var offset = lineStr.map(pm.lineOffset).getOrElse(-1)
+                        propNode.value.value match {
+                            case sc: YScalar => Some(RefYamlKind.scalar(offset))
+                            case seq: YSequence =>
+                                val fl = isFlow(seq, pm)
+                                val off = if (fl) -1 else offset
+                                var wrappedInMap = false
+                                var wrappedFlow = false
+                                seq.nodes.find(YRange(_,Some(pm)).containsPosition(request.position)).foreach(x=>{
+                                    wrappedInMap = x.value.isInstanceOf[YMap]
+                                    if(wrappedInMap){
+                                        wrappedFlow = isFlow(x.value,pm)
+                                    }
+                                })
+                                Some(RefYamlKind.sequence(fl, wrappedInMap, wrappedFlow, off))
+                            case map: YMap =>
+                                val fl = isFlow(map, pm)
+                                val off = if (fl) -1 else offset
+                                var wrappedInMap = false
+                                var wrappedFlow = false
+                                map.entries.find(YRange(_,Some(pm)).containsPosition(request.position)).foreach(x=>{
+                                    wrappedInMap = x.value.value.isInstanceOf[YMap]
+                                    if(wrappedInMap){
+                                        wrappedFlow = isFlow(x.value.value,pm)
+                                    }
+                                })
+                                Some(RefYamlKind.map(fl, wrappedInMap, wrappedFlow, off))
+                            case _ => None
+                        }
+                    })
+            })
+        })
+    }
+
+    def toTemplateSuggestion(decl:Declaration, kind:RefYamlKind):Option[TemplateSuggestion] = {
+        val declNode = decl.node
+        var nameOpt = declNode.attribute("name").flatMap(_.value).map(_.toString)
+        if(nameOpt.isEmpty){
+            None
+        }
+        else{
+            var isTrait = declNode.definition.nameId.contains("Trait")
+            var isResourceType = declNode.definition.nameId.contains("ResourceType")
+            val off = kind.valueOffset
+
+            val plainName = nameOpt.get
+            val nsOpt = decl.namespace
+            val name = if(nsOpt.isDefined) s"${nsOpt.get}.$plainName" else plainName
+            val params = declNode.attributes("parameters").flatMap(_.value).map(_.toString)
+            if(isTrait) {
+                if (params.isEmpty) {
+                    if(kind.inSequence){
+                        Some(TemplateSuggestion(name, name, kind))
+                    }
+                    else if(kind.inMap && !kind.flow){
+                        Some(TemplateSuggestion(name, s"- $name", kind))
+                    }
+                    else {
+                        Some(TemplateSuggestion(name, s"[ $name ]", kind))
+                    }
+                }
+                else {
+                    if(kind.inMap && !kind.flow){
+                        if(kind.wrappedFlow){
+                            //var valOffStr = " " * (off + 2)
+                            //var paramOffStr = valOffStr + "  "
+                            var text = toFlowObject(name, params)
+                            Some(TemplateSuggestion(name, text, kind))
+                        }
+                        else {
+                            var paramOffStr = " " * (off + 6)
+                            var text = s"- " + toBlockObject(name, params, paramOffStr)
+                            Some(TemplateSuggestion(name, text, kind))
+                        }
+                    }
+                    else if(kind.inMap && kind.flow){
+                        //var valOffStr = " " * (off + 2)
+                        //var paramOffStr = valOffStr + "  "
+                        var text = toFlowObject(name, params)
+                        Some(TemplateSuggestion(name, text, kind))
+                    }
+                    else if(kind.inSequence && !kind.flow){
+                        if(kind.wrappedFlow){
+                            //var valOffStr = " " * (off + 2)
+                            //var paramOffStr = valOffStr + "  "
+                            var text = toFlowObject(name, params)
+                            Some(TemplateSuggestion(name, text, kind))
+                        }
+                        else {
+                            var paramOffStr = " " * (off + 4)
+                            var text = toBlockObject(name, params, paramOffStr)
+                            Some(TemplateSuggestion(name, text, kind))
+                        }
+                    }
+                    else if(kind.inSequence && kind.flow){
+                        //var valOffStr = " " * (off + 2)
+                        //var paramOffStr = valOffStr + "  "
+                        var text = toFlowObject(name, params)
+                        Some(TemplateSuggestion(name, text, kind))
+                    }
+                    else {
+                        var valOffStr = " " * (off + 2)
+                        var paramOffStr = " " * (off + 6)
+                        var text = s"\n$valOffStr- " + toBlockObject(name, params, paramOffStr)
+                        Some(TemplateSuggestion(name, text, kind))
+                    }
+                }
+            }
+            else if(isResourceType){
+                if (params.isEmpty) {
+                    if(kind.inMap && !kind.flow){
+                        Some(TemplateSuggestion(name, s"$name:", kind))
+                    }
+                    else {
+                        Some(TemplateSuggestion(name, name, kind))
+                    }
+                }
+                else {
+                    if(kind.inMap && !kind.flow){
+                        if(kind.wrappedFlow){
+                            //var valOffStr = " " * (off + 2)
+                            //var paramOffStr = valOffStr + "  "
+                            var text = toFlowObject(name, params)
+                            Some(TemplateSuggestion(name, text, kind))
+                        }
+                        else {
+                            var paramOffStr = " " * (off + 4)
+                            var text = toBlockObject(name, params, paramOffStr)
+                            Some(TemplateSuggestion(name, text, kind))
+                        }
+                    }
+                    else if(kind.inMap && kind.flow){
+                        //var valOffStr = " " * (off + 2)
+                        //var paramOffStr = valOffStr + "  "
+                        var text = toFlowObject(name, params)
+                        Some(TemplateSuggestion(name, text, kind))
+                    }
+                    else {
+                        var valOffStr = " " * (off + 2)
+                        var paramOffStr = " " * (off + 4)
+                        var text = s"\n$valOffStr" + toBlockObject(name, params, paramOffStr)
+                        Some(TemplateSuggestion(name, text, kind))
+                    }
+                }
+            }
+            else{
+                None
+            }
+        }
+    }
+
+    private def toBlockObject(name: String, params: Seq[String], paramOffStr: String) = {
+        s"$name:\n" + params.map(x => s"$paramOffStr$x:").mkString("\n")
+    }
+
+    private def toFlowObject(name: String, params: Seq[String]) = {
+        s"{ $name: { " + params.map(x => s" $x : ").mkString(", ") + "} }"
+    }
+
+    def isFlow(yPart:YPart, pm:IPositionsMapper):Boolean = {
+
+        val r = YRange(yPart)
+        pm.initRange(r)
+        val str = pm.getText.substring(r.start.position,r.end.position).trim
+        if(str.isEmpty){
+            false
+        }
+        else {
+            val ch0 = str.charAt(0)
+            val ch1 = str.charAt(str.length-1)
+            (ch0 == '[' && ch1 == ']') || (ch0 == '{' && ch1 == '}')
+        }
+    }
 }
 
 object TemplateReferencesCompletionPlugin {
@@ -167,3 +335,13 @@ object TemplateReferencesCompletionPlugin {
 	
 	def apply(): TemplateReferencesCompletionPlugin = new TemplateReferencesCompletionPlugin();
 }
+
+case class RefYamlKind(inSequence:Boolean, inMap:Boolean, flow:Boolean, wrappedInMap:Boolean, wrappedFlow:Boolean, valueOffset:Int)
+
+object RefYamlKind {
+    def scalar(valOffset:Int = -1):RefYamlKind = RefYamlKind(false,false,false,false,false,valOffset)
+    def map(flow:Boolean, wrappedInMap:Boolean, wrappedFlow:Boolean,valOffset:Int = -1):RefYamlKind = RefYamlKind(false,true,flow,wrappedInMap,wrappedFlow,valOffset)
+    def sequence(flow:Boolean, wrappedInMap:Boolean, wrappedFlow:Boolean, valOffset:Int = -1):RefYamlKind = RefYamlKind(true,false,flow,wrappedInMap,wrappedFlow,valOffset)
+}
+
+case class TemplateSuggestion(name:String, text:String, kind:RefYamlKind)
