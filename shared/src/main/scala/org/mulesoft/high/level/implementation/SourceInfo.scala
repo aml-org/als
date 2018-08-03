@@ -107,24 +107,7 @@ class SourceInfo private extends ISourceInfo {
             _ranges = List(YRange.empty)
         }
         else{
-            _ranges = _yamlSources.map(x=>{
-                var r = YRange(x)
-
-                referingUnit.foreach(u=>{
-                    val isScalar = x.isInstanceOf[YScalar] || (x.isInstanceOf[YNode]&&x.asInstanceOf[YNode].value.isInstanceOf[YScalar])
-                    val end = r.end
-                    var endPos = u.positionsMapper.mapToPosition(end.line,end.column)
-                    if(endPos >=0 && isScalar && content.exists(_.length > endPos)){
-                        val ch = content.get.charAt(endPos)
-                        if(ch=='\r'||ch=='\n'){
-                            var startPoint = r.start
-                            var endPoint = YPoint(r.end.line,r.end.column+1,endPos+1)
-                            r = YRange(startPoint,endPoint)
-                        }
-                    }
-                })
-                r
-            })
+            _ranges = _yamlSources.map(YRange(_,referingUnit.map(_.positionsMapper)))
         }
         _positionsMapper = referingUnit.map(_.positionsMapper)
 

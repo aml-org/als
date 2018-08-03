@@ -18,9 +18,7 @@ object YamlSearch {
                 }
                 
                 case _ => yPart;
-            });
-            
-            mapper.initRange(range);
+            }, Option(mapper));
             mapper.offset(range.start.position);
         }
         
@@ -28,12 +26,10 @@ object YamlSearch {
     }
     
     def getLocation(position: Int, yPart: YPart, mapper: IPositionsMapper, parentStack: List[YamlLocation] = List(), ignoreIndents: Boolean = false): YamlLocation = {
-        val range = YRange(yPart);
+        val range = YRange(yPart,Option(mapper));
         
         val offset = mapper.offset(position);
-        
-        mapper.initRange(range);
-        
+
         if(!range.containsPosition(position)) {
             YamlLocation.empty;
         } else if(!ignoreIndents && offset < nodeStartOffset(yPart, range, mapper)) {
