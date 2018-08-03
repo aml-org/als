@@ -23,7 +23,7 @@ object Core {
         CompletionPluginsRegistry.registerPlugin(ParameterReferencePlugin())
         CompletionPluginsRegistry.registerPlugin(DefinitionReferenceCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(MasterReferenceCompletionPlugin());
-        CompletionPluginsRegistry.registerPlugin(TypeReferenceCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(TypeReferencesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(AnnotationReferencesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(FacetsCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(BodyCompletionPlugin())

@@ -72,7 +72,7 @@ class IncludeCompletionPlugin extends ICompletionPlugin {
             var nodePart = request.actualYamlLocation.get.node.get.yPart.asInstanceOf[YNode]
             var valuePart = request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar]
             val tagText = nodePart.tag.text
-            val valueString = valuePart.value.toString
+            val valueString = Option(valuePart.value).map(_.toString).getOrElse("")
             if (tagText != "!include" && !valueString.startsWith("!include")) {
                 false
             }

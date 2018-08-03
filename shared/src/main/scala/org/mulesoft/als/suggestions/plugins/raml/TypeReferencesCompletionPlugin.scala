@@ -8,8 +8,8 @@ import org.mulesoft.high.level.Search
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.{Future, Promise}
 
-class TypeReferenceCompletionPlugin extends ICompletionPlugin {
-	override def id: String = TemplateReferencesCompletionPlugin.ID;
+class TypeReferencesCompletionPlugin extends ICompletionPlugin {
+	override def id: String = TypeReferencesCompletionPlugin.ID;
 	
 	override def languages: Seq[Vendor] = TemplateReferencesCompletionPlugin.supportedLanguages;
 	
@@ -58,10 +58,10 @@ class TypeReferenceCompletionPlugin extends ICompletionPlugin {
 	}
 }
 
-object TypeReferenceCompletionPlugin {
+object TypeReferencesCompletionPlugin {
 	val ID = "typeRef.completion";
 	
 	val supportedLanguages: List[Vendor] = List(Raml10);
 	
-	def apply(): TypeReferenceCompletionPlugin = new TypeReferenceCompletionPlugin();
+	def apply(): TypeReferencesCompletionPlugin = new TypeReferencesCompletionPlugin();
 }
