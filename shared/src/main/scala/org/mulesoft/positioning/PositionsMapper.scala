@@ -20,6 +20,9 @@ class PositionsMapper(uri: String) extends  IPositionsMapper {
     }
 
     def initPoint(point:Point):Unit = {
+        if(point.position >=0){
+            return
+        }
         point match {
             case yp:YPoint =>
                 var pos = mapToPosition(point.line,point.column)
@@ -33,7 +36,12 @@ class PositionsMapper(uri: String) extends  IPositionsMapper {
             -1
         }
         else if(colum>lineLengths(line)){
-            -1
+            if(line == lineLengths.length-1){
+                textLength
+            }
+            else {
+                -1
+            }
         }
         else{
             lineLengthSums(line) + colum

@@ -557,7 +557,7 @@ object Search {
 
 }
 
-class Declaration(val node:IHighLevelNode, val declaringUnit:IASTUnit, val namspace:Option[String]) {}
+class Declaration(val node:IHighLevelNode, val declaringUnit:IASTUnit, val namespace:Option[String]) {}
 
 class ReferenceSearchResult(val definition:IHighLevelNode, val references:Seq[IHighLevelNode]) {
 }

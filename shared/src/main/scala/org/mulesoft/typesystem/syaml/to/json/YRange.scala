@@ -54,8 +54,8 @@ object YRange {
                 endColumn += 1
             }
             var endPosition = pm.mapToPosition(endLine, endColumn)
-
-            if (endPosition < pm.textLength && (pm.getText.charAt(endPosition) == '\r' || pm.getText.charAt(endPosition) == '\n')) {
+            var isJSON = pm.getText.trim.startsWith("{")
+            if (!isJSON && endPosition >= 0 && (endPosition == pm.textLength || (endPosition < pm.textLength && (pm.getText.charAt(endPosition) == '\r' || pm.getText.charAt(endPosition) == '\n')))) {
                 var scalar: Option[YScalar] = yPart match {
                     case sc: YScalar => Option(sc)
                     case me: YMapEntry => me.value match {
