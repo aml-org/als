@@ -87,14 +87,26 @@ class ConnectionBasedPlatform (val connection: IServerConnection,
 
   val defaultEnvironment = new Environment(this.loaders)
 
-  override def resolvePath(uri: String): String = {
+  override def resolvePath(_uri: String): String = {
+
+    var uri = _uri
+    if(Option(uri).isDefined){
+      uri = uri.replace("%5C", "\\")
+      uri = uri.replace("%20", " ")
+    }
+    if(uri.startsWith("file:///C:")){
+        uri = uri.replace("file:///C:","file://C:")
+    }
 
     val result = uri match {
       case File(path) =>
         if (path.startsWith("/")) {
           File.FILE_PROTOCOL + path
-        } else {
+        } else if(path.length < 2 || path.charAt(1) != ':'){
           File.FILE_PROTOCOL + withTrailingSlash(path)
+        }
+        else {
+          File.FILE_PROTOCOL + path
         }
 
       case Http(protocol, host, path) => protocol + host + withTrailingSlash(path)
@@ -107,8 +119,15 @@ class ConnectionBasedPlatform (val connection: IServerConnection,
     result
   }
 
-  def fetchFile(path: String): Future[Content] = {
-
+  def fetchFile(_path: String): Future[Content] = {
+    var path = _path
+    if(Option(path).isDefined){
+      path = path.replace("%5C", "\\")
+      path = path.replace("%20", " ")
+    }
+    if(path.startsWith("file:///C:")){
+      path = path.replace("file:///C:","file://C:")
+    }
     this.connection.debugDetail("Asked to fetch file " + path,
       "ConnectionBasedPlatform", "fetchFile")
 

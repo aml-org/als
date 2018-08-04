@@ -46,7 +46,15 @@ class ProxyContentPlatform(protected val source: ConnectionBasedPlatform,
 
   override def resolvePath(uri: String): String = source.resolvePath(uri)
 
-  def fetchFile(path: String): Future[Content] = {
+  def fetchFile(_path: String): Future[Content] = {
+    var path = _path
+    if(Option(path).isDefined){
+      path = path.replace("%5C", "\\")
+      path = path.replace("%20", " ")
+    }
+    if(path.startsWith("file:///C:")){
+      path = path.replace("file:///C:","file://C:")
+    }
 
     source.connection.debugDetail("Asked to fetch file " + path + " while override url is " + overrideUrl,
       "ProxyContentPlatform", "fetchFile")

@@ -84,8 +84,15 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
 //    }
 //  }
 
-  def getEditor(uri: String): Option[IAbstractTextEditorWithCursor] = {
-
+  def getEditor(_uri: String): Option[IAbstractTextEditorWithCursor] = {
+    var uri = _uri
+    if(Option(uri).isDefined){
+      uri = uri.replace("%5C", "\\")
+      uri = uri.replace("%20", " ")
+    }
+    if(uri.startsWith("file:///C:")){
+      uri = uri.replace("file:///C:","file://C:")
+    }
     this.connection.debugDetail(s"Asked for uri ${uri}, while having following editors registered: " +
       this.uriToEditor.keys.mkString(","),
       "EditorManager", "onOpenDocument")
