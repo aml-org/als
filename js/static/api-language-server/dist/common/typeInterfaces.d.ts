@@ -1,5 +1,5 @@
-import outline = require("raml-outline");
-import suggestions = require("raml-suggestions");
+import outline = require("./outline");
+import suggestions = require("./suggestions");
 export { MessageSeverity, ILoggerSettings, ILogger } from "./logger";
 /**
  * Structure node JSON representation.
