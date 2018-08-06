@@ -161,8 +161,8 @@ buildJS := {
         
         var baseDir = value.data.getParentFile.getParentFile.getParentFile;
         
-        var srcDir = baseDir / "static" / "raml-language-server";
-        var dstDir = baseDir / "target" / "raml-language-server";
+        var srcDir = baseDir / "static" / "api-language-server";
+        var dstDir = baseDir / "target" / "api-language-server";
         
         dstDir.delete();
         dstDir.mkdir();
@@ -170,7 +170,7 @@ buildJS := {
         copyDir(srcDir, dstDir);
         
         var srcDir1 = baseDir / "target/artifact";
-        var dstDir1 = baseDir / "target" / "raml-language-server" / "dist/entryPoints/node/server";
+        var dstDir1 = baseDir / "target" / "api-language-server" / "dist/entryPoints/node/server";
         
         dstDir1.mkdir();
         

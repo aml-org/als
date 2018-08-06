@@ -1,7 +1,7 @@
 {
-  "name": "raml-language-server",
+  "name": "api-language-server",
   "version": "0.0.9",
-  "description": "RAML Language Server based on the Language Server Protocol",
+  "description": "Language Server based on the Language Server Protocol",
   "main": "./dist/index.js",
   "scripts": {
     "build": "rimraf dist && tsc",
