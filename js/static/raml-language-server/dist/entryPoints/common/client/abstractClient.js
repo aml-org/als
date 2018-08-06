@@ -14,7 +14,7 @@ var messageDispatcher_1 = require("../../common/messageDispatcher");
 var typeInterfaces_1 = require("../../../client/typeInterfaces");
 var clientVersionManager_1 = require("./clientVersionManager");
 var utils_1 = require("../../../common/utils");
-var AbstractClientConnection = /** @class */ (function (_super) {
+var AbstractClientConnection = (function (_super) {
     __extends(AbstractClientConnection, _super);
     function AbstractClientConnection(name) {
         var _this = _super.call(this, name) || this;

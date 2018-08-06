@@ -10,7 +10,7 @@ function createManager(connection, astManagerModule, editorManagerModule) {
     return new FindReferencesActionModule(connection, astManagerModule, editorManagerModule);
 }
 exports.createManager = createManager;
-var FindReferencesActionModule = /** @class */ (function () {
+var FindReferencesActionModule = (function () {
     function FindReferencesActionModule(connection, astManagerModule, editorManagerModule) {
         this.connection = connection;
         this.astManagerModule = astManagerModule;

@@ -1,9 +1,0 @@
-{
-  "id" : "jira.home" ,
-  "key" : "jira.home" ,
-  "value" : "/var/jira/jira-home" ,
-  "name" : "jira.home" ,
-  "desc" : "JIRA home directory" ,
-  "type" : "string" ,
-  "defaultValue" : ""
-}

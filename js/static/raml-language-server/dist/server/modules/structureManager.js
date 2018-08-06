@@ -94,7 +94,7 @@ function initialize() {
 }
 exports.initialize = initialize;
 initialize();
-var StructureManager = /** @class */ (function () {
+var StructureManager = (function () {
     function StructureManager(connection, astManagerModule, editorManagerModule) {
         this.connection = connection;
         this.astManagerModule = astManagerModule;

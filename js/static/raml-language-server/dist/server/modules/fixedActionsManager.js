@@ -9,7 +9,7 @@ function createManager(connection, astManagerModule, editorManagerModule) {
     return new FixedActionsManager(connection, astManagerModule, editorManagerModule);
 }
 exports.createManager = createManager;
-var FixedActionsManager = /** @class */ (function () {
+var FixedActionsManager = (function () {
     function FixedActionsManager(connection, astManagerModule, editorManagerModule) {
         this.connection = connection;
         this.astManagerModule = astManagerModule;

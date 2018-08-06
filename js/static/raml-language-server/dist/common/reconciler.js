@@ -4,7 +4,7 @@ var PromiseConstructor = require("promise-polyfill");
 if (typeof Promise === "undefined" && typeof window !== "undefined") {
     window.Promise = PromiseConstructor;
 }
-var Reconciler = /** @class */ (function () {
+var Reconciler = (function () {
     function Reconciler(logger, timeout) {
         this.logger = logger;
         this.timeout = timeout;

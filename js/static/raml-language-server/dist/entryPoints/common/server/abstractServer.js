@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var connections_1 = require("../../../server/core/connections");
 var messageDispatcher_1 = require("../../common/messageDispatcher");
 var utils_1 = require("../../../common/utils");
-var AbstractMSServerConnection = /** @class */ (function (_super) {
+var AbstractMSServerConnection = (function (_super) {
     __extends(AbstractMSServerConnection, _super);
     function AbstractMSServerConnection(name) {
         var _this = _super.call(this, name) || this;

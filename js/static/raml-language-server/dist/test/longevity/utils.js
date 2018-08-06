@@ -69,7 +69,7 @@ function testGeneralRecursive(contentProducer, tester, done) {
     }
 }
 exports.testGeneralRecursive = testGeneralRecursive;
-var AbstractDocumentTester = /** @class */ (function () {
+var AbstractDocumentTester = (function () {
     function AbstractDocumentTester(apiPath) {
         this.apiPath = apiPath;
         this.connection = index_1.getNodeClientConnection();
@@ -103,7 +103,7 @@ var AbstractDocumentTester = /** @class */ (function () {
     };
     return AbstractDocumentTester;
 }());
-var EditorManagerTester = /** @class */ (function (_super) {
+var EditorManagerTester = (function (_super) {
     __extends(EditorManagerTester, _super);
     function EditorManagerTester() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -161,7 +161,7 @@ var EditorManagerTester = /** @class */ (function (_super) {
     };
     return EditorManagerTester;
 }(AbstractDocumentTester));
-var ValidationManagerTester = /** @class */ (function (_super) {
+var ValidationManagerTester = (function (_super) {
     __extends(ValidationManagerTester, _super);
     function ValidationManagerTester() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -206,7 +206,7 @@ var ValidationManagerTester = /** @class */ (function (_super) {
     };
     return ValidationManagerTester;
 }(AbstractDocumentTester));
-var StructureManagerTester = /** @class */ (function (_super) {
+var StructureManagerTester = (function (_super) {
     __extends(StructureManagerTester, _super);
     function StructureManagerTester() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -251,7 +251,7 @@ var StructureManagerTester = /** @class */ (function (_super) {
     };
     return StructureManagerTester;
 }(AbstractDocumentTester));
-var CompletionManagerTester = /** @class */ (function (_super) {
+var CompletionManagerTester = (function (_super) {
     __extends(CompletionManagerTester, _super);
     function CompletionManagerTester() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -273,7 +273,7 @@ var CompletionManagerTester = /** @class */ (function (_super) {
     };
     return CompletionManagerTester;
 }(AbstractDocumentTester));
-var DetailsManagerTester = /** @class */ (function (_super) {
+var DetailsManagerTester = (function (_super) {
     __extends(DetailsManagerTester, _super);
     function DetailsManagerTester() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -295,7 +295,7 @@ var DetailsManagerTester = /** @class */ (function (_super) {
     };
     return DetailsManagerTester;
 }(AbstractDocumentTester));
-var WordBasedContentProducer = /** @class */ (function () {
+var WordBasedContentProducer = (function () {
     function WordBasedContentProducer(filePath) {
         this.filePath = filePath;
         this.currentIndex = 0;

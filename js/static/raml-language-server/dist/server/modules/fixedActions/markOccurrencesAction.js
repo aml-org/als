@@ -11,7 +11,7 @@ function createManager(connection, astManagerModule, editorManagerModule) {
     return new MarkOccurrencesActionModule(connection, astManagerModule, editorManagerModule);
 }
 exports.createManager = createManager;
-var MarkOccurrencesActionModule = /** @class */ (function () {
+var MarkOccurrencesActionModule = (function () {
     function MarkOccurrencesActionModule(connection, astManagerModule, editorManagerModule) {
         this.connection = connection;
         this.astManagerModule = astManagerModule;

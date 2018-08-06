@@ -9,7 +9,7 @@ var CompletionManagerModule = require("../modules/completionManager");
 var FixedActionsManagerModule = require("../modules/fixedActionsManager");
 var DetailsManagerModule = require("../modules/detailsManager");
 var CustomActionsManagerModule = require("../modules/customActionsManager");
-var Server = /** @class */ (function () {
+var Server = (function () {
     function Server(connection) {
         this.connection = connection;
         /**

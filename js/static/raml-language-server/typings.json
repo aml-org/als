@@ -1,8 +1,0 @@
-{
-  "ambientDependencies": {
-    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#3b2ed809b9e8f7dc4fcc1d80199129a0b73fb277",
-    "es6-promise": "github:DefinitelyTyped/DefinitelyTyped/es6-promise/es6-promise.d.ts#95d860879fb90c405aeb13eea7b8564f9c0df2bf",
-    "chai": "github:DefinitelyTyped/DefinitelyTyped/chai/chai.d.ts#be0b6b394f77a59e192ad7cfec18078706e44db5",
-    "mocha": "github:DefinitelyTyped/DefinitelyTyped/mocha/mocha.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd"
-  }
-}

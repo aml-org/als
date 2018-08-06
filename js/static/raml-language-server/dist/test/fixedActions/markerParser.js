@@ -22,7 +22,7 @@ exports.isRangeMarkerSchema = isRangeMarkerSchema;
 /**
  * The result of marker parsing.
  */
-var ParseResult = /** @class */ (function () {
+var ParseResult = (function () {
     function ParseResult(originalText, strippedText, markers) {
         /**
          * Markers.

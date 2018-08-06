@@ -11,7 +11,7 @@ function createManager(connection, astManagerModule, editorManagerModule) {
     return new RenameActionModule(connection, astManagerModule, editorManagerModule);
 }
 exports.createManager = createManager;
-var RenameActionModule = /** @class */ (function () {
+var RenameActionModule = (function () {
     function RenameActionModule(connection, astManagerModule, editorManagerModule) {
         this.connection = connection;
         this.astManagerModule = astManagerModule;

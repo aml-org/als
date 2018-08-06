@@ -14,7 +14,7 @@ function initialize() {
 }
 exports.initialize = initialize;
 initialize();
-var DetailsManager = /** @class */ (function () {
+var DetailsManager = (function () {
     function DetailsManager(connection, astManagerModule, editorManager, actionManagerModule) {
         this.connection = connection;
         this.astManagerModule = astManagerModule;

@@ -18,7 +18,7 @@ function createManager(connection, editorManager) {
     return new ASTManager(connection, editorManager);
 }
 exports.createManager = createManager;
-var ParseDocumentRunnable = /** @class */ (function () {
+var ParseDocumentRunnable = (function () {
     function ParseDocumentRunnable(uri, version, editorManager, connection, logger) {
         this.uri = uri;
         this.version = version;
@@ -168,7 +168,7 @@ var ParseDocumentRunnable = /** @class */ (function () {
     ParseDocumentRunnable.TYPE_CONST = "astManager.ParseDocumentRunnable";
     return ParseDocumentRunnable;
 }());
-var ASTManager = /** @class */ (function () {
+var ASTManager = (function () {
     function ASTManager(connection, editorManager) {
         this.connection = connection;
         this.editorManager = editorManager;

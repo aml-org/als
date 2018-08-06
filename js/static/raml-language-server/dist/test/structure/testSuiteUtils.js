@@ -111,7 +111,7 @@ function compare(arg0, arg1, path) {
     return diffs;
 }
 exports.compare = compare;
-var Diff = /** @class */ (function () {
+var Diff = (function () {
     function Diff(path, value0, value1, comment) {
         this.path = path;
         this.value0 = value0;
@@ -259,7 +259,7 @@ function projectFolder() {
 }
 exports.projectFolder = projectFolder;
 ;
-var Test = /** @class */ (function () {
+var Test = (function () {
     function Test(_masterPath, _extensionsAndOverlays, _jsonPath) {
         this._masterPath = _masterPath;
         this._extensionsAndOverlays = _extensionsAndOverlays;
@@ -279,7 +279,7 @@ var RamlFileKind;
     RamlFileKind[RamlFileKind["OVERLAY"] = 3] = "OVERLAY";
     RamlFileKind[RamlFileKind["FRAGMENT"] = 4] = "FRAGMENT";
 })(RamlFileKind = exports.RamlFileKind || (exports.RamlFileKind = {}));
-var RamlFile = /** @class */ (function () {
+var RamlFile = (function () {
     function RamlFile(_absPath, _kind, _ver, _extends) {
         this._absPath = _absPath;
         this._kind = _kind;
@@ -301,7 +301,7 @@ var RamlFile = /** @class */ (function () {
     return RamlFile;
 }());
 exports.RamlFile = RamlFile;
-var DirectoryContent = /** @class */ (function () {
+var DirectoryContent = (function () {
     function DirectoryContent(dirAbsPath, files) {
         this.dirAbsPath = dirAbsPath;
         this.files = files;

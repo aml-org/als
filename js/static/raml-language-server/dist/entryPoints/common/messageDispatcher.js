@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var shortid = require("shortid");
-var MessageDispatcher = /** @class */ (function () {
+var MessageDispatcher = (function () {
     function MessageDispatcher(name) {
         this.name = name;
         this.callBacks = {};

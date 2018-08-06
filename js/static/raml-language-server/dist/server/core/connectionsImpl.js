@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var AbstractServerConnection = /** @class */ (function () {
+var AbstractServerConnection = (function () {
     function AbstractServerConnection() {
         this.openDocumentListeners = [];
         this.changeDocumentListeners = [];

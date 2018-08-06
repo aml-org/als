@@ -5,7 +5,7 @@ function createManager(connection) {
     return new EditorManager(connection);
 }
 exports.createManager = createManager;
-var TextBufferInfo = /** @class */ (function () {
+var TextBufferInfo = (function () {
     function TextBufferInfo(uri, editorManager, logger) {
         this.uri = uri;
         this.editorManager = editorManager;
@@ -169,7 +169,7 @@ var TextBufferInfo = /** @class */ (function () {
     };
     return TextBufferInfo;
 }());
-var TextEditorInfo = /** @class */ (function () {
+var TextEditorInfo = (function () {
     function TextEditorInfo(uri, version, text, editorManager, logger) {
         this.uri = uri;
         this.version = version;
@@ -233,7 +233,7 @@ var TextEditorInfo = /** @class */ (function () {
     };
     return TextEditorInfo;
 }());
-var EditorManager = /** @class */ (function () {
+var EditorManager = (function () {
     function EditorManager(connection) {
         this.connection = connection;
         this.uriToEditor = {};

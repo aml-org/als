@@ -15,7 +15,7 @@ var connectionsImpl_1 = require("../../server/core/connectionsImpl");
 var utils = require("../../common/utils");
 var abstractServer_1 = require("../common/server/abstractServer");
 var fs = require("fs");
-var ExtendedConnection = /** @class */ (function (_super) {
+var ExtendedConnection = (function (_super) {
     __extends(ExtendedConnection, _super);
     function ExtendedConnection(vsCodeConnection) {
         var _this = _super.call(this, "ExtendedConnection") || this;
@@ -55,7 +55,7 @@ var ExtendedConnection = /** @class */ (function (_super) {
     return ExtendedConnection;
 }(abstractServer_1.AbstractMSServerConnection));
 var vscode_languageserver_1 = require("vscode-languageserver");
-var ProxyServerConnection = /** @class */ (function (_super) {
+var ProxyServerConnection = (function (_super) {
     __extends(ProxyServerConnection, _super);
     function ProxyServerConnection(vsCodeConnection) {
         var _this = _super.call(this) || this;
@@ -300,19 +300,10 @@ var ProxyServerConnection = /** @class */ (function (_super) {
                     var text = suggestion.text || suggestion.displayText;
                     _this.debugDetail("adding suggestion: " + text, "ProxyServerConnection", "getCompletion");
                     text = _this.removeCompletionPreviousLineIndentation(text);
-                    if (suggestion.extra && suggestion.displayText) {
-                        result.push({
-                            label: suggestion.displayText,
-                            insertText: suggestion.extra + text,
-                            kind: vscode_languageserver_1.CompletionItemKind.Text
-                        });
-                    }
-                    else {
-                        result.push({
-                            label: text,
-                            kind: vscode_languageserver_1.CompletionItemKind.Text
-                        });
-                    }
+                    result.push({
+                        label: text,
+                        kind: vscode_languageserver_1.CompletionItemKind.Text
+                    });
                 }
             }
             return {

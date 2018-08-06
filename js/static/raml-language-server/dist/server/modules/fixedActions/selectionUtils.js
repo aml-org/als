@@ -4,7 +4,7 @@ function findSelection(node, position, content) {
     if (!node) {
         return null;
     }
-    var names = ["name", "type", "is", "securedBy", "schema", "annotations"];
+    var names = ["name", "type", "is", "securedBy", "schema"];
     for (var i = 0; i < names.length; i++) {
         var name = names[i];
         var selection = findSelectionValue(node, name, position, content);

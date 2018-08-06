@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var textEditProcessor_1 = require("../../../common/textEditProcessor");
-var VersionedDocument = /** @class */ (function () {
+var VersionedDocument = (function () {
     function VersionedDocument(uri, version, text) {
         this.uri = uri;
         this.version = version;
@@ -30,7 +30,7 @@ var VersionedDocument = /** @class */ (function () {
     return VersionedDocument;
 }());
 exports.VersionedDocument = VersionedDocument;
-var VersionedDocumentManager = /** @class */ (function () {
+var VersionedDocumentManager = (function () {
     function VersionedDocumentManager(logger, maxStoredVersions) {
         if (maxStoredVersions === void 0) { maxStoredVersions = 1; }
         this.logger = logger;

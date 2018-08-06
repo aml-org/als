@@ -11,7 +11,7 @@ function initialize() {
 }
 exports.initialize = initialize;
 initialize();
-var ASTProvider = /** @class */ (function () {
+var ASTProvider = (function () {
     function ASTProvider(uri, astManagerModule, logger) {
         this.uri = uri;
         this.astManagerModule = astManagerModule;
@@ -44,7 +44,7 @@ var ASTProvider = /** @class */ (function () {
 /**
  * Editor state provider.
  */
-var EditorStateProvider = /** @class */ (function () {
+var EditorStateProvider = (function () {
     function EditorStateProvider(uri, offset, editorManagerModule) {
         this.uri = uri;
         this.offset = offset;
@@ -95,7 +95,7 @@ var EditorStateProvider = /** @class */ (function () {
     };
     return EditorStateProvider;
 }());
-var FSProvider = /** @class */ (function () {
+var FSProvider = (function () {
     function FSProvider(logger, connection) {
         this.logger = logger;
         this.connection = connection;
@@ -290,7 +290,7 @@ var FSProvider = /** @class */ (function () {
 //         });
 //     }
 // }
-var CompletionManagerModule = /** @class */ (function () {
+var CompletionManagerModule = (function () {
     function CompletionManagerModule(connection, astManagerModule, editorManagerModule) {
         this.connection = connection;
         this.astManagerModule = astManagerModule;
@@ -347,11 +347,6 @@ var CompletionManagerModule = /** @class */ (function () {
                 connection.error("Failed to find suggestions: " + error, "CompletionManagerModule", "getCompletion");
                 throw error;
             });
-        }, function (rejection) {
-            if (rejection.message && rejection.message.indexOf("Invalid first line") === 0) {
-                return suggestions.suggest(editorProvider, fsProvider);
-            }
-            return Promise.reject(rejection);
         });
     };
     return CompletionManagerModule;

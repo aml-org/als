@@ -12,7 +12,7 @@ exports.createManager = createManager;
 /**
  * Handles "open declaration" action.
  */
-var OpenDeclarationActionModule = /** @class */ (function () {
+var OpenDeclarationActionModule = (function () {
     function OpenDeclarationActionModule(connection, astManagerModule, editorManagerModule) {
         this.connection = connection;
         this.astManagerModule = astManagerModule;

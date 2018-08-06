@@ -14,7 +14,7 @@ var actions = require("raml-actions");
 actions.setIsPackaged();
 var abstractServer_1 = require("../../common/server/abstractServer");
 var server_1 = require("../../../server/core/server");
-var WebWorkerServerConnection = /** @class */ (function (_super) {
+var WebWorkerServerConnection = (function (_super) {
     __extends(WebWorkerServerConnection, _super);
     function WebWorkerServerConnection() {
         return _super.call(this, "WebServerConnection") || this;

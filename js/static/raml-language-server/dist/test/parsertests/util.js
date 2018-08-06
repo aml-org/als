@@ -126,7 +126,7 @@ function startTyping1(apiPath, done) {
     });
 }
 exports.startTyping1 = startTyping1;
-var TextChanger = /** @class */ (function () {
+var TextChanger = (function () {
     function TextChanger(initialContent, byWords) {
         if (byWords === void 0) { byWords = false; }
         this.initialContent = initialContent;
@@ -166,7 +166,7 @@ var TextChanger = /** @class */ (function () {
     };
     return TextChanger;
 }());
-var ValidationReportDoner = /** @class */ (function () {
+var ValidationReportDoner = (function () {
     function ValidationReportDoner(fullPath, done, onReport) {
         this.fullPath = fullPath;
         this.done = done;

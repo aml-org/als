@@ -43,12 +43,12 @@ function runSequence(relativeUri, caseName, nextTask) {
         nextTask(result, result ? "OK" : "SOMETHING WRONG");
     });
 }
-var RequestResult = /** @class */ (function () {
+var RequestResult = (function () {
     function RequestResult() {
     }
     return RequestResult;
 }());
-var TimeTrackerEvent = /** @class */ (function () {
+var TimeTrackerEvent = (function () {
     function TimeTrackerEvent() {
     }
     return TimeTrackerEvent;
@@ -95,7 +95,7 @@ function generateReport() {
     fs.writeFileSync(dstPath, reportTemplate.replace('__jsonData__', JSON.stringify(jsonData)));
 }
 exports.generateReport = generateReport;
-var TimeTracker = /** @class */ (function () {
+var TimeTracker = (function () {
     function TimeTracker(onEvent) {
         this.onEvent = onEvent;
         this.total = 0;
@@ -137,7 +137,7 @@ var TimeTracker = /** @class */ (function () {
     };
     return TimeTracker;
 }());
-var SequenceRunner = /** @class */ (function () {
+var SequenceRunner = (function () {
     function SequenceRunner(relativeUri, caseName) {
         var _this = this;
         this.relativeUri = relativeUri;

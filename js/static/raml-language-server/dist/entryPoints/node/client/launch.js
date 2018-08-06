@@ -20,24 +20,26 @@ function launch() {
     var serverProcess = childProcess.fork(path.resolve(__dirname, "../server/serverProcess.js"), [], {
         silent: true
     });
+    // serverProcess.stdout.pipe(process.stdout);
+    // serverProcess.stderr.pipe(process.stderr);
     var connection = new client_2.NodeProcessClientConnection(serverProcess);
-    connection.setLoggerConfiguration({
-        maxSeverity: client_1.MessageSeverity.ERROR,
-        maxMessageLength: 50
-    });
     // connection.setLoggerConfiguration({
-    //     allowedComponents: [
-    //         "server",
-    //         "DetailsManager",
-    //         "MessageDispatcher:NodeProcessClientConnection",
-    //         "MessageDispatcher:NodeProcessServerConnection",
-    //         "CustomActionsManager",
-    //         "CompleteBodyStateCalculator",
-    //         "contextActions"
-    //     ],
-    //     maxSeverity: MessageSeverity.DEBUG_DETAIL,
-    //     maxMessageLength: 5000
+    //     maxSeverity: MessageSeverity.ERROR,
+    //     maxMessageLength: 50
     // });
+    connection.setLoggerConfiguration({
+        allowedComponents: [
+            //"server",
+            //"DetailsManager",
+            //"MessageDispatcher:NodeProcessClientConnection",
+            //"MessageDispatcher:NodeProcessServerConnection"
+            //"CustomActionsManager",
+            //"CompleteBodyStateCalculator",
+            //"contextActions"
+        ],
+        maxSeverity: client_1.MessageSeverity.DEBUG_DETAIL,
+        maxMessageLength: 200
+    });
     return connection;
 }
 //# sourceMappingURL=launch.js.map

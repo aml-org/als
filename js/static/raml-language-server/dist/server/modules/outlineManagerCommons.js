@@ -30,7 +30,7 @@ initialize();
 /**
  * AST provider for outline.
  */
-var ASTProvider = /** @class */ (function () {
+var ASTProvider = (function () {
     function ASTProvider(uri, astManagerModule, editorManagerModule, logger) {
         this.uri = uri;
         this.astManagerModule = astManagerModule;

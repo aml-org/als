@@ -8,7 +8,7 @@ function createManager(connection, astManagerModule, editorManagerModule) {
     return new CustomActionsManager(connection, astManagerModule, editorManagerModule);
 }
 exports.createManager = createManager;
-var EditorProvider = /** @class */ (function () {
+var EditorProvider = (function () {
     function EditorProvider(editorManagerModule, uri) {
         this.editorManagerModule = editorManagerModule;
         this.uri = uri;
@@ -22,7 +22,7 @@ function initialize() {
     ramlActions.intializeStandardActions();
 }
 exports.initialize = initialize;
-var ASTProvider = /** @class */ (function () {
+var ASTProvider = (function () {
     function ASTProvider(uri, astManagerModule, logger, position) {
         this.uri = uri;
         this.astManagerModule = astManagerModule;
@@ -57,7 +57,7 @@ var ASTProvider = /** @class */ (function () {
     };
     return ASTProvider;
 }());
-var CollectingDocumentChangeExecutor = /** @class */ (function () {
+var CollectingDocumentChangeExecutor = (function () {
     function CollectingDocumentChangeExecutor(logger) {
         this.logger = logger;
         this.changes = [];
@@ -73,7 +73,7 @@ var CollectingDocumentChangeExecutor = /** @class */ (function () {
     };
     return CollectingDocumentChangeExecutor;
 }());
-var ASTModifier = /** @class */ (function () {
+var ASTModifier = (function () {
     function ASTModifier(uri, changeExecutor) {
         this.uri = uri;
         this.changeExecutor = changeExecutor;
@@ -95,7 +95,7 @@ var ASTModifier = /** @class */ (function () {
     return ASTModifier;
 }());
 initialize();
-var CustomActionsManager = /** @class */ (function () {
+var CustomActionsManager = (function () {
     function CustomActionsManager(connection, astManagerModule, editorManager) {
         this.connection = connection;
         this.astManagerModule = astManagerModule;

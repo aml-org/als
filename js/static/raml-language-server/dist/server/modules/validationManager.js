@@ -17,7 +17,7 @@ function createManager(connection, astManagerModule, editorManagerModule) {
     return new ValidationManager(connection, astManagerModule, editorManagerModule);
 }
 exports.createManager = createManager;
-var Acceptor = /** @class */ (function (_super) {
+var Acceptor = (function (_super) {
     __extends(Acceptor, _super);
     function Acceptor(ramlPath, primaryUnit, logger) {
         var _this = _super.call(this, [], primaryUnit) || this;
@@ -85,7 +85,7 @@ var Acceptor = /** @class */ (function (_super) {
     };
     return Acceptor;
 }(utils.PointOfViewValidationAcceptorImpl));
-var ValidationManager = /** @class */ (function () {
+var ValidationManager = (function () {
     function ValidationManager(connection, astManagerModule, editorManagerModule) {
         this.connection = connection;
         this.astManagerModule = astManagerModule;

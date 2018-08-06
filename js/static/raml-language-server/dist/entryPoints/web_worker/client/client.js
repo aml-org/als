@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var abstractClient_1 = require("../../common/client/abstractClient");
-var RAMLClientConnection = /** @class */ (function (_super) {
+var RAMLClientConnection = (function (_super) {
     __extends(RAMLClientConnection, _super);
     function RAMLClientConnection(worker) {
         var _this = _super.call(this, "NodeProcessClientConnection") || this;
