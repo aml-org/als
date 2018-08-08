@@ -25,9 +25,15 @@ object Suggestions {
   private var platform: ProxyContentPlatform = null;
 
   @JSExport
-  def init(fsProvider: IFSProvider): Unit = {
+  def init(fsProvider: IFSProvider): js.Promise[Unit] = {
 
     this.platform = new ProxyContentPlatform(fsProvider)
+
+    val result = org.mulesoft.high.level.Core.init().flatMap(_=>{
+      Core.init()
+    })
+
+    result.toJSPromise
   }
 
   @JSExport
@@ -102,7 +108,7 @@ object Suggestions {
 
   def buildHighLevel(model:BaseUnit):Future[IProject] = {
 
-      Core.init().flatMap(_=>org.mulesoft.high.level.Core.buildModel(model,platform))
+      org.mulesoft.high.level.Core.buildModel(model,platform)
   }
 
   def buildCompletionProvider(project: IProject, url: String, position: Int, originalContent:Option[String]): CompletionProvider = {
