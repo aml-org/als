@@ -37,6 +37,11 @@ object Suggestions {
   }
 
   @JSExport
+  def setFSProvider(fsProvider: IFSProvider): Unit = {
+    this.platform = new ProxyContentPlatform(fsProvider)
+  }
+
+  @JSExport
   def suggest(language: String, url: String, position: Int): js.Promise[js.Array[ISuggestion]] = {
 
     val config = this.buildParserConfig(language, url)
