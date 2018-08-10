@@ -164,6 +164,6 @@ class ConnectionBasedPlatform (val connection: IServerConnection,
   override def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] =
     platformPart.findCharInCharSequence(stream)(p)
 
-  override def operativeSystem(): String = throw new Exception("Unsupported operativeSystem operation")
+  override def operativeSystem(): String = platformPart.operativeSystem();
 }
 

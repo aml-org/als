@@ -95,4 +95,6 @@ object JSPlatformDependentPart extends PlatformDependentPart {
   override def normalizePath(url: String): String = new URI(encodeURI(url)).normalize.toString
 
   override def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] = stream.toString.find(p)
+  
+  override def operativeSystem(): String = Globals.process.platform;
 }

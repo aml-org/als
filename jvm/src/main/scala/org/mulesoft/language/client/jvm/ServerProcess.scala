@@ -23,7 +23,7 @@ object ServerProcess {
 	private var connection = new JAVAServerConnection();
 	
 	def init() {
-		val server = new Server(connection, null);
+		val server = new Server(connection, JAVAPlatformDependentPart);
 		
 		server.registerModule(new ASTManager());
 		server.registerModule(new HLASTManager());

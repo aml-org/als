@@ -49,9 +49,11 @@ trait Process extends js.Object {
     * @param eventType
     * @param callBack
     */
-  def on(eventType: String, callBack: js.Function1[js.Any, Unit]) : Unit = js.native
+  def on(eventType: String, callBack: js.Function1[js.Any, Unit]) : Unit = js.native;
 
-  def send(message: js.Any) : Unit = js.native
+  def send(message: js.Any) : Unit = js.native;
+  
+  var platform: String = js.native;
 }
 
 @js.native
