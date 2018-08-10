@@ -10,7 +10,8 @@ import amf.core.validation.AMFValidationReport
 import amf.internal.environment.Environment
 import amf.plugins.features.validation.PlatformValidator
 
-import scala.concurrent.Future
+import scala.util.{Failure, Success, Try}
+import scala.concurrent.{Future, Promise}
 
 class ParserHelper(val platform:Platform) extends CommandHelper{
 
@@ -42,14 +43,41 @@ class ParserHelper(val platform:Platform) extends CommandHelper{
     }
 
     def parse(config: ParserConfig,env:Environment): Future[BaseUnit] = {
-        val res = for {
-            _          <- AMFInit()
-            _          <- processDialects(config)
-            model      <- parseInput(config, env)
-        } yield {
-            model
+        var promise = Promise[BaseUnit]();
+        
+        Future {
+            AMFInit().andThen {
+                case Success(initResult) => processDialects(config).andThen {
+                    case Success(dialectsResult) => parseInput(config, env).andThen {
+                        case Success(parseResult) => promiseSuccess(promise, parseResult, "parseInput");
+                
+                        case Failure(throwable) => promiseFailure(promise, throwable, "parseInput");
+                    }
+            
+                    case Failure(throwable) => promiseFailure(promise, throwable, "processDialects");
+                }
+        
+                case Failure(throwable) => promiseFailure(promise, throwable, "AMFInit eval");
+            }
+        } andThen {
+            case Failure(throwable) => promiseFailure(promise, throwable, "AMFInit call");
         }
-        res
+        
+        promise.future;
+    }
+    
+    def promiseSuccess[T](promise: Promise[T], success: T, operation: String): Unit = {
+        //println(operation + " success");
+        
+        promise.success(success);
+    }
+    
+    def promiseFailure[T](promise: Promise[T], throwable: Throwable, operation: String): Unit = {
+        //println(operation + " failure");
+    
+        //throwable.printStackTrace();
+        
+        promise.failure(throwable);
     }
 
     def report(model: BaseUnit, config: ParserConfig):Future[AMFValidationReport] = {
