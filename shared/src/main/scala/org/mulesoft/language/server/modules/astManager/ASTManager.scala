@@ -21,6 +21,13 @@ import scala.util.{Failure, Success, Try}
 import scala.concurrent.{Future, Promise}
 import scala.concurrent.ExecutionContext.Implicits.global
 
+import amf.core.AMF
+import amf.core.unsafe.PlatformSecrets
+import amf.plugins.document.vocabularies.AMLPlugin
+import amf.plugins.document.webapi.{OAS20Plugin, OAS30Plugin, RAML08Plugin, RAML10Plugin}
+import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
+import amf.plugins.features.validation.AMFValidatorPlugin
+
 
 /**
   * AST manager
@@ -38,6 +45,8 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
     * Map from uri to AST
     */
   var currentASTs: mutable.Map[String, BaseUnit] = mutable.HashMap()
+
+  private var initialized: Boolean = false;
 
   private var reconciler: Reconciler = new Reconciler(connection, 500);
   
@@ -58,11 +67,45 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
       this.connection.onCloseDocument(this.onCloseDocument _)
 
+      amfInit()
+
       Success(this)
     } else {
 
       superLaunch
     }
+  }
+
+  def init():Future[Unit] = {
+
+    var promise = Promise[Unit]();
+
+    if(initialized) {
+      promise.success();
+    } else {
+      amfInit().map(nothing => {
+        initialized = true;
+
+        promise.success();
+      });
+    }
+
+    promise.future;
+
+  } recoverWith {
+    case e: Throwable => Future.successful()
+    case _ => Future.successful()
+  }
+
+  def amfInit():Future[Unit] = {
+    amf.core.AMF.registerPlugin(AMLPlugin)
+    amf.core.AMF.registerPlugin(RAML10Plugin)
+    amf.core.AMF.registerPlugin(RAML08Plugin)
+    amf.core.AMF.registerPlugin(OAS20Plugin)
+    amf.core.AMF.registerPlugin(OAS30Plugin)
+    amf.core.AMF.registerPlugin(AMFValidatorPlugin)
+    amf.core.AMF.registerPlugin(PayloadValidatorPlugin)
+    AMF.init()
   }
 
   override def stop(): Unit = {
@@ -88,18 +131,23 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
       val editorOption = this.getEditorManager.getEditor(uri);
       
       if(editorOption.isDefined) {
+
         var promise = Promise[BaseUnit]();
-  
-        this.parse(uri).andThen {
-          case Success(result) => {
-            this.registerNewAST(uri, 0, result);
-            
-            promise.success(result);
+
+        this.init().map(_=> {
+
+          this.parse(uri).andThen {
+            case Success(result) => {
+              this.registerNewAST(uri, 0, result);
+
+              promise.success(result);
+            }
+
+            case Failure(throwable) => promise.failure(throwable);
           }
-          
-          case Failure(throwable) => promise.failure(throwable);
-        }
-        
+
+        })
+
         promise.future;
       } else {
         Future.failed(new Exception("No editor found for uri " + uri));
