@@ -36,7 +36,7 @@ import CustomPicklerConfig.{ReadWriter => RW, macroRW}
 import org.mulesoft.language.server.core.Server
 
 @js.native
-@JSImport("amf-shacl-node", JSImport.Default)
+@JSImport("aml-shacl-node", JSImport.Default)
 object SHACLValidator extends js.Any {
 
 }

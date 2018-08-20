@@ -27,7 +27,7 @@ class JSTextDocuments extends js.Object {
 }
 
 @js.native
-@JSImport("amf-shacl-node", JSImport.Default)
+@JSImport("aml-shacl-node", JSImport.Default)
 object SHACLValidator extends js.Any {
 
 }

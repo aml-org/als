@@ -9,7 +9,7 @@ import org.mulesoft.language.server.server.modules.editorManager.EditorManager
 import org.mulesoft.language.server.server.modules.validationManager.ValidationManager
 
 @js.native
-@JSImport("amf-shacl-node", JSImport.Default)
+@JSImport("aml-shacl-node", JSImport.Default)
 object SHACLValidator extends js.Any {
 
 }
