@@ -4,11 +4,11 @@ import org.scalajs.core.tools.linker.ModuleKind
 
 name := "api-language-server"
 
-val VERSION = "0.3.3-SNAPSHOT"
+val VERSION = "0.3.4-SNAPSHOT"
 val hlVersion = "0.2.3-SNAPSHOT"
-val suggestionsVersion = "0.4.3-SNAPSHOT"
-val outlineVersion = "0.1.3-SNAPSHOT"
-val amfVersion = "1.7.1"
+val suggestionsVersion = "0.4.5-SNAPSHOT"
+val outlineVersion = "0.1.4-SNAPSHOT"
+val amfVersion = "1.7.2"
 val syamlVersion = "0.2.7"
 val scalaCommonVersion = "0.1.3"
 
@@ -161,8 +161,8 @@ buildJS := {
         
         var baseDir = value.data.getParentFile.getParentFile.getParentFile;
         
-        var srcDir = baseDir / "static" / "raml-language-server";
-        var dstDir = baseDir / "target" / "raml-language-server";
+        var srcDir = baseDir / "static" / "api-language-server";
+        var dstDir = baseDir / "target" / "api-language-server";
         
         dstDir.delete();
         dstDir.mkdir();
@@ -170,7 +170,7 @@ buildJS := {
         copyDir(srcDir, dstDir);
         
         var srcDir1 = baseDir / "target/artifact";
-        var dstDir1 = baseDir / "target" / "raml-language-server" / "dist/entryPoints/node/server";
+        var dstDir1 = baseDir / "target" / "api-language-server" / "dist/entryPoints/node/server";
         
         dstDir1.mkdir();
         

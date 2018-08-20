@@ -87,6 +87,8 @@ class SuggestionsManager extends AbstractServerModule {
 
       val syntax = if (editor.syntax == "YAML") Syntax.YAML else Syntax.JSON
 
+      val startTime = System.currentTimeMillis()
+
       val text = org.mulesoft.als.suggestions.Core.prepareText(editor.text, position, syntax)
 
 
@@ -111,6 +113,11 @@ class SuggestionsManager extends AbstractServerModule {
         provider.suggest.map(result=>{
           this.connection.debug(s"Got ${result.length} proposals",
             "SuggestionsManager", "onDocumentCompletion")
+
+          val endTime = System.currentTimeMillis()
+
+          this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to complete",
+            "ASTMaSuggestionsManagernager", "onDocumentCompletion")
 
           result
         })

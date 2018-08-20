@@ -128,7 +128,7 @@ class ValidationManager extends AbstractServerModule {
 			false,
 			true);
 		
-		val helper = ParserHelper(platform);
+//		val helper = ParserHelper(platform);
 		
 		val customProfileLoaded = if(config.customProfile.isDefined) {
 			RuntimeValidator.loadValidationProfile(config.customProfile.get);

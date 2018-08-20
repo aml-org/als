@@ -1,6 +1,0 @@
-{
-  "name" : "All Open Bugs" ,
-  "description" : "Lists all open bugs" ,
-  "jql" : "type = Bug and resolution is empty" ,
-  "favourite" : true
-}

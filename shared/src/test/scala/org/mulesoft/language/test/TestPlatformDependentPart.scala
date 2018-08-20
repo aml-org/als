@@ -28,6 +28,8 @@ class TestPlatformDependentPart extends PlatformDependentPart with PlatformSecre
     override def decodeURIComponent(url: String): String = url
 
     override def normalizeURL(url: String): String = url
+    
+    override def operativeSystem(): String = "";
 }
 
 object TestPlatformDependentPart {

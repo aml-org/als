@@ -17,9 +17,16 @@ import org.mulesoft.language.server.modules.astManager.DocumentChangedRunnable
 import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
 
 import scala.collection.mutable
-import scala.concurrent.Future
-import scala.util.{Success, Try}
+import scala.util.{Failure, Success, Try}
+import scala.concurrent.{Future, Promise}
 import scala.concurrent.ExecutionContext.Implicits.global
+
+import amf.core.AMF
+import amf.core.unsafe.PlatformSecrets
+import amf.plugins.document.vocabularies.AMLPlugin
+import amf.plugins.document.webapi.{OAS20Plugin, OAS30Plugin, RAML08Plugin, RAML10Plugin}
+import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
+import amf.plugins.features.validation.AMFValidatorPlugin
 
 
 /**
@@ -38,6 +45,8 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
     * Map from uri to AST
     */
   var currentASTs: mutable.Map[String, BaseUnit] = mutable.HashMap()
+
+  private var initialized: Boolean = false;
 
   private var reconciler: Reconciler = new Reconciler(connection, 500);
   
@@ -58,11 +67,45 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
       this.connection.onCloseDocument(this.onCloseDocument _)
 
+      amfInit()
+
       Success(this)
     } else {
 
       superLaunch
     }
+  }
+
+  def init():Future[Unit] = {
+
+    var promise = Promise[Unit]();
+
+    if(initialized) {
+      promise.success();
+    } else {
+      amfInit().map(nothing => {
+        initialized = true;
+
+        promise.success();
+      });
+    }
+
+    promise.future;
+
+  } recoverWith {
+    case e: Throwable => Future.successful()
+    case _ => Future.successful()
+  }
+
+  def amfInit():Future[Unit] = {
+    amf.core.AMF.registerPlugin(AMLPlugin)
+    amf.core.AMF.registerPlugin(RAML10Plugin)
+    amf.core.AMF.registerPlugin(RAML08Plugin)
+    amf.core.AMF.registerPlugin(OAS20Plugin)
+    amf.core.AMF.registerPlugin(OAS30Plugin)
+    amf.core.AMF.registerPlugin(AMFValidatorPlugin)
+    amf.core.AMF.registerPlugin(PayloadValidatorPlugin)
+    AMF.init()
   }
 
   override def stop(): Unit = {
@@ -80,24 +123,34 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
   }
 
   def forceGetCurrentAST(uri: String): Future[BaseUnit] = {
-    val current = this.currentASTs.get(uri)
-
-    if (current.isDefined) {
-      Future.successful(current.get)
+    val current = this.currentASTs.get(uri);
+    
+    if(current.isDefined) {
+      Future.successful(current.get);
     } else {
+      val editorOption = this.getEditorManager.getEditor(uri);
+      
+      if(editorOption.isDefined) {
 
-      val editorOption = this.getEditorManager.getEditor(uri)
-      if (editorOption.isDefined) {
+        var promise = Promise[BaseUnit]();
 
-        this.parse(uri).map(unit=>{
+        this.init().map(_=> {
 
-          this.registerNewAST(uri, 0, unit)
+          this.parse(uri).andThen {
+            case Success(result) => {
+              this.registerNewAST(uri, 0, result);
 
-          unit
+              promise.success(result);
+            }
+
+            case Failure(throwable) => promise.failure(throwable);
+          }
+
         })
 
+        promise.future;
       } else {
-        Future.failed(new Exception("No editor found for uri " + uri))
+        Future.failed(new Exception("No editor found for uri " + uri));
       }
     }
 
@@ -214,16 +267,21 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
     val helper = ParserHelper(this.platform)
 
-    helper.parse(cfg, this.platform.defaultEnvironment).map(unit=>{
-
-      val endTime = System.currentTimeMillis()
-
-      this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to build AMF ast",
-        "ASTManager", "parse")
-
-//      helper.printModel(unit,cfg)
-      unit
-    })
+    var promise = Promise[BaseUnit]();
+  
+    helper.parse(cfg, this.platform.defaultEnvironment).andThen {
+      case Success(result) => {
+        val endTime = System.currentTimeMillis();
+  
+        this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to build AMF ast", "ASTManager", "parse");
+    
+        promise.success(result);
+      }
+  
+      case Failure(throwable) => promise.failure(throwable);
+    }
+  
+    promise.future;
   }
 
   def parseWithContentSubstitution(uri: String, content: String): Future[BaseUnit] = {
@@ -247,13 +305,20 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
     val helper = ParserHelper(proxyPlatform)
 
-    helper.parse(cfg, proxyPlatform.defaultEnvironment).map(unit=>{
-
-      val endTime = System.currentTimeMillis()
-      this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to build AMF ast",
-        "ASTManager", "parseWithContentSubstitution")
-
-      unit
-    })
+    var promise = Promise[BaseUnit]();
+  
+    helper.parse(cfg, proxyPlatform.defaultEnvironment).andThen {
+      case Success(result) => {
+        val endTime = System.currentTimeMillis();
+      
+        this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to build AMF ast", "ASTManager", "parseWithContentSubstitution");
+      
+        promise.success(result);
+      }
+    
+      case Failure(throwable) => promise.failure(throwable);
+    }
+  
+    promise.future;
   }
 }

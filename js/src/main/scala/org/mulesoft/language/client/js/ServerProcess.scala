@@ -36,7 +36,7 @@ import CustomPicklerConfig.{ReadWriter => RW, macroRW}
 import org.mulesoft.language.server.core.Server
 
 @js.native
-@JSImport("@mulesoft/amf-shacl-node", JSImport.Default)
+@JSImport("amf-shacl-node", JSImport.Default)
 object SHACLValidator extends js.Any {
 
 }
@@ -49,9 +49,11 @@ trait Process extends js.Object {
     * @param eventType
     * @param callBack
     */
-  def on(eventType: String, callBack: js.Function1[js.Any, Unit]) : Unit = js.native
+  def on(eventType: String, callBack: js.Function1[js.Any, Unit]) : Unit = js.native;
 
-  def send(message: js.Any) : Unit = js.native
+  def send(message: js.Any) : Unit = js.native;
+  
+  var platform: String = js.native;
 }
 
 @js.native

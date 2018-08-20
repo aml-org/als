@@ -1,7 +1,0 @@
-{
-  "client_id": "cid",
-  "client_secret": "secret",
-  "namespace": "namespace",
-  "action": "GET",
-  "resource": "/api"
-}

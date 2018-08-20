@@ -3,7 +3,7 @@ package org.mulesoft.language.client.js.serverConnection
 import org.mulesoft.language.client.js.dtoTypes._
 import org.mulesoft.language.client.js.{Globals, dtoTypes}
 import org.mulesoft.language.common.dtoTypes._
-import org.mulesoft.language.common.logger.IPrintlnLogger
+import org.mulesoft.language.common.logger.{IPrintlnLogger, MutedLogger}
 import org.mulesoft.language.server.server.core.connectionsImpl.AbstractServerConnection
 import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
 
@@ -24,7 +24,7 @@ class WrappedMessage extends js.Object {
   var payload: js.Object = null;
 }
 
-class NodeServerConnection extends IPrintlnLogger
+class NodeServerConnection extends MutedLogger
   with NodeMessageDispatcher with AbstractServerConnection {
 
   var lastStructureReport: Option[StructureReport] = None

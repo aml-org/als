@@ -1,8 +1,0 @@
-{
-  "namespace": "namespace",
-  "action": "GET",
-  "resources": [
-    "/api/users",
-    "/api/clients"
-  ]
-}
