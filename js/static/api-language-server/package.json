@@ -35,7 +35,7 @@
     "promise-polyfill": "6.0.2",
     "urijs": "1.19.0",
     "underscore": "^1.8.3",
-    "amf-shacl-node": "1.0.0"
+    "aml-shacl-node": "1.0.0"
   },
   "devDependencies": {
     "@types/node": "8.0.47",
