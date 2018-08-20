@@ -18,7 +18,6 @@ import org.mulesoft.language.common.dtoTypes.IStructureReport
 import org.mulesoft.als.suggestions.implementation.CompletionConfig
 import org.mulesoft.als.suggestions.{CompletionProvider, PlatformBasedExtendedFSProvider}
 import org.mulesoft.als.suggestions.interfaces.{ISuggestion, Syntax}
-import org.mule.analytics.core.Analytics
 
 import scala.collection.Map
 
@@ -73,8 +72,6 @@ class SuggestionsManager extends AbstractServerModule {
 
 
   protected def onDocumentCompletion(url: String, position: Int) : Future[Seq[ISuggestion]] = {
-
-    Analytics.post(Map("event_name" -> "suggestions_called"))
 
     this.connection.debug(s"Calling for completion for uri ${url} and position ${position}",
       "SuggestionsManager", "onDocumentCompletion")
