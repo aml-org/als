@@ -7,6 +7,7 @@ import org.mulesoft.als.suggestions.implementation.{CompletionResponse, PathComp
 import org.mulesoft.als.suggestions.interfaces._
 import org.yaml.model.{YMap, YScalar}
 
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 
@@ -27,21 +28,41 @@ class BodyCompletionPlugin extends ICompletionPlugin {
 
     override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
-        var existing:Seq[String] = request.actualYamlLocation.get.parentStack(2).value.get.yPart match {
-            case map:YMap => map.entries.map(e=>e.key.value.asInstanceOf[YScalar].value.toString)
-            case _ => Seq()
+        var result: Seq[Suggestion] = Nil
+        val actualYamlLocation = request.actualYamlLocation.get
+        if(actualYamlLocation.parentStack.lengthCompare(3)>=0) {
+            var existing: Seq[String] = actualYamlLocation.parentStack(2).value.get.yPart match {
+                case map: YMap => map.entries.map(e => e.key.value.asInstanceOf[YScalar].value.toString)
+                case _ => Seq()
+            }
+
+            val isResponseBody = request.astNode.get.asElement.get.definition.isAssignableFrom("Response")
+            var list = ListBuffer[String](
+                "application/json",
+                "application/xml"
+            )
+            if (!isResponseBody) {
+                list += "multipart/formdata"
+                list += "application/x-www-form-urlencoded"
+            }
+            result = list.filter(!existing.contains(_)).map(x => Suggestion(x + ":", id,
+                x, request.prefix))
         }
-
-        var result = List(
-            "application/json",
-            "application/xml",
-            "multipart/formdata",
-            "application/x-www-form-urlencoded"
-        ).filter(!existing.contains(_)).map(x=>Suggestion(x + ":", id,
-            x, request.prefix))
-
-        var response = CompletionResponse(result,LocationKind.VALUE_COMPLETION,request)
+        else {
+            actualYamlLocation.keyValue match {
+                case Some(v) => v.yPart match {
+                    case sc:YScalar =>
+                        if(sc.value.toString == "body"){
+                            result = TypeReferencesCompletionPlugin.typeSuggestions(request, id)
+                        }
+                    case _ =>
+                }
+                case _ =>
+            }
+        }
+        var response = CompletionResponse(result, LocationKind.VALUE_COMPLETION, request)
         Promise.successful(response).future
+
     }
 
     def isBody(request: ICompletionRequest): Boolean = {
@@ -71,7 +92,7 @@ class BodyCompletionPlugin extends ICompletionPlugin {
                 case _ =>
                     val isPayloadKey = isElement &&
                         (request.astNode.get.asElement.get.definition.isAssignableFrom("MethodBase")
-                            ||request.astNode.get.asElement.get.definition.isAssignableFrom("Request")) &&
+                            ||request.astNode.get.asElement.get.definition.isAssignableFrom("Response")) &&
                         request.actualYamlLocation.isDefined &&
                         request.actualYamlLocation.get.parentStack.length >= 3 &&
                         request.actualYamlLocation.get.parentStack(2).keyValue.isDefined &&

@@ -28,11 +28,9 @@ class BodyTests extends RAML10Test {
     }
 
     test("Response with no bodies") {
-        this.runTest("body/test001.raml",
+        this.runTest("body/test003.raml",
             Set("application/json:",
-                "application/xml:",
-                "multipart/formdata:",
-                "application/x-www-form-urlencoded:",
+                "application/xml:"/*,
                 "displayName:",
                 "type:",
                 "xml:",
@@ -42,13 +40,21 @@ class BodyTests extends RAML10Test {
                 "examples:",
                 "example:",
                 "facets:",
-                "properties:"))
+                "properties:"*/))
     }
 
     test("Response with some bodies") {
-        this.runTest("body/test002.raml",
-            Set("application/json:",
-                "multipart/formdata:",
-                "application/x-www-form-urlencoded:"))
+        this.runTest("body/test004.raml",
+            Set("application/json:"))
+    }
+
+    test("Method body type shortcut") {
+        this.runTest("body/test005.raml",
+            Set("boolean", "integer", "datetime", "date-only", "datetime-only", "file", "any", "number", "string", "time-only", "nil", "schema", "array", "object", "A", "B"))
+    }
+
+    test("Response body type shortcut") {
+        this.runTest("body/test006.raml",
+            Set("description:", "body:", "headers:"))
     }
 }
