@@ -21,23 +21,12 @@ class TypeReferencesCompletionPlugin extends ICompletionPlugin {
 	
 	override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
-		var builtIns = request.astNode.get.asAttr.get.definition.get.universe.builtInNames() :+ "object";
-		
-		val result = ListBuffer[Suggestion]() ++= builtIns.map(name => Suggestion(name, id, name, request.prefix));
-        request.astNode.map(_.astUnit).foreach(u=>{
-            Search.getDeclarations(u,"TypeDeclaration").foreach(d=>{
-                d.node.attribute("name").flatMap(_.value).foreach(name=>{
-                    var proposal:String = name.toString
-                    d.namespace.foreach(ns=>proposal = s"$ns.$proposal")
-                    result += Suggestion(proposal, id, proposal, request.prefix)
-                })
-            })
-        })
+        val result = TypeReferencesCompletionPlugin.typeSuggestions(request, id)
         var response = CompletionResponse(result,LocationKind.VALUE_COMPLETION,request)
 		Promise.successful(response).future
 	}
-	
-	def isInTypeTypeProperty(request: ICompletionRequest): Boolean = {
+
+    def isInTypeTypeProperty(request: ICompletionRequest): Boolean = {
 		if(request.astNode.get.isElement) {
 			return false;
 		}
@@ -64,4 +53,21 @@ object TypeReferencesCompletionPlugin {
 	val supportedLanguages: List[Vendor] = List(Raml10);
 	
 	def apply(): TypeReferencesCompletionPlugin = new TypeReferencesCompletionPlugin();
+
+
+    def typeSuggestions(request: ICompletionRequest, id:String):Seq[Suggestion] = {
+        val node = request.astNode.get
+        var builtIns = node.astUnit.rootNode.definition.universe.builtInNames() :+ "object";
+        val result = ListBuffer[Suggestion]() ++= builtIns.map(name => Suggestion(name, id, name, request.prefix));
+        request.astNode.map(_.astUnit).foreach(u => {
+            Search.getDeclarations(u, "TypeDeclaration").foreach(d => {
+                d.node.attribute("name").flatMap(_.value).foreach(name => {
+                    var proposal: String = name.toString
+                    d.namespace.foreach(ns => proposal = s"$ns.$proposal")
+                    result += Suggestion(proposal, id, proposal, request.prefix)
+                })
+            })
+        })
+        result
+    }
 }
