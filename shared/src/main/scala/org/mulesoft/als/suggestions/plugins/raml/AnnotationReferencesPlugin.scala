@@ -25,6 +25,16 @@ class AnnotationReferencesCompletionPlugin extends ICompletionPlugin {
 		if(actualPrefix.trim.startsWith("(")) {
 			actualPrefix = actualPrefix.substring(actualPrefix.indexOf("(") + 1).trim;
 		}
+
+        var closeBracket = true
+        if(request.config.originalContent.isDefined){
+            var off = request.position
+            var content = request.config.originalContent.get
+            if(off < content.length && content.charAt(off) == ')'){
+                closeBracket = false
+            }
+        }
+
 		
 		val result = findDeclarations(request).map(
 			declaration => declaration.asElement.get.attributeValue("name").get)
@@ -32,21 +42,34 @@ class AnnotationReferencesCompletionPlugin extends ICompletionPlugin {
 				case Some(v) => v;
 
 				case _ => value;
-		}).map(value => Suggestion(
-			value.asInstanceOf[String], id, value.asInstanceOf[String], actualPrefix
-		));
-        val response = CompletionResponse(result, LocationKind.KEY_COMPLETION, request).withNoColon()
+		}).map(value => {
+            var displayText = value.asInstanceOf[String]
+            var text = displayText
+            if(closeBracket){
+                text += ")"
+            }
+            Suggestion(text, id, displayText, actualPrefix)
+        });
+        val response = CompletionResponse(result, LocationKind.KEY_COMPLETION, request).withNoColon(!closeBracket)
 		Promise.successful(response).future
 	}
 	
 	def isInAnnotationName(request: ICompletionRequest): Boolean = {
-		if(!request.astNode.isDefined || !request.astNode.get.property.isDefined ||
-			request.astNode.get.property.get == null) {
+        val node = request.astNode.get
+        if(!request.astNode.isDefined || !node.property.isDefined ||
+			node.property.get == null) {
 
 			return false;
 		}
-		
-		request.astNode.get.property.get.nameId.get == "annotation";
+        if(!request.prefix.startsWith("(")){
+            false
+        }
+        else if(node.isElement){
+            node.asElement.get.definition.isAssignableFrom("Annotable");
+        }
+        else{
+            false
+        }
 	}
 	
 	def findDeclarations(request: ICompletionRequest): Seq[IParseResult] = {

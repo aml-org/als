@@ -278,7 +278,7 @@ object CompletionProvider {
         var completionkind = LocationKindDetectTool.determineCompletionKind(text,offset);
         
         completionkind match {
-            case KEY_COMPLETION => {
+            case KEY_COMPLETION | ANNOTATION_COMPLETION => {
                 var newLineIndex = text.indexOf("\n", offset);
                 
                 var rightPart = if(newLineIndex < 0) {
@@ -289,7 +289,7 @@ object CompletionProvider {
 
                 val colonIndex = rightPart.indexOf(":")
                 if(colonIndex < 0) {
-                    text.substring(0, offset) + "k:" + text.substring(offset);
+                    text.substring(0, offset) + "k: " + text.substring(offset);
                 }
                 else if(colonIndex == 0){
                     text.substring(0, offset) + "k" + text.substring(offset);
