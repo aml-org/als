@@ -1299,7 +1299,7 @@
         "annotationOverridings": {}
       },
       {
-        "name": "NullType",
+        "name": "NilType",
         "methods": [],
         "typeParameters": [],
         "typeParameterConstraint": [],
@@ -1310,13 +1310,13 @@
           {
             "name": "MetaModel.nameAtRuntime",
             "arguments": [
-              "null"
+              "nil"
             ]
           },
           {
             "name": "MetaModel.alias",
             "arguments": [
-              "null"
+              "nil"
             ]
           }
         ],
