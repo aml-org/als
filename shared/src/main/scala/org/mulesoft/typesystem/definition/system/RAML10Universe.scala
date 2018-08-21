@@ -1305,7 +1305,7 @@ val value2 =
         "annotationOverridings": {}
       },
       {
-        "name": "NullType",
+        "name": "NilType",
         "methods": [],
         "typeParameters": [],
         "typeParameterConstraint": [],
@@ -1316,13 +1316,13 @@ val value2 =
           {
             "name": "MetaModel.nameAtRuntime",
             "arguments": [
-              "null"
+              "nil"
             ]
           },
           {
             "name": "MetaModel.alias",
             "arguments": [
-              "null"
+              "nil"
             ]
           }
         ],
