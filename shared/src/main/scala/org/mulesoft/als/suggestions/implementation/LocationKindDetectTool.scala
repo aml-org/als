@@ -194,7 +194,10 @@ object LocationKindDetectTool {
         }
         else {
             var closeBracketIndex = line.indexOf(")", column)
-            if (line.substring(openBracketIndex, closeBracketIndex).indexOf(":") >= 0) {
+            if(closeBracketIndex < 0){
+                true
+            }
+            else if (line.substring(openBracketIndex, closeBracketIndex).indexOf(":") >= 0) {
                 false
             }
             else {
