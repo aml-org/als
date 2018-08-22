@@ -13,6 +13,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import amf.client.remote.Content
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
+import org.mulesoft.language.server.common.utils.PathRefine
 
 object Http {
   def unapply(uri: String): Option[(String, String, String)] = uri match {
@@ -90,19 +91,13 @@ class ConnectionBasedPlatform (val connection: IServerConnection,
   override def resolvePath(_uri: String): String = {
 
     var uri = _uri
-    if(Option(uri).isDefined){
-      uri = uri.replace("%5C", "\\")
-      uri = uri.replace("%20", " ")
-    }
-    if(uri.startsWith("file:///C:")){
-        uri = uri.replace("file:///C:","file://C:")
-    }
-
+    uri = PathRefine.refinePath(uri,this)
     val result = uri match {
       case File(path) =>
+        val isWindows = operativeSystem().toLowerCase().indexOf("win") >= 0
         if (path.startsWith("/")) {
           File.FILE_PROTOCOL + path
-        } else if(path.length < 2 || path.charAt(1) != ':'){
+        } else if(isWindows && (path.length < 2 || path.charAt(1) != ':')){
           File.FILE_PROTOCOL + withTrailingSlash(path)
         }
         else {
@@ -121,13 +116,7 @@ class ConnectionBasedPlatform (val connection: IServerConnection,
 
   def fetchFile(_path: String): Future[Content] = {
     var path = _path
-    if(Option(path).isDefined){
-      path = path.replace("%5C", "\\")
-      path = path.replace("%20", " ")
-    }
-    if(path.startsWith("file:///C:")){
-      path = path.replace("file:///C:","file://C:")
-    }
+    path = PathRefine.refinePath(path,this)
     this.connection.debugDetail("Asked to fetch file " + path,
       "ConnectionBasedPlatform", "fetchFile")
 

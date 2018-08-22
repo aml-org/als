@@ -5,6 +5,7 @@ import amf.core.remote.Raml10
 import amf.core.remote.Oas2
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IDocumentChangeExecutor, IOpenedDocument, ITextEdit}
+import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.server.modules.commonInterfaces.IAbstractTextEditorWithCursor
 
@@ -86,13 +87,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
 
   def getEditor(_uri: String): Option[IAbstractTextEditorWithCursor] = {
     var uri = _uri
-    if(Option(uri).isDefined){
-      uri = uri.replace("%5C", "\\")
-      uri = uri.replace("%20", " ")
-    }
-    if(uri.startsWith("file:///C:")){
-      uri = uri.replace("file:///C:","file://C:")
-    }
+    uri = PathRefine.refinePath(uri,platform)
     this.connection.debugDetail(s"Asked for uri ${uri}, while having following editors registered: " +
       this.uriToEditor.keys.mkString(","),
       "EditorManager", "onOpenDocument")
