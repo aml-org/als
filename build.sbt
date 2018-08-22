@@ -5,7 +5,7 @@ import org.scalajs.core.tools.linker.ModuleKind
 name := "api-language-server"
 
 val VERSION = "0.3.4-SNAPSHOT"
-val hlVersion = "0.2.3-SNAPSHOT"
+val hlVersion = "0.2.4-SNAPSHOT"
 val suggestionsVersion = "0.4.5-SNAPSHOT"
 val outlineVersion = "0.1.4-SNAPSHOT"
 val amfVersion = "1.7.2"
