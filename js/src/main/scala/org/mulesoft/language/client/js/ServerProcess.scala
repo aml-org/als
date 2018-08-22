@@ -42,6 +42,10 @@ object SHACLValidator extends js.Any {
 }
 
 @js.native
+@JSImport("ajv", JSImport.Default)
+object AjvModule extends js.Object {}
+
+@js.native
 trait Process extends js.Object {
 
   /**
@@ -72,6 +76,7 @@ object ServerProcess {
 
   def main(args: Array[String]): Unit = {
     Globals.SHACLValidator = SHACLValidator
+    Globals.Ajv = AjvModule
 
     val connection = new NodeServerConnection()
 
