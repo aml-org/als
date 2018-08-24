@@ -36,6 +36,8 @@
         "icon": "FILE_BINARY",
         "textStyle": "SUCCESS",
         "key": "Alertable :: ",
+        "start": 558,
+        "end": 594,
         "category": "SchemasAndTypesCategory"
       },
       {

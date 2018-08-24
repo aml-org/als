@@ -36,6 +36,8 @@
         "icon": "FILE_BINARY",
         "textStyle": "SUCCESS",
         "key": "Alertable :: ",
+        "start": 469,
+        "end": 509,
         "children": [
           {
             "text": "items",
