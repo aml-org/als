@@ -55,6 +55,6 @@ class BodyTests extends RAML10Test {
 
     test("Response body type shortcut") {
         this.runTest("body/test006.raml",
-            Set("description:", "body:", "headers:"))
+            Set())
     }
 }

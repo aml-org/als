@@ -45,18 +45,18 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                                 }
                                 case _ => false
                             }
-                        } else if(l.parentStack.nonEmpty && request.yamlLocation.get.hasSameValue(l.parentStack.last)) {
-                            var parent = l.parentStack.last;
-
-                            if(parent.keyValue.isDefined) {
-                                request.astNode.map(_.astUnit.positionsMapper) match {
-                                    case Some(pm) => pm.point(request.position).line > parent.keyValue.get.range.start.line
-                                    case None => false
-                                }
-                            }
-                            else {
-                                false
-                            }
+//                        } else if(l.parentStack.nonEmpty && request.yamlLocation.get.hasSameValue(l.parentStack.last)) {
+//                            var parent = l.parentStack.last;
+//
+//                            if(parent.keyValue.isDefined) {
+//                                request.astNode.map(_.astUnit.positionsMapper) match {
+//                                    case Some(pm) => pm.point(request.position).line > parent.keyValue.get.range.start.line
+//                                    case None => false
+//                                }
+//                            }
+//                            else {
+//                                false
+//                            }
                         }
                         else {
                             false
