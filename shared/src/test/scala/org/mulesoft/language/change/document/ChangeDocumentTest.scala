@@ -29,7 +29,7 @@ class ChangeDocumentTest extends LanguageServerTest{
             var content1 = "#%RAML 1.0\ntitle: test\n"
             var content2 = "#%RAML 1.0\ntitle: test\ntypes:\n  MyType: number\n"
 
-            var url = "/changeDocumentTest001.raml"
+            var url = "file:///changeDocumentTest001.raml"
             getClient.flatMap(client=>{
                 client.documentChanged(IChangedDocument(url,0,Some(content1),None))
                 client.documentChanged(IChangedDocument(url,0,Some(content2),None))
@@ -54,7 +54,7 @@ class ChangeDocumentTest extends LanguageServerTest{
             var content2 = "#%RAML 1.0\ntitle: test\n"
             var content3 = "#%RAML 1.0\ntitle: test\nsome invalid string\ntypes:\n  MyType: number\n"
 
-            var url = "/changeDocumentTest002.raml"
+            var url = "file:///changeDocumentTest002.raml"
             getClient.flatMap(client=>{
                 client.documentChanged(IChangedDocument(url,1,Some(content1),None))
                 client.documentChanged(IChangedDocument(url,0,Some(content1),None))
@@ -87,7 +87,7 @@ class ChangeDocumentTest extends LanguageServerTest{
                   |""".stripMargin
             var ind = content1.indexOf("MyType:") + 2
 
-            var url = "/findReferencesTest001.raml"
+            var url = "file:///findReferencesTest001.raml"
             getClient.flatMap(client => {
                 client.documentOpened(IOpenedDocument(url, 0, content1))
                 client.findReferences(url, ind).map(refs => {
@@ -116,7 +116,7 @@ class ChangeDocumentTest extends LanguageServerTest{
                   |""".stripMargin
             var ind = content1.indexOf("p1: MyType") + "p1: My".length
 
-            var url = "/findDeclarationTest001.raml"
+            var url = "file:///findDeclarationTest001.raml"
             getClient.flatMap(client => {
                 client.documentOpened(IOpenedDocument(url, 0, content1))
                 client.openDeclaration(url, ind).map(refs => {
@@ -182,9 +182,9 @@ class ChangeDocumentTest extends LanguageServerTest{
             if (editorManager.isDefined) {
                 serverConnection.editorManager = Some(editorManager.get.asInstanceOf[IEditorManagerModule])
 
-                val url = "/enable-disable.raml"
+                val url = "file:///enable-disable.raml"
                 serverConnection.editorManager.get.asInstanceOf[EditorManager].onOpenDocument(IOpenedDocument(url, 0, "#%RAML 1.0\r\ntitle:test api\r\nresuorceTypes:\r\n rt: !include /rt.raml"))
-                serverConnection.editorManager.get.asInstanceOf[EditorManager].onOpenDocument(IOpenedDocument("/rt.raml", 0, "get:"))
+                serverConnection.editorManager.get.asInstanceOf[EditorManager].onOpenDocument(IOpenedDocument("file:///rt.raml", 0, "get:"))
 
                 serverConnection.editorManager.get.getEditor(url).foreach(ed => {
                     var buf = ed.buffer
@@ -209,7 +209,7 @@ class ChangeDocumentTest extends LanguageServerTest{
         init().flatMap(_=>{
             var content1 = "#%RAML 1.0\ntitle: test\n"
 
-            var url = "/changeDocumentTest001.raml"
+            var url = "file:///changeDocumentTest001.raml"
             getClient.flatMap(client=>{
                 client.documentChanged(IChangedDocument(url,0,Some(content1),None))
 

@@ -4,11 +4,11 @@ import org.scalajs.core.tools.linker.ModuleKind
 
 name := "api-language-server"
 
-val VERSION = "0.3.4-SNAPSHOT"
-val hlVersion = "0.2.4-SNAPSHOT"
-val suggestionsVersion = "0.4.5-SNAPSHOT"
-val outlineVersion = "0.1.4-SNAPSHOT"
-val amfVersion = "1.7.2"
+val VERSION = "0.3.5-SNAPSHOT"
+val hlVersion = "0.2.5-SNAPSHOT"
+val suggestionsVersion = "0.4.6-SNAPSHOT"
+val outlineVersion = "0.1.5-SNAPSHOT"
+val amfVersion = "1.8.0"
 val syamlVersion = "0.2.13"
 val scalaCommonVersion = "0.1.3"
 
