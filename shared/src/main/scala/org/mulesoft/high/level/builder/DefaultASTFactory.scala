@@ -651,6 +651,7 @@ class FieldMatcher(val field: Field) extends IPropertyMatcher {
                 var i = 0
                 array.values.foreach(x => {
                     x match {
+                        case sn: ScalarNode => result += AttributeMatchResult(obj,BasicValueBuffer(obj, field, i))
                         case amfObj: AmfObject => result += ElementMatchResult(amfObj)
                         case scalar: AmfScalar => result += AttributeMatchResult(obj, BasicValueBuffer(obj, field, i))
                         case _ =>
