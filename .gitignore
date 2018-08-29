@@ -7,3 +7,5 @@
 */target/*
 */target/**
 *.cache
+build/
+.gradle
