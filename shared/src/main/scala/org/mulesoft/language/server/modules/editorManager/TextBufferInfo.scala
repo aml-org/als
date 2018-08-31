@@ -12,6 +12,26 @@ class TextBufferInfo (uri: String, logger: ILogger) extends IEditorTextBuffer {
 
   var lineLengths: ArrayBuffer[Int] = ArrayBuffer()
 
+  /**
+    * Gets line number by offset
+    * @param offset
+    * @return
+    */
+  def lineByOffset(offset: Int) : Int = {
+
+    var currentOffset = 0
+
+    for {i <- 0 until this.lineLengths.length} {
+      currentOffset += this.lineLengths(i);
+
+      if (currentOffset > offset) {
+        return i
+      }
+    }
+
+    this.lineLengths.length - 1
+  }
+
   def characterIndexForPosition(position: IPoint): Int = {
     var lineStartOffset = 0
 

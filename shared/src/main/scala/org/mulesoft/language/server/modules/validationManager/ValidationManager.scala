@@ -98,17 +98,89 @@ class ValidationManager extends AbstractServerModule {
 		var resultRange = IRange(0, 0);
 		
 		if(validationResult.position.isDefined) {
-			val startLine = validationResult.position.get.range.start.line - 1;
-			val startColumn = validationResult.position.get.range.start.column;
-			
-			val startOffset = buffer.characterIndexForPosition(IPoint(startLine,  startColumn));
-			
-			val endLine = validationResult.position.get.range.end.line - 1;
-			val endColumn = validationResult.position.get.range.end.column;
-			
-			val endOffset = buffer.characterIndexForPosition(IPoint(endLine, endColumn));
-			
-			resultRange = IRange(startOffset, endOffset);
+      try {
+//				println(s"Analyzing validation issue positions")
+
+        val startLine = validationResult.position.get.range.start.line - 1;
+//				println(s"Start line is: ${startLine}")
+        val startColumn = validationResult.position.get.range.start.column;
+
+        val startOffset = buffer.characterIndexForPosition(IPoint(startLine,  startColumn));
+//				println(s"Start offset: ${startOffset}")
+
+        var endLine = validationResult.position.get.range.end.line - 1;
+//				println(s"End line is: ${endLine}")
+        val endColumn = validationResult.position.get.range.end.column;
+
+        val endOffset = buffer.characterIndexForPosition(IPoint(endLine, endColumn));
+//				println(s"End offset: ${endOffset}")
+
+				endLine = buffer.lineByOffset(endOffset)
+//				println(s"Recalculated end line: ${endLine}")
+
+        val originalText = buffer.getText()
+
+        val startLineStartOffset =
+          buffer.characterIndexForPosition(buffer.rangeForRow(startLine, false).start)
+//				println(s"Start line start offset: ${startLineStartOffset}")
+
+        val lastLineRange = buffer.rangeForRow(endLine, false)
+        val endLineStartOffset =
+          buffer.characterIndexForPosition(lastLineRange.start)
+//				println(s"End line start offset: ${endLineStartOffset}")
+        val endLineEndOffset =
+          buffer.characterIndexForPosition(lastLineRange.end)
+//				println(s"End line end offset: ${endLineEndOffset}")
+
+        val endLineStartText = originalText.substring(endLineStartOffset, endOffset)
+        val endLineStartTextTrimmed = endLineStartText.trim
+
+        val detectionRangeStart = startLineStartOffset
+
+        val detectionRangeEnd =
+          if (endLineStartTextTrimmed.length > 0) {
+
+            endLineEndOffset
+          } else {
+
+            endLineStartOffset
+          }
+
+//				println(s"Detection range is: ${detectionRangeStart} , ${detectionRangeEnd}")
+        val textInRange = originalText.substring(detectionRangeStart, detectionRangeEnd)
+//				println("Text in original range:[")
+//				println(originalText.substring(startOffset, endOffset))
+//				println("]:Text in original range")
+//				println("Text in detection range:[")
+//				println(textInRange)
+//				println("]:Text in range")
+        val trimmed = textInRange.trim
+
+        val indexInOriginal = textInRange.indexOf(trimmed)
+
+        val startModifier = indexInOriginal
+        val endModifier = textInRange.length - (indexInOriginal + trimmed.length)
+
+				val resultingStartOffset = detectionRangeStart + startModifier
+				val resultingEndOffset = detectionRangeEnd - endModifier
+
+//				println(s"Final range is: ${resultingStartOffset} , ${resultingEndOffset}")
+        resultRange = IRange(resultingStartOffset, resultingEndOffset);
+      } catch {
+        case e: Throwable=> {
+					val startLine = validationResult.position.get.range.start.line - 1;
+					val startColumn = validationResult.position.get.range.start.column;
+
+					val startOffset = buffer.characterIndexForPosition(IPoint(startLine, startColumn));
+
+					val endLine = validationResult.position.get.range.end.line - 1;
+					val endColumn = validationResult.position.get.range.end.column;
+
+					val endOffset = buffer.characterIndexForPosition(IPoint(endLine, endColumn));
+
+					resultRange = IRange(startOffset, endOffset)
+				}
+      }
 		}
 
 		if (validationResult.level == "Violation") {
