@@ -117,21 +117,85 @@ class StructureManager extends AbstractServerModule {
 
     if (editor.isDefined) {
 
-      this.getASTManager.forceGetCurrentAST(url).map(ast=>{
-
-        val result = StructureManager.this.getStructureFromAST(
-          ast.rootASTUnit.rootNode, editor.get.language, editor.get.cursorPosition)
-
-        this.connection.debugDetail(s"Got result for url ${url} of size ${result.size}",
-          "StructureManager", "onDocumentStructure")
-
-        result
-
-      })
+      this.getASTManager.forceGetCurrentAST(url).map(ast => {
+		  val result = StructureManager.this.getStructureFromAST(ast.rootASTUnit.rootNode, editor.get.language, editor.get.cursorPosition);
+		  
+		  this.connection.debugDetail(s"Got result for url ${url} of size ${result.size}", "StructureManager", "onDocumentStructure");
+		  var prepared = new mutable.HashMap[String, StructureNodeJSON]();
+	
+		  result.keySet.foreach(key => {
+			  prepared(key) = recoverRanges(result(key), 0, ast.rootASTUnit.text.length - 1);
+		  });
+	
+		  prepared.toMap;
+      });
 
     } else {
       Future.successful(Map.empty)
     }
+  }
+	
+	def recoverRanges(node: StructureNodeJSON, start: Int, end: Int): StructureNodeJSON = {
+		var nodeEnd = node.end;
+		
+		var nodeStart = node.start;
+		
+		if(isBrokenRange(node)) {
+			nodeStart = start;
+			
+			nodeEnd = findNodeEnd(node, start, end);
+		}
+		
+		var childStart = nodeStart;
+		
+		var newChildren: Seq[StructureNodeJSON] = node.children.map(child => {
+			var recovered = recoverRanges(child, childStart, nodeEnd);
+			
+			childStart = findNodeEnd(child, childStart, nodeEnd);
+			
+			recovered
+		});
+		
+		new StructureNodeJSON {
+			override def start: Int = nodeStart;
+			override def end: Int = nodeEnd;
+			
+			override def children: Seq[StructureNodeJSON] = newChildren;
+			
+			override def icon: String = node.icon;
+			override def typeText: Option[String] = node.typeText;
+			override def textStyle: String = node.textStyle;
+			override def text: String = node.text;
+			override def category: String = node.category;
+			override def selected: Boolean = node.selected;
+			override def key: String = node.key;
+		};
+	}
+	
+  def findNodeEnd(node: StructureNodeJSON, start: Int, nodeEnd: Int = -1): Int = {
+	  if(!isBrokenRange(node)) {
+		  return node.end;
+	  }
+	  
+	  var end = start;
+	  
+	  if(node.children.isEmpty) {
+		  if(end + 2 > nodeEnd) {
+			  return end
+		  }
+		  
+		  return end + 2;
+	  }
+	  
+	  node.children.foreach(item => {
+		  end = findNodeEnd(item, end, nodeEnd);
+	  })
+	  
+	  end;
+  }
+
+  def isBrokenRange(node: StructureNodeJSON): Boolean = {
+	  return node.start <= 0 || node.end <= 0;
   }
 
   def getStructureFromAST(ast: IParseResult, language: String, position: Int): Map[String, StructureNodeJSON] = {
