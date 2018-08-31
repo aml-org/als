@@ -12,3 +12,5 @@ shared/target
 
 project/project/target
 project/target
+build/
+.gradle
