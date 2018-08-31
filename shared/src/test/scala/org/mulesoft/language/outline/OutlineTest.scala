@@ -141,7 +141,7 @@ trait OutlineTest[SharedType,TransportType] extends LanguageServerTest {
         //comparePrimitiveValue("icon",n1.icon,n2.icon,prefix1,prefix2,path,result)
         //comparePrimitiveValue("textStyle",n1.textStyle,n2.textStyle,prefix1,prefix2,path,result)
         comparePrimitiveValue("key",n1.key,n2.key,prefix1,prefix2,path,result)
-        if(!noBounds) {
+        if(!noBounds && n2.start > 0 && n1.end > 0) {
             comparePrimitiveValue("start", n1.start, n2.start, prefix1, prefix2, path, result)
             comparePrimitiveValue("end", n1.end, n2.end, prefix1, prefix2, path, result)
         }

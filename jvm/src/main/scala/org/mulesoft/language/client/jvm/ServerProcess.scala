@@ -68,10 +68,6 @@ object ServerProcess {
 				result.map(new SuggestionComparableWrapper(_)).distinct.map(_.suggestion).foreach(list.add(_));
 				
 				suggestiosHandler.success(list);
-				
-				list.forEach(entry => {
-					println(entry.category + ", " + entry.description + ", " + entry.displayText + ", " + entry.prefix + ", " + entry.text + ", " + list.size());
-				})
 			}
 			
 			case Failure(error) => suggestiosHandler.failure(error);
@@ -171,6 +167,10 @@ trait FS {
 
 class JAVAStructureNode(var node: StructureNodeJSON) {
 	var children: util.List[JAVAStructureNode] = new util.ArrayList[JAVAStructureNode]();
+	
+	override def toString: String = {
+		return "(" + node.text + ", " + node.start + ", " + node.end + "): " + children.toString();
+	}
 }
 
 object JAVAStructureNode {

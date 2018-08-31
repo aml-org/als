@@ -84,11 +84,18 @@ class Reconciler(logger: ILogger, timeout: Int, setTimeout: Function2[Function0[
 	}
 	
 	private def removeFromWaitingList[ResultType](runnable: Runnable[ResultType]) {
+		if(waitingList.isEmpty) {
+			return;
+		}
 		
 		waitingList -= runnable.asInstanceOf[Runnable[Any]];
 	}
 	
 	private def removeFromRunningList[ResultType](runnable: Runnable[ResultType]) {
+		if(runningList.isEmpty) {
+			return;
+		}
+		
 		runningList -= runnable.asInstanceOf[Runnable[Any]];
 	}
 	
