@@ -116,8 +116,12 @@ class ConnectionBasedPlatform (val connection: IServerConnection,
 
   def fetchFile(_path: String): Future[Content] = {
     var path = _path
-    path = PathRefine.refinePath(path,this)
+
     this.connection.debugDetail("Asked to fetch file " + path,
+      "ConnectionBasedPlatform", "fetchFile")
+
+    path = PathRefine.refinePath(path,this)
+    this.connection.debugDetail("Refined path is " + path,
       "ConnectionBasedPlatform", "fetchFile")
 
     //val uri = if(path.startsWith(File.FILE_PROTOCOL)) path else File.FILE_PROTOCOL + path

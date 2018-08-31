@@ -3,7 +3,7 @@ package org.mulesoft.language.client.js.serverConnection
 import org.mulesoft.language.client.js.dtoTypes._
 import org.mulesoft.language.client.js.{Globals, dtoTypes}
 import org.mulesoft.language.common.dtoTypes._
-import org.mulesoft.language.common.logger.{IPrintlnLogger, MutedLogger}
+import org.mulesoft.language.common.logger.{IPrintlnLogger, MutedLogger, PrintlnLogger}
 import org.mulesoft.language.server.server.core.connectionsImpl.AbstractServerConnection
 import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
 

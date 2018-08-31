@@ -253,9 +253,12 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
     val language = if (uri.endsWith(".raml")) "RAML 1.0" else "OAS 2.0";
 
+    val protocolUri = this.platform.resolvePath(uri)
+    this.connection.debugDetail(s"Protocol uri is ${protocolUri}", "ASTManager", "parse");
+
     var cfg = new ParserConfig(
       Some(ParserConfig.PARSE),
-      Some(uri),
+      Some(protocolUri),
       Some(language),
       Some("application/yaml"),
       None,

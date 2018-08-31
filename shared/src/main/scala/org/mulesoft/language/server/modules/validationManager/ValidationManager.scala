@@ -109,6 +109,8 @@ class ValidationManager extends AbstractServerModule {
 			val endOffset = buffer.characterIndexForPosition(IPoint(endLine, endColumn));
 			
 			resultRange = IRange(startOffset, endOffset);
+
+			this.connection.debug("Level: " + validationResult.level, "ValidationManager", "amfValidationResultToIssue");
 		}
 		
 		IValidationIssue("PROPERTY_UNUSED", "Error", uri, messageText, resultRange, List());
