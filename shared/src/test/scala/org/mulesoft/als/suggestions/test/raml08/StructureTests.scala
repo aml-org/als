@@ -229,10 +229,10 @@ class StructureTests extends RAML08Test {
   }
 
   test("methods test 1") {
-    this.runTest("methods/test01.raml", Set("displayName", "type", "description", "get", "put", "post", "delete", "options", "head", "patch", "trace", "connect", "securedBy", "is", "uriParameters"));
+    this.runTest("methods/test01.raml", Set("displayName", "type", "description", "get", "put", "post", "delete", "options", "head", "patch", "trace", "connect", "securedBy", "is", "uriParameters", "baseUriParameters"));
   }
 
     test("methods test 2") {
-      this.runTest("methods/test02.raml", Set("displayName:", "type:", "description:", "get:", "put:", "post:", "delete:", "options:", "head:", "patch:", "trace:", "connect:", "securedBy:", "is:", "uriParameters:"));
+      this.runTest("methods/test02.raml", Set("displayName:", "type:", "description:", "get:", "put:", "post:", "delete:", "options:", "head:", "patch:", "trace:", "connect:", "securedBy:", "is:", "uriParameters:", "baseUriParameters:"));
   }
 }

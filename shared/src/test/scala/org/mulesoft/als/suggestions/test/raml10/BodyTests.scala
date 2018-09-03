@@ -30,7 +30,7 @@ class BodyTests extends RAML10Test {
     test("Response with no bodies") {
         this.runTest("body/test003.raml",
             Set("application/json:",
-                "application/xml:"/*,
+                "application/xml:",
                 "displayName:",
                 "type:",
                 "xml:",
@@ -40,7 +40,7 @@ class BodyTests extends RAML10Test {
                 "examples:",
                 "example:",
                 "facets:",
-                "properties:"*/))
+                "properties:"))
     }
 
     test("Response with some bodies") {

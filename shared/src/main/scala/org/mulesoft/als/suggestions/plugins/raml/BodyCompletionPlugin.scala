@@ -36,7 +36,9 @@ class BodyCompletionPlugin extends ICompletionPlugin {
                 case _ => Seq()
             }
 
-            val isResponseBody = request.astNode.get.asElement.get.definition.isAssignableFrom("Response")
+            val element = request.astNode.get.asElement.get
+
+            val isResponseBody = element.definition.isAssignableFrom("Response") || element.parent.flatMap(_.asElement).exists(_.definition.isAssignableFrom("Response"))
             var list = ListBuffer[String](
                 "application/json",
                 "application/xml"
