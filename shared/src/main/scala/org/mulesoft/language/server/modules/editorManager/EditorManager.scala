@@ -2,7 +2,7 @@ package org.mulesoft.language.server.server.modules.editorManager
 
 import amf.core.remote.Raml08
 import amf.core.remote.Raml10
-import amf.core.remote.Oas2
+import amf.core.remote.Oas20
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IDocumentChangeExecutor, IOpenedDocument, ITextEdit}
 import org.mulesoft.language.server.common.utils.PathRefine
@@ -220,7 +220,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
         Raml08.toString
       }
     } else {
-      Oas2.toString
+      Oas20.toString
     }
   }
 

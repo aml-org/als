@@ -3,7 +3,7 @@ package org.mulesoft.language.test
 import amf.core.AMF
 import amf.core.unsafe.PlatformSecrets
 import amf.plugins.document.vocabularies.AMLPlugin
-import amf.plugins.document.webapi.{OAS20Plugin, OAS30Plugin, RAML08Plugin, RAML10Plugin}
+import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.features.validation.AMFValidatorPlugin
 import org.mulesoft.language.server.core.Server
@@ -37,10 +37,10 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets{
 
     def init():Future[Unit] = {
         amf.core.AMF.registerPlugin(AMLPlugin)
-        amf.core.AMF.registerPlugin(RAML10Plugin)
-        amf.core.AMF.registerPlugin(RAML08Plugin)
-        amf.core.AMF.registerPlugin(OAS20Plugin)
-        amf.core.AMF.registerPlugin(OAS30Plugin)
+        amf.core.AMF.registerPlugin(Raml10Plugin)
+        amf.core.AMF.registerPlugin(Raml08Plugin)
+        amf.core.AMF.registerPlugin(Oas20Plugin)
+        amf.core.AMF.registerPlugin(Oas30Plugin)
         amf.core.AMF.registerPlugin(AMFValidatorPlugin)
         amf.core.AMF.registerPlugin(PayloadValidatorPlugin)
         AMF.init()

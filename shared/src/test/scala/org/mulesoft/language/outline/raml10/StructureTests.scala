@@ -1,4 +1,4 @@
-package org.mulesoft.language.outline.raml
+package org.mulesoft.language.outline.raml10
 
 import org.mulesoft.language.outline.StructureTest
 
@@ -12,16 +12,8 @@ class StructureTests extends StructureTest with RAML10Test  {
         runTest("structure/test002/api.raml", "structure/test002/api-outline.json")
     }
 
-    test("/test 003") {
-        runTest("structure/test003/api.raml", "structure/test003/api-outline.json")
-    }
-
     test("/test 004") {
         runTest("structure/test004/api.raml", "structure/test004/api-outline.json")
-    }
-
-    test("/test 005") {
-        runTest("structure/test005/api.raml", "structure/test005/api-outline.json")
     }
 
     test("/test 006") {

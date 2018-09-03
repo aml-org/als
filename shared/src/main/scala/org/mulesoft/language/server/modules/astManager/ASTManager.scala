@@ -24,7 +24,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import amf.core.AMF
 import amf.core.unsafe.PlatformSecrets
 import amf.plugins.document.vocabularies.AMLPlugin
-import amf.plugins.document.webapi.{OAS20Plugin, OAS30Plugin, RAML08Plugin, RAML10Plugin}
+import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.features.validation.AMFValidatorPlugin
 
@@ -99,10 +99,10 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
   def amfInit():Future[Unit] = {
     amf.core.AMF.registerPlugin(AMLPlugin)
-    amf.core.AMF.registerPlugin(RAML10Plugin)
-    amf.core.AMF.registerPlugin(RAML08Plugin)
-    amf.core.AMF.registerPlugin(OAS20Plugin)
-    amf.core.AMF.registerPlugin(OAS30Plugin)
+    amf.core.AMF.registerPlugin(Raml10Plugin)
+    amf.core.AMF.registerPlugin(Raml08Plugin)
+    amf.core.AMF.registerPlugin(Oas20Plugin)
+    amf.core.AMF.registerPlugin(Oas30Plugin)
     amf.core.AMF.registerPlugin(AMFValidatorPlugin)
     amf.core.AMF.registerPlugin(PayloadValidatorPlugin)
     AMF.init()
@@ -251,7 +251,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
   def parse(uri: String): Future[BaseUnit] = {
 
-    val language = if (uri.endsWith(".raml")) "RAML 1.0" else "OAS 2.0";
+    val language = getEditorManager.getEditor(uri).map(_.language).getOrElse("OAS 2.0");
 
     val protocolUri = this.platform.resolvePath(uri)
     this.connection.debugDetail(s"Protocol uri is ${protocolUri}", "ASTManager", "parse");
@@ -292,7 +292,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
     val proxyPlatform = new ProxyContentPlatform(this.platform,
       uri, content)
 
-    val language = if (uri.endsWith(".raml")) "RAML 1.0" else "OAS 2.0";
+    val language = getEditorManager.getEditor(uri).map(_.language).getOrElse("OAS 2.0");
 
     val cfg = new ParserConfig(
       Some(ParserConfig.PARSE),

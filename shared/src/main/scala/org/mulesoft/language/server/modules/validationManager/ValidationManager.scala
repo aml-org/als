@@ -191,7 +191,7 @@ class ValidationManager extends AbstractServerModule {
 	}
 	
 	private def report(uri: String, baseUnit: BaseUnit): Future[AMFValidationReport] = {
-		val language = if (uri.endsWith(".raml")) "RAML 1.0" else "OAS 2.0";
+        val language = getEditorManager.getEditor(uri).map(_.language).getOrElse("OAS 2.0");
 		
 		var config = new ParserConfig(
 			Some(ParserConfig.VALIDATE),

@@ -1,4 +1,4 @@
-package org.mulesoft.language.outline.raml
+package org.mulesoft.language.outline.raml10
 
 trait RAML10Test {
 
