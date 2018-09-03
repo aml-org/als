@@ -28,7 +28,7 @@ object ProjectBuilder {
                 var project = Project(bundle,format,fsResolver)
                 var astUnits = createASTUnits(units,bundle,project)
                 initASTUnits(astUnits,bundle,factory)
-                project.setRootUnit(astUnits(rootUnit.id))
+                project.setRootUnit(astUnits(rootUnit.location().getOrElse(rootUnit.id)))
                 astUnits.values.foreach(project.addUnit)
                 project
             case _ => throw new Error("Unknown format: " + format)

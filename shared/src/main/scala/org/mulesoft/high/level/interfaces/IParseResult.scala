@@ -83,8 +83,8 @@ trait IParseResult {
         else None
 
     def unitPath:Option[String] = {
-        var id = amfNode.id
-        Option(id) match {
+        var opt:Option[String] = sourceInfo.yamlSources.headOption.map(_.sourceName).orElse(Option(amfNode.id))
+        opt match {
             case Some(str) =>
                 var result = str
                 var ind = str.indexOf("#")

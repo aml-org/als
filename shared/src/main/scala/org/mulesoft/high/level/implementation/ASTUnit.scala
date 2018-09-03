@@ -18,7 +18,7 @@ class ASTUnit(_baseUnit:BaseUnit, typeCollection:TypeCollection, _project:Projec
 
     private var _positionsMapper:IPositionsMapper = PositionsMapper(_baseUnit.location().getOrElse("")).withText(_baseUnit.raw.getOrElse(""))
 
-    def path:String = _baseUnit.id
+    def path:String = _baseUnit.location().getOrElse(_baseUnit.id)
 
     override def dependencies: Map[String, DependencyEntry[ASTUnit]] = _dependencies
 
