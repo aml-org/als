@@ -1,6 +1,6 @@
 package org.mulesoft.high.level.interfaces
 
-import amf.core.annotations.SourceAST
+import amf.core.annotations.{SourceAST, SourceNode}
 import amf.core.model.document.BaseUnit
 import org.mulesoft.typesystem.nominal_interfaces.IProperty
 import amf.core.model.domain.AmfObject
@@ -83,7 +83,7 @@ trait IParseResult {
         else None
 
     def unitPath:Option[String] = {
-        var opt:Option[String] = sourceInfo.yamlSources.headOption.map(_.sourceName).orElse(Option(amfNode.id))
+        var opt:Option[String] = amfNode.annotations.find(classOf[SourceNode]).map(_.node.sourceName).orElse(Option(amfNode.id))
         opt match {
             case Some(str) =>
                 var result = str
