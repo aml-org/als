@@ -168,7 +168,7 @@ class ItemsObject extends OAS20ASTTest{
 
   test("ItemsObject multipleOf"){
     runTest( "ASTTests/ItemsObject/ItemsObject.yml", project => {
-      var expectedValue = "2"
+      var expectedValue = 2.0
       var actualValue = project.rootASTUnit.rootNode.element("paths").get.elements("paths").head.elements("parameters").head.attribute("multipleOf").get.value
       if (actualValue == Some(expectedValue))
         succeed
