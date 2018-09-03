@@ -134,7 +134,7 @@ object Search {
                         None
                     }
                 }
-                else if (language == Oas || language == Oas || language == Oas2Yaml) {
+                else if (language == Oas || language == Oas20) {
                     if (prop.isEmpty) {
                         None
                     }
@@ -184,7 +184,7 @@ object Search {
                             None
                         }
                     }
-                    else if (language == Oas || language == Oas || language == Oas2Yaml) {
+                    else if (language == Oas || language == Oas20) {
                         var targetDef: Option[String] = None
                         var keyAttrName: Option[String] = None
                         pDef.nameId match {
@@ -286,7 +286,7 @@ object Search {
                     }
                 }
             }
-            else if(language == Oas || language == Oas2 || language == Oas2Yaml){
+            else if(language == Oas || language == Oas20){
                  oasReference(node,position).flatMap(oasDeclarationByReference(node.astUnit,_)).filter(_.definition.isAssignableFrom(node.definition.nameId.get)).map(x=>ReferenceSearchResult(x, List(node)))
             }
             else {
@@ -314,7 +314,7 @@ object Search {
                     case _ => None
                 }
             }
-            else if(language == Oas || language == Oas2 || language == Oas2Yaml){
+            else if(language == Oas || language == Oas20){
                 if(yLoc.nonEmpty && yLoc.get.inValue(position)) {
                     if (attr.property.get.nameId.contains("$ref")) {
                         var superCalssName = parent.definition.nameId.get

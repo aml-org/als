@@ -90,18 +90,6 @@ class Trait extends RAML08ASTTest {
     })
   }
 
-  test("Trait queryString"){
-    runTest( "ASTTests/Trait/api2.raml", project => {
-
-      var expectedValue = 1
-      var actualValue = project.rootASTUnit.rootNode.elements("traits").head.elements("queryString").length
-      if (actualValue == expectedValue)
-        succeed
-      else
-        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
-    })
-  }
-
   test("Trait responses") {
     runTest("ASTTests/Trait/api.raml", project => {
 
