@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.implementation
 
 import org.mulesoft.als.suggestions.resources.{Oas20Categories, Raml08Categories, Raml10Categories}
 import org.mulesoft.typesystem.nominal_interfaces.ITypeDefinition
-import amf.core.remote.{Oas, Oas2, Raml08, Raml10, Vendor}
+import amf.core.remote.{Oas, Oas20, Raml08, Raml10, Vendor}
 import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
 import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
 import org.yaml.model.YDocument
@@ -62,7 +62,7 @@ object SuggestionCategoryRegistry {
         map.put(Raml10.toString,new LangageCategories(constructEntries(raml10Content)))
         map.put(Raml08.toString,new LangageCategories(constructEntries(raml08Content)))
         val oasCategories = new LangageCategories(constructEntries(oas20Content))
-        map.put(Oas2.toString,oasCategories)
+        map.put(Oas20.toString,oasCategories)
         map.put(Oas.toString,oasCategories)
         Future.successful()
     }

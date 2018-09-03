@@ -24,11 +24,11 @@ class BodyTests extends RAML08Test {
     test("Response with no bodies") {
         this.runTest("body/test003.raml",
             Set("application/json:",
-                "application/xml:"/*,
+                "application/xml:",
                 "formParameters:",
                 "description:",
                 "schema:",
-                "example:"*/))
+                "example:"))
     }
 
     test("Response with some bodies") {

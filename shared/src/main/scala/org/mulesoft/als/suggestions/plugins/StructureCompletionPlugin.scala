@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins
 
-import amf.core.remote.{Oas, Oas2, Oas2Yaml, Raml08, Raml10, Vendor}
+import amf.core.remote.{Oas, Oas20, Raml08, Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion, SuggestionCategoryRegistry}
 import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ICompletionResponse, LocationKind, Syntax}
 import org.mulesoft.als.suggestions.plugins.raml.AnnotationReferencesCompletionPlugin
@@ -115,7 +115,13 @@ class StructureCompletionPlugin extends ICompletionPlugin {
     override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
         var result = request.astNode match {
-            case Some(n) =>
+            case Some(_n) =>
+                var n = _n
+                if(n.isAttr && n.property.flatMap(_.nameId).contains("type") && n.parent.isDefined && n.parent.map(_.definition).exists(_.isAssignableFrom("TypeDeclaration"))){
+                    if(n.sourceInfo.yamlSources.headOption.contains(n.parent.get.sourceInfo.yamlSources.head)){
+                        n = n.parent.get
+                    }
+                }
                 var isYAML = request.config.astProvider.get.syntax == Syntax.YAML
                 if (isContentType(request)) {
                     contentTypes(request).map(value => Suggestion(value, id, value, request.prefix));
@@ -241,7 +247,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 object StructureCompletionPlugin {
     val ID = "structure.completion";
     
-    val supportedLanguages:List[Vendor] = List(Raml08, Raml10, Oas, Oas2, Oas2Yaml);
+    val supportedLanguages:List[Vendor] = List(Raml08, Raml10, Oas, Oas20);
     
     def apply():StructureCompletionPlugin = new StructureCompletionPlugin();
 }
