@@ -105,7 +105,9 @@
                     "icon": "FILE_BINARY",
                     "textStyle": "SUCCESS",
                     "key": "default :: 200 :: get :: collection :: ",
-                    "category": ""
+                    "category": "",
+                    "start": 0,
+                    "end": 0
                   }
                 ],
                 "category": ""
@@ -137,7 +139,9 @@
                     "icon": "FILE_BINARY",
                     "textStyle": "SUCCESS",
                     "key": "default :: 200 :: post :: collection :: ",
-                    "category": ""
+                    "category": "",
+                    "start": 0,
+                    "end": 0
                   }
                 ],
                 "category": ""
@@ -181,7 +185,9 @@
                     "icon": "FILE_BINARY",
                     "textStyle": "SUCCESS",
                     "key": "default :: 200 :: get :: member :: ",
-                    "category": ""
+                    "category": "",
+                    "start": 0,
+                    "end": 0
                   }
                 ],
                 "category": ""

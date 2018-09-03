@@ -15,16 +15,8 @@ class StructureTests extends RAML10StructureTest {
         this.runTest("test002/api.raml", "test002/api-outline.json")
     }
 
-    test("test 003") {
-        this.runTest("test003/api.raml", "test003/api-outline.json")
-    }
-
     test("test 004") {
         this.runTest("test004/api.raml", "test004/api-outline.json")
-    }
-
-    test("test 005") {
-        this.runTest("test005/api.raml", "test005/api-outline.json")
     }
 
     test("test 006") {
@@ -114,21 +106,4 @@ class StructureTests extends RAML10StructureTest {
     test("test 027") {
         this.runTest("test027/extension.raml", "test027/api-outline.json")
     }
-
-    test("test 028") {
-        this.runTest("test028/api.raml", "test028/api-outline.json")
-    }
-
-    test("test 029") {
-        this.runTest("test029/api.raml", "test029/api-outline.json")
-    }
-
-    test("test 030") {
-        this.runTest("test030/api.raml", "test030/api-outline.json")
-    }
-
-    test("test 031") {
-        this.runTest("test031/api.raml", "test031/api-outline.json")
-    }
-
 }
