@@ -32,22 +32,36 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
 		
 			val result = request.astNode match {
 				case Some(n) => if(n.isElement) {
-                    var usedTemplateNames = n.parent.map(_.elements(n.property.get.nameId.get)).getOrElse(Seq()).flatMap(_.asElement).flatMap(_.attribute("name").map(_.value).map(_.toString))
+                    var owner = n.asElement.get
+                    var propName:String = n.property.flatMap(_.nameId).getOrElse("")
+                    if(owner.definition.isAssignableFrom("TraitRef")||owner.definition.isAssignableFrom("ResourceTypeRef")){
+                        owner = n.parent.get
+                    }
+                    else {
+                        request.actualYamlLocation match {
+                            case Some(l) => l.keyValue.map(_.yPart.toString) match {
+                                case Some(str) => propName = str
+                                case _ =>
+                            }
+                            case _ =>
+                        }
+                    }
+                    var usedTemplateNames = owner.elements(propName).flatMap(_.asElement).flatMap(_.attribute("name").map(_.value).map(_.toString))
 
 					var actualPrefix = request.prefix;
 
 					var squareBracketsRequired = false;
 
                     var refYamlKind:Option[RefYamlKind] = None
-					var declarations = n.asElement.get.definition.nameId match {
-						case Some("ResourceTypeRef")  => {
-                            refYamlKind = templateRefYamlKind(request,"type")
+					var declarations = propName match {
+						case "type"  => {
+                            refYamlKind = templateRefYamlKind(request,owner,"type")
 							Search.getDeclarations(n.astUnit, "ResourceType");
 						}
 
-						case Some("TraitRef")  => {
+						case "is"  => {
 							squareBracketsRequired = true;
-                            refYamlKind = templateRefYamlKind(request,"is")
+                            refYamlKind = templateRefYamlKind(request,owner,"is")
 							Search.getDeclarations(n.astUnit, "Trait");
 						}
 
@@ -138,11 +152,11 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
 	}
 
 
-    def templateRefYamlKind(request: ICompletionRequest, propName: String): Option[RefYamlKind] = {
+    def templateRefYamlKind(request: ICompletionRequest, owner:IHighLevelNode, propName: String): Option[RefYamlKind] = {
         request.astNode.flatMap(node => {
             var pos = request.position
             var pm = node.astUnit.positionsMapper
-            node.parent.flatMap(pNode => {
+            Option(owner).flatMap(pNode => {
                 var si = pNode.sourceInfo
                 si.yamlSources.headOption
                     .filter(_.isInstanceOf[YMapEntry])
