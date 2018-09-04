@@ -28,6 +28,7 @@ sonar.sources = "src/main/scala"
 nexusIq.user = "${System.env.NEXUSIQ_USR}"
 nexusIq.password = "${System.env.NEXUSIQ_PSW}"
 nexusIq.artifact = "als"
+nexusIq.applicationId = "als"
 
 apply plugin: 'application'
 apply plugin: 'distribution'
