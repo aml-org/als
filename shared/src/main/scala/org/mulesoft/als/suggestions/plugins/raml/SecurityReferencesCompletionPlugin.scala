@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.raml
 
-import amf.core.remote.{Oas, Raml10, Vendor}
+import amf.core.remote.{Raml08, Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.als.suggestions.plugins.KnownPropertyValuesCompletionPlugin
@@ -13,6 +13,7 @@ import org.mulesoft.typesystem.syaml.to.json.{YPoint, YRange}
 import org.yaml.model._
 
 import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.{Future, Promise}
 
 class SecurityReferencesCompletionPlugin extends ICompletionPlugin {
@@ -71,7 +72,7 @@ class SecurityReferencesCompletionPlugin extends ICompletionPlugin {
                     }
                     else {
                         val isSequence = KnownPropertyValuesCompletionPlugin.isSequence(owner, prop.get.nameId.get)
-                        var resultingText = declarations.map(decl => {
+                        var resultingText = ListBuffer[String]() ++= declarations.map(decl => {
                             val declNode = decl.node
                             var nameOpt = declNode.attribute("name").flatMap(_.value).map(_.toString)
                             val plainName = nameOpt.get
@@ -79,6 +80,9 @@ class SecurityReferencesCompletionPlugin extends ICompletionPlugin {
                             val name = if (nsOpt.isDefined) s"${nsOpt.get}.$plainName" else plainName
                             name
                         })
+                        if(usedNames.indexOf("null")<0){
+                            resultingText += "null"
+                        }
                         if (isSequence) {
                             resultingText.map(x => Suggestion(x, id, x, request.prefix))
                         }
@@ -138,7 +142,7 @@ class SecurityReferencesCompletionPlugin extends ICompletionPlugin {
 object SecurityReferencesCompletionPlugin {
 	val ID = "securityRef.completion";
 	
-	val supportedLanguages: List[Vendor] = List(Raml10);
+	val supportedLanguages: List[Vendor] = List(Raml10, Raml08);
 	
 	def apply(): SecurityReferencesCompletionPlugin = new SecurityReferencesCompletionPlugin();
 }
