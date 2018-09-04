@@ -7,7 +7,7 @@ import amf.core.model.domain.{AmfArray, AmfScalar, ScalarNode, Shape}
 import amf.core.model.document.ExternalFragment
 import amf.core.model.domain.extensions.{CustomDomainProperty, PropertyShape}
 import amf.plugins.domain.shapes.metamodel._
-import amf.plugins.domain.shapes.models.{ArrayShape, NodeShape, UnionShape}
+import amf.plugins.domain.shapes.models.{ArrayShape, MatrixShape, NodeShape, UnionShape}
 import org.mulesoft.high.level.builder.{IASTFactory, NodeBuilder, UniverseProvider}
 import org.mulesoft.typesystem.nominal_interfaces.{ITypeDefinition, IUnionType, IUniverse}
 import org.mulesoft.typesystem.nominal_interfaces.extras.{TopLevelExtra, UserDefinedExtra}
@@ -82,6 +82,10 @@ object TypeBuilder {
             }
             else if(linkTargetOpt.isDefined && linkTargetOpt.get.isInstanceOf[Shape]){
                 var superShape = linkTargetOpt.get.asInstanceOf[Shape]
+                var ltOpt = superShape.linkTarget
+                if(ltOpt.isDefined && ltOpt.get.isInstanceOf[Shape]){
+                    superShape = ltOpt.get.asInstanceOf[Shape]
+                }
                 ctx.bundle.getType(superShape.id,superShape.name.value()).foreach(t.addSuperType)
             }
             else {
@@ -93,8 +97,8 @@ object TypeBuilder {
                     var anyOf = shape.asInstanceOf[UnionShape].anyOf
                     var options = anyOf.map(getOrCreate(_,t.universe,ctx))
                     t.asInstanceOf[Union].setOptions(options)
-                case ArrayShapeModel =>
-                    Option(shape.asInstanceOf[ArrayShape].items).foreach(items => {
+                case ArrayShapeModel|MatrixShapeModel =>
+                    Option(shape.fields.get(ArrayShapeModel.Items)).filter(_.isInstanceOf[Shape]).map(_.asInstanceOf[Shape]).foreach(items => {
                         var componentType = getOrCreate(items, t.universe, ctx)
                         t.asInstanceOf[Array].setComponent(componentType)
                     })
@@ -145,13 +149,16 @@ object TypeBuilder {
         null
     }
 
-    private def initType(shape:Shape,universe:IUniverse,ctx:Context):AbstractType = {
+    private def initType(_shape:Shape,universe:IUniverse,ctx:Context):AbstractType = {
+
+        var shape = _shape
+        shape.linkTarget.filter(x=>x.isInstanceOf[ArrayShape]|x.isInstanceOf[MatrixShape]).foreach(x=>shape=x.asInstanceOf[Shape])
 
         val name = shape.name
         val id = shape.id
         var result = shape.meta match {
             case UnionShapeModel => new Union(name.value(),universe,id)
-            case ArrayShapeModel => new Array(name.value(),universe,id)
+            case ArrayShapeModel|MatrixShapeModel => new Array(name.value(),universe,id)
             case ScalarShapeModel => new ValueType(name.value(),universe,id)
             case NilShapeModel => NilType
             case _ => new StructuredType(name.value(),universe,id)
