@@ -11,7 +11,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.mulesoft:gradle-tools:0.1.97"
+        classpath "com.mulesoft:gradle-tools:0.2.6"
         classpath files('lib//nexus-iq-cli-1.40.0-02.jar')
     }
 }
@@ -27,7 +27,6 @@ sonar.sources = "src/main/scala"
 
 nexusIq.user = "${System.env.NEXUSIQ_USR}"
 nexusIq.password = "${System.env.NEXUSIQ_PSW}"
-nexusIq.artifact = "als"
 nexusIq.applicationId = "als"
 
 apply plugin: 'application'
