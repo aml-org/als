@@ -7,9 +7,10 @@ import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.positioning.YamlLocation
 import org.mulesoft.typesystem.nominal_interfaces.IProperty
 import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
-import org.yaml.model.{YMap, YScalar}
+import org.yaml.model.{YMap, YScalar, YSequence}
 
 import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.Set
 import scala.concurrent.{Future, Promise}
 
 class KnownPropertyValuesCompletionPlugin extends ICompletionPlugin {
@@ -78,7 +79,7 @@ class KnownPropertyValuesCompletionPlugin extends ICompletionPlugin {
         }
         var result: ListBuffer[ISuggestion] = ListBuffer()
         prop.foreach(p => {
-            var existing:ListBuffer[String] = ListBuffer()
+            var existing:Set[String] = Set()
             if(p.isMultiValue){
                 parentNode.foreach(pn=>{
                     pn.attributes(p.nameId.get).filter(x=>x!=astNode).foreach(a=>{
@@ -86,12 +87,24 @@ class KnownPropertyValuesCompletionPlugin extends ICompletionPlugin {
                     })
                 })
             }
+            var resultText:ListBuffer[String] = ListBuffer()
             p.getExtra(PropertySyntaxExtra).foreach(extra => {
-                extra.enum.filter(existing.indexOf(_)<0).foreach(x => {
-                    var text = x.toString
-                    result += Suggestion(text, id, text, request.prefix)
+                extra.enum.map(_.toString).filter(!existing.contains(_)).foreach(text => {
+                    resultText += text
+                    existing += text
+                })
+                extra.oftenValues.map(_.toString).filter(!existing.contains(_)).foreach(text => {
+                    resultText += text
+                    existing += text
                 })
             })
+            val isSequence = KnownPropertyValuesCompletionPlugin.isSequence(parentNode.get, prop.get.nameId.get)
+            if(p.isMultiValue && !isSequence){
+                result ++= resultText.map(x => Suggestion(s"[ $x ]", id, x, request.prefix))
+            }
+            else {
+                result ++= resultText.map(x => Suggestion(x, id, x, request.prefix))
+            }
         })
         val response = CompletionResponse(result, LocationKind.VALUE_COMPLETION, request)
         Promise.successful(response).future
@@ -104,6 +117,23 @@ object KnownPropertyValuesCompletionPlugin {
     val supportedLanguages:List[Vendor] = List(Raml10, Oas, Oas20);
 
     def apply():KnownPropertyValuesCompletionPlugin = new KnownPropertyValuesCompletionPlugin();
+
+    def isSequence(n:IHighLevelNode, pName:String):Boolean = {
+        var pm = n.astUnit.positionsMapper
+        n.sourceInfo.yamlSources.headOption.map(YamlLocation(_,pm)).flatMap(_.value) match {
+            case Some(x) => x.yPart match {
+                case me:YMap => me.entries.find(x=>x.key.value.toString == pName) match {
+                    case Some(me) => me.value.value match {
+                        case s:YSequence => true
+                        case _ => false
+                    }
+                    case _ => false
+                }
+                case _ => false
+            }
+            case _ => false
+        }
+    }
 }
 
 
