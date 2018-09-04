@@ -415,11 +415,31 @@ class StructureTests extends RAML10Test {
   test("discriminator"){
     this.runTest("structure/test145.raml", Set("one:", "two:"))
   }
-  
+
+  test("documentation item fields"){
+    this.runTest("structure/test146.raml", Set("title:", "content:"))
+  }
+
+  test("documentation item 'title'"){
+    this.runTest("structure/test147.raml", Set("title:"))
+  }
+
+  test("documentation item 'content'"){
+    this.runTest("structure/test148.raml", Set("content:"))
+  }
+
+  test("documentation item 'content' after 'title'"){
+    this.runTest("structure/test149.raml", Set("content:"))
+  }
+
+  test("documentation item 'title' before 'content'"){
+    this.runTest("structure/test150.raml", Set("title:"))
+  }
+
   test("test") {
     this.runTest("test01.raml", Set("responses:"));
   }
-  
+
   test("facets test 1") {
     this.runTest("facets/test01.raml", Set("testFacet1", "testFacet2", "testFacet3", "testFacet5"));
   }

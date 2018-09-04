@@ -228,6 +228,27 @@ class StructureTests extends RAML08Test {
     this.runTest("structure/test96.raml", Set("tokenCredentialsUri:"))
   }
 
+  test("documentation item fields"){
+    this.runTest("structure/test98.raml", Set("title:", "content:"))
+  }
+
+  test("documentation item 'title'"){
+    this.runTest("structure/test99.raml", Set("title:"))
+  }
+
+  test("documentation item 'content'"){
+    this.runTest("structure/test100.raml", Set("content:"))
+  }
+
+  test("documentation item 'content' after 'title'"){
+    this.runTest("structure/test101.raml", Set("content:"))
+  }
+
+  test("documentation item 'title' before 'content'"){
+    this.runTest("structure/test102.raml", Set("title:"))
+  }
+
+
   test("methods test 1") {
     this.runTest("methods/test01.raml", Set("displayName", "type", "description", "get", "put", "post", "delete", "options", "head", "patch", "trace", "connect", "securedBy", "is", "uriParameters", "baseUriParameters"));
   }

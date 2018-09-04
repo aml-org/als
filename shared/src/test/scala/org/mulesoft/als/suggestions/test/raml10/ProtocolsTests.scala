@@ -26,9 +26,9 @@ class ProtocolsTests extends RAML10Test {
         this.runTest("protocols/test06.raml", Set("HTTP"))
     }
 
-    test("Protocols test 07") {
-        this.runTest("protocols/test07.raml", Set("HTTP"))
-    }
+//    test("Protocols test 07") {
+//        this.runTest("protocols/test07.raml", Set("HTTP"))
+//    }
 
     test("Protocols test 08") {
         this.runTest("protocols/test08.raml", Set("HTTP"))

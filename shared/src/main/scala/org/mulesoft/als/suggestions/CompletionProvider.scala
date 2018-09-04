@@ -278,7 +278,7 @@ object CompletionProvider {
         var completionkind = LocationKindDetectTool.determineCompletionKind(text,offset);
         
         completionkind match {
-            case KEY_COMPLETION | ANNOTATION_COMPLETION => {
+            case KEY_COMPLETION | ANNOTATION_COMPLETION | SEQUENCE_KEY_COPLETION => {
                 var newLineIndex = text.indexOf("\n", offset);
                 
                 var rightPart = if(newLineIndex < 0) {
