@@ -1,18 +1,49 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            name "mule-ee-releases"
+            url "https://repository.mulesoft.org/nexus/content/repositories/releases/"
+        }
+    }
+    dependencies {
+        classpath "com.mulesoft:gradle-tools:0.2.6"
+        classpath files('lib//nexus-iq-cli-1.40.0-02.jar')
+    }
+}
+
+apply plugin: 'com.mulesoft.gradle.sonar'
+apply plugin: 'com.mulesoft.gradle.nexusIq'
+//apply plugin: 'org.scoverage'
+
+
+sonar.url   = "${System.env.SONAR_USR}"
+sonar.login = "${System.env.SONAR_PSW}"
+sonar.sources = "src/main/scala"
+
+nexusIq.user = "${System.env.NEXUSIQ_USR}"
+nexusIq.password = "${System.env.NEXUSIQ_PSW}"
+nexusIq.applicationId = "als"
+
 apply plugin: 'application'
 apply plugin: 'distribution'
 apply plugin: 'java'
 
-def version = '0.3.4-SNAPSHOT'
 def name = 'als'
-def hlVersion = '0.2.4-SNAPSHOT'
-def suggestionsVersion = '0.4.5-SNAPSHOT'
-def outlineVersion = '0.1.4-SNAPSHOT'
-def amfVersion = '1.7.2'
+
+def version = '0.3.5-SNAPSHOT'
+def hlVersion = '0.2.5-SNAPSHOT'
+def suggestionsVersion = '0.4.6-SNAPSHOT'
+def outlineVersion = '0.1.5-SNAPSHOT'
+def amfVersion = '1.8.0'
 def syamlVersion = '0.2.13'
 def scalaCommonVersion = '0.1.3'
 
 def scalaVersion = '2.12.2'
-
 
 repositories {
     mavenCentral()
@@ -40,16 +71,10 @@ dependencies {
 
 mainClassName = 'org.mulesoft.language.client.jvm.ServerProcess'
 
-task customFatJar(type: Jar) {
-    manifest {
-        attributes "Main-Class": "org.mulesoft.language.client.jvm.ServerProcess"
-    }
-    baseName = 'all-in-one-jar'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
-
 distributions {
     custom {
+        baseName = 'als'
     }
 }
+
+tasks.nexusIq.dependsOn(distZip)
