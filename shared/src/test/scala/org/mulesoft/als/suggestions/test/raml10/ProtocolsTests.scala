@@ -3,11 +3,11 @@ package org.mulesoft.als.suggestions.test.raml10
 class ProtocolsTests extends RAML10Test {
 
     test("Protocols test 01") {
-        this.runTest("protocols/test01.raml", Set("HTTP", "HTTPS"))
+        this.runTest("protocols/test01.raml", Set("[ HTTP ]", "[ HTTPS ]"))
     }
 
     test("Protocols test 02") {
-        this.runTest("protocols/test02.raml", Set("HTTP", "HTTPS"))
+        this.runTest("protocols/test02.raml", Set("[ HTTP ]", "[ HTTPS ]"))
     }
 
     test("Protocols test 03") {
@@ -39,6 +39,6 @@ class ProtocolsTests extends RAML10Test {
     }
 
     test("Protocols test 10") {
-        this.runTest("protocols/test10.raml", Set("HTTP", "HTTPS"))
+        this.runTest("protocols/test10.raml", Set("[ HTTP ]", "[ HTTPS ]"))
     }
 }

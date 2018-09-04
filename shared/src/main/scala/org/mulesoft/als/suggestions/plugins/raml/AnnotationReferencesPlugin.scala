@@ -55,10 +55,11 @@ class AnnotationReferencesCompletionPlugin extends ICompletionPlugin {
 	}
 	
 	def isInAnnotationName(request: ICompletionRequest): Boolean = {
+        if(request.astNode.isEmpty){
+            return false
+        }
         val node = request.astNode.get
-        if(!request.astNode.isDefined || !node.property.isDefined ||
-			node.property.get == null) {
-
+        if(node.property.isEmpty || Option(node.property.get).isEmpty) {
 			return false;
 		}
         if(!request.prefix.startsWith("(")){
