@@ -255,7 +255,7 @@ class RAML10ASTFactory private extends RAMLASTFactory {
             case NodeShapeModel => universe.`type`("ObjectTypeDeclaration")
             case FileShapeModel => universe.`type`("FileTypeDeclaration")
             case UnionShapeModel => universe.`type`("UnionTypeDeclaration")
-            case ArrayShapeModel => universe.`type`("ArrayTypeDeclaration")
+            case ArrayShapeModel|MatrixShapeModel => universe.`type`("ArrayTypeDeclaration")
             case NilShapeModel => universe.`type`("NilTypeDeclaration")
             case ScalarShapeModel =>
                 var simpleType = Option(shape.fields.get(ScalarShapeModel.DataType))
