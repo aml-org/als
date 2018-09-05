@@ -1,6 +1,8 @@
 package org.mulesoft.als.suggestions.js
 
 import org.mulesoft.als.suggestions.PlatformBasedExtendedFSProvider
+import org.mulesoft.als.suggestions.implementation.EmptyASTProvider
+import org.mulesoft.als.suggestions.interfaces.Syntax
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
@@ -46,11 +48,12 @@ object Suggestions {
 
     val config = this.buildParserConfig(language, url)
 
+    var contentOpt:Option[String] = None
     var originalContent:Option[String] = None
-    val result = this.platform.resolve(url).map(content => {
+    var completionProviderFuture:Future[CompletionProvider] = this.platform.resolve(url).map(content => {
       val fileContentsStr = content.stream.toString
       originalContent = Option(fileContentsStr)
-      this.cacheUnit(url, fileContentsStr, position)
+      contentOpt = Option(this.cacheUnit(url, fileContentsStr, position))
 
     }).flatMap(_=>{
 
@@ -64,7 +67,18 @@ object Suggestions {
 
       this.buildCompletionProvider(project, url, position, originalContent)
 
-    }).flatMap(_.suggest)
+    }) recoverWith {
+        case e:Throwable =>
+            //println(e)
+            contentOpt match {
+                case Some(c) =>
+                    Future.successful(this.buildCompletionProviderNoAST(c, url, position))
+                case None => Future.failed(new Error("Failed to construct Completionprovider"))
+            }
+        case _ => Future.failed(new Error("Failed to construct Completionprovider"))
+    }
+
+    val result = completionProviderFuture.flatMap(_.suggest)
       .map(suggestions=>suggestions.map(suggestion=>{
 
         new ISuggestion(
@@ -104,11 +118,12 @@ object Suggestions {
     helper.parse(config, new Environment(this.platform.loaders))
   }
 
-  def cacheUnit(fileUrl: String, fileContentsStr: String, position: Int): Unit = {
+  def cacheUnit(fileUrl: String, fileContentsStr: String, position: Int): String = {
 
     val patchedContent = Core.prepareText(fileContentsStr, position, YAML)
 
     File.unapply(fileUrl).foreach(x=>this.platform.withOverride(x, patchedContent))
+      patchedContent
   }
 
   def buildHighLevel(model:BaseUnit):Future[IProject] = {
@@ -136,4 +151,26 @@ object Suggestions {
 
     CompletionProvider().withConfig(completionConfig)
   }
+
+    def buildCompletionProviderNoAST(text:String, url: String, position: Int): CompletionProvider = {
+
+        val baseName = url.substring(url.lastIndexOf('/') + 1)
+
+        val editorStateProvider = new DummyEditorStateProvider(text, url, baseName, position)
+
+        val vendor = if(url.endsWith(".raml")) Raml10 else Oas20
+        val syntax = if(url.endsWith(".json")) Syntax.JSON else Syntax.YAML
+
+        val astProvider = new EmptyASTProvider(vendor, syntax)
+
+        val platformFSProvider = new PlatformBasedExtendedFSProvider(this.platform)
+
+        val completionConfig = new CompletionConfig()
+            .withEditorStateProvider(editorStateProvider)
+            .withFsProvider(platformFSProvider)
+            .withAstProvider(astProvider)
+            .withOriginalContent(text)
+
+        CompletionProvider().withConfig(completionConfig)
+    }
 }

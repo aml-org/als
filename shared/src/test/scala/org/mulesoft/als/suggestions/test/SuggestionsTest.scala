@@ -3,12 +3,13 @@ package org.mulesoft.als.suggestions.test
 import amf.client.remote.Content
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
-import amf.core.remote.JvmPlatform
+import amf.core.remote.{Oas20, Raml10}
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.suggestions.{CompletionProvider, PlatformBasedExtendedFSProvider}
-import org.mulesoft.als.suggestions.implementation.{CompletionConfig, DummyASTProvider, DummyEditorStateProvider}
+import org.mulesoft.als.suggestions.implementation.{CompletionConfig, DummyASTProvider, DummyEditorStateProvider, EmptyASTProvider}
+import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.high.level.Core
 import org.mulesoft.high.level.implementation.PlatformFsProvider
@@ -192,11 +193,18 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
         val editorStateProvider = new DummyEditorStateProvider(text, url, baseName, position)
 
+        val vendor = if(url.endsWith(".raml")) Raml10 else Oas20
+        val syntax = if(url.endsWith(".json")) Syntax.JSON else Syntax.YAML
+
+        val astProvider = new EmptyASTProvider(vendor, syntax)
+
         val platformFSProvider = new PlatformBasedExtendedFSProvider(this.platform)
 
         val completionConfig = new CompletionConfig()
             .withEditorStateProvider(editorStateProvider)
             .withFsProvider(platformFSProvider)
+            .withAstProvider(astProvider)
+            .withOriginalContent(text)
 
         CompletionProvider().withConfig(completionConfig)
     }

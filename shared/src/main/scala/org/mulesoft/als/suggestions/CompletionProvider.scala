@@ -131,6 +131,7 @@ class CompletionProvider {
         }
         else if (isJSON) {
             var postfix = ""
+            var endingQuote = false
             if(isKey){
                 if(!hasKeyClosingQuote){
                     postfix += "\""
@@ -147,10 +148,12 @@ class CompletionProvider {
             }
             else if (!hasQuote) {
                 postfix += "\""
+                endingQuote = true
             }
             if (postfix.nonEmpty) {
                 result = result.map(x => {
-                    Suggestion(x.text + postfix, x.description, x.displayText, x.prefix).withCategory(x.category)
+                    val newText = if(!endingQuote || !x.text.endsWith("\"")) x.text + postfix else x.text
+                    Suggestion(newText, x.description, x.displayText, x.prefix).withCategory(x.category)
                 })
             }
         }
@@ -174,6 +177,11 @@ object CompletionProvider {
         var result = opt.getOrElse("")
         if(result.startsWith("\"")){
             result = result.substring(1)
+        }
+        val text = content.getText
+        val offset = content.getOffset
+        if(offset > 0 && text.lastIndexOf("\n",offset-1)<0 && text.substring(0,offset) == "#%RAML 1.0"){
+            result = ""
         }
         result
     }
