@@ -256,7 +256,7 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
                             Some(TemplateSuggestion(name, text, kind))
                         }
                         else {
-                            var paramOffStr = " " * (off + 4)
+                            var paramOffStr = " " * (off + 6)
                             var text = toBlockObject(name, params, paramOffStr)
                             Some(TemplateSuggestion(name, text, kind))
                         }
