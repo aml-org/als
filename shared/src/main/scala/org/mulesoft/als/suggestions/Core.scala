@@ -31,6 +31,7 @@ object Core {
         CompletionPluginsRegistry.registerPlugin(UsesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(IncludeCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(ExampleCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(EmptyRamlFileCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(EmptyFileCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(IncludeTagCompletionPlugin())
     });

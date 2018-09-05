@@ -34,18 +34,23 @@ class EmptyFileCompletionPlugin extends ICompletionPlugin {
         Future.successful(response)
     }
 
-    override def isApplicable(request: ICompletionRequest): Boolean = request.config.editorStateProvider match {
-        case Some(esp) =>
-            val text = esp.getText
-            var tTrim = text.trim
-            if(tTrim.startsWith("{")&&tTrim.endsWith("}")){
-                var interior = tTrim.substring(1,tTrim.length)
-                interior.split("\n").count(_.trim.nonEmpty) == 1
-            }
-            else {
-                text.split("\n").count(_.trim.nonEmpty) == 1
-            }
-        case _ => false
+    override def isApplicable(request: ICompletionRequest): Boolean = {
+        if(!request.config.astProvider.map(_.language).exists(languages.contains)){
+            return false
+        }
+        request.config.editorStateProvider match {
+            case Some(esp) =>
+                val text = esp.getText
+                var tTrim = text.trim
+                if(tTrim.startsWith("{")&&tTrim.endsWith("}")){
+                    var interior = tTrim.substring(1,tTrim.length)
+                    interior.split("\n").count(_.trim.nonEmpty) == 1
+                }
+                else {
+                    text.split("\n").count(_.trim.nonEmpty) == 1
+                }
+            case _ => false
+        }
     }
 }
 
