@@ -67,17 +67,48 @@ class TraitReferenceTests extends RAML10Test {
   test("test011") {
     this.runTest("traitReferences/test011.raml",
         Set("""trait1:
-              |        param1:
-              |        param2:""".stripMargin,
+              |          param1:
+              |          param2:""".stripMargin,
             """trait2:
-              |        param1:
-              |        param2:""".stripMargin))
+              |          param1:
+              |          param2:""".stripMargin))
   }
 
   test("test012") {
     this.runTest("traitReferences/test012.raml",
         Set("""trait2:
-              |        param1:
-              |        param2:""".stripMargin))
+              |          param1:
+              |          param2:""".stripMargin))
   }
+//
+//  test("test013") {
+//    this.runTest("traitReferences/test013.raml",
+//        Set("param1", "param2"))
+//  }
+//
+//  test("test014") {
+//    this.runTest("traitReferences/test014.raml",
+//        Set("param1", "param2"))
+//  }
+//
+//  test("test015") {
+//    this.runTest("traitReferences/test015.raml",
+//        Set("param1", "param2"))
+//  }
+//
+//  test("test016") {
+//    this.runTest("traitReferences/test016.raml",
+//        Set("param2"))
+//  }
+//
+//  test("test017") {
+//    this.runTest("traitReferences/test017.raml",
+//        Set("param2"))
+//  }
+//
+//  test("test018") {
+//    this.runTest("traitReferences/test018.raml",
+//        Set("param2"))
+//  }
+
 }
