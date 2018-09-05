@@ -30,7 +30,7 @@ class BodyCompletionPlugin extends ICompletionPlugin {
 
         var result: Seq[Suggestion] = Nil
         val actualYamlLocation = request.actualYamlLocation.get
-        if(actualYamlLocation.parentStack.lengthCompare(3)>=0) {
+        if(!isRequestBodyShortcut(request) && actualYamlLocation.parentStack.lengthCompare(3)>=0) {
             var existing: Seq[String] = actualYamlLocation.parentStack(2).value.get.yPart match {
                 case map: YMap => map.entries.map(e => e.key.value.asInstanceOf[YScalar].value.toString)
                 case _ => Seq()
@@ -92,7 +92,7 @@ class BodyCompletionPlugin extends ICompletionPlugin {
                         Option(pl.schema.name).map(_.value()).contains("default")
                     }
                 case _ =>
-                    val isPayloadKey = isElement &&
+                    var isPayloadKey = isElement &&
                         (request.astNode.get.asElement.get.definition.isAssignableFrom("MethodBase")
                             ||request.astNode.get.asElement.get.definition.isAssignableFrom("Response")) &&
                         request.actualYamlLocation.isDefined &&
@@ -102,9 +102,22 @@ class BodyCompletionPlugin extends ICompletionPlugin {
                         request.actualYamlLocation.get.parentStack(2).keyValue.get.yPart.asInstanceOf[YScalar].text == "body" &&
                         request.actualYamlLocation.get.value.isDefined &&
                         request.actualYamlLocation.get.value.get.yPart.isInstanceOf[YScalar]
+                    if(!isPayloadKey){
+                        isPayloadKey = isRequestBodyShortcut(request)
+                    }
                     isPayloadKey
             }
         }
+    }
+
+    def isRequestBodyShortcut(request:ICompletionRequest):Boolean = {
+        if (request.astNode.get.asElement.get.definition.isAssignableFrom("Response") && request.actualYamlLocation.isDefined) {
+            var l = request.actualYamlLocation.get
+            if (l.keyValue.map(_.yPart.toString).contains("body") && l.value.map(_.yPart.toString).exists(_.isEmpty)) {
+                return true
+            }
+        }
+        return false
     }
 }
 
