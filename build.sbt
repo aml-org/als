@@ -9,8 +9,8 @@ val hlVersion = "0.2.5-SNAPSHOT"
 val suggestionsVersion = "0.4.6-SNAPSHOT"
 val outlineVersion = "0.1.5-SNAPSHOT"
 val amfVersion = "1.9.0-SNAPSHOT"
-val syamlVersion = "0.2.13"
-val scalaCommonVersion = "0.1.3"
+val syamlVersion = "0.2.15"
+val scalaCommonVersion = "0.1.5"
 
 scalaVersion := "2.12.2"
 
