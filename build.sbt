@@ -1,16 +1,10 @@
 import java.io.{FileInputStream, FileOutputStream}
-
 import org.scalajs.core.tools.linker.ModuleKind
+import Dependencies.deps
 
 name := "api-language-server"
 
-val VERSION = "0.3.5-SNAPSHOT"
-val hlVersion = "0.2.5-SNAPSHOT"
-val suggestionsVersion = "0.4.6-SNAPSHOT"
-val outlineVersion = "0.1.5-SNAPSHOT"
-val amfVersion = "1.9.0-SNAPSHOT"
-val syamlVersion = "0.2.13"
-val scalaCommonVersion = "0.1.3"
+version := deps("version")
 
 scalaVersion := "2.12.2"
 
@@ -20,8 +14,9 @@ jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
 
 val settings =  Common.settings ++ Common.publish ++ Seq(
     organization := "test",
-    
-    resolvers ++= List(
+    version := deps("version"),
+
+      resolvers ++= List(
         Common.releases,
         Common.snapshots,
         Resolver.mavenLocal/*,
@@ -33,29 +28,30 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
     credentials ++= Common.credentials(),
     
     libraryDependencies ++= Seq(
-        "com.github.amlorg" %%% "amf-webapi" % amfVersion,
-        "com.github.amlorg" %%% "amf-core" % amfVersion,
-        "com.github.amlorg" %%% "amf-client" % amfVersion,
-        "com.github.amlorg" %%% "amf-aml" % amfVersion,
-        "org.mule.common" %%% "scala-common" % scalaCommonVersion,
-        "org.mule.syaml" %%% "syaml" % syamlVersion,
+        "com.github.amlorg" %%% "amf-webapi" % deps("amf"),
+        "com.github.amlorg" %%% "amf-core" % deps("amf"),
+        "com.github.amlorg" %%% "amf-client" % deps("amf"),
+        "com.github.amlorg" %%% "amf-aml" % deps("amf"),
+        "org.mule.common" %%% "scala-common" % deps("common"),
+        "org.mule.syaml" %%% "syaml" % deps("syaml"),
         "org.scalatest"    %%% "scalatest" % "3.0.0" % Test,
         "com.chuusai" %% "shapeless" % "2.3.3",
-        "org.mule.amf" %%% "typesystem-project" % hlVersion,
-        "org.mule.amf" %%% "als-suggestions" % suggestionsVersion,
-        "org.mule.amf" %%% "als-outline" % outlineVersion,
+        "org.mule.amf" %%% "typesystem-project" % deps("hl"),
+        "org.mule.amf" %%% "als-suggestions" % deps("suggestions"),
+        "org.mule.amf" %%% "als-outline" % deps("outline"),
 
         "com.lihaoyi" %%% "upickle" % "0.5.1" % Test
     )
 )
 
-lazy val sharedProject = (project in file("shared")).settings(settings: _*).settings(name := "api-language-server-shared-project",
-    version := VERSION)
+lazy val sharedProject = (project in file("shared")).settings(settings: _*)
+  .settings(
+      name := "api-language-server-shared-project"
+  )
 
 lazy val core = crossProject.settings(
     Seq(
-        name := "api-language-server",
-        version := VERSION
+        name := "api-language-server"
     )
 ).in(file(".")).settings(settings: _*).jvmSettings(
     assemblyMergeStrategy in assembly := {
