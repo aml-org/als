@@ -146,7 +146,8 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
   
   def forceGetCurrentAST(uri: String): Future[IProject] = {
 
-    // TODO use runnable
+    this.connection.debug(s"Calling forceGetCurrentAST for uri ${uri}",
+      "HLASTManager", "forceGetCurrentAST")
 
     val current = this.currentASTs.get(uri)
 
@@ -175,14 +176,21 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
     * @return
     */
   def forceBuildNewAST(uri: String, text: String): Future[IProject] = {
+
+    this.connection.debug(s"Calling forceBuildNewAST for uri ${uri}",
+      "HLASTManager", "forceBuildNewAST")
+
     val result = Promise[IProject]();
 
     getASTManager.forceBuildNewAST(uri, text).map(hlFromAST(_) andThen {
       case Success(project) => {
-      result.success(project);
-    }
-
-      case Failure(error) => result.failure(error);
+        result.success(project);
+      }
+      case Failure(error) => {
+        this.connection.debugDetail(s"Failed to build AST for uri ${uri}",
+          "HLASTManager", "forceBuildNewAST")
+        result.failure(error)
+      };
     })
 
     result.future;
