@@ -7,7 +7,6 @@ import org.mulesoft.language.client.js.dtoTypes.{ProtocolMessagePayload, Structu
 import org.mulesoft.language.client.js.serverConnection.{NodeServerConnection, ProtocolMessage}
 import org.mulesoft.language.common.logger.PrintlnLogger
 import org.mulesoft.language.entryPoints.common.ProtocolSeqMessage
-import org.mulesoft.language.server.common.utils.TypeName
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
 import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
