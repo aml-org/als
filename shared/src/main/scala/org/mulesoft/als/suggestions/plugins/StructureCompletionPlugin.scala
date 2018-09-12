@@ -37,13 +37,18 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                 request.actualYamlLocation match {
                     case Some(l) =>
                         if(l.inKey(request.position)){
-                            request.yamlLocation.get.value.get.yPart match {
-                                case m:YMap => l.mapEntry match {
-                                    case Some(me) =>
-                                        m.entries.contains(me.yPart)
+                            if(request.astNode.get.isAttr){
+                                true
+                            }
+                            else {
+                                request.yamlLocation.get.value.get.yPart match {
+                                    case m: YMap => l.mapEntry match {
+                                        case Some(me) =>
+                                            m.entries.contains(me.yPart)
+                                        case _ => false
+                                    }
                                     case _ => false
                                 }
-                                case _ => false
                             }
 //                        } else if(l.parentStack.nonEmpty && request.yamlLocation.get.hasSameValue(l.parentStack.last)) {
 //                            var parent = l.parentStack.last;
@@ -117,9 +122,21 @@ class StructureCompletionPlugin extends ICompletionPlugin {
         var result = request.astNode match {
             case Some(_n) =>
                 var n = _n
-                if(n.isAttr && n.property.flatMap(_.nameId).contains("type") && n.parent.isDefined && n.parent.map(_.definition).exists(_.isAssignableFrom("TypeDeclaration"))){
-                    if(n.sourceInfo.yamlSources.headOption.contains(n.parent.get.sourceInfo.yamlSources.head)){
-                        n = n.parent.get
+                if (n.isAttr) {
+                    if(n.parent.isDefined && n.property.isDefined) {
+                        val property = n.property.get
+                        val parent = n.parent.get
+                        if (property.nameId.contains("type") && parent.definition.isAssignableFrom("TypeDeclaration")) {
+                            if (n.sourceInfo.yamlSources.headOption.contains(n.parent.get.sourceInfo.yamlSources.head)) {
+                                n = n.parent.get
+                            }
+                        }
+                        else if (!property.isMultiValue && n.sourceInfo.yamlSources.nonEmpty) {
+                            var isInKey = YamlLocation(n.sourceInfo.yamlSources.head, n.astUnit.positionsMapper).inKey(request.position)
+                            if (isInKey) {
+                                n = n.parent.get
+                            }
+                        }
                     }
                 }
                 var isYAML = request.config.astProvider.get.syntax == Syntax.YAML
@@ -138,7 +155,8 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                         ProjectBuilder.determineFormat(element.astUnit.baseUnit).flatMap(SuggestionCategoryRegistry.getCategory(_,pName,Option(element.definition),prop.range)).foreach(suggestion.withCategory)
                         suggestion
                     })
-                } else {
+                }
+                else {
                     Seq();
                 }
 
