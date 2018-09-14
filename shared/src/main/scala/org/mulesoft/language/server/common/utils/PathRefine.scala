@@ -13,9 +13,6 @@ object PathRefine {
             if (Option(uri).isDefined) {
                 result = platform.decodeURIComponent(uri)
             }
-            if (uri.startsWith("file:///")) {
-                result = result.replace("file:///", "file://")
-            }
         }
         result
     }

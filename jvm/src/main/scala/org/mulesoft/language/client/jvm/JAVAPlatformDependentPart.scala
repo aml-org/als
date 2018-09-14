@@ -8,17 +8,17 @@ import scala.concurrent.Future;
 object JAVAPlatformDependentPart extends PlatformDependentPart {
 	def fetchHttp(url: String): Future[Content] = Future.failed(new Throwable("Unsupported method"));
 	
-	override def encodeURI(url: String): String = "";
+	override def encodeURI(url: String): String = url;
 	
-	override def encodeURIComponent(url: String): String = "";
+	override def encodeURIComponent(url: String): String = url;
 	
-	override def decodeURI(url: String): String = "";
+	override def decodeURI(url: String): String = url;
 	
-	override def decodeURIComponent(url: String): String = "";
+	override def decodeURIComponent(url: String): String = url;
 	
-	override def normalizeURL(url: String): String = "";
+	override def normalizeURL(url: String): String = url;
 	
-	override def normalizePath(url: String): String = "";
+	override def normalizePath(url: String): String = url;
 	
 	override def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] = None;
 	
