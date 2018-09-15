@@ -2,7 +2,7 @@ package org.mulesoft.language.test.serverConnection
 
 import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage => SharedProtocolMessage, ProtocolSeqMessage => SharedProtocolSeqMessage}
 import org.mulesoft.language.common.dtoTypes._
-import org.mulesoft.language.common.logger.IPrintlnLogger
+import org.mulesoft.language.common.logger.{IPrintlnLogger, MutedLogger}
 import org.mulesoft.language.entryPoints.common.MessageDispatcher
 import org.mulesoft.language.server.server.core.connectionsImpl.AbstractServerConnection
 import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
@@ -23,7 +23,7 @@ class WrappedMessage {//extends js.Object {
 //  var payload: js.Object = null;
 }
 
-class TestServerConnection(clientProcess:Seq[TestClientConnetcion]) extends IPrintlnLogger
+class TestServerConnection(clientProcess:Seq[TestClientConnetcion]) extends MutedLogger
     with MessageDispatcher[ProtocolMessagePayload, NodeMsgTypeMeta] with AbstractServerConnection {
 
   var lastStructureReport: Option[StructureReport] = None

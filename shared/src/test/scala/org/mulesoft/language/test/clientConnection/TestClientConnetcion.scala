@@ -5,7 +5,7 @@ import org.mulesoft.als.suggestions.interfaces.ISuggestion
 import org.mulesoft.language.client.IClientConnection
 import org.mulesoft.language.client.client.{AbstractClientConnection, VersionedDocumentManager}
 import org.mulesoft.language.common.dtoTypes._
-import org.mulesoft.language.common.logger.{ILoggerSettings, IPrintlnLogger, MessageSeverity}
+import org.mulesoft.language.common.logger.{ILoggerSettings, IPrintlnLogger, MutedLogger, MessageSeverity}
 import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage, ProtocolSeqMessage}
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
 import org.mulesoft.language.test.dtoTypes._
@@ -14,7 +14,7 @@ import org.mulesoft.language.test.serverConnection.{NodeMsgTypeMeta, TestServerC
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class TestClientConnetcion(serverProcess:Seq[TestServerConnection]) extends IPrintlnLogger
+class TestClientConnetcion(serverProcess:Seq[TestServerConnection]) extends MutedLogger
     with MessageDispatcher[ProtocolMessagePayload,NodeMsgTypeMeta] with AbstractClientConnection {
 
     val versionManager: VersionedDocumentManager = new VersionedDocumentManager(this)
