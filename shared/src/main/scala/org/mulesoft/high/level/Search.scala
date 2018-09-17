@@ -187,17 +187,17 @@ object Search {
                     else if (language == Oas || language == Oas20) {
                         var targetDef: Option[String] = None
                         var keyAttrName: Option[String] = None
-                        pDef.nameId match {
-                            case Some("DefinitionObject") =>
-                                targetDef = Some("SchemaObject")
-                                keyAttrName = Some("name")
-                            case Some("ParameterDefinitionObject") =>
-                                targetDef = Some("ParameterObject")
-                                keyAttrName = Some("key")
-                            case Some("ResponseDefinitionObject") =>
-                                targetDef = Some("ResponseObject")
-                                keyAttrName = Some("key")
-                            case _ =>
+                        if(pDef.isAssignableFrom("DefinitionObject")){
+                            targetDef = Some("SchemaObject")
+                            keyAttrName = Some("name")
+                        }
+                        else if(pDef.isAssignableFrom("ParameterDefinitionObject")){
+                            targetDef = Some("ParameterObject")
+                            keyAttrName = Some("key")
+                        }
+                        else if(pDef.isAssignableFrom("ResponseDefinitionObject")){
+                            targetDef = Some("ResponseObject")
+                            keyAttrName = Some("key")
                         }
                         if(targetDef.isDefined
                             && keyAttrName.contains(prop.get.nameId.get)

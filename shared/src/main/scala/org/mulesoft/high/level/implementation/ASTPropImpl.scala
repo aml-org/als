@@ -203,6 +203,11 @@ class BasicValueBuffer(domainElement:AmfObject, val field:Field, index:Int = -1)
             else {
                 None
             }
+        case scl: AmfScalar => {
+            val valSrc = amfValue.annotations.find(classOf[SourceAST])
+            val scalSrc = scl.annotations.find(classOf[SourceAST])
+            valSrc.orElse(scalSrc)
+        }
         case _ => amfValue.annotations.find(classOf[SourceAST])
     }).map(_.ast) match {
         case Some(n) => List(n)
