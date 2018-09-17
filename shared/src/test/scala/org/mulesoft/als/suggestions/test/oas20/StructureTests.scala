@@ -161,4 +161,12 @@ class StructureTests extends OAS20Test {
   test("SchemaObject xml"){
     this.runTest("structure/test79.yml", Set("xml:"))
   }
+
+  test("Parameter definition key"){
+    this.runTest("structure/test106.yml", Set())
+  }
+
+  test("Response definition key"){
+    this.runTest("structure/test107.yml", Set())
+  }
 }
