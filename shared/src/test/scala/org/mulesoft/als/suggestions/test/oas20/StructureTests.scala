@@ -78,6 +78,14 @@ class StructureTests extends OAS20Test {
     this.runTest("structure/test37.yml", Set("operationId:"))
   }
 
+  test("OperationObject parameters"){
+    this.runTest("structure/test40.yml", Set("parameters:"))
+  }
+
+  test("OperationObject responses"){
+    this.runTest("structure/test41.yml", Set("responses:"))
+  }
+
   test("OperationObject deprecated"){
     this.runTest("structure/test43.yml", Set("deprecated:"))
   }
