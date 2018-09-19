@@ -29,18 +29,18 @@ class ParserHelper(val platform:Platform) extends CommandHelper{
             env
         )
     }
-
-    def parseResult(config: ParserConfig,env:Environment): Future[ParseResult] = {
-
-        val validatorInstance = PlatformValidator.instance;
-
-        for {
-            unit <- parse(config, env)
-            report <- report(unit,config)
-        } yield {
-            ParseResult(unit,report)
-        }
-    }
+//
+//    def parseResult(config: ParserConfig,env:Environment): Future[ParseResult] = {
+//
+//        val validatorInstance = PlatformValidator.instance;
+//
+//        for {
+//            unit <- parse(config, env)
+//            report <- report(unit,config)
+//        } yield {
+//            ParseResult(unit,report)
+//        }
+//    }
 
     def parse(config: ParserConfig,env:Environment): Future[BaseUnit] = {
         var promise = Promise[BaseUnit]();
@@ -80,23 +80,23 @@ class ParserHelper(val platform:Platform) extends CommandHelper{
         promise.failure(throwable);
     }
 
-    def report(model: BaseUnit, config: ParserConfig):Future[AMFValidationReport] = {
-        val customProfileLoaded = if (config.customProfile.isDefined) {
-            RuntimeValidator.loadValidationProfile(config.customProfile.get) map { profileName =>
-                profileName
-            }
-        } else {
-            Future {
-                config.profile
-            }
-        }
-        customProfileLoaded.flatMap(profile => {
-                val result = RuntimeValidator(model, profile)
-                //RuntimeValidator.reset()
-                result
-            }
-        )
-    }
+//    def report(model: BaseUnit, config: ParserConfig):Future[AMFValidationReport] = {
+//        val customProfileLoaded = if (config.customProfile.isDefined) {
+//            RuntimeValidator.loadValidationProfile(config.customProfile.get) map { profileName =>
+//                profileName
+//            }
+//        } else {
+//            Future {
+//                config.profile
+//            }
+//        }
+//        customProfileLoaded.flatMap(profile => {
+//                val result = RuntimeValidator(model, profile)
+//                //RuntimeValidator.reset()
+//                result
+//            }
+//        )
+//    }
 
     def printModel(model:BaseUnit, config: ParserConfig): Future[Unit] = {
         generateOutput(config,model)

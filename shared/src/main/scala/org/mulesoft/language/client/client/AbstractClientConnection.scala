@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.client.client
 
 import org.mulesoft.als.suggestions.interfaces.ISuggestion
@@ -126,3 +127,4 @@ trait AbstractClientConnection extends IClientConnection{
 
     }
 }
+// $COVERAGE-ON$

@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.server.core.platform
 
 
@@ -80,4 +81,4 @@ class StubSyncFile(connection: IServerConnection,
     }
   }
 }
-
+// $COVERAGE-ON$

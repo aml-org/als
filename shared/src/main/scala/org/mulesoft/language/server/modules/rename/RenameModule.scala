@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.server.modules.findReferences;
 
 import org.mulesoft.high.level.{ReferenceSearchResult, Search}
@@ -63,3 +64,4 @@ class RenameModule extends AbstractServerModule {
 object RenameModule {
 	val moduleId: String = "RENAME";
 }
+// $COVERAGE-ON$

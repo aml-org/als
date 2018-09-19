@@ -117,7 +117,7 @@ object SearchUtils {
 			case _ => None;
 		}
 	}
-	
+    // $COVERAGE-OFF$
 	def findAll(project: IProject, position: Int): Option[Seq[ILocation]] = {
 		(findDeclaration(project, position) match {
 			case Some(result) => if(result.isEmpty) {
@@ -125,30 +125,30 @@ object SearchUtils {
 			} else {
 				Some(result)
 			}
-			
+
 			case _ => None
 		}) match {
 			case Some(result) => findReferences(project, result.head.range.start + 1) match {
 				case Some(refs) => Some(refs.toBuffer += result.head);
-				
+
 				case _ => None
 			};
-			
+
 			case _ => findReferences(project, position) match {
 				case Some(refs) => Some(refs.toBuffer += new ILocation {
 					var issue = findTextIssue(project.rootASTUnit.text, position);
-					
+
 					var range: IRange = new IRange(issue.start, issue.end);
-					
+
 					var uri: String = project.rootASTUnit.path.replace("file:///", "/");
-					
+
 					var version: Int = -1;
 				});
-				
+
 				case _ => None
 			};
 		}
 	}
-	
+    // $COVERAGE-OFF$
 	//Some(findReferences(project, result.head.range.start + 1).get.toBuffer += result.head);
 }

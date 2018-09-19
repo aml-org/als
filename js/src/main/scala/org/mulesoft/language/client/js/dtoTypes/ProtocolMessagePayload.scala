@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.client.js.dtoTypes
 
 import org.mulesoft.language.client.js.CustomPicklerConfig.macroRW
@@ -665,3 +666,4 @@ object MessageSeverity {
   }
 
 }
+// $COVERAGE-ON$
