@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.common.logger
 
 /**
@@ -9,3 +10,4 @@ class EmptyLogger extends AbstractLogger {
 
   }
 }
+// $COVERAGE-ON$

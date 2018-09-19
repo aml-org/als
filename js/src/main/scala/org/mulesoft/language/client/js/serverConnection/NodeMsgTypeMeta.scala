@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.client.js.serverConnection
 
 /**
@@ -13,3 +14,4 @@ case class NodeMsgTypeMeta(
 {
 
 }
+// $COVERAGE-ON$

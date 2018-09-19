@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.client.js
 
 trait IClientConnection {
@@ -8,3 +9,4 @@ trait IClientConnection {
     */
   def documentOpened(document: IOpenedDocument) : Unit;
 }
+// $COVERAGE-ON$

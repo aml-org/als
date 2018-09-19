@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.client.js.serverConnection
 
 import org.mulesoft.language.client.js.CustomPicklerConfig.{macroRW, read, write, ReadWriter => RW}
@@ -154,3 +155,4 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
     Globals.JSON.parse(messageString)
   }
 }
+// $COVERAGE-ON$

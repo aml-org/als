@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.client.js
 
 import scala.scalajs.js
@@ -15,3 +16,4 @@ object Globals extends js.Object {
 
   var Ajv: js.Any = js.native
 }
+// $COVERAGE-ON$

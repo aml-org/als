@@ -129,43 +129,43 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
             )
           )
         }
-
-      } else if (directHandler.isDefined) {
-
-        val handler = directHandler.get
-        val result = handler(message.payload.get)
-
-        this.internalSendMessage(
-          ProtocolMessage[PayloadType](
-            `type` =  message.`type`,
-            payload = Option(result),
-            id = message.id,
-            errorMessage = None
-          )
-        )
-      } else if (tryHandler.isDefined) {
-
-        val handler = tryHandler.get
-        val tryResult = handler(message.payload.get)
-
-        tryResult match {
-          case Success(result) => this.internalSendMessage(
-            ProtocolMessage[PayloadType](
-              `type` =  message.`type`,
-              payload = Option(result),
-              id = message.id,
-              errorMessage = None
-            )
-          )
-          case Failure(failure) => this.internalSendMessage(
-            ProtocolMessage[PayloadType](
-              `type` =  message.`type`,
-              payload = None,
-              id = message.id,
-              errorMessage = Option(failure.toString)
-            )
-          )
-        }
+//
+//      } else if (directHandler.isDefined) {
+//
+//        val handler = directHandler.get
+//        val result = handler(message.payload.get)
+//
+//        this.internalSendMessage(
+//          ProtocolMessage[PayloadType](
+//            `type` =  message.`type`,
+//            payload = Option(result),
+//            id = message.id,
+//            errorMessage = None
+//          )
+//        )
+//      } else if (tryHandler.isDefined) {
+//
+//        val handler = tryHandler.get
+//        val tryResult = handler(message.payload.get)
+//
+//        tryResult match {
+//          case Success(result) => this.internalSendMessage(
+//            ProtocolMessage[PayloadType](
+//              `type` =  message.`type`,
+//              payload = Option(result),
+//              id = message.id,
+//              errorMessage = None
+//            )
+//          )
+//          case Failure(failure) => this.internalSendMessage(
+//            ProtocolMessage[PayloadType](
+//              `type` =  message.`type`,
+//              payload = None,
+//              id = message.id,
+//              errorMessage = Option(failure.toString)
+//            )
+//          )
+//        }
 
       } else if (promiseSeqHandler.isDefined) {
 
@@ -271,25 +271,25 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
     this.registerMeta(messageType, messageTypeMeta)
   }
 
-  def newDirectHandler[ArgType <: PayloadType, ResultType <: PayloadType](
-                                                                           messageType: String,
-                                                                           handler: (ArgType)=>ResultType,
-                                                                           messageTypeMeta: Option[MessageTypeMetaType] = None): Unit = {
+//  def newDirectHandler[ArgType <: PayloadType, ResultType <: PayloadType](
+//                                                                           messageType: String,
+//                                                                           handler: (ArgType)=>ResultType,
+//                                                                           messageTypeMeta: Option[MessageTypeMetaType] = None): Unit = {
+//
+//    this.directHandlers(messageType) = handler.asInstanceOf[(PayloadType)=>PayloadType]
+//
+//    this.registerMeta(messageType, messageTypeMeta)
+//  }
 
-    this.directHandlers(messageType) = handler.asInstanceOf[(PayloadType)=>PayloadType]
-
-    this.registerMeta(messageType, messageTypeMeta)
-  }
-
-  def newTryHandler[ArgType <: PayloadType, ResultType <: PayloadType](
-                                                                        messageType: String,
-                                                                        handler: (ArgType)=>Try[PayloadType],
-                                                                        messageTypeMeta: Option[MessageTypeMetaType] = None): Unit = {
-
-    this.tryHandlers(messageType) = handler.asInstanceOf[(PayloadType)=>Try[PayloadType]]
-
-    this.registerMeta(messageType, messageTypeMeta)
-  }
+//  def newTryHandler[ArgType <: PayloadType, ResultType <: PayloadType](
+//                                                                        messageType: String,
+//                                                                        handler: (ArgType)=>Try[PayloadType],
+//                                                                        messageTypeMeta: Option[MessageTypeMetaType] = None): Unit = {
+//
+//    this.tryHandlers(messageType) = handler.asInstanceOf[(PayloadType)=>Try[PayloadType]]
+//
+//    this.registerMeta(messageType, messageTypeMeta)
+//  }
 
   def newFutureSeqHandler[ArgType <: PayloadType, ResultType <: PayloadType](
                                                                            messageType: String,

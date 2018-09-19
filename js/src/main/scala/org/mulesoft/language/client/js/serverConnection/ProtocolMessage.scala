@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.client.js.serverConnection
 
 import org.mulesoft.language.entryPoints.common.{ProtocolMessage => SharedProtocolMessage}
@@ -35,3 +36,4 @@ object ProtocolMessage {
     )
   }
 }
+// $COVERAGE-ON$

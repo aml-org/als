@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.server.core.platform
 
 import org.mulesoft.common.io.{AsyncFile, FileSystem, Id, SyncFile}
@@ -103,3 +104,4 @@ class ConnectionBasedAsyncFile(connection: IServerConnection,
   }
 }
 
+// $COVERAGE-ON$

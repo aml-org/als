@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.common.logger
 
 /**
@@ -26,3 +27,4 @@ trait MutedLogger extends AbstractLogger {
   
   }
 }
+// $COVERAGE-ON$

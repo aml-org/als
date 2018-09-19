@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.client.js.serverConnection
 
 import scala.concurrent.{Future, Promise}
@@ -70,4 +71,4 @@ object FS {
 		return path;
 	}
 }
-
+// $COVERAGE-ON$

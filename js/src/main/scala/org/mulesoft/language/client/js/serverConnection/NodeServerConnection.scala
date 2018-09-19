@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.client.js.serverConnection
 
 import org.mulesoft.language.client.js.dtoTypes._
@@ -24,7 +25,7 @@ class WrappedMessage extends js.Object {
   var payload: js.Object = null;
 }
 
-class NodeServerConnection extends MutedLogger
+class NodeServerConnection extends IPrintlnLogger
   with NodeMessageDispatcher with AbstractServerConnection {
 
   var lastStructureReport: Option[StructureReport] = None
@@ -211,3 +212,4 @@ class NodeServerConnection extends MutedLogger
     */
   override def displayActionUI(uiDisplayRequest: IUIDisplayRequest): Future[Any] = ???
 }
+// $COVERAGE-ON$

@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.client.js
 
 import java.net.URI
@@ -98,3 +99,4 @@ object JSPlatformDependentPart extends PlatformDependentPart {
   
   override def operativeSystem(): String = Globals.process.platform;
 }
+// $COVERAGE-ON$

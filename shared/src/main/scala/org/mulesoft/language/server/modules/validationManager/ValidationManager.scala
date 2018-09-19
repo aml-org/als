@@ -167,6 +167,7 @@ class ValidationManager extends AbstractServerModule {
 //				println(s"Final range is: ${resultingStartOffset} , ${resultingEndOffset}")
         resultRange = IRange(resultingStartOffset, resultingEndOffset);
       } catch {
+          // $COVERAGE-OFF$
         case e: Throwable=> {
 					val startLine = validationResult.position.get.range.start.line - 1;
 					val startColumn = validationResult.position.get.range.start.column;
@@ -180,6 +181,7 @@ class ValidationManager extends AbstractServerModule {
 
 					resultRange = IRange(startOffset, endOffset)
 				}
+          // $COVERAGE-ON$
       }
 		}
 
