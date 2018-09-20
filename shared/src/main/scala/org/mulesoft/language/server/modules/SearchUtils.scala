@@ -117,7 +117,7 @@ object SearchUtils {
 			case _ => None;
 		}
 	}
-    // $COVERAGE-OFF$
+
 	def findAll(project: IProject, position: Int): Option[Seq[ILocation]] = {
 		(findDeclaration(project, position) match {
 			case Some(result) => if(result.isEmpty) {
@@ -149,6 +149,6 @@ object SearchUtils {
 			};
 		}
 	}
-    // $COVERAGE-OFF$
+
 	//Some(findReferences(project, result.head.range.start + 1).get.toBuffer += result.head);
 }

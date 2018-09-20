@@ -1,0 +1,15 @@
+#%RAML 1.0
+title: test API
+types:
+  MyTy*pe:
+    type: array
+    items: string
+  ObjectType:
+    properties:
+      p1: MyType
+
+/resource:
+  post:
+    body:
+      application/json:
+        type: MyType

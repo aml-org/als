@@ -125,7 +125,8 @@ override def stop(): Unit = {}
       * @param uri      - document uri
       * @param position - position in the document
       */
-    override def rename(uri: String, position: Int, newName: String): Future[Seq[IChangedDocument]] = ???
+    override def rename(uri: String, position: Int, newName: String): Future[Seq[IChangedDocument]] = this.sendWithResponse[RenameResponse]("RENAME", RenameRequest(uri,newName,position)).map(r=>r.wrapped.map(ChangedDocument.transportToShared))
+
 
     def VALIDATION_REPORT(report: IValidationReport): Unit = validationReportListeners.foreach(x=>x(report))
 

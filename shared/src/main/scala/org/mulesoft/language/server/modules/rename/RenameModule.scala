@@ -1,4 +1,3 @@
-// $COVERAGE-OFF$
 package org.mulesoft.language.server.modules.findReferences;
 
 import org.mulesoft.high.level.{ReferenceSearchResult, Search}
@@ -34,16 +33,16 @@ class RenameModule extends AbstractServerModule {
 	
 	private def findTargets(uri: String, position: Int, newName: String): Future[Seq[IChangedDocument]] = {
 		var promise = Promise[Seq[IChangedDocument]]();
-		
+
 		currentAst(uri).andThen {
 			case Success(project) => {
 				SearchUtils.findAll(project, position) match {
 					case Some(found) => promise.success(found.map(location => new IChangedDocument(location.uri, 0, None, Some(Seq(new ITextEdit(location.range, newName))))));
-					
+
 					case _ => promise.success(Seq());
 				}
 			}
-			
+
 			case Failure(error) => promise.failure(error);
 		}
 		
@@ -64,4 +63,3 @@ class RenameModule extends AbstractServerModule {
 object RenameModule {
 	val moduleId: String = "RENAME";
 }
-// $COVERAGE-ON$

@@ -124,13 +124,13 @@ case class ChangedDocument (
     /**
       * Optional document content
       */
-    var text: Option[String]
+    var text: Option[String],
 
     /**
       * Optional set of text edits instead of complete text replacement.
       * Is only taken into account if text is null.
       */
-    //var textEdits: Option[Seq[TextEdit]]
+    var textEdits: Option[Seq[TextEdit]]
 
   ) extends ProtocolMessagePayload
 {
@@ -146,7 +146,7 @@ object ChangedDocument {
       from.uri,
       from.version,
       from.text,
-      None
+      from.textEdits.map(_.map(TextEdit.transportToShared))
 //      if(from.textEdits.isDefined)
 //        Some(from.textEdits.get.map(edit=>TextEdit.transportToShared(edit)))
 //      else None
@@ -156,7 +156,7 @@ object ChangedDocument {
   implicit def sharedToTransport(
     from: SharedChangedDocument): ChangedDocument = {
 
-    ChangedDocument(from.uri,from.version,from.text)
+    ChangedDocument(from.uri,from.version,from.text,from.textEdits.map(_.map(TextEdit.sharedToTransport)))
   }
 }
 
@@ -502,6 +502,14 @@ case class GetStructureRequest (
 {
 }
 
+case class RenameRequest (
+    uri: String,
+    newName: String,
+    position: Int) extends ProtocolMessagePayload
+{
+}
+
+
 object GetStructureRequest {
   //implicit def rw: RW[GetStructureRequest] = macroRW
   def apply(wrapped: String): GetStructureRequest = new GetStructureRequest(wrapped)
@@ -620,6 +628,8 @@ object Suggestion {
 
 
 case class LocationsResponse(val wrapped: Seq[Location]) extends ProtocolMessagePayload;
+
+case class RenameResponse(val wrapped: Seq[ChangedDocument]) extends ProtocolMessagePayload;
 
 object LocationsResponse {
   //implicit def rw: RW[LocationsResponse] = macroRW;
