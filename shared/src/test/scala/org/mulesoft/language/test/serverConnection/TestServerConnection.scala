@@ -52,6 +52,9 @@ class TestServerConnection(clientProcess:Seq[TestClientConnetcion]) extends Mute
     this.newFutureHandler("GET_STRUCTURE", this.handleGetStructure _,
       Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.GetStructureRequest", true, true)))
 
+    this.newFutureHandler("RENAME", this.handleRename _,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.RenameRequest")))
+
     this.newVoidHandler("SET_LOGGER_CONFIGURATION", this.handleSetLoggerConfiguration _,
       Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.LoggerSettings")))
       
@@ -90,6 +93,17 @@ class TestServerConnection(clientProcess:Seq[TestClientConnetcion]) extends Mute
       case _ => Future.failed(new Exception("No structure providers found"))
     }
   }
+
+    def handleRename(getStructure: RenameRequest) : Future[RenameResponse] = {
+        val firstOpt = this.renameListeners.find(_=>true)
+        firstOpt match  {
+            case Some(listener) =>
+                listener(getStructure.uri, getStructure.position, getStructure.newName).map(resultMap=>{
+                    RenameResponse(resultMap.map(ChangedDocument.sharedToTransport))
+                })
+            case _ => Future.failed(new Exception("No rename modules found"))
+        }
+    }
   
     def handleGetSuggestions(getCompletion: GetCompletionRequest) : Future[GetCompletionResponse] = {
     val firstOpt = this.documentCompletionListeners.find(_=>true)
@@ -242,5 +256,9 @@ class TestServerConnection(clientProcess:Seq[TestClientConnetcion]) extends Mute
         //  "NodeMessageDispatcher", "internalSendMessage")
 
         //this.internalSendJSONMessage(protocolMessage.asInstanceOf[js.Object])
+    }
+
+    def rename(uri: String, position: Int, newName: String): Future[Seq[IChangedDocument]] = {
+        renameListeners.head(uri, position, newName);
     }
 }

@@ -8,7 +8,7 @@ import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.features.validation.AMFValidatorPlugin
 import org.mulesoft.language.server.core.Server
 import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
-import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
+import org.mulesoft.language.server.modules.findReferences.{FindReferencesModule, RenameModule}
 import org.mulesoft.language.server.modules.hlastManager.HLASTManager
 import org.mulesoft.language.server.modules.outline.StructureManager
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
@@ -73,6 +73,7 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets{
 
                     server.registerModule(new FindReferencesModule())
                     server.registerModule(new FIndDeclarationModule())
+                    server.registerModule(new RenameModule())
 
                     server.enableModule(IASTManagerModule.moduleId)
                     server.enableModule(HLASTManager.moduleId)
@@ -82,6 +83,8 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets{
 
                     server.enableModule(FindReferencesModule.moduleId)
                     server.enableModule(FIndDeclarationModule.moduleId)
+
+                    server.enableModule(RenameModule.moduleId)
 
                     val editorManager = server.modules.get(IEditorManagerModule.moduleId)
                     if (editorManager.isDefined) {
