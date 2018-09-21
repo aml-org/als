@@ -35,7 +35,7 @@ class BasicASTNode(
     var needMap: Boolean = _
     var invalidSequence: Boolean = _
 
-    def printDetails(indent: String): String = s"${indent}Unkown\n"
+    def printDetails(indent: String): String = NodePrinter.printNode(this,indent)
 
     def testSerialize(indent: String): String = s"${indent}Unkown\n"
 

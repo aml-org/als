@@ -70,20 +70,7 @@ class ASTPropImpl(
 
     def name:String = _prop.flatMap(_.nameId).getOrElse("")
 
-    override def printDetails(indent: String = ""): String = {
-        var className = if (definition.isDefined) definition.get.nameId.getOrElse("") else ""
-        var definitionClassName:String = printDefinitionClassName
-        var result = s"$indent$name: $className[$definitionClassName]  =  ${value.getOrElse("$None")}"
-        var ranges = sourceInfo.ranges
-        if(ranges.lengthCompare(1)==0){
-            result += s"; #range: ${ranges.head}"
-        }
-        else{
-            result += (s"\n$indent #ranges:" + ranges.map(r=>s"\n$indent  "+r).mkString(""))
-        }
-        result += "\n"
-        result
-    }
+    override def printDetails(indent: String = ""): String = NodePrinter.printProperty(this,indent)
 
     override def isAttr: Boolean = true
 

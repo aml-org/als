@@ -43,16 +43,7 @@ class ASTNodeImpl(
     def associatedType: ITypeDefinition = _associatedDef
 
 
-    override def printDetails(indent: String=""): String = {
-        var classname = definition.nameId.getOrElse("")
-        var definitionClassName:String = printDefinitionClassName
-        var parentPropertyName = property.flatMap(_.nameId).getOrElse("")
-        var result:StringBuilder = StringBuilder.newBuilder
-        result.append(s"$indent$classname[$definitionClassName] <--- $parentPropertyName\n")
-        children.foreach(x=>result.append(x.printDetails(indent+"  ")))
-        result.append(s"$indent  #range: ${sourceInfo.ranges.head}\n")
-        result.toString()
-    }
+    override def printDetails(indent: String=""): String = NodePrinter.printElement(this,indent)
 
     def name: String = ""
 
