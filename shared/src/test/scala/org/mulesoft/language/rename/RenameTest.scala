@@ -22,9 +22,9 @@ abstract class RenameTest extends LanguageServerTest {
 
                 val fileContentsStr = contents.head.stream.toString
                 val renamedFileContentsStr = contents.last.stream.toString
-                content = Option(fileContentsStr)
                 renamedContent = Option(renamedFileContentsStr.trim)
                 val markerInfo = this.findMarker(fileContentsStr)
+                content = Option(markerInfo.rawContent)
                 val position = markerInfo.position
                 getClient.flatMap(client=>{
                     val filePath = s"file:///$path"
@@ -39,12 +39,12 @@ abstract class RenameTest extends LanguageServerTest {
                 changedDocs.foreach(x => x.textEdits.map(edits ++= _))
                 var newText = content.get
                 edits.sortBy(x=>(-1) * x.range.start).foreach(te => {
-                   newText = newText.substring(0, te.range.start) + te.text + newText.substring(te.range.end + 1)
+                   newText = newText.substring(0, te.range.start) + te.text + newText.substring(te.range.end)
                 })
                 val result = renamedContent.contains(newText.trim)
 
                 if (result) succeed
-                else succeed //fail(s"Difference for $path: got [${ newText}] while expecting [${renamedContent.get}]")
+                else fail(s"Difference for $path: got [${ newText}] while expecting [${renamedContent.get}]")
             })
         })
     }
