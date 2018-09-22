@@ -52,11 +52,7 @@ class RenameModule extends AbstractServerModule {
 	private def currentAst(uri: String): Future[IProject] = {
 		val hlmanager = this.getDependencyById(HLASTManager.moduleId).get.asInstanceOf[HLASTManager]
 		
-		hlmanager.forceGetCurrentAST(uri).map(ast=>{
-			println("ASTFOUND: " + ast.rootASTUnit.path + " " + ast.rootASTUnit.text);
-			
-			ast
-		})
+		hlmanager.forceGetCurrentAST(uri);
 	}
 }
 
