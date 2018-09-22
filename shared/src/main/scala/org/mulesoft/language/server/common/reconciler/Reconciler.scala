@@ -84,19 +84,15 @@ class Reconciler(logger: ILogger, timeout: Int, setTimeout: Function2[Function0[
 	}
 	
 	private def removeFromWaitingList[ResultType](runnable: Runnable[ResultType]) {
-		if(waitingList.isEmpty) {
-			return;
+		if(waitingList.contains(runnable)) {
+			waitingList -= runnable.asInstanceOf[Runnable[Any]]
 		}
-		
-		waitingList -= runnable.asInstanceOf[Runnable[Any]];
 	}
 	
 	private def removeFromRunningList[ResultType](runnable: Runnable[ResultType]) {
-		if(runningList.isEmpty) {
-			return;
+		if(runningList.contains(runnable)) {
+			runningList -= runnable.asInstanceOf[Runnable[Any]]
 		}
-		
-		runningList -= runnable.asInstanceOf[Runnable[Any]];
 	}
 	
 	private def findConflictingInRunningList[ResultType](runnable: Runnable[ResultType]): Option[Runnable[ResultType]] = runningList.find(runnable.conflicts(_)).asInstanceOf[Option[Runnable[ResultType]]];

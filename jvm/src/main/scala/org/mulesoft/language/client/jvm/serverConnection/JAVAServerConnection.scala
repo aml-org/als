@@ -171,27 +171,27 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
 	}
 	
 	override def log(message: String, severity: MessageSeverity.Value, component: String, subcomponent: String) {
-        System.out.println("LOG:" + component + ":" + subcomponent + ":" +message)
+        //System.out.println("LOG:" + component + ":" + subcomponent + ":" +message)
 	
 	}
 	
 	override def debugDetail(message: String, component: String, subcomponent: String) {
-        System.out.println("DEBUG_DETAIL:" + component + ":" + subcomponent + ":" +message)
+        //System.out.println("DEBUG_DETAIL:" + component + ":" + subcomponent + ":" +message)
 	}
 	
 	override def warning(message: String, component: String, subcomponent: String) {
-        System.out.println("WARNING:" + component + ":" + subcomponent + ":" +message)
+        //System.out.println("WARNING:" + component + ":" + subcomponent + ":" +message)
 	}
 	
 	override def debugOverview(message: String, component: String, subcomponent: String) {
-        System.out.println("DEBUG_OVERVIEW:" + component + ":" + subcomponent + ":" +message)
+        //System.out.println("DEBUG_OVERVIEW:" + component + ":" + subcomponent + ":" +message)
 	}
 	
 	override def error(message: String, component: String, subcomponent: String) {
-        System.out.println("ERROR:" + component + ":" + subcomponent + ":" +message)
+        //System.out.println("ERROR:" + component + ":" + subcomponent + ":" +message)
 	}
 	
 	override def debug(message: String, component: String, subcomponent: String) {
-        System.out.println("DEBUG:" + component + ":" + subcomponent + ":" +message)
+        //System.out.println("DEBUG:" + component + ":" + subcomponent + ":" +message)
 	}
 }
