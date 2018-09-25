@@ -271,17 +271,25 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
     val helper = ParserHelper(this.platform)
 
     var promise = Promise[BaseUnit]();
+
+    try {
   
-    helper.parse(cfg, this.platform.defaultEnvironment).andThen {
-      case Success(result) => {
-        val endTime = System.currentTimeMillis();
-  
-        this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to build AMF ast", "ASTManager", "parse");
-    
-        promise.success(result);
+      helper.parse(cfg, this.platform.defaultEnvironment).andThen {
+        case Success(result) => {
+          val endTime = System.currentTimeMillis();
+
+          this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to build AMF ast", "ASTManager", "parse");
+
+          promise.success(result);
+        }
+
+        case Failure(throwable) => promise.failure(throwable);
       }
-  
-      case Failure(throwable) => promise.failure(throwable);
+
+    } catch {
+      case e: Throwable => {
+        promise.failure(e)
+      }
     }
   
     promise.future;
