@@ -10,7 +10,7 @@ import org.mulesoft.typesystem.nominal_interfaces.IProperty
 import org.mulesoft.als.suggestions.plugins.oas.DefinitionReferenceCompletionPlugin._
 import org.mulesoft.high.level.implementation.SourceInfo
 import org.mulesoft.positioning.{IPositionsMapper, YamlLocation, YamlPartWithRange}
-import org.yaml.model.{YScalar, YValue}
+import org.yaml.model.{DoubleQuoteMark, YScalar}
 
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.{Future, Promise}
@@ -26,14 +26,47 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
             case Some(spv: SCHEMA_PROPERTY_VALUE) => extractRefs(request).map(x=>{
                 var isJSON = request.config.astProvider.get.syntax == Syntax.JSON
                 if(isJSON){
-                    "{ \"$ref\": \"" + x + "\" }"
+                    val text = "{ \"$ref\": \"" + x + "\" }"
+                    List(text,text)
                 }
                 else {
-                    "\n" + " " * spv.refPropOffset + "$ref: \"" + x + "\""
+                    var keyLine = request.yamlLocation.flatMap(_.keyNode)
+                        .map(_.range.start.line).getOrElse(-1)
+                    var line = request.astNode.get.astUnit.positionsMapper.point(request.position).line
+                    var text = "\"$ref\": \"" + x + "\""
+                    val display = "$ref: " + x
+                    if(line == keyLine){
+                        text = "\n" + " " * spv.refPropOffset + text
+                    }
+                    List(text,display)
                 }
-            }).map(x=>Suggestion(x,x,x,request.prefix));
+            }).map(x=>Suggestion(x.head,x(1),x(1),request.prefix));
             
-            case Some(rpv: REF_PROPERTY_VALUE) => extractRefs(request).map(x=>Suggestion(x,x,x,request.prefix));
+            case Some(rpv: REF_PROPERTY_VALUE) => extractRefs(request).map(_uri=>{
+                var uri = _uri
+                val text = if(request.prefix.startsWith("/") && uri.startsWith("#")){
+                    uri = uri.substring(1)
+                    uri
+                }
+                else {
+                    val needQuotes = request.actualYamlLocation.flatMap(_.value).map(_.yPart) match {
+                        case Some(l) => l match {
+                            case sc: YScalar => {
+                                sc.mark != DoubleQuoteMark
+                            }
+                            case _ => false
+                        }
+                        case _ => false
+                    }
+                    if (needQuotes) {
+                        "\"" + uri + "\""
+                    }
+                    else {
+                        uri
+                    }
+                }
+                Suggestion(text,uri,uri,request.prefix)
+            });
             
             case _ => Seq();
         }
@@ -43,7 +76,23 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
     }
     
     def extractRefs(request: ICompletionRequest): Seq[String] = {
-        request.astNode.get.astUnit.rootNode.elements("definitions").map(x=>s"#/definitions/${x.attribute("name").get.value.get}");
+        val elementOpt = request.astNode.flatMap(x => {
+            if (x.isElement) {
+                x.asElement
+            }
+            else if (x.isAttr) {
+                x.parent
+            }
+            else {
+                None
+            }
+        })
+        var propNameOpt = elementOpt.flatMap(_.property).flatMap(_.nameId)
+        var nameOpt:Option[String] = None
+        if(propNameOpt.contains("definitions")){
+            nameOpt = elementOpt.flatMap(_.attribute("name")).flatMap(_.value).map(_.toString)
+        }
+        request.astNode.get.astUnit.rootNode.elements("definitions").map(x => x.attribute("name").get.value.get).filter(y => !nameOpt.contains(y)).map(n=>s"#/definitions/$n");
     }
 
     override def isApplicable(request: ICompletionRequest): Boolean = {
@@ -79,13 +128,17 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
             var actualLocation = request.actualYamlLocation.get
             var pm = node.astUnit.positionsMapper
 
-            acceptedProperties.get.find(_.domain.exists(_.nameId.contains(defName))) match {
+            acceptedProperties.get.find(_.domain.exists(x=>definition.isAssignableFrom(x.nameId.get))) match {
                 case Some(p) =>
                     val keyValue = actualLocation.keyValue.get
                     keyValue.yPart match {
                         case scalar: YScalar =>
-                            if (p.nameId.contains(scalar.value)) {
+                            val key = scalar.value
+                            if (p.nameId.contains(key)) {
                                 selectPreciseCompletionStyle(position, actualLocation, pm,  node.astUnit)
+                            }
+                            else if(key == "$ref"){
+                                Some(REF_PROPERTY_VALUE())
                             }
                             else {
                                 None
@@ -166,7 +219,17 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
                         else {
                             None
                         }
-                    case None => None
+                    case None => if(nodeProp.nameId.contains("$ref")){
+                        if(node.parent.map(_.definition).exists(_.isAssignableFrom("SchemaObject"))){
+                            Some(REF_PROPERTY_VALUE())
+                        }
+                        else {
+                            None
+                        }
+                    }
+                    else {
+                        None
+                    }
                 }
                 case None => None
             }
