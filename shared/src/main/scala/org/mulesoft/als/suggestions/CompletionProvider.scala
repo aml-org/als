@@ -128,6 +128,17 @@ class CompletionProvider {
                     })
                 }
             }
+            else if(!isKey){
+                result = result.map(x => {
+                    var prefix = x.prefix
+                    if(prefix == ":" && (!x.text.startsWith("\n")||x.text.startsWith("\r\n"))){
+                        Suggestion(" " + x.text, x.description, x.displayText, x.prefix).withCategory(x.category)
+                    }
+                    else{
+                        x
+                    }
+                })
+            }
         }
         else if (isJSON) {
             var postfix = ""
@@ -161,7 +172,15 @@ class CompletionProvider {
     }
 
     def filter(suggestions:Seq[ISuggestion], request:ICompletionRequest):Seq[ISuggestion] = {
-        suggestions.filter(s => s.displayText.toLowerCase.startsWith(s.prefix.toLowerCase));
+        suggestions.filter(s => {
+            val prefix = s.prefix.toLowerCase
+            if(prefix.isEmpty || prefix == ":"){
+                true
+            }
+            else {
+                s.displayText.toLowerCase.startsWith(prefix)
+            }
+        });
     }
 }
 

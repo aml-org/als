@@ -7,6 +7,10 @@ class ParameterReferencePlugin extends ReferencePlugin {
     def definitionClass:String = "ParameterDefinitionObject"
 
     def targetClass:String = "ParameterObject"
+
+    def alwaysSequence:Boolean = true
+
+    def restrictedClasses:Seq[String] = List("ParameterDefinitionObject")
 }
 
 object ParameterReferencePlugin {

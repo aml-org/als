@@ -8,7 +8,11 @@ class ResponseReferencePlugin extends ReferencePlugin {
 
     def definitionClass:String = "ResponseDefinitionObject"
 
-    def targetClass:String = "ResponseObject"
+    def targetClass:String = "Response"
+
+    def restrictedClasses:Seq[String] = List("ParameterDefinitionObject")
+
+    def alwaysSequence:Boolean = false
 }
 
 object ResponseReferencePlugin {
