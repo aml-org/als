@@ -35,6 +35,7 @@ abstract class ReferencePlugin extends ICompletionPlugin {
 	
     override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
         var isAttr = false
+        var isJSON = request.config.astProvider.map(_.syntax).contains(Syntax.JSON)
         var elementOpt:Option[IHighLevelNode] = request.astNode match {
             case Some(n) => if(n.isElement) {
                 n.asElement
@@ -57,10 +58,11 @@ abstract class ReferencePlugin extends ICompletionPlugin {
 
                     ds.map(declaration => {
                         var uri = oasDeclarationReference(declaration);
+                        var label = uri
                         val text = if(isAttr){
                             if(request.prefix.startsWith("/") && uri.startsWith("#")){
-                                uri = uri.substring(1)
-                                uri
+                                label = uri.substring(1)
+                                label
                             }
                             else {
                                 val needQuotes = request.actualYamlLocation.flatMap(_.value).map(_.yPart) match {
@@ -80,9 +82,13 @@ abstract class ReferencePlugin extends ICompletionPlugin {
                                 }
                             }
                         } else {
-                            wrapDeclarationReference(uri, request)
+                            val result = wrapDeclarationReference(uri, request)
+                            if(isJSON){
+                                label = result
+                            }
+                            result
                         }
-                        Suggestion(text, id, uri, request.prefix);
+                        Suggestion(text, id, label, request.prefix);
                     });
                 } else {
 					Seq();
@@ -110,7 +116,20 @@ abstract class ReferencePlugin extends ICompletionPlugin {
         })
         var isJSON = request.config.astProvider.get.syntax == Syntax.JSON
         if(isJSON){
-            "{ \"$ref\": \"" + reference + "\" }"
+            val pm = request.astNode.get.astUnit.positionsMapper
+            val point = pm.point(request.position)
+            val line = pm.line(point.line).get
+            val colonIndex = Math.max(0,line.lastIndexOf(":", point.column))
+            val hasStartQuote = line.lastIndexOf("\"", point.column)>=colonIndex
+            val hasEndQuote = line.indexOf("\"", point.column)>=0
+            var result = "$ref\": \"" + reference
+            if(!hasStartQuote){
+                result = "\"" + result
+            }
+            if(!hasEndQuote){
+                result = result + "\""
+            }
+            result
         }
         else {
             var keyLine = element.flatMap(_.sourceInfo.ranges.headOption).map(_.start.line).getOrElse(-1)
