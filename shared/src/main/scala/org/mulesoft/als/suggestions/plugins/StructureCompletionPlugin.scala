@@ -146,7 +146,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                 if (isInKey) {
                     n = _n.parent.get
                 }
-                var isYAML = request.config.astProvider.get.syntax == Syntax.YAML
+                var isYAML = request.config.astProvider.map(_.syntax).contains(Syntax.YAML)
                 if (isContentType(request)) {
                     contentTypes(request).map(value => Suggestion(value, id, value, request.prefix));
                 } else if (isDiscriminatorValue(request)) {
@@ -158,7 +158,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 
                     extractSuggestableProperties(element).map(prop => {
                         var pName = prop.nameId.get
-                        var text = if(pName.startsWith("$")) s""""$pName"""" else pName
+                        var text = if(isYAML && pName.startsWith("$")) s""""$pName"""" else pName
                         var suggestion = Suggestion(text, id, pName, request.prefix)
                         ProjectBuilder.determineFormat(element.astUnit.baseUnit).flatMap(SuggestionCategoryRegistry.getCategory(_,pName,Option(element.definition),prop.range)).foreach(suggestion.withCategory)
                         suggestion

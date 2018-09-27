@@ -163,7 +163,8 @@ class CompletionProvider {
             }
             if (postfix.nonEmpty) {
                 result = result.map(x => {
-                    val newText = if(!endingQuote || !x.text.endsWith("\"")) x.text + postfix else x.text
+                    var isJSONObject = isJSON && x.text.startsWith("{") && x.text.endsWith("}")
+                    val newText = if(!isJSONObject && (!endingQuote || !x.text.endsWith("\""))) x.text + postfix else x.text
                     Suggestion(newText, x.description, x.displayText, x.prefix).withCategory(x.category)
                 })
             }
@@ -191,6 +192,8 @@ object CompletionProvider {
     def apply():CompletionProvider = new CompletionProvider()
 
     def getPrefix(content: IEditorStateProvider): String = {
+        val textTrim = content.getText.trim
+        val isJSON = textTrim.startsWith("{") && textTrim.endsWith("}")
         var line = getLine(content)
         var opt = prefixRegex.findFirstIn(line)
         var result = opt.getOrElse("")
@@ -200,6 +203,9 @@ object CompletionProvider {
         val text = content.getText
         val offset = content.getOffset
         if(offset > 0 && text.lastIndexOf("\n",offset-1)<0 && text.substring(0,offset) == "#%RAML 1.0"){
+            result = ""
+        }
+        if(isJSON && result == "{"){
             result = ""
         }
         result
@@ -377,12 +383,15 @@ object CompletionProvider {
             }
         }
         else if(colonIndex<=off){
-            newLine = line.substring(0,off) + "x\" : "
-            if(!hasComplexValueStart){
-                newLine += "\"\""
-            }
-            if(!(hasComplexValueSameLine||hasComplexValueNextLine)){
-                newLine += ","
+            var hasOpenValueQuote = line.substring(colonIndex+1).trim.startsWith("\"")
+            if(hasOpenValueQuote) {
+                newLine = line.substring(0, off) + "x\" : "
+                if (!hasComplexValueStart) {
+                    newLine += "\"\""
+                }
+                if (!(hasComplexValueSameLine || hasComplexValueNextLine)) {
+                    newLine += ","
+                }
             }
         }
         else {
