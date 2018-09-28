@@ -1,0 +1,27 @@
+{
+  "swagger": "2.0",
+  "info"  : {
+    "title": "asd",
+    "version": "asddd"
+  },
+  "paths": {
+    "/resource": {
+      "get": {
+        "responses": {
+          "200": {
+            "$ref": "*",
+            "description": "response"
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "response1": {
+      "description": "response 1"
+    },
+    "response2": {
+      "description": "response 2"
+    }
+  }
+}

@@ -383,17 +383,31 @@ object CompletionProvider {
             }
         }
         else if(colonIndex<=off){
-            var hasOpenValueQuote = line.substring(colonIndex+1).trim.startsWith("\"")
-            if(hasOpenValueQuote) {
-                newLine = line.substring(0, off) + "x\" : "
-                if (!hasComplexValueStart) {
-                    newLine += "\"\""
-                }
-                if (!(hasComplexValueSameLine || hasComplexValueNextLine)) {
-                    newLine += ","
-                }
+
+            var substr = line.substring(colonIndex+1).trim
+            var hasOpenCurlyBracket = substr.startsWith("{")
+            var hasOpenSquareBracket = substr.startsWith("[")
+            newLine = line.substring(0, off)
+            if(hasOpenCurlyBracket||hasOpenSquareBracket){
+                substr = substr.substring(1)
             }
-        }
+            var hasOpenValueQuote = substr.startsWith("\"")
+            var hasCloseValueQuote = line.indexOf("\"",off) >= 0
+
+            if (!hasOpenValueQuote && !(hasOpenCurlyBracket || hasOpenSquareBracket)) {
+                newLine += "\""
+                hasOpenValueQuote = true
+            }
+            if(hasOpenValueQuote) {
+                newLine += "\""
+            }
+            if(hasComplexValueSameLine){
+                newLine += lineTrim.charAt(lineTrim.length-1)
+            }
+            if(lineTrim.endsWith(",")){
+                newLine += ","
+            }
+         }
         else {
             if(line.substring(colonIndex+1).trim.startsWith("\"")){
                 var openQuoteInd = line.indexOf("\"",colonIndex)
