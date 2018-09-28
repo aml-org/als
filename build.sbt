@@ -44,6 +44,32 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
     )
 )
 
+lazy val url = sys.env.getOrElse("SONAR_SERVER_URL", "Not found url.")
+lazy val token = sys.env.getOrElse("SONAR_SERVER_TOKEN", "Not found token.")
+
+
+lazy val root = project.in(file("."))
+    .aggregate(coreJVM, coreJS)
+    .enablePlugins(SonarRunnerPlugin)
+    .settings(
+        sonarProperties := {
+            Map(
+                "sonar.host.url" -> url,
+                "sonar.login" -> token,
+                "sonar.projectKey" -> "mulesoft.als",
+                "sonar.projectName" -> "ALS",
+                "sonar.github.repository" -> "mulesoft/als",
+                "sonar.projectVersion" -> deps("version"),
+                "sonar.sourceEncoding" -> "UTF-8",
+                "sonar.modules" -> ".",
+                "..sonar.sources" -> "shared/src/main/scala",
+                "..sonar.exclusions" -> "shared/src/test/resources/**",
+                "..sonar.tests" -> "shared/src/test/scala",
+                "..sonar.scoverage.reportPath" -> "jvm/target/scala-2.12/scoverage-report/scoverage.xml"
+            )
+        }
+    )
+
 lazy val sharedProject = (project in file("shared")).settings(settings: _*)
   .settings(
       name := "api-language-server-shared-project"
