@@ -5,6 +5,7 @@ import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggesti
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.mulesoft.high.level.{Declaration, Search}
+import org.mulesoft.positioning.PositionsMapper
 import org.mulesoft.typesystem.nominal_interfaces.IProperty
 import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
 import org.yaml.model.{DoubleQuoteMark, YScalar}
@@ -116,7 +117,8 @@ abstract class ReferencePlugin extends ICompletionPlugin {
         })
         var isJSON = request.config.astProvider.get.syntax == Syntax.JSON
         if(isJSON){
-            val pm = request.astNode.get.astUnit.positionsMapper
+            val isScalar = request.actualYamlLocation.flatMap(_.value).map(_.yPart).exists(_.isInstanceOf[YScalar])
+            val pm = PositionsMapper("/tmp").withText(request.config.originalContent.get)
             val point = pm.point(request.position)
             val line = pm.line(point.line).get
             val colonIndex = Math.max(0,line.lastIndexOf(":", point.column))
@@ -128,6 +130,9 @@ abstract class ReferencePlugin extends ICompletionPlugin {
             }
             if(!hasEndQuote){
                 result = result + "\""
+            }
+            if(isScalar){
+                result = s"{ $result }"
             }
             result
         }

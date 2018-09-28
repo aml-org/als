@@ -203,23 +203,23 @@ class ReferenceTestsJSON extends OAS20Test {
 //  }
 
  test("Response reference test JSON 001"){
-    this.runTest("references_json/responses/test001.json", Set("\"$ref\": \"#/responses/response1\"", "\"$ref\": \"#/responses/response2\""))
+    this.runTest("references_json/responses/test001.json", Set("{ \"$ref\": \"#/responses/response1\" }", "{ \"$ref\": \"#/responses/response2\" }"))
   }
 
   test("Response reference test JSON 002"){
-    this.runTest("references_json/responses/test002.json", Set("$ref\": \"#/responses/response1", "$ref\": \"#/responses/response2", "description\":", "$ref\":", "schema\":", "example\":"))
+    this.runTest("references_json/responses/test002.json", Set("\"$ref\": \"#/responses/response1\"", "\"$ref\": \"#/responses/response2\""))
   }
 
   test("Response reference test JSON 003"){
-    this.runTest("references_json/responses/test003.json", Set("\"$ref\": \"#/responses/response1\"", "\"$ref\": \"#/responses/response2\""))
+    this.runTest("references_json/responses/test003.json", Set("$ref\": \"#/responses/response1", "$ref\": \"#/responses/response2", "description\":", "$ref\":", "schema\":", "example\":"))
   }
 
   test("Response reference test JSON 004"){
-    this.runTest("references_json/responses/test004.json", Set("$ref\": \"#/responses/response1", "$ref\": \"#/responses/response2", "description\":", "$ref\":", "schema\":", "example\":"))
+    this.runTest("references_json/responses/test004.json", Set("\"$ref\": \"#/responses/response1\"", "\"$ref\": \"#/responses/response2\""))
   }
 
   test("Response reference test JSON 005"){
-    this.runTest("references_json/responses/test005.json", Set("#/responses/response1", "#/responses/response2"))
+    this.runTest("references_json/responses/test005.json", Set("$ref\": \"#/responses/response1", "$ref\": \"#/responses/response2", "description\":", "$ref\":", "schema\":", "example\":"))
   }
 
   test("Response reference test JSON 006"){
@@ -227,7 +227,7 @@ class ReferenceTestsJSON extends OAS20Test {
   }
 
   test("Response reference test JSON 007"){
-    this.runTest("references_json/responses/test007.json", Set("/responses/response1", "/responses/response2"))
+    this.runTest("references_json/responses/test007.json", Set("#/responses/response1", "#/responses/response2"))
   }
 
   test("Response reference test JSON 008"){
@@ -235,6 +235,10 @@ class ReferenceTestsJSON extends OAS20Test {
   }
 
   test("Response reference test JSON 009"){
-    this.runTest("references_json/responses/test009.json", Set("#/responses/response1", "#/responses/response2"))
+    this.runTest("references_json/responses/test009.json", Set("/responses/response1", "/responses/response2"))
+  }
+
+  test("Response reference test JSON 010"){
+    this.runTest("references_json/responses/test010.json", Set("#/responses/response1", "#/responses/response2"))
   }
 }

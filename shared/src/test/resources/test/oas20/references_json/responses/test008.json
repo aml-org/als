@@ -9,7 +9,7 @@
       "get": {
         "responses": {
           "200": {
-            "$ref": "#/resp*"
+            "$ref": "#/*"
           }
         }
       }
