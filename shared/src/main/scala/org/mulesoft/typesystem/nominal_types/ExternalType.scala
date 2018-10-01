@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.typesystem.nominal_types
 
 import org.mulesoft.typesystem.nominal_interfaces.{IArrayType, IExternalType, IUniverse}
@@ -20,3 +21,4 @@ class ExternalType(_name:String, _universe:IUniverse = EmptyUniverse, _path: Str
 
     override def external = Some(this)
 }
+// $COVERAGE-ON$

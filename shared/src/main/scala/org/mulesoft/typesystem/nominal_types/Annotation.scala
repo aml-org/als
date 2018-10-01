@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.typesystem.nominal_types
 
 import org.mulesoft.typesystem.nominal_interfaces.{IAnnotation, IAnnotationType}
@@ -10,3 +11,4 @@ class Annotation(`type`: IAnnotationType, parameters: scala.collection.Map[Strin
 
     def getType:IAnnotationType = `type`
 }
+// $COVERAGE-ON$

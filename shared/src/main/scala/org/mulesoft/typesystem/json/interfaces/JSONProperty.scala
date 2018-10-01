@@ -1,5 +1,5 @@
 package org.mulesoft.typesystem.json.interfaces
-
+// $COVERAGE-OFF$
 trait JSONProperty {
 
     def name: String
@@ -8,3 +8,4 @@ trait JSONProperty {
 
     def valueKind: JSONWrapperKind[_ <: Any] = value.kind
 }
+// $COVERAGE-ON$

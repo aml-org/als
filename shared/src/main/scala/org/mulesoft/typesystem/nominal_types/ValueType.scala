@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.typesystem.nominal_types
 
 import org.mulesoft.typesystem.nominal_interfaces.IUniverse
@@ -14,3 +15,4 @@ class ValueType(name: String, _universe: IUniverse = null, path: String = "", de
 
     override def isObject = false
 }
+// $COVERAGE-ON$

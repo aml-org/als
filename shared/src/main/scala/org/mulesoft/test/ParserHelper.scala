@@ -20,7 +20,7 @@
 //        RuntimeCompiler(
 //            inputFile,
 //            Option(effectiveMediaType(config.inputMediaType, config.inputFormat)),
-//            effectiveVendor(config.inputMediaType, config.inputFormat),
+//            config.inputFormat,
 //            Context(platform),
 //            UnspecifiedReference,
 //            Cache(),

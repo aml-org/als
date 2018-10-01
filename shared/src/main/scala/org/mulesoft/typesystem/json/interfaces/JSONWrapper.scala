@@ -35,7 +35,7 @@ trait JSONWrapper {
         case Some(p) => p.value.value[T](kind)
         case _ => None
     }
-
+    // $COVERAGE-OFF$
     def numberValue(): Option[Number] = value(NUMBER)
 
     def items: Option[Seq[JSONWrapper]] = value(ARRAY)
@@ -86,4 +86,4 @@ trait JSONWrapper {
         case ARRAY => "[" + value(ARRAY).get.mkString(",") + "]"
     }
 }
-
+// $COVERAGE-ON$

@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.positioning
 
 import org.mulesoft.typesystem.syaml.to.json.YRange
@@ -117,3 +118,4 @@ object YamlSearch {
     
 
 }
+// $COVERAGE-ON$

@@ -9,7 +9,7 @@ class TypeCollection(val id:String, val types:Universe,val annotationTypes:Unive
     override val dependencies:mutable.Map[String,DependencyEntry[TypeCollection]] = mutable.Map()
 
     def registerDependency(dep:DependencyEntry[TypeCollection]):Unit = dependencies(dep.path) = dep
-
+    // $COVERAGE-OFF$
     override def getType(typeName: String): Option[ITypeDefinition] = {
         var tc:TypeCollection = this
 
@@ -32,6 +32,7 @@ class TypeCollection(val id:String, val types:Universe,val annotationTypes:Unive
         }
         result
     }
+    // $COVERAGE-ON$
 }
 
 object TypeCollection {

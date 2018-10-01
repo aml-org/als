@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.typesystem.project
 
 class DependencyEntry[T](val path:String,val tc:T) {
@@ -19,3 +20,4 @@ class ModuleDependencyEntry[T] (
                                 val label:String) extends DependencyEntry[T](path,tc) {
     override def isModule = true
 }
+// $COVERAGE-ON$

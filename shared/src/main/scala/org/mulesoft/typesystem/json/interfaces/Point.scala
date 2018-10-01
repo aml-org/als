@@ -1,5 +1,5 @@
 package org.mulesoft.typesystem.json.interfaces
-
+// $COVERAGE-OFF$
 trait Point {
 
     def line: Int
@@ -10,3 +10,4 @@ trait Point {
 
     def resolved: Boolean = position >= 0
 }
+// $COVERAGE-ON$

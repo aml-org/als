@@ -17,7 +17,7 @@ import scala.collection.mutable.ListBuffer
 
 
 object Search {
-
+    // $COVERAGE-OFF$
     def getDeclarations(unit:IASTUnit,typeName:String):Seq[Declaration] = {
 
         var result:ListBuffer[Declaration] = ListBuffer()
@@ -49,7 +49,7 @@ object Search {
         })
         ownDeclarations
     }
-
+    // $COVERAGE-ON$
     def getNodesOfType(
            unit: IASTUnit,
            typeName: String,

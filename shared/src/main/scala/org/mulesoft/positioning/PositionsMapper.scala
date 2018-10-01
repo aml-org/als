@@ -1,4 +1,4 @@
-package org.mulesoft.positioning
+ package org.mulesoft.positioning
 
 import org.mulesoft.typesystem.json.interfaces.{NodeRange, Point}
 import org.mulesoft.typesystem.syaml.to.json.YPoint
@@ -116,7 +116,7 @@ class PositionsMapper(uri: String) extends  IPositionsMapper {
             position - (ind+1)
         }
     }
-
+    // $COVERAGE-OFF$
     override def lineOffset(str: String): Int = {
         var nonWhitespaceIndex = str.indexWhere(!Character.isWhitespace(_))
         if(nonWhitespaceIndex<0){
@@ -166,11 +166,11 @@ class PositionsMapper(uri: String) extends  IPositionsMapper {
             Some(result)
         }
     }
-
+    // $COVERAGE-ON$
     override def getText:String = text
 
     override def textLength: Int = text.length
-
+    // $COVERAGE-OFF$
     override def line(lineIndex: Int): Option[String] = {
         if(lineIndex<0||lineIndex>lineLengthSums.length-1){
             None
@@ -185,6 +185,7 @@ class PositionsMapper(uri: String) extends  IPositionsMapper {
     override def lineContainingPosition(position: Int): Option[String] = {
         line(point(position).line)
     }
+    // $COVERAGE-ON$
 }
 
 object PositionsMapper{

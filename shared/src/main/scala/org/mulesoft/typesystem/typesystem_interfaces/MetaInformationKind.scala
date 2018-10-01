@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.typesystem.typesystem_interfaces {
 
     object MetaInformationKind extends Enumeration {
@@ -33,3 +34,4 @@ package org.mulesoft.typesystem.typesystem_interfaces {
     }
 
 }
+// $COVERAGE-ON$
