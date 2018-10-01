@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.common.dtoTypes
 
 /**
@@ -9,3 +10,4 @@ object TextStyles extends Enumeration {
   val WARNING = Value
   val SUCCESS = Value
 }
+// $COVERAGE-ON$

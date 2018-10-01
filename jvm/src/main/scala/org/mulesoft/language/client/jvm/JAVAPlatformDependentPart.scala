@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.client.jvm;
 
 import amf.client.remote.Content;
@@ -24,3 +25,4 @@ object JAVAPlatformDependentPart extends PlatformDependentPart {
 	
 	override def operativeSystem(): String = System.getProperty("os.name");
 }
+// $COVERAGE-ON$

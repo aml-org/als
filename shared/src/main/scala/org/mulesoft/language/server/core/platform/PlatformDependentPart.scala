@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.server.core.platform
 
 import java.net.URI
@@ -35,3 +36,4 @@ trait PlatformDependentPart {
   
   def operativeSystem(): String;
 }
+// $COVERAGE-ON$

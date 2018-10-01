@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.client.jvm.serverConnection
 
 import java.util
@@ -195,3 +196,4 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
         //System.out.println("DEBUG:" + component + ":" + subcomponent + ":" +message)
 	}
 }
+// $COVERAGE-ON$

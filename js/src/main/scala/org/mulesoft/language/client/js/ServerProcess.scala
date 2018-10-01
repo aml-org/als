@@ -13,7 +13,7 @@ import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModul
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
 import org.mulesoft.language.server.modules.hlastManager.HLASTManager
 import org.mulesoft.language.server.modules.outline.StructureManager
-import org.mulesoft.language.server.server.modules.astManager.{ASTManager, IASTManagerModule, ParseResult, ParserHelper}
+import org.mulesoft.language.server.server.modules.astManager.{ASTManager, IASTManagerModule}
 import org.mulesoft.language.server.server.modules.commonInterfaces.{IEditorTextBuffer, IPoint}
 import org.mulesoft.language.server.server.modules.editorManager.{EditorManager, IEditorManagerModule, TextBufferInfo}
 import org.mulesoft.language.server.server.modules.validationManager.ValidationManager

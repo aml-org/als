@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.client.jvm;
 
 import java.util
@@ -190,3 +191,4 @@ class SuggestionComparableWrapper(var suggestion: ISuggestion) {
 	
 	override def hashCode(): Int = toString().hashCode();
 }
+// $COVERAGE-ON$

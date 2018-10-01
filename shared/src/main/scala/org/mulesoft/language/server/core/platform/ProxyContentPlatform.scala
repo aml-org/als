@@ -67,7 +67,7 @@ class ProxyContentPlatform(protected val source: ConnectionBasedPlatform,
       source.fetchFile(path)
     }
   }
-
+    // $COVERAGE-OFF$
   def fetchHttp(url: String): Future[Content] = source.fetchHttp(url)
 
   override def tmpdir(): String = source.tmpdir()
@@ -90,6 +90,6 @@ class ProxyContentPlatform(protected val source: ConnectionBasedPlatform,
 
   override def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] =
     source.findCharInCharSequence(stream)(p)
-
+    // $COVERAGE-ON$
   override def operativeSystem(): String = source.operativeSystem()
 }

@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.common.dtoTypes
 
 /**
@@ -25,3 +26,4 @@ object StructureCategories extends Enumeration {
     */
   val OtherCategory = Value("Other")
 }
+// $COVERAGE-ON$

@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.server.common.reconciler;
 
 import amf.core.model.document.BaseUnit
@@ -31,3 +32,4 @@ class TestRunnable(var message: String, var kind: String) extends Runnable[Strin
 	def isCanceled(): Boolean = canceled;
 }
 
+// $COVERAGE-ON$
