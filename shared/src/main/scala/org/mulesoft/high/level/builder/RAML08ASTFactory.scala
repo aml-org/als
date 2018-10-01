@@ -176,7 +176,7 @@ class SchemaTextValueBuffer(shape:AmfObject,hlNode:IHighLevelNode) extends IValu
 object SchemaTextValueBuffer {
     def apply(shape: AmfObject, hlNode: IHighLevelNode): SchemaTextValueBuffer = new SchemaTextValueBuffer(shape, hlNode)
 }
-
+// $COVERAGE-OFF$
 class RepeatPropertyValueBuffer(var shape:AmfObject,hlNode:IHighLevelNode) extends IValueBuffer {
     override def getValue: Option[Any] = shape match {
         case as:ArrayShape => Some(true)
@@ -213,7 +213,7 @@ class RepeatPropertyValueBuffer(var shape:AmfObject,hlNode:IHighLevelNode) exten
 object RepeatPropertyValueBuffer {
     def apply(shape: AmfObject, hlNode: IHighLevelNode): RepeatPropertyValueBuffer = new RepeatPropertyValueBuffer(shape, hlNode)
 }
-
+// $COVERAGE-ON$
 class TypePropertyValueBuffer08(var shape:AmfObject, hlNode:IHighLevelNode) extends IValueBuffer {
     override def getValue: Option[Any] = {
         var actualShape = shape match {

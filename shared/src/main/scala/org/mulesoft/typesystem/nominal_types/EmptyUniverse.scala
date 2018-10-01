@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.typesystem.nominal_types
 
 import org.mulesoft.typesystem.nominal_interfaces.{ITypeDefinition, IUniverse}
@@ -20,3 +21,4 @@ class EmptyUniverse private extends IUniverse {
 }
 
 object EmptyUniverse extends EmptyUniverse {}
+// $COVERAGE-ON$

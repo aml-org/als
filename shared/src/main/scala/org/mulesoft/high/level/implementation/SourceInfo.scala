@@ -32,7 +32,7 @@ class SourceInfo private extends ISourceInfo {
     }
 
     override def yamlSources: Seq[YPart] = _yamlSources
-
+    // $COVERAGE-OFF$
     override def offset: Option[Int] = {
         if(isEmpty){
             None
@@ -45,7 +45,7 @@ class SourceInfo private extends ISourceInfo {
             None
         }
     }
-
+    // $COVERAGE-ON$
     override def valueOffset: Option[Int] = {
         if(isEmpty){
             None

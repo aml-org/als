@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.high.level.implementation
 
 import amf.core.remote.{Context, Platform}
@@ -67,3 +68,4 @@ class PlatformFsProvider(platform:Platform) extends IFSProvider{
 object PlatformFsProvider {
     def apply(platform: Platform):PlatformFsProvider = new PlatformFsProvider(platform)
 }
+// $COVERAGE-ON$

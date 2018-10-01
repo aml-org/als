@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.typesystem.nominal_interfaces.extras
 
 import org.mulesoft.typesystem.typesystem_interfaces.Extra
@@ -127,3 +128,4 @@ object PropertySyntaxExtra extends PropertySyntaxExtra{
 
     def apply():PropertySyntaxExtra = new PropertySyntaxExtra()
 }
+// $COVERAGE-ON$

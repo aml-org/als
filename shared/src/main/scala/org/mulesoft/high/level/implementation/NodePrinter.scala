@@ -1,4 +1,8 @@
+// $COVERAGE-OFF$
 package org.mulesoft.high.level.implementation
+
+import org.mulesoft.typesystem.nominal_interfaces.IPrintDetailsSettings
+import org.mulesoft.typesystem.nominal_types.{AbstractType, Array, Described}
 
 object NodePrinter {
 
@@ -59,4 +63,82 @@ object NodePrinter {
 
     def printNode(node:BasicASTNode,indent: String): String = s"${indent}Unkown\n"
 
+    def printType(
+                 t:AbstractType,
+                 indent: String,
+                 settings:IPrintDetailsSettings): String = {
+
+        var standardIndent = "  "
+        var result:String = ""
+        var className = getTypeClassName(t)
+        var nameIdValue = t.nameId.getOrElse("")
+        result = result + s"$indent$nameIdValue[$className]\n"
+        if(t.isArray){
+            t.asInstanceOf[Array].componentType.foreach(
+                ct=>result += s"$indent${standardIndent}Component type: ${ct.nameId.getOrElse("")}\n")
+        }
+        if (t.properties.nonEmpty && !settings.hideProperties) {
+            result = result + s"$indent${standardIndent}Properties:\n"
+            t.properties.foreach(property => {
+                var propertyRangeOpt = property.range
+                if(propertyRangeOpt.isDefined) {
+                    var propertyType = ""
+                    var componentType= ""
+                    var propertyRange = propertyRangeOpt.get
+                    if (propertyRange.isInstanceOf[Described]) {
+                        propertyType = propertyType + propertyRange.asInstanceOf[Described].nameId.getOrElse("")
+                    }
+                    if (propertyRange.isInstanceOf[AbstractType]) {
+                        propertyType = propertyType + s"[${getTypeClassName(propertyRange.asInstanceOf[AbstractType])}]"
+                    }
+                    if(propertyRange.isArray){
+                        propertyRange.asInstanceOf[Array].componentType.foreach(
+                            ct => componentType = s"$indent${standardIndent*3}Component type: ${ct.nameId.getOrElse("")}\n")
+                    }
+                    result = result + s"$indent$standardIndent$standardIndent${property.nameId.getOrElse("")}: $propertyType\n$componentType"
+                }
+            })
+        }
+        var stArr = t.superTypes
+        var filteredSuperTypes = stArr
+        if (stArr.nonEmpty && !settings.printStandardSuperclasses) {
+            filteredSuperTypes = stArr.filter(st => {
+                var name = ""
+                var `type` = ""
+                st match {
+                    case at:AbstractType =>
+                        name = if (at.nameId.isDefined) at.nameId.get else ""
+                        `type` = getTypeClassName(t)
+                    case d:Described => name = if (d.nameId.isDefined) d.nameId.get else ""
+                    case _ =>
+                }
+                !isStandardSuperclass(name, `type`)
+            })
+
+        }
+        if (filteredSuperTypes.nonEmpty) {
+            result = result + s"$indent${standardIndent}Super types:\n"
+            filteredSuperTypes.foreach(superType => {
+                result = result + superType.printDetails(indent + standardIndent + standardIndent, settings)
+            })
+        }
+        result.toString
+    }
+
+
+    def getTypeClassName(t:Any): String = {
+        t.getClass.getName
+    }
+
+    def isStandardSuperclass(nId: String, className: String):Boolean = {
+        if ((nId == "TypeDeclaration") && (className == "NodeClass"))
+            true
+        if ((nId == "ObjectTypeDeclaration") && (className == "NodeClass"))
+            true
+        if ((nId == "RAMLLanguageElement") && (className == "NodeClass"))
+            true
+        false
+    }
+
 }
+// $COVERAGE-ON$
