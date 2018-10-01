@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.common.dtoTypes
 
 /**
@@ -12,3 +13,4 @@ object Icons extends Enumeration {
   val FILE_BINARY = Value
   val BOOK = Value
 }
+// $COVERAGE-ON$

@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.client.jvm.serverConnection
 
 import org.mulesoft.language.client.jvm.dtoTypes.ProtocolMessagePayload
@@ -22,3 +23,4 @@ trait JAVAMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, JA
 	}
 }
 
+// $COVERAGE-ON$

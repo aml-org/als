@@ -59,9 +59,10 @@ class Server(val connection: IServerConnection,
       }
 
     } else {
-
+        // $COVERAGE-OFF$
       connection.warning("Cant enable module " + moduleName + " as its not found",
         "server", "enableModule")
+        // $COVERAGE-ON$
     }
 
   }
@@ -72,8 +73,10 @@ class Server(val connection: IServerConnection,
       if (moduleOption.isDefined) {
         this.enableModule(depId)
       } else {
+          // $COVERAGE-OFF$
         connection.warning("Cant find dependency " + depId,
           "server", "enableModuleDependencies")
+          // $COVERAGE-ON$
       }
     })
   }
@@ -95,8 +98,10 @@ class Server(val connection: IServerConnection,
 
         module.insertDependency(moduleOption.get)
       } else {
+          // $COVERAGE-OFF$
         connection.warning("Cant find dependency " + depId,
           "server", "enableModuleDependencies")
+          // $COVERAGE-ON$
       }
     })
 
@@ -115,9 +120,10 @@ class Server(val connection: IServerConnection,
       module.stop()
 
     } else {
-
+        // $COVERAGE-OFF$
       connection.warning("Cant enable module " + moduleName + " as its not found",
         "server", "enableModule")
+        // $COVERAGE-ON$
     }
   }
 

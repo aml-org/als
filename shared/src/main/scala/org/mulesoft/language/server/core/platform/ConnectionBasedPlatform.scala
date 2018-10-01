@@ -148,7 +148,7 @@ class ConnectionBasedPlatform (val connection: IServerConnection,
             extension(path).flatMap(mimeFromExtension))
         })
   }
-
+// $COVERAGE-OFF$
   def fetchHttp(url: String): Future[Content] = platformPart.fetchHttp(url)
 
   override def tmpdir(): String = ???
@@ -175,7 +175,7 @@ class ConnectionBasedPlatform (val connection: IServerConnection,
 
   override def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] =
     platformPart.findCharInCharSequence(stream)(p)
-
+// $COVERAGE-ON$
   override def operativeSystem(): String = platformPart.operativeSystem();
 }
 

@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.server.core.platform
 
 import org.mulesoft.common.io.{AsyncFile, FileSystem, SyncFile}
@@ -23,3 +24,4 @@ class ConnectionBasedFS(connection: IServerConnection,
   override def separatorChar: Char = '/'
 }
 
+// $COVERAGE-ON$

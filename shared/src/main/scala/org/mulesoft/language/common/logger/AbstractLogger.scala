@@ -57,7 +57,7 @@ trait AbstractLogger extends ILogger {
   def debugDetail(message: String, component: String, subcomponent: String): Unit = {
     this.log(message, MessageSeverity.DEBUG_DETAIL, component, subcomponent);
   }
-
+// $COVERAGE-OFF$
   /**
     * Logs a DEBUG_OVERVIEW severity message.
     * @param message - message text
@@ -190,6 +190,6 @@ trait AbstractLogger extends ILogger {
 //      var component = msg.component
 //      var subcomponent = msg.subcomponent
 //    })
-
+      // $COVERAGE-ON$
   }
 }
