@@ -117,7 +117,7 @@ abstract class ReferencePlugin extends ICompletionPlugin {
         })
         var isJSON = request.config.astProvider.get.syntax == Syntax.JSON
         if(isJSON){
-            val isScalar = request.actualYamlLocation.flatMap(_.value).map(_.yPart).exists(_.isInstanceOf[YScalar])
+            val isScalar = request.yamlLocation.flatMap(_.value).map(_.yPart).exists(_.isInstanceOf[YScalar])
             val pm = PositionsMapper("/tmp").withText(request.config.originalContent.get)
             val point = pm.point(request.position)
             val line = pm.line(point.line).get
