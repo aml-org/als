@@ -62,3 +62,8 @@ Generate Java artifact as `jvm/target/scala-2.12/server.jar` file
 sbt coreJVM/assembly
 ```
 This file is being used in Eclipse client in a separate server thread.
+
+## Generate test coverage report
+```
+sbt clean coverage coreJVM/test coverageReport
+```
