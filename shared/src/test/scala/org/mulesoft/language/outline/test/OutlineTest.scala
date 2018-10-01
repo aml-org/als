@@ -32,7 +32,9 @@ object File {
     }
 }
 
-trait OutlineTest[T] extends AsyncFunSuite with PlatformSecrets {
+trait OutlineTest[T] extends AsyncFunSuite {
+
+    val platform : TestPlatform  = TestPlatform.getInstance()
 
     implicit override def executionContext:ExecutionContext =
         scala.concurrent.ExecutionContext.Implicits.global
@@ -85,7 +87,7 @@ trait OutlineTest[T] extends AsyncFunSuite with PlatformSecrets {
     }
 
     def getExpectedOutline(url: String): Future[String]
-        = this.platform.resolve(url).map(_.stream.toString)
+        = this.platform.resolve(url, Environment(this.platform.loaders)).map(_.stream.toString)
 
     def getActualOutline(url: String): Future[T] = {
 
@@ -94,7 +96,7 @@ trait OutlineTest[T] extends AsyncFunSuite with PlatformSecrets {
         var position = 0;
 
         var contentOpt:Option[String] = None
-        this.platform.resolve(url).map(content => {
+        this.platform.resolve(url, Environment(this.platform.loaders)).map(content => {
 
             val fileContentsStr = content.stream.toString
             val markerInfo = this.findMarker(fileContentsStr)
