@@ -8,10 +8,12 @@ import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
 class DefaultLabelProvider extends LabelProvider {
 
   def getLabelText(node: IParseResult): String = {
+    var resultOpt:Option[String] = None
     if (node.isAttr) {
       var attr = node.asInstanceOf[IAttribute]
       if (attr.value.isDefined) {
-        return (attr.name + ":") + attr.value.get.toString
+          val valString = (attr.name + ":") + attr.value.get.toString
+          resultOpt = Some(valString)
       }
 
     } else if (node.isElement) {
@@ -22,26 +24,31 @@ class DefaultLabelProvider extends LabelProvider {
 
         val titleAttribute = hlNode.attribute("title")
         if (titleAttribute.isDefined) {
-          return titleAttribute.get.value.map(_.toString).getOrElse("")
+            val valString = titleAttribute.get.value.map(_.toString).getOrElse("")
+            resultOpt = Some(valString)
         }
 
       }
       else if (hlNode.definition.nameId.contains(RamlDefinitionKeys.USES_DECLARATION)) {
         val titleAttribute = hlNode.attribute("key")
         if (titleAttribute.isDefined) {
-          return titleAttribute.get.value.map(_.toString).getOrElse("")
+            val valString = titleAttribute.get.value.map(_.toString).getOrElse("")
+            resultOpt = Some(valString)
         }
       }
       else if (hlNode.definition.isAssignableFrom(OASDefinitionKeys.ParameterObject)||hlNode.definition.nameId.contains(OASDefinitionKeys.TagObject)) {
         val titleAttribute = hlNode.attribute("name")
         if (titleAttribute.isDefined) {
-          return titleAttribute.get.value.map(_.toString).getOrElse("")
+          val valString = titleAttribute.get.value.map(_.toString).getOrElse("")
+          resultOpt = Some(valString)
         }
       }
     }
-
-    val result = NodeNameProvider.getNodeName(node)
-    result
+    if(resultOpt.isEmpty) {
+        val valString = NodeNameProvider.getNodeName(node)
+        resultOpt = Some(valString)
+    }
+    resultOpt.get
   }
 
   def getTypeText(node: IParseResult): Option[String] = {
