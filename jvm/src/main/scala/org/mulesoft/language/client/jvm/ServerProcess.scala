@@ -2,6 +2,7 @@
 package org.mulesoft.language.client.jvm;
 
 import java.util
+import java.util.function.Consumer
 
 import org.mulesoft.als.suggestions.interfaces.ISuggestion
 import org.mulesoft.language.client.jvm.dtoTypes.{GetCompletionRequest, GetStructureRequest}
@@ -18,6 +19,7 @@ import org.mulesoft.language.server.server.modules.astManager.{ASTManager, IASTM
 import org.mulesoft.language.server.server.modules.validationManager.ValidationManager
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.util.{Failure, Success};
 
 object ServerProcess {
@@ -163,7 +165,10 @@ trait LocationsHandler {
 }
 
 trait FS {
-	def content(uri: String): String;
+	def exists(uri: String,  onData: Consumer[java.lang.Boolean]);
+	def readDir(uri: String,  onData: Consumer[java.util.List[String]]);
+	def isDirectory(uri: String,  onData: Consumer[java.lang.Boolean]);
+	def content(uri: String,  onData: Consumer[String]);
 }
 
 class JAVAStructureNode(var node: StructureNodeJSON) {
