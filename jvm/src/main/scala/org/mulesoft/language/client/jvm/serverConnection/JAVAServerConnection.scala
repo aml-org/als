@@ -2,7 +2,9 @@
 package org.mulesoft.language.client.jvm.serverConnection
 
 import java.util
+import java.util.function.Consumer
 
+import com.sun.net.httpserver.Authenticator.Failure
 import org.mulesoft.als.suggestions.interfaces.ISuggestion
 import org.mulesoft.language.client.jvm.{FS, ValidationHandler}
 import org.mulesoft.language.client.jvm.dtoTypes.{GetCompletionRequest, GetStructureRequest, GetStructureResponse, ProtocolMessagePayload}
@@ -11,8 +13,10 @@ import org.mulesoft.language.common.logger.{ILoggerSettings, IPrintlnLogger, Mes
 import org.mulesoft.language.server.server.core.connectionsImpl.AbstractServerConnection
 
 import scala.collection.mutable
+import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future;
+import scala.concurrent.{Future, Promise}
+import scala.util.Success;
 
 class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConnection {
 	var lastStructureReport: Option[IStructureReport] = None;
@@ -143,19 +147,33 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
 		result;
 	}
 	
-	override def exists(path: String): Future[Boolean] = Future.successful(false);
+	override def exists(path: String): Future[Boolean] = callFs(path, fs.exists, false, (data: java.lang.Boolean) => data);
 	
-	override def readDir(path: String): Future[Seq[String]] = Future.successful(Seq());
+	override def readDir(path: String): Future[Seq[String]] = callFs(path, fs.readDir, Seq(), (data: java.util.List[String]) => {
+		var result: ArrayBuffer[String] = ArrayBuffer();
+		
+		data.forEach(item => {
+			result += item;
+		});
+		
+		result;
+	});
 	
-	override def isDirectory(path: String): Future[Boolean] = Future.successful(false);
+	override def isDirectory(path: String): Future[Boolean] = callFs(path, fs.isDirectory, false, (data: java.lang.Boolean) => data);
 	
-	override def content(fullPath: String): Future[String] = {
-		if(fs != null) {
-			Future.successful(fs.content(fullPath));
-		} else {
-			Future.successful("")
-		};
-	};
+	override def content(fullPath: String): Future[String] = callFs(fullPath, fs.content, "", (data: String) => data);
+	
+	private def callFs[T, S](path: String, method: Function2[String, Consumer[S], Unit], default: T, converter: Function1[S, T]): Future[T] = if(fs == null) {
+		Future.successful(default);
+	} else {
+		var promise = Promise[T]();
+		
+		method(path, (data: S) => {
+			promise.success(converter(data));
+		});
+		
+		promise.future;
+	}
 	
 	override def onDocumentDetails(listener: (String, Int) => Future[IDetailsItem], unsubscribe: Boolean) {
 	
