@@ -196,6 +196,8 @@ In addition, outline part of the plugin is enhanced.
  
 ### Other Java-based clients
 
+We have test Java-based connection implement, which can be used as a base for the other Java-based clients.
+
 ### Server interface
 
 More details of how add to develop the server side are [here](./documentation/server.md)
