@@ -9,7 +9,7 @@ import org.mulesoft.high.level.interfaces.{IASTUnit, IHighLevelNode, IParseResul
 import org.mulesoft.typesystem.nominal_interfaces.IProperty
 import org.mulesoft.als.suggestions.plugins.oas.DefinitionReferenceCompletionPlugin._
 import org.mulesoft.high.level.implementation.SourceInfo
-import org.mulesoft.positioning.{IPositionsMapper, YamlLocation, YamlPartWithRange}
+import org.mulesoft.positioning.{IPositionsMapper, PositionsMapper, YamlLocation, YamlPartWithRange}
 import org.yaml.model.{DoubleQuoteMark, YScalar}
 
 import scala.collection.mutable.ArrayBuffer
@@ -22,12 +22,28 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
     override def languages: Seq[Vendor] = DefinitionReferenceCompletionPlugin.supportedLanguages
 
     override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
+        var isJSON = request.config.astProvider.get.syntax == Syntax.JSON
         val result = determineRefCompletionCase(request) match {
             case Some(spv: SCHEMA_PROPERTY_VALUE) => extractRefs(request).map(x=>{
-                var isJSON = request.config.astProvider.get.syntax == Syntax.JSON
                 if(isJSON){
-                    val text = "{ \"$ref\": \"" + x + "\" }"
-                    List(text,text)
+                    val isScalar = request.yamlLocation.flatMap(_.value).map(_.yPart).exists(_.isInstanceOf[YScalar])
+                    val pm = PositionsMapper("/tmp").withText(request.config.originalContent.get)
+                    val point = pm.point(request.position)
+                    val line = pm.line(point.line).get
+                    val colonIndex = Math.max(0,line.lastIndexOf(":", point.column))
+                    val hasStartQuote = line.lastIndexOf("\"", point.column)>=colonIndex
+                    val hasEndQuote = line.indexOf("\"", point.column)>=0
+                    var result = "$ref\": \"" + x
+                    if(!hasStartQuote){
+                        result = "\"" + result
+                    }
+                    if(!hasEndQuote){
+                        result = result + "\""
+                    }
+                    if(isScalar){
+                        result = s"{ $result }"
+                    }
+                    List(result,result)
                 }
                 else {
                     var keyLine = request.yamlLocation.flatMap(_.keyNode)
@@ -49,20 +65,41 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
                     uri
                 }
                 else {
-                    val needQuotes = request.actualYamlLocation.flatMap(_.value).map(_.yPart) match {
-                        case Some(l) => l match {
-                            case sc: YScalar => {
-                                sc.mark != DoubleQuoteMark
-                            }
-                            case _ => false
+                    if (isJSON) {
+                        val pm = PositionsMapper("/tmp").withText(request.config.originalContent.get)
+                        val point = pm.point(request.position)
+                        val line = pm.line(point.line).get
+                        val colonIndex = Math.max(0, line.lastIndexOf(":", point.column))
+                        val hasStartQuote = line.lastIndexOf("\"", point.column) >= colonIndex
+                        val hasEndQuote = line.indexOf("\"", point.column) >= 0
+                        var result = ""
+                        if (!hasStartQuote) {
+                            result += "\""
                         }
-                        case _ => false
-                    }
-                    if (needQuotes) {
-                        "\"" + uri + "\""
+                        result += uri
+                        if (!hasEndQuote) {
+                            result += "\""
+                        }
+                        result
                     }
                     else {
-                        uri
+                        val needQuotes = {
+                            request.actualYamlLocation.flatMap(_.value).map(_.yPart) match {
+                                case Some(l) => l match {
+                                    case sc: YScalar => {
+                                        sc.mark != DoubleQuoteMark
+                                    }
+                                    case _ => false
+                                }
+                                case _ => false
+                            }
+                        }
+                        if (needQuotes) {
+                            "\"" + uri + "\""
+                        }
+                        else {
+                            uri
+                        }
                     }
                 }
                 Suggestion(text,uri,uri,request.prefix)
@@ -112,6 +149,7 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
     }
 
     private def checkPropertyNotDetectedCase(request:ICompletionRequest):Option[RefCompletionCase] = {
+        var isJSON = request.config.astProvider.get.syntax == Syntax.JSON
         if(request.astNode.isEmpty || !request.astNode.get.isElement){
             None
         }
@@ -119,6 +157,39 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
             ||request.actualYamlLocation.get.isEmpty
             ||request.actualYamlLocation.get.keyValue.isEmpty){
             None
+        }
+        else if(isJSON) {
+            var node: IHighLevelNode = request.astNode.get.asElement.get
+            if(node.parent.isEmpty){
+                None
+            }
+            else {
+                var definition = node.parent.get.definition
+                var defName = definition.nameId.get
+                var position: Int = request.position
+                var actualLocation = request.yamlLocation.get
+                var pm = node.astUnit.positionsMapper
+
+                acceptedProperties.get.filter(_.domain.exists(x => definition.isAssignableFrom(x.nameId.get))).flatMap(p => {
+
+                    actualLocation.keyValue.flatMap(keyValue => {
+                        keyValue.yPart match {
+                            case scalar: YScalar =>
+                                val key = scalar.value
+                                if (p.nameId.contains(key)) {
+                                    selectPreciseCompletionStyle(position, actualLocation, pm, node.astUnit)
+                                }
+                                else if (key == "$ref") {
+                                    Some(REF_PROPERTY_VALUE())
+                                }
+                                else {
+                                    None
+                                }
+                            case _ => None
+                        }
+                    })
+                }).headOption
+            }
         }
         else {
             var node: IHighLevelNode = request.astNode.get.asElement.get
@@ -128,8 +199,7 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
             var actualLocation = request.actualYamlLocation.get
             var pm = node.astUnit.positionsMapper
 
-            acceptedProperties.get.find(_.domain.exists(x=>definition.isAssignableFrom(x.nameId.get))) match {
-                case Some(p) =>
+            acceptedProperties.get.filter(_.domain.exists(x=>definition.isAssignableFrom(x.nameId.get))).flatMap(p => {
                     val keyValue = actualLocation.keyValue.get
                     keyValue.yPart match {
                         case scalar: YScalar =>
@@ -145,8 +215,7 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
                             }
                         case _ => None
                     }
-                case None => None
-            }
+            }).headOption
         }
     }
 

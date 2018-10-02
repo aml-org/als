@@ -383,7 +383,7 @@ object CompletionProvider {
             }
         }
         else if(colonIndex<=off){
-
+            colonIndex = line.lastIndexOf(":", off)
             var substr = line.substring(colonIndex+1).trim
             var hasOpenCurlyBracket = substr.startsWith("{")
             var hasOpenSquareBracket = substr.startsWith("[")

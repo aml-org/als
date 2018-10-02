@@ -2,22 +2,22 @@ package org.mulesoft.als.suggestions.test.oas20
 
 class ReferenceTestsJSON extends OAS20Test {
 
-//  test("Shema reference test JSON 001"){
-//    this.runTest("references_json/schemas/test001.json", Set("\n          \"$ref\": \"#/definitions/Type1\"", "\n          \"$ref\": \"#/definitions/Type2\""))
-//  }
-//
-//  test("Shema reference test JSON 002"){
-//    this.runTest("references_json/schemas/test002.json", Set("\n          \"$ref\": \"#/definitions/Type1\"", "\n          \"$ref\": \"#/definitions/Type2\""))
-//  }
-//
-//  test("Shema reference test JSON 003"){
-//    this.runTest("references_json/schemas/test003.json", Set(" \"#/definitions/Type1\"", " \"#/definitions/Type2\""))
-//  }
-//
-//  test("Shema reference test JSON 004"){
-//    this.runTest("references_json/schemas/test004.json", Set("\"#/definitions/Type1\"", "\"#/definitions/Type2\""))
-//  }
-//
+  test("Shema reference test JSON 001"){
+    this.runTest("references_json/schemas/test001.json", Set("{ \"$ref\": \"#/definitions/Type1\" }", "{ \"$ref\": \"#/definitions/Type2\" }"))
+  }
+
+  test("Shema reference test JSON 002"){
+    this.runTest("references_json/schemas/test002.json", Set("\"$ref\": \"#/definitions/Type1\"", "\"$ref\": \"#/definitions/Type2\""))
+  }
+
+  test("Shema reference test JSON 003"){
+    this.runTest("references_json/schemas/test003.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "additionalProperties\":", "xml\":", "minimum\":", "discriminator\":", "maximum\":", "default\":", "pattern\":", "multipleOf\":", "description\":", "readOnly\":", "maxLength\":", "properties\":", "title\":", "minLength\":", "minItems\":", "$ref\":", "example\":", "format\":", "uniqueItems\":"))
+  }
+
+  test("Shema reference test JSON 004"){
+    this.runTest("references_json/schemas/test004.json", Set("\"#/definitions/Type1\"", "\"#/definitions/Type2\""))
+  }
+
 //  test("Shema reference test JSON 005"){
 //    this.runTest("references_json/schemas/test005.json", Set("#/definitions/Type1", "#/definitions/Type2"))
 //  }
