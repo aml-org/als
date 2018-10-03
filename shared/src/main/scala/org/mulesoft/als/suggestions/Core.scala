@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions
 import org.mulesoft.als.suggestions.implementation.SuggestionCategoryRegistry
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
-import org.mulesoft.als.suggestions.plugins.{KnownKeyPropertyValuesCompletionPlugin, KnownPropertyValuesCompletionPlugin, StructureCompletionPlugin}
+import org.mulesoft.als.suggestions.plugins.{BooleanPropertyCompletionPlugin, KnownKeyPropertyValuesCompletionPlugin, KnownPropertyValuesCompletionPlugin, StructureCompletionPlugin}
 import org.mulesoft.als.suggestions.plugins.oas.{DefinitionReferenceCompletionPlugin, EmptyFileCompletionPlugin, ParameterReferencePlugin, ResponseReferencePlugin}
 import org.mulesoft.als.suggestions.plugins.raml._
 
@@ -34,6 +34,7 @@ object Core {
         CompletionPluginsRegistry.registerPlugin(EmptyRamlFileCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(EmptyFileCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(IncludeTagCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(BooleanPropertyCompletionPlugin())
     });
     
     def prepareText(text:String, offset:Int, syntax:Syntax):String = {
