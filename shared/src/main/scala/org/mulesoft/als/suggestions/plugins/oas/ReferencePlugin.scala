@@ -36,7 +36,7 @@ abstract class ReferencePlugin extends ICompletionPlugin {
 	
     override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
         var isAttr = false
-        var isJSON = request.config.astProvider.map(_.syntax).contains(Syntax.JSON)
+        val isJSON = request.config.astProvider.map(_.syntax).contains(Syntax.JSON)
         var elementOpt:Option[IHighLevelNode] = request.astNode match {
             case Some(n) => if(n.isElement) {
                 n.asElement
@@ -115,7 +115,7 @@ abstract class ReferencePlugin extends ICompletionPlugin {
                 None
             }
         })
-        var isJSON = request.config.astProvider.get.syntax == Syntax.JSON
+        val isJSON = request.config.astProvider.map(_.syntax).contains(Syntax.JSON)
         if(isJSON){
             val isScalar = request.yamlLocation.flatMap(_.value).map(_.yPart).exists(_.isInstanceOf[YScalar])
             val pm = PositionsMapper("/tmp").withText(request.config.originalContent.get)

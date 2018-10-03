@@ -22,7 +22,7 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
     override def languages: Seq[Vendor] = DefinitionReferenceCompletionPlugin.supportedLanguages
 
     override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
-        var isJSON = request.config.astProvider.get.syntax == Syntax.JSON
+        val isJSON = request.config.astProvider.map(_.syntax).contains(Syntax.JSON)
         val result = determineRefCompletionCase(request) match {
             case Some(spv: SCHEMA_PROPERTY_VALUE) => extractRefs(request).map(x=>{
                 if(isJSON){
@@ -149,7 +149,7 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
     }
 
     private def checkPropertyNotDetectedCase(request:ICompletionRequest):Option[RefCompletionCase] = {
-        var isJSON = request.config.astProvider.get.syntax == Syntax.JSON
+        val isJSON = request.config.astProvider.map(_.syntax).contains(Syntax.JSON)
         if(request.astNode.isEmpty || !request.astNode.get.isElement){
             None
         }
@@ -164,31 +164,38 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
                 None
             }
             else {
-                var definition = node.parent.get.definition
-                var defName = definition.nameId.get
-                var position: Int = request.position
-                var actualLocation = request.yamlLocation.get
-                var pm = node.astUnit.positionsMapper
+                if(node.property.flatMap(_.nameId).contains("definitions")
+                    && node.parent.flatMap(_.definition.nameId).contains("SwaggerObject")){
+                    Some(SCHEMA_PROPERTY_VALUE(0))
+                }
+                else {
+                    val definition = node.parent.get.definition
 
-                acceptedProperties.get.filter(_.domain.exists(x => definition.isAssignableFrom(x.nameId.get))).flatMap(p => {
+                    var defName = definition.nameId.get
+                    var position: Int = request.position
+                    var actualLocation = request.yamlLocation.get
+                    var pm = node.astUnit.positionsMapper
 
-                    actualLocation.keyValue.flatMap(keyValue => {
-                        keyValue.yPart match {
-                            case scalar: YScalar =>
-                                val key = scalar.value
-                                if (p.nameId.contains(key)) {
-                                    selectPreciseCompletionStyle(position, actualLocation, pm, node.astUnit)
-                                }
-                                else if (key == "$ref") {
-                                    Some(REF_PROPERTY_VALUE())
-                                }
-                                else {
-                                    None
-                                }
-                            case _ => None
-                        }
-                    })
-                }).headOption
+                    acceptedProperties.get.filter(_.domain.exists(x => definition.isAssignableFrom(x.nameId.get))).flatMap(p => {
+
+                        actualLocation.keyValue.flatMap(keyValue => {
+                            keyValue.yPart match {
+                                case scalar: YScalar =>
+                                    val key = scalar.value
+                                    if (p.nameId.contains(key)) {
+                                        selectPreciseCompletionStyle(request, position, actualLocation, pm, node.astUnit, isJSON)
+                                    }
+                                    else if (key == "$ref") {
+                                        Some(REF_PROPERTY_VALUE())
+                                    }
+                                    else {
+                                        None
+                                    }
+                                case _ => None
+                            }
+                        })
+                    }).headOption
+                }
             }
         }
         else {
@@ -205,7 +212,7 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
                         case scalar: YScalar =>
                             val key = scalar.value
                             if (p.nameId.contains(key)) {
-                                selectPreciseCompletionStyle(position, actualLocation, pm,  node.astUnit)
+                                selectPreciseCompletionStyle(request, position, actualLocation, pm,  node.astUnit, isJSON)
                             }
                             else if(key == "$ref"){
                                 Some(REF_PROPERTY_VALUE())
@@ -219,7 +226,7 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
         }
     }
 
-    private def selectPreciseCompletionStyle(position: Int, actualLocation: YamlLocation, pm: IPositionsMapper, astUnit: IASTUnit):Option[RefCompletionCase] = {
+    private def selectPreciseCompletionStyle(request:ICompletionRequest, position: Int, actualLocation: YamlLocation, pm: IPositionsMapper, astUnit: IASTUnit, isJSON:Boolean):Option[RefCompletionCase] = {
         var keyValue = actualLocation.keyValue.get
         val keyStart = keyValue.range.start
         val posPoint = pm.point(position)
@@ -228,6 +235,15 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
             si.init(astUnit.project,Some(astUnit))
             var valOffset = si.valueOffset.get
             Some(SCHEMA_PROPERTY_VALUE(valOffset))
+        }
+        else if(isJSON){
+            val isScalar = request.yamlLocation.flatMap(_.value).map(_.yPart).exists(_.isInstanceOf[YScalar])
+            if(isScalar){
+                Some(REF_PROPERTY_VALUE())
+            }
+            else {
+                Some(SCHEMA_PROPERTY_VALUE(request.position))
+            }
         }
 //        else if (posPoint.line > keyStart.line) {
 //            if (actualLocation.value.isDefined) {
@@ -258,6 +274,7 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
     }
 
     private def checkPropertyDetectedCase(request:ICompletionRequest):Option[RefCompletionCase] = {
+        val isJSON = request.config.astProvider.map(_.syntax).contains(Syntax.JSON)
         if (request.astNode.isEmpty) {
             None
         }
@@ -283,7 +300,7 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
                             None
                         }
                         else if(actualLocation.keyValue.isDefined){
-                            selectPreciseCompletionStyle (position, actualLocation, pm,node.astUnit)
+                            selectPreciseCompletionStyle (request, position, actualLocation, pm,node.astUnit, isJSON)
                         }
                         else {
                             None
