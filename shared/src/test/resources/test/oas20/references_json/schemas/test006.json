@@ -9,7 +9,7 @@
       "parameters": [
         {
           "in": "body",
-          "schema": {"*"}
+          "schema": {"$ref": * }
         }
       ]
     }

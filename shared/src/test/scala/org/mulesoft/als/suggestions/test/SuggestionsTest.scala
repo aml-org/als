@@ -50,6 +50,9 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
         val diff1 = resultSet.diff(originalSuggestions)
         val diff2 = originalSuggestions.diff(resultSet)
 
+        diff1.foreach(println)
+        diff2.foreach(println)
+
         if (diff1.isEmpty && diff2.isEmpty) succeed
         else fail(s"Difference for $path: got [${suggestions.mkString(", ")}] while expecting [${originalSuggestions.mkString(", ")}]")
     })

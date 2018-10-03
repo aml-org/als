@@ -6,12 +6,13 @@
   },
   "paths": {
     "/resource": {
-      "parameters": [
-        {
-          "in": "body",
-          "schema": {"*"}
+      "post": {
+        "responses": {
+          "200": {
+            "schema": {*}
+          }
         }
-      ]
+      }
     }
   },
   "definitions": {

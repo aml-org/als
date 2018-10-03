@@ -4,22 +4,15 @@
     "title": "asd",
     "version": "asddd"
   },
-  "paths": {
-    "/resource": {
-      "parameters": [
-        {
-          "in": "body",
-          "schema": {"*"}
-        }
-      ]
-    }
-  },
   "definitions": {
     "Type1": {
       "type": "object"
     },
     "Type2": {
       "type": "object"
+    },
+    "Type3": {
+      "$ref": "#/def*"
     }
   }
 }
