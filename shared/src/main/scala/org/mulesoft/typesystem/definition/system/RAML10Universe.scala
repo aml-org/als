@@ -2430,7 +2430,9 @@ val value3 =
                 "name": "MetaModel.parentPropertiesRestriction",
                 "arguments": [
                   [
-                    "properties, queryParameters, headers"
+                    "properties",
+                    "queryParameters",
+                    "headers"
                   ]
                 ]
               }
