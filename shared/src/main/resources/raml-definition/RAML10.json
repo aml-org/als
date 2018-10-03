@@ -2421,7 +2421,9 @@
                 "name": "MetaModel.parentPropertiesRestriction",
                 "arguments": [
                   [
-                    "properties, queryParameters, headers"
+                    "properties",
+                    "queryParameters",
+                    "headers"
                   ]
                 ]
               }
