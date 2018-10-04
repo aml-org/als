@@ -9,7 +9,7 @@ import org.mulesoft.high.level.interfaces.{IHighLevelNode, IParseResult}
 import org.mulesoft.positioning.YamlLocation
 import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
 import org.mulesoft.typesystem.nominal_interfaces.{IArrayType, IProperty}
-import org.yaml.model.{YMap, YScalar}
+import org.yaml.model.{YMap, YMapEntry, YNode, YScalar}
 
 import scala.concurrent.{Future, Promise}
 import scala.collection.mutable
@@ -186,20 +186,52 @@ class StructureCompletionPlugin extends ICompletionPlugin {
     }
 
     def extractSuggestableProperties(node:IHighLevelNode):Seq[IProperty] = {
-
-        var existingProperties:mutable.Map[String,IProperty] = mutable.Map()
+        var existingProperties:mutable.Map[String,IProperty] = mutable.Map();
+        
         node.children.foreach(x=>{
             if(x.sourceInfo.yamlSources.nonEmpty) {
                 x.property match {
                     case Some(p) => p.nameId match {
-                        case Some(n) => existingProperties(n) = p
-                        case _ =>
+                        case Some(n) => existingProperties(n) = p;
+                        
+                        case _ =>;
                     }
-                    case _ =>
+                    
+                    case _ =>;
                 }
             }
         })
-
+        
+        if(node.sourceInfo.yamlSources.length > 0) {
+            node.sourceInfo.yamlSources.head match {
+                case mapEntry: YMapEntry => mapEntry.value match {
+                    case ynodeValue: YNode => ynodeValue.value match {
+                        case value: YMap => value.entries.foreach(entry => entry.key.value match {
+                            case scalar: YScalar => {
+                                var name = scalar.text;
+        
+                                if(!existingProperties.keySet.contains(name)) {
+                                    node.definition.allProperties.find(prop => prop.nameId.get.equals(name)) match {
+                                        case Some(property) => existingProperties(name) = property;
+                                        
+                                        case _ =>;
+                                    }
+                                }
+                            }
+                            
+                            case _ =>;
+                        });
+                        
+                        case _ =>;
+                    }
+                    
+                    case _ =>;
+                }
+                
+                case _ =>;
+            }
+        }
+        
         val definition = node.definition
         var propName = node.property.flatMap(_.nameId)
         var result:ListBuffer[IProperty] = ListBuffer()
