@@ -448,6 +448,10 @@ class StructureTests extends RAML10Test {
     this.runTest("structure/test153.raml", Set("required:"))
   }
 
+    test("Query parameter with comment"){
+      this.runTest("structure/test154.raml", Set("required", "displayName", "type", "xml", "default", "pattern", "maxLength", "minLength", "examples", "schema", "facets", "properties"))
+    }
+
     test("test") {
     this.runTest("test01.raml", Set("responses:"));
   }
