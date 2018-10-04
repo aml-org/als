@@ -443,8 +443,12 @@ class StructureTests extends RAML10Test {
   test("StructureTests duplicates"){
     this.runTest("structure/test152.raml", Set("enum:", "displayName:", "additionalProperties:", "xml:", "discriminator:", "default:", "maxProperties:", "minProperties:", "description:", "discriminatorValue:", "examples:", "schema:", "facets:", "example:"))
   }
-  
-  test("test") {
+
+  test("Type property 'required' completion"){
+    this.runTest("structure/test152.raml", Set("required:"))
+  }
+
+    test("test") {
     this.runTest("test01.raml", Set("responses:"));
   }
 
