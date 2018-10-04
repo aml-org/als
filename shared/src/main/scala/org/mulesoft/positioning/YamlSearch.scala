@@ -10,16 +10,10 @@ object YamlSearch {
             mapper.offset(range.start.position);
         } else {
             var nodeContent = node.children(1);
-            
-            var range = YRange(node.children(1) match {
-                case map: YMap => if(map.entries.isEmpty) {
-                    node;
-                } else {
-                    map.entries(0);
-                }
-                
-                case _ => yPart;
-            }, Option(mapper));
+
+            val map = node.children.find(_.isInstanceOf[YMap]).map(_.asInstanceOf[YMap])
+            val entry = map.flatMap(_.entries.headOption)
+            var range = YRange(entry.getOrElse(node), Option(mapper));
             mapper.offset(range.start.position);
         }
         
