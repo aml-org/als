@@ -439,7 +439,11 @@ class StructureTests extends RAML10Test {
   test("cursor on single value property"){
     this.runTest("structure/test151.raml", Set("baseUri", "baseUriParameters", "traits", "resourceTypes", "types", "annotationTypes", "documentation", "mediaType", "schemas", "description", "protocols", "securitySchemes", "securedBy", "version", "uses"))
   }
-
+  
+  test("StructureTests duplicates"){
+    this.runTest("structure/test152.raml", Set("enum:", "displayName:", "additionalProperties:", "xml:", "discriminator:", "default:", "maxProperties:", "minProperties:", "description:", "discriminatorValue:", "examples:", "schema:", "facets:", "example:"))
+  }
+  
   test("test") {
     this.runTest("test01.raml", Set("responses:"));
   }
