@@ -445,7 +445,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("Type property 'required' completion"){
-    this.runTest("structure/test152.raml", Set("required:"))
+    this.runTest("structure/test153.raml", Set("required:"))
   }
 
     test("test") {
