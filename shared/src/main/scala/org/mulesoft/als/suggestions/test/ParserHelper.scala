@@ -20,7 +20,7 @@
 //        RuntimeCompiler(
 //            inputFile,
 //            Option(effectiveMediaType(config.inputMediaType, config.inputFormat)),
-//            effectiveVendor(config.inputMediaType, config.inputFormat),
+//            config.inputFormat,
 //            Context(platform),
 //            UnspecifiedReference,
 //            Cache(),
@@ -65,11 +65,11 @@
 //            }
 //        } else {
 //            Future {
-//                config.validationProfile
+//                config.profile
 //            }
 //        }
-//        customProfileLoaded flatMap  { profileName =>
-//            RuntimeValidator(model, profileName)
+//        customProfileLoaded flatMap  { profile =>
+//            RuntimeValidator(model, profile)
 //        }
 //    }
 //}
