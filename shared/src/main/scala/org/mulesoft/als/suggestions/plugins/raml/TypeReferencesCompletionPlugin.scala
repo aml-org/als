@@ -4,6 +4,8 @@ import amf.core.remote.{Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.Search
+import org.mulesoft.positioning.YamlLocation
+import org.yaml.model.{YMapEntry, YScalar}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.{Future, Promise}
@@ -27,19 +29,28 @@ class TypeReferencesCompletionPlugin extends ICompletionPlugin {
 	}
 
     def isInTypeTypeProperty(request: ICompletionRequest): Boolean = {
-		if(request.astNode.get.isElement) {
+        val node = request.astNode.get
+        if(node.isElement) {
+            val pm = node.astUnit.positionsMapper
+            val result = node.sourceInfo.yamlSources.headOption.filter(_.isInstanceOf[YMapEntry]).map(_.asInstanceOf[YMapEntry]).exists(me=>{
+                val loc = YamlLocation(me,pm)
+                val value = me.value
+                val valueScalar = value.value
+                val isScalar = (value.tag == null || value.tag.text != "!include") && valueScalar.isInstanceOf[YScalar]
+                isScalar
+            })
+            return result
+		}
+		
+		if(node.property.get == null) {
 			return false;
 		}
 		
-		if(request.astNode.get.property.get == null) {
+		if(node.property.get.nameId.get != "type") {
 			return false;
 		}
 		
-		if(request.astNode.get.property.get.nameId.get != "type") {
-			return false;
-		}
-		
-		if(request.astNode.get.property.get.domain.get.nameId.get != "TypeDeclaration") {
+		if(node.property.get.domain.get.nameId.get != "TypeDeclaration") {
 			return false;
 		}
 		
@@ -57,14 +68,18 @@ object TypeReferencesCompletionPlugin {
 
     def typeSuggestions(request: ICompletionRequest, id:String):Seq[Suggestion] = {
         val node = request.astNode.get
+        var element = if(node.isElement) node.asElement.get else node.parent.get
+        val typeName = element.attribute("name").flatMap(_.value).map(_.toString).getOrElse("")
         var builtIns = node.astUnit.rootNode.definition.universe.builtInNames() :+ "object";
         val result = ListBuffer[Suggestion]() ++= builtIns.map(name => Suggestion(name, id, name, request.prefix));
         request.astNode.map(_.astUnit).foreach(u => {
             Search.getDeclarations(u, "TypeDeclaration").foreach(d => {
                 d.node.attribute("name").flatMap(_.value).foreach(name => {
-                    var proposal: String = name.toString
-                    d.namespace.foreach(ns => proposal = s"$ns.$proposal")
-                    result += Suggestion(proposal, id, proposal, request.prefix)
+                    if(name!=typeName) {
+                        var proposal: String = name.toString
+                        d.namespace.foreach(ns => proposal = s"$ns.$proposal")
+                        result += Suggestion(proposal, id, proposal, request.prefix)
+                    }
                 })
             })
         })
