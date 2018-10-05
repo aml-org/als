@@ -1,6 +1,7 @@
 package org.mulesoft.typesystem.definition.system
 
 import org.mulesoft.typesystem.nominal_interfaces.IUniverse
+import org.mulesoft.typesystem.nominal_interfaces.extras.DescriptionExtra
 import org.mulesoft.typesystem.nominal_types.{AbstractType, Array, Property, StructuredType, Universe, ValueType}
 import org.yaml.parser.YamlParser
 
@@ -164,6 +165,11 @@ object RamlUniverseProvider {
                     var innerArray:Option[Seq[JSONWrapper]] = a.propertyValue("arguments",ARRAY).flatMap(_.headOption).flatMap(_.value(ARRAY))
                     innerArray.foreach(arr=>syntaxExtra
                         .setParentPropertiesRestriction(arr.flatMap(_.value(STRING))))
+                case Some("MetaModel.description") =>
+                    val textOpt:Option[String] = a.propertyValue("arguments",ARRAY).flatMap(_.headOption).flatMap(_.value(STRING))
+                    textOpt.foreach(text=>{
+                        prop.putExtra(DescriptionExtra,DescriptionExtra(text))
+                    })
                 case _ =>
             })
             case _ =>
