@@ -89,7 +89,7 @@ abstract class ReferencePlugin extends ICompletionPlugin {
                             }
                             result
                         }
-                        Suggestion(text, id, label, request.prefix);
+                        Suggestion(text, s"Reference to ${uri}", label, request.prefix);
                     });
                 } else {
 					Seq();

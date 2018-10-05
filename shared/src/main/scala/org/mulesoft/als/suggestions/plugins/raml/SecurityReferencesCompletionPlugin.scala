@@ -84,10 +84,10 @@ class SecurityReferencesCompletionPlugin extends ICompletionPlugin {
                             resultingText += "null"
                         }
                         if (isSequence) {
-                            resultingText.map(x => Suggestion(x, id, x, request.prefix))
+                            resultingText.map(x => Suggestion(x, "Security scheme", x, request.prefix))
                         }
                         else {
-                            resultingText.map(x => Suggestion(s"[ $x ]", id, x, request.prefix))
+                            resultingText.map(x => Suggestion(s"[ $x ]", "Security scheme", x, request.prefix))
                         }
                     }
                 }

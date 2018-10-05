@@ -142,7 +142,7 @@ class ExampleCompletionPlugin extends ICompletionPlugin {
 	}
 	
 	override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
-        val suggestions = findProperties(extractAstPath(request), extractLocalType(request)).map(propertyName => Suggestion(propertyName, id, propertyName, request.prefix))
+        val suggestions = findProperties(extractAstPath(request), extractLocalType(request)).map(propertyName => Suggestion(propertyName, s"'$propertyName' property", propertyName, request.prefix))
         var response = CompletionResponse(suggestions,LocationKind.KEY_COMPLETION,request)
         Promise.successful(response).future
     }

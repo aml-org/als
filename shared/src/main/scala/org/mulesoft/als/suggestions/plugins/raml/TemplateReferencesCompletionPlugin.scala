@@ -53,15 +53,18 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
 					var squareBracketsRequired = false;
 
                     var refYamlKind:Option[RefYamlKind] = None
+                    var readableName = ""
 					var declarations = propName match {
 						case "type"  => {
                             refYamlKind = templateRefYamlKind(request,owner,"type")
+                            readableName = "Resource type"
 							Search.getDeclarations(n.astUnit, "ResourceType");
 						}
 
 						case "is"  => {
 							squareBracketsRequired = true;
                             refYamlKind = templateRefYamlKind(request,owner,"is")
+                            readableName = "Trait"
 							Search.getDeclarations(n.astUnit, "Trait");
 						}
 
@@ -88,20 +91,20 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
                         else {
 
                             var declaration = foundDeclarations(0);
-
+                            val typeName = declaration.node.definition.nameId.get
                             var paramNames = declaration.node.attributes("parameters").map(param => param.value.asInstanceOf[Some[String]].get);
 
                             if (actualPrefix.indexOf("{") >= 0) {
                                 actualPrefix = actualPrefix.substring(actualPrefix.indexOf("{") + 1).trim();
                             }
 
-                            paramNames.map(name => Suggestion(name, id, name, actualPrefix));
+                            paramNames.map(name => Suggestion(name, readableName + " parameter", name, actualPrefix));
                         }
 					}
                     else {
                         declarations.map(declaration => {
                             var ts = toTemplateSuggestion(declaration,refYamlKind.get)
-                            Suggestion(ts.get.text, id, ts.get.name, request.prefix);
+                            Suggestion(ts.get.text, readableName, ts.get.name, request.prefix);
                         });
                     }
 				} else {

@@ -45,7 +45,7 @@ class BooleanPropertyCompletionPlugin extends ICompletionPlugin {
     }
 
     override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
-        val result = Seq(Suggestion("true", id, "true", request.prefix), Suggestion("false", id, "false", request.prefix))
+        val result = Seq(Suggestion("true", "Boolean value", "true", request.prefix), Suggestion("false", id, "false", request.prefix))
         val response = CompletionResponse(result, LocationKind.VALUE_COMPLETION, request)
         Promise.successful(response).future
     }

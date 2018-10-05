@@ -21,13 +21,13 @@ class EmptyFileCompletionPlugin extends ICompletionPlugin {
             var closeInd = text.indexOf("}")
             if(request.position>openInd && request.position <= closeInd){
                 val sText = "\"swagger\": \"2.0\""
-                var suggestion = Suggestion(sText,id,sText,request.prefix)
+                var suggestion = Suggestion(sText,"Initialize new OAS 2.0 document",sText,request.prefix)
                 suggestions = List(suggestion)
             }
         }
         else {
             val sText = "swagger: '2.0'"
-            var suggestion = Suggestion(sText,id,sText,request.prefix)
+            var suggestion = Suggestion(sText,"Initialize new OAS 2.0 document",sText,request.prefix)
             suggestions = List(suggestion)
         }
         val response = CompletionResponse(suggestions, LocationKind.VALUE_COMPLETION, request)

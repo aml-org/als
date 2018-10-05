@@ -48,7 +48,7 @@ class AnnotationReferencesCompletionPlugin extends ICompletionPlugin {
             if(closeBracket){
                 text += ")"
             }
-            Suggestion(text, id, displayText, actualPrefix)
+            Suggestion(text, s"'$text' annotation", displayText, actualPrefix)
         });
         val response = CompletionResponse(result, LocationKind.KEY_COMPLETION, request).withNoColon(!closeBracket)
 		Promise.successful(response).future

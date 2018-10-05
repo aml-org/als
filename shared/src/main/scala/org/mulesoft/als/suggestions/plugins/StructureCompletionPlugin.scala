@@ -7,7 +7,7 @@ import org.mulesoft.als.suggestions.plugins.raml.AnnotationReferencesCompletionP
 import org.mulesoft.high.level.builder.ProjectBuilder
 import org.mulesoft.high.level.interfaces.{IHighLevelNode, IParseResult}
 import org.mulesoft.positioning.YamlLocation
-import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
+import org.mulesoft.typesystem.nominal_interfaces.extras.{DescriptionExtra, PropertySyntaxExtra}
 import org.mulesoft.typesystem.nominal_interfaces.{IArrayType, IProperty}
 import org.yaml.model.{YMap, YMapEntry, YNode, YScalar}
 
@@ -151,15 +151,16 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                     contentTypes(request).map(value => Suggestion(value, id, value, request.prefix));
                 } else if (isDiscriminatorValue(request)) {
                     var a = extractFirstLevelScalars(request);
-
-                    extractFirstLevelScalars(request).map(name => Suggestion(name, id, name, request.prefix));
+                    val description = "Possible discriminating property"
+                    extractFirstLevelScalars(request).map(name => Suggestion(name, description, name, request.prefix));
                 } else if (n.isElement) {
                     var element = n.asElement.get;
 
                     extractSuggestableProperties(element).map(prop => {
                         var pName = prop.nameId.get
+                        val description = prop.getExtra(DescriptionExtra).map(_.text).getOrElse("")
                         var text = if(isYAML && pName.startsWith("$")) s""""$pName"""" else pName
-                        var suggestion = Suggestion(text, id, pName, request.prefix)
+                        var suggestion = Suggestion(text, description, pName, request.prefix)
                         ProjectBuilder.determineFormat(element.astUnit.baseUnit).flatMap(SuggestionCategoryRegistry.getCategory(_,pName,Option(element.definition),prop.range)).foreach(suggestion.withCategory)
                         suggestion
                     })

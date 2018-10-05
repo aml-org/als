@@ -43,7 +43,7 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
                     if(isScalar){
                         result = s"{ $result }"
                     }
-                    List(result,result)
+                    List(result,result,x)
                 }
                 else {
                     var keyLine = request.yamlLocation.flatMap(_.keyNode)
@@ -54,9 +54,9 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
                     if(line == keyLine){
                         text = "\n" + " " * spv.refPropOffset + text
                     }
-                    List(text,display)
+                    List(text,display,x)
                 }
-            }).map(x=>Suggestion(x.head,x(1),x(1),request.prefix));
+            }).map(x=>Suggestion(x.head,s"Reference to ${x(2)}",x(1),request.prefix));
             
             case Some(rpv: REF_PROPERTY_VALUE) => extractRefs(request).map(_uri=>{
                 var uri = _uri
@@ -102,7 +102,7 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
                         }
                     }
                 }
-                Suggestion(text,uri,uri,request.prefix)
+                Suggestion(text,s"Reference to ${uri}",uri,request.prefix)
             });
             
             case _ => Seq();
