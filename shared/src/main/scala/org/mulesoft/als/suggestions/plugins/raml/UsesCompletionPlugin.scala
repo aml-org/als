@@ -43,7 +43,7 @@ class UsesCompletionPlugin extends ICompletionPlugin {
 
             val pathStartingWithPrefix = if(diff != 0) path.substring(diff) else path
 
-            Suggestion(pathStartingWithPrefix, id,
+            Suggestion(pathStartingWithPrefix, "RAML library path",
               pathStartingWithPrefix, request.prefix)
           })
           CompletionResponse(suggestions, LocationKind.VALUE_COMPLETION, request)

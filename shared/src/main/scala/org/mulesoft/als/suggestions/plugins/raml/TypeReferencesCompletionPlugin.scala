@@ -71,14 +71,14 @@ object TypeReferencesCompletionPlugin {
         var element = if(node.isElement) node.asElement.get else node.parent.get
         val typeName = element.attribute("name").flatMap(_.value).map(_.toString).getOrElse("")
         var builtIns = node.astUnit.rootNode.definition.universe.builtInNames() :+ "object";
-        val result = ListBuffer[Suggestion]() ++= builtIns.map(name => Suggestion(name, id, name, request.prefix));
+        val result = ListBuffer[Suggestion]() ++= builtIns.map(name => Suggestion(name, "Builtin type", name, request.prefix));
         request.astNode.map(_.astUnit).foreach(u => {
             Search.getDeclarations(u, "TypeDeclaration").foreach(d => {
                 d.node.attribute("name").flatMap(_.value).foreach(name => {
                     if(name!=typeName) {
                         var proposal: String = name.toString
                         d.namespace.foreach(ns => proposal = s"$ns.$proposal")
-                        result += Suggestion(proposal, id, proposal, request.prefix)
+                        result += Suggestion(proposal, "User type", proposal, request.prefix)
                     }
                 })
             })

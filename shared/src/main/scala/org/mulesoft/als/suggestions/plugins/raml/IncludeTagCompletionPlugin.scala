@@ -33,7 +33,7 @@ class IncludeTagCompletionPlugin extends ICompletionPlugin {
 
     override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
-        var suggestions = List(Suggestion("!include", id, "!include", request.prefix))
+        var suggestions = List(Suggestion("!include", "'!include' tag", "!include", request.prefix))
         var response = CompletionResponse(suggestions, LocationKind.VALUE_COMPLETION, request)
         Promise.successful(response).future
     }

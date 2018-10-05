@@ -5,7 +5,7 @@ import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggesti
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.builder.ProjectBuilder
 import org.mulesoft.typesystem.nominal_interfaces.IArrayType
-import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
+import org.mulesoft.typesystem.nominal_interfaces.extras.{DescriptionExtra, PropertySyntaxExtra}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.{Future, Promise}
@@ -46,7 +46,8 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
                                 if (extra.isKey) {
                                     extra.enum.foreach(x => {
                                         var text = x.toString
-                                        val suggestion = Suggestion(text, id, text, request.prefix)
+                                        val description = p.getExtra(DescriptionExtra).map(_.text).getOrElse("")
+                                        val suggestion = Suggestion(text, description, text, request.prefix)
                                         ProjectBuilder.determineFormat(request.astNode.get.astUnit.baseUnit).flatMap(SuggestionCategoryRegistry.getCategory(_,text,Option(definition),Option(rangeComponentType))).foreach(suggestion.withCategory)
                                         result += suggestion
                                     })

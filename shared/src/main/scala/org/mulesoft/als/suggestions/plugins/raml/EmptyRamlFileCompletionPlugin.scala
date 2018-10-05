@@ -17,21 +17,21 @@ class EmptyRamlFileCompletionPlugin extends ICompletionPlugin {
         var str = text.substring(0,request.position)
         var suggestions:Seq[ISuggestion] = Seq()
         if("#%RAML".startsWith(str) && "#%RAML".length > str.length){
-            suggestions = List[String]("RAML 1.0", "RAML 0.8").map(x=>Suggestion(x,id,x,request.prefix))
+            suggestions = List[String]("RAML 1.0", "RAML 0.8").map(x=>Suggestion(x,s"Initialize new $x document",x,request.prefix))
         }
         else if(str.startsWith("#%RAML")){
             var ind = str.lastIndexOf(" ")
             if(str == "#%RAML"){
-                suggestions = List[String](" 1.0", " 0.8").map(x=>Suggestion(x,id,x,request.prefix))
+                suggestions = List[String](" 1.0", " 0.8").map(x=>Suggestion(x,s"Initialize new RAML$x document",x,request.prefix))
             }
             else if(str.length < "#%RAML 1.0".length){
-                suggestions = List[String]("1.0", "0.8").map(x=>Suggestion(x,id,x,request.prefix))
+                suggestions = List[String]("1.0", "0.8").map(x=>Suggestion(x,s"Initialize new RAML $x document",x,request.prefix))
             }
             else if(str == "#%RAML 1.0"){
-                suggestions = EmptyRamlFileCompletionPlugin.fragmentNames.map(x=>Suggestion(" " + x,id,x,request.prefix))
+                suggestions = EmptyRamlFileCompletionPlugin.fragmentNames.map(x=>Suggestion(" " + x,"Fragment header",x,request.prefix))
             }
             else if(str.startsWith("#%RAML 1.0")){
-                suggestions = EmptyRamlFileCompletionPlugin.fragmentNames.map(x=>Suggestion(x,id,x,request.prefix))
+                suggestions = EmptyRamlFileCompletionPlugin.fragmentNames.map(x=>Suggestion(x,"Fragment header",x,request.prefix))
             }
         }
         val response = CompletionResponse(suggestions, LocationKind.VALUE_COMPLETION, request)

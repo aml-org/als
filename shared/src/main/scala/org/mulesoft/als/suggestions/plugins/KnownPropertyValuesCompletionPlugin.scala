@@ -99,11 +99,12 @@ class KnownPropertyValuesCompletionPlugin extends ICompletionPlugin {
                 })
             })
             val isSequence = KnownPropertyValuesCompletionPlugin.isSequence(parentNode.get, prop.get.nameId.get)
+            val description = s"Possible '${p.nameId.get}' value"
             if(p.isMultiValue && !isSequence){
-                result ++= resultText.map(x => Suggestion(s"[ $x ]", id, x, request.prefix))
+                result ++= resultText.map(x => Suggestion(s"[ $x ]", description, x, request.prefix))
             }
             else {
-                result ++= resultText.map(x => Suggestion(x, id, x, request.prefix))
+                result ++= resultText.map(x => Suggestion(x, description, x, request.prefix))
             }
         })
         val response = CompletionResponse(result, LocationKind.VALUE_COMPLETION, request)
