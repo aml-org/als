@@ -4,7 +4,7 @@ class TypeReferenceTests extends RAML10Test {
 
     test("TypeDeclaration shortcut 01") {
         this.runTest("typeReferences/test001.raml",
-            Set("nil", "boolean", "integer", "datetime", "date-only", "datetime-only", "file", "any", "number", "string", "time-only", "schema", "array", "object", "stype2", "stype3"))
+            Set("nil", "boolean", "integer", "datetime", "date-only", "datetime-only", "file", "any", "number", "string", "time-only", "array", "object", "stype2", "stype3"))
     }
 
     test("TypeDeclaration shortcut 02") {
@@ -14,7 +14,7 @@ class TypeReferenceTests extends RAML10Test {
 
     test("TypeDeclaration explicit 01") {
         this.runTest("typeReferences/test003.raml",
-            Set("nil", "boolean", "integer", "datetime", "date-only", "datetime-only", "file", "any", "number", "string", "time-only", "schema", "array", "object", "stype2", "stype3"))
+            Set("nil", "boolean", "integer", "datetime", "date-only", "datetime-only", "file", "any", "number", "string", "time-only", "array", "object", "stype2", "stype3"))
     }
 
     test("TypeDeclaration explicit 02") {
@@ -24,7 +24,7 @@ class TypeReferenceTests extends RAML10Test {
 
     test("Property type shortcut 01") {
         this.runTest("typeReferences/test005.raml",
-            Set("nil", "boolean", "integer", "datetime", "date-only", "datetime-only", "file", "any", "number", "string", "time-only", "schema", "array", "object", "stype1", "stype2", "stype3"))
+            Set("nil", "boolean", "integer", "datetime", "date-only", "datetime-only", "file", "any", "number", "string", "time-only", "array", "object", "stype1", "stype2", "stype3"))
     }
 
     test("Property type shortcut 02") {
@@ -34,7 +34,7 @@ class TypeReferenceTests extends RAML10Test {
 
     test("Property type explicit 01") {
         this.runTest("typeReferences/test007.raml",
-            Set("nil", "boolean", "integer", "datetime", "date-only", "datetime-only", "file", "any", "number", "string", "time-only", "schema", "array", "object", "stype1", "stype2", "stype3"))
+            Set("nil", "boolean", "integer", "datetime", "date-only", "datetime-only", "file", "any", "number", "string", "time-only", "array", "object", "stype1", "stype2", "stype3"))
     }
 
     test("Property type explicit 02") {
@@ -44,7 +44,7 @@ class TypeReferenceTests extends RAML10Test {
 
     test("Items type shortcut 01") {
         this.runTest("typeReferences/test009.raml",
-            Set("nil", "boolean", "integer", "datetime", "date-only", "datetime-only", "file", "any", "number", "string", "time-only", "schema", "array", "object", "stype1", "stype2", "stype3"))
+            Set("nil", "boolean", "integer", "datetime", "date-only", "datetime-only", "file", "any", "number", "string", "time-only", "array", "object", "stype1", "stype2", "stype3"))
     }
 
     test("Items type shortcut 02") {
@@ -52,13 +52,13 @@ class TypeReferenceTests extends RAML10Test {
             Set("stype1", "stype2", "stype3", "string"))
     }
 
-//    test("Items type explicit 01") {
-//        this.runTest("typeReferences/test011.raml",
-//            Set("nil", "boolean", "integer", "datetime", "date-only", "datetime-only", "file", "any", "number", "string", "time-only", "schema", "array", "object", "stype1", "stype2", "stype3"))
-//    }
-//
-//    test("Items type explicit 02") {
-//        this.runTest("typeReferences/test012.raml",
-//            Set("stype1", "stype2", "stype3", "string"))
-//    }
+    test("Items type explicit 01") {
+        this.runTest("typeReferences/test011.raml",
+            Set("nil", "boolean", "integer", "datetime", "date-only", "datetime-only", "file", "any", "number", "string", "time-only", "array", "object", "stype1", "stype2", "stype3"))
+    }
+
+    test("Items type explicit 02") {
+        this.runTest("typeReferences/test012.raml",
+            Set("stype1", "stype2", "stype3", "string"))
+    }
 }
