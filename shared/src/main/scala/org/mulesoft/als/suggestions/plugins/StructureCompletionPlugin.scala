@@ -187,12 +187,16 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 
     def extractSuggestableProperties(node:IHighLevelNode):Seq[IProperty] = {
         var existingProperties:mutable.Map[String,IProperty] = mutable.Map();
+    
+        var isTypeDeclaration = node.definition.isAssignableFrom("TypeDeclaration");
         
         node.children.foreach(x=>{
             if(x.sourceInfo.yamlSources.nonEmpty) {
                 x.property match {
                     case Some(p) => p.nameId match {
-                        case Some(n) => existingProperties(n) = p;
+                        case Some(n) => {
+                            existingProperties(n) = p;
+                        }
                         
                         case _ =>;
                     }
@@ -200,7 +204,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                     case _ =>;
                 }
             }
-        })
+        });
         
         if(node.sourceInfo.yamlSources.length > 0) {
             node.sourceInfo.yamlSources.head match {
@@ -212,7 +216,9 @@ class StructureCompletionPlugin extends ICompletionPlugin {
         
                                 if(!existingProperties.keySet.contains(name)) {
                                     node.definition.allProperties.find(prop => prop.nameId.get.equals(name)) match {
-                                        case Some(property) => existingProperties(name) = property;
+                                        case Some(property) => {
+                                            existingProperties(name) = property;
+                                        }
                                         
                                         case _ =>;
                                     }
@@ -229,6 +235,14 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                 }
                 
                 case _ =>;
+            }
+        }
+    
+        if(isTypeDeclaration) {
+            if(existingProperties.keySet.contains("type")) {
+                existingProperties("schema") = node.definition.property("schema").get;
+            } else if(existingProperties.keySet.contains("schema")) {
+                existingProperties("type") = node.definition.property("type").get;
             }
         }
         
