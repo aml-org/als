@@ -1797,12 +1797,6 @@ val value2 =
             "arguments": [
               "Schema at this moment only two subtypes are supported (json schema and xsd)"
             ]
-          },
-          {
-            "name": "MetaModel.alias",
-            "arguments": [
-              "schema"
-            ]
           }
         ],
         "extends": [
@@ -2811,12 +2805,12 @@ val value3 =
           {
             "name": "items",
             "type": {
-              "typeName": "string",
+              "typeName": "TypeDeclaration",
               "nameSpace": "",
-              "basicName": "string",
+              "basicName": "TypeDeclaration",
               "typeKind": 0,
               "typeArguments": [],
-              "modulePath": null
+              "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-1.0\\datamodel.ts"
             },
             "annotations": [
               {
