@@ -441,21 +441,29 @@ class StructureTests extends RAML10Test {
   }
   
   test("StructureTests duplicates"){
-    this.runTest("structure/test152.raml", Set("enum:", "displayName:", "additionalProperties:", "xml:", "discriminator:", "default:", "maxProperties:", "minProperties:", "description:", "discriminatorValue:", "examples:", "schema:", "facets:", "example:"))
+    this.runTest("structure/test152.raml", Set("enum:", "displayName:", "additionalProperties:", "xml:", "discriminator:", "default:", "maxProperties:", "minProperties:", "description:", "discriminatorValue:", "examples:", "facets:", "example:"))
   }
-
+  
   test("Type property 'required' completion"){
     this.runTest("structure/test153.raml", Set("required:"))
   }
-
-    test("Query parameter with comment"){
-      this.runTest("structure/test154.raml", Set("required", "displayName", "type", "xml", "default", "pattern", "maxLength", "minLength", "examples", "schema", "facets", "properties"))
-    }
-
-    test("test") {
+  
+  test("Query parameter with comment"){
+    this.runTest("structure/test154.raml", Set("required", "displayName", "type", "xml", "default", "pattern", "maxLength", "minLength", "examples", "schema", "facets", "properties"))
+  }
+  
+  test("StructureTests schema 1"){
+    this.runTest("structure/test155.raml", Set("enum:", "displayName:", "xml:", "default:", "pattern:", "description:", "maxLength:", "minLength:", "examples:", "facets:", "example:", "properties:"))
+  }
+  
+  test("StructureTests schema 2"){
+    this.runTest("structure/test156.raml", Set("application/json:", "application/xml:", "multipart/formdata:", "application/x-www-form-urlencoded:", "displayName:", "type:", "xml:", "default:", "description:", "schema:", "examples:", "example:", "facets:", "properties:"))
+  }
+  
+  test("test") {
     this.runTest("test01.raml", Set("responses:"));
   }
-
+  
   test("facets test 1") {
     this.runTest("facets/test01.raml", Set("testFacet1", "testFacet2", "testFacet3", "testFacet5"));
   }
