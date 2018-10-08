@@ -61,23 +61,50 @@ trait IParseResult {
 
     def sourceInfo:ISourceInfo
 
-    def getNodeByPosition(pos:Int):Option[IParseResult] =
-        selectNodeWhichContainsPosition(pos).map(n=>{
-            var posOffset = astUnit.positionsMapper.offset(pos)
-            var result = n
-            if(result.sourceInfo.isYAML) {
-                while (
-                    result.parent.isDefined
-                        && result.sourceInfo.valueOffset.isDefined
-                        && result.sourceInfo.valueOffset.get > posOffset
-                        && !result.sourceInfo.containsPositionInKey(pos)) {
-
-                    result = result.parent.get
+    def getNodeByPosition(pos:Int):Option[IParseResult] = selectNodeWhichContainsPosition(pos).map(n => {
+        var posOffset = astUnit.positionsMapper.offset(pos);
+        
+        var result = n;
+        
+        if(result.sourceInfo.isYAML) {
+            while(result.parent.isDefined && result.sourceInfo.valueOffset.isDefined && getValueOffset(result) > posOffset && !(result.sourceInfo.containsPositionInKey(pos) && !isMethod(result))) {
+                result = result.parent.get;
+            }
+        }
+        
+        result;
+    });
+    
+    private def isMethod(item: IParseResult) = item.asElement match {
+        case Some(node) => node.definition.isAssignableFrom("Method");
+        
+        case _ => false;
+    }
+    
+    private def getValueOffset(item: IParseResult): Int = {
+        var itemOffset = item.sourceInfo.valueOffset match {
+            case Some(offset) => offset;
+            
+            case _ => -1;
+        }
+        
+        var parentOffset = item.parent match {
+            case Some(parent) => (item.unitPath, parent.unitPath) match {
+                case (Some(itemPath), Some(parentPath)) => if(itemPath.equals(parentPath)) parent.sourceInfo.valueOffset match {
+                    case Some(offset) => offset;
+                    
+                    case _ => itemOffset;
+                } else {
+                    itemOffset;
                 }
             }
-            result
-        })
-
+            
+            case _ => itemOffset;
+        }
+        
+        if(parentOffset >= itemOffset) parentOffset else itemOffset;
+    }
+    
     protected def selectNodeWhichContainsPosition(pos:Int):Option[IParseResult] =
         if (sourceInfo.containsPosition(pos)) Some(this)
         else None
