@@ -2,7 +2,7 @@ package org.mulesoft.high.level.interfaces
 
 import amf.core.annotations.{SourceAST, SourceNode}
 import amf.core.model.document.BaseUnit
-import org.mulesoft.typesystem.nominal_interfaces.IProperty
+import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition, IUniverse}
 import amf.core.model.domain.AmfObject
 import org.mulesoft.typesystem.json.interfaces.NodeRange
 import org.yaml.model.YPart
@@ -86,6 +86,28 @@ trait IParseResult {
             case Some(offset) => offset;
             
             case _ => -1;
+        }
+        
+        item.astUnit match {
+            case unit: IASTUnit => unit.rootNode match {
+                case root: IHighLevelNode => root.definition match {
+                    case nodeType: ITypeDefinition => nodeType.universe match {
+                        case universe: IUniverse => universe.name match {
+                            case Some(name) => if(!"RAML".equals(name.toUpperCase)) {
+                                return itemOffset;
+                            };
+                        }
+                        
+                        case _ =>;
+                    }
+                    
+                    case _ =>;
+                }
+                
+                case _ =>;
+            }
+            
+            case _ =>;
         }
         
         var parentOffset = item.parent match {
