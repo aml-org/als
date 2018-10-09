@@ -226,7 +226,13 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                 x.property match {
                     case Some(p) => p.nameId match {
                         case Some(n) => {
-                            existingProperties(n) = p;
+                            var append = true
+                            if(n == "required" && p.domain.flatMap(_.nameId).contains("TypeDeclaration")){
+                                append = x.sourceInfo.yamlSources.nonEmpty
+                            }
+                            if(append) {
+                                existingProperties(n) = p;
+                            }
                         }
                         
                         case _ =>;
