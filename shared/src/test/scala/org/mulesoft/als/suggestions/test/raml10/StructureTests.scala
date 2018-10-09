@@ -87,28 +87,28 @@ class StructureTests extends RAML10Test {
   }
 
 
+  test("StructureTests resource node put, post, patch"){
+    this.runTest("structure/test26.raml", Set("put:\n    ", "post:\n    ", "patch:\n    "))
+  }
+
   test("StructureTests resource node uriParameters"){
     this.runTest("structure/test27.raml", Set("uriParameters:"))
   }
 
   test("StructureTests resource node options"){
-    this.runTest("structure/test28.raml", Set("options:"))
+    this.runTest("structure/test28.raml", Set("options:\n    "))
   }
 
   test("StructureTests resource node head"){
-    this.runTest("structure/test29.raml", Set("head:"))
+    this.runTest("structure/test29.raml", Set("head:\n    "))
   }
 
   test("StructureTests resource node trace"){
-    this.runTest("structure/test30.raml", Set("trace:"))
+    this.runTest("structure/test30.raml", Set("trace:\n    "))
   }
 
   test("StructureTests resource node connect"){
-    this.runTest("structure/test31.raml", Set("connect:"))
-  }
-
-  test("StructureTests resource node put, post, patch"){
-    this.runTest("structure/test26.raml", Set("put:", "post:", "patch:"))
+    this.runTest("structure/test31.raml", Set("connect:\n    "))
   }
 
   test("StructureTests method node queryString, queryParameters"){
@@ -164,7 +164,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests resourceType node put, post, patch"){
-    this.runTest("structure/test49.raml", Set("put:", "post:", "patch:"))
+    this.runTest("structure/test49.raml", Set("put:\n      ", "post:\n      ", "patch:\n      "))
   }
 
   test("StructureTests resourceType node uriParameters"){
@@ -172,19 +172,19 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests resourceType node options"){
-    this.runTest("structure/test51.raml", Set("options:"))
+    this.runTest("structure/test51.raml", Set("options:\n      "))
   }
 
   test("StructureTests resourceType node head"){
-    this.runTest("structure/test52.raml", Set("head:"))
+    this.runTest("structure/test52.raml", Set("head:\n      "))
   }
 
   test("StructureTests resourceType node trace"){
-    this.runTest("structure/test53.raml", Set("trace:"))
+    this.runTest("structure/test53.raml", Set("trace:\n      "))
   }
 
   test("StructureTests resourceType node connect"){
-    this.runTest("structure/test54.raml", Set("connect:"))
+    this.runTest("structure/test54.raml", Set("connect:\n      "))
   }
 
 
@@ -485,7 +485,7 @@ class StructureTests extends RAML10Test {
   }
   
   test("methods test 2") {
-    this.runTest("methods/test02.raml", Set("displayName:", "type:", "description:", "get:", "put:", "post:", "delete:", "options:", "head:", "patch:", "trace:", "connect:", "securedBy:", "is:", "uriParameters:"));
+    this.runTest("methods/test02.raml", Set("displayName:", "type:", "description:", "get:\n    ", "put:\n    ", "post:\n    ", "delete:\n    ", "options:\n    ", "head:\n    ", "patch:\n    ", "trace:\n    ", "connect:\n    ", "securedBy:", "is:", "uriParameters:"));
   }
   
   test("methods test 3") {

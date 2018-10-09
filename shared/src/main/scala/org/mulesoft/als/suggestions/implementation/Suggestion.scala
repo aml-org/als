@@ -6,6 +6,8 @@ class Suggestion(_text:String,_description:String,_displayText:String, _prefix:S
 
     private var categoryOpt:Option[String] = None
 
+    private var _trailingWhitespace:String = ""
+
     override def text: String = _text
 
     override def description: String = _description
@@ -16,8 +18,15 @@ class Suggestion(_text:String,_description:String,_displayText:String, _prefix:S
 
     override def category: String = categoryOpt.getOrElse("unknown")
 
+    override def trailingWhitespace: String = _trailingWhitespace
+
     def withCategory(cat:String):Suggestion = {
         categoryOpt = Option(cat)
+        this
+    }
+
+    def withTrailingWhitespace(ws:String):Suggestion = {
+        _trailingWhitespace = ws
         this
     }
 
