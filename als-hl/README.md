@@ -198,6 +198,23 @@ In addition, outline part of the plugin is enhanced.
 
 We have test Java-based connection implement, which can be used as a base for the other Java-based clients.
 
+### Integration with AMF
+
+Current version of ALS is developed in Scala to support both JavaScript and Java clients.
+
+ALS is based on AMF as a parser. Modules consume native AMF model.
+
+On top of native AMF model we build high-level AST layer.
+
+The high-level AST is basically an abstract representing an arbitrary language tree with no fixed set of node types. Instead, each node can be dynamically checked for the type that describes what properties this node has, which sub-nodes it may have etc. This makes such a tree to be able to represent not only RAML, but generally, many languages, including OAS, and, potentially, dialects.
+
+Information regarding the language structure that we call Definition System can be loaded from different sources. Current source is the static data built for each supported language.
+
+This AST structure makes it easy to support structural code completion for arbitrary languages, included the self-changing ones (RAML facets).
+
+In order to speed up the migration of those JavaScript ALS version modules, we created the analogue of the current RAML JS Parser high-level AST and partially reused JS raml-typesystem and raml-definition-system modules by porting them to Scala. raml-suggestions, raml-outline and raml-actions modules were also ported to be based on the new high-level AST.
+
+
 ### Server interface
 
 More details of how add to develop the server side are [here](./documentation/server.md)
