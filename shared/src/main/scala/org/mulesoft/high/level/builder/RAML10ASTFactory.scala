@@ -101,8 +101,11 @@ class RAML10ASTFactory private extends RAMLASTFactory {
 
         registerPropertyMatcher("TypeDeclaration", "displayName", shapeMatcher + builtinFacetMatchers("displayName"))
         registerPropertyMatcher("TypeDeclaration", "description",
-            shapeMatcher + builtinFacetMatchers("description")
-            & (ThisMatcher() ifType ParameterModel) + ShapeModel.DisplayName)
+            ((ThisMatcher() ifType PayloadModel) + PayloadModel.Schema
+                | (ThisMatcher()  ifType ParameterModel)
+                | ((ThisMatcher() ifType CustomDomainPropertyModel) + CustomDomainPropertyModel.Schema)
+                | ((ThisMatcher() ifType PropertyShapeModel) + PropertyShapeModel.Range)
+                | (ThisMatcher() ifSubtype ShapeModel)) + builtinFacetMatchers("description"))
         registerPropertyMatcher("TypeDeclaration", "default",shapeMatcher + builtinFacetMatchers("default"))
         registerPropertyMatcher("TypeDeclaration", "required",
             (ThisMatcher() ifType ParameterModel) + ParameterModel.Required
