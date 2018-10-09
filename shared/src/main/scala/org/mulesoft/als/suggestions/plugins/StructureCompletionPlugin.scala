@@ -67,12 +67,26 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 //                            }
                         }
                         else {
-                            false
+                            isMethodKey(request);
                         }
                     case _ => false
                 }
             }
         case _ => false
+    }
+    
+    def isMethodKey(request: ICompletionRequest): Boolean = request.astNode match {
+        case Some(node) => node.property match {
+            case Some(property) => property.domain match {
+                case Some(domain) => domain.isAssignableFrom("Method");
+            
+                case _ => false;
+            };
+
+            case _ => false;
+        };
+        
+        case _ => false;
     }
     
     def contentTypes(request: ICompletionRequest): Seq[String] = {
@@ -119,12 +133,28 @@ class StructureCompletionPlugin extends ICompletionPlugin {
         
         request.actualYamlLocation.get.keyValue.get.yPart.asInstanceOf[YScalar].text == "body"
     }
-
+    
     override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
         var result = request.astNode match {
             case Some(_n) =>
                 var n = _n
+                
+                if(isMethodKey(request)) {
+                    n.parent match {
+                        case Some(parent) => if(parent.definition.isAssignableFrom("Method")) {
+                            parent.parent match {
+                                case Some(resource) => if(resource.definition.isAssignableFrom("ResourceBase")) {
+                                    n = resource;
+                                }
+                                case _ =>;
+                            }
+                        }
+                        
+                        case _ =>;
+                    }
+                }
+                
                 if (n.isAttr) {
                     if(n.parent.isDefined && n.property.isDefined) {
                         val property = n.property.get
