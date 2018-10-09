@@ -17,7 +17,7 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
     override def languages: Seq[Vendor] = StructureCompletionPlugin.supportedLanguages
     
     override def isApplicable(request: ICompletionRequest): Boolean = if(request.astNode.isEmpty || !request.astNode.get.isElement) {
-        false;
+        isMethodKey(request);
     } else if(request.actualYamlLocation.isEmpty) {
         false;
     } else if(request.kind != LocationKind.KEY_COMPLETION) {
@@ -31,7 +31,25 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
     override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
         var result:ListBuffer[ISuggestion] = ListBuffer()
         var isYAML = request.config.astProvider.get.syntax == Syntax.YAML
-        val definition = request.astNode.get.asElement.get.definition
+        
+        var astNode = request.astNode.get;
+    
+        if(isMethodKey(request)) {
+            astNode.parent match {
+                case Some(parent) => if(parent.definition.isAssignableFrom("Method")) {
+                    parent.parent match {
+                        case Some(resource) => if(resource.definition.isAssignableFrom("ResourceBase")) {
+                            astNode = resource;
+                        }
+                        case _ =>;
+                    }
+                }
+                
+                case _ =>;
+            }
+        }
+        
+        val definition = astNode.asElement.get.definition
         definition.allProperties.foreach(p=>{
             var isEmbeddedInMaps = false
             p.getExtra(PropertySyntaxExtra).foreach(extra=>{
@@ -60,6 +78,20 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
         })
         val response = CompletionResponse(result, LocationKind.KEY_COMPLETION, request)
         Promise.successful(response).future
+    }
+    
+    def isMethodKey(request: ICompletionRequest): Boolean = request.astNode match {
+        case Some(node) => node.property match {
+            case Some(property) => property.domain match {
+                case Some(domain) => domain.isAssignableFrom("Method");
+                
+                case _ => false;
+            };
+            
+            case _ => false;
+        };
+        
+        case _ => false;
     }
  }
 
