@@ -2,7 +2,7 @@ package org.mulesoft.high.level.interfaces
 
 import amf.core.annotations.{SourceAST, SourceNode}
 import amf.core.model.document.BaseUnit
-import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition, IUniverse}
+import org.mulesoft.typesystem.nominal_interfaces.IProperty
 import amf.core.model.domain.AmfObject
 import org.mulesoft.typesystem.json.interfaces.NodeRange
 import org.yaml.model.YPart
@@ -61,72 +61,23 @@ trait IParseResult {
 
     def sourceInfo:ISourceInfo
 
-    def getNodeByPosition(pos:Int):Option[IParseResult] = selectNodeWhichContainsPosition(pos).map(n => {
-        var posOffset = astUnit.positionsMapper.offset(pos);
-        
-        var result = n;
-        
-        if(result.sourceInfo.isYAML) {
-            while(result.parent.isDefined && result.sourceInfo.valueOffset.isDefined && getValueOffset(result) > posOffset && !(result.sourceInfo.containsPositionInKey(pos) && !isMethod(result))) {
-                result = result.parent.get;
-            }
-        }
-        
-        result;
-    });
-    
-    private def isMethod(item: IParseResult) = item.asElement match {
-        case Some(node) => node.definition.isAssignableFrom("Method");
-        
-        case _ => false;
-    }
-    
-    private def getValueOffset(item: IParseResult): Int = {
-        var itemOffset = item.sourceInfo.valueOffset match {
-            case Some(offset) => offset;
-            
-            case _ => -1;
-        }
-        
-        item.astUnit match {
-            case unit: IASTUnit => unit.rootNode match {
-                case root: IHighLevelNode => root.definition match {
-                    case nodeType: ITypeDefinition => nodeType.universe match {
-                        case universe: IUniverse => universe.name match {
-                            case Some(name) => if(!"RAML".equals(name.toUpperCase)) {
-                                return itemOffset;
-                            };
-                        }
-                        
-                        case _ =>;
-                    }
-                    
-                    case _ =>;
-                }
-                
-                case _ =>;
-            }
-            
-            case _ =>;
-        }
-        
-        var parentOffset = item.parent match {
-            case Some(parent) => (item.unitPath, parent.unitPath) match {
-                case (Some(itemPath), Some(parentPath)) => if(itemPath.equals(parentPath)) parent.sourceInfo.valueOffset match {
-                    case Some(offset) => offset;
-                    
-                    case _ => itemOffset;
-                } else {
-                    itemOffset;
+    def getNodeByPosition(pos:Int):Option[IParseResult] =
+        selectNodeWhichContainsPosition(pos).map(n=>{
+            var posOffset = astUnit.positionsMapper.offset(pos)
+            var result = n
+            if(result.sourceInfo.isYAML) {
+                while (
+                    result.parent.isDefined
+                        && result.sourceInfo.valueOffset.isDefined
+                        && result.sourceInfo.valueOffset.get > posOffset
+                        && !result.sourceInfo.containsPositionInKey(pos)) {
+
+                    result = result.parent.get
                 }
             }
-            
-            case _ => itemOffset;
-        }
-        
-        if(parentOffset >= itemOffset) parentOffset else itemOffset;
-    }
-    
+            result
+        })
+
     protected def selectNodeWhichContainsPosition(pos:Int):Option[IParseResult] =
         if (sourceInfo.containsPosition(pos)) Some(this)
         else None
