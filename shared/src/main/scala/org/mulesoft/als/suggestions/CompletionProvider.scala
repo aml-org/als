@@ -124,7 +124,8 @@ class CompletionProvider {
             if (!response.noColon && isKey) {
                 if(!hasLine || !hasColon) {
                     result = result.map(x => {
-                        Suggestion(x.text + ":", x.description, x.displayText, x.prefix).withCategory(x.category)
+                        val newText = x.text + ":" + x.trailingWhitespace
+                        Suggestion(newText, x.description, x.displayText, x.prefix).withCategory(x.category)
                     })
                 }
             }

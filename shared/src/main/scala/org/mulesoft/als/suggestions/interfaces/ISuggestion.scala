@@ -10,4 +10,6 @@ trait ISuggestion {
     def prefix: String
 
     def category: String
+
+    def trailingWhitespace:String
 }

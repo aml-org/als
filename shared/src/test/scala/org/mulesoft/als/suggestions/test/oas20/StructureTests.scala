@@ -59,7 +59,7 @@ class StructureTests extends OAS20Test {
   }
 
   test("PathItemObject post, put, patch"){
-    this.runTest("structure/test29.yml", Set("post:", "put:", "patch:"))
+    this.runTest("structure/test29.yml", Set("post:\n      ", "put:\n      ", "patch:\n      "))
   }
 
   test("PathItemObject parameters"){

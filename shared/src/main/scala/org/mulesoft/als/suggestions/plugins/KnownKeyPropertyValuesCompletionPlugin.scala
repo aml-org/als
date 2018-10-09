@@ -33,7 +33,9 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
         var isYAML = request.config.astProvider.get.syntax == Syntax.YAML
         
         var astNode = request.astNode.get;
-    
+        val pm = astNode.astUnit.positionsMapper
+        val line = pm.point(request.position).line
+        val off = pm.lineOffset(pm.line(line).getOrElse("")) + 2
         if(isMethodKey(request)) {
             astNode.parent match {
                 case Some(parent) => if(parent.definition.isAssignableFrom("Method")) {
@@ -66,6 +68,8 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
                                         var text = x.toString
                                         val description = p.getExtra(DescriptionExtra).map(_.text).getOrElse("")
                                         val suggestion = Suggestion(text, description, text, request.prefix)
+                                        val ws = "\n" + (" " * off)
+                                        suggestion.withTrailingWhitespace(ws)
                                         ProjectBuilder.determineFormat(request.astNode.get.astUnit.baseUnit).flatMap(SuggestionCategoryRegistry.getCategory(_,text,Option(definition),Option(rangeComponentType))).foreach(suggestion.withCategory)
                                         result += suggestion
                                     })
