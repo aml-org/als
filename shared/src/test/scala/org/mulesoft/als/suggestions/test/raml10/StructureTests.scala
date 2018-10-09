@@ -449,7 +449,7 @@ class StructureTests extends RAML10Test {
   }
   
   test("Query parameter with comment"){
-    this.runTest("structure/test154.raml", Set("required", "displayName", "type", "xml", "default", "pattern", "maxLength", "minLength", "examples", "schema", "facets", "properties"))
+    this.runTest("structure/test154.raml", Set("required", "displayName", "type", "xml", "default", "pattern", "maxLength", "minLength", "examples", "schema", "facets", "properties", "description"))
   }
   
   test("StructureTests schema 1"){
@@ -459,6 +459,14 @@ class StructureTests extends RAML10Test {
   test("StructureTests schema 2"){
     this.runTest("structure/test156.raml", Set("application/json:", "application/xml:", "multipart/formdata:", "application/x-www-form-urlencoded:", "displayName:", "type:", "xml:", "default:", "description:", "schema:", "examples:", "example:", "facets:", "properties:"))
   }
+
+  test("Base URI parameter completion"){
+    this.runTest("structure/test157.raml", Set("enum:", "displayName:", "type:", "xml:", "default:", "pattern:", "description:", "maxLength:", "minLength:", "examples:", "schema:", "facets:", "example:", "properties:"))
+  }
+
+  test("Header completion"){
+    this.runTest("structure/test158.raml", Set("required:", "enum:", "displayName:", "type:", "xml:", "default:", "pattern:", "description:", "maxLength:", "minLength:", "examples:", "schema:", "facets:", "example:", "properties:"))
+ }
   
   test("test") {
     this.runTest("test01.raml", Set("responses:"));
