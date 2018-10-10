@@ -10,14 +10,14 @@ class BodyTests extends RAML10Test {
                 "application/x-www-form-urlencoded:",
                 "displayName:",
                 "type:",
-                "xml:",
+                "xml:\n        ",
                 "default:",
                 "description:",
                 "schema:",
-                "examples:",
-                "example:",
-                "facets:",
-                "properties:"))
+                "examples:\n        ",
+                "example:\n        ",
+                "facets:\n        ",
+                "properties:\n        "))
     }
 
     test("Method with some bodies") {
@@ -33,14 +33,14 @@ class BodyTests extends RAML10Test {
                 "application/xml:",
                 "displayName:",
                 "type:",
-                "xml:",
+                "xml:\n            ",
                 "default:",
                 "description:",
                 "schema:",
-                "examples:",
-                "example:",
-                "facets:",
-                "properties:"))
+                "examples:\n            ",
+                "example:\n            ",
+                "facets:\n            ",
+                "properties:\n            "))
     }
 
     test("Response with some bodies") {

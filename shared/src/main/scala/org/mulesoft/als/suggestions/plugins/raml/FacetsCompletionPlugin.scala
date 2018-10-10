@@ -41,43 +41,19 @@ class FacetsCompletionPlugin extends ICompletionPlugin {
 	}
 	
 	override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
-		var facets = mutable.MutableList[String]();
-		
-		extendsDeclaredTypes(request.astNode.get.asElement.get, extractTypeDeclarations(request)).foreach(extractFacetsFromDeclaration(_).foreach(facets += _));
-		
-		extractFacetsFromDeclaration(request.astNode.get.asElement.get).foreach(facets += _);
-		
-		val result = facets.map(facetName => Suggestion(facetName, s"Fix the '$facetName' facet", facetName, request.prefix));
+        val element = request.astNode.get.asElement.get
+        val off = element.sourceInfo.valueOffset.getOrElse(0) + 2
+        val facets = element.definition.allProperties.filter(_.domain.exists(_.isUserDefined))
+        val result = facets.map(x=>{
+            val facetName = x.nameId.get
+            val suggestion = Suggestion(facetName, s"Fix the '$facetName' facet", facetName, request.prefix)
+            if(!x.range.exists(_.isValueType)){
+                suggestion.withTrailingWhitespace("\n" + " " * off)
+            }
+            suggestion
+        })
         var response = CompletionResponse(result,LocationKind.KEY_COMPLETION,request)
 		Promise.successful(response).future
-	}
-	
-	def extractTypeDeclarations(request: ICompletionRequest): Seq[IHighLevelNode] = {
-		request.astNode.get.astUnit.rootNode.children.filter(_.isElement).map(_.asElement.get).filter(_.definition.isAssignableFrom("TypeDeclaration"));
-	}
-	
-	def extractFacetsFromDeclaration(node: IHighLevelNode): Seq[String] = {
-		node.elements("facets").map(_.attributeValue("name").get.asInstanceOf[Some[String]].get);
-	}
-	
-	def extendsDeclaredTypes(node: IHighLevelNode, declarations: Seq[IHighLevelNode]): Seq[IHighLevelNode] = {
-		var extendTypes = node.attributes("type").map(_.value.get.asInstanceOf[YJSONWrapper].value.asInstanceOf[String]);
-		
-		var currentDeclarations = declarations.filter(declaration => extendTypes.contains(declarationName(declaration)));
-		
-		var result = mutable.MutableList[IHighLevelNode]();
-		
-		currentDeclarations.foreach(declaration => {
-			result += declaration;
-			
-			extendsDeclaredTypes(declaration, declarations).foreach(superDeclaration => result += superDeclaration);
-		});
-		
-		result;
-	}
-	
-	def declarationName(node: IHighLevelNode): String = {
-		node.attributeValue("name").get.asInstanceOf[Some[String]].get
 	}
 }
 

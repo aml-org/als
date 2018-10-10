@@ -131,7 +131,7 @@ class ReferenceTests extends OAS20Test {
   }
 
   test("Parameter reference test 001"){
-    this.runTest("references/parameters/test001.yml", Set("\"$ref\": \"#/parameters/param1\"", "\"$ref\": \"#/parameters/param2\"", "maxItems:", "exclusiveMinimum:", "required:", "collectionFormat:", "enum:", "items:", "exclusiveMaximum:", "type:", "minimum:", "default:", "maximum:", "pattern:", "multipleOf:", "description:", "allowEmptyValue:", "name:", "in:", "maxLength:", "minLength:", "minItems:", "\"$ref\":", "format:", "example:", "uniqueItems:"))
+    this.runTest("references/parameters/test001.yml", Set("\"$ref\": \"#/parameters/param1\"", "\"$ref\": \"#/parameters/param2\"", "maxItems:", "exclusiveMinimum:", "required:", "collectionFormat:", "enum:", "items:\n          ", "exclusiveMaximum:", "type:", "minimum:", "default:", "maximum:", "pattern:", "multipleOf:", "description:", "allowEmptyValue:", "name:", "in:", "maxLength:", "minLength:", "minItems:", "\"$ref\":", "format:", "example:", "uniqueItems:"))
   }
 
 //  test("Parameter reference test 002"){
@@ -167,7 +167,7 @@ class ReferenceTests extends OAS20Test {
 //  }
 
   test("Parameter reference test 010"){
-    this.runTest("references/parameters/test010.yml", Set("\"$ref\": \"#/parameters/param1\"", "\"$ref\": \"#/parameters/param2\"", "maxItems:", "exclusiveMinimum:", "required:", "collectionFormat:", "enum:", "items:", "exclusiveMaximum:", "type:", "minimum:", "default:", "maximum:", "pattern:", "multipleOf:", "description:", "allowEmptyValue:", "name:", "in:", "maxLength:", "minLength:", "minItems:", "\"$ref\":", "format:", "example:", "uniqueItems:"))
+    this.runTest("references/parameters/test010.yml", Set("\"$ref\": \"#/parameters/param1\"", "\"$ref\": \"#/parameters/param2\"", "maxItems:", "exclusiveMinimum:", "required:", "collectionFormat:", "enum:", "items:\n            ", "exclusiveMaximum:", "type:", "minimum:", "default:", "maximum:", "pattern:", "multipleOf:", "description:", "allowEmptyValue:", "name:", "in:", "maxLength:", "minLength:", "minItems:", "\"$ref\":", "format:", "example:", "uniqueItems:"))
   }
 
 //  test("Parameter reference test 011"){

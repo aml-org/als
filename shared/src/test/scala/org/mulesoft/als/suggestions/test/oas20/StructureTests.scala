@@ -3,15 +3,15 @@ package org.mulesoft.als.suggestions.test.oas20
 class StructureTests extends OAS20Test {
 
   test("SwaggerObject info"){
-    this.runTest("structure/test01.yml", Set("info:"))
+    this.runTest("structure/test01.yml", Set("info:\n  "))
   }
 
   test("SwaggerObject paths"){
-    this.runTest("structure/test07.yml", Set("paths:"))
+    this.runTest("structure/test07.yml", Set("paths:\n  "))
   }
 
   test("SwaggerObject responses"){
-    this.runTest("structure/test10.yml", Set("responses:"))
+    this.runTest("structure/test10.yml", Set("responses:\n  "))
   }
 
   test("InfoObject title"){
@@ -27,7 +27,7 @@ class StructureTests extends OAS20Test {
   }
 
   test("InfoObject contact"){
-    this.runTest("structure/test20.yml", Set("contact:"))
+    this.runTest("structure/test20.yml", Set("contact:\n    "))
   }
 
   test("LicenseObject name"){
@@ -63,7 +63,7 @@ class StructureTests extends OAS20Test {
   }
 
   test("PathItemObject parameters"){
-    this.runTest("structure/test33.yml", Set("parameters:"))
+    this.runTest("structure/test33.yml", Set("parameters:\n      "))
   }
 
   test("OperationObject summary"){
@@ -79,11 +79,11 @@ class StructureTests extends OAS20Test {
   }
 
   test("OperationObject parameters"){
-    this.runTest("structure/test40.yml", Set("parameters:"))
+    this.runTest("structure/test40.yml", Set("parameters:\n        "))
   }
 
   test("OperationObject responses"){
-    this.runTest("structure/test41.yml", Set("responses:"))
+    this.runTest("structure/test41.yml", Set("responses:\n        "))
   }
 
   test("OperationObject deprecated"){
@@ -91,7 +91,7 @@ class StructureTests extends OAS20Test {
   }
 
   test("OperationObject security"){
-    this.runTest("structure/test44.yml", Set("security:"))
+    this.runTest("structure/test44.yml", Set("security:\n        "))
   }
 
   test("ResponseObject description"){
@@ -99,7 +99,7 @@ class StructureTests extends OAS20Test {
   }
 
   test("ResponseObject schema"){
-    this.runTest("structure/test48.yml", Set("schema:"))
+    this.runTest("structure/test48.yml", Set("schema:\n            "))
   }
 
   test("ParameterObject description"){
@@ -107,7 +107,7 @@ class StructureTests extends OAS20Test {
   }
 
   test("BodyParameterObject schema"){
-    this.runTest("structure/test56.yml", Set("schema:"))
+    this.runTest("structure/test56.yml", Set("schema:\n          "))
   }
 
   test("ItemsObject format"){
@@ -139,7 +139,7 @@ class StructureTests extends OAS20Test {
   }
 
   test("ItemsObject items"){
-    this.runTest("structure/test73.yml", Set("items:"))
+    this.runTest("structure/test73.yml", Set("items:\n        "))
   }
 
   test("SchemaObject title"){
@@ -151,7 +151,7 @@ class StructureTests extends OAS20Test {
   }
 
   test("SchemaObject properties"){
-    this.runTest("structure/test77.yml", Set("properties:"))
+    this.runTest("structure/test77.yml", Set("properties:\n      "))
   }
 
   test("SchemaObject discriminator"){
@@ -159,7 +159,7 @@ class StructureTests extends OAS20Test {
   }
 
   test("SchemaObject xml"){
-    this.runTest("structure/test79.yml", Set("xml:"))
+    this.runTest("structure/test79.yml", Set("xml:\n      "))
   }
 
   test("Parameter definition key"){

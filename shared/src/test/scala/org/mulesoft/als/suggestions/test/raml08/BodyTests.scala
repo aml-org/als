@@ -8,7 +8,7 @@ class BodyTests extends RAML08Test {
                 "application/xml:",
                 "multipart/formdata:",
                 "application/x-www-form-urlencoded:",
-                "formParameters:",
+                "formParameters:\n        ",
                 "description:",
                 "schema:",
                 "example:"))
@@ -25,7 +25,7 @@ class BodyTests extends RAML08Test {
         this.runTest("body/test003.raml",
             Set("application/json:",
                 "application/xml:",
-                "formParameters:",
+                "formParameters:\n            ",
                 "description:",
                 "schema:",
                 "example:"))
