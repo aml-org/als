@@ -135,7 +135,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
     }
     
     override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
-
+        var responseKind:LocationKind = LocationKind.KEY_COMPLETION
         var result = request.astNode match {
             case Some(_n) =>
                 var n = _n
@@ -182,6 +182,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                 } else if (isDiscriminatorValue(request)) {
                     var a = extractFirstLevelScalars(request);
                     val description = "Possible discriminating property"
+                    responseKind = LocationKind.VALUE_COMPLETION
                     extractFirstLevelScalars(request).map(name => Suggestion(name, description, name, request.prefix));
                 } else if (n.isElement) {
                     var element = n.asElement.get;
@@ -192,6 +193,14 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                         var text = if(isYAML && pName.startsWith("$")) s""""$pName"""" else pName
                         var suggestion = Suggestion(text, description, pName, request.prefix)
                         ProjectBuilder.determineFormat(element.astUnit.baseUnit).flatMap(SuggestionCategoryRegistry.getCategory(_,pName,Option(element.definition),prop.range)).foreach(suggestion.withCategory)
+                        var needBrake = pName != "enum" && pName != "mediaType" && pName != "securedBy" && pName != "protocols" && prop.range.exists(r =>
+                            !r.isValueType && (!r.isAssignableFrom("Reference")||prop.isMultiValue))
+
+                        if(needBrake){
+                            val off = element.sourceInfo.valueOffset.getOrElse(0) + 2
+                            val ws = "\n" + " " * off
+                            suggestion.withTrailingWhitespace(ws)
+                        }
                         suggestion
                     })
                 }
@@ -201,7 +210,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 
             case _ => Seq();
         }
-        val response = CompletionResponse(result, LocationKind.KEY_COMPLETION, request)
+        val response = CompletionResponse(result, responseKind, request)
         Promise.successful(response).future
     }
     
@@ -291,7 +300,10 @@ class StructureCompletionPlugin extends ICompletionPlugin {
             case Some(n) =>
                 if(!existingProperties.contains(n)){
                     var e = p.getExtra(PropertySyntaxExtra).getOrElse(PropertySyntaxExtra.empty)
-                    if(!e.allowsParentProperty(propName)){
+                    if(p.domain.exists(_.isUserDefined)){
+                        false
+                    }
+                    else if(!e.allowsParentProperty(propName)){
                         false
                     }
                     else if(e.isKey || e.isValue || e.isHiddenFromUI){
