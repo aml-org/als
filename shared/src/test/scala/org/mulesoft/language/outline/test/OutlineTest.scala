@@ -10,7 +10,6 @@ import org.mulesoft.high.level.Core
 import org.mulesoft.high.level.interfaces.{IParseResult, IProject}
 import org.mulesoft.language.outline.structure.structureImpl.{ConfigFactory, StructureBuilder}
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
-import org.mulesoft.language.outline.test1
 import org.scalatest.{Assertion, AsyncFunSuite, Succeeded}
 
 import scala.collection.mutable
