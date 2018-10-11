@@ -1,19 +1,17 @@
 package org.mulesoft.language.outline.test
 
-import upickle.default.{macroRW, write, ReadWriter => RW, read}
+import upickle.default.{macroRW, read, write, ReadWriter => RW}
 import amf.client.remote.Content
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
-import amf.core.remote.JvmPlatform
-import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.high.level.Core
 import org.mulesoft.high.level.interfaces.{IParseResult, IProject}
 import org.mulesoft.language.outline.structure.structureImpl.{ConfigFactory, StructureBuilder}
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
-import org.scalatest.{Assertion, AsyncFunSuite}
-import org.scalatest.{Assertion, Succeeded}
+import org.mulesoft.language.outline.test1
+import org.scalatest.{Assertion, AsyncFunSuite, Succeeded}
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer

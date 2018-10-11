@@ -1,7 +1,7 @@
 package org.mulesoft.language.outline.test
 
 import amf.client.resource.{BaseFileResourceLoader, FileResourceLoader, HttpResourceLoader}
-import amf.core.remote.{EcmaEncoder, FileNotFound, JvmPlatform, Platform}
+import amf.core.remote.{FileNotFound, FutureConverter, JvmPlatform, Platform}
 import amf.internal.resource.{ResourceLoader, ResourceLoaderAdapter}
 import java.io.{File, FileNotFoundException}
 import java.net.URI
@@ -9,7 +9,6 @@ import java.util.concurrent.CompletableFuture
 
 import amf.client.remote.Content
 import amf.core.lexer.FileStream
-import amf.core.remote.FutureConverter._
 import amf.core.remote.FileMediaType._
 import amf.core.unsafe.PlatformBuilder
 
@@ -44,7 +43,7 @@ object TestPlatform {
 class UTF8FileResourceLoader() extends BaseFileResourceLoader {
     def fetchFile(resource: String): CompletableFuture[Content] = {
         //println("fetching utf-8")
-        Future {
+        FutureConverter.converters(Future {
             try {
                 //println(resource + ":" + new FileStream(new File(resource), "utf-8").data.toString)
                 Content(new FileStream(new File(resource), "utf-8"),
@@ -62,7 +61,7 @@ class UTF8FileResourceLoader() extends BaseFileResourceLoader {
                         case e: FileNotFoundException => throw FileNotFound(e)
                     }
             }
-        }.asJava
+        }).asJava
     }
 
     def ensureFileAuthority(str: String): String = if (str.startsWith("file:")) str else s"file://$str"

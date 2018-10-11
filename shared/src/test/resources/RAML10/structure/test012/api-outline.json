@@ -47,7 +47,7 @@
                 "children": [
                   {
                     "text": "items",
-                    "typeText": "",
+                    "typeText": ":string",
                     "icon": "TAG",
                     "textStyle": "NORMAL",
                     "key": "items :: userIds :: /{userIds} :: /users :: ",

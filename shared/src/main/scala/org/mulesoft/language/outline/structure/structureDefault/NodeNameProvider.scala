@@ -20,7 +20,15 @@ object NodeNameProvider {
       val hlNode = node.asElement.get
 
       val keyChild = hlNode.children.find(child=>{
-        child.property.isDefined && isKeyProperty(child.property.get)
+        var result = child.property.isDefined && isKeyProperty(child.property.get)
+
+        if(result && child.isAttr){
+          val key = child.asAttr.flatMap(_.value).map(_.toString)
+          if(hlNode.property.flatMap(_.nameId).contains("items") && node.parent.flatMap(_.attribute("name")).flatMap(_.value).map(_.toString) == key){
+              result = false
+          }
+        }
+        result
       })
 
       if (keyChild.isDefined) {
