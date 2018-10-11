@@ -3,11 +3,11 @@ package org.mulesoft.language.suggestions.raml
 class StructureTests extends RAMLSuggestionTest {
 
     test("test 01") {
-        runTest("structure/test01.raml", Set("responses:"))
+        runTest("structure/test01.raml", Set("responses:\n      "))
     }
 
     test("test 02") {
-        runTest("structure/test02.raml", Set("types:"))
+        runTest("structure/test02.raml", Set("types:\n  "))
     }
 
     test("test 03") {
@@ -19,7 +19,7 @@ class StructureTests extends RAMLSuggestionTest {
     }
 
     test("test 05") {
-        runTest("structure/test05.raml", Set("traits:"))
+        runTest("structure/test05.raml", Set("traits:\n  "))
     }
 
     test("test 06") {
@@ -27,7 +27,7 @@ class StructureTests extends RAMLSuggestionTest {
     }
 
     test("test 07") {
-        runTest("structure/test07.raml", Set("documentation:"))
+        runTest("structure/test07.raml", Set("documentation:\n  "))
     }
 
     test("test 08") {
@@ -35,7 +35,7 @@ class StructureTests extends RAMLSuggestionTest {
     }
 
     test("test 09") {
-        runTest("structure/test09.raml", Set("baseUri:", "baseUriParameters:"))
+        runTest("structure/test09.raml", Set("baseUri:", "baseUriParameters:\n  "))
     }
 
     test("test 10") {
