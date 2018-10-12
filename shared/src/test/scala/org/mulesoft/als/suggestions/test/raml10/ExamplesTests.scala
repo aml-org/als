@@ -8,4 +8,8 @@ class ExamplesTests extends RAML10Test {
 	test("json test"){
 		this.runTest("examples/test02.raml", Set("valueSeven", "valueEight"))
 	}
+
+    test("Object Property Test"){
+        this.runTest("examples/test03.raml", Set("prop1:\n        ", "prop2:"))
+    }
 }

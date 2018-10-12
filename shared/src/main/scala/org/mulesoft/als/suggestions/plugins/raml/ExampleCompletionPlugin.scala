@@ -142,17 +142,28 @@ class ExampleCompletionPlugin extends ICompletionPlugin {
 	}
 	
 	override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
-        val suggestions = findProperties(extractAstPath(request), extractLocalType(request)).map(propertyName => Suggestion(propertyName, s"'$propertyName' property", propertyName, request.prefix))
+        val suggestions = findProperties(extractAstPath(request), extractLocalType(request),request)
         var response = CompletionResponse(suggestions,LocationKind.KEY_COMPLETION,request)
         Promise.successful(response).future
     }
 	
-	def findProperties(path: Seq[String], localType: Option[ITypeDefinition]): Seq[String] = if(localType.isEmpty) {
+	def findProperties(path: Seq[String], localType: Option[ITypeDefinition],request:ICompletionRequest): Seq[ISuggestion] = if(localType.isEmpty) {
 		Seq();
 	} else if(path.isEmpty) {
-		localType.get.allProperties.map(_.nameId.get);
+        localType.get.allProperties.map(prop => {
+            var propertyName = prop.nameId.get
+            var ws:String = ""
+            if(prop.range.exists(!_.isValueType)) {
+                request.astNode.map(_.astUnit.positionsMapper).foreach(pm=>{
+                    val point = pm.point(request.position)
+                    val line = pm.line(point.line).getOrElse("")
+                    ws = "\n" + " " * pm.lineOffset(line) + "  "
+                })
+            }
+            Suggestion(propertyName, s"'$propertyName' property", propertyName, request.prefix).withTrailingWhitespace(ws)
+        });
 	} else localType.get.property(path.last) match {
-		case Some(property) => findProperties(path.dropRight(1), property.range);
+		case Some(property) => findProperties(path.dropRight(1), property.range, request);
 		
 		case _ => Seq();
 	}
