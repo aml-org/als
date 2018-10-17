@@ -18,7 +18,7 @@ abstract class SuggestionsTest extends LanguageServerTest {
                 val markerInfo = this.findMarker(fileContentsStr)
                 val position = markerInfo.position
                 getClient.flatMap(client=>{
-                    val filePath = s"file:///$path"
+                    val filePath = resolved
                     client.documentOpened(IOpenedDocument(filePath,0,markerInfo.rawContent))
                     client.getSuggestions(filePath,position).map(suggestions=>{
                         client.documentClosed(filePath)

@@ -97,7 +97,7 @@ class ConnectionBasedPlatform (val connection: IServerConnection,
         val isWindows = operativeSystem().toLowerCase().indexOf("win") >= 0
         if (path.startsWith("/")) {
           File.FILE_PROTOCOL + path
-        } else if(isWindows && (path.length < 2 || path.charAt(1) != ':')){
+        } else if(isWindows){
           File.FILE_PROTOCOL + withTrailingSlash(path)
         }
         else {

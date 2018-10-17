@@ -1,5 +1,7 @@
 package org.mulesoft.language.test.serverConnection
 
+import java.io.File
+
 import amf.core.unsafe.PlatformSecrets
 
 import scala.concurrent.{Future, Promise}
@@ -8,19 +10,20 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object FS extends PlatformSecrets {
 	def exists(path: String): Future[Boolean] = {
-		platform.fs.asyncFile(path).exists
+		Future.successful(new File(path).exists())
 	}
 
 	def readDir(path: String): Future[Seq[String]] = {
-        platform.fs.asyncFile(path).list.map(x=>x)
+        val arr = new File(path).list()
+        Future.successful(arr.toSeq)
 	}
 
 	def isDirectory(path: String): Future[Boolean] = {
-        platform.fs.asyncFile(path).isDirectory
+        Future.successful(new File(path).isDirectory())
 	}
 
 	def content(path: String): Future[String] = {
-		platform.resolve(path).map(_.stream.toString)
+		throw new Error("not implemented")
 	}
 
 	private def removeProtocol(path: String): String = {

@@ -6,6 +6,7 @@ import amf.core.services.RuntimeValidator
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
 import org.mulesoft.language.common.dtoTypes.{IRange, IValidationIssue, IValidationReport}
 import org.mulesoft.language.server.common.reconciler.Reconciler
+import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.validationManager.ValidationRunnable
 import org.mulesoft.language.server.server.modules.astManager.{IASTListener, IASTManagerModule, ParserHelper}
@@ -54,31 +55,32 @@ class ValidationManager extends AbstractServerModule {
 	
 	def newASTAvailable(uri: String, version: Int, ast: BaseUnit) {
 		this.connection.debug("Got new AST:\n" + ast.toString, "ValidationManager", "newASTAvailable");
-		
+
 		reconciler.shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, version, ast))).future andThen {
 			case Success(report) => {
 				this.connection.debug("Number of errors is:\n" + report.issues.length, "ValidationManager", "newASTAvailable");
-				
+
 				this.connection.validated(report);
 			}
-			
+
 			case Failure(exception) => {
 				exception.printStackTrace();
-				
+
 				this.connection.error("Error on validation: " + exception.toString, "ValidationManager", "newASTAvailable");
-				
+
 				this.connection.validated(new IValidationReport(uri, 0, Seq()));
 			}
 		}
 	}
 	
 	private def gatherValidationErrors(docUri: String, docVersion: Int, astNode: BaseUnit): Future[IValidationReport] = {
-		val editorOption = this.getEditorManager.getEditor(docUri);
+        val uri = PathRefine.refinePath(docUri, platform)
+		val editorOption = this.getEditorManager().getEditor(uri);
 		
 		if(editorOption.isDefined) {
 			val startTime = System.currentTimeMillis();
 			
-			this.report(docUri, astNode).map(report => {
+			this.report(uri, astNode).map(report => {
 				val endTime = System.currentTimeMillis();
 				
 				this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to validate", "ValidationManager", "gatherValidationErrors");
@@ -88,7 +90,7 @@ class ValidationManager extends AbstractServerModule {
 				IValidationReport(docUri, docVersion, issues);
 			});
 		} else {
-			Future.failed(new Exception("Cant find the editor for uri " + docUri));
+			Future.failed(new Exception("Cant find the editor for uri " + uri));
 		}
 	}
 	
@@ -193,7 +195,7 @@ class ValidationManager extends AbstractServerModule {
 	}
 	
 	private def report(uri: String, baseUnit: BaseUnit): Future[AMFValidationReport] = {
-        val language = getEditorManager.getEditor(uri).map(_.language).getOrElse("OAS 2.0");
+        val language = getEditorManager().getEditor(uri).map(_.language).getOrElse("OAS 2.0");
 		
 		var config = new ParserConfig(
 			Some(ParserConfig.VALIDATE),
