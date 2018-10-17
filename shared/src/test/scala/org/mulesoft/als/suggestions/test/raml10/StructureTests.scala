@@ -457,7 +457,7 @@ class StructureTests extends RAML10Test {
   }
   
   test("StructureTests schema 2"){
-    this.runTest("structure/test156.raml", Set("application/json:", "application/xml:", "multipart/formdata:", "application/x-www-form-urlencoded:", "displayName:", "type:", "xml:\n        ", "default:", "description:", "schema:", "examples:\n        ", "example:\n        ", "facets:\n        ", "properties:\n        "))
+    this.runTest("structure/test156.raml", Set("application/json:", "application/xml:", "multipart/form-data:", "application/x-www-form-urlencoded:", "displayName:", "type:", "xml:\n        ", "default:", "description:", "schema:", "examples:\n        ", "example:\n        ", "facets:\n        ", "properties:\n        "))
   }
 
   test("Base URI parameter completion"){
