@@ -44,7 +44,7 @@ class BodyCompletionPlugin extends ICompletionPlugin {
                 "application/xml"
             )
             if (!isResponseBody) {
-                list += "multipart/formdata"
+                list += "multipart/form-data"
                 list += "application/x-www-form-urlencoded"
             }
             result = list.filter(!existing.contains(_)).map(x => Suggestion(x + ":", "New body",
