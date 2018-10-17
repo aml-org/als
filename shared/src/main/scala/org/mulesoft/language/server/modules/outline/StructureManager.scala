@@ -21,6 +21,7 @@ import org.mulesoft.language.outline.structure.structureImpl.ConfigFactory
 import org.mulesoft.language.common.dtoTypes.IStructureReport
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import amf.core.model.document.BaseUnit
+import org.mulesoft.language.server.common.utils.PathRefine
 
 import scala.collection.mutable
 
@@ -81,8 +82,8 @@ class StructureManager extends AbstractServerModule {
     this.connection.onDocumentStructure(this.onDocumentStructureListener, true)
   }
 
-  def newASTAvailable(astUri: String, astVersion: Int, ast: IParseResult): Unit = {
-
+  def newASTAvailable(_astUri: String, astVersion: Int, ast: IParseResult): Unit = {
+      val astUri = PathRefine.refinePath(_astUri, platform)
     this.connection.debug("Got new AST:\n" + ast.toString,
       "StructureManager", "newASTAvailable")
 
@@ -97,7 +98,7 @@ class StructureManager extends AbstractServerModule {
 
       val structureReport = IStructureReport (
 
-        astUri,
+        _astUri,
 
         astVersion,
 

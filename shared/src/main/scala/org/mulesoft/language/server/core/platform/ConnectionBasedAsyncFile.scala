@@ -37,8 +37,6 @@ class ConnectionBasedAsyncFile(connection: IServerConnection,
     else {
       this.connection.content(this.url)
     }
-
-    this.connection.content(this.url)
   }
 
   override def exists: Future[Boolean] = {

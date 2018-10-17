@@ -3,6 +3,7 @@ package org.mulesoft.language.server.modules.findReferences;
 import org.mulesoft.high.level.{ReferenceSearchResult, Search}
 import org.mulesoft.high.level.interfaces.{IASTUnit, IProject}
 import org.mulesoft.language.common.dtoTypes.{ILocation, IRange}
+import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.SearchUtils
 import org.mulesoft.language.server.modules.hlastManager.HLASTManager
@@ -29,7 +30,8 @@ class FindReferencesModule extends AbstractServerModule {
 		}
 	}
 	
-	def findReferences(uri: String, position: Int): Future[Seq[ILocation]] = {
+	def findReferences(_uri: String, position: Int): Future[Seq[ILocation]] = {
+        val uri = PathRefine.refinePath(_uri,platform)
 		this.connection.debug(s"Finding references at position ${position}",
 			"FindReferencesModule", "findReferences")
 

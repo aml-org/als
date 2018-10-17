@@ -3,6 +3,7 @@ package org.mulesoft.language.server.modules.findReferences;
 import org.mulesoft.high.level.{ReferenceSearchResult, Search}
 import org.mulesoft.high.level.interfaces.{IASTUnit, IProject}
 import org.mulesoft.language.common.dtoTypes.{IChangedDocument, ILocation, IRange, ITextEdit}
+import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.SearchUtils
 import org.mulesoft.language.server.modules.hlastManager.HLASTManager
@@ -31,7 +32,9 @@ class RenameModule extends AbstractServerModule {
 		}
 	}
 	
-	private def findTargets(uri: String, position: Int, newName: String): Future[Seq[IChangedDocument]] = {
+	private def findTargets(_uri: String, position: Int, newName: String)
+    : Future[Seq[IChangedDocument]] = {
+        val uri = PathRefine.refinePath(_uri, platform)
 		var promise = Promise[Seq[IChangedDocument]]();
 
 		currentAst(uri).andThen {
