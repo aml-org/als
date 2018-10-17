@@ -31,37 +31,39 @@ class PlatformFsProvider(platform:Platform) extends IFSProvider{
 //    override def exists(fullPath: String): Boolean = ???
 
     override def existsAsync(path: String): Future[Boolean] = {
-        var p = path
-        if(p.startsWith("file://")){
-            p = p.substring("file://".length)
-        }
+        var p = refinePath(path)
         platform.fs.asyncFile(path).exists
     }
 
     override def isDirectory(fullPath: String): Boolean = {
-        var p = fullPath
-        if(p.startsWith("file://")){
-            p = p.substring("file://".length)
-        }
+        var p = refinePath(fullPath)
         platform.fs.syncFile(p).isDirectory
     }
 //
 //    override def readDir(fullPath: String): Seq[String] = ???
 
     override def readDirAsync(path: String): Future[Seq[String]] = {
-        var p = path
-        if(p.startsWith("file://")){
-            p = p.substring("file://".length)
-        }
+        var p = refinePath(path)
         platform.fs.asyncFile(p).list.map(array=>array.toSeq)
     }
 
     override def isDirectoryAsync(path: String): Future[Boolean] = {
+        var p = refinePath(path)
+        platform.fs.asyncFile(p).isDirectory
+    }
+
+    private def refinePath(path: String):String = {
         var p = path
         if(p.startsWith("file://")){
-            p = p.substring("file://".length)
+            if(platform.operativeSystem().toLowerCase().startsWith("win")
+                && p.startsWith("file:///")){
+                p = p.substring("file:///".length)
+            }
+            else {
+                p = p.substring("file://".length)
+            }
         }
-        platform.fs.asyncFile(p).isDirectory
+        p
     }
 }
 
