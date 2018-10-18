@@ -5,7 +5,7 @@ import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggesti
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.Search
 import org.mulesoft.positioning.YamlLocation
-import org.yaml.model.{YMapEntry, YScalar}
+import org.yaml.model.{YMapEntry, YNode, YScalar}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.{Future, Promise}
@@ -36,7 +36,16 @@ class TypeReferencesCompletionPlugin extends ICompletionPlugin {
                 val loc = YamlLocation(me,pm)
                 val value = me.value
                 val valueScalar = value.value
-                val isScalar = (value.tag == null || value.tag.text != "!include") && valueScalar.isInstanceOf[YScalar]
+				
+				val valueTag = value match {
+					case node: YNode.MutRef => node.origTag;
+					
+					case node: YNode => node.tag;
+					
+					case _ => null;
+				}
+				
+                val isScalar = (valueTag == null || valueTag.text != "!include") && valueScalar.isInstanceOf[YScalar]
                 isScalar
             })
             return result
