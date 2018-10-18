@@ -26,8 +26,16 @@ class IncludeCompletionPlugin extends ICompletionPlugin {
   override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
     val baseDir = request.astNode.get.astUnit.project.rootPath
-
-    val relativePath = request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar].text
+    
+      val relativePath = request.actualYamlLocation.get.node.get.yPart match {
+          case node: YNode.MutRef => node.origValue match {
+              case scalar: YScalar => scalar.text;
+            
+              case _ => request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar].text;
+          }
+        
+          case _ => request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar].text;
+      }
 
     if (!relativePath.endsWith(request.prefix)) {
       var response = CompletionResponse(LocationKind.VALUE_COMPLETION, request)
