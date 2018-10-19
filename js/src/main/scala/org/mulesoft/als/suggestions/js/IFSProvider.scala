@@ -33,5 +33,8 @@ trait IFSProvider extends js.Object {
 
   def readDir(fullPath: String): js.Array[String]
 
-  def separatorChar(): Char
+    /**
+      * @return a single character string used as file separator
+      */
+  def separatorChar(): String
 }

@@ -17,5 +17,11 @@ class FSProviderBasedFS(fsProvider: IFSProvider) extends FileSystem {
     new FSProviderBasedAsyncFile(this.fsProvider, this, path)
   }
 
-  override def separatorChar: Char = this.fsProvider.separatorChar()
+  override def separatorChar: Char = {
+      val str = this.fsProvider.separatorChar()
+      if(str.length != 1){
+          throw new Error("Separator string should contain single character")
+      }
+      str.charAt(0)
+  }
 }
