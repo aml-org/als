@@ -47,7 +47,16 @@ class EmptyFileCompletionPlugin extends ICompletionPlugin {
                     interior.split("\n").count(_.trim.nonEmpty) == 1
                 }
                 else {
-                    text.split("\n").count(_.trim.nonEmpty) == 1
+                    var pos = request.position
+                    if(pos<0){
+                        false
+                    }
+                    else {
+                        if(pos > text.length){
+                            pos = text.length
+                        }
+                        text.substring(0,pos).trim.isEmpty
+                    }
                 }
             case _ => false
         }

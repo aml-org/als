@@ -16,22 +16,27 @@ class EmptyRamlFileCompletionPlugin extends ICompletionPlugin {
         val text = request.config.editorStateProvider.get.getText
         var str = text.substring(0,request.position)
         var suggestions:Seq[ISuggestion] = Seq()
+        var prefix = request.prefix
         if("#%RAML".startsWith(str) && "#%RAML".length > str.length){
-            suggestions = List[String]("RAML 1.0", "RAML 0.8").map(x=>Suggestion(x,s"Initialize new $x document",x,request.prefix))
+            prefix = str
+            suggestions = List[String]("#%RAML 1.0", "#%RAML 0.8").map(x=>Suggestion(x,s"Initialize new $x document",x,prefix))
         }
         else if(str.startsWith("#%RAML")){
             var ind = str.lastIndexOf(" ")
             if(str == "#%RAML"){
-                suggestions = List[String](" 1.0", " 0.8").map(x=>Suggestion(x,s"Initialize new RAML$x document",x,request.prefix))
+                suggestions = List[String](" 1.0", " 0.8").map(x=>Suggestion(x,s"Initialize new RAML$x document",x,prefix))
             }
             else if(str.length < "#%RAML 1.0".length){
-                suggestions = List[String]("1.0", "0.8").map(x=>Suggestion(x,s"Initialize new RAML $x document",x,request.prefix))
+                if(prefix == "."){
+                    prefix = str.substring(str.length-2,str.length)
+                }
+                suggestions = List[String]("1.0", "0.8").map(x=>Suggestion(x,s"Initialize new RAML $x document",x,prefix))
             }
             else if(str == "#%RAML 1.0"){
-                suggestions = EmptyRamlFileCompletionPlugin.fragmentNames.map(x=>Suggestion(" " + x,"Fragment header",x,request.prefix))
+                suggestions = EmptyRamlFileCompletionPlugin.fragmentNames.map(x=>Suggestion(" " + x,"Fragment header",x,prefix))
             }
             else if(str.startsWith("#%RAML 1.0")){
-                suggestions = EmptyRamlFileCompletionPlugin.fragmentNames.map(x=>Suggestion(x,"Fragment header",x,request.prefix))
+                suggestions = EmptyRamlFileCompletionPlugin.fragmentNames.map(x=>Suggestion(x,"Fragment header",x,prefix))
             }
         }
         val response = CompletionResponse(suggestions, LocationKind.VALUE_COMPLETION, request)
@@ -39,10 +44,14 @@ class EmptyRamlFileCompletionPlugin extends ICompletionPlugin {
     }
 
     override def isApplicable(request: ICompletionRequest): Boolean = {
-        if(!request.config.astProvider.map(_.language).exists(languages.contains)){
-            return false
-        }
+
         var text = request.config.editorStateProvider.get.getText
+        val trimmed = text.trim
+        if(trimmed.length>0){
+            if(!(trimmed.startsWith("#%RAML") || "#%RAML".startsWith(trimmed))){
+                return false
+            }
+        }
         var ind = text.indexOf("\n")
         if(ind < 0){
             ind = text.length
@@ -68,7 +77,7 @@ object EmptyRamlFileCompletionPlugin {
 
     val supportedLanguages:List[Vendor] = List(Raml10, Raml08);
 
-    val fragmentNames:List[String] = List("ResourceType", "Trait", "AnnotationTypeDeclaration", "DataType", "DocumentationItem", "NamedExample", "Extension", "Extension", "Overlay", "Library")
+    val fragmentNames:List[String] = List("ResourceType", "Trait", "AnnotationTypeDeclaration", "DataType", "DocumentationItem", "NamedExample", "Extension", "SecurityScheme", "Overlay", "Library")
 }
 
 
