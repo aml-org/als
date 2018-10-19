@@ -158,8 +158,9 @@ object Suggestions {
 
         val editorStateProvider = new DummyEditorStateProvider(text, url, baseName, position)
 
-        val vendor = if(url.endsWith(".raml")) Raml10 else Oas20
-        val syntax = if(url.endsWith(".json")) Syntax.JSON else Syntax.YAML
+        val trimmed = text.trim
+        val vendor = if(trimmed.startsWith("#%RAML")) Raml10 else Oas20
+        val syntax = if(trimmed.startsWith("{")||trimmed.startsWith("[")) Syntax.JSON else Syntax.YAML
 
         val astProvider = new EmptyASTProvider(vendor, syntax)
 

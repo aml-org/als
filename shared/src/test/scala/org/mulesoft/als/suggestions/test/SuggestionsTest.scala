@@ -88,7 +88,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
       val markerInfo = this.findMarker(fileContentsStr)
 
       position = markerInfo.position
-      contentOpt = Some(markerInfo.content)
+      contentOpt = Some(markerInfo.originalContent)
       var env = this.buildEnvironment(url, markerInfo.content, position, content.mime)
       env
     }).flatMap(env=>{
@@ -196,8 +196,9 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
         val editorStateProvider = new DummyEditorStateProvider(text, url, baseName, position)
 
-        val vendor = if(url.endsWith(".raml")) Raml10 else Oas20
-        val syntax = if(url.endsWith(".json")) Syntax.JSON else Syntax.YAML
+        val trimmed = text.trim
+        val vendor = if(trimmed.startsWith("#%RAML")) Raml10 else Oas20
+        val syntax = if(trimmed.startsWith("{")||trimmed.startsWith("[")) Syntax.JSON else Syntax.YAML
 
         val astProvider = new EmptyASTProvider(vendor, syntax)
 
@@ -224,16 +225,16 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     var position = str.indexOf(label);
 
     if(position<0){
-        new MarkerInfo(str,str.length)
+        new MarkerInfo(str,str.length,str)
     }
     else {
         var rawContent = str.substring(0, position) + str.substring(position + 1)
         var preparedContent =
           org.mulesoft.als.suggestions.Core.prepareText(rawContent, position, YAML)
-        new MarkerInfo(preparedContent, position)
+        new MarkerInfo(preparedContent, position,rawContent)
     }
 
   }
 }
 
-class MarkerInfo(val content:String, val position:Int) {}
+class MarkerInfo(val content:String, val position:Int, val originalContent:String) {}
