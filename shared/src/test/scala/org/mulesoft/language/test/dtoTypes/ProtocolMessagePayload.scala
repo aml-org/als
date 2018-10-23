@@ -622,6 +622,7 @@ object Suggestion {
 
             override def category: String = from.category.orNull
 
+            override def trailingWhitespace: String = ""
         }
     }
 }

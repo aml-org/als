@@ -10,11 +10,16 @@ import scala.scalajs.js.annotation.JSImport
 object FSFacade extends js.Object {
 	def exists(path: String, handler: js.Function1[Boolean, Unit]): Unit = js.native
 
-	def readDir(path: String, handler: js.Function2[js.Error, js.Array[String], Unit]): Unit = js.native
+	def readdir(path: String, handler: js.Function2[js.Error, js.Array[String], Unit]): Unit = js.native
 
-	def isDirectory(path: String, handler: js.Function2[js.Error, Boolean, Unit]): Unit = js.native
+    def lstat(path: String, handler: js.Function2[js.Error, Stats, Unit]): Unit = js.native
 
 	def readFile(path: String, handler: js.Function2[js.Error, js.Object, Unit]): Unit = js.native
+}
+
+@js.native
+trait Stats extends js.Object{
+    def isDirectory():Boolean = js.native
 }
 
 object FS {
@@ -31,7 +36,7 @@ object FS {
 	def readDir(path: String): Future[Seq[String]] = {
 		var promise = Promise[Seq[String]]();
 
-		FSFacade.readDir(this.removeProtocol(path), (error, result) => {
+		FSFacade.readdir(this.removeProtocol(path), (error, result) => {
 			promise.success(result);
 		});
 
@@ -41,8 +46,8 @@ object FS {
 	def isDirectory(path: String): Future[Boolean] = {
 		var promise = Promise[Boolean]();
 
-		FSFacade.isDirectory(this.removeProtocol(path), (error, result) => {
-			promise.success(result);
+        FSFacade.lstat(this.removeProtocol(path), (error, result) => {
+			promise.success(result.isDirectory());
 		});
 
 		promise.future;
@@ -65,7 +70,11 @@ object FS {
 
 	private def removeProtocol(path: String): String = {
 		if(path.indexOf("file:///") == 0) {
-			return path.replace("file:///", "/");
+            var str = path.replace("file:///", "/")
+            if(str.length > 2 && str.startsWith("/") && str.charAt(2)==':'){
+                str = str.substring(1)
+            }
+            return str;
 		}
 
 		return path;

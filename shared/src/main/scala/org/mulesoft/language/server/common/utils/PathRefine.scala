@@ -12,7 +12,15 @@ object PathRefine {
         var result = uri
         if(isWindows) {
             if (Option(uri).isDefined) {
-                result = platform.decodeURIComponent(uri)
+                result = platform.decodeURIComponent(uri).replace("\\","/")
+            }
+        }
+        if(!result.startsWith("file://") && !result.startsWith("http:") && !result.startsWith("https:")){
+            if(result.startsWith("/")){
+                result = "file://"+result
+            }
+            else {
+                result = "file:///"+result
             }
         }
         result

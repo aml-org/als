@@ -9,6 +9,7 @@ import amf.core.services.{RuntimeCompiler, RuntimeValidator}
 import amf.core.validation.AMFValidationReport
 import amf.internal.environment.Environment
 import amf.plugins.features.validation.PlatformValidator
+import org.mulesoft.language.server.common.utils.PathRefine
 
 import scala.util.{Failure, Success, Try}
 import scala.concurrent.{Future, Promise}
@@ -29,6 +30,7 @@ class ParserHelper(val platform:Platform) extends CommandHelper{
             env
         )
     }
+    override def ensureUrl(inputFile: String): String = ParserHelper.ensureUrl(inputFile, platform)
 //
 //    def parseResult(config: ParserConfig,env:Environment): Future[ParseResult] = {
 //
@@ -44,16 +46,16 @@ class ParserHelper(val platform:Platform) extends CommandHelper{
 
     def parse(config: ParserConfig,env:Environment): Future[BaseUnit] = {
         var promise = Promise[BaseUnit]();
-        
+
         Future {
             AMFInit().andThen {
                 case Success(initResult) => processDialects(config).andThen {
                     case Success(dialectsResult) => parseInput(config, env).andThen {
                         case Success(parseResult) => promiseSuccess(promise, parseResult, "parseInput");
-                
+
                         case Failure(throwable) => promiseFailure(promise, throwable, "parseInput");
                     }
-            
+
                     case Failure(throwable) => promiseFailure(promise, throwable, "processDialects");
                 }
         
@@ -105,4 +107,7 @@ class ParserHelper(val platform:Platform) extends CommandHelper{
 
 object ParserHelper {
     def apply(platform: Platform) = new ParserHelper(platform)
+
+    def ensureUrl(inputFile: String, platform: Platform): String =
+        PathRefine.refinePath(inputFile, platform)
 }
