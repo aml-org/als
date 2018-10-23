@@ -1,6 +1,6 @@
 {
   "name": "api-language-server",
-  "version": "0.0.13",
+  "version": "0.1.0",
   "description": "Language Server based on the Language Server Protocol",
   "main": "./dist/index.js",
   "scripts": {
