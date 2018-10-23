@@ -109,7 +109,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
         }
       }
 
-      if (uri.startsWith("file://") || uri.startsWith("FILE://")){
+      if (found.isEmpty){
         val path:String = uri.substring("file://".length).replace("%5C","\\")
         val result = this.uriToEditor.get(path)
         if (result.isDefined) {
@@ -132,7 +132,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
     val language = this.determineLanguage(document.uri, document.text)
     val syntax = this.determineSyntax(document.uri, document.text)
 
-    this.uriToEditor(document.uri) =
+    this.uriToEditor(PathRefine.refinePath(document.uri,platform)) =
       new TextEditorInfo(document.uri, document.version,
         document.text, language, syntax, /*this,*/ this.connection)
 
@@ -163,8 +163,9 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
 	  this.connection.debug("Document is changed", "EditorManager", "onChangeDocument");
 	  
 	  this.connection.debugDetail("Text is:\n " + document.text, "EditorManager", "onChangeDocument");
-	  
-	  val current = this.uriToEditor.get(document.uri);
+
+      val refinedUri = PathRefine.refinePath(document.uri, platform)
+      val current = this.uriToEditor.get(refinedUri);
 	  
 	  if(current.isDefined) {
 		  val currentVersion = current.get.version;
@@ -184,11 +185,11 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
 		  }
 	  }
 
-    val language = this.determineLanguage(document.uri, document.text.get)
-    val syntax = this.determineSyntax(document.uri, document.text.get)
+    val language = this.determineLanguage(refinedUri, document.text.get)
+    val syntax = this.determineSyntax(refinedUri, document.text.get)
 	  
-	  this.uriToEditor(document.uri) = new TextEditorInfo(
-      document.uri,
+	  this.uriToEditor(refinedUri) = new TextEditorInfo(
+          refinedUri,
       document.version,
       document.text.get,
       language,
@@ -200,7 +201,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
   
   def onCloseDocument(uri: String): Unit = {
 
-    this.uriToEditor.remove(uri)
+    this.uriToEditor.remove(PathRefine.refinePath(uri,platform))
   }
 
   def onChangePosition(uri: String, position: Int): Unit = {

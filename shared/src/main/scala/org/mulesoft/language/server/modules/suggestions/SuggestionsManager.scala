@@ -18,6 +18,7 @@ import org.mulesoft.language.common.dtoTypes.IStructureReport
 import org.mulesoft.als.suggestions.implementation.CompletionConfig
 import org.mulesoft.als.suggestions.{CompletionProvider, PlatformBasedExtendedFSProvider}
 import org.mulesoft.als.suggestions.interfaces.{ISuggestion, Syntax}
+import org.mulesoft.language.server.common.utils.PathRefine
 
 import scala.collection.Map
 
@@ -71,8 +72,9 @@ class SuggestionsManager extends AbstractServerModule {
   }
 
 
-  protected def onDocumentCompletion(url: String, position: Int) : Future[Seq[ISuggestion]] = {
+  protected def onDocumentCompletion(_url: String, position: Int) : Future[Seq[ISuggestion]] = {
 
+      val url = PathRefine.refinePath(_url, platform)
     this.connection.debug(s"Calling for completion for uri ${url} and position ${position}",
       "SuggestionsManager", "onDocumentCompletion")
 

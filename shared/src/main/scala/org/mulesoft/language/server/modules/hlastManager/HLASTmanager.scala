@@ -15,6 +15,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import org.mulesoft.high.level.Core
 import org.mulesoft.high.level.interfaces.IProject
 import amf.core.model.document.BaseUnit
+import org.mulesoft.language.server.common.utils.PathRefine
 
 import scala.collection.mutable
 
@@ -175,8 +176,8 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
     * @param text
     * @return
     */
-  def forceBuildNewAST(uri: String, text: String): Future[IProject] = {
-
+  def forceBuildNewAST(_uri: String, text: String): Future[IProject] = {
+    val uri = PathRefine.refinePath(_uri, platform)
     this.connection.debug(s"Calling forceBuildNewAST for uri ${uri}",
       "HLASTManager", "forceBuildNewAST")
 

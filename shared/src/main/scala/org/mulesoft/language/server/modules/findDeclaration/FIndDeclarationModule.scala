@@ -3,6 +3,7 @@ package org.mulesoft.language.server.modules.findDeclaration;
 import org.mulesoft.high.level.Search
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.language.common.dtoTypes.{ILocation, IRange}
+import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.SearchUtils
 import org.mulesoft.language.server.modules.hlastManager.HLASTManager
@@ -28,8 +29,9 @@ class FIndDeclarationModule  extends AbstractServerModule {
 		}
 	}
 
-	private def findDeclaration(uri: String, position: Int): Future[Seq[ILocation]] = {
-		var promise = Promise[Seq[ILocation]]();
+	private def findDeclaration(_uri: String, position: Int): Future[Seq[ILocation]] = {
+        val uri = PathRefine.refinePath(_uri, platform)
+        var promise = Promise[Seq[ILocation]]();
 		
 		currentAst(uri) andThen {
 			case Success(project) => SearchUtils.findDeclaration(project, position) match {
