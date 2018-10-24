@@ -17,11 +17,11 @@ class DefaultOASDecorator extends Decorator {
 
   def getNodeType(node: IParseResult): String = {
 
-    try {
-      println(s"Getting type for node name of ${NodeNameProvider.getNodeName(node)}")
-    } catch {
-      case th: Throwable => th.printStackTrace()
-    }
+//    try {
+//      println(s"Getting type for node name of ${NodeNameProvider.getNodeName(node)}")
+//    } catch {
+//      case th: Throwable => th.printStackTrace()
+//    }
 
     if (node.isAttr) {
       OASNodeTypes.ATTRIBUTE
@@ -33,11 +33,11 @@ class DefaultOASDecorator extends Decorator {
 
         val nodeDefinition = hlNode.definition.nameId.get
 
-        try {
-          println(s"Definition name is ${nodeDefinition}")
-        } catch {
-          case th: Throwable => th.printStackTrace()
-        }
+//        try {
+//          println(s"Definition name is ${nodeDefinition}")
+//        } catch {
+//          case th: Throwable => th.printStackTrace()
+//        }
 
         if (nodeDefinition == OASDefinitionKeys.PathsObject) {
           OASNodeTypes.PATHS_OBJECT
@@ -91,11 +91,11 @@ class DefaultOASDecorator extends Decorator {
 
   def getIcon(node: IParseResult): Option[String] = {
 
-        try {
-          println(s"Getting icon for node name of ${NodeNameProvider.getNodeName(node)} of type ${getNodeType(node)}")
-        } catch {
-          case th: Throwable => th.printStackTrace()
-        }
+//    try {
+//      println(s"Getting icon for node name of ${NodeNameProvider.getNodeName(node)} of type ${getNodeType(node)}")
+//    } catch {
+//      case th: Throwable => th.printStackTrace()
+//    }
 
     val decoration = this.getDecoration(node)
     if (decoration.isDefined){
