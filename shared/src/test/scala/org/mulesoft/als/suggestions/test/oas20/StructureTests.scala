@@ -169,4 +169,8 @@ class StructureTests extends OAS20Test {
   test("Response definition key"){
     this.runTest("structure/test107.yml", Set())
   }
+  
+  test("Definition required property"){
+    this.runTest("structure/test108.yml", Set("name", "id"))
+  }
 }
