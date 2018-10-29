@@ -24,11 +24,16 @@ class IncludeTests extends RAML10Test {
 
   test("test05") {
     this.runTest("includes/testGroup02/test01.raml",
-      Set("test01.raml", "test02.raml" ,"testFragment.raml","testFragment2.raml"))
+      Set("test02.raml", "test03.raml" ,"testFragment.raml","testFragment2.raml"))
   }
 
   test("test06") {
     this.runTest("includes/testGroup02/test02.raml",
       Set("raml"))
+  }
+
+  test("test07") {
+    this.runTest("includes/testGroup02/test03.raml",
+      Set("test01.raml", "test02.raml" ,"testFragment.raml","testFragment2.raml"))
   }
 }
