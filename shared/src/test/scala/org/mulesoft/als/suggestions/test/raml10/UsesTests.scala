@@ -24,7 +24,7 @@ class UsesTests extends RAML10Test {
 
   test("test05") {
     this.runTest("uses/testGroup02/test01.raml",
-      Set("test01.raml", "test02.raml" ,"testLib.raml","testLib2.raml"))
+      Set("test02.raml" ,"testLib.raml","testLib2.raml"))
   }
 
   test("test06") {
