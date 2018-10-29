@@ -61,7 +61,13 @@ object PathCompletion {
       val filter = contentProvider.resolve(directoryPath, additionalPath)
 
       fullFilePaths.filter(fullFilePath=> filter.isDefined && fullFilePath.startsWith(filter.get) && fullFilePath != defaultPath)
-          .map(fullFilePath=>fullFilePath.substring(directoryPath.length))
+          .map(fullFilePath=>{
+              var result = fullFilePath.substring(directoryPath.length)
+              if(contentProvider.isDirectory(fullFilePath)){
+                  result = result + "/"
+              }
+              result
+          })
     })
 
   }

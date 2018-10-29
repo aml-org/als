@@ -19,7 +19,7 @@ class MasterTests extends RAML10Test {
 
   test("test04") {
     this.runTest("masterRef/testGroup01/test04.raml",
-      Set("masters"))
+      Set("masters/"))
   }
 
   test("test05") {
