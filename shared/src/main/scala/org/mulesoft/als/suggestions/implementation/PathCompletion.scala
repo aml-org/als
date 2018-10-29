@@ -47,7 +47,7 @@ object PathCompletion {
         contentProvider.readDirAsync(finalDirectoryPath)
     })
 
-    filesFuture.map(shortFilePaths=>{
+    filesFuture.flatMap(shortFilePaths=>{
 
       val fullFilePaths: Seq[String] =
         shortFilePaths.filter(
@@ -60,15 +60,15 @@ object PathCompletion {
 
       val filter = contentProvider.resolve(directoryPath, additionalPath)
 
-      fullFilePaths.filter(fullFilePath=> filter.isDefined && fullFilePath.startsWith(filter.get) && fullFilePath != defaultPath)
+      val futures:Seq[Future[String]] = fullFilePaths.filter(fullFilePath=> filter.isDefined && fullFilePath.startsWith(filter.get) && fullFilePath != defaultPath)
           .map(fullFilePath=>{
               var result = fullFilePath.substring(directoryPath.length)
-              if(contentProvider.isDirectory(fullFilePath)){
-                  result = result + "/"
-              }
-              result
+              contentProvider.isDirectoryAsync(fullFilePath).map({
+                  case true => result + "/"
+                  case false => result
+              })
           })
+       Future.sequence(futures)
     })
-
   }
 }
