@@ -65,14 +65,42 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 //                            else {
 //                                false
 //                            }
-                        }
-                        else {
+                        } else if(isDefinitionRequired(request)) {
+                            true;
+                        } else {
                             isMethodKey(request);
                         }
                     case _ => false
                 }
             }
         case _ => false
+    }
+    
+    def isDefinitionRequired(request: ICompletionRequest): Boolean = {
+        request.astNode.get.asElement match {
+            case Some(node) => {
+                request.actualYamlLocation match {
+                    case Some(location) => {
+                        location.keyNode match {
+                            case Some(keyNode) => keyNode.yPart match {
+                                case yPart: YNode => if("required".equals(yPart.toString())) {
+                                    node.definition.isAssignableFrom("DefinitionObject");
+                                } else {
+                                    false
+                                }
+                                
+                                case _ => false;
+                            }
+
+                            case _ => false;
+                        }
+                    }
+
+                    case _ => false;
+                }
+            }
+            case _ => false;
+        }
     }
     
     def isMethodKey(request: ICompletionRequest): Boolean = request.astNode match {
@@ -177,7 +205,26 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                     n = _n.parent.get
                 }
                 var isYAML = request.config.astProvider.map(_.syntax).contains(Syntax.YAML)
-                if (isContentType(request)) {
+                
+                if(isDefinitionRequired(request)) {
+                    var nameList: ListBuffer[String] = ListBuffer();
+    
+                    request.astNode.get.asElement.get.elements("properties").foreach(item => item match {
+                        case propsNode: IHighLevelNode => {
+                            var names = propsNode.attributes("name").map(attr => attr.value).filter(item => item match {
+                                case Some(defined) => true;
+            
+                                case _ => false;
+                            }).foreach(item => nameList += item.get.toString)
+                        }
+                        
+                        case _ => Seq();
+                    });
+                    
+                    responseKind = LocationKind.VALUE_COMPLETION;
+                    
+                    nameList.map(name => Suggestion(name, "required property", name, request.prefix))
+                } else if (isContentType(request)) {
                     contentTypes(request).map(value => Suggestion(value, id, value, request.prefix));
                 } else if (isDiscriminatorValue(request)) {
                     var a = extractFirstLevelScalars(request);
