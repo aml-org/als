@@ -10,8 +10,9 @@ object PathCompletion {
   def complete(defaultPath: String, additionalPath: String,
                contentProvider: IFSProvider): Future[Seq[String]] =  {
 
+    contentProvider.isDirectoryAsync(defaultPath).flatMap(isDir=>{
     var directoryPath =
-      if (defaultPath.contains("."))
+      if (!isDir)
         contentProvider.dirName(defaultPath)
       else
         defaultPath
@@ -69,6 +70,7 @@ object PathCompletion {
               })
           })
        Future.sequence(futures)
+    })
     })
   }
 }
