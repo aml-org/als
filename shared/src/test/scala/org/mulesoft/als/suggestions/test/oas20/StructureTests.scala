@@ -173,4 +173,8 @@ class StructureTests extends OAS20Test {
   test("Definition required property"){
     this.runTest("structure/test108.yml", Set("name", "id"))
   }
+  
+  test("Security reference"){
+    this.runTest("structure/test109.yml", Set("BasicAuth1:", "BasicAuth2:"))
+  }
 }
