@@ -67,13 +67,23 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 //                            }
                         } else if(isDefinitionRequired(request)) {
                             true;
-                        } else {
+                        } else if(isSecurityReference(request)) {
+                            true;
+                        }else {
                             isMethodKey(request);
                         }
                     case _ => false
                 }
             }
         case _ => false
+    }
+    
+    def isSecurityReference(request: ICompletionRequest): Boolean = {
+        request.astNode.get.asElement match {
+            case Some(node) => node.definition.isAssignableFrom("SecurityRequirementObject");
+            
+            case _ => false;
+        }
     }
     
     def isDefinitionRequired(request: ICompletionRequest): Boolean = {
@@ -205,10 +215,25 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                     n = _n.parent.get
                 }
                 var isYAML = request.config.astProvider.map(_.syntax).contains(Syntax.YAML)
-                
-                if(isDefinitionRequired(request)) {
+                if(isSecurityReference(request)) {
                     var nameList: ListBuffer[String] = ListBuffer();
-    
+                    
+                    request.astNode.get.astUnit.rootNode.elements("securityDefinitions").foreach(item => {
+                        item.attribute("name") match {
+                            case Some(nameAttr) => nameAttr.value match {
+                                case Some(nameValue: String) => nameList += nameValue.toString;
+                                
+                                case _ =>;
+                            }
+                            
+                            case _ =>;
+                        }
+                    });
+                    
+                    nameList.map(name => Suggestion(name, "security definition reference", name, request.prefix));
+                } else if(isDefinitionRequired(request)) {
+                    var nameList: ListBuffer[String] = ListBuffer();
+                    
                     request.astNode.get.asElement.get.elements("properties").foreach(item => item match {
                         case propsNode: IHighLevelNode => {
                             var names = propsNode.attributes("name").map(attr => attr.value).filter(item => item match {
