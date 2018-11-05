@@ -1,7 +1,7 @@
 // $COVERAGE-OFF$
 package org.mulesoft.high.level.implementation
 
-import org.mulesoft.typesystem.nominal_interfaces.IPrintDetailsSettings
+import org.mulesoft.typesystem.nominal_interfaces.{IDialectUniverse, IPrintDetailsSettings, IUniverse}
 import org.mulesoft.typesystem.nominal_types.{AbstractType, Array, Described}
 
 object NodePrinter {
@@ -138,6 +138,37 @@ object NodePrinter {
         if ((nId == "RAMLLanguageElement") && (className == "NodeClass"))
             true
         false
+    }
+
+    def printUniverse(u: IUniverse, indent:String = ""):String = {
+        var result = s"${indent}name: ${u.name}\n${indent}version: ${u.version}"
+        u.types.foreach(x=>{
+            result = result + s"\n\n${printType(x.asInstanceOf[AbstractType], indent + "  ",IPrintDetailsSettings())}"
+        })
+        result
+    }
+
+    def printDialectUniverse(u: IDialectUniverse, indent:String = ""):String = {
+        var result = s"${indent}name: ${u.name}\n${indent}version: ${u.version}"
+        if(u.root.isDefined) {
+            result = result + s"${indent}\n\nRoot:\n"
+            result = result + s"${printType(u.root.get.asInstanceOf[AbstractType], indent + "  ",IPrintDetailsSettings())}"
+        }
+        if(u.library.isDefined) {
+            result = result + s"${indent}\n\nLibrary:\n"
+            result = result + s"${printType(u.library.get.asInstanceOf[AbstractType], indent + "  ",IPrintDetailsSettings())}"
+        }
+        if(!u.fragments.isEmpty) {
+            result = result + s"${indent}\n\nFragments:"
+            u.fragments.foreach(f=>{
+                result = result + s"\n\n${indent}${f._1}:\n"
+                result = result + printType(f._2.asInstanceOf[AbstractType], indent + "  ",IPrintDetailsSettings())
+            })
+        }
+        u.types.foreach(x=>{
+            result = result + s"\n\n${printType(x.asInstanceOf[AbstractType], indent + "  ",IPrintDetailsSettings())}"
+        })
+        result
     }
 
 }
