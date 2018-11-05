@@ -3,6 +3,7 @@ package org.mulesoft.language.server.server.modules.editorManager
 import amf.core.remote.Raml08
 import amf.core.remote.Raml10
 import amf.core.remote.Oas20
+import amf.core.remote.Aml
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IDocumentChangeExecutor, IOpenedDocument, ITextEdit}
 import org.mulesoft.language.server.common.utils.PathRefine
@@ -220,7 +221,11 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
       } else {
         Raml08.toString
       }
-    } else {
+    }
+    else if((url.endsWith(".yaml")||url.endsWith(".yml"))&&text.startsWith("#%")){
+        Aml.toString
+    }
+    else {
       Oas20.toString
     }
   }
