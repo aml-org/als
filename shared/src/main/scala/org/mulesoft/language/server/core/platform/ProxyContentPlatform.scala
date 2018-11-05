@@ -15,6 +15,7 @@ import amf.client.remote.Content
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.language.server.common.utils.PathRefine
+import scala.collection.Map
 
 class ProxyFileLoader(platform: ProxyContentPlatform) extends ResourceLoader {
 
@@ -27,10 +28,12 @@ class ProxyFileLoader(platform: ProxyContentPlatform) extends ResourceLoader {
     }
 }
 
-class ProxyContentPlatform(protected val source: ConnectionBasedPlatform,
-                           val overrideUrl: String,
-                           val overrideContent: String)
+class ProxyContentPlatform(protected val source: ConnectionBasedPlatform, map:Map[String,String])
   extends Platform {  self =>
+
+  def this(source: ConnectionBasedPlatform, overrideUrl: String, overrideContent: String) = {
+      this(source, Map(overrideUrl -> overrideContent))
+  }
 
   override val fs: FileSystem = source.fs
 
@@ -51,16 +54,16 @@ class ProxyContentPlatform(protected val source: ConnectionBasedPlatform,
     var path = _path
     path = PathRefine.refinePath(path,this)
 
-    source.connection.debugDetail("Asked to fetch file " + path + " while override url is " + overrideUrl,
+    source.connection.debugDetail("Asked to fetch file " + path + " while override urls are " + map.keys.mkString(", "),
       "ProxyContentPlatform", "fetchFile")
 
-    if (path == this.overrideUrl ||
-      (path.startsWith("file://") && this.overrideUrl == path.substring("file://".length))) {
+    if (this.map.contains(path) ||
+      (path.startsWith("file://") && this.map.contains(path.substring("file://".length)))) {
 
       source.connection.debugDetail("Path found to be overriden " + path,
         "ProxyContentPlatform", "fetchFile")
 
-      Future.successful(Content(new CharSequenceStream(path, this.overrideContent),
+      Future.successful(Content(new CharSequenceStream(path, this.map(path)),
         ensureFileAuthority(path),
         extension(path).flatMap(mimeFromExtension)))
     } else {

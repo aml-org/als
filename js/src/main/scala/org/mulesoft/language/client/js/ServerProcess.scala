@@ -8,6 +8,7 @@ import org.mulesoft.language.client.js.dtoTypes.{ProtocolMessagePayload, Structu
 import org.mulesoft.language.client.js.serverConnection.{NodeServerConnection, ProtocolMessage}
 import org.mulesoft.language.common.logger.PrintlnLogger
 import org.mulesoft.language.entryPoints.common.ProtocolSeqMessage
+import org.mulesoft.language.server.modules.dialectManager.{DialectManager, IDialectManagerModule}
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
 import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
@@ -87,6 +88,7 @@ object ServerProcess {
     val server = new Server(connection, JSPlatformDependentPart)
 
     server.registerModule(new ASTManager())
+    server.registerModule(new DialectManager())
     server.registerModule(new HLASTManager())
     server.registerModule(new ValidationManager())
     server.registerModule(new SuggestionsManager())
@@ -96,6 +98,7 @@ object ServerProcess {
     server.registerModule(new FIndDeclarationModule())
 
     server.enableModule(IASTManagerModule.moduleId)
+    //server.enableModule(IDialectManagerModule.moduleId)
     server.enableModule(HLASTManager.moduleId)
     server.enableModule(ValidationManager.moduleId)
     server.enableModule(SuggestionsManager.moduleId)

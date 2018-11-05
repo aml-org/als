@@ -10,6 +10,7 @@ import org.mulesoft.language.client.jvm.serverConnection.JAVAServerConnection
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import org.mulesoft.language.server.core.Server
+import org.mulesoft.language.server.modules.dialectManager.{DialectManager, IDialectManagerModule}
 import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.{FindReferencesModule, RenameModule}
 import org.mulesoft.language.server.modules.hlastManager.HLASTManager
@@ -29,6 +30,7 @@ object ServerProcess {
 		val server = new Server(connection, JAVAPlatformDependentPart);
 		
 		server.registerModule(new ASTManager());
+        server.registerModule(new DialectManager())
 		server.registerModule(new HLASTManager());
 		server.registerModule(new ValidationManager());
 		server.registerModule(new SuggestionsManager());
@@ -39,6 +41,7 @@ object ServerProcess {
 		server.registerModule(new RenameModule());
 		
 		server.enableModule(IASTManagerModule.moduleId);
+        //server.enableModule(IDialectManagerModule.moduleId)
 		server.enableModule(HLASTManager.moduleId);
 		server.enableModule(ValidationManager.moduleId);
 		server.enableModule(SuggestionsManager.moduleId);
