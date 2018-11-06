@@ -8,9 +8,8 @@ import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanc
 import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
 import org.mulesoft.high.level.implementation._
 import org.mulesoft.high.level.interfaces.{IFSProvider, IHighLevelNode, IProject}
-import org.mulesoft.high.level.typesystem.TypeBuilder
 import org.mulesoft.typesystem.dialects.{BuiltinUniverse, DialectUniverse}
-import org.mulesoft.typesystem.nominal_interfaces.{IDialectUniverse, IProperty, ITypeDefinition}
+import org.mulesoft.typesystem.nominal_interfaces.IDialectUniverse
 import org.mulesoft.typesystem.project.{TypeCollection, TypeCollectionBundle}
 import org.yaml.model.YPart
 
@@ -22,12 +21,12 @@ class DialectProjectBuilder {
 
         val dialectOpt = AMLPlugin.registry.dialectFor(rootUnit)
 
-        val u: DialectUniverse = dialectOpt match {
-            case Some(d) => DialectUniverseBuilder.buildUniverse(d)
+        val u: IDialectUniverse = dialectOpt match {
+            case Some(d) => DialectUniversesProvider.getUniverse(d)
             case _ => new DialectUniverse(rootUnit.definedBy().value(), None, "")
         }
 
-        val typeCollection = new TypeCollection(rootUnit.id,u,null)
+        val typeCollection = new TypeCollection(rootUnit.id,u.asInstanceOf[DialectUniverse],null)
         val bundle = new TypeCollectionBundle()
         bundle.registerTypeCollection(typeCollection)
 
