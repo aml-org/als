@@ -4,6 +4,7 @@ import java.io.File
 
 import amf.client.remote.Content
 import amf.core.client.ParserConfig
+import amf.core.model.document.BaseUnit
 import amf.core.remote.JvmPlatform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
@@ -28,6 +29,11 @@ trait AstTest extends AsyncFunSuite with PlatformSecrets{
 
     def parse(path:String,env:Environment=Environment()): Future[IProject] = {
 
+        parseAMF(path,env).flatMap(unit => Core.buildModel(unit,platform))
+    }
+
+    def parseAMF(path:String,env:Environment=Environment()): Future[BaseUnit] = {
+
         var cfg = new ParserConfig(
             Some(ParserConfig.PARSE),
             Some(path),
@@ -40,8 +46,7 @@ trait AstTest extends AsyncFunSuite with PlatformSecrets{
 
         val helper = ParserHelper(platform)
         Core.init().flatMap(_=>
-            helper.parse(cfg,env).flatMap(unit =>
-                Core.buildModel(unit,platform)))
+            helper.parse(cfg,env))
     }
 
     def rootPath:String
