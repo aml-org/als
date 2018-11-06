@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins
 
-import amf.core.remote.{Oas, Oas20, Raml10, Vendor}
+import amf.core.remote.{Oas, Oas20, Raml10, Vendor, Aml}
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.interfaces.IHighLevelNode
@@ -54,7 +54,7 @@ class BooleanPropertyCompletionPlugin extends ICompletionPlugin {
 object BooleanPropertyCompletionPlugin {
     val ID = "boolean.property.completion";
 
-    val supportedLanguages:List[Vendor] = List(Raml10, Oas, Oas20);
+    val supportedLanguages:List[Vendor] = List(Raml10, Oas, Oas20, Aml);
 
     def apply():BooleanPropertyCompletionPlugin = new BooleanPropertyCompletionPlugin();
 }
