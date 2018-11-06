@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins
 
-import amf.core.remote.{Oas, Oas20, Raml10, Vendor}
+import amf.core.remote.{Oas, Oas20, Raml10, Vendor, Aml}
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.interfaces.IHighLevelNode
@@ -88,16 +88,24 @@ class KnownPropertyValuesCompletionPlugin extends ICompletionPlugin {
                 })
             }
             var resultText:ListBuffer[String] = ListBuffer()
-            p.getExtra(PropertySyntaxExtra).foreach(extra => {
-                extra.enum.map(_.toString).filter(!existing.contains(_)).foreach(text => {
+            if(p.enumOptions.nonEmpty){
+                p.enumOptions.get.map(_.toString).filter(!existing.contains(_)).foreach(text => {
                     resultText += text
                     existing += text
                 })
-                extra.oftenValues.map(_.toString).filter(!existing.contains(_)).foreach(text => {
-                    resultText += text
-                    existing += text
+            }
+            else {
+                p.getExtra(PropertySyntaxExtra).foreach(extra => {
+                    extra.enum.map(_.toString).filter(!existing.contains(_)).foreach(text => {
+                        resultText += text
+                        existing += text
+                    })
+                    extra.oftenValues.map(_.toString).filter(!existing.contains(_)).foreach(text => {
+                        resultText += text
+                        existing += text
+                    })
                 })
-            })
+            }
             val isSequence = KnownPropertyValuesCompletionPlugin.isSequence(parentNode.get, prop.get.nameId.get)
             val description = s"Possible '${p.nameId.get}' value"
             if(p.isMultiValue && !isSequence){
@@ -115,7 +123,7 @@ class KnownPropertyValuesCompletionPlugin extends ICompletionPlugin {
 object KnownPropertyValuesCompletionPlugin {
     val ID = "known.property.values.completion";
     
-    val supportedLanguages:List[Vendor] = List(Raml10, Oas, Oas20);
+    val supportedLanguages:List[Vendor] = List(Raml10, Oas, Oas20, Aml);
 
     def apply():KnownPropertyValuesCompletionPlugin = new KnownPropertyValuesCompletionPlugin();
 
