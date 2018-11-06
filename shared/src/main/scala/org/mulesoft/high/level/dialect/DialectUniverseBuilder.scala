@@ -123,6 +123,11 @@ object DialectUniverseBuilder {
             if(minCount > 0){
                 prop.withRequired(true)
             }
+            Option(pm.enum()).filter(_.nonEmpty).map(x => {
+                x.map(_.value().toString())
+            }).foreach( x => {
+                prop.withEnumOptions(x)
+            })
             prop.putExtra(SourcePropertyMapping,pm)
         })
     }
