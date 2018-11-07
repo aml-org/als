@@ -4,6 +4,7 @@ object StructurePluginRegistry {
 
   val plugins = Seq(
     new RAMLPlugin,
-    new OASPlugin
+    new OASPlugin,
+    new AMLPlugin
   )
 }
