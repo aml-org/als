@@ -91,7 +91,7 @@ class AMLPlugin extends IStructurePlugin {
                           }
                       }
                       else {
-                          false//apply(node.parent.get)
+                          false //apply(node.parent.get)
                       }
                   }
                   else {
