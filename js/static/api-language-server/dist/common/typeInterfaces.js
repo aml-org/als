@@ -8,6 +8,8 @@ var StructureCategories;
     StructureCategories[StructureCategories["SchemasAndTypesCategory"] = "Schemas & Types"] = "SchemasAndTypesCategory";
     StructureCategories[StructureCategories["ResourceTypesAndTraitsCategory"] = "Resource Types & Traits"] = "ResourceTypesAndTraitsCategory";
     StructureCategories[StructureCategories["OtherCategory"] = "Other"] = "OtherCategory";
+    StructureCategories[StructureCategories["DeclaresCategory"] = "Declares"] = "DeclaresCategory";
+    StructureCategories[StructureCategories["EncodesCategory"] = "Encodes"] = "EncodesCategory";
 })(StructureCategories = exports.StructureCategories || (exports.StructureCategories = {}));
 // TODO rename from currently used atom icons to something more meaningful/universal
 var Icons;

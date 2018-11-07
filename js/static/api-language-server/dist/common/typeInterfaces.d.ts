@@ -171,6 +171,8 @@ export declare enum StructureCategories {
     SchemasAndTypesCategory,
     ResourceTypesAndTraitsCategory,
     OtherCategory,
+    DeclaresCategory,
+    EncodesCategory,
 }
 export declare enum Icons {
     ARROW_SMALL_LEFT,
