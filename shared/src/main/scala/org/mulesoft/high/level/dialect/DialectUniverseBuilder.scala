@@ -5,7 +5,7 @@ import amf.plugins.document.vocabularies.metamodel.domain.NodeMappingModel
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping}
 import org.mulesoft.typesystem.dialects.{BuiltinUniverse, DialectUniverse}
-import org.mulesoft.typesystem.dialects.extras.{SourceNodeMapping, SourcePropertyMapping}
+import org.mulesoft.typesystem.dialects.extras.{Declaration, RootType, SourceNodeMapping, SourcePropertyMapping}
 import org.mulesoft.typesystem.nominal_interfaces.{IDialectUniverse, ITypeDefinition, IUniverse}
 import org.mulesoft.typesystem.nominal_types.{StructuredType, Union, Universe}
 import org.mulesoft.typesystem.typesystem_interfaces.Extra
@@ -63,10 +63,12 @@ object DialectUniverseBuilder {
     private def processDocument(universe: Universe, doc: DocumentMapping):StructuredType = {
         val name = doc.documentName().value()
         val rootType = new StructuredType(name, universe, doc.id)
+        rootType.putExtra(RootType)
         Option(doc.declaredNodes()).foreach(_.foreach(s => {
             val pName = s.name().value()
             Option(s.mappedNode()).flatMap(_.option()).flatMap(userDataTypeToString).flatMap(universe.`type`).foreach(t => {
-                rootType.addProperty(pName, t).withMultiValue(true)
+                val prop = rootType.addProperty(pName, t).withMultiValue(true)
+                prop.putExtra(Declaration)
             })
         }))
         val encodedType = Option(doc.encoded()).flatMap(_.option()).flatMap(userDataTypeToString).flatMap(universe.`type`)
