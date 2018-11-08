@@ -1,0 +1,19 @@
+swagger: '2.0'
+
+info:
+  title: api
+  description: some api
+  version: 1.0
+
+paths:
+            
+            
+            
+  /asdasd/{userId}:
+    get:
+      parameters:
+        - in: *
+          name: werwer
+          required: true
+          
+          
