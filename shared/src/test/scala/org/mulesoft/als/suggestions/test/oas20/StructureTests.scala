@@ -177,4 +177,8 @@ class StructureTests extends OAS20Test {
   test("Security reference"){
     this.runTest("structure/test109.yml", Set("BasicAuth1:", "BasicAuth2:"))
   }
+  
+  test("request parameter type"){
+    this.runTest("structure/test110.yml", Set("query", "header", "path", "formData", "body"));
+  }
 }
