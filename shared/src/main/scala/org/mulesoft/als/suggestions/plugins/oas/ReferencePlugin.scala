@@ -54,7 +54,9 @@ abstract class ReferencePlugin extends ICompletionPlugin {
         }
         val result = elementOpt match {
             case Some(element) =>
-                if(hasTargetClass(element)) {
+                if(element.definition.isAssignableFrom("ParameterObject") && !request.actualYamlLocation.get.inKey(request.position) && request.astNode.get.isAttr && !request.astNode.get.property.flatMap(_.nameId).contains("$ref")) {
+                    Seq();
+                } else if(hasTargetClass(element)) {
                     var ds = Search.getDeclarations(element.astUnit, definitionClass);
 
                     ds.map(declaration => {
