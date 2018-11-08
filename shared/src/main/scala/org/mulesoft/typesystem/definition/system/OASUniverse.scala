@@ -2280,7 +2280,7 @@ val value3 =
                 "name": "MetaModel.oneOf",
                 "arguments": [
                   [
-                    "body"
+                    "query", "header", "path", "formData", "body"
                   ]
                 ]
               },
