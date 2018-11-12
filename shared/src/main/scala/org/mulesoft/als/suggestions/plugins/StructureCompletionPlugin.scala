@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins
 
-import amf.core.remote.{Oas, Oas20, Raml08, Raml10, Vendor, Aml}
+import amf.core.remote.{Aml, Oas, Oas20, Raml08, Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion, SuggestionCategoryRegistry}
 import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionRequest, ICompletionResponse, LocationKind, Syntax}
 import org.mulesoft.als.suggestions.plugins.raml.AnnotationReferencesCompletionPlugin
@@ -14,6 +14,7 @@ import org.yaml.model.{YMap, YMapEntry, YNode, YScalar}
 import scala.concurrent.{Future, Promise}
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
+import scala.util.matching.Regex
 
 class StructureCompletionPlugin extends ICompletionPlugin {
 
@@ -69,13 +70,43 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                             true;
                         } else if(isSecurityReference(request)) {
                             true;
-                        }else {
+                        } else if(isRequestParameterName(request)) {
+                            true;
+                        } else {
                             isMethodKey(request);
                         }
                     case _ => false
                 }
             }
         case _ => false
+    }
+    
+    def isRequestParameterName(request: ICompletionRequest): Boolean = {
+        request.astNode.get.asAttr match {
+            case Some(node) => node.parent match {
+                case Some(parent) => node.property match {
+                    case Some(prop) => prop.nameId match {
+                        case Some(name) => "name".equals(name) && parent.definition.isAssignableFrom("BodyParameterObject") && (parent.attribute("in") match {
+                            case Some(inAttr) => inAttr.value match {
+                                case Some(value: String) => "query".equals(value);
+                                
+                                case _ => false;
+                            }
+                            
+                            case _ => false;
+                        });
+                        
+                        case _ => false;
+                    }
+                    
+                    case _ => false;
+                }
+                
+                case _ => false;
+            };
+            
+            case _ => false;
+        }
     }
     
     def isSecurityReference(request: ICompletionRequest): Boolean = {
@@ -215,7 +246,26 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                     n = _n.parent.get
                 }
                 var isYAML = request.config.astProvider.map(_.syntax).contains(Syntax.YAML)
-                if(isSecurityReference(request)) {
+                
+                if(isRequestParameterName(request)) {
+                    responseKind = LocationKind.VALUE_COMPLETION;
+                    
+                    extractPathItemObject(request) match {
+                        case Some(pathItemObject) => {
+                            pathItemObject.attribute("path") match {
+                                case Some(pathAttr) => pathAttr.value match {
+                                    case Some(pathValue: String) => new Regex("[\\?&](\\w+\\d*)=###").findAllIn(pathValue).matchData.map(item => item.group(1)).map(name => Suggestion(name, "query parameter", name, request.prefix)).toSeq;
+                                    
+                                    case _ => Seq();
+                                }
+                                
+                                case _ => Seq();
+                            };
+                        }
+                        
+                        case _ => Seq();
+                    }
+                } else if(isSecurityReference(request)) {
                     var nameList: ListBuffer[String] = ListBuffer();
                     
                     request.astNode.get.astUnit.rootNode.elements("securityDefinitions").foreach(item => {
@@ -284,6 +334,26 @@ class StructureCompletionPlugin extends ICompletionPlugin {
         }
         val response = CompletionResponse(result, responseKind, request)
         Promise.successful(response).future
+    }
+    
+    def extractPathItemObject(request: ICompletionRequest): Option[IHighLevelNode] = {
+        request.astNode.get.parent match {
+            case Some(paramObject) => paramObject.parent match {
+                case Some(operation) => operation.parent match {
+                    case Some(pathItem) => if(pathItem.definition.isAssignableFrom("PathItemObject")) {
+                        Some(pathItem);
+                    } else {
+                        None;
+                    }
+                    
+                    case _ => None;
+                }
+                
+                case _ => None;
+            }
+
+            case _ => None;
+        }
     }
     
     def extractFirstLevelScalars(request: ICompletionRequest): Seq[String] = request.astNode.get.parent.get.elements("properties").filter(_.definition match {
