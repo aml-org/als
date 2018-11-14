@@ -36,7 +36,7 @@ object YamlSearch {
                     if(keyLocation.nonEmpty){
                         thisLocation
                     }
-                    else if(offset<=mapper.offset(YRange(mapEntry.key).start.position)){
+                    else if(offset<=mapper.offset(YRange(mapEntry.key,Option(mapper)).start.position)){
                         YamlLocation.empty
                     }
                     else {
@@ -67,7 +67,7 @@ object YamlSearch {
 
                 case map:YMap =>
                     var entryOpt = map.entries.find(me=>{
-                        var r = YRange(me)
+                        var r = YRange(me,Option(mapper))
                         mapper.initRange(r)
                         r.containsPosition(position)
                     })
@@ -88,7 +88,7 @@ object YamlSearch {
                 case sequence:YSequence =>
                     val thisLocation = YamlLocation (sequence, mapper, parentStack)
                     var componentOpt = sequence.nodes.find(n=>{
-                        var r = YRange(n)
+                        var r = YRange(n,Option(mapper))
                         mapper.initRange(r)
                         r.containsPosition(position)
                     })

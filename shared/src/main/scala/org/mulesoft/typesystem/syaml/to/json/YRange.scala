@@ -2,7 +2,7 @@ package org.mulesoft.typesystem.syaml.to.json
 
 import org.mulesoft.positioning.IPositionsMapper
 import org.mulesoft.typesystem.json.interfaces.NodeRange
-import org.yaml.model.{YMapEntry, YNode, YPart, YScalar}
+import org.yaml.model._
 
 class YRange(_start: YPoint, _end: YPoint) extends NodeRange{
 
@@ -23,7 +23,7 @@ object YRange {
 
     def apply(_start: YPoint, _end: YPoint):YRange = new YRange(_start, _end)
 
-    def apply(yPart:YPart):YRange = {
+    private def apply(yPart:YPart):YRange = {
         val yRange = yPart.range
         val startLine = yRange.lineFrom - 1
         val startColumn = yRange.columnFrom
@@ -50,33 +50,34 @@ object YRange {
 
             val endLine = yRange.lineTo - 1
             var endColumn = yRange.columnTo
-            if (yPart.isInstanceOf[YScalar]) {
-                endColumn += 1
-            }
-            var endPosition = pm.mapToPosition(endLine, endColumn)
-            var isJSON = pm.getText.trim.startsWith("{")
-            if (!isJSON && endPosition >= 0 && (endPosition == pm.textLength || (endPosition < pm.textLength && (pm.getText.charAt(endPosition) == '\r' || pm.getText.charAt(endPosition) == '\n')))) {
-                var scalar: Option[YScalar] = yPart match {
-                    case sc: YScalar => Option(sc)
-                    case me: YMapEntry => me.value match {
-                        case n: YNode => n.value match {
-                            case sc: YScalar => Option(sc)
-                            case _ => None
-                        }
-                    }
+            val scalarOpt:Option[YScalar] = yPart match {
+                case sc: YScalar => Option(sc)
+                case me: YMapEntry => me.value match {
                     case n: YNode => n.value match {
                         case sc: YScalar => Option(sc)
                         case _ => None
                     }
+                }
+                case n: YNode => n.value match {
+                    case sc: YScalar => Option(sc)
                     case _ => None
                 }
-                scalar.foreach(sc => {
-                    if (sc.range.lineTo == yRange.lineTo && sc.range.columnTo == yRange.columnTo) {
-                        endColumn += 1
-                        endPosition += 1
-                    }
-                })
+                case _ => None
             }
+            if (scalarOpt.nonEmpty) {
+                val mark = scalarOpt.get.mark
+                if(mark != DoubleQuoteMark && mark != SingleQuoteMark) {
+                    pm.line(endLine).foreach(line => {
+                        if(line.substring(endColumn).trim.isEmpty) {
+                            while (endColumn < line.length && line.charAt(endColumn) == ' ') {
+                                endColumn += 1
+                            }
+                        }
+                        endColumn += 1
+                    })
+                }
+            }
+            var endPosition = pm.mapToPosition(endLine, endColumn)
             val startPoint = YPoint(startLine, startColumn, startPosition)
             val endPoint = YPoint(endLine, endColumn, endPosition)
             YRange(startPoint, endPoint)

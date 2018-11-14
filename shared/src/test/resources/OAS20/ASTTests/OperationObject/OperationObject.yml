@@ -22,7 +22,6 @@ paths:
       items:
         type: string
       collectionFormat: csv
-    - "$ref": "#/parameters/skipParam"
     post:
       description: Returns a pet based on ID
       summary: Find pet by ID

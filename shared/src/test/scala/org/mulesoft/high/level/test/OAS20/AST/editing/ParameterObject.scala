@@ -64,17 +64,17 @@ class ParameterObject extends OAS20ASTEditingTest{
         }, "formData")
     }
 
-    test("Parameter Definition Object 'in' editing ('body'->'query'). YAML"){
-        runAttributeEditingTest("ParameterObject/ParameterObject.yml", project => {
-            project.rootASTUnit.rootNode.elements("parameters")(1).attribute("in")
-        }, "query")
-    }
-
-    test("Parameter Definition Object 'in' editing ('body'->'query'). JSON"){
-        runAttributeEditingTest("ParameterObject/ParameterObject.json", project => {
-            project.rootASTUnit.rootNode.elements("parameters")(1).attribute("in")
-        }, "query")
-    }
+//    test("Parameter Definition Object 'in' editing ('body'->'query'). YAML"){
+//        runAttributeEditingTest("ParameterObject/ParameterObject.yml", project => {
+//            project.rootASTUnit.rootNode.elements("parameters")(1).attribute("in")
+//        }, "query")
+//    }
+//
+//    test("Parameter Definition Object 'in' editing ('body'->'query'). JSON"){
+//        runAttributeEditingTest("ParameterObject/ParameterObject.json", project => {
+//            project.rootASTUnit.rootNode.elements("parameters")(1).attribute("in")
+//        }, "query")
+//    }
 
     test("Parameter Object (located in path item) 'in' editing ('query'->'path'). YAML"){
         runAttributeEditingTest("ParameterObject/ParameterObject.yml", project => {

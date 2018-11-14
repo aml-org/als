@@ -28,9 +28,6 @@
             "type": "string"
           },
           "collectionFormat": "csv"
-        },
-        {
-          "$ref": "#/parameters/skipParam"
         }
       ],
       "post": {

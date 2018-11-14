@@ -6,8 +6,10 @@ import amf.core.metamodel.domain.extensions.PropertyShapeModel
 import amf.core.metamodel.domain.{DomainElementModel, LinkableElementModel, ShapeModel}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
+import amf.core.parser.Annotations
 import amf.core.remote.{Oas, Vendor}
 import amf.core.vocabulary.Namespace
+import amf.plugins.document.webapi.annotations.FormBodyParameter
 import amf.plugins.document.webapi.model.{AnnotationTypeDeclarationFragment, DataTypeFragment}
 import amf.plugins.document.webapi.parser.spec.BaseUriSplitter
 import amf.plugins.domain.shapes.metamodel._
@@ -90,7 +92,7 @@ class OAS20ASTFactory private extends DefaultASTFactory {
         registerPropertyMatcher("SwaggerObject", "produces", WebApiModel.ContentType)
         registerPropertyMatcher("SwaggerObject", "paths", ThisMatcher().withYamlPath("paths"))
         registerPropertyMatcher("SwaggerObject", "definitions", BaseUnitMatcher() + DocumentModel.Declares ifSubtype ShapeModel)
-        registerPropertyMatcher("SwaggerObject", "parameters", BaseUnitMatcher() + DocumentModel.Declares ifType ParameterModel)
+        registerPropertyMatcher("SwaggerObject", "parameters", (BaseUnitMatcher() + DocumentModel.Declares ifType ParameterModel) * (BaseUnitMatcher() + DocumentModel.Declares ifType PayloadModel))
         registerPropertyMatcher("SwaggerObject", "responses", BaseUnitMatcher() + DocumentModel.Declares ifType ResponseModel)
         registerPropertyMatcher("SwaggerObject", "securityDefinitions", BaseUnitMatcher() + DocumentModel.Declares ifType SecuritySchemeModel)
         registerPropertyMatcher("SwaggerObject", "security", WebApiModel.Security)
@@ -153,7 +155,7 @@ class OAS20ASTFactory private extends DefaultASTFactory {
         registerPropertyMatcher("ParameterObject", "$ref", ThisMatcher().withCustomBuffer((obj,node)=>ReferenceValueBuffer(obj,node)))
         registerPropertyMatcher("ParameterObject", "name", ParameterModel.ParameterName)
         registerPropertyMatcher("ParameterObject", "description", ParameterModel.Description)
-        registerPropertyMatcher("ParameterObject", "in", ParameterModel.Binding)
+        registerPropertyMatcher("ParameterObject", "in", ThisMatcher().withCustomBuffer((obj,node)=>InPropertryValueBuffer(obj)))
         registerPropertyMatcher("ParameterObject", "required", ParameterModel.Required)
         //TODO:registerPropertyMatcher("CommonParameterObject", "allowEmptyValue", ParameterModel.Binding)
 
@@ -512,4 +514,33 @@ object ParameterInitializer extends INodeInitializer {
             }
         })
     }
+}
+
+class InPropertryValueBuffer(obj:AmfObject) extends BasicValueBuffer(obj, ParameterModel.Binding) {
+    override def getValue: Option[Any] = {
+        obj match {
+            case de:DomainElement => de.meta match {
+                case ParameterModel => super.getValue
+                case PayloadModel => de.annotations.find(classOf[FormBodyParameter]) match {
+                    case Some(a) => Some("formData")
+                    case _ => Some("body")
+                }
+            }
+            case _ => None
+        }
+    }
+
+    override def setValue(value: Any): Unit = obj match {
+        case de:DomainElement => de.meta match {
+            case ParameterModel => super.setValue(value)
+            case PayloadModel =>
+        }
+        case _ =>
+    }
+
+
+}
+
+object InPropertryValueBuffer{
+    def apply(obj: AmfObject): InPropertryValueBuffer = new InPropertryValueBuffer(obj)
 }
