@@ -181,7 +181,7 @@ class YamlPartWithRange[T<:YPart] private (_yPart: T, _range:NodeRange){
 
 object YamlPartWithRange {
     def apply[T<:YPart](_yPart:T, mapper:Option[IPositionsMapper]):YamlPartWithRange[T] = {
-        var _range = YRange(_yPart)
+        var _range = YRange(_yPart,mapper)
         mapper.foreach(_.initRange(_range))
         new YamlPartWithRange[T](_yPart, _range)
     }

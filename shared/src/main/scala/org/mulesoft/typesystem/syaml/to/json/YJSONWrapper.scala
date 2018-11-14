@@ -69,6 +69,11 @@ class YJSONWrapper(nodeValue:YValue,nodeOpt:Option[YNode],val key:Option[String]
     }
 
     def initPositions(pm:IPositionsMapper):Unit = {
+        var yPart:YPart = nodeOpt match {
+            case Some(n) => n
+            case _ => nodeValue
+        }
+        _range = YRange(yPart,Option(pm))
         pm.initRange(range)
         kind match {
             case OBJECT => _properties.foreach(_.values.foreach(_.value.initPositions(pm)))
@@ -87,7 +92,6 @@ class YJSONWrapper(nodeValue:YValue,nodeOpt:Option[YNode],val key:Option[String]
             case Some(n) => n
             case _ => nodeValue
         }
-        _range = YRange(yPart)
 
         var actualValue:Any = null
         nodeValue match {

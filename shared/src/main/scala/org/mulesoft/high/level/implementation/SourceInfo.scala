@@ -79,7 +79,7 @@ class SourceInfo private extends ISourceInfo {
                             case _ =>
                         }
                         if (result.isEmpty) {
-                            var r = YRange(yPart)
+                            var r = YRange(yPart,_positionsMapper)
                             _positionsMapper.get.initRange(r)
                             var start = r.start.position
                             result = Some(_positionsMapper.get.offset(start))
