@@ -37,7 +37,7 @@
         "textStyle": "SUCCESS",
         "key": "Alertable :: ",
         "start": 558,
-        "end": 594,
+        "end": 595,
         "category": "SchemasAndTypesCategory"
       },
       {
@@ -52,21 +52,21 @@
           {
             "text": "onCall",
             "typeText": ":AlertableAdmin",
-            "icon": "TAG",
-            "textStyle": "NORMAL",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
             "key": "onCall :: Org :: ",
             "start": 99,
-            "end": 122,
+            "end": 123,
             "category": ""
           },
           {
             "text": "Head",
             "typeText": ":Manager",
-            "icon": "TAG",
-            "textStyle": "NORMAL",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
             "key": "Head :: Org :: ",
             "start": 128,
-            "end": 142,
+            "end": 143,
             "category": ""
           }
         ],
@@ -98,7 +98,7 @@
             "textStyle": "SUCCESS",
             "key": "firstname :: Person :: ",
             "start": 191,
-            "end": 209,
+            "end": 210,
             "category": ""
           },
           {
@@ -108,7 +108,7 @@
             "textStyle": "SUCCESS",
             "key": "lastname :: Person :: ",
             "start": 215,
-            "end": 233,
+            "end": 234,
             "category": ""
           },
           {
@@ -118,7 +118,7 @@
             "textStyle": "SUCCESS",
             "key": "title :: Person :: ",
             "start": 239,
-            "end": 257,
+            "end": 258,
             "category": ""
           }
         ],
@@ -140,7 +140,7 @@
             "textStyle": "NORMAL",
             "key": "reports :: Manager :: ",
             "start": 357,
-            "end": 375,
+            "end": 376,
             "children": [
               {
                 "text": "items",
@@ -148,6 +148,8 @@
                 "icon": "TAG",
                 "textStyle": "NORMAL",
                 "key": "items :: reports :: Manager :: ",
+                "start": 357,
+                "end": 359,
                 "category": ""
               }
             ],
@@ -160,7 +162,7 @@
             "textStyle": "SUCCESS",
             "key": "phone :: Manager :: ",
             "start": 381,
-            "end": 395,
+            "end": 396,
             "category": ""
           }
         ],
@@ -182,7 +184,7 @@
             "textStyle": "SUCCESS",
             "key": "phone :: AlertableAdmin :: ",
             "start": 543,
-            "end": 556,
+            "end": 557,
             "category": ""
           }
         ],
