@@ -162,21 +162,21 @@ class ReferenceTestsJSON extends OAS20Test {
     this.runTest("references_json/schemas/test040.json", Set("/definitions/Type1", "/definitions/Type2"))
   }
 
-  test("Parameter reference test JSON 001"){
-    this.runTest("references_json/parameters/test001.json", Set("\"$ref\": \"#/parameters/p1\"", "\"$ref\": \"#/parameters/p2\""))
-  }
-
-  test("Parameter reference test JSON 002"){
-    this.runTest("references_json/parameters/test002.json", Set("$ref\": \"#/parameters/p1", "$ref\": \"#/parameters/p2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "minimum\":", "default\":", "maximum\":", "pattern\":", "multipleOf\":", "description\":", "allowEmptyValue\":", "name\":", "in\":", "maxLength\":", "minLength\":", "minItems\":", "$ref\":", "format\":", "example\":", "uniqueItems\":"))
-  }
-
-  test("Parameter reference test JSON 003"){
-    this.runTest("references_json/parameters/test003.json", Set("\"$ref\": \"#/parameters/p1\"", "\"$ref\": \"#/parameters/p2\""))
-  }
-
-  test("Parameter reference test JSON 004"){
-    this.runTest("references_json/parameters/test004.json", Set("$ref\": \"#/parameters/p1", "$ref\": \"#/parameters/p2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "minimum\":", "default\":", "maximum\":", "pattern\":", "multipleOf\":", "description\":", "allowEmptyValue\":", "name\":", "in\":", "maxLength\":", "minLength\":", "minItems\":", "$ref\":", "format\":", "example\":", "uniqueItems\":"))
-  }
+//  test("Parameter reference test JSON 001"){
+//    this.runTest("references_json/parameters/test001.json", Set("\"$ref\": \"#/parameters/p1\"", "\"$ref\": \"#/parameters/p2\""))
+//  }
+//
+//  test("Parameter reference test JSON 002"){
+//    this.runTest("references_json/parameters/test002.json", Set("$ref\": \"#/parameters/p1", "$ref\": \"#/parameters/p2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "minimum\":", "default\":", "maximum\":", "pattern\":", "multipleOf\":", "description\":", "allowEmptyValue\":", "name\":", "in\":", "maxLength\":", "minLength\":", "minItems\":", "$ref\":", "format\":", "example\":", "uniqueItems\":"))
+//  }
+//
+//  test("Parameter reference test JSON 003"){
+//    this.runTest("references_json/parameters/test003.json", Set("\"$ref\": \"#/parameters/p1\"", "\"$ref\": \"#/parameters/p2\""))
+//  }
+//
+//  test("Parameter reference test JSON 004"){
+//    this.runTest("references_json/parameters/test004.json", Set("$ref\": \"#/parameters/p1", "$ref\": \"#/parameters/p2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "minimum\":", "default\":", "maximum\":", "pattern\":", "multipleOf\":", "description\":", "allowEmptyValue\":", "name\":", "in\":", "maxLength\":", "minLength\":", "minItems\":", "$ref\":", "format\":", "example\":", "uniqueItems\":"))
+//  }
 
 //  test("Parameter reference test JSON 005"){
 //    this.runTest("references_json/parameters/test005.json", Set("#/parameters/p1", "\"#/parameters/p2"))
@@ -198,21 +198,21 @@ class ReferenceTestsJSON extends OAS20Test {
 //    this.runTest("references_json/parameters/test009.json", Set("#/parameters/p1", "\"#/parameters/p2"))
 //  }
 
-  test("Parameter reference test JSON 010"){
-    this.runTest("references_json/parameters/test010.json", Set("\"$ref\": \"#/parameters/p1\"", "\"$ref\": \"#/parameters/p2\""))
-  }
-
-  test("Parameter reference test JSON 011"){
-    this.runTest("references_json/parameters/test011.json", Set("$ref\": \"#/parameters/p1", "$ref\": \"#/parameters/p2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "minimum\":", "default\":", "maximum\":", "pattern\":", "multipleOf\":", "description\":", "allowEmptyValue\":", "name\":", "in\":", "maxLength\":", "minLength\":", "minItems\":", "$ref\":", "format\":", "example\":", "uniqueItems\":"))
-  }
-
-  test("Parameter reference test JSON 012"){
-    this.runTest("references_json/parameters/test012.json", Set("\"$ref\": \"#/parameters/p1\"", "\"$ref\": \"#/parameters/p2\""))
-  }
-
-  test("Parameter reference test JSON 013"){
-    this.runTest("references_json/parameters/test013.json", Set("$ref\": \"#/parameters/p1", "$ref\": \"#/parameters/p2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "minimum\":", "default\":", "maximum\":", "pattern\":", "multipleOf\":", "description\":", "allowEmptyValue\":", "name\":", "in\":", "maxLength\":", "minLength\":", "minItems\":", "$ref\":", "format\":", "example\":", "uniqueItems\":"))
-  }
+//  test("Parameter reference test JSON 010"){
+//    this.runTest("references_json/parameters/test010.json", Set("\"$ref\": \"#/parameters/p1\"", "\"$ref\": \"#/parameters/p2\""))
+//  }
+//
+//  test("Parameter reference test JSON 011"){
+//    this.runTest("references_json/parameters/test011.json", Set("$ref\": \"#/parameters/p1", "$ref\": \"#/parameters/p2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "minimum\":", "default\":", "maximum\":", "pattern\":", "multipleOf\":", "description\":", "allowEmptyValue\":", "name\":", "in\":", "maxLength\":", "minLength\":", "minItems\":", "$ref\":", "format\":", "example\":", "uniqueItems\":"))
+//  }
+//
+//  test("Parameter reference test JSON 012"){
+//    this.runTest("references_json/parameters/test012.json", Set("\"$ref\": \"#/parameters/p1\"", "\"$ref\": \"#/parameters/p2\""))
+//  }
+//
+//  test("Parameter reference test JSON 013"){
+//    this.runTest("references_json/parameters/test013.json", Set("$ref\": \"#/parameters/p1", "$ref\": \"#/parameters/p2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "minimum\":", "default\":", "maximum\":", "pattern\":", "multipleOf\":", "description\":", "allowEmptyValue\":", "name\":", "in\":", "maxLength\":", "minLength\":", "minItems\":", "$ref\":", "format\":", "example\":", "uniqueItems\":"))
+//  }
 
 //  test("Parameter reference test JSON 014"){
 //    this.runTest("references_json/parameters/test014.json", Set("#/parameters/p1", "\"#/parameters/p2"))
