@@ -168,7 +168,7 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
                     .flatMap(_.asInstanceOf[YMap].entries.find(e =>
                         e.key.value.toString == propName))
                     .flatMap(propNode => {
-                        var line = YRange(propNode).start.line
+                        var line = YRange(propNode,Option(pm)).start.line
                         var lineStr = pm.lineString(line)
                         var offset = lineStr.map(pm.lineOffset).getOrElse(-1)
                         propNode.value.value match {
@@ -331,7 +331,7 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
 
     def isFlow(yPart:YPart, pm:IPositionsMapper):Boolean = {
 
-        val r = YRange(yPart)
+        val r = YRange(yPart,Option(pm))
         pm.initRange(r)
         val str = pm.getText.substring(r.start.position,r.end.position).trim
         if(str.isEmpty){
