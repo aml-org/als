@@ -53,8 +53,8 @@
             "icon": "FILE_BINARY",
             "textStyle": "SUCCESS",
             "key": "<<methodName>> :: secured :: ",
-            "start": 0,
-            "end": 0,
+            "start": 545,
+            "end": 733,
             "children": [
               {
                 "text": "example",
@@ -62,8 +62,8 @@
                 "icon": "TAG",
                 "textStyle": "NORMAL",
                 "key": "example :: <<methodName>> :: secured :: ",
-                "start": 0,
-                "end": 0,
+                "start": 679,
+                "end": 707,
                 "category": ""
               }
             ],
@@ -87,8 +87,8 @@
             "icon": "PRIMITIVE_DOT",
             "textStyle": "WARNING",
             "key": "get :: collection :: ",
-            "start": 0,
-            "end": 0,
+            "start": 103,
+            "end": 206,
             "children": [
               {
                 "text": "200",
@@ -96,8 +96,8 @@
                 "icon": "TAG",
                 "textStyle": "NORMAL",
                 "key": "200 :: get :: collection :: ",
-                "start": 0,
-                "end": 0,
+                "start": 133,
+                "end": 206,
                 "children": [
                   {
                     "text": "default",
@@ -105,9 +105,9 @@
                     "icon": "FILE_BINARY",
                     "textStyle": "SUCCESS",
                     "key": "default :: 200 :: get :: collection :: ",
-                    "category": "",
-                    "start": 0,
-                    "end": 0
+                    "start": 148,
+                    "end": 206,
+                    "category": ""
                   }
                 ],
                 "category": ""
@@ -121,8 +121,8 @@
             "icon": "PRIMITIVE_DOT",
             "textStyle": "WARNING",
             "key": "post :: collection :: ",
-            "start": 0,
-            "end": 0,
+            "start": 210,
+            "end": 329,
             "children": [
               {
                 "text": "200",
@@ -130,8 +130,8 @@
                 "icon": "TAG",
                 "textStyle": "NORMAL",
                 "key": "200 :: post :: collection :: ",
-                "start": 0,
-                "end": 0,
+                "start": 241,
+                "end": 329,
                 "children": [
                   {
                     "text": "default",
@@ -139,9 +139,9 @@
                     "icon": "FILE_BINARY",
                     "textStyle": "SUCCESS",
                     "key": "default :: 200 :: post :: collection :: ",
-                    "category": "",
-                    "start": 0,
-                    "end": 0
+                    "start": 256,
+                    "end": 329,
+                    "category": ""
                   }
                 ],
                 "category": ""
@@ -167,8 +167,8 @@
             "icon": "PRIMITIVE_DOT",
             "textStyle": "WARNING",
             "key": "get :: member :: ",
-            "start": 0,
-            "end": 0,
+            "start": 343,
+            "end": 445,
             "children": [
               {
                 "text": "200",
@@ -176,8 +176,8 @@
                 "icon": "TAG",
                 "textStyle": "NORMAL",
                 "key": "200 :: get :: member :: ",
-                "start": 0,
-                "end": 0,
+                "start": 373,
+                "end": 445,
                 "children": [
                   {
                     "text": "default",
@@ -185,9 +185,9 @@
                     "icon": "FILE_BINARY",
                     "textStyle": "SUCCESS",
                     "key": "default :: 200 :: get :: member :: ",
-                    "category": "",
-                    "start": 0,
-                    "end": 0
+                    "start": 388,
+                    "end": 445,
+                    "category": ""
                   }
                 ],
                 "category": ""

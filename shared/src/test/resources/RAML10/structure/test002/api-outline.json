@@ -117,8 +117,8 @@
                     "icon": "PRIMITIVE_DOT",
                     "textStyle": "WARNING",
                     "key": "get :: resourceType :: type :: /someChildUri :: ",
-                    "start": 0,
-                    "end": 0,
+                    "start": 49,
+                    "end": 183,
                     "children": [
                       {
                         "text": "200",
@@ -126,8 +126,8 @@
                         "icon": "TAG",
                         "textStyle": "NORMAL",
                         "key": "200 :: get :: resourceType :: type :: /someChildUri :: ",
-                        "start": 0,
-                        "end": 0,
+                        "start": 79,
+                        "end": 183,
                         "children": [
                           {
                             "text": "application/json",
@@ -135,8 +135,8 @@
                             "icon": "FILE_BINARY",
                             "textStyle": "SUCCESS",
                             "key": "application/json :: 200 :: get :: resourceType :: type :: /someChildUri :: ",
-                            "start": 0,
-                            "end": 0,
+                            "start": 112,
+                            "end": 183,
                             "category": ""
                           }
                         ],
@@ -191,8 +191,8 @@
             "icon": "PRIMITIVE_DOT",
             "textStyle": "WARNING",
             "key": "get :: main :: ",
-            "start": 0,
-            "end": 0,
+            "start": 49,
+            "end": 183,
             "children": [
               {
                 "text": "200",
@@ -200,8 +200,8 @@
                 "icon": "TAG",
                 "textStyle": "NORMAL",
                 "key": "200 :: get :: main :: ",
-                "start": 0,
-                "end": 0,
+                "start": 79,
+                "end": 183,
                 "children": [
                   {
                     "text": "application/json",
@@ -209,8 +209,8 @@
                     "icon": "FILE_BINARY",
                     "textStyle": "SUCCESS",
                     "key": "application/json :: 200 :: get :: main :: ",
-                    "start": 0,
-                    "end": 0,
+                    "start": 112,
+                    "end": 183,
                     "category": ""
                   }
                 ],

@@ -53,8 +53,8 @@
             "icon": "FILE_BINARY",
             "textStyle": "SUCCESS",
             "key": "access_token :: secured :: ",
-            "start": 0,
-            "end": 0,
+            "start": 509,
+            "end": 605,
             "children": [
               {
                 "text": "example",
@@ -62,8 +62,8 @@
                 "icon": "TAG",
                 "textStyle": "NORMAL",
                 "key": "example :: access_token :: secured :: ",
-                "start": 0,
-                "end": 0,
+                "start": 574,
+                "end": 583,
                 "category": ""
               }
             ],
@@ -87,8 +87,8 @@
             "icon": "PRIMITIVE_DOT",
             "textStyle": "WARNING",
             "key": "get :: collection :: ",
-            "start": 0,
-            "end": 0,
+            "start": 203,
+            "end": 277,
             "category": ""
           },
           {
@@ -97,8 +97,8 @@
             "icon": "PRIMITIVE_DOT",
             "textStyle": "WARNING",
             "key": "post :: collection :: ",
-            "start": 0,
-            "end": 0,
+            "start": 281,
+            "end": 355,
             "category": ""
           }
         ],
