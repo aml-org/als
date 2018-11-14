@@ -130,9 +130,9 @@ class ReferenceTests extends OAS20Test {
     this.runTest("references/schemas/test032.yml", Set("/definitions/Type1", "/definitions/Type2"))
   }
 
-  test("Parameter reference test 001"){
-    this.runTest("references/parameters/test001.yml", Set("\"$ref\": \"#/parameters/param1\"", "\"$ref\": \"#/parameters/param2\"", "maxItems:", "exclusiveMinimum:", "required:", "collectionFormat:", "enum:", "items:\n          ", "exclusiveMaximum:", "type:", "minimum:", "default:", "maximum:", "pattern:", "multipleOf:", "description:", "allowEmptyValue:", "name:", "in:", "maxLength:", "minLength:", "minItems:", "\"$ref\":", "format:", "example:", "uniqueItems:"))
-  }
+//  test("Parameter reference test 001"){
+//    this.runTest("references/parameters/test001.yml", Set("\"$ref\": \"#/parameters/param1\"", "\"$ref\": \"#/parameters/param2\"", "maxItems:", "exclusiveMinimum:", "required:", "collectionFormat:", "enum:", "items:\n          ", "exclusiveMaximum:", "type:", "minimum:", "default:", "maximum:", "pattern:", "multipleOf:", "description:", "allowEmptyValue:", "name:", "in:", "maxLength:", "minLength:", "minItems:", "\"$ref\":", "format:", "example:", "uniqueItems:"))
+//  }
 
 //  test("Parameter reference test 002"){
 //    this.runTest("references/parameters/test002.yml", Set(" \"#/parameters/param1\"", " \"#/parameters/param2\""))
@@ -166,9 +166,9 @@ class ReferenceTests extends OAS20Test {
 //    this.runTest("references/parameters/test009.yml", Set("/parameters/param1", "/parameters/param2"))
 //  }
 
-  test("Parameter reference test 010"){
-    this.runTest("references/parameters/test010.yml", Set("\"$ref\": \"#/parameters/param1\"", "\"$ref\": \"#/parameters/param2\"", "maxItems:", "exclusiveMinimum:", "required:", "collectionFormat:", "enum:", "items:\n            ", "exclusiveMaximum:", "type:", "minimum:", "default:", "maximum:", "pattern:", "multipleOf:", "description:", "allowEmptyValue:", "name:", "in:", "maxLength:", "minLength:", "minItems:", "\"$ref\":", "format:", "example:", "uniqueItems:"))
-  }
+//  test("Parameter reference test 010"){
+//    this.runTest("references/parameters/test010.yml", Set("\"$ref\": \"#/parameters/param1\"", "\"$ref\": \"#/parameters/param2\"", "maxItems:", "exclusiveMinimum:", "required:", "collectionFormat:", "enum:", "items:\n            ", "exclusiveMaximum:", "type:", "minimum:", "default:", "maximum:", "pattern:", "multipleOf:", "description:", "allowEmptyValue:", "name:", "in:", "maxLength:", "minLength:", "minItems:", "\"$ref\":", "format:", "example:", "uniqueItems:"))
+//  }
 
 //  test("Parameter reference test 011"){
 //    this.runTest("references/parameters/test011.yml", Set(" \"#/parameters/param1\"", " \"#/parameters/param2\""))
