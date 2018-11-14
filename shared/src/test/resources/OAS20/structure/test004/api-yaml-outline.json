@@ -53,7 +53,7 @@
                 "textStyle": "",
                 "key": "user :: scopes :: petstoreImplicit :: ",
                 "start": 151,
-                "end": 270,
+                "end": 271,
                 "category": ""
               },
               {
@@ -63,7 +63,7 @@
                 "textStyle": "",
                 "key": "user:email :: scopes :: petstoreImplicit :: ",
                 "start": 276,
-                "end": 336,
+                "end": 337,
                 "category": ""
               }
             ],

@@ -52,7 +52,7 @@
                     "textStyle": "SUCCESS",
                     "key": "application/raml+yaml :: 200 :: get :: /resource :: ",
                     "start": 143,
-                    "end": 166,
+                    "end": 167,
                     "category": ""
                   },
                   {
@@ -62,7 +62,7 @@
                     "textStyle": "SUCCESS",
                     "key": "text/yaml :: 200 :: get :: /resource :: ",
                     "start": 176,
-                    "end": 187,
+                    "end": 188,
                     "category": ""
                   },
                   {
@@ -72,7 +72,7 @@
                     "textStyle": "SUCCESS",
                     "key": "text/x-yaml :: 200 :: get :: /resource :: ",
                     "start": 197,
-                    "end": 210,
+                    "end": 211,
                     "category": ""
                   },
                   {
@@ -82,7 +82,7 @@
                     "textStyle": "SUCCESS",
                     "key": "application/yaml :: 200 :: get :: /resource :: ",
                     "start": 220,
-                    "end": 238,
+                    "end": 239,
                     "category": ""
                   },
                   {
