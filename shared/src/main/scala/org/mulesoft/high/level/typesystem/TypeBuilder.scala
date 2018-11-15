@@ -184,17 +184,18 @@ object TypeBuilder {
                 units:Map[String,BaseUnit], parentUniverseOpt: Option[IUniverse]) = {
         var bundle = TypeCollectionBundle()
         for (unit <- units.values) {
-            var id = unit.id
+            var id = normalizedPath(unit)
             var tUniverse = new Universe(id, parentUniverseOpt, "")
             var aUniverse = new Universe(id, Some(tUniverse), "")
             var typeCollection = TypeCollection(id, tUniverse, aUniverse)
             bundle.registerTypeCollection(typeCollection)
         }
         for (unit <- units.values) {
-            var tc = bundle.typeCollections(unit.id)
-            unit.references.foreach(ref=>{
-                var referedTc = bundle.typeCollections(ref.id)
-                var refUnit = units(ref.id)
+            var tc = bundle.typeCollections(normalizedPath(unit))
+            getReferences(unit).foreach(u=>{
+                val ref = u.reference
+                var referedTc = bundle.typeCollections(ref)
+                var refUnit = units(ref)
                 refUnit match {
                     case m:Module =>
                         var aliases = m.annotations.find(classOf[Aliases])
@@ -205,15 +206,15 @@ object TypeBuilder {
                             val referingModulePath = usesEntry._2._1
                             val libPath = usesEntry._2._2
                             bundle.typeCollections.get(referingModulePath).foreach(referingTc=>{
-                                var dep = new ModuleDependencyEntry(ref.id,referedTc,namespace,libPath)
+                                var dep = new ModuleDependencyEntry(ref,referedTc,namespace,libPath)
                                 referingTc.registerDependency(dep)
                             })
                         }
                     case ef:ExternalFragment =>
-                        var dep = new DependencyEntry(ref.id,referedTc)
+                        var dep = new DependencyEntry(ref,referedTc)
                         tc.registerDependency(dep)
                     case f: Fragment =>
-                        var dep = new FragmentDependencyEntry(ref.id,referedTc)
+                        var dep = new FragmentDependencyEntry(ref,referedTc)
                         tc.registerDependency(dep)
                     case _ =>
                 }
@@ -223,6 +224,25 @@ object TypeBuilder {
     }
 
 
+    def getReferences(unit: BaseUnit):Seq[BaseUnitReference] = {
+        unit.references.map(unit => {
+            var ref: String = normalizedPath(unit)
+            new BaseUnitReference(ref,unit)
+        })
+    }
+
+    def normalizedPath(unit:BaseUnit):String = {
+        unitPath(unit.id)
+    }
+
+    def unitPath(str:String):String = {
+        var ref = str
+        val ind = ref.lastIndexOf("#")
+        if (ind >= 0) {
+            ref = ref.substring(0, ind)
+        }
+        ref
+    }
 
     def builtinDefinitionsFamily(
             t:ITypeDefinition,
@@ -243,3 +263,6 @@ class Context(
                  val bundle: TypeCollectionBundle,
                  val parentUniverse: IUniverse,
                  val factory: IASTFactory) {}
+
+
+class BaseUnitReference(val reference:String, val unit:BaseUnit){}

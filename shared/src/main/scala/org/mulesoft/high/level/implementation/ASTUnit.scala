@@ -2,6 +2,7 @@ package org.mulesoft.high.level.implementation
 
 import amf.core.model.document.BaseUnit
 import org.mulesoft.high.level.interfaces.IASTUnit
+import org.mulesoft.high.level.typesystem.TypeBuilder
 import org.mulesoft.positioning.{IPositionsMapper, PositionsMapper}
 import org.mulesoft.typesystem.nominal_types.Universe
 import org.mulesoft.typesystem.project.{DependencyEntry, TypeCollection}
@@ -18,7 +19,7 @@ class ASTUnit(_baseUnit:BaseUnit, typeCollection:TypeCollection, _project:Projec
 
     private var _positionsMapper:IPositionsMapper = PositionsMapper(_baseUnit.location().getOrElse("")).withText(_baseUnit.raw.getOrElse(""))
 
-    def path:String = _baseUnit.location().getOrElse(_baseUnit.id)
+    def path:String = _baseUnit.location().getOrElse(TypeBuilder.normalizedPath(_baseUnit))
 
     override def dependencies: Map[String, DependencyEntry[ASTUnit]] = _dependencies
 
