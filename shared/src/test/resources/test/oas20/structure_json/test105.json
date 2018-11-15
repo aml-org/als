@@ -127,7 +127,7 @@
         "name": "fullname",
         "wrapped": true,
         "namespace": "air",
-        "pref*"
+        "pref*
       },
       "externalDocs": {
         "description": "Find more info here",
