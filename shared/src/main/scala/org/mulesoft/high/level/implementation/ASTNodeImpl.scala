@@ -1,10 +1,12 @@
 package org.mulesoft.high.level.implementation
 
+import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.document.BaseUnit
 import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition, IUniverse}
-import amf.core.model.domain.AmfObject
+import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement}
 import org.mulesoft.high.level.builder.{ASTFactoryRegistry, NodeBuilder}
 import org.mulesoft.high.level.interfaces.{IAttribute, IHighLevelNode, IParseResult}
+import org.mulesoft.high.level.typesystem.TypeBuilder
 import org.mulesoft.positioning.IPositionsMapper
 import org.yaml.model.YPart
 
@@ -107,8 +109,25 @@ class ASTNodeImpl(
         }
     }
 
-    protected def initChildrenSources(referingUnit:Option[ASTUnit],externalPath:Option[String]):Unit
-            = _children.foreach(_.initSources(referingUnit,externalPath))
+    protected def initChildrenSources(_referingUnit:Option[ASTUnit],externalPath:Option[String]):Unit
+            = {
+        var referingUnit:Option[ASTUnit] = _referingUnit
+        Option(this.amfNode.fields.get(LinkableElementModel.Target)).foreach({
+            case de: DomainElement => Option(de.fields.get(LinkableElementModel.Label)) match {
+                case Some(link) => link match {
+                    case sc:AmfScalar =>
+                        val path = TypeBuilder.unitPath(sc.value.toString)
+                        if(!referingUnit.map(_.path).contains(path)){
+                            referingUnit = astUnit.project.units.get(path)
+                        }
+                    case _ =>
+                }
+                case _ =>
+            }
+            case _ =>
+        })
+        _children.foreach(_.initSources(referingUnit,externalPath))
+    }
 
     def newChild(prop:IProperty,typeHint:Option[ITypeDefinition]=None):Option[IParseResult] = {
 

@@ -37,7 +37,8 @@ object ProjectBuilder {
                 var project = Project(bundle,format,fsResolver)
                 var astUnits = createASTUnits(units,bundle,project)
                 initASTUnits(astUnits,bundle,factory)
-                project.setRootUnit(astUnits(rootUnit.location().getOrElse(rootUnit.id)))
+                val rootUnitPath = TypeBuilder.normalizedPath(rootUnit)
+                project.setRootUnit(astUnits(rootUnit.location().getOrElse(rootUnitPath)))
                 astUnits.values.foreach(project.addUnit)
                 project
             case _ => throw new Error("Unknown format: " + format)
@@ -50,7 +51,8 @@ object ProjectBuilder {
 
         var result: mutable.Map[String, ASTUnit] = mutable.Map()
         units.values.foreach(bu => {
-            val tc = bundle.typeCollections(bu.id)
+            val unitPath = TypeBuilder.normalizedPath(bu)
+            val tc = bundle.typeCollections(unitPath)
             var astUnit = ASTUnit(bu, tc, project)
             result.put(astUnit.path, astUnit)
         })
@@ -63,8 +65,9 @@ object ProjectBuilder {
                 factory:IASTFactory):Unit = {
 
         for (astUnit <- astUnits.values) {
-            astUnit.baseUnit.references.foreach(ref=>{
-                var referedAstUnit = astUnits(ref.id)
+            TypeBuilder.getReferences(astUnit.baseUnit).foreach(u=>{
+                val ref = u.reference
+                var referedAstUnit = astUnits(ref)
                 referedAstUnit.baseUnit match {
                     case m:Module =>
                         var aliases = m.annotations.find(classOf[Aliases])
@@ -75,19 +78,19 @@ object ProjectBuilder {
                             val referingModulePath = usesEntry._2._1
                             val libPath = usesEntry._2._2
                             astUnits.get(referingModulePath).foreach(referingAstUnit=>{
-                                var dep = new ModuleDependencyEntry(ref.id,referedAstUnit,namespace,libPath)
+                                var dep = new ModuleDependencyEntry(ref,referedAstUnit,namespace,libPath)
                                 referingAstUnit.registerDependency(dep)
                                 var reverseDep = new ModuleDependencyEntry(referingAstUnit.path,referingAstUnit,namespace,libPath)
                                 referedAstUnit.registerReverseDependency(reverseDep)
                             })
                         }
                     case ef:ExternalFragment =>
-                        var dep = new DependencyEntry(ref.id,referedAstUnit)
+                        var dep = new DependencyEntry(ref,referedAstUnit)
                         astUnit.registerDependency(dep)
                         var reverseDep = new DependencyEntry(astUnit.path,astUnit)
                         referedAstUnit.registerReverseDependency(reverseDep)
                     case f: Fragment =>
-                        var dep = new FragmentDependencyEntry(ref.id,referedAstUnit)
+                        var dep = new FragmentDependencyEntry(ref,referedAstUnit)
                         astUnit.registerDependency(dep)
                         var reverseDep = new FragmentDependencyEntry(astUnit.path,astUnit)
                         referedAstUnit.registerReverseDependency(reverseDep)
@@ -123,13 +126,13 @@ object ProjectBuilder {
         var i:Int = 0
         while(toProcess.lengthCompare(i)>0) {
             var unit = toProcess(i)
-            var id = unit.id
+            var id = TypeBuilder.normalizedPath(unit)
 
             processed(id) = unit
-            var newRefs = unit.references.filter(ref => !processed.contains(ref.id))
+            var newRefs = TypeBuilder.getReferences(unit).filter(u => !processed.contains(u.reference))
             newRefs.foreach(ref => {
-                toProcess += ref
-                processed(ref.id) = ref
+                toProcess += ref.unit
+                processed(ref.reference) = ref.unit
             })
             i += 1
         }
