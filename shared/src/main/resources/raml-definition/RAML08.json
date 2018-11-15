@@ -2342,6 +2342,24 @@
                 "arguments": [
                   "Responses MUST be a map of one or more HTTP status codes, where each status code itself is a map that describes that status code."
                 ]
+              },
+              {
+                "name": "MetaModel.oftenKeys",
+                "arguments": [
+                  [
+                    "200",
+                    "201",
+                    "202",
+                    "203",
+                    "300",
+                    "400",
+                    "401",
+                    "402",
+                    "403",
+                    "404",
+                    "405"
+                  ]
+                ]
               }
             ],
             "valueConstraint": null,
