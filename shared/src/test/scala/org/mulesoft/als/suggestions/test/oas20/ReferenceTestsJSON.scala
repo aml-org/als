@@ -15,11 +15,11 @@ class ReferenceTestsJSON extends OAS20Test {
   }
 
   test("Shema reference test JSON 004"){
-    this.runTest("references_json/schemas/test004.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "additionalProperties\":", "xml\":", "minimum\":", "discriminator\":", "maximum\":", "default\":", "pattern\":", "multipleOf\":", "description\":", "readOnly\":", "maxLength\":", "properties\":", "title\":", "minLength\":", "minItems\":", "$ref\":", "example\":", "format\":", "uniqueItems\":"))
+    this.runTest("references_json/schemas/test004.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems", "exclusiveMinimum", "required", "collectionFormat", "enum", "items", "exclusiveMaximum", "type", "additionalProperties", "xml", "minimum", "discriminator", "maximum", "default", "pattern", "multipleOf", "description", "readOnly", "maxLength", "properties", "title", "minLength", "minItems", "$ref", "example", "format", "uniqueItems"))
   }
 
   test("Shema reference test JSON 005"){
-      this.runTest("references_json/schemas/test005.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "additionalProperties\":", "xml\":", "minimum\":", "discriminator\":", "maximum\":", "default\":", "pattern\":", "multipleOf\":", "description\":", "readOnly\":", "maxLength\":", "properties\":", "title\":", "minLength\":", "minItems\":", "$ref\":", "example\":", "format\":", "uniqueItems\":"))
+      this.runTest("references_json/schemas/test005.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems", "exclusiveMinimum", "required", "collectionFormat", "enum", "items", "exclusiveMaximum", "type", "additionalProperties", "xml", "minimum", "discriminator", "maximum", "default", "pattern", "multipleOf", "description", "readOnly", "maxLength", "properties", "title", "minLength", "minItems", "$ref", "example", "format", "uniqueItems"))
   }
 
   test("Shema reference test JSON 006"){
@@ -55,11 +55,11 @@ class ReferenceTestsJSON extends OAS20Test {
   }
 
   test("Shema reference test JSON 014"){
-    this.runTest("references_json/schemas/test014.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "additionalProperties\":", "xml\":", "minimum\":", "discriminator\":", "maximum\":", "default\":", "pattern\":", "multipleOf\":", "description\":", "readOnly\":", "maxLength\":", "properties\":", "title\":", "minLength\":", "minItems\":", "$ref\":", "example\":", "format\":", "uniqueItems\":"))
+    this.runTest("references_json/schemas/test014.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems", "exclusiveMinimum", "required", "collectionFormat", "enum", "items", "exclusiveMaximum", "type", "additionalProperties", "xml", "minimum", "discriminator", "maximum", "default", "pattern", "multipleOf", "description", "readOnly", "maxLength", "properties", "title", "minLength", "minItems", "$ref", "example", "format", "uniqueItems"))
   }
 
   test("Shema reference test JSON 015"){
-      this.runTest("references_json/schemas/test015.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "additionalProperties\":", "xml\":", "minimum\":", "discriminator\":", "maximum\":", "default\":", "pattern\":", "multipleOf\":", "description\":", "readOnly\":", "maxLength\":", "properties\":", "title\":", "minLength\":", "minItems\":", "$ref\":", "example\":", "format\":", "uniqueItems\":"))
+      this.runTest("references_json/schemas/test015.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems", "exclusiveMinimum", "required", "collectionFormat", "enum", "items", "exclusiveMaximum", "type", "additionalProperties", "xml", "minimum", "discriminator", "maximum", "default", "pattern", "multipleOf", "description", "readOnly", "maxLength", "properties", "title", "minLength", "minItems", "$ref", "example", "format", "uniqueItems"))
   }
 
   test("Shema reference test JSON 016"){
@@ -95,11 +95,11 @@ class ReferenceTestsJSON extends OAS20Test {
   }
 
   test("Shema reference test JSON 024"){
-    this.runTest("references_json/schemas/test024.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "additionalProperties\":", "xml\":", "minimum\":", "discriminator\":", "maximum\":", "default\":", "pattern\":", "multipleOf\":", "description\":", "readOnly\":", "maxLength\":", "properties\":", "title\":", "minLength\":", "minItems\":", "$ref\":", "example\":", "format\":", "uniqueItems\":"))
+    this.runTest("references_json/schemas/test024.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems", "exclusiveMinimum", "required", "collectionFormat", "enum", "items", "exclusiveMaximum", "type", "additionalProperties", "xml", "minimum", "discriminator", "maximum", "default", "pattern", "multipleOf", "description", "readOnly", "maxLength", "properties", "title", "minLength", "minItems", "$ref", "example", "format", "uniqueItems"))
   }
 
   test("Shema reference test JSON 025"){
-      this.runTest("references_json/schemas/test025.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "additionalProperties\":", "xml\":", "minimum\":", "discriminator\":", "maximum\":", "default\":", "pattern\":", "multipleOf\":", "description\":", "readOnly\":", "maxLength\":", "properties\":", "title\":", "minLength\":", "minItems\":", "$ref\":", "example\":", "format\":", "uniqueItems\":"))
+      this.runTest("references_json/schemas/test025.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems", "exclusiveMinimum", "required", "collectionFormat", "enum", "items", "exclusiveMaximum", "type", "additionalProperties", "xml", "minimum", "discriminator", "maximum", "default", "pattern", "multipleOf", "description", "readOnly", "maxLength", "properties", "title", "minLength", "minItems", "$ref", "example", "format", "uniqueItems"))
   }
 
   test("Shema reference test JSON 026"){
@@ -135,11 +135,11 @@ class ReferenceTestsJSON extends OAS20Test {
   }
 
   test("Shema reference test JSON 034"){
-    this.runTest("references_json/schemas/test034.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "additionalProperties\":", "xml\":", "minimum\":", "discriminator\":", "maximum\":", "default\":", "pattern\":", "multipleOf\":", "description\":", "readOnly\":", "maxLength\":", "properties\":", "title\":", "minLength\":", "minItems\":", "$ref\":", "example\":", "format\":", "uniqueItems\":"))
+    this.runTest("references_json/schemas/test034.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems", "exclusiveMinimum", "required", "collectionFormat", "enum", "items", "exclusiveMaximum", "type", "additionalProperties", "xml", "minimum", "discriminator", "maximum", "default", "pattern", "multipleOf", "description", "readOnly", "maxLength", "properties", "title", "minLength", "minItems", "$ref", "example", "format", "uniqueItems"))
   }
 
   test("Shema reference test JSON 035"){
-      this.runTest("references_json/schemas/test035.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems\":", "exclusiveMinimum\":", "required\":", "collectionFormat\":", "enum\":", "items\":", "exclusiveMaximum\":", "type\":", "additionalProperties\":", "xml\":", "minimum\":", "discriminator\":", "maximum\":", "default\":", "pattern\":", "multipleOf\":", "description\":", "readOnly\":", "maxLength\":", "properties\":", "title\":", "minLength\":", "minItems\":", "$ref\":", "example\":", "format\":", "uniqueItems\":"))
+      this.runTest("references_json/schemas/test035.json", Set("$ref\": \"#/definitions/Type1", "$ref\": \"#/definitions/Type2", "maxItems", "exclusiveMinimum", "required", "collectionFormat", "enum", "items", "exclusiveMaximum", "type", "additionalProperties", "xml", "minimum", "discriminator", "maximum", "default", "pattern", "multipleOf", "description", "readOnly", "maxLength", "properties", "title", "minLength", "minItems", "$ref", "example", "format", "uniqueItems"))
   }
 
   test("Shema reference test JSON 036"){
@@ -243,7 +243,7 @@ class ReferenceTestsJSON extends OAS20Test {
   }
 
   test("Response reference test JSON 003"){
-    this.runTest("references_json/responses/test003.json", Set("$ref\": \"#/responses/response1", "$ref\": \"#/responses/response2", "description\":", "$ref\":", "schema\":", "example\":"))
+    this.runTest("references_json/responses/test003.json", Set("$ref\": \"#/responses/response1", "$ref\": \"#/responses/response2", "description", "$ref", "schema", "example"))
   }
 
   test("Response reference test JSON 004"){
@@ -251,7 +251,7 @@ class ReferenceTestsJSON extends OAS20Test {
   }
 
   test("Response reference test JSON 005"){
-    this.runTest("references_json/responses/test005.json", Set("$ref\": \"#/responses/response1", "$ref\": \"#/responses/response2", "description\":", "$ref\":", "schema\":", "example\":"))
+    this.runTest("references_json/responses/test005.json", Set("$ref\": \"#/responses/response1", "$ref\": \"#/responses/response2", "description", "$ref", "schema", "example"))
   }
 
   test("Response reference test JSON 006"){

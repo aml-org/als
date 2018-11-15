@@ -116,6 +116,9 @@ class CompletionProvider {
                 if(colonIndex>0){
                     hasKeyClosingQuote = tail.substring(0,colonIndex).trim.endsWith("\"")
                 }
+                else {
+                    hasKeyClosingQuote = hasQuote
+                }
             }
         }
 
@@ -151,9 +154,9 @@ class CompletionProvider {
                         postfix += ":"
                     }
                 }
-                else if (!hasColon && !response.noColon) {
-                    postfix += "\":"
-                }
+//                else if (!hasColon && !response.noColon) {
+//                    postfix += "\":"
+//                }
                 else if(!hasQuote){
                     postfix += "\""
                 }
