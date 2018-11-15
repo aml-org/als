@@ -468,6 +468,10 @@ class StructureTests extends RAML10Test {
     this.runTest("structure/test158.raml", Set("required:", "enum:", "displayName:", "type:", "xml:\n              ", "default:", "pattern:", "description:", "maxLength:", "minLength:", "examples:\n              ", "schema:", "facets:\n              ", "example:\n              ", "properties:\n              "))
  }
 
+ test("Library completion") {
+   this.runTest("structure/test159.raml", Set("usage:", "uses:\n  ", "schemas:\n  ", "traits:\n  ", "types:\n  ", "annotationTypes:\n  ", "resourceTypes:\n  ", "securitySchemes:\n  "))
+ }
+
   test("facets test 1") {
     this.runTest("facets/test01.raml", Set("testFacet1", "testFacet2", "testFacet3", "testFacet5"));
   }
