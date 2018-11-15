@@ -164,6 +164,9 @@ object YamlLocation {
                 val _value = YamlPartWithRange(value,mapper)
                 result.withValue(_value).withParentStack(parentStack)
 
+            case doc:YDocument =>
+                result = YamlLocation(doc.node,mapper,parentStack)
+
             case _ =>
         }
         result

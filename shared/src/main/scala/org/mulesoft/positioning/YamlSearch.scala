@@ -106,6 +106,8 @@ object YamlSearch {
 
                 case scalar:YScalar => YamlLocation(scalar,mapper, parentStack)
 
+                case doc:YDocument => getLocation(position, doc.node, mapper, parentStack, ignoreIndents)
+
                 case _ => YamlLocation(yPart,mapper, parentStack)
             }
     }

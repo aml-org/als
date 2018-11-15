@@ -52,9 +52,14 @@ class SourceInfo private extends ISourceInfo {
         }
         else if(_ranges.lengthCompare(1)==0){
             var yPartOPt:Option[YPart] = _yamlSources.head match {
-                case me:YMapEntry => Some(me.value.value)
-                case n:YNode => Some(n.value)
-                case s:YValue => Some(s)
+                case me:YMapEntry => Option(me.value.value)
+                case n:YNode => Option(n.value)
+                case s:YValue => Option(s)
+                case d:YDocument => d.node match {
+                    case n:YNode => Option(n.value)
+                    case _ => None
+                }
+                case _ => None
             }
             yPartOPt match {
                 case Some(yPart) =>
