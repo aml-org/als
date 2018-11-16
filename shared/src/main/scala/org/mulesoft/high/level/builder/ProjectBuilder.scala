@@ -36,10 +36,10 @@ object ProjectBuilder {
                 var bundle = TypeBuilder.buildTypes(units,factory)
                 var project = Project(bundle,format,fsResolver)
                 var astUnits = createASTUnits(units,bundle,project)
+                astUnits.values.foreach(project.addUnit)
                 initASTUnits(astUnits,bundle,factory)
                 val rootUnitPath = TypeBuilder.normalizedPath(rootUnit)
                 project.setRootUnit(astUnits(rootUnit.location().getOrElse(rootUnitPath)))
-                astUnits.values.foreach(project.addUnit)
                 project
             case _ => throw new Error("Unknown format: " + format)
         }

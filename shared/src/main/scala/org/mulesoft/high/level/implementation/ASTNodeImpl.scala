@@ -102,7 +102,7 @@ class ASTNodeImpl(
         super.initSources(referingUnit,externalPath)
         var isExternal = sourceInfo.externalLocationPath.isDefined || sourceInfo.includePathLabel.isDefined
         if(isExternal){
-            initChildrenSources(None,sourceInfo.externalLocationPath)
+            initChildrenSources(referingUnit.flatMap(u=>sourceInfo.externalLocationPath.flatMap(x=>u.project.units.get(x))),sourceInfo.externalLocationPath)
         }
         else {
             initChildrenSources(referingUnit,externalPath)
@@ -118,7 +118,7 @@ class ASTNodeImpl(
                     case sc:AmfScalar =>
                         val path = TypeBuilder.unitPath(sc.value.toString)
                         if(!referingUnit.map(_.path).contains(path)){
-                            referingUnit = astUnit.project.units.get(path)
+                            referingUnit = astUnit.resolve(path)
                         }
                     case _ =>
                 }
