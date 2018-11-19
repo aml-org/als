@@ -6,11 +6,12 @@ import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping}
 import org.mulesoft.typesystem.dialects.{BuiltinUniverse, DialectUniverse}
 import org.mulesoft.typesystem.dialects.extras.{Declaration, RootType, SourceNodeMapping, SourcePropertyMapping}
-import org.mulesoft.typesystem.nominal_interfaces.{IDialectUniverse, ITypeDefinition, IUniverse}
-import org.mulesoft.typesystem.nominal_types.{StructuredType, Union, Universe}
+import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
+import org.mulesoft.typesystem.nominal_interfaces.{IDialectUniverse, IProperty, ITypeDefinition, IUniverse}
+import org.mulesoft.typesystem.nominal_types.{Property, StructuredType, Union, Universe}
 import org.mulesoft.typesystem.typesystem_interfaces.Extra
 
-import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 
 object DialectUniverseBuilder {
 
@@ -92,16 +93,18 @@ object DialectUniverseBuilder {
 
     private def fillProperties(universe: Universe):Unit = {
 
+        val maps:ListBuffer[Property] = ListBuffer()
         universe.types.foreach(t=>{
             t.getExtra(SourceNodeMapping).foreach(nm => {
                 Option(nm.propertiesMapping()).foreach(_.foreach(pm=>{
-                    processProperty(t.asInstanceOf[StructuredType], pm)
+                    processProperty(t.asInstanceOf[StructuredType], pm, maps)
                 }))
             })
         })
+        maps.foreach(processMapProperty)
     }
 
-    private def processProperty(t: StructuredType, pm: PropertyMapping):Unit = {
+    private def processProperty(t: StructuredType, pm: PropertyMapping, maps:ListBuffer[Property]):Unit = {
         val universe = t.universe
         val pName = pm.name().value()
         val minCount = pm.minCount().value()
@@ -131,11 +134,67 @@ object DialectUniverseBuilder {
                 prop.withEnumOptions(x)
             })
             prop.putExtra(SourcePropertyMapping,pm)
+            if(pm.mapKeyProperty().option().isDefined || pm.mapValueProperty().option().isDefined){
+                maps += prop
+            }
         })
     }
 
+    private def processMapProperty(prop:Property):Unit = {
+        if(prop.range.isEmpty){
+            return
+        }
+        val extra = prop.getExtra(SourcePropertyMapping)
+        if(extra.isEmpty){
+            return
+        }
+        val pm = extra.get
+        val range = prop.range.get
+
+        val keyPropOpt = pm.mapKeyProperty().option().flatMap(findPropertyByRdfId(_,range)).map(oldKeyProp => {
+            val keyProp = new Property(oldKeyProp.nameId.get).withRange(oldKeyProp.range.get)
+            val syntaxExtra = PropertySyntaxExtra()
+            syntaxExtra.setIsKey()
+            keyProp.putExtra(PropertySyntaxExtra,syntaxExtra)
+            keyProp
+        })
+
+        val valuePropOpt = pm.mapValueProperty().option().flatMap(findPropertyByRdfId(_,range)).map(oldValueProp => {
+            val valueProp = new Property(oldValueProp.nameId.get).withRange(oldValueProp.range.get)
+            val syntaxExtra = PropertySyntaxExtra()
+            syntaxExtra.setIsValue()
+            valueProp.putExtra(PropertySyntaxExtra,syntaxExtra)
+            valueProp
+        })
+
+        if(valuePropOpt.isDefined && keyPropOpt.isDefined){
+            val newRange = new StructuredType(pm.id, range.universe, pm.id)
+            newRange.addSuperType(valuePropOpt.get.range.get)
+            keyPropOpt.get.withDomain(newRange)
+            prop.withRange(newRange)
+        }
+        else if(keyPropOpt.isDefined){
+            val newRange = new StructuredType(pm.id, range.universe, pm.id)
+            newRange.addSuperType(range)
+            keyPropOpt.get.withDomain(newRange)
+            prop.withRange(newRange)
+        }
+    }
+
+    private def findPropertyByRdfId(id:String,t:ITypeDefinition):Option[IProperty] = {
+
+        t.properties.find(x => x.getExtra(SourcePropertyMapping).flatMap(_.nodePropertyMapping().option()).contains(id))
+    }
+
     private def primitiveDataTypeToString(dataType: String): String = {
-        dataType.substring(dataType.indexOf("#") + 1)
+        var ind = dataType.indexOf("#")
+        if(ind >= 0){
+            ind = ind + 1
+        }
+        else {
+            ind = 0
+        }
+        dataType.substring(ind)
     }
 
     private def userDataTypeToString(dataType: String): Option[String] = {
