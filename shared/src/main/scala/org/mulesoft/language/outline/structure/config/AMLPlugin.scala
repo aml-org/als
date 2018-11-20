@@ -17,7 +17,7 @@ class AMLPlugin extends IStructurePlugin {
 
   override def buildConfig(provider: IASTProvider): LanguageDependendStructureConfig = {
 
-    val labelProvider = new DefaultLabelProvider()
+    val labelProvider = new AMLLabelProvider()
 
     val categories = buildCategories().toMap
 
