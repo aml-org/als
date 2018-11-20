@@ -8,7 +8,7 @@ import org.mulesoft.typesystem.dialects.{BuiltinUniverse, DialectUniverse}
 import org.mulesoft.typesystem.dialects.extras.{Declaration, RootType, SourceNodeMapping, SourcePropertyMapping}
 import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
 import org.mulesoft.typesystem.nominal_interfaces.{IDialectUniverse, IProperty, ITypeDefinition, IUniverse}
-import org.mulesoft.typesystem.nominal_types.{Property, StructuredType, Union, Universe}
+import org.mulesoft.typesystem.nominal_types.{Array,Property, StructuredType, Union, Universe}
 import org.mulesoft.typesystem.typesystem_interfaces.Extra
 
 import scala.collection.mutable.ListBuffer
@@ -136,6 +136,17 @@ object DialectUniverseBuilder {
             prop.putExtra(SourcePropertyMapping,pm)
             if(pm.mapKeyProperty().option().isDefined || pm.mapValueProperty().option().isDefined){
                 maps += prop
+                val extra = PropertySyntaxExtra()
+                extra.setIsEmbeddedInMaps()
+                prop.putExtra(PropertySyntaxExtra,extra)
+            }
+            else if(pm.allowMultiple().option().contains(true)){
+                val arr = new Array(pm.id,universe,pm.id);
+                arr.setComponent(r)
+                prop.withRange(arr)
+                val extra = PropertySyntaxExtra()
+                extra.setIsEmbeddedInArray()
+                prop.putExtra(PropertySyntaxExtra,extra)
             }
         })
     }
@@ -156,6 +167,7 @@ object DialectUniverseBuilder {
             val syntaxExtra = PropertySyntaxExtra()
             syntaxExtra.setIsKey()
             keyProp.putExtra(PropertySyntaxExtra,syntaxExtra)
+            oldKeyProp.getExtra(SourcePropertyMapping).foreach(x=>keyProp.putExtra(SourcePropertyMapping,x))
             keyProp
         })
 
@@ -164,24 +176,38 @@ object DialectUniverseBuilder {
             val syntaxExtra = PropertySyntaxExtra()
             syntaxExtra.setIsValue()
             valueProp.putExtra(PropertySyntaxExtra,syntaxExtra)
+            oldValueProp.getExtra(SourcePropertyMapping).foreach(x=>valueProp.putExtra(SourcePropertyMapping,x))
             valueProp
         })
 
+        var componentRange:Option[ITypeDefinition] = Some(range)
         if(valuePropOpt.isDefined && keyPropOpt.isDefined){
             val newRange = new StructuredType(pm.id, range.universe, pm.id)
-            newRange.addSuperType(valuePropOpt.get.range.get)
+            val valueRange = valuePropOpt.get.range.get
+            if(valueRange.isValueType){
+                newRange.addSuperType(BuiltinUniverse.any)
+                valuePropOpt.get.withDomain(newRange)
+            }
+            else {
+                newRange.addSuperType(valueRange)
+            }
             keyPropOpt.get.withDomain(newRange)
-            prop.withRange(newRange)
+            componentRange = Some(newRange)
         }
         else if(keyPropOpt.isDefined){
             val newRange = new StructuredType(pm.id, range.universe, pm.id)
             newRange.addSuperType(range)
             keyPropOpt.get.withDomain(newRange)
-            prop.withRange(newRange)
+            componentRange = Some(newRange)
         }
+        componentRange.foreach(r=>{
+            val arr = new Array(pm.id,r.universe,pm.id);
+            arr.setComponent(r)
+            prop.withRange(arr)
+        })
     }
 
-    private def findPropertyByRdfId(id:String,t:ITypeDefinition):Option[IProperty] = {
+    def findPropertyByRdfId(id:String,t:ITypeDefinition):Option[IProperty] = {
 
         t.properties.find(x => x.getExtra(SourcePropertyMapping).flatMap(_.nodePropertyMapping().option()).contains(id))
     }

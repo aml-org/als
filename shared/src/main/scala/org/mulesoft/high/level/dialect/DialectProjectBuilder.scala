@@ -5,10 +5,11 @@ import amf.core.annotations.SourceAST
 import amf.core.model.document.BaseUnit
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance}
-import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
+import amf.plugins.document.vocabularies.model.domain.{DialectDomainElement, PropertyMapping}
 import org.mulesoft.high.level.implementation._
 import org.mulesoft.high.level.interfaces.{IFSProvider, IHighLevelNode, IProject}
 import org.mulesoft.high.level.typesystem.TypeBuilder
+import org.mulesoft.typesystem.dialects.extras.SourcePropertyMapping
 import org.mulesoft.typesystem.dialects.{BuiltinUniverse, DialectUniverse}
 import org.mulesoft.typesystem.nominal_interfaces.IDialectUniverse
 import org.mulesoft.typesystem.project.{TypeCollection, TypeCollectionBundle}
@@ -42,7 +43,7 @@ class DialectProjectBuilder {
         unit.setRootNode(rootNode)
         Option(rootUnit.encodes).foreach(enc => {
             val dde = enc.asInstanceOf[DialectDomainElement]
-            fillProperties(dde, rootNode)
+            fillProperties(dde, rootNode, None)
         })
 
         rootUnit.declares.foreach(de=>{
@@ -57,7 +58,8 @@ class DialectProjectBuilder {
         project
     }
 
-    private def fillProperties(dde: DialectDomainElement, parent: ASTNodeImpl):Unit = {
+    private def fillProperties(_dde: DialectDomainElement, parent: ASTNodeImpl, pm:Option[PropertyMapping]):Unit = {
+        var dde = _dde
         val unit = parent.astUnit
         val rootUnit = unit.baseUnit
         val sourcesMap: mutable.Map[String, SourceAST] = mutable.Map()
@@ -97,7 +99,19 @@ class DialectProjectBuilder {
             })
         })
         dde.mapKeyProperties.foreach(p => {
+            val propId = p._1
+            val propValue = p._2
+            DialectUniverseBuilder.findPropertyByRdfId(propId,definition).foreach(p => {
+                val srcOpt = sourcesMap.get(propId).map(_.ast)
+                val sourceInfo = SourceInfo().withReferingUnit(unit)
+                srcOpt.foreach(x => sourceInfo.withSources(Seq(x)))
 
+                val buf = new LiteralPropertyValueBuffer(dde, propId, propValue, srcOpt)
+
+                val prop = new ASTPropImpl(dde, rootUnit, Some(parent), definition, Some(p), buf)
+                prop.setASTUnit(unit)
+                parent.addChild(prop)
+            })
         })
         dde.linkProperties.foreach(p => {
 
@@ -115,15 +129,22 @@ class DialectProjectBuilder {
         srcOpt.foreach(x => sourceInfo.withSources(Seq(x)))
 
         val propOpt = definition.property(propName)
-        val range = propOpt.flatMap(_.range).getOrElse(BuiltinUniverse.any)
+        val range = propOpt.flatMap(_.range).map(r => {
+            if(r.isArray){
+                r.array.get.componentType.getOrElse(r)
+            }
+            else {
+                r
+            }
+        }).getOrElse(BuiltinUniverse.any)
         val ch = new ASTNodeImpl(propValue, baseUnit, Some(node), range, propOpt)
         node.addChild(ch)
         ch.setASTUnit(node.astUnit)
-        fillProperties(propValue, ch)
+        fillProperties(propValue, ch, propOpt.flatMap(x => x.getExtra(SourcePropertyMapping)))
     }
 
     private def propertyNameFromId(propId:String):Option[String] = {
-        val ind = propId.lastIndexOf("/property/")
+        var ind = propId.lastIndexOf("/property/")
         if(ind<0){
             None
         }
