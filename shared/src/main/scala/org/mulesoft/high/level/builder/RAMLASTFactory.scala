@@ -16,12 +16,13 @@ import amf.plugins.domain.webapi.annotations.ParentEndPoint
 import amf.plugins.domain.webapi.metamodel.security._
 import amf.plugins.domain.webapi.metamodel.templates.{ParametrizedResourceTypeModel, ParametrizedTraitModel, ResourceTypeModel, TraitModel}
 import amf.plugins.domain.webapi.metamodel._
-import amf.plugins.domain.webapi.models.EndPoint
+import amf.plugins.domain.webapi.models.{EndPoint, Operation}
 import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
 import org.mulesoft.high.level.implementation.{ASTPropImpl, BasicValueBuffer}
 import org.mulesoft.high.level.interfaces.{IAttribute, IHighLevelNode}
 import org.mulesoft.typesystem.nominal_interfaces.{ITypeDefinition, IUniverse}
 import org.mulesoft.typesystem.nominal_types.BuiltinUniverse
+import org.mulesoft.typesystem.typesystem_interfaces.Extra
 
 import scala.collection.mutable.ListBuffer
 import scala.language.postfixOps
@@ -408,10 +409,17 @@ class ThisResourceBaseMatcher() extends IPropertyMatcher {
                     case  EndPointModel => List(ElementMatchResult(de))
                     case ResourceTypeModel =>
                         try{
-                            val matchedNode = de match {
-                                case ed:ErrorDeclaration => de
-                                case rt:ResourceType => rt.asEndpoint(hlNode.amfBaseUnit)
-                                case _ => de
+                            val matchedNode = hlNode.getExtra(AsEndPoint) match {
+                                case Some(op) => op
+                                case _ => de match {
+                                    case ed: ErrorDeclaration => de
+                                    case rt: ResourceType => {
+                                        val stored = rt.asEndpoint(hlNode.amfBaseUnit)
+                                        hlNode.putExtra(AsEndPoint,stored)
+                                        stored
+                                    }
+                                    case _ => de
+                                }
                             }
                             List(ElementMatchResult(matchedNode))
                         }
@@ -441,10 +449,17 @@ class ThisMethodBaseMatcher() extends IPropertyMatcher {
                     case  OperationModel => List(ElementMatchResult(de))
                     case TraitModel =>
                         try {
-                            val matchedNode = de match {
-                                case ed: ErrorDeclaration => de
-                                case tr: Trait => tr.asOperation(hlNode.amfBaseUnit)
-                                case _ => de
+                            val matchedNode = hlNode.getExtra(AsOperation) match {
+                                case Some(op) => op
+                                case _ => de match {
+                                    case ed: ErrorDeclaration => de
+                                    case tr: Trait => {
+                                        val stored = tr.asOperation(hlNode.amfBaseUnit)
+                                        hlNode.putExtra(AsOperation,stored)
+                                        stored
+                                    }
+                                    case _ => de
+                                }
                             }
                             List(ElementMatchResult(matchedNode))
                         }
@@ -508,5 +523,20 @@ object Helpers {
     }
 }
 
+object AsOperation extends Extra[Operation] {
+    override def name: String = "AsOperation"
+
+    override def clazz: Class[Operation] = classOf[Operation]
+
+    override def default: Option[Operation] = None
+}
+
+object AsEndPoint extends Extra[EndPoint] {
+    override def name: String = "AsEndPoint"
+
+    override def clazz: Class[EndPoint] = classOf[EndPoint]
+
+    override def default: Option[EndPoint] = None
+}
 
 
