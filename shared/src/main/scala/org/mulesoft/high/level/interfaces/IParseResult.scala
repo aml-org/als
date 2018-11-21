@@ -5,9 +5,10 @@ import amf.core.model.document.BaseUnit
 import org.mulesoft.typesystem.nominal_interfaces.IProperty
 import amf.core.model.domain.AmfObject
 import org.mulesoft.typesystem.json.interfaces.NodeRange
+import org.mulesoft.typesystem.typesystem_interfaces.IHasExtra
 import org.yaml.model.YPart
 
-trait IParseResult {
+trait IParseResult extends IHasExtra {
 
     def amfNode: AmfObject
     //def name: String

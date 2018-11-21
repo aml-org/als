@@ -381,7 +381,7 @@ class RAML10ASTFactory private extends RAMLASTFactory {
                             else {
                                 None
                             }
-                        case "headers" | "queryParameners" | "uriParameters" | "queryString" | "body" =>
+                        case "headers" | "queryParameters" | "uriParameters" | "queryString" | "body" =>
                             Some(TypeBuilder.getOrCreate(shape,universe.get,bundle,this))
                         case _ => None
                     }

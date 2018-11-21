@@ -5,11 +5,12 @@ import amf.core.model.document.BaseUnit
 import org.mulesoft.typesystem.nominal_interfaces.IProperty
 import org.mulesoft.high.level.interfaces.{IAttribute, IHighLevelNode, IParseResult}
 import amf.core.model.domain.AmfObject
+import org.mulesoft.typesystem.nominal_types.HasExtra
 
 class BasicASTNode(
         _node: AmfObject,
         _baseUnit: BaseUnit,
-        var _parent: Option[IHighLevelNode]) extends IParseResult {
+        var _parent: Option[IHighLevelNode]) extends IParseResult with HasExtra {
 
     private var _astUnit: Option[ASTUnit] = None
 
