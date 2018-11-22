@@ -67,14 +67,19 @@ object YRange {
             if (scalarOpt.nonEmpty) {
                 val mark = scalarOpt.get.mark
                 if(mark != DoubleQuoteMark && mark != SingleQuoteMark) {
-                    pm.line(endLine).foreach(line => {
-                        if(line.substring(endColumn).trim.isEmpty) {
-                            while (endColumn < line.length && line.charAt(endColumn) == ' ') {
-                                endColumn += 1
+                    val scalarEndLine = scalarOpt.get.range.lineTo - 1
+                    if(endLine == scalarEndLine) {
+                        var scalarEndColumn = scalarOpt.get.range.columnTo
+                        pm.line(scalarEndLine).foreach(line => {
+                            if (line.substring(scalarEndColumn).trim.isEmpty) {
+                                while (scalarEndColumn < line.length && line.charAt(scalarEndColumn) == ' ') {
+                                    scalarEndColumn += 1
+                                }
                             }
-                        }
-                        endColumn += 1
-                    })
+                            scalarEndColumn += 1
+                        })
+                        endColumn = scalarEndColumn
+                    }
                 }
             }
             var endPosition = pm.mapToPosition(endLine, endColumn)

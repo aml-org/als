@@ -4,7 +4,7 @@ import amf.core.annotations.{Aliases, SourceVendor}
 import amf.core.metamodel.document.DocumentModel
 import amf.core.model.document.{BaseUnit, ExternalFragment, Fragment, Module}
 import amf.core.remote.Vendor
-import amf.plugins.document.vocabularies.model.document.DialectInstance
+import amf.plugins.document.vocabularies.model.document.{DialectInstance, DialectInstanceFragment, DialectInstanceLibrary}
 import org.mulesoft.high.level.dialect.DialectProjectBuilder
 import org.mulesoft.high.level.implementation.{ASTUnit, Project}
 import org.mulesoft.high.level.interfaces.{IFSProvider, IProject}
@@ -19,6 +19,8 @@ object ProjectBuilder {
     def buildProject(rootUnit:BaseUnit,fsResolver:IFSProvider):IProject = {
         rootUnit match {
             case di:DialectInstance => DialectProjectBuilder.getInstance.buildProject(di,fsResolver)
+            case dil:DialectInstanceLibrary => DialectProjectBuilder.getInstance.buildProject(dil,fsResolver)
+            case dif:DialectInstanceFragment => DialectProjectBuilder.getInstance.buildProject(dif,fsResolver)
             case _ => buildProjectInternal(rootUnit, fsResolver)
         }
     }
