@@ -78,7 +78,7 @@
             "textStyle": "SUCCESS",
             "key": "firstname :: Person :: ",
             "start": 102,
-            "end": 121,
+            "end": 120,
             "category": ""
           },
           {
@@ -88,7 +88,7 @@
             "textStyle": "SUCCESS",
             "key": "lastname :: Person :: ",
             "start": 126,
-            "end": 145,
+            "end": 144,
             "category": ""
           },
           {
@@ -98,7 +98,7 @@
             "textStyle": "SUCCESS",
             "key": "title :: Person :: ",
             "start": 150,
-            "end": 169,
+            "end": 168,
             "category": ""
           }
         ],
@@ -120,7 +120,7 @@
             "textStyle": "NORMAL",
             "key": "reports :: Manager :: ",
             "start": 268,
-            "end": 287,
+            "end": 286,
             "children": [
               {
                 "text": "items",
@@ -142,7 +142,7 @@
             "textStyle": "SUCCESS",
             "key": "phone :: Manager :: ",
             "start": 292,
-            "end": 307,
+            "end": 306,
             "category": ""
           }
         ],
@@ -164,7 +164,7 @@
             "textStyle": "SUCCESS",
             "key": "phone :: AlertableAdmin :: ",
             "start": 454,
-            "end": 468,
+            "end": 467,
             "category": ""
           }
         ],
