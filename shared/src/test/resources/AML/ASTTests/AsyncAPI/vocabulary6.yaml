@@ -35,6 +35,8 @@ classTerms:
     description: |
        An application programming interface accessible over some kind of asynchronous technology.
 
+  StringMapEntry:
+    displayName: String to string map entry
 
 propertyTerms:
 
@@ -50,3 +52,12 @@ propertyTerms:
   publish:
     displayName: publish
     description: A producer is a process publishing messages to a message broker.
+
+  keyString:
+    displayName: key string
+
+  valueString:
+    displayName: value string
+
+  mapProperty:
+    displayName: a string to string map

@@ -3,20 +3,23 @@ package org.mulesoft.high.level.dialect
 import amf.core.remote.Vendor._
 import amf.core.annotations.SourceAST
 import amf.core.model.document.BaseUnit
+import amf.core.model.domain.AmfArray
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.metamodel.document.DialectInstanceModel
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance, DialectInstanceFragment, DialectInstanceLibrary}
 import amf.plugins.document.vocabularies.model.domain.{DialectDomainElement, PropertyMapping}
 import org.mulesoft.high.level.implementation._
-import org.mulesoft.high.level.interfaces.{IFSProvider, IHighLevelNode, IProject}
+import org.mulesoft.high.level.interfaces.{IAttribute, IFSProvider, IHighLevelNode, IProject}
 import org.mulesoft.high.level.typesystem.TypeBuilder
 import org.mulesoft.typesystem.dialects.extras.SourcePropertyMapping
 import org.mulesoft.typesystem.dialects.{BuiltinUniverse, DialectUniverse}
 import org.mulesoft.typesystem.nominal_interfaces.IDialectUniverse
 import org.mulesoft.typesystem.project.{TypeCollection, TypeCollectionBundle}
-import org.yaml.model.YPart
+import org.yaml.model.{YNode, YPart, YSequence}
 
 import scala.collection.mutable
+import scala.collection.IndexedSeq
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 class DialectProjectBuilder {
 
@@ -158,12 +161,45 @@ class DialectProjectBuilder {
                 val srcOpt = sourcesMap.get(propId).map(_.ast)
                 val sourceInfo = SourceInfo().withReferingUnit(unit)
                 srcOpt.foreach(x => sourceInfo.withSources(Seq(x)))
+                val propOpt = definition.property(propName)
+                var rangeOpt = propOpt.flatMap(_.range)
+                val children:ListBuffer[ASTPropImpl] = ListBuffer()
+                propValue match {
+                    case seq:Seq[Any] =>
+                        rangeOpt = rangeOpt.flatMap(x => {
+                            if(x.isArray){
+                                x.array.flatMap(_.componentType)
+                            }
+                            else {
+                                Some(x)
+                            }
+                        })
+                        val arr = ArrayBuffer[Any]() ++= seq
+                        val srcSeq: IndexedSeq[YPart] = srcOpt match {
+                            case Some(x) => x match {
+                                case s: YSequence => s.nodes
+                                case n: YNode => n.value match {
+                                    case s:YSequence => s.nodes
+                                    case _ => IndexedSeq(x)
+                                }
+                                case _ => IndexedSeq(x)
+                            }
+                            case _ => IndexedSeq()
+                        }
+                        for (i <- 0 until arr.length) {
+                            val buf = new LiteralArrayPropertyValueBuffer(dde, propId, arr, srcSeq, i)
+                            val prop = new ASTPropImpl(dde, rootUnit, Some(parent), rangeOpt.orNull, propOpt, buf)
+                            prop.setASTUnit(unit)
+                            children += prop
+                        }
+                    case _ =>
+                        val buf = new LiteralPropertyValueBuffer(dde, propId, propValue, srcOpt)
 
-                val buf = new LiteralPropertyValueBuffer(dde, propId, propValue, srcOpt)
-
-                val prop = new ASTPropImpl(dde, rootUnit, Some(parent), definition, definition.property(propName), buf)
-                prop.setASTUnit(unit)
-                parent.addChild(prop)
+                        val prop = new ASTPropImpl(dde, rootUnit, Some(parent), rangeOpt.orNull, propOpt, buf)
+                        prop.setASTUnit(unit)
+                        children += prop
+                }
+                children.foreach(parent.addChild)
             })
         })
         dde.objectProperties.foreach(p => {
