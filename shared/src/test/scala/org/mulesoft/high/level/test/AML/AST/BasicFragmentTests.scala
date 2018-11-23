@@ -84,41 +84,41 @@ class BasicFragmentTests extends DialectASTTest{
         })
     }
 
-//    test("test 007. attributes collection 1"){
-//        runTest( dialectPath, instancePath, project => {
-//
-//            val val0 = "string"
-//            val val1 = "number"
-//
-//            project.rootASTUnit.rootNode.element("payload").flatMap(_.elements("properties").headOption).map(x => x.attributes("type")) match {
-//                case Some(attrs) => {
-//                    val l = attrs.lengthCompare(2)
-//                    if(l != 0){
-//                        fail(s"Expected 2 values, but got $l values")
-//                    }
-//                    else {
-//                        val list = ArrayBuffer[IAttribute]() ++= attrs
-//                        val attr0 = list(0)
-//                        val attr1 = list(1)
-//                        if(attr0.value.isEmpty){
-//                            fail(s"value is missing for payload/type[0]")
-//                        }
-//                        else if (attr1.value.isEmpty) {
-//                            fail(s"value is missing for payload/type[1]")
-//                        }
-//                        else if (attr0.value.contains(val0)) {
-//                            fail(s"at payload/type[0] expecting $val0 but got ${attr0.value.get}")
-//                        }
-//                        else if (attr1.value.contains(val1)) {
-//                            fail(s"at payload/type[1] expecting $val1 but got ${attr1.value.get}")
-//                        }
-//                        else {
-//                            succeed
-//                        }
-//                    }
-//                }
-//                case _ => fail(s"'payload/type attributes not found")
-//            }
-//        })
-//    }
+    test("test 007. attributes collection 1"){
+        runTest( dialectPath, instancePath, project => {
+
+            val val0 = "string"
+            val val1 = "number"
+
+            project.rootASTUnit.rootNode.element("payload").flatMap(_.elements("properties").headOption).map(x => x.attributes("type")) match {
+                case Some(attrs) => {
+                    val l = attrs.lengthCompare(2)
+                    if(l != 0){
+                        fail(s"Expected 2 values, but got $l values")
+                    }
+                    else {
+                        val list = ArrayBuffer[IAttribute]() ++= attrs
+                        val attr0 = list(0)
+                        val attr1 = list(1)
+                        if(attr0.value.isEmpty){
+                            fail(s"value is missing for payload/type[0]")
+                        }
+                        else if (attr1.value.isEmpty) {
+                            fail(s"value is missing for payload/type[1]")
+                        }
+                        else if (!attr0.value.contains(val0)) {
+                            fail(s"at payload/type[0] expecting $val0 but got ${attr0.value.get}")
+                        }
+                        else if (!attr1.value.contains(val1)) {
+                            fail(s"at payload/type[1] expecting $val1 but got ${attr1.value.get}")
+                        }
+                        else {
+                            succeed
+                        }
+                    }
+                }
+                case _ => fail(s"'payload/type attributes not found")
+            }
+        })
+    }
 }
