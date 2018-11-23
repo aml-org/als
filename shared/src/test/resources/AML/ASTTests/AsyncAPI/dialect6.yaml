@@ -46,6 +46,11 @@ nodeMappings:
       externalDocs:
         propertyTerm: schema-org.documentation
         range: ExternalDocumentationObject
+      simpleMap:
+        propertyTerm: async.mapProperty
+        range: MapEntry
+        mapKey: async.keyString
+        mapValue: async.valueString
 
   InfoObject:
     classTerm: schema-org.CreativeWork
@@ -173,6 +178,11 @@ nodeMappings:
       headers:
         propertyTerm: oas.header
         range: SchemaObject
+      simpleMap:
+        propertyTerm: async.mapProperty
+        range: MapEntry
+        mapKey: async.keyString
+        mapValue: async.valueString
 
   # Temporary
   SchemaObject:
@@ -348,6 +358,14 @@ nodeMappings:
         propertyTerm: oas.xmlWrapped
         range: boolean
 
+  MapEntry:
+    mapping:
+      key:
+        propertyTerm: async.keyString
+        range: string
+      value:
+        propertyTerm: async.valueString
+        range: string
 
 documents:
   root:

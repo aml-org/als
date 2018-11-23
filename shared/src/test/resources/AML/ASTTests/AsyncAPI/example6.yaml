@@ -2,9 +2,17 @@
 
 asyncapi: 1.0.0
 
+simpleMap:
+  key1: value1
+  key2: value2
+
 messages:
   a_message:
     summary: a message
+    payload:
+      type:
+        - boolean
+        - number
 
 
 info:
