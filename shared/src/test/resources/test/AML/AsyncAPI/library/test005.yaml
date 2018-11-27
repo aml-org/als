@@ -1,0 +1,20 @@
+#%Library / AsyncAPI 0.6
+
+messages:
+  a_message:
+    summary: a message
+    simpleMap:
+      key1: value1
+      key2: value2
+    payload:
+      maxProperties: 2
+      properties:
+        p1:
+          type: [ object, * ]
+        p2:
+          type:
+            - integer
+
+securitySchemes:
+  asd:
+    type: apiKey

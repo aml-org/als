@@ -75,7 +75,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
   def suggest(url: String): Future[Seq[String]] = {
 
-    val config = this.buildParserConfig(format, url)
+
 
     var position = 0;
 
@@ -93,7 +93,8 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
       env
     }).flatMap(env=>{
 
-      this.amfParse(config,env)
+      //val config = this.buildParserConfig(format, url)
+      this.parseAMF(url,env)
 
     }).flatMap {
         case amfUnit: BaseUnit => this.buildHighLevel(amfUnit).map(project => {
@@ -127,6 +128,23 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
             }
         case _ => Future.successful(Seq())
     }
+  }
+
+  def parseAMF(path:String,env:Environment=Environment()): Future[BaseUnit] = {
+
+    var cfg = new ParserConfig(
+      Some(ParserConfig.PARSE),
+      Some(path),
+      Some(format),
+      Some("application/yaml"),
+      None,
+      Some("AMF Graph"),
+      Some("application/ld+json")
+    )
+
+    val helper = ParserHelper(platform)
+    Core.init().flatMap(_=>
+      helper.parse(cfg,env))
   }
 
   def buildParserConfig(language: String, url: String): ParserConfig = {
