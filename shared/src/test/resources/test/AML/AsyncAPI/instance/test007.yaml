@@ -1,0 +1,77 @@
+#%AsyncAPI 0.6
+
+asyncapi: 1.0.0
+
+messages:
+  a_message:
+    summary: a message
+    payload:
+      type:
+        - boolean
+        - number
+
+
+info:
+  version: 1.0.0
+
+externalDocs:
+  url: http://www.example.com/documentation
+  description: main documentation link
+
+baseTopic: hitch.accounts
+
+topics:
+  my.topic:
+    publish:
+      summary: a summary
+      description: a description
+      payload:
+        type: object
+        properties:
+          a:
+            type: string
+          b:
+            type: number
+          c:
+            type: object
+            properties:
+              d:
+                type: string
+    subscribe:
+      payload:
+        type: array
+        items:
+          type: string
+
+  signup:
+    subscribe:
+      $ref: "#/messages/a_message"
+
+    publish:
+      summary: Action to sign a user up
+      description: A longer description
+      tags:
+        - *
+        - name: user
+        - name: signup
+        - name: register
+      headers:
+        type: object
+        properties:
+          qos:
+            type: string
+          retainFlag:
+            type: string
+      payload:
+        type: object
+        properties:
+          user:
+            type: string
+            xml:
+              name: user
+              wrapped: false
+          signup:
+            type: string
+      externalDocs:
+        url: http://www.example.com/documentation#signup
+        description: documentation about the signup action
