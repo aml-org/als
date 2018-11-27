@@ -73,20 +73,15 @@ object TypeBuilder {
     private def fillType(t:AbstractType,ctx:Context):Unit = {
         t.getExtra(Extras.SOURCE_SHAPE).foreach(shape=>{
             var inherits = shape.inherits
-            val linkTargetOpt = shape.linkTarget
             if(inherits.nonEmpty){
                 inherits.foreach(superShape => {
                     var st = getOrCreate(superShape,t.universe,ctx)
                     t.addSuperType(st)
                 })
             }
-            else if(linkTargetOpt.isDefined && linkTargetOpt.get.isInstanceOf[Shape]){
-                var superShape = linkTargetOpt.get.asInstanceOf[Shape]
-                var ltOpt = superShape.linkTarget
-                if(ltOpt.isDefined && ltOpt.get.isInstanceOf[Shape]){
-                    superShape = ltOpt.get.asInstanceOf[Shape]
-                }
-                ctx.bundle.getType(superShape.id,superShape.name.value()).foreach(t.addSuperType)
+            else if (shape.isLink) {
+                val superShape = shape.effectiveLinkTarget.asInstanceOf[Shape]
+                t.addSuperType(getOrCreate(superShape, t.universe, ctx))
             }
             else {
                 var st = ctx.factory.builtinSuperType(shape)
