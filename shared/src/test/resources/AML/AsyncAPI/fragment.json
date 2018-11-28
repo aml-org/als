@@ -1,0 +1,76 @@
+{
+  "DeclaresCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 26,
+    "end": 183,
+    "category": ""
+  },
+  "EncodesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 26,
+    "end": 183,
+    "children": [
+      {
+        "text": "payload",
+        "typeText": "",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "payload :: ",
+        "start": 95,
+        "end": 183,
+        "children": [
+          {
+            "text": "p1",
+            "typeText": ":string",
+            "icon": "",
+            "textStyle": "",
+            "key": "p1 :: payload :: ",
+            "start": 136,
+            "end": 155,
+            "category": ""
+          },
+          {
+            "text": "p2",
+            "typeText": ":integer",
+            "icon": "",
+            "textStyle": "",
+            "key": "p2 :: payload :: ",
+            "start": 163,
+            "end": 183,
+            "category": ""
+          }
+        ],
+        "category": "EncodesCategory"
+      },
+      {
+        "text": "key1",
+        "typeText": "",
+        "icon": "",
+        "textStyle": "",
+        "key": "key1 :: ",
+        "start": 58,
+        "end": 71,
+        "category": "EncodesCategory"
+      },
+      {
+        "text": "key2",
+        "typeText": "",
+        "icon": "",
+        "textStyle": "",
+        "key": "key2 :: ",
+        "start": 73,
+        "end": 86,
+        "category": "EncodesCategory"
+      }
+    ],
+    "category": ""
+  }
+}
