@@ -37,7 +37,6 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
         "org.scalatest"    %%% "scalatest" % "3.0.0" % Test,
         "com.chuusai" %% "shapeless" % "2.3.3",
         "org.mule.amf" %%% "typesystem-project" % deps("hl"),
-        "org.mule.amf" %%% "als-suggestions" % deps("suggestions"),
         "org.mule.amf" %%% "als-outline" % deps("outline"),
 
         "com.lihaoyi" %%% "upickle" % "0.5.1" % Test
@@ -80,6 +79,7 @@ lazy val core = crossProject.settings(
         name := "api-language-server"
     )
 ).in(file(".")).settings(settings: _*).jvmSettings(
+    libraryDependencies += "org.mule.amf" %%% "als-suggestions-jvm" % deps("suggestions"),
     assemblyMergeStrategy in assembly := {
         case x if x.toString.endsWith("JS_DEPENDENCIES")             => MergeStrategy.discard
         case PathList(ps @ _*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
@@ -92,6 +92,7 @@ lazy val core = crossProject.settings(
 ).jsSettings(
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
     libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
+    libraryDependencies += "org.mule.amf" %%% "als-suggestions-js" % deps("suggestions"),
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
     scalaJSModuleKind := ModuleKind.CommonJSModule,
     scalaJSUseMainModuleInitializer := true,
@@ -135,8 +136,8 @@ lazy val core = crossProject.settings(
 //    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"serverProcess.js"
 //)
 
-lazy val coreJVM = core.jvm.in(file("./jvm")).dependsOn(sharedProject)
-lazy val coreJS  = core.js.in(file("./js")).dependsOn(sharedProject)
+lazy val coreJVM = core.jvm.in(file("./jvm"))//.dependsOn(sharedProject)
+lazy val coreJS  = core.js.in(file("./js"))//.dependsOn(sharedProject)
 
 //lazy val coreJVM_MSLSP = core_mslsp.jvm.in(file("./jvm_mslsp")).dependsOn(sharedProject)
 //lazy val coreJS_MSLSP  = core_mslsp.js.in(file("./js_mslsp")).dependsOn(sharedProject)
