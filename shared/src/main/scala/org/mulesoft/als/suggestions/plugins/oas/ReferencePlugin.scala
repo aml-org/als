@@ -24,7 +24,11 @@ abstract class ReferencePlugin extends ICompletionPlugin {
     override def isApplicable(request:ICompletionRequest): Boolean = request.config.astProvider match {
         case Some(astProvider) => if(languages.indexOf(astProvider.language) < 0) {
 			false;
-		} else {
+		}
+        else if(request.astNode.flatMap(_.asAttr).flatMap(_.property).flatMap(_.getExtra(PropertySyntaxExtra)).exists(_.isKey)){
+            false
+        }
+        else {
 			request.actualYamlLocation match {
 				case Some(l) => l.inKey(request.position) || request.yamlLocation.get.hasSameValue(l);
 				case _ => false;

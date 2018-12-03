@@ -472,6 +472,15 @@ class StructureTests extends RAML10Test {
    this.runTest("structure/test159.raml", Set("usage:", "uses:\n  ", "schemas:\n  ", "traits:\n  ", "types:\n  ", "annotationTypes:\n  ", "resourceTypes:\n  ", "securitySchemes:\n  "))
  }
 
+
+  test("response codes test 01"){
+    this.runTest("structure/test160.raml", Set("200:\n        ", "201:\n        ", "202:\n        ", "203:\n        ", "300:\n        ", "400:\n        ", "401:\n        ", "402:\n        ", "403:\n        ", "404:\n        ", "405:\n        "))
+  }
+
+  test("response codes test 02"){
+    this.runTest("structure/test161.raml", Set("201:\n        ", "202:\n        ", "203:\n        ", "300:\n        ", "400:\n        ", "401:\n        ", "402:\n        ", "403:\n        ", "404:\n        ", "405:\n        "))
+  }
+
   test("facets test 1") {
     this.runTest("facets/test01.raml", Set("testFacet1", "testFacet2", "testFacet3", "testFacet5"));
   }
