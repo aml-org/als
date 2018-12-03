@@ -3,7 +3,6 @@ package org.mulesoft.high.level.test
 import java.io.File
 
 import amf.core.client.ParserConfig
-import amf.core.remote.JvmPlatform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import org.mulesoft.high.level.Core
