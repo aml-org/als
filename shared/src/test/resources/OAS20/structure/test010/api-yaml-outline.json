@@ -64,12 +64,12 @@
                         "end": 865,
                         "children": [
                           {
-                            "text": "schema",
+                            "text": "$ref",
                             "typeText": "",
                             "icon": "FILE_BINARY",
                             "textStyle": "SUCCESS",
-                            "key": "schema :: 200 :: responses :: post :: /pets/{id} :: paths :: ",
-                            "start": 202,
+                            "key": "$ref :: 200 :: responses :: post :: /pets/{id} :: paths :: ",
+                            "start": 214,
                             "end": 242,
                             "category": ""
                           },
@@ -117,21 +117,21 @@
                         "category": ""
                       },
                       {
-                        "text": "200",
+                        "text": "default",
                         "typeText": "",
                         "icon": "",
                         "textStyle": "",
-                        "key": "200 :: responses :: post :: /pets/{id} :: paths :: ",
+                        "key": "default :: responses :: post :: /pets/{id} :: paths :: ",
                         "start": 873,
                         "end": 987,
                         "children": [
                           {
-                            "text": "schema",
+                            "text": "$ref",
                             "typeText": "",
                             "icon": "FILE_BINARY",
                             "textStyle": "SUCCESS",
-                            "key": "schema :: 200 :: responses :: post :: /pets/{id} :: paths :: ",
-                            "start": 940,
+                            "key": "$ref :: default :: responses :: post :: /pets/{id} :: paths :: ",
+                            "start": 952,
                             "end": 987,
                             "category": ""
                           }
