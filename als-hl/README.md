@@ -252,3 +252,4 @@ onFindReferences(listener: (uri: string, position: number) => ILocation[])
 ```
 
 In the current implementation prototype server interface is located in `src/server/core/connections.ts` file `IServerConnection` interface, implementation is located in `src/server/core` folder.
+ 
