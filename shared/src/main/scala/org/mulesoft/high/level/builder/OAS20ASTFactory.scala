@@ -418,16 +418,23 @@ class ReferenceValueBuffer(val element:AmfObject,val hlNode:IHighLevelNode)
         initialized = true
         src = element.annotations.find(classOf[SourceAST])
             .flatMap(x => x.ast match {
-                case e:YMapEntry => Some(e.value.value)
+                case e:YMapEntry => e.key.value match {
+                    case sc:YScalar => sc.value match {
+                        case "$ref" => Some(e)
+                        case _ => Some(e.value.value)
+                    }
+                    case _ => Some(e.value.value)
+                }
                 case v:YValue => Some(v)
                 case _ => None
             }).flatMap({
-            case map: YMap => Some(map)
+            case map: YMap => map.entries.find(_.key.value match {
+                case sc: YScalar => sc.value == "$ref"
+                case _ => false
+            })
+            case me: YMapEntry => Some(me)
             case _ => None
-        }).flatMap(_.entries.find(_.key.value match {
-            case sc: YScalar => sc.value == "$ref"
-            case _ => false
-        }))
+        })
     }
 
     override def getValue: Option[String] = src.flatMap(YJSONWrapper(_)).flatMap(_.value(STRING))
