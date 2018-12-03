@@ -2460,7 +2460,9 @@ val value3 =
         "moduleName": null,
         "annotationOverridings": {}
       },
-      {
+"""
+val value4 =
+        """{
         "name": "SchemaObject",
         "methods": [],
         "typeParameters": [],
@@ -3071,7 +3073,8 @@ val value3 =
                     "402",
                     "403",
                     "404",
-                    "405"
+                    "405",
+                    "default"
                   ]
                 ]
               }
@@ -3271,7 +3274,7 @@ val value3 =
             "optional": false
           },
 """
-val value4 =
+val value5 =
 """{
             "name": "consumes",
             "type": {
@@ -4354,5 +4357,5 @@ val value4 =
   }
 ]"""
 
-val value = value1 + value2 + value3 + value4
+val value = value1 + value2 + value3 + value4 + value5
 }
