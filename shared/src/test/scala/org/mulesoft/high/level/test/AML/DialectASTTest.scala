@@ -9,7 +9,7 @@ import java.io.File
 
 import amf.client.remote.Content
 import amf.core.client.ParserConfig
-import amf.core.remote.{Aml, JvmPlatform}
+import amf.core.remote.Aml
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
