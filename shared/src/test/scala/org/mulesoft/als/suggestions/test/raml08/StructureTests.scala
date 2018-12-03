@@ -247,6 +247,14 @@ class StructureTests extends RAML08Test {
     this.runTest("structure/test102.raml", Set("title:"))
   }
 
+  test("response codes test 01"){
+    this.runTest("structure/test103.raml", Set("200:\n        ", "201:\n        ", "202:\n        ", "203:\n        ", "300:\n        ", "400:\n        ", "401:\n        ", "402:\n        ", "403:\n        ", "404:\n        ", "405:\n        "))
+  }
+
+  test("response codes test 02"){
+    this.runTest("structure/test104.raml", Set("201:\n        ", "202:\n        ", "203:\n        ", "300:\n        ", "400:\n        ", "401:\n        ", "402:\n        ", "403:\n        ", "404:\n        ", "405:\n        "))
+  }
+
 
   test("methods test 1") {
     this.runTest("methods/test01.raml", Set("displayName", "type", "description", "get", "put", "post", "delete", "options", "head", "patch", "trace", "connect", "securedBy", "is", "uriParameters", "baseUriParameters"));

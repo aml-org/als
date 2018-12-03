@@ -169,4 +169,12 @@ class StructureTestsJson extends OAS20Test {
   test("empty open quote"){
     this.runTest("structure_json/test108.json", Set("paths\":", "responses\":", "securityDefinitions\":", "parameters\":", "definitions\":", "security\":", "consumes\":", "externalDocs\":", "host\":", "schemes\":", "produces\":", "basePath\":"))
   }
+
+  test("response codes test 01"){
+    this.runTest("structure_json/test109.json", Set("200", "201", "202", "203", "300", "400", "401", "402", "403", "404", "405", "default"))
+  }
+
+  test("response codes test 02"){
+    this.runTest("structure_json/test110.json", Set("201", "202", "203", "300", "400", "401", "402", "403", "404", "405", "default"))
+  }
 }

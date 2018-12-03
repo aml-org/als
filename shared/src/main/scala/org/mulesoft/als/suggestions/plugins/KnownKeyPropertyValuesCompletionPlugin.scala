@@ -16,18 +16,29 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
 
     override def languages: Seq[Vendor] = StructureCompletionPlugin.supportedLanguages
     
-    override def isApplicable(request: ICompletionRequest): Boolean = if(request.astNode.isEmpty || !request.astNode.get.isElement) {
-        isMethodKey(request);
-    } else if(request.actualYamlLocation.isEmpty) {
-        false;
-    } else if(request.kind != LocationKind.KEY_COMPLETION) {
-        false;
-    } else if(request.actualYamlLocation.isEmpty || request.yamlLocation.isEmpty) {
-        false;
-    } else {
-        request.actualYamlLocation.get.parentStack.nonEmpty && request.actualYamlLocation.get.parentStack.last.hasSameValue(request.yamlLocation.get);
+    override def isApplicable(request: ICompletionRequest): Boolean = {
+        val se = request.astNode.flatMap(_.asAttr).flatMap(_.property).flatMap(_.getExtra(PropertySyntaxExtra))
+        if (request.astNode.isEmpty || !request.astNode.get.isElement) {
+            if(isMethodKey(request)){
+                true
+            }
+            else if (se.nonEmpty && se.get.isKey && (se.get.oftenValues.nonEmpty || se.get.enum.nonEmpty)) {
+                true
+            }
+            else {
+                false
+            }
+        }  else if (request.actualYamlLocation.isEmpty) {
+            false;
+        } else if (request.kind != LocationKind.KEY_COMPLETION) {
+            false;
+        } else if (request.actualYamlLocation.isEmpty || request.yamlLocation.isEmpty) {
+            false;
+        } else {
+            request.actualYamlLocation.get.parentStack.nonEmpty && request.actualYamlLocation.get.parentStack.last.hasSameValue(request.yamlLocation.get);
+        }
     }
-    
+
     override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
         var result:ListBuffer[ISuggestion] = ListBuffer()
         var isYAML = request.config.astProvider.get.syntax == Syntax.YAML
@@ -50,36 +61,63 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
                 case _ =>;
             }
         }
-        
-        val definition = astNode.asElement.get.definition
-        definition.allProperties.foreach(p=>{
-            var isEmbeddedInMaps = false
-            p.getExtra(PropertySyntaxExtra).foreach(extra=>{
-                isEmbeddedInMaps = extra.isEmbeddedInMaps
-            })
-            if(p.isMultiValue && !isEmbeddedInMaps){
-                p.range.foreach(range=>{
-                    if(range.isArray && range.asInstanceOf[IArrayType].componentType.isDefined) {
-                        val rangeComponentType = range.asInstanceOf[IArrayType].componentType.get
-                        rangeComponentType.properties.foreach(p => {
-                            p.getExtra(PropertySyntaxExtra).foreach(extra => {
-                                if (extra.isKey) {
-                                    extra.enum.foreach(x => {
-                                        var text = x.toString
-                                        val description = p.getExtra(DescriptionExtra).map(_.text).getOrElse("")
-                                        val suggestion = Suggestion(text, description, text, request.prefix)
-                                        val ws = "\n" + (" " * off)
-                                        suggestion.withTrailingWhitespace(ws)
-                                        ProjectBuilder.determineFormat(request.astNode.get.astUnit.baseUnit).flatMap(SuggestionCategoryRegistry.getCategory(_,text,Option(definition),Option(rangeComponentType))).foreach(suggestion.withCategory)
-                                        result += suggestion
-                                    })
-                                }
-                            })
-                        })
-                    }
+        if(astNode.isElement) {
+            val definition = astNode.asElement.get.definition
+            definition.allProperties.foreach(p => {
+                var isEmbeddedInMaps = false
+                p.getExtra(PropertySyntaxExtra).foreach(extra => {
+                    isEmbeddedInMaps = extra.isEmbeddedInMaps
                 })
-            }
-        })
+                if (p.isMultiValue && !isEmbeddedInMaps) {
+                    p.range.foreach(range => {
+                        if (range.isArray && range.asInstanceOf[IArrayType].componentType.isDefined) {
+                            val rangeComponentType = range.asInstanceOf[IArrayType].componentType.get
+                            rangeComponentType.properties.foreach(p => {
+                                p.getExtra(PropertySyntaxExtra).foreach(extra => {
+                                    if (extra.isKey) {
+                                        extra.enum.foreach(x => {
+                                            var text = x.toString
+                                            val description = p.getExtra(DescriptionExtra).map(_.text).getOrElse("")
+                                            val suggestion = Suggestion(text, description, text, request.prefix)
+                                            val ws = "\n" + (" " * off)
+                                            suggestion.withTrailingWhitespace(ws)
+                                            ProjectBuilder.determineFormat(request.astNode.get.astUnit.baseUnit).flatMap(SuggestionCategoryRegistry.getCategory(_, text, Option(definition), Option(rangeComponentType))).foreach(suggestion.withCategory)
+                                            result += suggestion
+                                        })
+                                    }
+                                })
+                            })
+                        }
+                    })
+                }
+            })
+        }
+        else if (astNode.isAttr){
+            astNode.property.flatMap(_.getExtra(PropertySyntaxExtra)).foreach(se => {
+                var list:ListBuffer[Any] = ListBuffer()
+                list ++= se.oftenValues
+                list ++= se.enum
+                val prop = astNode.property.get
+                val parentProp = astNode.parent.flatMap(_.property)
+
+
+                val description = prop.getExtra(DescriptionExtra).map(_.text).getOrElse("")
+                val defOpt = astNode.parent.map(_.definition)
+                val rangeOpt = prop.range
+                if(parentProp.isDefined) {
+                    val existing = astNode.parent.flatMap(_.parent).map(_.elements(parentProp.get.nameId.get).flatMap(_.attribute(prop.nameId.get).flatMap(_.value))).getOrElse(Seq())
+                    list = list.filter(x => !existing.contains(x))
+                }
+                list.foreach(x => {
+                    var text = x.toString
+                    val suggestion = Suggestion(text, description, text, request.prefix)
+                    val ws = "\n" + (" " * off)
+                    suggestion.withTrailingWhitespace(ws)
+                    ProjectBuilder.determineFormat(request.astNode.get.astUnit.baseUnit).flatMap(SuggestionCategoryRegistry.getCategory(_, text, defOpt, rangeOpt)).foreach(suggestion.withCategory)
+                    result += suggestion
+                })
+            })
+        }
         val response = CompletionResponse(result, LocationKind.KEY_COMPLETION, request)
         Promise.successful(response).future
     }
