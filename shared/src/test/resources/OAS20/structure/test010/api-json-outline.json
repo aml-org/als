@@ -64,13 +64,13 @@
                         "end": 1163,
                         "children": [
                           {
-                            "text": "schema",
+                            "text": "$ref",
                             "typeText": "",
                             "icon": "FILE_BINARY",
                             "textStyle": "SUCCESS",
-                            "key": "schema :: 200 :: responses :: post :: /pets/{id} :: paths :: ",
-                            "start": 266,
-                            "end": 323,
+                            "key": "$ref :: 200 :: responses :: post :: /pets/{id} :: paths :: ",
+                            "start": 282,
+                            "end": 309,
                             "category": ""
                           },
                           {
@@ -117,22 +117,22 @@
                         "category": ""
                       },
                       {
-                        "text": "200",
+                        "text": "default",
                         "typeText": "",
                         "icon": "",
                         "textStyle": "",
-                        "key": "200 :: responses :: post :: /pets/{id} :: paths :: ",
+                        "key": "default :: responses :: post :: /pets/{id} :: paths :: ",
                         "start": 1175,
                         "end": 1333,
                         "children": [
                           {
-                            "text": "schema",
+                            "text": "$ref",
                             "typeText": "",
                             "icon": "FILE_BINARY",
                             "textStyle": "SUCCESS",
-                            "key": "schema :: 200 :: responses :: post :: /pets/{id} :: paths :: ",
-                            "start": 1257,
-                            "end": 1321,
+                            "key": "$ref :: default :: responses :: post :: /pets/{id} :: paths :: ",
+                            "start": 1273,
+                            "end": 1307,
                             "category": ""
                           }
                         ],
