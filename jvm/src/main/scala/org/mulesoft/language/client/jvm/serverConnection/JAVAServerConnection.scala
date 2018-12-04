@@ -65,6 +65,15 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
 		//		//this.newFutureHandler[FindReferencesRequest, LocationsResponse]("FIND_REFERENCES", (request: FindReferencesRequest) => findReferencesListeners.head(request.uri, request.position).map(result => new LocationsResponse(result.map(location => Location.sharedToTransport(location)))), Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.FindReferencesRequest")));this.newMeta("EXISTS", Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientBoolResponse", true)));
 	}
 	
+	def handleCloseDocument(uri: String) {
+		var firstOpt = this.closeDocumentListeners.find(_ => true);
+		
+		firstOpt match {
+			case Some(listener) => listener(uri);
+			case _ => Future.failed(new Exception("No close document providers found"));
+		}
+	}
+	
 	def findReferences(uri: String, position: Int): Future[Seq[ILocation]] = {
 		findReferencesListeners.head(uri, position);
 	}

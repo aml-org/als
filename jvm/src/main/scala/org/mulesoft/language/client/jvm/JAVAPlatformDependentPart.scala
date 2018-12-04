@@ -21,7 +21,7 @@ object JAVAPlatformDependentPart extends PlatformDependentPart {
 	
 	override def normalizePath(url: String): String = url;
 	
-	override def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] = None;
+	override def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] = stream.toString.find(p);
 	
 	override def operativeSystem(): String = System.getProperty("os.name");
 }
