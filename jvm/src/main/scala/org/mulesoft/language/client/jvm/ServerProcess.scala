@@ -41,7 +41,7 @@ object ServerProcess {
 		server.registerModule(new RenameModule());
 		
 		server.enableModule(IASTManagerModule.moduleId);
-        //server.enableModule(IDialectManagerModule.moduleId)
+        server.enableModule(IDialectManagerModule.moduleId)
 		server.enableModule(HLASTManager.moduleId);
 		server.enableModule(ValidationManager.moduleId);
 		server.enableModule(SuggestionsManager.moduleId);
@@ -60,6 +60,10 @@ object ServerProcess {
 	def documentChanged(uri: String, text: String, version: Int) {
 		
 		connection.handleChangedDocument(new IChangedDocument(uri, version, Some(text), None));
+	}
+	
+	def documentClosed(uri: String) {
+		connection.handleCloseDocument(uri);
 	}
 	
 	def getUnit(url: String): Unit = {
