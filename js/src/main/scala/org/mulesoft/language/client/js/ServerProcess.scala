@@ -98,7 +98,7 @@ object ServerProcess {
     server.registerModule(new FIndDeclarationModule())
 
     server.enableModule(IASTManagerModule.moduleId)
-    server.enableModule(IDialectManagerModule.moduleId)
+    //server.enableModule(IDialectManagerModule.moduleId)
     server.enableModule(HLASTManager.moduleId)
     server.enableModule(ValidationManager.moduleId)
     server.enableModule(SuggestionsManager.moduleId)
