@@ -25,7 +25,7 @@ class WrappedMessage extends js.Object {
   var payload: js.Object = null;
 }
 
-class NodeServerConnection extends PrintlnLogger
+class NodeServerConnection extends MutedLogger
   with NodeMessageDispatcher with AbstractServerConnection {
 
   var lastStructureReport: Option[StructureReport] = None
