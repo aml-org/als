@@ -500,4 +500,8 @@ class StructureTests extends RAML10Test {
   test("methods test 3") {
     this.runTest("methods/test03.raml", Set("displayName", "type", "description", "get", "put", "post", "delete", "options", "head", "patch", "trace", "connect", "securedBy", "is", "uriParameters"));
   }
+
+  test("test property name suggestion"){
+    this.runTest("structure/test162.raml", Set())
+  }
 }

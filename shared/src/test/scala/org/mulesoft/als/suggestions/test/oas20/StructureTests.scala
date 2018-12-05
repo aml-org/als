@@ -197,4 +197,8 @@ class StructureTests extends OAS20Test {
   test("response codes test 02"){
     this.runTest("structure/test114.yml", Set("201:\n          ", "202:\n          ", "203:\n          ", "300:\n          ", "400:\n          ", "401:\n          ", "402:\n          ", "403:\n          ", "404:\n          ", "405:\n          ", "default:\n          "))
   }
+
+  test("test property name suggestion"){
+    this.runTest("structure/test115.yml", Set())
+  }
 }
