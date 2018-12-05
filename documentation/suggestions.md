@@ -1,5 +1,5 @@
 # Suggestions module
-## Interface
+## Scala Interface
 
 `org.mulesoft.als.suggestions.Core` class is the entry point to the suggestions.
 
@@ -9,7 +9,9 @@ After that user should call the following method for unit text:
 ```
 def prepareText(text:String, offset:Int, syntax:Syntax):String
 ```
-This method modifies the potentially broken text to make it readable by the parser.
+This method modifies the potentially broken text to make it readable by the parser. 
+
+Prepared/modified text should be passed as a unit text to other suggestions methods unless said otherwise.
  
 `org.mulesoft.als.suggestions.CompletionProvider` is dedicated to return actual suggestions.
 
@@ -46,6 +48,8 @@ trait IEditorStateProvider {
     def getOffset: Int
 }
 ```
+This text must be first prepared by `prepareText` method.
+
 AST provider provides the pre-parsed high-level AST:
 ```
 trait IASTProvider {
@@ -79,12 +83,13 @@ trait IFSProvider {
 }
 ```
 
-And original contents should contain unit contents before it was pre-patched to fix grammar errors.
+And `withOriginalContent` should contain unit contents before it was pre-patched to fix grammar errors.
 
-The result is obtained by `suggest` method, it returns a list of 
+The result is obtained by `suggest` method, it returns a list of: 
 
 ```
 trait ISuggestion {
+
     def text: String
 
     def description: String
@@ -94,9 +99,73 @@ trait ISuggestion {
     def prefix: String
 
     def category: String
-
-    def trailingWhitespace:String
 }
 ```
 
-Where text is actual suggestion test, display text is what is displayed to the user, and prefix is what should be replaced by suggestion text.
+Where `text` is actual suggestion test, `displayText` is what is displayed to the user, and `prefix` is what should be replaced by suggestion text.
+`description` and `category` provide additional suggestion data for the users.
+
+## Js Interface
+Besides scala interface, suggestions module also contains JS proxy, which simplifies usage from JS tooling.
+
+This interface assumes that suggestions module launches code parsing and text patching internally. 
+
+Those who wish to control this process can create their own JS proxy basing on this one.
+
+Initialization should be performed first by calling
+`def init(fsProvider: IFSProvider): js.Promise[Unit]`
+
+FSProvider instance must provide file system information:
+```
+trait IFSProvider extends js.Object {
+
+  def contentAsync(fullPath: String): Promise[String] = js.native
+
+  def dirName(fullPath: String): String = js.native
+
+  def name(fullPath: String): String = js.native
+
+  def existsAsync(path: String): Promise[Boolean] = js.native
+
+  def resolve(contextPath: String, relativePath: String): Option[String] = js.native
+
+  def isDirectory(fullPath: String): Boolean = js.native
+
+  def readDirAsync(path: String): Promise[js.Array[String]] = js.native
+
+  def isDirectoryAsync(path: String): Promise[Boolean] = js.native
+
+  def content(fullPath: String): String
+
+  def exists(fullPath: String): Boolean
+
+  def readDir(fullPath: String): js.Array[String]
+
+  def separatorChar(): String
+}
+```
+
+After initialization is finished (promise is resolved), suggestions can be obtained by calling:
+`def suggest(language: String, url: String, position: Int): js.Promise[js.Array[ISuggestion]]`
+
+Here an array of suggestions is returned from the promise:
+```
+class ISuggestion (
+
+    val text: String,
+
+    val description: String,
+
+    val displayText: String,
+
+    val prefix: String,
+
+    val category: String
+) extends js.Object
+{
+
+}
+```
+
+Where `text` is actual suggestion test, `displayText` is what is displayed to the user, and `prefix` is what should be replaced by suggestion text.
+`description` and `category` provide additional suggestion data for the users.
