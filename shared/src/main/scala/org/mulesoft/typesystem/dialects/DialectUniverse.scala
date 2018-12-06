@@ -1,5 +1,6 @@
 package org.mulesoft.typesystem.dialects
 
+import org.mulesoft.typesystem.dialects.extras.Referable
 import org.mulesoft.typesystem.nominal_interfaces.{IDialectUniverse, ITypeDefinition, IUniverse}
 import org.mulesoft.typesystem.nominal_types.Universe
 import org.mulesoft.typesystem.project.ITypeCollection
@@ -13,6 +14,8 @@ class DialectUniverse(_name:String,_parent:Option[IUniverse] = None,_uversion:St
     private var _library:Option[ITypeDefinition] = None
 
     private var _frgaments:Map[String,ITypeDefinition] = Map()
+
+    private var _referableTypes:Option[Map[String,ITypeDefinition]] = None
 
     override def root: Option[ITypeDefinition] = _root
 
@@ -33,5 +36,15 @@ class DialectUniverse(_name:String,_parent:Option[IUniverse] = None,_uversion:St
     def withFragment(t:ITypeDefinition):DialectUniverse = {
         Option(t).foreach(x=>_frgaments.put(x.nameId.get,x))
         this
+    }
+
+    def isReferable(typeName: String): Boolean = {
+        if(_referableTypes.isEmpty){
+            _referableTypes = Some(Map[String,ITypeDefinition]())
+            types.filter(_.getExtra(Referable).nonEmpty).foreach(x => {
+                _referableTypes.get.put(x.nameId.get,x)
+            })
+        }
+        _referableTypes.get.contains(typeName)
     }
 }

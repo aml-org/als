@@ -8,9 +8,9 @@ import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 class BasicLibraryTests extends DialectASTTest{
     override def rootPath: String = "AML/ASTTests"
 
-    private def dialectPath = "AsyncAPI/dialect6.yaml"
+    private def dialectPath = "AsyncAPI001/dialect6.yaml"
 
-    private def instancePath = "AsyncAPI/library.yaml"
+    private def instancePath = "AsyncAPI001/library.yaml"
 
     test("test 002. nested attribute value"){
         runTest( dialectPath, instancePath, project => {
