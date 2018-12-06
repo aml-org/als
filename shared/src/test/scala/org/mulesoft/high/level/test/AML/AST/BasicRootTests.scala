@@ -8,9 +8,9 @@ import scala.collection.mutable.ArrayBuffer
 class BasicRootTests extends DialectASTTest{
     override def rootPath: String = "AML/ASTTests"
 
-    private def dialectPath = "AsyncAPI/dialect6.yaml"
+    private def dialectPath = "AsyncAPI001/dialect6.yaml"
 
-    private def instancePath = "AsyncAPI/example6.yaml"
+    private def instancePath = "AsyncAPI001/example6.yaml"
 
     test("test 001. attribute value"){
         runTest( dialectPath, instancePath, project => {

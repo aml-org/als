@@ -5,10 +5,10 @@ import amf.plugins.document.vocabularies.metamodel.domain.NodeMappingModel
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping}
 import org.mulesoft.typesystem.dialects.{BuiltinUniverse, DialectUniverse}
-import org.mulesoft.typesystem.dialects.extras.{Declaration, RootType, SourceNodeMapping, SourcePropertyMapping}
+import org.mulesoft.typesystem.dialects.extras._
 import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
 import org.mulesoft.typesystem.nominal_interfaces.{IDialectUniverse, IProperty, ITypeDefinition, IUniverse}
-import org.mulesoft.typesystem.nominal_types.{Array,Property, StructuredType, Union, Universe}
+import org.mulesoft.typesystem.nominal_types.{Array, Property, StructuredType, Union, Universe}
 import org.mulesoft.typesystem.typesystem_interfaces.Extra
 
 import scala.collection.mutable.ListBuffer
@@ -69,6 +69,7 @@ object DialectUniverseBuilder {
             val pName = s.name().value()
             Option(s.mappedNode()).flatMap(_.option()).flatMap(userDataTypeToString).flatMap(universe.`type`).foreach(t => {
                 val prop = rootType.addProperty(pName, t).withMultiValue(true)
+                t.putExtra(Referable)
                 prop.putExtra(Declaration)
             })
         }))

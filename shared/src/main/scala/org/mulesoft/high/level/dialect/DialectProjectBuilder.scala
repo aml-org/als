@@ -1,38 +1,62 @@
 package org.mulesoft.high.level.dialect
 
 import amf.core.remote.Vendor._
-import amf.core.annotations.SourceAST
-import amf.core.model.document.BaseUnit
+import amf.core.annotations.{Aliases, SourceAST}
+import amf.core.metamodel.document.DocumentModel
+import amf.core.model.document.{BaseUnit, Module}
 import amf.core.model.domain.AmfArray
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.metamodel.document.DialectInstanceModel
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance, DialectInstanceFragment, DialectInstanceLibrary}
 import amf.plugins.document.vocabularies.model.domain.{DialectDomainElement, PropertyMapping}
 import org.mulesoft.high.level.implementation._
-import org.mulesoft.high.level.interfaces.{IAttribute, IFSProvider, IHighLevelNode, IProject}
+import org.mulesoft.high.level.interfaces._
 import org.mulesoft.high.level.typesystem.TypeBuilder
 import org.mulesoft.typesystem.dialects.extras.SourcePropertyMapping
 import org.mulesoft.typesystem.dialects.{BuiltinUniverse, DialectUniverse}
 import org.mulesoft.typesystem.nominal_interfaces.IDialectUniverse
-import org.mulesoft.typesystem.project.{TypeCollection, TypeCollectionBundle}
+import org.mulesoft.typesystem.project.{ModuleDependencyEntry, TypeCollection, TypeCollectionBundle}
 import org.yaml.model.{YNode, YPart, YSequence}
 
+import scala.collection.Map
 import scala.collection.mutable
 import scala.collection.IndexedSeq
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 class DialectProjectBuilder {
 
-    def buildProject(rootUnit: DialectInstanceLibrary, fsResolver: IFSProvider): IProject = {
+    def buildProject(rootUnit:BaseUnit, fsResolver:IFSProvider):IProject = {
+
         val u: IDialectUniverse = getUniverse(rootUnit.fields(DialectInstanceModel.DefinedBy).toString)
         val unitPath = TypeBuilder.normalizedPath(rootUnit)
-        val typeCollection = new TypeCollection(unitPath,u.asInstanceOf[DialectUniverse],null)
         val bundle = new TypeCollectionBundle()
-        bundle.registerTypeCollection(typeCollection)
-
         val project = new Project(bundle, AML, fsResolver)
+        val rootASTUnit = buildUnit(rootUnit, project, u)
+        project.setRootUnit(rootASTUnit)
+        initASTUnits(project.units)
+        project
+    }
+
+    def buildUnit(rootUnit:BaseUnit, project:Project, u:IDialectUniverse):ASTUnit = {
+
+        val unitPath = TypeBuilder.normalizedPath(rootUnit)
+        val typeCollection = new TypeCollection(unitPath,u.asInstanceOf[DialectUniverse],null)
+        val bundle = project.types
+        bundle.asInstanceOf[TypeCollectionBundle].registerTypeCollection(typeCollection)
         val unit = new ASTUnit(rootUnit, typeCollection, project)
-        project.setRootUnit(unit)
+
+        rootUnit match {
+            case di: DialectInstance => buildDialectInstance(di, unit, u)
+            case dil: DialectInstanceLibrary => buildDialectInstanceLibrary(dil, unit, u)
+            case dif: DialectInstanceFragment => buildDialectInstanceFragment(dif, unit, u)
+            case _ =>
+        }
+        processDependencies(unit, project, u)
+        unit
+    }
+
+    def buildDialectInstanceLibrary(rootUnit: DialectInstanceLibrary, unit:ASTUnit, u:IDialectUniverse): Unit = {
+
         if(u.library.isEmpty){
             throw new Error(s"No library type is registered for dialect: ${rootUnit.definedBy().value()}")
         }
@@ -49,21 +73,10 @@ class DialectProjectBuilder {
                 addObjectProperty(rootNode, dde, propName, srcOpt)
             })
         })
-
         rootNode.initSources(Some(unit), None)
-        project
     }
 
-    def buildProject(rootUnit: DialectInstanceFragment, fsResolver: IFSProvider): IProject = {
-        val u: IDialectUniverse = getUniverse(rootUnit.definedBy())
-        val unitPath = TypeBuilder.normalizedPath(rootUnit)
-        val typeCollection = new TypeCollection(unitPath,u.asInstanceOf[DialectUniverse],null)
-        val bundle = new TypeCollectionBundle()
-        bundle.registerTypeCollection(typeCollection)
-
-        val project = new Project(bundle, AML, fsResolver)
-        val unit = new ASTUnit(rootUnit, typeCollection, project)
-        project.setRootUnit(unit)
+    def buildDialectInstanceFragment(rootUnit: DialectInstanceFragment, unit:ASTUnit, u:IDialectUniverse): Unit = {
 
         val fragmentTypeNameOpt = fragmentType(unit.text)
         if(fragmentTypeNameOpt.isEmpty){
@@ -82,9 +95,7 @@ class DialectProjectBuilder {
             val dde = enc.asInstanceOf[DialectDomainElement]
             fillProperties(dde, rootNode, None)
         })
-
         rootNode.initSources(Some(unit), None)
-        project
     }
 
     def fragmentType(content:String):Option[String] = {
@@ -108,17 +119,7 @@ class DialectProjectBuilder {
         universe
     }
 
-    def buildProject(rootUnit: DialectInstance, fsResolver: IFSProvider): IProject = {
-
-        val u: IDialectUniverse = getUniverse(rootUnit.definedBy().value())
-        val unitPath = TypeBuilder.normalizedPath(rootUnit)
-        val typeCollection = new TypeCollection(unitPath,u.asInstanceOf[DialectUniverse],null)
-        val bundle = new TypeCollectionBundle()
-        bundle.registerTypeCollection(typeCollection)
-
-        val project = new Project(bundle, AML, fsResolver)
-        val unit = new ASTUnit(rootUnit, typeCollection, project)
-        project.setRootUnit(unit)
+    def buildDialectInstance(rootUnit: DialectInstance, unit:ASTUnit, u:IDialectUniverse): Unit = {
 
         if(u.root.isEmpty){
             throw new Error(s"No root type is registered for dialect: ${rootUnit.definedBy().value()}")
@@ -143,7 +144,16 @@ class DialectProjectBuilder {
         })
 
         rootNode.initSources(Some(unit), None)
-        project
+    }
+
+    private def processDependencies(unit:ASTUnit, project:Project, u:IDialectUniverse): Unit = {
+
+        unit.baseUnit.annotations.find(classOf[Aliases])
+
+        Option(unit.baseUnit.references).getOrElse(Seq()).foreach(bu => {
+            val newUnit = buildUnit(bu, project, u)
+            project.addUnit(newUnit)
+        })
     }
 
     private def fillProperties(_dde: DialectDomainElement, parent: ASTNodeImpl, pm:Option[PropertyMapping]):Unit = {
@@ -287,8 +297,24 @@ class DialectProjectBuilder {
         }
     }
 
+    private def initASTUnits(astUnits: Map[String, ASTUnit]): Unit = {
 
-
+        for (astUnit <- astUnits.values) {
+            var aliases = astUnit.baseUnit.annotations.find(classOf[Aliases])
+                .map(_.aliases).getOrElse((null, (null, null)) :: Nil)
+            for (usesEntry <- aliases) {
+                val namespace = usesEntry._1
+                val referedModulePath = usesEntry._2._1
+                val libPath = usesEntry._2._2
+                astUnits.get(referedModulePath).foreach(referedAstUnit => {
+                    var dep = new ModuleDependencyEntry(referedModulePath, referedAstUnit, namespace, libPath)
+                    astUnit.registerDependency(dep)
+                    var reverseDep = new ModuleDependencyEntry(astUnit.path, astUnit, namespace, libPath)
+                    referedAstUnit.registerReverseDependency(reverseDep)
+                })
+            }
+        }
+    }
 
 }
 

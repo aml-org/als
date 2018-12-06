@@ -11,4 +11,6 @@ trait IDialectUniverse extends IUniverse {
     def library: Option[ITypeDefinition]
 
     def fragments:Map[String,ITypeDefinition]
+
+    def isReferable(typeName:String):Boolean
 }

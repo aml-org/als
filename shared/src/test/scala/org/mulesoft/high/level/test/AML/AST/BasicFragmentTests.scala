@@ -8,9 +8,9 @@ import scala.collection.mutable.ArrayBuffer
 class BasicFragmentTests extends DialectASTTest{
     override def rootPath: String = "AML/ASTTests"
 
-    private def dialectPath = "AsyncAPI/dialect6.yaml"
+    private def dialectPath = "AsyncAPI001/dialect6.yaml"
 
-    private def instancePath = "AsyncAPI/fragment.yaml"
+    private def instancePath = "AsyncAPI001/fragment.yaml"
 
     test("test 001. attribute value"){
         runTest( dialectPath, instancePath, project => {
