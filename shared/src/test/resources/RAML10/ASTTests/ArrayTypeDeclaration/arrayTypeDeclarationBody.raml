@@ -1,0 +1,22 @@
+#%RAML 1.0
+
+title: test API
+mediaType: application/json
+types:
+  airplane:
+    type: array
+    items: string
+    uniqueItems: false
+    minItems: 2
+    maxItems: 4
+/resource:
+  post:
+    body:
+      type: array
+      items: string
+      uniqueItems: false
+      minItems: 2
+      maxItems: 4
+    responses:
+      201:
+        body: airplane

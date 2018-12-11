@@ -1,0 +1,26 @@
+#%RAML 0.8
+title: api
+schemas:
+  - inputSchema: |
+          {
+                "$schema": "http://json-schema.org/draft-03/schema",
+                "properties": {
+                    "input": {
+                        "required": false,
+                        "type": "string"
+                    }
+                },
+                "required": false,
+                "type": "object"
+              }
+traits:
+  - trait:
+  - secondTrait:
+resourceTypes:
+  - rt1:
+  - rt2:
+securitySchemes:
+  - sec1:
+      type: OAuth 2.0
+  - sec2:
+      type: OAuth 1.0

@@ -1,0 +1,30 @@
+#%RAML 1.0
+
+title: test API
+types:
+  airplane:
+    type: object
+    displayName: plane
+    description: none
+    default:
+      a: 4
+    facets:
+      b: number
+    examples:
+      one:
+        a: 5
+      two:
+        a: 7
+    example:
+      a: 8
+    xml:
+      attribute: true # serialize it as an XML attribute
+      name: "fullname"
+    allowedTargets: [API]
+  T1:
+    type: object
+  T2:
+    type: object
+  T3:
+    type: airplane  |   T2
+

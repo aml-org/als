@@ -1,0 +1,42 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.9-abcd",
+    "title": "Swagger Sample API"
+  },
+  "host": "my.api.com",
+  "basePath": "/v1",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json",
+    "application/xml"
+  ],
+  "paths": {
+    "/pets/{id}": {
+    }
+  },
+  "securityDefinitions": {
+    "petstoreImplicit": {
+      "type": "oauth2",
+      "description": "pet",
+      "scopes": {
+        "user": "Grants read/write access to profile info only. Note that this scope includes user:email and user:follow.",
+        "user:email": "Grants read access to a user’s email addresses."
+      },
+      "flow": "implicit",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "tokenUrl": "http://example.io/api/oauth/dialog"
+    },
+    "internalApiKey": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "api_key"
+    }
+  }
+}

@@ -1,0 +1,135 @@
+#%RAML 1.0
+title: test API
+#usage: test library
+description: test mapping API
+baseUri: https://www.example.com/{version}/{param1}/{param2}
+version: 1.0
+protocols:
+  - HTTP
+  - HTTPS
+
+mediaType: [ application/json, application/xml ]
+
+securedBy: [ BASIC, OAUTH20 ]
+
+documentation:
+
+
+baseUriParameters:
+  param1:
+  param2:
+  param3:
+
+(AnnotationType1): some string value
+(AnnotationType2): another string value
+types:
+  MyType:
+    (MissingAnnotation): stringValue
+    properties:
+      p1: NonExistingType
+      p2:
+  MyType1:
+
+traits:
+  Trait1:
+    body: MyType
+    protocols: [ HTTP ]
+    securedBy: BASIC
+    description: some trait description
+    usage: create RAML -> AMF mappings
+    displayName: GET method
+    queryString:
+      properties:
+        hp1:
+        hp2:
+  Trait2:
+    headers: AccessToken:
+    queryParameters:
+      qp1:
+    body:
+      applciation/json: MyType
+    responses:
+      200:
+        body:
+          applcation/json:
+            properties:
+              p1:
+
+
+annotationTypes:
+  AnnotationType1:
+  AnnotationType2:
+
+resourceTypes:
+  ResourceType1:
+    queryParameters:
+      q1: <<t1>>
+      q2: <<t2>>
+    post:
+      body: MyType
+  ResourceType2:
+
+securitySchemes:
+  OAUTH20:
+    type: OAuth 2.0
+    describedBy:
+      queryString:
+        properties:
+          hp1:
+          hp2:
+  BASIC:
+    type: Basic Authentication
+    describedBy:
+      headers:
+        AccessToken:
+      queryParameters:
+        token:
+      responses:
+        200:
+          body:
+            applcation/json:
+              properties:
+                p1:
+
+/resource1/{param}:
+  uriParameters:
+    param:
+      pattern: [a-z]+
+  description: test resource 1
+  displayName: RESOURCE DISPLAY NAME
+  securedBy: [ BASIC ]
+  type:
+    ResourceType1:
+      t1: string
+      t2: MyType
+  is:
+    - Trait1
+    - Trait2
+  get:
+    body: MyType
+    protocols: [ HTTP ]
+    securedBy: [ BASIC ]
+    description: some method description
+    displayName: GET method
+    queryString:
+      properties:
+        hp1:
+        hp2:
+  post:
+    is:
+      - Trait1
+      - Trait2
+    body:
+      application/json: MyType
+    headers:
+      hp1:
+        properties:
+          q1:
+    queryParameters:
+      hp2:
+    responses:
+      200:
+        body:
+          applcation/json:
+            properties:
+              p1:
