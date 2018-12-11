@@ -1,0 +1,38 @@
+{
+  "swagger": "2.0",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json",
+    "application/xml"
+  ],
+  "paths": {
+    "/resource": {
+      "post": {
+        "responses": {
+          "200": {
+            "$ref": "#/responses/r1"
+          },
+          "201": {
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "r1": {
+      "schema": {
+        "type": "object"
+      }
+    },
+    "r2": {
+      "schema": {
+        "type": "string"
+      }
+    }
+  }
+}

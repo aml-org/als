@@ -1,0 +1,24 @@
+#%RAML 1.0
+title: Illustrate query parameter variations
+types:
+  lat-long: # lat & long required; mutually exclusive with location
+    properties:
+      lat: number
+      long: number
+  loc: # location required; mutually exclusive with lat & long
+    properties:
+      location:
+  paging: # each is optional, not exclusive with anything
+    properties:
+      start?: number
+      page-size?: number
+/locations:
+  get:
+    queryString:
+      type: string
+      examples:
+        first:
+          value: str
+          displayName: abc
+          description: abc
+          strict: true

@@ -1,0 +1,32 @@
+#%RAML 1.0 Library
+
+usage: test library
+
+(AnnotationType1): some string value
+(AnnotationType2): another string value
+
+types:
+  MyType:
+    (MissingAnnotation): stringValue
+    properties:
+      p1: NonExistingType
+      p2:
+  MyType1:
+
+traits:
+  Trait1:
+  Trait2:
+
+annotationTypes:
+  AnnotationType1:
+  AnnotationType2:
+
+resourceTypes:
+  ResourceType1:
+  ResourceType2:
+
+securitySchemes:
+  OAUTH20:
+    type: OAuth 2.0
+  BASIC:
+    type: Basic Authentication

@@ -1,0 +1,26 @@
+#%RAML 1.0
+
+title: test API
+mediaType: application/json
+types:
+  airplane:
+    properties:
+      count: number
+      length: number
+    minProperties: 1
+    maxProperties: 2
+    additionalProperties: false
+    discriminator: count
+    discriminatorValue: 1
+/resource:
+  post:
+    body:
+      properties:
+        count: number
+        length: number
+      minProperties: 1
+      maxProperties: 2
+      additionalProperties: false
+    responses:
+      201:
+        body: airplane

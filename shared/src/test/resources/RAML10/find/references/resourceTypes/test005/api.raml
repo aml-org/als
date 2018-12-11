@@ -1,0 +1,14 @@
+#%RAML 1.0
+
+title: test API
+
+resourceTypes:
+  rt:
+    post:
+    *
+    put:
+
+/resource:
+  type: rt
+  /subresource:
+    type: rt

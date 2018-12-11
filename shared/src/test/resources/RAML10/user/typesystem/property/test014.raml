@@ -1,0 +1,17 @@
+#%RAML 1.0
+title: API with Types
+types:
+  t2:
+    type: object
+    properties:
+      b: PossibleMeetingDate
+  PossibleMeetingDate:
+    type: CustomDate
+    noHolidays: true
+    facets:
+      noHobby: boolean
+  CustomDate:
+    type: date-only
+    facets:
+      onlyFutureDates?: boolean # optional  in `PossibleMeetingDate`
+      noHolidays: boolean # required in `PossibleMeetingDate`

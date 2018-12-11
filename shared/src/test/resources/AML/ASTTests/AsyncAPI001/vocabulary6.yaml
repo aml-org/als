@@ -1,0 +1,63 @@
+#%Vocabulary 1.0
+
+vocabulary: Asynchronous API
+base: http://www.asyncapi.com/v1/vocabulary#
+
+external:
+  schema-org: http://schema.org/
+  oas: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#
+
+classTerms:
+
+  Message:
+    displayName: Message
+    description: |
+      A message is a piece of information a process will send to a message broker.
+      It MUST contain headers and payload.
+
+  Topic:
+    displayName: Topic
+    description: |
+      A topic is a routing key used by the message broker to deliver messages to the subscribed processes.
+      Depending on the protocol used, a message MAY include the topic in its headers.
+
+  MessageBroker:
+    displayName: Message Broker
+    description: |
+      A message broker is a system in charge of message exchange.
+      It MAY provide additional features, such as message queueing, storage or processing.
+
+   # Extensions here
+
+  AsyncAPI:
+    extends: schema-org.Service
+    displayName: Async API
+    description: |
+       An application programming interface accessible over some kind of asynchronous technology.
+
+  StringMapEntry:
+    displayName: String to string map entry
+
+propertyTerms:
+
+  topicTemplate:
+    extends: oas.pathTemplating
+    displayName: topic template
+    description: Topic templating refers to the usage of curly braces ({}) to mark a section of a topic as replaceable.
+
+  subscribe:
+    displayName: subscribe
+    description: A consumer is a process subscribed to a message broker and consumes messages from it.
+
+  publish:
+    displayName: publish
+    description: A producer is a process publishing messages to a message broker.
+
+  keyString:
+    displayName: key string
+
+  valueString:
+    displayName: value string
+
+  mapProperty:
+    displayName: a string to string map

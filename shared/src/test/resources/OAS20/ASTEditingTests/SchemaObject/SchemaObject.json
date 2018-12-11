@@ -1,0 +1,69 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.9-abcd",
+    "title": "Swagger Sample API"
+  },
+  "host": "my.api.com",
+  "basePath": "/v1",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json",
+    "application/xml"
+  ],
+  "paths": {
+    "/pets/{id}": {}
+  },
+  "definitions": {
+    "Pet": {
+      "title": "text",
+      "description": "text",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "discriminator": "name",
+      "xml": {
+        "attribute": true,
+        "name": "fullname",
+        "wrapped": true,
+        "namespace": "air",
+        "prefix": "air"
+      },
+      "externalDocs": {
+        "description": "Find more info here",
+        "url": "https://swagger.io"
+      },
+      "type": "object",
+      "allOf": [
+        {
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "description": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      ]
+    },
+    "T1": {
+      "type": "string"
+    },
+    "MySchema": {
+      "$ref": "#/definitions/Pet"
+    }
+  }
+}

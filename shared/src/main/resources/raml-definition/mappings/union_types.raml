@@ -1,0 +1,15 @@
+#%RAML 1.0
+title: test API
+
+types:
+  Entity1:
+    type: object
+  Entity2:
+    type: object
+  PrimitiveUnion1: string | number
+  PrimitiveUnion2:
+    type: string | number
+
+  ObjectUnion1: Entity1|Entity2
+  ObjectUnion2:
+    type: Entity1|Entity2

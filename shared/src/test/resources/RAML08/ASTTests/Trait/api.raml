@@ -1,0 +1,28 @@
+#%RAML 0.8
+title: test
+traits:
+  - TestTrait:
+      queryParameters:
+        limit:
+          type: integer
+          default: <<limitDefault>>
+      headers:
+        If-Match:
+      responses:
+        200:
+        201:
+        202:
+      body:
+        application/json:
+      protocols: [HTTP, HTTPS]
+      securedBy: [oauth]
+      description: trait
+      displayName: dn
+      usage: usage
+  - TR:
+securitySchemes:
+  - oauth:
+      type: OAuth 2.0
+/test:
+  get:
+    is: [TestTrait: {limitDefault : 4}]
