@@ -163,6 +163,14 @@ class StructureTests extends RAML10Test {
     this.runTest("structure/test47.raml", Set("displayName:"))
   }
 
+  test("StructureTests resourceType operation nodes suggestions"){
+    this.runTest("structure/test163.raml", Set("responses"))
+  }
+
+  test("StructureTests resourceType in fragment operation nodes suggestions"){
+    this.runTest("structure/test163.raml", Set("responses"))
+  }
+
   test("StructureTests resourceType node put, post, patch"){
     this.runTest("structure/test49.raml", Set("put:\n      ", "post:\n      ", "patch:\n      "))
   }
