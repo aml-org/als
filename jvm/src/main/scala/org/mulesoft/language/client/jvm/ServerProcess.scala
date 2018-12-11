@@ -6,7 +6,7 @@ import java.util.function.Consumer
 
 import org.mulesoft.als.suggestions.interfaces.ISuggestion
 import org.mulesoft.language.client.jvm.dtoTypes.{GetCompletionRequest, GetStructureRequest}
-import org.mulesoft.language.client.jvm.serverConnection.JAVAServerConnection
+import org.mulesoft.language.client.jvm.serverConnection.{JAVALogger, JAVAServerConnection}
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import org.mulesoft.language.server.core.Server
@@ -51,6 +51,10 @@ object ServerProcess {
 		server.enableModule(FIndDeclarationModule.moduleId)
 		
 		server.enableModule(RenameModule.moduleId);
+	}
+	
+	def setLogger(logger: JAVALogger) {
+		connection.setLogger(logger);
 	}
 	
 	def documentOpened(document: IOpenedDocument) {

@@ -23,6 +23,12 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
 	var fs: FS = null;
 	var validationHandler: ValidationHandler = null;
 	
+	var logger = new JAVALogger {
+		override def log(message: String, severity: MessageSeverity.Value, component: String, subcomponent: String) {
+		
+		}
+	}
+	
 	initialize();
 	
 	protected def initialize() {
@@ -199,28 +205,31 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
 	}
 	
 	override def log(message: String, severity: MessageSeverity.Value, component: String, subcomponent: String) {
-        //System.out.println("LOG:" + component + ":" + subcomponent + ":" +message)
-	
+		logger.log(message, severity, component, subcomponent);
 	}
 	
 	override def debugDetail(message: String, component: String, subcomponent: String) {
-        //System.out.println("DEBUG_DETAIL:" + component + ":" + subcomponent + ":" +message)
+        log(message, MessageSeverity.DEBUG_DETAIL, component, subcomponent);
 	}
 	
 	override def warning(message: String, component: String, subcomponent: String) {
-        //System.out.println("WARNING:" + component + ":" + subcomponent + ":" +message)
+		log(message, MessageSeverity.WARNING, component, subcomponent);
 	}
 	
 	override def debugOverview(message: String, component: String, subcomponent: String) {
-        //System.out.println("DEBUG_OVERVIEW:" + component + ":" + subcomponent + ":" +message)
+		log(message, MessageSeverity.DEBUG_OVERVIEW, component, subcomponent);
 	}
 	
 	override def error(message: String, component: String, subcomponent: String) {
-        //System.out.println("ERROR:" + component + ":" + subcomponent + ":" +message)
+		log(message, MessageSeverity.ERROR, component, subcomponent);
 	}
 	
 	override def debug(message: String, component: String, subcomponent: String) {
-        //System.out.println("DEBUG:" + component + ":" + subcomponent + ":" +message)
+		log(message, MessageSeverity.DEBUG, component, subcomponent);
+	}
+	
+	def setLogger(logger: JAVALogger) {
+		this.logger = logger;
 	}
 }
 // $COVERAGE-ON$
