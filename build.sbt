@@ -41,7 +41,6 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
         "org.mule.syaml" %%% "syaml" % deps("syaml"),
         "org.scalatest"    %%% "scalatest" % "3.0.0" % Test,
         "com.chuusai" %% "shapeless" % "2.3.3",
-        "org.mule.amf" %%% "typesystem-project" % deps("hl"),
         "org.mule.amf" %%% "als-outline" % deps("outline"),
 
         "com.lihaoyi" %%% "upickle" % "0.5.1" % Test
@@ -161,3 +160,16 @@ sonarMe := {
     setSonarProperties.value
     sonar.value
 }
+
+
+//**************** ALIASES *********************************************************************************************
+addCommandAlias(
+  "testJVM",
+  "; serverJVM/test; hlJVM/test"
+)
+
+addCommandAlias(
+  "testJS",
+  "; serverJS/test; hlJS/test"
+)
+

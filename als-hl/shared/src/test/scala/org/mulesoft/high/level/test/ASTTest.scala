@@ -52,7 +52,7 @@ trait AstTest extends AsyncFunSuite with PlatformSecrets{
 
     def filePath(path:String):String = {
         var rootDir = System.getProperty("user.dir")
-        s"file://$rootDir/shared/src/test/resources/$rootPath/$path".replace('\\','/')
+        s"file://$rootDir/als-hl/shared/src/test/resources/$rootPath/$path".replace('\\','/')
     }
 
     def bulbLoaders(path: String, content:String) = {
