@@ -11,7 +11,7 @@ name := "api-language-server"
 
 version := deps("version")
 
-scalaVersion := "2.12.2"
+scalaVersion := "2.12.6"
 
 publish := {}
 
@@ -53,35 +53,50 @@ lazy val hl = crossProject(JSPlatform, JVMPlatform).settings(
         ))
     .in(file("./als-hl"))
     .settings(settings: _*)
-    .jvmSettings(
-        libraryDependencies += "org.mule.amf" %%% "als-suggestions-jvm" % deps("suggestions"))
     .jsSettings(
         libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
         libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
-        libraryDependencies += "org.mule.amf" %%% "als-suggestions-js" % deps("suggestions"),
         scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
         scalaJSModuleKind := ModuleKind.CommonJSModule,
-        scalaJSUseMainModuleInitializer := true,
-        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
+        scalaJSUseMainModuleInitializer := true
+//        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
     )
 
 lazy val hlJVM = hl.jvm.in(file("./als-hl/jvm"))
 lazy val hlJS  = hl.js.in(file("./als-hl/js"))
 
+//
+lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
+  Seq(
+    name := "als-suggestions"
+  ))
+  .dependsOn(hl)
+  .in(file("./als-suggestions"))
+  .settings(settings: _*)
+  .jsSettings(
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
+    libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
+    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
+    scalaJSUseMainModuleInitializer := true
+//    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"als-suggestions.js"
+  )
+
+lazy val suggestionsJVM = suggestions.jvm.in(file("./als-suggestions/jvm"))
+lazy val suggestionsJS  = suggestions.js.in(file("./als-suggestions/js"))
+
 lazy val server = crossProject(JSPlatform, JVMPlatform).settings(
     Seq(
         name := "als-server"
     )
-)
-  .dependsOn(hl)
+  )
+  .dependsOn(suggestions)
   .in(file("./als-server")).settings(settings: _*).jvmSettings(
-    libraryDependencies += "org.mule.amf" %%% "als-suggestions-jvm" % deps("suggestions"),
     packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
     aggregate in assembly := true
 ).jsSettings(
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
     libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
-    libraryDependencies += "org.mule.amf" %%% "als-suggestions-js" % deps("suggestions"),
     scalaJSModuleKind := ModuleKind.CommonJSModule,
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
     artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"serverProcess.js"
@@ -165,11 +180,11 @@ sonarMe := {
 //**************** ALIASES *********************************************************************************************
 addCommandAlias(
   "testJVM",
-  "; serverJVM/test; hlJVM/test"
+  "; serverJVM/test; suggestionsJVM/test; hlJVM/test"
 )
 
 addCommandAlias(
   "testJS",
-  "; serverJS/test; hlJS/test"
+  "; serverJS/test; suggestionsJS/test; hlJS/test"
 )
 
