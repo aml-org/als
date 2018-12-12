@@ -3,7 +3,8 @@
 *.iml
 .idea
 
-/target
 */target/*
-*/target/**
+target/*
 *.cache
+build/
+.gradle
