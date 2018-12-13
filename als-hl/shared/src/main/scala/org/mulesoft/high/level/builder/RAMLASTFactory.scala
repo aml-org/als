@@ -504,7 +504,7 @@ object Helpers {
 
     def parentResource(de:AmfElement):Option[EndPoint] = {
         de.annotations.find(classOf[ParentEndPoint]) match {
-            case Some(pep) => Option(pep.parent)
+            case Some(pep) => Some(pep.parent)
             case _ => None
         }
     }
