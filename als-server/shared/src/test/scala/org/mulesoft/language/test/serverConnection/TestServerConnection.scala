@@ -168,7 +168,7 @@ class TestServerConnection(clientProcess:Seq[TestClientConnetcion]) extends Mute
     *
     * @param path
     */
-  override def readDir(path: String): Future[Seq[String]] = FS.readDir(path);
+  override def readDir(path: String): Future[Seq[String]] = FS.readDir(path).map(_.toSeq)
   
   /**
     * Returns whether path/url represents a directory

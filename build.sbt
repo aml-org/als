@@ -55,8 +55,7 @@ lazy val hl = crossProject(JSPlatform, JVMPlatform).settings(
         libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
         libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
         scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-        scalaJSModuleKind := ModuleKind.CommonJSModule,
-        scalaJSUseMainModuleInitializer := true
+        scalaJSModuleKind := ModuleKind.CommonJSModule
 //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
     )
 
@@ -75,8 +74,7 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
     libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-    scalaJSModuleKind := ModuleKind.CommonJSModule,
-    scalaJSUseMainModuleInitializer := true
+    scalaJSModuleKind := ModuleKind.CommonJSModule
 //    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"als-suggestions.js"
   )
 
@@ -94,8 +92,7 @@ lazy val outline = crossProject(JSPlatform, JVMPlatform).settings(
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
     libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-    scalaJSModuleKind := ModuleKind.CommonJSModule,
-    scalaJSUseMainModuleInitializer := true
+    scalaJSModuleKind := ModuleKind.CommonJSModule
     //    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"als-suggestions.js"
   )
 
@@ -115,8 +112,8 @@ lazy val server = crossProject(JSPlatform, JVMPlatform).settings(
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
     libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
     scalaJSModuleKind := ModuleKind.CommonJSModule,
-    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"serverProcess.js"
+    scalaJSUseMainModuleInitializer := true,
+    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6
 )
 
 
