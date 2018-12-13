@@ -51,8 +51,7 @@ trait AstTest extends AsyncFunSuite with PlatformSecrets{
     def rootPath:String
 
     def filePath(path:String):String = {
-        var rootDir = System.getProperty("user.dir")
-        s"file://$rootDir/als-hl/shared/src/test/resources/$rootPath/$path".replace('\\','/')
+        s"file://als-hl/shared/src/test/resources/$rootPath/$path".replace('\\','/')
     }
 
     def bulbLoaders(path: String, content:String) = {

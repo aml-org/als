@@ -232,8 +232,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     }
 
   def filePath(path:String):String = {
-    var rootDir = System.getProperty("user.dir")
-    var result = s"file://$rootDir/als-suggestions/shared/src/test/resources/test/$rootPath/$path".replace('\\','/')
+    var result = s"file://als-suggestions/shared/src/test/resources/test/$rootPath/$path".replace('\\','/')
     result = result.replace("/null", "")
     result
   }

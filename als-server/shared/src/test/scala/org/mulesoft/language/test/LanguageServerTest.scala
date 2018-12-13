@@ -130,8 +130,7 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets{
     }
 
     def filePath(path:String):String = {
-        var rootDir = System.getProperty("user.dir")
-        s"file://$rootDir/als-server/shared/src/test/resources/$rootPath/$path".replace('\\','/').replace("null/", "")
+        s"file://als-server/shared/src/test/resources/$rootPath/$path".replace('\\','/').replace("null/", "")
     }
 
 }
