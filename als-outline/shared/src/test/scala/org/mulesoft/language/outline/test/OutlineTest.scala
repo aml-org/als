@@ -161,8 +161,7 @@ trait OutlineTest[T] extends AsyncFunSuite {
     }
 
     def filePath(path:String):String = {
-        var rootDir = System.getProperty("user.dir")
-        s"file://$rootDir/als-outline/shared/src/test/resources/$rootPath/$path".replace('\\','/').replace("null/", "")
+        s"file://als-outline/shared/src/test/resources/$rootPath/$path".replace('\\','/').replace("null/", "")
     }
 
     def findMarker(str:String,label:String="*", cut: Boolean = true): MarkerInfo = {
