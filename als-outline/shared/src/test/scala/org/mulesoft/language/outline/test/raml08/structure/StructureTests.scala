@@ -7,11 +7,11 @@ class StructureTests extends RAML08StructureTest {
 
     override def rootPath:String = "RAML08/structure"
 
-    test("test 003") {
+    ignore("test 003") {
         this.runTest("test003/api.raml", "test003/api-outline.json")
     }
 
-    test("test 005") {
+    ignore("test 005") {
         this.runTest("test005/api.raml", "test005/api-outline.json")
     }
 

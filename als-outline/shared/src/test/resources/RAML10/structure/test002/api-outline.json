@@ -118,7 +118,7 @@
                     "textStyle": "WARNING",
                     "key": "get :: resourceType :: type :: /someChildUri :: ",
                     "start": 49,
-                    "end": 183,
+                    "end": 182,
                     "children": [
                       {
                         "text": "200",
@@ -127,7 +127,7 @@
                         "textStyle": "NORMAL",
                         "key": "200 :: get :: resourceType :: type :: /someChildUri :: ",
                         "start": 79,
-                        "end": 183,
+                        "end": 182,
                         "children": [
                           {
                             "text": "application/json",
@@ -136,7 +136,7 @@
                             "textStyle": "SUCCESS",
                             "key": "application/json :: 200 :: get :: resourceType :: type :: /someChildUri :: ",
                             "start": 112,
-                            "end": 183,
+                            "end": 182,
                             "category": ""
                           }
                         ],
@@ -192,7 +192,7 @@
             "textStyle": "WARNING",
             "key": "get :: main :: ",
             "start": 49,
-            "end": 183,
+            "end": 182,
             "children": [
               {
                 "text": "200",
@@ -201,7 +201,7 @@
                 "textStyle": "NORMAL",
                 "key": "200 :: get :: main :: ",
                 "start": 79,
-                "end": 183,
+                "end": 182,
                 "children": [
                   {
                     "text": "application/json",
@@ -210,7 +210,7 @@
                     "textStyle": "SUCCESS",
                     "key": "application/json :: 200 :: get :: main :: ",
                     "start": 112,
-                    "end": 183,
+                    "end": 182,
                     "category": ""
                   }
                 ],
