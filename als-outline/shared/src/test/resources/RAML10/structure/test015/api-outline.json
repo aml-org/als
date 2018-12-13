@@ -88,7 +88,7 @@
             "textStyle": "WARNING",
             "key": "get :: collection :: ",
             "start": 203,
-            "end": 277,
+            "end": 276,
             "category": ""
           },
           {
@@ -98,7 +98,7 @@
             "textStyle": "WARNING",
             "key": "post :: collection :: ",
             "start": 281,
-            "end": 355,
+            "end": 354,
             "category": ""
           }
         ],

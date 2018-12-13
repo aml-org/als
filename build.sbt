@@ -41,8 +41,6 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
         "org.mule.syaml" %%% "syaml" % deps("syaml"),
         "org.scalatest"    %%% "scalatest" % "3.0.0" % Test,
         "com.chuusai" %% "shapeless" % "2.3.3",
-        "org.mule.amf" %%% "als-outline" % deps("outline"),
-
         "com.lihaoyi" %%% "upickle" % "0.5.1" % Test
     )
 )
@@ -85,12 +83,31 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
 lazy val suggestionsJVM = suggestions.jvm.in(file("./als-suggestions/jvm"))
 lazy val suggestionsJS  = suggestions.js.in(file("./als-suggestions/js"))
 
+lazy val outline = crossProject(JSPlatform, JVMPlatform).settings(
+  Seq(
+    name := "als-outline"
+  ))
+  .dependsOn(hl)
+  .in(file("./als-outline"))
+  .settings(settings: _*)
+  .jsSettings(
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
+    libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
+    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
+    scalaJSUseMainModuleInitializer := true
+    //    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"als-suggestions.js"
+  )
+
+lazy val outlineJVM = outline.jvm.in(file("./als-outline/jvm"))
+lazy val outlineJS  = outline.js.in(file("./als-outline/js"))
+
 lazy val server = crossProject(JSPlatform, JVMPlatform).settings(
     Seq(
         name := "als-server"
     )
   )
-  .dependsOn(suggestions)
+  .dependsOn(suggestions, outline)
   .in(file("./als-server")).settings(settings: _*).jvmSettings(
     packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
     aggregate in assembly := true
@@ -180,11 +197,11 @@ sonarMe := {
 //**************** ALIASES *********************************************************************************************
 addCommandAlias(
   "testJVM",
-  "; serverJVM/test; suggestionsJVM/test; hlJVM/test"
+  "; serverJVM/test; suggestionsJVM/test; outlineJVM/test; hlJVM/test"
 )
 
 addCommandAlias(
   "testJS",
-  "; serverJS/test; suggestionsJS/test; hlJS/test"
+  "; serverJS/test; suggestionsJS/test; outlineJVM/test; hlJS/test"
 )
 
