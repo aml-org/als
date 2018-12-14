@@ -99,7 +99,7 @@ class StructureTests extends RAML10StructureTest {
         this.runTest("test025/api.raml", "test025/api-outline.json")
     }
 
-    test("test 026") {
+    ignore("test 026") {
         this.runTest("test026/overlay.raml", "test026/api-outline.json")
     }
 
