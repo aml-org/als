@@ -1,0 +1,181 @@
+[
+  {
+    "@id": "file://api.raml",
+    "@type": [
+      "http://raml.org/vocabularies/document#Document",
+      "http://raml.org/vocabularies/document#Fragment",
+      "http://raml.org/vocabularies/document#Module",
+      "http://raml.org/vocabularies/document#Unit"
+    ],
+    "http://raml.org/vocabularies/document#encodes": [
+      {
+        "@id": "file://api.raml#/web-api",
+        "@type": [
+          "http://schema.org/WebAPI",
+          "http://raml.org/vocabularies/document#RootDomainElement",
+          "http://raml.org/vocabularies/document#DomainElement"
+        ],
+        "http://schema.org/name": [
+          {
+            "@value": "test API"
+          }
+        ]
+      }
+    ],
+    "http://raml.org/vocabularies/document#declares": [
+      {
+        "@id": "file://api.raml#/declarations/scalar/MyStringType",
+        "@type": [
+          "http://www.w3.org/ns/shacl#ScalarShape",
+          "http://www.w3.org/ns/shacl#Shape",
+          "http://raml.org/vocabularies/shapes#Shape",
+          "http://raml.org/vocabularies/document#DomainElement"
+        ],
+        "http://www.w3.org/ns/shacl#datatype": [
+          {
+            "@id": "http://www.w3.org/2001/XMLSchema#string"
+          }
+        ],
+        "http://www.w3.org/ns/shacl#pattern": [
+          {
+            "@value": ""
+          }
+        ],
+        "http://www.w3.org/ns/shacl#minLength": [
+          {
+            "@value": 1
+          }
+        ],
+        "http://www.w3.org/ns/shacl#maxLength": [
+          {
+            "@value": 5
+          }
+        ],
+        "http://www.w3.org/ns/shacl#name": [
+          {
+            "@value": "MyStringType"
+          }
+        ],
+        "http://www.w3.org/ns/shacl#in": {
+          "@list": [
+            {
+              "@value": "aaaa"
+            },
+            {
+              "@value": "bbb"
+            }
+          ]
+        }
+      },
+      {
+        "@id": "file://api.raml#/declarations/scalar/MyNumberType",
+        "@type": [
+          "http://www.w3.org/ns/shacl#ScalarShape",
+          "http://www.w3.org/ns/shacl#Shape",
+          "http://raml.org/vocabularies/shapes#Shape",
+          "http://raml.org/vocabularies/document#DomainElement"
+        ],
+        "http://www.w3.org/ns/shacl#datatype": [
+          {
+            "@id": "http://www.w3.org/2001/XMLSchema#integer"
+          }
+        ],
+        "http://www.w3.org/ns/shacl#minInclusive": [
+          {
+            "@value": 1
+          }
+        ],
+        "http://www.w3.org/ns/shacl#maxInclusive": [
+          {
+            "@value": 10
+          }
+        ],
+        "http://raml.org/vocabularies/shapes#format": [
+          {
+            "@value": "int64"
+          }
+        ],
+        "http://raml.org/vocabularies/shapes#multipleOf": [
+          {
+            "@value": 2
+          }
+        ],
+        "http://www.w3.org/ns/shacl#name": [
+          {
+            "@value": "MyNumberType"
+          }
+        ],
+        "http://www.w3.org/ns/shacl#in": {
+          "@list": [
+            {
+              "@value": "2"
+            },
+            {
+              "@value": "4"
+            },
+            {
+              "@value": "8"
+            }
+          ]
+        }
+      },
+      {
+        "@id": "file://api.raml#/declarations/scalar/MyBooleanType",
+        "@type": [
+          "http://www.w3.org/ns/shacl#ScalarShape",
+          "http://www.w3.org/ns/shacl#Shape",
+          "http://raml.org/vocabularies/shapes#Shape",
+          "http://raml.org/vocabularies/document#DomainElement"
+        ],
+        "http://www.w3.org/ns/shacl#datatype": [
+          {
+            "@id": "http://www.w3.org/2001/XMLSchema#string"
+          }
+        ],
+        "http://www.w3.org/ns/shacl#name": [
+          {
+            "@value": "MyBooleanType"
+          }
+        ],
+        "http://www.w3.org/ns/shacl#in": {
+          "@list": [
+            {
+              "@value": "false"
+            }
+          ]
+        }
+      },
+      {
+        "@id": "file://api.raml#/declarations/MyFileType",
+        "@type": [
+          "http://raml.org/vocabularies/shapes#FileShape",
+          "http://www.w3.org/ns/shacl#Shape",
+          "http://raml.org/vocabularies/shapes#Shape"
+        ],
+        "http://raml.org/vocabularies/shapes#fileType": [
+          {
+            "@value": "image/jpg"
+          },
+          {
+            "@value": "image/png"
+          }
+        ],
+        "http://www.w3.org/ns/shacl#minLength": [
+          {
+            "@value": 0
+          }
+        ],
+        "http://www.w3.org/ns/shacl#maxLength": [
+          {
+            "@value": 1024
+          }
+        ],
+        "http://www.w3.org/ns/shacl#name": [
+          {
+            "@value": "MyFileType"
+          }
+        ]
+      }
+    ]
+  }
+]

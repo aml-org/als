@@ -16,16 +16,16 @@ buildscript {
     }
 }
 
-apply plugin: 'com.mulesoft.gradle.sonar'
+//apply plugin: 'com.mulesoft.gradle.sonar'
 apply plugin: 'com.mulesoft.gradle.nexusIq'
 //apply plugin: 'org.scoverage'
 
 def name = 'als'
 
-sonar.url   = "${System.env.SONAR_USR}"
-sonar.login = "${System.env.SONAR_PSW}"
-sonar.sources = "src/main/scala"
-
+//sonar.url   = "${System.env.SONAR_USR}"
+//sonar.login = "${System.env.SONAR_PSW}"
+//sonar.sources = "src/main/scala"
+//
 nexusIq.user = "${System.env.NEXUSIQ_USR}"
 nexusIq.password = "${System.env.NEXUSIQ_PSW}"
 nexusIq.applicationId = "${name}"
@@ -59,9 +59,6 @@ dependencies {
     compile "org.mule.common:scala-common_2.12:${deps.common}"
     compile "org.mule.syaml:syaml_2.12:${deps.syaml}"
     compile "com.chuusai:shapeless_2.12:2.3.3"
-    compile "org.mule.amf:typesystem-project_2.12:${deps.hl}"
-    compile "org.mule.amf:als-suggestions_2.12:${deps.suggestions}"
-    compile "org.mule.amf:als-outline_2.12:${deps.outline}"
 }
 
 mainClassName = 'org.mulesoft.language.client.jvm.ServerProcess'

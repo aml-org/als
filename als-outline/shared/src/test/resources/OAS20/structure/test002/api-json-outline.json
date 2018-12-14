@@ -1,0 +1,66 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 368,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 368,
+    "children": [
+      {
+        "text": "skip",
+        "typeText": ":integer",
+        "icon": "",
+        "textStyle": "",
+        "key": "skipParam :: ",
+        "start": 124,
+        "end": 362,
+        "category": "ResourcesCategory"
+      }
+    ],
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 368,
+    "children": [
+      {
+        "text": "info",
+        "typeText": "",
+        "icon": "",
+        "textStyle": "",
+        "key": "info :: ",
+        "start": 24,
+        "end": 100,
+        "category": "OtherCategory"
+      }
+    ],
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 368,
+    "category": ""
+  }
+}

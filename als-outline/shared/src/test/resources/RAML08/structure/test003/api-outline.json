@@ -1,0 +1,228 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 492,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 492,
+    "children": [
+      {
+        "text": "/someChildUri",
+        "typeText": ":main",
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "key": "/someChildUri :: ",
+        "start": 222,
+        "end": 492,
+        "children": [
+          {
+            "text": "/anotherChild",
+            "typeText": "",
+            "icon": "PRIMITIVE_SQUARE",
+            "textStyle": "HIGHLIGHT",
+            "key": "/anotherChild :: /someChildUri :: ",
+            "start": 378,
+            "end": 492,
+            "children": [
+              {
+                "text": "put",
+                "typeText": "",
+                "icon": "PRIMITIVE_DOT",
+                "textStyle": "WARNING",
+                "key": "put :: /anotherChild :: /someChildUri :: ",
+                "start": 397,
+                "end": 492,
+                "children": [
+                  {
+                    "text": "application/json",
+                    "typeText": "",
+                    "icon": "TAG",
+                    "textStyle": "NORMAL",
+                    "key": "application/json :: put :: /anotherChild :: /someChildUri :: ",
+                    "start": 422,
+                    "end": 492,
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
+          },
+          {
+            "text": "post",
+            "typeText": "",
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "key": "post :: /someChildUri :: ",
+            "start": 252,
+            "end": 376,
+            "children": [
+              {
+                "text": "200",
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "200 :: post :: /someChildUri :: ",
+                "start": 279,
+                "end": 376,
+                "children": [
+                  {
+                    "text": "application/xml",
+                    "typeText": "",
+                    "icon": "TAG",
+                    "textStyle": "NORMAL",
+                    "key": "application/xml :: 200 :: post :: /someChildUri :: ",
+                    "start": 308,
+                    "end": 376,
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
+          },
+          {
+            "text": "type",
+            "typeText": "",
+            "icon": "TAG",
+            "textStyle": "NORMAL",
+            "key": "type :: /someChildUri :: ",
+            "start": 245,
+            "end": 250,
+            "children": [
+              {
+                "text": "resourceType",
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "resourceType :: type :: /someChildUri :: ",
+                "children": [
+                  {
+                    "text": "get",
+                    "typeText": "",
+                    "icon": "PRIMITIVE_DOT",
+                    "textStyle": "WARNING",
+                    "key": "get :: resourceType :: type :: /someChildUri :: ",
+                    "start": 53,
+                    "end": 197,
+                    "children": [
+                      {
+                        "text": "200",
+                        "typeText": "",
+                        "icon": "TAG",
+                        "textStyle": "NORMAL",
+                        "key": "200 :: get :: resourceType :: type :: /someChildUri :: ",
+                        "start": 87,
+                        "end": 197,
+                        "children": [
+                          {
+                            "text": "application/json",
+                            "typeText": "",
+                            "icon": "TAG",
+                            "textStyle": "NORMAL",
+                            "key": "application/json :: 200 :: get :: resourceType :: type :: /someChildUri :: ",
+                            "start": 124,
+                            "end": 197,
+                            "category": ""
+                          }
+                        ],
+                        "category": ""
+                      }
+                    ],
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "ResourcesCategory"
+      }
+    ],
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 492,
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 492,
+    "children": [
+      {
+        "text": "main",
+        "typeText": "",
+        "icon": "TAG",
+        "textStyle": "NORMAL",
+        "key": "main :: ",
+        "start": 41,
+        "end": 197,
+        "children": [
+          {
+            "text": "get",
+            "typeText": "",
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "key": "get :: main :: ",
+            "start": 53,
+            "end": 197,
+            "children": [
+              {
+                "text": "200",
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "200 :: get :: main :: ",
+                "start": 87,
+                "end": 197,
+                "children": [
+                  {
+                    "text": "application/json",
+                    "typeText": "",
+                    "icon": "TAG",
+                    "textStyle": "NORMAL",
+                    "key": "application/json :: 200 :: get :: main :: ",
+                    "start": 124,
+                    "end": 197,
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "ResourceTypesAndTraitsCategory"
+      }
+    ],
+    "category": ""
+  }
+}

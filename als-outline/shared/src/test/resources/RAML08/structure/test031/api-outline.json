@@ -1,0 +1,100 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 700,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 700,
+    "children": [
+      {
+        "text": "/media/popular",
+        "typeText": "",
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "key": "/media/popular :: ",
+        "start": 91,
+        "end": 700,
+        "children": [
+          {
+            "text": "get",
+            "typeText": "",
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "key": "get :: /media/popular :: ",
+            "start": 143,
+            "end": 700,
+            "children": [
+              {
+                "text": "503",
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "503 :: get :: /media/popular :: ",
+                "start": 250,
+                "end": 700,
+                "children": [
+                  {
+                    "text": "X-waiting-period",
+                    "typeText": ":integer",
+                    "icon": "TAG",
+                    "textStyle": "NORMAL",
+                    "key": "X-waiting-period :: 503 :: get :: /media/popular :: ",
+                    "start": 437,
+                    "end": 700,
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "ResourcesCategory"
+      }
+    ],
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 700,
+    "children": [
+      {
+        "text": "version",
+        "typeText": ":string",
+        "icon": "TAG",
+        "textStyle": "NORMAL",
+        "key": "version :: ",
+        "category": "OtherCategory"
+      }
+    ],
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 700,
+    "category": ""
+  }
+}

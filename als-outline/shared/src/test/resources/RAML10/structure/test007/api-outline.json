@@ -1,0 +1,294 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 753,
+    "children": [
+      {
+        "text": "Admin",
+        "typeText": ":Person",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "Admin :: ",
+        "start": 397,
+        "end": 487,
+        "children": [
+          {
+            "text": "clearanceLevel",
+            "typeText": "",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "clearanceLevel :: Admin :: ",
+            "start": 443,
+            "end": 487,
+            "category": ""
+          }
+        ],
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "Alertable",
+        "typeText": ":Manager | AlertableAdmin",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "Alertable :: ",
+        "start": 558,
+        "end": 594,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "Org",
+        "typeText": ":object",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "Org :: ",
+        "start": 55,
+        "end": 142,
+        "children": [
+          {
+            "text": "onCall",
+            "typeText": ":AlertableAdmin",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "onCall :: Org :: ",
+            "start": 99,
+            "end": 122,
+            "category": ""
+          },
+          {
+            "text": "Head",
+            "typeText": ":Manager",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "Head :: Org :: ",
+            "start": 128,
+            "end": 142,
+            "category": ""
+          }
+        ],
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "Phone",
+        "typeText": ":string",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "Phone :: ",
+        "start": 259,
+        "end": 307,
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "Person",
+        "typeText": ":object",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "Person :: ",
+        "start": 144,
+        "end": 257,
+        "children": [
+          {
+            "text": "firstname",
+            "typeText": ":string",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "firstname :: Person :: ",
+            "start": 191,
+            "end": 209,
+            "category": ""
+          },
+          {
+            "text": "lastname",
+            "typeText": ":string",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "lastname :: Person :: ",
+            "start": 215,
+            "end": 233,
+            "category": ""
+          },
+          {
+            "text": "title",
+            "typeText": ":string",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "title :: Person :: ",
+            "start": 239,
+            "end": 257,
+            "category": ""
+          }
+        ],
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "Manager",
+        "typeText": ":Person",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "Manager :: ",
+        "start": 309,
+        "end": 395,
+        "children": [
+          {
+            "text": "reports",
+            "typeText": ":Person[]",
+            "icon": "TAG",
+            "textStyle": "NORMAL",
+            "key": "reports :: Manager :: ",
+            "start": 357,
+            "end": 375,
+            "children": [
+              {
+                "text": "items",
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "items :: reports :: Manager :: ",
+                "category": ""
+              }
+            ],
+            "category": ""
+          },
+          {
+            "text": "phone",
+            "typeText": ":Phone",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "phone :: Manager :: ",
+            "start": 381,
+            "end": 395,
+            "category": ""
+          }
+        ],
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "AlertableAdmin",
+        "typeText": ":Admin",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "AlertableAdmin :: ",
+        "start": 489,
+        "end": 556,
+        "children": [
+          {
+            "text": "phone",
+            "typeText": ":Phone",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "phone :: AlertableAdmin :: ",
+            "start": 543,
+            "end": 556,
+            "category": ""
+          }
+        ],
+        "category": "SchemasAndTypesCategory"
+      }
+    ],
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 753,
+    "children": [
+      {
+        "text": "/resouce",
+        "typeText": "",
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "key": "/resouce :: ",
+        "start": 594,
+        "end": 753,
+        "children": [
+          {
+            "text": "/CH",
+            "typeText": "",
+            "icon": "PRIMITIVE_SQUARE",
+            "textStyle": "HIGHLIGHT",
+            "key": "/CH :: /resouce :: ",
+            "start": 606,
+            "end": 753,
+            "children": [
+              {
+                "text": "get",
+                "typeText": "",
+                "icon": "PRIMITIVE_DOT",
+                "textStyle": "WARNING",
+                "key": "get :: /CH :: /resouce :: ",
+                "start": 615,
+                "end": 753,
+                "children": [
+                  {
+                    "text": "200",
+                    "typeText": "",
+                    "icon": "TAG",
+                    "textStyle": "NORMAL",
+                    "key": "200 :: get :: /CH :: /resouce :: ",
+                    "start": 645,
+                    "end": 753,
+                    "children": [
+                      {
+                        "text": "application/json",
+                        "typeText": ":Org",
+                        "icon": "FILE_BINARY",
+                        "textStyle": "SUCCESS",
+                        "key": "application/json :: 200 :: get :: /CH :: /resouce :: ",
+                        "start": 678,
+                        "end": 720,
+                        "category": ""
+                      },
+                      {
+                        "text": "application/xml",
+                        "typeText": ":Org",
+                        "icon": "FILE_BINARY",
+                        "textStyle": "SUCCESS",
+                        "key": "application/xml :: 200 :: get :: /CH :: /resouce :: ",
+                        "start": 732,
+                        "end": 753,
+                        "category": ""
+                      }
+                    ],
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "ResourcesCategory"
+      }
+    ],
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 753,
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 753,
+    "category": ""
+  }
+}

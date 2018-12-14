@@ -1,0 +1,11 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.9-abcd
+  title: Swagger Sample API
+
+parameters:
+  *skipParam:
+    type: string
+    name: skip
+    in: query

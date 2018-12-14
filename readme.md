@@ -40,7 +40,7 @@ Note: this instruction assumes AMF being available from nexus.
 
 ## Compilation
 
-Launching compilation manually is optional, it is being automatically launched in artifact generation steps. 
+Launching compilation manually is optional, it is being automatically launched in artifact generation steps.
 ```
 sbt compile
 ```
@@ -188,12 +188,12 @@ Communication is handled as server part by converting MS LSP server calls/data t
 
 ### Java MS LSP Eclipse Client
 
-Based on org.eclipse.lsp4e library. Scala server is compiled to Java. 
+Based on org.eclipse.lsp4e library. Scala server is compiled to Java.
 
 The implementation is a shim between the server and the library.
 
 In addition, outline part of the plugin is enhanced.
- 
+
 ### Other Java-based clients
 
 We have test Java-based connection implement, which can be used as a base for the other Java-based clients.
@@ -252,7 +252,7 @@ onFindReferences(listener: (uri: string, position: number) => ILocation[])
 ```
 
 In the current implementation prototype server interface is located in `src/server/core/connections.ts` file `IServerConnection` interface, implementation is located in `src/server/core` folder.
- 
+
 ### Sub-modules
 [High-level AST sub-module](./documentation/hl.md)
 [Suggestions sub-module](./documentation/suggestions.md)

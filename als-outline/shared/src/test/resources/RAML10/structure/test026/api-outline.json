@@ -1,0 +1,76 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 19,
+    "end": 304,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 19,
+    "end": 304,
+    "children": [
+      {
+        "text": "/books",
+        "typeText": "",
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "key": "/books :: ",
+        "start": 241,
+        "end": 304,
+        "category": "ResourcesCategory"
+      }
+    ],
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 19,
+    "end": 304,
+    "children": [
+      {
+        "text": "Introducción",
+        "typeText": "",
+        "icon": "BOOK",
+        "textStyle": "NORMAL",
+        "key": " :: ",
+        "start": 84,
+        "end": 153,
+        "category": "OtherCategory"
+      },
+      {
+        "text": "Licencias",
+        "typeText": "",
+        "icon": "BOOK",
+        "textStyle": "NORMAL",
+        "key": " :: ",
+        "start": 157,
+        "end": 241,
+        "category": "OtherCategory"
+      }
+    ],
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 19,
+    "end": 304,
+    "category": ""
+  }
+}

@@ -1,12 +1,17 @@
 import java.io.{FileInputStream, FileOutputStream}
+import java.util.Properties
+
 import org.scalajs.core.tools.linker.ModuleKind
 import Dependencies.deps
+import sbt.Keys.{mainClass, packageOptions}
+import sbtcrossproject.CrossPlugin.autoImport.crossProject
+
 
 name := "api-language-server"
 
 version := deps("version")
 
-scalaVersion := "2.12.2"
+scalaVersion := "2.12.6"
 
 publish := {}
 
@@ -34,182 +39,167 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
         "com.github.amlorg" %%% "amf-aml" % deps("amf"),
         "org.mule.common" %%% "scala-common" % deps("common"),
         "org.mule.syaml" %%% "syaml" % deps("syaml"),
-        "org.scalatest"    %%% "scalatest" % "3.0.0" % Test,
+        "org.scalatest"    %%% "scalatest" % "3.0.5" % Test,
         "com.chuusai" %% "shapeless" % "2.3.3",
-        "org.mule.amf" %%% "typesystem-project" % deps("hl"),
-        "org.mule.amf" %%% "als-outline" % deps("outline"),
-
         "com.lihaoyi" %%% "upickle" % "0.5.1" % Test
     )
 )
 
-lazy val url = sys.env.getOrElse("SONAR_SERVER_URL", "Not found url.")
-lazy val token = sys.env.getOrElse("SONAR_SERVER_TOKEN", "Not found token.")
-
-
-lazy val root = project.in(file("."))
-    .aggregate(coreJVM, coreJS)
-    .enablePlugins(SonarRunnerPlugin)
-    .settings(
-        sonarProperties := {
-            Map(
-                "sonar.host.url" -> url,
-                "sonar.login" -> token,
-                "sonar.projectKey" -> "mulesoft.als",
-                "sonar.projectName" -> "ALS",
-                "sonar.github.repository" -> "mulesoft/als",
-                "sonar.projectVersion" -> deps("version"),
-                "sonar.sourceEncoding" -> "UTF-8",
-                "sonar.modules" -> ".",
-                "..sonar.sources" -> "shared/src/main/scala",
-                "..sonar.exclusions" -> "shared/src/test/resources/**",
-                "..sonar.tests" -> "shared/src/test/scala",
-                "..sonar.scoverage.reportPath" -> "jvm/target/scala-2.12/scoverage-report/scoverage.xml"
-            )
-        }
+lazy val hl = crossProject(JSPlatform, JVMPlatform).settings(
+        Seq(
+            name := "als-hl"
+        ))
+    .in(file("./als-hl"))
+    .settings(settings: _*)
+    .jsSettings(
+        libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
+        libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
+        scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
+        scalaJSModuleKind := ModuleKind.CommonJSModule
+//        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
     )
 
-lazy val sharedProject = (project in file("shared")).settings(settings: _*)
-  .settings(
-      name := "api-language-server-shared-project"
+lazy val hlJVM = hl.jvm.in(file("./als-hl/jvm"))
+lazy val hlJS  = hl.js.in(file("./als-hl/js"))
+
+//
+lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
+  Seq(
+    name := "als-suggestions"
+  ))
+  .dependsOn(hl)
+  .in(file("./als-suggestions"))
+  .settings(settings: _*)
+  .jsSettings(
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
+    libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
+    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
+    scalaJSModuleKind := ModuleKind.CommonJSModule
+//    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"als-suggestions.js"
   )
 
-lazy val core = crossProject.settings(
+lazy val suggestionsJVM = suggestions.jvm.in(file("./als-suggestions/jvm"))
+lazy val suggestionsJS  = suggestions.js.in(file("./als-suggestions/js"))
+
+lazy val outline = crossProject(JSPlatform, JVMPlatform).settings(
+  Seq(
+    name := "als-outline"
+  ))
+  .dependsOn(hl)
+  .in(file("./als-outline"))
+  .settings(settings: _*)
+  .jsSettings(
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
+    libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
+    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
+    scalaJSModuleKind := ModuleKind.CommonJSModule
+    //    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"als-suggestions.js"
+  )
+
+lazy val outlineJVM = outline.jvm.in(file("./als-outline/jvm"))
+lazy val outlineJS  = outline.js.in(file("./als-outline/js"))
+
+lazy val server = crossProject(JSPlatform, JVMPlatform).settings(
     Seq(
-        name := "api-language-server"
+        name := "als-server"
     )
-).in(file(".")).settings(settings: _*).jvmSettings(
-    libraryDependencies += "org.mule.amf" %%% "als-suggestions-jvm" % deps("suggestions"),
-    assemblyMergeStrategy in assembly := {
-        case x if x.toString.endsWith("JS_DEPENDENCIES")             => MergeStrategy.discard
-        case PathList(ps @ _*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
-        case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
-        case x => {
-            MergeStrategy.first
-        }
-    },
-    assemblyJarName in assembly := "server.jar"
+  )
+  .dependsOn(suggestions, outline)
+  .in(file("./als-server")).settings(settings: _*).jvmSettings(
+    packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
+    aggregate in assembly := true
 ).jsSettings(
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
     libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
-    libraryDependencies += "org.mule.amf" %%% "als-suggestions-js" % deps("suggestions"),
-    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
     scalaJSModuleKind := ModuleKind.CommonJSModule,
     scalaJSUseMainModuleInitializer := true,
-    mainClass in Compile := Some("org.mulesoft.language.client.js.ServerProcess"),
-    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"serverProcess.js"
+    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6
 )
 
-//lazy val core_mslsp = crossProject.settings(
-//    Seq(
-//        name := "api-language-server-mslsp",
-//
-//        libraryDependencies += "org.mule.syaml" %%% "syaml" % "0.1.3"
-//    )
-//).in(file(".")).settings(settings: _*).jvmSettings(
-//    libraryDependencies += "org.scala-js"           %% "scalajs-stubs"          % scalaJSVersion % "provided"
-//).jsSettings(
-//    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
-//    libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
-//    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-//    scalaJSModuleKind := ModuleKind.CommonJSModule,
-//    scalaJSUseMainModuleInitializer := true,
-//    mainClass in Compile := Some("org.mulesoft.language.server.js.Main"),
-//    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"serverProcess.js"
-//)
 
-//lazy val core_weblsp = crossProject.settings(
-//    Seq(
-//        name := "api-language-server-weblsp",
-//
-//        libraryDependencies += "org.mule.syaml" %%% "syaml" % "0.1.3"
-//    )
-//).in(file(".")).settings(settings: _*).jvmSettings(
-//    libraryDependencies += "org.scala-js"           %% "scalajs-stubs"          % scalaJSVersion % "provided"
-//).jsSettings(
-//    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
-//    libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
-//    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-//    scalaJSModuleKind := ModuleKind.CommonJSModule,
-//    scalaJSUseMainModuleInitializer := true,
-//    mainClass in Compile := Some("org.mulesoft.language.server.js.Main"),
-//    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"serverProcess.js"
-//)
 
-lazy val coreJVM = core.jvm.in(file("./jvm"))//.dependsOn(sharedProject)
-lazy val coreJS  = core.js.in(file("./js"))//.dependsOn(sharedProject)
+lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
+lazy val serverJS  = server.js.in(file("./als-server/js"))
 
-//lazy val coreJVM_MSLSP = core_mslsp.jvm.in(file("./jvm_mslsp")).dependsOn(sharedProject)
-//lazy val coreJS_MSLSP  = core_mslsp.js.in(file("./js_mslsp")).dependsOn(sharedProject)
-//
-//lazy val coreJVM_WEBLSP = core_weblsp.jvm.in(file("./jvm_weblsp")).dependsOn(sharedProject)
-//lazy val coreJS_WEBLSP  = core_weblsp.js.in(file("./js_weblsp")).dependsOn(sharedProject)
-
-val buildJS = TaskKey[Unit]("buildJS")
 val buildJS_MSLSP = TaskKey[Unit]("buildJSMSLSP")
-val buildJS_WEBLSP = TaskKey[Unit]("buildJSWEBLSP")
+val buildJS_WEBLSP = TaskKey[Unit]("buildJSWEBLSP") // todo: commented tasks?
+
+val buildJS = TaskKey[Unit]("buildJS", "Build npm module")
 
 buildJS := {
-    val _ = (fastOptJS in Compile in coreJS).map((value) => {
-        var copyDir1: Function2[File, File, Unit] = null;
-        
-        var copyDir: Function2[File, File, Unit] = (src: File, dst: File) => {
-            src.list().foreach(name => {
-                var srcf = src / name;
-                var dstf = dst / name;
-                
-                if(srcf.isFile) {
-                    dstf.createNewFile();
-    
-                    var is = new FileInputStream(srcf);
-                    var os = new FileOutputStream(dstf);
-                    
-                    var bytes = new Array[Byte](is.available());
-    
-                    is.read(bytes);
-                    
-                    os.write(bytes);
-    
-                    is.close();
-                    os.close();
-                } else if(srcf.isDirectory) {
-                    dstf.mkdir();
-                    
-                    copyDir1(srcf, dstf);
-                }
-            });
-        };
-    
-        copyDir1 = copyDir;
-        
-        var baseDir = value.data.getParentFile.getParentFile.getParentFile;
-        
-        var srcDir = baseDir / "static" / "api-language-server";
-        var dstDir = baseDir / "target" / "api-language-server";
-        
-        dstDir.delete();
-        dstDir.mkdir();
-        
-        copyDir(srcDir, dstDir);
-        
-        var srcDir1 = baseDir / "target/artifact";
-        var dstDir1 = baseDir / "target" / "api-language-server" / "dist/entryPoints/node/server";
-        
-        dstDir1.mkdir();
-        
-        copyDir(srcDir1, dstDir1);
-        
-        value;
-    }).value;
+    val _ = (fullOptJS in Compile in serverJS).value
+    "./als-server/js/build-scripts/buildjs.sh".!
 }
 
-//buildJS_MSLSP := {
-//    val _ = (fastOptJS in Compile in coreJS_MSLSP).value
-//}
-//
-//buildJS_WEBLSP := {
-//    val _ = (fastOptJS in Compile in coreJS_WEBLSP).value
-//}
-
 mainClass in Compile := Some("org.mulesoft.language.client.js.Main")
+
+
+// ************** SONAR *******************************
+
+enablePlugins(SonarRunnerPlugin)
+
+val setSonarProperties = TaskKey[Unit](
+    "setSonarProperties",
+    "Set sonar properties!"
+)
+
+setSonarProperties := {
+    lazy val url = sys.env.getOrElse("SONAR_SERVER_URL", "Not found url.")
+    lazy val token = sys.env.getOrElse("SONAR_SERVER_TOKEN", "Not found token.")
+
+    val values = Map(
+        "sonar.host.url" -> url,
+        "sonar.login" -> token,
+        "sonar.projectKey" -> "mulesoft.als",
+        "sonar.projectName" -> "ALS",
+        "sonar.projectVersion" -> "1.0.0",
+        "sonar.sourceEncoding" -> "UTF-8",
+        "sonar.github.repository" -> "mulesoft/als",
+        "sonar.modules" -> "als-hl,als-server",
+        "als-server.sonar.sources" -> "shared/src/main/scala",
+        "als-server.sonar.scoverage.reportPath" -> "jvm/target/scala-2.12/scoverage-report/scoverage.xml",
+        "als-hl.sonar.sources" -> "shared/src/main/scala",
+        "als-hl.sonar.scoverage.reportPath" -> "jvm/target/scala-2.12/scoverage-report/scoverage.xml",
+        "als-server.sonar.tests" -> "shared/src/test/scala",
+        "als-hl.sonar.tests" -> "shared/src/test/scala"
+    )
+    sonarProperties := values
+
+    val p = new Properties()
+    values.foreach(v => p.put(v._1, v._2))
+    val stream = new FileOutputStream(file("./sonar-project.properties"))
+    p.store(stream, null)
+    stream.close()
+}
+
+val runSonar = TaskKey[Unit](
+    "runSonar",
+    "Run sonar!")
+runSonar := {
+
+    //  sonarRunnerOptions := Seq(
+    //    "-D",
+    //    s"sonar.host.url=$url",
+    //    "-D",
+    //    s"sonar.login=$token"
+    //  )
+
+    //  val a = generateSonarConfiguration.value
+
+    setSonarProperties.value
+    sonar.value
+}
+
+
+//**************** ALIASES *********************************************************************************************
+// run only one?
+addCommandAlias(
+  "testJVM",
+  "; serverJVM/test; suggestionsJVM/test; outlineJVM/test; hlJVM/test"
+)
+
+addCommandAlias(
+  "testJS",
+  "; serverJS/test; suggestionsJS/test; outlineJVM/test; hlJS/test"
+)
 

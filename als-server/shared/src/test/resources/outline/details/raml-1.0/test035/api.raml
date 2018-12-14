@@ -1,0 +1,16 @@
+#%RAML 1.0
+title: API
+baseUri: /some/base/uri
+types:
+  Per*son:
+    type: string
+    enum:
+      - a
+      - b
+      - c
+      - d
+    maxLength: 2
+    minLength: 1
+    default: b
+    allowedTargets:
+      - Response

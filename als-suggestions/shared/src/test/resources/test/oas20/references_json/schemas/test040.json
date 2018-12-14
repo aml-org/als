@@ -1,0 +1,18 @@
+{
+  "swagger": "2.0",
+  "info"  : {
+    "title": "asd",
+    "version": "asddd"
+  },
+  "definitions": {
+    "Type1": {
+      "type": "object"
+    },
+    "Type2": {
+      "type": "object"
+    },
+    "Type3": {
+      "$ref": "#/def*"
+    }
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 827,
+    "children": [
+      {
+        "text": "lat-long",
+        "typeText": "",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "lat-long :: ",
+        "start": 65,
+        "end": 184,
+        "children": [
+          {
+            "text": "lat",
+            "typeText": ":number",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "lat :: lat-long :: ",
+            "start": 153,
+            "end": 165,
+            "category": ""
+          },
+          {
+            "text": "long",
+            "typeText": ":number",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "long :: lat-long :: ",
+            "start": 171,
+            "end": 184,
+            "category": ""
+          }
+        ],
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "loc",
+        "typeText": "",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "loc :: ",
+        "start": 186,
+        "end": 279,
+        "children": [
+          {
+            "text": "location",
+            "typeText": "",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "location :: loc :: ",
+            "start": 269,
+            "end": 279,
+            "category": ""
+          }
+        ],
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "paging",
+        "typeText": "",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "paging :: ",
+        "start": 281,
+        "end": 399,
+        "children": [
+          {
+            "text": "start",
+            "typeText": ":number",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "start :: paging :: ",
+            "start": 359,
+            "end": 374,
+            "category": ""
+          },
+          {
+            "text": "page-size",
+            "typeText": ":number",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "page-size :: paging :: ",
+            "start": 380,
+            "end": 399,
+            "category": ""
+          }
+        ],
+        "category": "SchemasAndTypesCategory"
+      }
+    ],
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 827,
+    "children": [
+      {
+        "text": "/locations",
+        "typeText": "",
+        "icon": "PRIMITIVE_SQUARE",
+        "textStyle": "HIGHLIGHT",
+        "key": "/locations :: ",
+        "start": 399,
+        "end": 827,
+        "children": [
+          {
+            "text": "get",
+            "typeText": "",
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "key": "get :: /locations :: ",
+            "start": 413,
+            "end": 827,
+            "children": [
+              {
+                "text": "queryString",
+                "typeText": ":paging",
+                "icon": "FILE_BINARY",
+                "textStyle": "SUCCESS",
+                "key": "queryString :: get :: /locations :: ",
+                "start": 422,
+                "end": 827,
+                "children": [
+                  {
+                    "text": "first",
+                    "typeText": "",
+                    "icon": "TAG",
+                    "textStyle": "NORMAL",
+                    "key": "first :: queryString :: get :: /locations :: ",
+                    "start": 504,
+                    "end": 584,
+                    "category": ""
+                  },
+                  {
+                    "text": "second",
+                    "typeText": "",
+                    "icon": "TAG",
+                    "textStyle": "NORMAL",
+                    "key": "second :: queryString :: get :: /locations :: ",
+                    "start": 599,
+                    "end": 690,
+                    "category": ""
+                  },
+                  {
+                    "text": "third",
+                    "typeText": "",
+                    "icon": "TAG",
+                    "textStyle": "NORMAL",
+                    "key": "third :: queryString :: get :: /locations :: ",
+                    "start": 704,
+                    "end": 827,
+                    "category": ""
+                  }
+                ],
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "ResourcesCategory"
+      }
+    ],
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 827,
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 827,
+    "category": ""
+  }
+}

@@ -1,0 +1,141 @@
+[
+  {
+    "@id": "file://C:/GIT-repos/stuff/raml/fragments/overlay.raml",
+    "@type": [
+      "http://raml.org/vocabularies/document#Overlay",
+      "http://raml.org/vocabularies/document#Document",
+      "http://raml.org/vocabularies/document#Fragment",
+      "http://raml.org/vocabularies/document#Module",
+      "http://raml.org/vocabularies/document#Unit"
+    ],
+    "http://raml.org/vocabularies/document#extends": [
+      {
+        "@id": "file://C:/GIT-repos/stuff/raml/fragments/api.raml"
+      }
+    ],
+    "http://raml.org/vocabularies/document#encodes": [
+      {
+        "@id": "file://C:/GIT-repos/stuff/raml/fragments/overlay.raml#/web-api",
+        "@type": [
+          "http://schema.org/WebAPI",
+          "http://raml.org/vocabularies/document#RootDomainElement",
+          "http://raml.org/vocabularies/document#DomainElement"
+        ],
+        "http://raml.org/vocabularies/http#endpoint": [
+          {
+            "@id": "file://C:/GIT-repos/stuff/raml/fragments/overlay.raml#/web-api/end-points/%2Fresource",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/resource"
+              }
+            ]
+          },
+          {
+            "@id": "file://C:/GIT-repos/stuff/raml/fragments/overlay.raml#/web-api/end-points/%2Fresource%2Fsubresource",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/resource/subresource"
+              }
+            ],
+            "http://schema.org/description": [
+              {
+                "@value": "overlay description"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "http://raml.org/vocabularies/document#references": [
+      {
+        "@id": "file://C:/GIT-repos/stuff/raml/fragments/api.raml",
+        "@type": [
+          "http://raml.org/vocabularies/document#Document",
+          "http://raml.org/vocabularies/document#Fragment",
+          "http://raml.org/vocabularies/document#Module",
+          "http://raml.org/vocabularies/document#Unit"
+        ],
+        "http://raml.org/vocabularies/document#encodes": [
+          {
+            "@id": "file://C:/GIT-repos/stuff/raml/fragments/api.raml#/web-api",
+            "@type": [
+              "http://schema.org/WebAPI",
+              "http://raml.org/vocabularies/document#RootDomainElement",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "test API"
+              }
+            ],
+            "http://raml.org/vocabularies/http#endpoint": [
+              {
+                "@id": "file://C:/GIT-repos/stuff/raml/fragments/api.raml#/web-api/end-points/%2Fresource",
+                "@type": [
+                  "http://raml.org/vocabularies/http#EndPoint",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://raml.org/vocabularies/http#path": [
+                  {
+                    "@value": "/resource"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "api description"
+                  }
+                ]
+              },
+              {
+                "@id": "file://C:/GIT-repos/stuff/raml/fragments/api.raml#/web-api/end-points/%2Fresource%2Fsubresource",
+                "@type": [
+                  "http://raml.org/vocabularies/http#EndPoint",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://raml.org/vocabularies/http#path": [
+                  {
+                    "@value": "/resource/subresource"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "api description"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "http://raml.org/vocabularies/document#declares": [
+          {
+            "@id": "file://C:/GIT-repos/stuff/raml/fragments/api.raml#/declarations/scalar/MyType",
+            "@type": [
+              "http://www.w3.org/ns/shacl#ScalarShape",
+              "http://www.w3.org/ns/shacl#Shape",
+              "http://raml.org/vocabularies/shapes#Shape",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://www.w3.org/ns/shacl#datatype": [
+              {
+                "@id": "http://www.w3.org/2001/XMLSchema#string"
+              }
+            ],
+            "http://www.w3.org/ns/shacl#name": [
+              {
+                "@value": "MyType"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

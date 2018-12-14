@@ -1,0 +1,50 @@
+#%AsyncAPI 0.6
+
+asyncapi: 1.0.0
+
+uses:
+  lib: library.yaml
+
+simpleMap:
+  key1: value1
+  key2: value2
+
+messages:
+  a_message:
+    summary: a message
+    payload:
+      type:
+        - boolean
+        - number
+
+
+info:
+  version: 1.0.0
+  title: AsyncAPI Sample App
+  description: This is a sample server.
+  termsOfService: http://asyncapi.org/terms/
+  contact:
+    name: API Support
+    url: http://www.example.com/support
+    email: support@example.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+externalDocs:
+  url: http://www.example.com/documentation
+  description: main documentation link
+
+baseTopic: hitch.accounts
+
+topics:
+
+  my.topic:
+    publish: a_message
+    subscribe: lib.a_message
+
+  signup:
+    subscribe:
+      $ref: "#/messages/a_message"
+
+    publish: !include fragment.yaml
