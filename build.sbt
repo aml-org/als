@@ -172,10 +172,10 @@ setSonarProperties := {
     stream.close()
 }
 
-val sonarMe = TaskKey[Unit](
+val runSonar = TaskKey[Unit](
     "runSonar",
     "Run sonar!")
-sonarMe := {
+runSonar := {
 
     //  sonarRunnerOptions := Seq(
     //    "-D",
