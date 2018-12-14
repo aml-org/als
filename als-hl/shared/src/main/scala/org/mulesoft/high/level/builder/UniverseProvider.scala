@@ -13,11 +13,13 @@ object UniverseProvider {
     private val universes:mutable.Map[Vendor,IUniverse] = mutable.Map()
 
     def init():Future[Unit] = {
-        Future.sequence(
-            RamlUniverseProvider.raml10Universe().map(universes(Raml10)=_) ::
-            RamlUniverseProvider.raml08Universe().map(universes(Raml08)=_) ::
-            RamlUniverseProvider.oas20Universe().map(universes(Oas)=_) :: Nil)
-            .map(x=>{})
+        if(universes.nonEmpty) Future.successful()
+        else
+            Future.sequence(
+                Seq(RamlUniverseProvider.raml10Universe().map(universes(Raml10)=_) ,
+                    RamlUniverseProvider.raml08Universe().map(universes(Raml08)=_) ,
+                    RamlUniverseProvider.oas20Universe().map(universes(Oas)=_) ))
+              .map( _ => Unit )
     }
 
     def universe(format:Vendor):Option[IUniverse] = universes.get(format)

@@ -39,7 +39,7 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
         "com.github.amlorg" %%% "amf-aml" % deps("amf"),
         "org.mule.common" %%% "scala-common" % deps("common"),
         "org.mule.syaml" %%% "syaml" % deps("syaml"),
-        "org.scalatest"    %%% "scalatest" % "3.0.0" % Test,
+        "org.scalatest"    %%% "scalatest" % "3.0.5" % Test,
         "com.chuusai" %% "shapeless" % "2.3.3",
         "com.lihaoyi" %%% "upickle" % "0.5.1" % Test
     )
@@ -192,6 +192,7 @@ sonarMe := {
 
 
 //**************** ALIASES *********************************************************************************************
+// run only one?
 addCommandAlias(
   "testJVM",
   "; serverJVM/test; suggestionsJVM/test; outlineJVM/test; hlJVM/test"
