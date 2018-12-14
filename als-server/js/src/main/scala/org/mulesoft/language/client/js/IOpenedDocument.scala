@@ -1,5 +1,5 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.client.js
 
-class IOpenedDocument {
-
-}
+class IOpenedDocument {}
+// $COVERAGE-ON$

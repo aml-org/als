@@ -1,4 +1,4 @@
-package org.mulesoft.language.server.server.modules.astManager
+package org.mulesoft.language.server.modules.astManager
 
 import amf.core.model.document.BaseUnit
 

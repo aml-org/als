@@ -1,4 +1,4 @@
-package org.mulesoft.language.server.modules.findDeclaration;
+package org.mulesoft.language.server.modules.findDeclaration
 
 import org.mulesoft.high.level.Search
 import org.mulesoft.high.level.interfaces.IProject
@@ -12,45 +12,46 @@ import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success, Try}
 import scala.concurrent.ExecutionContext.Implicits.global;
 
-class FIndDeclarationModule  extends AbstractServerModule {
-	override val moduleId: String = "FIND_DECLARATION";
+class FIndDeclarationModule extends AbstractServerModule {
+  override val moduleId: String = "FIND_DECLARATION";
 
-	val moduleDependencies: Array[String] = Array(HLASTManager.moduleId);
+  val moduleDependencies: Array[String] = Array(HLASTManager.moduleId);
 
-	override def launch(): Try[IServerModule] = {
-		val superLaunch = super.launch();
+  override def launch(): Try[IServerModule] = {
+    val superLaunch = super.launch();
 
-		if(superLaunch.isSuccess) {
-			connection.onOpenDeclaration(findDeclaration, false);
+    if (superLaunch.isSuccess) {
+      connection.onOpenDeclaration(findDeclaration, false);
 
-			Success(this);
-		} else {
-			superLaunch;
-		}
-	}
+      Success(this);
+    } else {
+      superLaunch;
+    }
+  }
 
-	private def findDeclaration(_uri: String, position: Int): Future[Seq[ILocation]] = {
-        val uri = PathRefine.refinePath(_uri, platform)
-        var promise = Promise[Seq[ILocation]]();
-		
-		currentAst(uri) andThen {
-			case Success(project) => SearchUtils.findDeclaration(project, position) match {
-				case Some(result) => promise.success(result);
+  private def findDeclaration(_uri: String, position: Int): Future[Seq[ILocation]] = {
+    val uri     = PathRefine.refinePath(_uri, platform)
+    var promise = Promise[Seq[ILocation]]();
 
-				case _ => promise.success(Seq());
-			};
-			
-			case Failure(error) => promise.failure(error);
-		}
-		
-		promise.future;
-	}
+    currentAst(uri) andThen {
+      case Success(project) =>
+        SearchUtils.findDeclaration(project, position) match {
+          case Some(result) => promise.success(result);
 
-	private def currentAst(uri: String): Future[IProject] = {
-		getDependencyById(HLASTManager.moduleId).get.asInstanceOf[HLASTManager].forceGetCurrentAST(uri);
-	}
+          case _ => promise.success(Seq());
+        };
+
+      case Failure(error) => promise.failure(error);
+    }
+
+    promise.future;
+  }
+
+  private def currentAst(uri: String): Future[IProject] = {
+    getDependencyById(HLASTManager.moduleId).get.asInstanceOf[HLASTManager].forceGetCurrentAST(uri);
+  }
 }
 
 object FIndDeclarationModule {
-	val moduleId: String = "FIND_DECLARATION";
+  val moduleId: String = "FIND_DECLARATION";
 }

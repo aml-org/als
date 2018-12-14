@@ -1,4 +1,4 @@
-package org.mulesoft.language.server.modules.findReferences;
+package org.mulesoft.language.server.modules.findReferences
 
 import org.mulesoft.high.level.{ReferenceSearchResult, Search}
 import org.mulesoft.high.level.interfaces.{IASTUnit, IProject}
@@ -14,59 +14,60 @@ import scala.util.{Failure, Success, Try}
 import scala.concurrent.ExecutionContext.Implicits.global;
 
 class FindReferencesModule extends AbstractServerModule {
-	override val moduleId: String = "FIND_REFERENCES";
+  override val moduleId: String = "FIND_REFERENCES";
 
-	val moduleDependencies: Array[String] = Array(HLASTManager.moduleId);
-	
-	override def launch(): Try[IServerModule] = {
-		val superLaunch = super.launch();
+  val moduleDependencies: Array[String] = Array(HLASTManager.moduleId);
 
-		if(superLaunch.isSuccess) {
-			connection.onFindReferences(findReferences, false);
+  override def launch(): Try[IServerModule] = {
+    val superLaunch = super.launch();
 
-			Success(this);
-		} else {
-			superLaunch;
-		}
-	}
-	
-	def findReferences(_uri: String, position: Int): Future[Seq[ILocation]] = {
-        val uri = PathRefine.refinePath(_uri,platform)
-		this.connection.debug(s"Finding references at position ${position}",
-			"FindReferencesModule", "findReferences")
+    if (superLaunch.isSuccess) {
+      connection.onFindReferences(findReferences, false);
 
-		var promise = Promise[Seq[ILocation]]();
+      Success(this);
+    } else {
+      superLaunch;
+    }
+  }
 
-		currentAst(uri).andThen {
-			case Success(project) => {
-				SearchUtils.findReferences(project, position) match {
-					case Some(searchResult) => promise.success(searchResult);
-					
-					case _ => {
-						Seq();
-					}
-				}
-			};
-			
-			case Failure(error) => {
-				promise.failure(error)
-			};
-		}
+  def findReferences(_uri: String, position: Int): Future[Seq[ILocation]] = {
+    val uri = PathRefine.refinePath(_uri, platform)
+    this.connection.debug(s"Finding references at position ${position}", "FindReferencesModule", "findReferences")
 
-		promise.future;
-	}
+    var promise = Promise[Seq[ILocation]]();
 
-	private def currentAst(uri: String): Future[IProject] = {
-		val hlmanager = this.getDependencyById(HLASTManager.moduleId).get.asInstanceOf[HLASTManager]
+    currentAst(uri).andThen {
+      case Success(project) => {
+        SearchUtils.findReferences(project, position) match {
+          case Some(searchResult) => promise.success(searchResult);
 
-		hlmanager.forceGetCurrentAST(uri).map(ast=>{
-			println("ASTFOUND: " + ast.rootASTUnit.path + " " + ast.rootASTUnit.text);
-			
-			ast
-		})
-	}
+          case _ => {
+            Seq();
+          }
+        }
+      };
+
+      case Failure(error) => {
+        promise.failure(error)
+      };
+    }
+
+    promise.future;
+  }
+
+  private def currentAst(uri: String): Future[IProject] = {
+    val hlmanager = this.getDependencyById(HLASTManager.moduleId).get.asInstanceOf[HLASTManager]
+
+    hlmanager
+      .forceGetCurrentAST(uri)
+      .map(ast => {
+        println("ASTFOUND: " + ast.rootASTUnit.path + " " + ast.rootASTUnit.text);
+
+        ast
+      })
+  }
 }
 
 object FindReferencesModule {
-	val moduleId: String = "FIND_REFERENCES";
+  val moduleId: String = "FIND_REFERENCES";
 }

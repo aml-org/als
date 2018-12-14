@@ -14,7 +14,7 @@ import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.core.connections.IServerConnection
 import org.mulesoft.language.server.core.platform.ProxyContentPlatform
 import org.mulesoft.language.server.modules.astManager.DocumentChangedRunnable
-import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
+import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 
 import scala.collection.mutable
 import scala.util.{Failure, Success, Try}
@@ -29,63 +29,63 @@ import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.features.validation.AMFValidatorPlugin
 import org.mulesoft.language.server.modules.dialectManager.dialects.AsyncAPI
-import org.mulesoft.language.server.server.modules.astManager.{IASTManagerModule, ParserHelper}
-
+import org.mulesoft.language.server.modules.astManager.{IASTManagerModule, ParserHelper}
 
 /**
   * AST manager
   */
 class DialectManager extends AbstractServerModule with IDialectManagerModule {
 
-    val moduleDependencies: Array[String] = Array(IASTManagerModule.moduleId)
+  val moduleDependencies: Array[String] = Array(IASTManagerModule.moduleId)
 
-    override def launch(): Try[IServerModule] = {
+  override def launch(): Try[IServerModule] = {
 
+    val superLaunch = super.launch()
 
-        val superLaunch = super.launch()
-
-        if (superLaunch.isSuccess) {
-            amfInit()
-            Success(this)
-        } else {
-            superLaunch
-        }
+    if (superLaunch.isSuccess) {
+      amfInit()
+      Success(this)
+    } else {
+      superLaunch
     }
+  }
 
-    def dialects: Seq[IBundledProject] = Seq(AsyncAPI)
+  def dialects: Seq[IBundledProject] = Seq(AsyncAPI)
 
-    def amfInit():Future[Unit] = {
-        amf.core.AMF.registerPlugin(AMLPlugin)
-        amf.core.AMF.registerPlugin(Raml10Plugin)
-        amf.core.AMF.registerPlugin(Raml08Plugin)
-        amf.core.AMF.registerPlugin(Oas20Plugin)
-        amf.core.AMF.registerPlugin(Oas30Plugin)
-        amf.core.AMF.registerPlugin(AMFValidatorPlugin)
-        amf.core.AMF.registerPlugin(PayloadValidatorPlugin)
-        AMF.init().flatMap(_=>{
+  def amfInit(): Future[Unit] = {
+    amf.core.AMF.registerPlugin(AMLPlugin)
+    amf.core.AMF.registerPlugin(Raml10Plugin)
+    amf.core.AMF.registerPlugin(Raml08Plugin)
+    amf.core.AMF.registerPlugin(Oas20Plugin)
+    amf.core.AMF.registerPlugin(Oas30Plugin)
+    amf.core.AMF.registerPlugin(AMFValidatorPlugin)
+    amf.core.AMF.registerPlugin(PayloadValidatorPlugin)
+    AMF
+      .init()
+      .flatMap(_ => {
 
-            val dialecOpts = dialects.map(d=>{
+        val dialecOpts = dialects.map(d => {
 
-                var dialectCfg = new ParserConfig(
-                    Some(ParserConfig.PARSE),
-                    Some(d.rootUrl),
-                    Some("AML 1.0"),
-                    Some("application/yaml"),
-                    None,
-                    Some("AMF"),
-                    Some("application/json+ld")
-                )
+          var dialectCfg = new ParserConfig(
+            Some(ParserConfig.PARSE),
+            Some(d.rootUrl),
+            Some("AML 1.0"),
+            Some("application/yaml"),
+            None,
+            Some("AMF"),
+            Some("application/json+ld")
+          )
 
-                val proxyPlatform = new ProxyContentPlatform(platform, d.files)
-                val helper = ParserHelper(proxyPlatform)
-                helper.parse(dialectCfg, proxyPlatform.defaultEnvironment)
-            })
-            Future.sequence(dialecOpts).map(_ => {})
+          val proxyPlatform = new ProxyContentPlatform(platform, d.files)
+          val helper        = ParserHelper(proxyPlatform)
+          helper.parse(dialectCfg, proxyPlatform.defaultEnvironment)
         })
-    }
+        Future.sequence(dialecOpts).map(_ => {})
+      })
+  }
 
-    override def stop(): Unit = {
+  override def stop(): Unit = {
 
-        super.stop()
-    }
+    super.stop()
+  }
 }

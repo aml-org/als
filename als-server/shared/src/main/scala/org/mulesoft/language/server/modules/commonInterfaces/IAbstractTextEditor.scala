@@ -1,5 +1,4 @@
-package org.mulesoft.language.server.server.modules.commonInterfaces
-
+package org.mulesoft.language.server.modules.commonInterfaces
 
 trait IAbstractTextEditor {
 
@@ -22,4 +21,16 @@ trait IAbstractTextEditor {
     * Returns document version, if any.
     */
   def version: Int
+
+  /**
+    * Language ID
+    * @return
+    */
+  def language: String
+
+  /**
+    * Syntax ID
+    * @return
+    */
+  def syntax: String
 }

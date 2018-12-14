@@ -4,8 +4,8 @@ import amf.core.remote.{Raml10, Vendor}
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.hlastManager.{HLASTManager, IHLASTListener, IHLASTManagerModule}
-import org.mulesoft.language.server.server.modules.commonInterfaces.{IAbstractTextEditorWithCursor, IEditorTextBuffer, IPoint}
-import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
+import org.mulesoft.language.server.modules.commonInterfaces.{IAbstractTextEditorWithCursor, IEditorTextBuffer, IPoint}
+import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 
 import scala.collection.mutable.Buffer
 import scala.collection.mutable.ArrayBuffer
@@ -63,7 +63,6 @@ class SuggestionsManager extends AbstractServerModule {
     }
   }
 
-
   override def stop(): Unit = {
 
     super.stop()
@@ -71,12 +70,12 @@ class SuggestionsManager extends AbstractServerModule {
     this.connection.onDocumentCompletion(this.onDocumentCompletionListener, true)
   }
 
+  protected def onDocumentCompletion(_url: String, position: Int): Future[Seq[ISuggestion]] = {
 
-  protected def onDocumentCompletion(_url: String, position: Int) : Future[Seq[ISuggestion]] = {
-
-      val url = PathRefine.refinePath(_url, platform)
+    val url = PathRefine.refinePath(_url, platform)
     this.connection.debug(s"Calling for completion for uri ${url} and position ${position}",
-      "SuggestionsManager", "onDocumentCompletion")
+                          "SuggestionsManager",
+                          "onDocumentCompletion")
 
     val editorOption: Option[IAbstractTextEditorWithCursor] =
       this.getEditorManager.getEditor(url)
@@ -90,8 +89,7 @@ class SuggestionsManager extends AbstractServerModule {
 
       val text = org.mulesoft.als.suggestions.Core.prepareText(editor.text, position, syntax)
 
-
-      val vendorOption = Vendor.unapply(editor.language)
+      val vendorOption   = Vendor.unapply(editor.language)
       val vendor: Vendor = vendorOption.getOrElse(Raml10)
 //      this.connection.debug("Vendor is: " + vendor,
 //        "SuggestionsManager", "onDocumentCompletion")
@@ -106,55 +104,61 @@ class SuggestionsManager extends AbstractServerModule {
 //      this.connection.debug("Completion substring: " + text.substring(position-10, position),
 //        "SuggestionsManager", "onDocumentCompletion")
 
-      this.buildCompletionProviderAST(text, editor.text, url, position,
-        vendor, syntax).flatMap(provider=>{
+      this
+        .buildCompletionProviderAST(text, editor.text, url, position, vendor, syntax)
+        .flatMap(provider => {
 
-        provider.suggest.map(result=>{
-          this.connection.debug(s"Got ${result.length} proposals",
-            "SuggestionsManager", "onDocumentCompletion")
+          provider.suggest.map(result => {
+            this.connection.debug(s"Got ${result.length} proposals", "SuggestionsManager", "onDocumentCompletion")
 
-          val endTime = System.currentTimeMillis()
+            val endTime = System.currentTimeMillis()
 
-          this.connection.debugDetail(s"It took ${endTime-startTime} milliseconds to complete",
-            "ASTMaSuggestionsManagernager", "onDocumentCompletion")
+            this.connection.debugDetail(s"It took ${endTime - startTime} milliseconds to complete",
+                                        "ASTMaSuggestionsManagernager",
+                                        "onDocumentCompletion")
 
-          result
+            result
+          })
+
         })
-
-      })
     } else {
-      Promise.successful( Seq.empty[ISuggestion]).future
+      Promise.successful(Seq.empty[ISuggestion]).future
     }
   }
 
-  def buildCompletionProviderAST(text:String, unmodifiedContent: String, url: String, position: Int,
-                                 vendor: Vendor, syntax: Syntax): Future[CompletionProvider] = {
+  def buildCompletionProviderAST(text: String,
+                                 unmodifiedContent: String,
+                                 url: String,
+                                 position: Int,
+                                 vendor: Vendor,
+                                 syntax: Syntax): Future[CompletionProvider] = {
 
-    this.getHLASTManager.forceBuildNewAST(url, text).map(hlAST=>{
+    this.getHLASTManager
+      .forceBuildNewAST(url, text)
+      .map(hlAST => {
 
-      val baseName = url.substring(url.lastIndexOf('/') + 1)
+        val baseName = url.substring(url.lastIndexOf('/') + 1)
 
-      val astProvider = new ASTProvider(hlAST.rootASTUnit.rootNode, vendor, syntax,
-        position)
+        val astProvider = new ASTProvider(hlAST.rootASTUnit.rootNode, vendor, syntax, position)
 
-      val editorStateProvider = new EditorStateProvider(text, url, baseName, position)
+        val editorStateProvider = new EditorStateProvider(text, url, baseName, position)
 
-      val platformFSProvider = new PlatformBasedExtendedFSProvider(this.platform)
+        val platformFSProvider = new PlatformBasedExtendedFSProvider(this.platform)
 
-      val completionConfig = new CompletionConfig()
-        .withEditorStateProvider(editorStateProvider)
-        .withAstProvider(astProvider)
-        .withFsProvider(platformFSProvider)
-        .withOriginalContent(unmodifiedContent)
+        val completionConfig = new CompletionConfig()
+          .withEditorStateProvider(editorStateProvider)
+          .withAstProvider(astProvider)
+          .withFsProvider(platformFSProvider)
+          .withOriginalContent(unmodifiedContent)
 
-      CompletionProvider().withConfig(completionConfig)
-    })
-
+        CompletionProvider().withConfig(completionConfig)
+      })
 
   }
 }
 
 object SuggestionsManager {
+
   /**
     * Module ID
     */

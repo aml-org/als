@@ -1,4 +1,4 @@
-package org.mulesoft.language.server.server.modules.commonInterfaces
+package org.mulesoft.language.server.modules.commonInterfaces
 
 /**
   * Range of positions in text.

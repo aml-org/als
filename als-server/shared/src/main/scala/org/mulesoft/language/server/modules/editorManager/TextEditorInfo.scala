@@ -1,21 +1,22 @@
-package org.mulesoft.language.server.server.modules.editorManager
+package org.mulesoft.language.server.modules.editorManager
 
 import org.mulesoft.language.common.logger.ILogger
-import org.mulesoft.language.server.server.modules.commonInterfaces.{IAbstractTextEditorWithCursor, IEditorTextBuffer, IPoint}
+import org.mulesoft.language.server.modules.commonInterfaces.{IAbstractTextEditorWithCursor, IEditorTextBuffer, IPoint}
 
 /**
   * Info regarding single text editor.
   */
-class TextEditorInfo (private val uri: String,
-                      var version: Int,
-                      _text: String,
+class TextEditorInfo(private val uri: String,
+                     var version: Int,
+                     _text: String,
+                     val language: String,
+                     val syntax: String,
 //                      private val editorManager: EditorManager,
-                      private val logger: ILogger)
-  extends IAbstractTextEditorWithCursor {
+                     private val logger: ILogger)
+    extends IAbstractTextEditorWithCursor {
 
   val _buffer: TextBufferInfo = new TextBufferInfo(uri, logger)
-  var _cursorPosition: Int = 0
-
+  var _cursorPosition: Int    = 0
 
   this._buffer.setText(_text)
 
@@ -43,7 +44,7 @@ class TextEditorInfo (private val uri: String,
     this.uri
   }
 
-  def text_= (text: String): Unit = {
+  def text_=(text: String): Unit = {
 
     this._buffer.setText(text)
   }

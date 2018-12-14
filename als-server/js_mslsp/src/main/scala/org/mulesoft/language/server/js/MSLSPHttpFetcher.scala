@@ -7,7 +7,7 @@ import amf.core.remote.Content
 import amf.core.remote.server.{Http, Https, Path}
 import org.mulesoft.language.server.core.connections.IServerConnection
 import org.mulesoft.language.server.core.platform.ConnectionBasedPlatform
-import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
+import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 
 import scala.concurrent.{Future, Promise}
 import scala.scalajs.js
@@ -92,4 +92,3 @@ object MSLSPHttpFetcher extends PlatformDependentPart {
 
   override def normalizeURL(url: String): String = Path.resolve(url)
 }
-
