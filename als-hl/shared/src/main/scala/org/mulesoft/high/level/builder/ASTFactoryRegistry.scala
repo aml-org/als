@@ -17,6 +17,6 @@ object ASTFactoryRegistry {
     }
 
     def init():Future[Unit] = {
-        Future.sequence(RAML10ASTFactory.init() :: RAML08ASTFactory.init() :: OAS20ASTFactory.init() :: Nil).map(x=>{})
+        Future.sequence(Seq(RAML10ASTFactory.init() , RAML08ASTFactory.init() , OAS20ASTFactory.init() )).map(x=>{})
     }
 }

@@ -502,12 +502,7 @@ object Helpers {
         })
     }
 
-    def parentResource(de:AmfElement):Option[EndPoint] = {
-        de.annotations.find(classOf[ParentEndPoint]) match {
-            case Some(pep) => Some(pep.parent)
-            case _ => None
-        }
-    }
+    def parentResource(de:AmfElement):Option[EndPoint] = de.annotations.find(classOf[ParentEndPoint]).flatMap(_.parent)
 
     def resourcePath(element:AmfObject):Option[String] = {
         Option(element.fields.get(EndPointModel.Path)) match {

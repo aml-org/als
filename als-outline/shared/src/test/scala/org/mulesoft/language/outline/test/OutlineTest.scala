@@ -4,6 +4,7 @@ import upickle.default.{macroRW, read, write, ReadWriter => RW}
 import amf.client.remote.Content
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
+import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.high.level.Core
@@ -29,9 +30,7 @@ object File {
     }
 }
 
-trait OutlineTest[T] extends AsyncFunSuite {
-
-    val platform : TestPlatform  = TestPlatform.getInstance()
+trait OutlineTest[T] extends AsyncFunSuite with PlatformSecrets{
 
     implicit override def executionContext:ExecutionContext =
         scala.concurrent.ExecutionContext.Implicits.global
@@ -79,8 +78,7 @@ trait OutlineTest[T] extends AsyncFunSuite {
 
             override def fetch(resource: String): Future[Content] = Future.successful(new Content(content, path))
         })
-        loaders ++= platform.loaders()
-        loaders
+        Environment().loaders
     }
 
     def getExpectedOutline(url: String): Future[String]
@@ -145,8 +143,7 @@ trait OutlineTest[T] extends AsyncFunSuite {
 
             override def fetch(resource: String): Future[Content] = Future.successful(new Content(content,fileUrl))
         })
-        loaders ++= platform.loaders()
-        var env:Environment = Environment(loaders)
+        var env:Environment = Environment()
         env
     }
     //  def cacheUnit(fileUrl: String, content: String, position: Int, mime: Option[String]): Unit = {
