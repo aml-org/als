@@ -1,5 +1,3 @@
-package test.scala.org.test
-
 import collection.mutable.Stack
 import org.scalatest._
 

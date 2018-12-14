@@ -1,14 +1,19 @@
-import org.mulesoft.high.level.project.IProject
+package org.mulesoft.language.server.modules.outline
+
+import amf.core.remote.Vendor
+import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.high.level.interfaces.IHighLevelNode
+import org.mulesoft.language.outline.common.commonInterfaces.IASTProvider
 
-class ASTProvider(ast: IParseResult) extends IASTProvider{
+class ASTProvider(ast: IParseResult, position: Int, val language: String) extends IASTProvider {
+
   /**
     * Returns the root of AST
     * @return
     */
   def getASTRoot: Option[IHighLevelNode] = {
-    return this.ast
+    return Some(this.ast.asInstanceOf[IHighLevelNode])
   }
 
   /**
@@ -16,7 +21,6 @@ class ASTProvider(ast: IParseResult) extends IASTProvider{
     * @return
     */
   def getSelectedNode: Option[IParseResult] = {
-    return this.ast
+    this.ast.getNodeByPosition(this.position)
   }
-
 }

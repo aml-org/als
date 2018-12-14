@@ -1,4 +1,4 @@
-package org.mulesoft.language.server.server.modules.commonInterfaces
+package org.mulesoft.language.server.modules.commonInterfaces
 
 /**
   * Abstract text editor, being able to provide current cursor posisiton in buffer terms.

@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.common.logger
 
 /**
@@ -5,7 +6,6 @@ package org.mulesoft.language.common.logger
   */
 class EmptyLogger extends AbstractLogger {
 
-  protected def internalLog(msg: String, severity: MessageSeverity.Value): Unit = {
-
-  }
+  protected def internalLog(msg: String, severity: MessageSeverity.Value): Unit = {}
 }
+// $COVERAGE-ON$

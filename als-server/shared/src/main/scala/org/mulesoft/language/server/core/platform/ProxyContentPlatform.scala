@@ -7,7 +7,7 @@ import amf.core.lexer.CharSequenceStream
 import amf.core.remote._
 import org.mulesoft.common.io.FileSystem
 import org.mulesoft.language.server.core.connections.IServerConnection
-import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
+import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -19,20 +19,20 @@ import scala.collection.Map
 
 class ProxyFileLoader(platform: ProxyContentPlatform) extends ResourceLoader {
 
-    override def accepts(resource: String): Boolean = {
-      !(resource.startsWith("http") || resource.startsWith("HTTP"))
-    }
+  override def accepts(resource: String): Boolean = {
+    !(resource.startsWith("http") || resource.startsWith("HTTP"))
+  }
 
-    override def fetch(resource: String): Future[Content] = {
-      platform.fetchFile(resource)
-    }
+  override def fetch(resource: String): Future[Content] = {
+    platform.fetchFile(resource)
+  }
 }
 
-class ProxyContentPlatform(protected val source: ConnectionBasedPlatform, map:Map[String,String])
-  extends Platform {  self =>
+class ProxyContentPlatform(protected val source: ConnectionBasedPlatform, map: Map[String, String]) extends Platform {
+  self =>
 
   def this(source: ConnectionBasedPlatform, overrideUrl: String, overrideContent: String) = {
-      this(source, Map(overrideUrl -> overrideContent))
+    this(source, Map(overrideUrl -> overrideContent))
   }
 
   override val fs: FileSystem = source.fs
@@ -52,25 +52,27 @@ class ProxyContentPlatform(protected val source: ConnectionBasedPlatform, map:Ma
 
   def fetchFile(_path: String): Future[Content] = {
     var path = _path
-    path = PathRefine.refinePath(path,this)
+    path = PathRefine.refinePath(path, this)
 
-    source.connection.debugDetail("Asked to fetch file " + path + " while override urls are " + map.keys.mkString(", "),
-      "ProxyContentPlatform", "fetchFile")
+    source.connection.debugDetail(
+      "Asked to fetch file " + path + " while override urls are " + map.keys.mkString(", "),
+      "ProxyContentPlatform",
+      "fetchFile")
 
     if (this.map.contains(path) ||
-      (path.startsWith("file://") && this.map.contains(path.substring("file://".length)))) {
+        (path.startsWith("file://") && this.map.contains(path.substring("file://".length)))) {
 
-      source.connection.debugDetail("Path found to be overriden " + path,
-        "ProxyContentPlatform", "fetchFile")
+      source.connection.debugDetail("Path found to be overriden " + path, "ProxyContentPlatform", "fetchFile")
 
-      Future.successful(Content(new CharSequenceStream(path, this.map(path)),
-        ensureFileAuthority(path),
-        extension(path).flatMap(mimeFromExtension)))
+      Future.successful(
+        Content(new CharSequenceStream(path, this.map(path)),
+                ensureFileAuthority(path),
+                extension(path).flatMap(mimeFromExtension)))
     } else {
       source.fetchFile(path)
     }
   }
-    // $COVERAGE-OFF$
+  // $COVERAGE-OFF$
   def fetchHttp(url: String): Future[Content] = source.fetchHttp(url)
 
   override def tmpdir(): String = source.tmpdir()
@@ -93,6 +95,6 @@ class ProxyContentPlatform(protected val source: ConnectionBasedPlatform, map:Ma
 
   override def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] =
     source.findCharInCharSequence(stream)(p)
-    // $COVERAGE-ON$
+  // $COVERAGE-ON$
   override def operativeSystem(): String = source.operativeSystem()
 }

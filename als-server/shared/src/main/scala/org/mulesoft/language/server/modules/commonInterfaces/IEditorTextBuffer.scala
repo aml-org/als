@@ -1,4 +1,4 @@
-package org.mulesoft.language.server.server.modules.commonInterfaces
+package org.mulesoft.language.server.modules.commonInterfaces
 
 /**
   * Text editor buffer.
@@ -29,6 +29,13 @@ trait IEditorTextBuffer {
     * @param range
     */
   def getTextInRange(range: IRange): String
+
+  /**
+    * Gets line number by offset
+    * @param offset
+    * @return
+    */
+  def lineByOffset(offset: Int): Int
 
   /**
     * Sets (replacing if needed) text in range

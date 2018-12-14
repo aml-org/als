@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 package org.mulesoft.language.server
 
 import amf.client.commands.{CmdLineParser, ParseCommand, TranslateCommand, ValidateCommand}
@@ -17,11 +18,10 @@ import amf.plugins.features.validation.emitters.ValidationReportJSONLDEmitter
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
-
 object Test extends PlatformSecrets {
   def main(args: Array[String]): Unit = {
-    val config = CmdLineParser.parse("validate -in \"RAML 1.0\" -mime-in \"application/yaml\" /Users/munch/apis/Instagram/test53.raml".split(" "));
-
+    val config = CmdLineParser.parse(
+      "validate -in \"RAML 1.0\" -mime-in \"application/yaml\" /Users/munch/apis/Instagram/test53.raml".split(" "));
 
     CmdLineParser.parse(args) match {
       case Some(cfg) =>
@@ -44,3 +44,4 @@ object Test extends PlatformSecrets {
   def runValidate(config: ParserConfig): Future[Any]  = ValidateCommand(platform).run(config)
   def runParse(config: ParserConfig): Future[Any]     = ParseCommand(platform).run(config)
 }
+// $COVERAGE-ON$

@@ -1,8 +1,10 @@
-package org.mulesoft.language.client
+package org.mulesoft.language.client.client
 
+import org.mulesoft.als.suggestions.interfaces.ISuggestion
 import org.mulesoft.language.common.logger.ILogger
-import org.mulesoft.language.common.typeInterfaces._
+import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
+import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 
 import scala.concurrent.Future
 
@@ -20,14 +22,14 @@ trait IClientConnection extends ILogger {
     * Adds a listener for validation report coming from the server.
     * @param listener
     */
-  def onValidationReport(listener: (IValidationReport) => Unit): Unit
+  def onValidationReport(listener: (IValidationReport) => Unit, unsubscribe: Boolean = false): Unit
 
   /**
     * Instead of calling getStructure to get immediate structure report for the document,
     * this method allows to launch to the new structure reports when those are available.
     * @param listener
     */
-  def onStructureReport(listener: (IStructureReport) => Unit): Unit
+  def onStructureReport(listener: (IStructureReport) => Unit, unsubscribe: Boolean = false): Unit
 
   /**
     * Notifies the server that document is opened.
@@ -51,7 +53,7 @@ trait IClientConnection extends ILogger {
     * Requests server for the document structure.
     * @param uri
     */
-  def getStructure(uri: String): Future[Map[String, StructureNode]]
+  def getStructure(uri: String): Future[Map[String, StructureNodeJSON]]
 
   /**
     * Requests server for the suggestions.
@@ -102,24 +104,24 @@ trait IClientConnection extends ILogger {
     * Listens to the server requests for FS path existence, answering whether
     * a particular path exists on FS.
     */
-  def onExists(listener: ((String) => Future[Boolean])): Unit
+  def onExists(listener: ((String) => Future[Boolean]), unsubscribe: Boolean = false): Unit
 
   /**
     * Listens to the server requests for directory contents, answering with a list
     * of files in a directory.
     */
-  def onReadDir(listener: ((String) => Future[Seq[String]])): Unit
+  def onReadDir(listener: ((String) => Future[Seq[String]]), unsubscribe: Boolean = false): Unit
 
   /**
     * Listens to the server requests for directory check, answering whether
     * a particular path is a directory.
     */
-  def onIsDirectory(listener: ((String) => Future[Boolean])): Unit
+  def onIsDirectory(listener: ((String) => Future[Boolean]), unsubscribe: Boolean = false): Unit
 
   /**
     * Listens to the server requests for file contents, answering what contents file has.
     */
-  def onContent(listener: ((String) => Future[String])): Unit
+  def onContent(listener: ((String) => Future[String]), unsubscribe: Boolean = false): Unit
 
   /**
     * Requests server for the document+position details.
@@ -139,7 +141,7 @@ trait IClientConnection extends ILogger {
     * for particular document and position.
     * @param listener
     */
-  def onDetailsReport(listener: (() => Unit)): Unit
+  def onDetailsReport(listener: (IDetailsReport => Unit), unsubscribe: Boolean = false): Unit
 
   /**
     * Executes the specified details action.
@@ -189,7 +191,7 @@ trait IClientConnection extends ILogger {
     * @param listener - accepts UI display request, should result in a promise
     * returning final UI state to be transferred to the server.
     */
-  def onDisplayActionUI(listener: ((IUIDisplayRequest) => Future[Any])): Unit
+  def onDisplayActionUI(listener: ((IUIDisplayRequest) => Future[Any]), unsubscribe: Boolean = false): Unit
 
   /**
     * Sets server configuration.

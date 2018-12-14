@@ -6,7 +6,7 @@ import amf.core.lexer.CharSequenceStream
 import amf.core.remote._
 import org.mulesoft.common.io.FileSystem
 import org.mulesoft.language.server.core.connections.IServerConnection
-import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
+import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -42,8 +42,7 @@ object File {
   }
 }
 
-class DefaultFileLoader(platform: ConnectionBasedPlatform)
-  extends ResourceLoader {
+class DefaultFileLoader(platform: ConnectionBasedPlatform) extends ResourceLoader {
 
   override def accepts(resource: String): Boolean = {
     !(resource.startsWith("http") || resource.startsWith("HTTP"))
@@ -54,26 +53,25 @@ class DefaultFileLoader(platform: ConnectionBasedPlatform)
   }
 }
 
-class DefaultHttpLoader(platform: ConnectionBasedPlatform)
-  extends ResourceLoader {
+class DefaultHttpLoader(platform: ConnectionBasedPlatform) extends ResourceLoader {
 
-    override def accepts(resource: String): Boolean = {
-      resource.startsWith("http") || resource.startsWith("HTTP")
-    }
+  override def accepts(resource: String): Boolean = {
+    resource.startsWith("http") || resource.startsWith("HTTP")
+  }
 
-    override def fetch(resource: String): Future[Content] = {
-      platform.fetchHttp(resource)
-    }
+  override def fetch(resource: String): Future[Content] = {
+    platform.fetchHttp(resource)
+  }
 }
 
 /**
   * Platform based on connection.
   * Intended for subclassing to implement fetchHttp method
   */
-class ConnectionBasedPlatform (val connection: IServerConnection,
-                                        val editorManager: IEditorManagerModule,
-                                        val platformPart: PlatformDependentPart)
-  extends Platform { self =>
+class ConnectionBasedPlatform(val connection: IServerConnection,
+                              val editorManager: IEditorManagerModule,
+                              val platformPart: PlatformDependentPart)
+    extends Platform { self =>
 
   override val fs: FileSystem = new ConnectionBasedFS(connection, editorManager)
 
@@ -91,16 +89,15 @@ class ConnectionBasedPlatform (val connection: IServerConnection,
   override def resolvePath(_uri: String): String = {
 
     var uri = _uri
-    uri = PathRefine.refinePath(uri,this)
+    uri = PathRefine.refinePath(uri, this)
     val result = uri match {
       case File(path) =>
         val isWindows = operativeSystem().toLowerCase().indexOf("win") >= 0
         if (path.startsWith("/")) {
           File.FILE_PROTOCOL + path
-        } else if(isWindows){
+        } else if (isWindows) {
           File.FILE_PROTOCOL + withTrailingSlash(path)
-        }
-        else {
+        } else {
           File.FILE_PROTOCOL + path
         }
 
@@ -117,36 +114,34 @@ class ConnectionBasedPlatform (val connection: IServerConnection,
   def fetchFile(_path: String): Future[Content] = {
     var path = _path
 
-    this.connection.debugDetail("Asked to fetch file " + path,
-      "ConnectionBasedPlatform", "fetchFile")
+    this.connection.debugDetail("Asked to fetch file " + path, "ConnectionBasedPlatform", "fetchFile")
 
-    path = PathRefine.refinePath(path,this)
-    this.connection.debugDetail("Refined path is " + path,
-      "ConnectionBasedPlatform", "fetchFile")
+    path = PathRefine.refinePath(path, this)
+    this.connection.debugDetail("Refined path is " + path, "ConnectionBasedPlatform", "fetchFile")
 
     //val uri = if(path.startsWith(File.FILE_PROTOCOL)) path else File.FILE_PROTOCOL + path
     val uri = path
 
     val editorOption = this.editorManager.getEditor(uri)
-    connection.debugDetail(s"Result of editor check for uri ${uri}: ${editorOption.isDefined}", "ConnectionBasedPlatform", "fetchFile")
+    connection.debugDetail(s"Result of editor check for uri ${uri}: ${editorOption.isDefined}",
+                           "ConnectionBasedPlatform",
+                           "fetchFile")
 
     val contentFuture =
-      if (editorOption.isDefined){
+      if (editorOption.isDefined) {
 
         Future.successful(editorOption.get.text)
-      }
-      else {
+      } else {
         this.connection.content(uri)
       }
 
     contentFuture
-      .map(
-        content => {
+      .map(content => {
 
-          Content(new CharSequenceStream(path, content),
-            ensureFileAuthority(path),
-            extension(path).flatMap(mimeFromExtension))
-        })
+        Content(new CharSequenceStream(path, content),
+                ensureFileAuthority(path),
+                extension(path).flatMap(mimeFromExtension))
+      })
   }
 // $COVERAGE-OFF$
   def fetchHttp(url: String): Future[Content] = platformPart.fetchHttp(url)
@@ -178,4 +173,3 @@ class ConnectionBasedPlatform (val connection: IServerConnection,
 // $COVERAGE-ON$
   override def operativeSystem(): String = platformPart.operativeSystem();
 }
-

@@ -1,4 +1,4 @@
-package org.mulesoft.language.client.jvm.dtoTypes;
+package org.mulesoft.language.client.jvm.dtoTypes
 
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON;
 

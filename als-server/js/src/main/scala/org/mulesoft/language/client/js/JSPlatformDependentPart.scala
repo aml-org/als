@@ -8,7 +8,7 @@ import amf.client.remote.Content
 import amf.core.remote.server.{Http, Https}
 import org.mulesoft.language.server.core.connections.IServerConnection
 import org.mulesoft.language.server.core.platform.ConnectionBasedPlatform
-import org.mulesoft.language.server.server.modules.editorManager.IEditorManagerModule
+import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 
 import scala.concurrent.{Future, Promise}
 import scala.scalajs.js
@@ -96,7 +96,7 @@ object JSPlatformDependentPart extends PlatformDependentPart {
   override def normalizePath(url: String): String = new URI(encodeURI(url)).normalize.toString
 
   override def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] = stream.toString.find(p)
-  
+
   override def operativeSystem(): String = Globals.process.platform;
 }
 // $COVERAGE-ON$
