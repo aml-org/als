@@ -1,0 +1,52 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.9-abcd",
+    "title": "Swagger Sample API"
+  },
+  "paths": {
+    "/pets/{id}": {
+      "parameters": [
+        {
+          "name": "idHeader",
+          "in": "body",
+          "description": "ID of pet to use",
+          "required": true,
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "collectionFormat": "csv",
+          "schema": {
+            "title": "text",
+            "description": "text",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "tag": {
+                "type": "string"
+              }
+            },
+            "descriminator": "name",
+            "xml": {
+              "attribute": true,
+              "name": "fullname",
+              "wrapped": true,
+              "namespace": "air",
+              "prefix": "air"
+            },
+            "externalDocs": {
+              "description": "Find more info here",
+              "url": "https://swagger.io"
+            },
+            "allOf": [
+              "object"
+            ],
+            "required": true
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,168 @@
+package org.mulesoft.high.level.test.RAML10.AST
+
+import org.mulesoft.high.level.test.RAML10.RAML10ASTTest
+
+class Method extends RAML10ASTTest {
+
+  test("Method queryParameters") {
+    runTest("ASTTests/Method/query_parameters.raml", project => {
+
+      var expectedValue = 1
+      var length = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("queryParameters").length
+      if (length == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${length}")
+    })
+  }
+
+  test("Method headers") {
+    runTest("ASTTests/Method/headers.raml", project => {
+
+      var expectedValue = 4
+      var length = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("headers").length
+      if (length == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${length}")
+    })
+  }
+
+  test("Method queryString"){
+    runTest( "ASTTests/Method/query_string.raml", project => {
+
+      var expectedValue = 1
+      var length = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("queryString").length
+      if (length == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${length}")
+    })
+  }
+
+  test("Method queryString name"){
+    runTest( "ASTTests/Method/query_string.raml", project => {
+
+      var expectedValue = "queryString"
+      var actualValue = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("queryString").head.attribute("name").get.value
+      if (actualValue == Some(expectedValue))
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${actualValue}")
+    })
+  }
+
+  test("Method responses") {
+    runTest("ASTTests/Method/responses.raml", project => {
+
+      var expectedValue = 3
+      var length = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("responses").length
+      if (length == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${length}")
+    })
+  }
+
+  test("Method body") {
+    runTest("ASTTests/Method/body.raml", project => {
+
+      var expectedValue = 1
+      var length = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("body").length
+      if (length == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${length}")
+    })
+  }
+
+  test("Method protocols") {
+    runTest("ASTTests/Method/protocols.raml", project => {
+
+      var expectedValue = 2
+      var length = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.attributes("protocols").length
+      if (length == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${length}")
+    })
+  }
+
+  test("Method is") {
+    runTest("ASTTests/Method/is.raml", project => {
+
+      var expectedValue = 2
+      var length = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("is").length
+      if (length == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${length}")
+    })
+  }
+
+  test("Method securedBy") {
+    runTest("ASTTests/Method/secured_by.raml", project => {
+
+      var expectedValue = 1
+      var length = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("securedBy").length
+      if (length == expectedValue)
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${length}")
+    })
+  }
+
+  test("Method securedBy name") {
+    runTest("ASTTests/Method/secured_by.raml", project => {
+
+      var expectedValue = "oauth2"
+      var length = project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.elements("securedBy").head.attribute("name").get.value
+      if (length == Some(expectedValue))
+        succeed
+      else
+        fail(s"Expected value: $expectedValue, actual: ${length}")
+    })
+  }
+
+  test("Method description"){
+    runTest( "ASTTests/Method/description.raml", project => {
+
+      var expectedValue = "test"
+      project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.attribute("description") match {
+        case Some(a) => a.value match {
+          case Some(expectedValue) => succeed
+          case _ => fail(s"Expected value: $expectedValue, actual: ${a.value}")
+        }
+        case _ => fail("'description' attribute not found")
+      }
+    })
+  }
+
+  test("Method displayName"){
+    runTest( "ASTTests/Method/display_name.raml", project => {
+
+      var expectedValue = "Create"
+      project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.attribute("displayName") match {
+        case Some(a) => a.value match {
+          case Some(expectedValue) => succeed
+          case _ => fail(s"Expected value: $expectedValue, actual: ${a.value}")
+        }
+        case _ => fail("'displayName' attribute not found")
+      }
+    })
+  }
+
+  test("Method method"){
+    runTest( "ASTTests/Method/method.raml", project => {
+
+      var expectedValue = "post"
+      project.rootASTUnit.rootNode.elements("resources").head.elements("methods").head.attribute("method") match {
+        case Some(a) => a.value match {
+          case Some(expectedValue) => succeed
+          case _ => fail(s"Expected value: $expectedValue, actual: ${a.value}")
+        }
+        case _ => fail("'method' attribute not found")
+      }
+    })
+  }
+}

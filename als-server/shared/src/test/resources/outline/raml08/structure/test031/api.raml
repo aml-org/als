@@ -1,0 +1,23 @@
+#%RAML 0.8
+title: ZEncoder API
+version: v2
+baseUri: https://app.zencoder.com/api/{version}
+/media/popular:
+  displayName: Most Popular Media
+  get:
+    description: |
+      Get a list of what media is most popular at the moment.
+    responses:
+      503:
+        description: |
+          The service is currently unavailable or you exceeded the maximum requests
+          per hour allowed to your application.
+        headers:
+          X-waiting-period:
+            description: |
+              The number of seconds to wait before you can attempt to make a request again.
+            type: integer
+            required: true
+            minimum: 1
+            maximum: 3600
+            example: 34

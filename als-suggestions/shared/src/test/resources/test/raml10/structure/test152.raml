@@ -1,0 +1,22 @@
+#%RAML 1.0
+title: test API
+
+types:
+  newName:
+    type: array
+    items: string
+  ObjectType:
+    properties:
+      p1:
+
+/resource:
+  post:
+    body:
+      application/json:
+        type: object
+        *
+        properties:
+
+
+
+

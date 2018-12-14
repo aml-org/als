@@ -1,0 +1,21 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.9-abcd
+  title: Swagger Sample API
+
+paths:
+  /resource:
+    get:
+      parameters:
+        - "$ref": "#/*"
+
+parameters:
+  param1:
+    type: string
+    name: p1
+    in: query
+  param2:
+    type: string
+    name: p2
+    in: header

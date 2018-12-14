@@ -1,0 +1,98 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 335,
+    "children": [
+      {
+        "text": "Pet",
+        "typeText": "",
+        "icon": "FILE_SUBMODULE",
+        "textStyle": "NORMAL",
+        "key": "Pet :: ",
+        "start": 125,
+        "end": 279,
+        "children": [
+          {
+            "text": "name",
+            "typeText": ":string",
+            "icon": "FILE_SUBMODULE",
+            "textStyle": "NORMAL",
+            "key": "name :: Pet :: ",
+            "start": 164,
+            "end": 210,
+            "category": ""
+          },
+          {
+            "text": "tag",
+            "typeText": ":string",
+            "icon": "FILE_SUBMODULE",
+            "textStyle": "NORMAL",
+            "key": "tag :: Pet :: ",
+            "start": 220,
+            "end": 265,
+            "category": ""
+          }
+        ],
+        "category": "SchemasAndTypesCategory"
+      },
+      {
+        "text": "ErrorModel",
+        "typeText": ":object",
+        "icon": "FILE_SUBMODULE",
+        "textStyle": "NORMAL",
+        "key": "ErrorModel :: ",
+        "start": 285,
+        "end": 329,
+        "category": "SchemasAndTypesCategory"
+      }
+    ],
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 335,
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 335,
+    "children": [
+      {
+        "text": "info",
+        "typeText": "",
+        "icon": "",
+        "textStyle": "",
+        "key": "info :: ",
+        "start": 24,
+        "end": 100,
+        "category": "OtherCategory"
+      }
+    ],
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 335,
+    "category": ""
+  }
+}

@@ -1,0 +1,15 @@
+#%RAML 1.0
+title: API
+securitySchemes:
+  oauth:
+    type: OAuth 1.0
+    settings:
+      
+    describedBy:
+      queryParameters:
+        abc: number
+      headers:
+        If-Match:
+      responses:
+        200:
+        201:

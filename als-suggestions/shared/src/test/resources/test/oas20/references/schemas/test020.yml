@@ -1,0 +1,20 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.9-abcd
+  title: Swagger Sample API
+
+paths:
+  /resource:
+    post:
+      responses:
+        "200":
+          schema:
+            "$ref": *
+
+definitions:
+  Type1:
+    type: object
+  Type2:
+    type: object
+

@@ -1,0 +1,31 @@
+#%RAML 1.0
+title: tst
+types:
+  tt:
+    type: array
+    items:
+      type: abc
+      minProperties: 2
+    displayName: cba
+    description: aoeu
+    facets:
+      ee: string
+  arr:
+    type: object
+  abc:
+    type: object
+    displayName: cba
+    description: aoeu
+    minProperties:
+    example:
+      aa: aoeu
+      cc: 4
+    properties:
+      aa: string
+      bb?: boolean
+      cc: number
+    facets:
+      ab: string
+      cd: bb
+  bb:
+    type: object

@@ -1,0 +1,44 @@
+#%RAML 1.0 Library
+
+usage: test library
+
+types:
+  MyType: object
+
+resourceTypes:
+  ResourceType1:
+    (AnnotationType1): some string value
+    uriParameters:
+      uriParam1:
+    get:
+      (AnnotationType1): some string value
+      queryParameters:
+        qp1:
+          (AnnotationType1): some string value
+          type: object
+          properties:
+            p1:
+            p2:
+      headers:
+        h1:
+      body:
+        application/json: MyType
+        application/xml:
+          (AnnotationType1): some string value
+          type: MyType
+          properties:
+            p1:
+
+      responses:
+        200:
+          (AnnotationType1): some string value
+          description: response description
+          body:
+            application/json: MyType
+
+  ResourceType2:
+    type: ResourceType1
+
+annotationTypes:
+  AnnotationType1:
+  AnnotationType2:

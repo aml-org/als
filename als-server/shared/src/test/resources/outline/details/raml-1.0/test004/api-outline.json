@@ -1,0 +1,132 @@
+{
+  "title": "Trait",
+  "description": "Declarations of traits for use within this API",
+  "type": null,
+  "children": [
+    {
+      "title": "name",
+      "description": "Name of the trait",
+      "type": "ATTRIBUTETEXT",
+      "children": [],
+      "valueText": "base",
+      "id": ".base#name"
+    },
+    {
+      "title": "Documentation",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "displayName",
+          "description": "The displayName attribute specifies the trait display name. It is a friendly name used only for  display or documentation purposes. If displayName is not specified, it defaults to the element's key (the name of the property itself).",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": "base",
+          "id": ".base#displayName"
+        },
+        {
+          "title": "usage",
+          "description": "Instructions on how and when the trait should be used.",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": "method",
+          "id": ".base#usage"
+        },
+        {
+          "title": "description",
+          "description": "",
+          "type": "MARKDOWN",
+          "children": [],
+          "valueText": null,
+          "id": ".base#description"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#Documentation"
+    },
+    {
+      "title": "References",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "is",
+          "description": "Instantiation of applyed traits",
+          "type": "MULTIEDITOR",
+          "children": [],
+          "valueText": "main",
+          "id": ".base#is"
+        },
+        {
+          "title": "securedBy",
+          "description": "securityScheme may also be applied to a resource by using the securedBy key, which is equivalent to applying the securityScheme to all methods that may be declared, explicitly or implicitly, by defining the resourceTypes or traits property for that resource. To indicate that the method may be called without applying any securityScheme, the method may be annotated with the null securityScheme.",
+          "type": "MULTIEDITOR",
+          "children": [],
+          "valueText": "basic, null",
+          "id": ".base#securedBy"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#References"
+    },
+    {
+      "title": "General",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "protocols",
+          "description": "A method can override the protocols specified in the resource or at the API root, by employing this property.",
+          "type": "MULTIEDITOR",
+          "children": [],
+          "valueText": "HTTPS",
+          "id": ".base#protocols"
+        },
+        {
+          "title": "headers",
+          "description": "Insert headers",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".base#headers#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "queryString",
+          "description": "Insert queryString",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".base#queryString#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "responses",
+          "description": "Insert responses",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".base#responses#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "body",
+          "description": "Insert body",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".base#body#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "Delete",
+          "description": "",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": ".base#DELETE_DETAILS_ACTION",
+          "subType": "DELETE"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#General"
+    }
+  ],
+  "valueText": null,
+  "id": "Category#Trait"
+}

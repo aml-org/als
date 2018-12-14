@@ -1,0 +1,14 @@
+#%RAML 1.0
+title: tst
+types:
+  arr:
+    type: [abc , bb]
+  abc:
+    type: object
+  bb:
+    type: object
+/res:
+  post:
+    body:
+      application/json:
+        type: arr

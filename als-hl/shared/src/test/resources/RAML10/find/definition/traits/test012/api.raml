@@ -1,0 +1,14 @@
+#%RAML 1.0
+
+title: test API
+
+traits:
+  tr1:
+    get:
+  tr:
+    description: <<param>>
+    body:
+      application/json:
+
+/resource:
+  is: [ { tr: { param: some* value } } ]

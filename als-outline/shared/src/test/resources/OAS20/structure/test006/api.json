@@ -1,0 +1,21 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.9-abcd",
+    "title": "Swagger Sample API"
+  },
+  "tags": [
+    {
+      "name": "pet",
+      "description": "Everything you need to handle pets",
+      "externalDocs": {
+        "description": "Find more info here",
+        "url": "https://swagger.io"
+      }
+    },
+    {
+      "name": "pet1",
+      "description": "Everything you need to handle pet1s"
+    }
+  ]
+}

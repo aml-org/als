@@ -1,0 +1,15 @@
+#%RAML 1.0
+title: tst
+types:
+  union:
+    type: object | abc
+  arr:
+    type: object
+  abc:
+    type: object
+    properties:
+      aa: string
+      bb?: boolean
+      cc: number
+  bb:
+    type: object

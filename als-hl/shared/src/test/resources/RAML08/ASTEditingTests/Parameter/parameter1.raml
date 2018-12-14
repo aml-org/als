@@ -1,0 +1,14 @@
+#%RAML 0.8
+title: test API
+
+/resource:
+  get:
+    queryParameters:
+      qp1:
+        type: number
+        repeat: false
+  post:
+    queryParameters:
+      qp2:
+        type: number
+        repeat: true

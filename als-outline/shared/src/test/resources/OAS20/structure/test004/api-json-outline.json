@@ -1,0 +1,108 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 756,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 756,
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 756,
+    "children": [
+      {
+        "text": "petstoreImplicit",
+        "typeText": ":OAuth 2.0",
+        "icon": "",
+        "textStyle": "",
+        "key": "petstoreImplicit :: ",
+        "start": 133,
+        "end": 501,
+        "children": [
+          {
+            "text": "scopes",
+            "typeText": "",
+            "icon": "",
+            "textStyle": "",
+            "key": "scopes :: petstoreImplicit :: ",
+            "start": 185,
+            "end": 400,
+            "children": [
+              {
+                "text": "user",
+                "typeText": "",
+                "icon": "",
+                "textStyle": "",
+                "key": "user :: scopes :: petstoreImplicit :: ",
+                "start": 205,
+                "end": 319,
+                "category": ""
+              },
+              {
+                "text": "user:email",
+                "typeText": "",
+                "icon": "",
+                "textStyle": "",
+                "key": "user:email :: scopes :: petstoreImplicit :: ",
+                "start": 329,
+                "end": 392,
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "OtherCategory"
+      },
+      {
+        "text": "internalApiKey",
+        "typeText": ":x-amf-apiKey",
+        "icon": "",
+        "textStyle": "",
+        "key": "internalApiKey :: ",
+        "start": 507,
+        "end": 602,
+        "category": "OtherCategory"
+      },
+      {
+        "text": "info",
+        "typeText": "",
+        "icon": "",
+        "textStyle": "",
+        "key": "info :: ",
+        "start": 24,
+        "end": 100,
+        "category": "OtherCategory"
+      }
+    ],
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 0,
+    "end": 756,
+    "category": ""
+  }
+}

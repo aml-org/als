@@ -1,0 +1,40 @@
+{
+  "swagger": "2.0",
+  "info"  : {
+    "title": "asd",
+    "contact": {
+      "url": "asd"
+    },
+    "version": "asddd",
+    "description": "asdfasdfasdf"
+  },
+  "paths": {
+
+    "/x": {
+      "get": {
+
+        "consumes": [ "application/json" ],
+
+
+        "parameters": [
+
+          {"$ref": "#/parameters/p1"}
+
+        ],
+        "responses": {
+          "*"
+        }
+
+
+      }
+    }
+  },
+  "responses": {
+    "r1": {
+      "description": "asdasd"
+    },
+    "r2": {
+      "description": "asdasd"
+    }
+  }
+}

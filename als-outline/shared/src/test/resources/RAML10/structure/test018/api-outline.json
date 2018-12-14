@@ -1,0 +1,126 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 1336,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 1336,
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 1336,
+    "children": [
+      {
+        "text": "oauth_2_0",
+        "typeText": ":OAuth 2.0",
+        "icon": "FILE_SUBMODULE",
+        "textStyle": "NORMAL",
+        "key": "oauth_2_0 :: ",
+        "start": 103,
+        "end": 1336,
+        "children": [
+          {
+            "text": "settings",
+            "typeText": "",
+            "icon": "TAG",
+            "textStyle": "NORMAL",
+            "key": "settings :: oauth_2_0 :: ",
+            "start": 1100,
+            "end": 1336,
+            "category": ""
+          },
+          {
+            "text": "describedBy",
+            "typeText": "",
+            "icon": "TAG",
+            "textStyle": "NORMAL",
+            "key": "describedBy :: oauth_2_0 :: ",
+            "start": 227,
+            "end": 1086,
+            "children": [
+              {
+                "text": "access_token",
+                "typeText": ":string",
+                "icon": "FILE_BINARY",
+                "textStyle": "SUCCESS",
+                "key": "access_token :: describedBy :: oauth_2_0 :: ",
+                "start": 485,
+                "end": 660,
+                "category": ""
+              },
+              {
+                "text": "401",
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "401 :: describedBy :: oauth_2_0 :: ",
+                "start": 685,
+                "end": 888,
+                "category": ""
+              },
+              {
+                "text": "403",
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "403 :: describedBy :: oauth_2_0 :: ",
+                "start": 896,
+                "end": 1086,
+                "category": ""
+              },
+              {
+                "text": "Authorization",
+                "typeText": ":string",
+                "icon": "FILE_BINARY",
+                "textStyle": "SUCCESS",
+                "key": "Authorization :: describedBy :: oauth_2_0 :: ",
+                "start": 263,
+                "end": 454,
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "OtherCategory"
+      },
+      {
+        "text": "version",
+        "typeText": "",
+        "icon": "FILE_BINARY",
+        "textStyle": "SUCCESS",
+        "key": "version :: ",
+        "category": "OtherCategory"
+      }
+    ],
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 1336,
+    "category": ""
+  }
+}

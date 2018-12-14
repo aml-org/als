@@ -1,0 +1,110 @@
+{
+  "SchemasAndTypesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 605,
+    "category": ""
+  },
+  "ResourcesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 605,
+    "category": ""
+  },
+  "OtherCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 605,
+    "category": ""
+  },
+  "ResourceTypesAndTraitsCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "TAG",
+    "textStyle": "NORMAL",
+    "key": "",
+    "start": 11,
+    "end": 605,
+    "children": [
+      {
+        "text": "secured",
+        "typeText": "",
+        "icon": "TAG",
+        "textStyle": "NORMAL",
+        "key": "secured :: ",
+        "start": 365,
+        "end": 605,
+        "children": [
+          {
+            "text": "access_token",
+            "typeText": "",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "access_token :: secured :: ",
+            "start": 509,
+            "end": 605,
+            "children": [
+              {
+                "text": "example",
+                "typeText": "",
+                "icon": "TAG",
+                "textStyle": "NORMAL",
+                "key": "example :: access_token :: secured :: ",
+                "start": 574,
+                "end": 583,
+                "category": ""
+              }
+            ],
+            "category": ""
+          }
+        ],
+        "category": "ResourceTypesAndTraitsCategory"
+      },
+      {
+        "text": "collection",
+        "typeText": "",
+        "icon": "TAG",
+        "textStyle": "NORMAL",
+        "key": "collection :: ",
+        "start": 59,
+        "end": 355,
+        "children": [
+          {
+            "text": "get",
+            "typeText": "",
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "key": "get :: collection :: ",
+            "start": 203,
+            "end": 276,
+            "category": ""
+          },
+          {
+            "text": "post",
+            "typeText": "",
+            "icon": "PRIMITIVE_DOT",
+            "textStyle": "WARNING",
+            "key": "post :: collection :: ",
+            "start": 281,
+            "end": 354,
+            "category": ""
+          }
+        ],
+        "category": "ResourceTypesAndTraitsCategory"
+      }
+    ],
+    "category": ""
+  }
+}

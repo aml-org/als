@@ -1,0 +1,18 @@
+#%RAML 1.0
+
+title: test API
+
+traits:
+  tr1:
+    description: <<param1>> <<param2>>
+  tr2:
+    description: <<param1>> <<param2>>
+  tr3:
+    description: <<param11>> <<param12>>
+
+/resource:
+  get:
+    is:
+      - tr1:
+          param1: stringValue1
+          param2: stringValue2

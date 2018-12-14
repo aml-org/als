@@ -1,0 +1,15 @@
+#%RAML 1.0
+
+title: test API
+
+uses:
+  lib: lib.raml
+
+types:
+  t1:
+    properties:
+      p1:
+      p2:
+
+  t3:
+    type: t1|*lib.t2

@@ -1,0 +1,21 @@
+#%RAML 1.0
+
+title: aaa
+
+annotationTypes:
+  AOne:
+    type: object
+    properties:
+        aaa: string
+
+  ATwo: number
+
+/afafasdfsdf:
+
+  get:
+    (A*
+    responses:
+      200:
+        body:
+          application/json:
+            type: object

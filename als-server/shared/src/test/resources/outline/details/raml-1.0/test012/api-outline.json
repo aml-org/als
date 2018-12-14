@@ -1,0 +1,189 @@
+{
+  "title": "userIds",
+  "description": "Detailed information about any URI parameters of this resource",
+  "type": null,
+  "children": [
+    {
+      "title": "name",
+      "description": "Type name for top level types. For properties and parameters -- property o parameter name, respectively. For bodies -- media type.",
+      "type": "ATTRIBUTETEXT",
+      "children": [],
+      "valueText": "userIds",
+      "id": "./users./{userIds}.userIds#name"
+    },
+    {
+      "title": "General",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "allowedTargets",
+          "description": "Restrictions on where annotations of this type can be applied. If this property is specified, annotations of this type may only be applied on a property corresponding to one of the target names specified as the value of this property.",
+          "type": "MULTIEDITOR",
+          "children": [],
+          "valueText": "",
+          "id": "./users./{userIds}.userIds#allowedTargets"
+        },
+        {
+          "title": "default",
+          "description": "Provides default value for a property",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": "./users./{userIds}.userIds#default"
+        },
+        {
+          "title": "isAnnotation",
+          "description": "Whether the type represents annotation",
+          "type": "CHECKBOX",
+          "children": [],
+          "valueText": "false",
+          "id": "./users./{userIds}.userIds#isAnnotation"
+        },
+        {
+          "title": "required",
+          "description": "For property or parameter states if it is required.",
+          "type": "CHECKBOX",
+          "children": [],
+          "valueText": "false",
+          "id": "./users./{userIds}.userIds#required"
+        },
+        {
+          "title": "facets",
+          "description": "Insert facets",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": "./users./{userIds}.userIds#facets#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "example",
+          "description": "Insert example",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": "./users./{userIds}.userIds#example#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "examples",
+          "description": "Insert examples",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": "./users./{userIds}.userIds#examples#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "xml",
+          "description": "Insert xml",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": "./users./{userIds}.userIds#xml#",
+          "subType": "INSERT"
+        },
+        {
+          "title": "Delete",
+          "description": "",
+          "type": "DETAILS_ACTION",
+          "children": [],
+          "id": "./users./{userIds}.userIds#DELETE_DETAILS_ACTION",
+          "subType": "DELETE"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#General"
+    },
+    {
+      "title": "Documentation",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "displayName",
+          "description": "The displayName attribute specifies the type display name. It is a friendly name used only for  display or documentation purposes. If displayName is not specified, it defaults to the element's key (the name of the property itself).",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": "./users./{userIds}.userIds#displayName"
+        },
+        {
+          "title": "description",
+          "description": "A longer, human-friendly description of the type",
+          "type": "MARKDOWN",
+          "children": [],
+          "valueText": "A list of userIds",
+          "id": "./users./{userIds}.userIds#description"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#Documentation"
+    },
+    {
+      "title": "Facets",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "items",
+          "description": "Array component type.",
+          "type": "STRUCTURED",
+          "children": [],
+          "valueText": null,
+          "id": "./users./{userIds}.userIds#items"
+        },
+        {
+          "title": "maxItems",
+          "description": "Maximum amount of items in array",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": "./users./{userIds}.userIds#maxItems"
+        },
+        {
+          "title": "minItems",
+          "description": "Minimum amount of items in array",
+          "type": "ATTRIBUTETEXT",
+          "children": [],
+          "valueText": null,
+          "id": "./users./{userIds}.userIds#minItems"
+        },
+        {
+          "title": "uniqueItems",
+          "description": "Should items in array be unique",
+          "type": "CHECKBOX",
+          "children": [],
+          "valueText": "true",
+          "id": "./users./{userIds}.userIds#uniqueItems"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#Facets"
+    },
+    {
+      "title": "type",
+      "description": "A base type which the current type extends, or more generally a type expression.",
+      "type": "MULTIEDITOR",
+      "children": [],
+      "valueText": "array",
+      "id": "./users./{userIds}.userIds#type"
+    },
+    {
+      "title": "Type",
+      "description": "",
+      "type": "CATEGORY",
+      "children": [
+        {
+          "title": "Type",
+          "description": "A base type which the current type extends, or more generally a type expression.",
+          "type": "TYPEDISPLAY",
+          "children": [],
+          "valueText": "array",
+          "id": "./users./{userIds}.userIds#type"
+        }
+      ],
+      "valueText": null,
+      "id": "Category#Type"
+    }
+  ],
+  "valueText": null,
+  "id": "Category#userIds"
+}

@@ -1,0 +1,32 @@
+swagger: '2.0'
+info:
+  version: 1.0.9-abcd
+  title: Swagger Sample API
+
+host: my.api.com
+basePath: /v1
+schemes:
+  - http
+  - https
+
+consumes:
+  - application/json
+
+produces:
+  - application/json
+  - application/xml
+
+paths:
+  /pets/{id}:
+    get:
+      responses:
+        200:
+          $ref: "*#/responses/r2"
+
+responses:
+  r1:
+    schema:
+      type: object
+  r2:
+    schema:
+      type: object

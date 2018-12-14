@@ -1,0 +1,98 @@
+{
+  "DeclaresCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 26,
+    "end": 292,
+    "children": [
+      {
+        "text": "messages",
+        "typeText": "",
+        "icon": "",
+        "textStyle": "",
+        "key": "messages :: ",
+        "start": 49,
+        "end": 251,
+        "children": [
+          {
+            "text": "payload",
+            "typeText": "",
+            "icon": "FILE_BINARY",
+            "textStyle": "SUCCESS",
+            "key": "payload :: messages :: ",
+            "start": 138,
+            "end": 251,
+            "children": [
+              {
+                "text": "p1",
+                "typeText": ":string",
+                "icon": "",
+                "textStyle": "",
+                "key": "p1 :: payload :: messages :: ",
+                "start": 191,
+                "end": 214,
+                "category": ""
+              },
+              {
+                "text": "p2",
+                "typeText": ":integer",
+                "icon": "",
+                "textStyle": "",
+                "key": "p2 :: payload :: messages :: ",
+                "start": 226,
+                "end": 251,
+                "category": ""
+              }
+            ],
+            "category": ""
+          },
+          {
+            "text": "key1",
+            "typeText": "",
+            "icon": "",
+            "textStyle": "",
+            "key": "key1 :: messages :: ",
+            "start": 93,
+            "end": 106,
+            "category": ""
+          },
+          {
+            "text": "key2",
+            "typeText": "",
+            "icon": "",
+            "textStyle": "",
+            "key": "key2 :: messages :: ",
+            "start": 112,
+            "end": 125,
+            "category": ""
+          }
+        ],
+        "category": "DeclaresCategory"
+      },
+      {
+        "text": "securitySchemes",
+        "typeText": ":apiKey",
+        "icon": "",
+        "textStyle": "",
+        "key": "securitySchemes :: ",
+        "start": 275,
+        "end": 292,
+        "category": "DeclaresCategory"
+      }
+    ],
+    "category": ""
+  },
+  "EncodesCategory": {
+    "text": "",
+    "typeText": "",
+    "icon": "",
+    "textStyle": "",
+    "key": "",
+    "start": 26,
+    "end": 292,
+    "category": ""
+  }
+}
