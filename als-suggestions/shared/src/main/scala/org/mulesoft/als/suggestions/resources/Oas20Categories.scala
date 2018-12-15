@@ -2,8 +2,8 @@ package org.mulesoft.als.suggestions.resources
 
 object Oas20Categories {
 
-    val value =
-        """
+  val value =
+    """
           |{
           |  "docs" : {
           |    "description": {"is": ["MarkdownString"]},
@@ -18,7 +18,8 @@ object Oas20Categories {
           |	   "tags": {"parentIs": ["SwaggerObject", "OperationObject"]},
           |	   "summary": {"parentIs": ["OperationObject"]},
           |	   "info": {"parentIs": ["SwaggerObject"]},
-          |	   "example" : {"parentIs":["CommonParameterObject", "SchemaObject", "ResponseObject"]},
+          |	   "example" : {"parentIs":["CommonParameterObject", "SchemaObject"]},
+          |    "examples" : {"parentIs":["ResponseObject"]},
           |	   "externalDocs": {"parentIs": ["SwaggerObject", "SchemaObject", "OperationObject"]}
           |  },
           |
