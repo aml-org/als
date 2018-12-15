@@ -1,0 +1,9 @@
+swagger: '2.0'
+info:
+  title: Swagger Sample API
+paths:
+  /path:
+      responses:
+        '200':
+          ex*:
+          description: a pet to be returned

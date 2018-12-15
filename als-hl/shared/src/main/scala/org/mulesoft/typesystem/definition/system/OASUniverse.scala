@@ -1,8 +1,8 @@
 package org.mulesoft.typesystem.definition.system
 
 object OASUniverse {
-val value1 =
-"""[
+  val value1 =
+    """[
   {
     "classes": [
       {
@@ -935,8 +935,8 @@ val value1 =
         "annotationOverridings": {}
       },
 """
-val value2 =
-"""{
+  val value2 =
+    """{
         "name": "NumberType",
         "methods": [],
         "typeParameters": [],
@@ -2121,8 +2121,8 @@ val value2 =
         "annotationOverridings": {}
       },
 """
-val value3 =
-"""{
+  val value3 =
+    """{
         "name": "ParameterObject",
         "methods": [],
         "typeParameters": [],
@@ -2461,8 +2461,8 @@ val value3 =
         "annotationOverridings": {}
       },
 """
-val value4 =
-        """{
+  val value4 =
+    """{
         "name": "SchemaObject",
         "methods": [],
         "typeParameters": [],
@@ -2996,7 +2996,7 @@ val value4 =
             "optional": false
           },
           {
-            "name": "example",
+            "name": "examples",
             "type": {
               "base": {
                 "typeName": "Example",
@@ -3274,8 +3274,8 @@ val value4 =
             "optional": false
           },
 """
-val value5 =
-"""{
+  val value5 =
+    """{
             "name": "consumes",
             "type": {
               "base": {
@@ -4357,5 +4357,5 @@ val value5 =
   }
 ]"""
 
-val value = value1 + value2 + value3 + value4 + value5
+  val value = value1 + value2 + value3 + value4 + value5
 }

@@ -2986,7 +2986,7 @@
             "optional": false
           },
           {
-            "name": "example",
+            "name": "examples",
             "type": {
               "base": {
                 "typeName": "Example",
