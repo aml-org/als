@@ -6,5 +6,4 @@ paths:
     get:
       responses:
         '200':
-          ex*:
-          description: a pet to be returned
+          h*:

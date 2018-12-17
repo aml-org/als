@@ -2991,7 +2991,12 @@ object OASUniverse {
               },
               "typeKind": 1
             },
-            "annotations": [],
+            "annotations": [
+                {
+                  "name": "MetaModel.embeddedInMaps",
+                  "arguments": []
+                }
+            ],
             "valueConstraint": null,
             "optional": false
           },
