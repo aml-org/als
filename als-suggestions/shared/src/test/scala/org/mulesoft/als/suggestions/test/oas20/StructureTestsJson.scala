@@ -74,6 +74,10 @@ class StructureTestsJson extends OAS20Test {
     this.runTest("structure_json/test111.json", Set("examples"))
   }
 
+  test("ResponseObject headers") {
+    this.runTest("structure_json/test112.json", Set("headers"))
+  }
+
   test("ParameterObject name") {
     this.runTest("structure_json/test51.json", Set("name"))
   }

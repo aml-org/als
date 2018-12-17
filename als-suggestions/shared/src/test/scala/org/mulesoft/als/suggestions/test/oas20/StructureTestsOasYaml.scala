@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.test.oas20
 
-class StructureTests extends OAS20Test {
+class StructureTestsOasYaml extends OAS20Test {
 
   test("SwaggerObject info") {
     this.runTest("structure/test01.yml", Set("info:\n  "))
@@ -103,7 +103,11 @@ class StructureTests extends OAS20Test {
   }
 
   test("ResponseObject examples") {
-    this.runTest("structure/test116.yml", Set("examples:\n            "))
+    this.runTest("structure/test116.yml", Set("examples"))
+  }
+
+  test("ResponseObject headers") {
+    this.runTest("structure/test117.yml", Set("headers"))
   }
 
   test("ParameterObject description") {
