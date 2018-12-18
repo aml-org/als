@@ -1,8 +1,8 @@
 package org.mulesoft.typesystem.definition.system
 
 object RAML08Universe {
-val value1 =
-"""[
+  val value1 =
+    """[
   {
     "classes": [
       {
@@ -1038,8 +1038,8 @@ val value1 =
         "annotationOverridings": {}
       },
 """
-val value2 =
-"""{
+  val value2 =
+    """{
         "name": "MarkdownString",
         "methods": [],
         "typeParameters": [],
@@ -2117,8 +2117,8 @@ val value2 =
     "name": "C:\\GIT-repos\\raml-org\\raml-definition-system\\raml-definition\\spec-0.8\\parameters.ts"
   },
 """
-val value3 =
-"""
+  val value3 =
+    """
   {
     "classes": [
       {
@@ -2355,19 +2355,7 @@ val value3 =
               {
                 "name": "MetaModel.oftenKeys",
                 "arguments": [
-                  [
-                    "200",
-                    "201",
-                    "202",
-                    "203",
-                    "300",
-                    "400",
-                    "401",
-                    "402",
-                    "403",
-                    "404",
-                    "405"
-                  ]
+                  """ + RamlResponseCodes.stringValue + """
                 ]
               }
             ],
@@ -3195,8 +3183,8 @@ val value3 =
             "optional": false
           },
 """
-val value4 =
-"""
+  val value4 =
+    """
           {
             "name": "queryParameters",
             "type": {
@@ -4665,5 +4653,5 @@ val value4 =
   }
 ]"""
 
-val value = value1 + value2 + value3 + value4
+  val value = value1 + value2 + value3 + value4
 }

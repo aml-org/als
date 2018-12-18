@@ -1,8 +1,8 @@
 package org.mulesoft.typesystem.definition.system
 
 object RAML10Universe {
-val value1 =
-"""[
+  val value1 =
+    """[
   {
     "classes": [
       {
@@ -958,8 +958,8 @@ val value1 =
         "annotationOverridings": {}
       },
 """
-val value2 =
-"""{
+  val value2 =
+    """{
         "name": "FragmentDeclaration",
         "methods": [],
         "typeParameters": [],
@@ -1970,8 +1970,8 @@ val value2 =
           }
         ],
 """
-val value3 =
-"""
+  val value3 =
+    """
         "isInterface": false,
         "annotations": [
           {
@@ -3247,8 +3247,8 @@ val value3 =
         "annotationOverridings": {}
       },
 """
-val value4 =
-"""
+  val value4 =
+    """
       {
         "name": "StringTypeDeclaration",
         "methods": [],
@@ -4164,19 +4164,7 @@ val value4 =
               {
                 "name": "MetaModel.oftenKeys",
                 "arguments": [
-                  [
-                    "200",
-                    "201",
-                    "202",
-                    "203",
-                    "300",
-                    "400",
-                    "401",
-                    "402",
-                    "403",
-                    "404",
-                    "405"
-                  ]
+                  """ + RamlResponseCodes.stringValue + """
                 ]
               }
             ],
@@ -5021,8 +5009,8 @@ val value4 =
         "annotationOverridings": {}
       },
 """
-val value5 =
-"""
+  val value5 =
+    """
       {
         "name": "Method",
         "methods": [],
@@ -6320,7 +6308,7 @@ val value5 =
         "moduleName": null,
         "annotationOverridings": {}
       },"""
-    val value6 =
+  val value6 =
     """{
         "name": "CustomSecurityScheme",
         "methods": [],
@@ -7066,6 +7054,6 @@ val value5 =
   }
 ]
 """
-val value = value1 + value2 + value3 + value4 + value5 + value6
+  val value = value1 + value2 + value3 + value4 + value5 + value6
 
 }

@@ -3067,20 +3067,7 @@ object OASUniverse {
               {
                 "name": "MetaModel.oftenKeys",
                 "arguments": [
-                  [
-                    "200",
-                    "201",
-                    "202",
-                    "203",
-                    "300",
-                    "400",
-                    "401",
-                    "402",
-                    "403",
-                    "404",
-                    "405",
-                    "default"
-                  ]
+                  """ + OasResponseCodes.stringValue + """
                 ]
               }
             ],
