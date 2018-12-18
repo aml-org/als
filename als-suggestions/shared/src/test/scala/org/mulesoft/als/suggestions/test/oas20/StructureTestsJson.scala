@@ -1,5 +1,7 @@
 package org.mulesoft.als.suggestions.test.oas20
 
+import org.mulesoft.typesystem.definition.system.OasResponseCodes
+
 class StructureTestsJson extends OAS20Test {
 
   test("SwaggerObject info") {
@@ -208,12 +210,10 @@ class StructureTestsJson extends OAS20Test {
   }
 
   test("response codes test 01") {
-    this.runTest("structure_json/test109.json",
-                 Set("200", "201", "202", "203", "300", "400", "401", "402", "403", "404", "405", "default"))
+    this.runTest("structure_json/test109.json", OasResponseCodes.all)
   }
 
   test("response codes test 02") {
-    this.runTest("structure_json/test110.json",
-                 Set("201", "202", "203", "300", "400", "401", "402", "403", "404", "405", "default"))
+    this.runTest("structure_json/test110.json", OasResponseCodes.all)
   }
 }

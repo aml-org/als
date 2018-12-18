@@ -187,54 +187,23 @@ class StructureTestsOasYaml extends OAS20Test {
   }
 
   test("request parameter type 1") {
-    this.runTest("structure/test110.yml", Set("query", "header", "path", "formData", "body"));
+    this.runTest("structure/test110.yml", Set("query", "header", "path", "formData", "body"))
   }
 
   test("request parameter type 2") {
-    this.runTest("structure/test111.yml", Set("query", "header", "path", "formData", "body"));
+    this.runTest("structure/test111.yml", Set("query", "header", "path", "formData", "body"))
   }
 
   test("request parameter name 1") {
-    this.runTest("structure/test112.yml", Set("queryParam1", "queryParam2"));
+    this.runTest("structure/test112.yml", Set("queryParam1", "queryParam2"))
   }
 
   test("response codes test 01") {
-    this.runTest(
-      "structure/test113.yml",
-      Set(
-        "200:\n          ",
-        "201:\n          ",
-        "202:\n          ",
-        "203:\n          ",
-        "300:\n          ",
-        "400:\n          ",
-        "401:\n          ",
-        "402:\n          ",
-        "403:\n          ",
-        "404:\n          ",
-        "405:\n          ",
-        "default:\n          "
-      )
-    )
+    this.runTest("structure/test113.yml", TestOasResponseCodes.all)
   }
 
   test("response codes test 02") {
-    this.runTest(
-      "structure/test114.yml",
-      Set(
-        "201:\n          ",
-        "202:\n          ",
-        "203:\n          ",
-        "300:\n          ",
-        "400:\n          ",
-        "401:\n          ",
-        "402:\n          ",
-        "403:\n          ",
-        "404:\n          ",
-        "405:\n          ",
-        "default:\n          "
-      )
-    )
+    this.runTest("structure/test114.yml", TestOasResponseCodes.all)
   }
 
   test("test property name suggestion") {
