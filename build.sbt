@@ -112,8 +112,7 @@ lazy val server = crossProject(JSPlatform, JVMPlatform).settings(
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
     libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
     scalaJSModuleKind := ModuleKind.CommonJSModule,
-    scalaJSUseMainModuleInitializer := true,
-    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6
+    artifactPath in (Compile, fullOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.js"
 )
 
 
@@ -121,14 +120,13 @@ lazy val server = crossProject(JSPlatform, JVMPlatform).settings(
 lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
 lazy val serverJS  = server.js.in(file("./als-server/js"))
 
-val buildJS_MSLSP = TaskKey[Unit]("buildJSMSLSP")
-val buildJS_WEBLSP = TaskKey[Unit]("buildJSWEBLSP") // todo: commented tasks?
+//********************BuildJS*******************************************************************************************
 
 val buildJS = TaskKey[Unit]("buildJS", "Build npm module")
 
 buildJS := {
     val _ = (fullOptJS in Compile in serverJS).value
-    "./als-server/js/build-scripts/buildjs.sh".!
+    "./als-server/js/build-scripts/buildJs.sh".!
 }
 
 mainClass in Compile := Some("org.mulesoft.language.client.js.Main")
@@ -202,4 +200,3 @@ addCommandAlias(
   "testJS",
   "; serverJS/test; suggestionsJS/test; outlineJVM/test; hlJS/test"
 )
-
