@@ -1,0 +1,20 @@
+{
+  "name": "als-server-js",
+  "version": "1.0.0",
+  "description": "ALS Server Library",
+  "main": "als-server.js",
+  "author": "als team",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/mulesoft/als",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mulesoft/als"
+  },
+  "bin": {
+    "als": "./bin/als"
+  },
+  "dependencies": {
+    "amf-shacl-node": "1.1.0",
+    "ajv": "6.5.2"
+  }
+}
