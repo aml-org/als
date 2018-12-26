@@ -34,7 +34,7 @@ object OAS20ASTFactory {
   private var _instance: Option[OAS20ASTFactory] = None
   def instance: OAS20ASTFactory                  = _instance.get
 
-  def org.init(): Future[Unit] = {
+  def init(): Future[Unit] = {
     if (_instance.isDefined) {
       Future {}
     } else {
