@@ -18,7 +18,7 @@ publish := {}
 jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
 
 val settings =  Common.settings ++ Common.publish ++ Seq(
-    organization := "test",
+    organization := "org.mule.als",
     version := deps("version"),
 
       resolvers ++= List(
