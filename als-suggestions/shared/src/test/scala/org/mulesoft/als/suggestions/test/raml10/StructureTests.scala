@@ -533,10 +533,10 @@ class StructureTests extends RAML10Test {
     this.runTest(
       "structure/test156.raml",
       Set(
-        "application/json:",
-        "application/xml:",
-        "multipart/form-data:",
-        "application/x-www-form-urlencoded:",
+        "application/json:\n        ",
+        "application/xml:\n        ",
+        "multipart/form-data:\n        ",
+        "application/x-www-form-urlencoded:\n        ",
         "displayName:",
         "type:",
         "xml:\n        ",
