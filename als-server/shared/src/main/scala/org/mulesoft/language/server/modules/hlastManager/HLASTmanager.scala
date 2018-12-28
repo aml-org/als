@@ -2,7 +2,7 @@ package org.mulesoft.language.server.modules.hlastManager
 
 import org.mulesoft.language.common.dtoTypes.{IRange, IValidationIssue, IValidationReport}
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
-import org.mulesoft.language.server.modules.astManager.{IASTListener, IASTManagerModule, ParserHelper}
+import org.mulesoft.language.server.modules.astManager.{IASTListener, IASTManagerModule}
 import org.mulesoft.language.server.modules.commonInterfaces.{IEditorTextBuffer, IPoint}
 import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 
@@ -14,7 +14,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import org.mulesoft.high.level.Core
 import org.mulesoft.high.level.interfaces.IProject
 import amf.core.model.document.BaseUnit
-import org.mulesoft.language.server.common.utils.PathRefine
+import org.mulesoft.platform.PathRefine
 
 import scala.collection.mutable
 

@@ -1,5 +1,4 @@
-// $COVERAGE-OFF$
-package org.mulesoft.language.server.common.utils
+package org.mulesoft.platform
 
 import amf.core.remote.Platform
 
@@ -27,4 +26,3 @@ object PathRefine {
     }
 
 }
-// $COVERAGE-ON$

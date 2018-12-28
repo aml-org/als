@@ -21,7 +21,7 @@ import org.mulesoft.language.outline.structure.structureImpl.ConfigFactory
 import org.mulesoft.language.common.dtoTypes.IStructureReport
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import amf.core.model.document.BaseUnit
-import org.mulesoft.language.server.common.utils.PathRefine
+import org.mulesoft.platform.PathRefine
 
 import scala.collection.mutable
 

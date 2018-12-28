@@ -18,7 +18,7 @@ import org.mulesoft.language.common.dtoTypes.IStructureReport
 import org.mulesoft.als.suggestions.implementation.CompletionConfig
 import org.mulesoft.als.suggestions.{CompletionProvider, PlatformBasedExtendedFSProvider}
 import org.mulesoft.als.suggestions.interfaces.{ISuggestion, Syntax}
-import org.mulesoft.language.server.common.utils.PathRefine
+import org.mulesoft.platform.PathRefine
 
 import scala.collection.Map
 

@@ -3,10 +3,10 @@ package org.mulesoft.language.server.modules.findDeclaration
 import org.mulesoft.high.level.Search
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.language.common.dtoTypes.{ILocation, IRange}
-import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.SearchUtils
 import org.mulesoft.language.server.modules.hlastManager.HLASTManager
+import org.mulesoft.platform.PathRefine
 
 import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success, Try}

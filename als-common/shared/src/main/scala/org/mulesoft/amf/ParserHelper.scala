@@ -1,27 +1,25 @@
-package org.mulesoft.language.server.modules.astManager
+package org.mulesoft.amf
 
 import amf.client.commands.CommandHelper
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.parser.UnspecifiedReference
 import amf.core.remote.{Cache, Context, Platform}
-import amf.core.services.{RuntimeCompiler, RuntimeValidator}
-import amf.core.validation.AMFValidationReport
+import amf.core.services.RuntimeCompiler
 import amf.internal.environment.Environment
-import amf.plugins.features.validation.PlatformValidator
-import org.mulesoft.language.server.common.utils.PathRefine
+import org.mulesoft.platform.PathRefine
 
-import scala.util.{Failure, Success, Try}
 import scala.concurrent.{Future, Promise}
+import scala.util.{Failure, Success}
 
 class ParserHelper(val platform: Platform) extends CommandHelper {
 
   protected def parseInput(config: ParserConfig, env: Environment): Future[BaseUnit] = {
-    var inputFile   = ensureUrl(config.input.get)
+    var inputFile   = PathRefine.refinePath(config.input.get, platform)
     val inputFormat = config.inputFormat.get
     RuntimeCompiler(
       inputFile,
-      Option(effectiveMediaType(config.inputMediaType, config.inputFormat)),
+      config.inputMediaType,
       config.inputFormat,
       Context(platform),
       UnspecifiedReference,
@@ -30,7 +28,6 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
       env
     )
   }
-  override def ensureUrl(inputFile: String): String = ParserHelper.ensureUrl(inputFile, platform)
 //
 //    def parseResult(config: ParserConfig,env:Environment): Future[ParseResult] = {
 //
@@ -48,7 +45,7 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
     var promise = Promise[BaseUnit]();
 
     Future {
-      AMFInit().andThen {
+      AmfInitializationHandler.init().andThen {
         case Success(initResult) =>
           processDialects(config).andThen {
             case Success(dialectsResult) =>
@@ -109,7 +106,4 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
 
 object ParserHelper {
   def apply(platform: Platform) = new ParserHelper(platform)
-
-  def ensureUrl(inputFile: String, platform: Platform): String =
-    PathRefine.refinePath(inputFile, platform)
 }

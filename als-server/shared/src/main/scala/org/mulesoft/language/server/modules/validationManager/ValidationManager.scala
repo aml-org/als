@@ -6,11 +6,11 @@ import amf.core.services.RuntimeValidator
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
 import org.mulesoft.language.common.dtoTypes.{IRange, IValidationIssue, IValidationReport}
 import org.mulesoft.language.server.common.reconciler.Reconciler
-import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.astManager.{IASTListener, IASTManagerModule}
 import org.mulesoft.language.server.modules.commonInterfaces.{IEditorTextBuffer, IPoint}
 import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
+import org.mulesoft.platform.PathRefine
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

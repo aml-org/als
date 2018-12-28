@@ -28,8 +28,9 @@ import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.features.validation.AMFValidatorPlugin
+import org.mulesoft.amf.ParserHelper
 import org.mulesoft.language.server.modules.dialectManager.dialects.AsyncAPI
-import org.mulesoft.language.server.modules.astManager.{IASTManagerModule, ParserHelper}
+import org.mulesoft.language.server.modules.astManager.IASTManagerModule
 
 /**
   * AST manager

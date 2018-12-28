@@ -3,10 +3,10 @@ package org.mulesoft.language.server.modules.rename
 import org.mulesoft.high.level.{ReferenceSearchResult, Search}
 import org.mulesoft.high.level.interfaces.{IASTUnit, IProject}
 import org.mulesoft.language.common.dtoTypes.{IChangedDocument, ILocation, IRange, ITextEdit}
-import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.SearchUtils
 import org.mulesoft.language.server.modules.hlastManager.HLASTManager
+import org.mulesoft.platform.PathRefine
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.{Future, Promise}

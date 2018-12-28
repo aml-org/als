@@ -7,7 +7,7 @@ import amf.core.remote.{Oas20, Raml10}
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
-import org.mulesoft.als.suggestions.{CompletionProvider, PlatformBasedExtendedFSProvider}
+import org.mulesoft.als.suggestions.{CompletionProvider, Core, PlatformBasedExtendedFSProvider}
 import org.mulesoft.als.suggestions.implementation.{
   CompletionConfig,
   DummyASTProvider,
@@ -16,7 +16,6 @@ import org.mulesoft.als.suggestions.implementation.{
 }
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.high.level.Core
 import org.mulesoft.high.level.implementation.PlatformFsProvider
 import org.mulesoft.high.level.interfaces.IProject
 import org.scalatest.{Assertion, AsyncFunSuite}
@@ -43,34 +42,27 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  def runTest(path: String, originalSuggestions: Set[String]): Future[Assertion] = {
+  def assert(path: String, actualSet: Set[String], golden: Set[String]): Assertion = {
+    val diff1 = actualSet.diff(golden)
+    val diff2 = golden.diff(actualSet)
 
-    val fullFilePath = filePath(path)
+    diff1.foreach(println)
+    diff2.foreach(println)
 
-    org.mulesoft.als.suggestions.Core.init()
-
-    this
-      .suggest(fullFilePath)
-      .map(suggestions => {
-
-        val resultSet = suggestions.toSet
-        val diff1     = resultSet.diff(originalSuggestions)
-        val diff2     = originalSuggestions.diff(resultSet)
-
-        diff1.foreach(println)
-        diff2.foreach(println)
-
-        if (diff1.isEmpty && diff2.isEmpty) succeed
-        else
-          fail(
-            s"Difference for $path: got [${suggestions.mkString(", ")}] while expecting [${originalSuggestions.mkString(", ")}]")
-      })
+    if (diff1.isEmpty && diff2.isEmpty) succeed
+    else
+      fail(s"Difference for $path: got [${actualSet.mkString(", ")}] while expecting [${golden.mkString(", ")}]")
   }
+
+  def runTest(path: String, originalSuggestions: Set[String]): Future[Assertion] =
+    this
+      .suggest(path)
+      .map(r => assert(path, r.toSet, originalSuggestions))
 
   def format: String
   def rootPath: String
 
-  def bulbLoaders(path: String, content: String): Seq[ResourceLoader] = {
+  def buildLoaders(path: String, content: String): Seq[ResourceLoader] = {
     var loaders: Seq[ResourceLoader] = List(new ResourceLoader {
       override def accepts(resource: String): Boolean = resource == path
 
@@ -80,47 +72,61 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     loaders
   }
 
-  def suggest(url: String): Future[Seq[String]] = {
+  def suggest(u: String): Future[Seq[String]] = {
 
-    var position = 0;
-
+    var position                        = 0;
+    val url                             = filePath(u)
     var contentOpt: Option[String]      = None
     var originalContent: Option[String] = None
-    this.platform
-      .resolve(url)
-      .map(content => {
+    // todo: replace first logic for build model, and then delete all suggest method and fix runtest
+    init().flatMap { _ =>
+      this.platform
+        .resolve(url)
+        .map(content => {
 
-        val fileContentsStr = content.stream.toString
-        originalContent = Some(fileContentsStr.replace("*", ""))
-        val markerInfo = this.findMarker(fileContentsStr)
+          val fileContentsStr = content.stream.toString
+          originalContent = Some(fileContentsStr.replace("*", ""))
+          val markerInfo = this.findMarker(fileContentsStr)
 
-        position = markerInfo.position
-        contentOpt = Some(markerInfo.originalContent)
-        var env = this.buildEnvironment(url, markerInfo.content, position, content.mime)
-        env
-      })
-      .flatMap(env => {
+          position = markerInfo.position
+          contentOpt = Some(markerInfo.originalContent)
+          var env = this.buildEnvironment(url, markerInfo.content, content.mime)
+          env
+        })
+        .flatMap(env => {
 
-        //val config = this.buildParserConfig(format, url)
-        this.parseAMF(url, env)
+          //val config = this.buildParserConfig(format, url)
+          this.parseAMF(url, env)
 
-      })
-      .flatMap {
-        case amfUnit: BaseUnit =>
-          this
-            .buildHighLevel(amfUnit)
-            .map(project => {
+        })
+        .flatMap {
+          case amfUnit: BaseUnit =>
+            this
+              .buildHighLevel(amfUnit)
+              .map(project => {
 
-              this.buildCompletionProvider(project, url, position, originalContent)
+                this.buildCompletionProvider(project, url, position, originalContent)
 
-            })
-            .flatMap(_.suggest)
-            .map(suggestions =>
-              suggestions.map(suggestion => {
+              })
+              .flatMap(_.suggest)
+              .map(suggestions =>
+                suggestions.map(suggestion => {
 
-                suggestion.text
-              }))
-        case _ =>
+                  suggestion.text
+                }))
+          case _ =>
+            contentOpt match {
+              case Some(c) =>
+                var cProvider = this.buildCompletionProviderNoAST(c, url, position)
+                cProvider.suggest.map(suggestions =>
+                  suggestions.map(suggestion => {
+                    suggestion.text
+                  }))
+              case None => Future.successful(Seq())
+            }
+        } recoverWith {
+        case e: Throwable =>
+          println(e)
           contentOpt match {
             case Some(c) =>
               var cProvider = this.buildCompletionProviderNoAST(c, url, position)
@@ -130,20 +136,40 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
                 }))
             case None => Future.successful(Seq())
           }
-      } recoverWith {
-      case e: Throwable =>
-        println(e)
-        contentOpt match {
-          case Some(c) =>
-            var cProvider = this.buildCompletionProviderNoAST(c, url, position)
-            cProvider.suggest.map(suggestions =>
-              suggestions.map(suggestion => {
-                suggestion.text
-              }))
-          case None => Future.successful(Seq())
-        }
-      case _ => Future.successful(Seq())
+        case _ => Future.successful(Seq())
+      }
     }
+
+  }
+
+  case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])
+
+  def init(): Future[Unit] = Core.init()
+
+  protected def buildModel(path: String): Future[ModelResult] = {
+    val url = filePath(path)
+    init().flatMap { _ =>
+      this.platform
+        .resolve(url)
+        .flatMap(content => {
+          val fileContentsStr = content.stream.toString
+          val originalContent = Some(fileContentsStr.replace("*", ""))
+          val markerInfo      = this.findMarker(fileContentsStr)
+
+          val position = markerInfo.position
+          val env      = this.buildEnvironment(url, markerInfo.content, content.mime)
+
+          this.parseAMF(url, env).map(u => ModelResult(u, url, position, originalContent))
+        })
+    }
+  }
+
+  protected def buildCompletionProviderFromUnit(r: ModelResult): Future[CompletionProvider] = {
+    this
+      .buildHighLevel(r.u)
+      .map(project => {
+        this.buildCompletionProvider(project, r.url, r.position, r.originalContent)
+      })
   }
 
   def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] = {
@@ -159,7 +185,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     )
 
     val helper = ParserHelper(platform)
-    Core.init().flatMap(_ => helper.parse(cfg, env))
+    helper.parse(cfg, env)
   }
 
   def buildParserConfig(language: String, url: String): ParserConfig = {
@@ -181,7 +207,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     helper.parse(config, env)
   }
 
-  def buildEnvironment(fileUrl: String, content: String, position: Int, mime: Option[String]): Environment = {
+  def buildEnvironment(fileUrl: String, content: String, mime: Option[String]): Environment = {
 
     var loaders: Seq[ResourceLoader] = List(new ResourceLoader {
       override def accepts(resource: String): Boolean = resource == fileUrl
@@ -200,7 +226,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
   def buildHighLevel(model: BaseUnit): Future[IProject] = {
 
-    Core.init().flatMap(_ => org.mulesoft.high.level.Core.buildModel(model, platform))
+    org.mulesoft.high.level.Core.buildModel(model, platform)
   }
 
   def buildCompletionProvider(project: IProject,

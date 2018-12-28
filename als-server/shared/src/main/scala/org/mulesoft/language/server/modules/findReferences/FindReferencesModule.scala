@@ -3,10 +3,10 @@ package org.mulesoft.language.server.modules.findReferences
 import org.mulesoft.high.level.{ReferenceSearchResult, Search}
 import org.mulesoft.high.level.interfaces.{IASTUnit, IProject}
 import org.mulesoft.language.common.dtoTypes.{ILocation, IRange}
-import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.SearchUtils
 import org.mulesoft.language.server.modules.hlastManager.HLASTManager
+import org.mulesoft.platform.PathRefine
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.{Future, Promise}

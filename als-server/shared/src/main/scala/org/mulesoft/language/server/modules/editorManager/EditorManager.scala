@@ -6,9 +6,9 @@ import amf.core.remote.Oas20
 import amf.core.remote.Aml
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IDocumentChangeExecutor, IOpenedDocument, ITextEdit}
-import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.commonInterfaces.IAbstractTextEditorWithCursor
+import org.mulesoft.platform.PathRefine
 
 import scala.collection.mutable
 import scala.collection.mutable.Buffer

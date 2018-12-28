@@ -14,7 +14,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import amf.client.remote.Content
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
-import org.mulesoft.language.server.common.utils.PathRefine
+import org.mulesoft.platform.PathRefine
+
 import scala.collection.Map
 
 class ProxyFileLoader(platform: ProxyContentPlatform) extends ResourceLoader {
