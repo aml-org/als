@@ -41,10 +41,7 @@ class BodyCompletionPlugin extends ICompletionPlugin {
 
       val element = request.astNode.get.asElement.get
 
-      val trailingWhiteSpace = if (isKey) {
-        val off = element.sourceInfo.valueOffset.getOrElse(0) + 2
-        "\n" + " " * off
-      } else ""
+      val trailingWhiteSpace = if (isKey) trailingSpaceForKey(element.sourceInfo) else ""
 
       val isResponseBody = element.definition.isAssignableFrom("Response") || element.parent
         .flatMap(_.asElement)
@@ -74,7 +71,7 @@ class BodyCompletionPlugin extends ICompletionPlugin {
       }
     }
 
-    var response =
+    val response =
       CompletionResponse(result, if (isKey) LocationKind.KEY_COMPLETION else LocationKind.VALUE_COMPLETION, request)
     Promise.successful(response).future
   }
