@@ -1,5 +1,7 @@
 package org.mulesoft.als.suggestions.test.raml10
 
+import org.mulesoft.als.suggestions.plugins.raml.{CommonHeaderNames, CommonHeadersNamesCompletionPlugin}
+
 class StructureTests extends RAML10Test {
 
   test("StructureTests responses") {
@@ -593,6 +595,13 @@ class StructureTests extends RAML10Test {
         "example:\n              ",
         "properties:\n              "
       )
+    )
+  }
+
+  test("Header common names") {
+    this.runTest(
+      "structure/test165.raml",
+      CommonHeaderNames.names.map(n => n + ":\n            ").toSet
     )
   }
 
