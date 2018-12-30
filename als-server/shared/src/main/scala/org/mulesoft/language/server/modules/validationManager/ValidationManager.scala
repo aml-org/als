@@ -18,15 +18,15 @@ import scala.util.{Failure, Success, Try}
 
 class ValidationManager extends AbstractServerModule {
 
-  val moduleId: String = "VALIDATION_MANAGER";
+  val moduleId: String = "VALIDATION_MANAGER"
 
-  private var reconciler: Reconciler = new Reconciler(connection, 1000);
+  private var reconciler: Reconciler = new Reconciler(connection, 1000)
 
   val moduleDependencies: Array[String] = Array(IEditorManagerModule.moduleId, IASTManagerModule.moduleId);
 
   val onNewASTAvailableListener: IASTListener = new IASTListener {
     override def apply(uri: String, version: Int, ast: BaseUnit) {
-      ValidationManager.this.newASTAvailable(uri, version, ast);
+      ValidationManager.this.newASTAvailable(uri, version, ast)
     }
   }
 

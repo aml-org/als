@@ -4,7 +4,6 @@ import org.mulesoft.als.suggestions.interfaces.ISuggestion
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
 import org.mulesoft.language.common.logger._
 import org.mulesoft.language.common.dtoTypes._
-import org.mulesoft.language.outline.common.logger.ILogger
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 
 import scala.concurrent.Future

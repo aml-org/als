@@ -20,13 +20,13 @@ import scala.collection.mutable
 import scala.util.{Failure, Success, Try}
 import scala.concurrent.{Future, Promise}
 import scala.concurrent.ExecutionContext.Implicits.global
-
 import amf.core.AMF
 import amf.core.unsafe.PlatformSecrets
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.features.validation.AMFValidatorPlugin
+import org.mulesoft.amf.ParserHelper
 
 /**
   * AST manager
