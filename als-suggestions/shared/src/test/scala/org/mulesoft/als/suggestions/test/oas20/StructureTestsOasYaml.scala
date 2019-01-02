@@ -199,11 +199,11 @@ class StructureTestsOasYaml extends OAS20Test {
   }
 
   test("response codes test 01") {
-    this.runTest("structure/test113.yml", TestOasResponseCodes.all)
+    this.runTest("structure/test113.yml", TestOasResponseCodes.all.toSet)
   }
 
   test("response codes test 02") {
-    this.runTest("structure/test114.yml", TestOasResponseCodes.all)
+    this.runTest("structure/test114.yml", TestOasResponseCodes.all.toSet)
   }
 
   test("test property name suggestion") {
