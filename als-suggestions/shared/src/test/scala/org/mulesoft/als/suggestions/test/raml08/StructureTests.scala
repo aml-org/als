@@ -249,11 +249,11 @@ class StructureTests extends RAML08Test {
   }
 
   test("response codes test 01") {
-    this.runTest("structure/test103.raml", TestRamlResponseCodes.all)
+    this.runTest("structure/test103.raml", TestRamlResponseCodes.all.toSet)
   }
 
   test("response codes test 02") {
-    this.runTest("structure/test104.raml", TestRamlResponseCodes.all)
+    this.runTest("structure/test104.raml", TestRamlResponseCodes.all.toSet)
   }
 
   test("methods test 1") {

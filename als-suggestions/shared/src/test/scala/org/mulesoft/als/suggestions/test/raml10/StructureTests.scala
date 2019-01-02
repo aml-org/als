@@ -620,11 +620,11 @@ class StructureTests extends RAML10Test {
   }
 
   test("response codes test 01") {
-    this.runTest("structure/test160.raml", TestRamlResponseCodes.all)
+    this.runTest("structure/test160.raml", TestRamlResponseCodes.all.toSet)
   }
 
   test("response codes test 02") {
-    this.runTest("structure/test161.raml", TestRamlResponseCodes.all)
+    this.runTest("structure/test161.raml", TestRamlResponseCodes.all.toSet)
   }
 
   test("facets test 1") {

@@ -210,10 +210,10 @@ class StructureTestsJson extends OAS20Test {
   }
 
   test("response codes test 01") {
-    this.runTest("structure_json/test109.json", OasResponseCodes.all)
+    this.runTest("structure_json/test109.json", OasResponseCodes.all.toSet)
   }
 
   test("response codes test 02") {
-    this.runTest("structure_json/test110.json", OasResponseCodes.all)
+    this.runTest("structure_json/test110.json", OasResponseCodes.all.toSet)
   }
 }
