@@ -2,7 +2,7 @@ package org.mulesoft.typesystem.definition.system
 
 trait CommonResponseCodes {
 
-  protected val v100: Seq[String] = Seq("100")
+  protected val v100: Seq[String] = Seq("100", "101", "102")
   protected val v200: Seq[String] = Seq("200", "201", "202", "203", "204", "205", "206", "207", "208", "226")
   protected val v300: Seq[String] = Seq("300", "301", "302", "303", "304", "305", "306", "307", "308")
   protected val v400: Seq[String] = Seq(
