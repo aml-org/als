@@ -269,10 +269,6 @@ nodeMappings:
       key:
         propertyTerm: json-schema.propertyKey
         range: string
-      items:
-        propertyTerm: json-schema.items
-        range: SchemaObject
-        allowMultiple: true
       xml:
         propertyTerm: oas.xmlMapping
         range: XmlObject
