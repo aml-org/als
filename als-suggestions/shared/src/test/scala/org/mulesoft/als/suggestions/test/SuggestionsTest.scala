@@ -52,9 +52,20 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
       fail(s"Difference for $path: got [${actualSet.mkString(", ")}] while expecting [${golden.mkString(", ")}]")
   }
 
-  def runTest(path: String, originalSuggestions: Set[String]): Future[Assertion] =
+  /**
+    * @param path URI for the API resource
+    * @param originalSuggestions Expected result set
+    * @param label Pointer placeholder
+    * @param cut if true, cuts text after label
+    * @param labels set of every label in the file (needed for cleaning API)
+    */
+  def runTest(path: String,
+              originalSuggestions: Set[String],
+              label: String = "*",
+              cut: Boolean = false,
+              labels: Array[String] = Array("*")): Future[Assertion] =
     this
-      .suggest(path)
+      .suggest(path, label, cut, labels)
       .map(r => assert(path, r.toSet, originalSuggestions))
 
   def format: String
@@ -70,7 +81,10 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     loaders
   }
 
-  def suggest(u: String): Future[Seq[String]] = {
+  def suggest(u: String,
+              label: String = "*",
+              cutTail: Boolean = false,
+              labels: Array[String] = Array("*")): Future[Seq[String]] = {
 
     var position                        = 0
     val url                             = filePath(u)
@@ -141,21 +155,32 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])
 
-  def init(): Future[Unit] = Core.init()
+  def init(): Future[Unit] = org.mulesoft.als.suggestions.Core.init()
 
   // todo: hnajles refactor and unify with suggest method
-  protected def buildModel(path: String): Future[ModelResult] = {
+  protected def buildModel(path: String,
+                           label: String = "*",
+                           cutTail: Boolean = false,
+                           labels: Array[String] = Array("*")): Future[ModelResult] = {
     val url = filePath(path)
     init().flatMap { _ =>
       this.platform
         .resolve(url)
         .flatMap(content => {
-          val fileContentsStr = content.stream.toString
-          val originalContent = Some(fileContentsStr.replace("*", ""))
-          val markerInfo      = this.findMarker(fileContentsStr)
+          var fileContentsStr = content.stream.toString
+
+          labels.foreach(l => if (l != label) fileContentsStr = fileContentsStr.replace(l, ""))
+
+          val markerInfo = this.findMarker(fileContentsStr, label, cutTail)
+
+          if (cutTail)
+            fileContentsStr = fileContentsStr.substring(0, markerInfo.position)
+
+          val originalContent = Some(fileContentsStr.replace(label, ""))
 
           val position = markerInfo.position
-          val env      = this.buildEnvironment(url, markerInfo.content, content.mime)
+
+          val env = this.buildEnvironment(url, markerInfo.content, content.mime)
 
           this.parseAMF(url, env).map(u => ModelResult(u, url, position, originalContent))
         })
@@ -280,15 +305,27 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     result
   }
 
-  def findMarker(str: String, label: String = "*", cut: Boolean = true): MarkerInfo = {
+  def findMarker(str: String,
+                 label: String = "*",
+                 cut: Boolean = false,
+                 labels: Array[String] = Array("*")): MarkerInfo = {
 
-    var position = str.indexOf(label);
+    val position = str.indexOf(label)
+
+    var str1 = {
+      if (cut && position >= 0) {
+        str.substring(0, position)
+      } else {
+        str
+      }
+    }
 
     if (position < 0) {
-      new MarkerInfo(str, str.length, str)
+      new MarkerInfo(str1, str1.length, str1)
     } else {
-      var rawContent = str.substring(0, position) + str.substring(position + 1)
-      var preparedContent =
+      val rawContent = str1.replace(label, "")
+
+      val preparedContent =
         org.mulesoft.als.suggestions.Core.prepareText(rawContent, position, YAML)
       new MarkerInfo(preparedContent, position, rawContent)
     }

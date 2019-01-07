@@ -1,3 +1,12 @@
 #%AsyncAPI 0.6
 
-*
+[*0]
+info:
+  [*1]
+  license:
+    [*2]
+securitySchemes:
+  test:
+    [*3]
+servers:
+  [*4]
