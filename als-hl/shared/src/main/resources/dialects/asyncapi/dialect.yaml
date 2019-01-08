@@ -4,7 +4,7 @@ dialect: AsyncAPI
 version: 0.6
 
 uses:
-  async: vocabulary6.yaml
+  async: vocabulary.yaml
 
 external:
   schema-org: http://schema.org/
