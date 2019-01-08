@@ -10,7 +10,7 @@ import org.mulesoft.high.level.amfmanager.AmfInitializationHandler
 import org.mulesoft.language.server.core.Server
 import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
-import org.mulesoft.language.server.modules.hlastManager.HLASTManager
+import org.mulesoft.language.server.modules.hlastManager.HLASTmanager
 import org.mulesoft.language.server.modules.outline.StructureManager
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
 import org.mulesoft.language.server.modules.astManager.{ASTManager, IASTManagerModule}
@@ -53,7 +53,7 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets {
           val server = new Server(serverConnection, TestPlatformDependentPart())
 
           server.registerModule(new ASTManager())
-          server.registerModule(new HLASTManager())
+          server.registerModule(new HLASTmanager())
           server.registerModule(new ValidationManager())
           server.registerModule(new SuggestionsManager())
           server.registerModule(new StructureManager())
@@ -63,7 +63,7 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets {
           server.registerModule(new RenameModule())
 
           server.enableModule(IASTManagerModule.moduleId)
-          server.enableModule(HLASTManager.moduleId)
+          server.enableModule(HLASTmanager.moduleId)
           server.enableModule(ValidationManager.moduleId)
           server.enableModule(SuggestionsManager.moduleId)
           server.enableModule(StructureManager.moduleId)

@@ -3,7 +3,7 @@ package org.mulesoft.language.server.modules.suggestions
 import amf.core.remote.{Raml10, Vendor}
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
-import org.mulesoft.language.server.modules.hlastManager.{HLASTManager, IHLASTListener, IHLASTManagerModule}
+import org.mulesoft.language.server.modules.hlastManager.{HLASTmanager, IHLASTListener, IHLASTManagerModule}
 import org.mulesoft.language.server.modules.commonInterfaces.{IAbstractTextEditorWithCursor, IEditorTextBuffer, IPoint}
 import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 
@@ -41,9 +41,9 @@ class SuggestionsManager extends AbstractServerModule {
     this.getDependencyById(IEditorManagerModule.moduleId).get
   }
 
-  protected def getHLASTManager: HLASTManager = {
+  protected def getHLASTManager: HLASTmanager = {
 
-    this.getDependencyById(HLASTManager.moduleId).get
+    this.getDependencyById(HLASTmanager.moduleId).get
   }
 
   override def launch(): Try[IServerModule] = {

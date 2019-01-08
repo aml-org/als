@@ -1,4 +1,4 @@
-package org.mulesoft.language.outline.test
+package org.mulesoft.high.level.amfmanager
 
 import amf.core.model.document.BaseUnit
 import amf.core.validation.AMFValidationReport
