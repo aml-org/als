@@ -4,7 +4,7 @@ dialect: AsyncAPI
 version: 0.6
 
 uses:
-  async: vocabulary.yaml
+  async: vocabulary6.yaml
 
 external:
   schema-org: http://schema.org/
@@ -269,10 +269,6 @@ nodeMappings:
       key:
         propertyTerm: json-schema.propertyKey
         range: string
-      items:
-        propertyTerm: json-schema.items
-        range: SchemaObject
-        allowMultiple: true
       xml:
         propertyTerm: oas.xmlMapping
         range: XmlObject
