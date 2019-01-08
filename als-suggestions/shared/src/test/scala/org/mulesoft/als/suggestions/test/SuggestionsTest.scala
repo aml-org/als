@@ -16,6 +16,7 @@ import org.mulesoft.als.suggestions.implementation.{
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.{CompletionProvider, Core, PlatformBasedExtendedFSProvider}
+import org.mulesoft.high.level.amfmanager.ParserHelper
 import org.mulesoft.high.level.interfaces.IProject
 import org.scalatest.{Assertion, AsyncFunSuite}
 

@@ -1,4 +1,4 @@
-package org.mulesoft.high.level.test
+package org.mulesoft.high.level.amfmanager
 
 import amf.client.commands.CommandHelper
 import amf.core.client.ParserConfig
@@ -13,7 +13,7 @@ import scala.concurrent.Future
 
 class ParserHelper(val platform:Platform) extends CommandHelper{
 
-    protected def parseInput(config: ParserConfig,env:Environment): Future[BaseUnit] = {
+    private def parseInput(config: ParserConfig,env:Environment): Future[BaseUnit] = {
         var inputFile   = ensureUrl(config.input.get)
         val inputFormat = config.inputFormat.get
         RuntimeCompiler(
@@ -38,19 +38,11 @@ class ParserHelper(val platform:Platform) extends CommandHelper{
     }
 
     def parse(config: ParserConfig,env:Environment = Environment()): Future[BaseUnit] = {
-        val res = for {
-            _          <- AMFInit()
+        for {
+            _          <- AmfInitializationHandler.init()
             _          <- processDialects(config)
             model      <- parseInput(config,env)
-        } yield {
-            //            if(config.inputFormat.isDefined) {
-            //                RuntimeResolver.resolve(config.inputFormat.get, model, ResolutionPipeline.EDITING_PIPELINE)
-            //            }
-            //            else {
-            model
-            //            }
-        }
-        res
+        } yield model
     }
 
     def printModel(model:BaseUnit, config: ParserConfig): Future[Unit] = {
