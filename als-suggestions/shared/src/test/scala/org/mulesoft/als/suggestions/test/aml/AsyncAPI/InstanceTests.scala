@@ -4,36 +4,36 @@ import org.mulesoft.als.suggestions.test.aml.AMLSuggestionsTest
 
 class InstanceTests extends AMLSuggestionsTest {
 
-    def rootPath:String = "AML/AsyncAPI"
+  def rootPath: String = "AML/AsyncAPI"
 
+  test("test001") {
+    this.runTest("instance/test001.yaml",
+                 Set("securitySchemes:\n  ", "schemas:\n  ", "security:\n  ", "servers:\n  ", "simpleMap:\n  "))
+  }
 
+  test("test002") {
+    this.runTest("instance/test002.yaml", Set("contact:\n    ", "description:", "title:", "license:\n    "))
+  }
 
-    test("test001"){
-        this.runTest("instance/test001.yaml", "dialect6.yaml", Set("securitySchemes:\n  ", "schemas:\n  ", "security:\n  ", "servers:\n  ", "simpleMap:\n  "))
-    }
+  test("test003") {
+    this.runTest("instance/test003.yaml", Set())
+  }
 
-    test("test002"){
-        this.runTest("instance/test002.yaml", "dialect6.yaml", Set("contact:\n    ", "description:", "title:" ,"license:\n    "))
-    }
-
-    test("test003"){
-        this.runTest("instance/test003.yaml", "dialect6.yaml", Set())
-    }
-
-    test("test004"){
-        this.runTest("instance/test004.yaml", "dialect6.yaml", Set("[ null ]", "[ boolean ]", "[ string ]", "[ array ]", "[ object ]", "[ number ]", "[ integer ]"))
-    }
+  test("test004") {
+    this.runTest("instance/test004.yaml",
+                 Set("[ null ]", "[ boolean ]", "[ string ]", "[ array ]", "[ object ]", "[ number ]", "[ integer ]"))
+  }
 
 //    test("test005"){
-//        this.runTest("instance/test005.yaml", "dialect6.yaml", Set("null", "boolean", "string", "array", "object", "number", "integer"))
+//        this.runTest("instance/test005.yaml", Set("null", "boolean", "string", "array", "object", "number", "integer"))
 //    }
 
-    test("test006"){
-        this.runTest("instance/test006.yaml", "dialect6.yaml", Set("externalDocs:\n        ", "headers:\n        ", "tags:\n        ", "simpleMap:\n        "))
-    }
+  test("test006") {
+    this.runTest("instance/test006.yaml",
+                 Set("externalDocs:\n        ", "headers:\n        ", "tags:\n        ", "simpleMap:\n        "))
+  }
 
-    test("test007"){
-        this.runTest("instance/test007.yaml", "dialect6.yaml", Set("name:", "description:"))
-    }
+  test("test007") {
+    this.runTest("instance/test007.yaml", Set("name:", "description:"))
+  }
 }
-

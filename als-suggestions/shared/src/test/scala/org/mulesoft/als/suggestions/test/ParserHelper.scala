@@ -8,12 +8,13 @@ import amf.core.remote.{Cache, Context, Platform}
 import amf.core.services.{RuntimeCompiler, RuntimeValidator}
 import amf.core.validation.AMFValidationReport
 import amf.internal.environment.Environment
+import org.mulesoft.high.level.amfmanager.AmfInitializationHandler
 
 import scala.concurrent.Future
 
-class ParserHelper(val platform:Platform) extends CommandHelper{
+class ParserHelper(val platform: Platform) extends CommandHelper {
 
-  protected def parseInput(config: ParserConfig,env:Environment): Future[BaseUnit] = {
+  protected def parseInput(config: ParserConfig, env: Environment): Future[BaseUnit] = {
     var inputFile   = ensureUrl(config.input.get)
     val inputFormat = config.inputFormat.get
     RuntimeCompiler(
@@ -30,18 +31,18 @@ class ParserHelper(val platform:Platform) extends CommandHelper{
 
   def parseResult(config: ParserConfig): Future[ParseResult] = {
     for {
-      unit <- parse(config)
-      report <- report(unit,config)
+      unit   <- parse(config)
+      report <- report(unit, config)
     } yield {
-      ParseResult(unit,report)
+      ParseResult(unit, report)
     }
   }
 
-  def parse(config: ParserConfig,env:Environment = Environment()): Future[BaseUnit] = {
+  def parse(config: ParserConfig, env: Environment = Environment()): Future[BaseUnit] = {
     val res = for {
-      _          <- AMFInit()
-      _          <- processDialects(config)
-      model      <- parseInput(config,env)
+      _     <- AmfInitializationHandler.init()
+      _     <- processDialects(config)
+      model <- parseInput(config, env)
     } yield {
       //            if(config.inputFormat.isDefined) {
       //                RuntimeResolver.resolve(config.inputFormat.get, model, ResolutionPipeline.EDITING_PIPELINE)
@@ -53,11 +54,11 @@ class ParserHelper(val platform:Platform) extends CommandHelper{
     res
   }
 
-  def printModel(model:BaseUnit, config: ParserConfig): Future[Unit] = {
-    generateOutput(config,model)
+  def printModel(model: BaseUnit, config: ParserConfig): Future[Unit] = {
+    generateOutput(config, model)
   }
 
-  def report(model: BaseUnit, config: ParserConfig):Future[AMFValidationReport] = {
+  def report(model: BaseUnit, config: ParserConfig): Future[AMFValidationReport] = {
     val customProfileLoaded = if (config.customProfile.isDefined) {
       RuntimeValidator.loadValidationProfile(config.customProfile.get) map { profileName =>
         profileName
@@ -67,7 +68,7 @@ class ParserHelper(val platform:Platform) extends CommandHelper{
         config.profile
       }
     }
-    customProfileLoaded flatMap  { profile =>
+    customProfileLoaded flatMap { profile =>
       RuntimeValidator(model, profile)
     }
   }
