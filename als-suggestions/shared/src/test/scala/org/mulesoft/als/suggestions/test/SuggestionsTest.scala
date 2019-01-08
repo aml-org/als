@@ -47,24 +47,25 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
     val fullFilePath = filePath(path)
 
-    org.mulesoft.als.suggestions.Core.init()
+    org.mulesoft.als.suggestions.Core.init().flatMap { _ =>
+      this
+        .suggest(fullFilePath)
+        .map(suggestions => {
 
-    this
-      .suggest(fullFilePath)
-      .map(suggestions => {
+          val resultSet = suggestions.toSet
+          val diff1     = resultSet.diff(originalSuggestions)
+          val diff2     = originalSuggestions.diff(resultSet)
 
-        val resultSet = suggestions.toSet
-        val diff1     = resultSet.diff(originalSuggestions)
-        val diff2     = originalSuggestions.diff(resultSet)
+          diff1.foreach(println)
+          diff2.foreach(println)
 
-        diff1.foreach(println)
-        diff2.foreach(println)
+          if (diff1.isEmpty && diff2.isEmpty) succeed
+          else
+            fail(s"Difference for $path: got [${suggestions.mkString(", ")}] while expecting [${originalSuggestions
+              .mkString(", ")}]")
+        })
+    }
 
-        if (diff1.isEmpty && diff2.isEmpty) succeed
-        else
-          fail(
-            s"Difference for $path: got [${suggestions.mkString(", ")}] while expecting [${originalSuggestions.mkString(", ")}]")
-      })
   }
 
   def format: String
