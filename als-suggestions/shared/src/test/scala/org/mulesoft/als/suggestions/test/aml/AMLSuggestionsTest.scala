@@ -9,10 +9,10 @@ import scala.concurrent.Future
 
 abstract class AMLSuggestionsTest extends SuggestionsTest {
 
-    def format:String = Aml.toString
+  def format: String = Aml.toString
 
-    def runTest(path:String,dialectPath:String,originalSuggestions: Set[String]):Future[Assertion] = {
-        parseAMF(filePath(dialectPath)).flatMap(_ => runTest(path,originalSuggestions))
-    }
+  def runTestForCustomDialect(path: String, dialectPath: String, originalSuggestions: Set[String]): Future[Assertion] = {
+    parseAMF(filePath(dialectPath)).flatMap(_ => runTest(path, originalSuggestions))
+  }
 
 }
