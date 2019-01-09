@@ -560,7 +560,13 @@ object OASUniverse {
                 "arguments": [
                   "A list of MIME types the APIs can consume. This is global to all APIs but can be overridden on specific API calls. Value MUST be as described under Mime Types."
                 ]
-              }
+              },
+               {
+                 "name": "MetaModel.oftenKeys",
+                 "arguments": [
+                     """ + OasCommonMediaTypes.stringValue + """
+                 ]
+               }
             ],
             "valueConstraint": null,
             "optional": false
@@ -583,6 +589,12 @@ object OASUniverse {
                 "name": "MetaModel.description",
                 "arguments": [
                   "A list of MIME types the APIs can consume. This is global to all APIs but can be overridden on specific API calls. Value MUST be as described under Mime Types."
+                ]
+              },
+              {
+                "name": "MetaModel.oftenKeys",
+                "arguments": [
+                    """ + OasCommonMediaTypes.stringValue + """
                 ]
               }
             ],
@@ -3286,7 +3298,13 @@ object OASUniverse {
                 "arguments": [
                   "A list of MIME types the operation can consume. This overrides the consumes definition at the Swagger Object. An empty value MAY be used to clear the global definition. Value MUST be as described under Mime Types."
                 ]
-              }
+              },
+               {
+                 "name": "MetaModel.oftenKeys",
+                 "arguments": [
+                   """ + OasCommonMediaTypes.stringValue + """
+                 ]
+               }
             ],
             "valueConstraint": null,
             "optional": false
@@ -3310,7 +3328,13 @@ object OASUniverse {
                 "arguments": [
                   "A list of MIME types the operation can produce. This overrides the produces definition at the Swagger Object. An empty value MAY be used to clear the global definition. Value MUST be as described under Mime Types."
                 ]
-              }
+              },
+              {
+                 "name": "MetaModel.oftenKeys",
+                 "arguments": [
+                     """ + OasCommonMediaTypes.stringValue + """
+                 ]
+               }
             ],
             "valueConstraint": null,
             "optional": false

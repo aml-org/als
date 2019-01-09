@@ -1,5 +1,7 @@
 package org.mulesoft.als.suggestions.test.oas20
 
+import org.mulesoft.typesystem.definition.system.OasCommonMediaTypes
+
 class StructureTestsOasYaml extends OAS20Test {
 
   test("SwaggerObject info") {
@@ -208,5 +210,20 @@ class StructureTestsOasYaml extends OAS20Test {
 
   test("test property name suggestion") {
     this.runTest("structure/test115.yml", Set())
+  }
+
+  test("test root produces suggestions") {
+    this.runTest("structure/produces/root.yml", OasCommonMediaTypes.all.toSet)
+  }
+
+  test("test root consumes suggestions") {
+    this.runTest("structure/consumes/root.yml", OasCommonMediaTypes.all.toSet)
+  }
+  test("test operation produces suggestions") {
+    this.runTest("structure/produces/operation.yml", OasCommonMediaTypes.all.toSet)
+  }
+
+  test("test operation consumes suggestions") {
+    this.runTest("structure/consumes/operation.yml", OasCommonMediaTypes.all.toSet)
   }
 }

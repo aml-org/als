@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.test.oas20
 
-import org.mulesoft.typesystem.definition.system.OasResponseCodes
+import org.mulesoft.typesystem.definition.system.{OasCommonMediaTypes, OasResponseCodes}
 
 class StructureTestsJson extends OAS20Test {
 
@@ -215,5 +215,20 @@ class StructureTestsJson extends OAS20Test {
 
   test("response codes test 02") {
     this.runTest("structure_json/test110.json", OasResponseCodes.all.toSet)
+  }
+
+  test("test root produces suggestions") {
+    this.runTest("structure_json/produces/root.json", OasCommonMediaTypes.all.toSet)
+  }
+
+  test("test root consumes suggestions") {
+    this.runTest("structure_json/consumes/root.json", OasCommonMediaTypes.all.toSet)
+  }
+  test("test operation produces suggestions") {
+    this.runTest("structure_json/produces/operation.json", OasCommonMediaTypes.all.toSet)
+  }
+
+  test("test operation consumes suggestions") {
+    this.runTest("structure_json/consumes/operation.json", OasCommonMediaTypes.all.toSet)
   }
 }

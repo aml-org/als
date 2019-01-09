@@ -1,6 +1,6 @@
 package org.mulesoft.typesystem.definition.system
 
-trait CommonResponseCodes {
+trait CommonResponseCodes extends OftenKeysConfig {
 
   protected val v100: Seq[String] = Seq("100", "101", "102")
   protected val v200: Seq[String] = Seq("200", "201", "202", "203", "204", "205", "206", "207", "208", "226")
@@ -43,12 +43,17 @@ trait CommonResponseCodes {
   protected val v500: Seq[String] =
     Seq("500", "501", "502", "503", "504", "505", "506", "507", "508", "509", "510", "511", "598", "599")
 
-  val all: Seq[String]         = v100 ++ v200 ++ v300 ++ v400 ++ v500
-  lazy val stringValue: String = "[" + all.mkString(",") + "]"
+  override val all: Seq[String] = v100 ++ v200 ++ v300 ++ v400 ++ v500
 }
 
 object RamlResponseCodes extends CommonResponseCodes
 
 object OasResponseCodes extends CommonResponseCodes {
   override val all: Seq[String] = v100 ++ v200 ++ v300 ++ v400 ++ v500 ++ Seq("default")
+}
+
+trait OftenKeysConfig {
+  val all: Seq[String]
+  lazy val stringValue: String = s"[ ${all.map(quotedMark + _ + quotedMark).mkString(",")}]"
+  val quotedMark: String       = ""
 }
