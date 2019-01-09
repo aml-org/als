@@ -3005,6 +3005,12 @@ object RAML10Universe {
             "arguments": [
               "TypeDeclaration"
             ]
+          },
+          {
+             "name": "MetaModel.alias",
+             "arguments": [
+               "union"
+             ]
           }
         ],
         "extends": [

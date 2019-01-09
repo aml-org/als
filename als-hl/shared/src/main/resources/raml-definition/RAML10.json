@@ -2996,6 +2996,12 @@
             "arguments": [
               "TypeDeclaration"
             ]
+          },
+          {
+            "name": "MetaModel.alias",
+            "arguments": [
+              "union"
+            ]
           }
         ],
         "extends": [
