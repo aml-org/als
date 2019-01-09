@@ -173,4 +173,8 @@ class TypeReferenceTests extends RAML10Test {
   test("Items type explicit 02") {
     this.runTest("typeReferences/test012.raml", Set("stype1", "stype2", "stype3", "string"))
   }
+
+  test("Test type reference from a lib declaration") {
+    this.runTest("typeReferences/through-lib/api.raml", Set("myTypes.Person", "myTypes.Employee", "myTypes.Manager"))
+  }
 }
