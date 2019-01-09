@@ -1,0 +1,44 @@
+#%RAML 1.0 Library
+
+usage: Defines types
+types:
+  Person:
+    type: object
+    properties:
+      id:
+        type: string
+        required: true
+      name:
+        type: string
+        required: true
+      address:
+        type: string
+        required: false
+    example:
+      id: i9922
+      name: NM
+      address: Av. Santa Fe 3455
+  Employee:
+    type: Person
+    properties:
+      position:
+        type: string
+        required: false
+
+  Manager:
+    type: Employee
+    properties:
+      directs:
+        type : integer
+        required: false
+    examples:
+      m1:
+        id: 81QQ
+        name: Julie Sanders
+        position: HHRR Manager
+        directs: 200
+      m2:
+        id: i!23j
+        name: Ana Shwartz
+        position: Finances Manager
+        directs: 20

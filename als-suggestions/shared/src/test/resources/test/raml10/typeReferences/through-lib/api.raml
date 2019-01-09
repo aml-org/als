@@ -1,0 +1,11 @@
+#%RAML 1.0
+title: ConsoleExamplesTest
+uses:
+  myTypes: types.raml
+/testExamples:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: my*
