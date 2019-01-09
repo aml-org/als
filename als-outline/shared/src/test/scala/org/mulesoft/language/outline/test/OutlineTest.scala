@@ -49,28 +49,16 @@ trait OutlineTest[T] extends AsyncFunSuite with PlatformSecrets {
     val fullFilePath = filePath(path)
     val fullJsonPath = filePath(jsonPath)
 
-    org.mulesoft.high.level.Core.init()
+    for {
+      _                  <- org.mulesoft.high.level.Core.init()
+      actualOutline      <- this.getActualOutline(fullFilePath)
+      expectedOutlineStr <- this.getExpectedOutline(fullJsonPath)
 
-    this
-      .getActualOutline(fullFilePath)
-      .flatMap(actualOutline => {
-
-        this
-          .getExpectedOutline(fullJsonPath)
-          .flatMap(expectedOutlineStr => {
-
-            val expectedOutline: T = readDataFromString(expectedOutlineStr)
-            val diffs              = compare(actualOutline, expectedOutline, "actual", "expected")
-            if (diffs.isEmpty) {
-              succeed
-            } else {
-//                    var actualJSON = write(actualOutline.asInstanceOf[Map[String,StructureNode]],2)
-//                    platform.write(fullJsonPath,actualJSON)
-              var message = diffs.mkString("\n")
-              fail(message)
-            }
-          })
-      })
+    } yield {
+      val expectedOutline: T = readDataFromString(expectedOutlineStr)
+      val diffs              = compare(actualOutline, expectedOutline, "actual", "expected")
+      if (diffs.isEmpty) succeed else fail(diffs.mkString("\n"))
+    }
   }
 
   def format: String
