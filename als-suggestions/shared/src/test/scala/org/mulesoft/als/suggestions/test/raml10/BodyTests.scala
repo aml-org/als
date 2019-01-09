@@ -73,7 +73,8 @@ class BodyTests extends RAML10Test {
           "array",
           "object",
           "A",
-          "B")
+          "B",
+          "union")
     )
   }
 
@@ -94,7 +95,8 @@ class BodyTests extends RAML10Test {
           "array",
           "object",
           "A",
-          "B")
+          "B",
+          "union")
     )
   }
 }
