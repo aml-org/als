@@ -541,6 +541,7 @@ class StructureTests extends RAML10Test {
         "application/x-www-form-urlencoded:\n        ",
         "displayName:",
         "type:",
+        "enum:",
         "xml:\n        ",
         "default:",
         "description:",
@@ -702,5 +703,24 @@ class StructureTests extends RAML10Test {
 
   test("test property name suggestion") {
     this.runTest("structure/test162.raml", Set())
+  }
+
+  test("test all body content media type values") {
+    this.runTest(
+      "structure/all/bodyvalue.raml",
+      Set(
+        "displayName:",
+        "example:\n               ",
+        "type:",
+        "properties:\n               ",
+        "enum:",
+        "xml:\n               ",
+        "schema:",
+        "default:",
+        "examples:\n               ",
+        "description:",
+        "facets:\n               "
+      )
+    )
   }
 }
