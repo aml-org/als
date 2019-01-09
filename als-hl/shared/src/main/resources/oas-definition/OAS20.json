@@ -556,6 +556,23 @@
                 "arguments": [
                   "A list of MIME types the APIs can consume. This is global to all APIs but can be overridden on specific API calls. Value MUST be as described under Mime Types."
                 ]
+              },
+              {
+                "name": "MetaModel.oftenKeys",
+                "arguments": [
+                  [
+                    "text/plain; charset=utf-8",
+                    "application/json",
+                    "application/vnd.github+json",
+                    "application/vnd.github.v3+json",
+                    "application/vnd.github.v3.raw+json",
+                    "application/vnd.github.v3.text+json",
+                    "application/vnd.github.v3.html+json",
+                    "application/vnd.github.v3.full+json",
+                    "appxlication/vnd.github.v3.diff",
+                    "application/vnd.github.v3.patch"
+                  ]
+                ]
               }
             ],
             "valueConstraint": null,
@@ -579,6 +596,23 @@
                 "name": "MetaModel.description",
                 "arguments": [
                   "A list of MIME types the APIs can consume. This is global to all APIs but can be overridden on specific API calls. Value MUST be as described under Mime Types."
+                ]
+              },
+              {
+                "name": "MetaModel.oftenKeys",
+                "arguments": [
+                  [
+                    "text/plain; charset=utf-8",
+                    "application/json",
+                    "application/vnd.github+json",
+                    "application/vnd.github.v3+json",
+                    "application/vnd.github.v3.raw+json",
+                    "application/vnd.github.v3.text+json",
+                    "application/vnd.github.v3.html+json",
+                    "application/vnd.github.v3.full+json",
+                    "application/vnd.github.v3.diff",
+                    "application/vnd.github.v3.patch"
+                  ]
                 ]
               }
             ],
@@ -3281,6 +3315,23 @@
                 "arguments": [
                   "A list of MIME types the operation can consume. This overrides the consumes definition at the Swagger Object. An empty value MAY be used to clear the global definition. Value MUST be as described under Mime Types."
                 ]
+              },
+              {
+                "name": "MetaModel.oftenKeys",
+                "arguments": [
+                  [
+                    "text/plain; charset=utf-8",
+                    "application/json",
+                    "application/vnd.github+json",
+                    "application/vnd.github.v3+json",
+                    "application/vnd.github.v3.raw+json",
+                    "application/vnd.github.v3.text+json",
+                    "application/vnd.github.v3.html+json",
+                    "application/vnd.github.v3.full+json",
+                    "application/vnd.github.v3.diff",
+                    "application/vnd.github.v3.patch"
+                  ]
+                ]
               }
             ],
             "valueConstraint": null,
@@ -3304,6 +3355,23 @@
                 "name": "MetaModel.description",
                 "arguments": [
                   "A list of MIME types the operation can produce. This overrides the produces definition at the Swagger Object. An empty value MAY be used to clear the global definition. Value MUST be as described under Mime Types."
+                ]
+              },
+              {
+                "name": "MetaModel.oftenKeys",
+                "arguments": [
+                  [
+                    "text/plain; charset=utf-8",
+                    "application/json",
+                    "application/vnd.github+json",
+                    "application/vnd.github.v3+json",
+                    "application/vnd.github.v3.raw+json",
+                    "application/vnd.github.v3.text+json",
+                    "application/vnd.github.v3.html+json",
+                    "application/vnd.github.v3.full+json",
+                    "application/vnd.github.v3.diff",
+                    "application/vnd.github.v3.patch"
+                  ]
                 ]
               }
             ],
