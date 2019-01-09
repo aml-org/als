@@ -2537,6 +2537,23 @@ object RAML10Universe {
             ],
             "valueConstraint": null,
             "optional": false
+          },
+          {
+             "name": "enum",
+             "type": {
+               "base": {
+                 "typeName": "any",
+                 "nameSpace": "",
+                 "basicName": "any",
+                 "typeKind": 0,
+                 "typeArguments": [],
+                 "modulePath": null
+               },
+               "typeKind": 1
+             },
+             "annotations": [],
+             "valueConstraint": null,
+             "optional": false
           }
         ],
         "isInterface": false,
@@ -3182,23 +3199,6 @@ object RAML10Universe {
             ],
             "valueConstraint": null,
             "optional": false
-          },
-          {
-            "name": "enum",
-            "type": {
-              "base": {
-                "typeName": "any",
-                "nameSpace": "",
-                "basicName": "any",
-                "typeKind": 0,
-                "typeArguments": [],
-                "modulePath": null
-              },
-              "typeKind": 1
-            },
-            "annotations": [],
-            "valueConstraint": null,
-            "optional": false
           }
         ],
         "isInterface": false,
@@ -3352,46 +3352,6 @@ object RAML10Universe {
             ],
             "valueConstraint": null,
             "optional": false
-          },
-          {
-            "name": "enum",
-            "type": {
-              "base": {
-                "typeName": "string",
-                "nameSpace": "",
-                "basicName": "string",
-                "typeKind": 0,
-                "typeArguments": [],
-                "modulePath": null
-              },
-              "typeKind": 1
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.facetId",
-                "arguments": [
-                  "enum"
-                ]
-              },
-              {
-                "name": "MetaModel.describesAnnotation",
-                "arguments": [
-                  "oneOf"
-                ]
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "(Optional, applicable only for parameters of type string) The enum attribute provides an enumeration of the parameter's valid values. This MUST be an array. If the enum attribute is defined, API clients and servers MUST verify that a parameter's value matches a value in the enum array. If there is no matching value, the clients and servers MUST treat this as an error."
-                ]
-              },
-              {
-                "name": "MetaModel.hide",
-                "arguments": []
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
           }
         ],
         "isInterface": false,
@@ -3441,23 +3401,6 @@ object RAML10Universe {
               "isCallConstraint": false,
               "value": "boolean"
             },
-            "optional": false
-          },
-          {
-            "name": "enum",
-            "type": {
-              "base": {
-                "typeName": "boolean",
-                "nameSpace": "",
-                "basicName": "boolean",
-                "typeKind": 0,
-                "typeArguments": [],
-                "modulePath": null
-              },
-              "typeKind": 1
-            },
-            "annotations": [],
-            "valueConstraint": null,
             "optional": false
           }
         ],
@@ -3559,46 +3502,6 @@ object RAML10Universe {
                 "arguments": [
                   "(Optional, applicable only for parameters of type number or integer) The maximum attribute specifies the parameter's maximum value."
                 ]
-              }
-            ],
-            "valueConstraint": null,
-            "optional": false
-          },
-          {
-            "name": "enum",
-            "type": {
-              "base": {
-                "typeName": "number",
-                "nameSpace": "",
-                "basicName": "number",
-                "typeKind": 0,
-                "typeArguments": [],
-                "modulePath": null
-              },
-              "typeKind": 1
-            },
-            "annotations": [
-              {
-                "name": "MetaModel.facetId",
-                "arguments": [
-                  "enum"
-                ]
-              },
-              {
-                "name": "MetaModel.describesAnnotation",
-                "arguments": [
-                  "oneOf"
-                ]
-              },
-              {
-                "name": "MetaModel.description",
-                "arguments": [
-                  "(Optional, applicable only for parameters of type string) The enum attribute provides an enumeration of the parameter's valid values. This MUST be an array. If the enum attribute is defined, API clients and servers MUST verify that a parameter's value matches a value in the enum array. If there is no matching value, the clients and servers MUST treat this as an error."
-                ]
-              },
-              {
-                "name": "MetaModel.hide",
-                "arguments": []
               }
             ],
             "valueConstraint": null,
