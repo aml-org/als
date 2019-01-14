@@ -1,0 +1,8 @@
+#%AsyncAPI 0.6
+
+info:
+  [*0]
+servers:
+  [*1]
+externalDocs:
+  [*2]
