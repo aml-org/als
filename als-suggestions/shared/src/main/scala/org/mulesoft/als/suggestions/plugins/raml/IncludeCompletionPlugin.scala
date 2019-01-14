@@ -15,10 +15,11 @@ class IncludeCompletionPlugin extends ICompletionPlugin {
 
   override def languages: Seq[Vendor] = IncludeCompletionPlugin.supportedLanguages;
 
-  override def isApplicable(request:ICompletionRequest): Boolean = request.config.astProvider match {
+  override def isApplicable(request: ICompletionRequest): Boolean = request.config.astProvider match {
 
-    case Some(astProvider) => languages.indexOf(astProvider.language) >= 0 &&
-      isInInclude(request);
+    case Some(astProvider) =>
+      languages.indexOf(astProvider.language) >= 0 &&
+        isInInclude(request);
 
     case _ => false;
   }
@@ -26,16 +27,17 @@ class IncludeCompletionPlugin extends ICompletionPlugin {
   override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
     val baseDir = request.astNode.get.astUnit.project.rootPath
-    
-      val relativePath = request.actualYamlLocation.get.node.get.yPart match {
-          case node: YNode.MutRef => node.origValue match {
-              case scalar: YScalar => scalar.text;
-            
-              case _ => request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar].text;
-          }
-        
+
+    val relativePath = request.actualYamlLocation.get.node.get.yPart match {
+      case node: YNode.MutRef =>
+        node.origValue match {
+          case scalar: YScalar => scalar.text;
+
           case _ => request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar].text;
-      }
+        }
+
+      case _ => request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar].text;
+    }
 
     if (!relativePath.endsWith(request.prefix)) {
       var response = CompletionResponse(LocationKind.VALUE_COMPLETION, request)
@@ -44,59 +46,57 @@ class IncludeCompletionPlugin extends ICompletionPlugin {
 
       val diff = relativePath.length - request.prefix.length
 
-      PathCompletion.complete(baseDir, relativePath, request.config.fsProvider.get)
-        .map(paths=>{
-          var suggestions = paths.map(path=>{
+      PathCompletion
+        .complete(baseDir, relativePath, request.config.fsProvider.get)
+        .map(paths => {
+          var suggestions = paths.map(path => {
 
-            val pathStartingWithPrefix = if(diff != 0) path.substring(diff) else path
+            val pathStartingWithPrefix = {
+              val tempPath = if (diff != 0) path.substring(diff) else path
+              if (tempPath.startsWith("/") && request.prefix == "/") tempPath.stripPrefix("/") else tempPath
+            }
 
-            Suggestion(pathStartingWithPrefix, "File path",
-              pathStartingWithPrefix, request.prefix)
+            Suggestion(pathStartingWithPrefix, "File path", pathStartingWithPrefix, request.prefix)
           })
-          CompletionResponse(suggestions,LocationKind.VALUE_COMPLETION, request)
+          CompletionResponse(suggestions, LocationKind.VALUE_COMPLETION, request)
         })
     }
   }
 
   def isInInclude(request: ICompletionRequest): Boolean = {
-    if(request.actualYamlLocation.isEmpty){
-        false
-    }
-    else if(request.actualYamlLocation.get.node.isEmpty){
-        false
-    }
-    else if(!request.actualYamlLocation.get.node.get.yPart.isInstanceOf[YNode]){
-        false
-    }
-    else{
+    if (request.actualYamlLocation.isEmpty) {
+      false
+    } else if (request.actualYamlLocation.get.node.isEmpty) {
+      false
+    } else if (!request.actualYamlLocation.get.node.get.yPart.isInstanceOf[YNode]) {
+      false
+    } else {
 
-        if(request.actualYamlLocation.get.value.isEmpty){
-            false
+      if (request.actualYamlLocation.get.value.isEmpty) {
+        false
+      } else if (!request.actualYamlLocation.get.value.get.yPart.isInstanceOf[YScalar]) {
+        false
+      } else {
+        var nodePart = request.actualYamlLocation.get.node.get.yPart;
+
+        var valuePart = request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar]
+
+        val tagText = nodePart match {
+          case node: YNode.MutRef => node.origTag.text;
+
+          case node: YNode => nodePart.tag.text;
+
+          case _ => "";
         }
-        else if(!request.actualYamlLocation.get.value.get.yPart.isInstanceOf[YScalar]){
-            false
+
+        val valueString = Option(valuePart.value).map(_.toString).getOrElse("");
+
+        if (tagText != "!include" && !valueString.startsWith("!include")) {
+          false;
+        } else {
+          true;
         }
-        else {
-            var nodePart = request.actualYamlLocation.get.node.get.yPart;
-            
-            var valuePart = request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar]
-            
-            val tagText = nodePart match {
-                case node: YNode.MutRef => node.origTag.text;
-                
-                case node: YNode => nodePart.tag.text;
-                
-                case _ => "";
-            }
-            
-            val valueString = Option(valuePart.value).map(_.toString).getOrElse("");
-            
-            if (tagText != "!include" && !valueString.startsWith("!include")) {
-                false;
-            } else {
-                true;
-            }
-        }
+      }
     }
   }
 }
