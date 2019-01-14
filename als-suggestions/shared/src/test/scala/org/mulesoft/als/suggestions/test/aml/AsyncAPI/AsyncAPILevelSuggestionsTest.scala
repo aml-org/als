@@ -5,24 +5,44 @@ import org.mulesoft.als.suggestions.test.aml.DialectLevelSuggestionsTest
 
 class AsyncAPILevelSuggestionsTest extends DialectLevelSuggestionsTest {
 
-  private val mapTests: Map[String, (Option[String], Int)] = Map(
-    "[*0]" -> (None, 1),
-    "[*1]" -> (Some("InfoObject"), 2),
-    "[*2]" -> (Some("LicenseObject"), 3),
-    "[*3]" -> (Some("SecuritySchemeObject"), 2),
-    "[*4]" -> (Some("ServerObject"), 2)
+  val fixture: Seq[TestCase] = Seq(
+    TestCase(
+      filePath("test2Lv.yaml"),
+      Seq(
+        TestCaseLabel("[*0]", Some("InfoObject"), 2),
+        TestCaseLabel("[*1]", Some("ServerObject"), 2),
+        TestCaseLabel("[*2]", Some("ExternalDocumentationObject"), 2)
+      )
+    ),
+    TestCase(filePath("testRoot.yaml"),
+             Seq(
+               TestCaseLabel("[*0]", None, 1)
+             ))
   )
 
-  private def runLocalTest(label: String, value: (Option[String], Int)): Unit = {
-    test(s"Structure Test for: ${value._1.getOrElse("Root")}, on level: ${value._2}") {
-      runDialectTest("root.yaml", "file:///asyncapi/dialect.yaml", value._1, value._2, label, mapTests.keys.toArray)
+  fixture.foreach { f =>
+    test(s"test ${f.path}") {
+      for {
+        (content, cases) <- adaptContent(f.path, f.labels)
+        bu               <- parse(content)
+        results          <- assertCases(bu, cases, content)
+      } yield {
+        var message = ""
+        results.filter(!_.succeed).foreach { r =>
+          r.message match {
+            case Some(m) => message = message + s"\n- Failed test for ${f.path} - ${r.dialectClass}:\n\t$m"
+            case _       => ???
+          }
+        }
+        if (message.isEmpty) succeed
+        else fail(message)
+      }
     }
   }
-
-  mapTests.foreach(v => runLocalTest(v._1, v._2))
 
   // add different ssuit for oas with dialects??
   override def format: String = Aml.toString
 
   override def rootPath: String = "AML/AsyncAPI/full"
+
 }
