@@ -178,7 +178,7 @@ class CompletionProvider {
   def filter(suggestions: Seq[ISuggestion], request: ICompletionRequest): Seq[ISuggestion] = {
     suggestions.filter(s => {
       val prefix = s.prefix.toLowerCase
-      if (prefix.isEmpty || prefix == ":") {
+      if (prefix.isEmpty || prefix == ":" || prefix == "/") {
         true
       } else {
         s.displayText.toLowerCase.startsWith(prefix)

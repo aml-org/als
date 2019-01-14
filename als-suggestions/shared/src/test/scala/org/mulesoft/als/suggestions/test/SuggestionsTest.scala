@@ -13,11 +13,11 @@ import org.mulesoft.als.suggestions.implementation.{
   DummyEditorStateProvider,
   EmptyASTProvider
 }
-import org.mulesoft.als.suggestions.interfaces.Syntax
+import org.mulesoft.als.suggestions.interfaces.{IExtendedFSProvider, Syntax}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.{CompletionProvider, Core, PlatformBasedExtendedFSProvider}
 import org.mulesoft.high.level.amfmanager.ParserHelper
-import org.mulesoft.high.level.interfaces.IProject
+import org.mulesoft.high.level.interfaces.{IFSProvider, IProject}
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -252,6 +252,8 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     org.mulesoft.high.level.Core.buildModel(model, platform)
   }
 
+  protected def buildFsProvider: IExtendedFSProvider = new PlatformBasedExtendedFSProvider(this.platform)
+
   def buildCompletionProvider(project: IProject,
                               url: String,
                               position: Int,
@@ -265,12 +267,10 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
     val editorStateProvider = new DummyEditorStateProvider(rootUnit.text, url, baseName, position)
 
-    val platformFSProvider = new PlatformBasedExtendedFSProvider(this.platform)
-
     val completionConfig = new CompletionConfig()
       .withAstProvider(astProvider)
       .withEditorStateProvider(editorStateProvider)
-      .withFsProvider(platformFSProvider)
+      .withFsProvider(buildFsProvider)
       .withOriginalContent(originalContent.orNull)
 
     CompletionProvider().withConfig(completionConfig)
