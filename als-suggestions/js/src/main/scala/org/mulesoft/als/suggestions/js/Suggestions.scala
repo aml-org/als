@@ -7,54 +7,46 @@ import org.mulesoft.high.level.amfmanager.ParserHelper
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
-//import amf.core.client.ExitCodes
+
 import amf.core.client.ParserConfig
-import amf.core.model.document.{BaseUnit, Document}
+import amf.core.model.document.BaseUnit
 import amf.core.remote._
-//import amf.core.unsafe.PlatformSecrets
-import org.mulesoft.als.suggestions.{CompletionProvider, Core}
-import org.mulesoft.als.suggestions.interfaces.Syntax._
+import amf.internal.environment.Environment
 import org.mulesoft.als.suggestions.implementation.{CompletionConfig, DummyASTProvider, DummyEditorStateProvider}
+import org.mulesoft.als.suggestions.interfaces.Syntax._
+import org.mulesoft.als.suggestions.{CompletionProvider, Core}
 import org.mulesoft.high.level.interfaces.IProject
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js.JSConverters._
-import amf.client.remote.Content
-import amf.internal.environment.Environment
 
 @JSExportTopLevel("Suggestions")
 object Suggestions {
 
-  private var platform: ProxyContentPlatform = null;
+  var environment: Environment = Environment()
 
   @JSExport
-  def init(fsProvider: IFSProvider): js.Promise[Unit] = {
+  def init(environment: Environment): js.Promise[Unit] = {
 
-    this.platform = new ProxyContentPlatform(fsProvider)
+    this.environment = environment
 
     val result = org.mulesoft.high.level.Core
       .init()
-      .flatMap(_ => {
-        Core.init()
-      })
+      .flatMap(_ => Core.init())
 
     result.toJSPromise
   }
 
   @JSExport
-  def setFSProvider(fsProvider: IFSProvider): Unit = {
-    this.platform = new ProxyContentPlatform(fsProvider)
-  }
-
-  @JSExport
-  def suggest(language: String, url: String, position: Int): js.Promise[js.Array[ISuggestion]] = {
+  def suggest(language: String, url: String, position: Int): js.Promise[js.Array[Suggestion]] = {
 
     val config = this.buildParserConfig(language, url)
 
-    var contentOpt: Option[String]      = None
+    var contentOpt: Option[String] = None
     var originalContent: Option[String] = None
-    var completionProviderFuture: Future[CompletionProvider] = this.platform
-      .resolve(url)
+    val completionProviderFuture: Future[CompletionProvider] = AlsBrowserPlatform
+      .resolve(url, environment)
       .map(content => {
         val fileContentsStr = content.stream.toString
         originalContent = Option(fileContentsStr)
@@ -91,7 +83,7 @@ object Suggestions {
       .map(suggestions =>
         suggestions.map(suggestion => {
 
-          new ISuggestion(
+          new Suggestion(
             text = suggestion.text,
             description = suggestion.description,
             displayText = suggestion.displayText,
@@ -120,21 +112,22 @@ object Suggestions {
 
   def amfParse(config: ParserConfig): Future[BaseUnit] = {
 
-    val helper = ParserHelper(this.platform)
-    helper.parse(config, new Environment(this.platform.loaders))
+    val helper = ParserHelper(AlsBrowserPlatform)
+    helper.parse(config, new Environment(AlsBrowserPlatform.loaders))
   }
 
   def cacheUnit(fileUrl: String, fileContentsStr: String, position: Int): String = {
 
     val patchedContent = Core.prepareText(fileContentsStr, position, YAML)
 
-    File.unapply(fileUrl).foreach(x => this.platform.withOverride(x, patchedContent))
+    // ToDo: Check if is usefull to cache file content
+    // File.unapply(fileUrl).foreach(x => AlsBrowserPlatform.withOverride(x, patchedContent))
     patchedContent
   }
 
   def buildHighLevel(model: BaseUnit): Future[IProject] = {
 
-    org.mulesoft.high.level.Core.buildModel(model, platform)
+    org.mulesoft.high.level.Core.buildModel(model, AlsBrowserPlatform)
   }
 
   def buildCompletionProvider(project: IProject,
@@ -150,7 +143,7 @@ object Suggestions {
 
     val editorStateProvider = new DummyEditorStateProvider(rootUnit.text, url, baseName, position)
 
-    val platformFSProvider = new PlatformBasedExtendedFSProvider(this.platform)
+    val platformFSProvider = new PlatformBasedExtendedFSProvider(AlsBrowserPlatform)
 
     val completionConfig = new CompletionConfig()
       .withAstProvider(astProvider)
@@ -168,12 +161,12 @@ object Suggestions {
     val editorStateProvider = new DummyEditorStateProvider(text, url, baseName, position)
 
     val trimmed = text.trim
-    val vendor  = if (trimmed.startsWith("#%RAML")) Raml10 else Oas20
-    val syntax  = if (trimmed.startsWith("{") || trimmed.startsWith("[")) Syntax.JSON else Syntax.YAML
+    val vendor = if (trimmed.startsWith("#%RAML")) Raml10 else Oas20
+    val syntax = if (trimmed.startsWith("{") || trimmed.startsWith("[")) Syntax.JSON else Syntax.YAML
 
     val astProvider = new EmptyASTProvider(vendor, syntax)
 
-    val platformFSProvider = new PlatformBasedExtendedFSProvider(this.platform)
+    val platformFSProvider = new PlatformBasedExtendedFSProvider(AlsBrowserPlatform)
 
     val completionConfig = new CompletionConfig()
       .withEditorStateProvider(editorStateProvider)
