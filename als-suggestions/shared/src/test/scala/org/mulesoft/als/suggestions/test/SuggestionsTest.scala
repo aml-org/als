@@ -7,33 +7,15 @@ import amf.core.remote.{Oas20, Raml10}
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
-import org.mulesoft.als.suggestions.implementation.{
-  CompletionConfig,
-  DummyASTProvider,
-  DummyEditorStateProvider,
-  EmptyASTProvider
-}
-import org.mulesoft.als.suggestions.interfaces.{IExtendedFSProvider, Syntax}
+import org.mulesoft.als.suggestions.implementation.{CompletionConfig, DummyASTProvider, DummyEditorStateProvider, EmptyASTProvider}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.als.suggestions.{CompletionProvider, Core, PlatformBasedExtendedFSProvider}
+import org.mulesoft.als.suggestions.interfaces.{IExtendedFSProvider, Syntax}
+import org.mulesoft.als.suggestions.{CompletionProvider, PlatformBasedExtendedFSProvider}
 import org.mulesoft.high.level.amfmanager.ParserHelper
-import org.mulesoft.high.level.interfaces.{IFSProvider, IProject}
+import org.mulesoft.high.level.interfaces.IProject
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
-
-object File {
-  val FILE_PROTOCOL = "file://"
-
-  def unapply(url: String): Option[String] = {
-    url match {
-      case s if s.startsWith(FILE_PROTOCOL) =>
-        val path = s.stripPrefix(FILE_PROTOCOL)
-        Some(path)
-      case _ => None
-    }
-  }
-}
 
 trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
@@ -241,11 +223,6 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     var env: Environment = Environment(loaders)
     env
   }
-  //  def cacheUnit(fileUrl: String, content: String, position: Int, mime: Option[String]): Unit = {
-  //
-  //    File.unapply(fileUrl).foreach(x=>this.platform.cacheResourceText(
-  //      x, content, mime))
-  //  }
 
   def buildHighLevel(model: BaseUnit): Future[IProject] = {
 
