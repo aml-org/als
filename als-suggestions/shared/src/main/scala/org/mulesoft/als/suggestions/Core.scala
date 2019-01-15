@@ -35,7 +35,7 @@ object Core {
         CompletionPluginsRegistry.registerPlugin(ResponseReferencePlugin())
         CompletionPluginsRegistry.registerPlugin(ParameterReferencePlugin())
         CompletionPluginsRegistry.registerPlugin(DefinitionReferenceCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(MasterReferenceCompletionPlugin());
+        CompletionPluginsRegistry.registerPlugin(MasterReferenceCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(TypeReferencesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(SecurityReferencesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(AnnotationReferencesCompletionPlugin())
@@ -58,7 +58,7 @@ object Core {
     } else {
       syntax match {
         case YAML => CompletionProvider.prepareYamlContent(text, offset);
-        case _    => throw new Error(s"Syntax not supported: $syntax");
+        case _ => throw new Error(s"Syntax not supported: $syntax");
       }
     }
   }

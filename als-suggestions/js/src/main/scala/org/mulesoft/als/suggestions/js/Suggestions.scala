@@ -27,10 +27,7 @@ object Suggestions {
 
   @JSExport
   def init(): js.Promise[Unit] = {
-    val result = org.mulesoft.high.level.Core
-      .init()
-      .flatMap(_ => Core.init())
-
+    val result = Core.init()
     result.toJSPromise
   }
 
