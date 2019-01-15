@@ -26,7 +26,7 @@ object UniverseProvider {
       Future
         .sequence(
           Seq(
-            DialectUniversesProvider.buildAndLoadDialects(), // this dialects are keeping at aml dialects registry.
+//            DialectUniversesProvider.buildAndLoadDialects(), // this dialects are keeping at aml dialects registry.
             RamlUniverseProvider.raml10Universe().map(universes(Raml10) = _),
             RamlUniverseProvider.raml08Universe().map(universes(Raml08) = _),
             RamlUniverseProvider.oas20Universe().map(universes(Oas) = _)
