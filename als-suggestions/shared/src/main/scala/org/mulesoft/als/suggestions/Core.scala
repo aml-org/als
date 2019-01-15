@@ -16,15 +16,16 @@ import org.mulesoft.als.suggestions.plugins.oas.{
   ResponseReferencePlugin
 }
 import org.mulesoft.als.suggestions.plugins.raml._
+import org.mulesoft.high.level.InitOptions
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps
 
 object Core {
-  def init(): Future[Unit] =
+  def init(initOptions: InitOptions = InitOptions.AllProfiles): Future[Unit] =
     org.mulesoft.high.level.Core
-      .init()
+      .init(initOptions)
       .flatMap(x => SuggestionCategoryRegistry.init())
       .map(x => {
 
@@ -58,7 +59,7 @@ object Core {
     } else {
       syntax match {
         case YAML => CompletionProvider.prepareYamlContent(text, offset);
-        case _ => throw new Error(s"Syntax not supported: $syntax");
+        case _    => throw new Error(s"Syntax not supported: $syntax");
       }
     }
   }

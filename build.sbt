@@ -41,7 +41,8 @@ val settings =  Common.settings ++ Common.publish ++ Seq(
         "org.mule.syaml" %%% "syaml" % deps("syaml"),
         "org.scalatest"    %%% "scalatest" % "3.0.5" % Test,
         "com.chuusai" %% "shapeless" % "2.3.3",
-        "com.lihaoyi" %%% "upickle" % "0.5.1" % Test
+        "org.scala-js" %% "scalajs-stubs" % scalaJSVersion % "provided",
+      "com.lihaoyi" %%% "upickle" % "0.5.1" % Test
     )
 )
 

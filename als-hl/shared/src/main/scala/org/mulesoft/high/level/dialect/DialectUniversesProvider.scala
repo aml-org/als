@@ -1,5 +1,6 @@
 package org.mulesoft.high.level.dialect
 
+import amf.ProfileName
 import amf.client.remote.Content
 import amf.core.client.ParserConfig
 import amf.core.lexer.CharSequenceStream
@@ -8,6 +9,7 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.Dialect
+import org.mulesoft.high.level.InitOptions
 import org.mulesoft.high.level.amfmanager.AmfInitializationHandler
 import org.mulesoft.high.level.dialect.dialects.AsyncAPIDialect
 import org.mulesoft.typesystem.nominal_interfaces.IDialectUniverse
@@ -39,21 +41,22 @@ object DialectUniversesProvider {
     resultOpt.get
   }
 
-  def buildAndLoadDialects(): Future[Unit] = {
+  def buildAndLoadDialects(initOptions: InitOptions): Future[Unit] = {
     map.clear()
     AmfInitializationHandler.init().flatMap { _ =>
-      val dialectsOpts = LoaderForDialects.rootDialects.map { rd =>
-        var dialectCfg = new ParserConfig(
-          Some(ParserConfig.PARSE),
-          Some(rd),
-          Some("AML 1.0"),
-          Some("application/yaml"),
-          None,
-          Some("AMF"),
-          Some("application/json+ld")
-        )
+      val dialectsOpts = LoaderForDialects.rootDialects.filter(t => initOptions.contains(t._1)).map {
+        case (_, rd) =>
+          var dialectCfg = new ParserConfig(
+            Some(ParserConfig.PARSE),
+            Some(rd),
+            Some("AML 1.0"),
+            Some("application/yaml"),
+            None,
+            Some("AMF"),
+            Some("application/json+ld")
+          )
 
-        AMLPlugin.registry.registerDialect(rd, LoaderForDialects.env)
+          AMLPlugin.registry.registerDialect(rd, LoaderForDialects.env)
       }
       Future.sequence(dialectsOpts).map(_.foreach(getUniverse))
     }
@@ -68,10 +71,10 @@ object LoaderForDialects extends ResourceLoader with PlatformSecrets {
 
   private val dialectsMap: Predef.Map[String, String] = dialects.flatMap(d => d.files).toMap
 
-  val rootDialects: Seq[String] = dialects.map(_.rootUrl)
+  val rootDialects: Predef.Map[ProfileName, String] = dialects.map(d => d.profileName -> d.rootUrl).toMap
 
   override def fetch(resource: String): Future[Content] =
-    platform.fs.asyncFile(dialectsMap(resource)).read().map(c => Content(new CharSequenceStream(c), resource))
+    Future(Content(new CharSequenceStream(dialectsMap(resource)), resource))
 
   override def accepts(resource: String): Boolean =
     dialectsMap.contains(resource)
