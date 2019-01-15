@@ -24,13 +24,8 @@ import scala.scalajs.js.JSConverters._
 @JSExportTopLevel("Suggestions")
 object Suggestions {
 
-  var environment: Environment = Environment()
-
   @JSExport
   def init(environment: Environment): js.Promise[Unit] = {
-
-    this.environment = environment
-
     val result = org.mulesoft.high.level.Core
       .init()
       .flatMap(_ => Core.init())
@@ -39,16 +34,13 @@ object Suggestions {
   }
 
   @JSExport
-  def setEnvironment(environment: Environment): Unit = this.environment = environment
-
-  @JSExport
-  def suggest(language: String, url: String, position: Int): js.Promise[js.Array[Suggestion]] = {
+  def suggest(language: String, url: String, position: Int, env: Environment = Environment()): js.Promise[js.Array[Suggestion]] = {
     val config = this.buildParserConfig(language, url)
 
     var contentOpt: Option[String] = None
     var originalContent: Option[String] = None
     val completionProviderFuture: Future[CompletionProvider] = AlsBrowserPlatform
-      .resolve(url, environment)
+      .resolve(url, env)
       .map(content => {
         val fileContentsStr = content.stream.toString
         originalContent = Option(fileContentsStr)
