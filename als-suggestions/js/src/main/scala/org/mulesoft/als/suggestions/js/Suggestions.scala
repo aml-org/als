@@ -39,8 +39,10 @@ object Suggestions {
   }
 
   @JSExport
-  def suggest(language: String, url: String, position: Int): js.Promise[js.Array[Suggestion]] = {
+  def setEnvironment(environment: Environment): Unit = this.environment = environment
 
+  @JSExport
+  def suggest(language: String, url: String, position: Int): js.Promise[js.Array[Suggestion]] = {
     val config = this.buildParserConfig(language, url)
 
     var contentOpt: Option[String] = None
