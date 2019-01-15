@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.js
 
 import amf.client.resource.ResourceLoader
-import org.mulesoft.als.suggestions.PlatformBasedExtendedFSProvider
+import org.mulesoft.als.suggestions.{CompletionProvider, Core, PlatformBasedExtendedFSProvider}
 import org.mulesoft.als.suggestions.implementation.EmptyASTProvider
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.high.level.amfmanager.ParserHelper
@@ -15,7 +15,7 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoaderAdapter
 import org.mulesoft.als.suggestions.implementation.{CompletionConfig, DummyASTProvider, DummyEditorStateProvider}
 import org.mulesoft.als.suggestions.interfaces.Syntax._
-import org.mulesoft.als.suggestions.{CompletionProvider, Core}
+import org.mulesoft.high.level.InitOptions
 import org.mulesoft.high.level.interfaces.IProject
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -26,18 +26,21 @@ import scala.scalajs.js.JSConverters._
 object Suggestions {
 
   @JSExport
-  def init(): js.Promise[Unit] = {
-    val result = Core.init()
+  def init(options: InitOptions = InitOptions.AllProfiles): js.Promise[Unit] = {
+    val result = Core.init(options)
     result.toJSPromise
   }
 
   @JSExport
-  def suggest(language: String, url: String, position: Int, loaders: js.Array[ResourceLoader] = js.Array()): js.Promise[js.Array[Suggestion]] = {
+  def suggest(language: String,
+              url: String,
+              position: Int,
+              loaders: js.Array[ResourceLoader] = js.Array()): js.Promise[js.Array[Suggestion]] = {
     val environment = new Environment(loaders.map(loader => ResourceLoaderAdapter(loader)).toSeq)
 
     val config = this.buildParserConfig(language, url)
 
-    var contentOpt: Option[String] = None
+    var contentOpt: Option[String]      = None
     var originalContent: Option[String] = None
     val completionProviderFuture: Future[CompletionProvider] = AlsBrowserPlatform
       .resolve(url, environment)
@@ -155,8 +158,8 @@ object Suggestions {
     val editorStateProvider = new DummyEditorStateProvider(text, url, baseName, position)
 
     val trimmed = text.trim
-    val vendor = if (trimmed.startsWith("#%RAML")) Raml10 else Oas20
-    val syntax = if (trimmed.startsWith("{") || trimmed.startsWith("[")) Syntax.JSON else Syntax.YAML
+    val vendor  = if (trimmed.startsWith("#%RAML")) Raml10 else Oas20
+    val syntax  = if (trimmed.startsWith("{") || trimmed.startsWith("[")) Syntax.JSON else Syntax.YAML
 
     val astProvider = new EmptyASTProvider(vendor, syntax)
 

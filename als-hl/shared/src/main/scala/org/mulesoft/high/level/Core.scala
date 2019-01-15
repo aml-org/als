@@ -12,9 +12,9 @@ import scala.concurrent.Future
 
 object Core {
 
-  def init(): Future[Unit] =
+  def init(initOptions: InitOptions = InitOptions.AllProfiles): Future[Unit] =
     UniverseProvider
-      .init()
+      .init(initOptions)
       .flatMap(x => ASTFactoryRegistry.init())
 
   def buildModel(unit: BaseUnit, platform: Platform): Future[IProject] = buildModel(unit, PlatformFsProvider(platform))
