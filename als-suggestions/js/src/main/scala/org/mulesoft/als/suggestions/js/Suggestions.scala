@@ -25,7 +25,7 @@ import scala.scalajs.js.JSConverters._
 object Suggestions {
 
   @JSExport
-  def init(environment: Environment): js.Promise[Unit] = {
+  def init(): js.Promise[Unit] = {
     val result = org.mulesoft.high.level.Core
       .init()
       .flatMap(_ => Core.init())
