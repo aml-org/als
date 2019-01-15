@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.js
 
+import amf.client.resource.ResourceLoader
 import org.mulesoft.als.suggestions.PlatformBasedExtendedFSProvider
 import org.mulesoft.als.suggestions.implementation.EmptyASTProvider
 import org.mulesoft.als.suggestions.interfaces.Syntax
@@ -7,11 +8,11 @@ import org.mulesoft.high.level.amfmanager.ParserHelper
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
-
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote._
 import amf.internal.environment.Environment
+import amf.internal.resource.ResourceLoaderAdapter
 import org.mulesoft.als.suggestions.implementation.{CompletionConfig, DummyASTProvider, DummyEditorStateProvider}
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.{CompletionProvider, Core}
@@ -34,13 +35,15 @@ object Suggestions {
   }
 
   @JSExport
-  def suggest(language: String, url: String, position: Int, env: Environment = Environment()): js.Promise[js.Array[Suggestion]] = {
+  def suggest(language: String, url: String, position: Int, loaders: js.Array[ResourceLoader] = js.Array()): js.Promise[js.Array[Suggestion]] = {
+    val environment = new Environment(loaders.map(loader => ResourceLoaderAdapter(loader)).toSeq)
+
     val config = this.buildParserConfig(language, url)
 
     var contentOpt: Option[String] = None
     var originalContent: Option[String] = None
     val completionProviderFuture: Future[CompletionProvider] = AlsBrowserPlatform
-      .resolve(url, env)
+      .resolve(url, environment)
       .map(content => {
         val fileContentsStr = content.stream.toString
         originalContent = Option(fileContentsStr)
