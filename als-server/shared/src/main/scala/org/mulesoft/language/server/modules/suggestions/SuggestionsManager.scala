@@ -9,7 +9,7 @@ import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 
 import scala.collection.mutable.Buffer
 import scala.collection.mutable.ArrayBuffer
-import scala.concurrent.{Future, Promise}
+import scala.concurrent.{Await, Future, Promise}
 import scala.util.{Failure, Success, Try}
 import scala.concurrent.ExecutionContext.Implicits.global
 import org.mulesoft.high.level.Core
@@ -21,6 +21,7 @@ import org.mulesoft.als.suggestions.interfaces.{ISuggestion, Syntax}
 import org.mulesoft.language.server.common.utils.PathRefine
 
 import scala.collection.Map
+import scala.concurrent.duration.Duration
 
 class SuggestionsManager extends AbstractServerModule {
 
@@ -52,8 +53,6 @@ class SuggestionsManager extends AbstractServerModule {
 
     if (superLaunch.isSuccess) {
 
-      org.mulesoft.als.suggestions.Core.init()
-
       this.connection.onDocumentCompletion(this.onDocumentCompletionListener)
 
       Success(this)
@@ -70,61 +69,61 @@ class SuggestionsManager extends AbstractServerModule {
     this.connection.onDocumentCompletion(this.onDocumentCompletionListener, true)
   }
 
-  protected def onDocumentCompletion(_url: String, position: Int): Future[Seq[ISuggestion]] = {
+  protected def onDocumentCompletion(_url: String, position: Int): Future[Seq[ISuggestion]] =
+    org.mulesoft.als.suggestions.Core.init().flatMap { _ =>
+      val url = PathRefine.refinePath(_url, platform)
+      this.connection.debug(s"Calling for completion for uri ${url} and position ${position}",
+                            "SuggestionsManager",
+                            "onDocumentCompletion")
 
-    val url = PathRefine.refinePath(_url, platform)
-    this.connection.debug(s"Calling for completion for uri ${url} and position ${position}",
-                          "SuggestionsManager",
-                          "onDocumentCompletion")
+      val editorOption: Option[IAbstractTextEditorWithCursor] =
+        this.getEditorManager.getEditor(url)
 
-    val editorOption: Option[IAbstractTextEditorWithCursor] =
-      this.getEditorManager.getEditor(url)
+      if (editorOption.isDefined) {
+        val editor = editorOption.get
 
-    if (editorOption.isDefined) {
-      val editor = editorOption.get
+        val syntax = if (editor.syntax == "YAML") Syntax.YAML else Syntax.JSON
 
-      val syntax = if (editor.syntax == "YAML") Syntax.YAML else Syntax.JSON
+        val startTime = System.currentTimeMillis()
 
-      val startTime = System.currentTimeMillis()
+        val text = org.mulesoft.als.suggestions.Core.prepareText(editor.text, position, syntax)
 
-      val text = org.mulesoft.als.suggestions.Core.prepareText(editor.text, position, syntax)
+        val vendorOption   = Vendor.unapply(editor.language)
+        val vendor: Vendor = vendorOption.getOrElse(Raml10)
+        //      this.connection.debug("Vendor is: " + vendor,
+        //        "SuggestionsManager", "onDocumentCompletion")
 
-      val vendorOption   = Vendor.unapply(editor.language)
-      val vendor: Vendor = vendorOption.getOrElse(Raml10)
-//      this.connection.debug("Vendor is: " + vendor,
-//        "SuggestionsManager", "onDocumentCompletion")
+        //TODO add unapply to suggestion's Syntax
 
-      //TODO add unapply to suggestion's Syntax
+        //      this.connection.debug(s"TEXT:",
+        //        "SuggestionsManager", "onDocumentCompletion")
+        //      this.connection.debug(text,
+        //        "SuggestionsManager", "onDocumentCompletion")
+        //
+        //      this.connection.debug("Completion substring: " + text.substring(position-10, position),
+        //        "SuggestionsManager", "onDocumentCompletion")
 
-//      this.connection.debug(s"TEXT:",
-//        "SuggestionsManager", "onDocumentCompletion")
-//      this.connection.debug(text,
-//        "SuggestionsManager", "onDocumentCompletion")
-//
-//      this.connection.debug("Completion substring: " + text.substring(position-10, position),
-//        "SuggestionsManager", "onDocumentCompletion")
+        this
+          .buildCompletionProviderAST(text, editor.text, url, position, vendor, syntax)
+          .flatMap(provider => {
 
-      this
-        .buildCompletionProviderAST(text, editor.text, url, position, vendor, syntax)
-        .flatMap(provider => {
+            provider.suggest.map(result => {
+              this.connection.debug(s"Got ${result.length} proposals", "SuggestionsManager", "onDocumentCompletion")
 
-          provider.suggest.map(result => {
-            this.connection.debug(s"Got ${result.length} proposals", "SuggestionsManager", "onDocumentCompletion")
+              val endTime = System.currentTimeMillis()
 
-            val endTime = System.currentTimeMillis()
+              this.connection.debugDetail(s"It took ${endTime - startTime} milliseconds to complete",
+                                          "ASTMaSuggestionsManagernager",
+                                          "onDocumentCompletion")
 
-            this.connection.debugDetail(s"It took ${endTime - startTime} milliseconds to complete",
-                                        "ASTMaSuggestionsManagernager",
-                                        "onDocumentCompletion")
+              result
+            })
 
-            result
           })
-
-        })
-    } else {
-      Promise.successful(Seq.empty[ISuggestion]).future
+      } else {
+        Promise.successful(Seq.empty[ISuggestion]).future
+      }
     }
-  }
 
   def buildCompletionProviderAST(text: String,
                                  unmodifiedContent: String,

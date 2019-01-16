@@ -97,46 +97,24 @@ class HLASTmanager extends AbstractServerModule with IHLASTManagerModule {
 
   }
 
-  private def checkInitialization(): Future[Unit] = {
-    var promise = Promise[Unit]();
-
-    if (initialized) {
-      promise.success();
-    } else {
-      Core
-        .init()
-        .map(nothing => {
-          initialized = true;
-
-          promise.success();
-        });
-    }
-
-    promise.future;
+  private def checkInitialization(): Future[Unit] = synchronized {
+    if (initialized) Future.successful()
+    else Core.init().map(_ => initialized = true)
   }
 
   def hlFromAST(ast: BaseUnit): Future[IProject] = {
-    var promise = Promise[IProject]();
-
     val startTime = System.currentTimeMillis()
 
-    checkInitialization().map(nothing =>
-      Core.buildModel(ast, this.platform) andThen {
-        case Success(result) => {
-          promise.success(result);
-        };
+    checkInitialization()
+      .flatMap(_ => Core.buildModel(ast, this.platform))
+      .map(result => {
 
-        case Failure(error) => promise.failure(error);
-    });
+        val endTime = System.currentTimeMillis()
+        this.connection
+          .debugDetail(s"It took ${endTime - startTime} milliseconds to build ALS ast", "HLASTmanager", "hlFromAST")
 
-    promise.future.map(result => {
-
-      val endTime = System.currentTimeMillis()
-      this.connection
-        .debugDetail(s"It took ${endTime - startTime} milliseconds to build ALS ast", "HLASTmanager", "hlFromAST")
-
-      result
-    })
+        result
+      })
   }
 
   def forceGetCurrentAST(uri: String): Future[IProject] = {
@@ -175,21 +153,13 @@ class HLASTmanager extends AbstractServerModule with IHLASTManagerModule {
     val uri = PathRefine.refinePath(_uri, platform)
     this.connection.debug(s"Calling forceBuildNewAST for uri ${uri}", "HLASTmanager", "forceBuildNewAST")
 
-    val result = Promise[IProject]();
-
     getASTManager
       .forceBuildNewAST(uri, text)
-      .map(hlFromAST(_) andThen {
-        case Success(project) => {
-          result.success(project);
-        }
-        case Failure(error) => {
-          this.connection.debugDetail(s"Failed to build AST for uri ${uri}", "HLASTmanager", "forceBuildNewAST")
-          result.failure(error)
-        };
-      })
-
-    result.future;
+      .flatMap(hlFromAST) recoverWith {
+      case error =>
+        this.connection.debugDetail(s"Failed to build AST for uri ${uri}", "HLASTmanager", "forceBuildNewAST")
+        Future.failed(error)
+    }
   }
 
   def addListener[T](memberListeners: Buffer[T], listener: T, unsubscribe: Boolean = false): Unit = {
