@@ -2,10 +2,13 @@ package org.mulesoft.high.level
 
 import amf.{Oas20Profile, ProfileName, Raml08Profile, Raml10Profile}
 
+import scala.collection.mutable.ListBuffer
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 
 @JSExportAll
-class InitOptions(vendors: Set[ProfileName]) {
+class InitOptions(val vendors: Set[ProfileName]) {
+  def filterClone(initialized: Set[ProfileName]) = new InitOptions(vendors.filter(!initialized.contains(_)))
+
   def contains(profile: ProfileName): Boolean = vendors.contains(profile)
 }
 // todo: vendors instead of profiles?
