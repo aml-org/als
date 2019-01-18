@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.js
 
 import amf.client.remote.Content
-import amf.client.resource.ResourceLoader
+import amf.client.resource.ClientResourceLoader
 import org.mulesoft.als.suggestions.{CompletionProvider, Core, PlatformBasedExtendedFSProvider}
 import org.mulesoft.als.suggestions.implementation.EmptyASTProvider
 import org.mulesoft.als.suggestions.interfaces.Syntax
@@ -30,8 +30,8 @@ object Suggestions {
     val result = Core.init(options)
     result.toJSPromise
   }
-
-  def internalResourceLoader(loader: ResourceLoader): amf.internal.resource.ResourceLoader = new amf.internal.resource.ResourceLoader {
+  
+  def internalResourceLoader(loader: ClientResourceLoader): amf.internal.resource.ResourceLoader = new amf.internal.resource.ResourceLoader {
     override def fetch(resource: String): Future[Content] = loader.fetch(resource).toFuture
 
     override def accepts(resource: String): Boolean = loader.accepts(resource)
@@ -41,7 +41,7 @@ object Suggestions {
   def suggest(language: String,
               url: String,
               position: Int,
-              loaders: js.Array[ResourceLoader] = js.Array()): js.Promise[js.Array[Suggestion]] = {
+              loaders: js.Array[ClientResourceLoader] = js.Array()): js.Promise[js.Array[Suggestion]] = {
     val environment = new Environment(loaders.map(internalResourceLoader).toSeq)
 
     val config = this.buildParserConfig(language, url)
