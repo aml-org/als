@@ -17,6 +17,8 @@ class InitOptions(val vendors: Set[ProfileName]) {
 object InitOptions {
   val AllProfiles: InitOptions = new InitOptions(Set(Raml10Profile, Raml08Profile, Oas20Profile, AsyncAPIProfile))
 
+  val WebApiProfiles: InitOptions = new InitOptions(Set(Raml10Profile, Raml08Profile, Oas20Profile))
+
   val RamlProfiles: InitOptions = new InitOptions(Set(Raml10Profile, Raml08Profile))
 
   val OasProfile: InitOptions = new InitOptions(Set(Oas20Profile))
