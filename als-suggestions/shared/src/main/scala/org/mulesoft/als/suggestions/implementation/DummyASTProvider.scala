@@ -14,7 +14,7 @@ class DummyASTProvider(project: IProject, position:Int) extends IASTProvider{
     override def language: Vendor = project.language
 
     override def syntax: Syntax = {
-        var node = getSelectedNode.getOrElse(getASTRoot)
+        val node = getSelectedNode.getOrElse(getASTRoot)
         if (node.astUnit.text.trim.startsWith("{")) {
             Syntax.JSON
         }

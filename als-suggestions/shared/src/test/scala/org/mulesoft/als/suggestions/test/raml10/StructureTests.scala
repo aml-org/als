@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.test.raml10
 
-import org.mulesoft.als.suggestions.plugins.raml.{CommonHeaderNames, CommonHeadersNamesCompletionPlugin}
+import org.mulesoft.als.suggestions.plugins.raml.CommonHeaderNames
 
 class StructureTests extends RAML10Test {
 
@@ -496,18 +496,18 @@ class StructureTests extends RAML10Test {
     this.runTest(
       "structure/test154.raml",
       Set("required",
-          "displayName",
-          "type",
-          "xml",
-          "default",
-          "pattern",
-          "maxLength",
-          "minLength",
-          "examples",
-          "schema",
-          "facets",
-          "properties",
-          "description")
+        "displayName",
+        "type",
+        "xml",
+        "default",
+        "pattern",
+        "maxLength",
+        "minLength",
+        "examples",
+        "schema",
+        "facets",
+        "properties",
+        "description")
     )
   }
 
@@ -610,13 +610,13 @@ class StructureTests extends RAML10Test {
     this.runTest(
       "structure/test159.raml",
       Set("usage:",
-          "uses:\n  ",
-          "schemas:\n  ",
-          "traits:\n  ",
-          "types:\n  ",
-          "annotationTypes:\n  ",
-          "resourceTypes:\n  ",
-          "securitySchemes:\n  ")
+        "uses:\n  ",
+        "schemas:\n  ",
+        "traits:\n  ",
+        "types:\n  ",
+        "annotationTypes:\n  ",
+        "resourceTypes:\n  ",
+        "securitySchemes:\n  ")
     )
   }
 
@@ -640,20 +640,20 @@ class StructureTests extends RAML10Test {
     this.runTest(
       "methods/test01.raml",
       Set("displayName",
-          "type",
-          "description",
-          "get",
-          "put",
-          "post",
-          "delete",
-          "options",
-          "head",
-          "patch",
-          "trace",
-          "connect",
-          "securedBy",
-          "is",
-          "uriParameters")
+        "type",
+        "description",
+        "get",
+        "put",
+        "post",
+        "delete",
+        "options",
+        "head",
+        "patch",
+        "trace",
+        "connect",
+        "securedBy",
+        "is",
+        "uriParameters")
     )
   }
 
@@ -684,20 +684,20 @@ class StructureTests extends RAML10Test {
     this.runTest(
       "methods/test03.raml",
       Set("displayName",
-          "type",
-          "description",
-          "get",
-          "put",
-          "post",
-          "delete",
-          "options",
-          "head",
-          "patch",
-          "trace",
-          "connect",
-          "securedBy",
-          "is",
-          "uriParameters")
+        "type",
+        "description",
+        "get",
+        "put",
+        "post",
+        "delete",
+        "options",
+        "head",
+        "patch",
+        "trace",
+        "connect",
+        "securedBy",
+        "is",
+        "uriParameters")
     )
   }
 

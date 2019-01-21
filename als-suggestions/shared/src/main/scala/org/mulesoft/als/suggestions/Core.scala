@@ -53,7 +53,7 @@ object Core {
       })
 
   def prepareText(text: String, offset: Int, syntax: Syntax): String = {
-    var isJSON = text.trim.startsWith("{")
+    val isJSON = text.trim.startsWith("{")
     if (isJSON) {
       CompletionProvider.prepareJsonContent(text, offset)
     } else {

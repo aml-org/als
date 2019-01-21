@@ -1,7 +1,5 @@
-package org.mulesoft.als.suggestions.js
+package org.mulesoft.als.suggestions.client
 
-import amf.client.remote.Content
-import amf.client.resource.ClientResourceLoader
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote._
@@ -16,54 +14,42 @@ import org.mulesoft.high.level.interfaces.IProject
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.scalajs.js
-import scala.scalajs.js.JSConverters._
-import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 
-@JSExportTopLevel("Suggestions")
 object Suggestions {
-  @JSExport
-  def init(options: InitOptions = InitOptions.WebApiProfiles): js.Promise[Unit] = {
-    Core.init(options).toJSPromise
-  }
+  def init(options: InitOptions = InitOptions.WebApiProfiles): Future[Unit] = Core.init(options)
 
-  def internalResourceLoader(loader: ClientResourceLoader): amf.internal.resource.ResourceLoader = new amf.internal.resource.ResourceLoader {
-    override def fetch(resource: String): Future[Content] = loader.fetch(resource).toFuture
-
-    override def accepts(resource: String): Boolean = loader.accepts(resource)
-  }
-
-  @JSExport
   def suggest(language: String,
               url: String,
               position: Int,
-              loaders: js.Array[ClientResourceLoader] = js.Array()): js.Promise[js.Array[Suggestion]] = {
-    val environment = new Environment(loaders.map(internalResourceLoader).toSeq)
-    val platform = new AlsBrowserPlatform(environment)
+              environment: Environment,
+              platform: AlsPlatform): Future[Seq[Suggestion]] = {
 
-    val config = this.buildParserConfig(language, url)
-
-    var contentOpt: Option[String] = None
-    var originalContent: Option[String] = None
-    val completionProviderFuture: Future[CompletionProvider] = platform
+    platform
       .resolve(url, environment)
       .map(content => {
-        val fileContentsStr = content.stream.toString
-        originalContent = Option(fileContentsStr)
-        contentOpt = Option(this.cacheUnit(url, fileContentsStr, position))
-
+        val originalContent = content.stream.toString
+        val (_, patchedPlatform) = patchContent(platform, url, originalContent, position)
+        (originalContent, patchedPlatform)
       })
-      .flatMap(_ => this.amfParse(config, environment, platform))
-      .flatMap(this.buildHighLevel(_, platform))
-      .map(this.buildCompletionProvider(_, url, position, originalContent, platform))
+      .flatMap { case (originalContent, patchedPlatform) =>
+        suggestWithPatchedPlatform(language, url, originalContent, position, patchedPlatform)
+      }
+  }
+
+  private def suggestWithPatchedPlatform(language: String,
+                                         url: String,
+                                         originalContent: String,
+                                         position: Int,
+                                         patchedPlatform: AlsPlatform): Future[Seq[Suggestion]] = {
+    val config = this.buildParserConfig(language, url)
+
+    val completionProviderFuture: Future[CompletionProvider] = this.amfParse(config, patchedPlatform.defaultEnvironment, patchedPlatform)
+      .flatMap(this.buildHighLevel(_, patchedPlatform))
+      .map(this.buildCompletionProvider(_, url, position, originalContent, patchedPlatform))
       .recoverWith {
         case e: Throwable =>
           println(e)
-          contentOpt match {
-            case Some(c) =>
-              Future.successful(this.buildCompletionProviderNoAST(c, url, position, platform))
-            case None => Future.failed(new Error("Failed to construct Completionprovider"))
-          }
+          Future.successful(this.buildCompletionProviderNoAST(originalContent, url, position, patchedPlatform))
         case any =>
           println(any)
           Future.failed(new Error("Failed to construct Completionprovider"))
@@ -81,11 +67,10 @@ object Suggestions {
             category = suggestion.category
           ))
       )
-      .map(suggestions => suggestions.toJSArray).toJSPromise
+      .map(suggestions => suggestions)
   }
 
-  def buildParserConfig(language: String, url: String): ParserConfig = {
-
+  def buildParserConfig(language: String, url: String): ParserConfig =
     new ParserConfig(
       Some(ParserConfig.PARSE),
       Some(url),
@@ -95,18 +80,15 @@ object Suggestions {
       Some("AMF Graph"),
       Some("application/ld+json")
     )
-  }
 
   def amfParse(config: ParserConfig, environment: Environment, platform: Platform): Future[BaseUnit] =
     ParserHelper(platform).parse(config, environment)
 
-  def cacheUnit(fileUrl: String, fileContentsStr: String, position: Int): String = {
-
+  def patchContent(platform: AlsPlatform, fileUrl: String, fileContentsStr: String, position: Int): (String, AlsPlatform) = {
     val patchedContent = Core.prepareText(fileContentsStr, position, YAML)
+    val platformWithOverride = platform.withOverride(fileUrl, patchedContent)
 
-    // ToDo: Check if is usefull to cache file content
-    // File.unapply(fileUrl).foreach(x => AlsBrowserPlatform.withOverride(x, patchedContent))
-    patchedContent
+    (patchedContent, platformWithOverride)
   }
 
   def buildHighLevel(model: BaseUnit, platform: Platform): Future[IProject] = {
@@ -116,7 +98,7 @@ object Suggestions {
   def buildCompletionProvider(project: IProject,
                               url: String,
                               position: Int,
-                              originalContent: Option[String],
+                              originalContent: String,
                               platform: Platform): CompletionProvider = {
 
     val rootUnit = project.rootASTUnit
@@ -133,7 +115,7 @@ object Suggestions {
       .withAstProvider(astProvider)
       .withEditorStateProvider(editorStateProvider)
       .withFsProvider(platformFSProvider)
-      .withOriginalContent(originalContent.orNull)
+      .withOriginalContent(originalContent)
 
     CompletionProvider().withConfig(completionConfig)
   }

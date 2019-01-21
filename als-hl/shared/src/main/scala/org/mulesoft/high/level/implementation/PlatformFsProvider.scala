@@ -10,15 +10,11 @@ import scala.concurrent.Future
 
 class PlatformFsProvider(platform: Platform) extends IFSProvider {
 
-  override def content(fullPath: String): Future[String] = {
-    println(s"fullPath: $fullPath")
+  override def content(fullPath: String): Future[String] =
     platform.resolve(fullPath).map(_.stream.toString)
-  }
 
-  override def resolve(absBasePath: String, path: String): Option[String] = {
-    println(s"absBasePath: $absBasePath")
+  override def resolve(absBasePath: String, path: String): Option[String] =
     Option(Context(platform, absBasePath).resolve(path))
-  }
 
   override def dirName(fullPath: String): String = {
     val lastSeparatorIndex1 = fullPath.lastIndexOf(platform.fs.separatorChar)
