@@ -8,7 +8,6 @@ class PlatformBasedExtendedFSProvider(platform: Platform) extends PlatformFsProv
   with IExtendedFSProvider {
 
   def contentDirName(content: IEditorStateProvider): String = {
-
     super.dirName(content.getPath)
   }
 

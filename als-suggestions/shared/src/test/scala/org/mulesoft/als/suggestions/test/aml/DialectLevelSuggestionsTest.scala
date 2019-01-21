@@ -49,7 +49,7 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
     this
       .buildHighLevel(bu)
       .map(project => {
-        this.buildCompletionProvider(project, url, position, Option(originalContent))
+        this.buildCompletionProvider(project, url, position, originalContent)
       })
       .flatMap(_.suggest)
       .map(suggestions =>

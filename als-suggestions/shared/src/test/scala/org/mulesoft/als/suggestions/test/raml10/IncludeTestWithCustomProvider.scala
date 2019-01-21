@@ -16,8 +16,6 @@ class IncludeTestWithCustomProvider extends RAML10Test {
     this.runTest("includes/subdirs/include-sub2-dir.raml", Set("another/", "testFragment.raml"))
   }
 
-  override protected def buildFsProvider: IExtendedFSProvider = new BadPlatformBaseForSubDirs()
-
   class BadPlatformBaseForSubDirs() extends PlatformBasedExtendedFSProvider(platform) {
 
     override def resolve(absBasePath: String, path: String): Option[String] = {
