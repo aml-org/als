@@ -6,10 +6,11 @@ import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.features.validation.AMFValidatorPlugin
+import org.mulesoft.high.level.amfmanager.AmfInitializationHandler
 import org.mulesoft.language.server.core.Server
 import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
-import org.mulesoft.language.server.modules.hlastManager.HLASTManager
+import org.mulesoft.language.server.modules.hlastManager.HLASTmanager
 import org.mulesoft.language.server.modules.outline.StructureManager
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
 import org.mulesoft.language.server.modules.astManager.{ASTManager, IASTManagerModule}
@@ -35,67 +36,55 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets {
 
   var clientOpt: Option[TestClientConnetcion] = None
 
-  def init(): Future[Unit] = {
-    amf.core.AMF.registerPlugin(AMLPlugin)
-    amf.core.AMF.registerPlugin(Raml10Plugin)
-    amf.core.AMF.registerPlugin(Raml08Plugin)
-    amf.core.AMF.registerPlugin(Oas20Plugin)
-    amf.core.AMF.registerPlugin(Oas30Plugin)
-    amf.core.AMF.registerPlugin(AMFValidatorPlugin)
-    amf.core.AMF.registerPlugin(PayloadValidatorPlugin)
-    AMF.init()
-  } recoverWith {
-    case e: Throwable => Future.successful()
-    case _            => Future.successful()
-  }
+  def init(): Future[Unit] = AmfInitializationHandler.init()
 
   def getClient: Future[TestClientConnetcion] = {
 
     if (clientOpt.nonEmpty) {
-      return Future.successful(clientOpt.get)
-    }
+      Future.successful(clientOpt.get)
+    } else {
+      var serverList: ListBuffer[TestServerConnection] = ListBuffer()
+      var clientList: ListBuffer[TestClientConnetcion] = ListBuffer()
+      var thread = new Runnable {
+        def run {
+          var serverConnection = new TestServerConnection(clientList)
+          serverList += serverConnection
 
-    var serverList: ListBuffer[TestServerConnection] = ListBuffer()
-    var clientList: ListBuffer[TestClientConnetcion] = ListBuffer()
-    var thread = new Runnable {
-      def run {
-        var serverConnection = new TestServerConnection(clientList)
-        serverList += serverConnection
+          val server = new Server(serverConnection, TestPlatformDependentPart())
 
-        val server = new Server(serverConnection, TestPlatformDependentPart())
+          server.registerModule(new ASTManager())
+          server.registerModule(new HLASTmanager())
+          server.registerModule(new ValidationManager())
+          server.registerModule(new SuggestionsManager())
+          server.registerModule(new StructureManager())
 
-        server.registerModule(new ASTManager())
-        server.registerModule(new HLASTManager())
-        server.registerModule(new ValidationManager())
-        server.registerModule(new SuggestionsManager())
-        server.registerModule(new StructureManager())
+          server.registerModule(new FindReferencesModule())
+          server.registerModule(new FIndDeclarationModule())
+          server.registerModule(new RenameModule())
 
-        server.registerModule(new FindReferencesModule())
-        server.registerModule(new FIndDeclarationModule())
-        server.registerModule(new RenameModule())
+          server.enableModule(IASTManagerModule.moduleId)
+          server.enableModule(HLASTmanager.moduleId)
+          server.enableModule(ValidationManager.moduleId)
+          server.enableModule(SuggestionsManager.moduleId)
+          server.enableModule(StructureManager.moduleId)
 
-        server.enableModule(IASTManagerModule.moduleId)
-        server.enableModule(HLASTManager.moduleId)
-        server.enableModule(ValidationManager.moduleId)
-        server.enableModule(SuggestionsManager.moduleId)
-        server.enableModule(StructureManager.moduleId)
+          server.enableModule(FindReferencesModule.moduleId)
+          server.enableModule(FIndDeclarationModule.moduleId)
 
-        server.enableModule(FindReferencesModule.moduleId)
-        server.enableModule(FIndDeclarationModule.moduleId)
+          server.enableModule(RenameModule.moduleId)
 
-        server.enableModule(RenameModule.moduleId)
+          val editorManager = server.modules.get(IEditorManagerModule.moduleId)
+          if (editorManager.isDefined) {
+            serverConnection.editorManager = Some(editorManager.get.asInstanceOf[IEditorManagerModule])
+          }
 
-        val editorManager = server.modules.get(IEditorManagerModule.moduleId)
-        if (editorManager.isDefined) {
-          serverConnection.editorManager = Some(editorManager.get.asInstanceOf[IEditorManagerModule])
         }
-
       }
+      thread.run
+      clientList += new TestClientConnetcion(serverList)
+      clientOpt = clientList.headOption
+      Future.successful(clientList.head)
     }
-    thread.run
-    clientList += new TestClientConnetcion(serverList)
-    clientOpt = clientList.headOption
-    Future.successful(clientList.head)
   }
 
   var emptyClientOpt: Option[TestClientConnetcion] = None

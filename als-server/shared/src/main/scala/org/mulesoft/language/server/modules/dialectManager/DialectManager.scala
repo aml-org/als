@@ -1,35 +1,20 @@
 package org.mulesoft.language.server.modules.dialectManager
 
-import java.io.{PrintWriter, StringWriter}
-
-import amf.core.client.ParserConfig
-
-import scala.collection.mutable.Buffer
-import scala.collection.mutable.ArrayBuffer
-import amf.core.model.document.BaseUnit
-import amf.core.unsafe.TrunkPlatform
-import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IOpenedDocument}
-import org.mulesoft.language.server.common.reconciler.Reconciler
-import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
-import org.mulesoft.language.server.core.connections.IServerConnection
-import org.mulesoft.language.server.core.platform.ProxyContentPlatform
-import org.mulesoft.language.server.modules.astManager.DocumentChangedRunnable
-import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
-
-import scala.collection.mutable
-import scala.util.{Failure, Success, Try}
-import scala.concurrent.{Future, Promise}
-import scala.concurrent.ExecutionContext.Implicits.global
 import amf.core.AMF
-import amf.core.remote.VocabularyYamlHint
-import amf.core.unsafe.PlatformSecrets
-import amf.facades.{AMFCompiler, Validation}
+import amf.core.client.ParserConfig
 import amf.plugins.document.vocabularies.AMLPlugin
-import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
+import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.features.validation.AMFValidatorPlugin
+import org.mulesoft.high.level.amfmanager.ParserHelper
+import org.mulesoft.language.server.core.platform.ProxyContentPlatform
+import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
+import org.mulesoft.language.server.modules.astManager.IASTManagerModule
 import org.mulesoft.language.server.modules.dialectManager.dialects.AsyncAPI
-import org.mulesoft.language.server.modules.astManager.{IASTManagerModule, ParserHelper}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.{Success, Try}
 
 /**
   * AST manager

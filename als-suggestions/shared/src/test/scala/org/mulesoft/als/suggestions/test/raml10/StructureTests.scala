@@ -1,5 +1,7 @@
 package org.mulesoft.als.suggestions.test.raml10
 
+import org.mulesoft.als.suggestions.plugins.raml.CommonHeaderNames
+
 class StructureTests extends RAML10Test {
 
   test("StructureTests responses") {
@@ -494,18 +496,18 @@ class StructureTests extends RAML10Test {
     this.runTest(
       "structure/test154.raml",
       Set("required",
-          "displayName",
-          "type",
-          "xml",
-          "default",
-          "pattern",
-          "maxLength",
-          "minLength",
-          "examples",
-          "schema",
-          "facets",
-          "properties",
-          "description")
+        "displayName",
+        "type",
+        "xml",
+        "default",
+        "pattern",
+        "maxLength",
+        "minLength",
+        "examples",
+        "schema",
+        "facets",
+        "properties",
+        "description")
     )
   }
 
@@ -533,12 +535,13 @@ class StructureTests extends RAML10Test {
     this.runTest(
       "structure/test156.raml",
       Set(
-        "application/json:",
-        "application/xml:",
-        "multipart/form-data:",
-        "application/x-www-form-urlencoded:",
+        "application/json:\n        ",
+        "application/xml:\n        ",
+        "multipart/form-data:\n        ",
+        "application/x-www-form-urlencoded:\n        ",
         "displayName:",
         "type:",
+        "enum:",
         "xml:\n        ",
         "default:",
         "description:",
@@ -596,26 +599,33 @@ class StructureTests extends RAML10Test {
     )
   }
 
+  test("Header common names") {
+    this.runTest(
+      "structure/test165.raml",
+      CommonHeaderNames.names.map(n => n + ":\n            ").toSet
+    )
+  }
+
   test("Library completion") {
     this.runTest(
       "structure/test159.raml",
       Set("usage:",
-          "uses:\n  ",
-          "schemas:\n  ",
-          "traits:\n  ",
-          "types:\n  ",
-          "annotationTypes:\n  ",
-          "resourceTypes:\n  ",
-          "securitySchemes:\n  ")
+        "uses:\n  ",
+        "schemas:\n  ",
+        "traits:\n  ",
+        "types:\n  ",
+        "annotationTypes:\n  ",
+        "resourceTypes:\n  ",
+        "securitySchemes:\n  ")
     )
   }
 
   test("response codes test 01") {
-    this.runTest("structure/test160.raml", TestRamlResponseCodes.all)
+    this.runTest("structure/test160.raml", TestRamlResponseCodes.all.toSet)
   }
 
   test("response codes test 02") {
-    this.runTest("structure/test161.raml", TestRamlResponseCodes.all)
+    this.runTest("structure/test161.raml", TestRamlResponseCodes.all.toSet)
   }
 
   test("facets test 1") {
@@ -630,20 +640,20 @@ class StructureTests extends RAML10Test {
     this.runTest(
       "methods/test01.raml",
       Set("displayName",
-          "type",
-          "description",
-          "get",
-          "put",
-          "post",
-          "delete",
-          "options",
-          "head",
-          "patch",
-          "trace",
-          "connect",
-          "securedBy",
-          "is",
-          "uriParameters")
+        "type",
+        "description",
+        "get",
+        "put",
+        "post",
+        "delete",
+        "options",
+        "head",
+        "patch",
+        "trace",
+        "connect",
+        "securedBy",
+        "is",
+        "uriParameters")
     )
   }
 
@@ -674,24 +684,43 @@ class StructureTests extends RAML10Test {
     this.runTest(
       "methods/test03.raml",
       Set("displayName",
-          "type",
-          "description",
-          "get",
-          "put",
-          "post",
-          "delete",
-          "options",
-          "head",
-          "patch",
-          "trace",
-          "connect",
-          "securedBy",
-          "is",
-          "uriParameters")
+        "type",
+        "description",
+        "get",
+        "put",
+        "post",
+        "delete",
+        "options",
+        "head",
+        "patch",
+        "trace",
+        "connect",
+        "securedBy",
+        "is",
+        "uriParameters")
     )
   }
 
   test("test property name suggestion") {
     this.runTest("structure/test162.raml", Set())
+  }
+
+  test("test all body content media type values") {
+    this.runTest(
+      "structure/all/bodyvalue.raml",
+      Set(
+        "displayName:",
+        "example:\n               ",
+        "type:",
+        "properties:\n               ",
+        "enum:",
+        "xml:\n               ",
+        "schema:",
+        "default:",
+        "examples:\n               ",
+        "description:",
+        "facets:\n               "
+      )
+    )
   }
 }

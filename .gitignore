@@ -7,3 +7,5 @@ target/
 *.cache
 build/
 .gradle
+*als-server.js
+*als-server.js.map

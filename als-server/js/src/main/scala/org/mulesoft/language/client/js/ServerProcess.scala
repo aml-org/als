@@ -12,7 +12,7 @@ import org.mulesoft.language.server.modules.dialectManager.{DialectManager, IDia
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
 import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
-import org.mulesoft.language.server.modules.hlastManager.HLASTManager
+import org.mulesoft.language.server.modules.hlastManager.HLASTmanager
 import org.mulesoft.language.server.modules.outline.StructureManager
 import org.mulesoft.language.server.modules.astManager.{ASTManager, IASTManagerModule}
 import org.mulesoft.language.server.modules.commonInterfaces.{IEditorTextBuffer, IPoint}
@@ -87,7 +87,7 @@ object ServerProcess {
 
     server.registerModule(new ASTManager())
     server.registerModule(new DialectManager())
-    server.registerModule(new HLASTManager())
+    server.registerModule(new HLASTmanager())
     server.registerModule(new ValidationManager())
     server.registerModule(new SuggestionsManager())
     server.registerModule(new StructureManager())
@@ -97,7 +97,7 @@ object ServerProcess {
 
     server.enableModule(IASTManagerModule.moduleId)
     //server.enableModule(IDialectManagerModule.moduleId)
-    server.enableModule(HLASTManager.moduleId)
+    server.enableModule(HLASTmanager.moduleId)
     server.enableModule(ValidationManager.moduleId)
     server.enableModule(SuggestionsManager.moduleId)
     server.enableModule(StructureManager.moduleId)

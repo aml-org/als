@@ -1,0 +1,27 @@
+#%AsyncAPI 0.6
+
+messages:
+  message:
+    payload:
+      [*0]
+    tags:
+      [*1]
+    externalDocs:
+      [*2]
+    headers:
+      [*3]
+schemas:
+  Test:
+    items:
+      [*4]
+    propertyTerm:
+      [*5]
+    patternProperties:
+      [*6]
+topics:
+  topic:
+    suscribe:
+      [*7]
+    publish:
+      [*8]
+
