@@ -4,7 +4,7 @@ import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IOpenedDocument}
 import org.mulesoft.language.server.core.Server
 import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
-import org.mulesoft.language.server.modules.hlastManager.HLASTManager
+import org.mulesoft.language.server.modules.hlastManager.HLASTmanager
 import org.mulesoft.language.server.modules.outline.StructureManager
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
 import org.mulesoft.language.server.modules.astManager.{ASTManager, IASTManagerModule}
@@ -159,7 +159,7 @@ class ChangeDocumentTest extends LanguageServerTest {
       val server = new Server(serverConnection, TestPlatformDependentPart())
 
       server.registerModule(new ASTManager())
-      server.registerModule(new HLASTManager())
+      server.registerModule(new HLASTmanager())
       server.registerModule(new ValidationManager())
       server.registerModule(new SuggestionsManager())
       server.registerModule(new StructureManager())
@@ -168,7 +168,7 @@ class ChangeDocumentTest extends LanguageServerTest {
       server.registerModule(new FIndDeclarationModule())
 
       server.enableModule(IASTManagerModule.moduleId)
-      server.enableModule(HLASTManager.moduleId)
+      server.enableModule(HLASTmanager.moduleId)
       server.enableModule(ValidationManager.moduleId)
       server.enableModule(SuggestionsManager.moduleId)
       server.enableModule(StructureManager.moduleId)
@@ -177,7 +177,7 @@ class ChangeDocumentTest extends LanguageServerTest {
       server.enableModule(FIndDeclarationModule.moduleId)
 
       server.disableModule(IASTManagerModule.moduleId)
-      server.disableModule(HLASTManager.moduleId)
+      server.disableModule(HLASTmanager.moduleId)
       server.disableModule(ValidationManager.moduleId)
       server.disableModule(SuggestionsManager.moduleId)
       server.disableModule(StructureManager.moduleId)
@@ -186,7 +186,7 @@ class ChangeDocumentTest extends LanguageServerTest {
       server.disableModule(FIndDeclarationModule.moduleId)
 
       server.enableModule(IASTManagerModule.moduleId)
-      server.enableModule(HLASTManager.moduleId)
+      server.enableModule(HLASTmanager.moduleId)
       server.enableModule(ValidationManager.moduleId)
       server.enableModule(SuggestionsManager.moduleId)
       server.enableModule(StructureManager.moduleId)

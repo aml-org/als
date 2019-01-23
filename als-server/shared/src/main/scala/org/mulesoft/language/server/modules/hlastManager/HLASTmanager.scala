@@ -1,24 +1,20 @@
 package org.mulesoft.language.server.modules.hlastManager
 
-import org.mulesoft.language.common.dtoTypes.{IRange, IValidationIssue, IValidationReport}
-import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
-import org.mulesoft.language.server.modules.astManager.{IASTListener, IASTManagerModule, ParserHelper}
-import org.mulesoft.language.server.modules.commonInterfaces.{IEditorTextBuffer, IPoint}
-import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
-
-import scala.collection.mutable.Buffer
-import scala.collection.mutable.ArrayBuffer
-import scala.concurrent.{Future, Promise}
-import scala.util.{Failure, Success, Try}
-import scala.concurrent.ExecutionContext.Implicits.global
+import amf.core.model.document.BaseUnit
 import org.mulesoft.high.level.Core
 import org.mulesoft.high.level.interfaces.IProject
-import amf.core.model.document.BaseUnit
 import org.mulesoft.language.server.common.utils.PathRefine
+import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
+import org.mulesoft.language.server.modules.astManager.{IASTListener, IASTManagerModule}
+import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 
 import scala.collection.mutable
+import scala.collection.mutable.{ArrayBuffer, Buffer}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{Future, Promise}
+import scala.util.{Failure, Success, Try}
 
-class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
+class HLASTmanager extends AbstractServerModule with IHLASTManagerModule {
   private var initialized: Boolean = false;
 
   val moduleDependencies: Array[String] = Array(IEditorManagerModule.moduleId, IASTManagerModule.moduleId)
@@ -30,7 +26,7 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
   val onNewASTAvailableListener: IASTListener = new IASTListener {
 
     override def apply(uri: String, version: Int, ast: BaseUnit): Unit = {
-      HLASTManager.this.newASTAvailable(uri, version, ast)
+      HLASTmanager.this.newASTAvailable(uri, version, ast)
     }
   }
 
@@ -79,7 +75,7 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
 
   def newASTAvailable(uri: String, version: Int, ast: BaseUnit): Unit = {
 
-    this.connection.debug("Got new AST:\n" + ast.toString, "HLASTManager", "newASTAvailable")
+    this.connection.debug("Got new AST:\n" + ast.toString, "HLASTmanager", "newASTAvailable")
 
     val projectFuture = this.hlFromAST(ast);
 
@@ -93,7 +89,7 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
 
   def notifyASTChanged(uri: String, version: Int, project: IProject) = {
 
-    this.connection.debug("Got new AST parser results, notifying the listeners", "HLASTManager", "notifyASTChanged")
+    this.connection.debug("Got new AST parser results, notifying the listeners", "HLASTmanager", "notifyASTChanged")
 
     this.astListeners.foreach { listener =>
       listener.apply(uri, version, project.rootASTUnit.rootNode)
@@ -101,51 +97,29 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
 
   }
 
-  private def checkInitialization(): Future[Unit] = {
-    var promise = Promise[Unit]();
-
-    if (initialized) {
-      promise.success();
-    } else {
-      Core
-        .init()
-        .map(nothing => {
-          initialized = true;
-
-          promise.success();
-        });
-    }
-
-    promise.future;
+  private def checkInitialization(): Future[Unit] = synchronized {
+    if (initialized) Future.successful()
+    else Core.init().map(_ => initialized = true)
   }
 
   def hlFromAST(ast: BaseUnit): Future[IProject] = {
-    var promise = Promise[IProject]();
-
     val startTime = System.currentTimeMillis()
 
-    checkInitialization().map(nothing =>
-      Core.buildModel(ast, this.platform) andThen {
-        case Success(result) => {
-          promise.success(result);
-        };
+    checkInitialization()
+      .flatMap(_ => Core.buildModel(ast, this.platform))
+      .map(result => {
 
-        case Failure(error) => promise.failure(error);
-    });
+        val endTime = System.currentTimeMillis()
+        this.connection
+          .debugDetail(s"It took ${endTime - startTime} milliseconds to build ALS ast", "HLASTmanager", "hlFromAST")
 
-    promise.future.map(result => {
-
-      val endTime = System.currentTimeMillis()
-      this.connection
-        .debugDetail(s"It took ${endTime - startTime} milliseconds to build ALS ast", "HLASTManager", "hlFromAST")
-
-      result
-    })
+        result
+      })
   }
 
   def forceGetCurrentAST(uri: String): Future[IProject] = {
 
-    this.connection.debug(s"Calling forceGetCurrentAST for uri ${uri}", "HLASTManager", "forceGetCurrentAST")
+    this.connection.debug(s"Calling forceGetCurrentAST for uri ${uri}", "HLASTmanager", "forceGetCurrentAST")
 
     val current = this.currentASTs.get(uri)
 
@@ -177,23 +151,15 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
     */
   def forceBuildNewAST(_uri: String, text: String): Future[IProject] = {
     val uri = PathRefine.refinePath(_uri, platform)
-    this.connection.debug(s"Calling forceBuildNewAST for uri ${uri}", "HLASTManager", "forceBuildNewAST")
-
-    val result = Promise[IProject]();
+    this.connection.debug(s"Calling forceBuildNewAST for uri ${uri}", "HLASTmanager", "forceBuildNewAST")
 
     getASTManager
       .forceBuildNewAST(uri, text)
-      .map(hlFromAST(_) andThen {
-        case Success(project) => {
-          result.success(project);
-        }
-        case Failure(error) => {
-          this.connection.debugDetail(s"Failed to build AST for uri ${uri}", "HLASTManager", "forceBuildNewAST")
-          result.failure(error)
-        };
-      })
-
-    result.future;
+      .flatMap(hlFromAST) recoverWith {
+      case error =>
+        this.connection.debugDetail(s"Failed to build AST for uri ${uri}", "HLASTmanager", "forceBuildNewAST")
+        Future.failed(error)
+    }
   }
 
   def addListener[T](memberListeners: Buffer[T], listener: T, unsubscribe: Boolean = false): Unit = {
@@ -213,7 +179,7 @@ class HLASTManager extends AbstractServerModule with IHLASTManagerModule {
 
   }
 }
-object HLASTManager {
+object HLASTmanager {
 
   /**
     * Module ID

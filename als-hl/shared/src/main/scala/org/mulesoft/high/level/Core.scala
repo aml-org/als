@@ -12,14 +12,14 @@ import scala.concurrent.Future
 
 object Core {
 
-    def init():Future[Unit] =
-        UniverseProvider.init()
-        .map(x=>ASTFactoryRegistry.init())
+  def init(initOptions: InitOptions = InitOptions.AllProfiles): Future[Unit] =
+    UniverseProvider
+      .init(initOptions)
+      .flatMap(x => ASTFactoryRegistry.init())
 
-    def buildModel(unit:BaseUnit,platform:Platform):Future[IProject]
-            = buildModel(unit,PlatformFsProvider(platform))
+  def buildModel(unit: BaseUnit, platform: Platform): Future[IProject] = buildModel(unit, PlatformFsProvider(platform))
 
-    def buildModel(unit:BaseUnit,fsResolver:IFSProvider):Future[IProject] = Future {
-        ProjectBuilder.buildProject(unit,fsResolver)
-    }
+  def buildModel(unit: BaseUnit, fsResolver: IFSProvider): Future[IProject] = Future {
+    ProjectBuilder.buildProject(unit, fsResolver)
+  }
 }

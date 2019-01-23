@@ -1,0 +1,20 @@
+#%AsyncAPI 0.6
+
+info:
+  license:
+    [*0]
+  contact:
+    [*1]
+messages:
+  message:
+    [*2]
+schemas:
+  Test:
+    [*3]
+topics:
+  topic:
+    [*4]
+securitySchemes:
+  test:
+    [*5]
+

@@ -6,7 +6,7 @@ import org.mulesoft.language.common.dtoTypes.{ILocation, IRange}
 import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.SearchUtils
-import org.mulesoft.language.server.modules.hlastManager.HLASTManager
+import org.mulesoft.language.server.modules.hlastManager.HLASTmanager
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.{Future, Promise}
@@ -16,7 +16,7 @@ import scala.concurrent.ExecutionContext.Implicits.global;
 class FindReferencesModule extends AbstractServerModule {
   override val moduleId: String = "FIND_REFERENCES";
 
-  val moduleDependencies: Array[String] = Array(HLASTManager.moduleId);
+  val moduleDependencies: Array[String] = Array(HLASTmanager.moduleId);
 
   override def launch(): Try[IServerModule] = {
     val superLaunch = super.launch();
@@ -56,7 +56,7 @@ class FindReferencesModule extends AbstractServerModule {
   }
 
   private def currentAst(uri: String): Future[IProject] = {
-    val hlmanager = this.getDependencyById(HLASTManager.moduleId).get.asInstanceOf[HLASTManager]
+    val hlmanager = this.getDependencyById(HLASTmanager.moduleId).get.asInstanceOf[HLASTmanager]
 
     hlmanager
       .forceGetCurrentAST(uri)

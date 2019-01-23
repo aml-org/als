@@ -1,6 +1,6 @@
 //import org.mulesoft.language.common.dtoTypes._
 //import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
-//import org.mulesoft.language.server.modules.hlastManager.{HLASTManager, IHLASTListener}
+//import org.mulesoft.language.server.modules.hlastManager.{HLASTmanager, IHLASTListener}
 //import org.mulesoft.language.server.modules.commonInterfaces.{IEditorTextBuffer, IPoint}
 //import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 //
@@ -43,9 +43,9 @@
 //    this.getDependencyById(IEditorManagerModule.moduleId).get
 //  }
 //
-//  protected def getASTManager: HLASTManager = {
+//  protected def getASTManager: HLASTmanager = {
 //
-//    this.getDependencyById(HLASTManager.moduleId).get
+//    this.getDependencyById(HLASTmanager.moduleId).get
 //  }
 //
 //  override def launch(): Try[IServerModule] = {

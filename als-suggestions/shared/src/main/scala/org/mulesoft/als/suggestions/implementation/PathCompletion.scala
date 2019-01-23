@@ -7,70 +7,75 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object PathCompletion {
 
-  def complete(defaultPath: String, additionalPath: String,
-               contentProvider: IFSProvider): Future[Seq[String]] =  {
+  def complete(defaultPath: String, additionalPath: String, contentProvider: IFSProvider): Future[Seq[String]] = {
 
-    contentProvider.isDirectoryAsync(defaultPath).flatMap(isDir=>{
-    var directoryPath =
-      if (!isDir)
-        contentProvider.dirName(defaultPath)
-      else
-        defaultPath
+    contentProvider
+      .isDirectoryAsync(defaultPath)
+      .flatMap(isDir => {
+        var directoryPath =
+          if (!isDir)
+            contentProvider.dirName(defaultPath)
+          else
+            defaultPath
 
-    if (!directoryPath.endsWith("/")) directoryPath = directoryPath + "/"
+        if (!directoryPath.endsWith("/")) directoryPath = directoryPath + "/"
 
-    val additionalDirectoryPath: Option[String] =
-      if (additionalPath.contains('/'))
-        Some(additionalPath.substring(0, additionalPath.lastIndexOf('/') + 1))
-      else
-        None
+        val additionalDirectoryPath: Option[String] =
+          if (additionalPath.contains('/'))
+            Some(additionalPath.substring(0, additionalPath.lastIndexOf('/') + 1))
+          else
+            None
 
-    val modifiedDirectoryPath: String =
-      if (additionalDirectoryPath.isDefined) {
+        val modifiedDirectoryPath: String =
+          if (additionalDirectoryPath.isDefined) {
 
-        val resolved = contentProvider.resolve(directoryPath, additionalDirectoryPath.get)
+            val resolved = contentProvider.resolve(directoryPath, additionalDirectoryPath.get)
 
-        if (resolved.isDefined) resolved.get else directoryPath
-      }
-      else {
-        directoryPath
-      }
+            if (resolved.isDefined) resolved.get else directoryPath
+          } else {
+            directoryPath
+          }
 
-    var finalDirectoryPath = directoryPath
+        var finalDirectoryPath = directoryPath
 
-    val filesFuture = contentProvider.isDirectoryAsync(modifiedDirectoryPath)
-      .flatMap(modifiedIsDirectory=>{
+        val filesFuture = contentProvider
+          .isDirectoryAsync(modifiedDirectoryPath)
+          .flatMap(modifiedIsDirectory => {
 
-        if (modifiedIsDirectory) {
-          finalDirectoryPath = modifiedDirectoryPath
-        }
+            if (modifiedIsDirectory) {
+              finalDirectoryPath = modifiedDirectoryPath
+            }
 
-        contentProvider.readDirAsync(finalDirectoryPath)
-    })
-
-    filesFuture.flatMap(shortFilePaths=>{
-
-      val fullFilePaths: Seq[String] =
-        shortFilePaths.filter(
-
-          shortFilePath=>contentProvider.resolve(finalDirectoryPath, shortFilePath).isDefined
-        ).map(
-
-          shortFilePath=>contentProvider.resolve(finalDirectoryPath, shortFilePath).get
-        )
-
-      val filter = contentProvider.resolve(directoryPath, additionalPath)
-
-      val futures:Seq[Future[String]] = fullFilePaths.filter(fullFilePath=> filter.isDefined && fullFilePath.startsWith(filter.get) && fullFilePath != defaultPath)
-          .map(fullFilePath=>{
-              var result = fullFilePath.substring(directoryPath.length)
-              contentProvider.isDirectoryAsync(fullFilePath).map({
-                  case true => result + "/"
-                  case false => result
-              })
+            contentProvider.readDirAsync(finalDirectoryPath)
           })
-       Future.sequence(futures)
-    })
-    })
+
+        filesFuture.flatMap(shortFilePaths => {
+
+          val fullFilePaths: Seq[String] =
+            shortFilePaths
+              .filter(
+                shortFilePath => contentProvider.resolve(finalDirectoryPath, shortFilePath).isDefined
+              )
+              .map(
+                shortFilePath => contentProvider.resolve(finalDirectoryPath, shortFilePath).get
+              )
+
+          val filter = contentProvider.resolve(directoryPath, additionalPath)
+
+          val futures: Seq[Future[String]] = fullFilePaths
+            .filter(fullFilePath =>
+              filter.isDefined && fullFilePath.startsWith(filter.get) && fullFilePath != defaultPath)
+            .map(fullFilePath => {
+              var result = fullFilePath.substring(directoryPath.length)
+              contentProvider
+                .isDirectoryAsync(fullFilePath)
+                .map({
+                  case true if !result.endsWith("/") => result + "/"
+                  case _                             => result
+                })
+            })
+          Future.sequence(futures)
+        })
+      })
   }
 }
