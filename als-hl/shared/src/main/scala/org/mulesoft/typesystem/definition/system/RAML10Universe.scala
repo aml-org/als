@@ -1871,6 +1871,32 @@ object RAML10Universe {
             "optional": false
           },
           {
+             "name": "uses",
+             "type": {
+               "base": {
+                 "typeName": "UsesDeclaration",
+                 "nameSpace": "",
+                 "basicName": "UsesDeclaration",
+                 "typeKind": 0,
+                 "typeArguments": [],
+                 "modulePath": "C:\\GIT-repos\\AMF\\raml-definition-system\\raml-definition\\spec-1.0\\api.ts"
+               },
+               "typeKind": 1
+             },
+             "annotations": [
+               {
+                 "name": "MetaModel.embeddedInMaps",
+                 "arguments": []
+               },
+               {
+                 "name": "MetaModel.hideFromUI",
+                 "arguments": []
+               }
+             ],
+             "valueConstraint": null,
+             "optional": false
+          },
+          {
             "name": "strict",
             "type": {
               "typeName": "boolean",
@@ -1907,7 +1933,7 @@ object RAML10Universe {
                 "arguments": []
               },
               {
-                "name": "MetaModel.hide",
+                "name": "MetaModel.hideFromUI",
                 "arguments": []
               },
               {
