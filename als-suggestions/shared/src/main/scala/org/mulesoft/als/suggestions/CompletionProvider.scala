@@ -36,21 +36,21 @@ class CompletionProvider {
   }
 
   def composeRequest: ICompletionRequest = {
-    var prefix: String = "";
+    var prefix: String = ""
 
-    var position: Int = -1;
+    var position: Int = -1
 
-    var currentIndent: String = "";
+    var currentIndent: String = ""
 
-    var indentCount: Int = 0;
+    var indentCount: Int = 0
 
     _config.editorStateProvider match {
       case Some(esp) =>
-        prefix = CompletionProvider.getPrefix(esp);
+        prefix = CompletionProvider.getPrefix(esp)
 
-        position = esp.getOffset;
+        position = esp.getOffset
 
-        currentIndent = CompletionProvider.getCurrentIndent(esp);
+        currentIndent = CompletionProvider.getCurrentIndent(esp)
 
         indentCount = CompletionProvider.getCurrentIndentCount(esp);
       case none => throw new Error("Editor state provider must be supplied")

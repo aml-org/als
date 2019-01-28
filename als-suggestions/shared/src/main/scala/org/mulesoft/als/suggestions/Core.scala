@@ -50,6 +50,7 @@ object Core {
         CompletionPluginsRegistry.registerPlugin(IncludeTagCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(BooleanPropertyCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(CommonHeadersNamesCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(ExampleStructureCompletionPlugin())
       })
 
   def prepareText(text: String, offset: Int, syntax: Syntax): String = {
