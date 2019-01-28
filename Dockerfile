@@ -9,16 +9,14 @@ ENV DEBIAN_FRONTEND noninteractive
 # Update the repository sources list and install dependencies
 RUN apt-get update
 
+# Install JDK 8
 RUN apt-get install -y software-properties-common unzip htop rsync openssh-client jq
-
-# install Java
-USER root
-RUN mkdir -p /usr/share/man/man1 && \
-    apt-get update -y && \
-    apt-get install -y openjdk-8-jdk
-
-RUN apt-get install unzip -y && \
-    apt-get autoremove -y
+RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+RUN add-apt-repository -y ppa:webupd8team/java
+RUN apt-get update
+# RUN apt-get install -y oracle-java8-installer
+RUN echo "JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> /etc/environment
+RUN echo "JRE_HOME=/usr/lib/jvm/java-8-oracle/jre" >> /etc/environment
 
 # Install Scala
 ## Piping curl directly in tar
