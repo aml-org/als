@@ -222,7 +222,7 @@ class RAML10ASTFactory private extends RAMLASTFactory {
 
     registerPropertyMatcher("ExampleSpec",
                             "value",
-                            ThisMatcher() + ExampleModel.StructuredValue | ExternalSourceElementModel.Raw)
+                            ThisMatcher() + ExampleModel.ExternalValue | ExternalSourceElementModel.Raw)
     registerPropertyMatcher("ExampleSpec", "strict", ExampleModel.Strict)
     registerPropertyMatcher("ExampleSpec", "name", ExampleModel.Name)
     registerPropertyMatcher("ExampleSpec", "displayName", ExampleModel.DisplayName)
@@ -326,8 +326,8 @@ class RAML10ASTFactory private extends RAMLASTFactory {
                   if (discriminated.isInstanceOf[AbstractType]
                       && ft.isInstanceOf[AbstractType]) {
                     var result = new StructuredType(discriminated.nameId.get + "Fragment", u)
-                    result.addSuperType(ft.asInstanceOf[AbstractType])
                     result.addSuperType(discriminated.asInstanceOf[AbstractType])
+                    result.addSuperType(ft.asInstanceOf[AbstractType])
                     Some(result)
                   } else None
                 case _ => None

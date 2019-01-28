@@ -9,10 +9,7 @@ import org.mulesoft.als.suggestions.interfaces.{
   LocationKind,
   Syntax
 }
-import org.mulesoft.als.suggestions.plugins.raml.{
-  AnnotationReferencesCompletionPlugin,
-  ExampleStructureCompletionPlugin
-}
+import org.mulesoft.als.suggestions.plugins.raml.AnnotationReferencesCompletionPlugin
 import org.mulesoft.high.level.builder.ProjectBuilder
 import org.mulesoft.high.level.interfaces.{IHighLevelNode, IParseResult}
 import org.mulesoft.positioning.YamlLocation
@@ -24,7 +21,6 @@ import scala.concurrent.{Future, Promise}
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.util.matching.Regex
-import amf.core.parser._
 
 class StructureCompletionPlugin extends ICompletionPlugin {
 
@@ -35,16 +31,15 @@ class StructureCompletionPlugin extends ICompletionPlugin {
   override def isApplicable(request: ICompletionRequest): Boolean = request.config.astProvider match {
     case Some(astProvider) =>
       if (request.astNode.isEmpty || request.astNode.get == null) {
-        false
-      } else if (AnnotationReferencesCompletionPlugin().isApplicable(request) || ExampleStructureCompletionPlugin()
-                   .isApplicable(request)) {
-        false
+        false;
+      } else if (AnnotationReferencesCompletionPlugin().isApplicable(request)) {
+        false;
       } else if (languages.indexOf(astProvider.language) < 0) {
-        false
+        false;
       } else if (isContentType(request)) {
-        true
+        true;
       } else if (isDiscriminatorValue(request)) {
-        true
+        true;
       } else {
         request.actualYamlLocation match {
           case Some(l) =>
@@ -65,7 +60,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                 }
               }
 //                        } else if(l.parentStack.nonEmpty && request.yamlLocation.get.hasSameValue(l.parentStack.last)) {
-//                            var parent = l.parentStack.last
+//                            var parent = l.parentStack.last;
 //
 //                            if(parent.keyValue.isDefined) {
 //                                request.astNode.map(_.astUnit.positionsMapper) match {
@@ -77,13 +72,13 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 //                                false
 //                            }
             } else if (isDefinitionRequired(request)) {
-              true
+              true;
             } else if (isSecurityReference(request)) {
-              true
+              true;
             } else if (isRequestParameterName(request)) {
-              true
+              true;
             } else {
-              isMethodKey(request)
+              isMethodKey(request);
             }
           case _ => false
         }
@@ -104,32 +99,32 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                       .attribute("in") match {
                       case Some(inAttr) =>
                         inAttr.value match {
-                          case Some(value: String) => "query".equals(value)
+                          case Some(value: String) => "query".equals(value);
 
-                          case _ => false
+                          case _ => false;
                         }
 
-                      case _ => false
-                    })
+                      case _ => false;
+                    });
 
-                  case _ => false
+                  case _ => false;
                 }
 
-              case _ => false
+              case _ => false;
             }
 
-          case _ => false
-        }
+          case _ => false;
+        };
 
-      case _ => false
+      case _ => false;
     }
   }
 
   def isSecurityReference(request: ICompletionRequest): Boolean = {
     request.astNode.get.asElement match {
-      case Some(node) => node.definition.isAssignableFrom("SecurityRequirementObject")
+      case Some(node) => node.definition.isAssignableFrom("SecurityRequirementObject");
 
-      case _ => false
+      case _ => false;
     }
   }
 
@@ -143,22 +138,22 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                 keyNode.yPart match {
                   case yPart: YNode =>
                     if ("required".equals(yPart.toString())) {
-                      node.definition.isAssignableFrom("DefinitionObject")
+                      node.definition.isAssignableFrom("DefinitionObject");
                     } else {
                       false
                     }
 
-                  case _ => false
+                  case _ => false;
                 }
 
-              case _ => false
+              case _ => false;
             }
           }
 
-          case _ => false
+          case _ => false;
         }
       }
-      case _ => false
+      case _ => false;
     }
   }
 
@@ -167,15 +162,15 @@ class StructureCompletionPlugin extends ICompletionPlugin {
       node.property match {
         case Some(property) =>
           property.domain match {
-            case Some(domain) => domain.isAssignableFrom("Method")
+            case Some(domain) => domain.isAssignableFrom("Method");
 
-            case _ => false
-          }
+            case _ => false;
+          };
 
-        case _ => false
-      }
+        case _ => false;
+      };
 
-    case _ => false
+    case _ => false;
   }
 
   def contentTypes(request: ICompletionRequest): Seq[String] = {
@@ -185,9 +180,9 @@ class StructureCompletionPlugin extends ICompletionPlugin {
       .property("mediaType")
       .get
       .getExtra(PropertySyntaxExtra)
-      .get
+      .get;
 
-    extra.oftenValues.map(_.asInstanceOf[String])
+    extra.oftenValues.map(_.asInstanceOf[String]);
   }
 
   def isBody(node: IParseResult): Boolean = {
@@ -196,14 +191,14 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 
   def isDiscriminatorValue(request: ICompletionRequest): Boolean = {
     if (request.astNode.get.property.isEmpty || request.astNode.get.property.get == null) {
-      return false
+      return false;
     }
 
     if (request.astNode.get.property.get.nameId.get != "discriminator") {
-      return false
+      return false;
     }
 
-    request.astNode.get.property.get.domain.get.isAssignableFrom("TypeDeclaration")
+    request.astNode.get.property.get.domain.get.isAssignableFrom("TypeDeclaration");
   }
 
   def isContentType(request: ICompletionRequest): Boolean = {
@@ -220,12 +215,12 @@ class StructureCompletionPlugin extends ICompletionPlugin {
     request.actualYamlLocation match {
       case Some(location) =>
         location.keyValue match {
-          case Some(yPart) => yPart.toString() == "body"
+          case Some(yPart) => yPart.toString() == "body";
 
-          case _ => return false
+          case _ => return false;
         }
 
-      case _ => return false
+      case _ => return false;
     }
 
     request.actualYamlLocation.get.keyValue.get.yPart.asInstanceOf[YScalar].text == "body"
@@ -244,13 +239,13 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                 parent.parent match {
                   case Some(resource) =>
                     if (resource.definition.isAssignableFrom("ResourceBase")) {
-                      n = resource
+                      n = resource;
                     }
-                  case _ =>
+                  case _ => ;
                 }
               }
 
-            case _ =>
+            case _ => ;
           }
         }
 
@@ -278,7 +273,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
         var isYAML = request.config.astProvider.map(_.syntax).contains(Syntax.YAML)
 
         if (isRequestParameterName(request)) {
-          responseKind = LocationKind.VALUE_COMPLETION
+          responseKind = LocationKind.VALUE_COMPLETION;
 
           extractPathItemObject(request) match {
             case Some(pathItemObject) => {
@@ -291,19 +286,19 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                         .matchData
                         .map(item => item.group(1))
                         .map(name => Suggestion(name, "query parameter", name, request.prefix))
-                        .toSeq
+                        .toSeq;
 
-                    case _ => Seq()
+                    case _ => Seq();
                   }
 
-                case _ => Seq()
-              }
+                case _ => Seq();
+              };
             }
 
-            case _ => Seq()
+            case _ => Seq();
           }
         } else if (isSecurityReference(request)) {
-          var nameList: ListBuffer[String] = ListBuffer()
+          var nameList: ListBuffer[String] = ListBuffer();
 
           request.astNode.get.astUnit.rootNode
             .elements("securityDefinitions")
@@ -311,50 +306,51 @@ class StructureCompletionPlugin extends ICompletionPlugin {
               item.attribute("name") match {
                 case Some(nameAttr) =>
                   nameAttr.value match {
-                    case Some(nameValue: String) => nameList += nameValue.toString
+                    case Some(nameValue: String) => nameList += nameValue.toString;
 
-                    case _ =>
+                    case _ => ;
                   }
 
-                case _ =>
+                case _ => ;
               }
-            })
+            });
 
-          nameList.map(name => Suggestion(name, "security definition reference", name, request.prefix))
+          nameList.map(name => Suggestion(name, "security definition reference", name, request.prefix));
         } else if (isDefinitionRequired(request)) {
-          var nameList: ListBuffer[String] = ListBuffer()
+          var nameList: ListBuffer[String] = ListBuffer();
 
           request.astNode.get.asElement.get
             .elements("properties")
-            .foreach {
-              case propsNode: IHighLevelNode => {
-                var names = propsNode
-                  .attributes("name")
-                  .map(attr => attr.value)
-                  .filter(item =>
-                    item match {
-                      case Some(defined) => true
+            .foreach(item =>
+              item match {
+                case propsNode: IHighLevelNode => {
+                  var names = propsNode
+                    .attributes("name")
+                    .map(attr => attr.value)
+                    .filter(item =>
+                      item match {
+                        case Some(defined) => true;
 
-                      case _ => false
-                  })
-                  .foreach(item => nameList += item.get.toString)
-              }
+                        case _ => false;
+                    })
+                    .foreach(item => nameList += item.get.toString)
+                }
 
-              case _ => Seq()
-            }
+                case _ => Seq();
+            });
 
-          responseKind = LocationKind.VALUE_COMPLETION
+          responseKind = LocationKind.VALUE_COMPLETION;
 
           nameList.map(name => Suggestion(name, "required property", name, request.prefix))
         } else if (isContentType(request)) {
-          contentTypes(request).map(value => Suggestion(value, id, value, request.prefix))
+          contentTypes(request).map(value => Suggestion(value, id, value, request.prefix));
         } else if (isDiscriminatorValue(request)) {
-          var a           = extractFirstLevelScalars(request)
+          var a           = extractFirstLevelScalars(request);
           val description = "Possible discriminating property"
           responseKind = LocationKind.VALUE_COMPLETION
-          extractFirstLevelScalars(request).map(name => Suggestion(name, description, name, request.prefix))
+          extractFirstLevelScalars(request).map(name => Suggestion(name, description, name, request.prefix));
         } else if (n.isElement) {
-          var element = n.asElement.get
+          var element = n.asElement.get;
 
           extractSuggestableProperties(element).map(prop => {
             var pName       = prop.nameId.get
@@ -376,10 +372,10 @@ class StructureCompletionPlugin extends ICompletionPlugin {
             suggestion
           })
         } else {
-          Seq()
+          Seq();
         }
 
-      case _ => Seq()
+      case _ => Seq();
     }
     val response = CompletionResponse(result, responseKind, request)
     Promise.successful(response).future
@@ -393,18 +389,18 @@ class StructureCompletionPlugin extends ICompletionPlugin {
             operation.parent match {
               case Some(pathItem) =>
                 if (pathItem.definition.isAssignableFrom("PathItemObject")) {
-                  Some(pathItem)
+                  Some(pathItem);
                 } else {
-                  None
+                  None;
                 }
 
-              case _ => None
+              case _ => None;
             }
 
-          case _ => None
+          case _ => None;
         }
 
-      case _ => None
+      case _ => None;
     }
   }
 
@@ -414,21 +410,21 @@ class StructureCompletionPlugin extends ICompletionPlugin {
       .filter(_.definition match {
         case propertyType =>
           Seq("StringTypeDeclaration", "NumberTypeDeclaration", "BooleanTypeDeclaration").exists(
-            propertyType.isAssignableFrom(_))
+            propertyType.isAssignableFrom(_));
 
-        case _ => false
+        case _ => false;
       })
-      .map(p => p.definition.nameId.get)
+      .map(p => p.definition.nameId.get);
 
   def getBody(request: ICompletionRequest): Option[IParseResult] = {
     //TODO: implement when node searching will be fixed.
-    Option.empty
+    Option.empty;
   }
 
   def extractSuggestableProperties(node: IHighLevelNode): Seq[IProperty] = {
-    val existingProperties: mutable.Map[String, IProperty] = mutable.Map()
+    var existingProperties: mutable.Map[String, IProperty] = mutable.Map();
 
-    var isTypeDeclaration = node.definition.isAssignableFrom("TypeDeclaration")
+    var isTypeDeclaration = node.definition.isAssignableFrom("TypeDeclaration");
 
     node.children.foreach(x => {
       if (x.sourceInfo.yamlSources.nonEmpty) {
@@ -444,10 +440,10 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                   existingProperties(n) = p
                 }
 
-              case _ =>
+              case _ => ;
             }
 
-          case _ =>
+          case _ => ;
         }
       }
     })
@@ -462,37 +458,37 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                   value.entries.foreach(entry =>
                     entry.key.value match {
                       case scalar: YScalar => {
-                        var name = scalar.text
+                        var name = scalar.text;
 
                         if (!existingProperties.keySet.contains(name)) {
                           node.definition.allProperties.find(prop => prop.nameId.get.equals(name)) match {
                             case Some(property) => {
-                              existingProperties(name) = property
+                              existingProperties(name) = property;
                             }
 
-                            case _ =>
+                            case _ => ;
                           }
                         }
                       }
 
-                      case _ =>
-                  })
+                      case _ => ;
+                  });
 
-                case _ =>
+                case _ => ;
               }
 
-            case _ =>
+            case _ => ;
           }
 
-        case _ =>
+        case _ => ;
       }
     }
 
     if (isTypeDeclaration) {
       if (existingProperties.keySet.contains("type")) {
-        existingProperties("schema") = node.definition.property("schema").get
+        existingProperties("schema") = node.definition.property("schema").get;
       } else if (existingProperties.keySet.contains("schema")) {
-        existingProperties("type") = node.definition.property("type").get
+        existingProperties("type") = node.definition.property("type").get;
       }
     }
 
@@ -504,7 +500,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
         p.nameId match {
           case Some(n) =>
             if (!existingProperties.contains(n)) {
-              val e = p.getExtra(PropertySyntaxExtra).getOrElse(PropertySyntaxExtra.empty)
+              var e = p.getExtra(PropertySyntaxExtra).getOrElse(PropertySyntaxExtra.empty)
               if (p.domain.exists(_.isUserDefined)) {
                 false
               } else if (!e.allowsParentProperty(propName)) {
@@ -570,9 +566,9 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 }
 
 object StructureCompletionPlugin {
-  val ID = "structure.completion"
+  val ID = "structure.completion";
 
-  val supportedLanguages: List[Vendor] = List(Raml08, Raml10, Oas, Oas20, Aml)
+  val supportedLanguages: List[Vendor] = List(Raml08, Raml10, Oas, Oas20, Aml);
 
-  def apply(): StructureCompletionPlugin = new StructureCompletionPlugin()
+  def apply(): StructureCompletionPlugin = new StructureCompletionPlugin();
 }
