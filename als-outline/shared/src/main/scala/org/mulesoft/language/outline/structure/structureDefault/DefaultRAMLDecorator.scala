@@ -2,10 +2,10 @@ package org.mulesoft.language.outline.structure.structureDefault
 
 
 import org.mulesoft.high.level.interfaces.IParseResult
+import org.mulesoft.language.outline.common.commonInterfaces.Decorator
 import org.mulesoft.language.outline.structure.structureDefaultInterfaces.Decoration
 
-import scala.collection.mutable;
-import org.mulesoft.language.outline.common.commonInterfaces.Decorator
+import scala.collection.mutable
 
 class DefaultRAMLDecorator extends Decorator {
 
@@ -17,19 +17,19 @@ class DefaultRAMLDecorator extends Decorator {
   }
 
   def getNodeType(node: IParseResult): String = {
-//    try {
-//      println(s"Getting type for node name of ${NodeNameProvider.getNodeName(node)}")
-//    } catch {
-//      case th: Throwable => th.printStackTrace()
-//    }
+    //    try {
+    //      println(s"Getting type for node name of ${NodeNameProvider.getNodeName(node)}")
+    //    } catch {
+    //      case th: Throwable => th.printStackTrace()
+    //    }
 
     if (node.isAttr) {
 
       RamlNodeTypes.ATTRIBUTE
-    } else if (node.isElement){
+    } else if (node.isElement) {
 
       val hlNode = node.asElement.get
-      if (hlNode.definition.nameId.isDefined){
+      if (hlNode.definition.nameId.isDefined) {
 
         val nodeDefinition = hlNode.definition.nameId.get
 
@@ -42,10 +42,10 @@ class DefaultRAMLDecorator extends Decorator {
         else if (nodeDefinition == RamlDefinitionKeys.ABSTRACT_SECURITY_SCHEME) {
           RamlNodeTypes.SECURITY_SCHEME
         }
-//        else if (nodeDefinition == RamlDefinitionKeys.TYPE_DECLARATION) {
-//
-//          RamlNodeTypes.ANNOTATION_DECLARATION
-//        }
+        //        else if (nodeDefinition == RamlDefinitionKeys.TYPE_DECLARATION) {
+        //
+        //          RamlNodeTypes.ANNOTATION_DECLARATION
+        //        }
         else if (nodeDefinition == RamlDefinitionKeys.TYPE_DECLARATION ||
           hlNode.definition.isAssignableFrom("TypeDeclaration")) {
 
@@ -54,10 +54,10 @@ class DefaultRAMLDecorator extends Decorator {
         else if (nodeDefinition == RamlDefinitionKeys.DOCUMENTATION_ITEM) {
           RamlNodeTypes.DOCUMENTATION_ITEM
         }
-//        if ((node.lowLevel().unit() != node.root().lowLevel().unit())) {
-//          return defaultInterfaces.NodeType.EXTERNAL_UNIT
-//
-//        }
+        //        if ((node.lowLevel().unit() != node.root().lowLevel().unit())) {
+        //          return defaultInterfaces.NodeType.EXTERNAL_UNIT
+        //
+        //        }
         else {
           RamlNodeTypes.OTHER
         }
@@ -81,7 +81,7 @@ class DefaultRAMLDecorator extends Decorator {
 
     val decoration = this.getDecoration(node)
 
-    if (decoration.isDefined){
+    if (decoration.isDefined) {
       Some(decoration.get.icon)
     } else {
       Some(Icons.TAG)
@@ -91,7 +91,7 @@ class DefaultRAMLDecorator extends Decorator {
   def getTextStyle(node: IParseResult): Option[String] = {
 
     val decoration = this.getDecoration(node)
-    if (decoration.isDefined){
+    if (decoration.isDefined) {
       Some(decoration.get.textStyle)
     } else {
       Some(TextStyles.NORMAL)

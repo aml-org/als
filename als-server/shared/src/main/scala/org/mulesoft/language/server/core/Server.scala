@@ -1,20 +1,18 @@
 package org.mulesoft.language.server.core
 
-import amf.client.remote.Content
 import org.mulesoft.language.server.core.connections.IServerConnection
 import org.mulesoft.language.server.core.platform.{ConnectionBasedPlatform, PlatformDependentPart}
 import org.mulesoft.language.server.modules.editorManager.{EditorManager, IEditorManagerModule}
 
 import scala.collection.mutable
-import scala.concurrent.Future
 
 class Server(val connection: IServerConnection, protected val httpFetcher: PlatformDependentPart) {
 
   var modules: mutable.Map[String, IServerModule] = new mutable.HashMap()
 
-  protected val platform = this.constructPlatform
+  protected val platform: ConnectionBasedPlatform = this.constructPlatform
 
-  protected def constructPlatform = {
+  protected def constructPlatform: ConnectionBasedPlatform = {
 
     val editorManager = new EditorManager()
 
@@ -49,8 +47,8 @@ class Server(val connection: IServerConnection, protected val httpFetcher: Platf
         this.pushModuleDependencies(module.asInstanceOf[IServerIOCModule])
       }
 
-      if (!module.isLaunched()) {
-        module.launch();
+      if (!module.isLaunched) {
+        module.launch()
       }
 
     } else {

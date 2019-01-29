@@ -62,7 +62,7 @@ class DialectManager extends AbstractServerModule with IDialectManagerModule {
           )
 
           val proxyPlatform = new ProxyContentPlatform(platform, d.files)
-          val helper        = ParserHelper(proxyPlatform)
+          val helper = ParserHelper(proxyPlatform)
           helper.parse(dialectCfg, proxyPlatform.defaultEnvironment)
         })
         Future.sequence(dialecOpts).map(_ => {})

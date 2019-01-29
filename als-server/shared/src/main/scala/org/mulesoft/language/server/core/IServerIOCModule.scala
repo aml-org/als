@@ -13,18 +13,21 @@ trait IServerIOCModule extends IServerModule {
 
   /**
     * Pushes dependency to the module.
+    *
     * @param dependency - module, this module depends from.
     */
   def insertDependency(dependency: IServerModule)
 
   /**
     * Pushes server connection to the module
+    *
     * @param serverConnection
     */
   def insertConnection(serverConnection: IServerConnection)
 
   /**
     * Pushes platform dependency
+    *
     * @param platform
     */
   def insertPlatform(platform: ConnectionBasedPlatform)

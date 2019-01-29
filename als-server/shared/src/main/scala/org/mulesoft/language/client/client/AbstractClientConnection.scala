@@ -1,39 +1,35 @@
 // $COVERAGE-OFF$
 package org.mulesoft.language.client.client
 
-import org.mulesoft.als.suggestions.interfaces.ISuggestion
-import org.mulesoft.language.client.client.IClientConnection
 import org.mulesoft.language.common.dtoTypes.{IDetailsReport, _}
-import org.mulesoft.language.common.logger.{ILoggerSettings, MessageSeverity}
-import org.mulesoft.language.entryPoints.common.ProtocolMessage
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
 
-import scala.collection.mutable.Buffer
-import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable
+import scala.collection.mutable.{ArrayBuffer}
 import scala.concurrent.Future
 
 trait AbstractClientConnection extends IClientConnection {
 
-//    private loggerSettings: ILoggerSettings;
-//
-  protected var validationReportListeners: Buffer[(IValidationReport) => Unit] = ArrayBuffer()
-  protected var structureReportListeners: Buffer[(IStructureReport) => Unit]   = ArrayBuffer()
-//    private versionManager: VersionedDocumentManager;
-//
-  protected var onExistsListeners: Buffer[String => Future[Boolean]]                 = ArrayBuffer()
-  protected var onReadDirListeners: Buffer[String => Future[Seq[String]]]            = ArrayBuffer()
-  protected var onIsDirectoryListeners: Buffer[String => Future[Boolean]]            = ArrayBuffer()
-  protected var onContentListeners: Buffer[String => Future[String]]                 = ArrayBuffer()
-  protected var onDetailsReportListeners: Buffer[IDetailsReport => Unit]             = ArrayBuffer()
-  protected var onDisplayActionUIListeners: Buffer[IUIDisplayRequest => Future[Any]] = ArrayBuffer()
+  //    private loggerSettings: ILoggerSettings;
+  //
+  protected var validationReportListeners: mutable.Buffer[IValidationReport => Unit] = ArrayBuffer()
+  protected var structureReportListeners: mutable.Buffer[IStructureReport => Unit] = ArrayBuffer()
+  //    private versionManager: VersionedDocumentManager;
+  //
+  protected var onExistsListeners: mutable.Buffer[String => Future[Boolean]] = ArrayBuffer()
+  protected var onReadDirListeners: mutable.Buffer[String => Future[Seq[String]]] = ArrayBuffer()
+  protected var onIsDirectoryListeners: mutable.Buffer[String => Future[Boolean]] = ArrayBuffer()
+  protected var onContentListeners: mutable.Buffer[String => Future[String]] = ArrayBuffer()
+  protected var onDetailsReportListeners: mutable.Buffer[IDetailsReport => Unit] = ArrayBuffer()
+  protected var onDisplayActionUIListeners: mutable.Buffer[IUIDisplayRequest => Future[Any]] = ArrayBuffer()
 
   def setServerConfiguration(serverSettings: IServerConfiguration): Unit = {
 
-//        // changing server configuration
-//        this.send({
-//        type : "SET_SERVER_CONFIGURATION",
-//        payload : serverSettings
-//    });
+    //        // changing server configuration
+    //        this.send({
+    //        type : "SET_SERVER_CONFIGURATION",
+    //        payload : serverSettings
+    //    });
   }
 
   /**
@@ -41,7 +37,7 @@ trait AbstractClientConnection extends IClientConnection {
     *
     * @param listener
     */
-  def onValidationReport(listener: (IValidationReport) => Unit, unsubscribe: Boolean = false): Unit = {
+  def onValidationReport(listener: IValidationReport => Unit, unsubscribe: Boolean = false): Unit = {
     this.addListener(this.validationReportListeners, listener, unsubscribe)
   }
 
@@ -51,7 +47,7 @@ trait AbstractClientConnection extends IClientConnection {
     *
     * @param listener
     */
-  def onStructureReport(listener: (IStructureReport) => Unit, unsubscribe: Boolean = false): Unit = {
+  def onStructureReport(listener: IStructureReport => Unit, unsubscribe: Boolean = false): Unit = {
     this.addListener(this.structureReportListeners, listener, unsubscribe)
   }
 
@@ -106,7 +102,7 @@ trait AbstractClientConnection extends IClientConnection {
     this.addListener(onDisplayActionUIListeners, listener, unsubscribe)
   }
 
-  def addListener[T](memberListeners: Buffer[T], listener: T, unsubscribe: Boolean = false): Unit = {
+  def addListener[T](memberListeners: mutable.Buffer[T], listener: T, unsubscribe: Boolean = false): Unit = {
 
     if (unsubscribe) {
 
@@ -123,4 +119,5 @@ trait AbstractClientConnection extends IClientConnection {
 
   }
 }
+
 // $COVERAGE-ON$

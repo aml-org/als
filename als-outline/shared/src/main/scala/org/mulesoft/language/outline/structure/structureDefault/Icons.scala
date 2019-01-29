@@ -2,7 +2,6 @@ package org.mulesoft.language.outline.structure.structureDefault
 
 
 object Icons {
-
   val ARROW_SMALL_LEFT = "ARROW_SMALL_LEFT"
   val PRIMITIVE_SQUARE = "PRIMITIVE_SQUARE"
   val PRIMITIVE_DOT = "PRIMITIVE_DOT"

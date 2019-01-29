@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl
 
 import org.mulesoft.language.outline.common.commonInterfaces.IASTProvider
-import org.mulesoft.language.outline.structure.config.{LanguageDependendStructureConfig, StructurePluginRegistry}
-import org.mulesoft.language.outline.structure.structureDefault.{DefaultKeyProvider, DefaultVisibilityFilter}
+import org.mulesoft.language.outline.structure.config.StructurePluginRegistry
+import org.mulesoft.language.outline.structure.structureDefault.DefaultKeyProvider
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureConfiguration
 
 object ConfigFactory {

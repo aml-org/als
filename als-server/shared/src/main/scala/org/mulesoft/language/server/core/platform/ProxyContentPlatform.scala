@@ -3,19 +3,13 @@ package org.mulesoft.language.server.core.platform
 import amf.client.remote.Content
 import amf.core.lexer.CharSequenceStream
 import amf.core.remote._
-import amf.core.lexer.CharSequenceStream
-import amf.core.remote._
-import org.mulesoft.common.io.FileSystem
-import org.mulesoft.language.server.core.connections.IServerConnection
-import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
-
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
-import amf.client.remote.Content
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
+import org.mulesoft.common.io.FileSystem
 import org.mulesoft.language.server.common.utils.PathRefine
+
 import scala.collection.Map
+import scala.concurrent.Future
 
 class ProxyFileLoader(platform: ProxyContentPlatform) extends ResourceLoader {
 
@@ -39,7 +33,7 @@ class ProxyContentPlatform(protected val source: ConnectionBasedPlatform, map: M
 
   val fileLoader = new ProxyFileLoader(this)
 
-  val httpLoader = source.httpLoader
+  val httpLoader: DefaultHttpLoader = source.httpLoader
 
   val loaders: Seq[ResourceLoader] = Seq(
     fileLoader,
@@ -60,18 +54,19 @@ class ProxyContentPlatform(protected val source: ConnectionBasedPlatform, map: M
       "fetchFile")
 
     if (this.map.contains(path) ||
-        (path.startsWith("file://") && this.map.contains(path.substring("file://".length)))) {
+      (path.startsWith("file://") && this.map.contains(path.substring("file://".length)))) {
 
       source.connection.debugDetail("Path found to be overriden " + path, "ProxyContentPlatform", "fetchFile")
 
       Future.successful(
         Content(new CharSequenceStream(path, this.map(path)),
-                ensureFileAuthority(path),
-                extension(path).flatMap(mimeFromExtension)))
+          ensureFileAuthority(path),
+          extension(path).flatMap(mimeFromExtension)))
     } else {
       source.fetchFile(path)
     }
   }
+
   // $COVERAGE-OFF$
   def fetchHttp(url: String): Future[Content] = source.fetchHttp(url)
 
@@ -95,6 +90,7 @@ class ProxyContentPlatform(protected val source: ConnectionBasedPlatform, map: M
 
   override def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] =
     source.findCharInCharSequence(stream)(p)
+
   // $COVERAGE-ON$
   override def operativeSystem(): String = source.operativeSystem()
 }

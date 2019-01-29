@@ -17,27 +17,27 @@ class DefaultOASDecorator extends Decorator {
 
   def getNodeType(node: IParseResult): String = {
 
-//    try {
-//      println(s"Getting type for node name of ${NodeNameProvider.getNodeName(node)}")
-//    } catch {
-//      case th: Throwable => th.printStackTrace()
-//    }
+    //    try {
+    //      println(s"Getting type for node name of ${NodeNameProvider.getNodeName(node)}")
+    //    } catch {
+    //      case th: Throwable => th.printStackTrace()
+    //    }
 
     if (node.isAttr) {
       OASNodeTypes.ATTRIBUTE
-    } else if (node.isElement){
+    } else if (node.isElement) {
 
       val hlNode = node.asElement.get
 
-      if (hlNode.definition.nameId.isDefined){
+      if (hlNode.definition.nameId.isDefined) {
 
         val nodeDefinition = hlNode.definition.nameId.get
 
-//        try {
-//          println(s"Definition name is ${nodeDefinition}")
-//        } catch {
-//          case th: Throwable => th.printStackTrace()
-//        }
+        //        try {
+        //          println(s"Definition name is ${nodeDefinition}")
+        //        } catch {
+        //          case th: Throwable => th.printStackTrace()
+        //        }
 
         if (nodeDefinition == OASDefinitionKeys.PathsObject) {
           OASNodeTypes.PATHS_OBJECT
@@ -91,14 +91,14 @@ class DefaultOASDecorator extends Decorator {
 
   def getIcon(node: IParseResult): Option[String] = {
 
-//    try {
-//      println(s"Getting icon for node name of ${NodeNameProvider.getNodeName(node)} of type ${getNodeType(node)}")
-//    } catch {
-//      case th: Throwable => th.printStackTrace()
-//    }
+    //    try {
+    //      println(s"Getting icon for node name of ${NodeNameProvider.getNodeName(node)} of type ${getNodeType(node)}")
+    //    } catch {
+    //      case th: Throwable => th.printStackTrace()
+    //    }
 
     val decoration = this.getDecoration(node)
-    if (decoration.isDefined){
+    if (decoration.isDefined) {
       Some(decoration.get.icon)
     } else {
       None
@@ -108,7 +108,7 @@ class DefaultOASDecorator extends Decorator {
   def getTextStyle(node: IParseResult): Option[String] = {
 
     val decoration = this.getDecoration(node)
-    if (decoration.isDefined){
+    if (decoration.isDefined) {
       Some(decoration.get.textStyle)
     } else {
       None

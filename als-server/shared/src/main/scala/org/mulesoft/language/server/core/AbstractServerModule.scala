@@ -3,7 +3,7 @@ package org.mulesoft.language.server.core
 import org.mulesoft.language.server.core.connections.IServerConnection
 import org.mulesoft.language.server.core.platform.ConnectionBasedPlatform
 
-import scala.collection.mutable.Buffer
+import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.util.{Failure, Success, Try}
 
@@ -15,18 +15,18 @@ abstract class AbstractServerModule extends IServerIOCModule {
   /**
     * Initialized and pushed dependencies.
     */
-  protected val initializedDependencies: Buffer[IServerModule] = ArrayBuffer()
+  protected val initializedDependencies: mutable.Buffer[IServerModule] = ArrayBuffer()
 
   /**
     * Server connection. As its basically guaranteed to not to be null during any
     * real code execution, avoiding optional to shorten the code.
     */
-  protected var connection: IServerConnection = null
+  protected var connection: IServerConnection = _
 
   /**
     * Platform.
     */
-  protected var platform: ConnectionBasedPlatform = null
+  protected var platform: ConnectionBasedPlatform = _
 
   /**
     * Whether module is launched
@@ -40,17 +40,17 @@ abstract class AbstractServerModule extends IServerIOCModule {
     moduleOption.map(module => module.asInstanceOf[T])
   }
 
-//  def dependencyByInterface[T <: IServerModule](interfaceName: String): Option[T] = {
-//
-//    val moduleOption = this.initializedDependencies.find(
-//      dependencyModule => {
-//        dependencyModule.isInstanceOf[IServerIOCModule] &&
-//          dependencyModule.asInstanceOf[IServerIOCModule].mainInterfaceName.isDefined &&
-//          dependencyModule.asInstanceOf[IServerIOCModule].mainInterfaceName.get == interfaceName
-//      })
-//
-//    moduleOption.map(module=>module.asInstanceOf[T])
-//  }
+  //  def dependencyByInterface[T <: IServerModule](interfaceName: String): Option[T] = {
+  //
+  //    val moduleOption = this.initializedDependencies.find(
+  //      dependencyModule => {
+  //        dependencyModule.isInstanceOf[IServerIOCModule] &&
+  //          dependencyModule.asInstanceOf[IServerIOCModule].mainInterfaceName.isDefined &&
+  //          dependencyModule.asInstanceOf[IServerIOCModule].mainInterfaceName.get == interfaceName
+  //      })
+  //
+  //    moduleOption.map(module=>module.asInstanceOf[T])
+  //  }
 
   /**
     * Launches module. Either returns this or launch failure reason.
@@ -106,6 +106,7 @@ abstract class AbstractServerModule extends IServerIOCModule {
 
   /**
     * Pushes platform dependency
+    *
     * @param platform
     */
   override def insertPlatform(platform: ConnectionBasedPlatform) = {
@@ -120,7 +121,7 @@ abstract class AbstractServerModule extends IServerIOCModule {
         dependency.moduleId == dependencyId
       })
 
-      !found.isDefined
+      found.isEmpty
     })
 
     if (unsatisfied.length > 0) {

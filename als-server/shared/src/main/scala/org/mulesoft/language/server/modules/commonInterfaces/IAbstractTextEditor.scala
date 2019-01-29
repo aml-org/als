@@ -24,12 +24,14 @@ trait IAbstractTextEditor {
 
   /**
     * Language ID
+    *
     * @return
     */
   def language: String
 
   /**
     * Syntax ID
+    *
     * @return
     */
   def syntax: String

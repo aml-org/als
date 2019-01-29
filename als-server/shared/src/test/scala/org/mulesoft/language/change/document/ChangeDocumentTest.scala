@@ -2,18 +2,18 @@ package org.mulesoft.language.change.document
 
 import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IOpenedDocument}
 import org.mulesoft.language.server.core.Server
+import org.mulesoft.language.server.modules.astManager.{ASTManager, IASTManagerModule}
+import org.mulesoft.language.server.modules.commonInterfaces.{IPoint, IRange}
+import org.mulesoft.language.server.modules.editorManager.{EditorManager, IEditorManagerModule}
 import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
 import org.mulesoft.language.server.modules.hlastManager.HLASTmanager
 import org.mulesoft.language.server.modules.outline.StructureManager
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
-import org.mulesoft.language.server.modules.astManager.{ASTManager, IASTManagerModule}
-import org.mulesoft.language.server.modules.commonInterfaces.{IPoint, IRange}
-import org.mulesoft.language.server.modules.editorManager.{EditorManager, IEditorManagerModule}
 import org.mulesoft.language.server.modules.validationManager.ValidationManager
-import org.mulesoft.language.test.{LanguageServerTest, TestPlatformDependentPart}
 import org.mulesoft.language.test.clientConnection.TestClientConnetcion
 import org.mulesoft.language.test.serverConnection.TestServerConnection
+import org.mulesoft.language.test.{LanguageServerTest, TestPlatformDependentPart}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.Future
@@ -92,13 +92,13 @@ class ChangeDocumentTest extends LanguageServerTest {
     init().flatMap(_ => {
       var content1 =
         """#%RAML 1.0
-                  |title: test
-                  |types:
-                  |  MyType:
-                  |  MyType2:
-                  |    properties:
-                  |      p1: MyType
-                  |""".stripMargin
+          |title: test
+          |types:
+          |  MyType:
+          |  MyType2:
+          |    properties:
+          |      p1: MyType
+          |""".stripMargin
       var ind = content1.indexOf("MyType:") + 2
 
       var url = "file:///findReferencesTest001.raml"
@@ -122,13 +122,13 @@ class ChangeDocumentTest extends LanguageServerTest {
     init().flatMap(_ => {
       var content1 =
         """#%RAML 1.0
-                  |title: test
-                  |types:
-                  |  MyType:
-                  |  MyType2:
-                  |    properties:
-                  |      p1: MyType
-                  |""".stripMargin
+          |title: test
+          |types:
+          |  MyType:
+          |  MyType2:
+          |    properties:
+          |      p1: MyType
+          |""".stripMargin
       var ind = content1.indexOf("p1: MyType") + "p1: My".length
 
       var url = "file:///findDeclarationTest001.raml"
@@ -150,7 +150,7 @@ class ChangeDocumentTest extends LanguageServerTest {
 
   test("enable disable module test 001") {
     init().flatMap(_ => {
-      var serverOpt: Option[TestServerConnection]      = None
+      var serverOpt: Option[TestServerConnection] = None
       var clientList: ListBuffer[TestClientConnetcion] = ListBuffer()
 
       var serverConnection = new TestServerConnection(clientList)
@@ -215,11 +215,11 @@ class ChangeDocumentTest extends LanguageServerTest {
             buf.rangeForRow(0, true)
             buf.getTextInRange(new IRange {
               var start = IPoint(0, 0)
-              var end   = IPoint(1, 1)
+              var end = IPoint(1, 1)
             })
             buf.setTextInRange(new IRange {
               var start = IPoint(0, 0)
-              var end   = IPoint(0, "#%RAML 1.0".length)
+              var end = IPoint(0, "#%RAML 1.0".length)
             }, "#%RAML 1.0 Overlay")
             buf.getEndPosition()
           })
@@ -245,7 +245,7 @@ class ChangeDocumentTest extends LanguageServerTest {
               true
             }) recoverWith {
             case e: Throwable => Future.successful(false)
-            case _            => Future.successful(false)
+            case _ => Future.successful(false)
           }
           f.flatMap(x => {
             if (x) {

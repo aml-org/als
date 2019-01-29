@@ -17,7 +17,7 @@ import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 
 import scala.collection.mutable
-import scala.collection.mutable.{ArrayBuffer, Buffer}
+import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success, Try}
@@ -32,16 +32,16 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
   /**
     * Current AST listeners
     */
-  var astListeners: Buffer[IASTListener] = ArrayBuffer()
+  var astListeners: mutable.Buffer[IASTListener] = ArrayBuffer()
 
   /**
     * Map from uri to AST
     */
   var currentASTs: mutable.Map[String, BaseUnit] = mutable.HashMap()
 
-  private var initialized: Boolean = false;
+  private var initialized: Boolean = false
 
-  private var reconciler: Reconciler = new Reconciler(connection, 500);
+  private val reconciler: Reconciler = new Reconciler(connection, 500)
 
   protected def getEditorManager: IEditorManagerModule = {
     this.getDependencyById(IEditorManagerModule.moduleId).get
@@ -53,11 +53,11 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
     if (superLaunch.isSuccess) {
 
-      this.connection.onOpenDocument(this.onOpenDocument _)
+      this.connection.onOpenDocument(this.onOpenDocument)
 
-      this.getEditorManager.onChangeDocument(this.onChangeDocument _)
+      this.getEditorManager.onChangeDocument(this.onChangeDocument)
 
-      this.connection.onCloseDocument(this.onCloseDocument _)
+      this.connection.onCloseDocument(this.onCloseDocument)
 
       amfInit()
 
@@ -70,23 +70,23 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
   def init(): Future[Unit] = {
 
-    var promise = Promise[Unit]();
+    val promise = Promise[Unit]()
 
     if (initialized) {
-      promise.success();
+      promise.success()
     } else {
-      amfInit().map(nothing => {
-        initialized = true;
+      amfInit().map(_ => {
+        initialized = true
 
-        promise.success();
-      });
+        promise.success()
+      })
     }
 
-    promise.future;
+    promise.future
 
   } recoverWith {
-    case e: Throwable => Future.successful()
-    case _            => Future.successful()
+    case _: Throwable => Future.successful()
+    case _ => Future.successful()
   }
 
   def amfInit(): Future[Unit] = {
@@ -104,9 +104,9 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
     super.stop()
 
-    this.connection.onOpenDocument(this.onOpenDocument _, true)
-    this.getEditorManager.onChangeDocument(this.onChangeDocument _, true)
-    this.connection.onCloseDocument(this.onCloseDocument _, true)
+    this.connection.onOpenDocument(this.onOpenDocument, true)
+    this.getEditorManager.onChangeDocument(this.onChangeDocument, true)
+    this.connection.onCloseDocument(this.onCloseDocument, true)
   }
 
   def getCurrentAST(uri: String): Option[BaseUnit] = {
@@ -115,36 +115,34 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
   }
 
   def forceGetCurrentAST(uri: String): Future[BaseUnit] = {
-    val current = this.currentASTs.get(uri);
+    val current = this.currentASTs.get(uri)
 
     if (current.isDefined) {
-      Future.successful(current.get);
+      Future.successful(current.get)
     } else {
-      val editorOption = this.getEditorManager.getEditor(uri);
+      val editorOption = this.getEditorManager.getEditor(uri)
 
       if (editorOption.isDefined) {
 
-        var promise = Promise[BaseUnit]();
+        var promise = Promise[BaseUnit]()
 
         this
           .init()
           .map(_ => {
 
             this.parse(uri).andThen {
-              case Success(result) => {
-                this.registerNewAST(uri, 0, result);
+              case Success(result) =>
+                this.registerNewAST(uri, 0, result)
+                promise.success(result)
 
-                promise.success(result);
-              }
-
-              case Failure(throwable) => promise.failure(throwable);
+              case Failure(throwable) => promise.failure(throwable)
             }
 
           })
 
-        promise.future;
+        promise.future
       } else {
-        Future.failed(new Exception("No editor found for uri " + uri));
+        Future.failed(new Exception("No editor found for uri " + uri))
       }
     }
 
@@ -167,7 +165,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
   }
 
   def onChangeDocument(document: IChangedDocument): Unit = {
-    this.connection.debug(s"document ${document.uri} is changed", "ASTManager", "onChangeDocument");
+    this.connection.debug(s"document ${document.uri} is changed", "ASTManager", "onChangeDocument")
 
     reconciler
       .shedule(new DocumentChangedRunnable(document.uri, () => this.parse(this.platform.resolvePath(document.uri))))
@@ -180,9 +178,9 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
           val writer = new StringWriter()
           e.printStackTrace(new PrintWriter(writer))
           this.connection
-            .debug(s"Failed to parse ${document.uri} with exception ${writer}", "ASTManager", "onChangeDocument")
+            .debug(s"Failed to parse ${document.uri} with exception $writer", "ASTManager", "onChangeDocument")
         }
-      };
+      }
   }
 
   def onCloseDocument(uri: String): Unit = {
@@ -199,12 +197,12 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
     this.notifyASTChanged(uri, version, ast)
   }
 
-//  def registerASTParseError(uri: String, error: Any) = {
-//    (this.currentASTs = Map(
-//    ))
-//    this.notifyASTChanged(uri, null, error)
-//
-//  }
+  //  def registerASTParseError(uri: String, error: Any) = {
+  //    (this.currentASTs = Map(
+  //    ))
+  //    this.notifyASTChanged(uri, null, error)
+  //
+  //  }
 
   def notifyASTChanged(uri: String, version: Int, ast: BaseUnit) = {
 
@@ -216,7 +214,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
   }
 
-  def addListener[T](memberListeners: Buffer[T], listener: T, unsubscribe: Boolean = false): Unit = {
+  def addListener[T](memberListeners: mutable.Buffer[T], listener: T, unsubscribe: Boolean = false): Unit = {
 
     if (unsubscribe) {
 
@@ -236,6 +234,7 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
   /**
     * Gets current AST if there is any.
     * If not, performs immediate asynchronous parsing and returns the results.
+    *
     * @param uri
     */
   def forceBuildNewAST(uri: String, text: String): Future[BaseUnit] = {
@@ -250,10 +249,10 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
   def parse(uri: String): Future[BaseUnit] = {
 
-    val language = getEditorManager.getEditor(uri).map(_.language).getOrElse("OAS 2.0");
+    val language = getEditorManager.getEditor(uri).map(_.language).getOrElse("OAS 2.0")
 
     val protocolUri = this.platform.resolvePath(uri)
-    this.connection.debugDetail(s"Protocol uri is ${protocolUri}", "ASTManager", "parse");
+    this.connection.debugDetail(s"Protocol uri is $protocolUri", "ASTManager", "parse")
 
     var cfg = new ParserConfig(
       Some(ParserConfig.PARSE),
@@ -269,37 +268,32 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
     val helper = ParserHelper(this.platform)
 
-    var promise = Promise[BaseUnit]();
+    val promise = Promise[BaseUnit]()
 
     try {
 
       helper.parse(cfg, this.platform.defaultEnvironment).andThen {
-        case Success(result) => {
-          val endTime = System.currentTimeMillis();
-
+        case Success(result) =>
+          val endTime = System.currentTimeMillis()
           this.connection
-            .debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast", "ASTManager", "parse");
+            .debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast", "ASTManager", "parse")
+          promise.success(result)
 
-          promise.success(result);
-        }
-
-        case Failure(throwable) => promise.failure(throwable);
+        case Failure(throwable) => promise.failure(throwable)
       }
 
     } catch {
-      case e: Throwable => {
-        promise.failure(e)
-      }
+      case e: Throwable => promise.failure(e)
     }
 
-    promise.future;
+    promise.future
   }
 
   def parseWithContentSubstitution(uri: String, content: String): Future[BaseUnit] = {
 
     val proxyPlatform = new ProxyContentPlatform(this.platform, uri, content)
 
-    val language = getEditorManager.getEditor(uri).map(_.language).getOrElse("OAS 2.0");
+    val language = getEditorManager.getEditor(uri).map(_.language).getOrElse("OAS 2.0")
 
     val cfg = new ParserConfig(
       Some(ParserConfig.PARSE),
@@ -315,22 +309,21 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
     val helper = ParserHelper(proxyPlatform)
 
-    var promise = Promise[BaseUnit]();
+    val promise = Promise[BaseUnit]()
 
     helper.parse(cfg, proxyPlatform.defaultEnvironment).andThen {
-      case Success(result) => {
-        val endTime = System.currentTimeMillis();
+      case Success(result) =>
+        val endTime = System.currentTimeMillis()
 
         this.connection.debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast",
-                                    "ASTManager",
-                                    "parseWithContentSubstitution");
+          "ASTManager",
+          "parseWithContentSubstitution")
 
-        promise.success(result);
-      }
+        promise.success(result)
 
-      case Failure(throwable) => promise.failure(throwable);
+      case Failure(throwable) => promise.failure(throwable)
     }
 
-    promise.future;
+    promise.future
   }
 }

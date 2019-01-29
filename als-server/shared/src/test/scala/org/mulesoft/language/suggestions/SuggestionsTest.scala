@@ -16,22 +16,20 @@ abstract class SuggestionsTest extends LanguageServerTest {
     init().flatMap { _ =>
       for {
         content <- this.platform.resolve(resolved)
-        client  <- getClient
+        client <- getClient
         suggestions <- {
           val fileContentsStr = content.stream.toString
-          val markerInfo      = this.findMarker(fileContentsStr)
+          val markerInfo = this.findMarker(fileContentsStr)
           getClientSuggestions(resolved, client, markerInfo)
         }
       } yield {
         val resultSet = suggestions.map(_.text).toSet
-        val diff1     = resultSet.diff(expectedSuggestions)
-        val diff2     = expectedSuggestions.diff(resultSet)
+        val diff1 = resultSet.diff(expectedSuggestions)
+        val diff2 = expectedSuggestions.diff(resultSet)
 
         if (diff1.isEmpty && diff2.isEmpty) succeed
         else
-          fail(
-            s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
-        succeed
+          fail(s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
       }
     }
   }
@@ -47,15 +45,16 @@ abstract class SuggestionsTest extends LanguageServerTest {
         suggestions
       })
   }
+
   def findMarker(str: String, label: String = "*", cut: Boolean = true): MarkerInfo = {
 
-    var position = str.indexOf(label);
+    val position = str.indexOf(label)
 
     if (position < 0) {
       new MarkerInfo(str, str.length, str)
     } else {
-      var rawContent = str.substring(0, position) + str.substring(position + 1)
-      var preparedContent =
+      val rawContent = str.substring(0, position) + str.substring(position + 1)
+      val preparedContent =
         org.mulesoft.als.suggestions.Core.prepareText(rawContent, position, YAML)
       new MarkerInfo(preparedContent, position, rawContent)
     }

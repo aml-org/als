@@ -5,33 +5,34 @@ package org.mulesoft.language.common.logger
   */
 trait AbstractLogger extends ILogger {
 
-  private var loggerSettings: Option[ILoggerSettings] = None;
+  private val loggerSettings: Option[ILoggerSettings] = None
 
-  protected def internalLog(msg: String, severity: MessageSeverity.Value): Unit;
+  protected def internalLog(msg: String, severity: MessageSeverity.Value): Unit
 
   /**
     * Logs a message
-    * @param msg - message text
-    * @param svrty - message severity
-    * @param cmp - component name
+    *
+    * @param msg    - message text
+    * @param svrty  - message severity
+    * @param cmp    - component name
     * @param subCmp - sub-component name
     */
   def log(msg: String, svrty: MessageSeverity.Value, cmp: String, subCmp: String): Unit = {
 
     val filtered = this.filterLogMessage(new LogMessage {
-      var message      = msg
-      var severity     = svrty
-      var component    = cmp
-      var subcomponent = subCmp
+      var message: String = msg
+      var severity: MessageSeverity.Value = svrty
+      var component: String = cmp
+      var subcomponent: String = subCmp
     }, this.loggerSettings)
 
     filtered.foreach(logMessage => {
 
-//      val now = Calendar.getInstance().getTime()
-//      val hourFormat = new SimpleDateFormat("hh:mm:ss:SSS")
-//      ${hourFormat.format(now)}
+      //      val now = Calendar.getInstance().getTime()
+      //      val hourFormat = new SimpleDateFormat("hh:mm:ss:SSS")
+      //      ${hourFormat.format(now)}
       val toLog =
-        f" ${logMessage.severity} ${logMessage.component}:${logMessage.subcomponent}    ${logMessage.message}";
+      f" ${logMessage.severity} ${logMessage.component}:${logMessage.subcomponent}    ${logMessage.message}"
       this.internalLog(toLog, logMessage.severity)
 
     })
@@ -39,61 +40,68 @@ trait AbstractLogger extends ILogger {
 
   /**
     * Logs a DEBUG severity message.
-    * @param message - message text
-    * @param component - component name
+    *
+    * @param message      - message text
+    * @param component    - component name
     * @param subcomponent - sub-component name
     */
   def debug(message: String, component: String, subcomponent: String): Unit = {
-    this.log(message, MessageSeverity.DEBUG, component, subcomponent);
+    this.log(message, MessageSeverity.DEBUG, component, subcomponent)
   }
 
   /**
     * Logs a DEBUG_DETAIL severity message.
-    * @param message - message text
-    * @param component - component name
+    *
+    * @param message      - message text
+    * @param component    - component name
     * @param subcomponent - sub-component name
     */
   def debugDetail(message: String, component: String, subcomponent: String): Unit = {
-    this.log(message, MessageSeverity.DEBUG_DETAIL, component, subcomponent);
+    this.log(message, MessageSeverity.DEBUG_DETAIL, component, subcomponent)
   }
-// $COVERAGE-OFF$
+
+  // $COVERAGE-OFF$
   /**
     * Logs a DEBUG_OVERVIEW severity message.
-    * @param message - message text
-    * @param component - component name
+    *
+    * @param message      - message text
+    * @param component    - component name
     * @param subcomponent - sub-component name
     */
   def debugOverview(message: String, component: String, subcomponent: String): Unit = {
-    this.log(message, MessageSeverity.DEBUG_OVERVIEW, component, subcomponent);
+    this.log(message, MessageSeverity.DEBUG_OVERVIEW, component, subcomponent)
   }
 
   /**
     * Logs a WARNING severity message.
-    * @param message - message text
-    * @param component - component name
+    *
+    * @param message      - message text
+    * @param component    - component name
     * @param subcomponent - sub-component name
     */
   def warning(message: String, component: String, subcomponent: String): Unit = {
-    this.log(message, MessageSeverity.WARNING, component, subcomponent);
+    this.log(message, MessageSeverity.WARNING, component, subcomponent)
   }
 
   /**
     * Logs an ERROR severity message.
-    * @param message - message text
-    * @param component - component name
+    *
+    * @param message      - message text
+    * @param component    - component name
     * @param subcomponent - sub-component name
     */
   def error(message: String, component: String, subcomponent: String): Unit = {
-    this.log(message, MessageSeverity.ERROR, component, subcomponent);
+    this.log(message, MessageSeverity.ERROR, component, subcomponent)
   }
 
   /**
     * Sets logger configuration, both for the server and for the client.
+    *
     * @param loggerSettings
     */
   def setLoggerConfiguration(loggerSettings: ILoggerSettings): Unit = {
     //TODO restore setting
-    //this.loggerSettings = Option(loggerSettings);
+    //this.loggerSettings = Option(loggerSettings)
   }
 
   private def filterLogMessage(msg: LogMessage, settings: Option[ILoggerSettings]): Option[LogMessage] = {
@@ -118,13 +126,13 @@ trait AbstractLogger extends ILogger {
 
                         val resultMessage = settings.maxMessageLength match {
                           case Some(maxLength) if msg.message.length > maxLength => msg.message.substring(0, maxLength)
-                          case _                                                 => msg.message
+                          case _ => msg.message
                         }
 
                         Option(new LogMessage {
-                          var message      = resultMessage
-                          var severity     = msg.severity
-                          var component    = msg.component
+                          var message = resultMessage
+                          var severity = msg.severity
+                          var component = msg.component
                           var subcomponent = msg.subcomponent
                         })
 
@@ -147,49 +155,49 @@ trait AbstractLogger extends ILogger {
             msg.message
 
         Option(new LogMessage {
-          var message      = resultMessage
-          var severity     = msg.severity
-          var component    = msg.component
+          var message = resultMessage
+          var severity = msg.severity
+          var component = msg.component
           var subcomponent = msg.subcomponent
         })
       }
     }
 
-//    if (!settings.isDefined) {
-//
-//      None
-//    } else if (settings.get.disabled.isDefined && settings.get.disabled.get) {
-//
-//      None
-//    } else if (settings.get.allowedComponents.isDefined &&
-//                !settings.get.allowedComponents.contains(msg.component)) {
-//
-//      None
-//    } else if (settings.get.deniedComponents.isDefined &&
-//                settings.get.deniedComponents.contains(msg.component)) {
-//
-//      None
-//    } else if (settings.get.maxSeverity.isDefined &&
-//                msg.severity.id < settings.get.maxSeverity.get.id) {
-//
-//      None
-//    }
-//
-//    val resultMessage =
-//      if (settings.get.maxMessageLength.isDefined &&
-//                msg.message.length > settings.get.maxMessageLength.get) {
-//        msg.message.substring(0, settings.get.maxMessageLength.get)
-//      }
-//      else {
-//        msg.message
-//      }
-//
-//    Option(new LogMessage {
-//      var message = resultMessage
-//      var severity = msg.severity
-//      var component = msg.component
-//      var subcomponent = msg.subcomponent
-//    })
+    //    if (!settings.isDefined) {
+    //
+    //      None
+    //    } else if (settings.get.disabled.isDefined && settings.get.disabled.get) {
+    //
+    //      None
+    //    } else if (settings.get.allowedComponents.isDefined &&
+    //                !settings.get.allowedComponents.contains(msg.component)) {
+    //
+    //      None
+    //    } else if (settings.get.deniedComponents.isDefined &&
+    //                settings.get.deniedComponents.contains(msg.component)) {
+    //
+    //      None
+    //    } else if (settings.get.maxSeverity.isDefined &&
+    //                msg.severity.id < settings.get.maxSeverity.get.id) {
+    //
+    //      None
+    //    }
+    //
+    //    val resultMessage =
+    //      if (settings.get.maxMessageLength.isDefined &&
+    //                msg.message.length > settings.get.maxMessageLength.get) {
+    //        msg.message.substring(0, settings.get.maxMessageLength.get)
+    //      }
+    //      else {
+    //        msg.message
+    //      }
+    //
+    //    Option(new LogMessage {
+    //      var message = resultMessage
+    //      var severity = msg.severity
+    //      var component = msg.component
+    //      var subcomponent = msg.subcomponent
+    //    })
     // $COVERAGE-ON$
   }
 }

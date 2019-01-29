@@ -11,6 +11,7 @@ trait PlatformDependentPart {
 
   /**
     * Fetches contents via http
+    *
     * @param url
     * @return
     */
@@ -33,7 +34,8 @@ trait PlatformDependentPart {
   def normalizePath(url: String): String = new URI(encodeURI(url)).normalize.toString
 
   def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] = stream.toString.find(p)
-  
-  def operativeSystem(): String;
+
+  def operativeSystem(): String
 }
+
 // $COVERAGE-ON$

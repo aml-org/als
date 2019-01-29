@@ -19,6 +19,7 @@ trait IServerModule {
 
   /**
     * Launches module. Either returns this or launch failure reason.
+    *
     * @return
     */
   def launch(): Try[IServerModule]
@@ -30,7 +31,8 @@ trait IServerModule {
 
   /**
     * Checks whether this module is launched.
+    *
     * @return
     */
-  def isLaunched(): Boolean
+  def isLaunched: Boolean
 }

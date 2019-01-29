@@ -1,26 +1,20 @@
 package org.mulesoft.language.test
 
-import amf.core.AMF
 import amf.core.unsafe.PlatformSecrets
-import amf.plugins.document.vocabularies.AMLPlugin
-import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
-import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
-import amf.plugins.features.validation.AMFValidatorPlugin
 import org.mulesoft.high.level.amfmanager.AmfInitializationHandler
 import org.mulesoft.language.server.core.Server
+import org.mulesoft.language.server.modules.astManager.{ASTManager, IASTManagerModule}
+import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
 import org.mulesoft.language.server.modules.hlastManager.HLASTmanager
 import org.mulesoft.language.server.modules.outline.StructureManager
-import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
-import org.mulesoft.language.server.modules.astManager.{ASTManager, IASTManagerModule}
-import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 import org.mulesoft.language.server.modules.rename.RenameModule
+import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
 import org.mulesoft.language.server.modules.validationManager.ValidationManager
 import org.mulesoft.language.test.clientConnection.TestClientConnetcion
-import org.mulesoft.language.test.dtoTypes.{GetCompletionRequest, OpenedDocument}
 import org.mulesoft.language.test.serverConnection.TestServerConnection
-import org.scalatest.{Assertion, AsyncFunSuite}
+import org.scalatest.AsyncFunSuite
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.{ExecutionContext, Future}
@@ -45,7 +39,7 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets {
     } else {
       var serverList: ListBuffer[TestServerConnection] = ListBuffer()
       var clientList: ListBuffer[TestClientConnetcion] = ListBuffer()
-      var thread = new Runnable {
+      val thread = new Runnable {
         def run {
           var serverConnection = new TestServerConnection(clientList)
           serverList += serverConnection
@@ -97,7 +91,7 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets {
 
     var serverList: ListBuffer[TestServerConnection] = ListBuffer()
     var clientList: ListBuffer[TestClientConnetcion] = ListBuffer()
-    var thread = new Runnable {
+    val thread = new Runnable {
       def run {
         var serverConnection = new TestServerConnection(clientList)
         serverList += serverConnection

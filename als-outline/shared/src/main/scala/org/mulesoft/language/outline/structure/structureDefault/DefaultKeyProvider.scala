@@ -6,6 +6,7 @@ import org.mulesoft.language.outline.common.commonInterfaces.KeyProvider
 class DefaultKeyProvider extends KeyProvider {
   /**
     * Returns key for the node
+    *
     * @param node
     * @return
     */

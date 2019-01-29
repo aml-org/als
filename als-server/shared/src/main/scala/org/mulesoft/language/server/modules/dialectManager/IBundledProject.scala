@@ -4,8 +4,7 @@ import scala.collection.Map
 
 trait IBundledProject {
 
-    def rootUrl:String
+  def rootUrl: String
 
-    def files:Map[String,String]
-
+  def files: Map[String, String]
 }

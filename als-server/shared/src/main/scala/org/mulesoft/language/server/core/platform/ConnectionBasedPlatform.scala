@@ -1,24 +1,22 @@
 package org.mulesoft.language.server.core.platform
 
-import java.net.URI
-
+import amf.client.remote.Content
 import amf.core.lexer.CharSequenceStream
 import amf.core.remote._
+import amf.internal.environment.Environment
+import amf.internal.resource.ResourceLoader
 import org.mulesoft.common.io.FileSystem
+import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.connections.IServerConnection
 import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-import amf.client.remote.Content
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
-import org.mulesoft.language.server.common.utils.PathRefine
+import scala.concurrent.Future
 
 object Http {
   def unapply(uri: String): Option[(String, String, String)] = uri match {
     case url if url.startsWith("http://") || url.startsWith("https://") =>
-      val protocol        = url.substring(0, url.indexOf("://") + 3)
+      val protocol = url.substring(0, url.indexOf("://") + 3)
       val rightOfProtocol = url.stripPrefix(protocol)
       val host =
         if (rightOfProtocol.contains("/")) rightOfProtocol.substring(0, rightOfProtocol.indexOf("/"))
@@ -71,7 +69,8 @@ class DefaultHttpLoader(platform: ConnectionBasedPlatform) extends ResourceLoade
 class ConnectionBasedPlatform(val connection: IServerConnection,
                               val editorManager: IEditorManagerModule,
                               val platformPart: PlatformDependentPart)
-    extends Platform { self =>
+  extends Platform {
+  self =>
 
   override val fs: FileSystem = new ConnectionBasedFS(connection, editorManager)
 
@@ -106,7 +105,7 @@ class ConnectionBasedPlatform(val connection: IServerConnection,
       case default => File.FILE_PROTOCOL + uri
     }
 
-    connection.debugDetail(s"Resolved ${uri} as ${result}", "ConnectionBasedPlatform", "resolvePath")
+    connection.debugDetail(s"Resolved $uri as $result", "ConnectionBasedPlatform", "resolvePath")
 
     result
   }
@@ -124,8 +123,8 @@ class ConnectionBasedPlatform(val connection: IServerConnection,
 
     val editorOption = this.editorManager.getEditor(uri)
     connection.debugDetail(s"Result of editor check for uri ${uri}: ${editorOption.isDefined}",
-                           "ConnectionBasedPlatform",
-                           "fetchFile")
+      "ConnectionBasedPlatform",
+      "fetchFile")
 
     val contentFuture =
       if (editorOption.isDefined) {
@@ -139,11 +138,12 @@ class ConnectionBasedPlatform(val connection: IServerConnection,
       .map(content => {
 
         Content(new CharSequenceStream(path, content),
-                ensureFileAuthority(path),
-                extension(path).flatMap(mimeFromExtension))
+          ensureFileAuthority(path),
+          extension(path).flatMap(mimeFromExtension))
       })
   }
-// $COVERAGE-OFF$
+
+  // $COVERAGE-OFF$
   def fetchHttp(url: String): Future[Content] = platformPart.fetchHttp(url)
 
   override def tmpdir(): String = ???
@@ -170,6 +170,7 @@ class ConnectionBasedPlatform(val connection: IServerConnection,
 
   override def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] =
     platformPart.findCharInCharSequence(stream)(p)
-// $COVERAGE-ON$
+
+  // $COVERAGE-ON$
   override def operativeSystem(): String = platformPart.operativeSystem();
 }
