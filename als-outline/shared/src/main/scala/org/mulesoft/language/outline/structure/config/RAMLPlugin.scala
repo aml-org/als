@@ -1,10 +1,11 @@
 package org.mulesoft.language.outline.structure.config
+
 import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.language.outline.common.commonInterfaces.{CategoryFilter, Decorator, IASTProvider}
 import org.mulesoft.language.outline.structure.structureDefault._
+import org.mulesoft.language.outline.structure.structureDefaultInterfaces.Decoration
 
 import scala.collection.mutable
-import org.mulesoft.language.outline.structure.structureDefaultInterfaces.Decoration
 
 class RAMLPlugin extends IStructurePlugin {
 
@@ -40,43 +41,29 @@ class RAMLPlugin extends IStructurePlugin {
   def buildCategories(): mutable.Map[String, CategoryFilter] = {
     val result = new mutable.HashMap[String, CategoryFilter]()
 
-    result("ResourcesCategory") = new CategoryFilter {
+    result("ResourcesCategory") = (node: IParseResult) => {
+      node.isElement && node.asElement.get.definition.nameId.contains(RamlDefinitionKeys.RESOURCE)
+    }
 
-      override def apply(node: IParseResult): Boolean = {
+    result("SchemasAndTypesCategory") = (node: IParseResult) => {
 
-        node.isElement && node.asElement.get.definition.nameId.contains(RamlDefinitionKeys.RESOURCE)
+      if (node.isElement && node.asElement.get.property.isDefined &&
+        node.asElement.get.property.get.nameId.isDefined) {
+
+        val propertyName = node.asElement.get.property.get.nameId.get
+
+        propertyName == "schemas" ||
+          propertyName == "types"
+      } else {
+
+        false
       }
     }
 
-    result("SchemasAndTypesCategory") = new CategoryFilter {
-      /**
-        * Checks whether current node is applicable to a category
-        */
-      override def apply(node: IParseResult): Boolean = {
-
-        if (node.isElement && node.asElement.get.property.isDefined &&
-          node.asElement.get.property.get.nameId.isDefined) {
-
-          val propertyName = node.asElement.get.property.get.nameId.get
-
-          propertyName == "schemas" ||
-            propertyName == "types"
-        } else {
-
-          false
-        }
-      }
-    }
-
-    result("ResourceTypesAndTraitsCategory") = new CategoryFilter {
-      /**
-        * Checks whether current node is applicable to a category
-        */
-      override def apply(node: IParseResult): Boolean = {
-        node.isElement && (
-          node.asElement.get.definition.nameId.contains(RamlDefinitionKeys.RESOURCE_TYPE) ||
-            node.asElement.get.definition.nameId.contains(RamlDefinitionKeys.TRAIT))
-      }
+    result("ResourceTypesAndTraitsCategory") = (node: IParseResult) => {
+      node.isElement && (
+        node.asElement.get.definition.nameId.contains(RamlDefinitionKeys.RESOURCE_TYPE) ||
+          node.asElement.get.definition.nameId.contains(RamlDefinitionKeys.TRAIT))
     }
 
     result("OtherCategory") = new CategoryFilter {

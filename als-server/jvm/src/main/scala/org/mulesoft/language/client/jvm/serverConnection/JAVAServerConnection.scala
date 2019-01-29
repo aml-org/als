@@ -4,35 +4,26 @@ package org.mulesoft.language.client.jvm.serverConnection
 import java.util
 import java.util.function.Consumer
 
-import com.sun.net.httpserver.Authenticator.Failure
 import org.mulesoft.als.suggestions.interfaces.ISuggestion
+import org.mulesoft.language.client.jvm.dtoTypes.{GetCompletionRequest, GetStructureRequest, GetStructureResponse}
 import org.mulesoft.language.client.jvm.{FS, ValidationHandler}
-import org.mulesoft.language.client.jvm.dtoTypes.{
-  GetCompletionRequest,
-  GetStructureRequest,
-  GetStructureResponse,
-  ProtocolMessagePayload
-}
 import org.mulesoft.language.common.dtoTypes._
-import org.mulesoft.language.common.logger.{ILoggerSettings, IPrintlnLogger, MessageSeverity}
+import org.mulesoft.language.common.logger.{ILoggerSettings, MessageSeverity}
 import org.mulesoft.language.server.core.connections.AbstractServerConnection
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
-import scala.util.Success;
 
 class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConnection {
-  var lastStructureReport: Option[IStructureReport] = None;
-  var fs: FS                                        = null;
-  var validationHandler: ValidationHandler          = null;
+  var lastStructureReport: Option[IStructureReport] = None
+  var fs: FS = null
+  var validationHandler: ValidationHandler = null
 
-  var logger = new JAVALogger {
-    override def log(message: String, severity: MessageSeverity.Value, component: String, subcomponent: String) {}
-  }
+  var logger: JAVALogger = (_: String, _: MessageSeverity.Value, _: String, _: String) => {}
 
-  initialize();
+  initialize()
 
   protected def initialize() {
     //		this.newMeta("READ_DIR", Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientStringSeqResponse", true)));
@@ -75,68 +66,68 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
   }
 
   def handleCloseDocument(uri: String) {
-    var firstOpt = this.closeDocumentListeners.find(_ => true);
+    val firstOpt = this.closeDocumentListeners.find(_ => true)
 
     firstOpt match {
-      case Some(listener) => listener(uri);
-      case _              => Future.failed(new Exception("No close document providers found"));
+      case Some(listener) => listener(uri)
+      case _ => Future.failed(new Exception("No close document providers found"))
     }
   }
 
   def findReferences(uri: String, position: Int): Future[Seq[ILocation]] = {
-    findReferencesListeners.head(uri, position);
+    findReferencesListeners.head(uri, position)
   }
 
   def findDeclaration(uri: String, position: Int): Future[Seq[ILocation]] = {
-    openDeclarationListeners.head(uri, position);
+    openDeclarationListeners.head(uri, position)
   }
 
   def rename(uri: String, position: Int, newName: String): Future[Seq[IChangedDocument]] = {
-    renameListeners.head(uri, position, newName);
+    renameListeners.head(uri, position, newName)
   }
 
   def handleGetStructure(getStructure: GetStructureRequest): Future[GetStructureResponse] = {
-    val firstOpt = this.documentStructureListeners.find(_ => true);
+    val firstOpt = this.documentStructureListeners.find(_ => true)
 
     firstOpt match {
-      case Some(listener) => listener(getStructure.url).map(resultMap => GetStructureResponse(resultMap));
+      case Some(listener) => listener(getStructure.url).map(resultMap => GetStructureResponse(resultMap))
 
-      case _ => Future.failed(new Exception("No structure providers found"));
+      case _ => Future.failed(new Exception("No structure providers found"))
     }
   }
 
   def handleGetSuggestions(getCompletion: GetCompletionRequest): Future[Seq[ISuggestion]] = {
-    val firstOpt = this.documentCompletionListeners.find(_ => true);
+    val firstOpt = this.documentCompletionListeners.find(_ => true)
 
     firstOpt match {
-      case Some(listener) => listener(getCompletion.uri, getCompletion.position);
+      case Some(listener) => listener(getCompletion.uri, getCompletion.position)
 
-      case _ => Future.failed(new Exception("No structure providers found"));
+      case _ => Future.failed(new Exception("No structure providers found"))
     }
   }
 
   def handleOpenDocument(document: IOpenedDocument) {
-    val firstOpt = this.openDocumentListeners.find(_ => true);
+    val firstOpt = this.openDocumentListeners.find(_ => true)
 
     firstOpt match {
-      case Some(listener) => listener(document);
+      case Some(listener) => listener(document)
 
-      case _ => Future.failed(new Exception("No open document providers found"));
+      case _ => Future.failed(new Exception("No open document providers found"))
     }
   }
 
   def handleChangedDocument(document: IChangedDocument) {
-    val firstOpt = this.changeDocumentListeners.find(_ => true);
+    val firstOpt = this.changeDocumentListeners.find(_ => true)
 
     firstOpt match {
-      case Some(listener) => listener(document);
+      case Some(listener) => listener(document)
 
-      case _ => Future.failed(new Exception("No change document providers found"));
+      case _ => Future.failed(new Exception("No change document providers found"))
     }
   }
 
   def handleSetLoggerConfiguration(loggerSettings: ILoggerSettings) {
-    this.setLoggerConfiguration(loggerSettings);
+    this.setLoggerConfiguration(loggerSettings)
   }
 
   def structureAvailable(report: IStructureReport) {
@@ -145,96 +136,97 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
 
   override def validated(report: IValidationReport) {
     if (validationHandler == null) {
-      return;
+      return
     }
 
-    var list = new util.ArrayList[IValidationIssue]();
+    var list = new util.ArrayList[IValidationIssue]()
 
     report.issues.foreach(reportIssue =>
-      collectIssues(reportIssue).foreach(collectedIssue => list.add(collectedIssue)));
+      collectIssues(reportIssue).foreach(collectedIssue => list.add(collectedIssue)))
 
-    validationHandler.success(report.pointOfViewUri, list);
+    validationHandler.success(report.pointOfViewUri, list)
   }
 
   private def collectIssues(issue: IValidationIssue): Seq[IValidationIssue] = {
-    var result = mutable.MutableList(issue);
+    var result = mutable.MutableList(issue)
 
     issue.trace.foreach(traceIssue => {
-      collectIssues(traceIssue).foreach(collected => result += collected);
+      collectIssues(traceIssue).foreach(collected => result += collected)
     })
 
-    result;
+    result
   }
 
   override def exists(path: String): Future[Boolean] =
-    callFs(path, fs.exists, false, (data: java.lang.Boolean) => data);
+    callFs(path, fs.exists, false, (data: java.lang.Boolean) => data)
 
   override def readDir(path: String): Future[Seq[String]] =
     callFs(path, fs.readDir, Seq(), (data: java.util.List[String]) => {
-      var result: ArrayBuffer[String] = ArrayBuffer();
+      var result: ArrayBuffer[String] = ArrayBuffer()
 
       data.forEach(item => {
-        result += item;
-      });
+        result += item
+      })
 
-      result;
-    });
+      result
+    })
 
   override def isDirectory(path: String): Future[Boolean] =
-    callFs(path, fs.isDirectory, false, (data: java.lang.Boolean) => data);
+    callFs(path, fs.isDirectory, false, (data: java.lang.Boolean) => data)
 
-  override def content(fullPath: String): Future[String] = callFs(fullPath, fs.content, "", (data: String) => data);
+  override def content(fullPath: String): Future[String] = callFs(fullPath, fs.content, "", (data: String) => data)
 
   private def callFs[T, S](path: String,
-                           method: Function2[String, Consumer[S], Unit],
+                           method: (String, Consumer[S]) => Unit,
                            default: T,
-                           converter: Function1[S, T]): Future[T] =
+                           converter: S => T): Future[T] =
     if (fs == null) {
-      Future.successful(default);
+      Future.successful(default)
     } else {
-      var promise = Promise[T]();
+      var promise = Promise[T]()
 
       method(path, (data: S) => {
-        promise.success(converter(data));
-      });
+        promise.success(converter(data))
+      })
 
-      promise.future;
+      promise.future
     }
 
   override def onDocumentDetails(listener: (String, Int) => Future[IDetailsItem], unsubscribe: Boolean) {}
 
   override def detailsAvailable(report: IDetailsReport) {}
 
-  override def displayActionUI(uiDisplayRequest: IUIDisplayRequest): Future[Any] = Future.successful(null);
+  override def displayActionUI(uiDisplayRequest: IUIDisplayRequest): Future[Any] = Future.successful(null)
 
   override def setLoggerConfiguration(loggerSettings: ILoggerSettings) {}
 
   override def log(message: String, severity: MessageSeverity.Value, component: String, subcomponent: String) {
-    logger.log(message, severity, component, subcomponent);
+    logger.log(message, severity, component, subcomponent)
   }
 
   override def debugDetail(message: String, component: String, subcomponent: String) {
-    log(message, MessageSeverity.DEBUG_DETAIL, component, subcomponent);
+    log(message, MessageSeverity.DEBUG_DETAIL, component, subcomponent)
   }
 
   override def warning(message: String, component: String, subcomponent: String) {
-    log(message, MessageSeverity.WARNING, component, subcomponent);
+    log(message, MessageSeverity.WARNING, component, subcomponent)
   }
 
   override def debugOverview(message: String, component: String, subcomponent: String) {
-    log(message, MessageSeverity.DEBUG_OVERVIEW, component, subcomponent);
+    log(message, MessageSeverity.DEBUG_OVERVIEW, component, subcomponent)
   }
 
   override def error(message: String, component: String, subcomponent: String) {
-    log(message, MessageSeverity.ERROR, component, subcomponent);
+    log(message, MessageSeverity.ERROR, component, subcomponent)
   }
 
   override def debug(message: String, component: String, subcomponent: String) {
-    log(message, MessageSeverity.DEBUG, component, subcomponent);
+    log(message, MessageSeverity.DEBUG, component, subcomponent)
   }
 
   def setLogger(logger: JAVALogger) {
-    this.logger = logger;
+    this.logger = logger
   }
 }
+
 // $COVERAGE-ON$

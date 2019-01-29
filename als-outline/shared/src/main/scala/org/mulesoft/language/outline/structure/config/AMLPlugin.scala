@@ -5,7 +5,6 @@ import org.mulesoft.language.outline.common.commonInterfaces.{CategoryFilter, De
 import org.mulesoft.language.outline.structure.structureDefault._
 import org.mulesoft.language.outline.structure.structureDefaultInterfaces.Decoration
 import org.mulesoft.typesystem.dialects.extras.{Declaration, RootType}
-import org.mulesoft.typesystem.nominal_interfaces.IDialectUniverse
 
 import scala.collection.mutable
 
@@ -45,67 +44,67 @@ class AMLPlugin extends IStructurePlugin {
 
     val declaresCategoryFilter = new CategoryFilter {
 
-        override def apply(node: IParseResult): Boolean = {
+      override def apply(node: IParseResult): Boolean = {
 
-            if (node.isElement) {
-                if(node.parent.isDefined){
-                    if(node.parent.get.parent.isEmpty) {
-                        node.property.flatMap(_.getExtra(Declaration)).isDefined
-                    }
-                    else {
-                        false//apply(node.parent.get)
-                    }
+        if (node.isElement) {
+          if (node.parent.isDefined) {
+            if (node.parent.get.parent.isEmpty) {
+              node.property.flatMap(_.getExtra(Declaration)).isDefined
+            }
+            else {
+              false //apply(node.parent.get)
+            }
+          }
+          else {
+            false
+          }
+        } else {
+          false
+        }
+      }
+    }
+    result("DeclaresCategory") = declaresCategoryFilter
+
+    val encodesCategoryFilter = new CategoryFilter {
+
+      override def apply(node: IParseResult): Boolean = {
+
+        if (node.isElement) {
+          if (node.parent.isDefined) {
+            if (node.parent.get.parent.isEmpty) {
+              if (node.property.isEmpty) {
+                false
+              }
+              val parentDef = node.parent.get.definition
+              if (parentDef.getExtra(RootType).isDefined) {
+                val domOpt = node.property.get.domain
+                if (domOpt.isEmpty) {
+                  false
                 }
                 else {
-                    false
+                  !domOpt.contains(parentDef)
                 }
-            } else {
-                false
-            }
-        }
-    }
-      result("DeclaresCategory") = declaresCategoryFilter
-
-      val encodesCategoryFilter = new CategoryFilter {
-
-          override def apply(node: IParseResult): Boolean = {
-
-              if (node.isElement) {
-                  if (node.parent.isDefined) {
-                      if(node.parent.get.parent.isEmpty) {
-                          if (node.property.isEmpty) {
-                              false
-                          }
-                          val parentDef = node.parent.get.definition
-                          if (parentDef.getExtra(RootType).isDefined) {
-                              val domOpt = node.property.get.domain
-                              if (domOpt.isEmpty) {
-                                  false
-                              }
-                              else {
-                                  !domOpt.contains(parentDef)
-                              }
-                          }
-                          else {
-                              true
-                          }
-                      }
-                      else {
-                          false //apply(node.parent.get)
-                      }
-                  }
-                  else {
-                      false
-                  }
-
-              } else {
-                  false
               }
+              else {
+                true
+              }
+            }
+            else {
+              false //apply(node.parent.get)
+            }
           }
-      }
-      result("EncodesCategory") = encodesCategoryFilter
+          else {
+            false
+          }
 
-      result
+        } else {
+          false
+        }
+      }
+    }
+    result("EncodesCategory") = encodesCategoryFilter
+
+    result
 
   }
 

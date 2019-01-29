@@ -1,27 +1,18 @@
 package org.mulesoft.language.server.modules.suggestions
 
 import amf.core.remote.{Raml10, Vendor}
-import org.mulesoft.language.common.dtoTypes._
-import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
-import org.mulesoft.language.server.modules.hlastManager.{HLASTmanager, IHLASTListener, IHLASTManagerModule}
-import org.mulesoft.language.server.modules.commonInterfaces.{IAbstractTextEditorWithCursor, IEditorTextBuffer, IPoint}
-import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
-
-import scala.collection.mutable.Buffer
-import scala.collection.mutable.ArrayBuffer
-import scala.concurrent.{Await, Future, Promise}
-import scala.util.{Failure, Success, Try}
-import scala.concurrent.ExecutionContext.Implicits.global
-import org.mulesoft.high.level.Core
-import org.mulesoft.high.level.interfaces.IProject
-import org.mulesoft.language.common.dtoTypes.IStructureReport
 import org.mulesoft.als.suggestions.implementation.CompletionConfig
-import org.mulesoft.als.suggestions.{CompletionProvider, PlatformBasedExtendedFSProvider}
 import org.mulesoft.als.suggestions.interfaces.{ISuggestion, Syntax}
+import org.mulesoft.als.suggestions.{CompletionProvider, PlatformBasedExtendedFSProvider}
 import org.mulesoft.language.server.common.utils.PathRefine
+import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
+import org.mulesoft.language.server.modules.commonInterfaces.IAbstractTextEditorWithCursor
+import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
+import org.mulesoft.language.server.modules.hlastManager.{HLASTmanager, IHLASTManagerModule}
 
-import scala.collection.Map
-import scala.concurrent.duration.Duration
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{Future, Promise}
+import scala.util.{Success, Try}
 
 class SuggestionsManager extends AbstractServerModule {
 
@@ -73,8 +64,8 @@ class SuggestionsManager extends AbstractServerModule {
     org.mulesoft.als.suggestions.Core.init().flatMap { _ =>
       val url = PathRefine.refinePath(_url, platform)
       this.connection.debug(s"Calling for completion for uri ${url} and position ${position}",
-                            "SuggestionsManager",
-                            "onDocumentCompletion")
+        "SuggestionsManager",
+        "onDocumentCompletion")
 
       val editorOption: Option[IAbstractTextEditorWithCursor] =
         this.getEditorManager.getEditor(url)
@@ -88,7 +79,7 @@ class SuggestionsManager extends AbstractServerModule {
 
         val text = org.mulesoft.als.suggestions.Core.prepareText(editor.text, position, syntax)
 
-        val vendorOption   = Vendor.unapply(editor.language)
+        val vendorOption = Vendor.unapply(editor.language)
         val vendor: Vendor = vendorOption.getOrElse(Raml10)
         //      this.connection.debug("Vendor is: " + vendor,
         //        "SuggestionsManager", "onDocumentCompletion")
@@ -113,8 +104,8 @@ class SuggestionsManager extends AbstractServerModule {
               val endTime = System.currentTimeMillis()
 
               this.connection.debugDetail(s"It took ${endTime - startTime} milliseconds to complete",
-                                          "ASTMaSuggestionsManagernager",
-                                          "onDocumentCompletion")
+                "ASTMaSuggestionsManagernager",
+                "onDocumentCompletion")
 
               result
             })

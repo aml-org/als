@@ -11,12 +11,12 @@ class TextEditorInfo(private val uri: String,
                      _text: String,
                      val language: String,
                      val syntax: String,
-//                      private val editorManager: EditorManager,
+                     //                      private val editorManager: EditorManager,
                      private val logger: ILogger)
-    extends IAbstractTextEditorWithCursor {
+  extends IAbstractTextEditorWithCursor {
 
   val _buffer: TextBufferInfo = new TextBufferInfo(uri, logger)
-  var _cursorPosition: Int    = 0
+  var _cursorPosition: Int = 0
 
   this._buffer.setText(_text)
 

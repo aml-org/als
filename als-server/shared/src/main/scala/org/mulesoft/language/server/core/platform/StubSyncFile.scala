@@ -1,10 +1,8 @@
 // $COVERAGE-OFF$
 package org.mulesoft.language.server.core.platform
 
-import org.mulesoft.common.io.{AsyncFile, FileSystem, Id, SyncFile}
+import org.mulesoft.common.io.{AsyncFile, Id, SyncFile}
 import org.mulesoft.language.server.core.connections.IServerConnection
-
-import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
   * Stub for sync file based on connection.
@@ -14,7 +12,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
   * @param url
   */
 class StubSyncFile(connection: IServerConnection, override val fileSystem: ConnectionBasedFS, url: String)
-    extends SyncFile {
+  extends SyncFile {
 
   override def delete: Id[Unit] = ???
 
@@ -70,11 +68,12 @@ class StubSyncFile(connection: IServerConnection, override val fileSystem: Conne
     val lastSeparatorIndex = this.url.lastIndexOf(this.fileSystem.separatorChar)
 
     if (lastSeparatorIndex == -1 || lastSeparatorIndex == 0 ||
-        lastSeparatorIndex >= this.url.length - 1) {
+      lastSeparatorIndex >= this.url.length - 1) {
       ""
     } else {
       this.url.substring(lastSeparatorIndex + 1)
     }
   }
 }
+
 // $COVERAGE-ON$

@@ -45,8 +45,8 @@ class OASPlugin extends IStructurePlugin {
 
       override def apply(node: IParseResult): Boolean = {
 
-          val definition = node.asElement.get.definition
-          if(node.isElement && definition.nameId.isDefined){
+        val definition = node.asElement.get.definition
+        if (node.isElement && definition.nameId.isDefined) {
           val defName = definition.nameId.get
 
           val result = defName == OASDefinitionKeys.PathItemObject ||
@@ -72,7 +72,7 @@ class OASPlugin extends IStructurePlugin {
         */
       override def apply(node: IParseResult): Boolean = {
 
-        if(node.isElement && node.asElement.get.definition.nameId.isDefined){
+        if (node.isElement && node.asElement.get.definition.nameId.isDefined) {
           val defName = node.asElement.get.definition.nameId.get
 
           defName == OASDefinitionKeys.SchemaObject ||
@@ -86,23 +86,11 @@ class OASPlugin extends IStructurePlugin {
     }
     result("SchemasAndTypesCategory") = schemasCategoryFilter
 
-    result("ResourceTypesAndTraitsCategory") = new CategoryFilter {
-      /**
-        * Checks whether current node is applicable to a category
-        */
-      override def apply(node: IParseResult): Boolean = {
-        false
-      }
-    }
+    result("ResourceTypesAndTraitsCategory") = (_: IParseResult) => false
 
-    result("OtherCategory") = new CategoryFilter {
-      /**
-        * Checks whether current node is applicable to a category
-        */
-      override def apply(node: IParseResult): Boolean = {
+    result("OtherCategory") = (node: IParseResult) => {
 
-        !resourcesCategoryFilter.apply(node) && !schemasCategoryFilter.apply(node)
-      }
+      !resourcesCategoryFilter.apply(node) && !schemasCategoryFilter.apply(node)
     }
 
     result

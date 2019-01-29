@@ -1,21 +1,19 @@
 package org.mulesoft.language.test.clientConnection
 
-import org.mulesoft.language.outline.structure.structureInterfaces.{StructureNodeJSON => SharedStructureNode}
 import org.mulesoft.als.suggestions.interfaces.ISuggestion
-import org.mulesoft.language.client.client.IClientConnection
 import org.mulesoft.language.client.client.{AbstractClientConnection, VersionedDocumentManager}
 import org.mulesoft.language.common.dtoTypes._
-import org.mulesoft.language.common.logger.{ILoggerSettings, IPrintlnLogger, MutedLogger, MessageSeverity}
+import org.mulesoft.language.common.logger.MutedLogger
 import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage, ProtocolSeqMessage}
-import org.mulesoft.language.server.common.configuration.IServerConfiguration
+import org.mulesoft.language.outline.structure.structureInterfaces.{StructureNodeJSON => SharedStructureNode}
 import org.mulesoft.language.test.dtoTypes._
 import org.mulesoft.language.test.serverConnection.{NodeMsgTypeMeta, TestServerConnection}
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
-    extends MutedLogger
+  extends MutedLogger
     with MessageDispatcher[ProtocolMessagePayload, NodeMsgTypeMeta]
     with AbstractClientConnection {
 
@@ -54,7 +52,7 @@ class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
     * @param document
     */
   override def documentOpened(document: IOpenedDocument): Unit = {
-    val commonOpenedDocument = this.versionManager.registerOpenedDocument(document);
+    val commonOpenedDocument = this.versionManager.registerOpenedDocument(document)
     commonOpenedDocument.foreach(doc => {
       this.send("OPEN_DOCUMENT", OpenedDocument.sharedToTransport(doc))
     })
@@ -73,7 +71,7 @@ class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
     * @param document
     */
   override def documentChanged(document: IChangedDocument): Unit = {
-    val commonChangeddDocument = this.versionManager.registerChangedDocument(document);
+    val commonChangeddDocument = this.versionManager.registerChangedDocument(document)
     commonChangeddDocument.foreach(doc => {
       this.send("CHANGE_DOCUMENT", ChangedDocument.sharedToTransport(doc))
     })
@@ -181,7 +179,7 @@ class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
     */
   override def getDetails(uri: String, position: Int): Future[IDetailsItem] = {
     Future.successful(null)
-    //this.sendWithResponse("GET_DETAILS", ChangedPosition(uri,position))
+    // this.sendWithResponse("GET_DETAILS", ChangedPosition(uri,position))
   }
 
   /**

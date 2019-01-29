@@ -9,6 +9,7 @@ trait Decorator {
 
   /**
     * Gets node for the icon
+    *
     * @param node
     * @return
     */
@@ -16,6 +17,7 @@ trait Decorator {
 
   /**
     * Gets text style for the icon
+    *
     * @param node
     * @return
     */

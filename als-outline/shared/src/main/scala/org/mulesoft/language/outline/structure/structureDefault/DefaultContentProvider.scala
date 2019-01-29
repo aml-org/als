@@ -3,10 +3,9 @@ package org.mulesoft.language.outline.structure.structureDefault
 import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.language.outline.common.commonInterfaces.{Decorator, KeyProvider, LabelProvider, VisibilityFilter}
 import org.mulesoft.language.outline.structure.structureImpl.StructureBuilder
-import org.mulesoft.language.outline.structure.structureInterfaces.{ContentProvider, StructureConfiguration, StructureNode}
+import org.mulesoft.language.outline.structure.structureInterfaces.{ContentProvider, StructureNode}
 
 import scala.collection.Seq
-import scala.collection.mutable.ArrayBuffer
 
 
 class DefaultContentProvider(visibilityFilter: VisibilityFilter,
@@ -17,30 +16,30 @@ class DefaultContentProvider(visibilityFilter: VisibilityFilter,
   def buildChildren(node: StructureNode): Seq[StructureNode] = {
 
 
-      val source: IParseResult = node.getSource
+    val source: IParseResult = node.getSource
 
-      if (source.isAttr) {
+    if (source.isAttr) {
 
-        Seq.empty
+      Seq.empty
 
-      } else if (source.isElement) {
-
-
-        val sourceChildren = source.children
-
-        val filteredSourceChildren = sourceChildren.filter(child => {
-          !child.isAttr //&& !child.isUnknown
-        })
+    } else if (source.isElement) {
 
 
-        val result = filteredSourceChildren.filter(child=>visibilityFilter.apply(child)).map(child=>{
-          StructureBuilder.hlNodeToStructureNode(child, None, labelProvider, keyProvider, decorators)
-        }).filter(child=>child.text.length > 0)
+      val sourceChildren = source.children
 
-        result
-      } else {
+      val filteredSourceChildren = sourceChildren.filter(child => {
+        !child.isAttr //&& !child.isUnknown
+      })
 
-        Seq.empty
-      }
+
+      val result = filteredSourceChildren.filter(child => visibilityFilter.apply(child)).map(child => {
+        StructureBuilder.hlNodeToStructureNode(child, None, labelProvider, keyProvider, decorators)
+      }).filter(child => child.text.length > 0)
+
+      result
+    } else {
+
+      Seq.empty
     }
+  }
 }

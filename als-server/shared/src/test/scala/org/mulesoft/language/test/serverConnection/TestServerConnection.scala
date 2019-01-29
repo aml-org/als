@@ -1,13 +1,8 @@
 package org.mulesoft.language.test.serverConnection
 
-import org.mulesoft.language.entryPoints.common.{
-  MessageDispatcher,
-  ProtocolMessage => SharedProtocolMessage,
-  ProtocolSeqMessage => SharedProtocolSeqMessage
-}
 import org.mulesoft.language.common.dtoTypes._
-import org.mulesoft.language.common.logger.{IPrintlnLogger, MutedLogger}
-import org.mulesoft.language.entryPoints.common.MessageDispatcher
+import org.mulesoft.language.common.logger.MutedLogger
+import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage => SharedProtocolMessage, ProtocolSeqMessage => SharedProtocolSeqMessage}
 import org.mulesoft.language.server.core.connections.AbstractServerConnection
 import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 import org.mulesoft.language.test.clientConnection.TestClientConnetcion
@@ -18,16 +13,17 @@ import scala.concurrent.Future
 
 //@ScalaJSDefined
 class WrappedPayload { //extends js.Object {
-//  var wrapped: js.Object = null;
+  //  var wrapped: js.Object = null;
 }
+
 //
 //@ScalaJSDefined
 class WrappedMessage { //extends js.Object {
-//  var payload: js.Object = null;
+  //  var payload: js.Object = null;
 }
 
 class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
-    extends MutedLogger
+  extends MutedLogger
     with MessageDispatcher[ProtocolMessagePayload, NodeMsgTypeMeta]
     with AbstractServerConnection {
 
@@ -38,28 +34,28 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
   initialize()
 
   protected def initialize(): Unit = {
-    this.newMeta("EXISTS", Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientBoolResponse", true)));
+    this.newMeta("EXISTS", Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientBoolResponse", true)))
     this.newMeta("READ_DIR",
-                 Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientStringSeqResponse", true)));
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientStringSeqResponse", true)))
     this.newMeta("IS_DIRECTORY",
-                 Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientBoolResponse", true)));
-    this.newMeta("CONTENT", Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientStringResponse", true)));
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientBoolResponse", true)))
+    this.newMeta("CONTENT", Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientStringResponse", true)))
 
     this.newVoidHandler("CHANGE_POSITION",
-                        handleChangedPosition _,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedPosition")));
+      handleChangedPosition _,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedPosition")))
 
     this.newVoidHandler("OPEN_DOCUMENT",
-                        this.handleOpenDocument _,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.OpenedDocument")))
+      this.handleOpenDocument _,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.OpenedDocument")))
 
     this.newVoidHandler("CLOSE_DOCUMENT",
-                        (document: ClosedDocument) => Unit,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClosedDocument", true)));
+      (document: ClosedDocument) => Unit,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClosedDocument", true)))
 
     this.newVoidHandler("CHANGE_DOCUMENT",
-                        this.handleChangedDocument _,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedDocument")))
+      this.handleChangedDocument _,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedDocument")))
 
     this.newFutureHandler(
       "GET_STRUCTURE",
@@ -67,16 +63,16 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
       Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.GetStructureRequest", true, true)))
 
     this.newFutureHandler("RENAME",
-                          this.handleRename _,
-                          Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.RenameRequest")))
+      this.handleRename _,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.RenameRequest")))
 
     this.newVoidHandler("SET_LOGGER_CONFIGURATION",
-                        this.handleSetLoggerConfiguration _,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.LoggerSettings")))
+      this.handleSetLoggerConfiguration _,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.LoggerSettings")))
 
     this.newFutureHandler("GET_SUGGESTIONS",
-                          this.handleGetSuggestions _,
-                          Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.GetCompletionRequest")))
+      this.handleGetSuggestions _,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.GetCompletionRequest")))
 
     this.newFutureHandler[FindDeclarationRequest, LocationsResponse](
       "OPEN_DECLARATION",
@@ -85,7 +81,7 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
           .head(request.uri, request.position)
           .map(result => new LocationsResponse(result.map(location => Location.sharedToTransport(location)))),
       Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.FindDeclarationRequest"))
-    );
+    )
 
     this.newFutureHandler[FindReferencesRequest, LocationsResponse](
       "FIND_REFERENCES",
@@ -94,19 +90,19 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
           .head(request.uri, request.position)
           .map(result => new LocationsResponse(result.map(location => Location.sharedToTransport(location)))),
       Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.FindReferencesRequest"))
-    );
+    )
   }
 
-//  protected def internalSendJSONMessage(message: js.Object): Unit = {
-//
-//    if(message.hasOwnProperty("payload") && message.asInstanceOf[WrappedMessage].payload.hasOwnProperty("wrapped")) {
-//      var payload = message.asInstanceOf[WrappedMessage].payload.asInstanceOf[WrappedPayload];
-//
-//      message.asInstanceOf[WrappedMessage].payload = payload.wrapped;
-//    }
-//
-//    Globals.process.send(message);
-//  }
+  //  protected def internalSendJSONMessage(message: js.Object): Unit = {
+  //
+  //    if(message.hasOwnProperty("payload") && message.asInstanceOf[WrappedMessage].payload.hasOwnProperty("wrapped")) {
+  //      var payload = message.asInstanceOf[WrappedMessage].payload.asInstanceOf[WrappedPayload]
+  //
+  //      message.asInstanceOf[WrappedMessage].payload = payload.wrapped
+  //    }
+  //
+  //    Globals.process.send(message)
+  //  }
 
   def handleChangedPosition(changedPosition: ChangedPosition): Unit = {}
 
@@ -170,6 +166,7 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
 
   /**
     * Reports new calculated structure when available.
+    *
     * @param report - structure report.
     */
   def structureAvailable(report: IStructureReport): Unit = {
@@ -190,7 +187,7 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
     *
     * @param path
     */
-  override def exists(path: String): Future[Boolean] = FS.exists(path);
+  override def exists(path: String): Future[Boolean] = FS.exists(path)
 
   /**
     * Returns directory content list.
@@ -228,7 +225,7 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
       FS.content(fullPath)
     }
 
-  };
+  }
 
   /**
     * Adds a listener to document details request. Must notify listeners in order of registration.
@@ -271,6 +268,7 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
     * Not intended to be called directly, instead is being used by
     * send() and sendWithResponse() methods
     * Called by the trait.
+    *
     * @param message - message to send
     */
   def internalSendSeqMessage(message: SharedProtocolSeqMessage[ProtocolMessagePayload]): Unit = {
@@ -286,6 +284,6 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
   }
 
   def rename(uri: String, position: Int, newName: String): Future[Seq[IChangedDocument]] = {
-    renameListeners.head(uri, position, newName);
+    renameListeners.head(uri, position, newName)
   }
 }

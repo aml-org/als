@@ -3,7 +3,7 @@ package org.mulesoft.language.server.modules.suggestions
 
 import org.mulesoft.als.suggestions.interfaces.IEditorStateProvider
 
-class EditorStateProvider(text:String,path:String,baseName:String,offset:Int) extends IEditorStateProvider{
+class EditorStateProvider(text: String, path: String, baseName: String, offset: Int) extends IEditorStateProvider {
 
   override def getText: String = text
 

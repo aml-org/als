@@ -5,7 +5,7 @@ import org.mulesoft.language.outline.structure.structureInterfaces.{StructureNod
 
 import scala.collection.mutable.ArrayBuffer
 
-class StructureNodeImpl (private var hlSource: IParseResult) extends StructureNode {
+class StructureNodeImpl(private var hlSource: IParseResult) extends StructureNode {
 
   var text: String = ""
   var typeText: Option[String] = Some("")
@@ -34,7 +34,7 @@ class StructureNodeImpl (private var hlSource: IParseResult) extends StructureNo
 
       override def start: Int = instance.start
 
-      override def children: Seq[StructureNodeJSON] = instance.children.map(child=>child.toJSON)
+      override def children: Seq[StructureNodeJSON] = instance.children.map(child => child.toJSON)
 
       override def typeText: Option[String] = instance.typeText
 

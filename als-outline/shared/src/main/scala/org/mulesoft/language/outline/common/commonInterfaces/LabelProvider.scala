@@ -10,12 +10,14 @@ trait LabelProvider {
 
   /**
     * Gets label (text) for a high-level node.
+    *
     * @param node
     */
   def getLabelText(node: IParseResult): String
 
   /**
     * Gets type text for a high-level node.
+    *
     * @param node
     */
   def getTypeText(node: IParseResult): Option[String]

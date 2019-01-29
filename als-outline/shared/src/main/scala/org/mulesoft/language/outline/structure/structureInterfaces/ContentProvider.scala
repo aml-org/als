@@ -8,6 +8,7 @@ trait ContentProvider {
 
   /**
     * Builds node children
+    *
     * @param node
     * @return
     */
