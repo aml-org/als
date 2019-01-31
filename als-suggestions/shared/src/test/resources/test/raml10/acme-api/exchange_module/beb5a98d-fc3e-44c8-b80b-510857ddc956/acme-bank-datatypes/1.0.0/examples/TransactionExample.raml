@@ -1,0 +1,47 @@
+#%RAML 1.0 NamedExample
+value:
+  transactionID: b05f550d-1915-4def
+  fromAccount:
+    accountID: '12345'
+    accountType: Savings
+    accountNumber: '1234567890'
+    accountOwner:
+      -
+        customerID: 8f19cb50-3f57-4d38
+        displayName: John Doe
+        ssn: 123-456-7890
+    accountBalance: 
+      currency: USD
+      amount: '8457.90'
+    IBAN: GB29NWBK60161331926820
+    bank:
+      bankCode: NWBKGB2L
+      bankName: ACME Bank
+      routingNumber: '432159876'
+    createdAt: 2012-03-07T00:00:00.001Z                    
+  toAccount:
+    accountID: '56437'
+    accountType: Credit Card
+    accountNumber: '4321987650'
+    accountOwner:
+      -
+        customerID: 8f19cb50-3f57-4d38
+        displayName: John Doe
+        ssn: 123-456-7890
+    IBAN: GB29NWBK60161331926820
+    bank:
+      bankCode: NWBKGB2L
+      bankName: ACME Bank
+      routingNumber: '432159876'
+    accountBalance:
+      currency: USD
+      amount: '698.00'
+    createdAt: 2012-03-07T00:00:00.001Z               
+  transactionType: online
+  transactionAmount:
+    currency: USD
+    amount: '70.00'
+  newAccountBalance:
+    currency: USD
+    amount: '8387.90'
+  postedAt: 2012-06-07T00:00:00.001Z  

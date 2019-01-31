@@ -1,0 +1,179 @@
+#%RAML 1.0
+version: v2
+baseUri: https://mocksvc.mulesoft.com/mocks/a6cfff46-feb0-4775-8a01-2c1b91472d88 # 
+title: ACME Bank API
+
+documentation: 
+  - title: Overview
+    content: |
+      This is the ACME Bank API that allows to manipulate banking objects.
+      These objects include:
+      - Customers
+      - Accounts
+      - Transactions
+  - !include docs/Customer.raml
+
+types:
+  CustomErrorMessage: !include datatypes/CustomErrorMessage.raml
+  Customer: !include datatypes/Customer.raml
+  Account: !include exchange_module/beb5a98d-fc3e-44c8-b80b-510857ddc956/acme-bank-datatypes/1.0.0/datatypes/Account.raml
+  Transaction: !include exchange_module/beb5a98d-fc3e-44c8-b80b-510857ddc956/acme-bank-datatypes/1.0.0/datatypes/Transaction.raml
+
+traits: 
+  cacheable: !include traits/Cacheable.raml
+  withAcceptHeader: !include traits/WithAcceptHeader.raml
+
+resourceTypes: 
+  collection: !include resourcetypes/Collection.raml
+  member: !include resourcetypes/Member.raml
+
+uses:
+  traitsLib: libs/TraitsLib.raml
+
+securitySchemes: 
+  custom: !include securityschemes/Custom.raml
+  oauth2_0: !include exchange_module/68ef9520-24e9-4cf2-b2f5-620025690913/training-oauth20-security-scheme/1.0.1/OAuth2.raml
+
+/queue:
+  /{queue_id}:
+    /status:
+      *
+      get:
+        responses:
+          200:
+            body:
+              application/json:
+                example:
+                  status: working
+          303:
+            headers:
+              Location:
+                example: /customers/54321
+            body:
+              application/json:
+                example:
+                  status: completed
+
+/customers:
+  description: Retrieve and manipulate customers
+  displayName: Customers
+  type: 
+    collection:
+      item: Customer
+      itemsExample: !include examples/CustomersExample.raml
+      itemExample: !include examples/CustomerExample.raml
+  get:
+    description: Retrieves all customers
+    is:
+      - cacheable:
+      - withAcceptHeader:
+          errorItem: CustomErrorMessage
+      - traitsLib.pageable
+    #securedBy: oauth2_0
+
+  post:
+    responses: 
+      202:
+        headers:
+          Location:
+            example: /queue/1234/status
+        body:
+          application/json:
+            example:
+              status: accepted
+
+  /{customer_id}:
+    type:
+      member:
+        item: Customer
+        itemExample: !include examples/CustomerExample.raml
+        errorItem: CustomErrorMessage
+    get:
+      is:
+        - withAcceptHeader:
+            errorItem: CustomErrorMessage              
+    delete:
+    patch:
+      body: 
+        application/json:
+          type: Customer
+          example: !include examples/CustomerExample.raml
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                message: Updated successfully the customer
+
+    /accounts:
+      type:
+        collection:
+          item: Account
+          itemsExample: !include examples/AccountsExample.raml
+          itemExample: !include exchange_module/beb5a98d-fc3e-44c8-b80b-510857ddc956/acme-bank-datatypes/1.0.0/examples/AccountExample.raml
+      get:
+        is:
+          - cacheable:
+          - withAcceptHeader:
+              errorItem: CustomErrorMessage
+
+/accounts:
+  type:
+    collection:
+      item: Account
+      itemsExample: !include examples/AccountsExample.raml
+      itemExample: !include exchange_module/beb5a98d-fc3e-44c8-b80b-510857ddc956/acme-bank-datatypes/1.0.0/examples/AccountExample.raml
+  post:
+
+  /{account_id}:
+    type:
+      member:
+        item: Account
+        itemExample: !include exchange_module/beb5a98d-fc3e-44c8-b80b-510857ddc956/acme-bank-datatypes/1.0.0/examples/AccountExample.raml
+        errorItem: CustomErrorMessage
+    get:
+    delete:
+    put:
+      body: 
+        application/json:
+          type: Account
+          example: !include exchange_module/beb5a98d-fc3e-44c8-b80b-510857ddc956/acme-bank-datatypes/1.0.0/examples/AccountExample.raml
+      responses: 
+        200:
+          body: 
+            application/json:
+              example:
+                message: Updated successfully the account
+        201:
+          body: 
+            application/json:
+              example:
+                message: Created successfully the account          
+
+    /transactions:
+      type: 
+        collection:
+          item: Transaction
+          itemsExample: !include examples/TransactionsExample.raml
+          itemExample: !include exchange_module/beb5a98d-fc3e-44c8-b80b-510857ddc956/acme-bank-datatypes/1.0.0/examples/TransactionExample.raml
+      get:
+        is:
+          - cacheable:
+          - withAcceptHeader:
+              errorItem: CustomErrorMessage
+
+/transactions:
+  type: 
+    collection:
+      item: Transaction
+      itemsExample: !include examples/TransactionsExample.raml
+      itemExample: !include exchange_module/beb5a98d-fc3e-44c8-b80b-510857ddc956/acme-bank-datatypes/1.0.0/examples/TransactionExample.raml
+  post:
+
+  /{transaction_id}:
+    type:
+      member:
+        item: Transaction
+        itemExample: !include exchange_module/beb5a98d-fc3e-44c8-b80b-510857ddc956/acme-bank-datatypes/1.0.0/examples/TransactionExample.raml
+        errorItem: CustomErrorMessage
+    get:
