@@ -14,7 +14,7 @@ class UsesCompletionPlugin extends ICompletionPlugin {
 
   override def languages: Seq[Vendor] = UsesCompletionPlugin.supportedLanguages;
 
-  override def isApplicable(request:ICompletionRequest): Boolean = request.config.astProvider match {
+  override def isApplicable(request: ICompletionRequest): Boolean = request.config.astProvider match {
     case Some(astProvider) => {
       val result = languages.indexOf(astProvider.language) >= 0 && isUses(request)
       result
@@ -30,21 +30,21 @@ class UsesCompletionPlugin extends ICompletionPlugin {
     val relativePath = request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar].text
 
     if (!relativePath.endsWith(request.prefix)) {
-        val suggestions = Seq[ISuggestion]()
-        val response = CompletionResponse(suggestions, LocationKind.KEY_COMPLETION, request)
-        Promise.successful(response).future
+      val suggestions = Seq[ISuggestion]()
+      val response    = CompletionResponse(suggestions, LocationKind.KEY_COMPLETION, request)
+      Promise.successful(response).future
     } else {
 
       val diff = relativePath.length - request.prefix.length
 
-      PathCompletion.complete(baseDir, relativePath, request.config.fsProvider.get)
-        .map(paths=>{
-          var suggestions = paths.map(path=>{
+      PathCompletion
+        .complete(baseDir, relativePath, request.config.platform)
+        .map(paths => {
+          var suggestions = paths.map(path => {
 
-            val pathStartingWithPrefix = if(diff != 0) path.substring(diff) else path
+            val pathStartingWithPrefix = if (diff != 0) path.substring(diff) else path
 
-            Suggestion(pathStartingWithPrefix, "RAML library path",
-              pathStartingWithPrefix, request.prefix)
+            Suggestion(pathStartingWithPrefix, "RAML library path", pathStartingWithPrefix, request.prefix)
           })
           CompletionResponse(suggestions, LocationKind.VALUE_COMPLETION, request)
         })
@@ -52,15 +52,15 @@ class UsesCompletionPlugin extends ICompletionPlugin {
   }
 
   def isUses(request: ICompletionRequest): Boolean = {
-      request.astNode.isDefined && request.astNode.get.isElement &&
-      request.astNode.get.asElement.get.definition.isAssignableFrom("LibraryBase") &&
-      request.actualYamlLocation.isDefined &&
-      request.actualYamlLocation.get.parentStack.length >= 3 &&
-      request.actualYamlLocation.get.parentStack(2).keyValue.isDefined &&
-      request.actualYamlLocation.get.parentStack(2).keyValue.get.yPart.isInstanceOf[YScalar] &&
-      request.actualYamlLocation.get.parentStack(2).keyValue.get.yPart.asInstanceOf[YScalar].text == "uses" &&
-      request.actualYamlLocation.get.value.isDefined &&
-      request.actualYamlLocation.get.value.get.yPart.isInstanceOf[YScalar]
+    request.astNode.isDefined && request.astNode.get.isElement &&
+    request.astNode.get.asElement.get.definition.isAssignableFrom("LibraryBase") &&
+    request.actualYamlLocation.isDefined &&
+    request.actualYamlLocation.get.parentStack.length >= 3 &&
+    request.actualYamlLocation.get.parentStack(2).keyValue.isDefined &&
+    request.actualYamlLocation.get.parentStack(2).keyValue.get.yPart.isInstanceOf[YScalar] &&
+    request.actualYamlLocation.get.parentStack(2).keyValue.get.yPart.asInstanceOf[YScalar].text == "uses" &&
+    request.actualYamlLocation.get.value.isDefined &&
+    request.actualYamlLocation.get.value.get.yPart.isInstanceOf[YScalar]
 
   }
 }

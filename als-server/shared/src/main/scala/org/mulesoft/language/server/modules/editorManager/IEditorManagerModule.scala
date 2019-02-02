@@ -17,7 +17,7 @@ trait IEditorManagerModule extends IServerIOCModule {
     * @param uri
     * @return
     */
-  def getEditor(uri: String): Option[IAbstractTextEditorWithCursor]
+  def getEditor(uri: String): Option[TextEditorInfo]
 
   /**
     * Subscribes to document changes (including initial open document event)

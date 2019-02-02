@@ -79,13 +79,13 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
   //    }
   //  }
 
-  def getEditor(_uri: String): Option[IAbstractTextEditorWithCursor] = {
+  def getEditor(_uri: String): Option[TextEditorInfo] = {
     var uri = _uri
     uri = PathRefine.refinePath(uri, platform)
     this.connection.debugDetail(s"Asked for uri $uri, while having following editors registered: " +
-      this.uriToEditor.keys.mkString(","),
-      "EditorManager",
-      "onOpenDocument")
+                                  this.uriToEditor.keys.mkString(","),
+                                "EditorManager",
+                                "onOpenDocument")
 
     val directResult = this.uriToEditor.get(uri)
 
@@ -98,7 +98,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
 
       if (uri.startsWith("file:///") || uri.startsWith("FILE:///")) {
         val path: String = uri.substring("file:///".length).replace("%5C", "\\")
-        val result = this.uriToEditor.get(path)
+        val result       = this.uriToEditor.get(path)
         if (result.isDefined) {
           found = result
         }
@@ -106,7 +106,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
 
       if (found.isEmpty) {
         val path: String = uri.substring("file://".length).replace("%5C", "\\")
-        val result = this.uriToEditor.get(path)
+        val result       = this.uriToEditor.get(path)
         if (result.isDefined) {
           found = result
         }
@@ -124,7 +124,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
     this.connection.debug("Document is opened", "EditorManager", "onOpenDocument")
 
     val language = this.determineLanguage(document.uri, document.text)
-    val syntax = this.determineSyntax(document.uri, document.text)
+    val syntax   = this.determineSyntax(document.uri, document.text)
 
     this.uriToEditor(PathRefine.refinePath(document.uri, platform)) =
       new TextEditorInfo(document.uri, document.version, document.text, language, syntax, /*this,*/ this.connection)
@@ -155,7 +155,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
     this.connection.debugDetail("Text is:\n " + document.text, "EditorManager", "onChangeDocument")
 
     val refinedUri = PathRefine.refinePath(document.uri, platform)
-    val current = this.uriToEditor.get(refinedUri)
+    val current    = this.uriToEditor.get(refinedUri)
 
     if (current.isDefined) {
       val currentVersion = current.get.version
@@ -164,8 +164,8 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
 
       if (currentVersion == document.version) {
         this.connection.debugDetail("Version of the reported change is equal to the previous one",
-          "EditorManager",
-          "onChangeDocument")
+                                    "EditorManager",
+                                    "onChangeDocument")
 
         return
       }
@@ -178,7 +178,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
     }
 
     val language = this.determineLanguage(refinedUri, document.text.get)
-    val syntax = this.determineSyntax(refinedUri, document.text.get)
+    val syntax   = this.determineSyntax(refinedUri, document.text.get)
 
     this.uriToEditor(refinedUri) =
       new TextEditorInfo(refinedUri, document.version, document.text.get, language, syntax, this.connection)

@@ -121,22 +121,9 @@ class HLASTmanager extends AbstractServerModule with IHLASTManagerModule {
     val current = this.currentASTs.get(uri)
 
     if (current.isDefined) {
-
       Future.successful(current.get)
     } else {
-      var result = Promise[IProject]()
-
-      getASTManager
-        .forceGetCurrentAST(uri)
-        .map(hlFromAST(_) andThen {
-          case Success(project) => {
-            result.success(project)
-          }
-
-          case Failure(error) => result.failure(error)
-        })
-
-      result.future
+      getASTManager.forceGetCurrentAST(uri).flatMap(hlFromAST)
     }
   }
 

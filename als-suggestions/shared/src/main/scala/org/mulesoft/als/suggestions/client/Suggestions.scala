@@ -4,12 +4,18 @@ import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote._
 import amf.internal.environment.Environment
-import org.mulesoft.als.suggestions.implementation.{CompletionConfig, DummyASTProvider, DummyEditorStateProvider, EmptyASTProvider}
+import org.mulesoft.als.suggestions.implementation.{
+  CompletionConfig,
+  DummyASTProvider,
+  DummyEditorStateProvider,
+  EmptyASTProvider
+}
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
-import org.mulesoft.als.suggestions.{CompletionProvider, Core, PlatformBasedExtendedFSProvider}
+import org.mulesoft.als.suggestions.{CompletionProvider, Core}
 import org.mulesoft.high.level.InitOptions
 import org.mulesoft.high.level.amfmanager.ParserHelper
+import org.mulesoft.high.level.implementation.AlsPlatform
 import org.mulesoft.high.level.interfaces.IProject
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -23,16 +29,16 @@ object Suggestions {
               position: Int,
               environment: Environment,
               platform: AlsPlatform): Future[Seq[Suggestion]] = {
-
     platform
       .resolve(url, environment)
       .map(content => {
-        val originalContent = content.stream.toString
+        val originalContent      = content.stream.toString
         val (_, patchedPlatform) = patchContent(platform, url, originalContent, position)
         (originalContent, patchedPlatform)
       })
-      .flatMap { case (originalContent, patchedPlatform) =>
-        suggestWithPatchedPlatform(language, url, originalContent, position, patchedPlatform)
+      .flatMap {
+        case (originalContent, patchedPlatform) =>
+          suggestWithPatchedPlatform(language, url, originalContent, position, patchedPlatform)
       }
   }
 
@@ -43,7 +49,8 @@ object Suggestions {
                                          patchedPlatform: AlsPlatform): Future[Seq[Suggestion]] = {
     val config = this.buildParserConfig(language, url)
 
-    val completionProviderFuture: Future[CompletionProvider] = this.amfParse(config, patchedPlatform.defaultEnvironment, patchedPlatform)
+    val completionProviderFuture: Future[CompletionProvider] = this
+      .amfParse(config, patchedPlatform.defaultEnvironment, patchedPlatform)
       .flatMap(this.buildHighLevel(_, patchedPlatform))
       .map(this.buildCompletionProvider(_, url, position, originalContent, patchedPlatform))
       .recoverWith {
@@ -57,16 +64,17 @@ object Suggestions {
 
     completionProviderFuture
       .flatMap(_.suggest)
-      .map(suggestions =>
-        suggestions.map(suggestion =>
-          new Suggestion(
-            text = suggestion.text,
-            description = suggestion.description,
-            displayText = suggestion.displayText,
-            prefix = suggestion.prefix,
-            category = suggestion.category
-          ))
-      )
+      .map(
+        suggestions =>
+          suggestions.map(
+            suggestion =>
+              new Suggestion(
+                text = suggestion.text,
+                description = suggestion.description,
+                displayText = suggestion.displayText,
+                prefix = suggestion.prefix,
+                category = suggestion.category
+            )))
       .map(suggestions => suggestions)
   }
 
@@ -84,14 +92,17 @@ object Suggestions {
   def amfParse(config: ParserConfig, environment: Environment, platform: Platform): Future[BaseUnit] =
     ParserHelper(platform).parse(config, environment)
 
-  def patchContent(platform: AlsPlatform, fileUrl: String, fileContentsStr: String, position: Int): (String, AlsPlatform) = {
-    val patchedContent = Core.prepareText(fileContentsStr, position, YAML)
+  def patchContent(platform: AlsPlatform,
+                   fileUrl: String,
+                   fileContentsStr: String,
+                   position: Int): (String, AlsPlatform) = {
+    val patchedContent       = Core.prepareText(fileContentsStr, position, YAML)
     val platformWithOverride = platform.withOverride(fileUrl, patchedContent)
 
     (patchedContent, platformWithOverride)
   }
 
-  def buildHighLevel(model: BaseUnit, platform: Platform): Future[IProject] = {
+  def buildHighLevel(model: BaseUnit, platform: AlsPlatform): Future[IProject] = {
     org.mulesoft.high.level.Core.buildModel(model, platform)
   }
 
@@ -99,7 +110,7 @@ object Suggestions {
                               url: String,
                               position: Int,
                               originalContent: String,
-                              platform: Platform): CompletionProvider = {
+                              platform: AlsPlatform): CompletionProvider = {
 
     val rootUnit = project.rootASTUnit
 
@@ -108,35 +119,31 @@ object Suggestions {
     val baseName = url.substring(url.lastIndexOf('/') + 1)
 
     val editorStateProvider = new DummyEditorStateProvider(rootUnit.text, url, baseName, position)
-
-    val platformFSProvider = new PlatformBasedExtendedFSProvider(platform)
-
-    val completionConfig = new CompletionConfig()
+    val completionConfig = new CompletionConfig(platform)
       .withAstProvider(astProvider)
       .withEditorStateProvider(editorStateProvider)
-      .withFsProvider(platformFSProvider)
       .withOriginalContent(originalContent)
 
     CompletionProvider().withConfig(completionConfig)
   }
 
-  def buildCompletionProviderNoAST(text: String, url: String, position: Int, platform: Platform): CompletionProvider = {
+  def buildCompletionProviderNoAST(text: String,
+                                   url: String,
+                                   position: Int,
+                                   platform: AlsPlatform): CompletionProvider = {
 
     val baseName = url.substring(url.lastIndexOf('/') + 1)
 
     val editorStateProvider = new DummyEditorStateProvider(text, url, baseName, position)
 
     val trimmed = text.trim
-    val vendor = if (trimmed.startsWith("#%RAML")) Raml10 else Oas20
-    val syntax = if (trimmed.startsWith("{") || trimmed.startsWith("[")) Syntax.JSON else Syntax.YAML
+    val vendor  = if (trimmed.startsWith("#%RAML")) Raml10 else Oas20
+    val syntax  = if (trimmed.startsWith("{") || trimmed.startsWith("[")) Syntax.JSON else Syntax.YAML
 
     val astProvider = new EmptyASTProvider(vendor, syntax)
 
-    val platformFSProvider = new PlatformBasedExtendedFSProvider(platform)
-
-    val completionConfig = new CompletionConfig()
+    val completionConfig = new CompletionConfig(platform)
       .withEditorStateProvider(editorStateProvider)
-      .withFsProvider(platformFSProvider)
       .withAstProvider(astProvider)
       .withOriginalContent(text)
 

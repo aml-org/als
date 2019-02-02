@@ -10,8 +10,8 @@ import amf.plugins.document.vocabularies.model.document.{
   DialectInstanceLibrary
 }
 import org.mulesoft.high.level.dialect.DialectProjectBuilder
-import org.mulesoft.high.level.implementation.{ASTUnit, Project}
-import org.mulesoft.high.level.interfaces.{IFSProvider, IProject}
+import org.mulesoft.high.level.implementation.{ASTUnit, AlsPlatform, Project}
+import org.mulesoft.high.level.interfaces.{DirectoryResolver, IProject}
 import org.mulesoft.high.level.typesystem.TypeBuilder
 import org.mulesoft.typesystem.project._
 
@@ -20,16 +20,16 @@ import scala.collection.{Map, mutable}
 
 object ProjectBuilder {
 
-  def buildProject(rootUnit: BaseUnit, fsResolver: IFSProvider): IProject = {
+  def buildProject(rootUnit: BaseUnit, alsPlatform: AlsPlatform): IProject = {
     rootUnit match {
-      case di: DialectInstance          => DialectProjectBuilder.getInstance.buildProject(di, fsResolver)
-      case dil: DialectInstanceLibrary  => DialectProjectBuilder.getInstance.buildProject(dil, fsResolver)
-      case dif: DialectInstanceFragment => DialectProjectBuilder.getInstance.buildProject(dif, fsResolver)
-      case _                            => buildProjectInternal(rootUnit, fsResolver)
+      case di: DialectInstance          => DialectProjectBuilder.getInstance.buildProject(di, alsPlatform)
+      case dil: DialectInstanceLibrary  => DialectProjectBuilder.getInstance.buildProject(dil, alsPlatform)
+      case dif: DialectInstanceFragment => DialectProjectBuilder.getInstance.buildProject(dif, alsPlatform)
+      case _                            => buildProjectInternal(rootUnit, alsPlatform)
     }
   }
 
-  def buildProjectInternal(rootUnit: BaseUnit, fsResolver: IFSProvider): IProject = {
+  def buildProjectInternal(rootUnit: BaseUnit, alsPlatform: AlsPlatform): IProject = {
 
     var formatOpt = determineFormat(rootUnit)
     if (formatOpt.isEmpty) {
@@ -40,7 +40,7 @@ object ProjectBuilder {
       case Some(factory) =>
         var units    = listUnits(rootUnit)
         var bundle   = TypeBuilder.buildTypes(units, factory)
-        var project  = Project(bundle, format, fsResolver)
+        var project  = Project(bundle, format, alsPlatform)
         var astUnits = createASTUnits(units, bundle, project)
         astUnits.values.foreach(project.addUnit)
         initASTUnits(astUnits, bundle, factory)

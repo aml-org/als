@@ -3,7 +3,8 @@ package org.mulesoft.language.server.modules.suggestions
 import amf.core.remote.{Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.CompletionConfig
 import org.mulesoft.als.suggestions.interfaces.{ISuggestion, Syntax}
-import org.mulesoft.als.suggestions.{CompletionProvider, PlatformBasedExtendedFSProvider}
+import org.mulesoft.als.suggestions.{CompletionProvider}
+import org.mulesoft.high.level.implementation.AlsPlatform
 import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.commonInterfaces.IAbstractTextEditorWithCursor
@@ -64,8 +65,8 @@ class SuggestionsManager extends AbstractServerModule {
     org.mulesoft.als.suggestions.Core.init().flatMap { _ =>
       val url = PathRefine.refinePath(_url, platform)
       this.connection.debug(s"Calling for completion for uri ${url} and position ${position}",
-        "SuggestionsManager",
-        "onDocumentCompletion")
+                            "SuggestionsManager",
+                            "onDocumentCompletion")
 
       val editorOption: Option[IAbstractTextEditorWithCursor] =
         this.getEditorManager.getEditor(url)
@@ -79,7 +80,7 @@ class SuggestionsManager extends AbstractServerModule {
 
         val text = org.mulesoft.als.suggestions.Core.prepareText(editor.text, position, syntax)
 
-        val vendorOption = Vendor.unapply(editor.language)
+        val vendorOption   = Vendor.unapply(editor.language)
         val vendor: Vendor = vendorOption.getOrElse(Raml10)
         //      this.connection.debug("Vendor is: " + vendor,
         //        "SuggestionsManager", "onDocumentCompletion")
@@ -95,7 +96,7 @@ class SuggestionsManager extends AbstractServerModule {
         //        "SuggestionsManager", "onDocumentCompletion")
 
         this
-          .buildCompletionProviderAST(text, editor.text, url, position, vendor, syntax)
+          .buildCompletionProviderAST(text, editor.text, url, position, vendor, syntax, AlsPlatform.default) // todo find a way to instanciate some platform usings als protocol (initialization maybe?)
           .flatMap(provider => {
 
             provider.suggest.map(result => {
@@ -104,8 +105,8 @@ class SuggestionsManager extends AbstractServerModule {
               val endTime = System.currentTimeMillis()
 
               this.connection.debugDetail(s"It took ${endTime - startTime} milliseconds to complete",
-                "ASTMaSuggestionsManagernager",
-                "onDocumentCompletion")
+                                          "ASTMaSuggestionsManagernager",
+                                          "onDocumentCompletion")
 
               result
             })
@@ -121,7 +122,8 @@ class SuggestionsManager extends AbstractServerModule {
                                  url: String,
                                  position: Int,
                                  vendor: Vendor,
-                                 syntax: Syntax): Future[CompletionProvider] = {
+                                 syntax: Syntax,
+                                 platform: AlsPlatform): Future[CompletionProvider] = {
 
     this.getHLASTManager
       .forceBuildNewAST(url, text)
@@ -133,12 +135,9 @@ class SuggestionsManager extends AbstractServerModule {
 
         val editorStateProvider = new EditorStateProvider(text, url, baseName, position)
 
-        val platformFSProvider = new PlatformBasedExtendedFSProvider(this.platform)
-
-        val completionConfig = new CompletionConfig()
+        val completionConfig = new CompletionConfig(platform)
           .withEditorStateProvider(editorStateProvider)
           .withAstProvider(astProvider)
-          .withFsProvider(platformFSProvider)
           .withOriginalContent(unmodifiedContent)
 
         CompletionProvider().withConfig(completionConfig)
