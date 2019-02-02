@@ -2,9 +2,12 @@ package org.mulesoft.language.server.modules.astManager
 
 import java.io.{PrintWriter, StringWriter}
 
+import amf.client.remote.Content
 import amf.core.AMF
 import amf.core.client.ParserConfig
+import amf.core.lexer.CharSequenceStream
 import amf.core.model.document.BaseUnit
+import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
@@ -14,7 +17,7 @@ import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IOpenedDocument}
 import org.mulesoft.language.server.common.reconciler.Reconciler
 import org.mulesoft.language.server.core.platform.ProxyContentPlatform
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
-import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
+import org.mulesoft.language.server.modules.editorManager.{IEditorManagerModule, TextEditorInfo}
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
@@ -69,24 +72,13 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
   }
 
   def init(): Future[Unit] = {
-
-    val promise = Promise[Unit]()
-
-    if (initialized) {
-      promise.success()
-    } else {
+    if (initialized) Future.successful(Unit)
+    else {
       amfInit().map(_ => {
         initialized = true
-
-        promise.success()
+        Unit
       })
     }
-
-    promise.future
-
-  } recoverWith {
-    case _: Throwable => Future.successful()
-    case _ => Future.successful()
   }
 
   def amfInit(): Future[Unit] = {
@@ -115,37 +107,35 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
   }
 
   def forceGetCurrentAST(uri: String): Future[BaseUnit] = {
-    val current = this.currentASTs.get(uri)
+    this.currentASTs.get(uri) match {
+      case Some(current) => Future.successful(current)
+      case _ =>
+        val editorOption = this.getEditorManager.getEditor(uri)
 
-    if (current.isDefined) {
-      Future.successful(current.get)
-    } else {
-      val editorOption = this.getEditorManager.getEditor(uri)
+        if (editorOption.isDefined) {
 
-      if (editorOption.isDefined) {
-
-        var promise = Promise[BaseUnit]()
-
-        this
-          .init()
-          .map(_ => {
-
-            this.parse(uri).andThen {
-              case Success(result) =>
+          this
+            .init()
+            .flatMap(_ => {
+              this.parse(uri, editorOption.map(loaderFromEditor)).map { result =>
                 this.registerNewAST(uri, 0, result)
-                promise.success(result)
-
-              case Failure(throwable) => promise.failure(throwable)
-            }
-
-          })
-
-        promise.future
-      } else {
-        Future.failed(new Exception("No editor found for uri " + uri))
-      }
+                result
+              }
+            })
+        } else {
+          Future.failed(new Exception("No editor found for uri " + uri))
+        }
     }
 
+  }
+
+  private def loaderFromEditor(textEditor: TextEditorInfo) = {
+    new ResourceLoader {
+      override def fetch(resource: String): Future[Content] =
+        Future(Content(new CharSequenceStream(resource, textEditor._buffer.text), resource))
+
+      override def accepts(resource: String): Boolean = platform.resolvePath(textEditor.path) == resource
+    }
   }
 
   def onNewASTAvailable(listener: IASTListener, unsubscribe: Boolean = false): Unit = {
@@ -247,14 +237,15 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
       })
   }
 
-  def parse(uri: String): Future[BaseUnit] = {
+  def parse(uri: String, loaderOpt: Option[ResourceLoader] = None): Future[BaseUnit] = {
 
     val language = getEditorManager.getEditor(uri).map(_.language).getOrElse("OAS 2.0")
 
     val protocolUri = this.platform.resolvePath(uri)
     this.connection.debugDetail(s"Protocol uri is $protocolUri", "ASTManager", "parse")
 
-    var cfg = new ParserConfig(
+    val env = loaderOpt.map(this.platform.defaultEnvironment.add(_)).getOrElse(this.platform.defaultEnvironment)
+    val cfg = new ParserConfig(
       Some(ParserConfig.PARSE),
       Some(protocolUri),
       Some(language),
@@ -268,25 +259,12 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
     val helper = ParserHelper(this.platform)
 
-    val promise = Promise[BaseUnit]()
-
-    try {
-
-      helper.parse(cfg, this.platform.defaultEnvironment).andThen {
-        case Success(result) =>
-          val endTime = System.currentTimeMillis()
-          this.connection
-            .debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast", "ASTManager", "parse")
-          promise.success(result)
-
-        case Failure(throwable) => promise.failure(throwable)
-      }
-
-    } catch {
-      case e: Throwable => promise.failure(e)
+    helper.parse(cfg, env).map { result =>
+      val endTime = System.currentTimeMillis()
+      this.connection
+        .debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast", "ASTManager", "parse")
+      result
     }
-
-    promise.future
   }
 
   def parseWithContentSubstitution(uri: String, content: String): Future[BaseUnit] = {
@@ -316,8 +294,8 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
         val endTime = System.currentTimeMillis()
 
         this.connection.debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast",
-          "ASTManager",
-          "parseWithContentSubstitution")
+                                    "ASTManager",
+                                    "parseWithContentSubstitution")
 
         promise.success(result)
 

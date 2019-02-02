@@ -6,17 +6,18 @@ import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.suggestions.CompletionProvider
-import org.mulesoft.als.suggestions.client.{AlsPlatform, AlsPlatformWrapper, Suggestions}
+import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.high.level.InitOptions
 import org.mulesoft.high.level.amfmanager.ParserHelper
+import org.mulesoft.high.level.implementation.{AlsPlatform, AlsPlatformWrapper}
 import org.mulesoft.high.level.interfaces.IProject
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
 
 trait SuggestionsTest extends AsyncFunSuite {
-  val platform: AlsPlatform = new AlsPlatformWrapper()
+  val platform: AlsPlatform = AlsPlatform.default
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
@@ -45,8 +46,8 @@ trait SuggestionsTest extends AsyncFunSuite {
               label: String = "*",
               cut: Boolean = false,
               labels: Array[String] = Array("*")): Future[Assertion] =
-
-    this.suggest(path, label, cut, labels)
+    this
+      .suggest(path, label, cut, labels)
       .map(r => assert(path, r.toSet, originalSuggestions))
 
   def format: String
@@ -59,21 +60,21 @@ trait SuggestionsTest extends AsyncFunSuite {
               labels: Array[String] = Array("*")): Future[Seq[String]] = {
 
     var position = 0
-    val url = filePath(path)
+    val url      = filePath(path)
 
     for {
-      _ <- Suggestions.init(InitOptions.AllProfiles)
+      _       <- Suggestions.init(InitOptions.AllProfiles)
       content <- platform.resolve(url)
       env <- Future.successful {
         val fileContentsStr = content.stream.toString
-        val markerInfo = this.findMarker(fileContentsStr)
+        val markerInfo      = this.findMarker(fileContentsStr)
 
         position = markerInfo.position
 
         this.buildEnvironment(url, markerInfo.originalContent, content.mime)
       }
 
-      suggestions <- Suggestions.suggest(format, url, position, env, platform)
+      suggestions <- Suggestions.suggest(format, url, position, env, this.platform)
     } yield suggestions.map(suggestion => suggestion.text)
   }
 
@@ -112,7 +113,10 @@ trait SuggestionsTest extends AsyncFunSuite {
 
   def buildHighLevel(model: BaseUnit): Future[IProject] = Suggestions.buildHighLevel(model, platform)
 
-  def buildCompletionProvider(project: IProject, url: String, position: Int, originalContent: String): CompletionProvider =
+  def buildCompletionProvider(project: IProject,
+                              url: String,
+                              position: Int,
+                              originalContent: String): CompletionProvider =
     Suggestions.buildCompletionProvider(project, url, position, originalContent, platform)
 
   def buildCompletionProviderNoAST(text: String, url: String, position: Int): CompletionProvider =
@@ -124,7 +128,10 @@ trait SuggestionsTest extends AsyncFunSuite {
     result
   }
 
-  def findMarker(str: String, label: String = "*", cut: Boolean = false, labels: Array[String] = Array("*")): MarkerInfo = {
+  def findMarker(str: String,
+                 label: String = "*",
+                 cut: Boolean = false,
+                 labels: Array[String] = Array("*")): MarkerInfo = {
     val position = str.indexOf(label)
 
     val str1 = {

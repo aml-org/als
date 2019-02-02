@@ -1,11 +1,13 @@
-package org.mulesoft.als.suggestions.client
+package org.mulesoft.high.level.implementation
 
 import amf.client.remote.Content
 import amf.core.remote.File.FILE_PROTOCOL
-import amf.core.remote.{File, HttpParts, Platform}
+import amf.core.remote.{Context, File, HttpParts, Platform}
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
+import org.mulesoft.high.level.interfaces.DirectoryResolver
 
+import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
 
 abstract class AlsPlatform(val defaultEnvironment: Environment = Environment()) extends Platform {
@@ -37,4 +39,36 @@ abstract class AlsPlatform(val defaultEnvironment: Environment = Environment()) 
   }
 
   def withDefaultEnvironment(defaultEnvironment: Environment): AlsPlatform
+
+  private val resolver: DirectoryResolver = new DirectoryResolver {
+
+    override def exists(path: String): Future[Boolean] = fs.asyncFile(refinePath(path)).exists
+
+    override def readDir(path: String): Future[Seq[String]] =  fs.asyncFile(refinePath(path)).list.map(array => array.toSeq)
+
+    override def isDirectory(path: String): Future[Boolean] = fs.asyncFile(refinePath(path)).isDirectory
+
+    private def refinePath(path: String): String = {
+      var p = path
+      if (p.startsWith("file://")) {
+        if (operativeSystem().toLowerCase().startsWith("win")
+          && p.startsWith("file:///")) {
+          p = p.substring("file:///".length)
+        }
+        else {
+          p = p.substring("file://".length)
+        }
+      }
+      p
+    }
+  }
+
+  def directoryResolver: DirectoryResolver = resolver
+
+  def resolvePath(absBasePath: String, path: String): Option[String] = Option(Context(this, absBasePath).resolve(path))
 }
+
+object AlsPlatform{
+  def default = new AlsPlatformWrapper(dirResolver = None)
+}
+

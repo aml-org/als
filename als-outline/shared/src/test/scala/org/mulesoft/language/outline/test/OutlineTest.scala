@@ -9,6 +9,7 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.high.level.Core
 import org.mulesoft.high.level.amfmanager.ParserHelper
+import org.mulesoft.high.level.implementation.AlsPlatform
 import org.mulesoft.high.level.interfaces.{IParseResult, IProject}
 import org.mulesoft.language.outline.structure.structureImpl.{ConfigFactory, StructureBuilder}
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
@@ -31,10 +32,12 @@ object File {
   }
 }
 
-trait OutlineTest[T] extends AsyncFunSuite with PlatformSecrets {
+trait OutlineTest[T] extends AsyncFunSuite {
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
+
+  private val platform = AlsPlatform.default
 
   def readDataFromAST(project: IProject, position: Int): T
 

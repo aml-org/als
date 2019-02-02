@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions
 
+import amf.core.model.document.BaseUnit
 import org.mulesoft.als.suggestions.implementation.{CompletionRequest, LocationKindDetectTool, Suggestion}
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.als.suggestions.interfaces.LocationKind._

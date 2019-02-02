@@ -6,6 +6,7 @@ import amf.core.remote._
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.common.io.FileSystem
+import org.mulesoft.high.level.implementation.AlsPlatform
 import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.connections.IServerConnection
 import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
@@ -16,7 +17,7 @@ import scala.concurrent.Future
 object Http {
   def unapply(uri: String): Option[(String, String, String)] = uri match {
     case url if url.startsWith("http://") || url.startsWith("https://") =>
-      val protocol = url.substring(0, url.indexOf("://") + 3)
+      val protocol        = url.substring(0, url.indexOf("://") + 3)
       val rightOfProtocol = url.stripPrefix(protocol)
       val host =
         if (rightOfProtocol.contains("/")) rightOfProtocol.substring(0, rightOfProtocol.indexOf("/"))
@@ -68,9 +69,9 @@ class DefaultHttpLoader(platform: ConnectionBasedPlatform) extends ResourceLoade
   */
 class ConnectionBasedPlatform(val connection: IServerConnection,
                               val editorManager: IEditorManagerModule,
-                              val platformPart: PlatformDependentPart)
-  extends Platform {
-  self =>
+                              val platformPart: PlatformDependentPart,
+                              override val defaultEnvironment: Environment = Environment())
+    extends AlsPlatform(defaultEnvironment) { self =>
 
   override val fs: FileSystem = new ConnectionBasedFS(connection, editorManager)
 
@@ -82,8 +83,6 @@ class ConnectionBasedPlatform(val connection: IServerConnection,
     fileLoader,
     httpLoader
   )
-
-  val defaultEnvironment = new Environment(this.loaders)
 
   override def resolvePath(_uri: String): String = {
 
@@ -123,8 +122,8 @@ class ConnectionBasedPlatform(val connection: IServerConnection,
 
     val editorOption = this.editorManager.getEditor(uri)
     connection.debugDetail(s"Result of editor check for uri ${uri}: ${editorOption.isDefined}",
-      "ConnectionBasedPlatform",
-      "fetchFile")
+                           "ConnectionBasedPlatform",
+                           "fetchFile")
 
     val contentFuture =
       if (editorOption.isDefined) {
@@ -138,8 +137,8 @@ class ConnectionBasedPlatform(val connection: IServerConnection,
       .map(content => {
 
         Content(new CharSequenceStream(path, content),
-          ensureFileAuthority(path),
-          extension(path).flatMap(mimeFromExtension))
+                ensureFileAuthority(path),
+                extension(path).flatMap(mimeFromExtension))
       })
   }
 
@@ -172,5 +171,8 @@ class ConnectionBasedPlatform(val connection: IServerConnection,
     platformPart.findCharInCharSequence(stream)(p)
 
   // $COVERAGE-ON$
-  override def operativeSystem(): String = platformPart.operativeSystem();
+  override def operativeSystem(): String = platformPart.operativeSystem()
+
+  override def withDefaultEnvironment(defaultEnvironment: Environment): AlsPlatform =
+    new ConnectionBasedPlatform(connection, editorManager, platformPart, defaultEnvironment)
 }

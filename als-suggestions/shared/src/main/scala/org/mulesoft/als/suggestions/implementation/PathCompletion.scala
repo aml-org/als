@@ -1,20 +1,20 @@
 package org.mulesoft.als.suggestions.implementation
 
-import org.mulesoft.high.level.interfaces.IFSProvider
+import org.mulesoft.high.level.implementation.AlsPlatform
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object PathCompletion {
 
-  def complete(defaultPath: String, additionalPath: String, contentProvider: IFSProvider): Future[Seq[String]] = {
+  def complete(defaultPath: String, additionalPath: String, alsPlatform: AlsPlatform): Future[Seq[String]] = {
 
-    contentProvider
-      .isDirectoryAsync(defaultPath)
+    alsPlatform.directoryResolver
+      .isDirectory(defaultPath)
       .flatMap(isDir => {
         var directoryPath =
           if (!isDir)
-            contentProvider.dirName(defaultPath)
+            alsPlatform.directoryResolver.dirName(defaultPath)
           else
             defaultPath
 
@@ -29,7 +29,7 @@ object PathCompletion {
         val modifiedDirectoryPath: String =
           if (additionalDirectoryPath.isDefined) {
 
-            val resolved = contentProvider.resolve(directoryPath, additionalDirectoryPath.get)
+            val resolved = alsPlatform.resolvePath(directoryPath, additionalDirectoryPath.get)
 
             if (resolved.isDefined) resolved.get else directoryPath
           } else {
@@ -38,15 +38,15 @@ object PathCompletion {
 
         var finalDirectoryPath = directoryPath
 
-        val filesFuture = contentProvider
-          .isDirectoryAsync(modifiedDirectoryPath)
+        val filesFuture = alsPlatform.directoryResolver
+          .isDirectory(modifiedDirectoryPath)
           .flatMap(modifiedIsDirectory => {
 
             if (modifiedIsDirectory) {
               finalDirectoryPath = modifiedDirectoryPath
             }
 
-            contentProvider.readDirAsync(finalDirectoryPath)
+            alsPlatform.directoryResolver.readDir(finalDirectoryPath)
           })
 
         filesFuture.flatMap(shortFilePaths => {
@@ -54,21 +54,21 @@ object PathCompletion {
           val fullFilePaths: Seq[String] =
             shortFilePaths
               .filter(
-                shortFilePath => contentProvider.resolve(finalDirectoryPath, shortFilePath).isDefined
+                shortFilePath => alsPlatform.resolvePath(finalDirectoryPath, shortFilePath).isDefined
               )
               .map(
-                shortFilePath => contentProvider.resolve(finalDirectoryPath, shortFilePath).get
+                shortFilePath => alsPlatform.resolvePath(finalDirectoryPath, shortFilePath).get
               )
 
-          val filter = contentProvider.resolve(directoryPath, additionalPath)
+          val filter = alsPlatform.resolvePath(directoryPath, additionalPath)
 
           val futures: Seq[Future[String]] = fullFilePaths
             .filter(fullFilePath =>
               filter.isDefined && fullFilePath.startsWith(filter.get) && fullFilePath != defaultPath)
             .map(fullFilePath => {
               var result = fullFilePath.substring(directoryPath.length)
-              contentProvider
-                .isDirectoryAsync(fullFilePath)
+              alsPlatform.directoryResolver
+                .isDirectory(fullFilePath)
                 .map({
                   case true if !result.endsWith("/") => result + "/"
                   case _                             => result

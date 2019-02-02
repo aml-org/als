@@ -27,7 +27,6 @@ class IncludeCompletionPlugin extends ICompletionPlugin {
   override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
     val baseDir = request.astNode.get.astUnit.project.rootPath
-
     val relativePath = request.actualYamlLocation.get.node.get.yPart match {
       case node: YNode.MutRef =>
         node.origValue match {
@@ -47,7 +46,7 @@ class IncludeCompletionPlugin extends ICompletionPlugin {
       val diff = relativePath.length - request.prefix.length
 
       PathCompletion
-        .complete(baseDir, relativePath, request.config.fsProvider.get)
+        .complete(baseDir, relativePath, request.config.platform)
         .map(paths => {
           var suggestions = paths.map(path => {
 
