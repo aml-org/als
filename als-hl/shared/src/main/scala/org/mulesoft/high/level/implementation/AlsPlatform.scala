@@ -48,7 +48,7 @@ abstract class AlsPlatform(val defaultEnvironment: Environment = Environment()) 
 
     override def isDirectory(path: String): Future[Boolean] = fs.asyncFile(refinePath(path)).isDirectory
 
-    private def refinePath(path: String): String = {
+    override protected def refinePath(path: String): String = {
       var p = path
       if (p.startsWith("file://")) {
         if (operativeSystem().toLowerCase().startsWith("win")
