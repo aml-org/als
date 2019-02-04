@@ -90,18 +90,18 @@ class JsSuggestionsTest extends AsyncFunSuite with Matchers {
       })
       .as[ClientResourceLoader]
 
-    val internalResolver = new InternalDirectoryResolver {
-      override def exists(path: String): Future[Boolean] =
-        Future(Seq("file:///api.raml", "file://fragment.raml", "file://another.raml").contains(path))
+    val clientResolver = js.use(new ClientDirectoryResolver {
+      override def exists(path: String): js.Promise[Boolean] =
+        Future(Seq("file:///api.raml", "file://fragment.raml", "file://another.raml").contains(path)).toJSPromise
 
-      override def readDir(path: String): Future[Seq[String]] = {
-        Future(Seq("file:///dir/fragment.raml", "file://dir/another.raml"))
+      override def readDir(path: String): js.Promise[js.Array[String]] = {
+        Future(Seq("file:///dir/fragment.raml", "file://dir/another.raml")).map(_.toJSArray).toJSPromise
       }
 
-      override def isDirectory(path: String): Future[Boolean] = {
-        Future(path endsWith "dir/")
+      override def isDirectory(path: String): js.Promise[Boolean] = {
+        Future(path endsWith "dir/").toJSPromise
       }
-    }
+    }).as[ClientDirectoryResolver]
 
     JsSuggestions
       .init()
@@ -112,7 +112,7 @@ class JsSuggestionsTest extends AsyncFunSuite with Matchers {
                    "file:///dir/api.raml",
                    51,
                    js.Array(fileLoader),
-                   Some(DirectoryResolverAdapter.asClient(internalResolver)).orUndefined)
+                   Some(clientResolver).orUndefined)
           .toFuture
           .map(suggestions => {
             val seq = suggestions.toSeq

@@ -13,7 +13,7 @@ import scala.concurrent.Future
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.Promise
-import scala.scalajs.js.annotation.{JSExport, JSExportAll, JSExportTopLevel}
+import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel, ScalaJSDefined}
 
 @JSExportTopLevel("Suggestions")
 object JsSuggestions {
@@ -35,7 +35,7 @@ object JsSuggestions {
               url: String,
               position: Int,
               loaders: js.Array[ClientResourceLoader] = js.Array(),
-              dirResolver: js.UndefOr[DirectoryResolver] = js.undefined): js.Promise[js.Array[Suggestion]] = {
+              dirResolver: js.UndefOr[ClientDirectoryResolver] = js.undefined): js.Promise[js.Array[Suggestion]] = {
     val environment = new Environment(loaders.map(internalResourceLoader).toSeq)
     val alsPlatform: AlsPlatform =
       new AlsPlatformWrapper(environment, dirResolver.toOption.map(DirectoryResolverAdapter.convert))
@@ -47,20 +47,18 @@ object JsSuggestions {
   }
 }
 
-@JSExportAll
-trait DirectoryResolver {
+@ScalaJSDefined
+trait ClientDirectoryResolver extends js.Object {
 
   def exists(path: String): js.Promise[Boolean]
 
   def readDir(path: String): js.Promise[js.Array[String]]
 
   def isDirectory(path: String): js.Promise[Boolean]
-
 }
 
 object DirectoryResolverAdapter {
-
-  def convert(clientResolver: DirectoryResolver): InternalResolver = {
+  def convert(clientResolver: ClientDirectoryResolver): InternalResolver = {
     new InternalResolver {
 
       override def exists(path: String): Future[Boolean] = clientResolver.exists(path).toFuture
@@ -68,18 +66,6 @@ object DirectoryResolverAdapter {
       override def readDir(path: String): Future[Seq[String]] = clientResolver.readDir(path).toFuture.map(_.toSeq)
 
       override def isDirectory(path: String): Future[Boolean] = clientResolver.isDirectory(path).toFuture
-
-    }
-  }
-
-  def asClient(internal: InternalResolver): DirectoryResolver = {
-    new DirectoryResolver {
-      override def exists(path: String): Promise[Boolean] = internal.exists(path).toJSPromise
-
-      override def readDir(path: String): Promise[js.Array[String]] =
-        internal.readDir(path).map(_.toJSArray).toJSPromise
-
-      override def isDirectory(path: String): Promise[Boolean] = internal.isDirectory(path).toJSPromise
 
     }
   }
