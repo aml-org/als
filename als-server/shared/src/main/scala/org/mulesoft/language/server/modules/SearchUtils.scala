@@ -9,12 +9,11 @@ import scala.collection.mutable.ListBuffer
 private class TextIssue(var label: String, var start: Int, var end: Int)
 
 object SearchUtils {
-  private val breakers =
-    Seq(",", ".", ";", ":", " ", "\"", "'", "{", "}", "[", "]", "/", "|", "\n", "\t", "\r").map(_.charAt(0))
+  private val breakers = Seq(",", ".", ";", ":", " ", "\"", "'", "{", "}", "[", "]", "/", "|", "\n", "\t", "\r").map(_.charAt(0))
 
   private def findTextIssue(content: String, position: Int): TextIssue = {
     var start = position
-    var end   = position
+    var end = position
 
     if (isBreaker(end, content)) {
       end = end - 1
@@ -69,21 +68,19 @@ object SearchUtils {
         nodes.foreach(node => {
           var nodeRange = node.sourceInfo.ranges.headOption.get
 
-          findTextIssues(node.astUnit.text, issueName, nodeRange.start.position, nodeRange.end.position)
-            .foreach(issue =>
-              result += new ILocation {
-                var range: IRange = new IRange(issue.start, issue.end)
+          findTextIssues(node.astUnit.text, issueName, nodeRange.start.position, nodeRange.end.position).foreach(issue => result += new ILocation {
+            var range: IRange = new IRange(issue.start, issue.end)
 
-                var uri: String = node.astUnit.path.replace("file:///", "/")
+            var uri: String = node.astUnit.path.replace("file:///", "/")
 
-                var version: Int = -1
+            var version: Int = -1
 
-                override def toString: String = uri + "_" + issue.start + "_" + issue.end
+            override def toString: String = uri + "_" + issue.start + "_" + issue.end
 
-                override def equals(obj: scala.Any): Boolean = toString().equals(obj.toString())
+            override def equals(obj: scala.Any): Boolean = toString().equals(obj.toString())
 
-                override def hashCode(): Int = toString().hashCode()
-            })
+            override def hashCode(): Int = toString().hashCode()
+          })
         })
 
         Some(result.sortWith((l1, l2) => l1.range.start < l2.range.start))
@@ -95,30 +92,25 @@ object SearchUtils {
 
   def findDeclaration(project: IProject, position: Int): Option[Seq[ILocation]] = {
     Search.findDefinitionByPosition(project.rootASTUnit, position) match {
-      case Some(searchResult) =>
-        Some(
-          Seq(searchResult.definition)
-            .map(_.sourceInfo.ranges.headOption)
-            .filter(_ match {
-              case Some(range) => range.start.resolved
+      case Some(searchResult) => Some(Seq(searchResult.definition).map(_.sourceInfo.ranges.headOption).filter(_ match {
+        case Some(range) => range.start.resolved
 
-              case _ => false
-            })
-            .map(lowLevelRange => {
-              val unit = searchResult.definition.astUnit
+        case _ => false
+      }).map(lowLevelRange => {
+        val unit = searchResult.definition.astUnit
 
-              val start = lowLevelRange.get.start.position
+        val start = lowLevelRange.get.start.position
 
-              val end = start + unit.text.substring(start).indexOf(":")
+        val end = start + unit.text.substring(start).indexOf(":")
 
-              new ILocation {
-                var range: IRange = IRange(start, end)
+        new ILocation {
+          var range: IRange = IRange(start, end)
 
-                var uri: String = unit.path.replace("file:///", "/")
+          var uri: String = unit.path.replace("file:///", "/")
 
-                var version: Int = -1
-              }
-            }))
+          var version: Int = -1
+        }
+      }))
 
       case _ => None
     }
@@ -126,37 +118,33 @@ object SearchUtils {
 
   def findAll(project: IProject, position: Int): Option[Seq[ILocation]] = {
     (findDeclaration(project, position) match {
-      case Some(result) =>
-        if (result.isEmpty) {
-          None
-        } else {
-          Some(result)
-        }
+      case Some(result) => if (result.isEmpty) {
+        None
+      } else {
+        Some(result)
+      }
 
       case _ => None
     }) match {
-      case Some(result) =>
-        findReferences(project, result.head.range.start + 1) match {
-          case Some(refs) => Some(refs.toBuffer += result.head)
+      case Some(result) => findReferences(project, result.head.range.start + 1) match {
+        case Some(refs) => Some(refs.toBuffer += result.head)
 
-          case _ => None
-        }
+        case _ => None
+      }
 
-      case _ =>
-        findReferences(project, position) match {
-          case Some(refs) =>
-            Some(refs.toBuffer += new ILocation {
-              var issue: TextIssue = findTextIssue(project.rootASTUnit.text, position)
+      case _ => findReferences(project, position) match {
+        case Some(refs) => Some(refs.toBuffer += new ILocation {
+          var issue: TextIssue = findTextIssue(project.rootASTUnit.text, position)
 
-              var range: IRange = IRange(issue.start, issue.end)
+          var range: IRange = IRange(issue.start, issue.end)
 
-              var uri: String = project.rootASTUnit.path.replace("file:///", "/")
+          var uri: String = project.rootASTUnit.path.replace("file:///", "/")
 
-              var version: Int = -1
-            })
+          var version: Int = -1
+        })
 
-          case _ => None
-        }
+        case _ => None
+      }
     }
   }
 

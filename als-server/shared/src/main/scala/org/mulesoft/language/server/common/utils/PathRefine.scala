@@ -18,7 +18,8 @@ object PathRefine {
     if (!result.startsWith("file://") && !result.startsWith("http:") && !result.startsWith("https:")) {
       if (result.startsWith("/")) {
         result = "file://" + result
-      } else {
+      }
+      else {
         result = "file:///" + result
       }
     }

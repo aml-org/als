@@ -35,27 +35,27 @@ class NodeServerConnection extends MutedLogger with NodeMessageDispatcher with A
     this
       .newMeta("EXISTS", Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientBoolResponse", true)))
     this.newMeta("READ_DIR",
-                 Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientStringSeqResponse", true)))
+      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientStringSeqResponse", true)))
     this.newMeta("IS_DIRECTORY",
-                 Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientBoolResponse", true)))
+      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientBoolResponse", true)))
     this.newMeta("CONTENT",
-                 Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientStringResponse", true)))
+      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientStringResponse", true)))
 
     this.newVoidHandler("CHANGE_POSITION",
-                        handleChangedPosition,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ChangedPosition")))
+      handleChangedPosition,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ChangedPosition")))
 
     this.newVoidHandler("OPEN_DOCUMENT",
-                        this.handleOpenDocument,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.OpenedDocument")))
+      this.handleOpenDocument,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.OpenedDocument")))
 
     this.newVoidHandler("CLOSE_DOCUMENT",
-                        (_: ClosedDocument) => Unit,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClosedDocument", true)))
+      (_: ClosedDocument) => Unit,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClosedDocument", true)))
 
     this.newVoidHandler("CHANGE_DOCUMENT",
-                        this.handleChangedDocument,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ChangedDocument")))
+      this.handleChangedDocument,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ChangedDocument")))
 
     this.newFutureHandler(
       "GET_STRUCTURE",
@@ -63,12 +63,12 @@ class NodeServerConnection extends MutedLogger with NodeMessageDispatcher with A
       Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.GetStructureRequest", true, true)))
 
     this.newVoidHandler("SET_LOGGER_CONFIGURATION",
-                        this.handleSetLoggerConfiguration,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.LoggerSettings")))
+      this.handleSetLoggerConfiguration,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.LoggerSettings")))
 
     this.newFutureSeqHandler("GET_SUGGESTIONS",
-                             this.handleGetSuggestions,
-                             Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.GetCompletionRequest")))
+      this.handleGetSuggestions,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.GetCompletionRequest")))
 
     this.newFutureHandler[FindDeclarationRequest, LocationsResponse](
       "OPEN_DECLARATION",

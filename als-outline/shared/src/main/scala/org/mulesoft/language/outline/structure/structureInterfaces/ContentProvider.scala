@@ -1,5 +1,6 @@
 package org.mulesoft.language.outline.structure.structureInterfaces
 
+
 /**
   * Core tree builder.
   */

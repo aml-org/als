@@ -6,10 +6,13 @@ import scala.collection.Map
 
 object AsyncAPI extends IBundledProject {
 
+
   override def rootUrl: String = "file:///dialect6.yaml"
 
-  override def files: Map[String, String] =
-    Map("file:///dialect6.yaml" -> dialectContent, "file:///vocabulary6.yaml" -> vocabularyContent)
+  override def files: Map[String, String] = Map(
+    "file:///dialect6.yaml" -> dialectContent,
+    "file:///vocabulary6.yaml" -> vocabularyContent)
+
 
   private val dialectContent: String =
     """#%Dialect 1.0

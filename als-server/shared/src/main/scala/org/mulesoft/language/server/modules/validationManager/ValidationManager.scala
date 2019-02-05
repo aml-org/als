@@ -68,7 +68,7 @@ class ValidationManager extends AbstractServerModule {
   }
 
   private def gatherValidationErrors(docUri: String, docVersion: Int, astNode: BaseUnit): Future[IValidationReport] = {
-    val uri          = PathRefine.refinePath(docUri, platform)
+    val uri = PathRefine.refinePath(docUri, platform)
     val editorOption = this.getEditorManager().getEditor(uri)
 
     if (editorOption.isDefined) {
@@ -80,8 +80,8 @@ class ValidationManager extends AbstractServerModule {
           val endTime = System.currentTimeMillis()
 
           this.connection.debugDetail(s"It took ${endTime - startTime} milliseconds to validate",
-                                      "ValidationManager",
-                                      "gatherValidationErrors")
+            "ValidationManager",
+            "gatherValidationErrors")
 
           val issues = report.results.map(validationResult =>
             this.amfValidationResultToIssue(docUri, validationResult, editorOption.get.buffer))
@@ -135,7 +135,7 @@ class ValidationManager extends AbstractServerModule {
           buffer.characterIndexForPosition(lastLineRange.end)
         //				println(s"End line end offset: ${endLineEndOffset}")
 
-        val endLineStartText        = originalText.substring(endLineStartOffset, endOffset)
+        val endLineStartText = originalText.substring(endLineStartOffset, endOffset)
         val endLineStartTextTrimmed = endLineStartText.trim
 
         val detectionRangeStart = startLineStartOffset
@@ -162,22 +162,22 @@ class ValidationManager extends AbstractServerModule {
         val indexInOriginal = textInRange.indexOf(trimmed)
 
         val startModifier = indexInOriginal
-        val endModifier   = textInRange.length - (indexInOriginal + trimmed.length)
+        val endModifier = textInRange.length - (indexInOriginal + trimmed.length)
 
         val resultingStartOffset = detectionRangeStart + startModifier
-        val resultingEndOffset   = detectionRangeEnd - endModifier
+        val resultingEndOffset = detectionRangeEnd - endModifier
 
         //				println(s"Final range is: ${resultingStartOffset} , ${resultingEndOffset}")
         resultRange = IRange(resultingStartOffset, resultingEndOffset)
       } catch {
         // $COVERAGE-OFF$
         case e: Throwable => {
-          val startLine   = validationResult.position.get.range.start.line - 1
+          val startLine = validationResult.position.get.range.start.line - 1
           val startColumn = validationResult.position.get.range.start.column
 
           val startOffset = buffer.characterIndexForPosition(IPoint(startLine, startColumn))
 
-          val endLine   = validationResult.position.get.range.end.line - 1
+          val endLine = validationResult.position.get.range.end.line - 1
           val endColumn = validationResult.position.get.range.end.column
 
           val endOffset = buffer.characterIndexForPosition(IPoint(endLine, endColumn))
@@ -199,14 +199,14 @@ class ValidationManager extends AbstractServerModule {
     val language = getEditorManager().getEditor(uri).map(_.language).getOrElse("OAS 2.0")
 
     val config = new ParserConfig(Some(ParserConfig.VALIDATE),
-                                  Some(uri),
-                                  Some(language),
-                                  Some("application/yaml"),
-                                  None,
-                                  Some(language),
-                                  Some("application/yaml"),
-                                  false,
-                                  true)
+      Some(uri),
+      Some(language),
+      Some("application/yaml"),
+      None,
+      Some(language),
+      Some("application/yaml"),
+      false,
+      true)
 
     //		val helper = ParserHelper(platform)
 

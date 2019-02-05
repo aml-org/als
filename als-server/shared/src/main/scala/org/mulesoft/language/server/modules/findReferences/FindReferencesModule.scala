@@ -38,7 +38,7 @@ class FindReferencesModule extends AbstractServerModule {
       case Success(project) =>
         SearchUtils.findReferences(project, position) match {
           case Some(searchResult) => promise.success(searchResult)
-          case _                  => Seq()
+          case _ => Seq()
         }
 
       case Failure(error) => promise.failure(error)

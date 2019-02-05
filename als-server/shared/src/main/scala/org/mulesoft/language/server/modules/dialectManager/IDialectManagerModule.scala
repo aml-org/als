@@ -14,6 +14,8 @@ trait IDialectManagerModule extends IServerIOCModule {
 
 }
 
+
 object IDialectManagerModule {
   val moduleId: String = "DIALECT_MANAGER"
 }
+

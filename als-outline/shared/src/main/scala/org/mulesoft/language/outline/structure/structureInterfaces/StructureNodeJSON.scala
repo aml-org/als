@@ -1,7 +1,6 @@
 package org.mulesoft.language.outline.structure.structureInterfaces
 
 trait StructureNodeJSON {
-
   /**
     * Node label text to be displayed.
     */
