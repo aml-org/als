@@ -1,8 +1,7 @@
 package org.mulesoft.high.level.implementation
 
 import amf.client.remote.Content
-import amf.core.remote.File.FILE_PROTOCOL
-import amf.core.remote.{Context, File, HttpParts, Platform}
+import amf.core.remote.{Context, Platform}
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.high.level.interfaces.DirectoryResolver
@@ -13,17 +12,6 @@ import scala.concurrent.Future
 abstract class AlsPlatform(val defaultEnvironment: Environment = Environment()) extends Platform {
   override def resolve(url: String, env: Environment = defaultEnvironment): Future[Content] = {
     super.resolve(url, env)
-  }
-
-  override def resolvePath(rawPath: String): String = {
-    rawPath match {
-      case File(path) =>
-        if (path.startsWith("/")) FILE_PROTOCOL + normalizeURL(path).substring(1)
-        else FILE_PROTOCOL + normalizeURL(path)
-
-      case HttpParts(protocol, host, path) => protocol + host + normalizePath(path)
-      case _ => rawPath
-    }
   }
 
   def withOverride(url: String, content: String): AlsPlatform = {
@@ -44,7 +32,8 @@ abstract class AlsPlatform(val defaultEnvironment: Environment = Environment()) 
 
     override def exists(path: String): Future[Boolean] = fs.asyncFile(refinePath(path)).exists
 
-    override def readDir(path: String): Future[Seq[String]] =  fs.asyncFile(refinePath(path)).list.map(array => array.toSeq)
+    override def readDir(path: String): Future[Seq[String]] =
+      fs.asyncFile(refinePath(path)).list.map(array => array.toSeq)
 
     override def isDirectory(path: String): Future[Boolean] = fs.asyncFile(refinePath(path)).isDirectory
 
@@ -52,10 +41,9 @@ abstract class AlsPlatform(val defaultEnvironment: Environment = Environment()) 
       var p = path
       if (p.startsWith("file://")) {
         if (operativeSystem().toLowerCase().startsWith("win")
-          && p.startsWith("file:///")) {
+            && p.startsWith("file:///")) {
           p = p.substring("file:///".length)
-        }
-        else {
+        } else {
           p = p.substring("file://".length)
         }
       }
@@ -68,7 +56,6 @@ abstract class AlsPlatform(val defaultEnvironment: Environment = Environment()) 
   def resolvePath(absBasePath: String, path: String): Option[String] = Option(Context(this, absBasePath).resolve(path))
 }
 
-object AlsPlatform{
+object AlsPlatform {
   def default = new AlsPlatformWrapper(dirResolver = None)
 }
-

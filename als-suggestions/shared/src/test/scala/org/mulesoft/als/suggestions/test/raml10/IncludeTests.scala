@@ -36,4 +36,9 @@ class IncludeTests extends RAML10Test {
     this.runTest("includes/testGroup02/root",
                  Set("test01.raml", "test02.raml", "test03.raml", "testFragment.raml", "testFragment2.raml"))
   }
+
+  test("test09") {
+    this.runTest("includes/subdirs/rootsubdir/api.raml",
+                 Set("fragments/", "include-sub2-dir.raml", "rootsubdir/", "include-sub-dir.raml"))
+  }
 }

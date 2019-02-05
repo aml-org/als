@@ -6,10 +6,14 @@ import amf.internal.resource.ResourceLoader
 import org.mulesoft.common.io.FileSystem
 import org.mulesoft.high.level.interfaces.DirectoryResolver
 
-class AlsPlatformWrapper(defaultEnvironment: Environment = Environment(), dirResolver: Option[DirectoryResolver]) extends AlsPlatform(defaultEnvironment) with PlatformSecrets {
-  override def withDefaultEnvironment(defaultEnvironment: Environment): AlsPlatform = new AlsPlatformWrapper(defaultEnvironment, dirResolver)
+class AlsPlatformWrapper(defaultEnvironment: Environment = Environment(), dirResolver: Option[DirectoryResolver])
+    extends AlsPlatform(defaultEnvironment)
+    with PlatformSecrets {
+  override def withDefaultEnvironment(defaultEnvironment: Environment): AlsPlatform =
+    new AlsPlatformWrapper(defaultEnvironment, dirResolver)
 
-  override def findCharInCharSequence(s: CharSequence)(p: Char => Boolean): Option[Char] = platform.findCharInCharSequence(s)(p)
+  override def findCharInCharSequence(s: CharSequence)(p: Char => Boolean): Option[Char] =
+    platform.findCharInCharSequence(s)(p)
 
   override val fs: FileSystem = platform.fs
 
@@ -32,4 +36,6 @@ class AlsPlatformWrapper(defaultEnvironment: Environment = Environment(), dirRes
   override def operativeSystem(): String = platform.operativeSystem()
 
   override def directoryResolver: DirectoryResolver = dirResolver.getOrElse(super.directoryResolver)
+
+  override def resolvePath(rawPath: String): String = platform.resolvePath(rawPath)
 }

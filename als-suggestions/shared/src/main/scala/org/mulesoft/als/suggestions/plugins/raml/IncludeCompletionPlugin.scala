@@ -1,68 +1,18 @@
 package org.mulesoft.als.suggestions.plugins.raml
 
-import java.util.function.Consumer
-
 import amf.core.remote.{Raml08, Raml10, Vendor}
-import org.mulesoft.als.suggestions.implementation.{CompletionResponse, PathCompletion, Suggestion}
 import org.mulesoft.als.suggestions.interfaces._
-import org.yaml.model.{YNode, YScalar, YType}
+import org.yaml.model.{YNode, YScalar}
 
-import scala.concurrent.{Future, Promise}
-import scala.concurrent.ExecutionContext.Implicits.global
+class IncludeCompletionPlugin extends InclusionSuggestion {
+  override def id: String = IncludeCompletionPlugin.ID
 
-class IncludeCompletionPlugin extends ICompletionPlugin {
-  override def id: String = IncludeCompletionPlugin.ID;
+  override def languages: Seq[Vendor] = IncludeCompletionPlugin.supportedLanguages
 
-  override def languages: Seq[Vendor] = IncludeCompletionPlugin.supportedLanguages;
+  override protected def decorate(path: String, prefix: String): String =
+    if (path.startsWith("/") && prefix == "/") path.stripPrefix("/") else path
 
-  override def isApplicable(request: ICompletionRequest): Boolean = request.config.astProvider match {
-
-    case Some(astProvider) =>
-      languages.indexOf(astProvider.language) >= 0 &&
-        isInInclude(request);
-
-    case _ => false;
-  }
-
-  override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
-
-    val baseDir = request.astNode.get.astUnit.project.rootPath
-    val relativePath = request.actualYamlLocation.get.node.get.yPart match {
-      case node: YNode.MutRef =>
-        node.origValue match {
-          case scalar: YScalar => scalar.text;
-
-          case _ => request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar].text;
-        }
-
-      case _ => request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar].text;
-    }
-
-    if (!relativePath.endsWith(request.prefix)) {
-      var response = CompletionResponse(LocationKind.VALUE_COMPLETION, request)
-      Promise.successful(response).future
-    } else {
-
-      val diff = relativePath.length - request.prefix.length
-
-      PathCompletion
-        .complete(baseDir, relativePath, request.config.platform)
-        .map(paths => {
-          var suggestions = paths.map(path => {
-
-            val pathStartingWithPrefix = {
-              val tempPath = if (diff != 0) path.substring(diff) else path
-              if (tempPath.startsWith("/") && request.prefix == "/") tempPath.stripPrefix("/") else tempPath
-            }
-
-            Suggestion(pathStartingWithPrefix, "File path", pathStartingWithPrefix, request.prefix)
-          })
-          CompletionResponse(suggestions, LocationKind.VALUE_COMPLETION, request)
-        })
-    }
-  }
-
-  def isInInclude(request: ICompletionRequest): Boolean = {
+  override protected def isRightTypeInclusion(request: ICompletionRequest): Boolean = {
     if (request.actualYamlLocation.isEmpty) {
       false
     } else if (request.actualYamlLocation.get.node.isEmpty) {
@@ -76,7 +26,7 @@ class IncludeCompletionPlugin extends ICompletionPlugin {
       } else if (!request.actualYamlLocation.get.value.get.yPart.isInstanceOf[YScalar]) {
         false
       } else {
-        var nodePart = request.actualYamlLocation.get.node.get.yPart;
+        var nodePart = request.actualYamlLocation.get.node.get.yPart
 
         var valuePart = request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar]
 
@@ -88,22 +38,21 @@ class IncludeCompletionPlugin extends ICompletionPlugin {
           case _ => "";
         }
 
-        val valueString = Option(valuePart.value).map(_.toString).getOrElse("");
+        val valueString = Option(valuePart.value).map(_.toString).getOrElse("")
 
-        if (tagText != "!include" && !valueString.startsWith("!include")) {
-          false;
-        } else {
-          true;
-        }
+        if (tagText != "!include" && !valueString.startsWith("!include")) false
+        else true
       }
     }
   }
+
+  override protected val description: String = "File path"
 }
 
 object IncludeCompletionPlugin {
-  val ID = "include.completion";
+  val ID = "include.completion"
 
-  val supportedLanguages: List[Vendor] = List(Raml08, Raml10);
+  val supportedLanguages: List[Vendor] = List(Raml08, Raml10)
 
-  def apply(): IncludeCompletionPlugin = new IncludeCompletionPlugin();
+  def apply(): IncludeCompletionPlugin = new IncludeCompletionPlugin()
 }
