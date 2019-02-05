@@ -18,9 +18,9 @@ object Test extends PlatformSecrets {
       case Some(cfg) =>
         cfg.mode match {
           case Some(ParserConfig.TRANSLATE) => Await.result(runTranslate(cfg), 1 day)
-          case Some(ParserConfig.VALIDATE)  => Await.result(runValidate(cfg), 1 day)
-          case Some(ParserConfig.PARSE)     => Await.ready(runParse(cfg), 1 day)
-          case _                            => failCommand()
+          case Some(ParserConfig.VALIDATE) => Await.result(runValidate(cfg), 1 day)
+          case Some(ParserConfig.PARSE) => Await.ready(runParse(cfg), 1 day)
+          case _ => failCommand()
         }
       case _ => System.exit(ExitCodes.WrongInvocation)
     }

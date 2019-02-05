@@ -18,8 +18,8 @@ import scala.concurrent.{Future, Promise}
 
 class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConnection {
   var lastStructureReport: Option[IStructureReport] = None
-  var fs: FS                                        = null
-  var validationHandler: ValidationHandler          = null
+  var fs: FS = null
+  var validationHandler: ValidationHandler = null
 
   var logger: JAVALogger = (_: String, _: MessageSeverity.Value, _: String, _: String) => {}
 
@@ -70,7 +70,7 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
 
     firstOpt match {
       case Some(listener) => listener(uri)
-      case _              => Future.failed(new Exception("No close document providers found"))
+      case _ => Future.failed(new Exception("No close document providers found"))
     }
   }
 

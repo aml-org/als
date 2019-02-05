@@ -20,10 +20,10 @@ trait AbstractLogger extends ILogger {
   def log(msg: String, svrty: MessageSeverity.Value, cmp: String, subCmp: String): Unit = {
 
     val filtered = this.filterLogMessage(new LogMessage {
-      var message: String                 = msg
+      var message: String = msg
       var severity: MessageSeverity.Value = svrty
-      var component: String               = cmp
-      var subcomponent: String            = subCmp
+      var component: String = cmp
+      var subcomponent: String = subCmp
     }, this.loggerSettings)
 
     filtered.foreach(logMessage => {
@@ -32,7 +32,7 @@ trait AbstractLogger extends ILogger {
       //      val hourFormat = new SimpleDateFormat("hh:mm:ss:SSS")
       //      ${hourFormat.format(now)}
       val toLog =
-        f" ${logMessage.severity} ${logMessage.component}:${logMessage.subcomponent}    ${logMessage.message}"
+      f" ${logMessage.severity} ${logMessage.component}:${logMessage.subcomponent}    ${logMessage.message}"
       this.internalLog(toLog, logMessage.severity)
 
     })
@@ -126,13 +126,13 @@ trait AbstractLogger extends ILogger {
 
                         val resultMessage = settings.maxMessageLength match {
                           case Some(maxLength) if msg.message.length > maxLength => msg.message.substring(0, maxLength)
-                          case _                                                 => msg.message
+                          case _ => msg.message
                         }
 
                         Option(new LogMessage {
-                          var message      = resultMessage
-                          var severity     = msg.severity
-                          var component    = msg.component
+                          var message = resultMessage
+                          var severity = msg.severity
+                          var component = msg.component
                           var subcomponent = msg.subcomponent
                         })
 
@@ -155,9 +155,9 @@ trait AbstractLogger extends ILogger {
             msg.message
 
         Option(new LogMessage {
-          var message      = resultMessage
-          var severity     = msg.severity
-          var component    = msg.component
+          var message = resultMessage
+          var severity = msg.severity
+          var component = msg.component
           var subcomponent = msg.subcomponent
         })
       }

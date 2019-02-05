@@ -13,7 +13,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
-    extends MutedLogger
+  extends MutedLogger
     with MessageDispatcher[ProtocolMessagePayload, NodeMsgTypeMeta]
     with AbstractClientConnection {
 

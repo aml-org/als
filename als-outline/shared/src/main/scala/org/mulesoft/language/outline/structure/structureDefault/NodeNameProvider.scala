@@ -5,6 +5,7 @@ import org.mulesoft.typesystem.nominal_interfaces.IProperty
 import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
 import org.yaml.model.{YMapEntry, YScalar}
 
+
 object NodeNameProvider {
 
   def getNodeName(node: IParseResult): String = {
@@ -23,10 +24,7 @@ object NodeNameProvider {
 
         if (result && child.isAttr) {
           val key = child.asAttr.flatMap(_.value).map(_.toString)
-          if (hlNode.property.flatMap(_.nameId).contains("items") && node.parent
-                .flatMap(_.attribute("name"))
-                .flatMap(_.value)
-                .map(_.toString) == key) {
+          if (hlNode.property.flatMap(_.nameId).contains("items") && node.parent.flatMap(_.attribute("name")).flatMap(_.value).map(_.toString) == key) {
             result = false
           }
         }
@@ -66,11 +64,10 @@ object NodeNameProvider {
     node.sourceInfo.yamlSources.headOption match {
       case Some(x) =>
         x match {
-          case me: YMapEntry =>
-            me.key.value match {
-              case sc: YScalar => sc.value.toString
-              case _           => ""
-            }
+          case me: YMapEntry => me.key.value match {
+            case sc: YScalar => sc.value.toString
+            case _ => ""
+          }
           case _ => ""
         }
       case _ => ""
@@ -78,11 +75,9 @@ object NodeNameProvider {
   }
 
   def isKeyProperty(property: IProperty): Boolean = {
-    val keyExtra = property
-      .getExtra(PropertySyntaxExtra)
-      .find(extra => {
-        extra.isKey
-      })
+    val keyExtra = property.getExtra(PropertySyntaxExtra).find(extra => {
+      extra.isKey
+    })
 
     keyExtra.isDefined
   }

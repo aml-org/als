@@ -17,8 +17,7 @@ trait AbstractServerConnection extends IServerConnection {
 
   protected var closeDocumentListeners: mutable.Buffer[String => Unit] = ArrayBuffer()
 
-  protected var documentStructureListeners: mutable.Buffer[String => Future[Map[String, StructureNodeJSON]]] =
-    ArrayBuffer()
+  protected var documentStructureListeners: mutable.Buffer[String => Future[Map[String, StructureNodeJSON]]] = ArrayBuffer()
 
   protected var documentCompletionListeners: mutable.Buffer[(String, Int) => Future[Seq[ISuggestion]]] = ArrayBuffer()
 
@@ -32,20 +31,17 @@ trait AbstractServerConnection extends IServerConnection {
 
   protected var documentDetailsListeners: mutable.Buffer[(String, Int) => Future[Seq[ISuggestion]]] = ArrayBuffer()
 
-  protected var changeDetailValueListeners
-    : mutable.Buffer[(String, Int, String, AnyVal) => Future[Seq[IChangedDocument]]] =
+  protected var changeDetailValueListeners: mutable.Buffer[(String, Int, String, AnyVal) => Future[Seq[IChangedDocument]]] =
     ArrayBuffer()
 
   protected var changePositionListeners: mutable.Buffer[(String, Int) => Unit] = ArrayBuffer()
 
   protected var serverConfigurationListeners: mutable.Buffer[IServerConfiguration => Unit] = ArrayBuffer()
 
-  protected var calculateEditorContextActionsListeners
-    : mutable.Buffer[(String, Int) => Future[Seq[IExecutableAction]]] =
+  protected var calculateEditorContextActionsListeners: mutable.Buffer[(String, Int) => Future[Seq[IExecutableAction]]] =
     ArrayBuffer()
 
-  protected var getAllEditorContextActionsListeners: mutable.Buffer[() => Future[Seq[IExecutableAction]]] =
-    ArrayBuffer()
+  protected var getAllEditorContextActionsListeners: mutable.Buffer[() => Future[Seq[IExecutableAction]]] = ArrayBuffer()
 
   protected var executeContextActionListeners: mutable.Buffer[(String, String, Int) => Future[Seq[IChangedDocument]]] =
     ArrayBuffer()

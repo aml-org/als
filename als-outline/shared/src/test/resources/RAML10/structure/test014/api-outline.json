@@ -139,7 +139,7 @@
                     "icon": "TAG",
                     "textStyle": "NORMAL",
                     "key": "first :: queryString :: get :: /locations :: ",
-                    "start": 504,
+                    "start": 498,
                     "end": 584,
                     "category": ""
                   },
@@ -149,7 +149,7 @@
                     "icon": "TAG",
                     "textStyle": "NORMAL",
                     "key": "second :: queryString :: get :: /locations :: ",
-                    "start": 599,
+                    "start": 592,
                     "end": 690,
                     "category": ""
                   },
@@ -159,7 +159,7 @@
                     "icon": "TAG",
                     "textStyle": "NORMAL",
                     "key": "third :: queryString :: get :: /locations :: ",
-                    "start": 704,
+                    "start": 698,
                     "end": 827,
                     "category": ""
                   }

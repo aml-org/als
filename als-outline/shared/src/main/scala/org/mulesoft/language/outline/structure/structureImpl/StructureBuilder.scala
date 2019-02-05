@@ -2,11 +2,7 @@ package org.mulesoft.language.outline.structure.structureImpl
 
 import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.language.outline.common.commonInterfaces._
-import org.mulesoft.language.outline.structure.structureInterfaces.{
-  ContentProvider,
-  StructureConfiguration,
-  StructureNode
-}
+import org.mulesoft.language.outline.structure.structureInterfaces.{ContentProvider, StructureConfiguration, StructureNode}
 
 import scala.collection._
 import scala.collection.mutable.ArrayBuffer
@@ -22,22 +18,24 @@ class StructureBuilder(private val config: StructureConfiguration) {
       immutable.HashMap()
     } else {
 
+
       val selectedOption = this.config.astProvider.getSelectedNode
-      val structureRoot = StructureBuilder.hlNodeToStructureNode(hlRootOption.get,
-                                                                 selectedOption,
-                                                                 this.config.labelProvider,
-                                                                 this.config.keyProvider,
-                                                                 this.config.decorators)
+      val structureRoot = StructureBuilder.hlNodeToStructureNode(
+        hlRootOption.get, selectedOption,
+        this.config.labelProvider,
+        this.config.keyProvider,
+        this.config.decorators)
 
       this.buildTreeRecursively(structureRoot, this.config.contentProvider)
 
       val result: mutable.HashMap[String, StructureNode] = mutable.HashMap()
 
-      this.config.categories.keys.foreach { categoryName =>
-        val categoryFilter = this.config.categories(categoryName)
-        val filteredTree   = this.filterTreeByCategory(structureRoot, categoryName, categoryFilter)
+      this.config.categories.keys.foreach {
+        categoryName =>
+          val categoryFilter = this.config.categories(categoryName)
+          val filteredTree = this.filterTreeByCategory(structureRoot, categoryName, categoryFilter)
 
-        result(categoryName) = filteredTree
+          result(categoryName) = filteredTree
       }
 
       result
@@ -58,7 +56,8 @@ class StructureBuilder(private val config: StructureConfiguration) {
           this.buildTreeRecursively(child.asInstanceOf[StructureNodeImpl], contentProvider)
       })
 
-    } else {
+    }
+    else {
       structureNode.children = ArrayBuffer()
     }
 
@@ -84,6 +83,7 @@ class StructureBuilder(private val config: StructureConfiguration) {
 
       filteredChildren.foreach(child => child.asInstanceOf[StructureNodeImpl].category = categoryName)
 
+
       result.asInstanceOf[StructureNodeImpl].children = filteredChildren
 
       result
@@ -108,6 +108,7 @@ class StructureBuilder(private val config: StructureConfiguration) {
     result
   }
 
+
 }
 
 object StructureBuilder {
@@ -122,8 +123,10 @@ object StructureBuilder {
 
     result.text = labelProvider.getLabelText(hlNode)
 
+
     //    println("Converting node " +
     //      (if(hlNode.isElement) hlNode.asElement.get.definition.nameId.get else if (hlNode.isAttr)hlNode.asAttr.get.name else "Unknown"))
+
 
     result.typeText = labelProvider.getTypeText(hlNode)
 

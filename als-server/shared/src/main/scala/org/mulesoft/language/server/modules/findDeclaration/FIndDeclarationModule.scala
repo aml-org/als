@@ -29,7 +29,7 @@ class FIndDeclarationModule extends AbstractServerModule {
   }
 
   private def findDeclaration(_uri: String, position: Int): Future[Seq[ILocation]] = {
-    val uri     = PathRefine.refinePath(_uri, platform)
+    val uri = PathRefine.refinePath(_uri, platform)
     val promise = Promise[Seq[ILocation]]()
 
     currentAst(uri) andThen {

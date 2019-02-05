@@ -54,14 +54,14 @@ class ProxyContentPlatform(protected val source: ConnectionBasedPlatform, map: M
       "fetchFile")
 
     if (this.map.contains(path) ||
-        (path.startsWith("file://") && this.map.contains(path.substring("file://".length)))) {
+      (path.startsWith("file://") && this.map.contains(path.substring("file://".length)))) {
 
       source.connection.debugDetail("Path found to be overriden " + path, "ProxyContentPlatform", "fetchFile")
 
       Future.successful(
         Content(new CharSequenceStream(path, this.map(path)),
-                ensureFileAuthority(path),
-                extension(path).flatMap(mimeFromExtension)))
+          ensureFileAuthority(path),
+          extension(path).flatMap(mimeFromExtension)))
     } else {
       source.fetchFile(path)
     }

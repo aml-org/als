@@ -39,12 +39,12 @@ trait OutlineTest[SharedType, TransportType] extends LanguageServerTest {
     val fullJsonPath = filePath(jsonPath)
 
     for {
-      _                  <- org.mulesoft.high.level.Core.init()
-      actualOutline      <- this.getActualOutline(fullFilePath, path)
+      _ <- org.mulesoft.high.level.Core.init()
+      actualOutline <- this.getActualOutline(fullFilePath, path)
       expectedOutlineStr <- this.getExpectedOutline(fullJsonPath)
     } yield {
       val expectedOutline: TransportType = readDataFromString(expectedOutlineStr)
-      val diffs                          = compare(actualOutline, expectedOutline, "actual", "expected")
+      val diffs = compare(actualOutline, expectedOutline, "actual", "expected")
       if (diffs.isEmpty) {
         succeed
       } else {
@@ -170,7 +170,7 @@ trait OutlineTest[SharedType, TransportType] extends LanguageServerTest {
 
     if (n1.children.lengthCompare(n2.children.length) != 0) {
       var message = s"array lengths mismatch. $prefix1: ${n1.children.length}, $prefix2: ${n2.children.length}"
-      var p       = s"$path/children"
+      var p = s"$path/children"
       result += Diff("array_length", message, p)
     }
     var chMap1: mutable.Map[String, StructureNode] = mutable.Map()
@@ -214,7 +214,7 @@ trait OutlineTest[SharedType, TransportType] extends LanguageServerTest {
     }
     if (val1 != val2) {
       val message = s"values mismatch: $prefix1: $val1, $prefix2: $val2"
-      val p       = path + "/" + fieldName
+      val p = path + "/" + fieldName
       diffs += Diff(fieldName, message, p)
     }
   }
