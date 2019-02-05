@@ -2,27 +2,29 @@ package org.mulesoft.positioning
 
 import org.mulesoft.typesystem.json.interfaces.{NodeRange, Point}
 
-trait IPositionsMapper{
+trait IPositionsMapper {
 
-    def initRange(range:NodeRange):Unit
+  def initRange(range: NodeRange): Unit
 
-    def initPoint(point:Point):Unit
+  def initPoint(point: Point): Unit
 
-    def mapToPosition(line:Int,colum:Int):Int
+  def mapToPosition(line: Int, colum: Int): Int
 
-    def offset(position:Int):Int
+  def offset(position: Int): Int
 
-    def lineOffset(str:String):Int
+  def lineOffset(str: String): Int
 
-    def point(position: Int): Point
+  def point(position: Int): Point
 
-    def lineString(line: Int): Option[String]
+  def lineString(line: Int): Option[String]
 
-    def getText:String
+  def getText: String
 
-    def textLength:Int
+  def textLength: Int
 
-    def line(lineIndex:Int):Option[String]
+  def line(lineIndex: Int): Option[String]
 
-    def lineContainingPosition(position:Int):Option[String]
+  def lineContainingPosition(position: Int): Option[String]
+
+  val uri: String
 }

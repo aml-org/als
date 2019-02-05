@@ -9,6 +9,7 @@ trait KeyProvider {
 
   /**
     * Returns key for the node
+    *
     * @param node
     * @return
     */

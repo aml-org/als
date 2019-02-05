@@ -13,6 +13,7 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
 
   /**
     * Gets line number by offset
+    *
     * @param offset
     * @return
     */
@@ -20,8 +21,8 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
 
     var currentOffset = 0
 
-    for { i <- 0 until this.lineLengths.length } {
-      currentOffset += this.lineLengths(i);
+    for { i <- this.lineLengths.indices } {
+      currentOffset += this.lineLengths(i)
 
       if (currentOffset > offset) {
         return i
@@ -35,7 +36,7 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
     var lineStartOffset = 0
 
     for { i <- 0 until position.row } {
-      lineStartOffset += this.lineLengths(i);
+      lineStartOffset += this.lineLengths(i)
     }
 
     val result = lineStartOffset + position.column
@@ -55,7 +56,7 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
 
     for { i <- 0 to this.lineLengths.length if found.isEmpty } {
 
-      val lineLength = this.lineLengths(i);
+      val lineLength = this.lineLengths(i)
 
       if (pos < lineLength) {
 
@@ -71,7 +72,7 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
           ))
       }
 
-      pos -= lineLength;
+      pos -= lineLength
     }
 
     if (found.isDefined) {
@@ -94,7 +95,7 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
         )
       } else {
 
-        val errorMessage = s"""Character position exceeds text length: ${offset} > + ${this.text.length}"""
+        val errorMessage = s"""Character position exceeds text length: $offset > + ${this.text.length}"""
         this.logger.error(errorMessage, "EditorManager", "TextBufferInfo#positionForCharacterIndex")
         throw new Error(errorMessage)
       }
@@ -108,7 +109,7 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
     var lineStartOffset = 0
 
     for { i <- 0 until rowParam } {
-      lineStartOffset += this.lineLengths(i);
+      lineStartOffset += this.lineLengths(i)
     }
 
     val lineLength = this.lineLengths(rowParam)
@@ -201,15 +202,15 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
     this.text = text
     this.initMapping()
 
-//    if ((this.editorManager&&this.editorManager.getDocumentChangeExecutor())) {
-//     this.editorManager.getDocumentChangeExecutor().changeDocument( Map( "uri" -> this.uri,
-//    "text" -> this.text ) )
-//
-//    }
-//    else {
-//     this.logger.error( "Can not report document change to the client as there is no executor", "EditorManager", "TextBufferInfo#setText" )
-//
-//    }
+    //    if ((this.editorManager&&this.editorManager.getDocumentChangeExecutor())) {
+    //     this.editorManager.getDocumentChangeExecutor().changeDocument( Map( "uri" -> this.uri,
+    //    "text" -> this.text ) )
+    //
+    //    }
+    //    else {
+    //     this.logger.error( "Can not report document change to the client as there is no executor", "EditorManager", "TextBufferInfo#setText" )
+    //
+    //    }
   }
 
   def initMapping(): Unit = {
@@ -232,25 +233,25 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
         if (this.text.charAt(i) == '\r') {
           if (i < l - 1 && this.text.charAt(i + 1) == '\n') {
 
-            this.lineLengths += (i - ind + 2);
+            this.lineLengths += (i - ind + 2)
 
-            ind = i + 2;
+            ind = i + 2
 
             ignoreNext = true
           } else {
 
-            this.lineLengths += (i - ind + 1);
-            ind = i + 1;
+            this.lineLengths += (i - ind + 1)
+            ind = i + 1
           }
         } else if (this.text.charAt(i) == '\n') {
 
           this.lineLengths += (i - ind + 1)
-          ind = i + 1;
+          ind = i + 1
         }
       }
 
     }
 
-    this.lineLengths += (l - ind);
+    this.lineLengths += (l - ind)
   }
 }

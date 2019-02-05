@@ -1,20 +1,20 @@
 package org.mulesoft.als.suggestions.interfaces
 
+import org.mulesoft.high.level.implementation.AlsPlatform
+
 trait ICompletionConfig {
 
-    def astProvider:Option[IASTProvider]
+  def astProvider: Option[IASTProvider]
 
-    def editorStateProvider:Option[IEditorStateProvider]
+  def editorStateProvider: Option[IEditorStateProvider]
 
-    def fsProvider:Option[IExtendedFSProvider]
+  def platform: AlsPlatform
 
-    def originalContent:Option[String]
+  def originalContent: Option[String]
 
-    def withAstProvider(obj:IASTProvider):ICompletionConfig
+  def withAstProvider(obj: IASTProvider): ICompletionConfig
 
-    def withEditorStateProvider(obj:IEditorStateProvider):ICompletionConfig
+  def withEditorStateProvider(obj: IEditorStateProvider): ICompletionConfig
 
-    def withFsProvider(obj:IExtendedFSProvider):ICompletionConfig
-
-    def withOriginalContent(str:String):ICompletionConfig
+  def withOriginalContent(str: String): ICompletionConfig
 }

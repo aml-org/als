@@ -1,10 +1,11 @@
 package org.mulesoft.language.outline.structure.config
+
 import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.language.outline.common.commonInterfaces.{CategoryFilter, Decorator, IASTProvider}
 import org.mulesoft.language.outline.structure.structureDefault._
+import org.mulesoft.language.outline.structure.structureDefaultInterfaces.Decoration
 
 import scala.collection.mutable
-import org.mulesoft.language.outline.structure.structureDefaultInterfaces.Decoration
 
 class RAMLPlugin extends IStructurePlugin {
 
@@ -24,9 +25,7 @@ class RAMLPlugin extends IStructurePlugin {
 
     val visibilityFilter = new DefaultVisibilityFilter()
 
-    val contentProvider = new DefaultContentProvider(
-      visibilityFilter, labelProvider, keyProvider, decorators)
-
+    val contentProvider = new DefaultContentProvider(visibilityFilter, labelProvider, keyProvider, decorators)
 
     LanguageDependendStructureConfig(
       labelProvider,
@@ -40,60 +39,46 @@ class RAMLPlugin extends IStructurePlugin {
   def buildCategories(): mutable.Map[String, CategoryFilter] = {
     val result = new mutable.HashMap[String, CategoryFilter]()
 
-    result("ResourcesCategory") = new CategoryFilter {
-
-      override def apply(node: IParseResult): Boolean = {
-
-        node.isElement && node.asElement.get.definition.nameId.contains(RamlDefinitionKeys.RESOURCE)
-      }
+    result("ResourcesCategory") = (node: IParseResult) => {
+      node.isElement && node.asElement.get.definition.nameId.contains(RamlDefinitionKeys.RESOURCE)
     }
 
-    result("SchemasAndTypesCategory") = new CategoryFilter {
-      /**
-        * Checks whether current node is applicable to a category
-        */
-      override def apply(node: IParseResult): Boolean = {
+    result("SchemasAndTypesCategory") = (node: IParseResult) => {
 
-        if (node.isElement && node.asElement.get.property.isDefined &&
+      if (node.isElement && node.asElement.get.property.isDefined &&
           node.asElement.get.property.get.nameId.isDefined) {
 
-          val propertyName = node.asElement.get.property.get.nameId.get
+        val propertyName = node.asElement.get.property.get.nameId.get
 
-          propertyName == "schemas" ||
-            propertyName == "types"
-        } else {
+        propertyName == "schemas" ||
+        propertyName == "types"
+      } else {
 
-          false
-        }
+        false
       }
     }
 
-    result("ResourceTypesAndTraitsCategory") = new CategoryFilter {
-      /**
-        * Checks whether current node is applicable to a category
-        */
-      override def apply(node: IParseResult): Boolean = {
-        node.isElement && (
-          node.asElement.get.definition.nameId.contains(RamlDefinitionKeys.RESOURCE_TYPE) ||
-            node.asElement.get.definition.nameId.contains(RamlDefinitionKeys.TRAIT))
-      }
+    result("ResourceTypesAndTraitsCategory") = (node: IParseResult) => {
+      node.isElement && (node.asElement.get.definition.nameId.contains(RamlDefinitionKeys.RESOURCE_TYPE) ||
+      node.asElement.get.definition.nameId.contains(RamlDefinitionKeys.TRAIT))
     }
 
     result("OtherCategory") = new CategoryFilter {
+
       /**
         * Checks whether current node is applicable to a category
         */
       override def apply(node: IParseResult): Boolean = {
         if (node.isElement && node.asElement.get.property.isDefined &&
-          node.asElement.get.property.get.nameId.isDefined) {
+            node.asElement.get.property.get.nameId.isDefined) {
 
           val propertyName = node.asElement.get.property.get.nameId.get
 
           propertyName != "resources" &&
-            propertyName != "schemas" &&
-            propertyName != "types" &&
-            propertyName != "resourceTypes" &&
-            propertyName != "traits"
+          propertyName != "schemas" &&
+          propertyName != "types" &&
+          propertyName != "resourceTypes" &&
+          propertyName != "traits"
         } else {
 
           false
@@ -109,40 +94,47 @@ class RAMLPlugin extends IStructurePlugin {
   def buildDecorator(): Decorator = {
     val result = new DefaultRAMLDecorator()
 
-    result.addDecoration(RamlNodeTypes.ATTRIBUTE, Decoration(
-      Icons.ARROW_SMALL_LEFT,
-      TextStyles.NORMAL
-    ))
+    result.addDecoration(RamlNodeTypes.ATTRIBUTE,
+                         Decoration(
+                           Icons.ARROW_SMALL_LEFT,
+                           TextStyles.NORMAL
+                         ))
 
-    result.addDecoration(RamlNodeTypes.RESOURCE, Decoration(
-      Icons.PRIMITIVE_SQUARE,
-      TextStyles.HIGHLIGHT
-    ))
+    result.addDecoration(RamlNodeTypes.RESOURCE,
+                         Decoration(
+                           Icons.PRIMITIVE_SQUARE,
+                           TextStyles.HIGHLIGHT
+                         ))
 
-    result.addDecoration(RamlNodeTypes.METHOD, Decoration(
-      Icons.PRIMITIVE_DOT,
-      TextStyles.WARNING
-    ))
+    result.addDecoration(RamlNodeTypes.METHOD,
+                         Decoration(
+                           Icons.PRIMITIVE_DOT,
+                           TextStyles.WARNING
+                         ))
 
-    result.addDecoration(RamlNodeTypes.SECURITY_SCHEME, Decoration(
-      Icons.FILE_SUBMODULE,
-      TextStyles.NORMAL
-    ))
+    result.addDecoration(RamlNodeTypes.SECURITY_SCHEME,
+                         Decoration(
+                           Icons.FILE_SUBMODULE,
+                           TextStyles.NORMAL
+                         ))
 
-    result.addDecoration(RamlNodeTypes.ANNOTATION_DECLARATION, Decoration(
-      Icons.TAG,
-      TextStyles.HIGHLIGHT
-    ))
+    result.addDecoration(RamlNodeTypes.ANNOTATION_DECLARATION,
+                         Decoration(
+                           Icons.TAG,
+                           TextStyles.HIGHLIGHT
+                         ))
 
-    result.addDecoration(RamlNodeTypes.TYPE_DECLARATION, Decoration(
-      Icons.FILE_BINARY,
-      TextStyles.SUCCESS
-    ))
+    result.addDecoration(RamlNodeTypes.TYPE_DECLARATION,
+                         Decoration(
+                           Icons.FILE_BINARY,
+                           TextStyles.SUCCESS
+                         ))
 
-    result.addDecoration(RamlNodeTypes.DOCUMENTATION_ITEM, Decoration(
-      Icons.BOOK,
-      TextStyles.NORMAL
-    ))
+    result.addDecoration(RamlNodeTypes.DOCUMENTATION_ITEM,
+                         Decoration(
+                           Icons.BOOK,
+                           TextStyles.NORMAL
+                         ))
 
     result
   }

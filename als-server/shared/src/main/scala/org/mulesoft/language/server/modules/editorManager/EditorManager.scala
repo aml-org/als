@@ -1,20 +1,15 @@
 package org.mulesoft.language.server.modules.editorManager
 
-import amf.core.remote.Raml08
-import amf.core.remote.Raml10
-import amf.core.remote.Oas20
-import amf.core.remote.Aml
-import org.mulesoft.als.suggestions.interfaces.Syntax
-import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IDocumentChangeExecutor, IOpenedDocument, ITextEdit}
+import amf.core.remote.{Aml, Oas20, Raml08, Raml10}
+import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IDocumentChangeExecutor, IOpenedDocument}
 import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
 import org.mulesoft.language.server.modules.commonInterfaces.IAbstractTextEditorWithCursor
 
 import scala.collection.mutable
-import scala.collection.mutable.Buffer
-import scala.collection.mutable.ArrayBuffer
-import scala.util.{Success, Try}
+import scala.collection.mutable.{ArrayBuffer, Buffer}
 import scala.language.experimental.macros
+import scala.util.{Success, Try}
 
 class EditorManager extends AbstractServerModule with IEditorManagerModule {
 
@@ -22,7 +17,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
 
   var uriToEditor: mutable.Map[String, TextEditorInfo] = mutable.HashMap()
 
-  var documentChangeListeners: Buffer[(IChangedDocument) => Unit] = ArrayBuffer()
+  var documentChangeListeners: mutable.Buffer[IChangedDocument => Unit] = ArrayBuffer()
 
   var documentChangeExecutor: Option[IDocumentChangeExecutor] = None
 
@@ -32,13 +27,13 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
 
     if (superLaunch.isSuccess) {
 
-      this.connection.onOpenDocument(this.onOpenDocument _)
+      this.connection.onOpenDocument(this.onOpenDocument)
 
-      this.connection.onChangeDocument(this.documentWasChanged _)
+      this.connection.onChangeDocument(this.documentWasChanged)
 
-      this.connection.onChangePosition(this.onChangePosition _)
+      this.connection.onChangePosition(this.onChangePosition)
 
-      this.connection.onCloseDocument(this.onCloseDocument _)
+      this.connection.onCloseDocument(this.onCloseDocument)
 
       Success(this)
     } else {
@@ -46,7 +41,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
     }
   }
 
-  def onChangeDocument(listener: ((IChangedDocument) => Unit), unsubscribe: Boolean = false): Unit = {
+  def onChangeDocument(listener: (IChangedDocument) => Unit, unsubscribe: Boolean = false): Unit = {
 
     if (unsubscribe) {
 
@@ -61,33 +56,33 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
     }
   }
 
-//  def getEditor(uri: String): Option[IAbstractTextEditorWithCursor] = {
-//
-//    this.connection.debugDetail(s"Asked for uri ${uri}, while having following editors registered: " +
-//      this.uriToEditor.keys.mkString(","),
-//      "EditorManager", "onOpenDocument")
-//
-//    val directResult = this.uriToEditor.get(uri)
-//
-//    if (directResult.isDefined) {
-//
-//      directResult
-//    } else if (uri.startsWith("file://") || uri.startsWith("FILE://")) {
-//
-//      val path = uri.substring("file://".length)
-//      val result = this.uriToEditor.get(path)
-//      println(s"Checking uri $path and getting result: $result")
-//      result
-//    } else {
-//
-//      None
-//    }
-//  }
+  //  def getEditor(uri: String): Option[IAbstractTextEditorWithCursor] = {
+  //
+  //    this.connection.debugDetail(s"Asked for uri ${uri}, while having following editors registered: " +
+  //      this.uriToEditor.keys.mkString(","),
+  //      "EditorManager", "onOpenDocument")
+  //
+  //    val directResult = this.uriToEditor.get(uri)
+  //
+  //    if (directResult.isDefined) {
+  //
+  //      directResult
+  //    } else if (uri.startsWith("file://") || uri.startsWith("FILE://")) {
+  //
+  //      val path = uri.substring("file://".length)
+  //      val result = this.uriToEditor.get(path)
+  //      println(s"Checking uri $path and getting result: $result")
+  //      result
+  //    } else {
+  //
+  //      None
+  //    }
+  //  }
 
-  def getEditor(_uri: String): Option[IAbstractTextEditorWithCursor] = {
+  def getEditor(_uri: String): Option[TextEditorInfo] = {
     var uri = _uri
     uri = PathRefine.refinePath(uri, platform)
-    this.connection.debugDetail(s"Asked for uri ${uri}, while having following editors registered: " +
+    this.connection.debugDetail(s"Asked for uri $uri, while having following editors registered: " +
                                   this.uriToEditor.keys.mkString(","),
                                 "EditorManager",
                                 "onOpenDocument")
@@ -155,30 +150,30 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
   }
 
   def documentWasChanged(document: IChangedDocument) {
-    this.connection.debug("Document is changed", "EditorManager", "onChangeDocument");
+    this.connection.debug("Document is changed", "EditorManager", "onChangeDocument")
 
-    this.connection.debugDetail("Text is:\n " + document.text, "EditorManager", "onChangeDocument");
+    this.connection.debugDetail("Text is:\n " + document.text, "EditorManager", "onChangeDocument")
 
     val refinedUri = PathRefine.refinePath(document.uri, platform)
-    val current    = this.uriToEditor.get(refinedUri);
+    val current    = this.uriToEditor.get(refinedUri)
 
     if (current.isDefined) {
-      val currentVersion = current.get.version;
+      val currentVersion = current.get.version
 
-      val currentText = current.get.text;
+      val currentText = current.get.text
 
       if (currentVersion == document.version) {
         this.connection.debugDetail("Version of the reported change is equal to the previous one",
                                     "EditorManager",
-                                    "onChangeDocument");
+                                    "onChangeDocument")
 
-        return;
+        return
       }
 
-      if (document.version < currentVersion && document.text == currentText) {
-        this.connection.debugDetail("No changes detected", "EditorManager", "onChangeDocument");
+      if (document.version < currentVersion && document.text.contains(currentText)) {
+        this.connection.debugDetail("No changes detected", "EditorManager", "onChangeDocument")
 
-        return;
+        return
       }
     }
 
@@ -186,9 +181,9 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
     val syntax   = this.determineSyntax(refinedUri, document.text.get)
 
     this.uriToEditor(refinedUri) =
-      new TextEditorInfo(refinedUri, document.version, document.text.get, language, syntax, this.connection);
+      new TextEditorInfo(refinedUri, document.version, document.text.get, language, syntax, this.connection)
 
-    this.documentChangeListeners.foreach(listener => listener(document));
+    this.documentChangeListeners.foreach(listener => listener(document))
   }
 
   def onCloseDocument(uri: String): Unit = {

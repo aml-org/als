@@ -25,4 +25,5 @@ trait MutedLogger extends AbstractLogger {
 
   protected def internalLog(msg: String, severity: MessageSeverity.Value): Unit = {}
 }
+
 // $COVERAGE-ON$

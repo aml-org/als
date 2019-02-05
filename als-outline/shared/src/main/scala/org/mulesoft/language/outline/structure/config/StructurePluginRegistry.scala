@@ -2,7 +2,7 @@ package org.mulesoft.language.outline.structure.config
 
 object StructurePluginRegistry {
 
-  val plugins = Seq(
+  val plugins: Seq[IStructurePlugin] = Seq(
     new RAMLPlugin,
     new OASPlugin,
     new AMLPlugin

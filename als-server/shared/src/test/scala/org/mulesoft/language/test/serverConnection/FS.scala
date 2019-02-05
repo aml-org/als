@@ -2,8 +2,7 @@ package org.mulesoft.language.test.serverConnection
 
 import amf.core.unsafe.PlatformSecrets
 
-import scala.concurrent.{Future, Promise}
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object FS extends PlatformSecrets {
   def exists(path: String): Future[Boolean] = platform.fs.asyncFile(path).exists

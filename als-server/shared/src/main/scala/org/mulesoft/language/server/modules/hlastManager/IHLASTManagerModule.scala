@@ -16,6 +16,7 @@ trait IHLASTManagerModule {
 
   /**
     * Gets AST by uri
+    *
     * @param uri
     * @return
     */
@@ -23,6 +24,7 @@ trait IHLASTManagerModule {
 
   /**
     * Adds a listener to the new ASTs
+    *
     * @param listener
     * @param unsubscribe
     */
@@ -30,6 +32,7 @@ trait IHLASTManagerModule {
 
   /**
     * Builds new AST for content
+    *
     * @param uri
     * @param text
     * @return

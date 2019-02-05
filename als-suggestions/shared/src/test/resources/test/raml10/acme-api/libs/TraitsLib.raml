@@ -1,0 +1,21 @@
+#%RAML 1.0 Library
+usage: Contains general usage traits
+
+traits: 
+  pageable:
+    queryParameters: 
+      page:
+        type: number
+        minimum: 1
+      size:
+        type: integer
+        minimum: 10
+        maximum: 1000
+        required: false
+        default: 100
+  withNotFound:
+    responses: 
+      404:
+        body: 
+          application/json:
+            type: <<errorItem>>

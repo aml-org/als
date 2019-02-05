@@ -10,7 +10,7 @@ import org.scalatest.Assertion
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 object File {
   val FILE_PROTOCOL = "file://"
@@ -48,9 +48,9 @@ trait OutlineTest[SharedType, TransportType] extends LanguageServerTest {
       if (diffs.isEmpty) {
         succeed
       } else {
-        //var actualJSON = serialize(actualOutline)
-        //platform.write(fullJsonPath,actualJSON)
-        var message = diffs.mkString("\n")
+        // var actualJSON = serialize(actualOutline)
+        // platform.write(fullJsonPath,actualJSON)
+        val message = diffs.mkString("\n")
         fail(message)
       }
     }
@@ -70,14 +70,14 @@ trait OutlineTest[SharedType, TransportType] extends LanguageServerTest {
 
   def getActualOutline(url: String, shortUrl: String): Future[SharedType] = {
 
-    var position = 0;
+    var position = 0
 
     var contentOpt: Option[String] = None
     this.platform
       .resolve(url)
       .flatMap(content => {
 
-        var doc = IOpenedDocument(shortUrl, 0, content.stream.toString)
+        val doc = IOpenedDocument(shortUrl, 0, content.stream.toString)
         getClient.flatMap(client => {
           client.documentOpened(doc)
           client
@@ -99,18 +99,18 @@ trait OutlineTest[SharedType, TransportType] extends LanguageServerTest {
       override def fetch(resource: String): Future[Content] = Future.successful(new Content(content, fileUrl))
     })
     loaders ++= platform.loaders()
-    var env: Environment = Environment(loaders)
+    val env: Environment = Environment(loaders)
     env
   }
 
   def findMarker(str: String, label: String = "*", cut: Boolean = true): MarkerInfo = {
 
-    var position = str.indexOf(label);
+    val position = str.indexOf(label)
 
     if (position < 0) {
       new MarkerInfo(str, str.length)
     } else {
-      var rawContent = str.substring(0, position) + str.substring(position + 1)
+      val rawContent = str.substring(0, position) + str.substring(position + 1)
       new MarkerInfo(rawContent, position)
     }
 
@@ -195,7 +195,7 @@ trait OutlineTest[SharedType, TransportType] extends LanguageServerTest {
       return
     }
     if (val1 == null && val2 != null && val2.isInstanceOf[Option[_]]) {
-      var opt = val2.asInstanceOf[Option[_]]
+      val opt = val2.asInstanceOf[Option[_]]
       if (opt.isEmpty) {
         return
       }
@@ -204,7 +204,7 @@ trait OutlineTest[SharedType, TransportType] extends LanguageServerTest {
       }
     }
     if (val2 == null && val1 != null && val1.isInstanceOf[Option[_]]) {
-      var opt = val1.asInstanceOf[Option[_]]
+      val opt = val1.asInstanceOf[Option[_]]
       if (opt.isEmpty) {
         return
       }
@@ -213,8 +213,8 @@ trait OutlineTest[SharedType, TransportType] extends LanguageServerTest {
       }
     }
     if (val1 != val2) {
-      var message = s"values mismatch: $prefix1: $val1, $prefix2: $val2"
-      var p       = path + "/" + fieldName
+      val message = s"values mismatch: $prefix1: $val1, $prefix2: $val2"
+      val p       = path + "/" + fieldName
       diffs += Diff(fieldName, message, p)
     }
   }
