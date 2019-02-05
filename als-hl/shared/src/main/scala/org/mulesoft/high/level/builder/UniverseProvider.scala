@@ -1,13 +1,7 @@
 package org.mulesoft.high.level.builder
 
-import amf.{Oas20Profile, ProfileName, Raml08Profile, Raml10Profile}
-import amf.core.AMF
-import amf.core.client.ParserConfig
 import amf.core.remote._
-import amf.plugins.document.vocabularies.AMLPlugin
-import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
-import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
-import amf.plugins.features.validation.AMFValidatorPlugin
+import amf.{Oas20Profile, ProfileName, Raml08Profile, Raml10Profile}
 import org.mulesoft.high.level.InitOptions
 import org.mulesoft.high.level.dialect.DialectUniversesProvider
 import org.mulesoft.typesystem.definition.system.RamlUniverseProvider
@@ -22,33 +16,38 @@ object UniverseProvider {
 
   private val universes: mutable.Map[Vendor, IUniverse] = mutable.Map()
   private val initialized
-    : ListBuffer[ProfileName] = ListBuffer() // todo change to vendor when dialect instarface supports it
+    : mutable.Map[ProfileName, Future[Unit]] = mutable.Map() // todo change to vendor when dialect instarface supports it
 
   def init(initOptions: InitOptions): Future[Unit] = {
 
     val futures: ListBuffer[Future[Unit]] = ListBuffer()
     if (initOptions.contains(Raml10Profile) && !initialized.contains(Raml10Profile)) {
-      initialized += Raml10Profile
-      futures += RamlUniverseProvider.raml10Universe().map(universes(Raml10) = _)
-    }
+      val f = RamlUniverseProvider.raml10Universe().map(universes(Raml10) = _)
+      futures += f
+      initialized.put(Raml10Profile, f)
+    } else futures += initialized(Raml10Profile)
     if (initOptions.contains(Raml08Profile) && !initialized.contains(Raml08Profile)) {
-      initialized += Raml08Profile
-      futures += RamlUniverseProvider.raml08Universe().map(universes(Raml08) = _)
-    }
+      val f = RamlUniverseProvider.raml08Universe().map(universes(Raml08) = _)
+      futures += f
+      initialized.put(Raml08Profile, f)
+    } else futures += initialized(Raml08Profile)
     if (initOptions.contains(Oas20Profile) && !initialized.contains(Oas20Profile)) {
-      initialized += Oas20Profile
-      futures += RamlUniverseProvider.oas20Universe().map(universes(Oas) = _)
-    }
+      val f = RamlUniverseProvider.oas20Universe().map(universes(Oas) = _)
+      futures += f
+      initialized.put(Oas20Profile, f)
+    } else futures += initialized(Oas20Profile)
+
     futures += initDialects(initOptions)
     Future.sequence(futures).map(_ => Unit)
   }
 
   private def initDialects(initOptions: InitOptions): Future[Unit] = {
-    val optionsCopy = initOptions.filterClone(initialized.toSet)
+    val optionsCopy = initOptions.filterClone(initialized.keys.toSet)
+    val f           = DialectUniversesProvider.buildAndLoadDialects(optionsCopy)
     optionsCopy.vendors.foreach { p =>
-      initialized += p
+      initialized.put(p, f)
     }
-    DialectUniversesProvider.buildAndLoadDialects(optionsCopy)
+    f
   }
 
   def universe(format: Vendor): Option[IUniverse] = universes.get(format)

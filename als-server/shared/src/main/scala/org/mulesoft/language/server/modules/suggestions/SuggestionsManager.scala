@@ -1,9 +1,9 @@
 package org.mulesoft.language.server.modules.suggestions
 
 import amf.core.remote.{Raml10, Vendor}
+import org.mulesoft.als.suggestions.CompletionProvider
 import org.mulesoft.als.suggestions.implementation.CompletionConfig
 import org.mulesoft.als.suggestions.interfaces.{ISuggestion, Syntax}
-import org.mulesoft.als.suggestions.{CompletionProvider}
 import org.mulesoft.high.level.implementation.AlsPlatform
 import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}

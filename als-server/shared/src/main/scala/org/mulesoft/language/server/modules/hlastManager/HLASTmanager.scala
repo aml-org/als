@@ -11,8 +11,8 @@ import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Future, Promise}
-import scala.util.{Failure, Success, Try}
+import scala.concurrent.Future
+import scala.util.{Success, Try}
 
 class HLASTmanager extends AbstractServerModule with IHLASTManagerModule {
   private var initialized: Boolean = false
@@ -43,7 +43,7 @@ class HLASTmanager extends AbstractServerModule with IHLASTManagerModule {
 
     Core
       .init()
-      .map(nothing => {
+      .map(_ => {
         initialized = true
       })
 
@@ -102,7 +102,8 @@ class HLASTmanager extends AbstractServerModule with IHLASTManagerModule {
   def hlFromAST(ast: BaseUnit): Future[IProject] = {
     val startTime = System.currentTimeMillis()
 
-    checkInitialization()
+    Core
+      .init()
       .flatMap(_ => Core.buildModel(ast, this.platform))
       .map(result => {
 
