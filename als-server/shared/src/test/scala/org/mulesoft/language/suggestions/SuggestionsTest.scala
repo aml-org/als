@@ -31,7 +31,6 @@ abstract class SuggestionsTest extends LanguageServerTest {
         else
           fail(
             s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
-        succeed
       }
     }
   }
@@ -47,15 +46,16 @@ abstract class SuggestionsTest extends LanguageServerTest {
         suggestions
       })
   }
+
   def findMarker(str: String, label: String = "*", cut: Boolean = true): MarkerInfo = {
 
-    var position = str.indexOf(label);
+    val position = str.indexOf(label)
 
     if (position < 0) {
       new MarkerInfo(str, str.length, str)
     } else {
-      var rawContent = str.substring(0, position) + str.substring(position + 1)
-      var preparedContent =
+      val rawContent = str.substring(0, position) + str.substring(position + 1)
+      val preparedContent =
         org.mulesoft.als.suggestions.Core.prepareText(rawContent, position, YAML)
       new MarkerInfo(preparedContent, position, rawContent)
     }

@@ -9,6 +9,7 @@ trait TypedStructureNode extends StructureNode {
 
   /**
     * Node type.
+    *
     * @return
     */
   def nodeType: String

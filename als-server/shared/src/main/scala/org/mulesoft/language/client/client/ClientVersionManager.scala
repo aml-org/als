@@ -8,147 +8,147 @@ import scala.collection.mutable.ListBuffer
 
 class VersionedDocumentManager(val logger: ILogger, val maxStoredVersions: Int = 1) {
 
-    /**
-      * Stores a mapping from document uri to a sorted list of versioned documents.
-      *
-      */
-    val documents: mutable.Map[String, ListBuffer[VersionedDocument]] = mutable.Map()
+  /**
+    * Stores a mapping from document uri to a sorted list of versioned documents.
+    *
+    */
+  val documents: mutable.Map[String, ListBuffer[VersionedDocument]] = mutable.Map()
 
-    /**
-      * Gets latest version of the document by uri, or null if unknown
-      *
-      * @param uri
-      */
-    def getLatestDocumentVersion(uri: String): Option[Int] = getLatestDocument(uri).map(_.version)
+  /**
+    * Gets latest version of the document by uri, or null if unknown
+    *
+    * @param uri
+    */
+  def getLatestDocumentVersion(uri: String): Option[Int] = getLatestDocument(uri).map(_.version)
 
-    def getLatestDocument(uri: String): Option[VersionedDocument] = documents.get(uri).flatMap(_.headOption)
+  def getLatestDocument(uri: String): Option[VersionedDocument] = documents.get(uri).flatMap(_.headOption)
 
-    /**
-      * Registers opened client document. Returns null if such a document is already registered,
-      * or the newly registered document in common format.
-      *
-      * @param proposal
-      */
-    def registerOpenedDocument(proposal: IOpenedDocument): Option[IOpenedDocument] = {
+  /**
+    * Registers opened client document. Returns null if such a document is already registered,
+    * or the newly registered document in common format.
+    *
+    * @param proposal
+    */
+  def registerOpenedDocument(proposal: IOpenedDocument): Option[IOpenedDocument] = {
 
-        this.logger.debug("Open document called for uri " + proposal.uri,
-            "VersionedDocumentManager", "registerOpenedDocument");
+    this.logger
+      .debug("Open document called for uri " + proposal.uri, "VersionedDocumentManager", "registerOpenedDocument");
 
-        this.logger.debugDetail("New text is:\n" + proposal.text,
-            "VersionedDocumentManager", "registerOpenedDocument");
+    this.logger.debugDetail("New text is:\n" + proposal.text, "VersionedDocumentManager", "registerOpenedDocument");
 
-        val versionedDocuments = this.documents.get(proposal.uri)
+    val versionedDocuments = this.documents.get(proposal.uri)
 
-        this.logger.debugDetail("Versioned documents for this uri found: " +
-            (if (versionedDocuments.isDefined) "true" else "false"),
-            "VersionedDocumentManager", "registerOpenedDocument");
+    this.logger.debugDetail("Versioned documents for this uri found: " +
+                              (if (versionedDocuments.isDefined) "true" else "false"),
+                            "VersionedDocumentManager",
+                            "registerOpenedDocument");
 
-        if (versionedDocuments.isDefined) {
+    if (versionedDocuments.isDefined) {
 
-            Some(IOpenedDocument(proposal.uri, 0, proposal.text))
+      Some(IOpenedDocument(proposal.uri, 0, proposal.text))
 
-        } else {
-            val newDocument = new VersionedDocument(proposal.uri, 0, proposal.text)
-            this.documents.put(proposal.uri, ListBuffer() += newDocument)
+    } else {
+      val newDocument = new VersionedDocument(proposal.uri, 0, proposal.text)
+      this.documents.put(proposal.uri, ListBuffer() += newDocument)
 
-            Some(IOpenedDocument(proposal.uri, 0, proposal.text))
-        }
+      Some(IOpenedDocument(proposal.uri, 0, proposal.text))
     }
+  }
 
-    /**
-      * Registers changed client document. Returns null if such a document is already registered,
-      * or the newly registered document in common format.
-      *
-      * @param proposal
-      */
-    def registerChangedDocument(proposal: IChangedDocument): Option[IChangedDocument] = {
+  /**
+    * Registers changed client document. Returns null if such a document is already registered,
+    * or the newly registered document in common format.
+    *
+    * @param proposal
+    */
+  def registerChangedDocument(proposal: IChangedDocument): Option[IChangedDocument] = {
 
-        this.logger.debug("Change document called for uri " + proposal.uri,
-            "VersionedDocumentManager", "registerChangedDocument");
+    this.logger
+      .debug("Change document called for uri " + proposal.uri, "VersionedDocumentManager", "registerChangedDocument");
 
-        this.logger.debugDetail("New text is:\n" + proposal.text,
-            "VersionedDocumentManager", "registerChangedDocument");
+    this.logger.debugDetail("New text is:\n" + proposal.text, "VersionedDocumentManager", "registerChangedDocument");
 
-        val versionedDocuments = this.documents.get(proposal.uri)
+    val versionedDocuments = this.documents.get(proposal.uri)
 
-        this.logger.debugDetail("Versioned documents for this uri found: " +
-            (if (versionedDocuments.isDefined) "true" else "false"),
-            "VersionedDocumentManager", "registerChangedDocument");
+    this.logger.debugDetail("Versioned documents for this uri found: " +
+                              (if (versionedDocuments.isDefined) "true" else "false"),
+                            "VersionedDocumentManager",
+                            "registerChangedDocument");
 
-        if (versionedDocuments.isDefined && versionedDocuments.get.nonEmpty) {
+    if (versionedDocuments.isDefined && versionedDocuments.get.nonEmpty) {
 
-            val latestDocument = versionedDocuments.get.head
+      val latestDocument = versionedDocuments.get.head
 
-            this.logger.debugDetail("Latest document version is " + latestDocument.getVersion,
-                "VersionedDocumentManager", "registerChangedDocument")
+      this.logger.debugDetail("Latest document version is " + latestDocument.getVersion,
+                              "VersionedDocumentManager",
+                              "registerChangedDocument")
 
-            val latestText = latestDocument.getText
+      val latestText = latestDocument.getText
 
-            this.logger.debugDetail("Latest document text is " + latestText,
-                "VersionedDocumentManager", "registerChangedDocument")
+      this.logger
+        .debugDetail("Latest document text is " + latestText, "VersionedDocumentManager", "registerChangedDocument")
 
-            val newText = proposal.text
-            if (newText == null && proposal.textEdits.isDefined) {
-                //newText = applyDocumentEdits(latestText, proposal.textEdits);
-            }
+      val newText = proposal.text
+      if (newText == null && proposal.textEdits.isDefined) {
+        //newText = applyDocumentEdits(latestText, proposal.textEdits);
+      }
 
-            this.logger.debugDetail("Calculated new text is: " + newText,
-                "VersionedDocumentManager", "registerChangedDocument");
+      this.logger
+        .debugDetail("Calculated new text is: " + newText, "VersionedDocumentManager", "registerChangedDocument");
 
-            if (newText.isEmpty) {
-                return null
-            }
+      if (newText.isEmpty) {
+        return null
+      }
 
-            if (newText.contains(latestText)) {
+      if (newText.contains(latestText)) {
 
-                this.logger.debugDetail("No changes of text found",
-                    "VersionedDocumentManager", "registerChangedDocument")
+        this.logger.debugDetail("No changes of text found", "VersionedDocumentManager", "registerChangedDocument")
 
-                return None
-            }
+        return None
+      }
 
-            val newDocument = new VersionedDocument(proposal.uri,
-                latestDocument.getVersion + 1, newText.get);
+      val newDocument = new VersionedDocument(proposal.uri, latestDocument.getVersion + 1, newText.get);
 
-            this.documents.put(proposal.uri, ListBuffer() += newDocument)
+      this.documents.put(proposal.uri, ListBuffer() += newDocument)
 
-            Some(IChangedDocument(newDocument.getUri, newDocument.getVersion, Some(newDocument.getText), None))
-        } else {
+      Some(IChangedDocument(newDocument.getUri, newDocument.getVersion, Some(newDocument.getText), None))
+    } else {
 
-            val newDocument = new VersionedDocument(proposal.uri, 0, proposal.text.get)
-            this.documents.put(proposal.uri, ListBuffer() += newDocument)
+      val newDocument = new VersionedDocument(proposal.uri, 0, proposal.text.get)
+      this.documents.put(proposal.uri, ListBuffer() += newDocument)
 
-            this.logger.debugDetail("Registered new document, returning acceptance",
-                "VersionedDocumentManager", "registerChangedDocument");
+      this.logger.debugDetail("Registered new document, returning acceptance",
+                              "VersionedDocumentManager",
+                              "registerChangedDocument");
 
-            Some(IChangedDocument(proposal.uri, 0, proposal.text, None))
-        }
+      Some(IChangedDocument(proposal.uri, 0, proposal.text, None))
     }
+  }
 
-    /**
-      * Unregisters all document versions by uri.
-      *
-      * @param uri
-      */
-    def unregisterDocument(uri: String): Unit = documents.remove(uri)
+  /**
+    * Unregisters all document versions by uri.
+    *
+    * @param uri
+    */
+  def unregisterDocument(uri: String): Unit = documents.remove(uri)
 }
 
 class VersionedDocument(val uri: String, val version: Int, val text: String) {
 
-    /**
-      * Gets document text
-      *
-      * @return {String}
-      */
-    def getText: String = text
+  /**
+    * Gets document text
+    *
+    * @return {String}
+    */
+  def getText: String = text
 
-    /**
-      * Gets document uri.
-      */
-    def getUri: String = uri
+  /**
+    * Gets document uri.
+    */
+  def getUri: String = uri
 
-    /**
-      * Returns document version, if any.
-      */
-    def getVersion: Int = this.version
+  /**
+    * Returns document version, if any.
+    */
+  def getVersion: Int = this.version
 }

@@ -4,8 +4,10 @@ import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.language.outline.common.commonInterfaces.KeyProvider
 
 class DefaultKeyProvider extends KeyProvider {
+
   /**
     * Returns key for the node
+    *
     * @param node
     * @return
     */
@@ -14,8 +16,7 @@ class DefaultKeyProvider extends KeyProvider {
     if (node.parent.isEmpty) {
 
       NodeNameProvider.getNodeName(node)
-    }
-    else {
+    } else {
 
       NodeNameProvider.getNodeName(node) + " :: " + getKey(node.parent.get)
     }

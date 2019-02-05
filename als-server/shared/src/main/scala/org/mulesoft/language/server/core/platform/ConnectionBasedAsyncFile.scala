@@ -1,16 +1,14 @@
 // $COVERAGE-OFF$
 package org.mulesoft.language.server.core.platform
 
-import org.mulesoft.common.io.{AsyncFile, FileSystem, Id, SyncFile}
+import org.mulesoft.common.io.{AsyncFile, SyncFile}
 import org.mulesoft.language.server.core.connections.IServerConnection
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Future, Promise}
+import scala.concurrent.Future
 
-class ConnectionBasedAsyncFile(connection: IServerConnection,
-                               override val fileSystem: ConnectionBasedFS,
-                               url: String)
-  extends AsyncFile {
+class ConnectionBasedAsyncFile(connection: IServerConnection, override val fileSystem: ConnectionBasedFS, url: String)
+    extends AsyncFile {
 
   override def delete: Future[Unit] = ???
 
@@ -18,23 +16,21 @@ class ConnectionBasedAsyncFile(connection: IServerConnection,
 
   override def write(data: CharSequence, encoding: String): Future[Unit] = ???
 
-  override def sync: SyncFile = new StubSyncFile(this.connection, this.fileSystem,
-    this.url)
+  override def sync: SyncFile = new StubSyncFile(this.connection, this.fileSystem, this.url)
 
   override def list: Future[Array[String]] = {
 
-    this.connection.readDir(this.url).map(sequence=>sequence.toArray)
+    this.connection.readDir(this.url).map(sequence => sequence.toArray)
   }
 
   override def read(encoding: String): Future[CharSequence] = {
 
     val editorOption = this.fileSystem.editorManager.getEditor(this.url)
 
-    if (editorOption.isDefined){
+    if (editorOption.isDefined) {
 
       Future.successful(editorOption.get.text)
-    }
-    else {
+    } else {
       this.connection.content(this.url)
     }
   }
@@ -43,11 +39,10 @@ class ConnectionBasedAsyncFile(connection: IServerConnection,
 
     val editorOption = this.fileSystem.editorManager.getEditor(this.url)
 
-    if (editorOption.isDefined){
+    if (editorOption.isDefined) {
 
       Future.successful(true)
-    }
-    else {
+    } else {
       this.connection.exists(this.url)
     }
   }
@@ -56,11 +51,10 @@ class ConnectionBasedAsyncFile(connection: IServerConnection,
 
     val editorOption = this.fileSystem.editorManager.getEditor(this.url)
 
-    if (editorOption.isDefined){
+    if (editorOption.isDefined) {
 
       Future.successful(false)
-    }
-    else {
+    } else {
       this.connection.isDirectory(this.url)
     }
 
@@ -68,7 +62,7 @@ class ConnectionBasedAsyncFile(connection: IServerConnection,
 
   override def isFile: Future[Boolean] = {
 
-    this.isDirectory.map(isDir=>{
+    this.isDirectory.map(isDir => {
       !isDir
     })
   }
@@ -94,7 +88,7 @@ class ConnectionBasedAsyncFile(connection: IServerConnection,
     val lastSeparatorIndex = this.url.lastIndexOf(this.fileSystem.separatorChar)
 
     if (lastSeparatorIndex == -1 || lastSeparatorIndex == 0 ||
-      lastSeparatorIndex >= this.url.length - 1) {
+        lastSeparatorIndex >= this.url.length - 1) {
       ""
     } else {
       this.url.substring(lastSeparatorIndex + 1)

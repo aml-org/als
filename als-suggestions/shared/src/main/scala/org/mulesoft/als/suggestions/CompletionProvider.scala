@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions
 
+import amf.core.model.document.BaseUnit
 import org.mulesoft.als.suggestions.implementation.{CompletionRequest, LocationKindDetectTool, Suggestion}
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.als.suggestions.interfaces.LocationKind._
@@ -25,7 +26,7 @@ class CompletionProvider {
 
   def suggest(filterByPrefix: Boolean): Future[Seq[ISuggestion]] = {
 
-    var request = composeRequest
+    val request = composeRequest
     fulfillRequest(request).map(result => {
       if (filterByPrefix) {
         filter(result, request)
@@ -63,7 +64,7 @@ class CompletionProvider {
                                    position,
                                    _config,
                                    currentIndent,
-                                   indentCount);
+                                   indentCount)
 
     _config.astProvider match {
       case Some(ap) =>

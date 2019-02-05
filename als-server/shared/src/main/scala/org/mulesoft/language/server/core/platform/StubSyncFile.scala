@@ -1,10 +1,8 @@
 // $COVERAGE-OFF$
 package org.mulesoft.language.server.core.platform
 
-import org.mulesoft.common.io.{AsyncFile, FileSystem, Id, SyncFile}
+import org.mulesoft.common.io.{AsyncFile, Id, SyncFile}
 import org.mulesoft.language.server.core.connections.IServerConnection
-
-import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
   * Stub for sync file based on connection.
@@ -77,4 +75,5 @@ class StubSyncFile(connection: IServerConnection, override val fileSystem: Conne
     }
   }
 }
+
 // $COVERAGE-ON$

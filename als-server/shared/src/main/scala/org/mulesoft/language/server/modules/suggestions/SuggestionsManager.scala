@@ -1,27 +1,19 @@
 package org.mulesoft.language.server.modules.suggestions
 
 import amf.core.remote.{Raml10, Vendor}
-import org.mulesoft.language.common.dtoTypes._
-import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
-import org.mulesoft.language.server.modules.hlastManager.{HLASTmanager, IHLASTListener, IHLASTManagerModule}
-import org.mulesoft.language.server.modules.commonInterfaces.{IAbstractTextEditorWithCursor, IEditorTextBuffer, IPoint}
-import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
-
-import scala.collection.mutable.Buffer
-import scala.collection.mutable.ArrayBuffer
-import scala.concurrent.{Await, Future, Promise}
-import scala.util.{Failure, Success, Try}
-import scala.concurrent.ExecutionContext.Implicits.global
-import org.mulesoft.high.level.Core
-import org.mulesoft.high.level.interfaces.IProject
-import org.mulesoft.language.common.dtoTypes.IStructureReport
 import org.mulesoft.als.suggestions.implementation.CompletionConfig
-import org.mulesoft.als.suggestions.{CompletionProvider, PlatformBasedExtendedFSProvider}
 import org.mulesoft.als.suggestions.interfaces.{ISuggestion, Syntax}
+import org.mulesoft.als.suggestions.{CompletionProvider}
+import org.mulesoft.high.level.implementation.AlsPlatform
 import org.mulesoft.language.server.common.utils.PathRefine
+import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
+import org.mulesoft.language.server.modules.commonInterfaces.IAbstractTextEditorWithCursor
+import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
+import org.mulesoft.language.server.modules.hlastManager.{HLASTmanager, IHLASTManagerModule}
 
-import scala.collection.Map
-import scala.concurrent.duration.Duration
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{Future, Promise}
+import scala.util.{Success, Try}
 
 class SuggestionsManager extends AbstractServerModule {
 
@@ -104,7 +96,7 @@ class SuggestionsManager extends AbstractServerModule {
         //        "SuggestionsManager", "onDocumentCompletion")
 
         this
-          .buildCompletionProviderAST(text, editor.text, url, position, vendor, syntax)
+          .buildCompletionProviderAST(text, editor.text, url, position, vendor, syntax, AlsPlatform.default) // todo find a way to instanciate some platform usings als protocol (initialization maybe?)
           .flatMap(provider => {
 
             provider.suggest.map(result => {
@@ -130,7 +122,8 @@ class SuggestionsManager extends AbstractServerModule {
                                  url: String,
                                  position: Int,
                                  vendor: Vendor,
-                                 syntax: Syntax): Future[CompletionProvider] = {
+                                 syntax: Syntax,
+                                 platform: AlsPlatform): Future[CompletionProvider] = {
 
     this.getHLASTManager
       .forceBuildNewAST(url, text)
@@ -142,12 +135,9 @@ class SuggestionsManager extends AbstractServerModule {
 
         val editorStateProvider = new EditorStateProvider(text, url, baseName, position)
 
-        val platformFSProvider = new PlatformBasedExtendedFSProvider(this.platform)
-
-        val completionConfig = new CompletionConfig()
+        val completionConfig = new CompletionConfig(platform)
           .withEditorStateProvider(editorStateProvider)
           .withAstProvider(astProvider)
-          .withFsProvider(platformFSProvider)
           .withOriginalContent(unmodifiedContent)
 
         CompletionProvider().withConfig(completionConfig)

@@ -11,7 +11,7 @@ class TextEditorInfo(private val uri: String,
                      _text: String,
                      val language: String,
                      val syntax: String,
-//                      private val editorManager: EditorManager,
+                     //                      private val editorManager: EditorManager,
                      private val logger: ILogger)
     extends IAbstractTextEditorWithCursor {
 

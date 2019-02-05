@@ -5,12 +5,8 @@ package org.mulesoft.language.common.dtoTypes
   * Icon identifiers.
   */
 object Icons extends Enumeration {
-  val ARROW_SMALL_LEFT = Value
-  val PRIMITIVE_SQUARE = Value
-  val PRIMITIVE_DOT = Value
-  val FILE_SUBMODULE = Value
-  val TAG = Value
-  val FILE_BINARY = Value
-  val BOOK = Value
+  type Icons = Value
+  val ARROW_SMALL_LEFT, PRIMITIVE_SQUARE, PRIMITIVE_DOT, FILE_SUBMODULE, TAG, FILE_BINARY, BOOK = Value
 }
+
 // $COVERAGE-ON$

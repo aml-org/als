@@ -1,27 +1,26 @@
 // $COVERAGE-OFF$
 package org.mulesoft.language.client.js.serverConnection
 
+import org.mulesoft.language.client.js.Globals
 import org.mulesoft.language.client.js.dtoTypes._
-import org.mulesoft.language.client.js.{Globals, dtoTypes}
 import org.mulesoft.language.common.dtoTypes._
-import org.mulesoft.language.common.logger.{IPrintlnLogger, MutedLogger, PrintlnLogger}
+import org.mulesoft.language.common.logger.MutedLogger
 import org.mulesoft.language.server.core.connections.AbstractServerConnection
 import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Future, Promise}
+import scala.concurrent.Future
 import scala.scalajs.js
 import scala.scalajs.js.annotation.ScalaJSDefined
-import scala.util.{Failure, Success}
 
 @ScalaJSDefined
 class WrappedPayload extends js.Object {
-  var wrapped: js.Object = null;
+  var wrapped: js.Object = _
 }
 
 @ScalaJSDefined
 class WrappedMessage extends js.Object {
-  var payload: js.Object = null;
+  var payload: js.Object = _
 }
 
 class NodeServerConnection extends MutedLogger with NodeMessageDispatcher with AbstractServerConnection {
@@ -34,41 +33,41 @@ class NodeServerConnection extends MutedLogger with NodeMessageDispatcher with A
 
   protected def initialize(): Unit = {
     this
-      .newMeta("EXISTS", Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientBoolResponse", true)));
+      .newMeta("EXISTS", Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientBoolResponse", true)))
     this.newMeta("READ_DIR",
-                 Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientStringSeqResponse", true)));
+                 Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientStringSeqResponse", true)))
     this.newMeta("IS_DIRECTORY",
-                 Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientBoolResponse", true)));
+                 Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientBoolResponse", true)))
     this.newMeta("CONTENT",
-                 Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientStringResponse", true)));
+                 Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClientStringResponse", true)))
 
     this.newVoidHandler("CHANGE_POSITION",
-                        handleChangedPosition _,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ChangedPosition")));
+                        handleChangedPosition,
+                        Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ChangedPosition")))
 
     this.newVoidHandler("OPEN_DOCUMENT",
-                        this.handleOpenDocument _,
+                        this.handleOpenDocument,
                         Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.OpenedDocument")))
 
     this.newVoidHandler("CLOSE_DOCUMENT",
-                        (document: ClosedDocument) => Unit,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClosedDocument", true)));
+                        (_: ClosedDocument) => Unit,
+                        Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ClosedDocument", true)))
 
     this.newVoidHandler("CHANGE_DOCUMENT",
-                        this.handleChangedDocument _,
+                        this.handleChangedDocument,
                         Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.ChangedDocument")))
 
     this.newFutureHandler(
       "GET_STRUCTURE",
-      this.handleGetStructure _,
+      this.handleGetStructure,
       Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.GetStructureRequest", true, true)))
 
     this.newVoidHandler("SET_LOGGER_CONFIGURATION",
-                        this.handleSetLoggerConfiguration _,
+                        this.handleSetLoggerConfiguration,
                         Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.LoggerSettings")))
 
     this.newFutureSeqHandler("GET_SUGGESTIONS",
-                             this.handleGetSuggestions _,
+                             this.handleGetSuggestions,
                              Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.GetCompletionRequest")))
 
     this.newFutureHandler[FindDeclarationRequest, LocationsResponse](
@@ -78,7 +77,7 @@ class NodeServerConnection extends MutedLogger with NodeMessageDispatcher with A
           .head(request.uri, request.position)
           .map(result => new LocationsResponse(result.map(location => Location.sharedToTransport(location)))),
       Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.FindDeclarationRequest"))
-    );
+    )
 
     this.newFutureHandler[FindReferencesRequest, LocationsResponse](
       "FIND_REFERENCES",
@@ -87,18 +86,18 @@ class NodeServerConnection extends MutedLogger with NodeMessageDispatcher with A
           .head(request.uri, request.position)
           .map(result => new LocationsResponse(result.map(location => Location.sharedToTransport(location)))),
       Option(NodeMsgTypeMeta("org.mulesoft.language.client.js.dtoTypes.FindReferencesRequest"))
-    );
+    )
   }
 
   protected def internalSendJSONMessage(message: js.Object): Unit = {
 
     if (message.hasOwnProperty("payload") && message.asInstanceOf[WrappedMessage].payload.hasOwnProperty("wrapped")) {
-      var payload = message.asInstanceOf[WrappedMessage].payload.asInstanceOf[WrappedPayload];
+      var payload = message.asInstanceOf[WrappedMessage].payload.asInstanceOf[WrappedPayload]
 
-      message.asInstanceOf[WrappedMessage].payload = payload.wrapped;
+      message.asInstanceOf[WrappedMessage].payload = payload.wrapped
     }
 
-    Globals.process.send(message);
+    Globals.process.send(message)
   }
 
   def handleChangedPosition(changedPosition: ChangedPosition): Unit = {}
@@ -150,6 +149,7 @@ class NodeServerConnection extends MutedLogger with NodeMessageDispatcher with A
 
   /**
     * Reports new calculated structure when available.
+    *
     * @param report - structure report.
     */
   def structureAvailable(report: IStructureReport): Unit = {
@@ -170,14 +170,14 @@ class NodeServerConnection extends MutedLogger with NodeMessageDispatcher with A
     *
     * @param path
     */
-  override def exists(path: String): Future[Boolean] = FS.exists(path);
+  override def exists(path: String): Future[Boolean] = FS.exists(path)
 
   /**
     * Returns directory content list.
     *
     * @param path
     */
-  override def readDir(path: String): Future[Seq[String]] = FS.readDir(path);
+  override def readDir(path: String): Future[Seq[String]] = FS.readDir(path)
 
   /**
     * Returns whether path/url represents a directory
@@ -208,7 +208,7 @@ class NodeServerConnection extends MutedLogger with NodeMessageDispatcher with A
       FS.content(fullPath)
     }
 
-  };
+  }
 
   /**
     * Adds a listener to document details request. Must notify listeners in order of registration.
@@ -233,4 +233,5 @@ class NodeServerConnection extends MutedLogger with NodeMessageDispatcher with A
     */
   override def displayActionUI(uiDisplayRequest: IUIDisplayRequest): Future[Any] = ???
 }
+
 // $COVERAGE-ON$

@@ -17,6 +17,7 @@ trait IASTManagerModule extends IServerIOCModule {
 
   /**
     * Returns currently available AST for the document, if any
+    *
     * @param uri
     */
   def getCurrentAST(uri: String): Option[BaseUnit]
@@ -24,12 +25,14 @@ trait IASTManagerModule extends IServerIOCModule {
   /**
     * Gets current AST if there is any.
     * If not, performs immediate asynchronous parsing and returns the results.
+    *
     * @param uri
     */
   def forceGetCurrentAST(uri: String): Future[BaseUnit]
 
   /**
     * Adds listener for new ASTs being parsed.
+    *
     * @param listener
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
@@ -38,6 +41,7 @@ trait IASTManagerModule extends IServerIOCModule {
   /**
     * Gets current AST if there is any.
     * If not, performs immediate asynchronous parsing and returns the results.
+    *
     * @param uri
     */
   def forceBuildNewAST(uri: String, text: String): Future[BaseUnit]

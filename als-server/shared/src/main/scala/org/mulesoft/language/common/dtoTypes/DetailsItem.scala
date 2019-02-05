@@ -5,163 +5,68 @@ package org.mulesoft.language.common.dtoTypes
   */
 sealed trait IDetailsItem {
 
- /**
-   * Node title.
-   */
- def title: String
+  /**
+    * Node title.
+    */
+  def title: String
 
- /**
-   * Node description
-   */
- def description: String
+  /**
+    * Node description
+    */
+  def description: String
 
- /**
-   * Node type name
-   */
- def `type`: String
+  /**
+    * Node type name
+    */
+  def `type`: String
 
- /**
-   * Error, associated with the node.
-   */
- def error: String
+  /**
+    * Error, associated with the node.
+    */
+  def error: String
 
- /**
-   * Node children.
-   */
- def children: Seq[DetailsItem]
+  /**
+    * Node children.
+    */
+  def children: Seq[DetailsItem]
 
- /**
-   * Node ID.
-   */
- def id: String
+  /**
+    * Node ID.
+    */
+  def id: String
 }
 
 /**
   * The node of details tree converted to JSON
   */
-case class DetailsItem (
+case class DetailsItem(title: String,
+                       description: String,
+                       `type`: String,
+                       error: String,
+                       children: Seq[DetailsItem],
+                       id: String)
+    extends IDetailsItem {}
 
-  /**
-    * Node title.
-    */
-  title: String,
-
-  /**
-    * Node description
-    */
-  description: String,
-
-  /**
-    * Node type name
-    */
-  `type`: String,
-
-  /**
-    * Error, associated with the node.
-    */
-  error: String,
-
-  /**
-    * Node children.
-    */
-  children: Seq[DetailsItem],
-
-  /**
-    * Node ID.
-    */
-  id: String
-
-) extends IDetailsItem
-{
-
-}
-
-  /**
-    * Details item having a value text.
-    */
-case class DetailsValuedItem (
-
- /**
-   * Node title.
-   */
- title: String,
-
- /**
-   * Node description
-   */
- description: String,
-
- /**
-   * Node type name
-   */
- `type`: String,
-
- /**
-   * Error, associated with the node.
-   */
- error: String,
-
- /**
-   * Node children.
-   */
- children: Seq[DetailsItem],
-
- /**
-   * Node ID.
-   */
- id: String,
-
-  /**
-    * Value text.
-    */
-  valueText: String
-
-) extends IDetailsItem
-{
-
-}
+/**
+  * Details item having a value text.
+  */
+case class DetailsValuedItem(title: String,
+                             description: String,
+                             `type`: String,
+                             error: String,
+                             children: Seq[DetailsItem],
+                             id: String,
+                             valueText: String)
+    extends IDetailsItem {}
 
 /**
   * Details item having potential value options
   */
-case class DetailsItemWithOptions (
-
-  /**
-    * Node title.
-    */
-  title: String,
-
-  /**
-    * Node description
-    */
-  description: String,
-
-  /**
-    * Node type name
-    */
-  `type`: String,
-
-  /**
-    * Error, associated with the node.
-    */
-  error: String,
-
-  /**
-    * Node children.
-    */
-  children: Seq[DetailsItem],
-
-  /**
-    * Node ID.
-    */
-  id: String,
-
-  /**
-    * Potential options.
-    */
-  options: Seq[String]
-
-) extends IDetailsItem
-{
-
-}
+case class DetailsItemWithOptions(title: String,
+                                  description: String,
+                                  `type`: String,
+                                  error: String,
+                                  children: Seq[DetailsItem],
+                                  id: String,
+                                  options: Seq[String])
+    extends IDetailsItem {}

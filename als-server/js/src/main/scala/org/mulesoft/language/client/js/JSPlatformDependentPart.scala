@@ -3,18 +3,14 @@ package org.mulesoft.language.client.js
 
 import java.net.URI
 
-import amf.core.lexer.CharSequenceStream
 import amf.client.remote.Content
-import amf.core.remote.server.{Http, Https}
-import org.mulesoft.language.server.core.connections.IServerConnection
-import org.mulesoft.language.server.core.platform.ConnectionBasedPlatform
-import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
+import amf.core.lexer.CharSequenceStream
+import amf.core.remote.server.{Http, Https, Path}
+import org.mulesoft.language.server.core.platform.PlatformDependentPart
 
 import scala.concurrent.{Future, Promise}
 import scala.scalajs.js
-import org.mulesoft.language.server.core.platform.PlatformDependentPart
 import scala.scalajs.js.URIUtils
-import amf.core.remote.server.Path
 
 /**
   * Connection-based platform being able to fetch http resources
@@ -33,7 +29,7 @@ object JSPlatformDependentPart extends PlatformDependentPart {
 
           // CAREFUL!
           // this is required to avoid undefined behaviours
-          val dataCb: js.Function1[Any, Any] = { (res: Any) =>
+          val dataCb: js.Function1[Any, Any] = { res: Any =>
             str += res.toString
           }
           // Another chunk of data has been received, append it to `str`
@@ -57,7 +53,7 @@ object JSPlatformDependentPart extends PlatformDependentPart {
         (response: js.Dynamic) => {
           var str = ""
 
-          val dataCb: js.Function1[Any, Any] = { (res: Any) =>
+          val dataCb: js.Function1[Any, Any] = { res: Any =>
             str += res.toString
           }
           // Another chunk of data has been received, append it to `str`
@@ -97,6 +93,7 @@ object JSPlatformDependentPart extends PlatformDependentPart {
 
   override def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] = stream.toString.find(p)
 
-  override def operativeSystem(): String = Globals.process.platform;
+  override def operativeSystem(): String = Globals.process.platform
 }
+
 // $COVERAGE-ON$

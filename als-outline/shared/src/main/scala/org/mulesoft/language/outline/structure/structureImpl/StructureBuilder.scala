@@ -2,41 +2,42 @@ package org.mulesoft.language.outline.structure.structureImpl
 
 import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.language.outline.common.commonInterfaces._
-import org.mulesoft.language.outline.structure.structureInterfaces.{ContentProvider, StructureConfiguration, StructureNode}
+import org.mulesoft.language.outline.structure.structureInterfaces.{
+  ContentProvider,
+  StructureConfiguration,
+  StructureNode
+}
 
 import scala.collection._
 import scala.collection.mutable.ArrayBuffer
 
-class StructureBuilder (private val config: StructureConfiguration) {
+class StructureBuilder(private val config: StructureConfiguration) {
 
   def getStructureForAllCategories: Map[String, StructureNode] = {
 
     val hlRootOption = this.config.astProvider.getASTRoot
 
-    if (hlRootOption.isEmpty){
+    if (hlRootOption.isEmpty) {
 
       immutable.HashMap()
     } else {
 
-
       val selectedOption = this.config.astProvider.getSelectedNode
-      val structureRoot = StructureBuilder.hlNodeToStructureNode(
-        hlRootOption.get, selectedOption,
-        this.config.labelProvider,
-        this.config.keyProvider,
-        this.config.decorators)
+      val structureRoot = StructureBuilder.hlNodeToStructureNode(hlRootOption.get,
+                                                                 selectedOption,
+                                                                 this.config.labelProvider,
+                                                                 this.config.keyProvider,
+                                                                 this.config.decorators)
 
       this.buildTreeRecursively(structureRoot, this.config.contentProvider)
 
       val result: mutable.HashMap[String, StructureNode] = mutable.HashMap()
 
-      this.config.categories.keys.foreach{
-        case (categoryName)=>{
-          val categoryFilter = this.config.categories(categoryName)
-          val filteredTree = this.filterTreeByCategory(structureRoot, categoryName, categoryFilter)
+      this.config.categories.keys.foreach { categoryName =>
+        val categoryFilter = this.config.categories(categoryName)
+        val filteredTree   = this.filterTreeByCategory(structureRoot, categoryName, categoryFilter)
 
-          result(categoryName) = filteredTree
-        }
+        result(categoryName) = filteredTree
       }
 
       result
@@ -53,12 +54,11 @@ class StructureBuilder (private val config: StructureConfiguration) {
 
       children.foreach(child => {
 
-        if(child.isInstanceOf[StructureNodeImpl])
+        if (child.isInstanceOf[StructureNodeImpl])
           this.buildTreeRecursively(child.asInstanceOf[StructureNodeImpl], contentProvider)
       })
 
-    }
-    else {
+    } else {
       structureNode.children = ArrayBuffer()
     }
 
@@ -75,15 +75,14 @@ class StructureBuilder (private val config: StructureConfiguration) {
 
       var filteredChildren = root.children
 
-      filteredChildren = root.children.filter(child=>{
+      filteredChildren = root.children.filter(child => {
 
         val result = categoryFilter.apply(child.getSource)
 
         result
-      })//_underscore_.filter(root.children, (child => filter(child.getSource()))))
+      }) //_underscore_.filter(root.children, (child => filter(child.getSource()))))
 
       filteredChildren.foreach(child => child.asInstanceOf[StructureNodeImpl].category = categoryName)
-
 
       result.asInstanceOf[StructureNodeImpl].children = filteredChildren
 
@@ -109,7 +108,6 @@ class StructureBuilder (private val config: StructureConfiguration) {
     result
   }
 
-
 }
 
 object StructureBuilder {
@@ -124,10 +122,8 @@ object StructureBuilder {
 
     result.text = labelProvider.getLabelText(hlNode)
 
-
-//    println("Converting node " +
-//      (if(hlNode.isElement) hlNode.asElement.get.definition.nameId.get else if (hlNode.isAttr)hlNode.asAttr.get.name else "Unknown"))
-
+    //    println("Converting node " +
+    //      (if(hlNode.isElement) hlNode.asElement.get.definition.nameId.get else if (hlNode.isAttr)hlNode.asAttr.get.name else "Unknown"))
 
     result.typeText = labelProvider.getTypeText(hlNode)
 
@@ -136,10 +132,10 @@ object StructureBuilder {
     if (decoratorOption.isDefined) {
 
       val iconOption = decoratorOption.get.getIcon(hlNode)
-      result.icon = if(iconOption.isDefined) iconOption.get else ""
+      result.icon = if (iconOption.isDefined) iconOption.get else ""
 
       val textStyleOption = decoratorOption.get.getTextStyle(hlNode)
-      result.textStyle = if(textStyleOption.isDefined) textStyleOption.get else ""
+      result.textStyle = if (textStyleOption.isDefined) textStyleOption.get else ""
     }
 
     result.key = keyProvider.getKey(hlNode)
@@ -160,7 +156,7 @@ object StructureBuilder {
 
     val source = node.getSource
 
-    decorators.find(decorator=>{
+    decorators.find(decorator => {
       decorator.getIcon(source).isDefined || decorator.getTextStyle(source).isDefined
     })
 
@@ -170,12 +166,12 @@ object StructureBuilder {
     val ranges = node.sourceInfo.ranges
     if (ranges.isEmpty) {
 
-      IRange (0, 0)
+      IRange(0, 0)
     } else {
-      var min = ranges(0).start.position
-      var max = ranges(0).end.position
+      var min = ranges.head.start.position
+      var max = ranges.head.end.position
 
-      ranges.foreach(range=>{
+      ranges.foreach(range => {
 
         if (range.start.position < min) {
           min = range.start.position
