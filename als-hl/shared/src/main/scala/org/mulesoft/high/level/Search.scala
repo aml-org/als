@@ -1,15 +1,14 @@
 package org.mulesoft.high.level
 
 import amf.core.metamodel.domain.LinkableElementModel
+import amf.core.model.document.DeclaresModel
 import amf.core.model.domain.AmfScalar
 import amf.core.remote._
-import org.mulesoft.high.level.Search.collectOASReferences
 import org.mulesoft.high.level.interfaces.{IASTUnit, IHighLevelNode, IParseResult}
 import org.mulesoft.positioning.YamlLocation
 import org.mulesoft.typesystem.json.interfaces.JSONWrapper
 import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
 import org.mulesoft.typesystem.project.ModuleDependencyEntry
-import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
 import org.yaml.model.{YMap, YScalar}
 
 import scala.collection.mutable.ListBuffer
@@ -33,16 +32,17 @@ object Search {
   }
 
   private def extractDeclarations(unit: IASTUnit, typeName: String) = {
-    var ownDeclarations: Seq[IHighLevelNode] = unit.rootNode.children.flatMap(x => {
-      if (!x.isElement) {
-        None
-      } else if (x.asElement.get.definition.isAssignableFrom(typeName)) {
-        x.asElement
-      } else {
-        None
-      }
-    })
-    ownDeclarations
+    if (unit.baseUnit.isInstanceOf[DeclaresModel]) {
+      unit.rootNode.children.flatMap(x => {
+        if (!x.isElement) {
+          None
+        } else if (x.asElement.get.definition.isAssignableFrom(typeName)) {
+          x.asElement
+        } else {
+          None
+        }
+      })
+    } else Nil
   }
   // $COVERAGE-ON$
   def getNodesOfType(unit: IASTUnit,

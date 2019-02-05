@@ -43,7 +43,7 @@ class HLASTmanager extends AbstractServerModule with IHLASTManagerModule {
 
     Core
       .init()
-      .map(nothing => {
+      .map(_ => {
         initialized = true
       })
 
