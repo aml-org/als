@@ -13,14 +13,14 @@ trait AbstractClientConnection extends IClientConnection {
   //    private loggerSettings: ILoggerSettings;
   //
   protected var validationReportListeners: mutable.Buffer[IValidationReport => Unit] = ArrayBuffer()
-  protected var structureReportListeners: mutable.Buffer[IStructureReport => Unit]   = ArrayBuffer()
+  protected var structureReportListeners: mutable.Buffer[IStructureReport => Unit] = ArrayBuffer()
   //    private versionManager: VersionedDocumentManager;
   //
-  protected var onExistsListeners: mutable.Buffer[String => Future[Boolean]]                 = ArrayBuffer()
-  protected var onReadDirListeners: mutable.Buffer[String => Future[Seq[String]]]            = ArrayBuffer()
-  protected var onIsDirectoryListeners: mutable.Buffer[String => Future[Boolean]]            = ArrayBuffer()
-  protected var onContentListeners: mutable.Buffer[String => Future[String]]                 = ArrayBuffer()
-  protected var onDetailsReportListeners: mutable.Buffer[IDetailsReport => Unit]             = ArrayBuffer()
+  protected var onExistsListeners: mutable.Buffer[String => Future[Boolean]] = ArrayBuffer()
+  protected var onReadDirListeners: mutable.Buffer[String => Future[Seq[String]]] = ArrayBuffer()
+  protected var onIsDirectoryListeners: mutable.Buffer[String => Future[Boolean]] = ArrayBuffer()
+  protected var onContentListeners: mutable.Buffer[String => Future[String]] = ArrayBuffer()
+  protected var onDetailsReportListeners: mutable.Buffer[IDetailsReport => Unit] = ArrayBuffer()
   protected var onDisplayActionUIListeners: mutable.Buffer[IUIDisplayRequest => Future[Any]] = ArrayBuffer()
 
   def setServerConfiguration(serverSettings: IServerConfiguration): Unit = {

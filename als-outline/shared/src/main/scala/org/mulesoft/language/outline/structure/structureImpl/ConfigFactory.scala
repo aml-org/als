@@ -15,16 +15,15 @@ object ConfigFactory {
 
       val languageConfig = plugin.get.buildConfig(astProvider)
 
-      Some(
-        StructureConfiguration(
-          astProvider,
-          languageConfig.labelProvider,
-          languageConfig.contentProvider,
-          languageConfig.categories,
-          languageConfig.decorators,
-          new DefaultKeyProvider(),
-          languageConfig.visibilityFilter
-        ))
+      Some(StructureConfiguration(
+        astProvider,
+        languageConfig.labelProvider,
+        languageConfig.contentProvider,
+        languageConfig.categories,
+        languageConfig.decorators,
+        new DefaultKeyProvider(),
+        languageConfig.visibilityFilter
+      ))
     } else {
 
       None

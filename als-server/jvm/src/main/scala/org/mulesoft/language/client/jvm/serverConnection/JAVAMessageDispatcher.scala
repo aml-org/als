@@ -6,13 +6,21 @@ import org.mulesoft.language.common.logger.ILogger
 import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage, ProtocolSeqMessage}
 
 trait JAVAMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, JAVAMessageType] with ILogger {
-  def internalSendJSONMessage(message: Any) {}
+  def internalSendJSONMessage(message: Any) {
 
-  def handleJSONMessageReceived(message: Any) {}
+  }
 
-  def internalSendMessage(message: ProtocolMessage[ProtocolMessagePayload]) {}
+  def handleJSONMessageReceived(message: Any) {
 
-  def internalSendSeqMessage(message: ProtocolSeqMessage[ProtocolMessagePayload]) {}
+  }
+
+  def internalSendMessage(message: ProtocolMessage[ProtocolMessagePayload]) {
+
+  }
+
+  def internalSendSeqMessage(message: ProtocolSeqMessage[ProtocolMessagePayload]) {
+
+  }
 }
 
 // $COVERAGE-ON$

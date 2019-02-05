@@ -2,11 +2,7 @@ package org.mulesoft.language.test.serverConnection
 
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.common.logger.MutedLogger
-import org.mulesoft.language.entryPoints.common.{
-  MessageDispatcher,
-  ProtocolMessage => SharedProtocolMessage,
-  ProtocolSeqMessage => SharedProtocolSeqMessage
-}
+import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage => SharedProtocolMessage, ProtocolSeqMessage => SharedProtocolSeqMessage}
 import org.mulesoft.language.server.core.connections.AbstractServerConnection
 import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
 import org.mulesoft.language.test.clientConnection.TestClientConnetcion
@@ -27,7 +23,7 @@ class WrappedMessage { //extends js.Object {
 }
 
 class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
-    extends MutedLogger
+  extends MutedLogger
     with MessageDispatcher[ProtocolMessagePayload, NodeMsgTypeMeta]
     with AbstractServerConnection {
 
@@ -40,26 +36,26 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
   protected def initialize(): Unit = {
     this.newMeta("EXISTS", Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientBoolResponse", true)))
     this.newMeta("READ_DIR",
-                 Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientStringSeqResponse", true)))
-    this
-      .newMeta("IS_DIRECTORY", Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientBoolResponse", true)))
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientStringSeqResponse", true)))
+    this.newMeta("IS_DIRECTORY",
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientBoolResponse", true)))
     this.newMeta("CONTENT", Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientStringResponse", true)))
 
     this.newVoidHandler("CHANGE_POSITION",
-                        handleChangedPosition _,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedPosition")))
+      handleChangedPosition _,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedPosition")))
 
     this.newVoidHandler("OPEN_DOCUMENT",
-                        this.handleOpenDocument _,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.OpenedDocument")))
+      this.handleOpenDocument _,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.OpenedDocument")))
 
     this.newVoidHandler("CLOSE_DOCUMENT",
-                        (document: ClosedDocument) => Unit,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClosedDocument", true)))
+      (document: ClosedDocument) => Unit,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClosedDocument", true)))
 
     this.newVoidHandler("CHANGE_DOCUMENT",
-                        this.handleChangedDocument _,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedDocument")))
+      this.handleChangedDocument _,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedDocument")))
 
     this.newFutureHandler(
       "GET_STRUCTURE",
@@ -67,16 +63,16 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
       Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.GetStructureRequest", true, true)))
 
     this.newFutureHandler("RENAME",
-                          this.handleRename _,
-                          Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.RenameRequest")))
+      this.handleRename _,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.RenameRequest")))
 
     this.newVoidHandler("SET_LOGGER_CONFIGURATION",
-                        this.handleSetLoggerConfiguration _,
-                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.LoggerSettings")))
+      this.handleSetLoggerConfiguration _,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.LoggerSettings")))
 
     this.newFutureHandler("GET_SUGGESTIONS",
-                          this.handleGetSuggestions _,
-                          Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.GetCompletionRequest")))
+      this.handleGetSuggestions _,
+      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.GetCompletionRequest")))
 
     this.newFutureHandler[FindDeclarationRequest, LocationsResponse](
       "OPEN_DECLARATION",

@@ -7,7 +7,7 @@ package org.mulesoft.language.test.serverConnection
   * @param wrapInput     - whether to wrap input
   */
 case class NodeMsgTypeMeta(
-    inputTypeName: String,
-    wrapInput: Boolean = false,
-    wrapOutput: Boolean = false
-) {}
+                            inputTypeName: String,
+                            wrapInput: Boolean = false,
+                            wrapOutput: Boolean = false
+                          ) {}

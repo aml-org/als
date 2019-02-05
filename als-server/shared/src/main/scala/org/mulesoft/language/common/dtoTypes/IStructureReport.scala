@@ -6,16 +6,19 @@ import org.mulesoft.language.outline.structure.structureInterfaces.StructureNode
   * Report for document structure.
   */
 case class IStructureReport(
-    /**
-      * Document uri.
-      */
-    var uri: String,
-    /**
-      * Optional document version.
-      */
-    var version: Int,
-    /**
-      * Document structure.
-      */
-    var structure: Map[String, StructureNodeJSON]
-) {}
+
+                             /**
+                               * Document uri.
+                               */
+                             var uri: String,
+
+                             /**
+                               * Optional document version.
+                               */
+                             var version: Int,
+
+                             /**
+                               * Document structure.
+                               */
+                             var structure: Map[String, StructureNodeJSON]
+                           ) {}

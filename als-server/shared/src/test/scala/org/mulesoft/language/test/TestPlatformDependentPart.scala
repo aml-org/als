@@ -7,7 +7,6 @@ import org.mulesoft.language.server.core.platform.PlatformDependentPart
 import scala.concurrent.Future
 
 class TestPlatformDependentPart extends PlatformDependentPart with PlatformSecrets {
-
   /**
     * Fetches contents via http
     *

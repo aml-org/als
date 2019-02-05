@@ -21,7 +21,7 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
 
     var currentOffset = 0
 
-    for { i <- this.lineLengths.indices } {
+    for {i <- this.lineLengths.indices} {
       currentOffset += this.lineLengths(i)
 
       if (currentOffset > offset) {
@@ -35,7 +35,7 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
   def characterIndexForPosition(position: IPoint): Int = {
     var lineStartOffset = 0
 
-    for { i <- 0 until position.row } {
+    for {i <- 0 until position.row} {
       lineStartOffset += this.lineLengths(i)
     }
 
@@ -54,16 +54,16 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
 
     var found: Option[IPoint] = None
 
-    for { i <- 0 to this.lineLengths.length if found.isEmpty } {
+    for {i <- 0 to this.lineLengths.length if found.isEmpty} {
 
       val lineLength = this.lineLengths(i)
 
       if (pos < lineLength) {
 
         this.logger.debugDetail("positionForCharacterIndex:" + offset +
-                                  ": [" + i + ":" + pos + "]",
-                                "EditorManager",
-                                "TextBufferInfo#positionForCharacterIndex")
+          ": [" + i + ":" + pos + "]",
+          "EditorManager",
+          "TextBufferInfo#positionForCharacterIndex")
 
         found = Option(
           IPoint(
@@ -82,12 +82,12 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
 
       if (pos == 0) {
 
-        val resultRow    = this.lineLengths.length - 1
+        val resultRow = this.lineLengths.length - 1
         val resultColumn = this.lineLengths(this.lineLengths.length - 1)
 
         this.logger.debugDetail("positionForCharacterIndex:" + offset + ": [" + resultRow + ":" + resultColumn + "]",
-                                "EditorManager",
-                                "TextBufferInfo#positionForCharacterIndex")
+          "EditorManager",
+          "TextBufferInfo#positionForCharacterIndex")
 
         IPoint(
           resultRow,
@@ -108,7 +108,7 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
 
     var lineStartOffset = 0
 
-    for { i <- 0 until rowParam } {
+    for {i <- 0 until rowParam} {
       lineStartOffset += this.lineLengths(i)
     }
 
@@ -133,7 +133,7 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
 
     new IRange {
       var start: IPoint = startPoint
-      var end: IPoint   = endPoint
+      var end: IPoint = endPoint
     }
 
   }
@@ -141,7 +141,7 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
   def getTextInRange(range: IRange): String = {
 
     val startOffset = this.characterIndexForPosition(range.start)
-    val endOffset   = this.characterIndexForPosition(range.end)
+    val endOffset = this.characterIndexForPosition(range.end)
 
     val result = this.text.substring(startOffset, endOffset)
 
@@ -218,11 +218,11 @@ class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
     this.lineLengths = ArrayBuffer[Int]()
 
     var ind = 0
-    val l   = this.text.length
+    val l = this.text.length
 
     var ignoreNext = false
 
-    for { i <- 0 until l } {
+    for {i <- 0 until l} {
 
       if (ignoreNext) {
         ignoreNext = false

@@ -137,7 +137,7 @@ object ServerProcess {
               override var uri: String = item.uri
 
               override var version: Int = 0
-          })
+            })
           .foreach(location => list.add(location))
 
         renameHandler.success(list)

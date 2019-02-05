@@ -12,7 +12,7 @@ import org.mulesoft.language.server.core.connections.IServerConnection
   * @param url
   */
 class StubSyncFile(connection: IServerConnection, override val fileSystem: ConnectionBasedFS, url: String)
-    extends SyncFile {
+  extends SyncFile {
 
   override def delete: Id[Unit] = ???
 
@@ -68,7 +68,7 @@ class StubSyncFile(connection: IServerConnection, override val fileSystem: Conne
     val lastSeparatorIndex = this.url.lastIndexOf(this.fileSystem.separatorChar)
 
     if (lastSeparatorIndex == -1 || lastSeparatorIndex == 0 ||
-        lastSeparatorIndex >= this.url.length - 1) {
+      lastSeparatorIndex >= this.url.length - 1) {
       ""
     } else {
       this.url.substring(lastSeparatorIndex + 1)
