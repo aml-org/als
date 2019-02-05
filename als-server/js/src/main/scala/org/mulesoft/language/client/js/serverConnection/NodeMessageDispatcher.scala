@@ -5,11 +5,7 @@ import org.mulesoft.language.client.js.CustomPicklerConfig.{macroRW, read, write
 import org.mulesoft.language.client.js.Globals
 import org.mulesoft.language.client.js.dtoTypes.ProtocolMessagePayload
 import org.mulesoft.language.common.logger.ILogger
-import org.mulesoft.language.entryPoints.common.{
-  MessageDispatcher,
-  ProtocolMessage => SharedProtocolMessage,
-  ProtocolSeqMessage => SharedProtocolSeqMessage
-}
+import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage => SharedProtocolMessage, ProtocolSeqMessage => SharedProtocolSeqMessage}
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
@@ -38,7 +34,8 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
 
     val messageStr = JSON.stringify(message, Seq[js.Any]().toJSArray, "")
 
-    this.debugDetail("Recieved message: " + messageStr, "NodeMessageDispatcher", "handleJSONMessageRecieved")
+    this.debugDetail("Recieved message: " + messageStr,
+      "NodeMessageDispatcher", "handleJSONMessageRecieved")
 
     val dynamicMessage = message.asInstanceOf[js.Dynamic]
 
@@ -48,12 +45,9 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
 
       val protocolMessageTry = this.deserializeMessage(message);
 
-      this.debugDetail(
-        "Deserialized message: " +
-          (if (protocolMessageTry.isSuccess) protocolMessageTry.get.`type` else "failed"),
-        "NodeMessageDispatcher",
-        "handleJSONMessageRecieved"
-      )
+      this.debugDetail("Deserialized message: " +
+        (if (protocolMessageTry.isSuccess) protocolMessageTry.get.`type` else "failed"),
+        "NodeMessageDispatcher", "handleJSONMessageRecieved")
 
       protocolMessageTry match {
         case Success(protocolMessage) =>
@@ -74,13 +68,13 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
     */
   def internalSendMessage(message: SharedProtocolMessage[ProtocolMessagePayload]): Unit = {
 
-    this.debugDetail("Sending message of type: " + message.`type`, "NodeMessageDispatcher", "internalSendMessage")
+    this.debugDetail("Sending message of type: " + message.`type`,
+      "NodeMessageDispatcher", "internalSendMessage")
 
     val protocolMessage = this.serializeMessage(message)
 
     this.debugDetail("Serialized message: " + JSON.stringify(protocolMessage, Seq[js.Any]().toJSArray, ""),
-                     "NodeMessageDispatcher",
-                     "internalSendMessage")
+      "NodeMessageDispatcher", "internalSendMessage")
 
     this.internalSendJSONMessage(protocolMessage.asInstanceOf[js.Object])
   }
@@ -95,13 +89,13 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
     */
   def internalSendSeqMessage(message: SharedProtocolSeqMessage[ProtocolMessagePayload]): Unit = {
 
-    this.debugDetail("Sending message of type: " + message.`type`, "NodeMessageDispatcher", "internalSendMessage")
+    this.debugDetail("Sending message of type: " + message.`type`,
+      "NodeMessageDispatcher", "internalSendMessage")
 
     val protocolMessage = this.serializeSeqMessage(message)
 
     this.debugDetail("Serialized message: " + JSON.stringify(protocolMessage, Seq[js.Any]().toJSArray, ""),
-                     "NodeMessageDispatcher",
-                     "internalSendMessage")
+      "NodeMessageDispatcher", "internalSendMessage")
 
     this.internalSendJSONMessage(protocolMessage.asInstanceOf[js.Object])
   }
@@ -110,12 +104,12 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
 
     try {
       this.debugDetail("Original recieved message: " + JSON.stringify(message, Seq[js.Any]().toJSArray, ""),
-                       "NodeMessageDispatcher",
-                       "deserializeMessage")
+        "NodeMessageDispatcher", "deserializeMessage")
 
       val dynamicMessage = message.asInstanceOf[js.Dynamic]
 
       val messageType: String = dynamicMessage.`type`.asInstanceOf[String]
+
 
       val typeMeta = this.getMessageTypeMeta(messageType)
       if (typeMeta.isDefined) {
@@ -133,14 +127,17 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
 
         val serializedJson = Globals.JSON.stringify(dynamicMessage)
 
-        this.debugDetail("Patched recieved message: " + serializedJson, "NodeMessageDispatcher", "deserializeMessage")
+        this.debugDetail("Patched recieved message: " + serializedJson,
+          "NodeMessageDispatcher", "deserializeMessage")
 
-        val protocolMessage = read[ProtocolMessage[ProtocolMessagePayload]](serializedJson)
+        val protocolMessage = read[ProtocolMessage[ProtocolMessagePayload]](
+          serializedJson)
 
         Success(protocolMessage)
 
       } else {
-        Failure(new Exception(s"Cant deserialize payload as no metadata is found for message type $messageType"))
+        Failure(
+          new Exception(s"Cant deserialize payload as no metadata is found for message type $messageType"))
       }
 
     } catch {
@@ -148,13 +145,15 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
     }
   }
 
-  protected def serializeMessage(message: ProtocolMessage[ProtocolMessagePayload]): js.Any = {
+  protected def serializeMessage(
+                                  message: ProtocolMessage[ProtocolMessagePayload]): js.Any = {
     val messageString = write(message)
 
     Globals.JSON.parse(messageString)
   }
 
-  protected def serializeSeqMessage(message: SharedProtocolSeqMessage[ProtocolMessagePayload]): js.Any = {
+  protected def serializeSeqMessage(
+                                     message: SharedProtocolSeqMessage[ProtocolMessagePayload]): js.Any = {
     val messageString = write(message)
 
     Globals.JSON.parse(messageString)

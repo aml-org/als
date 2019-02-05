@@ -19,7 +19,8 @@ class AMLLabelProvider extends DefaultLabelProvider {
 
     if (result.nonEmpty) {
       result.get
-    } else {
+    }
+    else {
       super.getLabelText(node)
     }
   }

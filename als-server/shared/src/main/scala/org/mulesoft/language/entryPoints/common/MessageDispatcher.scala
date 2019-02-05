@@ -96,10 +96,10 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
     } else {
       // handling the case when the message needs to be passed to the handling functions
 
-      val voidHandler       = this.voidHandlers.get(message.`type`);
-      val promiseHandler    = this.promiseHandlers.get(message.`type`);
-      val directHandler     = this.directHandlers.get(message.`type`);
-      val tryHandler        = this.tryHandlers.get(message.`type`);
+      val voidHandler = this.voidHandlers.get(message.`type`);
+      val promiseHandler = this.promiseHandlers.get(message.`type`);
+      val directHandler = this.directHandlers.get(message.`type`);
+      val tryHandler = this.tryHandlers.get(message.`type`);
       val promiseSeqHandler = this.promiseSeqHandlers.get(message.`type`);
 
       if (voidHandler.isDefined) {
@@ -111,7 +111,7 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
       } else if (promiseHandler.isDefined) {
 
         val handler = promiseHandler.get
-        val future  = handler(message.payload.get)
+        val future = handler(message.payload.get)
 
         future.onComplete {
 
@@ -175,7 +175,7 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
       } else if (promiseSeqHandler.isDefined) {
 
         val handler = promiseSeqHandler.get
-        val future  = handler(message.payload.get)
+        val future = handler(message.payload.get)
 
         future.onComplete {
 
@@ -248,8 +248,8 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
     val result = this.messageTypeMetas.get(messageType)
 
     this.debugDetail("MessageDispatcher",
-                     "getMessageTypeMeta",
-                     s"Meta for type $messageType found: ${result.isDefined}")
+      "getMessageTypeMeta",
+      s"Meta for type $messageType found: ${result.isDefined}")
 
     result
   }
@@ -268,9 +268,9 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
   }
 
   def newFutureHandler[ArgType <: PayloadType, ResultType <: PayloadType](
-      messageType: String,
-      handler: ArgType => Future[ResultType],
-      messageTypeMeta: Option[MessageTypeMetaType] = None): Unit = {
+                                                                           messageType: String,
+                                                                           handler: ArgType => Future[ResultType],
+                                                                           messageTypeMeta: Option[MessageTypeMetaType] = None): Unit = {
 
     this.promiseHandlers(messageType) = handler.asInstanceOf[PayloadType => Future[PayloadType]]
 
@@ -298,9 +298,9 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
   //  }
 
   def newFutureSeqHandler[ArgType <: PayloadType, ResultType <: PayloadType](
-      messageType: String,
-      handler: ArgType => Future[Seq[ResultType]],
-      messageTypeMeta: Option[MessageTypeMetaType] = None): Unit = {
+                                                                              messageType: String,
+                                                                              handler: ArgType => Future[Seq[ResultType]],
+                                                                              messageTypeMeta: Option[MessageTypeMetaType] = None): Unit = {
 
     this.promiseSeqHandlers(messageType) = handler.asInstanceOf[PayloadType => Future[Seq[PayloadType]]]
 
@@ -310,9 +310,9 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
   private def newRandomId(): String = {
 
     val stringBuilder = new mutable.StringBuilder()
-    val charIterator  = this.randomGenerator.alphanumeric.iterator
+    val charIterator = this.randomGenerator.alphanumeric.iterator
 
-    for { i <- 0 until 10 } stringBuilder += charIterator.next()
+    for {i <- 0 until 10} stringBuilder += charIterator.next()
 
     stringBuilder.toString()
   }

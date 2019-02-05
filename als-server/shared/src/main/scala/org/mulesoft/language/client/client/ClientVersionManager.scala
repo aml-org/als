@@ -31,17 +31,17 @@ class VersionedDocumentManager(val logger: ILogger, val maxStoredVersions: Int =
     */
   def registerOpenedDocument(proposal: IOpenedDocument): Option[IOpenedDocument] = {
 
-    this.logger
-      .debug("Open document called for uri " + proposal.uri, "VersionedDocumentManager", "registerOpenedDocument");
+    this.logger.debug("Open document called for uri " + proposal.uri,
+      "VersionedDocumentManager", "registerOpenedDocument");
 
-    this.logger.debugDetail("New text is:\n" + proposal.text, "VersionedDocumentManager", "registerOpenedDocument");
+    this.logger.debugDetail("New text is:\n" + proposal.text,
+      "VersionedDocumentManager", "registerOpenedDocument");
 
     val versionedDocuments = this.documents.get(proposal.uri)
 
     this.logger.debugDetail("Versioned documents for this uri found: " +
-                              (if (versionedDocuments.isDefined) "true" else "false"),
-                            "VersionedDocumentManager",
-                            "registerOpenedDocument");
+      (if (versionedDocuments.isDefined) "true" else "false"),
+      "VersionedDocumentManager", "registerOpenedDocument");
 
     if (versionedDocuments.isDefined) {
 
@@ -63,38 +63,37 @@ class VersionedDocumentManager(val logger: ILogger, val maxStoredVersions: Int =
     */
   def registerChangedDocument(proposal: IChangedDocument): Option[IChangedDocument] = {
 
-    this.logger
-      .debug("Change document called for uri " + proposal.uri, "VersionedDocumentManager", "registerChangedDocument");
+    this.logger.debug("Change document called for uri " + proposal.uri,
+      "VersionedDocumentManager", "registerChangedDocument");
 
-    this.logger.debugDetail("New text is:\n" + proposal.text, "VersionedDocumentManager", "registerChangedDocument");
+    this.logger.debugDetail("New text is:\n" + proposal.text,
+      "VersionedDocumentManager", "registerChangedDocument");
 
     val versionedDocuments = this.documents.get(proposal.uri)
 
     this.logger.debugDetail("Versioned documents for this uri found: " +
-                              (if (versionedDocuments.isDefined) "true" else "false"),
-                            "VersionedDocumentManager",
-                            "registerChangedDocument");
+      (if (versionedDocuments.isDefined) "true" else "false"),
+      "VersionedDocumentManager", "registerChangedDocument");
 
     if (versionedDocuments.isDefined && versionedDocuments.get.nonEmpty) {
 
       val latestDocument = versionedDocuments.get.head
 
       this.logger.debugDetail("Latest document version is " + latestDocument.getVersion,
-                              "VersionedDocumentManager",
-                              "registerChangedDocument")
+        "VersionedDocumentManager", "registerChangedDocument")
 
       val latestText = latestDocument.getText
 
-      this.logger
-        .debugDetail("Latest document text is " + latestText, "VersionedDocumentManager", "registerChangedDocument")
+      this.logger.debugDetail("Latest document text is " + latestText,
+        "VersionedDocumentManager", "registerChangedDocument")
 
       val newText = proposal.text
       if (newText == null && proposal.textEdits.isDefined) {
         //newText = applyDocumentEdits(latestText, proposal.textEdits);
       }
 
-      this.logger
-        .debugDetail("Calculated new text is: " + newText, "VersionedDocumentManager", "registerChangedDocument");
+      this.logger.debugDetail("Calculated new text is: " + newText,
+        "VersionedDocumentManager", "registerChangedDocument");
 
       if (newText.isEmpty) {
         return null
@@ -102,12 +101,14 @@ class VersionedDocumentManager(val logger: ILogger, val maxStoredVersions: Int =
 
       if (newText.contains(latestText)) {
 
-        this.logger.debugDetail("No changes of text found", "VersionedDocumentManager", "registerChangedDocument")
+        this.logger.debugDetail("No changes of text found",
+          "VersionedDocumentManager", "registerChangedDocument")
 
         return None
       }
 
-      val newDocument = new VersionedDocument(proposal.uri, latestDocument.getVersion + 1, newText.get);
+      val newDocument = new VersionedDocument(proposal.uri,
+        latestDocument.getVersion + 1, newText.get);
 
       this.documents.put(proposal.uri, ListBuffer() += newDocument)
 
@@ -118,8 +119,7 @@ class VersionedDocumentManager(val logger: ILogger, val maxStoredVersions: Int =
       this.documents.put(proposal.uri, ListBuffer() += newDocument)
 
       this.logger.debugDetail("Registered new document, returning acceptance",
-                              "VersionedDocumentManager",
-                              "registerChangedDocument");
+        "VersionedDocumentManager", "registerChangedDocument");
 
       Some(IChangedDocument(proposal.uri, 0, proposal.text, None))
     }

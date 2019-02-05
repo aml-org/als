@@ -1,5 +1,6 @@
 package org.mulesoft.language.outline.structure.structureDefault
 
+
 import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.language.outline.common.commonInterfaces.Decorator
 import org.mulesoft.language.outline.structure.structureDefaultInterfaces.Decoration
@@ -34,9 +35,11 @@ class DefaultRAMLDecorator extends Decorator {
 
         if (nodeDefinition == RamlDefinitionKeys.RESOURCE) {
           RamlNodeTypes.RESOURCE
-        } else if (nodeDefinition == RamlDefinitionKeys.METHOD) {
+        }
+        else if (nodeDefinition == RamlDefinitionKeys.METHOD) {
           RamlNodeTypes.METHOD
-        } else if (nodeDefinition == RamlDefinitionKeys.ABSTRACT_SECURITY_SCHEME) {
+        }
+        else if (nodeDefinition == RamlDefinitionKeys.ABSTRACT_SECURITY_SCHEME) {
           RamlNodeTypes.SECURITY_SCHEME
         }
         //        else if (nodeDefinition == RamlDefinitionKeys.TYPE_DECLARATION) {
@@ -44,10 +47,11 @@ class DefaultRAMLDecorator extends Decorator {
         //          RamlNodeTypes.ANNOTATION_DECLARATION
         //        }
         else if (nodeDefinition == RamlDefinitionKeys.TYPE_DECLARATION ||
-                 hlNode.definition.isAssignableFrom("TypeDeclaration")) {
+          hlNode.definition.isAssignableFrom("TypeDeclaration")) {
 
           RamlNodeTypes.TYPE_DECLARATION
-        } else if (nodeDefinition == RamlDefinitionKeys.DOCUMENTATION_ITEM) {
+        }
+        else if (nodeDefinition == RamlDefinitionKeys.DOCUMENTATION_ITEM) {
           RamlNodeTypes.DOCUMENTATION_ITEM
         }
         //        if ((node.lowLevel().unit() != node.root().lowLevel().unit())) {

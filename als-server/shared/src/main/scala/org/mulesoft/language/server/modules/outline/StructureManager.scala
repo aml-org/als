@@ -104,8 +104,9 @@ class StructureManager extends AbstractServerModule {
           val result = StructureManager.this
             .getStructureFromAST(ast.rootASTUnit.rootNode, editor.get.language, editor.get.cursorPosition)
 
-          this.connection
-            .debugDetail(s"Got result for url $url of size ${result.size}", "StructureManager", "onDocumentStructure")
+          this.connection.debugDetail(s"Got result for url $url of size ${result.size}",
+            "StructureManager",
+            "onDocumentStructure")
           val prepared = new mutable.HashMap[String, StructureNodeJSON]()
 
           result.keySet.foreach(key => {

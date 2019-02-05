@@ -41,34 +41,44 @@ class DefaultOASDecorator extends Decorator {
 
         if (nodeDefinition == OASDefinitionKeys.PathsObject) {
           OASNodeTypes.PATHS_OBJECT
-        } else if (nodeDefinition == OASDefinitionKeys.PathItemObject) {
+        }
+        else if (nodeDefinition == OASDefinitionKeys.PathItemObject) {
           OASNodeTypes.PATH_ITEM
-        } else if (nodeDefinition == OASDefinitionKeys.OperationObject) {
+        }
+        else if (nodeDefinition == OASDefinitionKeys.OperationObject) {
           OASNodeTypes.OPERATION_OBJECT
-        } else if (nodeDefinition == OASDefinitionKeys.DefinitionObject) {
+        }
+        else if (nodeDefinition == OASDefinitionKeys.DefinitionObject) {
           OASNodeTypes.DEFINITION_OBJECT
-        } else if (nodeDefinition == OASDefinitionKeys.SchemaObject) {
+        }
+        else if (nodeDefinition == OASDefinitionKeys.SchemaObject) {
 
           OASNodeTypes.SCHEMA_OBJECT
-        } else if (nodeDefinition == OASDefinitionKeys.ItemsObject) {
+        }
+        else if (nodeDefinition == OASDefinitionKeys.ItemsObject) {
           OASNodeTypes.ITEMS_OBJECT
-        } else if (nodeDefinition == OASDefinitionKeys.ParameterObject ||
-                   nodeDefinition == OASDefinitionKeys.ParameterDefinitionObject) {
+        }
+        else if (nodeDefinition == OASDefinitionKeys.ParameterObject ||
+          nodeDefinition == OASDefinitionKeys.ParameterDefinitionObject) {
           OASNodeTypes.PARAMETER_OBJECT
-        } else if (nodeDefinition == OASDefinitionKeys.Response ||
-                   nodeDefinition == OASDefinitionKeys.ResponseDefinitionObject) {
+        }
+        else if (nodeDefinition == OASDefinitionKeys.Response ||
+          nodeDefinition == OASDefinitionKeys.ResponseDefinitionObject) {
 
           OASNodeTypes.RESPONSE_OBJECT
-        } else if (nodeDefinition == OASDefinitionKeys.ItemsObject) {
+        }
+        else if (nodeDefinition == OASDefinitionKeys.ItemsObject) {
           OASNodeTypes.ITEMS_OBJECT
-        } else {
+        }
+        else {
           OASNodeTypes.OTHER
         }
       } else {
         OASNodeTypes.OTHER
       }
 
-    } else {
+    }
+    else {
       OASNodeTypes.OTHER
     }
   }

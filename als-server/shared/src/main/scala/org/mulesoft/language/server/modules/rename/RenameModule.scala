@@ -31,7 +31,7 @@ class RenameModule extends AbstractServerModule {
   }
 
   private def findTargets(_uri: String, position: Int, newName: String): Future[Seq[IChangedDocument]] = {
-    val uri     = PathRefine.refinePath(_uri, platform)
+    val uri = PathRefine.refinePath(_uri, platform)
     val promise = Promise[Seq[IChangedDocument]]()
 
     currentAst(uri).andThen {

@@ -56,17 +56,14 @@ object FS {
   def content(path: String): Future[String] = {
     var promise = Promise[String]()
 
-    FSFacade.readFile(
-      this.removeProtocol(path),
-      (error, result) => {
-        if (js.isUndefined(error) || error == null) {
+    FSFacade.readFile(this.removeProtocol(path), (error, result) => {
+      if (js.isUndefined(error) || error == null) {
 
-          promise.success(result.toString)
-        } else {
-          promise.failure(new Throwable(error.message))
-        }
+        promise.success(result.toString)
+      } else {
+        promise.failure(new Throwable(error.message))
       }
-    )
+    })
 
     promise.future
   }

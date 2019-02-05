@@ -16,17 +16,16 @@ class DocumentChangedRunnable(var uri: String, task: () => Future[BaseUnit]) ext
     val promise = Promise[BaseUnit]()
 
     task() andThen {
-      case Success(unit)  => promise.success(unit)
+      case Success(unit) => promise.success(unit)
       case Failure(error) => promise.failure(error)
     }
 
     promise
   }
 
-  def conflicts(other: Runnable[Any]): Boolean =
-    other.asInstanceOf[DocumentChangedRunnable].kind == kind && uri == other.asInstanceOf[DocumentChangedRunnable].uri
+  def conflicts(other: Runnable[Any]): Boolean = other.asInstanceOf[DocumentChangedRunnable].kind == kind && uri == other.asInstanceOf[DocumentChangedRunnable].uri
 
-  def cancel() { canceled = true }
+  def cancel() {canceled = true}
 
   def isCanceled(): Boolean = canceled
 }

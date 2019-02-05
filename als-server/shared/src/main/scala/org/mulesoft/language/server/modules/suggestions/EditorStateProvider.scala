@@ -1,3 +1,4 @@
+
 package org.mulesoft.language.server.modules.suggestions
 
 import org.mulesoft.als.suggestions.interfaces.IEditorStateProvider

@@ -2,6 +2,7 @@ package org.mulesoft.language.outline.common.commonInterfaces
 
 import org.mulesoft.high.level.interfaces.IParseResult
 
+
 /**
   * Constructs node text for high-level node.
   */

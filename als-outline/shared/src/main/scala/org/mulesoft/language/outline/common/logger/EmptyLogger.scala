@@ -13,7 +13,9 @@ class EmptyLogger extends ILogger {
     * @param component    - component name
     * @param subcomponent - sub-component name
     */
-  def log(message: String, severity: MessageSeverity.Value, component: String, subcomponent: String): Unit = {}
+  def log(message: String, severity: MessageSeverity.Value, component: String, subcomponent: String): Unit = {
+
+  }
 
   /**
     * Logs a DEBUG severity message.
@@ -22,7 +24,9 @@ class EmptyLogger extends ILogger {
     * @param component    - component name
     * @param subcomponent - sub-component name
     */
-  def debug(message: String, component: String, subcomponent: String): Unit = {}
+  def debug(message: String, component: String, subcomponent: String): Unit = {
+
+  }
 
   /**
     * Logs a DEBUG_DETAIL severity message.
@@ -31,7 +35,9 @@ class EmptyLogger extends ILogger {
     * @param component    - component name
     * @param subcomponent - sub-component name
     */
-  def debugDetail(message: String, component: String, subcomponent: String): Unit = {}
+  def debugDetail(message: String, component: String, subcomponent: String): Unit = {
+
+  }
 
   /**
     * Logs a DEBUG_OVERVIEW severity message.
@@ -40,7 +46,9 @@ class EmptyLogger extends ILogger {
     * @param component    - component name
     * @param subcomponent - sub-component name
     */
-  def debugOverview(message: String, component: String, subcomponent: String): Unit = {}
+  def debugOverview(message: String, component: String, subcomponent: String): Unit = {
+
+  }
 
   /**
     * Logs a WARNING severity message.
@@ -49,7 +57,9 @@ class EmptyLogger extends ILogger {
     * @param component    - component name
     * @param subcomponent - sub-component name
     */
-  def warning(message: String, component: String, subcomponent: String): Unit = {}
+  def warning(message: String, component: String, subcomponent: String): Unit = {
+
+  }
 
   /**
     * Logs an ERROR severity message.
@@ -58,12 +68,16 @@ class EmptyLogger extends ILogger {
     * @param component    - component name
     * @param subcomponent - sub-component name
     */
-  def error(message: String, component: String, subcomponent: String): Unit = {}
+  def error(message: String, component: String, subcomponent: String): Unit = {
+
+  }
 
   /**
     * Sets logger configuration, both for the server and for the client.
     *
     * @param loggerSettings
     */
-  def setLoggerConfiguration(loggerSettings: ILoggerSettings): Unit = {}
+  def setLoggerConfiguration(loggerSettings: ILoggerSettings): Unit = {
+
+  }
 }
