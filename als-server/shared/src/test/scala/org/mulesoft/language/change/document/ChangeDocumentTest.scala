@@ -24,68 +24,60 @@ class ChangeDocumentTest extends LanguageServerTest {
 
   override def format = "RAML 1.0"
 
-  test("chande document test 001") {
-    init().flatMap(_ => {
-      var content1 = "#%RAML 1.0\ntitle: test\n"
-      var content2 = "#%RAML 1.0\ntitle: test\ntypes:\n  MyType: number\n"
+  test("change document test 001") {
+    val content1 = "#%RAML 1.0\ntitle: test\n"
+    val content2 = "#%RAML 1.0\ntitle: test\ntypes:\n  MyType: number\n"
 
-      var url = "file:///changeDocumentTest001.raml"
-      getClient.flatMap(client => {
+    val url = "file:///changeDocumentTest001.raml"
+    for {
+      _      <- init()
+      _      <- org.mulesoft.high.level.Core.init()
+      client <- getClient
+      actualOutline <- {
         client.documentChanged(IChangedDocument(url, 0, Some(content1), None))
         client.documentChanged(IChangedDocument(url, 0, Some(content2), None))
-
-        org.mulesoft.high.level.Core.init()
-
-        getClient.flatMap(client => {
-          client
-            .getStructure(url)
-            .map(actualOutline => {
-              client.documentClosed(url)
-              actualOutline
-                .get("SchemasAndTypesCategory")
-                .flatMap(_.children.headOption)
-                .map(_.text)
-                .map({
-                  case "MyType" => succeed
-                })
-                .getOrElse(fail("Invalid outline"))
-            })
+        client.documentClosed(url)
+        client.getStructure(url)
+      }
+    } yield {
+      actualOutline
+        .get("SchemasAndTypesCategory")
+        .flatMap(_.children.headOption)
+        .map(_.text)
+        .map({
+          case "MyType" => succeed
         })
-      })
-    })
+        .getOrElse(fail("Invalid outline"))
+    }
   }
 
-  test("chande document test 002") {
-    init().flatMap(_ => {
-      var content1 = "#%RAML 1.0\ntitle: test\n"
-      var content2 = "#%RAML 1.0\ntitle: test\n"
-      var content3 = "#%RAML 1.0\ntitle: test\nsome invalid string\ntypes:\n  MyType: number\n"
+  test("change document test 002") {
+    var content1 = "#%RAML 1.0\ntitle: test\n"
+    var content2 = "#%RAML 1.0\ntitle: test\n"
+    var content3 = "#%RAML 1.0\ntitle: test\nsome invalid string\ntypes:\n  MyType: number\n"
 
-      var url = "file:///changeDocumentTest002.raml"
-      getClient.flatMap(client => {
+    var url = "file:///changeDocumentTest002.raml"
+    for {
+      _      <- init()
+      _      <- org.mulesoft.high.level.Core.init()
+      client <- getClient
+      actualOutline <- {
         client.documentChanged(IChangedDocument(url, 1, Some(content1), None))
         client.documentChanged(IChangedDocument(url, 0, Some(content1), None))
         client.documentChanged(IChangedDocument(url, 2, Some(content2), None))
-
-        org.mulesoft.high.level.Core.init()
-
-        getClient.flatMap(client => {
-          client
-            .getStructure(url)
-            .map(actualOutline => {
-              client.documentClosed(url)
-              actualOutline
-                .get("SchemasAndTypesCategory")
-                .flatMap(_.children.headOption)
-                .map(_.text)
-                .map({
-                  case "MyType" => fail("Should fail")
-                })
-                .getOrElse(succeed)
-            })
+        client.documentClosed(url)
+        client.getStructure(url)
+      }
+    } yield {
+      actualOutline
+        .get("SchemasAndTypesCategory")
+        .flatMap(_.children.headOption)
+        .map(_.text)
+        .map({
+          case "MyType" => fail("Should fail")
         })
-      })
-    })
+        .getOrElse(succeed)
+    }
   }
 
   test("Find references test 001") {
@@ -229,33 +221,30 @@ class ChangeDocumentTest extends LanguageServerTest {
   }
 
   test("try using uninitialized server 001") {
-    init().flatMap(_ => {
-      var content1 = "#%RAML 1.0\ntitle: test\n"
+    val content1 = "#%RAML 1.0\ntitle: test\n"
 
-      var url = "file:///changeDocumentTest001.raml"
-      getClient.flatMap(client => {
-        client.documentChanged(IChangedDocument(url, 0, Some(content1), None))
+    val url = "file:///changeDocumentTest001.raml"
 
-        org.mulesoft.high.level.Core.init()
-
-        getEmptyClient.flatMap(client => {
-          var f: Future[Boolean] = client
-            .getStructure(url)
-            .map(actualOutline => {
-              true
-            }) recoverWith {
-            case e: Throwable => Future.successful(false)
-            case _            => Future.successful(false)
-          }
-          f.flatMap(x => {
-            if (x) {
-              Future.successful(fail("Should faile"))
-            } else {
-              Future.successful(succeed)
-            }
-          })
-        })
-      })
-    })
+    for {
+      _      <- init()
+      _      <- org.mulesoft.high.level.Core.init()
+      c      <- getClient
+      _      <- Future.successful(c.documentChanged(IChangedDocument(url, 0, Some(content1), None)))
+      client <- getEmptyClient
+      result <- client
+        .getStructure(url)
+        .map(actualOutline => {
+          true
+        }) recoverWith {
+        case e: Throwable => Future.successful(false)
+        case _            => Future.successful(false)
+      }
+    } yield {
+      if (result) {
+        fail("Should fail")
+      } else {
+        succeed
+      }
+    }
   }
 }
