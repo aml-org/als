@@ -1,6 +1,6 @@
 package org.mulesoft.language.server.modules.editorManager
 
-import org.mulesoft.language.common.logger.ILogger
+import org.mulesoft.language.common.logger.Logger
 import org.mulesoft.language.server.modules.commonInterfaces.{IAbstractTextEditorWithCursor, IEditorTextBuffer, IPoint}
 
 /**
@@ -12,7 +12,7 @@ class TextEditorInfo(private val uri: String,
                      val language: String,
                      val syntax: String,
                      //                      private val editorManager: EditorManager,
-                     private val logger: ILogger)
+                     private val logger: Logger)
   extends IAbstractTextEditorWithCursor {
 
   val _buffer: TextBufferInfo = new TextBufferInfo(uri, logger)

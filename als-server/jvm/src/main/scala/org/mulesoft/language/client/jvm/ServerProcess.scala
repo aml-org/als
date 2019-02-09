@@ -1,20 +1,19 @@
-// $COVERAGE-OFF$
 package org.mulesoft.language.client.jvm
 
 import java.util
 import java.util.function.Consumer
 
-import org.mulesoft.als.suggestions.interfaces.ISuggestion
+import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.client.jvm.dtoTypes.{GetCompletionRequest, GetStructureRequest}
 import org.mulesoft.language.client.jvm.serverConnection.{JAVALogger, JAVAServerConnection}
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import org.mulesoft.language.server.core.Server
-import org.mulesoft.language.server.modules.astManager.{ASTManager, IASTManagerModule}
-import org.mulesoft.language.server.modules.dialectManager.{DialectManager, IDialectManagerModule}
-import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
+import org.mulesoft.language.server.modules.astManager.{ASTManager, ASTManagerModule}
+import org.mulesoft.language.server.modules.dialectManager.{DialectManager, DialectManagerModule}
+import org.mulesoft.language.server.modules.findDeclaration.FindDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
-import org.mulesoft.language.server.modules.hlastManager.HLASTmanager
+import org.mulesoft.language.server.modules.hlastManager.HlAstManager
 import org.mulesoft.language.server.modules.outline.StructureManager
 import org.mulesoft.language.server.modules.rename.RenameModule
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
@@ -31,24 +30,24 @@ object ServerProcess {
 
     server.registerModule(new ASTManager())
     server.registerModule(new DialectManager())
-    server.registerModule(new HLASTmanager())
+    server.registerModule(new HlAstManager())
     server.registerModule(new ValidationManager())
     server.registerModule(new SuggestionsManager())
     server.registerModule(new StructureManager())
 
     server.registerModule(new FindReferencesModule())
-    server.registerModule(new FIndDeclarationModule())
+    server.registerModule(new FindDeclarationModule())
     server.registerModule(new RenameModule())
 
-    server.enableModule(IASTManagerModule.moduleId)
-    server.enableModule(IDialectManagerModule.moduleId)
-    server.enableModule(HLASTmanager.moduleId)
+    server.enableModule(ASTManagerModule.moduleId)
+    server.enableModule(DialectManagerModule.moduleId)
+    server.enableModule(HlAstManager.moduleId)
     server.enableModule(ValidationManager.moduleId)
     server.enableModule(SuggestionsManager.moduleId)
     server.enableModule(StructureManager.moduleId)
 
     server.enableModule(FindReferencesModule.moduleId)
-    server.enableModule(FIndDeclarationModule.moduleId)
+    server.enableModule(FindDeclarationModule.moduleId)
 
     server.enableModule(RenameModule.moduleId)
   }
@@ -57,13 +56,13 @@ object ServerProcess {
     connection.setLogger(logger)
   }
 
-  def documentOpened(document: IOpenedDocument) {
+  def documentOpened(document: OpenedDocument) {
     connection.handleOpenDocument(document)
   }
 
   def documentChanged(uri: String, text: String, version: Int) {
 
-    connection.handleChangedDocument(IChangedDocument(uri, version, Some(text), None))
+    connection.handleChangedDocument(ChangedDocument(uri, version, Some(text), None))
   }
 
   def documentClosed(uri: String) {
@@ -72,10 +71,10 @@ object ServerProcess {
 
   def getUnit(url: String): Unit = {}
 
-  def getSuggestions(uri: String, position: Int, suggestionsHandler: SuggestionsHandler) {
+  def getSuggestions(uri: String, position: Position, suggestionsHandler: SuggestionsHandler) {
     connection.handleGetSuggestions(new GetCompletionRequest(uri, position)) andThen {
       case Success(result) => {
-        val list = new util.ArrayList[ISuggestion]()
+        val list = new util.ArrayList[Suggestion]()
 
         result.map(new SuggestionComparableWrapper(_)).distinct.map(_.suggestion).foreach(list.add(_))
 
@@ -132,7 +131,7 @@ object ServerProcess {
         result
           .map(item =>
             new ILocation {
-              override var range: IRange = item.textEdits.get.head.range
+              override var range: Range = item.textEdits.get.head.range
 
               override var uri: String = item.uri
 
@@ -155,11 +154,11 @@ object ServerProcess {
 }
 
 trait ValidationHandler {
-  def success(pointOfView: String, issues: java.util.List[IValidationIssue])
+  def success(pointOfView: String, issues: java.util.List[ValidationIssue])
 }
 
 trait SuggestionsHandler {
-  def success(list: java.util.List[ISuggestion])
+  def success(list: java.util.List[Suggestion])
 
   def failure(throwable: Throwable)
 }
@@ -202,7 +201,7 @@ object JAVAStructureNode {
   }
 }
 
-class SuggestionComparableWrapper(var suggestion: ISuggestion) {
+class SuggestionComparableWrapper(var suggestion: Suggestion) {
   override def toString(): String =
     suggestion.category + ", " + suggestion.description + ", " + suggestion.displayText + ", " + suggestion.prefix + ", " + suggestion.text
 
@@ -210,5 +209,3 @@ class SuggestionComparableWrapper(var suggestion: ISuggestion) {
 
   override def hashCode(): Int = toString().hashCode()
 }
-
-// $COVERAGE-ON$

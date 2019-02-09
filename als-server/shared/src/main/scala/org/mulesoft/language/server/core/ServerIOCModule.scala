@@ -1,6 +1,6 @@
 package org.mulesoft.language.server.core
 
-import org.mulesoft.language.server.core.connections.IServerConnection
+import org.mulesoft.language.server.core.connections.ServerConnection
 import org.mulesoft.language.server.core.platform.ConnectionBasedPlatform
 
 /**
@@ -9,21 +9,21 @@ import org.mulesoft.language.server.core.platform.ConnectionBasedPlatform
   *
   * All possible pushes are guaranteed to be made before each launch
   */
-trait IServerIOCModule extends IServerModule {
+trait ServerIOCModule extends ServerModule {
 
   /**
     * Pushes dependency to the module.
     *
     * @param dependency - module, this module depends from.
     */
-  def insertDependency(dependency: IServerModule)
+  def insertDependency(dependency: ServerModule)
 
   /**
     * Pushes server connection to the module
     *
     * @param serverConnection
     */
-  def insertConnection(serverConnection: IServerConnection)
+  def insertConnection(serverConnection: ServerConnection)
 
   /**
     * Pushes platform dependency

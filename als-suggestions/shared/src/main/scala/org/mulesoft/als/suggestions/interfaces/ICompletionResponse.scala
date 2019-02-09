@@ -5,7 +5,7 @@ trait ICompletionResponse {
 	
     def request: ICompletionRequest
 
-    def suggestions: Seq[ISuggestion]
+    def suggestions: Seq[Suggestion]
 
     def isEmpty:Boolean
 

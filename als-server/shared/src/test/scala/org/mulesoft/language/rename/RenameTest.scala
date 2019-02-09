@@ -1,7 +1,7 @@
 package org.mulesoft.language.rename
 
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.language.common.dtoTypes.{IOpenedDocument, ITextEdit}
+import org.mulesoft.language.common.dtoTypes.{OpenedDocument, TextEdit}
 import org.mulesoft.language.test.LanguageServerTest
 import org.scalatest.Assertion
 
@@ -27,14 +27,14 @@ abstract class RenameTest extends LanguageServerTest {
         val position = markerInfo.position
         getClient.flatMap(client => {
           val filePath = s"file:///$path"
-          client.documentOpened(IOpenedDocument(filePath, 0, markerInfo.rawContent))
+          client.documentOpened(OpenedDocument(filePath, 0, markerInfo.rawContent))
           client.rename(filePath, position, newName).map(changedDocs => {
             client.documentClosed(filePath)
             changedDocs
           })
         })
       }).map(changedDocs => {
-        var edits: ListBuffer[ITextEdit] = ListBuffer()
+        var edits: ListBuffer[TextEdit] = ListBuffer()
         changedDocs.foreach(x => x.textEdits.map(edits ++= _))
         var newText = content.get
         edits.sortBy(x => (-1) * x.range.start).foreach(te => {

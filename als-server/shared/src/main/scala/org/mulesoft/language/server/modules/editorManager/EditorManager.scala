@@ -1,47 +1,41 @@
 package org.mulesoft.language.server.modules.editorManager
 
 import amf.core.remote.{Aml, Oas20, Raml08, Raml10}
-import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IDocumentChangeExecutor, IOpenedDocument}
+import org.mulesoft.language.common.dtoTypes.{ChangedDocument, IDocumentChangeExecutor, OpenedDocument}
 import org.mulesoft.language.server.common.utils.PathRefine
-import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
-import org.mulesoft.language.server.modules.commonInterfaces.IAbstractTextEditorWithCursor
+import org.mulesoft.language.server.core.AbstractServerModule
 
 import scala.collection.mutable
-import scala.collection.mutable.{ArrayBuffer, Buffer}
+import scala.collection.mutable.ArrayBuffer
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.language.experimental.macros
-import scala.util.{Success, Try}
 
-class EditorManager extends AbstractServerModule with IEditorManagerModule {
+
+class EditorManager extends AbstractServerModule with EditorManagerModule {
 
   val moduleDependencies: Array[String] = Array()
 
   var uriToEditor: mutable.Map[String, TextEditorInfo] = mutable.HashMap()
 
-  var documentChangeListeners: mutable.Buffer[IChangedDocument => Unit] = ArrayBuffer()
+  var documentChangeListeners: mutable.Buffer[ChangedDocument => Unit] = ArrayBuffer()
 
   var documentChangeExecutor: Option[IDocumentChangeExecutor] = None
 
-  override def launch(): Try[IServerModule] = {
+  override def launch(): Future[Unit] =
+    super.launch()
+      .map(_ => {
+        this.connection.onOpenDocument(this.onOpenDocument)
 
-    val superLaunch = super.launch()
+        this.connection.onChangeDocument(this.documentWasChanged)
 
-    if (superLaunch.isSuccess) {
+        this.connection.onChangePosition(this.onChangePosition)
 
-      this.connection.onOpenDocument(this.onOpenDocument)
+        this.connection.onCloseDocument(this.onCloseDocument)
+      })
 
-      this.connection.onChangeDocument(this.documentWasChanged)
 
-      this.connection.onChangePosition(this.onChangePosition)
-
-      this.connection.onCloseDocument(this.onCloseDocument)
-
-      Success(this)
-    } else {
-      superLaunch
-    }
-  }
-
-  def onChangeDocument(listener: (IChangedDocument) => Unit, unsubscribe: Boolean = false): Unit = {
+  def onChangeDocument(listener: ChangedDocument => Unit, unsubscribe: Boolean = false): Unit = {
 
     if (unsubscribe) {
 
@@ -56,36 +50,13 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
     }
   }
 
-  //  def getEditor(uri: String): Option[IAbstractTextEditorWithCursor] = {
-  //
-  //    this.connection.debugDetail(s"Asked for uri ${uri}, while having following editors registered: " +
-  //      this.uriToEditor.keys.mkString(","),
-  //      "EditorManager", "onOpenDocument")
-  //
-  //    val directResult = this.uriToEditor.get(uri)
-  //
-  //    if (directResult.isDefined) {
-  //
-  //      directResult
-  //    } else if (uri.startsWith("file://") || uri.startsWith("FILE://")) {
-  //
-  //      val path = uri.substring("file://".length)
-  //      val result = this.uriToEditor.get(path)
-  //      println(s"Checking uri $path and getting result: $result")
-  //      result
-  //    } else {
-  //
-  //      None
-  //    }
-  //  }
-
   def getEditor(_uri: String): Option[TextEditorInfo] = {
     var uri = _uri
     uri = PathRefine.refinePath(uri, platform)
     this.connection.debugDetail(s"Asked for uri $uri, while having following editors registered: " +
-                                  this.uriToEditor.keys.mkString(","),
-                                "EditorManager",
-                                "onOpenDocument")
+      this.uriToEditor.keys.mkString(","),
+      "EditorManager",
+      "onOpenDocument")
 
     val directResult = this.uriToEditor.get(uri)
 
@@ -98,7 +69,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
 
       if (uri.startsWith("file:///") || uri.startsWith("FILE:///")) {
         val path: String = uri.substring("file:///".length).replace("%5C", "\\")
-        val result       = this.uriToEditor.get(path)
+        val result = this.uriToEditor.get(path)
         if (result.isDefined) {
           found = result
         }
@@ -106,7 +77,7 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
 
       if (found.isEmpty) {
         val path: String = uri.substring("file://".length).replace("%5C", "\\")
-        val result       = this.uriToEditor.get(path)
+        val result = this.uriToEditor.get(path)
         if (result.isDefined) {
           found = result
         }
@@ -119,24 +90,18 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
     }
   }
 
-  def onOpenDocument(document: IOpenedDocument): Unit = {
+  def onOpenDocument(document: OpenedDocument): Unit = {
 
     this.connection.debug("Document is opened", "EditorManager", "onOpenDocument")
 
-    val language = this.determineLanguage(document.uri, document.text)
-    val syntax   = this.determineSyntax(document.uri, document.text)
+    val language = determineLanguage(document.uri, document.text)
+    val syntax = determineSyntax(document.uri, document.text)
 
     this.uriToEditor(PathRefine.refinePath(document.uri, platform)) =
-      new TextEditorInfo(document.uri, document.version, document.text, language, syntax, /*this,*/ this.connection)
+      new TextEditorInfo(document.uri, document.version, document.text, language, syntax, connection)
 
     this.documentChangeListeners.foreach { listener =>
-      listener(
-        new IChangedDocument(
-          document.uri,
-          document.version,
-          Some(document.text),
-          None
-        ))
+      listener(ChangedDocument(document.uri, document.version, Some(document.text), None))
     }
   }
 
@@ -149,53 +114,52 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
     this.documentChangeExecutor
   }
 
-  def documentWasChanged(document: IChangedDocument) {
-    this.connection.debug("Document is changed", "EditorManager", "onChangeDocument")
+  def documentWasChanged(document: ChangedDocument) {
+    connection.debug("Document is changed", "EditorManager", "onChangeDocument")
 
-    this.connection.debugDetail("Text is:\n " + document.text, "EditorManager", "onChangeDocument")
+    connection.debugDetail("Uri is:\n " + document.uri, "EditorManager", "onChangeDocument")
+    connection.debugDetail("Text is:\n " + document.text, "EditorManager", "onChangeDocument")
 
     val refinedUri = PathRefine.refinePath(document.uri, platform)
-    val current    = this.uriToEditor.get(refinedUri)
+    uriToEditor.get(refinedUri)
+      .foreach(current => {
+        val currentVersion = current.version
+        val currentText = current.text
 
-    if (current.isDefined) {
-      val currentVersion = current.get.version
+        if (currentVersion == document.version) {
+          this.connection.debugDetail("Version of the reported change is equal to the previous one",
+            "EditorManager",
+            "onChangeDocument")
 
-      val currentText = current.get.text
+          return
+        }
 
-      if (currentVersion == document.version) {
-        this.connection.debugDetail("Version of the reported change is equal to the previous one",
-                                    "EditorManager",
-                                    "onChangeDocument")
+        if (document.version < currentVersion && document.text.contains(currentText)) {
+          this.connection.debugDetail("No changes detected", "EditorManager", "onChangeDocument")
 
-        return
-      }
+          return
+        }
 
-      if (document.version < currentVersion && document.text.contains(currentText)) {
-        this.connection.debugDetail("No changes detected", "EditorManager", "onChangeDocument")
-
-        return
-      }
-    }
+      })
 
     val language = this.determineLanguage(refinedUri, document.text.get)
-    val syntax   = this.determineSyntax(refinedUri, document.text.get)
+    val syntax = this.determineSyntax(refinedUri, document.text.get)
 
-    this.uriToEditor(refinedUri) =
-      new TextEditorInfo(refinedUri, document.version, document.text.get, language, syntax, this.connection)
+    uriToEditor(refinedUri) =
+      new TextEditorInfo(refinedUri, document.version, document.text.get, language, syntax, connection)
 
-    this.documentChangeListeners.foreach(listener => listener(document))
+    documentChangeListeners.foreach(listener => listener(document))
   }
 
   def onCloseDocument(uri: String): Unit = {
-
-    this.uriToEditor.remove(PathRefine.refinePath(uri, platform))
+    uriToEditor.remove(PathRefine.refinePath(uri, platform))
   }
 
   def onChangePosition(uri: String, position: Int): Unit = {
     val editorOption = this.getEditor(uri)
 
     if (editorOption.isDefined) {
-      editorOption.get.asInstanceOf[TextEditorInfo].setCursorPosition(position)
+      editorOption.get.setCursorPosition(position)
     }
   }
 
@@ -214,12 +178,6 @@ class EditorManager extends AbstractServerModule with IEditorManagerModule {
     }
   }
 
-  def determineSyntax(url: String, text: String): String = {
-
-    if (text.trim.startsWith("{")) {
-      "JSON"
-    } else {
-      "YAML"
-    }
-  }
+  def determineSyntax(url: String, text: String): String =
+    if (text.trim.startsWith("{")) "JSON" else "YAML"
 }

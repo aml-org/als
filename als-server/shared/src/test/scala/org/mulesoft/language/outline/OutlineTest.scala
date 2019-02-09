@@ -3,7 +3,7 @@ package org.mulesoft.language.outline
 import amf.client.remote.Content
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
-import org.mulesoft.language.common.dtoTypes.IOpenedDocument
+import org.mulesoft.language.common.dtoTypes.OpenedDocument
 import org.mulesoft.language.test.LanguageServerTest
 import org.mulesoft.language.test.dtoTypes.StructureNode
 import org.scalatest.Assertion
@@ -77,7 +77,7 @@ trait OutlineTest[SharedType, TransportType] extends LanguageServerTest {
       .resolve(url)
       .flatMap(content => {
 
-        val doc = IOpenedDocument(shortUrl, 0, content.stream.toString)
+        val doc = OpenedDocument(shortUrl, 0, content.stream.toString)
         getClient.flatMap(client => {
           client.documentOpened(doc)
           client

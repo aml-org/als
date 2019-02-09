@@ -1,18 +1,18 @@
 package org.mulesoft.language.test.clientConnection
 
-import org.mulesoft.als.suggestions.interfaces.ISuggestion
 import org.mulesoft.language.client.client.{AbstractClientConnection, VersionedDocumentManager}
-import org.mulesoft.language.common.dtoTypes._
+import org.mulesoft.language.common.dtoTypes.{IDetailsItem, IDetailsReport, IExecutableAction, ILocation, Position, ChangedDocument => SharedChangedDocument, OpenedDocument => SharedOpenedDocument, Range => SharedRange, StructureReport => SharedStructureReport, ValidationReport => SharedValidationReport}
 import org.mulesoft.language.common.logger.MutedLogger
 import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage, ProtocolSeqMessage}
 import org.mulesoft.language.outline.structure.structureInterfaces.{StructureNodeJSON => SharedStructureNode}
 import org.mulesoft.language.test.dtoTypes._
 import org.mulesoft.language.test.serverConnection.{NodeMsgTypeMeta, TestServerConnection}
+import org.mulesoft.als.suggestions.interfaces.{Suggestion => SuggestionInterface}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
+class TestClientConnection(serverProcess: Seq[TestServerConnection])
   extends MutedLogger
     with MessageDispatcher[ProtocolMessagePayload, NodeMsgTypeMeta]
     with AbstractClientConnection {
@@ -28,7 +28,7 @@ class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
     * @param message - message to send
     */
   override def internalSendMessage(message: ProtocolMessage[ProtocolMessagePayload]): Unit = {
-    this.serverProcess.foreach(_.internalHandleRecievedMessage(message))
+    this.serverProcess.foreach(_.internalHandleReceivedMessage(message))
   }
 
   /**
@@ -51,7 +51,7 @@ class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
     *
     * @param document
     */
-  override def documentOpened(document: IOpenedDocument): Unit = {
+  override def documentOpened(document: SharedOpenedDocument): Unit = {
     val commonOpenedDocument = this.versionManager.registerOpenedDocument(document)
     commonOpenedDocument.foreach(doc => {
       this.send("OPEN_DOCUMENT", OpenedDocument.sharedToTransport(doc))
@@ -70,7 +70,7 @@ class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
     *
     * @param document
     */
-  override def documentChanged(document: IChangedDocument): Unit = {
+  override def documentChanged(document: SharedChangedDocument): Unit = {
     val commonChangeddDocument = this.versionManager.registerChangedDocument(document)
     commonChangeddDocument.foreach(doc => {
       this.send("CHANGE_DOCUMENT", ChangedDocument.sharedToTransport(doc))
@@ -93,7 +93,7 @@ class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
     * @param uri      - document uri
     * @param position - offset in the document, starting from 0
     */
-  override def getSuggestions(uri: String, position: Int): Future[Seq[ISuggestion]] =
+  override def getSuggestions(uri: String, position: Position): Future[Seq[SuggestionInterface]] =
     this
       .sendWithResponse[GetCompletionResponse]("GET_SUGGESTIONS", GetCompletionRequest(uri, position))
       .map(_.suggestions.map(Suggestion.transportToShared))
@@ -129,7 +129,7 @@ class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
     * @param uri      - document uri
     * @param position - position in the document
     */
-  override def markOccurrences(uri: String, position: Int): Future[Seq[IRange]] = Future.successful(Seq())
+  override def markOccurrences(uri: String, position: Int): Future[Seq[SharedRange]] = Future.successful(Seq())
 
   /**
     * Requests server for rename of the element
@@ -138,14 +138,14 @@ class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
     * @param uri      - document uri
     * @param position - position in the document
     */
-  override def rename(uri: String, position: Int, newName: String): Future[Seq[IChangedDocument]] =
+  override def rename(uri: String, position: Int, newName: String): Future[Seq[SharedChangedDocument]] =
     this
       .sendWithResponse[RenameResponse]("RENAME", RenameRequest(uri, newName, position))
       .map(r => r.wrapped.map(ChangedDocument.transportToShared))
 
-  def VALIDATION_REPORT(report: IValidationReport): Unit = validationReportListeners.foreach(x => x(report))
+  def VALIDATION_REPORT(report: SharedValidationReport): Unit = validationReportListeners.foreach(x => x(report))
 
-  def STRUCTURE_REPORT(report: IStructureReport): Unit = structureReportListeners.foreach(x => x(report))
+  def STRUCTURE_REPORT(report: SharedStructureReport): Unit = structureReportListeners.foreach(x => x(report))
 
   def EXISTS(path: String): Future[Boolean] =
     Future.sequence(onExistsListeners.map(x => x(path))).map(_.exists(x => x))
@@ -200,7 +200,7 @@ class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
     * @param position - optional position in the document.
     *                 If not provided, the last reported by positionChanged method will be used.
     */
-  override def executeDetailsAction(uri: String, actionID: String, position: Int): Future[Seq[IChangedDocument]] = {
+  override def executeDetailsAction(uri: String, actionID: String, position: Int): Future[Seq[SharedChangedDocument]] = {
     Future.successful(Seq())
   }
 
@@ -233,7 +233,7 @@ class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
     */
   override def executeContextAction(uri: String,
                                     action: IExecutableAction,
-                                    position: Int): Future[Seq[IChangedDocument]] = {
+                                    position: Int): Future[Seq[SharedChangedDocument]] = {
     Future.successful(Seq())
   }
 
@@ -246,7 +246,7 @@ class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
     * @param position - optional position in the document.
     *                 If not provided, the last reported by positionChanged method will be used.
     */
-  override def executeContextActionByID(uri: String, actionID: String, position: Int): Future[Seq[IChangedDocument]] = {
+  override def executeContextActionByID(uri: String, actionID: String, position: Int): Future[Seq[SharedChangedDocument]] = {
     Future.successful(Seq())
   }
 
@@ -261,7 +261,7 @@ class TestClientConnetcion(serverProcess: Seq[TestServerConnection])
   override def changeDetailValue(uri: String,
                                  position: Int,
                                  itemID: String,
-                                 value: AnyVal): Future[Seq[IChangedDocument]] = {
+                                 value: AnyVal): Future[Seq[SharedChangedDocument]] = {
     //this.send("CHANGE_DETAIL_VALUE", StructureReport.sharedToTransport(report))
     Future.successful(Seq())
   }

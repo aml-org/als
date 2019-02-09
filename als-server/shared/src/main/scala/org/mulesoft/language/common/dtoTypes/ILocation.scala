@@ -18,5 +18,5 @@ trait ILocation {
   /**
     * Range in the document.
     */
-  var range: IRange
+  var range: Range
 }

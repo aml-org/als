@@ -3,7 +3,7 @@ package org.mulesoft.language.common.logger
 /**
   * Logger configuration / settings
   */
-trait ILoggerSettings {
+trait LoggerSettings {
 
   /**
     * If true, disables all logging.

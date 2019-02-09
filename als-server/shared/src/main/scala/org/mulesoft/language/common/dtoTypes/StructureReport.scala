@@ -5,7 +5,7 @@ import org.mulesoft.language.outline.structure.structureInterfaces.StructureNode
 /**
   * Report for document structure.
   */
-case class IStructureReport(
+case class StructureReport(
 
                              /**
                                * Document uri.

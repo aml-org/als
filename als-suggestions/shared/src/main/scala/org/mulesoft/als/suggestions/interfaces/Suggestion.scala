@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.interfaces
 
-trait ISuggestion {
+trait Suggestion {
     def text: String
 
     def description: String

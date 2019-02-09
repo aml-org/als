@@ -3,30 +3,24 @@ package org.mulesoft.language.server.modules.findReferences
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.language.common.dtoTypes.ILocation
 import org.mulesoft.language.server.common.utils.PathRefine
-import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
+import org.mulesoft.language.server.core.AbstractServerModule
 import org.mulesoft.language.server.modules.SearchUtils
-import org.mulesoft.language.server.modules.hlastManager.HLASTmanager
+import org.mulesoft.language.server.modules.hlastManager.HlAstManager
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
-import scala.util.{Failure, Success, Try}
+import scala.util.{Failure, Success}
 
 class FindReferencesModule extends AbstractServerModule {
   override val moduleId: String = "FIND_REFERENCES"
 
-  val moduleDependencies: Array[String] = Array(HLASTmanager.moduleId)
+  val moduleDependencies: Array[String] = Array(HlAstManager.moduleId)
 
-  override def launch(): Try[IServerModule] = {
-    val superLaunch = super.launch()
-
-    if (superLaunch.isSuccess) {
-      connection.onFindReferences(findReferences, false)
-
-      Success(this)
-    } else {
-      superLaunch
-    }
-  }
+  override def launch(): Future[Unit] =
+    super.launch()
+      .map(_ => {
+        connection.onFindReferences(findReferences, false)
+      })
 
   def findReferences(_uri: String, position: Int): Future[Seq[ILocation]] = {
     val uri = PathRefine.refinePath(_uri, platform)
@@ -48,7 +42,7 @@ class FindReferencesModule extends AbstractServerModule {
   }
 
   private def currentAst(uri: String): Future[IProject] = {
-    val hlmanager = this.getDependencyById(HLASTmanager.moduleId).get.asInstanceOf[HLASTmanager]
+    val hlmanager = this.getDependencyById(HlAstManager.moduleId).get.asInstanceOf[HlAstManager]
 
     hlmanager
       .forceGetCurrentAST(uri)

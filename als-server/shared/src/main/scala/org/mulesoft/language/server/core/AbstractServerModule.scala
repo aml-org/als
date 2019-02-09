@@ -1,27 +1,28 @@
 package org.mulesoft.language.server.core
 
-import org.mulesoft.language.server.core.connections.IServerConnection
+import org.mulesoft.language.server.core.connections.ServerConnection
 import org.mulesoft.language.server.core.platform.ConnectionBasedPlatform
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
+import scala.concurrent.Future
 import scala.util.{Failure, Success, Try}
 
 /**
   * Abstract server module handling dependencies and launching.
   */
-abstract class AbstractServerModule extends IServerIOCModule {
+abstract class AbstractServerModule extends ServerIOCModule {
 
   /**
     * Initialized and pushed dependencies.
     */
-  protected val initializedDependencies: mutable.Buffer[IServerModule] = ArrayBuffer()
+  protected val initializedDependencies: mutable.Buffer[ServerModule] = ArrayBuffer()
 
   /**
     * Server connection. As its basically guaranteed to not to be null during any
     * real code execution, avoiding optional to shorten the code.
     */
-  protected var connection: IServerConnection = _
+  protected var connection: ServerConnection = _
 
   /**
     * Platform.
@@ -33,24 +34,12 @@ abstract class AbstractServerModule extends IServerIOCModule {
     */
   protected var launched = false
 
-  def getDependencyById[T <: IServerModule](moduleId: String): Option[T] = {
+  def getDependencyById[T <: ServerModule](moduleId: String): Option[T] = {
 
     val moduleOption = this.initializedDependencies.find(dependencyModule => dependencyModule.moduleId == moduleId)
 
     moduleOption.map(module => module.asInstanceOf[T])
   }
-
-  //  def dependencyByInterface[T <: IServerModule](interfaceName: String): Option[T] = {
-  //
-  //    val moduleOption = this.initializedDependencies.find(
-  //      dependencyModule => {
-  //        dependencyModule.isInstanceOf[IServerIOCModule] &&
-  //          dependencyModule.asInstanceOf[IServerIOCModule].mainInterfaceName.isDefined &&
-  //          dependencyModule.asInstanceOf[IServerIOCModule].mainInterfaceName.get == interfaceName
-  //      })
-  //
-  //    moduleOption.map(module=>module.asInstanceOf[T])
-  //  }
 
   /**
     * Launches module. Either returns this or launch failure reason.
@@ -59,12 +48,15 @@ abstract class AbstractServerModule extends IServerIOCModule {
     *
     * @return
     */
-  override def launch(): Try[IServerModule] = {
+  override def launch(): Future[Unit] = {
 
     val result = this.checkDependencies()
     this.launched = true
 
-    result
+    result.fold(
+      error => Future.failed(error),
+      _ => Future.successful()
+    )
   }
 
   /**
@@ -81,7 +73,7 @@ abstract class AbstractServerModule extends IServerIOCModule {
     * @return
     */
   override def isLaunched(): Boolean = {
-    this.launched;
+    this.launched
   }
 
   /**
@@ -89,7 +81,7 @@ abstract class AbstractServerModule extends IServerIOCModule {
     *
     * @param dependency - module, this module depends from.
     */
-  override def insertDependency(dependency: IServerModule): Unit = {
+  override def insertDependency(dependency: ServerModule): Unit = {
 
     this.initializedDependencies += dependency
   }
@@ -99,7 +91,7 @@ abstract class AbstractServerModule extends IServerIOCModule {
     *
     * @param serverConnection
     */
-  override def insertConnection(serverConnection: IServerConnection): Unit = {
+  override def insertConnection(serverConnection: ServerConnection): Unit = {
 
     this.connection = serverConnection
   }
@@ -114,7 +106,7 @@ abstract class AbstractServerModule extends IServerIOCModule {
     this.platform = platform
   }
 
-  protected def checkDependencies(): Try[IServerModule] = {
+  protected def checkDependencies(): Try[ServerModule] = {
     val unsatisfied = this.moduleDependencies.filter(dependencyId => {
 
       val found = this.initializedDependencies.find(dependency => {

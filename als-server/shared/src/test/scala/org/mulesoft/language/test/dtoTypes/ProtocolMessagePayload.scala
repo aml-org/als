@@ -1,8 +1,8 @@
 package org.mulesoft.language.test.dtoTypes
 
-import org.mulesoft.als.suggestions.interfaces.ISuggestion
-import org.mulesoft.language.common.dtoTypes.{IChangedDocument => SharedChangedDocument, IChangedPosition => SharedChangedPosition, IFindRequest => SharedFindRequest, ILocation => SharedLocation, IOpenedDocument => SharedOpenDocument, IRange => SharedRange, IStructureReport => SharedStructureReport, ITextEdit => SharedTextEdit, IValidationIssue => SharedValidationIssue, IValidationReport => SharedValidationReport}
-import org.mulesoft.language.common.logger.{ILoggerSettings, MessageSeverity => SharedMessageSeverity}
+import org.mulesoft.als.suggestions.interfaces.{Suggestion => SuggestionInterface}
+import org.mulesoft.language.common.dtoTypes.{Position, PositionRange, ChangedDocument => SharedChangedDocument, IChangedPosition => SharedChangedPosition, IFindRequest => SharedFindRequest, ILocation => SharedLocation, OpenedDocument => SharedOpenDocument, Range => SharedRange, StructureReport => SharedStructureReport, TextEdit => SharedTextEdit, ValidationIssue => SharedValidationIssue, ValidationReport => SharedValidationReport}
+import org.mulesoft.language.common.logger.{LoggerSettings => SharedLoggerSettings, MessageSeverity => SharedMessageSeverity}
 import org.mulesoft.language.outline.structure.structureInterfaces.{StructureNodeJSON => SharedStructureNode}
 import upickle.default.{macroRW, ReadWriter => RW}
 
@@ -25,7 +25,6 @@ object ProtocolMessagePayload {
   * Document being opened.
   */
 case class OpenedDocument(
-
                            /**
                              * Document URI
                              */
@@ -48,39 +47,29 @@ case class OpenedDocument(
 object OpenedDocument {
   //implicit def rw: RW[OpenedDocument] = macroRW
 
-  implicit def transportToShared(
-                                  from: OpenedDocument): SharedOpenDocument = {
+  implicit def transportToShared(from: OpenedDocument): SharedOpenDocument =
+    SharedOpenDocument(from.uri, from.version, from.text)
 
-    SharedOpenDocument(
-      from.uri,
-      from.version,
-      from.text
-    )
-  }
-
-  implicit def sharedToTransport(
-                                  from: SharedOpenDocument): OpenedDocument = {
-
+  implicit def sharedToTransport(from: SharedOpenDocument): OpenedDocument =
     OpenedDocument(from.uri, from.version, from.text)
-  }
 }
 
-case class FindDeclarationRequest(var uri: String, var position: Int) extends ProtocolMessagePayload;
+case class FindDeclarationRequest(var uri: String, var position: Int) extends ProtocolMessagePayload
 
 object FindDeclarationRequest {
-  //implicit def rw: RW[FindDeclarationRequest] = macroRW;
+  //implicit def rw: RW[FindDeclarationRequest] = macroRW
 
-  implicit def transportToShared(from: FindDeclarationRequest): SharedFindRequest = SharedFindRequest(from.uri, from.position);
+  implicit def transportToShared(from: FindDeclarationRequest): SharedFindRequest = SharedFindRequest(from.uri, from.position)
 
   def apply(uri: String, position: Int): FindDeclarationRequest = new FindDeclarationRequest(uri, position)
 }
 
-case class FindReferencesRequest(var uri: String, var position: Int) extends ProtocolMessagePayload;
+case class FindReferencesRequest(var uri: String, var position: Int) extends ProtocolMessagePayload
 
 object FindReferencesRequest {
-  //implicit def rw: RW[FindReferencesRequest] = macroRW;
+  //implicit def rw: RW[FindReferencesRequest] = macroRW
 
-  implicit def transportToShared(from: FindReferencesRequest): SharedFindRequest = SharedFindRequest(from.uri, from.position);
+  implicit def transportToShared(from: FindReferencesRequest): SharedFindRequest = SharedFindRequest(from.uri, from.position)
 
   def apply(uri: String, position: Int): FindReferencesRequest = new FindReferencesRequest(uri, position)
 }
@@ -94,9 +83,9 @@ object Location {
     override var range: SharedRange = Range.transportToShared(from.range)
   }
 
-  //implicit def rw: RW[Location] = macroRW;
+  //implicit def rw: RW[Location] = macroRW
 
-  implicit def sharedToTransport(from: SharedLocation): Location = Location(from.uri, Range(from.range.start, from.range.end), from.version);
+  implicit def sharedToTransport(from: SharedLocation): Location = Location(from.uri, Range(from.range.start, from.range.end), from.version)
 }
 
 case class ClosedDocument(var wrapped: String) extends ProtocolMessagePayload
@@ -109,7 +98,6 @@ object ClosedDocument {
   * Document being opened.
   */
 case class ChangedDocument(
-
                             /**
                               * Document URI
                               */
@@ -131,31 +119,21 @@ case class ChangedDocument(
                               */
                             var textEdits: Option[Seq[TextEdit]]
 
-                          ) extends ProtocolMessagePayload {
-}
+                          ) extends ProtocolMessagePayload
 
 object ChangedDocument {
   //implicit def rw: RW[ChangedDocument] = macroRW
 
-  implicit def transportToShared(
-                                  from: ChangedDocument): SharedChangedDocument = {
-
+  implicit def transportToShared(from: ChangedDocument): SharedChangedDocument =
     SharedChangedDocument(
       from.uri,
       from.version,
       from.text,
       from.textEdits.map(_.map(TextEdit.transportToShared))
-      //      if(from.textEdits.isDefined)
-      //        Some(from.textEdits.get.map(edit=>TextEdit.transportToShared(edit)))
-      //      else None
     )
-  }
 
-  implicit def sharedToTransport(
-                                  from: SharedChangedDocument): ChangedDocument = {
-
+  implicit def sharedToTransport(from: SharedChangedDocument): ChangedDocument =
     ChangedDocument(from.uri, from.version, from.text, from.textEdits.map(_.map(TextEdit.sharedToTransport)))
-  }
 }
 
 case class ChangedPosition(var uri: String, var position: Int) extends ProtocolMessagePayload
@@ -172,7 +150,6 @@ object ChangedPosition {
   * Validation report.
   */
 case class ValidationReport(
-
                              /**
                                * This is the "point of view" uri, actual reported unit paths are located
                                * in the particular issues.
@@ -188,38 +165,19 @@ case class ValidationReport(
                                * Validation issues.
                                */
                              var issues: Seq[ValidationIssue]
-                           ) extends ProtocolMessagePayload {
-
-}
+                           ) extends ProtocolMessagePayload
 
 object ValidationReport {
   //implicit def rw: RW[ValidationReport] = macroRW
 
-  //  implicit def transportToShared(
-  //    from: ValidationReport): SharedValidationReport = {
-  //
-  //    val genFrom = Generic[ValidationReport]
-  //    val genTo = Generic[SharedValidationReport]
-  //
-  //    genTo.from(genFrom.to(from))
-  //  }
-
-  implicit def sharedToTransport(
-                                  from: SharedValidationReport): ValidationReport = {
-
-    ValidationReport(
-      from.pointOfViewUri,
-      from.version,
-      from.issues.map(issue => ValidationIssue.sharedToTransport(issue))
-    )
-  }
+  implicit def sharedToTransport(from: SharedValidationReport): ValidationReport =
+    ValidationReport(from.pointOfViewUri, from.version, from.issues.map(issue => ValidationIssue.sharedToTransport(issue)))
 }
 
 /**
   * Validation issue: error or warning
   */
 case class ValidationIssue(
-
                             /**
                               * Error code
                               */
@@ -243,37 +201,30 @@ case class ValidationIssue(
                             /**
                               * Range producing the issue.
                               */
-                            var range: Range,
+                            var range: PositionRange,
 
                             /**
                               * Subsequent validation issues
                               */
                             var trace: Seq[ValidationIssue]
-                          ) {
-}
+                          )
 
 object ValidationIssue {
-  //implicit def rw: RW[ValidationIssue] = macroRW
-
-  implicit def sharedToTransport(
-                                  from: SharedValidationIssue): ValidationIssue = {
-
+  implicit def sharedToTransport(from: SharedValidationIssue): ValidationIssue =
     ValidationIssue(
       from.code,
-      from.`type`,
+      from.`type`.toString,
       from.filePath,
       from.text,
       from.range,
       from.trace.map(issue => ValidationIssue.sharedToTransport(issue))
     )
-  }
 }
 
 /**
   * Single text edit in a document.
   */
 case class TextEdit(
-
                      /**
                        * Range to replace. Range start==end==0 => insert into the beginning of the document,
                        * start==end==document end => insert into the end of the document
@@ -290,30 +241,15 @@ case class TextEdit(
 object TextEdit {
   //implicit def rw: RW[TextEdit] = macroRW
 
-  implicit def transportToShared(
-                                  from: TextEdit): SharedTextEdit = {
+  implicit def transportToShared(from: TextEdit): SharedTextEdit = SharedTextEdit(from.range, from.text)
 
-    SharedTextEdit(
-      from.range,
-      from.text
-    )
-  }
-
-  implicit def sharedToTransport(
-                                  from: SharedTextEdit): TextEdit = {
-
-    TextEdit(
-      from.range,
-      from.text
-    )
-  }
+  implicit def sharedToTransport(from: SharedTextEdit): TextEdit = TextEdit(from.range, from.text)
 }
 
 /**
   * Range in the document.
   */
 case class Range(
-
                   /**
                     * Range start position, counting from 0
                     */
@@ -323,36 +259,18 @@ case class Range(
                     * Range end position, counting from 0
                     */
                   var end: Int
-                ) {
-}
+                )
 
 object Range {
-  //implicit def rw: RW[Range] = macroRW
+  implicit def transportToShared(from: Range): SharedRange = SharedRange(from.start, from.end)
 
-  implicit def transportToShared(
-                                  from: Range): SharedRange = {
-
-    SharedRange(
-      from.start,
-      from.end
-    )
-  }
-
-  implicit def sharedToTransport(
-                                  from: SharedRange): Range = {
-
-    Range(
-      from.start,
-      from.end
-    )
-  }
+  implicit def sharedToTransport(from: SharedRange): Range = Range(from.start, from.end)
 }
 
 /**
   * Report for document structure.
   */
 case class StructureReport(
-
                             /**
                               * Document uri.
                               */
@@ -367,23 +285,11 @@ case class StructureReport(
                               * Document structure.
                               */
                             var structure: Map[String, StructureNode]
-                          ) extends ProtocolMessagePayload {
-
-}
+                          ) extends ProtocolMessagePayload
 
 object StructureReport {
-  //implicit def rw: RW[StructureReport] = macroRW
-
-
-  implicit def sharedToTransport(
-                                  from: SharedStructureReport): StructureReport = {
-
-    StructureReport(
-      from.uri,
-      from.version,
-      from.structure.map { case (key, value) => (key, StructureNode.sharedToTransport(value)) }
-    )
-  }
+  implicit def sharedToTransport(from: SharedStructureReport): StructureReport =
+    StructureReport(from.uri, from.version, from.structure.map { case (key, value) => (key, StructureNode.sharedToTransport(value)) })
 }
 
 case class StructureNode(
@@ -440,9 +346,7 @@ case class StructureNode(
                             * Node category, if determined by a category filter.
                             */
                           category: String = null
-                        ) {
-
-}
+                        )
 
 object StructureNode {
   implicit def rw: RW[StructureNode] = macroRW
@@ -471,10 +375,8 @@ object StructureNode {
     }
   }
 
-  implicit def sharedToTransport(
-                                  from: SharedStructureNode): StructureNode = {
-
-    val result = StructureNode(
+  implicit def sharedToTransport(from: SharedStructureNode): StructureNode =
+    StructureNode(
       from.text,
       from.typeText.orNull,
       from.icon,
@@ -486,8 +388,6 @@ object StructureNode {
       from.children.map(StructureNode.sharedToTransport),
       from.category
     )
-    result
-  }
 }
 
 /**
@@ -500,19 +400,11 @@ case class GetStructureRequest(
                                   * Url
                                   */
                                 wrapped: String
+                              ) extends ProtocolMessagePayload
 
-                              ) extends ProtocolMessagePayload {
-}
-
-case class RenameRequest(
-                          uri: String,
-                          newName: String,
-                          position: Int) extends ProtocolMessagePayload {
-}
-
+case class RenameRequest(uri: String, newName: String, position: Int) extends ProtocolMessagePayload
 
 object GetStructureRequest {
-  //implicit def rw: RW[GetStructureRequest] = macroRW
   def apply(wrapped: String): GetStructureRequest = new GetStructureRequest(wrapped)
 }
 
@@ -528,19 +420,13 @@ case class GetCompletionRequest(
                                  /**
                                    * Completion position
                                    */
-                                 position: Int
-
-                               ) extends ProtocolMessagePayload {
-}
+                                 position: Position
+                               ) extends ProtocolMessagePayload
 
 /**
   * Request from client to server to obtain completion
   */
-case class GetCompletionResponse(
-                                  suggestions: Seq[Suggestion]
-
-                                ) extends ProtocolMessagePayload {
-}
+case class GetCompletionResponse(suggestions: Seq[Suggestion]) extends ProtocolMessagePayload
 
 object GetCompletionRequest {
   //implicit def rw: RW[GetCompletionRequest] = macroRW
@@ -549,17 +435,9 @@ object GetCompletionRequest {
 /**
   * Request from client to server to obtain structure
   *
-  * @param wrapped
+  * @param wrapped Document structure.
   */
-case class GetStructureResponse(
-
-                                 /**
-                                   * Document structure.
-                                   */
-                                 wrapped: Map[String, StructureNode]
-
-                               ) extends ProtocolMessagePayload {
-}
+case class GetStructureResponse(wrapped: Map[String, StructureNode]) extends ProtocolMessagePayload
 
 object GetStructureResponse {
   //implicit def rw: RW[GetStructureResponse] = macroRW
@@ -590,27 +468,16 @@ case class Suggestion(
                          * Suggestion category.
                          */
                        category: Option[String]
-                     ) extends ProtocolMessagePayload {
-
-}
+                     ) extends ProtocolMessagePayload
 
 object Suggestion {
   //implicit def rw: RW[Suggestion] = macroRW
 
-  implicit def sharedToTransport(from: ISuggestion): Suggestion = {
+  implicit def sharedToTransport(from: SuggestionInterface): Suggestion =
+    Suggestion(from.text, Option(from.description), Option(from.displayText), Option(from.prefix), Option(from.category))
 
-    Suggestion(
-      from.text,
-      if (from.description != null) Some(from.description) else None,
-      if (from.displayText != null) Some(from.displayText) else None,
-      if (from.prefix != null) Some(from.prefix) else None,
-      if (from.category != null) Some(from.category) else None
-    )
-  }
-
-  implicit def transportToShared(from: Suggestion): ISuggestion = {
-
-    new ISuggestion {
+  implicit def transportToShared(from: Suggestion): SuggestionInterface =
+    new SuggestionInterface {
       override def displayText: String = from.displayText.orNull
 
       override def prefix: String = from.prefix.orNull
@@ -623,47 +490,45 @@ object Suggestion {
 
       override def trailingWhitespace: String = ""
     }
-  }
 }
 
 
-case class LocationsResponse(wrapped: Seq[Location]) extends ProtocolMessagePayload;
+case class LocationsResponse(wrapped: Seq[Location]) extends ProtocolMessagePayload
 
-case class RenameResponse(wrapped: Seq[ChangedDocument]) extends ProtocolMessagePayload;
+case class RenameResponse(wrapped: Seq[ChangedDocument]) extends ProtocolMessagePayload
 
 object LocationsResponse {
-  //implicit def rw: RW[LocationsResponse] = macroRW;
+  //implicit def rw: RW[LocationsResponse] = macroRW
 }
 
-case class ClientPathRequest(wrapped: String) extends ProtocolMessagePayload;
+case class ClientPathRequest(wrapped: String) extends ProtocolMessagePayload
 
 object ClientPathRequest {
-  //implicit def rw: RW[ClientPathRequest] = macroRW;
+  //implicit def rw: RW[ClientPathRequest] = macroRW
 }
 
-case class ClientBoolResponse(wrapped: Boolean) extends ProtocolMessagePayload;
+case class ClientBoolResponse(wrapped: Boolean) extends ProtocolMessagePayload
 
 object ClientBoolResponse {
-  //implicit def rw: RW[ClientBoolResponse] = macroRW;
+  //implicit def rw: RW[ClientBoolResponse] = macroRW
 }
 
-case class ClientStringResponse(wrapped: String) extends ProtocolMessagePayload;
+case class ClientStringResponse(wrapped: String) extends ProtocolMessagePayload
 
 object ClientStringResponse {
-  //implicit def rw: RW[ClientStringResponse] = macroRW;
+  //implicit def rw: RW[ClientStringResponse] = macroRW
 }
 
-case class ClientStringSeqResponse(wrapped: Seq[String]) extends ProtocolMessagePayload;
+case class ClientStringSeqResponse(wrapped: Seq[String]) extends ProtocolMessagePayload
 
 object ClientStringSeqResponse {
-  //implicit def rw: RW[ClientStringSeqResponse] = macroRW;
+  //implicit def rw: RW[ClientStringSeqResponse] = macroRW
 }
 
 /**
   * Logger configuration / settings
   */
 case class LoggerSettings(
-
                            /**
                              * If true, disables all logging.
                              */
@@ -689,18 +554,13 @@ case class LoggerSettings(
                              * Messages having more length will be cut off to this number.
                              */
                            var maxMessageLength: Option[Int]
-                         ) extends ProtocolMessagePayload {
-
-}
+                         ) extends ProtocolMessagePayload
 
 object LoggerSettings {
   //implicit def rw: RW[LoggerSettings] = macroRW
 
-  def transportToShared(
-                         from: LoggerSettings): ILoggerSettings = {
-
-
-    new ILoggerSettings() {
+  def transportToShared(from: LoggerSettings): SharedLoggerSettings =
+    new SharedLoggerSettings() {
       var disabled = None.asInstanceOf[Option[Boolean]]
       //from.disabled
       var allowedComponents = from.allowedComponents
@@ -709,23 +569,15 @@ object LoggerSettings {
       var maxSeverity = if (from.maxSeverity.isDefined) Some(MessageSeverity.sharedToTransport(from.maxSeverity.get)) else None
       var maxMessageLength = from.maxMessageLength
     }
-  }
 }
 
 object MessageSeverity {
-
-
-  implicit def sharedToTransport(
-                                  from: Int): SharedMessageSeverity.Value = {
-
-    from match {
-      case 0 => SharedMessageSeverity.DEBUG_DETAIL
-      case 1 => SharedMessageSeverity.DEBUG
-      case 2 => SharedMessageSeverity.DEBUG_OVERVIEW
-      case 3 => SharedMessageSeverity.WARNING
-      case 4 => SharedMessageSeverity.ERROR
-      case _ => SharedMessageSeverity.DEBUG
-    }
+  implicit def sharedToTransport(from: Int): SharedMessageSeverity.Value = from match {
+    case 0 => SharedMessageSeverity.DEBUG_DETAIL
+    case 1 => SharedMessageSeverity.DEBUG
+    case 2 => SharedMessageSeverity.DEBUG_OVERVIEW
+    case 3 => SharedMessageSeverity.WARNING
+    case 4 => SharedMessageSeverity.ERROR
+    case _ => SharedMessageSeverity.DEBUG
   }
-
 }

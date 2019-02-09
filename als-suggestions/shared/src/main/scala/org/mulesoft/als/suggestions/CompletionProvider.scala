@@ -1,6 +1,8 @@
 package org.mulesoft.als.suggestions
 
 import org.mulesoft.als.suggestions.implementation.{CompletionRequest, LocationKindDetectTool, Suggestion}
+import org.mulesoft.als.suggestions.interfaces._
+import org.mulesoft.als.suggestions.interfaces.{Suggestion => SuggestionInterface}
 import org.mulesoft.als.suggestions.interfaces.LocationKind._
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.interfaces.{IASTUnit, IParseResult}
@@ -21,9 +23,9 @@ class CompletionProvider {
     this
   }
 
-  def suggest: Future[Seq[ISuggestion]] = suggest(true)
+  def suggest: Future[Seq[SuggestionInterface]] = suggest(true)
 
-  def suggest(filterByPrefix: Boolean): Future[Seq[ISuggestion]] = {
+  def suggest(filterByPrefix: Boolean): Future[Seq[SuggestionInterface]] = {
 
     val request = composeRequest
     fulfillRequest(request).map(result => {
@@ -83,7 +85,7 @@ class CompletionProvider {
     result
   }
 
-  def fulfillRequest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+  def fulfillRequest(request: ICompletionRequest): Future[Seq[SuggestionInterface]] = {
 
     val filteredPlugins = _pluginsRegistry.plugins.filter(plugin => {
       plugin.isApplicable(request)
@@ -97,7 +99,7 @@ class CompletionProvider {
 
   }
 
-  def adjustedSuggestions(response: ICompletionResponse): Seq[ISuggestion] = {
+  def adjustedSuggestions(response: ICompletionResponse): Seq[SuggestionInterface] = {
     val isKey  = response.kind == LocationKind.KEY_COMPLETION
     val isYAML = response.request.config.astProvider.exists(_.syntax == Syntax.YAML)
     val isJSON = response.request.config.astProvider.exists(_.syntax == Syntax.JSON)
@@ -175,7 +177,7 @@ class CompletionProvider {
     result
   }
 
-  def filter(suggestions: Seq[ISuggestion], request: ICompletionRequest): Seq[ISuggestion] = {
+  def filter(suggestions: Seq[SuggestionInterface], request: ICompletionRequest): Seq[SuggestionInterface] = {
     suggestions.filter(s => {
       val prefix = s.prefix.toLowerCase
       if (prefix.isEmpty || prefix == ":" || prefix == "/") {

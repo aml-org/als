@@ -40,7 +40,7 @@ class KnownKeyPropertyValuesCompletionPlugin extends ICompletionPlugin {
     }
 
     override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
-        var result:ListBuffer[ISuggestion] = ListBuffer()
+        var result:ListBuffer[Suggestion] = ListBuffer()
         var isYAML = request.config.astProvider.get.syntax == Syntax.YAML
         
         var astNode = request.astNode.get;

@@ -1,14 +1,14 @@
 package org.mulesoft.language.server.modules.astManager
 
 import amf.core.model.document.BaseUnit
-import org.mulesoft.language.server.core.IServerIOCModule
+import org.mulesoft.language.server.core.ServerIOCModule
 
 import scala.concurrent.Future
 
 /**
   * Manager of AST states.
   */
-trait IASTManagerModule extends IServerIOCModule {
+trait ASTManagerModule extends ServerIOCModule {
 
   /**
     * Module ID
@@ -36,7 +36,7 @@ trait IASTManagerModule extends IServerIOCModule {
     * @param listener
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onNewASTAvailable(listener: IASTListener, unsubscribe: Boolean = false): Unit
+  def onNewASTAvailable(listener: ASTListener, unsubscribe: Boolean = false): Unit
 
   /**
     * Gets current AST if there is any.
@@ -47,7 +47,7 @@ trait IASTManagerModule extends IServerIOCModule {
   def forceBuildNewAST(uri: String, text: String): Future[BaseUnit]
 }
 
-object IASTManagerModule {
+object ASTManagerModule {
 
   /**
     * Module ID

@@ -15,7 +15,7 @@ class EmptyRamlFileCompletionPlugin extends ICompletionPlugin {
 
         val text = request.config.editorStateProvider.get.getText
         var str = text.substring(0,request.position)
-        var suggestions:Seq[ISuggestion] = Seq()
+        var suggestions:Seq[Suggestion] = Seq()
         var prefix = request.prefix
         if("#%RAML".startsWith(str) && "#%RAML".length > str.length){
             prefix = str

@@ -13,29 +13,28 @@ import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.features.validation.AMFValidatorPlugin
 import org.mulesoft.high.level.amfmanager.ParserHelper
-import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IOpenedDocument}
+import org.mulesoft.language.common.dtoTypes.{ChangedDocument, OpenedDocument}
 import org.mulesoft.language.server.common.reconciler.Reconciler
+import org.mulesoft.language.server.core.AbstractServerModule
 import org.mulesoft.language.server.core.platform.ProxyContentPlatform
-import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
-import org.mulesoft.language.server.modules.editorManager.{IEditorManagerModule, TextEditorInfo}
+import org.mulesoft.language.server.modules.editorManager.{EditorManagerModule, TextEditorInfo}
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Future, Promise}
-import scala.util.{Failure, Success, Try}
+import scala.concurrent.Future
 
 /**
   * AST manager
   */
-class ASTManager extends AbstractServerModule with IASTManagerModule {
+class ASTManager extends AbstractServerModule with ASTManagerModule {
 
-  val moduleDependencies: Array[String] = Array(IEditorManagerModule.moduleId)
+  val moduleDependencies: Array[String] = Array(EditorManagerModule.moduleId)
 
   /**
     * Current AST listeners
     */
-  var astListeners: mutable.Buffer[IASTListener] = ArrayBuffer()
+  var astListeners: mutable.Buffer[ASTListener] = ArrayBuffer()
 
   /**
     * Map from uri to AST
@@ -46,30 +45,21 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
   private val reconciler: Reconciler = new Reconciler(connection, 500)
 
-  protected def getEditorManager: IEditorManagerModule = {
-    this.getDependencyById(IEditorManagerModule.moduleId).get
+  protected def getEditorManager: EditorManagerModule = {
+    this.getDependencyById(EditorManagerModule.moduleId).get
   }
 
-  override def launch(): Try[IServerModule] = {
+  override def launch(): Future[Unit] =
+    super.launch()
+      .flatMap(_ => {
+        this.connection.onOpenDocument(this.onOpenDocument)
 
-    val superLaunch = super.launch()
+        this.getEditorManager.onChangeDocument(this.onChangeDocument)
 
-    if (superLaunch.isSuccess) {
+        this.connection.onCloseDocument(this.onCloseDocument)
 
-      this.connection.onOpenDocument(this.onOpenDocument)
-
-      this.getEditorManager.onChangeDocument(this.onChangeDocument)
-
-      this.connection.onCloseDocument(this.onCloseDocument)
-
-      amfInit()
-
-      Success(this)
-    } else {
-
-      superLaunch
-    }
-  }
+        amfInit()
+      })
 
   def init(): Future[Unit] = {
     if (initialized) Future.successful(Unit)
@@ -138,38 +128,28 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
     }
   }
 
-  def onNewASTAvailable(listener: IASTListener, unsubscribe: Boolean = false): Unit = {
+  def onNewASTAvailable(listener: ASTListener, unsubscribe: Boolean = false): Unit = {
 
     this.addListener(this.astListeners, listener, unsubscribe)
   }
 
-  def onOpenDocument(document: IOpenedDocument): Unit = {
+  def onOpenDocument(document: OpenedDocument): Unit =
+    parse(document.uri)
+      .foreach(unit => registerNewAST(document.uri, document.version, unit))
 
-    this
-      .parse(document.uri)
-      .foreach(unit => {
-        this.registerNewAST(document.uri, document.version, unit)
-      })
-
-    //this.reconciler.schedule(new ParseDocumentRunnable(document.uri, 0, this.editorManager, this.connection, this.connection)).then((newAST => this.registerNewAST(document.uri, document.version, newAST)), (error => this.registerASTParseError(document.uri, error)))
-  }
-
-  def onChangeDocument(document: IChangedDocument): Unit = {
-    this.connection.debug(s"document ${document.uri} is changed", "ASTManager", "onChangeDocument")
+  def onChangeDocument(document: ChangedDocument): Unit = {
+    connection.debug(s"document ${document.uri} is changed", "ASTManager", "onChangeDocument")
 
     reconciler
-      .shedule(new DocumentChangedRunnable(document.uri, () => this.parse(this.platform.resolvePath(document.uri))))
+      .shedule(new DocumentChangedRunnable(document.uri, () => parse(platform.resolvePath(document.uri))))
       .future
-      .map(unit => {
-        this.registerNewAST(document.uri, document.version, unit)
-      })
+      .map(unit => registerNewAST(document.uri, document.version, unit))
       .recover {
-        case e: Throwable => {
+        case e: Throwable =>
           val writer = new StringWriter()
           e.printStackTrace(new PrintWriter(writer))
-          this.connection
+          connection
             .debug(s"Failed to parse ${document.uri} with exception $writer", "ASTManager", "onChangeDocument")
-        }
       }
   }
 
@@ -186,13 +166,6 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
     this.notifyASTChanged(uri, version, ast)
   }
-
-  //  def registerASTParseError(uri: String, error: Any) = {
-  //    (this.currentASTs = Map(
-  //    ))
-  //    this.notifyASTChanged(uri, null, error)
-  //
-  //  }
 
   def notifyASTChanged(uri: String, version: Int, ast: BaseUnit) = {
 
@@ -227,25 +200,21 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
     *
     * @param uri
     */
-  def forceBuildNewAST(uri: String, text: String): Future[BaseUnit] = {
-
-    this
-      .parseWithContentSubstitution(uri, text)
-      .map(unit => {
-
-        unit
-      })
-  }
+  def forceBuildNewAST(uri: String, text: String): Future[BaseUnit] =
+    parseWithContentSubstitution(uri, text)
 
   def parse(uri: String, loaderOpt: Option[ResourceLoader] = None): Future[BaseUnit] = {
-
     val language = getEditorManager.getEditor(uri).map(_.language).getOrElse("OAS 2.0")
 
-    val protocolUri = this.platform.resolvePath(uri)
-    this.connection.debugDetail(s"Protocol uri is $protocolUri", "ASTManager", "parse")
+    val protocolUri = platform.resolvePath(uri)
+    connection.debugDetail(s"Protocol uri is $protocolUri", "ASTManager", "parse")
 
-    val env = loaderOpt.map(this.platform.defaultEnvironment.add(_)).getOrElse(this.platform.defaultEnvironment)
-    val cfg = new ParserConfig(
+    val defaultEnvironment = platform.defaultEnvironment.add(platform.fileLoader).add(platform.httpLoader)
+    val environment = loaderOpt
+      .map(defaultEnvironment.add)
+      .getOrElse(defaultEnvironment)
+
+    val config = new ParserConfig(
       Some(ParserConfig.PARSE),
       Some(protocolUri),
       Some(language),
@@ -259,16 +228,15 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
 
     val helper = ParserHelper(this.platform)
 
-    helper.parse(cfg, env).map { result =>
+    helper.parse(config, environment).map { result =>
       val endTime = System.currentTimeMillis()
-      this.connection
+      connection
         .debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast", "ASTManager", "parse")
       result
     }
   }
 
   def parseWithContentSubstitution(uri: String, content: String): Future[BaseUnit] = {
-
     val proxyPlatform = new ProxyContentPlatform(this.platform, uri, content)
 
     val language = getEditorManager.getEditor(uri).map(_.language).getOrElse("OAS 2.0")
@@ -290,8 +258,8 @@ class ASTManager extends AbstractServerModule with IASTManagerModule {
     helper.parse(cfg, proxyPlatform.defaultEnvironment).map { r =>
       val endTime = System.currentTimeMillis()
       this.connection.debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast",
-                                  "ASTManager",
-                                  "parseWithContentSubstitution")
+        "ASTManager",
+        "parseWithContentSubstitution")
       r
     }
   }
