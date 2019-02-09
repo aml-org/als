@@ -5,7 +5,7 @@ import amf.core.model.document.BaseUnit
 /**
   * AST listener
   */
-trait IASTListener {
+trait ASTListener {
 
   /**
     * Called on new AST available

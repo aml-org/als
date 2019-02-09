@@ -1,6 +1,6 @@
 package org.mulesoft.language.server.core.connections
 
-import org.mulesoft.als.suggestions.interfaces.ISuggestion
+import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
@@ -9,29 +9,29 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Future
 
-trait AbstractServerConnection extends IServerConnection {
+trait AbstractServerConnection extends ServerConnection with ServerNotifier {
 
-  protected var openDocumentListeners: mutable.Buffer[IOpenedDocument => Unit] = ArrayBuffer()
+  protected var openDocumentListeners: mutable.Buffer[OpenedDocument => Unit] = ArrayBuffer()
 
-  protected var changeDocumentListeners: mutable.Buffer[IChangedDocument => Unit] = ArrayBuffer()
+  protected var changeDocumentListeners: mutable.Buffer[ChangedDocument => Unit] = ArrayBuffer()
 
   protected var closeDocumentListeners: mutable.Buffer[String => Unit] = ArrayBuffer()
 
   protected var documentStructureListeners: mutable.Buffer[String => Future[Map[String, StructureNodeJSON]]] = ArrayBuffer()
 
-  protected var documentCompletionListeners: mutable.Buffer[(String, Int) => Future[Seq[ISuggestion]]] = ArrayBuffer()
+  protected var documentCompletionListeners: mutable.Buffer[(String, Position) => Future[Seq[Suggestion]]] = ArrayBuffer()
+
+  protected var documentDetailsListeners: mutable.Buffer[(String, Position) => Future[Seq[Suggestion]]] = ArrayBuffer()
 
   protected var openDeclarationListeners: mutable.Buffer[(String, Int) => Future[Seq[ILocation]]] = ArrayBuffer()
 
   protected var findReferencesListeners: mutable.Buffer[(String, Int) => Future[Seq[ILocation]]] = ArrayBuffer()
 
-  protected var markOccurrencesListeners: mutable.Buffer[(String, Int) => Future[Seq[IRange]]] = ArrayBuffer()
+  protected var markOccurrencesListeners: mutable.Buffer[(String, Int) => Future[Seq[Range]]] = ArrayBuffer()
 
-  protected var renameListeners: mutable.Buffer[(String, Int, String) => Future[Seq[IChangedDocument]]] = ArrayBuffer()
+  protected var renameListeners: mutable.Buffer[(String, Int, String) => Future[Seq[ChangedDocument]]] = ArrayBuffer()
 
-  protected var documentDetailsListeners: mutable.Buffer[(String, Int) => Future[Seq[ISuggestion]]] = ArrayBuffer()
-
-  protected var changeDetailValueListeners: mutable.Buffer[(String, Int, String, AnyVal) => Future[Seq[IChangedDocument]]] =
+  protected var changeDetailValueListeners: mutable.Buffer[(String, Int, String, AnyVal) => Future[Seq[ChangedDocument]]] =
     ArrayBuffer()
 
   protected var changePositionListeners: mutable.Buffer[(String, Int) => Unit] = ArrayBuffer()
@@ -43,10 +43,10 @@ trait AbstractServerConnection extends IServerConnection {
 
   protected var getAllEditorContextActionsListeners: mutable.Buffer[() => Future[Seq[IExecutableAction]]] = ArrayBuffer()
 
-  protected var executeContextActionListeners: mutable.Buffer[(String, String, Int) => Future[Seq[IChangedDocument]]] =
+  protected var executeContextActionListeners: mutable.Buffer[(String, String, Int) => Future[Seq[ChangedDocument]]] =
     ArrayBuffer()
 
-  protected var executeDetailsActionListeners: mutable.Buffer[(String, String, Int) => Future[Seq[IChangedDocument]]] =
+  protected var executeDetailsActionListeners: mutable.Buffer[(String, String, Int) => Future[Seq[ChangedDocument]]] =
     ArrayBuffer()
 
   /**
@@ -55,10 +55,11 @@ trait AbstractServerConnection extends IServerConnection {
     * @param listener    (document: IOpenedDocument) => Unit
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onOpenDocument(listener: IOpenedDocument => Unit, unsubscribe: Boolean = false): Unit = {
+  def onOpenDocument(listener: OpenedDocument => Unit, unsubscribe: Boolean = false): Unit =
+    addListener(openDocumentListeners, listener, unsubscribe)
 
-    this.addListener(this.openDocumentListeners, listener, unsubscribe)
-  }
+  override def notifyDocumentOpened(openedDocument: OpenedDocument): Unit =
+    openDocumentListeners.foreach(_.apply(openedDocument))
 
   /**
     * Adds a listener to document change notification. Must notify listeners in order of registration.
@@ -66,10 +67,11 @@ trait AbstractServerConnection extends IServerConnection {
     * @param listener    (document: IChangedDocument) => Unit
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onChangeDocument(listener: IChangedDocument => Unit, unsubscribe: Boolean = false): Unit = {
+  def onChangeDocument(listener: ChangedDocument => Unit, unsubscribe: Boolean = false): Unit =
+    addListener(changeDocumentListeners, listener, unsubscribe)
 
-    this.addListener(this.changeDocumentListeners, listener, unsubscribe)
-  }
+  override def notifyDocumentChanged(changedDocument: ChangedDocument): Unit =
+    changeDocumentListeners.foreach(_.apply(changedDocument))
 
   /**
     * Adds a listener to document close notification. Must notify listeners in order of registration.
@@ -77,10 +79,11 @@ trait AbstractServerConnection extends IServerConnection {
     * @param listener    (uri: String) => Unit
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onCloseDocument(listener: String => Unit, unsubscribe: Boolean = false): Unit = {
+  def onCloseDocument(listener: String => Unit, unsubscribe: Boolean = false): Unit =
+    addListener(closeDocumentListeners, listener, unsubscribe)
 
-    this.addListener(this.closeDocumentListeners, listener, unsubscribe)
-  }
+  override def notifyDocumentClosed(path: String): Unit =
+    closeDocumentListeners.foreach(_.apply(path))
 
   /**
     * Adds a listener to document completion request. Must notify listeners in order of registration.
@@ -88,10 +91,11 @@ trait AbstractServerConnection extends IServerConnection {
     * @param listener    (uri: String, position: Int) => Future[Seq[Suggestion] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onDocumentCompletion(listener: (String, Int) => Future[Seq[ISuggestion]], unsubscribe: Boolean = false): Unit = {
+  def onDocumentCompletion(listener: (String, Position) => Future[Seq[Suggestion]], unsubscribe: Boolean = false): Unit =
+    addListener(documentCompletionListeners, listener, unsubscribe)
 
-    this.addListener(this.documentCompletionListeners, listener, unsubscribe)
-  }
+  override def notifyDocumentCompletion(uri: String, offset: Position): Future[Seq[Suggestion]] =
+    documentCompletionListeners.headOption.map(_.apply(uri, offset)).getOrElse(Future.successful(Seq()))
 
   /**
     * Adds a listener to document structure request. Must notify listeners in order of registration.
@@ -99,9 +103,8 @@ trait AbstractServerConnection extends IServerConnection {
     * @param listener    (uri: String) => Future[Map[String, StructureNodeJSON] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onDocumentStructure(listener: (String) => Future[Map[String, StructureNodeJSON]],
+  def onDocumentStructure(listener: String => Future[Map[String, StructureNodeJSON]],
                           unsubscribe: Boolean = false): Unit = {
-
     this.addListener(this.documentStructureListeners, listener, unsubscribe)
   }
 
@@ -112,7 +115,6 @@ trait AbstractServerConnection extends IServerConnection {
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
   def onOpenDeclaration(listener: (String, Int) => Future[Seq[ILocation]], unsubscribe: Boolean): Unit = {
-
     this.addListener(this.openDeclarationListeners, listener, unsubscribe)
   }
 
@@ -123,7 +125,6 @@ trait AbstractServerConnection extends IServerConnection {
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
   def onFindReferences(listener: (String, Int) => Future[Seq[ILocation]], unsubscribe: Boolean): Unit = {
-
     this.addListener(this.findReferencesListeners, listener, unsubscribe)
   }
 
@@ -133,8 +134,7 @@ trait AbstractServerConnection extends IServerConnection {
     * @param listener    (uri: String, position: Int) => Future[Seq[IRange] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onMarkOccurrences(listener: (String, Int) => Future[Seq[IRange]], unsubscribe: Boolean = false): Unit = {
-
+  def onMarkOccurrences(listener: (String, Int) => Future[Seq[Range]], unsubscribe: Boolean = false): Unit = {
     this.addListener(this.markOccurrencesListeners, listener, unsubscribe)
   }
 
@@ -144,8 +144,7 @@ trait AbstractServerConnection extends IServerConnection {
     * @param listener    (uri: String, position: Int, newName: String) => Seq[IChangedDocument]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onRename(listener: (String, Int, String) => Future[Seq[IChangedDocument]], unsubscribe: Boolean = false): Unit = {
-
+  def onRename(listener: (String, Int, String) => Future[Seq[ChangedDocument]], unsubscribe: Boolean = false): Unit = {
     this.addListener(this.renameListeners, listener, unsubscribe)
   }
 
@@ -155,9 +154,8 @@ trait AbstractServerConnection extends IServerConnection {
     * @param listener    (uri: String, position: Int, itemID: String, value: String | Int | Boolean) => Future[Seq[IChangedDocument] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onChangeDetailValue(listener: (String, Int, String, AnyVal) => Future[Seq[IChangedDocument]],
+  def onChangeDetailValue(listener: (String, Int, String, AnyVal) => Future[Seq[ChangedDocument]],
                           unsubscribe: Boolean = false): Unit = {
-
     this.addListener(this.changeDetailValueListeners, listener, unsubscribe)
   }
 
@@ -169,7 +167,6 @@ trait AbstractServerConnection extends IServerConnection {
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
   def onChangePosition(listener: (String, Int) => Unit, unsubscribe: Boolean = false): Unit = {
-
     this.addListener(this.changePositionListeners, listener, unsubscribe)
   }
 
@@ -180,9 +177,8 @@ trait AbstractServerConnection extends IServerConnection {
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     *                    If not provided, the last reported by positionChanged method will be used.
     */
-  def onExecuteDetailsAction(listener: (String, String, Int) => Future[Seq[IChangedDocument]],
+  def onExecuteDetailsAction(listener: (String, String, Int) => Future[Seq[ChangedDocument]],
                              unsubscribe: Boolean = false): Unit = {
-
     this.addListener(this.executeDetailsActionListeners, listener, unsubscribe)
   }
 
@@ -194,7 +190,6 @@ trait AbstractServerConnection extends IServerConnection {
     */
   def onCalculateEditorContextActions(listener: (String, Int) => Future[Seq[IExecutableAction]],
                                       unsubscribe: Boolean = false): Unit = {
-
     this.addListener(this.calculateEditorContextActionsListeners, listener, unsubscribe)
   }
 
@@ -205,7 +200,6 @@ trait AbstractServerConnection extends IServerConnection {
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
   def onAllEditorContextActions(listener: () => Future[Seq[IExecutableAction]], unsubscribe: Boolean = false): Unit = {
-
     this.addListener(this.getAllEditorContextActionsListeners, listener, unsubscribe)
   }
 
@@ -215,9 +209,8 @@ trait AbstractServerConnection extends IServerConnection {
     * @param listener    (uri: string, actionId: string, position?: number). Position is optional, -1 if not available.
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onExecuteContextAction(listener: (String, String, Int) => Future[Seq[IChangedDocument]],
+  def onExecuteContextAction(listener: (String, String, Int) => Future[Seq[ChangedDocument]],
                              unsubscribe: Boolean): Unit = {
-
     this.addListener(this.executeContextActionListeners, listener, unsubscribe)
   }
 
@@ -228,7 +221,6 @@ trait AbstractServerConnection extends IServerConnection {
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
   def onSetServerConfiguration(listener: IServerConfiguration => Unit, unsubscribe: Boolean = false): Unit = {
-
     this.addListener(this.serverConfigurationListeners, listener, unsubscribe)
   }
 

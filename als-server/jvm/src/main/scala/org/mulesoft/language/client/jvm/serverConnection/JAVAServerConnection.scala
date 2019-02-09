@@ -4,11 +4,11 @@ package org.mulesoft.language.client.jvm.serverConnection
 import java.util
 import java.util.function.Consumer
 
-import org.mulesoft.als.suggestions.interfaces.ISuggestion
+import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.client.jvm.dtoTypes.{GetCompletionRequest, GetStructureRequest, GetStructureResponse}
 import org.mulesoft.language.client.jvm.{FS, ValidationHandler}
 import org.mulesoft.language.common.dtoTypes._
-import org.mulesoft.language.common.logger.{ILoggerSettings, MessageSeverity}
+import org.mulesoft.language.common.logger.{LoggerSettings, MessageSeverity}
 import org.mulesoft.language.server.core.connections.AbstractServerConnection
 
 import scala.collection.mutable
@@ -17,9 +17,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 
 class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConnection {
-  var lastStructureReport: Option[IStructureReport] = None
-  var fs: FS = null
-  var validationHandler: ValidationHandler = null
+  var lastStructureReport: Option[StructureReport] = None
+  var fs: FS = _
+  var validationHandler: ValidationHandler = _
 
   var logger: JAVALogger = (_: String, _: MessageSeverity.Value, _: String, _: String) => {}
 
@@ -66,9 +66,7 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
   }
 
   def handleCloseDocument(uri: String) {
-    val firstOpt = this.closeDocumentListeners.find(_ => true)
-
-    firstOpt match {
+    this.closeDocumentListeners.headOption match {
       case Some(listener) => listener(uri)
       case _ => Future.failed(new Exception("No close document providers found"))
     }
@@ -82,64 +80,56 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
     openDeclarationListeners.head(uri, position)
   }
 
-  def rename(uri: String, position: Int, newName: String): Future[Seq[IChangedDocument]] = {
+  def rename(uri: String, position: Int, newName: String): Future[Seq[ChangedDocument]] = {
     renameListeners.head(uri, position, newName)
   }
 
   def handleGetStructure(getStructure: GetStructureRequest): Future[GetStructureResponse] = {
-    val firstOpt = this.documentStructureListeners.find(_ => true)
-
-    firstOpt match {
+    this.documentStructureListeners.headOption match {
       case Some(listener) => listener(getStructure.url).map(resultMap => GetStructureResponse(resultMap))
 
       case _ => Future.failed(new Exception("No structure providers found"))
     }
   }
 
-  def handleGetSuggestions(getCompletion: GetCompletionRequest): Future[Seq[ISuggestion]] = {
-    val firstOpt = this.documentCompletionListeners.find(_ => true)
-
-    firstOpt match {
+  def handleGetSuggestions(getCompletion: GetCompletionRequest): Future[Seq[Suggestion]] = {
+    this.documentCompletionListeners.headOption match {
       case Some(listener) => listener(getCompletion.uri, getCompletion.position)
 
       case _ => Future.failed(new Exception("No structure providers found"))
     }
   }
 
-  def handleOpenDocument(document: IOpenedDocument) {
-    val firstOpt = this.openDocumentListeners.find(_ => true)
-
-    firstOpt match {
+  def handleOpenDocument(document: OpenedDocument) {
+    this.openDocumentListeners.headOption match {
       case Some(listener) => listener(document)
 
       case _ => Future.failed(new Exception("No open document providers found"))
     }
   }
 
-  def handleChangedDocument(document: IChangedDocument) {
-    val firstOpt = this.changeDocumentListeners.find(_ => true)
-
-    firstOpt match {
+  def handleChangedDocument(document: ChangedDocument) {
+    this.changeDocumentListeners.headOption match {
       case Some(listener) => listener(document)
 
       case _ => Future.failed(new Exception("No change document providers found"))
     }
   }
 
-  def handleSetLoggerConfiguration(loggerSettings: ILoggerSettings) {
-    this.setLoggerConfiguration(loggerSettings)
+  def handleSetLoggerConfiguration(loggerSettings: LoggerSettings) {
+    this.withSettings(loggerSettings)
   }
 
-  def structureAvailable(report: IStructureReport) {
+  def structureAvailable(report: StructureReport) {
     //this.send("STRUCTURE_REPORT", StructureReport.sharedToTransport(report))
   }
 
-  override def validated(report: IValidationReport) {
+  override def validated(report: ValidationReport) {
     if (validationHandler == null) {
       return
     }
 
-    var list = new util.ArrayList[IValidationIssue]()
+    var list = new util.ArrayList[ValidationIssue]()
 
     report.issues.foreach(reportIssue =>
       collectIssues(reportIssue).foreach(collectedIssue => list.add(collectedIssue)))
@@ -147,7 +137,7 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
     validationHandler.success(report.pointOfViewUri, list)
   }
 
-  private def collectIssues(issue: IValidationIssue): Seq[IValidationIssue] = {
+  private def collectIssues(issue: ValidationIssue): Seq[ValidationIssue] = {
     var result = mutable.MutableList(issue)
 
     issue.trace.foreach(traceIssue => {
@@ -198,7 +188,7 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
 
   override def displayActionUI(uiDisplayRequest: IUIDisplayRequest): Future[Any] = Future.successful(null)
 
-  override def setLoggerConfiguration(loggerSettings: ILoggerSettings) {}
+  override def withSettings(settings: LoggerSettings): this.type = this
 
   override def log(message: String, severity: MessageSeverity.Value, component: String, subcomponent: String) {
     logger.log(message, severity, component, subcomponent)

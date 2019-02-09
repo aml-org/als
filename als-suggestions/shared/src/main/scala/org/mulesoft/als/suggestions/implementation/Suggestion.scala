@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.implementation
 
-import org.mulesoft.als.suggestions.interfaces.ISuggestion
+import org.mulesoft.als.suggestions.interfaces.{Suggestion => SuggestionInterface}
 
-class Suggestion(_text: String, _description: String, _displayText: String, _prefix: String) extends ISuggestion {
+class Suggestion(_text:String,_description:String,_displayText:String, _prefix:String) extends SuggestionInterface {
 
   private var categoryOpt: Option[String] = None
 

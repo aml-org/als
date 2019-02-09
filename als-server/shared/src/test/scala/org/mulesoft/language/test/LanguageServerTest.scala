@@ -3,16 +3,16 @@ package org.mulesoft.language.test
 import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.high.level.amfmanager.AmfInitializationHandler
 import org.mulesoft.language.server.core.Server
-import org.mulesoft.language.server.modules.astManager.{ASTManager, IASTManagerModule}
-import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
-import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
+import org.mulesoft.language.server.modules.astManager.{ASTManager, ASTManagerModule}
+import org.mulesoft.language.server.modules.editorManager.EditorManagerModule
+import org.mulesoft.language.server.modules.findDeclaration.FindDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
-import org.mulesoft.language.server.modules.hlastManager.HLASTmanager
+import org.mulesoft.language.server.modules.hlastManager.HlAstManager
 import org.mulesoft.language.server.modules.outline.StructureManager
 import org.mulesoft.language.server.modules.rename.RenameModule
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
 import org.mulesoft.language.server.modules.validationManager.ValidationManager
-import org.mulesoft.language.test.clientConnection.TestClientConnetcion
+import org.mulesoft.language.test.clientConnection.TestClientConnection
 import org.mulesoft.language.test.serverConnection.TestServerConnection
 import org.scalatest.AsyncFunSuite
 
@@ -28,17 +28,17 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets {
 
   def format: String
 
-  var clientOpt: Option[TestClientConnetcion] = None
+  var clientOpt: Option[TestClientConnection] = None
 
   def init(): Future[Unit] = AmfInitializationHandler.init()
 
-  def getClient: Future[TestClientConnetcion] = {
+  def getClient: Future[TestClientConnection] = {
 
     if (clientOpt.nonEmpty) {
       Future.successful(clientOpt.get)
     } else {
       var serverList: ListBuffer[TestServerConnection] = ListBuffer()
-      var clientList: ListBuffer[TestClientConnetcion] = ListBuffer()
+      var clientList: ListBuffer[TestClientConnection] = ListBuffer()
       val thread = new Runnable {
         def run {
           var serverConnection = new TestServerConnection(clientList)
@@ -47,50 +47,50 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets {
           val server = new Server(serverConnection, TestPlatformDependentPart())
 
           server.registerModule(new ASTManager())
-          server.registerModule(new HLASTmanager())
+          server.registerModule(new HlAstManager())
           server.registerModule(new ValidationManager())
           server.registerModule(new SuggestionsManager())
           server.registerModule(new StructureManager())
 
           server.registerModule(new FindReferencesModule())
-          server.registerModule(new FIndDeclarationModule())
+          server.registerModule(new FindDeclarationModule())
           server.registerModule(new RenameModule())
 
-          server.enableModule(IASTManagerModule.moduleId)
-          server.enableModule(HLASTmanager.moduleId)
+          server.enableModule(ASTManagerModule.moduleId)
+          server.enableModule(HlAstManager.moduleId)
           server.enableModule(ValidationManager.moduleId)
           server.enableModule(SuggestionsManager.moduleId)
           server.enableModule(StructureManager.moduleId)
 
           server.enableModule(FindReferencesModule.moduleId)
-          server.enableModule(FIndDeclarationModule.moduleId)
+          server.enableModule(FindDeclarationModule.moduleId)
 
           server.enableModule(RenameModule.moduleId)
 
-          val editorManager = server.modules.get(IEditorManagerModule.moduleId)
+          val editorManager = server.modules.get(EditorManagerModule.moduleId)
           if (editorManager.isDefined) {
-            serverConnection.editorManager = Some(editorManager.get.asInstanceOf[IEditorManagerModule])
+            serverConnection.editorManager = Some(editorManager.get.asInstanceOf[EditorManagerModule])
           }
 
         }
       }
       thread.run
-      clientList += new TestClientConnetcion(serverList)
+      clientList += new TestClientConnection(serverList)
       clientOpt = clientList.headOption
       Future.successful(clientList.head)
     }
   }
 
-  var emptyClientOpt: Option[TestClientConnetcion] = None
+  var emptyClientOpt: Option[TestClientConnection] = None
 
-  def getEmptyClient: Future[TestClientConnetcion] = {
+  def getEmptyClient: Future[TestClientConnection] = {
 
     if (emptyClientOpt.nonEmpty) {
       return Future.successful(emptyClientOpt.get)
     }
 
     var serverList: ListBuffer[TestServerConnection] = ListBuffer()
-    var clientList: ListBuffer[TestClientConnetcion] = ListBuffer()
+    var clientList: ListBuffer[TestClientConnection] = ListBuffer()
     val thread = new Runnable {
       def run {
         var serverConnection = new TestServerConnection(clientList)
@@ -98,15 +98,15 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets {
 
         val server = new Server(serverConnection, TestPlatformDependentPart())
 
-        val editorManager = server.modules.get(IEditorManagerModule.moduleId)
+        val editorManager = server.modules.get(EditorManagerModule.moduleId)
         if (editorManager.isDefined) {
-          serverConnection.editorManager = Some(editorManager.get.asInstanceOf[IEditorManagerModule])
+          serverConnection.editorManager = Some(editorManager.get.asInstanceOf[EditorManagerModule])
         }
 
       }
     }
     thread.run
-    clientList += new TestClientConnetcion(serverList)
+    clientList += new TestClientConnection(serverList)
     emptyClientOpt = clientList.headOption
     Future.successful(clientList.head)
   }

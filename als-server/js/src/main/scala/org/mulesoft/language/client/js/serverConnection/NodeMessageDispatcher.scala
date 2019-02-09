@@ -4,7 +4,7 @@ package org.mulesoft.language.client.js.serverConnection
 import org.mulesoft.language.client.js.CustomPicklerConfig.{macroRW, read, write, ReadWriter => RW}
 import org.mulesoft.language.client.js.Globals
 import org.mulesoft.language.client.js.dtoTypes.ProtocolMessagePayload
-import org.mulesoft.language.common.logger.ILogger
+import org.mulesoft.language.common.logger.Logger
 import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage => SharedProtocolMessage, ProtocolSeqMessage => SharedProtocolSeqMessage}
 
 import scala.scalajs.js
@@ -12,7 +12,7 @@ import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.JSON
 import scala.util.{Failure, Success, Try}
 
-trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, NodeMsgTypeMeta] with ILogger {
+trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, NodeMsgTypeMeta] with Logger {
 
   implicit def rw: RW[ProtocolMessage[ProtocolMessagePayload]] = macroRW
 
@@ -51,7 +51,7 @@ trait NodeMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, No
 
       protocolMessageTry match {
         case Success(protocolMessage) =>
-          this.internalHandleRecievedMessage(protocolMessage)
+          this.internalHandleReceivedMessage(protocolMessage)
 
         case Failure(exception) => exception.printStackTrace()
       }

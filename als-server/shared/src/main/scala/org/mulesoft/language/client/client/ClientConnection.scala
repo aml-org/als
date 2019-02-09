@@ -1,8 +1,8 @@
 package org.mulesoft.language.client.client
 
-import org.mulesoft.als.suggestions.interfaces.ISuggestion
+import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.common.dtoTypes._
-import org.mulesoft.language.common.logger.ILogger
+import org.mulesoft.language.common.logger.Logger
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
 
@@ -11,7 +11,7 @@ import scala.concurrent.Future
 /**
   * Connection for Scala and Java clients
   */
-trait IClientConnection extends ILogger {
+trait ClientConnection extends Logger {
 
   /**
     * Stops the server.
@@ -23,7 +23,7 @@ trait IClientConnection extends ILogger {
     *
     * @param listener
     */
-  def onValidationReport(listener: IValidationReport => Unit, unsubscribe: Boolean = false): Unit
+  def onValidationReport(listener: ValidationReport => Unit, unsubscribe: Boolean = false): Unit
 
   /**
     * Instead of calling getStructure to get immediate structure report for the document,
@@ -31,14 +31,14 @@ trait IClientConnection extends ILogger {
     *
     * @param listener
     */
-  def onStructureReport(listener: IStructureReport => Unit, unsubscribe: Boolean = false): Unit
+  def onStructureReport(listener: StructureReport => Unit, unsubscribe: Boolean = false): Unit
 
   /**
     * Notifies the server that document is opened.
     *
     * @param document
     */
-  def documentOpened(document: IOpenedDocument): Unit
+  def documentOpened(document: OpenedDocument): Unit
 
   /**
     * Notified the server that document is closed.
@@ -52,7 +52,7 @@ trait IClientConnection extends ILogger {
     *
     * @param document
     */
-  def documentChanged(document: IChangedDocument): Unit
+  def documentChanged(document: ChangedDocument): Unit
 
   /**
     * Requests server for the document structure.
@@ -67,7 +67,7 @@ trait IClientConnection extends ILogger {
     * @param uri      - document uri
     * @param position - offset in the document, starting from 0
     */
-  def getSuggestions(uri: String, position: Int): Future[Seq[ISuggestion]]
+  def getSuggestions(uri: String, position: Position): Future[Seq[Suggestion]]
 
   /**
     * Requests server for the positions of the declaration of the element defined
@@ -94,7 +94,7 @@ trait IClientConnection extends ILogger {
     * @param uri      - document uri
     * @param position - position in the document
     */
-  def markOccurrences(uri: String, position: Int): Future[Seq[IRange]]
+  def markOccurrences(uri: String, position: Int): Future[Seq[Range]]
 
   /**
     * Requests server for rename of the element
@@ -103,7 +103,7 @@ trait IClientConnection extends ILogger {
     * @param uri      - document uri
     * @param position - position in the document
     */
-  def rename(uri: String, position: Int, newName: String): Future[Seq[IChangedDocument]]
+  def rename(uri: String, position: Int, newName: String): Future[Seq[ChangedDocument]]
 
   /**
     * Gets latest document version.
@@ -166,7 +166,7 @@ trait IClientConnection extends ILogger {
     * @param position - optional position in the document.
     *                 If not provided, the last reported by positionChanged method will be used.
     */
-  def executeDetailsAction(uri: String, actionID: String, position: Int): Future[Seq[IChangedDocument]]
+  def executeDetailsAction(uri: String, actionID: String, position: Int): Future[Seq[ChangedDocument]]
 
   /**
     * Calculates the list of executable actions avilable in the current context.
@@ -191,7 +191,7 @@ trait IClientConnection extends ILogger {
     * @param position - optional position in the document.
     *                 If not provided, the last reported by positionChanged method will be used.
     */
-  def executeContextAction(uri: String, action: IExecutableAction, position: Int): Future[Seq[IChangedDocument]]
+  def executeContextAction(uri: String, action: IExecutableAction, position: Int): Future[Seq[ChangedDocument]]
 
   /**
     * Executes the specified action. If action has UI, causes a consequent
@@ -202,7 +202,7 @@ trait IClientConnection extends ILogger {
     * @param position - optional position in the document.
     *                 If not provided, the last reported by positionChanged method will be used.
     */
-  def executeContextActionByID(uri: String, actionID: String, position: Int): Future[Seq[IChangedDocument]]
+  def executeContextActionByID(uri: String, actionID: String, position: Int): Future[Seq[ChangedDocument]]
 
   /**
     * Adds a listener to display action UI.
@@ -227,5 +227,5 @@ trait IClientConnection extends ILogger {
     * @param itemID   - identifier of the value to change
     * @param value    - new value
     */
-  def changeDetailValue(uri: String, position: Int, itemID: String, value: AnyVal): Future[Seq[IChangedDocument]]
+  def changeDetailValue(uri: String, position: Int, itemID: String, value: AnyVal): Future[Seq[ChangedDocument]]
 }

@@ -3,7 +3,7 @@ package org.mulesoft.language.common.dtoTypes
 /**
   * Document that has its text changed
   */
-case class IChangedDocument(
+case class ChangedDocument(
                              /**
                                * Document URI
                                */
@@ -22,5 +22,5 @@ case class IChangedDocument(
                                * Optional set of text edits instead of complete text replacement.
                                * Is only taken into account if text is null.
                                */
-                             var textEdits: Option[Seq[ITextEdit]]
+                             var textEdits: Option[Seq[TextEdit]]
                            )

@@ -1,18 +1,17 @@
 package org.mulesoft.language.server.modules.outline
 
 import org.mulesoft.high.level.interfaces.IParseResult
-import org.mulesoft.language.common.dtoTypes.IStructureReport
+import org.mulesoft.language.common.dtoTypes.StructureReport
 import org.mulesoft.language.outline.structure.structureImpl.{ConfigFactory, StructureBuilder}
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import org.mulesoft.language.server.common.utils.PathRefine
-import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
-import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
-import org.mulesoft.language.server.modules.hlastManager.{HLASTmanager, IHLASTListener}
+import org.mulesoft.language.server.core.AbstractServerModule
+import org.mulesoft.language.server.modules.editorManager.EditorManagerModule
+import org.mulesoft.language.server.modules.hlastManager.{HlAstManager, IHLASTListener}
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.util.{Success, Try}
 
 class StructureManager extends AbstractServerModule {
 
@@ -32,32 +31,22 @@ class StructureManager extends AbstractServerModule {
   val onDocumentStructureListener: String => Future[Map[String, StructureNodeJSON]] =
     onDocumentStructure
 
-  protected def getEditorManager: IEditorManagerModule = {
+  protected def getEditorManager: EditorManagerModule = {
 
-    this.getDependencyById(IEditorManagerModule.moduleId).get
+    this.getDependencyById(EditorManagerModule.moduleId).get
   }
 
-  protected def getASTManager: HLASTmanager = {
+  protected def getASTManager: HlAstManager = {
 
-    this.getDependencyById(HLASTmanager.moduleId).get
+    this.getDependencyById(HlAstManager.moduleId).get
   }
 
-  override def launch(): Try[IServerModule] = {
-
-    val superLaunch = super.launch()
-
-    if (superLaunch.isSuccess) {
-
-      this.getASTManager.onNewASTAvailable(this.onNewASTAvailableListener)
-
-      this.connection.onDocumentStructure(this.onDocumentStructureListener)
-
-      Success(this)
-    } else {
-
-      superLaunch
-    }
-  }
+  override def launch(): Future[Unit] =
+    super.launch()
+      .map(_ => {
+        this.getASTManager.onNewASTAvailable(this.onNewASTAvailableListener)
+        this.connection.onDocumentStructure(this.onDocumentStructureListener)
+      })
 
   override def stop(): Unit = {
 
@@ -80,7 +69,7 @@ class StructureManager extends AbstractServerModule {
       this.connection
         .debugDetail(s"Got result for url $astUri of size ${struct.size}", "StructureManager", "onDocumentStructure")
 
-      val structureReport = IStructureReport(
+      val structureReport = StructureReport(
         _astUri,
         astVersion,
         struct

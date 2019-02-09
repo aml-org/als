@@ -1,11 +1,11 @@
 package org.mulesoft.language.server.core
 
-import scala.util.Try
+import scala.concurrent.Future
 
 /**
   * Abstract server module
   */
-trait IServerModule {
+trait ServerModule {
 
   /**
     * Module identifier
@@ -22,7 +22,7 @@ trait IServerModule {
     *
     * @return
     */
-  def launch(): Try[IServerModule]
+  def launch(): Future[Unit]
 
   /**
     * Stops the module.

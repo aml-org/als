@@ -1,14 +1,15 @@
 package org.mulesoft.language.server.core
 
-import org.mulesoft.language.server.core.connections.IServerConnection
+import org.mulesoft.language.server.core.connections.ServerConnection
 import org.mulesoft.language.server.core.platform.{ConnectionBasedPlatform, PlatformDependentPart}
-import org.mulesoft.language.server.modules.editorManager.{EditorManager, IEditorManagerModule}
+import org.mulesoft.language.server.modules.editorManager.{EditorManager, EditorManagerModule}
 
 import scala.collection.mutable
+import scala.concurrent.Future
 
-class Server(val connection: IServerConnection, protected val httpFetcher: PlatformDependentPart) {
+class Server(val connection: ServerConnection, protected val httpFetcher: PlatformDependentPart) {
 
-  var modules: mutable.Map[String, IServerModule] = new mutable.HashMap()
+  var modules: mutable.Map[String, ServerModule] = new mutable.HashMap()
 
   protected val platform: ConnectionBasedPlatform = this.constructPlatform
 
@@ -17,20 +18,20 @@ class Server(val connection: IServerConnection, protected val httpFetcher: Platf
     val editorManager = new EditorManager()
 
     this.registerModule(editorManager)
-    this.enableModule(IEditorManagerModule.moduleId)
+    this.enableModule(EditorManagerModule.moduleId)
 
     val httpFetcher = this.httpFetcher
 
     new ConnectionBasedPlatform(this.connection, editorManager, httpFetcher)
   }
 
-  def registerModule(module: IServerModule): Unit = {
+  def registerModule(module: ServerModule): Unit = {
     val moduleName = module.moduleId
 
-    modules(moduleName) = module;
+    modules(moduleName) = module
   }
 
-  def enableModule(moduleName: String): Unit = {
+  def enableModule(moduleName: String): Future[Unit] = {
     this.connection.debugDetail("Changing module enablement of " + moduleName + " to true", "server", "enableModule")
 
     val moduleOption = modules.get(moduleName)
@@ -42,37 +43,35 @@ class Server(val connection: IServerConnection, protected val httpFetcher: Platf
 
       this.connection.debugDetail("Done enabling module dependencies " + moduleName, "server", "enableModule")
 
-      if (module.isInstanceOf[IServerIOCModule]) {
+      if (module.isInstanceOf[ServerIOCModule]) {
 
-        this.pushModuleDependencies(module.asInstanceOf[IServerIOCModule])
+        this.pushModuleDependencies(module.asInstanceOf[ServerIOCModule])
       }
 
       if (!module.isLaunched) {
         module.launch()
+      } else {
+        Future.successful()
       }
-
     } else {
-      // $COVERAGE-OFF$
       connection.warning("Cant enable module " + moduleName + " as its not found", "server", "enableModule")
-      // $COVERAGE-ON$
-    }
 
+      Future.successful()
+    }
   }
 
-  def enableModuleDependencies(module: IServerModule): Unit = {
+  def enableModuleDependencies(module: ServerModule): Unit = {
     module.moduleDependencies.foreach(depId => {
       val moduleOption = modules.get(depId)
       if (moduleOption.isDefined) {
         this.enableModule(depId)
       } else {
-        // $COVERAGE-OFF$
         connection.warning("Cant find dependency " + depId, "server", "enableModuleDependencies")
-        // $COVERAGE-ON$
       }
     })
   }
 
-  def pushModuleDependencies(module: IServerIOCModule): Unit = {
+  def pushModuleDependencies(module: ServerIOCModule): Unit = {
 
     this.connection
       .debugDetail("Starting to push module dependencies " + module.moduleId, "server", "pushModuleDependencies")
@@ -89,9 +88,7 @@ class Server(val connection: IServerConnection, protected val httpFetcher: Platf
 
         module.insertDependency(moduleOption.get)
       } else {
-        // $COVERAGE-OFF$
         connection.warning("Cant find dependency " + depId, "server", "enableModuleDependencies")
-        // $COVERAGE-ON$
       }
     })
 
@@ -110,9 +107,7 @@ class Server(val connection: IServerConnection, protected val httpFetcher: Platf
       module.stop()
 
     } else {
-      // $COVERAGE-OFF$
       connection.warning("Cant enable module " + moduleName + " as its not found", "server", "enableModule")
-      // $COVERAGE-ON$
     }
   }
 

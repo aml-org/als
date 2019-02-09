@@ -2,7 +2,7 @@ package org.mulesoft.language.server.modules
 
 import org.mulesoft.high.level.Search
 import org.mulesoft.high.level.interfaces.IProject
-import org.mulesoft.language.common.dtoTypes.{ILocation, IRange}
+import org.mulesoft.language.common.dtoTypes.{ILocation, Range}
 
 import scala.collection.mutable.ListBuffer
 
@@ -69,7 +69,7 @@ object SearchUtils {
           var nodeRange = node.sourceInfo.ranges.headOption.get
 
           findTextIssues(node.astUnit.text, issueName, nodeRange.start.position, nodeRange.end.position).foreach(issue => result += new ILocation {
-            var range: IRange = new IRange(issue.start, issue.end)
+            var range: Range = new Range(issue.start, issue.end)
 
             var uri: String = node.astUnit.path.replace("file:///", "/")
 
@@ -104,7 +104,7 @@ object SearchUtils {
         val end = start + unit.text.substring(start).indexOf(":")
 
         new ILocation {
-          var range: IRange = IRange(start, end)
+          var range: Range = Range(start, end)
 
           var uri: String = unit.path.replace("file:///", "/")
 
@@ -136,7 +136,7 @@ object SearchUtils {
         case Some(refs) => Some(refs.toBuffer += new ILocation {
           var issue: TextIssue = findTextIssue(project.rootASTUnit.text, position)
 
-          var range: IRange = IRange(issue.start, issue.end)
+          var range: Range = Range(issue.start, issue.end)
 
           var uri: String = project.rootASTUnit.path.replace("file:///", "/")
 

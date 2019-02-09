@@ -1,13 +1,12 @@
 package org.mulesoft.language.server.modules.editorManager
 
-import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IDocumentChangeExecutor}
-import org.mulesoft.language.server.core.IServerIOCModule
-import org.mulesoft.language.server.modules.commonInterfaces.IAbstractTextEditorWithCursor
+import org.mulesoft.language.common.dtoTypes.{ChangedDocument, IDocumentChangeExecutor}
+import org.mulesoft.language.server.core.ServerIOCModule
 
 /**
   * Editor manager
   */
-trait IEditorManagerModule extends IServerIOCModule {
+trait EditorManagerModule extends ServerIOCModule {
 
   val moduleId: String = "EDITOR_MANAGER"
 
@@ -26,7 +25,7 @@ trait IEditorManagerModule extends IServerIOCModule {
     * @param unsubscribe
     * @return
     */
-  def onChangeDocument(listener: (IChangedDocument) => Unit, unsubscribe: Boolean = false): Unit
+  def onChangeDocument(listener: ChangedDocument => Unit, unsubscribe: Boolean = false): Unit
 
   /**
     * Sets document change executor.
@@ -36,6 +35,6 @@ trait IEditorManagerModule extends IServerIOCModule {
   def setDocumentChangeExecutor(executor: IDocumentChangeExecutor): Unit
 }
 
-object IEditorManagerModule {
+object EditorManagerModule {
   val moduleId: String = "EDITOR_MANAGER"
 }

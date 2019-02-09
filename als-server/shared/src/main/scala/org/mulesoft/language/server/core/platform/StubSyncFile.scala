@@ -2,7 +2,7 @@
 package org.mulesoft.language.server.core.platform
 
 import org.mulesoft.common.io.{AsyncFile, Id, SyncFile}
-import org.mulesoft.language.server.core.connections.IServerConnection
+import org.mulesoft.language.server.core.connections.ServerConnection
 
 /**
   * Stub for sync file based on connection.
@@ -11,7 +11,7 @@ import org.mulesoft.language.server.core.connections.IServerConnection
   * @param fileSystem
   * @param url
   */
-class StubSyncFile(connection: IServerConnection, override val fileSystem: ConnectionBasedFS, url: String)
+class StubSyncFile(connection: ServerConnection, override val fileSystem: ConnectionBasedFS, url: String)
   extends SyncFile {
 
   override def delete: Id[Unit] = ???

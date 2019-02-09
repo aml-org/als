@@ -2,10 +2,10 @@
 package org.mulesoft.language.client.jvm.serverConnection
 
 import org.mulesoft.language.client.jvm.dtoTypes.ProtocolMessagePayload
-import org.mulesoft.language.common.logger.ILogger
+import org.mulesoft.language.common.logger.Logger
 import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage, ProtocolSeqMessage}
 
-trait JAVAMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, JAVAMessageType] with ILogger {
+trait JAVAMessageDispatcher extends MessageDispatcher[ProtocolMessagePayload, JAVAMessageType] with Logger {
   def internalSendJSONMessage(message: Any) {
 
   }

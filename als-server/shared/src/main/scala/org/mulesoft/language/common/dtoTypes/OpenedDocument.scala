@@ -3,8 +3,7 @@ package org.mulesoft.language.common.dtoTypes
 /**
   * Document being opened.
   */
-case class IOpenedDocument(
-
+case class OpenedDocument(
                             /**
                               * Document URI
                               */

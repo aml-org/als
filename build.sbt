@@ -100,21 +100,31 @@ lazy val outline = crossProject(JSPlatform, JVMPlatform).settings(
 lazy val outlineJVM = outline.jvm.in(file("./als-outline/jvm"))
 lazy val outlineJS = outline.js.in(file("./als-outline/js"))
 
-lazy val server = crossProject(JSPlatform, JVMPlatform).settings(
-  Seq(
+lazy val server = crossProject(JSPlatform, JVMPlatform)
+  .settings(Seq(
     name := "als-server"
-  )
-)
+  ))
   .dependsOn(suggestions, outline)
-  .in(file("./als-server")).settings(settings: _*).jvmSettings(
-  packageOptions in(Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
-  aggregate in assembly := true
-).jsSettings(
-  libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
-  libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
-  scalaJSModuleKind := ModuleKind.CommonJSModule,
-  artifactPath in(Compile, fullOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.js"
-)
+  .in(file("./als-server")).settings(settings: _*)
+  .jvmSettings(
+    // https://mvnrepository.com/artifact/org.eclipse.lsp4j/org.eclipse.lsp4j
+    libraryDependencies += "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.6.0",
+    packageOptions in(Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
+    aggregate in assembly := true,
+    mainClass in assembly := Some("org.mulesoft.language.server.lsp4j.Main"),
+    mainClass in Compile := Some("org.mulesoft.language.server.lsp4j.Main"),
+    scalacOptions += "-Xmixin-force-forwarders:false",
+    assemblyMergeStrategy in assembly := {
+      case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+      case x => MergeStrategy.first
+    }
+  )
+  .jsSettings(
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
+    libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
+    artifactPath in(Compile, fullOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.js"
+  )
 
 
 
@@ -130,7 +140,7 @@ buildJS := {
   "./als-server/js/build-scripts/buildJs.sh".!
 }
 
-mainClass in Compile := Some("org.mulesoft.language.client.js.Main")
+mainClass in Compile := Some("org.mulesoft.language.server.lsp4j.Main")
 
 val buildSuggestionsJS = TaskKey[Unit]("buildSuggestionsJS", "Build suggestions npm module")
 
@@ -211,3 +221,8 @@ addCommandAlias(
   "testJS",
   "; serverJS/test; suggestionsJS/test; outlineJVM/test; hlJS/test"
 )
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}

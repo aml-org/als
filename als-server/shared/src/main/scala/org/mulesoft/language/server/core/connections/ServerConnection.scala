@@ -1,6 +1,6 @@
 package org.mulesoft.language.server.core.connections
 
-import org.mulesoft.als.suggestions.interfaces.ISuggestion
+import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.common.logger._
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
@@ -11,7 +11,7 @@ import scala.concurrent.Future
 /**
   * Connection, server modules use to communicate to the clients.
   */
-trait IServerConnection extends ILogger {
+trait ServerConnection extends Logger {
 
   /**
     * Adds a listener to document open notification. Must notify listeners in order of registration.
@@ -19,7 +19,7 @@ trait IServerConnection extends ILogger {
     * @param listener    (document: IOpenedDocument) => Unit
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onOpenDocument(listener: IOpenedDocument => Unit, unsubscribe: Boolean = false): Unit
+  def onOpenDocument(listener: OpenedDocument => Unit, unsubscribe: Boolean = false): Unit
 
   /**
     * Adds a listener to document change notification. Must notify listeners in order of registration.
@@ -27,7 +27,7 @@ trait IServerConnection extends ILogger {
     * @param listener    (document: IChangedDocument) => Unit
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onChangeDocument(listener: IChangedDocument => Unit, unsubscribe: Boolean = false): Unit
+  def onChangeDocument(listener: ChangedDocument => Unit, unsubscribe: Boolean = false): Unit
 
   /**
     * Adds a listener to document close notification. Must notify listeners in order of registration.
@@ -43,7 +43,7 @@ trait IServerConnection extends ILogger {
     * @param listener    (uri: String, position: Int) => Future[Seq[Suggestion] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onDocumentCompletion(listener: (String, Int) => Future[Seq[ISuggestion]], unsubscribe: Boolean = false): Unit
+  def onDocumentCompletion(listener: (String, Position) => Future[Seq[Suggestion]], unsubscribe: Boolean = false): Unit
 
   /**
     * Adds a listener to document structure request. Must notify listeners in order of registration.
@@ -75,14 +75,14 @@ trait IServerConnection extends ILogger {
     *
     * @param report
     */
-  def validated(report: IValidationReport): Unit
+  def validated(report: ValidationReport): Unit
 
   /**
     * Reports new calculated structure when available.
     *
     * @param report - structure report.
     */
-  def structureAvailable(report: IStructureReport): Unit
+  def structureAvailable(report: StructureReport): Unit
 
   /**
     * Marks occurrences of a symbol under the cursor in the current document.
@@ -90,7 +90,7 @@ trait IServerConnection extends ILogger {
     * @param listener    (uri: String, position: Int) => Future[Seq[IRange] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onMarkOccurrences(listener: (String, Int) => Future[Seq[IRange]], unsubscribe: Boolean = false): Unit
+  def onMarkOccurrences(listener: (String, Int) => Future[Seq[Range]], unsubscribe: Boolean = false): Unit
 
   /**
     * Finds the set of document (and non-document files) edits to perform the requested rename.
@@ -98,7 +98,7 @@ trait IServerConnection extends ILogger {
     * @param listener    (uri: String, position: Int, newName: String) => Seq[IChangedDocument]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onRename(listener: (String, Int, String) => Future[Seq[IChangedDocument]], unsubscribe: Boolean = false): Unit
+  def onRename(listener: (String, Int, String) => Future[Seq[ChangedDocument]], unsubscribe: Boolean = false): Unit
 
   /**
     * Returns whether path/url exists.
@@ -142,7 +142,7 @@ trait IServerConnection extends ILogger {
     * @param listener    (uri: String, position: Int, itemID: String, value: String | Int | Boolean) => Future[Seq[IChangedDocument] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onChangeDetailValue(listener: (String, Int, String, AnyVal) => Future[Seq[IChangedDocument]],
+  def onChangeDetailValue(listener: (String, Int, String, AnyVal) => Future[Seq[ChangedDocument]],
                           unsubscribe: Boolean = false): Unit
 
   /**
@@ -168,7 +168,7 @@ trait IServerConnection extends ILogger {
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     *                    If not provided, the last reported by positionChanged method will be used.
     */
-  def onExecuteDetailsAction(listener: (String, String, Int) => Future[Seq[IChangedDocument]],
+  def onExecuteDetailsAction(listener: (String, String, Int) => Future[Seq[ChangedDocument]],
                              unsubscribe: Boolean = false): Unit
 
   /**
@@ -194,7 +194,7 @@ trait IServerConnection extends ILogger {
     * @param listener    (uri: string, actionId: string, position?: number). Position is optional, -1 if not available.
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onExecuteContextAction(listener: (String, String, Int) => Future[Seq[IChangedDocument]],
+  def onExecuteContextAction(listener: (String, String, Int) => Future[Seq[ChangedDocument]],
                              unsubscribe: Boolean): Unit
 
   /**
