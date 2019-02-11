@@ -4,10 +4,14 @@ import amf.client.remote.Content
 import amf.core.lexer.CharSequenceStream
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.DomainElement
+import amf.core.remote.Vendor
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance}
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping}
+import org.mulesoft.als.suggestions.CompletionProvider
 import org.mulesoft.als.suggestions.test.SuggestionsTest
+import org.mulesoft.high.level.builder.UniverseProvider
+import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.scalatest.exceptions.TestFailedException
 
 import scala.concurrent.Future
@@ -27,12 +31,13 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
 
   private def getPropertiesByPath(d: Dialect, nodeName: String): Seq[PropertyMapping] = {
     val de: Option[DomainElement] = d.declares.find(de => de.id endsWith s"/${nodeName}")
+    de.get
     de match {
       case Some(n: NodeMapping) => n.propertiesMapping()
     }
   }
 
-  private def addPropTrailingsSpaces(propertyMapping: PropertyMapping, level: Int): String = {
+  private def addPropTrailingSpaces(propertyMapping: PropertyMapping, level: Int): String = {
     if (propertyMapping.literalRange().option().isEmpty) {
       propertyMapping.name().value() + ":\n" + (" " * (level * 2))
     } else propertyMapping.name().value() + ":"
@@ -64,7 +69,7 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
         AMLPlugin.registry.dialectFor(d) match {
           case Some(d: Dialect) => {
             nodeName match {
-              case Some(n) => getPropertiesByPath(d, n).map(addPropTrailingsSpaces(_, level)).toSet
+              case Some(n) => getPropertiesByPath(d, n).map(addPropTrailingSpaces(_, level)).toSet
               case None    => getRootProperties(d)
             }
 
@@ -81,13 +86,15 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
     d.declares
       .find(_.id == mapping.encoded().value())
       .collectFirst({ case n: NodeMapping => n })
-      .map(e => e.propertiesMapping().map(addPropTrailingsSpaces(_, 1)).toSet)
+      .map(e => e.propertiesMapping().map(addPropTrailingSpaces(_, 1)).toSet)
       .getOrElse(Set.empty) ++ mapping
       .declaredNodes()
       .map(_.name().value() + ":\n" + (" " * (2))) // declared cannot be scalars??
   }
 
   protected def assertCases(bu: BaseUnit, cases: Seq[PositionResult], content: Content): Future[Seq[Result]] = {
+    val cp = buildCompletionProviderNoAST(content.stream.toString, content.url, 1)
+
     Future.sequence(cases.map { c =>
       suggestFromParsed(bu, content.url, c.markerOriginalContent, c.position)
         .map { suggested =>
@@ -97,7 +104,6 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
           } catch {
             case e: TestFailedException => Result(succeed = false, c.dialectClass.getOrElse("Root"), e.message)
           }
-
         }
     })
   }

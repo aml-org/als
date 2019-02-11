@@ -8,7 +8,7 @@ uses:
 
 external:
   schema-org: http://schema.org/
-  oas: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1#
+  oas: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2#
   json-schema: http://json-schema.org/schema#
 
 nodeMappings:
