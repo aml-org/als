@@ -3,7 +3,7 @@ package org.mulesoft.language.suggestions.raml
 class IncludeTests extends RAMLSuggestionTest {
 
   test("test01") {
-    this.runTest("includes/testGroup01/test01.raml", Set("/testFragment.raml", "/testFragment2.raml"))
+    this.runTest("includes/testGroup01/test01.raml", Set("testFragment.raml", "testFragment2.raml"))
   }
 
   test("test02") {

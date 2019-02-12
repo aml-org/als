@@ -15,4 +15,7 @@ class JiraSuggestionsTests extends RAML10Test {
                  Set("application/json", "application/x-www-form-urlencoded", "application/xml"))
   }
 
+  test("ALS-719 Library Suggestions") {
+    this.runTest("jira-tests/als-719/test01.raml", Set("library01.raml"))
+  }
 }

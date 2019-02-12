@@ -33,20 +33,26 @@ trait InclusionSuggestion extends ICompletionPlugin {
       val response = CompletionResponse(LocationKind.VALUE_COMPLETION, request)
       Promise.successful(response).future
     } else {
-
+      val prefix = if (request.prefix.startsWith("/")) request.prefix.substring(1) else request.prefix
       PathCompletion
         .complete(baseDir, relativePath, request.config.platform)
         .map(paths => {
           val suggestions = paths.map(path => {
+            val pathStartingWithPrefix = decorate(
+              {
+                if (relativePath.endsWith("/"))
+                  path
+                else
+                  relativePath.split("/").lastOption match {
+                    case Some(last) => prefix + path.stripPrefix(last)
 
-            val pathStartingWithPrefix = decorate({
-              relativePath.split("/").lastOption match {
-                case Some(last) => request.prefix + path.stripPrefix(last)
-                case _          => path.stripPrefix(relativePath)
-              }
-            }, request.prefix)
+                    case _ => path.stripPrefix(relativePath)
+                  }
+              },
+              prefix
+            )
 
-            Suggestion(pathStartingWithPrefix, description, pathStartingWithPrefix, request.prefix)
+            Suggestion(pathStartingWithPrefix, description, pathStartingWithPrefix, prefix)
           })
           CompletionResponse(suggestions, LocationKind.VALUE_COMPLETION, request)
         })
