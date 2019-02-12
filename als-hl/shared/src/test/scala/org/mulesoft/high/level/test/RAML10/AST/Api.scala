@@ -1,7 +1,6 @@
 package org.mulesoft.high.level.test.RAML10.AST
 
 import org.mulesoft.high.level.test.RAML10.RAML10ASTTest
-import org.scalatest.{Assertion, Succeeded}
 
 
 class Api extends RAML10ASTTest{
