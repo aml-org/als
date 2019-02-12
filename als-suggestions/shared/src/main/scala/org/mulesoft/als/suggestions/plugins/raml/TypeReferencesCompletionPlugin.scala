@@ -27,7 +27,7 @@ class TypeReferencesCompletionPlugin extends ICompletionPlugin {
   override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
     val result   = TypeReferencesCompletionPlugin.typeSuggestions(request, id)
-    var response = CompletionResponse(result, LocationKind.VALUE_COMPLETION, request)
+    val response = CompletionResponse(result, LocationKind.VALUE_COMPLETION, request)
     Promise.successful(response).future
   }
 
