@@ -184,21 +184,21 @@ class CompletionProvider {
       } else {
         s.displayText.toLowerCase.startsWith(prefix)
       }
-    });
+    })
   }
 }
 
 object CompletionProvider {
 
-  private var prefixRegex = """(\b|['"~`!@#\$%^&*\(\)\{\}\[\]=\+,\/\?>])((\w+[\w-]*)|()|([.:;\[{\(< ]+))$""".r
+  private val prefixRegex = """(\b|['"~`!@#\$%^&*\(\)\{\}\[\]=\+,\/\?>])((\w+[\w-.]*)|()|([.:;\[{\(< ]+))$""".r
 
   def apply(): CompletionProvider = new CompletionProvider()
 
   def getPrefix(content: IEditorStateProvider): String = {
     val textTrim = content.getText.trim
     val isJSON   = textTrim.startsWith("{") && textTrim.endsWith("}")
-    var line     = getLine(content)
-    var opt      = prefixRegex.findFirstIn(line)
+    val line     = getLine(content)
+    val opt      = prefixRegex.findFirstIn(line)
     var result   = opt.getOrElse("")
     if (result.startsWith("\"")) {
       result = result.substring(1)
