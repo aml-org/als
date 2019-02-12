@@ -23,11 +23,15 @@ class JiraSuggestionsTests extends RAML10Test {
     this.runTest("jira-tests/als-718/api.raml", Set("Employee", "Person", "Manager"))
   }
 
-  ignore("ALS-721 Multiple Library Suggestions 01") {
+  test("ALS-721 Multiple Library Suggestions 01") {
     this.runTest("jira-tests/als-721/test01.raml", Set("Employee", "Person", "Manager"))
   }
 
-  ignore("ALS-721 Multiple Library Suggestions 02") {
+  test("ALS-721 Multiple Library Suggestions 02") {
     this.runTest("jira-tests/als-721/test02.raml", Set("Employee2", "Person2", "Manager2"))
+  }
+
+  test("ALS-722 check prefix in included directory") {
+    this.runTest("jira-tests/als-722/api.raml", Set("dataType.raml"))
   }
 }

@@ -11,7 +11,7 @@ import amf.plugins.document.vocabularies.model.document.{
 }
 import org.mulesoft.high.level.dialect.DialectProjectBuilder
 import org.mulesoft.high.level.implementation.{ASTUnit, AlsPlatform, Project}
-import org.mulesoft.high.level.interfaces.{DirectoryResolver, IProject}
+import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.high.level.typesystem.TypeBuilder
 import org.mulesoft.typesystem.project._
 
@@ -31,17 +31,17 @@ object ProjectBuilder {
 
   def buildProjectInternal(rootUnit: BaseUnit, alsPlatform: AlsPlatform): IProject = {
 
-    var formatOpt = determineFormat(rootUnit)
+    val formatOpt = determineFormat(rootUnit)
     if (formatOpt.isEmpty) {
       throw new Error("Unable to determine input format")
     }
-    var format = formatOpt.get
+    val format = formatOpt.get
     ASTFactoryRegistry.getFactory(format) match {
       case Some(factory) =>
-        var units    = listUnits(rootUnit)
-        var bundle   = TypeBuilder.buildTypes(units, factory)
-        var project  = Project(bundle, format, alsPlatform)
-        var astUnits = createASTUnits(units, bundle, project)
+        val units    = listUnits(rootUnit)
+        val bundle   = TypeBuilder.buildTypes(units, factory)
+        val project  = Project(bundle, format, alsPlatform)
+        val astUnits = createASTUnits(units, bundle, project)
         astUnits.values.foreach(project.addUnit)
         initASTUnits(astUnits, bundle, factory)
         val rootUnitPath = TypeBuilder.normalizedPath(rootUnit)
@@ -54,62 +54,65 @@ object ProjectBuilder {
                      bundle: TypeCollectionBundle,
                      project: Project): Map[String, ASTUnit] = {
 
-    var result: mutable.Map[String, ASTUnit] = mutable.Map()
+    val result: mutable.Map[String, ASTUnit] = mutable.Map()
     units.values.foreach(bu => {
       val unitPath = TypeBuilder.normalizedPath(bu)
       val tc       = bundle.typeCollections(unitPath)
-      var astUnit  = ASTUnit(bu, tc, project)
+      val astUnit  = ASTUnit(bu, tc, project)
       result.put(astUnit.path, astUnit)
     })
     result
   }
 
   def initASTUnits(astUnits: Map[String, ASTUnit], bundle: TypeCollectionBundle, factory: IASTFactory): Unit = {
-
-    for (astUnit <- astUnits.values) {
+    // TODO: Check if it's correct to loop for both astUnit.baseUnit and also aliases
+    for { astUnit <- astUnits.values } {
       TypeBuilder
         .getReferences(astUnit.baseUnit)
         .foreach(u => {
-          val ref            = u.reference
-          var referedAstUnit = astUnits(ref)
-          referedAstUnit.baseUnit match {
-            case m: Module =>
-              var aliases = astUnit.baseUnit.annotations
+          val ref             = u.reference
+          val referredAstUnit = astUnits(ref)
+          referredAstUnit.baseUnit match {
+            case _: Module =>
+              astUnit.baseUnit.annotations
                 .find(classOf[Aliases])
                 .map(_.aliases)
-                .getOrElse((null, (null, null)) :: Nil)
-              //TODO aliases validity filter needed
-              for (usesEntry <- aliases) {
-                val namespace          = usesEntry._1
-                val referingModulePath = usesEntry._2._1
-                val libPath            = usesEntry._2._2
-                astUnits
-                  .get(referingModulePath)
-                  .foreach(referingAstUnit => {
-                    var dep = new ModuleDependencyEntry(ref, referedAstUnit, namespace, libPath)
-                    astUnit.registerDependency(dep)
-                    var reverseDep =
-                      new ModuleDependencyEntry(referingAstUnit.path, referingAstUnit, namespace, libPath)
-                    referedAstUnit.registerReverseDependency(reverseDep)
-                  })
-              }
-            case ef: ExternalFragment =>
-              var dep = new DependencyEntry(ref, referedAstUnit)
+                .foreach(aliases =>
+                  aliases
+                    .filter(usesEntry => usesEntry._2._1 == ref)
+                    .foreach(usesEntry => {
+                      val namespace           = usesEntry._1
+                      val referringModulePath = usesEntry._2._1
+                      val libPath             = usesEntry._2._2
+                      astUnits
+                        .get(referringModulePath)
+                        .foreach(referringAstUnit => {
+                          val dep = new ModuleDependencyEntry(libPath, referredAstUnit, namespace, libPath)
+                          astUnit.registerDependency(dep)
+                          val reverseDep =
+                            new ModuleDependencyEntry(referringAstUnit.path, referringAstUnit, namespace, libPath)
+                          referredAstUnit.registerReverseDependency(reverseDep)
+                        })
+                    }))
+
+            // TODO aliases validity filter needed
+            case _: ExternalFragment =>
+              val dep = new DependencyEntry(ref, referredAstUnit)
               astUnit.registerDependency(dep)
-              var reverseDep = new DependencyEntry(astUnit.path, astUnit)
-              referedAstUnit.registerReverseDependency(reverseDep)
-            case f: Fragment =>
-              var dep = new FragmentDependencyEntry(ref, referedAstUnit)
+              val reverseDep = new DependencyEntry(astUnit.path, astUnit)
+              referredAstUnit.registerReverseDependency(reverseDep)
+            case _: Fragment =>
+              val dep = new FragmentDependencyEntry(ref, referredAstUnit)
               astUnit.registerDependency(dep)
-              var reverseDep = new FragmentDependencyEntry(astUnit.path, astUnit)
-              referedAstUnit.registerReverseDependency(reverseDep)
+              val reverseDep = new FragmentDependencyEntry(astUnit.path, astUnit)
+              referredAstUnit.registerReverseDependency(reverseDep)
             case _ =>
           }
         })
     }
 
-    for (astUnit <- astUnits.values) {
-      var hlNode = NodeBuilder.buildAST(astUnit.baseUnit, bundle, factory)
+    for { astUnit <- astUnits.values } {
+      val hlNode = NodeBuilder.buildAST(astUnit.baseUnit, bundle, factory)
       hlNode.foreach(x => {
         astUnit.setRootNode(x)
         x.setASTUnit(astUnit)
@@ -130,15 +133,15 @@ object ProjectBuilder {
   }
 
   private def listUnits(rootUnit: BaseUnit): Map[String, BaseUnit] = {
-    var processed: mutable.Map[String, BaseUnit] = mutable.Map()
+    val processed: mutable.Map[String, BaseUnit] = mutable.Map()
     var toProcess: ListBuffer[BaseUnit]          = ListBuffer() += rootUnit
     var i: Int                                   = 0
     while (toProcess.lengthCompare(i) > 0) {
-      var unit = toProcess(i)
-      var id   = TypeBuilder.normalizedPath(unit)
+      val unit = toProcess(i)
+      val id   = TypeBuilder.normalizedPath(unit)
 
       processed(id) = unit
-      var newRefs = TypeBuilder.getReferences(unit).filter(u => !processed.contains(u.reference))
+      val newRefs = TypeBuilder.getReferences(unit).filter(u => !processed.contains(u.reference))
       newRefs.foreach(ref => {
         toProcess += ref.unit
         processed(ref.reference) = ref.unit
