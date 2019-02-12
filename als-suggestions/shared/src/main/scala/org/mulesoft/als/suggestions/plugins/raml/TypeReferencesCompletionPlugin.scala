@@ -72,11 +72,12 @@ object TypeReferencesCompletionPlugin {
 
   def typeSuggestions(request: ICompletionRequest, id: String): Seq[Suggestion] = {
     val node     = request.astNode.get
-    var element  = if (node.isElement) node.asElement.get else node.parent.get
+    val element  = if (node.isElement) node.asElement.get else node.parent.get
     val typeName = element.attribute("name").flatMap(_.value).map(_.toString).getOrElse("")
-    var builtIns = node.astUnit.rootNode.definition.universe.builtInNames() :+ "object"
-    val result = ListBuffer[Suggestion]() ++= builtIns.map(name =>
-      Suggestion(name, "Builtin type", name, request.prefix))
+    val builtIns = node.astUnit.rootNode.definition.universe.builtInNames() :+ "object"
+    val result = ListBuffer[Suggestion]() ++= builtIns
+      .filter(_.startsWith(request.prefix))
+      .map(name => Suggestion(name, "Builtin type", name, request.prefix))
     request.astNode
       .map(_.astUnit)
       .foreach(u => {
@@ -86,12 +87,12 @@ object TypeReferencesCompletionPlugin {
             d.node
               .attribute("name")
               .flatMap(_.value)
+              .filter(_ != typeName)
               .foreach(name => {
-                if (name != typeName) {
-                  var proposal: String = name.toString
-                  d.namespace.foreach(ns => proposal = s"$ns.$proposal")
+                var proposal: String = name.toString
+                d.namespace.foreach(ns => proposal = s"$ns.$proposal")
+                if (proposal.startsWith(request.prefix))
                   result += Suggestion(proposal, "User type", proposal, request.prefix)
-                }
               })
           })
       })
