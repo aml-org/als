@@ -9,3 +9,11 @@ build/
 .gradle
 *als-server.js
 *als-server.js.map
+
+.DS_Store
+node_modules
+
+*als-suggestions.js
+*als-suggestions.js.map
+*als-suggestions.min.js
+*als-suggestions.min.js.map
