@@ -7,24 +7,24 @@ class TypeDeclaration extends RAML10ASTTest {
   test("TypeDeclaration name") {
     runTest("ASTTests/TypeDeclaration/typeDeclarationRoot.raml", project => {
 
-      var expectedValue = "airplane"
+      val expectedValue = "airplane"
       project.rootASTUnit.rootNode.elements("types").head.attribute("name") match {
         case Some(a) => a.value match {
-          case Some(expectedValue) => succeed
-          case _ => fail(s"Expected value: $expectedValue, actual: ${a}")
+          case Some(_) => succeed
+          case _ => fail(s"Expected value: $expectedValue, actual: $a")
         }
         case _ => fail("'name' attribute not found")
       }
     })
   }
 
-  test("TypeDeclaration displayName"){
-    runTest( "ASTTests/TypeDeclaration/typeDeclarationRoot.raml", project => {
+  test("TypeDeclaration displayName") {
+    runTest("ASTTests/TypeDeclaration/typeDeclarationRoot.raml", project => {
 
-      var expectedValue = "plane"
+      val expectedValue = "plane"
       project.rootASTUnit.rootNode.elements("types").head.attribute("displayName") match {
         case Some(a) => a.value match {
-          case Some(expectedValue) => succeed
+          case Some(_) => succeed
           case _ => fail(s"Expected value: $expectedValue, actual: ${a.value}")
         }
         case _ => fail("'displayName' attribute not found")
@@ -32,13 +32,13 @@ class TypeDeclaration extends RAML10ASTTest {
     })
   }
 
-  test("TypeDeclaration description"){
-    runTest( "ASTTests/TypeDeclaration/typeDeclarationRoot.raml", project => {
+  test("TypeDeclaration description") {
+    runTest("ASTTests/TypeDeclaration/typeDeclarationRoot.raml", project => {
 
-      var expectedValue = "none"
+      val expectedValue = "none"
       project.rootASTUnit.rootNode.elements("types").head.attribute("description") match {
         case Some(a) => a.value match {
-          case Some(expectedValue) => succeed
+          case Some(_) => succeed
           case _ => fail(s"Expected value: $expectedValue, actual: ${a.value}")
         }
         case _ => fail("'displayName' attribute not found")
@@ -46,51 +46,51 @@ class TypeDeclaration extends RAML10ASTTest {
     })
   }
 
-  test("TypeDeclaration facets"){
-    runTest( "ASTTests/TypeDeclaration/typeDeclarationRoot.raml", project => {
+  test("TypeDeclaration facets") {
+    runTest("ASTTests/TypeDeclaration/typeDeclarationRoot.raml", project => {
 
-      var expectedValue = 1
-      var length = project.rootASTUnit.rootNode.elements("types").head.elements("facets").length
+      val expectedValue = 1
+      val length = project.rootASTUnit.rootNode.elements("types").head.elements("facets").length
       if (length == expectedValue)
         succeed
       else
-        fail(s"Expected value: $expectedValue, actual: ${length}")
+        fail(s"Expected value: $expectedValue, actual: $length")
     })
   }
 
-  test("TypeDeclaration examples"){
-    runTest( "ASTTests/TypeDeclaration/typeDeclarationRoot.raml", project => {
+  test("TypeDeclaration examples") {
+    runTest("ASTTests/TypeDeclaration/typeDeclarationRoot.raml", project => {
 
-      var expectedValue = 2
-      var length = project.rootASTUnit.rootNode.elements("types").head.elements("examples").length
+      val expectedValue = 2
+      val length = project.rootASTUnit.rootNode.elements("types").head.elements("examples").length
       if (length == expectedValue)
         succeed
       else
-        fail(s"Expected value: $expectedValue, actual: ${length}")
+        fail(s"Expected value: $expectedValue, actual: $length")
     })
   }
 
-  test("TypeDeclaration example"){
-    runTest( "ASTTests/TypeDeclaration/typeDeclarationRoot.raml", project => {
+  test("TypeDeclaration example") {
+    runTest("ASTTests/TypeDeclaration/typeDeclarationRoot.raml", project => {
 
-      var expectedValue = 1
-      var length = project.rootASTUnit.rootNode.elements("types").head.elements("example").length
+      val expectedValue = 1
+      val length = project.rootASTUnit.rootNode.elements("types").head.elements("example").length
       if (length == expectedValue)
         succeed
       else
-        fail(s"Expected value: $expectedValue, actual: ${length}")
+        fail(s"Expected value: $expectedValue, actual: $length")
     })
   }
 
-  test("TypeDeclaration xml"){
-    runTest( "ASTTests/TypeDeclaration/typeDeclarationRoot.raml", project => {
+  test("TypeDeclaration xml") {
+    runTest("ASTTests/TypeDeclaration/typeDeclarationRoot.raml", project => {
 
-      var expectedValue = 1
-      var length = project.rootASTUnit.rootNode.elements("types").head.elements("xml").length
+      val expectedValue = 1
+      val length = project.rootASTUnit.rootNode.elements("types").head.elements("xml").length
       if (length == expectedValue)
         succeed
       else
-        fail(s"Expected value: $expectedValue, actual: ${length}")
+        fail(s"Expected value: $expectedValue, actual: $length")
     })
   }
 }
