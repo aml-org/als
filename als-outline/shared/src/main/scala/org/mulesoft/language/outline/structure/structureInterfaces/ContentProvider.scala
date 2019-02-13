@@ -1,5 +1,6 @@
 package org.mulesoft.language.outline.structure.structureInterfaces
 
+import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 
 /**
   * Core tree builder.
@@ -12,5 +13,5 @@ trait ContentProvider {
     * @param node
     * @return
     */
-  def buildChildren(node: StructureNode): Seq[StructureNode]
+  def buildChildren(node: StructureNode): Seq[DocumentSymbol]
 }

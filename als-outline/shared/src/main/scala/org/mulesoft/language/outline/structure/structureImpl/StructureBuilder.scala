@@ -1,191 +1,110 @@
 package org.mulesoft.language.outline.structure.structureImpl
 
+import amf.client.model.DataTypes
+import amf.core.annotations.{LexicalInformation, SourceAST}
+import amf.core.metamodel.domain.extensions.PropertyShapeModel
+import amf.core.model.domain.{DomainElement, NamedDomainElement}
+import amf.plugins.domain.shapes.metamodel.{ArrayShapeModel, FileShapeModel, NodeShapeModel, ScalarShapeModel}
+import amf.plugins.domain.shapes.models.ScalarShape
+import amf.plugins.domain.webapi.metamodel.templates.ResourceTypeModel
+import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
 import org.mulesoft.high.level.interfaces.IParseResult
-import org.mulesoft.language.outline.common.commonInterfaces._
-import org.mulesoft.language.outline.structure.structureInterfaces.{ContentProvider, StructureConfiguration, StructureNode}
+import org.mulesoft.language.outline.common.commonInterfaces.{CategoryFilter, LabelProvider, VisibilityFilter}
+import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
+import org.mulesoft.language.outline.structure.structureInterfaces.StructureConfiguration
+import org.mulesoft.lexer.InputRange
+import org.yaml.model.YMapEntry
+class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibilityFilter: VisibilityFilter) {
 
-import scala.collection._
-import scala.collection.mutable.ArrayBuffer
+  def listSymbols(categoryFilter: List[CategoryFilter]): List[DocumentSymbol] =
+    root.children
+      .filter(c => !c.isAttr && visibilityFilter(c) && categoryFilter.exists(_.apply(c)))
+      .map(documentSymbol)
+      .toList
 
-class StructureBuilder(private val config: StructureConfiguration) {
+  private def documentSymbol(hlNode: IParseResult): DocumentSymbol = {
+    val (range, keyRange) = amfRange(hlNode)
 
-  def getStructureForAllCategories: Map[String, StructureNode] = {
+    DocumentSymbol(
+      labelProvider.getLabelText(hlNode),
+      KindForResultMatcher.getKind(hlNode),
+      deprecated = false,
+      range,
+      keyRange,
+      hlNode.children
+        .filter(c => (!c.isAttr) && visibilityFilter(c))
+        .map(documentSymbol)
+        .toList
+    )
+  }
 
-    val hlRootOption = this.config.astProvider.getASTRoot
-
-    if (hlRootOption.isEmpty) {
-
-      immutable.HashMap()
-    } else {
-
-
-      val selectedOption = this.config.astProvider.getSelectedNode
-      val structureRoot = StructureBuilder.hlNodeToStructureNode(
-        hlRootOption.get, selectedOption,
-        this.config.labelProvider,
-        this.config.keyProvider,
-        this.config.decorators)
-
-      this.buildTreeRecursively(structureRoot, this.config.contentProvider)
-
-      val result: mutable.HashMap[String, StructureNode] = mutable.HashMap()
-
-      this.config.categories.keys.foreach {
-        categoryName =>
-          val categoryFilter = this.config.categories(categoryName)
-          val filteredTree = this.filterTreeByCategory(structureRoot, categoryName, categoryFilter)
-
-          result(categoryName) = filteredTree
-      }
-
-      result
+  private def amfRange(node: IParseResult): (amf.core.parser.Range, amf.core.parser.Range) = {
+    node.sourceInfo.yamlSources.headOption.map(_.range) match {
+      case Some(syamlRange) =>
+        val keyRange = (node.amfNode match {
+          case n: NamedDomainElement => n.name.annotations().find(classOf[LexicalInformation]).map(_.range)
+          case _                     => None
+        }).orElse {
+          node.amfNode.annotations
+            .find(classOf[SourceAST])
+            .map(_.ast)
+            .flatMap {
+              case entry: YMapEntry =>
+                Some(amfRangeFromSyamlRange(entry.key.range))
+              case _ => None
+            }
+        }
+        val finalNodeRange = amfRangeFromSyamlRange(syamlRange)
+        (finalNodeRange, keyRange.getOrElse(finalNodeRange))
+      case _ => (amf.core.parser.Range.NONE, amf.core.parser.Range.NONE)
     }
   }
 
-  def buildTreeRecursively(structureNode: StructureNodeImpl, contentProvider: ContentProvider): Unit = {
-
-    val children = contentProvider.buildChildren(structureNode)
-
-    if (children.nonEmpty) {
-
-      structureNode.children = children
-
-      children.foreach(child => {
-
-        if (child.isInstanceOf[StructureNodeImpl])
-          this.buildTreeRecursively(child.asInstanceOf[StructureNodeImpl], contentProvider)
-      })
-
-    }
-    else {
-      structureNode.children = ArrayBuffer()
-    }
-
+  private def amfRangeFromSyamlRange(range: InputRange) = {
+    amf.core.parser.Range((range.lineFrom - 1, range.columnFrom), (range.lineTo - 1, range.columnTo))
   }
-
-  def filterTreeByCategory(root: StructureNode, categoryName: String, categoryFilter: CategoryFilter): StructureNode = {
-
-    if (root.children.isEmpty) {
-
-      root
-    } else {
-
-      val result = cloneNode(root)
-
-      var filteredChildren = root.children
-
-      filteredChildren = root.children.filter(child => {
-
-        val result = categoryFilter.apply(child.getSource)
-
-        result
-      }) //_underscore_.filter(root.children, (child => filter(child.getSource()))))
-
-      filteredChildren.foreach(child => child.asInstanceOf[StructureNodeImpl].category = categoryName)
-
-
-      result.asInstanceOf[StructureNodeImpl].children = filteredChildren
-
-      result
-    }
-  }
-
-  def cloneNode(toClone: StructureNode): StructureNode = {
-
-    val result: StructureNodeImpl = new StructureNodeImpl(toClone.getSource)
-
-    result.text = toClone.text
-    result.typeText = toClone.typeText
-    result.icon = toClone.icon
-    result.textStyle = toClone.textStyle
-    result.children = toClone.children
-    result.key = toClone.key
-    result.start = toClone.start
-    result.end = toClone.end
-    result.selected = toClone.selected
-    result.category = toClone.category
-
-    result
-  }
-
 
 }
 
+object KindForResultMatcher {
+
+  def getKind(hlNode: IParseResult): SymbolKind = {
+    hlNode.amfNode match {
+      case domainElement: DomainElement =>
+        domainElement.meta match {
+          case ScalarShapeModel =>
+            kindForScalar(hlNode.amfNode.asInstanceOf[ScalarShape])
+          case NodeShapeModel                    => SymbolKind.Object
+          case ArrayShapeModel                   => SymbolKind.Array
+          case FileShapeModel                    => SymbolKind.File
+          case EndPointModel | ResourceTypeModel => SymbolKind.Function
+          case OperationModel | OperationModel   => SymbolKind.Method
+          case PropertyShapeModel                => SymbolKind.Property
+          case _                                 => SymbolKind.Field
+        }
+      case _ => SymbolKind.Field
+    }
+  }
+
+  def kindForScalar(scalarShape: ScalarShape): SymbolKind = {
+    scalarShape.dataType.option() match {
+      case Some(DataTypes.Boolean) => SymbolKind.Boolean
+      case Some(
+          DataTypes.Number | DataTypes.Decimal | DataTypes.Double | DataTypes.Float | DataTypes.Long |
+          DataTypes.Integer) =>
+        SymbolKind.Boolean
+      case Some(DataTypes.File) => SymbolKind.File
+      case _                    => SymbolKind.String
+
+    }
+  }
+}
+
 object StructureBuilder {
+  def apply(ast: IParseResult, config: StructureConfiguration): StructureBuilder =
+    new StructureBuilder(ast, config.labelProvider, config.visibilityFilter)
 
-  def hlNodeToStructureNode(hlNode: IParseResult,
-                            selected: Option[IParseResult],
-                            labelProvider: LabelProvider,
-                            keyProvider: KeyProvider,
-                            decorators: Seq[Decorator]): StructureNodeImpl = {
-
-    val result = new StructureNodeImpl(hlNode)
-
-    result.text = labelProvider.getLabelText(hlNode)
-
-
-    //    println("Converting node " +
-    //      (if(hlNode.isElement) hlNode.asElement.get.definition.nameId.get else if (hlNode.isAttr)hlNode.asAttr.get.name else "Unknown"))
-
-
-    result.typeText = labelProvider.getTypeText(hlNode)
-
-    val decoratorOption = getDecorator(result, decorators)
-
-    if (decoratorOption.isDefined) {
-
-      val iconOption = decoratorOption.get.getIcon(hlNode)
-      result.icon = if (iconOption.isDefined) iconOption.get else ""
-
-      val textStyleOption = decoratorOption.get.getTextStyle(hlNode)
-      result.textStyle = if (textStyleOption.isDefined) textStyleOption.get else ""
-    }
-
-    result.key = keyProvider.getKey(hlNode)
-
-    val nodeRange = this.nodeRange(hlNode)
-
-    result.start = nodeRange.start
-    result.end = nodeRange.end
-
-    if (selected.isDefined && selected.get == hlNode) {
-      result.selected = true
-    }
-
-    result
-  }
-
-  def getDecorator(node: StructureNode, decorators: Seq[Decorator]): Option[Decorator] = {
-
-    val source = node.getSource
-
-    decorators.find(decorator => {
-      decorator.getIcon(source).isDefined || decorator.getTextStyle(source).isDefined
-    })
-
-  }
-
-  def nodeRange(node: IParseResult): IRange = {
-    val ranges = node.sourceInfo.ranges
-    if (ranges.isEmpty) {
-
-      IRange(0, 0)
-    } else {
-      var min = ranges.head.start.position
-      var max = ranges.head.end.position
-
-      ranges.foreach(range => {
-
-        if (range.start.position < min) {
-          min = range.start.position
-        }
-
-        if (range.end.position > max) {
-          max = range.end.position
-        }
-      })
-
-      IRange(min, max)
-    }
-  }
+  def listSymbols(ast: IParseResult, config: StructureConfiguration): List[DocumentSymbol] =
+    new StructureBuilder(ast, config.labelProvider, config.visibilityFilter)
+      .listSymbols(config.categories.keys.map(config.categories(_)).toList)
 }

@@ -2,6 +2,8 @@ package org.mulesoft.language.test
 
 import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.high.level.amfmanager.AmfInitializationHandler
+import org.mulesoft.language.common.dtoTypes.IOpenedDocument
+import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import org.mulesoft.language.server.core.Server
 import org.mulesoft.language.server.modules.astManager.{ASTManager, ASTManagerModule}
 import org.mulesoft.language.server.modules.editorManager.EditorManagerModule
@@ -19,7 +21,7 @@ import org.scalatest.AsyncFunSuite
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.{ExecutionContext, Future}
 
-abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets {
+trait LanguageServerTest extends AsyncFunSuite with PlatformSecrets {
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
@@ -111,9 +113,30 @@ abstract class LanguageServerTest extends AsyncFunSuite with PlatformSecrets {
     Future.successful(clientList.head)
   }
 
+  def getActualOutline(url: String, shortUrl: String): Future[DocumentSymbol] = {
+
+    var position = 0
+
+    var contentOpt: Option[String] = None
+    this.platform
+      .resolve(url)
+      .flatMap(content => {
+
+        val doc = IOpenedDocument(shortUrl, 0, content.stream.toString)
+        getClient.flatMap(client => {
+          client.documentOpened(doc)
+          client
+            .getStructure(shortUrl)
+            .map(result => {
+              client.documentClosed(shortUrl)
+              result
+            })
+        })
+      })
+      .map(x => x.asInstanceOf[DocumentSymbol])
+  }
   def filePath(path: String): String = {
     var rootDir = System.getProperty("user.dir")
     s"file://als-server/shared/src/test/resources/$rootPath/$path".replace('\\', '/').replace("null/", "")
   }
-
 }

@@ -41,12 +41,7 @@ class ChangeDocumentTest extends LanguageServerTest {
       }
     } yield {
       actualOutline
-        .get("SchemasAndTypesCategory")
-        .flatMap(_.children.headOption)
-        .map(_.text)
-        .map({
-          case "MyType" => succeed
-        })
+        .collectFirst({ case o if o.name == "MyType" => succeed })
         .getOrElse(fail("Invalid outline"))
     }
   }
@@ -70,12 +65,7 @@ class ChangeDocumentTest extends LanguageServerTest {
       }
     } yield {
       actualOutline
-        .get("SchemasAndTypesCategory")
-        .flatMap(_.children.headOption)
-        .map(_.text)
-        .map({
-          case "MyType" => fail("Should fail")
-        })
+        .collectFirst({ case o if o.name == "MyType" => fail("Should fail") })
         .getOrElse(succeed)
     }
   }

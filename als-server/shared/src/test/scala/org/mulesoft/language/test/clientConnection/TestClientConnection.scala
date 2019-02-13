@@ -4,6 +4,7 @@ import org.mulesoft.language.client.client.{AbstractClientConnection, VersionedD
 import org.mulesoft.language.common.dtoTypes.{IDetailsItem, IDetailsReport, IExecutableAction, ILocation, Position, ChangedDocument => SharedChangedDocument, OpenedDocument => SharedOpenedDocument, Range => SharedRange, StructureReport => SharedStructureReport, ValidationReport => SharedValidationReport}
 import org.mulesoft.language.common.logger.MutedLogger
 import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage, ProtocolSeqMessage}
+import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import org.mulesoft.language.outline.structure.structureInterfaces.{StructureNodeJSON => SharedStructureNode}
 import org.mulesoft.language.test.dtoTypes._
 import org.mulesoft.language.test.serverConnection.{NodeMsgTypeMeta, TestServerConnection}
@@ -82,10 +83,10 @@ class TestClientConnection(serverProcess: Seq[TestServerConnection])
     *
     * @param uri
     */
-  override def getStructure(uri: String): Future[Map[String, SharedStructureNode]] =
+  override def getStructure(uri: String): Future[List[DocumentSymbol]] =
     this
       .sendWithResponse[GetStructureResponse]("GET_STRUCTURE", GetStructureRequest(uri))
-      .map(x => x.wrapped.map(e => (e._1, StructureNode.transportToShared(e._2))))
+      .map(x => x.wrapped)
 
   /**
     * Requests server for the suggestions.

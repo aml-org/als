@@ -3,6 +3,7 @@ package org.mulesoft.language.client.client
 import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.common.logger.Logger
+import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
 
@@ -59,7 +60,7 @@ trait ClientConnection extends Logger {
     *
     * @param uri
     */
-  def getStructure(uri: String): Future[Map[String, StructureNodeJSON]]
+  def getStructure(uri: String): Future[List[DocumentSymbol]]
 
   /**
     * Requests server for the suggestions.

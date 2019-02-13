@@ -1,5 +1,20 @@
 package org.mulesoft.language.test.dtoTypes
 
+import org.mulesoft.als.suggestions.interfaces.ISuggestion
+import org.mulesoft.language.common.dtoTypes.{
+  IChangedDocument => SharedChangedDocument,
+  IChangedPosition => SharedChangedPosition,
+  IFindRequest => SharedFindRequest,
+  ILocation => SharedLocation,
+  IOpenedDocument => SharedOpenDocument,
+  IRange => SharedRange,
+  IStructureReport => SharedStructureReport,
+  ITextEdit => SharedTextEdit,
+  IValidationIssue => SharedValidationIssue,
+  IValidationReport => SharedValidationReport
+}
+import org.mulesoft.language.common.logger.{ILoggerSettings, MessageSeverity => SharedMessageSeverity}
+import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import org.mulesoft.als.suggestions.interfaces.{Suggestion => SuggestionInterface}
 import org.mulesoft.language.common.dtoTypes.{Position, PositionRange, ChangedDocument => SharedChangedDocument, IChangedPosition => SharedChangedPosition, IFindRequest => SharedFindRequest, ILocation => SharedLocation, OpenedDocument => SharedOpenDocument, Range => SharedRange, StructureReport => SharedStructureReport, TextEdit => SharedTextEdit, ValidationIssue => SharedValidationIssue, ValidationReport => SharedValidationReport}
 import org.mulesoft.language.common.logger.{LoggerSettings => SharedLoggerSettings, MessageSeverity => SharedMessageSeverity}
@@ -9,9 +24,7 @@ import upickle.default.{macroRW, ReadWriter => RW}
 /**
   * Tag for potential payloads, in order to serialize/deserialize to JSON
   */
-sealed trait ProtocolMessagePayload {
-
-}
+sealed trait ProtocolMessagePayload {}
 
 object ProtocolMessagePayload {
   //implicit def rw: RW[ProtocolMessagePayload] = macroRW
@@ -78,8 +91,8 @@ case class Location(uri: String, range: Range, version: Int)
 
 object Location {
   implicit def transportToShared(from: Location): SharedLocation = new SharedLocation {
-    override var uri: String = from.uri
-    override var version: Int = from.version
+    override var uri: String        = from.uri
+    override var version: Int       = from.version
     override var range: SharedRange = Range.transportToShared(from.range)
   }
 
@@ -141,7 +154,8 @@ case class ChangedPosition(var uri: String, var position: Int) extends ProtocolM
 object ChangedPosition {
   //implicit def rw: RW[ChangedPosition] = macroRW
 
-  implicit def transportToShared(from: ChangedPosition): SharedChangedPosition = SharedChangedPosition(from.uri, from.position)
+  implicit def transportToShared(from: ChangedPosition): SharedChangedPosition =
+    SharedChangedPosition(from.uri, from.position)
 
   def apply(uri: String, position: Int): ChangedPosition = new ChangedPosition(uri, position)
 }
@@ -437,7 +451,12 @@ object GetCompletionRequest {
   *
   * @param wrapped Document structure.
   */
-case class GetStructureResponse(wrapped: Map[String, StructureNode]) extends ProtocolMessagePayload
+case class GetStructureResponse(
+    /**
+      * Document structure.
+      */
+    wrapped: List[DocumentSymbol]
+) extends ProtocolMessagePayload {}
 
 object GetStructureResponse {
   //implicit def rw: RW[GetStructureResponse] = macroRW
@@ -534,16 +553,15 @@ case class LoggerSettings(
                              */
                            //var disabled: Option[Boolean],
 
-                           /**
-                             * List of components, which are allowed to appear in log.
-                             * If empty or absent, all components are allowed (except those excplicitly denied).
-                             */
-                           var allowedComponents: Option[Seq[String]],
-
-                           /**
-                             * Components, which never appear in the log
-                             */
-                           //var deniedComponents: Option[Seq[String]],
+    /**
+      * List of components, which are allowed to appear in log.
+      * If empty or absent, all components are allowed (except those excplicitly denied).
+      */
+    var allowedComponents: Option[Seq[String]],
+    /**
+      * Components, which never appear in the log
+      */
+    //var deniedComponents: Option[Seq[String]],
 
                            /**
                              * Messages with lower severity will not appear in log.
@@ -564,9 +582,10 @@ object LoggerSettings {
       var disabled = None.asInstanceOf[Option[Boolean]]
       //from.disabled
       var allowedComponents = from.allowedComponents
-      var deniedComponents = None.asInstanceOf[Option[Seq[String]]]
+      var deniedComponents  = None.asInstanceOf[Option[Seq[String]]]
       //from.deniedComponents
-      var maxSeverity = if (from.maxSeverity.isDefined) Some(MessageSeverity.sharedToTransport(from.maxSeverity.get)) else None
+      var maxSeverity =
+        if (from.maxSeverity.isDefined) Some(MessageSeverity.sharedToTransport(from.maxSeverity.get)) else None
       var maxMessageLength = from.maxMessageLength
     }
 }

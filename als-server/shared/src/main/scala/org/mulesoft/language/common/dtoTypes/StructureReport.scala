@@ -1,5 +1,6 @@
 package org.mulesoft.language.common.dtoTypes
 
+import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 
 /**
@@ -20,5 +21,5 @@ case class StructureReport(
                              /**
                                * Document structure.
                                */
-                             var structure: Map[String, StructureNodeJSON]
+                             var structure: List[DocumentSymbol]
                            ) {}

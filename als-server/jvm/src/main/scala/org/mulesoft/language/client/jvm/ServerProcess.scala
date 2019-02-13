@@ -4,9 +4,11 @@ import java.util
 import java.util.function.Consumer
 
 import org.mulesoft.als.suggestions.interfaces.Suggestion
+import org.mulesoft.language.client.jvm.DocumentSymbolConverter.AsJavaList
 import org.mulesoft.language.client.jvm.dtoTypes.{GetCompletionRequest, GetStructureRequest}
 import org.mulesoft.language.client.jvm.serverConnection.{JAVALogger, JAVAServerConnection}
 import org.mulesoft.language.common.dtoTypes._
+import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import org.mulesoft.language.server.core.Server
 import org.mulesoft.language.server.modules.astManager.{ASTManager, ASTManagerModule}
@@ -19,6 +21,8 @@ import org.mulesoft.language.server.modules.rename.RenameModule
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
 import org.mulesoft.language.server.modules.validationManager.ValidationManager
 
+import scala.collection.JavaConverters._
+import scala.compat.java8.OptionConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
@@ -88,14 +92,11 @@ object ServerProcess {
   def getStructure(uri: String, structureHandler: StructureHandler) {
     connection.handleGetStructure(new GetStructureRequest(uri)) andThen {
       case Success(result) => {
-        val map: util.Map[String, JAVAStructureNode] = new util.HashMap[String, JAVAStructureNode]()
 
-        result.structure.foreach(pair => map.put(pair._1, JAVAStructureNode(pair._2)))
-
-        structureHandler.success(map)
+        structureHandler.success(result.structure.asJava)
       }
 
-      case Failure(_) => structureHandler.success(new util.HashMap[String, JAVAStructureNode]())
+      case Failure(_) => structureHandler.success(Nil.asJava)
     }
   }
 
@@ -136,7 +137,7 @@ object ServerProcess {
               override var uri: String = item.uri
 
               override var version: Int = 0
-            })
+          })
           .foreach(location => list.add(location))
 
         renameHandler.success(list)
@@ -164,7 +165,7 @@ trait SuggestionsHandler {
 }
 
 trait StructureHandler {
-  def success(map: util.Map[String, JAVAStructureNode])
+  def success(map: util.List[JavaDocumentSymbol])
 
   def failure(throwable: Throwable)
 }
@@ -199,6 +200,27 @@ object JAVAStructureNode {
 
     result
   }
+}
+
+//todo : change to use typings, wrapped and implicit convertions
+
+object DocumentSymbolConverter {
+  implicit class AsJavaConverter(internal: DocumentSymbol) {
+    def asJava: JavaDocumentSymbol = new JavaDocumentSymbol(internal)
+  }
+
+  implicit class AsJavaList(internal: List[DocumentSymbol]) {
+    def asJava: java.util.List[JavaDocumentSymbol] = internal.map(i => new JavaDocumentSymbol(i)).asJava
+  }
+}
+
+class JavaDocumentSymbol(private val _internal: DocumentSymbol) {
+  def name: String                                 = _internal.name
+  def kind: Int                                    = _internal.kind.index
+  def deprecated: Boolean                          = _internal.deprecated
+  def range: amf.core.parser.Range                 = _internal.range
+  def selectionRange: amf.core.parser.Range        = _internal.selectionRange
+  def children: java.util.List[JavaDocumentSymbol] = _internal.children.toList.asJava
 }
 
 class SuggestionComparableWrapper(var suggestion: Suggestion) {

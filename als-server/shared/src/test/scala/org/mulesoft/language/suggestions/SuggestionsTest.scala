@@ -16,20 +16,21 @@ abstract class SuggestionsTest extends LanguageServerTest {
     init().flatMap { _ =>
       for {
         content <- this.platform.resolve(resolved)
-        client <- getClient
+        client  <- getClient
         suggestions <- {
           val fileContentsStr = content.stream.toString
-          val markerInfo = this.findMarker(fileContentsStr)
+          val markerInfo      = this.findMarker(fileContentsStr)
           getClientSuggestions(resolved, client, markerInfo)
         }
       } yield {
         val resultSet = suggestions.map(_.text).toSet
-        val diff1 = resultSet.diff(expectedSuggestions)
-        val diff2 = expectedSuggestions.diff(resultSet)
+        val diff1     = resultSet.diff(expectedSuggestions)
+        val diff2     = expectedSuggestions.diff(resultSet)
 
         if (diff1.isEmpty && diff2.isEmpty) succeed
         else
-          fail(s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
+          fail(
+            s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
       }
     }
   }
