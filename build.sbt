@@ -104,8 +104,9 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
   .settings(Seq(
     name := "als-server"
   ))
-  .dependsOn(suggestions, outline)
-  .in(file("./als-server")).settings(settings: _*)
+  .dependsOn(suggestions, outline % "compile->compile;test->test")
+  .in(file("./als-server"))
+  .settings(settings: _*)
   .jvmSettings(
     // https://mvnrepository.com/artifact/org.eclipse.lsp4j/org.eclipse.lsp4j
     libraryDependencies += "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.6.0",

@@ -3,6 +3,7 @@ package org.mulesoft.language.server.core.connections
 import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.common.logger._
+import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
 
@@ -51,8 +52,7 @@ trait ServerConnection extends Logger {
     * @param listener    (uri: String) => Future[Map[String, StructureNodeJSON] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onDocumentStructure(listener: String => Future[Map[String, StructureNodeJSON]],
-                          unsubscribe: Boolean = false): Unit
+  def onDocumentStructure(listener: String => Future[List[DocumentSymbol]], unsubscribe: Boolean = false): Unit
 
   /**
     * Adds a listener to document open declaration request.  Must notify listeners in order of registration.

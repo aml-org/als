@@ -2,6 +2,7 @@ package org.mulesoft.language.server.core.connections
 
 import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.common.dtoTypes._
+import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
 
@@ -17,7 +18,7 @@ trait AbstractServerConnection extends ServerConnection with ServerNotifier {
 
   protected var closeDocumentListeners: mutable.Buffer[String => Unit] = ArrayBuffer()
 
-  protected var documentStructureListeners: mutable.Buffer[String => Future[Map[String, StructureNodeJSON]]] = ArrayBuffer()
+  protected var documentStructureListeners: mutable.Buffer[String => Future[List[DocumentSymbol]]] = ArrayBuffer()
 
   protected var documentCompletionListeners: mutable.Buffer[(String, Position) => Future[Seq[Suggestion]]] = ArrayBuffer()
 
@@ -38,10 +39,12 @@ trait AbstractServerConnection extends ServerConnection with ServerNotifier {
 
   protected var serverConfigurationListeners: mutable.Buffer[IServerConfiguration => Unit] = ArrayBuffer()
 
-  protected var calculateEditorContextActionsListeners: mutable.Buffer[(String, Int) => Future[Seq[IExecutableAction]]] =
+  protected var calculateEditorContextActionsListeners
+    : mutable.Buffer[(String, Int) => Future[Seq[IExecutableAction]]] =
     ArrayBuffer()
 
-  protected var getAllEditorContextActionsListeners: mutable.Buffer[() => Future[Seq[IExecutableAction]]] = ArrayBuffer()
+  protected var getAllEditorContextActionsListeners: mutable.Buffer[() => Future[Seq[IExecutableAction]]] =
+    ArrayBuffer()
 
   protected var executeContextActionListeners: mutable.Buffer[(String, String, Int) => Future[Seq[ChangedDocument]]] =
     ArrayBuffer()
@@ -103,8 +106,8 @@ trait AbstractServerConnection extends ServerConnection with ServerNotifier {
     * @param listener    (uri: String) => Future[Map[String, StructureNodeJSON] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onDocumentStructure(listener: String => Future[Map[String, StructureNodeJSON]],
-                          unsubscribe: Boolean = false): Unit = {
+  def onDocumentStructure(listener: (String) => Future[List[DocumentSymbol]], unsubscribe: Boolean = false): Unit = {
+
     this.addListener(this.documentStructureListeners, listener, unsubscribe)
   }
 

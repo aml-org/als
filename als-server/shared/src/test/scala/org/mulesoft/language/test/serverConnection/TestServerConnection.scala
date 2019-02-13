@@ -2,7 +2,11 @@ package org.mulesoft.language.test.serverConnection
 
 import org.mulesoft.language.common.dtoTypes.{IDetailsItem, IDetailsReport, IUIDisplayRequest, ChangedDocument => SharedChangedDocument, OpenedDocument => SharedOpenedDocument, StructureReport => SharedStructureReport, ValidationReport => SharedValidationReport}
 import org.mulesoft.language.common.logger.MutedLogger
-import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage => SharedProtocolMessage, ProtocolSeqMessage => SharedProtocolSeqMessage}
+import org.mulesoft.language.entryPoints.common.{
+  MessageDispatcher,
+  ProtocolMessage => SharedProtocolMessage,
+  ProtocolSeqMessage => SharedProtocolSeqMessage
+}
 import org.mulesoft.language.server.core.connections.AbstractServerConnection
 import org.mulesoft.language.server.modules.editorManager.EditorManagerModule
 import org.mulesoft.language.test.clientConnection.TestClientConnection
@@ -36,9 +40,9 @@ class TestServerConnection(clientProcess: Seq[TestClientConnection])
   protected def initialize(): Unit = {
     this.newMeta("EXISTS", Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientBoolResponse", true)))
     this.newMeta("READ_DIR",
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientStringSeqResponse", true)))
-    this.newMeta("IS_DIRECTORY",
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientBoolResponse", true)))
+                 Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientStringSeqResponse", true)))
+    this
+      .newMeta("IS_DIRECTORY", Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientBoolResponse", true)))
     this.newMeta("CONTENT", Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientStringResponse", true)))
 
     this.newVoidHandler("CHANGE_POSITION",
@@ -50,8 +54,8 @@ class TestServerConnection(clientProcess: Seq[TestClientConnection])
       Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.OpenedDocument")))
 
     this.newVoidHandler("CLOSE_DOCUMENT",
-      (document: ClosedDocument) => Unit,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClosedDocument", true)))
+                        (document: ClosedDocument) => Unit,
+                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClosedDocument", true)))
 
     this.newVoidHandler("CHANGE_DOCUMENT",
       this.handleChangedDocument,
@@ -100,7 +104,7 @@ class TestServerConnection(clientProcess: Seq[TestClientConnection])
     firstOpt match {
       case Some(listener) =>
         listener(getStructure.wrapped).map(resultMap => {
-          GetStructureResponse(resultMap.map { case (key, value) => (key, StructureNode.sharedToTransport(value)) })
+          GetStructureResponse(resultMap)
         })
       case _ => Future.failed(new Exception("No structure providers found"))
     }

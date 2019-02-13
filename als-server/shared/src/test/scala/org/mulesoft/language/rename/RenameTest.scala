@@ -12,12 +12,14 @@ abstract class RenameTest extends LanguageServerTest {
 
   def runTest(path: String, newName: String): Future[Assertion] = {
     init().flatMap(_ => {
-      val resultPath = path.replace(".", "-renamed.")
-      val resolved = filePath(path)
-      val resolvedResultPath = filePath(resultPath)
+      val resultPath                     = path.replace(".", "-renamed.")
+      val resolved                       = filePath(path)
+      val resolvedResultPath             = filePath(resultPath)
       var renamedContent: Option[String] = None
-      var content: Option[String] = None
-      Future.sequence(List(this.platform.resolve(resolved), this.platform.resolve(resolvedResultPath))).flatMap(contents => {
+      var content: Option[String]        = None
+      Future
+        .sequence(List(this.platform.resolve(resolved), this.platform.resolve(resolvedResultPath)))
+        .flatMap(contents => {
 
         val fileContentsStr = contents.head.stream.toString
         val renamedFileContentsStr = contents.last.stream.toString
@@ -42,9 +44,9 @@ abstract class RenameTest extends LanguageServerTest {
         })
         val result = renamedContent.contains(newText.trim)
 
-        if (result) succeed
-        else fail(s"Difference for $path: got [$newText] while expecting [${renamedContent.get}]")
-      })
+          if (result) succeed
+          else fail(s"Difference for $path: got [$newText] while expecting [${renamedContent.get}]")
+        })
     })
   }
 
@@ -54,8 +56,7 @@ abstract class RenameTest extends LanguageServerTest {
 
     if (position < 0) {
       new MarkerInfo(str, str.length, str)
-    }
-    else {
+    } else {
       val rawContent = str.substring(0, position) + str.substring(position + 1)
       val preparedContent =
         org.mulesoft.als.suggestions.Core.prepareText(rawContent, position, YAML)
