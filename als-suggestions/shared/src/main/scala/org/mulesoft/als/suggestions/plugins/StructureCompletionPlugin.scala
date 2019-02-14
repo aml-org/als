@@ -64,18 +64,6 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                   case _ => false
                 }
               }
-//                        } else if(l.parentStack.nonEmpty && request.yamlLocation.get.hasSameValue(l.parentStack.last)) {
-//                            var parent = l.parentStack.last
-//
-//                            if(parent.keyValue.isDefined) {
-//                                request.astNode.map(_.astUnit.positionsMapper) match {
-//                                    case Some(pm) => pm.point(request.position).line > parent.keyValue.get.range.start.line
-//                                    case None => false
-//                                }
-//                            }
-//                            else {
-//                                false
-//                            }
             } else if (isDefinitionRequired(request)) {
               true
             } else if (isSecurityReference(request)) {
@@ -271,7 +259,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
             }
           }
         }
-        var isInKey = YamlLocation(n.sourceInfo.yamlSources.head, n.astUnit.positionsMapper).inKey(request.position)
+        val isInKey = YamlLocation(n.sourceInfo.yamlSources.head, n.astUnit.positionsMapper).inKey(request.position)
         if (isInKey) {
           n = _n.parent.get
         }
@@ -428,7 +416,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
   def extractSuggestableProperties(node: IHighLevelNode): Seq[IProperty] = {
     val existingProperties: mutable.Map[String, IProperty] = mutable.Map()
 
-    var isTypeDeclaration = node.definition.isAssignableFrom("TypeDeclaration")
+    val isTypeDeclaration = node.definition.isAssignableFrom("TypeDeclaration")
 
     node.children.foreach(x => {
       if (x.sourceInfo.yamlSources.nonEmpty) {
@@ -497,7 +485,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
     }
 
     val definition                    = node.definition
-    var propName                      = node.property.flatMap(_.nameId)
+    val propName                      = node.property.flatMap(_.nameId)
     var result: ListBuffer[IProperty] = ListBuffer()
     result ++= definition.allProperties
       .filter(p =>

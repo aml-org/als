@@ -65,7 +65,7 @@ class KnownPropertyValuesCompletionPlugin extends ICompletionPlugin {
         prop = propName.flatMap(pName => astNode.asElement.get.definition.property(pName))
       }
     } else if (astNode.isElement) {
-      var definition = astNode.asElement.get.definition
+      val definition = astNode.asElement.get.definition
       request.actualYamlLocation
         .flatMap(_.keyValue)
         .map(_.yPart)
@@ -121,10 +121,15 @@ class KnownPropertyValuesCompletionPlugin extends ICompletionPlugin {
       val isSequence  = KnownPropertyValuesCompletionPlugin.isSequence(parentNode.get, prop.get.nameId.get)
       val description = s"Possible '${p.nameId.get}' value"
       if (p.isMultiValue && !isSequence) {
-        result ++= resultText.map(x => Suggestion(s"[ $x ]", description, x, request.prefix))
-      } else {
+        val withBrackets = resultText.map(x => s"[ $x ]").filter(_.startsWith(request.prefix))
+        if (withBrackets.isEmpty)
+          result ++= resultText
+            .filter(_.startsWith(request.prefix))
+            .map(x => Suggestion(x, description, x, request.prefix))
+        else
+          result ++= withBrackets.map(x => Suggestion(x, description, x, request.prefix))
+      } else
         result ++= resultText.map(x => Suggestion(x, description, x, request.prefix))
-      }
     })
     val response = CompletionResponse(result, LocationKind.VALUE_COMPLETION, request)
     Promise.successful(response).future

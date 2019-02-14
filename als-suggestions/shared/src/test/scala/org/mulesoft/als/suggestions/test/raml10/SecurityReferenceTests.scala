@@ -18,7 +18,7 @@ class SecurityReferenceTests extends RAML10Test {
   }
 
   test("authorizationGrants test 004") {
-    this.runTest("security/test004.raml", Set("[ authorization_code ]"))
+    this.runTest("security/test004.raml", Set("authorization_code"))
   }
 
   test("Api securedBy test001") {
