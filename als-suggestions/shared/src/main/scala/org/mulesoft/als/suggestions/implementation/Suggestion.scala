@@ -34,11 +34,18 @@ class Suggestion(_text: String, _description: String, _displayText: String, _pre
 }
 
 object Suggestion {
-  def apply(_text: String, _description: String, _displayText: String, _prefix: String): Suggestion =
-    // Dots are not considered as part of the word to be replaced
-    if (_prefix.contains("."))
-      if (_prefix.endsWith("."))
-        new Suggestion(_text.split('.').last, _description, _displayText.split('.').last, "")
-      else new Suggestion(_text.split('.').last, _description, _displayText.split('.').last, _prefix.split('.').last)
+  def apply(_text: String, _description: String, _displayText: String, _prefix: String): Suggestion = {
+    // Dots and dashes are not considered as part of the word to be replaced
+    val index =
+      _prefix.lastIndexOf(".").max(_prefix.lastIndexOf("/"))
+    if (index > 0 && _text.startsWith(_prefix))
+      if (index == _prefix.size)
+        new Suggestion(_text.substring(index), _description, _displayText.split('.').last, "")
+      else
+        new Suggestion(_text.substring(index + 1),
+                       _description,
+                       _displayText.substring(index + 1),
+                       _prefix.substring(index + 1))
     else new Suggestion(_text, _description, _displayText, _prefix)
+  }
 }

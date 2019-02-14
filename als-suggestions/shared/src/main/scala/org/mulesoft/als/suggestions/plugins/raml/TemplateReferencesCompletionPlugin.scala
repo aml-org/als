@@ -1,17 +1,14 @@
 package org.mulesoft.als.suggestions.plugins.raml
 
-import amf.core.remote.{Oas, Raml10, Vendor}
+import amf.core.remote.{Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.interfaces.IHighLevelNode
-import org.mulesoft.typesystem.nominal_interfaces.IProperty
-import org.mulesoft.typesystem.nominal_interfaces.extras.PropertySyntaxExtra
 import org.mulesoft.high.level.{Declaration, Search}
 import org.mulesoft.positioning.IPositionsMapper
-import org.mulesoft.typesystem.syaml.to.json.{YPoint, YRange}
+import org.mulesoft.typesystem.syaml.to.json.YRange
 import org.yaml.model._
 
-import scala.collection.mutable
 import scala.concurrent.{Future, Promise}
 
 class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
@@ -46,7 +43,7 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
             case _ =>
           }
         }
-        var usedTemplateNames =
+        val usedTemplateNames =
           owner.elements(propName).flatMap(_.asElement).flatMap(_.attribute("name").flatMap(_.value).map(_.toString))
 
         var actualPrefix = request.prefix
@@ -70,7 +67,7 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
           case _ => Seq();
         }
         declarations = declarations.filter(x => {
-          var nameOpt = x.node
+          val nameOpt = x.node
             .attribute("name")
             .flatMap(_.value)
             .map(name => {
@@ -89,7 +86,7 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
               paramFor.contains(declaration.node.attribute("name").get.value.asInstanceOf[Some[String]].get))
             .map { declaration =>
               val typeName = declaration.node.definition.nameId.get
-              var paramNames =
+              val paramNames =
                 declaration.node.attributes("parameters").map(param => param.value.asInstanceOf[Some[String]].get)
 
               if (actualPrefix.indexOf("{") >= 0) {
@@ -101,7 +98,7 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
             .getOrElse(Nil)
         } else {
           declarations.map(declaration => {
-            var ts = toTemplateSuggestion(declaration, refYamlKind.get)
+            val ts = toTemplateSuggestion(declaration, refYamlKind.get)
             Suggestion(ts.get.text, readableName, ts.get.name, request.prefix)
           })
         }
@@ -109,16 +106,16 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
       case _ => Seq();
     }
 
-    var response = CompletionResponse(result, LocationKind.VALUE_COMPLETION, request)
+    val response = CompletionResponse(result, LocationKind.VALUE_COMPLETION, request)
     Promise.successful(response).future
   }
 
   def inParamOf(request: ICompletionRequest): Option[String] = {
-    var text: String = request.config.editorStateProvider.get.getText
+    val text: String = request.config.editorStateProvider.get.getText
 
-    var currentPosition = request.position
+    val currentPosition = request.position
 
-    var lineStart = text.substring(0, currentPosition).lastIndexOf("\n") + 1
+    val lineStart = text.substring(0, currentPosition).lastIndexOf("\n") + 1
 
     if (lineStart < 0) {
       return None
@@ -126,7 +123,7 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
 
     var line = text.substring(lineStart, currentPosition)
 
-    var openSquaresCount = line.count(_ == "{".charAt(0))
+    val openSquaresCount = line.count(_ == "{".charAt(0))
 
     if (openSquaresCount < 2) {
       return None
@@ -136,11 +133,11 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
       line = line + " "
     }
 
-    var rightExps = line.split("\\{")
+    val rightExps = line.split("\\{")
 
-    var canContainReference = rightExps(rightExps.length - 2)
+    val canContainReference = rightExps(rightExps.length - 2)
 
-    var referenceParts = canContainReference.split(":")
+    val referenceParts = canContainReference.split(":")
 
     if (referenceParts.length != 2) None
     else Some(referenceParts(0))
@@ -149,9 +146,9 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
   def templateRefYamlKind(request: ICompletionRequest, owner: IHighLevelNode, propName: String): Option[RefYamlKind] = {
     request.astNode.flatMap(node => {
       var pos = request.position
-      var pm  = node.astUnit.positionsMapper
+      val pm  = node.astUnit.positionsMapper
       Option(owner).flatMap(pNode => {
-        var si = pNode.sourceInfo
+        val si = pNode.sourceInfo
         si.yamlSources.headOption
           .filter(_.isInstanceOf[YMapEntry])
           .map(_.asInstanceOf[YMapEntry].value.value)
@@ -159,10 +156,10 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
           .flatMap(_.asInstanceOf[YMap].entries.find(e => e.key.value.toString == propName))
           .flatMap(propNode => {
             var line    = YRange(propNode, Option(pm)).start.line
-            var lineStr = pm.lineString(line)
-            var offset  = lineStr.map(pm.lineOffset).getOrElse(-1)
+            val lineStr = pm.lineString(line)
+            val offset  = lineStr.map(pm.lineOffset).getOrElse(-1)
             propNode.value.value match {
-              case sc: YScalar => Some(RefYamlKind.scalar(offset))
+              case _: YScalar => Some(RefYamlKind.scalar(offset))
               case seq: YSequence =>
                 val fl           = isFlow(seq, pm)
                 val off          = if (fl) -1 else offset
@@ -200,12 +197,12 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
 
   def toTemplateSuggestion(decl: Declaration, kind: RefYamlKind): Option[TemplateSuggestion] = {
     val declNode = decl.node
-    var nameOpt  = declNode.attribute("name").flatMap(_.value).map(_.toString)
+    val nameOpt  = declNode.attribute("name").flatMap(_.value).map(_.toString)
     if (nameOpt.isEmpty) {
       None
     } else {
-      var isTrait        = declNode.definition.nameId.contains("Trait")
-      var isResourceType = declNode.definition.nameId.contains("ResourceType")
+      val isTrait        = declNode.definition.nameId.contains("Trait")
+      val isResourceType = declNode.definition.nameId.contains("ResourceType")
       val off            = kind.valueOffset
 
       val plainName = nameOpt.get
@@ -224,40 +221,32 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
         } else {
           if (kind.inMap && !kind.flow) {
             if (kind.wrappedFlow) {
-              //var valOffStr = " " * (off + 2)
-              //var paramOffStr = valOffStr + "  "
-              var text = toFlowObject(name, params)
+              val text = toFlowObject(name, params)
               Some(TemplateSuggestion(name, text, kind))
             } else {
-              var paramOffStr = " " * (off + 6)
-              var text        = s"- " + toBlockObject(name, params, paramOffStr)
+              val paramOffStr = " " * (off + 6)
+              val text        = s"- " + toBlockObject(name, params, paramOffStr)
               Some(TemplateSuggestion(name, text, kind))
             }
           } else if (kind.inMap && kind.flow) {
-            //var valOffStr = " " * (off + 2)
-            //var paramOffStr = valOffStr + "  "
-            var text = toFlowObject(name, params)
+            val text = toFlowObject(name, params)
             Some(TemplateSuggestion(name, text, kind))
           } else if (kind.inSequence && !kind.flow) {
             if (kind.wrappedFlow) {
-              //var valOffStr = " " * (off + 2)
-              //var paramOffStr = valOffStr + "  "
-              var text = toFlowObject(name, params)
+              val text = toFlowObject(name, params)
               Some(TemplateSuggestion(name, text, kind))
             } else {
-              var paramOffStr = " " * (off + 6)
-              var text        = toBlockObject(name, params, paramOffStr)
+              val paramOffStr = " " * (off + 6)
+              val text        = toBlockObject(name, params, paramOffStr)
               Some(TemplateSuggestion(name, text, kind))
             }
           } else if (kind.inSequence && kind.flow) {
-            //var valOffStr = " " * (off + 2)
-            //var paramOffStr = valOffStr + "  "
-            var text = toFlowObject(name, params)
+            val text = toFlowObject(name, params)
             Some(TemplateSuggestion(name, text, kind))
           } else {
-            var valOffStr   = " " * (off + 2)
-            var paramOffStr = " " * (off + 6)
-            var text        = s"\n$valOffStr- " + toBlockObject(name, params, paramOffStr)
+            val valOffStr   = " " * (off + 2)
+            val paramOffStr = " " * (off + 6)
+            val text        = s"\n$valOffStr- " + toBlockObject(name, params, paramOffStr)
             Some(TemplateSuggestion(name, text, kind))
           }
         }
@@ -271,8 +260,6 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
         } else {
           if (kind.inMap && !kind.flow) {
             if (kind.wrappedFlow) {
-              //var valOffStr = " " * (off + 2)
-              //var paramOffStr = valOffStr + "  "
               var text = toFlowObject(name, params)
               Some(TemplateSuggestion(name, text, kind))
             } else {
@@ -281,14 +268,12 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
               Some(TemplateSuggestion(name, text, kind))
             }
           } else if (kind.inMap && kind.flow) {
-            //var valOffStr = " " * (off + 2)
-            //var paramOffStr = valOffStr + "  "
             var text = toFlowObject(name, params)
             Some(TemplateSuggestion(name, text, kind))
           } else {
-            var valOffStr   = " " * (off + 2)
-            var paramOffStr = " " * (off + 4)
-            var text        = s"\n$valOffStr" + toBlockObject(name, params, paramOffStr)
+            val valOffStr   = " " * (off + 2)
+            val paramOffStr = " " * (off + 4)
+            val text        = s"\n$valOffStr" + toBlockObject(name, params, paramOffStr)
             Some(TemplateSuggestion(name, text, kind))
           }
         }
