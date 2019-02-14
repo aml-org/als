@@ -18,22 +18,17 @@ trait InclusionSuggestion extends ICompletionPlugin {
   override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
     val baseDir = request.astNode.get.astUnit.project.rootPath
-    val relativePath = request.actualYamlLocation.get.node.get.yPart match {
-      case node: YNode.MutRef =>
-        node.origValue match {
-          case scalar: YScalar => scalar.text;
 
-          case _ => request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar].text;
-        }
+    val relativePath = request.prefix
+    val relativePrefix = request.prefix.substring(
+      request.prefix.lastIndexOf("/").max(0)
+    )
 
-      case _ => request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar].text;
-    }
-
-    if (!relativePath.endsWith(request.prefix)) {
+    if (!relativePath.endsWith(relativePrefix)) {
       val response = CompletionResponse(LocationKind.VALUE_COMPLETION, request)
       Promise.successful(response).future
     } else {
-      val prefix = if (request.prefix.startsWith("/")) request.prefix.substring(1) else request.prefix
+      val prefix = if (relativePrefix.startsWith("/")) relativePrefix.substring(1) else relativePrefix
       PathCompletion
         .complete(baseDir, relativePath, request.config.platform)
         .map(paths => {

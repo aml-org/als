@@ -1,16 +1,15 @@
 package org.mulesoft.als.suggestions
 
-import amf.core.model.document.BaseUnit
 import org.mulesoft.als.suggestions.implementation.{CompletionRequest, LocationKindDetectTool, Suggestion}
-import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.als.suggestions.interfaces.LocationKind._
+import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.interfaces.{IASTUnit, IParseResult}
 import org.mulesoft.positioning.{PositionsMapper, YamlLocation, YamlSearch}
 import org.yaml.model.YPart
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps
-import scala.concurrent.ExecutionContext.Implicits.global
 
 class CompletionProvider {
   var _config: ICompletionConfig = _
@@ -99,9 +98,9 @@ class CompletionProvider {
   }
 
   def adjustedSuggestions(response: ICompletionResponse): Seq[ISuggestion] = {
-    var isKey  = response.kind == LocationKind.KEY_COMPLETION
-    var isYAML = response.request.config.astProvider.exists(_.syntax == Syntax.YAML)
-    var isJSON = response.request.config.astProvider.exists(_.syntax == Syntax.JSON)
+    val isKey  = response.kind == LocationKind.KEY_COMPLETION
+    val isYAML = response.request.config.astProvider.exists(_.syntax == Syntax.YAML)
+    val isJSON = response.request.config.astProvider.exists(_.syntax == Syntax.JSON)
 
     var hasQuote           = false
     var hasColon           = false
@@ -190,7 +189,7 @@ class CompletionProvider {
 
 object CompletionProvider {
 
-  private val prefixRegex = """(\b|['"~`!@#\$%^&*\(\)\{\}\[\]=\+,\/\?>])((\w+[\w-.]*)|()|([.:;\[{\(< ]+))$""".r
+  private val prefixRegex = """(\b|['"~`!@#\$%^&*\(\)\{\}\[\]=\+,\/\?>])?(([\w\.]+[\w-\/\.]*)|()|([.:;\[{\(< ]+))$""".r
 
   def apply(): CompletionProvider = new CompletionProvider()
 
