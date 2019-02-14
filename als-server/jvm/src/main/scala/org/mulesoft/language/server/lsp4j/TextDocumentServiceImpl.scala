@@ -55,10 +55,7 @@ class TextDocumentServiceImpl(val settings: Option[LoggerSettings]) extends Text
   override def didChange(params: DidChangeTextDocumentParams): Unit = {
     val document = params.getTextDocument
     val texts = params.getContentChanges.asScala
-      .map(event => {
-        // val range = event.getRange // Range must be converted
-        TextEdit(Range(0, 0), event.getText)
-      })
+      .map(event => TextEdit(Range(0, 0), event.getText))
     println(ChangedDocument(document.getUri, document.getVersion, Some(texts.head.text), None))
     notifyDocumentChanged(ChangedDocument(document.getUri, document.getVersion, Some(texts.head.text), None))
   }
@@ -73,7 +70,6 @@ class TextDocumentServiceImpl(val settings: Option[LoggerSettings]) extends Text
   override def withSettings(settings: LoggerSettings): this.type = this
 
   override def validated(report: ValidationReport): Unit = clients.foreach(client => {
-
     val diagnosticList = report.issues.map(issue => {
       new Diagnostic(issue.range, issue.text, DiagnosticSeverity.Error, issue.filePath)
     }).asJava.stream().collect(Collectors.toList[Diagnostic])

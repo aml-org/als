@@ -23,7 +23,7 @@ case class Position(line: Int, column: Int) {
 }
 
 object Position {
-  def apply(position: AmfPosition): Position = Position(position.line, position.column)
+  def apply(position: AmfPosition): Position = Position(position.line - 1, position.column)
 
   def apply(offset: Int, text: String): Position = {
     def toPosition(count: Int, line: Int, lines: List[String]): Position = lines match {
