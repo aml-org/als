@@ -19,8 +19,8 @@ class UsesCompletionPlugin extends InclusionSuggestion {
     request.actualYamlLocation.get.parentStack(2).keyValue.get.yPart.isInstanceOf[YScalar] &&
     request.actualYamlLocation.get.parentStack(2).keyValue.get.yPart.asInstanceOf[YScalar].text == "uses" &&
     request.actualYamlLocation.get.value.isDefined &&
-    request.actualYamlLocation.get.value.get.yPart.isInstanceOf[YScalar]
-
+    request.actualYamlLocation.get.value.get.yPart
+      .isInstanceOf[YScalar] // && !new IncludeCompletionPlugin().isApplicable(request)
   }
 
   override protected val description: String = "RAML library path"

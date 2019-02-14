@@ -26,22 +26,22 @@ class IncludeCompletionPlugin extends InclusionSuggestion {
       } else if (!request.actualYamlLocation.get.value.get.yPart.isInstanceOf[YScalar]) {
         false
       } else {
-        var nodePart = request.actualYamlLocation.get.node.get.yPart
+        val nodePart = request.actualYamlLocation.get.node.get.yPart
 
-        var valuePart = request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar]
+        val valuePart = request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar]
 
         val tagText = nodePart match {
-          case node: YNode.MutRef => node.origTag.text;
+          case node: YNode.MutRef => node.origTag.text
 
-          case node: YNode => nodePart.tag.text;
+          case _: YNode => nodePart.tag.text
 
-          case _ => "";
+          case _ => ""
         }
 
         val valueString = Option(valuePart.value).map(_.toString).getOrElse("")
 
         if (tagText != "!include" && !valueString.startsWith("!include")) false
-        else true
+        else !UsesCompletionPlugin().isApplicable(request)
       }
     }
   }

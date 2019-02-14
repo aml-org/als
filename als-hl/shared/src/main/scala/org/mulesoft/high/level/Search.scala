@@ -17,10 +17,10 @@ object Search {
   // $COVERAGE-OFF$
   def getDeclarations(unit: IASTUnit, typeName: String): Seq[Declaration] = {
 
-    var result: ListBuffer[Declaration]      = ListBuffer()
-    var ownDeclarations: Seq[IHighLevelNode] = extractDeclarations(unit, typeName)
+    val result: ListBuffer[Declaration]      = ListBuffer()
+    val ownDeclarations: Seq[IHighLevelNode] = extractDeclarations(unit, typeName)
     ownDeclarations.foreach(decl => result += new Declaration(decl, unit, None))
-    var libsToSearch: Iterable[ModuleDependencyEntry[IASTUnit]] = unit.dependencies.values.flatMap(x =>
+    val libsToSearch: Iterable[ModuleDependencyEntry[IASTUnit]] = unit.dependencies.values.flatMap(x =>
       if (x.isModule) Some(x.asInstanceOf[ModuleDependencyEntry[IASTUnit]]) else None)
 
     libsToSearch.foreach(libDependency => {
