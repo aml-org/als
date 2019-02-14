@@ -55,7 +55,7 @@ class LanguageServerImpl(val connection: ServerConnection,
         .flatMap(_ => server.enableModule(HlAstManager.moduleId))
         .flatMap(_ => server.enableModule(ValidationManager.moduleId))
         .flatMap(_ => server.enableModule(SuggestionsManager.moduleId))
-        .flatMap(_ => server.enableModule(StructureManager.moduleId))
+//        .flatMap(_ => server.enableModule(StructureManager.moduleId))
 //    server.enableModule(FindReferencesModule.moduleId)
 //    server.enableModule(FindDeclarationModule.moduleId)
 //    server.enableModule(RenameModule.moduleId)
