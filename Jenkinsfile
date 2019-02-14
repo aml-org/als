@@ -32,6 +32,12 @@ pipeline {
       }
     }
     stage('Publish') {
+      when {
+        anyOf {
+          branch 'master'
+          branch 'devel'
+        }
+      }
       steps {
         sh 'sbt -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 publish'
       }
