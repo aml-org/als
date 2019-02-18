@@ -8,6 +8,7 @@ import amf.plugins.domain.shapes.metamodel.{ArrayShapeModel, FileShapeModel, Nod
 import amf.plugins.domain.shapes.models.ScalarShape
 import amf.plugins.domain.webapi.metamodel.templates.ResourceTypeModel
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
+import common.dtoTypes.{EmptyPositionRange, PositionRange}
 import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.language.outline.common.commonInterfaces.{CategoryFilter, LabelProvider, VisibilityFilter}
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
@@ -23,7 +24,7 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
       .toList
 
   private def documentSymbol(hlNode: IParseResult): DocumentSymbol = {
-    val (range, keyRange) = amfRange(hlNode)
+    val (range, keyRange) = positionRange(hlNode)
 
     DocumentSymbol(
       labelProvider.getLabelText(hlNode),
@@ -38,7 +39,7 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
     )
   }
 
-  private def amfRange(node: IParseResult): (amf.core.parser.Range, amf.core.parser.Range) = {
+  private def positionRange(node: IParseResult): (PositionRange, PositionRange) = {
     node.sourceInfo.yamlSources.headOption.map(_.range) match {
       case Some(syamlRange) =>
         val keyRange = (node.amfNode match {
@@ -55,8 +56,8 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
             }
         }
         val finalNodeRange = amfRangeFromSyamlRange(syamlRange)
-        (finalNodeRange, keyRange.getOrElse(finalNodeRange))
-      case _ => (amf.core.parser.Range.NONE, amf.core.parser.Range.NONE)
+        (PositionRange(finalNodeRange), PositionRange(finalNodeRange))
+      case _ => (EmptyPositionRange, EmptyPositionRange)
     }
   }
 

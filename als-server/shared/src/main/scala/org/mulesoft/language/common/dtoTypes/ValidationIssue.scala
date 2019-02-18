@@ -1,5 +1,6 @@
 package org.mulesoft.language.common.dtoTypes
 
+import common.dtoTypes.PositionRange
 import org.mulesoft.language.common.dtoTypes.ValidationSeverity.ValidationSeverity
 
 /**

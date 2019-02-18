@@ -1,6 +1,6 @@
 package org.mulesoft.language.outline.test
 
-import amf.core.parser.Position
+import common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import upickle.default.{macroRW, ReadWriter => RW}
 
@@ -19,7 +19,7 @@ object DocumentSymbolRange {
 
   implicit def rw: RW[DocumentSymbolRange] = macroRW
 
-  implicit def sharedToTransport(from: amf.core.parser.Range): DocumentSymbolRange = {
+  implicit def sharedToTransport(from: PositionRange): DocumentSymbolRange = {
 
     DocumentSymbolRange(
       from.start,

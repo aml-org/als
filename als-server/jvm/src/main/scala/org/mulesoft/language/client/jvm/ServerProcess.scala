@@ -3,9 +3,10 @@ package org.mulesoft.language.client.jvm
 import java.util
 import java.util.function.Consumer
 
+import common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.client.jvm.DocumentSymbolConverter.AsJavaList
-import org.mulesoft.language.client.jvm.dtoTypes.{GetCompletionRequest, GetStructureRequest}
+import dtoTypes.{GetCompletionRequest, GetStructureRequest}
 import org.mulesoft.language.client.jvm.serverConnection.{JAVALogger, JAVAServerConnection}
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
@@ -77,13 +78,16 @@ object ServerProcess {
 
   def getSuggestions(uri: String, position: Position, suggestionsHandler: SuggestionsHandler) {
     connection.handleGetSuggestions(new GetCompletionRequest(uri, position)) andThen {
-      case Success(result) => {
+      case Success(result) =>
         val list = new util.ArrayList[Suggestion]()
 
-        result.map(new SuggestionComparableWrapper(_)).distinct.map(_.suggestion).foreach(list.add(_))
+        result
+          .map(new SuggestionComparableWrapper(_))
+          .distinct
+          .map(_.suggestion)
+          .foreach(list.add(_))
 
         suggestionsHandler.success(list)
-      }
 
       case Failure(error) => suggestionsHandler.failure(error)
     }
@@ -187,9 +191,11 @@ trait FS {
 }
 
 class JAVAStructureNode(var node: StructureNodeJSON) {
-  var children: util.List[JAVAStructureNode] = new util.ArrayList[JAVAStructureNode]()
+  var children: util.List[JAVAStructureNode] =
+    new util.ArrayList[JAVAStructureNode]()
 
-  override def toString: String = "(" + node.text + ", " + node.start + ", " + node.end + "): " + children.toString
+  override def toString: String =
+    "(" + node.text + ", " + node.start + ", " + node.end + "): " + children.toString
 }
 
 object JAVAStructureNode {
@@ -210,24 +216,27 @@ object DocumentSymbolConverter {
   }
 
   implicit class AsJavaList(internal: List[DocumentSymbol]) {
-    def asJava: java.util.List[JavaDocumentSymbol] = internal.map(i => new JavaDocumentSymbol(i)).asJava
+    def asJava: java.util.List[JavaDocumentSymbol] =
+      internal.map(i => new JavaDocumentSymbol(i)).asJava
   }
 }
 
 class JavaDocumentSymbol(private val _internal: DocumentSymbol) {
-  def name: String                                 = _internal.name
-  def kind: Int                                    = _internal.kind.index
-  def deprecated: Boolean                          = _internal.deprecated
-  def range: amf.core.parser.Range                 = _internal.range
-  def selectionRange: amf.core.parser.Range        = _internal.selectionRange
-  def children: java.util.List[JavaDocumentSymbol] = _internal.children.toList.asJava
+  def name: String                  = _internal.name
+  def kind: Int                     = _internal.kind.index
+  def deprecated: Boolean           = _internal.deprecated
+  def range: PositionRange          = _internal.range
+  def selectionRange: PositionRange = _internal.selectionRange
+  def children: java.util.List[JavaDocumentSymbol] =
+    _internal.children.toList.asJava
 }
 
 class SuggestionComparableWrapper(var suggestion: Suggestion) {
   override def toString(): String =
     suggestion.category + ", " + suggestion.description + ", " + suggestion.displayText + ", " + suggestion.prefix + ", " + suggestion.text
 
-  override def equals(another: scala.Any): Boolean = toString().equals(another.toString)
+  override def equals(another: scala.Any): Boolean =
+    toString().equals(another.toString)
 
   override def hashCode(): Int = toString().hashCode()
 }

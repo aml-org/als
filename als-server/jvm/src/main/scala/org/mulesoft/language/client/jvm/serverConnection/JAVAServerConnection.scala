@@ -18,8 +18,8 @@ import scala.concurrent.{Future, Promise}
 
 class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConnection {
   var lastStructureReport: Option[StructureReport] = None
-  var fs: FS = _
-  var validationHandler: ValidationHandler = _
+  var fs: FS                                       = _
+  var validationHandler: ValidationHandler         = _
 
   var logger: JAVALogger = (_: String, _: MessageSeverity.Value, _: String, _: String) => {}
 
@@ -68,7 +68,7 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
   def handleCloseDocument(uri: String) {
     this.closeDocumentListeners.headOption match {
       case Some(listener) => listener(uri)
-      case _ => Future.failed(new Exception("No close document providers found"))
+      case _              => Future.failed(new Exception("No close document providers found"))
     }
   }
 
@@ -86,7 +86,7 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
 
   def handleGetStructure(getStructure: GetStructureRequest): Future[GetStructureResponse] = {
     this.documentStructureListeners.headOption match {
-      case Some(listener) => listener(getStructure.url).map(resultMap => GetStructureResponse(resultMap))
+      case Some(listener) => listener(getStructure.url).map(resultMap => GetStructureResponse(resultMap.toList))
 
       case _ => Future.failed(new Exception("No structure providers found"))
     }

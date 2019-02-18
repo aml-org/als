@@ -1,4 +1,4 @@
-package org.mulesoft.language.common.dtoTypes
+package common.dtoTypes
 
 import amf.core.parser.{Position => AmfPosition}
 

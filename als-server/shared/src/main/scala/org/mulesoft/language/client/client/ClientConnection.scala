@@ -1,10 +1,10 @@
 package org.mulesoft.language.client.client
 
+import common.dtoTypes.Position
 import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.common.logger.Logger
 import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
-import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
 
 import scala.concurrent.Future

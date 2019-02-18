@@ -4,6 +4,7 @@ import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.services.RuntimeValidator
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
+import common.dtoTypes.{EmptyPositionRange, PositionRange}
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.server.common.reconciler.Reconciler
 import org.mulesoft.language.server.common.utils.PathRefine
@@ -32,7 +33,8 @@ class ValidationManager extends AbstractServerModule {
   protected def getASTManager(): ASTManagerModule = this.getDependencyById(ASTManagerModule.moduleId).get
 
   override def launch(): Future[Unit] =
-    super.launch()
+    super
+      .launch()
       .map(_ => {
         this.getASTManager().onNewASTAvailable(this.onNewASTAvailableListener)
       })
@@ -59,7 +61,7 @@ class ValidationManager extends AbstractServerModule {
   }
 
   private def gatherValidationErrors(docUri: String, docVersion: Int, astNode: BaseUnit): Future[ValidationReport] = {
-    val uri = PathRefine.refinePath(docUri, platform)
+    val uri          = PathRefine.refinePath(docUri, platform)
     val editorOption = this.getEditorManager().getEditor(uri)
 
     if (editorOption.isDefined) {
@@ -71,11 +73,11 @@ class ValidationManager extends AbstractServerModule {
           val endTime = System.currentTimeMillis()
 
           this.connection.debugDetail(s"It took ${endTime - startTime} milliseconds to validate",
-            "ValidationManager",
-            "gatherValidationErrors")
+                                      "ValidationManager",
+                                      "gatherValidationErrors")
 
-          val issues = report.results.map(validationResult =>
-            this.amfValidationResultToIssue(docUri, validationResult))
+          val issues =
+            report.results.map(validationResult => this.amfValidationResultToIssue(docUri, validationResult))
 
           ValidationReport(docUri, docVersion, issues)
         })
@@ -97,14 +99,14 @@ class ValidationManager extends AbstractServerModule {
     val language = getEditorManager().getEditor(uri).map(_.language).getOrElse("OAS 2.0")
 
     val config = new ParserConfig(Some(ParserConfig.VALIDATE),
-      Some(uri),
-      Some(language),
-      Some("application/yaml"),
-      None,
-      Some(language),
-      Some("application/yaml"),
-      false,
-      true)
+                                  Some(uri),
+                                  Some(language),
+                                  Some("application/yaml"),
+                                  None,
+                                  Some(language),
+                                  Some("application/yaml"),
+                                  false,
+                                  true)
 
     val customProfileLoaded = if (config.customProfile.isDefined) {
       RuntimeValidator.loadValidationProfile(config.customProfile.get)

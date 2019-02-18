@@ -1,9 +1,9 @@
 package org.mulesoft.language.server.core.connections
 
+import common.dtoTypes.Position
 import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
-import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import org.mulesoft.language.server.common.configuration.IServerConfiguration
 
 import scala.collection.mutable
@@ -18,9 +18,10 @@ trait AbstractServerConnection extends ServerConnection with ServerNotifier {
 
   protected var closeDocumentListeners: mutable.Buffer[String => Unit] = ArrayBuffer()
 
-  protected var documentStructureListeners: mutable.Buffer[String => Future[List[DocumentSymbol]]] = ArrayBuffer()
+  protected var documentStructureListeners: mutable.Buffer[String => Future[Seq[DocumentSymbol]]] = ArrayBuffer()
 
-  protected var documentCompletionListeners: mutable.Buffer[(String, Position) => Future[Seq[Suggestion]]] = ArrayBuffer()
+  protected var documentCompletionListeners: mutable.Buffer[(String, Position) => Future[Seq[Suggestion]]] =
+    ArrayBuffer()
 
   protected var documentDetailsListeners: mutable.Buffer[(String, Position) => Future[Seq[Suggestion]]] = ArrayBuffer()
 
@@ -32,7 +33,8 @@ trait AbstractServerConnection extends ServerConnection with ServerNotifier {
 
   protected var renameListeners: mutable.Buffer[(String, Int, String) => Future[Seq[ChangedDocument]]] = ArrayBuffer()
 
-  protected var changeDetailValueListeners: mutable.Buffer[(String, Int, String, AnyVal) => Future[Seq[ChangedDocument]]] =
+  protected var changeDetailValueListeners
+    : mutable.Buffer[(String, Int, String, AnyVal) => Future[Seq[ChangedDocument]]] =
     ArrayBuffer()
 
   protected var changePositionListeners: mutable.Buffer[(String, Int) => Unit] = ArrayBuffer()
@@ -94,11 +96,15 @@ trait AbstractServerConnection extends ServerConnection with ServerNotifier {
     * @param listener    (uri: String, position: Int) => Future[Seq[Suggestion] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onDocumentCompletion(listener: (String, Position) => Future[Seq[Suggestion]], unsubscribe: Boolean = false): Unit =
+  def onDocumentCompletion(listener: (String, Position) => Future[Seq[Suggestion]],
+                           unsubscribe: Boolean = false): Unit =
     addListener(documentCompletionListeners, listener, unsubscribe)
 
   override def notifyDocumentCompletion(uri: String, offset: Position): Future[Seq[Suggestion]] =
     documentCompletionListeners.headOption.map(_.apply(uri, offset)).getOrElse(Future.successful(Seq()))
+
+  override def notifyDocumentStructure(uri: String): Future[Seq[DocumentSymbol]] =
+    documentStructureListeners.headOption.map(_.apply(uri)).getOrElse(Future.successful(Seq()))
 
   /**
     * Adds a listener to document structure request. Must notify listeners in order of registration.
@@ -106,8 +112,7 @@ trait AbstractServerConnection extends ServerConnection with ServerNotifier {
     * @param listener    (uri: String) => Future[Map[String, StructureNodeJSON] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onDocumentStructure(listener: (String) => Future[List[DocumentSymbol]], unsubscribe: Boolean = false): Unit = {
-
+  def onDocumentStructure(listener: (String) => Future[Seq[DocumentSymbol]], unsubscribe: Boolean = false): Unit = {
     this.addListener(this.documentStructureListeners, listener, unsubscribe)
   }
 

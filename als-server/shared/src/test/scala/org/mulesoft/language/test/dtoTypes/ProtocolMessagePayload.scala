@@ -1,9 +1,8 @@
 package org.mulesoft.language.test.dtoTypes
 
+import common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.interfaces.{Suggestion => SuggestionInterface}
 import org.mulesoft.language.common.dtoTypes.{
-  Position,
-  PositionRange,
   ChangedDocument => SharedChangedDocument,
   IChangedPosition => SharedChangedPosition,
   IFindRequest => SharedFindRequest,

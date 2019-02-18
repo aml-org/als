@@ -1,7 +1,7 @@
 package org.mulesoft.language.server.lsp4j
 
+import common.dtoTypes.{Position, PositionRange}
 import org.eclipse.lsp4j.{Position => Lsp4JPosition, Range => Lsp4JRange}
-import org.mulesoft.language.common.dtoTypes.{Position, PositionRange}
 
 import scala.language.implicitConversions
 

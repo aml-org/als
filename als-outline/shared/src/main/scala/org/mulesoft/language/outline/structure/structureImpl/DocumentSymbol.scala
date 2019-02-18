@@ -1,12 +1,13 @@
 package org.mulesoft.language.outline.structure.structureImpl
 
+import common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 
 case class DocumentSymbol(name: String,
                           kind: SymbolKind,
                           deprecated: Boolean,
-                          range: amf.core.parser.Range,
-                          selectionRange: amf.core.parser.Range,
+                          range: PositionRange,
+                          selectionRange: PositionRange,
                           children: List[DocumentSymbol])
 
 object SymbolKind {
@@ -40,33 +41,3 @@ object SymbolKind {
   object TypeParameter extends SymbolKind(26)
 
 }
-//object SymbolKind extends Enumeration {
-//  type SymbolKind = Value
-//
-//  val File          = Value(1, "File")
-//  val Module        = Value(2, "Module")
-//  val Namespace     = Value(3, "Namespace")
-//  val Package       = Value(4, "Package")
-//  val Class         = Value(5, "Class")
-//  val Method        = Value(6, "Method")
-//  val Property      = Value(7, "Property")
-//  val Field         = Value(8, "Field")
-//  val Constructor   = Value(9, "Constructor")
-//  val Enum          = Value(10, "Enum")
-//  val Interface     = Value(11, "Interface")
-//  val Function      = Value(12, "Function")
-//  val Variable      = Value(13, "Variable")
-//  val Constant      = Value(14, "Constant")
-//  val String        = Value(15, "String")
-//  val Number        = Value(16, "Number")
-//  val Boolean       = Value(17, "Boolean")
-//  val Array         = Value(18, "Array")
-//  val Object        = Value(19, "Object")
-//  val Key           = Value(20, "Key")
-//  val Null          = Value(21, "Null")
-//  val EnumMember    = Value(22, "EnumMember")
-//  val Struct        = Value(23, "Struct")
-//  val Event         = Value(24, "Event")
-//  val Operator      = Value(25, "Operator")
-//  val TypeParameter = Value(26, "TypeParameter")
-//}
