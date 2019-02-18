@@ -1,7 +1,18 @@
 package org.mulesoft.language.test.clientConnection
 
+import common.dtoTypes.Position
 import org.mulesoft.language.client.client.{AbstractClientConnection, VersionedDocumentManager}
-import org.mulesoft.language.common.dtoTypes.{IDetailsItem, IDetailsReport, IExecutableAction, ILocation, Position, ChangedDocument => SharedChangedDocument, OpenedDocument => SharedOpenedDocument, Range => SharedRange, StructureReport => SharedStructureReport, ValidationReport => SharedValidationReport}
+import org.mulesoft.language.common.dtoTypes.{
+  IDetailsItem,
+  IDetailsReport,
+  IExecutableAction,
+  ILocation,
+  ChangedDocument => SharedChangedDocument,
+  OpenedDocument => SharedOpenedDocument,
+  Range => SharedRange,
+  StructureReport => SharedStructureReport,
+  ValidationReport => SharedValidationReport
+}
 import org.mulesoft.language.common.logger.MutedLogger
 import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage, ProtocolSeqMessage}
 import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
@@ -14,7 +25,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class TestClientConnection(serverProcess: Seq[TestServerConnection])
-  extends MutedLogger
+    extends MutedLogger
     with MessageDispatcher[ProtocolMessagePayload, NodeMsgTypeMeta]
     with AbstractClientConnection {
 
@@ -247,7 +258,9 @@ class TestClientConnection(serverProcess: Seq[TestServerConnection])
     * @param position - optional position in the document.
     *                 If not provided, the last reported by positionChanged method will be used.
     */
-  override def executeContextActionByID(uri: String, actionID: String, position: Int): Future[Seq[SharedChangedDocument]] = {
+  override def executeContextActionByID(uri: String,
+                                        actionID: String,
+                                        position: Int): Future[Seq[SharedChangedDocument]] = {
     Future.successful(Seq())
   }
 

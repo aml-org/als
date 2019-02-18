@@ -28,7 +28,7 @@ class StructureManager extends AbstractServerModule {
     StructureManager.this.newASTAvailable(uri, version, ast)
   }
 
-  val onDocumentStructureListener: String => Future[List[DocumentSymbol]] =
+  val onDocumentStructureListener: String => Future[Seq[DocumentSymbol]] =
     onDocumentStructure
 
   protected def getEditorManager: EditorManagerModule = {
@@ -42,7 +42,8 @@ class StructureManager extends AbstractServerModule {
   }
 
   override def launch(): Future[Unit] =
-    super.launch()
+    super
+      .launch()
       .map(_ => {
         this.getASTManager.onNewASTAvailable(this.onNewASTAvailableListener)
         this.connection.onDocumentStructure(this.onDocumentStructureListener)
@@ -75,11 +76,12 @@ class StructureManager extends AbstractServerModule {
         struct
       )
 
-      this.connection.structureAvailable(structureReport)
+      // not part oif the protocol, extend it?
+      //this.connection.structureAvailable(structureReport)
     }
   }
 
-  def onDocumentStructure(url: String): Future[List[DocumentSymbol]] = {
+  def onDocumentStructure(url: String): Future[Seq[DocumentSymbol]] = {
 
     this.connection.debug("Asked for structure:\n" + url, "StructureManager", "onDocumentStructure")
 

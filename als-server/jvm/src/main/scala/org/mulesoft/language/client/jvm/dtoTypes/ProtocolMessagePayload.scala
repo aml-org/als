@@ -1,8 +1,7 @@
 package org.mulesoft.language.client.jvm.dtoTypes
 
+import common.dtoTypes.Position
 import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
-import org.mulesoft.language.common.dtoTypes.Position
-import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 
 sealed trait ProtocolMessagePayload
 

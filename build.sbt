@@ -48,10 +48,28 @@ val settings = Common.settings ++ Common.publish ++ Seq(
   )
 )
 
+lazy val common = crossProject(JSPlatform, JVMPlatform).settings(
+  Seq(
+    name := "als-common"
+  ))
+  .in(file("./als-common"))
+  .settings(settings: _*)
+  .jsSettings(
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
+    libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
+    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
+    scalaJSModuleKind := ModuleKind.CommonJSModule
+    //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
+  )
+
+lazy val commonJVM = common.jvm.in(file("./als-common/jvm"))
+lazy val commonJS = common.js.in(file("./als-common/js"))
+
 lazy val hl = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
     name := "als-hl"
   ))
+  .dependsOn(common)
   .in(file("./als-hl"))
   .settings(settings: _*)
   .jsSettings(

@@ -1,5 +1,6 @@
 package org.mulesoft.language.server.core.connections
 
+import common.dtoTypes.Position
 import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.common.logger._
@@ -52,7 +53,7 @@ trait ServerConnection extends Logger {
     * @param listener    (uri: String) => Future[Map[String, StructureNodeJSON] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onDocumentStructure(listener: String => Future[List[DocumentSymbol]], unsubscribe: Boolean = false): Unit
+  def onDocumentStructure(listener: String => Future[Seq[DocumentSymbol]], unsubscribe: Boolean = false): Unit
 
   /**
     * Adds a listener to document open declaration request.  Must notify listeners in order of registration.
@@ -76,13 +77,6 @@ trait ServerConnection extends Logger {
     * @param report
     */
   def validated(report: ValidationReport): Unit
-
-  /**
-    * Reports new calculated structure when available.
-    *
-    * @param report - structure report.
-    */
-  def structureAvailable(report: StructureReport): Unit
 
   /**
     * Marks occurrences of a symbol under the cursor in the current document.

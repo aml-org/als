@@ -1,12 +1,12 @@
 package org.mulesoft.language.server.modules.suggestions
 
 import amf.core.remote.{Raml10, Vendor}
+import common.dtoTypes.Position
 import org.mulesoft.als.suggestions
 import org.mulesoft.als.suggestions.CompletionProvider
 import org.mulesoft.als.suggestions.implementation.CompletionConfig
 import org.mulesoft.als.suggestions.interfaces.{Suggestion, Syntax}
 import org.mulesoft.high.level.implementation.AlsPlatform
-import org.mulesoft.language.common.dtoTypes.Position
 import org.mulesoft.language.server.common.utils.PathRefine
 import org.mulesoft.language.server.core.AbstractServerModule
 import org.mulesoft.language.server.modules.editorManager.EditorManagerModule
@@ -39,7 +39,8 @@ class SuggestionsManager extends AbstractServerModule {
   }
 
   override def launch(): Future[Unit] =
-    super.launch()
+    super
+      .launch()
       .map(_ => {
         this.connection.onDocumentCompletion(this.onDocumentCompletionListener)
 
@@ -56,19 +57,22 @@ class SuggestionsManager extends AbstractServerModule {
   protected def onDocumentCompletion(uri: String, position: Position): Future[Seq[Suggestion]] = {
     val refinedUri = PathRefine.refinePath(uri, platform)
 
-    connection.debug(s"Calling for completion for uri $refinedUri and position $position", "SuggestionsManager", "onDocumentCompletion")
+    connection.debug(s"Calling for completion for uri $refinedUri and position $position",
+                     "SuggestionsManager",
+                     "onDocumentCompletion")
 
-    getEditorManager.getEditor(refinedUri)
+    getEditorManager
+      .getEditor(refinedUri)
       .map(editor => {
         val syntax = if (editor.syntax == "YAML") Syntax.YAML else Syntax.JSON
 
         val startTime = System.currentTimeMillis()
 
         val originalText = editor.text
-        val offset = position.offset(originalText)
-        val text = suggestions.Core.prepareText(originalText, offset, syntax)
+        val offset       = position.offset(originalText)
+        val text         = suggestions.Core.prepareText(originalText, offset, syntax)
 
-        val vendorOption = Vendor.unapply(editor.language)
+        val vendorOption   = Vendor.unapply(editor.language)
         val vendor: Vendor = vendorOption.getOrElse(Raml10)
         //      this.connection.debug("Vendor is: " + vendor,
         //        "SuggestionsManager", "onDocumentCompletion")
@@ -85,19 +89,19 @@ class SuggestionsManager extends AbstractServerModule {
 
         buildCompletionProviderAST(text, originalText, refinedUri, offset, vendor, syntax, AlsPlatform.default) // todo find a way to instanciate some platform usings als protocol (initialization maybe?)
           .flatMap(provider => {
-          provider.suggest
-            .map(result => {
-              this.connection.debug(s"Got ${result.length} proposals", "SuggestionsManager", "onDocumentCompletion")
+            provider.suggest
+              .map(result => {
+                this.connection.debug(s"Got ${result.length} proposals", "SuggestionsManager", "onDocumentCompletion")
 
-              val endTime = System.currentTimeMillis()
+                val endTime = System.currentTimeMillis()
 
-              this.connection.debugDetail(s"It took ${endTime - startTime} milliseconds to complete",
-                "ASTMaSuggestionsManagernager",
-                "onDocumentCompletion")
+                this.connection.debugDetail(s"It took ${endTime - startTime} milliseconds to complete",
+                                            "ASTMaSuggestionsManagernager",
+                                            "onDocumentCompletion")
 
-              result
-            })
-        })
+                result
+              })
+          })
       })
       .getOrElse(Future.successful(Seq.empty[Suggestion]))
   }

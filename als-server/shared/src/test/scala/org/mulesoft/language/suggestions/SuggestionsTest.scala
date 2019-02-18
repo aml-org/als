@@ -1,8 +1,9 @@
 package org.mulesoft.language.suggestions
 
+import common.dtoTypes.Position
 import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.language.common.dtoTypes.{OpenedDocument, Position}
+import org.mulesoft.language.common.dtoTypes.OpenedDocument
 import org.mulesoft.language.test.LanguageServerTest
 import org.mulesoft.language.test.clientConnection.TestClientConnection
 import org.scalatest.Assertion

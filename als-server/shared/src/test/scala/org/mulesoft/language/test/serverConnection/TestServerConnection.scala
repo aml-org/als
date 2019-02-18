@@ -1,6 +1,14 @@
 package org.mulesoft.language.test.serverConnection
 
-import org.mulesoft.language.common.dtoTypes.{IDetailsItem, IDetailsReport, IUIDisplayRequest, ChangedDocument => SharedChangedDocument, OpenedDocument => SharedOpenedDocument, StructureReport => SharedStructureReport, ValidationReport => SharedValidationReport}
+import org.mulesoft.language.common.dtoTypes.{
+  IDetailsItem,
+  IDetailsReport,
+  IUIDisplayRequest,
+  ChangedDocument => SharedChangedDocument,
+  OpenedDocument => SharedOpenedDocument,
+  StructureReport => SharedStructureReport,
+  ValidationReport => SharedValidationReport
+}
 import org.mulesoft.language.common.logger.MutedLogger
 import org.mulesoft.language.entryPoints.common.{
   MessageDispatcher,
@@ -27,7 +35,7 @@ class WrappedMessage { //extends js.Object {
 }
 
 class TestServerConnection(clientProcess: Seq[TestClientConnection])
-  extends MutedLogger
+    extends MutedLogger
     with MessageDispatcher[ProtocolMessagePayload, NodeMsgTypeMeta]
     with AbstractServerConnection {
 
@@ -46,20 +54,20 @@ class TestServerConnection(clientProcess: Seq[TestClientConnection])
     this.newMeta("CONTENT", Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientStringResponse", true)))
 
     this.newVoidHandler("CHANGE_POSITION",
-      handleChangedPosition,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedPosition")))
+                        handleChangedPosition,
+                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedPosition")))
 
     this.newVoidHandler("OPEN_DOCUMENT",
-      this.handleOpenDocument,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.OpenedDocument")))
+                        this.handleOpenDocument,
+                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.OpenedDocument")))
 
     this.newVoidHandler("CLOSE_DOCUMENT",
                         (document: ClosedDocument) => Unit,
                         Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClosedDocument", true)))
 
     this.newVoidHandler("CHANGE_DOCUMENT",
-      this.handleChangedDocument,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedDocument")))
+                        this.handleChangedDocument,
+                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedDocument")))
 
     this.newFutureHandler(
       "GET_STRUCTURE",
@@ -67,16 +75,16 @@ class TestServerConnection(clientProcess: Seq[TestClientConnection])
       Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.GetStructureRequest", true, true)))
 
     this.newFutureHandler("RENAME",
-      this.handleRename,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.RenameRequest")))
+                          this.handleRename,
+                          Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.RenameRequest")))
 
     this.newVoidHandler("SET_LOGGER_CONFIGURATION",
-      this.handleSetLoggerConfiguration,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.LoggerSettings")))
+                        this.handleSetLoggerConfiguration,
+                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.LoggerSettings")))
 
     this.newFutureHandler("GET_SUGGESTIONS",
-      this.handleGetSuggestions,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.GetCompletionRequest")))
+                          this.handleGetSuggestions,
+                          Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.GetCompletionRequest")))
 
     this.newFutureHandler[FindDeclarationRequest, LocationsResponse](
       "OPEN_DECLARATION",
@@ -104,7 +112,7 @@ class TestServerConnection(clientProcess: Seq[TestClientConnection])
     firstOpt match {
       case Some(listener) =>
         listener(getStructure.wrapped).map(resultMap => {
-          GetStructureResponse(resultMap)
+          GetStructureResponse(resultMap.toList)
         })
       case _ => Future.failed(new Exception("No structure providers found"))
     }
