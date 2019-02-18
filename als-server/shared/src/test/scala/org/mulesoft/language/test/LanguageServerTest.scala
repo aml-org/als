@@ -2,7 +2,7 @@ package org.mulesoft.language.test
 
 import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.high.level.amfmanager.AmfInitializationHandler
-import org.mulesoft.language.common.dtoTypes.IOpenedDocument
+import org.mulesoft.language.common.dtoTypes.OpenedDocument
 import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import org.mulesoft.language.server.core.Server
 import org.mulesoft.language.server.modules.astManager.{ASTManager, ASTManagerModule}
@@ -122,7 +122,7 @@ trait LanguageServerTest extends AsyncFunSuite with PlatformSecrets {
       .resolve(url)
       .flatMap(content => {
 
-        val doc = IOpenedDocument(shortUrl, 0, content.stream.toString)
+        val doc = OpenedDocument(shortUrl, 0, content.stream.toString)
         getClient.flatMap(client => {
           client.documentOpened(doc)
           client
