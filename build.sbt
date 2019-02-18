@@ -100,12 +100,12 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
 lazy val suggestionsJVM = suggestions.jvm.in(file("./als-suggestions/jvm"))
 lazy val suggestionsJS = suggestions.js.in(file("./als-suggestions/js"))
 
-lazy val outline = crossProject(JSPlatform, JVMPlatform).settings(
+lazy val structure = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
-    name := "als-outline"
+    name := "als-structure"
   ))
   .dependsOn(hl)
-  .in(file("./als-outline"))
+  .in(file("./als-structure"))
   .settings(settings: _*)
   .jsSettings(
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
@@ -115,14 +115,14 @@ lazy val outline = crossProject(JSPlatform, JVMPlatform).settings(
     //    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"als-suggestions.js"
   )
 
-lazy val outlineJVM = outline.jvm.in(file("./als-outline/jvm"))
-lazy val outlineJS = outline.js.in(file("./als-outline/js"))
+lazy val structureJVM = structure.jvm.in(file("./als-structure/jvm"))
+lazy val structureJS = structure.js.in(file("./als-structure/js"))
 
 lazy val server = crossProject(JSPlatform, JVMPlatform)
   .settings(Seq(
     name := "als-server"
   ))
-  .dependsOn(suggestions, outline % "compile->compile;test->test")
+  .dependsOn(suggestions, structure % "compile->compile;test->test")
   .in(file("./als-server"))
   .settings(settings: _*)
   .jvmSettings(
