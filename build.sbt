@@ -233,12 +233,12 @@ runSonar := {
 // run only one?
 addCommandAlias(
   "testJVM",
-  "; serverJVM/test; suggestionsJVM/test; outlineJVM/test; hlJVM/test"
+  "; serverJVM/test; suggestionsJVM/test; structureJVM/test; hlJVM/test"
 )
 
 addCommandAlias(
   "testJS",
-  "; serverJS/test; suggestionsJS/test; outlineJVM/test; hlJS/test"
+  "; serverJS/test; suggestionsJS/test; structureJVM/test; hlJS/test"
 )
 
 assemblyMergeStrategy in assembly := {
