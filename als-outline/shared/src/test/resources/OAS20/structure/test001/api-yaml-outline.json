@@ -1,76 +1,81 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 494,
-    "category": ""
-  },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 494,
-    "category": ""
-  },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 494,
+[
+  {
+    "name": "info",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 15,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 15,
+        "character": 0
+      }
+    },
     "children": [
       {
-        "text": "info",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "info :: ",
-        "start": 19,
-        "end": 361,
-        "children": [
-          {
-            "text": "contact",
-            "typeText": "",
-            "icon": "",
-            "textStyle": "",
-            "key": "contact :: info :: ",
-            "start": 163,
-            "end": 254,
-            "category": ""
+        "name": "contact",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 7,
+            "character": 0
           },
-          {
-            "text": "license",
-            "typeText": "",
-            "icon": "",
-            "textStyle": "",
-            "key": "license :: info :: ",
-            "start": 265,
-            "end": 343,
-            "category": ""
+          "end": {
+            "line": 10,
+            "character": 0
           }
-        ],
-        "category": "OtherCategory"
+        },
+        "selectionRange": {
+          "start": {
+            "line": 7,
+            "character": 0
+          },
+          "end": {
+            "line": 10,
+            "character": 0
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "license",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 11,
+            "character": 0
+          },
+          "end": {
+            "line": 13,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 11,
+            "character": 0
+          },
+          "end": {
+            "line": 13,
+            "character": 0
+          }
+        },
+        "children": []
       }
-    ],
-    "category": ""
-  },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 494,
-    "category": ""
+    ]
   }
-}
+]

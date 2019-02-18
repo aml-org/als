@@ -1,64 +1,54 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 0,
-    "end": 201,
-    "category": ""
-  },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 0,
-    "end": 201,
-    "category": ""
-  },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 0,
-    "end": 201,
-    "children": [
-      {
-        "text": "externalDocs",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "externalDocs :: ",
-        "start": 120,
-        "end": 199,
-        "category": "OtherCategory"
+[
+  {
+    "name": "externalDocs",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 6,
+        "character": 18
       },
-      {
-        "text": "info",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "info :: ",
-        "start": 24,
-        "end": 100,
-        "category": "OtherCategory"
+      "end": {
+        "line": 9,
+        "character": 3
       }
-    ],
-    "category": ""
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 18
+      },
+      "end": {
+        "line": 9,
+        "character": 3
+      }
+    },
+    "children": []
   },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 0,
-    "end": 201,
-    "category": ""
+  {
+    "name": "info",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 5,
+        "character": 3
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 5,
+        "character": 3
+      }
+    },
+    "children": []
   }
-}
+]

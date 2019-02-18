@@ -1,66 +1,55 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 476,
-    "category": ""
-  },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 476,
-    "category": ""
-  },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 476,
+[
+  {
+    "name": "oauth_1_0",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 2
+      },
+      "end": {
+        "line": 11,
+        "character": 46
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 4,
+        "character": 11
+      }
+    },
     "children": [
       {
-        "text": "oauth_1_0",
-        "typeText": ":OAuth 1.0",
-        "icon": "FILE_SUBMODULE",
-        "textStyle": "NORMAL",
-        "key": "oauth_1_0 :: ",
-        "start": 51,
-        "end": 476,
-        "children": [
-          {
-            "text": "settings",
-            "typeText": "",
-            "icon": "TAG",
-            "textStyle": "NORMAL",
-            "key": "settings :: oauth_1_0 :: ",
-            "start": 211,
-            "end": 476,
-            "category": ""
+        "name": "settings",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 8,
+            "character": 0
+          },
+          "end": {
+            "line": 11,
+            "character": 46
           }
-        ],
-        "category": "OtherCategory"
+        },
+        "selectionRange": {
+          "start": {
+            "line": 8,
+            "character": 0
+          },
+          "end": {
+            "line": 11,
+            "character": 46
+          }
+        },
+        "children": []
       }
-    ],
-    "category": ""
-  },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 476,
-    "category": ""
+    ]
   }
-}
+]

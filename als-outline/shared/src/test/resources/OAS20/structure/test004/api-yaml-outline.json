@@ -1,108 +1,212 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 554,
-    "category": ""
-  },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 554,
-    "category": ""
-  },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 554,
+[
+  {
+    "name": "petstoreImplicit",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 6,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 7,
+        "character": 2
+      },
+      "end": {
+        "line": 7,
+        "character": 18
+      }
+    },
     "children": [
       {
-        "text": "petstoreImplicit",
-        "typeText": ":OAuth 2.0",
-        "icon": "",
-        "textStyle": "",
-        "key": "petstoreImplicit :: ",
-        "start": 98,
-        "end": 417,
+        "name": "scopes",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 8,
+            "character": 4
+          },
+          "end": {
+            "line": 12,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 8,
+            "character": 4
+          },
+          "end": {
+            "line": 12,
+            "character": 0
+          }
+        },
         "children": [
           {
-            "text": "scopes",
-            "typeText": "",
-            "icon": "",
-            "textStyle": "",
-            "key": "scopes :: petstoreImplicit :: ",
-            "start": 137,
-            "end": 336,
-            "children": [
-              {
-                "text": "user",
-                "typeText": "",
-                "icon": "",
-                "textStyle": "",
-                "key": "user :: scopes :: petstoreImplicit :: ",
-                "start": 151,
-                "end": 270,
-                "category": ""
+            "name": "user",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 9,
+                "character": 6
               },
-              {
-                "text": "user:email",
-                "typeText": "",
-                "icon": "",
-                "textStyle": "",
-                "key": "user:email :: scopes :: petstoreImplicit :: ",
-                "start": 276,
-                "end": 336,
-                "category": ""
+              "end": {
+                "line": 11,
+                "character": 0
               }
-            ],
-            "category": ""
+            },
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "character": 6
+              },
+              "end": {
+                "line": 9,
+                "character": 10
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "user:email",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 11,
+                "character": 6
+              },
+              "end": {
+                "line": 12,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 11,
+                "character": 6
+              },
+              "end": {
+                "line": 11,
+                "character": 16
+              }
+            },
+            "children": []
           }
-        ],
-        "category": "OtherCategory"
-      },
-      {
-        "text": "internalApiKey",
-        "typeText": ":Api Key",
-        "icon": "",
-        "textStyle": "",
-        "key": "internalApiKey :: ",
-        "start": 419,
-        "end": 485,
-        "category": "OtherCategory"
-      },
-      {
-        "text": "info",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "info :: ",
-        "start": 19,
-        "end": 75,
-        "category": "OtherCategory"
+        ]
       }
-    ],
-    "category": ""
+    ]
   },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 554,
-    "category": ""
+  {
+    "name": "internalApiKey",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 14,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 15,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 16
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 19,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 19,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 23,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 23,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "info",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 0
+      }
+    },
+    "children": []
   }
-}
+]

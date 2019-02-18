@@ -1,74 +1,80 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 301,
-    "category": ""
-  },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 301,
-    "category": ""
-  },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 301,
-    "children": [
-      {
-        "text": "Getting Started",
-        "typeText": "",
-        "icon": "BOOK",
-        "textStyle": "NORMAL",
-        "key": " :: ",
-        "start": 91,
-        "end": 154,
-        "category": "OtherCategory"
+[
+  {
+    "name": "Getting Started",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 5,
+        "character": 3
       },
-      {
-        "text": "Basics of Authentication",
-        "typeText": "",
-        "icon": "BOOK",
-        "textStyle": "NORMAL",
-        "key": " :: ",
-        "start": 157,
-        "end": 238,
-        "category": "OtherCategory"
-      },
-      {
-        "text": "Rendering Data as Graphs",
-        "typeText": "",
-        "icon": "BOOK",
-        "textStyle": "NORMAL",
-        "key": " :: ",
-        "start": 241,
-        "end": 301,
-        "category": "OtherCategory"
+      "end": {
+        "line": 7,
+        "character": 0
       }
-    ],
-    "category": ""
+    },
+    "selectionRange": {
+      "start": {
+        "line": 5,
+        "character": 3
+      },
+      "end": {
+        "line": 7,
+        "character": 0
+      }
+    },
+    "children": []
   },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 301,
-    "category": ""
+  {
+    "name": "Basics of Authentication",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 7,
+        "character": 3
+      },
+      "end": {
+        "line": 9,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 7,
+        "character": 3
+      },
+      "end": {
+        "line": 9,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "Rendering Data as Graphs",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 9,
+        "character": 3
+      },
+      "end": {
+        "line": 11,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 9,
+        "character": 3
+      },
+      "end": {
+        "line": 11,
+        "character": 0
+      }
+    },
+    "children": []
   }
-}
+]

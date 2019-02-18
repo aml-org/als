@@ -1,66 +1,54 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 267,
-    "category": ""
-  },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 267,
-    "children": [
-      {
-        "text": "skip",
-        "typeText": ":integer",
-        "icon": "",
-        "textStyle": "",
-        "key": "skipParam :: ",
-        "start": 89,
-        "end": 267,
-        "category": "ResourcesCategory"
+[
+  {
+    "name": "skip",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 6,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 0
       }
-    ],
-    "category": ""
-  },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 267,
-    "children": [
-      {
-        "text": "info",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "info :: ",
-        "start": 19,
-        "end": 75,
-        "category": "OtherCategory"
+    },
+    "selectionRange": {
+      "start": {
+        "line": 7,
+        "character": 2
+      },
+      "end": {
+        "line": 7,
+        "character": 11
       }
-    ],
-    "category": ""
+    },
+    "children": []
   },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 267,
-    "category": ""
+  {
+    "name": "info",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 0
+      }
+    },
+    "children": []
   }
-}
+]

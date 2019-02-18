@@ -1,206 +1,398 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 509,
+[
+  {
+    "name": "Admin",
+    "kind": 19,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 23,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 19,
+        "character": 2
+      },
+      "end": {
+        "line": 19,
+        "character": 7
+      }
+    },
     "children": [
       {
-        "text": "Admin",
-        "typeText": ":Person",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "key": "Admin :: ",
-        "start": 308,
-        "end": 398,
-        "children": [
-          {
-            "text": "clearanceLevel",
-            "typeText": "",
-            "icon": "FILE_BINARY",
-            "textStyle": "SUCCESS",
-            "key": "clearanceLevel :: Admin :: ",
-            "start": 354,
-            "end": 398,
-            "category": ""
-          }
-        ],
-        "category": "SchemasAndTypesCategory"
-      },
-      {
-        "text": "Alertable",
-        "typeText": ":(Manager | AlertableAdmin)[]",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "key": "Alertable :: ",
-        "start": 469,
-        "end": 509,
-        "children": [
-          {
-            "text": "items",
-            "typeText": "",
-            "icon": "FILE_BINARY",
-            "textStyle": "SUCCESS",
-            "key": "items :: Alertable :: ",
-            "start": 469,
-            "end": 471,
-            "category": ""
-          }
-        ],
-        "category": "SchemasAndTypesCategory"
-      },
-      {
-        "text": "Phone",
-        "typeText": ":string",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "key": "Phone :: ",
-        "start": 170,
-        "end": 218,
-        "category": "SchemasAndTypesCategory"
-      },
-      {
-        "text": "Person",
-        "typeText": ":object",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "key": "Person :: ",
-        "start": 55,
-        "end": 168,
-        "children": [
-          {
-            "text": "firstname",
-            "typeText": ":string",
-            "icon": "FILE_BINARY",
-            "textStyle": "SUCCESS",
-            "key": "firstname :: Person :: ",
-            "start": 102,
-            "end": 120,
-            "category": ""
+        "name": "clearanceLevel",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 21,
+            "character": 6
           },
-          {
-            "text": "lastname",
-            "typeText": ":string",
-            "icon": "FILE_BINARY",
-            "textStyle": "SUCCESS",
-            "key": "lastname :: Person :: ",
-            "start": 126,
-            "end": 144,
-            "category": ""
+          "end": {
+            "line": 23,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 21,
+            "character": 6
           },
-          {
-            "text": "title",
-            "typeText": ":string",
-            "icon": "FILE_BINARY",
-            "textStyle": "SUCCESS",
-            "key": "title :: Person :: ",
-            "start": 150,
-            "end": 168,
-            "category": ""
+          "end": {
+            "line": 21,
+            "character": 20
           }
-        ],
-        "category": "SchemasAndTypesCategory"
-      },
-      {
-        "text": "Manager",
-        "typeText": ":Person",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "key": "Manager :: ",
-        "start": 220,
-        "end": 306,
-        "children": [
-          {
-            "text": "reports",
-            "typeText": ":Person[]",
-            "icon": "TAG",
-            "textStyle": "NORMAL",
-            "key": "reports :: Manager :: ",
-            "start": 268,
-            "end": 286,
-            "children": [
-              {
-                "text": "items",
-                "typeText": "",
-                "icon": "TAG",
-                "textStyle": "NORMAL",
-                "key": "items :: reports :: Manager :: ",
-                "start": 268,
-                "end": 270,
-                "category": ""
-              }
-            ],
-            "category": ""
-          },
-          {
-            "text": "phone",
-            "typeText": ":Phone",
-            "icon": "FILE_BINARY",
-            "textStyle": "SUCCESS",
-            "key": "phone :: Manager :: ",
-            "start": 292,
-            "end": 306,
-            "category": ""
-          }
-        ],
-        "category": "SchemasAndTypesCategory"
-      },
-      {
-        "text": "AlertableAdmin",
-        "typeText": ":Admin",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "key": "AlertableAdmin :: ",
-        "start": 400,
-        "end": 467,
-        "children": [
-          {
-            "text": "phone",
-            "typeText": ":Phone",
-            "icon": "FILE_BINARY",
-            "textStyle": "SUCCESS",
-            "key": "phone :: AlertableAdmin :: ",
-            "start": 454,
-            "end": 467,
-            "category": ""
-          }
-        ],
-        "category": "SchemasAndTypesCategory"
+        },
+        "children": []
       }
-    ],
-    "category": ""
+    ]
   },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 509,
-    "category": ""
+  {
+    "name": "Alertable",
+    "kind": 18,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 27,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 11
+      }
+    },
+    "children": [
+      {
+        "name": "items",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 0
+          }
+        },
+        "children": []
+      }
+    ]
   },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 509,
-    "category": ""
+  {
+    "name": "Phone",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 13,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 11,
+        "character": 2
+      },
+      "end": {
+        "line": 11,
+        "character": 7
+      }
+    },
+    "children": []
   },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 509,
-    "category": ""
+  {
+    "name": "Person",
+    "kind": 19,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 5,
+        "character": 2
+      },
+      "end": {
+        "line": 5,
+        "character": 8
+      }
+    },
+    "children": [
+      {
+        "name": "firstname",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 7,
+            "character": 6
+          },
+          "end": {
+            "line": 8,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 7,
+            "character": 6
+          },
+          "end": {
+            "line": 7,
+            "character": 15
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "lastname",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 8,
+            "character": 6
+          },
+          "end": {
+            "line": 9,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 8,
+            "character": 6
+          },
+          "end": {
+            "line": 8,
+            "character": 14
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "title",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 9,
+            "character": 6
+          },
+          "end": {
+            "line": 10,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 9,
+            "character": 6
+          },
+          "end": {
+            "line": 9,
+            "character": 12
+          }
+        },
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "Manager",
+    "kind": 19,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 13,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 14,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 9
+      }
+    },
+    "children": [
+      {
+        "name": "reports",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 16,
+            "character": 6
+          },
+          "end": {
+            "line": 17,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 16,
+            "character": 6
+          },
+          "end": {
+            "line": 16,
+            "character": 13
+          }
+        },
+        "children": [
+          {
+            "name": "items",
+            "kind": 19,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 0
+              }
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "phone",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 17,
+            "character": 6
+          },
+          "end": {
+            "line": 18,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 17,
+            "character": 6
+          },
+          "end": {
+            "line": 17,
+            "character": 11
+          }
+        },
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "AlertableAdmin",
+    "kind": 19,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 23,
+        "character": 2
+      },
+      "end": {
+        "line": 27,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 16
+      }
+    },
+    "children": [
+      {
+        "name": "phone",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 26,
+            "character": 6
+          },
+          "end": {
+            "line": 27,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 26,
+            "character": 6
+          },
+          "end": {
+            "line": 26,
+            "character": 11
+          }
+        },
+        "children": []
+      }
+    ]
   }
-}
+]

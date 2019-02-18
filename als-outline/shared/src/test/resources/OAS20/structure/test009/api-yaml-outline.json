@@ -1,146 +1,267 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 876,
-    "category": ""
-  },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 876,
+[
+  {
+    "name": "paths",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 5,
+        "character": 0
+      },
+      "end": {
+        "line": 38,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 5,
+        "character": 0
+      },
+      "end": {
+        "line": 38,
+        "character": 0
+      }
+    },
     "children": [
       {
-        "text": "paths",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "paths :: ",
-        "start": 75,
-        "end": 876,
+        "name": "/pets/{id}",
+        "kind": 12,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 6,
+            "character": 2
+          },
+          "end": {
+            "line": 38,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 6,
+            "character": 2
+          },
+          "end": {
+            "line": 6,
+            "character": 14
+          }
+        },
         "children": [
           {
-            "text": "/pets/{id}",
-            "typeText": "",
-            "icon": "PRIMITIVE_SQUARE",
-            "textStyle": "HIGHLIGHT",
-            "key": "/pets/{id} :: paths :: ",
-            "start": 84,
-            "end": 876,
+            "name": "post",
+            "kind": 6,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 7,
+                "character": 4
+              },
+              "end": {
+                "line": 38,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 7,
+                "character": 4
+              },
+              "end": {
+                "line": 7,
+                "character": 8
+              }
+            },
             "children": [
               {
-                "text": "post",
-                "typeText": "",
-                "icon": "PRIMITIVE_DOT",
-                "textStyle": "WARNING",
-                "key": "post :: /pets/{id} :: paths :: ",
-                "start": 102,
-                "end": 876,
+                "name": "idHeader",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 9,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 38,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 10,
+                    "character": 14
+                  },
+                  "end": {
+                    "line": 10,
+                    "character": 22
+                  }
+                },
                 "children": [
                   {
-                    "text": "idHeader",
-                    "typeText": "",
-                    "icon": "",
-                    "textStyle": "",
-                    "key": " :: post :: /pets/{id} :: paths :: ",
-                    "start": 134,
-                    "end": 876,
+                    "name": "schema",
+                    "kind": 19,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 17,
+                        "character": 8
+                      },
+                      "end": {
+                        "line": 38,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 10,
+                        "character": 14
+                      },
+                      "end": {
+                        "line": 10,
+                        "character": 22
+                      }
+                    },
                     "children": [
                       {
-                        "text": "schema",
-                        "typeText": "",
-                        "icon": "FILE_BINARY",
-                        "textStyle": "SUCCESS",
-                        "key": "schema ::  :: post :: /pets/{id} :: paths :: ",
-                        "start": 323,
-                        "end": 876,
-                        "children": [
-                          {
-                            "text": "xml",
-                            "typeText": "",
-                            "icon": "",
-                            "textStyle": "",
-                            "key": "xml :: schema ::  :: post :: /pets/{id} :: paths :: ",
-                            "start": 537,
-                            "end": 710,
-                            "category": ""
+                        "name": "xml",
+                        "kind": 8,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 27,
+                            "character": 0
                           },
-                          {
-                            "text": "name",
-                            "typeText": ":string",
-                            "icon": "FILE_SUBMODULE",
-                            "textStyle": "NORMAL",
-                            "key": "name :: schema ::  :: post :: /pets/{id} :: paths :: ",
-                            "start": 415,
-                            "end": 448,
-                            "category": ""
-                          },
-                          {
-                            "text": "tag",
-                            "typeText": ":string",
-                            "icon": "FILE_SUBMODULE",
-                            "textStyle": "NORMAL",
-                            "key": "tag :: schema ::  :: post :: /pets/{id} :: paths :: ",
-                            "start": 460,
-                            "end": 492,
-                            "category": ""
+                          "end": {
+                            "line": 32,
+                            "character": 0
                           }
-                        ],
-                        "category": ""
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 27,
+                            "character": 0
+                          },
+                          "end": {
+                            "line": 32,
+                            "character": 0
+                          }
+                        },
+                        "children": []
+                      },
+                      {
+                        "name": "",
+                        "kind": 8,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 33,
+                            "character": 0
+                          },
+                          "end": {
+                            "line": 35,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 33,
+                            "character": 0
+                          },
+                          "end": {
+                            "line": 35,
+                            "character": 0
+                          }
+                        },
+                        "children": []
+                      },
+                      {
+                        "name": "name",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 21,
+                            "character": 12
+                          },
+                          "end": {
+                            "line": 23,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 21,
+                            "character": 12
+                          },
+                          "end": {
+                            "line": 21,
+                            "character": 16
+                          }
+                        },
+                        "children": []
+                      },
+                      {
+                        "name": "tag",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 23,
+                            "character": 12
+                          },
+                          "end": {
+                            "line": 25,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 23,
+                            "character": 12
+                          },
+                          "end": {
+                            "line": 23,
+                            "character": 15
+                          }
+                        },
+                        "children": []
                       }
-                    ],
-                    "category": ""
+                    ]
                   }
-                ],
-                "category": ""
+                ]
               }
-            ],
-            "category": ""
+            ]
           }
-        ],
-        "category": "ResourcesCategory"
+        ]
       }
-    ],
-    "category": ""
+    ]
   },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 876,
-    "children": [
-      {
-        "text": "info",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "info :: ",
-        "start": 19,
-        "end": 75,
-        "category": "OtherCategory"
+  {
+    "name": "info",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 0
       }
-    ],
-    "category": ""
-  },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 4,
-    "end": 876,
-    "category": ""
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 0
+      }
+    },
+    "children": []
   }
-}
+]

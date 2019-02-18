@@ -1,98 +1,186 @@
-{
-  "DeclaresCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 26,
-    "end": 292,
+[
+  {
+    "name": "messages",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 4,
+        "character": 0
+      },
+      "end": {
+        "line": 16,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 4,
+        "character": 0
+      },
+      "end": {
+        "line": 16,
+        "character": 0
+      }
+    },
     "children": [
       {
-        "text": "messages",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "messages :: ",
-        "start": 49,
-        "end": 251,
+        "name": "payload",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 9,
+            "character": 0
+          },
+          "end": {
+            "line": 16,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 9,
+            "character": 0
+          },
+          "end": {
+            "line": 16,
+            "character": 0
+          }
+        },
         "children": [
           {
-            "text": "payload",
-            "typeText": "",
-            "icon": "FILE_BINARY",
-            "textStyle": "SUCCESS",
-            "key": "payload :: messages :: ",
-            "start": 138,
-            "end": 251,
-            "children": [
-              {
-                "text": "p1",
-                "typeText": ":string",
-                "icon": "",
-                "textStyle": "",
-                "key": "p1 :: payload :: messages :: ",
-                "start": 191,
-                "end": 214,
-                "category": ""
+            "name": "p1",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 12,
+                "character": 0
               },
-              {
-                "text": "p2",
-                "typeText": ":integer",
-                "icon": "",
-                "textStyle": "",
-                "key": "p2 :: payload :: messages :: ",
-                "start": 226,
-                "end": 251,
-                "category": ""
+              "end": {
+                "line": 13,
+                "character": 0
               }
-            ],
-            "category": ""
+            },
+            "selectionRange": {
+              "start": {
+                "line": 12,
+                "character": 0
+              },
+              "end": {
+                "line": 13,
+                "character": 0
+              }
+            },
+            "children": []
           },
           {
-            "text": "key1",
-            "typeText": "",
-            "icon": "",
-            "textStyle": "",
-            "key": "key1 :: messages :: ",
-            "start": 93,
-            "end": 106,
-            "category": ""
-          },
-          {
-            "text": "key2",
-            "typeText": "",
-            "icon": "",
-            "textStyle": "",
-            "key": "key2 :: messages :: ",
-            "start": 112,
-            "end": 125,
-            "category": ""
+            "name": "p2",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 14,
+                "character": 0
+              },
+              "end": {
+                "line": 16,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 14,
+                "character": 0
+              },
+              "end": {
+                "line": 16,
+                "character": 0
+              }
+            },
+            "children": []
           }
-        ],
-        "category": "DeclaresCategory"
+        ]
       },
       {
-        "text": "securitySchemes",
-        "typeText": ":apiKey",
-        "icon": "",
-        "textStyle": "",
-        "key": "securitySchemes :: ",
-        "start": 275,
-        "end": 292,
-        "category": "DeclaresCategory"
+        "name": "key1",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 6,
+            "character": 6
+          },
+          "end": {
+            "line": 7,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 6,
+            "character": 6
+          },
+          "end": {
+            "line": 6,
+            "character": 10
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "key2",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 7,
+            "character": 6
+          },
+          "end": {
+            "line": 8,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 7,
+            "character": 6
+          },
+          "end": {
+            "line": 7,
+            "character": 10
+          }
+        },
+        "children": []
       }
-    ],
-    "category": ""
+    ]
   },
-  "EncodesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 26,
-    "end": 292,
-    "category": ""
+  {
+    "name": "securitySchemes",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 18,
+        "character": 0
+      },
+      "end": {
+        "line": 19,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 18,
+        "character": 0
+      },
+      "end": {
+        "line": 19,
+        "character": 0
+      }
+    },
+    "children": []
   }
-}
+]

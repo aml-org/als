@@ -1,148 +1,242 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 361,
-    "category": ""
-  },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 361,
+[
+  {
+    "name": "/someChildUri",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 8,
+        "character": 0
+      },
+      "end": {
+        "line": 20,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 8,
+        "character": 0
+      },
+      "end": {
+        "line": 8,
+        "character": 13
+      }
+    },
     "children": [
       {
-        "text": "/someChildUri",
-        "typeText": "",
-        "icon": "PRIMITIVE_SQUARE",
-        "textStyle": "HIGHLIGHT",
-        "key": "/someChildUri :: ",
-        "start": 105,
-        "end": 361,
-        "children": [
-          {
-            "text": "/anotherChild",
-            "typeText": "",
-            "icon": "PRIMITIVE_SQUARE",
-            "textStyle": "HIGHLIGHT",
-            "key": "/anotherChild :: /someChildUri :: ",
-            "start": 247,
-            "end": 361,
-            "children": [
-              {
-                "text": "put",
-                "typeText": "",
-                "icon": "PRIMITIVE_DOT",
-                "textStyle": "WARNING",
-                "key": "put :: /anotherChild :: /someChildUri :: ",
-                "start": 266,
-                "end": 361,
-                "children": [
-                  {
-                    "text": "application/json",
-                    "typeText": "",
-                    "icon": "FILE_BINARY",
-                    "textStyle": "SUCCESS",
-                    "key": "application/json :: put :: /anotherChild :: /someChildUri :: ",
-                    "start": 291,
-                    "end": 361,
-                    "category": ""
-                  }
-                ],
-                "category": ""
-              }
-            ],
-            "category": ""
+        "name": "/anotherChild",
+        "kind": 12,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 15,
+            "character": 2
           },
-          {
-            "text": "get",
-            "typeText": "",
-            "icon": "PRIMITIVE_DOT",
-            "textStyle": "WARNING",
-            "key": "get :: /someChildUri :: ",
-            "start": 122,
-            "end": 245,
-            "children": [
-              {
-                "text": "200",
-                "typeText": "",
-                "icon": "TAG",
-                "textStyle": "NORMAL",
-                "key": "200 :: get :: /someChildUri :: ",
-                "start": 148,
-                "end": 245,
-                "children": [
-                  {
-                    "text": "application/xml",
-                    "typeText": "",
-                    "icon": "FILE_BINARY",
-                    "textStyle": "SUCCESS",
-                    "key": "application/xml :: 200 :: get :: /someChildUri :: ",
-                    "start": 177,
-                    "end": 245,
-                    "category": ""
-                  }
-                ],
-                "category": ""
-              }
-            ],
-            "category": ""
+          "end": {
+            "line": 20,
+            "character": 0
           }
-        ],
-        "category": "ResourcesCategory"
-      }
-    ],
-    "category": ""
-  },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 361,
-    "category": ""
-  },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 361,
-    "children": [
-      {
-        "text": "base",
-        "typeText": "",
-        "icon": "TAG",
-        "textStyle": "NORMAL",
-        "key": "base :: ",
-        "start": 32,
-        "end": 80,
+        },
+        "selectionRange": {
+          "start": {
+            "line": 15,
+            "character": 2
+          },
+          "end": {
+            "line": 15,
+            "character": 15
+          }
+        },
         "children": [
           {
-            "text": "paging",
-            "typeText": ":number",
-            "icon": "FILE_BINARY",
-            "textStyle": "SUCCESS",
-            "key": "paging :: base :: ",
-            "start": 0,
-            "end": 0,
-            "category": ""
+            "name": "put",
+            "kind": 6,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 16,
+                "character": 4
+              },
+              "end": {
+                "line": 20,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 16,
+                "character": 4
+              },
+              "end": {
+                "line": 16,
+                "character": 7
+              }
+            },
+            "children": [
+              {
+                "name": "application/json",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 18,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 20,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 18,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 18,
+                    "character": 24
+                  }
+                },
+                "children": []
+              }
+            ]
           }
-        ],
-        "category": "ResourceTypesAndTraitsCategory"
+        ]
+      },
+      {
+        "name": "get",
+        "kind": 6,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 9,
+            "character": 2
+          },
+          "end": {
+            "line": 15,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 9,
+            "character": 2
+          },
+          "end": {
+            "line": 9,
+            "character": 5
+          }
+        },
+        "children": [
+          {
+            "name": "200",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 11,
+                "character": 6
+              },
+              "end": {
+                "line": 15,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 12,
+                "character": 6
+              },
+              "end": {
+                "line": 12,
+                "character": 9
+              }
+            },
+            "children": [
+              {
+                "name": "application/xml",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 13,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 15,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 13,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 13,
+                    "character": 25
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
       }
-    ],
-    "category": ""
+    ]
+  },
+  {
+    "name": "base",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 2
+      },
+      "end": {
+        "line": 3,
+        "character": 6
+      }
+    },
+    "children": [
+      {
+        "name": "paging",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 5,
+            "character": 6
+          },
+          "end": {
+            "line": 6,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 6,
+            "character": 6
+          },
+          "end": {
+            "line": 6,
+            "character": 12
+          }
+        },
+        "children": []
+      }
+    ]
   }
-}
+]

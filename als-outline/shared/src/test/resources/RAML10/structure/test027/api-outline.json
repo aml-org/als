@@ -1,66 +1,55 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 21,
-    "end": 144,
-    "category": ""
-  },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 21,
-    "end": 144,
+[
+  {
+    "name": "/books",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 49
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 6
+      }
+    },
     "children": [
       {
-        "text": "/books",
-        "typeText": "",
-        "icon": "PRIMITIVE_SQUARE",
-        "textStyle": "HIGHLIGHT",
-        "key": "/books :: ",
-        "start": 79,
-        "end": 144,
-        "children": [
-          {
-            "text": "post",
-            "typeText": "",
-            "icon": "PRIMITIVE_DOT",
-            "textStyle": "WARNING",
-            "key": "post :: /books :: ",
-            "start": 89,
-            "end": 144,
-            "category": ""
+        "name": "post",
+        "kind": 6,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 4,
+            "character": 2
+          },
+          "end": {
+            "line": 5,
+            "character": 49
           }
-        ],
-        "category": "ResourcesCategory"
+        },
+        "selectionRange": {
+          "start": {
+            "line": 4,
+            "character": 2
+          },
+          "end": {
+            "line": 4,
+            "character": 6
+          }
+        },
+        "children": []
       }
-    ],
-    "category": ""
-  },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 21,
-    "end": 144,
-    "category": ""
-  },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 21,
-    "end": 144,
-    "category": ""
+    ]
   }
-}
+]
