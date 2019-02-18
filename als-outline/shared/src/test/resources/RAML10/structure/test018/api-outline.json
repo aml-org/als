@@ -1,126 +1,212 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 1336,
-    "category": ""
-  },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 1336,
-    "category": ""
-  },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 1336,
+[
+  {
+    "name": "oauth_2_0",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 5,
+        "character": 2
+      },
+      "end": {
+        "line": 35,
+        "character": 108
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 11
+      }
+    },
     "children": [
       {
-        "text": "oauth_2_0",
-        "typeText": ":OAuth 2.0",
-        "icon": "FILE_SUBMODULE",
-        "textStyle": "NORMAL",
-        "key": "oauth_2_0 :: ",
-        "start": 103,
-        "end": 1336,
-        "children": [
-          {
-            "text": "settings",
-            "typeText": "",
-            "icon": "TAG",
-            "textStyle": "NORMAL",
-            "key": "settings :: oauth_2_0 :: ",
-            "start": 1100,
-            "end": 1336,
-            "category": ""
+        "name": "settings",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 33,
+            "character": 0
           },
-          {
-            "text": "describedBy",
-            "typeText": "",
-            "icon": "TAG",
-            "textStyle": "NORMAL",
-            "key": "describedBy :: oauth_2_0 :: ",
-            "start": 227,
-            "end": 1086,
-            "children": [
-              {
-                "text": "access_token",
-                "typeText": ":string",
-                "icon": "FILE_BINARY",
-                "textStyle": "SUCCESS",
-                "key": "access_token :: describedBy :: oauth_2_0 :: ",
-                "start": 485,
-                "end": 660,
-                "category": ""
-              },
-              {
-                "text": "401",
-                "typeText": "",
-                "icon": "TAG",
-                "textStyle": "NORMAL",
-                "key": "401 :: describedBy :: oauth_2_0 :: ",
-                "start": 685,
-                "end": 888,
-                "category": ""
-              },
-              {
-                "text": "403",
-                "typeText": "",
-                "icon": "TAG",
-                "textStyle": "NORMAL",
-                "key": "403 :: describedBy :: oauth_2_0 :: ",
-                "start": 896,
-                "end": 1086,
-                "category": ""
-              },
-              {
-                "text": "Authorization",
-                "typeText": ":string",
-                "icon": "FILE_BINARY",
-                "textStyle": "SUCCESS",
-                "key": "Authorization :: describedBy :: oauth_2_0 :: ",
-                "start": 263,
-                "end": 454,
-                "category": ""
-              }
-            ],
-            "category": ""
+          "end": {
+            "line": 35,
+            "character": 108
           }
-        ],
-        "category": "OtherCategory"
+        },
+        "selectionRange": {
+          "start": {
+            "line": 33,
+            "character": 0
+          },
+          "end": {
+            "line": 35,
+            "character": 108
+          }
+        },
+        "children": []
       },
       {
-        "text": "version",
-        "typeText": "",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "key": "version :: ",
-        "category": "OtherCategory"
+        "name": "describedBy",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 9,
+            "character": 4
+          },
+          "end": {
+            "line": 32,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 6,
+            "character": 2
+          },
+          "end": {
+            "line": 6,
+            "character": 11
+          }
+        },
+        "children": [
+          {
+            "name": "access_token",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 17,
+                "character": 8
+              },
+              "end": {
+                "line": 22,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 18,
+                "character": 8
+              },
+              "end": {
+                "line": 18,
+                "character": 20
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "401",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 23,
+                "character": 8
+              },
+              "end": {
+                "line": 28,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 24,
+                "character": 8
+              },
+              "end": {
+                "line": 24,
+                "character": 11
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "403",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 28,
+                "character": 8
+              },
+              "end": {
+                "line": 32,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 29,
+                "character": 8
+              },
+              "end": {
+                "line": 29,
+                "character": 11
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "Authorization",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 11,
+                "character": 8
+              },
+              "end": {
+                "line": 16,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 12,
+                "character": 8
+              },
+              "end": {
+                "line": 12,
+                "character": 21
+              }
+            },
+            "children": []
+          }
+        ]
       }
-    ],
-    "category": ""
+    ]
   },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 1336,
-    "category": ""
+  {
+    "name": "version",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 0
+      }
+    },
+    "children": []
   }
-}
+]

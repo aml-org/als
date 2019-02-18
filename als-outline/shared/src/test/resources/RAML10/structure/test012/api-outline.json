@@ -1,90 +1,109 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 296,
-    "category": ""
-  },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 296,
+[
+  {
+    "name": "/users",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 0
+      },
+      "end": {
+        "line": 14,
+        "character": 25
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 6
+      }
+    },
     "children": [
       {
-        "text": "/users",
-        "typeText": "",
-        "icon": "PRIMITIVE_SQUARE",
-        "textStyle": "HIGHLIGHT",
-        "key": "/users :: ",
-        "start": 37,
-        "end": 296,
+        "name": "/{userIds}",
+        "kind": 12,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 5,
+            "character": 2
+          },
+          "end": {
+            "line": 14,
+            "character": 25
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 5,
+            "character": 2
+          },
+          "end": {
+            "line": 5,
+            "character": 12
+          }
+        },
         "children": [
           {
-            "text": "/{userIds}",
-            "typeText": "",
-            "icon": "PRIMITIVE_SQUARE",
-            "textStyle": "HIGHLIGHT",
-            "key": "/{userIds} :: /users :: ",
-            "start": 72,
-            "end": 296,
+            "name": "userIds",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 8,
+                "character": 6
+              },
+              "end": {
+                "line": 14,
+                "character": 25
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "character": 6
+              },
+              "end": {
+                "line": 9,
+                "character": 13
+              }
+            },
             "children": [
               {
-                "text": "userIds",
-                "typeText": ":array",
-                "icon": "FILE_BINARY",
-                "textStyle": "SUCCESS",
-                "key": "userIds :: /{userIds} :: /users :: ",
-                "start": 142,
-                "end": 296,
-                "children": [
-                  {
-                    "text": "items",
-                    "typeText": ":string",
-                    "icon": "TAG",
-                    "textStyle": "NORMAL",
-                    "key": "items :: userIds :: /{userIds} :: /users :: ",
-                    "start": 218,
-                    "end": 271,
-                    "category": ""
+                "name": "items",
+                "kind": 15,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 11,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 14,
+                    "character": 0
                   }
-                ],
-                "category": ""
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 12,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 12,
+                    "character": 13
+                  }
+                },
+                "children": []
               }
-            ],
-            "category": ""
+            ]
           }
-        ],
-        "category": "ResourcesCategory"
+        ]
       }
-    ],
-    "category": ""
-  },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 296,
-    "category": ""
-  },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 296,
-    "category": ""
+    ]
   }
-}
+]

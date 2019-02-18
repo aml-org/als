@@ -1,100 +1,135 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 700,
-    "category": ""
-  },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 700,
+[
+  {
+    "name": "/media/popular",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 4,
+        "character": 0
+      },
+      "end": {
+        "line": 23,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 4,
+        "character": 0
+      },
+      "end": {
+        "line": 4,
+        "character": 14
+      }
+    },
     "children": [
       {
-        "text": "/media/popular",
-        "typeText": "",
-        "icon": "PRIMITIVE_SQUARE",
-        "textStyle": "HIGHLIGHT",
-        "key": "/media/popular :: ",
-        "start": 91,
-        "end": 700,
+        "name": "get",
+        "kind": 6,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 6,
+            "character": 2
+          },
+          "end": {
+            "line": 23,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 6,
+            "character": 2
+          },
+          "end": {
+            "line": 6,
+            "character": 5
+          }
+        },
         "children": [
           {
-            "text": "get",
-            "typeText": "",
-            "icon": "PRIMITIVE_DOT",
-            "textStyle": "WARNING",
-            "key": "get :: /media/popular :: ",
-            "start": 143,
-            "end": 700,
+            "name": "503",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 10,
+                "character": 6
+              },
+              "end": {
+                "line": 23,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 11,
+                "character": 6
+              },
+              "end": {
+                "line": 11,
+                "character": 9
+              }
+            },
             "children": [
               {
-                "text": "503",
-                "typeText": "",
-                "icon": "TAG",
-                "textStyle": "NORMAL",
-                "key": "503 :: get :: /media/popular :: ",
-                "start": 250,
-                "end": 700,
-                "children": [
-                  {
-                    "text": "X-waiting-period",
-                    "typeText": ":integer",
-                    "icon": "TAG",
-                    "textStyle": "NORMAL",
-                    "key": "X-waiting-period :: 503 :: get :: /media/popular :: ",
-                    "start": 437,
-                    "end": 700,
-                    "category": ""
+                "name": "X-waiting-period",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 15,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 23,
+                    "character": 0
                   }
-                ],
-                "category": ""
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 16,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 16,
+                    "character": 26
+                  }
+                },
+                "children": []
               }
-            ],
-            "category": ""
+            ]
           }
-        ],
-        "category": "ResourcesCategory"
+        ]
       }
-    ],
-    "category": ""
+    ]
   },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 700,
-    "children": [
-      {
-        "text": "version",
-        "typeText": ":string",
-        "icon": "TAG",
-        "textStyle": "NORMAL",
-        "key": "version :: ",
-        "category": "OtherCategory"
+  {
+    "name": "version",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 0
       }
-    ],
-    "category": ""
-  },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 700,
-    "category": ""
+    },
+    "selectionRange": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 0
+      }
+    },
+    "children": []
   }
-}
+]

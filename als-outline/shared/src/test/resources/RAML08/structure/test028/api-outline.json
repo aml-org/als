@@ -1,61 +1,54 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 183,
-    "children": [
-      {
-        "text": "UserJSON",
-        "typeText": "",
-        "icon": "TAG",
-        "textStyle": "NORMAL",
-        "key": "UserJSON :: ",
-        "start": 0,
-        "category": "SchemasAndTypesCategory"
+[
+  {
+    "name": "UserJSON",
+    "kind": 19,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 0,
+        "character": 0
       },
-      {
-        "text": "UserXML",
-        "typeText": "",
-        "icon": "TAG",
-        "textStyle": "NORMAL",
-        "key": "UserXML :: ",
-        "category": "SchemasAndTypesCategory"
+      "end": {
+        "line": 10,
+        "character": 1
       }
-    ],
-    "category": ""
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 4
+      },
+      "end": {
+        "line": 6,
+        "character": 12
+      }
+    },
+    "children": []
   },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 183,
-    "category": ""
-  },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 183,
-    "category": ""
-  },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 183,
-    "category": ""
+  {
+    "name": "UserXML",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 0
+      }
+    },
+    "children": []
   }
-}
+]

@@ -1,100 +1,134 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 0,
-    "end": 367,
-    "category": ""
-  },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 0,
-    "end": 367,
-    "children": [
-      {
-        "text": "r1",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "r1 :: ",
-        "start": 123,
-        "end": 234,
-        "children": [
-          {
-            "text": "schema",
-            "typeText": ":string",
-            "icon": "FILE_BINARY",
-            "textStyle": "SUCCESS",
-            "key": "schema :: r1 :: ",
-            "start": 184,
-            "end": 228,
-            "category": ""
-          }
-        ],
-        "category": "ResourcesCategory"
+[
+  {
+    "name": "r1",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 7,
+        "character": 4
       },
-      {
-        "text": "r2",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "r2 :: ",
-        "start": 240,
-        "end": 361,
-        "children": [
-          {
-            "text": "schema",
-            "typeText": ":integer",
-            "icon": "FILE_BINARY",
-            "textStyle": "SUCCESS",
-            "key": "schema :: r2 :: ",
-            "start": 283,
-            "end": 355,
-            "category": ""
-          }
-        ],
-        "category": "ResourcesCategory"
+      "end": {
+        "line": 12,
+        "character": 5
       }
-    ],
-    "category": ""
-  },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 0,
-    "end": 367,
+    },
+    "selectionRange": {
+      "start": {
+        "line": 8,
+        "character": 4
+      },
+      "end": {
+        "line": 8,
+        "character": 8
+      }
+    },
     "children": [
       {
-        "text": "info",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "info :: ",
-        "start": 24,
-        "end": 100,
-        "category": "OtherCategory"
+        "name": "schema",
+        "kind": 15,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 9,
+            "character": 6
+          },
+          "end": {
+            "line": 11,
+            "character": 7
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 9,
+            "character": 6
+          },
+          "end": {
+            "line": 9,
+            "character": 14
+          }
+        },
+        "children": []
       }
-    ],
-    "category": ""
+    ]
   },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 0,
-    "end": 367,
-    "category": ""
+  {
+    "name": "r2",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 19,
+        "character": 5
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 14,
+        "character": 4
+      },
+      "end": {
+        "line": 14,
+        "character": 8
+      }
+    },
+    "children": [
+      {
+        "name": "schema",
+        "kind": 17,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 15,
+            "character": 6
+          },
+          "end": {
+            "line": 18,
+            "character": 7
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 15,
+            "character": 6
+          },
+          "end": {
+            "line": 15,
+            "character": 14
+          }
+        },
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "info",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 5,
+        "character": 3
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 5,
+        "character": 3
+      }
+    },
+    "children": []
   }
-}
+]

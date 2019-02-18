@@ -1,86 +1,107 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 0,
-    "end": 419,
-    "category": ""
+[
+  {
+    "name": "info",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 5,
+        "character": 3
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 5,
+        "character": 3
+      }
+    },
+    "children": []
   },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 0,
-    "end": 419,
-    "category": ""
-  },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 0,
-    "end": 419,
+  {
+    "name": "pet",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 7,
+        "character": 4
+      },
+      "end": {
+        "line": 14,
+        "character": 5
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 7,
+        "character": 4
+      },
+      "end": {
+        "line": 14,
+        "character": 5
+      }
+    },
     "children": [
       {
-        "text": "info",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "info :: ",
-        "start": 24,
-        "end": 100,
-        "category": "OtherCategory"
-      },
-      {
-        "text": "pet",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": " :: ",
-        "start": 118,
-        "end": 319,
-        "children": [
-          {
-            "text": "externalDocs",
-            "typeText": "",
-            "icon": "",
-            "textStyle": "",
-            "key": "externalDocs ::  :: ",
-            "start": 222,
-            "end": 313,
-            "category": ""
+        "name": "externalDocs",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 10,
+            "character": 22
+          },
+          "end": {
+            "line": 13,
+            "character": 7
           }
-        ],
-        "category": "OtherCategory"
-      },
-      {
-        "text": "pet1",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": " :: ",
-        "start": 325,
-        "end": 413,
-        "category": "OtherCategory"
+        },
+        "selectionRange": {
+          "start": {
+            "line": 10,
+            "character": 22
+          },
+          "end": {
+            "line": 13,
+            "character": 7
+          }
+        },
+        "children": []
       }
-    ],
-    "category": ""
+    ]
   },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 0,
-    "end": 419,
-    "category": ""
+  {
+    "name": "pet1",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 15,
+        "character": 4
+      },
+      "end": {
+        "line": 18,
+        "character": 5
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 15,
+        "character": 4
+      },
+      "end": {
+        "line": 18,
+        "character": 5
+      }
+    },
+    "children": []
   }
-}
+]

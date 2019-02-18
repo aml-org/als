@@ -1,132 +1,214 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 453,
+[
+  {
+    "name": "Person",
+    "kind": 19,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 4,
+        "character": 8
+      }
+    },
     "children": [
       {
-        "text": "Person",
-        "typeText": "",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "key": "Person :: ",
-        "start": 45,
-        "end": 386,
+        "name": "name",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 5,
+            "character": 6
+          },
+          "end": {
+            "line": 10,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 5,
+            "character": 6
+          },
+          "end": {
+            "line": 5,
+            "character": 10
+          }
+        },
         "children": [
           {
-            "text": "name",
-            "typeText": ":string",
-            "icon": "FILE_BINARY",
-            "textStyle": "SUCCESS",
-            "key": "name :: Person :: ",
-            "start": 75,
-            "end": 241,
-            "children": [
-              {
-                "text": "xml",
-                "typeText": "",
-                "icon": "TAG",
-                "textStyle": "NORMAL",
-                "key": "xml :: name :: Person :: ",
-                "start": 115,
-                "end": 241,
-                "category": ""
+            "name": "xml",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 8,
+                "character": 0
+              },
+              "end": {
+                "line": 10,
+                "character": 0
               }
-            ],
-            "category": ""
-          },
-          {
-            "text": "addresses",
-            "typeText": ":Address[]",
-            "icon": "FILE_BINARY",
-            "textStyle": "SUCCESS",
-            "key": "addresses :: Person :: ",
-            "start": 247,
-            "end": 386,
-            "children": [
-              {
-                "text": "xml",
-                "typeText": "",
-                "icon": "TAG",
-                "textStyle": "NORMAL",
-                "key": "xml :: addresses :: Person :: ",
-                "start": 295,
-                "end": 386,
-                "category": ""
+            },
+            "selectionRange": {
+              "start": {
+                "line": 8,
+                "character": 0
+              },
+              "end": {
+                "line": 10,
+                "character": 0
               }
-            ],
-            "category": ""
+            },
+            "children": []
           }
-        ],
-        "category": "SchemasAndTypesCategory"
+        ]
       },
       {
-        "text": "Address",
-        "typeText": "",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "key": "Address :: ",
-        "start": 388,
-        "end": 453,
+        "name": "addresses",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 10,
+            "character": 6
+          },
+          "end": {
+            "line": 14,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 10,
+            "character": 6
+          },
+          "end": {
+            "line": 10,
+            "character": 15
+          }
+        },
         "children": [
           {
-            "text": "street",
-            "typeText": ":string",
-            "icon": "FILE_BINARY",
-            "textStyle": "SUCCESS",
-            "key": "street :: Address :: ",
-            "start": 419,
-            "end": 434,
-            "category": ""
-          },
-          {
-            "text": "city",
-            "typeText": ":string",
-            "icon": "FILE_BINARY",
-            "textStyle": "SUCCESS",
-            "key": "city :: Address :: ",
-            "start": 440,
-            "end": 453,
-            "category": ""
+            "name": "xml",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 13,
+                "character": 0
+              },
+              "end": {
+                "line": 14,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 13,
+                "character": 0
+              },
+              "end": {
+                "line": 14,
+                "character": 0
+              }
+            },
+            "children": []
           }
-        ],
-        "category": "SchemasAndTypesCategory"
+        ]
       }
-    ],
-    "category": ""
+    ]
   },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 453,
-    "category": ""
-  },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 453,
-    "category": ""
-  },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 453,
-    "category": ""
+  {
+    "name": "Address",
+    "kind": 19,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 14,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 15,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 9
+      }
+    },
+    "children": [
+      {
+        "name": "street",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 16,
+            "character": 6
+          },
+          "end": {
+            "line": 17,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 16,
+            "character": 6
+          },
+          "end": {
+            "line": 16,
+            "character": 12
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "city",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 17,
+            "character": 6
+          },
+          "end": {
+            "line": 18,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 17,
+            "character": 6
+          },
+          "end": {
+            "line": 17,
+            "character": 10
+          }
+        },
+        "children": []
+      }
+    ]
   }
-}
+]

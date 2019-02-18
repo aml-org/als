@@ -1,228 +1,430 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 492,
-    "category": ""
-  },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 492,
+[
+  {
+    "name": "/someChildUri",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 12,
+        "character": 0
+      },
+      "end": {
+        "line": 25,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 12,
+        "character": 0
+      },
+      "end": {
+        "line": 12,
+        "character": 13
+      }
+    },
     "children": [
       {
-        "text": "/someChildUri",
-        "typeText": ":main",
-        "icon": "PRIMITIVE_SQUARE",
-        "textStyle": "HIGHLIGHT",
-        "key": "/someChildUri :: ",
-        "start": 222,
-        "end": 492,
+        "name": "/anotherChild",
+        "kind": 12,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 20,
+            "character": 2
+          },
+          "end": {
+            "line": 25,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 20,
+            "character": 2
+          },
+          "end": {
+            "line": 20,
+            "character": 15
+          }
+        },
         "children": [
           {
-            "text": "/anotherChild",
-            "typeText": "",
-            "icon": "PRIMITIVE_SQUARE",
-            "textStyle": "HIGHLIGHT",
-            "key": "/anotherChild :: /someChildUri :: ",
-            "start": 378,
-            "end": 492,
-            "children": [
-              {
-                "text": "put",
-                "typeText": "",
-                "icon": "PRIMITIVE_DOT",
-                "textStyle": "WARNING",
-                "key": "put :: /anotherChild :: /someChildUri :: ",
-                "start": 397,
-                "end": 492,
-                "children": [
-                  {
-                    "text": "application/json",
-                    "typeText": "",
-                    "icon": "TAG",
-                    "textStyle": "NORMAL",
-                    "key": "application/json :: put :: /anotherChild :: /someChildUri :: ",
-                    "start": 422,
-                    "end": 492,
-                    "category": ""
-                  }
-                ],
-                "category": ""
+            "name": "put",
+            "kind": 6,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 21,
+                "character": 4
+              },
+              "end": {
+                "line": 25,
+                "character": 0
               }
-            ],
-            "category": ""
-          },
-          {
-            "text": "post",
-            "typeText": "",
-            "icon": "PRIMITIVE_DOT",
-            "textStyle": "WARNING",
-            "key": "post :: /someChildUri :: ",
-            "start": 252,
-            "end": 376,
-            "children": [
-              {
-                "text": "200",
-                "typeText": "",
-                "icon": "TAG",
-                "textStyle": "NORMAL",
-                "key": "200 :: post :: /someChildUri :: ",
-                "start": 279,
-                "end": 376,
-                "children": [
-                  {
-                    "text": "application/xml",
-                    "typeText": "",
-                    "icon": "TAG",
-                    "textStyle": "NORMAL",
-                    "key": "application/xml :: 200 :: post :: /someChildUri :: ",
-                    "start": 308,
-                    "end": 376,
-                    "category": ""
-                  }
-                ],
-                "category": ""
+            },
+            "selectionRange": {
+              "start": {
+                "line": 21,
+                "character": 4
+              },
+              "end": {
+                "line": 21,
+                "character": 7
               }
-            ],
-            "category": ""
-          },
-          {
-            "text": "type",
-            "typeText": "",
-            "icon": "TAG",
-            "textStyle": "NORMAL",
-            "key": "type :: /someChildUri :: ",
-            "start": 245,
-            "end": 250,
+            },
             "children": [
               {
-                "text": "resourceType",
-                "typeText": "",
-                "icon": "TAG",
-                "textStyle": "NORMAL",
-                "key": "resourceType :: type :: /someChildUri :: ",
+                "name": "application/json",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 23,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 25,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 23,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 23,
+                    "character": 24
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "post",
+        "kind": 6,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 14,
+            "character": 2
+          },
+          "end": {
+            "line": 20,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 14,
+            "character": 2
+          },
+          "end": {
+            "line": 14,
+            "character": 6
+          }
+        },
+        "children": [
+          {
+            "name": "200",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 16,
+                "character": 6
+              },
+              "end": {
+                "line": 20,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 17,
+                "character": 6
+              },
+              "end": {
+                "line": 17,
+                "character": 9
+              }
+            },
+            "children": [
+              {
+                "name": "application/xml",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 18,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 20,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 18,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 18,
+                    "character": 25
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "type",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 13,
+            "character": 8
+          },
+          "end": {
+            "line": 13,
+            "character": 12
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 13,
+            "character": 8
+          },
+          "end": {
+            "line": 13,
+            "character": 12
+          }
+        },
+        "children": [
+          {
+            "name": "resourceType",
+            "kind": 12,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 0
+              }
+            },
+            "children": [
+              {
+                "name": "get",
+                "kind": 6,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 4,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 9,
+                    "character": 54
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 4,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 4,
+                    "character": 9
+                  }
+                },
                 "children": [
                   {
-                    "text": "get",
-                    "typeText": "",
-                    "icon": "PRIMITIVE_DOT",
-                    "textStyle": "WARNING",
-                    "key": "get :: resourceType :: type :: /someChildUri :: ",
-                    "start": 0,
-                    "end": 0,
+                    "name": "200",
+                    "kind": 8,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 6,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 9,
+                        "character": 54
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 7,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 7,
+                        "character": 13
+                      }
+                    },
                     "children": [
                       {
-                        "text": "200",
-                        "typeText": "",
-                        "icon": "TAG",
-                        "textStyle": "NORMAL",
-                        "key": "200 :: get :: resourceType :: type :: /someChildUri :: ",
-                        "start": 0,
-                        "end": 0,
-                        "children": [
-                          {
-                            "text": "application/json",
-                            "typeText": "",
-                            "icon": "TAG",
-                            "textStyle": "NORMAL",
-                            "key": "application/json :: 200 :: get :: resourceType :: type :: /someChildUri :: ",
-                            "start": 0,
-                            "end": 0,
-                            "category": ""
+                        "name": "application/json",
+                        "kind": 8,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 8,
+                            "character": 14
+                          },
+                          "end": {
+                            "line": 9,
+                            "character": 54
                           }
-                        ],
-                        "category": ""
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 8,
+                            "character": 14
+                          },
+                          "end": {
+                            "line": 8,
+                            "character": 30
+                          }
+                        },
+                        "children": []
                       }
-                    ],
-                    "category": ""
+                    ]
                   }
-                ],
-                "category": ""
+                ]
               }
-            ],
-            "category": ""
+            ]
           }
-        ],
-        "category": "ResourcesCategory"
+        ]
       }
-    ],
-    "category": ""
+    ]
   },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 492,
-    "category": ""
-  },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 492,
+  {
+    "name": "main",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 4
+      },
+      "end": {
+        "line": 10,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 4
+      },
+      "end": {
+        "line": 3,
+        "character": 8
+      }
+    },
     "children": [
       {
-        "text": "main",
-        "typeText": "",
-        "icon": "TAG",
-        "textStyle": "NORMAL",
-        "key": "main :: ",
-        "start": 41,
-        "end": 197,
+        "name": "get",
+        "kind": 6,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 4,
+            "character": 6
+          },
+          "end": {
+            "line": 10,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 4,
+            "character": 6
+          },
+          "end": {
+            "line": 4,
+            "character": 9
+          }
+        },
         "children": [
           {
-            "text": "get",
-            "typeText": "",
-            "icon": "PRIMITIVE_DOT",
-            "textStyle": "WARNING",
-            "key": "get :: main :: ",
-            "start": 0,
-            "end": 0,
+            "name": "200",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 6,
+                "character": 10
+              },
+              "end": {
+                "line": 10,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 7,
+                "character": 10
+              },
+              "end": {
+                "line": 7,
+                "character": 13
+              }
+            },
             "children": [
               {
-                "text": "200",
-                "typeText": "",
-                "icon": "TAG",
-                "textStyle": "NORMAL",
-                "key": "200 :: get :: main :: ",
-                "start": 0,
-                "end": 0,
-                "children": [
-                  {
-                    "text": "application/json",
-                    "typeText": "",
-                    "icon": "TAG",
-                    "textStyle": "NORMAL",
-                    "key": "application/json :: 200 :: get :: main :: ",
-                    "start": 0,
-                    "end": 0,
-                    "category": ""
+                "name": "application/json",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 8,
+                    "character": 14
+                  },
+                  "end": {
+                    "line": 10,
+                    "character": 0
                   }
-                ],
-                "category": ""
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 8,
+                    "character": 14
+                  },
+                  "end": {
+                    "line": 8,
+                    "character": 30
+                  }
+                },
+                "children": []
               }
-            ],
-            "category": ""
+            ]
           }
-        ],
-        "category": "ResourceTypesAndTraitsCategory"
+        ]
       }
-    ],
-    "category": ""
+    ]
   }
-}
+]

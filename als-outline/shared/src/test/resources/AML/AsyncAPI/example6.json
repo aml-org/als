@@ -1,348 +1,820 @@
-{
-  "DeclaresCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 16,
-    "end": 1725,
+[
+  {
+    "name": "info",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 14,
+        "character": 0
+      },
+      "end": {
+        "line": 26,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 14,
+        "character": 0
+      },
+      "end": {
+        "line": 26,
+        "character": 0
+      }
+    },
     "children": [
       {
-        "text": "messages",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "messages :: ",
-        "start": 98,
-        "end": 123,
-        "category": "DeclaresCategory"
+        "name": "license",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 23,
+            "character": 0
+          },
+          "end": {
+            "line": 26,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 23,
+            "character": 0
+          },
+          "end": {
+            "line": 26,
+            "character": 0
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "contact",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 19,
+            "character": 0
+          },
+          "end": {
+            "line": 22,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 19,
+            "character": 0
+          },
+          "end": {
+            "line": 22,
+            "character": 0
+          }
+        },
+        "children": []
       }
-    ],
-    "category": ""
+    ]
   },
-  "EncodesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "",
-    "textStyle": "",
-    "key": "",
-    "start": 16,
-    "end": 1725,
+  {
+    "name": "externalDocs",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 27,
+        "character": 0
+      },
+      "end": {
+        "line": 30,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 27,
+        "character": 0
+      },
+      "end": {
+        "line": 30,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "key1",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 5,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 5,
+        "character": 2
+      },
+      "end": {
+        "line": 5,
+        "character": 6
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "key2",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 6,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 6
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "my.topic",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 35,
+        "character": 0
+      },
+      "end": {
+        "line": 56,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 35,
+        "character": 0
+      },
+      "end": {
+        "line": 56,
+        "character": 0
+      }
+    },
     "children": [
       {
-        "text": "info",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "info :: ",
-        "start": 129,
-        "end": 454,
-        "children": [
-          {
-            "text": "license",
-            "typeText": "",
-            "icon": "",
-            "textStyle": "",
-            "key": "license :: info :: ",
-            "start": 375,
-            "end": 454,
-            "category": ""
+        "name": "publish",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 36,
+            "character": 0
           },
-          {
-            "text": "contact",
-            "typeText": "",
-            "icon": "",
-            "textStyle": "",
-            "key": "contact :: info :: ",
-            "start": 271,
-            "end": 364,
-            "category": ""
+          "end": {
+            "line": 50,
+            "character": 0
           }
-        ],
-        "category": "EncodesCategory"
-      },
-      {
-        "text": "externalDocs",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "externalDocs :: ",
-        "start": 468,
-        "end": 552,
-        "category": "EncodesCategory"
-      },
-      {
-        "text": "my.topic",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "my.topic :: ",
-        "start": 600,
-        "end": 1000,
+        },
+        "selectionRange": {
+          "start": {
+            "line": 36,
+            "character": 0
+          },
+          "end": {
+            "line": 50,
+            "character": 0
+          }
+        },
         "children": [
           {
-            "text": "subscribe",
-            "typeText": "",
-            "icon": "",
-            "textStyle": "",
-            "key": "subscribe :: my.topic :: ",
-            "start": 926,
-            "end": 1000,
-            "children": [
-              {
-                "text": "payload",
-                "typeText": ":array",
-                "icon": "FILE_BINARY",
-                "textStyle": "SUCCESS",
-                "key": "payload :: subscribe :: my.topic :: ",
-                "start": 941,
-                "end": 1000,
-                "category": ""
+            "name": "payload",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 39,
+                "character": 0
+              },
+              "end": {
+                "line": 50,
+                "character": 0
               }
-            ],
-            "category": ""
-          },
-          {
-            "text": "publish",
-            "typeText": "",
-            "icon": "",
-            "textStyle": "",
-            "key": "publish :: my.topic :: ",
-            "start": 613,
-            "end": 911,
+            },
+            "selectionRange": {
+              "start": {
+                "line": 39,
+                "character": 0
+              },
+              "end": {
+                "line": 50,
+                "character": 0
+              }
+            },
             "children": [
               {
-                "text": "payload",
-                "typeText": ":object",
-                "icon": "FILE_BINARY",
-                "textStyle": "SUCCESS",
-                "key": "payload :: publish :: my.topic :: ",
-                "start": 686,
-                "end": 911,
+                "name": "a",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 42,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 43,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 42,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 43,
+                    "character": 0
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "b",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 44,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 45,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 44,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 45,
+                    "character": 0
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "c",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 46,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 50,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 46,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 50,
+                    "character": 0
+                  }
+                },
                 "children": [
                   {
-                    "text": "a",
-                    "typeText": ":string",
-                    "icon": "",
-                    "textStyle": "",
-                    "key": "a :: payload :: publish :: my.topic :: ",
-                    "start": 740,
-                    "end": 765,
-                    "category": ""
-                  },
-                  {
-                    "text": "b",
-                    "typeText": ":number",
-                    "icon": "",
-                    "textStyle": "",
-                    "key": "b :: payload :: publish :: my.topic :: ",
-                    "start": 778,
-                    "end": 803,
-                    "category": ""
-                  },
-                  {
-                    "text": "c",
-                    "typeText": ":object",
-                    "icon": "",
-                    "textStyle": "",
-                    "key": "c :: payload :: publish :: my.topic :: ",
-                    "start": 816,
-                    "end": 911,
-                    "children": [
-                      {
-                        "text": "d",
-                        "typeText": ":string",
-                        "icon": "",
-                        "textStyle": "",
-                        "key": "d :: c :: payload :: publish :: my.topic :: ",
-                        "start": 882,
-                        "end": 911,
-                        "category": ""
+                    "name": "d",
+                    "kind": 8,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 49,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 50,
+                        "character": 0
                       }
-                    ],
-                    "category": ""
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 49,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 50,
+                        "character": 0
+                      }
+                    },
+                    "children": []
                   }
-                ],
-                "category": ""
+                ]
               }
-            ],
-            "category": ""
+            ]
           }
-        ],
-        "category": "EncodesCategory"
+        ]
       },
       {
-        "text": "signup",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "signup :: ",
-        "start": 1010,
-        "end": 1725,
+        "name": "subscribe",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 51,
+            "character": 0
+          },
+          "end": {
+            "line": 56,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 51,
+            "character": 0
+          },
+          "end": {
+            "line": 56,
+            "character": 0
+          }
+        },
         "children": [
           {
-            "text": "subscribe",
-            "typeText": "",
-            "icon": "",
-            "textStyle": "",
-            "key": "subscribe :: signup :: ",
-            "start": 1025,
-            "end": 1061,
-            "category": ""
-          },
-          {
-            "text": "publish",
-            "typeText": "",
-            "icon": "",
-            "textStyle": "",
-            "key": "publish :: signup :: ",
-            "start": 1074,
-            "end": 1725,
+            "name": "payload",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 52,
+                "character": 0
+              },
+              "end": {
+                "line": 56,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 52,
+                "character": 0
+              },
+              "end": {
+                "line": 56,
+                "character": 0
+              }
+            },
             "children": [
               {
-                "text": "externalDocs",
-                "typeText": "",
-                "icon": "",
-                "textStyle": "",
-                "key": "externalDocs :: publish :: signup :: ",
-                "start": 1609,
-                "end": 1725,
-                "category": ""
-              },
-              {
-                "text": "headers",
-                "typeText": ":object",
-                "icon": "FILE_BINARY",
-                "textStyle": "SUCCESS",
-                "key": "headers :: publish :: signup :: ",
-                "start": 1250,
-                "end": 1378,
-                "children": [
-                  {
-                    "text": "qos",
-                    "typeText": ":string",
-                    "icon": "",
-                    "textStyle": "",
-                    "key": "qos :: headers :: publish :: signup :: ",
-                    "start": 1306,
-                    "end": 1331,
-                    "category": ""
+                "name": "",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 54,
+                    "character": 0
                   },
-                  {
-                    "text": "retainFlag",
-                    "typeText": ":string",
-                    "icon": "",
-                    "textStyle": "",
-                    "key": "retainFlag :: headers :: publish :: signup :: ",
-                    "start": 1353,
-                    "end": 1378,
-                    "category": ""
+                  "end": {
+                    "line": 56,
+                    "character": 0
                   }
-                ],
-                "category": ""
-              },
-              {
-                "text": "payload",
-                "typeText": ":object",
-                "icon": "FILE_BINARY",
-                "textStyle": "SUCCESS",
-                "key": "payload :: publish :: signup :: ",
-                "start": 1393,
-                "end": 1589,
-                "children": [
-                  {
-                    "text": "user",
-                    "typeText": ":string",
-                    "icon": "",
-                    "textStyle": "",
-                    "key": "user :: payload :: publish :: signup :: ",
-                    "start": 1450,
-                    "end": 1546,
-                    "children": [
-                      {
-                        "text": "xml",
-                        "typeText": "",
-                        "icon": "",
-                        "textStyle": "",
-                        "key": "xml :: user :: payload :: publish :: signup :: ",
-                        "start": 1492,
-                        "end": 1546,
-                        "category": ""
-                      }
-                    ],
-                    "category": ""
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 54,
+                    "character": 0
                   },
-                  {
-                    "text": "signup",
-                    "typeText": ":string",
-                    "icon": "",
-                    "textStyle": "",
-                    "key": "signup :: payload :: publish :: signup :: ",
-                    "start": 1564,
-                    "end": 1589,
-                    "category": ""
+                  "end": {
+                    "line": 56,
+                    "character": 0
                   }
-                ],
-                "category": ""
-              },
-              {
-                "text": "user",
-                "typeText": "",
-                "icon": "",
-                "textStyle": "",
-                "key": " :: publish :: signup :: ",
-                "start": 1176,
-                "end": 1187,
-                "category": ""
-              },
-              {
-                "text": "signup",
-                "typeText": "",
-                "icon": "",
-                "textStyle": "",
-                "key": " :: publish :: signup :: ",
-                "start": 1197,
-                "end": 1210,
-                "category": ""
-              },
-              {
-                "text": "register",
-                "typeText": "",
-                "icon": "",
-                "textStyle": "",
-                "key": " :: publish :: signup :: ",
-                "start": 1220,
-                "end": 1235,
-                "category": ""
+                },
+                "children": []
               }
-            ],
-            "category": ""
+            ]
           }
-        ],
-        "category": "EncodesCategory"
-      },
-      {
-        "text": "key1",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "key1 :: ",
-        "start": 46,
-        "end": 59,
-        "category": "EncodesCategory"
-      },
-      {
-        "text": "key2",
-        "typeText": "",
-        "icon": "",
-        "textStyle": "",
-        "key": "key2 :: ",
-        "start": 61,
-        "end": 75,
-        "category": "EncodesCategory"
+        ]
       }
-    ],
-    "category": ""
+    ]
+  },
+  {
+    "name": "signup",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 57,
+        "character": 0
+      },
+      "end": {
+        "line": 87,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 57,
+        "character": 0
+      },
+      "end": {
+        "line": 87,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "publish",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 61,
+            "character": 0
+          },
+          "end": {
+            "line": 87,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 61,
+            "character": 0
+          },
+          "end": {
+            "line": 87,
+            "character": 0
+          }
+        },
+        "children": [
+          {
+            "name": "payload",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 75,
+                "character": 0
+              },
+              "end": {
+                "line": 84,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 75,
+                "character": 0
+              },
+              "end": {
+                "line": 84,
+                "character": 0
+              }
+            },
+            "children": [
+              {
+                "name": "user",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 78,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 82,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 78,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 82,
+                    "character": 0
+                  }
+                },
+                "children": [
+                  {
+                    "name": "xml",
+                    "kind": 8,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 80,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 82,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 80,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 82,
+                        "character": 0
+                      }
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "signup",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 83,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 84,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 83,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 84,
+                    "character": 0
+                  }
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "headers",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 68,
+                "character": 0
+              },
+              "end": {
+                "line": 74,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 68,
+                "character": 0
+              },
+              "end": {
+                "line": 74,
+                "character": 0
+              }
+            },
+            "children": [
+              {
+                "name": "qos",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 71,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 72,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 71,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 72,
+                    "character": 0
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "retainFlag",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 73,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 74,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 73,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 74,
+                    "character": 0
+                  }
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "externalDocs",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 85,
+                "character": 0
+              },
+              "end": {
+                "line": 87,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 85,
+                "character": 0
+              },
+              "end": {
+                "line": 87,
+                "character": 0
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "user",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 64,
+                "character": 10
+              },
+              "end": {
+                "line": 65,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 64,
+                "character": 10
+              },
+              "end": {
+                "line": 65,
+                "character": 0
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "signup",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 65,
+                "character": 10
+              },
+              "end": {
+                "line": 66,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 65,
+                "character": 10
+              },
+              "end": {
+                "line": 66,
+                "character": 0
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "register",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 66,
+                "character": 10
+              },
+              "end": {
+                "line": 67,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 66,
+                "character": 10
+              },
+              "end": {
+                "line": 67,
+                "character": 0
+              }
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "subscribe",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 58,
+            "character": 0
+          },
+          "end": {
+            "line": 60,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 58,
+            "character": 0
+          },
+          "end": {
+            "line": 60,
+            "character": 0
+          }
+        },
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "messages",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 10,
+        "character": 0
+      },
+      "end": {
+        "line": 13,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 10,
+        "character": 0
+      },
+      "end": {
+        "line": 13,
+        "character": 0
+      }
+    },
+    "children": []
   }
-}
+]

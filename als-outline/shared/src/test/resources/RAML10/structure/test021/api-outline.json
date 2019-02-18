@@ -1,96 +1,134 @@
-{
-  "SchemasAndTypesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 343,
-    "category": ""
-  },
-  "ResourcesCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 343,
-    "category": ""
-  },
-  "OtherCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 343,
+[
+  {
+    "name": "passthrough",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 5,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 22
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 13
+      }
+    },
     "children": [
       {
-        "text": "passthrough",
-        "typeText": ":Pass Through",
-        "icon": "FILE_SUBMODULE",
-        "textStyle": "NORMAL",
-        "key": "passthrough :: ",
-        "start": 103,
-        "end": 343,
+        "name": "describedBy",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 9,
+            "character": 4
+          },
+          "end": {
+            "line": 15,
+            "character": 22
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 6,
+            "character": 2
+          },
+          "end": {
+            "line": 6,
+            "character": 13
+          }
+        },
         "children": [
           {
-            "text": "describedBy",
-            "typeText": "",
-            "icon": "TAG",
-            "textStyle": "NORMAL",
-            "key": "describedBy :: passthrough :: ",
-            "start": 215,
-            "end": 343,
-            "children": [
-              {
-                "text": "query",
-                "typeText": ":string",
-                "icon": "FILE_BINARY",
-                "textStyle": "SUCCESS",
-                "key": "query :: describedBy :: passthrough :: ",
-                "start": 259,
-                "end": 289,
-                "category": ""
+            "name": "query",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 11,
+                "character": 8
               },
-              {
-                "text": "api_key",
-                "typeText": ":string",
-                "icon": "FILE_BINARY",
-                "textStyle": "SUCCESS",
-                "key": "api_key :: describedBy :: passthrough :: ",
-                "start": 312,
-                "end": 343,
-                "category": ""
+              "end": {
+                "line": 13,
+                "character": 0
               }
-            ],
-            "category": ""
+            },
+            "selectionRange": {
+              "start": {
+                "line": 12,
+                "character": 8
+              },
+              "end": {
+                "line": 12,
+                "character": 13
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "api_key",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 14,
+                "character": 8
+              },
+              "end": {
+                "line": 15,
+                "character": 22
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 15,
+                "character": 8
+              },
+              "end": {
+                "line": 15,
+                "character": 15
+              }
+            },
+            "children": []
           }
-        ],
-        "category": "OtherCategory"
-      },
-      {
-        "text": "version",
-        "typeText": "",
-        "icon": "FILE_BINARY",
-        "textStyle": "SUCCESS",
-        "key": "version :: ",
-        "category": "OtherCategory"
+        ]
       }
-    ],
-    "category": ""
+    ]
   },
-  "ResourceTypesAndTraitsCategory": {
-    "text": "",
-    "typeText": "",
-    "icon": "TAG",
-    "textStyle": "NORMAL",
-    "key": "",
-    "start": 11,
-    "end": 343,
-    "category": ""
+  {
+    "name": "version",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 0
+      }
+    },
+    "children": []
   }
-}
+]
