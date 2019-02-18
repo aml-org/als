@@ -150,7 +150,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest {
   }
 
   def filePath(path: String): String = {
-    s"file://als-outline/shared/src/test/resources/$rootPath/$path".replace('\\', '/').replace("null/", "")
+    s"file://als-structure/shared/src/test/resources/$rootPath/$path".replace('\\', '/').replace("null/", "")
   }
 
   def findMarker(str: String, label: String = "*", cut: Boolean = true): MarkerInfo = {
