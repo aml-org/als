@@ -41,7 +41,7 @@ class ASTManager extends AbstractServerModule with ASTManagerModule {
     */
   var currentASTs: mutable.Map[String, BaseUnit] = mutable.HashMap()
 
-  private var initialized: Boolean = false
+  private var initialized: Option[Future[Unit]] = None
 
   private val reconciler: Reconciler = new Reconciler(connection, 500)
 
@@ -50,7 +50,8 @@ class ASTManager extends AbstractServerModule with ASTManagerModule {
   }
 
   override def launch(): Future[Unit] =
-    super.launch()
+    super
+      .launch()
       .flatMap(_ => {
         this.connection.onOpenDocument(this.onOpenDocument)
 
@@ -62,12 +63,12 @@ class ASTManager extends AbstractServerModule with ASTManagerModule {
       })
 
   def init(): Future[Unit] = {
-    if (initialized) Future.successful(Unit)
-    else {
-      amfInit().map(_ => {
-        initialized = true
-        Unit
-      })
+    initialized match {
+      case Some(f) => f
+      case _ =>
+        val f = amfInit()
+        initialized = Some(f)
+        f
     }
   }
 
@@ -258,8 +259,8 @@ class ASTManager extends AbstractServerModule with ASTManagerModule {
     helper.parse(cfg, proxyPlatform.defaultEnvironment).map { r =>
       val endTime = System.currentTimeMillis()
       this.connection.debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast",
-        "ASTManager",
-        "parseWithContentSubstitution")
+                                  "ASTManager",
+                                  "parseWithContentSubstitution")
       r
     }
   }
