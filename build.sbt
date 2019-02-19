@@ -55,8 +55,6 @@ lazy val common = crossProject(JSPlatform, JVMPlatform).settings(
   .in(file("./als-common"))
   .settings(settings: _*)
   .jsSettings(
-    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
-    libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
     scalaJSModuleKind := ModuleKind.CommonJSModule
     //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
