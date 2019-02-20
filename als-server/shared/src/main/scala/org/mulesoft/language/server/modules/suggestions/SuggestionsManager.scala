@@ -41,7 +41,7 @@ class SuggestionsManager extends AbstractServerModule {
   override def launch(): Future[Unit] =
     super
       .launch()
-      .map(_ => {
+      .flatMap(_ => {
         this.connection.onDocumentCompletion(this.onDocumentCompletionListener)
 
         suggestions.Core.init()
