@@ -5,22 +5,22 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": -1,
+        "line": 1,
         "character": 0
       },
       "end": {
-        "line": 9,
+        "line": 11,
         "character": 1
       }
     },
     "selectionRange": {
       "start": {
-        "line": -1,
-        "character": 0
+        "line": 7,
+        "character": 4
       },
       "end": {
-        "line": 9,
-        "character": 1
+        "line": 7,
+        "character": 12
       }
     },
     "children": []

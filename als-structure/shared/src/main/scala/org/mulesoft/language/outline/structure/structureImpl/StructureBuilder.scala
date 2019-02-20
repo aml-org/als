@@ -43,7 +43,9 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
     node.sourceInfo.yamlSources.headOption.map(_.range) match {
       case Some(syamlRange) =>
         val keyRange = (node.amfNode match {
-          case n: NamedDomainElement => n.name.annotations().find(classOf[LexicalInformation]).map(_.range)
+          case n: NamedDomainElement => n.name.annotations().find(classOf[LexicalInformation])
+            .map(_.range)
+              .map(PositionRange(_))
           case _                     => None
         }).orElse {
           node.amfNode.annotations
@@ -51,20 +53,15 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
             .map(_.ast)
             .flatMap {
               case entry: YMapEntry =>
-                Some(amfRangeFromSyamlRange(entry.key.range))
+                Some(PositionRange(entry.key.range))
               case _ => None
             }
         }
-        val finalNodeRange = amfRangeFromSyamlRange(syamlRange)
-        (PositionRange(finalNodeRange), PositionRange(finalNodeRange))
+        val finalNodeRange = PositionRange(syamlRange)
+        (finalNodeRange, keyRange.getOrElse(finalNodeRange))
       case _ => (EmptyPositionRange, EmptyPositionRange)
     }
   }
-
-  private def amfRangeFromSyamlRange(range: InputRange) = {
-    amf.core.parser.Range((range.lineFrom - 1, range.columnFrom), (range.lineTo - 1, range.columnTo))
-  }
-
 }
 
 object KindForResultMatcher {
