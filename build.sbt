@@ -15,8 +15,6 @@ version := deps("version")
 
 scalaVersion := "2.12.6"
 
-publish := {}
-
 jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
 
 val settings = Common.settings ++ Common.publish ++ Seq(
