@@ -5,21 +5,21 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 1,
+        "line": 3,
         "character": 0
       },
       "end": {
-        "line": 4,
+        "line": 6,
         "character": 0
       }
     },
     "selectionRange": {
       "start": {
-        "line": 1,
+        "line": 3,
         "character": 0
       },
       "end": {
-        "line": 4,
+        "line": 6,
         "character": 0
       }
     },
@@ -31,21 +31,21 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 5,
+        "line": 7,
         "character": 2
       },
       "end": {
-        "line": 10,
+        "line": 12,
         "character": 0
       }
     },
     "selectionRange": {
       "start": {
-        "line": 5,
+        "line": 7,
         "character": 2
       },
       "end": {
-        "line": 10,
+        "line": 12,
         "character": 0
       }
     },
@@ -56,21 +56,21 @@
         "deprecated": false,
         "range": {
           "start": {
-            "line": 8,
+            "line": 10,
             "character": 0
           },
           "end": {
-            "line": 10,
+            "line": 12,
             "character": 0
           }
         },
         "selectionRange": {
           "start": {
-            "line": 8,
+            "line": 10,
             "character": 0
           },
           "end": {
-            "line": 10,
+            "line": 12,
             "character": 0
           }
         },
@@ -84,21 +84,21 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 10,
+        "line": 12,
         "character": 2
       },
       "end": {
-        "line": 12,
+        "line": 14,
         "character": 0
       }
     },
     "selectionRange": {
       "start": {
-        "line": 10,
+        "line": 12,
         "character": 2
       },
       "end": {
-        "line": 12,
+        "line": 14,
         "character": 0
       }
     },
