@@ -36,6 +36,7 @@ pipeline {
         anyOf {
           branch 'master'
           branch 'devel'
+          branch 'fat-jar-publish'
         }
       }
       steps {
