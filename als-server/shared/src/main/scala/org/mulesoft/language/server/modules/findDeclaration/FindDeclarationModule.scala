@@ -1,5 +1,6 @@
 package org.mulesoft.language.server.modules.findDeclaration
 
+import common.dtoTypes.Position
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.language.common.dtoTypes.ILocation
 import org.mulesoft.language.server.common.utils.PathRefine
@@ -17,18 +18,19 @@ class FindDeclarationModule extends AbstractServerModule {
   val moduleDependencies: Array[String] = Array(HlAstManager.moduleId)
 
   override def launch(): Future[Unit] =
-    super.launch()
+    super
+      .launch()
       .map(_ => {
         connection.onOpenDeclaration(findDeclaration, false)
       })
 
-  private def findDeclaration(_uri: String, position: Int): Future[Seq[ILocation]] = {
-    val uri = PathRefine.refinePath(_uri, platform)
+  private def findDeclaration(_uri: String, position: Position): Future[Seq[ILocation]] = {
+    val uri     = PathRefine.refinePath(_uri, platform)
     val promise = Promise[Seq[ILocation]]()
 
     currentAst(uri) andThen {
       case Success(project) =>
-        SearchUtils.findDeclaration(project, position) match {
+        SearchUtils.findDeclaration(project, position.offset(project.units(uri).text)) match {
           case Some(result) => promise.success(result)
 
           case _ => promise.success(Seq())

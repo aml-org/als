@@ -61,7 +61,7 @@ trait ServerConnection extends Logger {
     * @param listener    (uri: String, position: Int) => Future[Seq[ILocation] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onOpenDeclaration(listener: (String, Int) => Future[Seq[ILocation]], unsubscribe: Boolean): Unit
+  def onOpenDeclaration(listener: (String, Position) => Future[Seq[ILocation]], unsubscribe: Boolean): Unit
 
   /**
     * Adds a listener to document find references request.  Must notify listeners in order of registration.
@@ -69,7 +69,7 @@ trait ServerConnection extends Logger {
     * @param listener    (uri: string, position: number) => Future[Seq[ILocation] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onFindReferences(listener: (String, Int) => Future[Seq[ILocation]], unsubscribe: Boolean): Unit
+  def onFindReferences(listener: (String, Position) => Future[Seq[ILocation]], unsubscribe: Boolean): Unit
 
   /**
     * Reports latest validation results

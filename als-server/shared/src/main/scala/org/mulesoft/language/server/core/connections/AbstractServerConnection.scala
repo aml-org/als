@@ -25,9 +25,9 @@ trait AbstractServerConnection extends ServerConnection with ServerNotifier {
 
   protected var documentDetailsListeners: mutable.Buffer[(String, Position) => Future[Seq[Suggestion]]] = ArrayBuffer()
 
-  protected var openDeclarationListeners: mutable.Buffer[(String, Int) => Future[Seq[ILocation]]] = ArrayBuffer()
+  protected var openDeclarationListeners: mutable.Buffer[(String, Position) => Future[Seq[ILocation]]] = ArrayBuffer()
 
-  protected var findReferencesListeners: mutable.Buffer[(String, Int) => Future[Seq[ILocation]]] = ArrayBuffer()
+  protected var findReferencesListeners: mutable.Buffer[(String, Position) => Future[Seq[ILocation]]] = ArrayBuffer()
 
   protected var markOccurrencesListeners: mutable.Buffer[(String, Int) => Future[Seq[Range]]] = ArrayBuffer()
 
@@ -122,9 +122,12 @@ trait AbstractServerConnection extends ServerConnection with ServerNotifier {
     * @param listener    (uri: String, position: Int) => Future[Seq[ILocation] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onOpenDeclaration(listener: (String, Int) => Future[Seq[ILocation]], unsubscribe: Boolean): Unit = {
+  def onOpenDeclaration(listener: (String, Position) => Future[Seq[ILocation]], unsubscribe: Boolean): Unit = {
     this.addListener(this.openDeclarationListeners, listener, unsubscribe)
   }
+
+  override def notifyOpenDeclaration(uri: String, offset: Position): Future[Seq[ILocation]] =
+    openDeclarationListeners.headOption.map(_.apply(uri, offset)).getOrElse(Future.successful(Seq()))
 
   /**
     * Adds a listener to document find references request.  Must notify listeners in order of registration.
@@ -132,9 +135,12 @@ trait AbstractServerConnection extends ServerConnection with ServerNotifier {
     * @param listener    (uri: string, position: number) => Future[Seq[ILocation] ]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onFindReferences(listener: (String, Int) => Future[Seq[ILocation]], unsubscribe: Boolean): Unit = {
+  def onFindReferences(listener: (String, Position) => Future[Seq[ILocation]], unsubscribe: Boolean): Unit = {
     this.addListener(this.findReferencesListeners, listener, unsubscribe)
   }
+
+  override def notifyFindReferences(uri: String, offset: Position): Future[Seq[ILocation]] =
+    findReferencesListeners.headOption.map(_.apply(uri, offset)).getOrElse(Future.successful(Seq()))
 
   /**
     * Marks occurrences of a symbol under the cursor in the current document.

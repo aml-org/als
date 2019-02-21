@@ -1,5 +1,6 @@
 package org.mulesoft.language.change.document
 
+import common.dtoTypes.Position
 import org.mulesoft.language.common.dtoTypes.{ChangedDocument, OpenedDocument}
 import org.mulesoft.language.server.core.Server
 import org.mulesoft.language.server.modules.astManager.{ASTManager, ASTManagerModule}
@@ -87,7 +88,7 @@ class ChangeDocumentTest extends LanguageServerTest {
       getClient.flatMap(client => {
         client.documentOpened(OpenedDocument(url, 0, content1))
         client
-          .findReferences(url, ind)
+          .findReferences(url, Position(ind, content1))
           .map(refs => {
             client.documentClosed(url)
             if (refs.nonEmpty) {
@@ -117,7 +118,7 @@ class ChangeDocumentTest extends LanguageServerTest {
       getClient.flatMap(client => {
         client.documentOpened(OpenedDocument(url, 0, content1))
         client
-          .openDeclaration(url, ind)
+          .openDeclaration(url, Position(ind, content1))
           .map(refs => {
             client.documentClosed(url)
             if (refs.nonEmpty) {

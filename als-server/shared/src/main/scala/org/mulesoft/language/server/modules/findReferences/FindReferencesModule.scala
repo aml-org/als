@@ -1,5 +1,6 @@
 package org.mulesoft.language.server.modules.findReferences
 
+import common.dtoTypes.Position
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.language.common.dtoTypes.ILocation
 import org.mulesoft.language.server.common.utils.PathRefine
@@ -17,22 +18,23 @@ class FindReferencesModule extends AbstractServerModule {
   val moduleDependencies: Array[String] = Array(HlAstManager.moduleId)
 
   override def launch(): Future[Unit] =
-    super.launch()
+    super
+      .launch()
       .map(_ => {
         connection.onFindReferences(findReferences, false)
       })
 
-  def findReferences(_uri: String, position: Int): Future[Seq[ILocation]] = {
+  def findReferences(_uri: String, position: Position): Future[Seq[ILocation]] = {
     val uri = PathRefine.refinePath(_uri, platform)
     this.connection.debug(s"Finding references at position $position", "FindReferencesModule", "findReferences")
 
-    var promise = Promise[Seq[ILocation]]()
+    val promise = Promise[Seq[ILocation]]()
 
     currentAst(uri).andThen {
       case Success(project) =>
-        SearchUtils.findReferences(project, position) match {
+        SearchUtils.findReferences(project, position.offset(project.units(uri).text)) match {
           case Some(searchResult) => promise.success(searchResult)
-          case _ => Seq()
+          case _                  => Seq()
         }
 
       case Failure(error) => promise.failure(error)

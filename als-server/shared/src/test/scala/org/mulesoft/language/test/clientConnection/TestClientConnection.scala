@@ -117,7 +117,7 @@ class TestClientConnection(serverProcess: Seq[TestServerConnection])
     * @param uri      - document uri
     * @param position - position in the document
     */
-  override def openDeclaration(uri: String, position: Int): Future[Seq[ILocation]] =
+  override def openDeclaration(uri: String, position: Position): Future[Seq[ILocation]] =
     this
       .sendWithResponse[LocationsResponse]("OPEN_DECLARATION", FindDeclarationRequest(uri, position))
       .map(r => r.wrapped.map(Location.transportToShared))
@@ -129,7 +129,7 @@ class TestClientConnection(serverProcess: Seq[TestServerConnection])
     * @param uri      - document uri
     * @param position - position in the document
     */
-  override def findReferences(uri: String, position: Int): Future[Seq[ILocation]] =
+  override def findReferences(uri: String, position: Position): Future[Seq[ILocation]] =
     this
       .sendWithResponse[LocationsResponse]("FIND_REFERENCES", FindReferencesRequest(uri, position))
       .map(r => r.wrapped.map(Location.transportToShared))

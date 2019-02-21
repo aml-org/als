@@ -104,7 +104,7 @@ object ServerProcess {
     }
   }
 
-  def openDeclaration(uri: String, position: Int, locationsHandler: LocationsHandler) {
+  def openDeclaration(uri: String, position: Position, locationsHandler: LocationsHandler) {
     connection.findDeclaration(uri, position) andThen {
       case Success(result) => {
         val list: util.List[ILocation] = new util.ArrayList[ILocation]()
@@ -116,7 +116,7 @@ object ServerProcess {
     }
   }
 
-  def findReferences(uri: String, position: Int, locationsHandler: LocationsHandler) {
+  def findReferences(uri: String, position: Position, locationsHandler: LocationsHandler) {
     connection.findReferences(uri, position) andThen {
       case Success(result) => {
         var list: util.List[ILocation] = new util.ArrayList[ILocation]()
@@ -136,7 +136,13 @@ object ServerProcess {
         result
           .map(item =>
             new ILocation {
-              override var range: Range = item.textEdits.get.head.range
+              //override var range: Range = item.textEdits.get.head.range
+
+              override var rawText: String = item.text.getOrElse("")
+
+              override var posRange: PositionRange =
+                PositionRange(Position(item.textEdits.get.head.range.start, rawText),
+                              Position(item.textEdits.get.head.range.end, rawText))
 
               override var uri: String = item.uri
 

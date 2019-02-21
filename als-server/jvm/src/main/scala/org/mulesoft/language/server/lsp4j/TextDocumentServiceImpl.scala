@@ -19,9 +19,12 @@ import org.eclipse.lsp4j.{
   DidSaveTextDocumentParams,
   DocumentSymbol,
   DocumentSymbolParams,
+  Location,
   PublishDiagnosticsParams,
+  ReferenceParams,
   SymbolInformation,
-  SymbolKind
+  SymbolKind,
+  TextDocumentPositionParams
 }
 import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.common.dtoTypes._
@@ -77,6 +80,33 @@ class TextDocumentServiceImpl(val settings: Option[LoggerSettings])
         messages.Either.forRight(symbol)
       })
       .collect(Collectors.toList[messages.Either[SymbolInformation, DocumentSymbol]])
+  }
+
+  private def toJavaLocation(refItems: Seq[ILocation]): util.List[_ <: Location] = {
+    refItems.asJava
+      .stream()
+      .map[Location]((item: ILocation) => {
+        new Location(
+          s"file://${item.uri}",
+          new org.eclipse.lsp4j.Range(
+            new org.eclipse.lsp4j.Position(item.posRange.start.line, item.posRange.start.column),
+            new org.eclipse.lsp4j.Position(item.posRange.end.line, item.posRange.end.column)
+          )
+        )
+      })
+      .collect(Collectors.toList[Location])
+  }
+
+  override def references(params: ReferenceParams): CompletableFuture[util.List[_ <: Location]] = {
+    notifyFindReferences(params.getTextDocument.getUri, params.getPosition).toJava
+      .thenApply[util.List[_ <: Location]](toJavaLocation)
+      .toCompletableFuture
+  }
+
+  override def definition(params: TextDocumentPositionParams): CompletableFuture[util.List[_ <: Location]] = {
+    notifyOpenDeclaration(params.getTextDocument.getUri, params.getPosition).toJava
+      .thenApply[util.List[_ <: Location]](toJavaLocation)
+      .toCompletableFuture
   }
 
   override def completion(completionParams: CompletionParams)
