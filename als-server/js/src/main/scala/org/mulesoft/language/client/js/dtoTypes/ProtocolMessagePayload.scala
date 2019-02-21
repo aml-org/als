@@ -58,7 +58,7 @@ object OpenedDocument {
     SharedOpenDocument(from.uri, from.version, from.text)
 }
 
-case class FindDeclarationRequest(var uri: String, var position: Int) extends ProtocolMessagePayload
+case class FindDeclarationRequest(var uri: String, var position: Position) extends ProtocolMessagePayload
 
 object FindDeclarationRequest {
   implicit def rw: RW[FindDeclarationRequest] = macroRW
@@ -67,7 +67,7 @@ object FindDeclarationRequest {
     SharedFindRequest(from.uri, from.position)
 }
 
-case class FindReferencesRequest(var uri: String, var position: Int) extends ProtocolMessagePayload
+case class FindReferencesRequest(var uri: String, var position: Position) extends ProtocolMessagePayload
 
 object FindReferencesRequest {
   implicit def rw: RW[FindReferencesRequest] = macroRW

@@ -4,6 +4,7 @@ package org.mulesoft.language.client.jvm.serverConnection
 import java.util
 import java.util.function.Consumer
 
+import common.dtoTypes.Position
 import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.client.jvm.dtoTypes.{GetCompletionRequest, GetStructureRequest, GetStructureResponse}
 import org.mulesoft.language.client.jvm.{FS, ValidationHandler}
@@ -72,11 +73,11 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
     }
   }
 
-  def findReferences(uri: String, position: Int): Future[Seq[ILocation]] = {
+  def findReferences(uri: String, position: Position): Future[Seq[ILocation]] = {
     findReferencesListeners.head(uri, position)
   }
 
-  def findDeclaration(uri: String, position: Int): Future[Seq[ILocation]] = {
+  def findDeclaration(uri: String, position: Position): Future[Seq[ILocation]] = {
     openDeclarationListeners.head(uri, position)
   }
 

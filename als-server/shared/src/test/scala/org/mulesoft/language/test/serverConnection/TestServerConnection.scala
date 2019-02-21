@@ -97,10 +97,7 @@ class TestServerConnection(clientProcess: Seq[TestClientConnection])
 
     this.newFutureHandler[FindReferencesRequest, LocationsResponse](
       "FIND_REFERENCES",
-      (request: FindReferencesRequest) =>
-        findReferencesListeners
-          .head(request.uri, request.position)
-          .map(result => new LocationsResponse(result.map(location => Location.sharedToTransport(location)))),
+      this.handleFindReferences,
       Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.FindReferencesRequest"))
     )
   }
@@ -138,6 +135,19 @@ class TestServerConnection(clientProcess: Seq[TestClientConnection])
             result.map(suggestion => Suggestion.sharedToTransport(suggestion))
           })
           .map(GetCompletionResponse)
+      case _ => Future.failed(new Exception("No structure providers found"))
+    }
+  }
+
+  def handleFindReferences(findReferences: FindReferencesRequest): Future[LocationsResponse] = {
+    val firstOpt = this.findReferencesListeners.find(_ => true)
+    firstOpt match {
+      case Some(listener) =>
+        listener(findReferences.uri, findReferences.position)
+          .map(result => {
+            result.map(reference => Location.sharedToTransport(reference))
+          })
+          .map(LocationsResponse(_))
       case _ => Future.failed(new Exception("No structure providers found"))
     }
   }

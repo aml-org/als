@@ -77,7 +77,7 @@ trait ClientConnection extends Logger {
     * @param uri      - document uri
     * @param position - position in the document
     */
-  def openDeclaration(uri: String, position: Int): Future[Seq[ILocation]]
+  def openDeclaration(uri: String, position: Position): Future[Seq[ILocation]]
 
   /**
     * Requests server for the positions of the references of the element defined
@@ -86,7 +86,7 @@ trait ClientConnection extends Logger {
     * @param uri      - document uri
     * @param position - position in the document
     */
-  def findReferences(uri: String, position: Int): Future[Seq[ILocation]]
+  def findReferences(uri: String, position: Position): Future[Seq[ILocation]]
 
   /**
     * Requests server for the occurrences of the element defined

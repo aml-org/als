@@ -11,6 +11,8 @@ import org.mulesoft.language.server.core.Server
 import org.mulesoft.language.server.core.connections.ServerConnection
 import org.mulesoft.language.server.modules.astManager.{ASTManager, ASTManagerModule}
 import org.mulesoft.language.server.modules.dialectManager.{DialectManager, DialectManagerModule}
+import org.mulesoft.language.server.modules.findDeclaration.FindDeclarationModule
+import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
 import org.mulesoft.language.server.modules.hlastManager.HlAstManager
 import org.mulesoft.language.server.modules.outline.StructureManager
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
@@ -21,10 +23,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class LanguageServerImpl(val connection: ServerConnection,
                          val textDocumentService: TextDocumentService,
-                         val workspaceService: WorkspaceService
-                        ) extends LanguageServer {
+                         val workspaceService: WorkspaceService)
+    extends LanguageServer {
   override def initialize(params: InitializeParams): CompletableFuture[InitializeResult] = {
-    val server = new Server(connection, JAVAPlatformDependentPart)
+    val server             = new Server(connection, JAVAPlatformDependentPart)
     val serverCapabilities = new ServerCapabilities()
 
     serverCapabilities.setTextDocumentSync(TextDocumentSyncKind.Full)
@@ -41,26 +43,31 @@ class LanguageServerImpl(val connection: ServerConnection,
     server.registerModule(new StructureManager())
     serverCapabilities.setDocumentSymbolProvider(true)
 
-//    server.registerModule(new FindReferencesModule())
-//    serverCapabilities.setReferencesProvider(true)
+    server.registerModule(new FindReferencesModule())
+    serverCapabilities.setReferencesProvider(true)
 
-//    server.registerModule(new FindDeclarationModule())
-//    serverCapabilities.setDefinitionProvider(true)
+    server.registerModule(new FindDeclarationModule())
+    serverCapabilities.setDefinitionProvider(true)
 
 //    server.registerModule(new RenameModule())
 //    serverCapabilities.setRenameProvider(true)
 
-    server.enableModule(ASTManagerModule.moduleId)
-        .flatMap(_ => server.enableModule(DialectManagerModule.moduleId))
-        .flatMap(_ => server.enableModule(HlAstManager.moduleId))
-        .flatMap(_ => server.enableModule(ValidationManager.moduleId))
-        .flatMap(_ => server.enableModule(SuggestionsManager.moduleId))
-        .flatMap(_ => server.enableModule(StructureManager.moduleId))
+    server
+      .enableModule(ASTManagerModule.moduleId)
+      .flatMap(_ => server.enableModule(DialectManagerModule.moduleId))
+      .flatMap(_ => server.enableModule(HlAstManager.moduleId))
+      .flatMap(_ => server.enableModule(ValidationManager.moduleId))
+      .flatMap(_ => server.enableModule(SuggestionsManager.moduleId))
+      .flatMap(_ => server.enableModule(StructureManager.moduleId))
+      .flatMap(_ => server.enableModule(FindReferencesModule.moduleId))
+      .flatMap(_ => server.enableModule(FindDeclarationModule.moduleId))
+
 //    server.enableModule(FindReferencesModule.moduleId)
 //    server.enableModule(FindDeclarationModule.moduleId)
 //    server.enableModule(RenameModule.moduleId)
-        .map(_ => new InitializeResult(serverCapabilities))
-        .toJava.toCompletableFuture
+      .map(_ => new InitializeResult(serverCapabilities))
+      .toJava
+      .toCompletableFuture
   }
 
   override def initialized(params: InitializedParams): Unit = super.initialized(params)
@@ -74,6 +81,5 @@ class LanguageServerImpl(val connection: ServerConnection,
   override def getTextDocumentService: TextDocumentService = textDocumentService
 
   override def getWorkspaceService: WorkspaceService = workspaceService
-
 
 }

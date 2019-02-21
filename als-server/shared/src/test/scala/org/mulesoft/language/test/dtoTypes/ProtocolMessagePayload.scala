@@ -63,7 +63,7 @@ object OpenedDocument {
     OpenedDocument(from.uri, from.version, from.text)
 }
 
-case class FindDeclarationRequest(var uri: String, var position: Int) extends ProtocolMessagePayload
+case class FindDeclarationRequest(var uri: String, var position: Position) extends ProtocolMessagePayload
 
 object FindDeclarationRequest {
   //implicit def rw: RW[FindDeclarationRequest] = macroRW
@@ -71,10 +71,10 @@ object FindDeclarationRequest {
   implicit def transportToShared(from: FindDeclarationRequest): SharedFindRequest =
     SharedFindRequest(from.uri, from.position)
 
-  def apply(uri: String, position: Int): FindDeclarationRequest = new FindDeclarationRequest(uri, position)
+  def apply(uri: String, position: Position): FindDeclarationRequest = new FindDeclarationRequest(uri, position)
 }
 
-case class FindReferencesRequest(var uri: String, var position: Int) extends ProtocolMessagePayload
+case class FindReferencesRequest(var uri: String, var position: Position) extends ProtocolMessagePayload
 
 object FindReferencesRequest {
   //implicit def rw: RW[FindReferencesRequest] = macroRW
@@ -82,22 +82,24 @@ object FindReferencesRequest {
   implicit def transportToShared(from: FindReferencesRequest): SharedFindRequest =
     SharedFindRequest(from.uri, from.position)
 
-  def apply(uri: String, position: Int): FindReferencesRequest = new FindReferencesRequest(uri, position)
+  def apply(uri: String, position: Position): FindReferencesRequest = new FindReferencesRequest(uri, position)
 }
 
-case class Location(uri: String, range: Range, version: Int)
+case class Location(uri: String, posRange: PositionRange, rawText: String, version: Int)
 
 object Location {
   implicit def transportToShared(from: Location): SharedLocation = new SharedLocation {
-    override var uri: String        = from.uri
-    override var version: Int       = from.version
-    override var range: SharedRange = Range.transportToShared(from.range)
+    override var uri: String  = from.uri
+    override var version: Int = from.version
+    // override var range: SharedRange = Range.transportToShared(from.range)
+    override var rawText: String         = from.rawText
+    override var posRange: PositionRange = from.posRange
   }
 
   //implicit def rw: RW[Location] = macroRW
 
   implicit def sharedToTransport(from: SharedLocation): Location =
-    Location(from.uri, Range(from.range.start, from.range.end), from.version)
+    Location(from.uri, from.posRange, from.rawText, from.version)
 }
 
 case class ClosedDocument(var wrapped: String) extends ProtocolMessagePayload
