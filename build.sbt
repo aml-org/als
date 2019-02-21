@@ -251,7 +251,7 @@ lazy val core = crossProject(JSPlatform,JVMPlatform).settings(
     name := "api-language-server"
   )
 )
-  .dependsOn(suggestions, outline, hl, server)
+  .dependsOn(suggestions, structure, hl, server)
   .in(file(".")).settings(settings: _*).jvmSettings(
   libraryDependencies += "com.github.amlorg" %%% "amf-aml" % deps("amf"),
   //	packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
