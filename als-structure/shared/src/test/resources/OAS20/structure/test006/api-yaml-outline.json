@@ -1,0 +1,107 @@
+[
+  {
+    "name": "info",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 0
+      },
+      "end": {
+        "line": 6,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 0
+      },
+      "end": {
+        "line": 6,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "pet",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 7,
+        "character": 2
+      },
+      "end": {
+        "line": 12,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 7,
+        "character": 2
+      },
+      "end": {
+        "line": 12,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "externalDocs",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 10,
+            "character": 0
+          },
+          "end": {
+            "line": 12,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 10,
+            "character": 0
+          },
+          "end": {
+            "line": 12,
+            "character": 0
+          }
+        },
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "pet1",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 0
+      }
+    },
+    "children": []
+  }
+]

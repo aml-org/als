@@ -1,0 +1,133 @@
+[
+  {
+    "name": "payload",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 8,
+        "character": 0
+      },
+      "end": {
+        "line": 14,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 8,
+        "character": 0
+      },
+      "end": {
+        "line": 14,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "p1",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 11,
+            "character": 0
+          },
+          "end": {
+            "line": 12,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 11,
+            "character": 0
+          },
+          "end": {
+            "line": 12,
+            "character": 0
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "p2",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 13,
+            "character": 0
+          },
+          "end": {
+            "line": 14,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 13,
+            "character": 0
+          },
+          "end": {
+            "line": 14,
+            "character": 0
+          }
+        },
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "key1",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 5,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 5,
+        "character": 2
+      },
+      "end": {
+        "line": 5,
+        "character": 6
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "key2",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 6,
+        "character": 2
+      },
+      "end": {
+        "line": 7,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 6
+      }
+    },
+    "children": []
+  }
+]

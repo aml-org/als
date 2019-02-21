@@ -13,5 +13,5 @@ trait IDocumentChangeExecutor {
     * @param change - change to apply.
     * @return future indicating the change is applied.
     */
-  def changeDocument(change: IChangedDocument): Future[Unit]
+  def changeDocument(change: ChangedDocument): Future[Unit]
 }

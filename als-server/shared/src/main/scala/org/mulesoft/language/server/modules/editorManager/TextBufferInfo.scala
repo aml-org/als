@@ -1,11 +1,11 @@
 package org.mulesoft.language.server.modules.editorManager
 
-import org.mulesoft.language.common.logger.ILogger
+import org.mulesoft.language.common.logger.Logger
 import org.mulesoft.language.server.modules.commonInterfaces.{IEditorTextBuffer, IPoint, IRange}
 
 import scala.collection.mutable.ArrayBuffer
 
-class TextBufferInfo(uri: String, logger: ILogger) extends IEditorTextBuffer {
+class TextBufferInfo(uri: String, logger: Logger) extends IEditorTextBuffer {
 
   var text: String = ""
 

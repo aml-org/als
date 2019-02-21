@@ -2,14 +2,14 @@ package org.mulesoft.language.server.common.reconciler
 
 import java.util.{Timer, TimerTask}
 
-import org.mulesoft.language.common.logger.ILogger
+import org.mulesoft.language.common.logger.Logger
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Promise
 import scala.util.{Failure, Success}
 
-class Reconciler(logger: ILogger,
+class Reconciler(logger: Logger,
                  timeout: Int,
                  setTimeout: (() => Unit, Int) => Unit = (task: () => Unit, timeout: Int) => {
                    new Timer().schedule(new TimerTask {

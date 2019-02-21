@@ -1,0 +1,820 @@
+[
+  {
+    "name": "info",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 15,
+        "character": 0
+      },
+      "end": {
+        "line": 27,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 15,
+        "character": 0
+      },
+      "end": {
+        "line": 27,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "license",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 24,
+            "character": 0
+          },
+          "end": {
+            "line": 27,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 24,
+            "character": 0
+          },
+          "end": {
+            "line": 27,
+            "character": 0
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "contact",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 20,
+            "character": 0
+          },
+          "end": {
+            "line": 23,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 20,
+            "character": 0
+          },
+          "end": {
+            "line": 23,
+            "character": 0
+          }
+        },
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "externalDocs",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 28,
+        "character": 0
+      },
+      "end": {
+        "line": 31,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 28,
+        "character": 0
+      },
+      "end": {
+        "line": 31,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "my.topic",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 36,
+        "character": 0
+      },
+      "end": {
+        "line": 57,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 36,
+        "character": 0
+      },
+      "end": {
+        "line": 57,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "publish",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 37,
+            "character": 0
+          },
+          "end": {
+            "line": 51,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 37,
+            "character": 0
+          },
+          "end": {
+            "line": 51,
+            "character": 0
+          }
+        },
+        "children": [
+          {
+            "name": "payload",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 40,
+                "character": 0
+              },
+              "end": {
+                "line": 51,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 40,
+                "character": 0
+              },
+              "end": {
+                "line": 51,
+                "character": 0
+              }
+            },
+            "children": [
+              {
+                "name": "a",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 43,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 44,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 43,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 44,
+                    "character": 0
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "b",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 45,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 46,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 45,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 46,
+                    "character": 0
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "c",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 47,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 51,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 47,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 51,
+                    "character": 0
+                  }
+                },
+                "children": [
+                  {
+                    "name": "d",
+                    "kind": 8,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 50,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 51,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 50,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 51,
+                        "character": 0
+                      }
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "subscribe",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 52,
+            "character": 0
+          },
+          "end": {
+            "line": 57,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 52,
+            "character": 0
+          },
+          "end": {
+            "line": 57,
+            "character": 0
+          }
+        },
+        "children": [
+          {
+            "name": "payload",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 53,
+                "character": 0
+              },
+              "end": {
+                "line": 57,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 53,
+                "character": 0
+              },
+              "end": {
+                "line": 57,
+                "character": 0
+              }
+            },
+            "children": [
+              {
+                "name": "",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 55,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 57,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 55,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 57,
+                    "character": 0
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "signup",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 58,
+        "character": 0
+      },
+      "end": {
+        "line": 88,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 58,
+        "character": 0
+      },
+      "end": {
+        "line": 88,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "publish",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 62,
+            "character": 0
+          },
+          "end": {
+            "line": 88,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 62,
+            "character": 0
+          },
+          "end": {
+            "line": 88,
+            "character": 0
+          }
+        },
+        "children": [
+          {
+            "name": "externalDocs",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 86,
+                "character": 0
+              },
+              "end": {
+                "line": 88,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 86,
+                "character": 0
+              },
+              "end": {
+                "line": 88,
+                "character": 0
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "payload",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 76,
+                "character": 0
+              },
+              "end": {
+                "line": 85,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 76,
+                "character": 0
+              },
+              "end": {
+                "line": 85,
+                "character": 0
+              }
+            },
+            "children": [
+              {
+                "name": "user",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 79,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 83,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 79,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 83,
+                    "character": 0
+                  }
+                },
+                "children": [
+                  {
+                    "name": "xml",
+                    "kind": 8,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 81,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 83,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 81,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 83,
+                        "character": 0
+                      }
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "signup",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 84,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 85,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 84,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 85,
+                    "character": 0
+                  }
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "headers",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 69,
+                "character": 0
+              },
+              "end": {
+                "line": 75,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 69,
+                "character": 0
+              },
+              "end": {
+                "line": 75,
+                "character": 0
+              }
+            },
+            "children": [
+              {
+                "name": "qos",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 72,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 73,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 72,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 73,
+                    "character": 0
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "retainFlag",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 74,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 75,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 74,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 75,
+                    "character": 0
+                  }
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "user",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 65,
+                "character": 10
+              },
+              "end": {
+                "line": 66,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 65,
+                "character": 10
+              },
+              "end": {
+                "line": 66,
+                "character": 0
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "signup",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 66,
+                "character": 10
+              },
+              "end": {
+                "line": 67,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 66,
+                "character": 10
+              },
+              "end": {
+                "line": 67,
+                "character": 0
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "register",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 67,
+                "character": 10
+              },
+              "end": {
+                "line": 68,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 67,
+                "character": 10
+              },
+              "end": {
+                "line": 68,
+                "character": 0
+              }
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "subscribe",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 59,
+            "character": 0
+          },
+          "end": {
+            "line": 61,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 59,
+            "character": 0
+          },
+          "end": {
+            "line": 61,
+            "character": 0
+          }
+        },
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "key1",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 6,
+        "character": 2
+      },
+      "end": {
+        "line": 7,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 6
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "key2",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 7,
+        "character": 2
+      },
+      "end": {
+        "line": 9,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 7,
+        "character": 2
+      },
+      "end": {
+        "line": 7,
+        "character": 6
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "messages",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 11,
+        "character": 0
+      },
+      "end": {
+        "line": 14,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 11,
+        "character": 0
+      },
+      "end": {
+        "line": 14,
+        "character": 0
+      }
+    },
+    "children": []
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "name": "Getting Started",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 6,
+        "character": 3
+      },
+      "end": {
+        "line": 8,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 3
+      },
+      "end": {
+        "line": 8,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "Basics of Authentication",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 8,
+        "character": 3
+      },
+      "end": {
+        "line": 10,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 8,
+        "character": 3
+      },
+      "end": {
+        "line": 10,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "Rendering Data as Graphs",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 10,
+        "character": 3
+      },
+      "end": {
+        "line": 12,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 10,
+        "character": 3
+      },
+      "end": {
+        "line": 12,
+        "character": 0
+      }
+    },
+    "children": []
+  }
+]

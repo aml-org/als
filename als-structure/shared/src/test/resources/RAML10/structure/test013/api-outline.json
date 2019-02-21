@@ -1,0 +1,188 @@
+[
+  {
+    "name": "/jobs",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 5,
+        "character": 0
+      },
+      "end": {
+        "line": 16,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 5,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 5
+      }
+    },
+    "children": [
+      {
+        "name": "post",
+        "kind": 6,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 6,
+            "character": 2
+          },
+          "end": {
+            "line": 16,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 6,
+            "character": 2
+          },
+          "end": {
+            "line": 6,
+            "character": 6
+          }
+        },
+        "children": [
+          {
+            "name": "X-Dept",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 9,
+                "character": 6
+              },
+              "end": {
+                "line": 12,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 8,
+                "character": 6
+              },
+              "end": {
+                "line": 8,
+                "character": 12
+              }
+            },
+            "children": [
+              {
+                "name": "example",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 11,
+                    "character": 17
+                  },
+                  "end": {
+                    "line": 11,
+                    "character": 41
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 11,
+                    "character": 17
+                  },
+                  "end": {
+                    "line": 11,
+                    "character": 41
+                  }
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "X-Tracker",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 12,
+                "character": 6
+              },
+              "end": {
+                "line": 16,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 11,
+                "character": 6
+              },
+              "end": {
+                "line": 11,
+                "character": 15
+              }
+            },
+            "children": [
+              {
+                "name": "example",
+                "kind": 8,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 15,
+                    "character": 17
+                  },
+                  "end": {
+                    "line": 15,
+                    "character": 33
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 15,
+                    "character": 17
+                  },
+                  "end": {
+                    "line": 15,
+                    "character": 33
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "version",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 1
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 1
+      }
+    },
+    "children": []
+  }
+]
