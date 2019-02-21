@@ -1,12 +1,12 @@
 package org.mulesoft.language.client.client
 
-import org.mulesoft.language.common.dtoTypes.{IChangedDocument, IOpenedDocument}
-import org.mulesoft.language.common.logger.ILogger
+import org.mulesoft.language.common.dtoTypes.{ChangedDocument, OpenedDocument}
+import org.mulesoft.language.common.logger.Logger
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
-class VersionedDocumentManager(val logger: ILogger, val maxStoredVersions: Int = 1) {
+class VersionedDocumentManager(val logger: Logger, val maxStoredVersions: Int = 1) {
 
   /**
     * Stores a mapping from document uri to a sorted list of versioned documents.
@@ -29,7 +29,7 @@ class VersionedDocumentManager(val logger: ILogger, val maxStoredVersions: Int =
     *
     * @param proposal
     */
-  def registerOpenedDocument(proposal: IOpenedDocument): Option[IOpenedDocument] = {
+  def registerOpenedDocument(proposal: OpenedDocument): Option[OpenedDocument] = {
 
     this.logger.debug("Open document called for uri " + proposal.uri,
       "VersionedDocumentManager", "registerOpenedDocument");
@@ -45,13 +45,13 @@ class VersionedDocumentManager(val logger: ILogger, val maxStoredVersions: Int =
 
     if (versionedDocuments.isDefined) {
 
-      Some(IOpenedDocument(proposal.uri, 0, proposal.text))
+      Some(OpenedDocument(proposal.uri, 0, proposal.text))
 
     } else {
       val newDocument = new VersionedDocument(proposal.uri, 0, proposal.text)
       this.documents.put(proposal.uri, ListBuffer() += newDocument)
 
-      Some(IOpenedDocument(proposal.uri, 0, proposal.text))
+      Some(OpenedDocument(proposal.uri, 0, proposal.text))
     }
   }
 
@@ -61,7 +61,7 @@ class VersionedDocumentManager(val logger: ILogger, val maxStoredVersions: Int =
     *
     * @param proposal
     */
-  def registerChangedDocument(proposal: IChangedDocument): Option[IChangedDocument] = {
+  def registerChangedDocument(proposal: ChangedDocument): Option[ChangedDocument] = {
 
     this.logger.debug("Change document called for uri " + proposal.uri,
       "VersionedDocumentManager", "registerChangedDocument");
@@ -112,7 +112,7 @@ class VersionedDocumentManager(val logger: ILogger, val maxStoredVersions: Int =
 
       this.documents.put(proposal.uri, ListBuffer() += newDocument)
 
-      Some(IChangedDocument(newDocument.getUri, newDocument.getVersion, Some(newDocument.getText), None))
+      Some(ChangedDocument(newDocument.getUri, newDocument.getVersion, Some(newDocument.getText), None))
     } else {
 
       val newDocument = new VersionedDocument(proposal.uri, 0, proposal.text.get)
@@ -121,7 +121,7 @@ class VersionedDocumentManager(val logger: ILogger, val maxStoredVersions: Int =
       this.logger.debugDetail("Registered new document, returning acceptance",
         "VersionedDocumentManager", "registerChangedDocument");
 
-      Some(IChangedDocument(proposal.uri, 0, proposal.text, None))
+      Some(ChangedDocument(proposal.uri, 0, proposal.text, None))
     }
   }
 

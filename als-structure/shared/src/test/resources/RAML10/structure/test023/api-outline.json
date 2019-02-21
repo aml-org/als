@@ -1,0 +1,211 @@
+[
+  {
+    "name": "experimental",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 1
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 1
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "feedbackRequested",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 1
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 1
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "deprecated",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 1
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 1
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "badge",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 1
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 1
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "clearanceLevel",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 11,
+        "character": 2
+      },
+      "end": {
+        "line": 19,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 16
+      }
+    },
+    "children": [
+      {
+        "name": "level",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 13,
+            "character": 6
+          },
+          "end": {
+            "line": 16,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 13,
+            "character": 6
+          },
+          "end": {
+            "line": 13,
+            "character": 11
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "signature",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 16,
+            "character": 6
+          },
+          "end": {
+            "line": 19,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 16,
+            "character": 6
+          },
+          "end": {
+            "line": 16,
+            "character": 15
+          }
+        },
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "testHarness",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 7,
+        "character": 2
+      },
+      "end": {
+        "line": 7,
+        "character": 13
+      }
+    },
+    "children": []
+  }
+]

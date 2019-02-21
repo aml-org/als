@@ -8,12 +8,12 @@ import scala.collection.mutable
 import scala.collection.mutable.{ArrayBuffer}
 import scala.concurrent.Future
 
-trait AbstractClientConnection extends IClientConnection {
+trait AbstractClientConnection extends ClientConnection {
 
   //    private loggerSettings: ILoggerSettings;
   //
-  protected var validationReportListeners: mutable.Buffer[IValidationReport => Unit] = ArrayBuffer()
-  protected var structureReportListeners: mutable.Buffer[IStructureReport => Unit] = ArrayBuffer()
+  protected var validationReportListeners: mutable.Buffer[ValidationReport => Unit] = ArrayBuffer()
+  protected var structureReportListeners: mutable.Buffer[StructureReport => Unit] = ArrayBuffer()
   //    private versionManager: VersionedDocumentManager;
   //
   protected var onExistsListeners: mutable.Buffer[String => Future[Boolean]] = ArrayBuffer()
@@ -37,7 +37,7 @@ trait AbstractClientConnection extends IClientConnection {
     *
     * @param listener
     */
-  def onValidationReport(listener: IValidationReport => Unit, unsubscribe: Boolean = false): Unit = {
+  def onValidationReport(listener: ValidationReport => Unit, unsubscribe: Boolean = false): Unit = {
     this.addListener(this.validationReportListeners, listener, unsubscribe)
   }
 
@@ -47,7 +47,7 @@ trait AbstractClientConnection extends IClientConnection {
     *
     * @param listener
     */
-  def onStructureReport(listener: IStructureReport => Unit, unsubscribe: Boolean = false): Unit = {
+  def onStructureReport(listener: StructureReport => Unit, unsubscribe: Boolean = false): Unit = {
     this.addListener(this.structureReportListeners, listener, unsubscribe)
   }
 

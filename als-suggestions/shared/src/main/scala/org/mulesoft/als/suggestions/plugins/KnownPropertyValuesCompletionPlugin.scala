@@ -78,7 +78,7 @@ class KnownPropertyValuesCompletionPlugin extends ICompletionPlugin {
         })
 
     }
-    var result: ListBuffer[ISuggestion] = ListBuffer()
+    var result: ListBuffer[Suggestion] = ListBuffer()
     prop.foreach(p => {
       var existing: Set[String] = Set()
       if (p.isMultiValue) {

@@ -3,19 +3,9 @@ package org.mulesoft.als.suggestions
 import org.mulesoft.als.suggestions.implementation.SuggestionCategoryRegistry
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
-import org.mulesoft.als.suggestions.plugins.{
-  BooleanPropertyCompletionPlugin,
-  KnownKeyPropertyValuesCompletionPlugin,
-  KnownPropertyValuesCompletionPlugin,
-  StructureCompletionPlugin
-}
-import org.mulesoft.als.suggestions.plugins.oas.{
-  DefinitionReferenceCompletionPlugin,
-  EmptyFileCompletionPlugin,
-  ParameterReferencePlugin,
-  ResponseReferencePlugin
-}
+import org.mulesoft.als.suggestions.plugins.oas.{DefinitionReferenceCompletionPlugin, EmptyFileCompletionPlugin, ParameterReferencePlugin, ResponseReferencePlugin}
 import org.mulesoft.als.suggestions.plugins.raml._
+import org.mulesoft.als.suggestions.plugins.{BooleanPropertyCompletionPlugin, KnownKeyPropertyValuesCompletionPlugin, KnownPropertyValuesCompletionPlugin, StructureCompletionPlugin}
 import org.mulesoft.high.level.InitOptions
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -53,15 +43,13 @@ object Core {
         CompletionPluginsRegistry.registerPlugin(ExampleStructureCompletionPlugin())
       })
 
-  def prepareText(text: String, offset: Int, syntax: Syntax): String = {
-    val isJSON = text.trim.startsWith("{")
-    if (isJSON) {
+  def prepareText(text: String, offset: Int, syntax: Syntax): String =
+    if (text.trim.startsWith("{")) {
       CompletionProvider.prepareJsonContent(text, offset)
     } else {
       syntax match {
         case YAML => CompletionProvider.prepareYamlContent(text, offset);
-        case _    => throw new Error(s"Syntax not supported: $syntax");
+        case _ => throw new Error(s"Syntax not supported: $syntax");
       }
     }
-  }
 }

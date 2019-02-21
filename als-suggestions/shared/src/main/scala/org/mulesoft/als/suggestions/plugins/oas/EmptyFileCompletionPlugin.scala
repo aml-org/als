@@ -15,7 +15,7 @@ class EmptyFileCompletionPlugin extends ICompletionPlugin {
 
         val text = request.config.editorStateProvider.get.getText
         var tTrim = text.trim
-        var suggestions:Seq[ISuggestion] = Seq()
+        var suggestions:Seq[Suggestion] = Seq()
         if(tTrim.startsWith("{")&&tTrim.endsWith("}")){
             var openInd = text.indexOf("{")
             var closeInd = text.indexOf("}")

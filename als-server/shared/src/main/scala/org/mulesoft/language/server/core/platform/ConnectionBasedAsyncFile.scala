@@ -2,12 +2,12 @@
 package org.mulesoft.language.server.core.platform
 
 import org.mulesoft.common.io.{AsyncFile, SyncFile}
-import org.mulesoft.language.server.core.connections.IServerConnection
+import org.mulesoft.language.server.core.connections.ServerConnection
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ConnectionBasedAsyncFile(connection: IServerConnection,
+class ConnectionBasedAsyncFile(connection: ServerConnection,
                                override val fileSystem: ConnectionBasedFS,
                                url: String)
   extends AsyncFile {

@@ -1,18 +1,17 @@
 package org.mulesoft.language.server.modules.outline
 
 import org.mulesoft.high.level.interfaces.IParseResult
-import org.mulesoft.language.common.dtoTypes.IStructureReport
-import org.mulesoft.language.outline.structure.structureImpl.{ConfigFactory, StructureBuilder}
-import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
+import org.mulesoft.language.common.dtoTypes.StructureReport
+import org.mulesoft.language.outline.structure.structureImpl.{ConfigFactory, DocumentSymbol, StructureBuilder}
+import org.mulesoft.language.outline.structure.structureInterfaces.{StructureConfiguration, StructureNodeJSON}
 import org.mulesoft.language.server.common.utils.PathRefine
-import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
-import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
-import org.mulesoft.language.server.modules.hlastManager.{HLASTmanager, IHLASTListener}
+import org.mulesoft.language.server.core.AbstractServerModule
+import org.mulesoft.language.server.modules.editorManager.EditorManagerModule
+import org.mulesoft.language.server.modules.hlastManager.{HlAstManager, IHLASTListener}
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.util.{Success, Try}
 
 class StructureManager extends AbstractServerModule {
 
@@ -29,35 +28,26 @@ class StructureManager extends AbstractServerModule {
     StructureManager.this.newASTAvailable(uri, version, ast)
   }
 
-  val onDocumentStructureListener: String => Future[Map[String, StructureNodeJSON]] =
+  val onDocumentStructureListener: String => Future[Seq[DocumentSymbol]] =
     onDocumentStructure
 
-  protected def getEditorManager: IEditorManagerModule = {
+  protected def getEditorManager: EditorManagerModule = {
 
-    this.getDependencyById(IEditorManagerModule.moduleId).get
+    this.getDependencyById(EditorManagerModule.moduleId).get
   }
 
-  protected def getASTManager: HLASTmanager = {
+  protected def getASTManager: HlAstManager = {
 
-    this.getDependencyById(HLASTmanager.moduleId).get
+    this.getDependencyById(HlAstManager.moduleId).get
   }
 
-  override def launch(): Try[IServerModule] = {
-
-    val superLaunch = super.launch()
-
-    if (superLaunch.isSuccess) {
-
-      this.getASTManager.onNewASTAvailable(this.onNewASTAvailableListener)
-
-      this.connection.onDocumentStructure(this.onDocumentStructureListener)
-
-      Success(this)
-    } else {
-
-      superLaunch
-    }
-  }
+  override def launch(): Future[Unit] =
+    super
+      .launch()
+      .map(_ => {
+        this.getASTManager.onNewASTAvailable(this.onNewASTAvailableListener)
+        this.connection.onDocumentStructure(this.onDocumentStructureListener)
+      })
 
   override def stop(): Unit = {
 
@@ -80,17 +70,18 @@ class StructureManager extends AbstractServerModule {
       this.connection
         .debugDetail(s"Got result for url $astUri of size ${struct.size}", "StructureManager", "onDocumentStructure")
 
-      val structureReport = IStructureReport(
+      val structureReport = StructureReport(
         _astUri,
         astVersion,
         struct
       )
 
-      this.connection.structureAvailable(structureReport)
+      // not part oif the protocol, extend it?
+      //this.connection.structureAvailable(structureReport)
     }
   }
 
-  def onDocumentStructure(url: String): Future[Map[String, StructureNodeJSON]] = {
+  def onDocumentStructure(url: String): Future[Seq[DocumentSymbol]] = {
 
     this.connection.debug("Asked for structure:\n" + url, "StructureManager", "onDocumentStructure")
 
@@ -104,108 +95,22 @@ class StructureManager extends AbstractServerModule {
           val result = StructureManager.this
             .getStructureFromAST(ast.rootASTUnit.rootNode, editor.get.language, editor.get.cursorPosition)
 
-          this.connection.debugDetail(s"Got result for url $url of size ${result.size}",
-            "StructureManager",
-            "onDocumentStructure")
-          val prepared = new mutable.HashMap[String, StructureNodeJSON]()
+          this.connection
+            .debugDetail(s"Got result for url $url of size ${result.size}", "StructureManager", "onDocumentStructure")
 
-          result.keySet.foreach(key => {
-            prepared(key) = recoverRanges(result(key), 0, ast.rootASTUnit.text.length - 1)
-          })
-
-          prepared.toMap
+          result
         })
 
     } else {
-      Future.successful(Map.empty)
+      Future.successful(Nil)
     }
   }
 
-  def recoverRanges(node: StructureNodeJSON, start: Int, end: Int): StructureNodeJSON = {
-    var nodeEnd = node.end
+  def getStructureFromAST(ast: IParseResult, language: String, position: Int): List[DocumentSymbol] = {
 
-    var nodeStart = node.start
-
-    if (isBrokenRange(node)) {
-      nodeStart = start
-
-      nodeEnd = findNodeEnd(node, start, end)
-    }
-
-    var childStart = nodeStart
-
-    var newChildren: Seq[StructureNodeJSON] = node.children.map(child => {
-      var recovered = recoverRanges(child, childStart, nodeEnd)
-
-      childStart = findNodeEnd(child, childStart, nodeEnd)
-
-      recovered
-    })
-
-    new StructureNodeJSON {
-      override def start: Int = nodeStart
-
-      override def end: Int = nodeEnd
-
-      override def children: Seq[StructureNodeJSON] = newChildren
-
-      override def icon: String = node.icon
-
-      override def typeText: Option[String] = node.typeText
-
-      override def textStyle: String = node.textStyle
-
-      override def text: String = node.text
-
-      override def category: String = node.category
-
-      override def selected: Boolean = node.selected
-
-      override def key: String = node.key
-    }
-  }
-
-  def findNodeEnd(node: StructureNodeJSON, start: Int, nodeEnd: Int = -1): Int = {
-    if (!isBrokenRange(node)) {
-      return node.end
-    }
-
-    var end = start
-
-    if (node.children.isEmpty) {
-      if (end + 2 > nodeEnd) {
-        return end
-      }
-
-      return end + 2
-    }
-
-    node.children.foreach(item => {
-      end = findNodeEnd(item, end, nodeEnd)
-    })
-
-    end
-  }
-
-  def isBrokenRange(node: StructureNodeJSON): Boolean = node.start <= 0 || node.end <= 0
-
-  def getStructureFromAST(ast: IParseResult, language: String, position: Int): Map[String, StructureNodeJSON] = {
-
-    val config = ConfigFactory.getConfig(new ASTProvider(ast, position, language))
-
-    if (config.isDefined) {
-
-      val categories = new StructureBuilder(config.get).getStructureForAllCategories
-
-      val result = new mutable.HashMap[String, StructureNodeJSON]()
-      categories.keySet.foreach(categoryName => {
-        result(categoryName) = categories(categoryName).toJSON
-      })
-
-      result.toMap
-    } else {
-
-      Map.empty
+    ConfigFactory.getConfig(new ASTProvider(ast, position, language)) match {
+      case Some(config) => StructureBuilder.listSymbols(ast, config)
+      case _            => Nil
     }
   }
 }

@@ -27,9 +27,8 @@ class SecurityReferencesCompletionPlugin extends ICompletionPlugin {
 
     var paramFor = inParamOf(request).get;
 
-    val result: Seq[ISuggestion] = request.astNode match {
-      case Some(n) =>
-        if (n.isElement) {
+        val result:Seq[Suggestion] = request.astNode match {
+            case Some(n) => if (n.isElement) {
 
           val e                       = n.asElement.get
           var owner                   = e
