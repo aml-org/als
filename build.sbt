@@ -265,7 +265,7 @@ lazy val core = crossProject(JSPlatform,JVMPlatform).settings(
     }
   },
   assemblyJarName in assembly := "server.jar",
-  addArtifact(Artifact("api-language-server.jar", "fat"), sbtassembly.AssemblyKeys.assembly)
+  addArtifact(Artifact("api-language-server", ""), sbtassembly.AssemblyKeys.assembly)
 ).jsSettings(
   libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
   libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
