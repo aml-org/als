@@ -1,13 +1,16 @@
 package org.mulesoft.typesystem.json.interfaces
-// $COVERAGE-OFF$
+
+import common.dtoTypes.Position
+
 trait Point {
 
-    def line: Int
+  def line: Int
 
-    def column: Int
+  def column: Int
 
-    def position: Int
+  def position: Int
 
-    def resolved: Boolean = position >= 0
+  def resolved: Boolean = position >= 0
+
+  def toPosition: Position = Position(line, column)
 }
-// $COVERAGE-ON$

@@ -20,9 +20,7 @@ class FindDeclarationModule extends AbstractServerModule {
   override def launch(): Future[Unit] =
     super
       .launch()
-      .map(_ => {
-        connection.onOpenDeclaration(findDeclaration, false)
-      })
+      .map(_ => connection.onOpenDeclaration(findDeclaration, false))
 
   private def findDeclaration(_uri: String, position: Position): Future[Seq[ILocation]] = {
     val uri     = PathRefine.refinePath(_uri, platform)
@@ -30,7 +28,7 @@ class FindDeclarationModule extends AbstractServerModule {
 
     currentAst(uri) andThen {
       case Success(project) =>
-        SearchUtils.findDeclaration(project, position.offset(project.units(uri).text)) match {
+        SearchUtils.findDeclaration(project, position) match {
           case Some(result) => promise.success(result)
 
           case _ => promise.success(Seq())

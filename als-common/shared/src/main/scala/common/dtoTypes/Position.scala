@@ -20,6 +20,16 @@ case class Position(line: Int, column: Int) {
 
     if (line < 0 || column < 0) -1 else innerOffset(text.linesWithSeparators.toList, 0, 0)
   }
+
+  def <(other: Position): Boolean = (line < other.line) || (line == other.line && column < other.column)
+
+  def <=(other: Position): Boolean = (line < other.line) || (line == other.line && column <= other.column)
+
+  def >(other: Position): Boolean = (line > other.line) || (line == other.line && column > other.column)
+
+  def >=(other: Position): Boolean = (line > other.line) || (line == other.line && column >= other.column)
+
+  def ==(other: Position): Boolean = line == other.line && column == other.column
 }
 
 object Position {
@@ -38,6 +48,10 @@ object Position {
       case _ => toPosition(0, 0, text.linesWithSeparators.toList)
     }
   }
+
+  def min(first: Position, second: Position): Position = if(second < first) second else first
+
+  def max(first: Position, second: Position): Position = if(second > first) second else first
 }
 
 object Position0 extends Position(0, 0)

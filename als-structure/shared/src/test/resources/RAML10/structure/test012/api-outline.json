@@ -5,21 +5,21 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 4,
+        "line": 3,
         "character": 0
       },
       "end": {
-        "line": 15,
+        "line": 14,
         "character": 25
       }
     },
     "selectionRange": {
       "start": {
-        "line": 4,
+        "line": 3,
         "character": 0
       },
       "end": {
-        "line": 4,
+        "line": 3,
         "character": 6
       }
     },
@@ -30,21 +30,21 @@
         "deprecated": false,
         "range": {
           "start": {
-            "line": 6,
+            "line": 5,
             "character": 2
           },
           "end": {
-            "line": 15,
+            "line": 14,
             "character": 25
           }
         },
         "selectionRange": {
           "start": {
-            "line": 6,
+            "line": 5,
             "character": 2
           },
           "end": {
-            "line": 6,
+            "line": 5,
             "character": 12
           }
         },
@@ -55,11 +55,11 @@
             "deprecated": false,
             "range": {
               "start": {
-                "line": 9,
+                "line": 8,
                 "character": 6
               },
               "end": {
-                "line": 15,
+                "line": 14,
                 "character": 25
               }
             },
@@ -80,11 +80,11 @@
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 12,
+                    "line": 11,
                     "character": 8
                   },
                   "end": {
-                    "line": 15,
+                    "line": 14,
                     "character": 0
                   }
                 },

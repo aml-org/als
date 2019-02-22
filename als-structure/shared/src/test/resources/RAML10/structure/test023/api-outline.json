@@ -109,11 +109,11 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 11,
+        "line": 10,
         "character": 2
       },
       "end": {
-        "line": 19,
+        "line": 18,
         "character": 0
       }
     },
@@ -134,21 +134,21 @@
         "deprecated": false,
         "range": {
           "start": {
-            "line": 13,
+            "line": 12,
             "character": 6
           },
           "end": {
-            "line": 16,
+            "line": 15,
             "character": 0
           }
         },
         "selectionRange": {
           "start": {
-            "line": 13,
+            "line": 12,
             "character": 6
           },
           "end": {
-            "line": 13,
+            "line": 12,
             "character": 11
           }
         },
@@ -160,21 +160,21 @@
         "deprecated": false,
         "range": {
           "start": {
-            "line": 16,
+            "line": 15,
             "character": 6
           },
           "end": {
-            "line": 19,
+            "line": 18,
             "character": 0
           }
         },
         "selectionRange": {
           "start": {
-            "line": 16,
+            "line": 15,
             "character": 6
           },
           "end": {
-            "line": 16,
+            "line": 15,
             "character": 15
           }
         },
@@ -188,11 +188,11 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 8,
+        "line": 7,
         "character": 2
       },
       "end": {
-        "line": 10,
+        "line": 9,
         "character": 0
       }
     },

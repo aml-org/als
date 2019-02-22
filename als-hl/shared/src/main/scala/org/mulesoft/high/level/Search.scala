@@ -4,6 +4,7 @@ import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.document.DeclaresModel
 import amf.core.model.domain.AmfScalar
 import amf.core.remote._
+import common.dtoTypes.Position
 import org.mulesoft.high.level.interfaces.{IASTUnit, IHighLevelNode, IParseResult}
 import org.mulesoft.positioning.YamlLocation
 import org.mulesoft.typesystem.json.interfaces.JSONWrapper
@@ -98,6 +99,9 @@ object Search {
       Seq()
     }
   }
+
+  def findReferences(node: IParseResult, position: Position): Option[ReferenceSearchResult] =
+    findReferences(node, position.offset(node.astUnit.text))
 
   def findReferences(node: IParseResult, position: Int): Option[ReferenceSearchResult] = {
     val pm       = node.astUnit.positionsMapper
@@ -208,6 +212,12 @@ object Search {
   def findReferencesByPosition(unit: IASTUnit, position: Int): Option[ReferenceSearchResult] =
     unit.rootNode.getNodeByPosition(position).flatMap(findReferences(_, position))
 
+  def findReferencesByPosition(unit: IASTUnit, position: Position): Option[ReferenceSearchResult] =
+    unit.rootNode.getNodeByPosition(position).flatMap(findReferences(_, position))
+
+  def findDefinition(node: IParseResult, position: Position): Option[ReferenceSearchResult] =
+    findDefinition(node, position.offset(node.astUnit.text))
+
   def findDefinition(_node: IParseResult, position: Int): Option[ReferenceSearchResult] = {
     var language = _node.astUnit.project.language
     val pm       = _node.astUnit.positionsMapper
@@ -308,6 +318,9 @@ object Search {
   }
 
   def findDefinitionByPosition(unit: IASTUnit, position: Int): Option[ReferenceSearchResult] =
+    unit.rootNode.getNodeByPosition(position).flatMap(findDefinition(_, position))
+
+  def findDefinitionByPosition(unit: IASTUnit, position: Position): Option[ReferenceSearchResult] =
     unit.rootNode.getNodeByPosition(position).flatMap(findDefinition(_, position))
 
   def findDefinitionByName(unit: IASTUnit,

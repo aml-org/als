@@ -1,100 +1,100 @@
 package org.mulesoft.high.level.interfaces
 
-import amf.core.annotations.{SourceAST, SourceNode}
+import amf.core.annotations.SourceNode
 import amf.core.model.document.BaseUnit
-import org.mulesoft.typesystem.nominal_interfaces.IProperty
 import amf.core.model.domain.AmfObject
-import org.mulesoft.typesystem.json.interfaces.NodeRange
+import common.dtoTypes.Position
+import org.mulesoft.typesystem.nominal_interfaces.IProperty
 import org.mulesoft.typesystem.typesystem_interfaces.IHasExtra
-import org.yaml.model.YPart
 
 trait IParseResult extends IHasExtra {
 
-    def amfNode: AmfObject
-    //def name: String
-    //def optional: Boolean
+  def amfNode: AmfObject
 
-    def amfBaseUnit: BaseUnit
+  def amfBaseUnit: BaseUnit
 
-    def root: Option[IHighLevelNode]
+  def root: Option[IHighLevelNode]
 
-    //def isSameNode(n: IParseResult): Boolean
+  def parent: Option[IHighLevelNode]
 
-    def parent: Option[IHighLevelNode]
+  def setParent(node: IHighLevelNode): Unit
 
-    def setParent(node: IHighLevelNode): Unit
+  def children: Seq[IParseResult]
 
-    def children: Seq[IParseResult]
+  def isAttr: Boolean
 
-    //def directChildren: Array[IParseResult]
-    //def isAttached: Boolean
-    //def isImplicit: Boolean
-    def isAttr: Boolean
+  def asAttr: Option[IAttribute]
 
-    def asAttr: Option[IAttribute]
+  def isElement: Boolean
 
-    def isElement: Boolean
+  def asElement: Option[IHighLevelNode]
 
-    def asElement: Option[IHighLevelNode]
+  def isUnknown: Boolean
 
-    //def localId(): String
-    //def fullLocalId(): String
-    def isUnknown: Boolean
+  def property: Option[IProperty]
 
-    def property: Option[IProperty]
+  def printDetails(indent: String = ""): String
 
-    //def id: String
-    //def computedValue(name: String): Any
+  def printDetails: String = printDetails()
 
-    //def validate(acceptor: ValidationAcceptor): Unit
-    def printDetails(indent: String=""): String
+  def astUnit: IASTUnit
 
-    def printDetails: String = printDetails()
+  def sourceInfo: ISourceInfo
 
-    def astUnit: IASTUnit
+  def getNodeByPosition(pos: Int): Option[IParseResult] =
+    selectNodeWhichContainsPosition(pos).map(n => {
+      val posOffset = astUnit.positionsMapper.offset(pos)
+      var result = n
+      if (result.sourceInfo.isYAML) {
+        while (
+          result.parent.isDefined
+            && result.sourceInfo.valueOffset.isDefined
+            && result.sourceInfo.valueOffset.get > posOffset
+            && !result.sourceInfo.containsPositionInKey(pos)) {
 
-    //def getKind: NodeKind
-    //def getLowLevelStart(): Nothing
-    //def getLowLevelEnd(): Nothing
-    //def version(): Nothing
-    //def setJSON(`val`: Any): Nothing
-    //def getJSON(): Any
-
-    def sourceInfo:ISourceInfo
-
-    def getNodeByPosition(pos:Int):Option[IParseResult] =
-        selectNodeWhichContainsPosition(pos).map(n=>{
-            var posOffset = astUnit.positionsMapper.offset(pos)
-            var result = n
-            if(result.sourceInfo.isYAML) {
-                while (
-                    result.parent.isDefined
-                        && result.sourceInfo.valueOffset.isDefined
-                        && result.sourceInfo.valueOffset.get > posOffset
-                        && !result.sourceInfo.containsPositionInKey(pos)) {
-
-                    result = result.parent.get
-                }
-            }
-            result
-        })
-
-    protected def selectNodeWhichContainsPosition(pos:Int):Option[IParseResult] =
-        if (sourceInfo.containsPosition(pos)) Some(this)
-        else None
-
-    def unitPath:Option[String] = {
-        var opt:Option[String] = amfNode.annotations.find(classOf[SourceNode]).map(_.node.sourceName).orElse(Option(amfNode.id))
-        opt match {
-            case Some(str) =>
-                var result = str
-                var ind = str.indexOf("#")
-                if(ind>=0){
-                    result = str.substring(0,ind)
-                }
-                Some(result)
-            case _ => None
+          result = result.parent.get
         }
+      }
+      result
+    })
 
+  def getNodeByPosition(position: Position): Option[IParseResult] =
+    selectNodeWhichContainsPosition(position)
+      .map(n => {
+        val posOffset = astUnit.positionsMapper.offset(position)
+        var result = n
+        if (result.sourceInfo.isYAML) {
+          while (
+            result.parent.isDefined
+              && result.sourceInfo.valueOffset.isDefined
+              && result.sourceInfo.valueOffset.get > posOffset
+              && !result.sourceInfo.containsPositionInKey(position)) {
+
+            result = result.parent.get
+          }
+        }
+        result
+      })
+
+  protected def selectNodeWhichContainsPosition(pos: Int): Option[IParseResult] =
+    if (sourceInfo.containsPosition(pos)) Some(this) else None
+
+  protected def selectNodeWhichContainsPosition(position: Position): Option[IParseResult] = {
+    if (sourceInfo.containsPosition(position)) Some(this) else None
+  }
+
+  def unitPath: Option[String] = {
+    val opt: Option[String] = amfNode.annotations.find(classOf[SourceNode]).map(_.node.sourceName).orElse(Option(amfNode.id))
+    opt match {
+      case Some(str) =>
+        var result = str
+        val ind = str.indexOf("#")
+        if (ind >= 0) {
+          result = str.substring(0, ind)
+        }
+        Some(result)
+      case _ => None
     }
+
+  }
 }

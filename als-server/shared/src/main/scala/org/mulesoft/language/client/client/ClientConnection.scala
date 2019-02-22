@@ -104,7 +104,7 @@ trait ClientConnection extends Logger {
     * @param uri      - document uri
     * @param position - position in the document
     */
-  def rename(uri: String, position: Int, newName: String): Future[Seq[ChangedDocument]]
+  def rename(uri: String, position: Position, newName: String): Future[Seq[ChangedDocument]]
 
   /**
     * Gets latest document version.

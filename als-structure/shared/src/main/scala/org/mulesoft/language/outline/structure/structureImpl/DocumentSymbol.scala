@@ -10,6 +10,20 @@ case class DocumentSymbol(name: String,
                           selectionRange: PositionRange,
                           children: List[DocumentSymbol])
 
+object DocumentSymbol {
+  def apply(name: String,
+            kind: SymbolKind,
+            deprecated: Boolean,
+            range: PositionRange,
+            selectionRange: PositionRange,
+            children: List[DocumentSymbol]): DocumentSymbol = {
+    val intersection = range.intersection(selectionRange)
+    val resolvedRange = intersection.getOrElse(range)
+
+    new DocumentSymbol(name, kind, deprecated, range, resolvedRange, children)
+  }
+}
+
 object SymbolKind {
   case class SymbolKind(index: Int)
   //

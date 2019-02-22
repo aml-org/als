@@ -5,11 +5,11 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 6,
+        "line": 5,
         "character": 2
       },
       "end": {
-        "line": 9,
+        "line": 8,
         "character": 30
       }
     },

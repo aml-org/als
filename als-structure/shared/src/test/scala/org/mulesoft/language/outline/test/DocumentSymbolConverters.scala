@@ -5,6 +5,7 @@ import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import upickle.default.{macroRW, ReadWriter => RW}
 
 case class DocumentSymbolPosition(line: Int, character: Int)
+
 object DocumentSymbolPosition {
 
   implicit def rw: RW[DocumentSymbolPosition] = macroRW
@@ -13,23 +14,18 @@ object DocumentSymbolPosition {
     DocumentSymbolPosition(from.line, from.column)
   }
 }
+
 case class DocumentSymbolRange(start: DocumentSymbolPosition, end: DocumentSymbolPosition)
 
 object DocumentSymbolRange {
 
   implicit def rw: RW[DocumentSymbolRange] = macroRW
 
-  implicit def sharedToTransport(from: PositionRange): DocumentSymbolRange = {
-
-    DocumentSymbolRange(
-      from.start,
-      from.end
-    )
-  }
+  implicit def sharedToTransport(from: PositionRange): DocumentSymbolRange =
+    DocumentSymbolRange(from.start, from.end)
 }
 
 case class DocumentSymbolNode(name: String,
-                              //                              detail: Option[String],
                               kind: Int,
                               deprecated: Boolean,
                               range: DocumentSymbolRange,
@@ -40,9 +36,8 @@ object DocumentSymbolNode {
 
   implicit def rw: RW[DocumentSymbolNode] = macroRW
 
-  implicit def sharedToTransport(from: DocumentSymbol): DocumentSymbolNode = {
-
-    val result = DocumentSymbolNode(
+  implicit def sharedToTransport(from: DocumentSymbol): DocumentSymbolNode =
+    DocumentSymbolNode(
       from.name,
       from.kind.index,
       from.deprecated,
@@ -50,6 +45,4 @@ object DocumentSymbolNode {
       from.selectionRange,
       from.children.map(child => DocumentSymbolNode.sharedToTransport(child))
     )
-    result
-  }
 }

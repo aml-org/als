@@ -118,8 +118,7 @@ class TestClientConnection(serverProcess: Seq[TestServerConnection])
     * @param position - position in the document
     */
   override def openDeclaration(uri: String, position: Position): Future[Seq[ILocation]] =
-    this
-      .sendWithResponse[LocationsResponse]("OPEN_DECLARATION", FindDeclarationRequest(uri, position))
+    sendWithResponse[LocationsResponse]("OPEN_DECLARATION", FindDeclarationRequest(uri, position))
       .map(r => r.wrapped.map(Location.transportToShared))
 
   /**
@@ -130,8 +129,7 @@ class TestClientConnection(serverProcess: Seq[TestServerConnection])
     * @param position - position in the document
     */
   override def findReferences(uri: String, position: Position): Future[Seq[ILocation]] =
-    this
-      .sendWithResponse[LocationsResponse]("FIND_REFERENCES", FindReferencesRequest(uri, position))
+    sendWithResponse[LocationsResponse]("FIND_REFERENCES", FindReferencesRequest(uri, position))
       .map(r => r.wrapped.map(Location.transportToShared))
 
   /**
@@ -150,9 +148,8 @@ class TestClientConnection(serverProcess: Seq[TestServerConnection])
     * @param uri      - document uri
     * @param position - position in the document
     */
-  override def rename(uri: String, position: Int, newName: String): Future[Seq[SharedChangedDocument]] =
-    this
-      .sendWithResponse[RenameResponse]("RENAME", RenameRequest(uri, newName, position))
+  override def rename(uri: String, position: Position, newName: String): Future[Seq[SharedChangedDocument]] =
+    sendWithResponse[RenameResponse]("RENAME", RenameRequest(uri, newName, position))
       .map(r => r.wrapped.map(ChangedDocument.transportToShared))
 
   def VALIDATION_REPORT(report: SharedValidationReport): Unit = validationReportListeners.foreach(x => x(report))

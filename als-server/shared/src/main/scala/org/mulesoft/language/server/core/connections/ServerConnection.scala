@@ -89,10 +89,10 @@ trait ServerConnection extends Logger {
   /**
     * Finds the set of document (and non-document files) edits to perform the requested rename.
     *
-    * @param listener    (uri: String, position: Int, newName: String) => Seq[IChangedDocument]
+    * @param listener    (uri: String, position: Position, newName: String) => Seq[IChangedDocument]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onRename(listener: (String, Int, String) => Future[Seq[ChangedDocument]], unsubscribe: Boolean = false): Unit
+  def onRename(listener: (String, Position, String) => Future[Seq[ChangedDocument]], unsubscribe: Boolean = false): Unit
 
   /**
     * Returns whether path/url exists.
