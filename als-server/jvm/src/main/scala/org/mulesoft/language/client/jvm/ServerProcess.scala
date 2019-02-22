@@ -6,7 +6,7 @@ import java.util.function.Consumer
 import common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.client.jvm.DocumentSymbolConverter.AsJavaList
-import dtoTypes.{GetCompletionRequest, GetStructureRequest}
+import org.mulesoft.language.client.jvm.dtoTypes.{GetCompletionRequest, GetStructureRequest}
 import org.mulesoft.language.client.jvm.serverConnection.{JAVALogger, JAVAServerConnection}
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
@@ -23,7 +23,6 @@ import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
 import org.mulesoft.language.server.modules.validationManager.ValidationManager
 
 import scala.collection.JavaConverters._
-import scala.compat.java8.OptionConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
@@ -128,26 +127,21 @@ object ServerProcess {
     }
   }
 
-  def rename(uri: String, position: Int, newName: String, renameHandler: LocationsHandler) {
+  def rename(uri: String, position: Position, newName: String, renameHandler: LocationsHandler) {
     connection.rename(uri, position, newName) andThen {
       case Success(result) => {
-        var list: util.List[ILocation] = new util.ArrayList[ILocation]()
+        val list: util.List[ILocation] = new util.ArrayList[ILocation]()
 
         result
           .map(item =>
             new ILocation {
-              //override var range: Range = item.textEdits.get.head.range
-
-              override var rawText: String = item.text.getOrElse("")
-
               override var posRange: PositionRange =
-                PositionRange(Position(item.textEdits.get.head.range.start, rawText),
-                              Position(item.textEdits.get.head.range.end, rawText))
+                PositionRange(item.textEdits.get.head.range.start, item.textEdits.get.head.range.end)
 
               override var uri: String = item.uri
 
               override var version: Int = 0
-          })
+            })
           .foreach(location => list.add(location))
 
         renameHandler.success(list)
@@ -217,6 +211,7 @@ object JAVAStructureNode {
 //todo : change to use typings, wrapped and implicit convertions
 
 object DocumentSymbolConverter {
+
   implicit class AsJavaConverter(internal: DocumentSymbol) {
     def asJava: JavaDocumentSymbol = new JavaDocumentSymbol(internal)
   }
@@ -225,14 +220,20 @@ object DocumentSymbolConverter {
     def asJava: java.util.List[JavaDocumentSymbol] =
       internal.map(i => new JavaDocumentSymbol(i)).asJava
   }
+
 }
 
 class JavaDocumentSymbol(private val _internal: DocumentSymbol) {
-  def name: String                  = _internal.name
-  def kind: Int                     = _internal.kind.index
-  def deprecated: Boolean           = _internal.deprecated
-  def range: PositionRange          = _internal.range
+  def name: String = _internal.name
+
+  def kind: Int = _internal.kind.index
+
+  def deprecated: Boolean = _internal.deprecated
+
+  def range: PositionRange = _internal.range
+
   def selectionRange: PositionRange = _internal.selectionRange
+
   def children: java.util.List[JavaDocumentSymbol] =
     _internal.children.toList.asJava
 }

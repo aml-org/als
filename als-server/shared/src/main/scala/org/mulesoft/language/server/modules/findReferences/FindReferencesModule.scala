@@ -44,15 +44,8 @@ class FindReferencesModule extends AbstractServerModule {
   }
 
   private def currentAst(uri: String): Future[IProject] = {
-    val hlmanager = this.getDependencyById(HlAstManager.moduleId).get.asInstanceOf[HlAstManager]
-
-    hlmanager
+    getDependencyById(HlAstManager.moduleId).get.asInstanceOf[HlAstManager]
       .forceGetCurrentAST(uri)
-      .map(ast => {
-        println("ASTFOUND: " + ast.rootASTUnit.path + " " + ast.rootASTUnit.text)
-
-        ast
-      })
   }
 }
 

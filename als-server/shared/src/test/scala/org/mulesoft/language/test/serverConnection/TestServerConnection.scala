@@ -1,20 +1,9 @@
 package org.mulesoft.language.test.serverConnection
 
-import org.mulesoft.language.common.dtoTypes.{
-  IDetailsItem,
-  IDetailsReport,
-  IUIDisplayRequest,
-  ChangedDocument => SharedChangedDocument,
-  OpenedDocument => SharedOpenedDocument,
-  StructureReport => SharedStructureReport,
-  ValidationReport => SharedValidationReport
-}
+import common.dtoTypes.Position
+import org.mulesoft.language.common.dtoTypes.{IDetailsItem, IDetailsReport, IUIDisplayRequest, ChangedDocument => SharedChangedDocument, OpenedDocument => SharedOpenedDocument, StructureReport => SharedStructureReport, ValidationReport => SharedValidationReport}
 import org.mulesoft.language.common.logger.MutedLogger
-import org.mulesoft.language.entryPoints.common.{
-  MessageDispatcher,
-  ProtocolMessage => SharedProtocolMessage,
-  ProtocolSeqMessage => SharedProtocolSeqMessage
-}
+import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage => SharedProtocolMessage, ProtocolSeqMessage => SharedProtocolSeqMessage}
 import org.mulesoft.language.server.core.connections.AbstractServerConnection
 import org.mulesoft.language.server.modules.editorManager.EditorManagerModule
 import org.mulesoft.language.test.clientConnection.TestClientConnection
@@ -294,7 +283,7 @@ class TestServerConnection(clientProcess: Seq[TestClientConnection])
     //this.internalSendJSONMessage(protocolMessage.asInstanceOf[js.Object])
   }
 
-  def rename(uri: String, position: Int, newName: String): Future[Seq[SharedChangedDocument]] = {
+  def rename(uri: String, position: Position, newName: String): Future[Seq[SharedChangedDocument]] = {
     renameListeners.head(uri, position, newName)
   }
 }

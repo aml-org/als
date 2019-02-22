@@ -81,7 +81,7 @@ class JAVAServerConnection extends JAVAMessageDispatcher with AbstractServerConn
     openDeclarationListeners.head(uri, position)
   }
 
-  def rename(uri: String, position: Int, newName: String): Future[Seq[ChangedDocument]] = {
+  def rename(uri: String, position: Position, newName: String): Future[Seq[ChangedDocument]] = {
     renameListeners.head(uri, position, newName)
   }
 

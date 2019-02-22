@@ -76,13 +76,13 @@ object FindReferencesRequest {
     SharedFindRequest(from.uri, from.position)
 }
 
-case class Location(var uri: String, var range: Range, version: Int)
+case class Location(var uri: String, var range: PositionRange, version: Int)
 
 object Location {
   implicit def rw: RW[Location] = macroRW
 
   implicit def sharedToTransport(from: SharedLocation): Location =
-    Location(from.uri, Range(from.range.start, from.range.end), from.version)
+    Location(from.uri, PositionRange.convert(from.posRange), from.version)
 }
 
 case class ClosedDocument(var wrapped: String) extends ProtocolMessagePayload
@@ -235,12 +235,12 @@ case class TextEdit(
       * Range to replace. Range start==end==0 => insert into the beginning of the document,
       * start==end==document end => insert into the end of the document
       */
-    var range: Range,
+    var range: PositionRange,
     /**
       * Text to replace given range with.
       */
     var text: String
-) {}
+)
 
 object TextEdit {
   implicit def rw: RW[TextEdit] = macroRW

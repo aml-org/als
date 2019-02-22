@@ -1,5 +1,6 @@
 package org.mulesoft.language.server.modules.rename
 
+import common.dtoTypes.Position
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.language.common.dtoTypes.{ChangedDocument, TextEdit}
 import org.mulesoft.language.server.common.utils.PathRefine
@@ -20,11 +21,9 @@ class RenameModule extends AbstractServerModule {
 
   override def launch(): Future[Unit] =
     super.launch()
-      .map(_ => {
-        connection.onRename(findTargets)
-      })
+      .map(_ => connection.onRename(findTargets))
 
-  private def findTargets(_uri: String, position: Int, newName: String): Future[Seq[ChangedDocument]] = {
+  private def findTargets(_uri: String, position: Position, newName: String): Future[Seq[ChangedDocument]] = {
     val uri = PathRefine.refinePath(_uri, platform)
     val promise = Promise[Seq[ChangedDocument]]()
 
@@ -33,7 +32,7 @@ class RenameModule extends AbstractServerModule {
         SearchUtils.findAll(project, position) match {
           case Some(found) =>
             promise.success(found.map(location =>
-              ChangedDocument(location.uri, 0, None, Some(Seq(TextEdit(location.range, newName))))))
+              ChangedDocument(location.uri, 0, None, Some(Seq(TextEdit(location.posRange, newName))))))
 
           case _ => promise.success(Seq())
         }

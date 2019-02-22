@@ -5,21 +5,21 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 4,
+        "line": 3,
         "character": 0
       },
       "end": {
-        "line": 6,
+        "line": 5,
         "character": 49
       }
     },
     "selectionRange": {
       "start": {
-        "line": 4,
+        "line": 3,
         "character": 0
       },
       "end": {
-        "line": 4,
+        "line": 3,
         "character": 6
       }
     },
@@ -30,21 +30,21 @@
         "deprecated": false,
         "range": {
           "start": {
-            "line": 5,
+            "line": 4,
             "character": 2
           },
           "end": {
-            "line": 6,
+            "line": 5,
             "character": 49
           }
         },
         "selectionRange": {
           "start": {
-            "line": 5,
+            "line": 4,
             "character": 2
           },
           "end": {
-            "line": 5,
+            "line": 4,
             "character": 6
           }
         },

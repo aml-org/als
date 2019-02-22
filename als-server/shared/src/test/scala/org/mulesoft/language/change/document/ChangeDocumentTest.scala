@@ -73,7 +73,7 @@ class ChangeDocumentTest extends LanguageServerTest {
 
   test("Find references test 001") {
     init().flatMap(_ => {
-      var content1 =
+      val content1 =
         """#%RAML 1.0
           |title: test
           |types:
@@ -82,9 +82,9 @@ class ChangeDocumentTest extends LanguageServerTest {
           |    properties:
           |      p1: MyType
           |""".stripMargin
-      var ind = content1.indexOf("MyType:") + 2
+      val ind = content1.indexOf("MyType:") + 2
 
-      var url = "file:///findReferencesTest001.raml"
+      val url = "file:///findReferencesTest001.raml"
       getClient.flatMap(client => {
         client.documentOpened(OpenedDocument(url, 0, content1))
         client

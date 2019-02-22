@@ -85,21 +85,19 @@ object FindReferencesRequest {
   def apply(uri: String, position: Position): FindReferencesRequest = new FindReferencesRequest(uri, position)
 }
 
-case class Location(uri: String, posRange: PositionRange, rawText: String, version: Int)
+case class Location(uri: String, posRange: PositionRange, version: Int)
 
 object Location {
   implicit def transportToShared(from: Location): SharedLocation = new SharedLocation {
     override var uri: String  = from.uri
     override var version: Int = from.version
-    // override var range: SharedRange = Range.transportToShared(from.range)
-    override var rawText: String         = from.rawText
     override var posRange: PositionRange = from.posRange
   }
 
   //implicit def rw: RW[Location] = macroRW
 
   implicit def sharedToTransport(from: SharedLocation): Location =
-    Location(from.uri, from.posRange, from.rawText, from.version)
+    Location(from.uri, from.posRange, from.version)
 }
 
 case class ClosedDocument(var wrapped: String) extends ProtocolMessagePayload
@@ -235,7 +233,7 @@ case class TextEdit(
       * Range to replace. Range start==end==0 => insert into the beginning of the document,
       * start==end==document end => insert into the end of the document
       */
-    var range: Range,
+    var range: PositionRange,
     /**
       * Text to replace given range with.
       */
@@ -394,7 +392,7 @@ case class GetStructureRequest(
     wrapped: String
 ) extends ProtocolMessagePayload
 
-case class RenameRequest(uri: String, newName: String, position: Int) extends ProtocolMessagePayload
+case class RenameRequest(uri: String, newName: String, position: Position) extends ProtocolMessagePayload
 
 object GetStructureRequest {
   def apply(wrapped: String): GetStructureRequest = new GetStructureRequest(wrapped)
