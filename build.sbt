@@ -246,34 +246,34 @@ assemblyMergeStrategy in assembly := {
 
 //******* fat jar*****************************
 
-//lazy val core = crossProject(JSPlatform,JVMPlatform).settings(
-//  Seq(
-//    name := "api-language-server"
-//  )
-//)
-//  .dependsOn(suggestions, structure, hl, server)
-//  .in(file(".")).settings(settings: _*).jvmSettings(
-//  libraryDependencies += "com.github.amlorg" %%% "amf-aml" % deps("amf"),
-//  //	packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
-//  //        aggregate in assembly := true,
-//  assemblyMergeStrategy in assembly := {
-//    case x if x.toString.endsWith("JS_DEPENDENCIES")             => MergeStrategy.discard
-//    case PathList(ps @ _*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
-//    case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
-//    case x => {
-//      MergeStrategy.first
-//    }
-//  },
-//  assemblyJarName in assembly := "server.jar",
-//  addArtifact(Artifact("api-language-server", ""), sbtassembly.AssemblyKeys.assembly)
-//).jsSettings(
-//  libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
-//  libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
-//  scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-//  scalaJSModuleKind := ModuleKind.CommonJSModule,
-//  scalaJSUseMainModuleInitializer := true,
-//  mainClass in Compile := Some("org.mulesoft.language.client.js.ServerProcess"),
-//  artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"serverProcess.js"
-//)
-//
-//lazy val coreJVM = core.jvm.in(file("./"))
+lazy val core = crossProject(JSPlatform,JVMPlatform).settings(
+  Seq(
+    name := "api-language-server"
+  )
+)
+  .dependsOn(suggestions, structure, hl, server)
+  .in(file(".")).settings(settings: _*).jvmSettings(
+  libraryDependencies += "com.github.amlorg" %%% "amf-aml" % deps("amf"),
+  //	packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
+  //        aggregate in assembly := true,
+  assemblyMergeStrategy in assembly := {
+    case x if x.toString.endsWith("JS_DEPENDENCIES")             => MergeStrategy.discard
+    case PathList(ps @ _*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
+    case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
+    case x => {
+      MergeStrategy.first
+    }
+  },
+  assemblyJarName in assembly := "server.jar",
+  addArtifact(Artifact("api-language-server", ""), sbtassembly.AssemblyKeys.assembly)
+).jsSettings(
+  libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
+  libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
+  scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
+  scalaJSModuleKind := ModuleKind.CommonJSModule,
+  scalaJSUseMainModuleInitializer := true,
+  mainClass in Compile := Some("org.mulesoft.language.client.js.ServerProcess"),
+  artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"serverProcess.js"
+)
+
+lazy val coreJVM = core.jvm.in(file("./"))
