@@ -15,6 +15,7 @@ import org.mulesoft.language.server.modules.findDeclaration.FindDeclarationModul
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
 import org.mulesoft.language.server.modules.hlastManager.HlAstManager
 import org.mulesoft.language.server.modules.outline.StructureManager
+import org.mulesoft.language.server.modules.rename.RenameModule
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
 import org.mulesoft.language.server.modules.validationManager.ValidationManager
 
@@ -61,6 +62,7 @@ class LanguageServerImpl(val connection: ServerConnection,
       .flatMap(_ => server.enableModule(StructureManager.moduleId))
       .flatMap(_ => server.enableModule(FindReferencesModule.moduleId))
       .flatMap(_ => server.enableModule(FindDeclarationModule.moduleId))
+      .flatMap(_ => server.enableModule(RenameModule.moduleId))
 
 //    server.enableModule(FindReferencesModule.moduleId)
 //    server.enableModule(FindDeclarationModule.moduleId)
