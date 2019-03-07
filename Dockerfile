@@ -1,4 +1,4 @@
-FROM sgrio/java-oracle:jdk_8
+FROM ubuntu:16.04
 
 ARG USER_HOME_DIR="/root"
 
