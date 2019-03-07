@@ -2,7 +2,8 @@ package org.mulesoft.als.suggestions.implementation
 
 import org.mulesoft.als.suggestions.interfaces.{Suggestion => SuggestionInterface}
 
-class Suggestion(_text:String,_description:String,_displayText:String, _prefix:String) extends SuggestionInterface {
+class Suggestion(_text: String, _description: String, _displayText: String, _prefix: String)
+    extends SuggestionInterface {
 
   private var categoryOpt: Option[String] = None
 
@@ -16,7 +17,7 @@ class Suggestion(_text:String,_description:String,_displayText:String, _prefix:S
 
   override def prefix: String = _prefix
 
-  override def category: String = categoryOpt.getOrElse("unknown")
+  override def category: String = categoryOpt.getOrElse(description)
 
   override def trailingWhitespace: String = _trailingWhitespace
 
