@@ -50,8 +50,8 @@ class LanguageServerImpl(val connection: ServerConnection,
     server.registerModule(new FindDeclarationModule())
     serverCapabilities.setDefinitionProvider(true)
 
-//    server.registerModule(new RenameModule())
-//    serverCapabilities.setRenameProvider(true)
+    server.registerModule(new RenameModule())
+    serverCapabilities.setRenameProvider(true)
 
     server
       .enableModule(ASTManagerModule.moduleId)
@@ -63,10 +63,6 @@ class LanguageServerImpl(val connection: ServerConnection,
       .flatMap(_ => server.enableModule(FindReferencesModule.moduleId))
       .flatMap(_ => server.enableModule(FindDeclarationModule.moduleId))
       .flatMap(_ => server.enableModule(RenameModule.moduleId))
-
-//    server.enableModule(FindReferencesModule.moduleId)
-//    server.enableModule(FindDeclarationModule.moduleId)
-//    server.enableModule(RenameModule.moduleId)
       .map(_ => new InitializeResult(serverCapabilities))
       .toJava
       .toCompletableFuture
