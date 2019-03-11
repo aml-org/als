@@ -31,7 +31,8 @@ trait AbstractServerConnection extends ServerConnection with ServerNotifier {
 
   protected var markOccurrencesListeners: mutable.Buffer[(String, Int) => Future[Seq[Range]]] = ArrayBuffer()
 
-  protected var renameListeners: mutable.Buffer[(String, Position, String) => Future[Seq[ChangedDocument]]] = ArrayBuffer()
+  protected var renameListeners: mutable.Buffer[(String, Position, String) => Future[Seq[ChangedDocument]]] =
+    ArrayBuffer()
 
   protected var changeDetailValueListeners
     : mutable.Buffer[(String, Int, String, AnyVal) => Future[Seq[ChangedDocument]]] =
@@ -158,9 +159,13 @@ trait AbstractServerConnection extends ServerConnection with ServerNotifier {
     * @param listener    (uri: String, position: Int, newName: String) => Seq[IChangedDocument]
     * @param unsubscribe - if true, existing listener will be removed. False by default.
     */
-  def onRename(listener: (String, Position, String) => Future[Seq[ChangedDocument]], unsubscribe: Boolean = false): Unit = {
+  def onRename(listener: (String, Position, String) => Future[Seq[ChangedDocument]],
+               unsubscribe: Boolean = false): Unit = {
     this.addListener(this.renameListeners, listener, unsubscribe)
   }
+
+  override def notifyRename(uri: String, offset: Position, newName: String): Future[Seq[ChangedDocument]] =
+    renameListeners.headOption.map(_.apply(uri, offset, newName)).getOrElse(Future.successful(Seq()))
 
   /**
     * Adds a listener to document details value change request.

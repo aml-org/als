@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.test.raml10
 class TraitReferenceTests extends RAML10Test {
 
   test("test001") {
-    this.runTest("traitReferences/test001.raml", Set("[ trait1 ]", "[ trait2 ]"))
+    this.runTest("traitReferences/test001.raml", Set("trait1", "trait2"))
   }
 
   test("test002") {
