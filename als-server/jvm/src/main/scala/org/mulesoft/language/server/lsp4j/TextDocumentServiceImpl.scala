@@ -9,7 +9,26 @@ import common.dtoTypes.EmptyPositionRange
 import org.eclipse.lsp4j.jsonrpc.messages
 import org.eclipse.lsp4j.jsonrpc.messages.Either.{forLeft, forRight}
 import org.eclipse.lsp4j.services.TextDocumentService
-import org.eclipse.lsp4j.{CompletionItem, CompletionList, CompletionParams, Diagnostic, DiagnosticSeverity, DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams, DocumentSymbol, DocumentSymbolParams, Location, PublishDiagnosticsParams, ReferenceParams, SymbolInformation, TextDocumentPositionParams}
+import org.eclipse.lsp4j.{
+  CompletionItem,
+  CompletionList,
+  CompletionParams,
+  Diagnostic,
+  DiagnosticSeverity,
+  DidChangeTextDocumentParams,
+  DidCloseTextDocumentParams,
+  DidOpenTextDocumentParams,
+  DidSaveTextDocumentParams,
+  DocumentSymbol,
+  DocumentSymbolParams,
+  Location,
+  PublishDiagnosticsParams,
+  ReferenceParams,
+  RenameParams,
+  SymbolInformation,
+  TextDocumentPositionParams,
+  WorkspaceEdit
+}
 import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.common.logger.{LoggerSettings, PrintLnLogger}
@@ -23,16 +42,18 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class TextDocumentServiceImpl(val settings: Option[LoggerSettings])
-  extends TextDocumentService
+    extends TextDocumentService
     with AbstractServerConnection
     with PrintLnLogger
     with DefaultJVMFileSystem
     with AbstractLanguageClientAware {
 
-  private def toProtocol(symbols: Seq[InternalDocumentSymbol]): util.List[messages.Either[SymbolInformation, DocumentSymbol]] =
+  private def toProtocol(
+      symbols: Seq[InternalDocumentSymbol]): util.List[messages.Either[SymbolInformation, DocumentSymbol]] =
     lsp4JDocumentSymbols(symbols)
       .stream()
-      .map[messages.Either[SymbolInformation, DocumentSymbol]](symbol => forRight[SymbolInformation, DocumentSymbol](symbol))
+      .map[messages.Either[SymbolInformation, DocumentSymbol]](symbol =>
+        forRight[SymbolInformation, DocumentSymbol](symbol))
       .collect(Collectors.toList[messages.Either[SymbolInformation, DocumentSymbol]])
 
   override def references(params: ReferenceParams): CompletableFuture[util.List[_ <: Location]] =
@@ -41,20 +62,27 @@ class TextDocumentServiceImpl(val settings: Option[LoggerSettings])
   override def definition(params: TextDocumentPositionParams): CompletableFuture[util.List[_ <: Location]] =
     javaFuture(notifyOpenDeclaration(params.getTextDocument.getUri, params.getPosition), lsp4JLocations)
 
-  override def completion(completionParams: CompletionParams): CompletableFuture[messages.Either[util.List[CompletionItem], CompletionList]] =
+  override def completion(completionParams: CompletionParams)
+    : CompletableFuture[messages.Either[util.List[CompletionItem], CompletionList]] =
     javaFuture[Seq[Suggestion], messages.Either[util.List[CompletionItem], CompletionList]](
       notifyDocumentCompletion(completionParams.getTextDocument.getUri, completionParams.getPosition),
       items => forLeft[util.List[CompletionItem], CompletionList](completionItems(items))
     )
 
-  override def documentSymbol(params: DocumentSymbolParams): CompletableFuture[util.List[messages.Either[SymbolInformation, DocumentSymbol]]] =
+  override def rename(params: RenameParams): CompletableFuture[WorkspaceEdit] = {
+    javaFuture(notifyRename(params.getTextDocument.getUri, params.getPosition, params.getNewName), lsp4JWorkspaceEdit)
+
+  }
+
+  override def documentSymbol(
+      params: DocumentSymbolParams): CompletableFuture[util.List[messages.Either[SymbolInformation, DocumentSymbol]]] =
     javaFuture(notifyDocumentStructure(params.getTextDocument.getUri), toProtocol)
 
   override def resolveCompletionItem(unresolved: CompletionItem): CompletableFuture[CompletionItem] =
     completedFuture(unresolved)
 
   override def didOpen(params: DidOpenTextDocumentParams): Unit = {
-    val document = params.getTextDocument
+    val document       = params.getTextDocument
     val openedDocument = OpenedDocument(document.getUri, document.getVersion, document.getText)
     notifyDocumentOpened(openedDocument)
   }

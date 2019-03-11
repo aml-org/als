@@ -22,4 +22,6 @@ trait ServerNotifier {
   def notifyFindReferences(uri: String, offset: Position): Future[Seq[ILocation]]
 
   def notifyOpenDeclaration(uri: String, offset: Position): Future[Seq[ILocation]]
+
+  def notifyRename(uri: String, offset: Position, newName: String): Future[Seq[ChangedDocument]]
 }

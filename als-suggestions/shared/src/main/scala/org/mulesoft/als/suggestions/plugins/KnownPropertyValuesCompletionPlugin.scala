@@ -24,7 +24,7 @@ class KnownPropertyValuesCompletionPlugin extends ICompletionPlugin {
     if (request.astNode.isEmpty) {
       false
     } else {
-      var prop = request.astNode.get.property
+      val prop = request.astNode.get.property
       if (request.actualYamlLocation.isEmpty) {
         false
       } else if (request.kind == LocationKind.KEY_COMPLETION
@@ -48,7 +48,7 @@ class KnownPropertyValuesCompletionPlugin extends ICompletionPlugin {
       parentNode = astNode.parent
     } else if (request.actualYamlLocation.get.hasSameValue(request.yamlLocation.get)) {
       if (astNode.isElement) {
-        var valueLocation            = request.yamlLocation.get.value.get
+        val valueLocation            = request.yamlLocation.get.value.get
         var propName: Option[String] = None
         valueLocation.yPart match {
           case yMap: YMap =>
@@ -146,11 +146,11 @@ object KnownPropertyValuesCompletionPlugin {
     }
   }
 
-  val ID = "known.property.values.completion";
+  val ID = "known.property.values.completion"
 
-  val supportedLanguages: List[Vendor] = List(Raml10, Oas, Oas20, Aml);
+  val supportedLanguages: List[Vendor] = List(Raml10, Oas, Oas20, Aml)
 
-  def apply(): KnownPropertyValuesCompletionPlugin = new KnownPropertyValuesCompletionPlugin();
+  def apply(): KnownPropertyValuesCompletionPlugin = new KnownPropertyValuesCompletionPlugin()
 
   def isSequence(n: IHighLevelNode, pName: String): Boolean = {
     var pm = n.astUnit.positionsMapper
@@ -161,7 +161,7 @@ object KnownPropertyValuesCompletionPlugin {
             me.entries.find(x => x.key.isThisKey(pName)) match {
               case Some(me) =>
                 me.value.value match {
-                  case s: YSequence => true
+                  case _: YSequence => true
                   case _            => false
                 }
               case _ => false
