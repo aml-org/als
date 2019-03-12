@@ -50,8 +50,8 @@ class LanguageServerImpl(val connection: ServerConnection,
     server.registerModule(new FindDeclarationModule())
     serverCapabilities.setDefinitionProvider(true)
 
-//    server.registerModule(new RenameModule())
-//    serverCapabilities.setRenameProvider(true)
+    server.registerModule(new RenameModule())
+    serverCapabilities.setRenameProvider(true)
 
     server
       .enableModule(ASTManagerModule.moduleId)
