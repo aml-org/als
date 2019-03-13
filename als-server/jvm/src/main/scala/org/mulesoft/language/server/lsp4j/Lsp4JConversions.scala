@@ -57,8 +57,10 @@ object Lsp4JConversions {
   implicit def completionItem(suggestion: Suggestion): CompletionItem = {
     val result = new CompletionItem(suggestion.displayText)
     suggestion.range match {
-      case Some(r) => result.setTextEdit(new TextEdit(r, suggestion.text))
-      case _       => result.setInsertText(suggestion.text)
+      case Some(r) =>
+        result.setTextEdit(new TextEdit(r, suggestion.text))
+      case _ =>
+        result.setInsertText(suggestion.text)
     }
     result.setDetail(suggestion.category)
 

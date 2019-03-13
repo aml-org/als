@@ -98,7 +98,6 @@ class SuggestionsManager extends AbstractServerModule {
                 this.connection.debugDetail(s"It took ${endTime - startTime} milliseconds to complete",
                                             "ASTMaSuggestionsManagernager",
                                             "onDocumentCompletion")
-
                 result
               })
           })

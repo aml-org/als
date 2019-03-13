@@ -26,10 +26,15 @@ class CompletionProvider {
 
   def suggest(filterByPrefix: Boolean): Future[Seq[SuggestionInterface]] = {
     val request = composeRequest
+    val range = Option(
+      PositionRange(Position(request.position - request.prefix.size, _config.originalContent.get),
+                    Position(request.position, _config.originalContent.get)))
     fulfillRequest(request).map(
-      result =>
+      result => {
         if (filterByPrefix) filter(result, request)
-        else result)
+        else result
+      }.map(s => Suggestion(s.text, s.description, s.displayText, s.prefix, range))
+    )
   }
 
   def composeRequest: ICompletionRequest = {
@@ -86,16 +91,13 @@ class CompletionProvider {
       .sequence(
         filteredPlugins.map(_.suggest(request))
       )
-      .map(responses => responses.flatMap(adjustedSuggestions(_, request)))
+      .map(responses => responses.flatMap(adjustedSuggestions))
   }
 
-  def adjustedSuggestions(response: ICompletionResponse, request: ICompletionRequest): Seq[SuggestionInterface] = {
+  def adjustedSuggestions(response: ICompletionResponse): Seq[SuggestionInterface] = {
     val isKey  = response.kind == LocationKind.KEY_COMPLETION
     val isYAML = response.request.config.astProvider.exists(_.syntax == Syntax.YAML)
     val isJSON = response.request.config.astProvider.exists(_.syntax == Syntax.JSON)
-    val range = Option(
-      PositionRange(Position(request.position - request.prefix.size, _config.originalContent.get),
-                    Position(request.position, _config.originalContent.get)))
 
     var hasQuote           = false
     var hasColon           = false
@@ -126,14 +128,14 @@ class CompletionProvider {
         if (!hasLine || !hasColon) {
           result = result.map(x => {
             val newText = x.text + ":" + x.trailingWhitespace
-            Suggestion(newText, x.description, x.displayText, x.prefix, range).withCategory(x.category)
+            Suggestion(newText, x.description, x.displayText, x.prefix).withCategory(x.category)
           })
         }
       } else if (!isKey) {
         result = result.map(x => {
           val prefix = x.prefix
           if (prefix == ":" && (!x.text.startsWith("\n") || x.text.startsWith("\r\n"))) {
-            Suggestion(" " + x.text, x.description, x.displayText, x.prefix, range).withCategory(x.category)
+            Suggestion(" " + x.text, x.description, x.displayText, x.prefix).withCategory(x.category)
           } else {
             x
           }
@@ -159,7 +161,7 @@ class CompletionProvider {
         result = result.map(x => {
           val isJSONObject = isJSON && x.text.startsWith("{") && x.text.endsWith("}")
           val newText      = if (!isJSONObject && (!endingQuote || !x.text.endsWith("\""))) x.text + postfix else x.text
-          Suggestion(newText, x.description, x.displayText, x.prefix, range).withCategory(x.category)
+          Suggestion(newText, x.description, x.displayText, x.prefix).withCategory(x.category)
         })
       }
     }

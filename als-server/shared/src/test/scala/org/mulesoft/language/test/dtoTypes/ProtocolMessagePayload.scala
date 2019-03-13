@@ -457,7 +457,11 @@ case class Suggestion(
     /**
       * Suggestion category.
       */
-    category: Option[String]
+    category: Option[String],
+    /**
+      * Range to be replaced in original text
+      */
+    range: Option[PositionRange]
 ) extends ProtocolMessagePayload
 
 object Suggestion {
@@ -468,7 +472,8 @@ object Suggestion {
                Option(from.description),
                Option(from.displayText),
                Option(from.prefix),
-               Option(from.category))
+               Option(from.category),
+               from.range)
 
   implicit def transportToShared(from: Suggestion): SuggestionInterface =
     new SuggestionInterface {
@@ -484,7 +489,7 @@ object Suggestion {
 
       override def trailingWhitespace: String = ""
 
-      override def range: Option[PositionRange] = None
+      override def range: Option[PositionRange] = from.range
     }
 }
 
