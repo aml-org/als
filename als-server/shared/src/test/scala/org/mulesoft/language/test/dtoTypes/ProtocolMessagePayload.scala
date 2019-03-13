@@ -89,8 +89,8 @@ case class Location(uri: String, posRange: PositionRange, version: Int)
 
 object Location {
   implicit def transportToShared(from: Location): SharedLocation = new SharedLocation {
-    override var uri: String  = from.uri
-    override var version: Int = from.version
+    override var uri: String             = from.uri
+    override var version: Int            = from.version
     override var posRange: PositionRange = from.posRange
   }
 
@@ -483,6 +483,8 @@ object Suggestion {
       override def category: String = from.category.orNull
 
       override def trailingWhitespace: String = ""
+
+      override def range: Option[PositionRange] = None
     }
 }
 
