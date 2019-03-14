@@ -17,7 +17,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests root node title") {
-    this.runTest("structure/test04.raml", Set("title:"))
+    this.runTest("structure/test04.raml", Set("title: "))
   }
 
   test("StructureTests root node traits") {
@@ -25,7 +25,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests root node description") {
-    this.runTest("structure/test06.raml", Set("description:"))
+    this.runTest("structure/test06.raml", Set("description: "))
   }
 
   test("StructureTests root node documentation") {
@@ -33,19 +33,19 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests root node version") {
-    this.runTest("structure/test08.raml", Set("version:"))
+    this.runTest("structure/test08.raml", Set("version: "))
   }
 
   test("StructureTests root node baseUri") {
-    this.runTest("structure/test09.raml", Set("baseUri:", "baseUriParameters:\n  "))
+    this.runTest("structure/test09.raml", Set("baseUri: ", "baseUriParameters:\n  "))
   }
 
   test("StructureTests root node protocols") {
-    this.runTest("structure/test10.raml", Set("protocols:"))
+    this.runTest("structure/test10.raml", Set("protocols: "))
   }
 
   test("StructureTests root node mediaType") {
-    this.runTest("structure/test11.raml", Set("mediaType:"))
+    this.runTest("structure/test11.raml", Set("mediaType: "))
   }
 
   test("StructureTests root node schemas") {
@@ -57,7 +57,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests root node securedBy") {
-    this.runTest("structure/test14.raml", Set("securedBy:"))
+    this.runTest("structure/test14.raml", Set("securedBy: "))
   }
 
   test("StructureTests root node annotationTypes") {
@@ -77,15 +77,15 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests resource node type") {
-    this.runTest("structure/test22.raml", Set("type:"))
+    this.runTest("structure/test22.raml", Set("type: "))
   }
 
   test("StructureTests resource node description") {
-    this.runTest("structure/test23.raml", Set("description:"))
+    this.runTest("structure/test23.raml", Set("description: "))
   }
 
   test("StructureTests resource node displayName") {
-    this.runTest("structure/test24.raml", Set("displayName:"))
+    this.runTest("structure/test24.raml", Set("displayName: "))
   }
 
   test("StructureTests resource node put, post, patch") {
@@ -121,7 +121,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests method node response description") {
-    this.runTest("structure/test34.raml", Set("description:"))
+    this.runTest("structure/test34.raml", Set("description: "))
   }
 
   test("StructureTests method node responses") {
@@ -133,11 +133,11 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests method node description") {
-    this.runTest("structure/test38.raml", Set("description:"))
+    this.runTest("structure/test38.raml", Set("description: "))
   }
 
   test("StructureTests method node displayName") {
-    this.runTest("structure/test39.raml", Set("displayName:"))
+    this.runTest("structure/test39.raml", Set("displayName: "))
   }
 
   test("StructureTests method node response headers") {
@@ -153,15 +153,15 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests resourceType node type") {
-    this.runTest("structure/test45.raml", Set("type:"))
+    this.runTest("structure/test45.raml", Set("type: "))
   }
 
   test("StructureTests resourceType node description") {
-    this.runTest("structure/test46.raml", Set("description:"))
+    this.runTest("structure/test46.raml", Set("description: "))
   }
 
   test("StructureTests resourceType node displayName") {
-    this.runTest("structure/test47.raml", Set("displayName:"))
+    this.runTest("structure/test47.raml", Set("displayName: "))
   }
 
   test("StructureTests resourceType operation nodes suggestions") {
@@ -197,7 +197,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests resourceType node usage") {
-    this.runTest("structure/test55.raml", Set("usage:"))
+    this.runTest("structure/test55.raml", Set("usage: "))
   }
 
   test("StructureTests trait node queryString, queryParameters") {
@@ -213,11 +213,11 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests trait node description") {
-    this.runTest("structure/test63.raml", Set("description:"))
+    this.runTest("structure/test63.raml", Set("description: "))
   }
 
   test("StructureTests trait node displayName") {
-    this.runTest("structure/test64.raml", Set("displayName:"))
+    this.runTest("structure/test64.raml", Set("displayName: "))
   }
 
   test("StructureTests trait node body") {
@@ -225,7 +225,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests Security Scheme Declaration node type") {
-    this.runTest("structure/test83.raml", Set("type:"))
+    this.runTest("structure/test83.raml", Set("type: "))
   }
 
   test("StructureTests Security Scheme Declaration node settings ") {
@@ -233,11 +233,11 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests Security Scheme Declaration node OAuth 2.0 settings accessTokenUri") {
-    this.runTest("structure/test86.raml", Set("accessTokenUri:"))
+    this.runTest("structure/test86.raml", Set("accessTokenUri: "))
   }
 
   test("StructureTests Security Scheme Declaration node description") {
-    this.runTest("structure/test89.raml", Set("description:"))
+    this.runTest("structure/test89.raml", Set("description: "))
   }
 
   test("StructureTests Security Scheme Declaration OAuth 2.0 describedBy node headers") {
@@ -249,15 +249,15 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests Security Scheme Declaration OAuth 1.0 settings node requestTokenUri") {
-    this.runTest("structure/test94.raml", Set("requestTokenUri:"))
+    this.runTest("structure/test94.raml", Set("requestTokenUri: "))
   }
 
   test("StructureTests Security Scheme Declaration OAuth 1.0 settings node tokenCredentialsUri") {
-    this.runTest("structure/test96.raml", Set("tokenCredentialsUri:"))
+    this.runTest("structure/test96.raml", Set("tokenCredentialsUri: "))
   }
 
   test("StructureTests Security Scheme Declaration node displayName") {
-    this.runTest("structure/test98.raml", Set("displayName:"))
+    this.runTest("structure/test98.raml", Set("displayName: "))
   }
 
   test("Declaring Annotation Type facet 'allowedTargets'") {
@@ -265,11 +265,11 @@ class StructureTests extends RAML10Test {
   }
 
   test("Declaring Annotation Type facet minLength completion") {
-    this.runTest("structure/test100.raml", Set("minLength:"))
+    this.runTest("structure/test100.raml", Set("minLength: "))
   }
 
   test("Declaring Annotation Type facet maxLength completion") {
-    this.runTest("structure/test101.raml", Set("maxLength:"))
+    this.runTest("structure/test101.raml", Set("maxLength: "))
   }
 
   test("Declaring Annotation Type facet example, examples completion") {
@@ -277,15 +277,15 @@ class StructureTests extends RAML10Test {
   }
 
   test("Declaring Annotation Type facet default completion") {
-    this.runTest("structure/test104.raml", Set("default:"))
+    this.runTest("structure/test104.raml", Set("default: "))
   }
 
   test("Declaring Annotation Type facet displayName completion") {
-    this.runTest("structure/test105.raml", Set("displayName:"))
+    this.runTest("structure/test105.raml", Set("displayName: "))
   }
 
   test("Declaring Annotation Type facet description completion") {
-    this.runTest("structure/test106.raml", Set("description:"))
+    this.runTest("structure/test106.raml", Set("description: "))
   }
 
   test("Declaring Annotation Type facet required completion") {
@@ -297,11 +297,11 @@ class StructureTests extends RAML10Test {
   }
 
   test("Declaring Annotation Type facet pattern completion") {
-    this.runTest("structure/test109.raml", Set("pattern:"))
+    this.runTest("structure/test109.raml", Set("pattern: "))
   }
 
   test("Declaring Annotation Type facet type completion") {
-    this.runTest("structure/test110.raml", Set("type:"))
+    this.runTest("structure/test110.raml", Set("type: "))
   }
 
   test("Declaring Annotation Type facet properties completion") {
@@ -309,7 +309,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("Declaring Annotation Type facet schema completion") {
-    this.runTest("structure/test112.raml", Set("schema:"))
+    this.runTest("structure/test112.raml", Set("schema: "))
   }
 
   test("Declaring Annotation Type facet facets completion") {
@@ -321,11 +321,11 @@ class StructureTests extends RAML10Test {
   }
 
   test("Type facet minLength completion") {
-    this.runTest("structure/test115.raml", Set("minLength:"))
+    this.runTest("structure/test115.raml", Set("minLength: "))
   }
 
   test("Type facet maxLength completion") {
-    this.runTest("structure/test116.raml", Set("maxLength:"))
+    this.runTest("structure/test116.raml", Set("maxLength: "))
   }
 
   test("Type facet example, examples completion") {
@@ -333,15 +333,15 @@ class StructureTests extends RAML10Test {
   }
 
   test("Type facet default completion") {
-    this.runTest("structure/test119.raml", Set("default:"))
+    this.runTest("structure/test119.raml", Set("default: "))
   }
 
   test("Type facet displayName completion") {
-    this.runTest("structure/test120.raml", Set("displayName:"))
+    this.runTest("structure/test120.raml", Set("displayName: "))
   }
 
   test("Type facet description completion") {
-    this.runTest("structure/test121.raml", Set("description:"))
+    this.runTest("structure/test121.raml", Set("description: "))
   }
 
   test("Type facet required completion") {
@@ -353,15 +353,15 @@ class StructureTests extends RAML10Test {
   }
 
   test("Type facet pattern completion") {
-    this.runTest("structure/test124.raml", Set("pattern:"))
+    this.runTest("structure/test124.raml", Set("pattern: "))
   }
 
   test("Type facet type completion") {
-    this.runTest("structure/test125.raml", Set("type:"))
+    this.runTest("structure/test125.raml", Set("type: "))
   }
 
   test("Type facet schema completion") {
-    this.runTest("structure/test127.raml", Set("schema:"))
+    this.runTest("structure/test127.raml", Set("schema: "))
   }
 
   test("Type facet facets completion") {
@@ -373,11 +373,11 @@ class StructureTests extends RAML10Test {
   }
 
   test("Parameter facet minLength completion") {
-    this.runTest("structure/test130.raml", Set("minLength:"))
+    this.runTest("structure/test130.raml", Set("minLength: "))
   }
 
   test("Parameter facet maxLength completion") {
-    this.runTest("structure/test131.raml", Set("maxLength:"))
+    this.runTest("structure/test131.raml", Set("maxLength: "))
   }
 
   test("Parameter facet example, examples completion") {
@@ -385,15 +385,15 @@ class StructureTests extends RAML10Test {
   }
 
   test("Parameter facet default completion") {
-    this.runTest("structure/test134.raml", Set("default:"))
+    this.runTest("structure/test134.raml", Set("default: "))
   }
 
   test("Parameter facet displayName completion") {
-    this.runTest("structure/test135.raml", Set("displayName:"))
+    this.runTest("structure/test135.raml", Set("displayName: "))
   }
 
   test("Parameter facet description completion") {
-    this.runTest("structure/test136.raml", Set("description:"))
+    this.runTest("structure/test136.raml", Set("description: "))
   }
 
   test("Parameter facet repeat completion") {
@@ -401,15 +401,15 @@ class StructureTests extends RAML10Test {
   }
 
   test("Parameter facet pattern completion") {
-    this.runTest("structure/test139.raml", Set("pattern:"))
+    this.runTest("structure/test139.raml", Set("pattern: "))
   }
 
   test("Parameter facet type completion") {
-    this.runTest("structure/test140.raml", Set("type:"))
+    this.runTest("structure/test140.raml", Set("type: "))
   }
 
   test("Parameter facet schema completion") {
-    this.runTest("structure/test141.raml", Set("schema:"))
+    this.runTest("structure/test141.raml", Set("schema: "))
   }
 
   test("Parameter facet facets completion") {
@@ -425,23 +425,23 @@ class StructureTests extends RAML10Test {
   }
 
   test("documentation item fields") {
-    this.runTest("structure/test146.raml", Set("title:", "content:"))
+    this.runTest("structure/test146.raml", Set("title: ", "content: "))
   }
 
   test("documentation item 'title'") {
-    this.runTest("structure/test147.raml", Set("title:"))
+    this.runTest("structure/test147.raml", Set("title: "))
   }
 
   test("documentation item 'content'") {
-    this.runTest("structure/test148.raml", Set("content:"))
+    this.runTest("structure/test148.raml", Set("content: "))
   }
 
   test("documentation item 'content' after 'title'") {
-    this.runTest("structure/test149.raml", Set("content:"))
+    this.runTest("structure/test149.raml", Set("content: "))
   }
 
   test("documentation item 'title' before 'content'") {
-    this.runTest("structure/test150.raml", Set("title:"))
+    this.runTest("structure/test150.raml", Set("title: "))
   }
 
   test("cursor on single value property") {
@@ -471,16 +471,16 @@ class StructureTests extends RAML10Test {
     this.runTest(
       "structure/test152.raml",
       Set(
-        "enum:",
-        "displayName:",
-        "additionalProperties:",
+        "enum: ",
+        "displayName: ",
+        "additionalProperties: ",
         "xml:\n          ",
-        "discriminator:",
-        "default:",
-        "maxProperties:",
-        "minProperties:",
-        "description:",
-        "discriminatorValue:",
+        "discriminator: ",
+        "default: ",
+        "maxProperties: ",
+        "minProperties: ",
+        "description: ",
+        "discriminatorValue: ",
         "examples:\n          ",
         "facets:\n          ",
         "example:\n          "
@@ -489,7 +489,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("Type property 'required' completion") {
-    this.runTest("structure/test153.raml", Set("required:"))
+    this.runTest("structure/test153.raml", Set("required: "))
   }
 
   test("Query parameter with comment") {
@@ -515,14 +515,14 @@ class StructureTests extends RAML10Test {
     this.runTest(
       "structure/test155.raml",
       Set(
-        "enum:",
-        "displayName:",
+        "enum: ",
+        "displayName: ",
         "xml:\n        ",
-        "default:",
-        "pattern:",
-        "description:",
-        "maxLength:",
-        "minLength:",
+        "default: ",
+        "pattern: ",
+        "description: ",
+        "maxLength: ",
+        "minLength: ",
         "examples:\n        ",
         "facets:\n        ",
         "example:\n        ",
@@ -539,13 +539,13 @@ class StructureTests extends RAML10Test {
         "application/xml:\n        ",
         "multipart/form-data:\n        ",
         "application/x-www-form-urlencoded:\n        ",
-        "displayName:",
-        "type:",
-        "enum:",
+        "displayName: ",
+        "type: ",
+        "enum: ",
         "xml:\n        ",
-        "default:",
-        "description:",
-        "schema:",
+        "default: ",
+        "description: ",
+        "schema: ",
         "examples:\n        ",
         "example:\n        ",
         "facets:\n        ",
@@ -558,17 +558,17 @@ class StructureTests extends RAML10Test {
     this.runTest(
       "structure/test157.raml",
       Set(
-        "enum:",
-        "displayName:",
-        "type:",
+        "enum: ",
+        "displayName: ",
+        "type: ",
         "xml:\n      ",
-        "default:",
-        "pattern:",
-        "description:",
-        "maxLength:",
-        "minLength:",
+        "default: ",
+        "pattern: ",
+        "description: ",
+        "maxLength: ",
+        "minLength: ",
         "examples:\n      ",
-        "schema:",
+        "schema: ",
         "facets:\n      ",
         "example:\n      ",
         "properties:\n      "
@@ -580,18 +580,18 @@ class StructureTests extends RAML10Test {
     this.runTest(
       "structure/test158.raml",
       Set(
-        "required:",
-        "enum:",
-        "displayName:",
-        "type:",
+        "required: ",
+        "enum: ",
+        "displayName: ",
+        "type: ",
         "xml:\n              ",
-        "default:",
-        "pattern:",
-        "description:",
-        "maxLength:",
-        "minLength:",
+        "default: ",
+        "pattern: ",
+        "description: ",
+        "maxLength: ",
+        "minLength: ",
         "examples:\n              ",
-        "schema:",
+        "schema: ",
         "facets:\n              ",
         "example:\n              ",
         "properties:\n              "
@@ -609,7 +609,7 @@ class StructureTests extends RAML10Test {
   test("Library completion") {
     this.runTest(
       "structure/test159.raml",
-      Set("usage:",
+      Set("usage: ",
           "uses:\n  ",
           "schemas:\n  ",
           "traits:\n  ",
@@ -633,7 +633,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("facets test 2") {
-    this.runTest("facets/test02.raml", Set("testFacet1:", "testFacet2:", "testFacet3:\n      ", "testFacet5:"))
+    this.runTest("facets/test02.raml", Set("testFacet1: ", "testFacet2: ", "testFacet3:\n      ", "testFacet5: "))
   }
 
   test("methods test 1") {
@@ -661,9 +661,9 @@ class StructureTests extends RAML10Test {
     this.runTest(
       "methods/test02.raml",
       Set(
-        "displayName:",
-        "type:",
-        "description:",
+        "displayName: ",
+        "type: ",
+        "description: ",
         "get:\n    ",
         "put:\n    ",
         "post:\n    ",
@@ -673,7 +673,7 @@ class StructureTests extends RAML10Test {
         "patch:\n    ",
         "trace:\n    ",
         "connect:\n    ",
-        "securedBy:",
+        "securedBy: ",
         "is:\n    ",
         "uriParameters:\n    "
       )
@@ -709,16 +709,16 @@ class StructureTests extends RAML10Test {
     this.runTest(
       "structure/all/bodyvalue.raml",
       Set(
-        "displayName:",
+        "displayName: ",
         "example:\n               ",
-        "type:",
+        "type: ",
         "properties:\n               ",
-        "enum:",
+        "enum: ",
         "xml:\n               ",
-        "schema:",
-        "default:",
+        "schema: ",
+        "default: ",
         "examples:\n               ",
-        "description:",
+        "description: ",
         "facets:\n               "
       )
     )

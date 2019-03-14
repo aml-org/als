@@ -11,9 +11,9 @@ class BodyTests extends RAML08Test {
         "multipart/form-data:\n        ",
         "application/x-www-form-urlencoded:\n        ",
         "formParameters:\n        ",
-        "description:",
-        "schema:",
-        "example:"
+        "description: ",
+        "schema: ",
+        "example: "
       )
     )
   }
@@ -30,9 +30,9 @@ class BodyTests extends RAML08Test {
       Set("application/json:\n            ",
           "application/xml:\n            ",
           "formParameters:\n            ",
-          "description:",
-          "schema:",
-          "example:")
+          "description: ",
+          "schema: ",
+          "example: ")
     )
   }
 

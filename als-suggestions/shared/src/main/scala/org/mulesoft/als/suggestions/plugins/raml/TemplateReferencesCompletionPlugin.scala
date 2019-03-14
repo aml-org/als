@@ -158,9 +158,7 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
             case _ => false
           }
       }
-
-      val pos = request.position
-      val pm  = node.astUnit.positionsMapper
+      val pm = node.astUnit.positionsMapper
       Option(owner).flatMap(pNode => {
         val si = pNode.sourceInfo
         si.yamlSources.headOption
@@ -169,10 +167,6 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
           .filter(_.isInstanceOf[YMap])
           .flatMap(_.asInstanceOf[YMap].entries.find(e => isEntry(e, propName)))
           .flatMap(propNode => {
-            val pNode = openBracket match {
-              case true if propNode.value.isInstanceOf[YMapEntry] => propNode.value.asInstanceOf[YMapEntry]
-              case _                                              => propNode
-            }
             val line    = YRange(propNode, Option(pm)).start.line
             val lineStr = pm.lineString(line)
             val offset  = lineStr.map(pm.lineOffset).getOrElse(-1)
@@ -216,87 +210,62 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
   def toTemplateSuggestion(decl: Declaration, kind: RefYamlKind, prefix: String): Option[TemplateSuggestion] = {
     val declNode = decl.node
     val nameOpt  = declNode.attribute("name").flatMap(_.value).map(_.toString)
-    if (nameOpt.isEmpty) {
-      None
-    } else {
-      val isTrait        = declNode.definition.nameId.contains("Trait")
-      val isResourceType = declNode.definition.nameId.contains("ResourceType")
-      val off            = kind.valueOffset
 
-      val plainName = nameOpt.get
-      val nsOpt     = decl.namespace
-      val name      = if (nsOpt.isDefined) s"${nsOpt.get}.$plainName" else plainName
-      val params    = declNode.attributes("parameters").flatMap(_.value).map(_.toString)
-      if (isTrait) {
-        if (params.isEmpty) {
-          if (kind.inMap && !kind.flow) {
-            Some(TemplateSuggestion(name, s"- $name", kind))
-          } else {
-            Some(TemplateSuggestion(name, name, kind))
+    def withOffset(off: Int, c: Int): String = " " * (off + c)
+
+    def traitTemplate(off: Int, name: String, params: Seq[String]) = {
+      val paramOffStr = withOffset(off, 6)
+      val valOffStr   = withOffset(off, 2)
+
+      params match {
+        case Nil if kind.inMap && !kind.flow => TemplateSuggestion(name, s"- $name", kind)
+        case Nil                             => TemplateSuggestion(name, name, kind)
+        case _ =>
+          kind.inMap match {
+            case true if !kind.flow && !kind.wrappedFlow =>
+              TemplateSuggestion(name, s"- " + toBlockObject(name, params, paramOffStr), kind)
+            case false if kind.inSequence && !kind.flow && !kind.wrappedFlow =>
+              TemplateSuggestion(name, toBlockObject(name, params, paramOffStr), kind)
+            case _ if kind.inSequence =>
+              TemplateSuggestion(name, toFlowObject(name, params), kind)
+            case _ =>
+              TemplateSuggestion(name, s"\n$valOffStr- " + toBlockObject(name, params, paramOffStr), kind)
           }
-        } else {
-          if (kind.inMap && !kind.flow) {
-            if (kind.wrappedFlow) {
-              val text = toFlowObject(name, params)
-              Some(TemplateSuggestion(name, text, kind))
-            } else {
-              val paramOffStr = " " * (off + 6)
-              val text        = s"- " + toBlockObject(name, params, paramOffStr)
-              Some(TemplateSuggestion(name, text, kind))
-            }
-          } else if (kind.inMap && kind.flow) {
-            val text = toFlowObject(name, params)
-            Some(TemplateSuggestion(name, text, kind))
-          } else if (kind.inSequence && !kind.flow) {
-            if (kind.wrappedFlow) {
-              val text = toFlowObject(name, params)
-              Some(TemplateSuggestion(name, text, kind))
-            } else {
-              val paramOffStr = " " * (off + 6)
-              val text        = toBlockObject(name, params, paramOffStr)
-              Some(TemplateSuggestion(name, text, kind))
-            }
-          } else if (kind.inSequence && kind.flow) {
-            val text = toFlowObject(name, params)
-            Some(TemplateSuggestion(name, text, kind))
-          } else {
-            val valOffStr   = " " * (off + 2)
-            val paramOffStr = " " * (off + 6)
-            val text        = s"\n$valOffStr- " + toBlockObject(name, params, paramOffStr)
-            Some(TemplateSuggestion(name, text, kind))
-          }
-        }
-      } else if (isResourceType) {
-        if (params.isEmpty) {
-          if (kind.inMap && !kind.flow) {
-            Some(TemplateSuggestion(name, s"$name:", kind))
-          } else {
-            Some(TemplateSuggestion(name, name, kind))
-          }
-        } else {
-          if (kind.inMap && !kind.flow) {
-            if (kind.wrappedFlow) {
-              var text = toFlowObject(name, params)
-              Some(TemplateSuggestion(name, text, kind))
-            } else {
-              var paramOffStr = " " * (off + 4)
-              var text        = toBlockObject(name, params, paramOffStr)
-              Some(TemplateSuggestion(name, text, kind))
-            }
-          } else if (kind.inMap && kind.flow) {
-            var text = toFlowObject(name, params)
-            Some(TemplateSuggestion(name, text, kind))
-          } else {
-            val valOffStr   = " " * (off + 2)
-            val paramOffStr = " " * (off + 4)
-            val text        = s"\n$valOffStr" + toBlockObject(name, params, paramOffStr)
-            Some(TemplateSuggestion(name, text, kind))
-          }
-        }
-      } else {
-        None
       }
     }
+
+    def resourceTypeTemplate(off: Int, name: String, params: Seq[String]) = {
+      val paramOffStr = withOffset(off, 4)
+      val valOffStr   = withOffset(off, 2)
+
+      params match {
+        case Nil if kind.inMap && !kind.flow => TemplateSuggestion(name, s"$name:", kind)
+        case Nil                             => TemplateSuggestion(name, name, kind)
+        case _ =>
+          kind.inMap match {
+            case true if !kind.flow && kind.wrappedFlow =>
+              TemplateSuggestion(name, toFlowObject(name, params), kind)
+            case true if !kind.flow =>
+              TemplateSuggestion(name, toBlockObject(name, params, paramOffStr), kind)
+            case true =>
+              TemplateSuggestion(name, toFlowObject(name, params), kind)
+            case _ =>
+              TemplateSuggestion(name, s"\n$valOffStr" + toBlockObject(name, params, paramOffStr), kind)
+          }
+      }
+    }
+
+    nameOpt.flatMap(plainName => {
+      val off    = kind.valueOffset
+      val name   = decl.namespace.map(nsOpt => s"${nsOpt}.$plainName").getOrElse(plainName)
+      val params = declNode.attributes("parameters").flatMap(_.value).map(_.toString)
+
+      declNode.definition.nameId match {
+        case Some("Trait")        => Option(traitTemplate(off, name, params))
+        case Some("ResourceType") => Option(resourceTypeTemplate(off, name, params))
+        case _                    => None
+      }
+    })
   }
 
   private def toBlockObject(name: String, params: Seq[String], paramOffStr: String) = {
@@ -312,9 +281,8 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
     val r = YRange(yPart, Option(pm))
     pm.initRange(r)
     val str = pm.getText.substring(r.start.position, r.end.position).trim
-    if (str.isEmpty) {
-      false
-    } else {
+
+    !str.isEmpty && {
       val ch0 = str.charAt(0)
       val ch1 = str.charAt(str.length - 1)
       (ch0 == '[' && ch1 == ']') || (ch0 == '{' && ch1 == '}')
