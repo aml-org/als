@@ -12,7 +12,7 @@ import org.mulesoft.als.suggestions.implementation.{
 }
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
-import org.mulesoft.als.suggestions.{CompletionProvider, Core}
+import org.mulesoft.als.suggestions.{CompletionProvider, Core, interfaces}
 import org.mulesoft.high.level.InitOptions
 import org.mulesoft.high.level.amfmanager.ParserHelper
 import org.mulesoft.high.level.implementation.AlsPlatform
@@ -59,22 +59,23 @@ object Suggestions {
           Future.successful(this.buildCompletionProviderNoAST(originalContent, url, position, patchedPlatform))
         case any =>
           println(any)
-          Future.failed(new Error("Failed to construct Completionprovider"))
+          Future.failed(new Error("Failed to construct CompletionProvider"))
       }
+
+    def completeFinalSuggestion(suggestion: interfaces.Suggestion) = {
+      new Suggestion(
+        text = if (!suggestion.text.endsWith(":")) suggestion.text else s"${suggestion.text} ",
+        description = suggestion.description,
+        displayText = suggestion.displayText,
+        prefix = suggestion.prefix,
+        category = suggestion.category,
+        range = suggestion.range
+      )
+    }
 
     completionProviderFuture
       .flatMap(_.suggest)
-      .map(suggestions =>
-        suggestions.map(suggestion =>
-          new Suggestion(
-            text = suggestion.text,
-            description = suggestion.description,
-            displayText = suggestion.displayText,
-            prefix = suggestion.prefix,
-            category = suggestion.category,
-            range = suggestion.range
-        )))
-      .map(suggestions => suggestions)
+      .map(suggestions => suggestions.map(completeFinalSuggestion))
   }
 
   def buildParserConfig(language: String, url: String): ParserConfig =

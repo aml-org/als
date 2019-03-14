@@ -31,12 +31,12 @@ class JiraSuggestionsTests extends RAML10Test {
         "xml:\n            ",
         "facets:\n            ",
         "examples:\n            ",
-        "description:",
-        "displayName:",
-        "type:",
-        "enum:",
-        "schema:",
-        "default:"
+        "description: ",
+        "displayName: ",
+        "type: ",
+        "enum: ",
+        "schema: ",
+        "default: "
       )
     )
   }

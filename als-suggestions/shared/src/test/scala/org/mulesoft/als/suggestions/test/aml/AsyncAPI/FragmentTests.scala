@@ -7,37 +7,37 @@ class FragmentTests extends AMLSuggestionsTest {
   def rootPath: String = "AML/AsyncAPI"
 
   test("test001") {
-    this.runTest("fragment/test001.yaml", Set("externalDocs:\n  ", "description:", "headers:\n  ", "tags:\n  "))
+    this.runTest("fragment/test001.yaml", Set("externalDocs:\n  ", "description: ", "headers:\n  ", "tags:\n  "))
   }
 
   test("test002") {
     this.runTest(
       "fragment/test002.yaml",
       Set(
-        "pattern:",
-        "maxItems:",
+        "pattern: ",
+        "maxItems: ",
         "required:\n    ",
         "items:\n    ",
-        "exclusiveMaximum:",
-        "\"$schema\":",
+        "exclusiveMaximum: ",
+        "\"$schema\": ",
         "type:\n    ",
         "xml:\n    ",
-        "key:",
-        "minimum:",
-        "maximum:",
+        "key: ",
+        "minimum: ",
+        "maximum: ",
         "default:\n    ",
-        "exclusiveMinimum:",
-        "multipleOf:",
-        "description:",
-        "minProperties:",
+        "exclusiveMinimum: ",
+        "multipleOf: ",
+        "description: ",
+        "minProperties: ",
         "patternProperties:\n    ",
-        "maxLength:",
-        "title:",
-        "minLength:",
-        "minItems:",
-        "additionalItems:",
-        "id:",
-        "uniqueItems:"
+        "maxLength: ",
+        "title: ",
+        "minLength: ",
+        "minItems: ",
+        "additionalItems: ",
+        "id: ",
+        "uniqueItems: "
       )
     )
   }
@@ -59,35 +59,35 @@ class FragmentTests extends AMLSuggestionsTest {
     this.runTest(
       "fragment/test006.yaml",
       Set(
-        "pattern:",
-        "maxItems:",
+        "pattern: ",
+        "maxItems: ",
         "required:\n    ",
         "items:\n    ",
-        "exclusiveMaximum:",
-        "\"$schema\":",
+        "exclusiveMaximum: ",
+        "\"$schema\": ",
         "type:\n    ",
         "xml:\n    ",
-        "key:",
-        "minimum:",
-        "maximum:",
+        "key: ",
+        "minimum: ",
+        "maximum: ",
         "default:\n    ",
-        "exclusiveMinimum:",
-        "multipleOf:",
-        "description:",
-        "minProperties:",
+        "exclusiveMinimum: ",
+        "multipleOf: ",
+        "description: ",
+        "minProperties: ",
         "patternProperties:\n    ",
-        "maxLength:",
-        "title:",
-        "minLength:",
-        "minItems:",
-        "additionalItems:",
-        "id:",
-        "uniqueItems:"
+        "maxLength: ",
+        "title: ",
+        "minLength: ",
+        "minItems: ",
+        "additionalItems: ",
+        "id: ",
+        "uniqueItems: "
       )
     )
   }
 
   test("test007") {
-    this.runTest("fragment/test007.yaml", Set("name:", "description:"))
+    this.runTest("fragment/test007.yaml", Set("name: ", "description: "))
   }
 }
