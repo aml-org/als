@@ -68,4 +68,25 @@ class JiraSuggestionsTests extends RAML10Test {
   test("ALS-722 check prefix in included directory") {
     this.runTest("jira-tests/als-722/api.raml", Set("dataType.raml"))
   }
+
+  test("ALS-732 Single") {
+    this.runTest("jira-tests/als-732/test01.raml", Set("trait1", "trait2"))
+  }
+
+  test("ALS-732 Sequence") {
+    this.runTest("jira-tests/als-732/test02.raml", Set("trait2"))
+  }
+
+  test("ALS-732 Open Sequence") {
+    this.runTest("jira-tests/als-732/test03.raml", Set("trait1", "trait2"))
+  }
+
+  test("ALS-732 Flow Sequence") {
+    this.runTest("jira-tests/als-732/test04.raml", Set("trait2"))
+  }
+
+  //TODO: Check written values in non valid array
+  ignore("ALS-732 Open Sequence with trait") {
+    this.runTest("jira-tests/als-732/test04.raml", Set("trait2"))
+  }
 }

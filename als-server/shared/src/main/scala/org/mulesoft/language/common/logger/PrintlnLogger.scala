@@ -1,29 +1,24 @@
-// $COVERAGE-OFF$
 package org.mulesoft.language.common.logger
 
-/**
-  * Logger that prints to console.
-  */
-class PrintlnLogger extends AbstractLogger {
-
-  protected def internalLog(msg: String, severity: MessageSeverity.Value): Unit = {
-    println(msg)
-  }
-}
+import org.mulesoft.language.common.logger.MessageSeverity.MessageSeverity
 
 /**
   * Logger that prints to console.
   */
-trait IPrintlnLogger extends AbstractLogger {
-
-  protected def internalLog(msg: String, severity: MessageSeverity.Value): Unit = {
-    println(msg)
-  }
+trait PrintLnLogger extends AbstractLogger {
+  protected def executeLogging(msg: String, severity: MessageSeverity.Value): Unit = println(msg)
 }
 
 trait MutedLogger extends AbstractLogger {
 
-  protected def internalLog(msg: String, severity: MessageSeverity.Value): Unit = {}
-}
+  override protected val settings: Option[LoggerSettings] = None
 
-// $COVERAGE-ON$
+  protected def executeLogging(msg: String, severity: MessageSeverity): Unit = {}
+
+  /**
+    * Sets logger configuration, both for the server and for the client.
+    *
+    * @param settings - logger settings object
+    */
+  override def withSettings(settings: LoggerSettings): this.type = this
+}

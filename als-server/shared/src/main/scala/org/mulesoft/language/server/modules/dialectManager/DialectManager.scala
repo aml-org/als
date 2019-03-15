@@ -7,33 +7,26 @@ import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.features.validation.AMFValidatorPlugin
 import org.mulesoft.high.level.amfmanager.ParserHelper
+import org.mulesoft.language.server.core.AbstractServerModule
 import org.mulesoft.language.server.core.platform.ProxyContentPlatform
-import org.mulesoft.language.server.core.{AbstractServerModule, IServerModule}
-import org.mulesoft.language.server.modules.astManager.IASTManagerModule
+import org.mulesoft.language.server.modules.astManager.ASTManagerModule
 import org.mulesoft.language.server.modules.dialectManager.dialects.AsyncAPI
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.util.{Success, Try}
 
 /**
   * AST manager
   */
-class DialectManager extends AbstractServerModule with IDialectManagerModule {
+class DialectManager extends AbstractServerModule with DialectManagerModule {
 
-  val moduleDependencies: Array[String] = Array(IASTManagerModule.moduleId)
+  val moduleDependencies: Array[String] = Array(ASTManagerModule.moduleId)
 
-  override def launch(): Try[IServerModule] = {
-
-    val superLaunch = super.launch()
-
-    if (superLaunch.isSuccess) {
-      amfInit()
-      Success(this)
-    } else {
-      superLaunch
-    }
-  }
+  override def launch(): Future[Unit] =
+    super.launch()
+      .flatMap(_ => {
+        amfInit()
+      })
 
   def dialects: Seq[IBundledProject] = Seq(AsyncAPI)
 

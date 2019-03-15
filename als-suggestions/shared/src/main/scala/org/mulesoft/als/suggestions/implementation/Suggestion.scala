@@ -1,8 +1,14 @@
 package org.mulesoft.als.suggestions.implementation
 
-import org.mulesoft.als.suggestions.interfaces.ISuggestion
+import common.dtoTypes.PositionRange
+import org.mulesoft.als.suggestions.interfaces.{Suggestion => SuggestionInterface}
 
-class Suggestion(_text: String, _description: String, _displayText: String, _prefix: String) extends ISuggestion {
+class Suggestion(_text: String,
+                 _description: String,
+                 _displayText: String,
+                 _prefix: String,
+                 _range: Option[PositionRange])
+    extends SuggestionInterface {
 
   private var categoryOpt: Option[String] = None
 
@@ -16,9 +22,11 @@ class Suggestion(_text: String, _description: String, _displayText: String, _pre
 
   override def prefix: String = _prefix
 
-  override def category: String = categoryOpt.getOrElse("unknown")
+  override def category: String = categoryOpt.getOrElse(description)
 
   override def trailingWhitespace: String = _trailingWhitespace
+
+  override def range: Option[PositionRange] = _range
 
   def withCategory(cat: String): Suggestion = {
     categoryOpt = Option(cat)
@@ -34,18 +42,23 @@ class Suggestion(_text: String, _description: String, _displayText: String, _pre
 }
 
 object Suggestion {
-  def apply(_text: String, _description: String, _displayText: String, _prefix: String): Suggestion = {
+  def apply(_text: String,
+            _description: String,
+            _displayText: String,
+            _prefix: String,
+            _range: Option[PositionRange] = None): Suggestion = {
     // Dots and dashes are not considered as part of the word to be replaced
     val index =
       _prefix.lastIndexOf(".").max(_prefix.lastIndexOf("/"))
     if (index > 0 && _text.startsWith(_prefix))
       if (index == _prefix.size)
-        new Suggestion(_text.substring(index), _description, _displayText.split('.').last, "")
+        new Suggestion(_text.substring(index), _description, _displayText.split('.').last, "", _range)
       else
         new Suggestion(_text.substring(index + 1),
                        _description,
                        _displayText.substring(index + 1),
-                       _prefix.substring(index + 1))
-    else new Suggestion(_text, _description, _displayText, _prefix)
+                       _prefix.substring(index + 1),
+                       _range)
+    else new Suggestion(_text, _description, _displayText, _prefix, _range)
   }
 }

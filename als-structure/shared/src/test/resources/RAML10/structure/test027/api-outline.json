@@ -1,0 +1,55 @@
+[
+  {
+    "name": "/books",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 49
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 6
+      }
+    },
+    "children": [
+      {
+        "name": "post",
+        "kind": 6,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 4,
+            "character": 2
+          },
+          "end": {
+            "line": 5,
+            "character": 49
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 4,
+            "character": 2
+          },
+          "end": {
+            "line": 4,
+            "character": 6
+          }
+        },
+        "children": []
+      }
+    ]
+  }
+]

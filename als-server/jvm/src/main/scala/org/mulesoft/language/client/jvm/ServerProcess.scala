@@ -1,25 +1,28 @@
-// $COVERAGE-OFF$
 package org.mulesoft.language.client.jvm
 
 import java.util
 import java.util.function.Consumer
 
-import org.mulesoft.als.suggestions.interfaces.ISuggestion
+import common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.suggestions.interfaces.Suggestion
+import org.mulesoft.language.client.jvm.DocumentSymbolConverter.AsJavaList
 import org.mulesoft.language.client.jvm.dtoTypes.{GetCompletionRequest, GetStructureRequest}
 import org.mulesoft.language.client.jvm.serverConnection.{JAVALogger, JAVAServerConnection}
 import org.mulesoft.language.common.dtoTypes._
+import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureNodeJSON
 import org.mulesoft.language.server.core.Server
-import org.mulesoft.language.server.modules.astManager.{ASTManager, IASTManagerModule}
-import org.mulesoft.language.server.modules.dialectManager.{DialectManager, IDialectManagerModule}
-import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
+import org.mulesoft.language.server.modules.astManager.{ASTManager, ASTManagerModule}
+import org.mulesoft.language.server.modules.dialectManager.{DialectManager, DialectManagerModule}
+import org.mulesoft.language.server.modules.findDeclaration.FindDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
-import org.mulesoft.language.server.modules.hlastManager.HLASTmanager
+import org.mulesoft.language.server.modules.hlastManager.HlAstManager
 import org.mulesoft.language.server.modules.outline.StructureManager
 import org.mulesoft.language.server.modules.rename.RenameModule
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
 import org.mulesoft.language.server.modules.validationManager.ValidationManager
 
+import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
@@ -31,24 +34,24 @@ object ServerProcess {
 
     server.registerModule(new ASTManager())
     server.registerModule(new DialectManager())
-    server.registerModule(new HLASTmanager())
+    server.registerModule(new HlAstManager())
     server.registerModule(new ValidationManager())
     server.registerModule(new SuggestionsManager())
     server.registerModule(new StructureManager())
 
     server.registerModule(new FindReferencesModule())
-    server.registerModule(new FIndDeclarationModule())
+    server.registerModule(new FindDeclarationModule())
     server.registerModule(new RenameModule())
 
-    server.enableModule(IASTManagerModule.moduleId)
-    server.enableModule(IDialectManagerModule.moduleId)
-    server.enableModule(HLASTmanager.moduleId)
+    server.enableModule(ASTManagerModule.moduleId)
+    server.enableModule(DialectManagerModule.moduleId)
+    server.enableModule(HlAstManager.moduleId)
     server.enableModule(ValidationManager.moduleId)
     server.enableModule(SuggestionsManager.moduleId)
     server.enableModule(StructureManager.moduleId)
 
     server.enableModule(FindReferencesModule.moduleId)
-    server.enableModule(FIndDeclarationModule.moduleId)
+    server.enableModule(FindDeclarationModule.moduleId)
 
     server.enableModule(RenameModule.moduleId)
   }
@@ -57,13 +60,13 @@ object ServerProcess {
     connection.setLogger(logger)
   }
 
-  def documentOpened(document: IOpenedDocument) {
+  def documentOpened(document: OpenedDocument) {
     connection.handleOpenDocument(document)
   }
 
   def documentChanged(uri: String, text: String, version: Int) {
 
-    connection.handleChangedDocument(IChangedDocument(uri, version, Some(text), None))
+    connection.handleChangedDocument(ChangedDocument(uri, version, Some(text), None))
   }
 
   def documentClosed(uri: String) {
@@ -72,15 +75,18 @@ object ServerProcess {
 
   def getUnit(url: String): Unit = {}
 
-  def getSuggestions(uri: String, position: Int, suggestionsHandler: SuggestionsHandler) {
+  def getSuggestions(uri: String, position: Position, suggestionsHandler: SuggestionsHandler) {
     connection.handleGetSuggestions(new GetCompletionRequest(uri, position)) andThen {
-      case Success(result) => {
-        val list = new util.ArrayList[ISuggestion]()
+      case Success(result) =>
+        val list = new util.ArrayList[Suggestion]()
 
-        result.map(new SuggestionComparableWrapper(_)).distinct.map(_.suggestion).foreach(list.add(_))
+        result
+          .map(new SuggestionComparableWrapper(_))
+          .distinct
+          .map(_.suggestion)
+          .foreach(list.add(_))
 
         suggestionsHandler.success(list)
-      }
 
       case Failure(error) => suggestionsHandler.failure(error)
     }
@@ -89,18 +95,15 @@ object ServerProcess {
   def getStructure(uri: String, structureHandler: StructureHandler) {
     connection.handleGetStructure(new GetStructureRequest(uri)) andThen {
       case Success(result) => {
-        val map: util.Map[String, JAVAStructureNode] = new util.HashMap[String, JAVAStructureNode]()
 
-        result.structure.foreach(pair => map.put(pair._1, JAVAStructureNode(pair._2)))
-
-        structureHandler.success(map)
+        structureHandler.success(result.structure.asJava)
       }
 
-      case Failure(_) => structureHandler.success(new util.HashMap[String, JAVAStructureNode]())
+      case Failure(_) => structureHandler.success(Nil.asJava)
     }
   }
 
-  def openDeclaration(uri: String, position: Int, locationsHandler: LocationsHandler) {
+  def openDeclaration(uri: String, position: Position, locationsHandler: LocationsHandler) {
     connection.findDeclaration(uri, position) andThen {
       case Success(result) => {
         val list: util.List[ILocation] = new util.ArrayList[ILocation]()
@@ -112,7 +115,7 @@ object ServerProcess {
     }
   }
 
-  def findReferences(uri: String, position: Int, locationsHandler: LocationsHandler) {
+  def findReferences(uri: String, position: Position, locationsHandler: LocationsHandler) {
     connection.findReferences(uri, position) andThen {
       case Success(result) => {
         var list: util.List[ILocation] = new util.ArrayList[ILocation]()
@@ -124,15 +127,16 @@ object ServerProcess {
     }
   }
 
-  def rename(uri: String, position: Int, newName: String, renameHandler: LocationsHandler) {
+  def rename(uri: String, position: Position, newName: String, renameHandler: LocationsHandler) {
     connection.rename(uri, position, newName) andThen {
       case Success(result) => {
-        var list: util.List[ILocation] = new util.ArrayList[ILocation]()
+        val list: util.List[ILocation] = new util.ArrayList[ILocation]()
 
         result
           .map(item =>
             new ILocation {
-              override var range: IRange = item.textEdits.get.head.range
+              override var posRange: PositionRange =
+                PositionRange(item.textEdits.get.head.range.start, item.textEdits.get.head.range.end)
 
               override var uri: String = item.uri
 
@@ -155,17 +159,17 @@ object ServerProcess {
 }
 
 trait ValidationHandler {
-  def success(pointOfView: String, issues: java.util.List[IValidationIssue])
+  def success(pointOfView: String, issues: java.util.List[ValidationIssue])
 }
 
 trait SuggestionsHandler {
-  def success(list: java.util.List[ISuggestion])
+  def success(list: java.util.List[Suggestion])
 
   def failure(throwable: Throwable)
 }
 
 trait StructureHandler {
-  def success(map: util.Map[String, JAVAStructureNode])
+  def success(map: util.List[JavaDocumentSymbol])
 
   def failure(throwable: Throwable)
 }
@@ -187,9 +191,11 @@ trait FS {
 }
 
 class JAVAStructureNode(var node: StructureNodeJSON) {
-  var children: util.List[JAVAStructureNode] = new util.ArrayList[JAVAStructureNode]()
+  var children: util.List[JAVAStructureNode] =
+    new util.ArrayList[JAVAStructureNode]()
 
-  override def toString: String = "(" + node.text + ", " + node.start + ", " + node.end + "): " + children.toString
+  override def toString: String =
+    "(" + node.text + ", " + node.start + ", " + node.end + "): " + children.toString
 }
 
 object JAVAStructureNode {
@@ -202,13 +208,42 @@ object JAVAStructureNode {
   }
 }
 
-class SuggestionComparableWrapper(var suggestion: ISuggestion) {
+//todo : change to use typings, wrapped and implicit convertions
+
+object DocumentSymbolConverter {
+
+  implicit class AsJavaConverter(internal: DocumentSymbol) {
+    def asJava: JavaDocumentSymbol = new JavaDocumentSymbol(internal)
+  }
+
+  implicit class AsJavaList(internal: List[DocumentSymbol]) {
+    def asJava: java.util.List[JavaDocumentSymbol] =
+      internal.map(i => new JavaDocumentSymbol(i)).asJava
+  }
+
+}
+
+class JavaDocumentSymbol(private val _internal: DocumentSymbol) {
+  def name: String = _internal.name
+
+  def kind: Int = _internal.kind.index
+
+  def deprecated: Boolean = _internal.deprecated
+
+  def range: PositionRange = _internal.range
+
+  def selectionRange: PositionRange = _internal.selectionRange
+
+  def children: java.util.List[JavaDocumentSymbol] =
+    _internal.children.toList.asJava
+}
+
+class SuggestionComparableWrapper(var suggestion: Suggestion) {
   override def toString(): String =
     suggestion.category + ", " + suggestion.description + ", " + suggestion.displayText + ", " + suggestion.prefix + ", " + suggestion.text
 
-  override def equals(another: scala.Any): Boolean = toString().equals(another.toString)
+  override def equals(another: scala.Any): Boolean =
+    toString().equals(another.toString)
 
   override def hashCode(): Int = toString().hashCode()
 }
-
-// $COVERAGE-ON$

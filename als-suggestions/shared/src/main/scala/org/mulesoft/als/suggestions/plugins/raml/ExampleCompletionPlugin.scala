@@ -187,7 +187,7 @@ class ExampleCompletionPlugin extends ICompletionPlugin with ExampleCompletionTo
 
   def findProperties(path: Seq[String],
                      localType: Option[ITypeDefinition],
-                     request: ICompletionRequest): Seq[ISuggestion] =
+                     request: ICompletionRequest): Seq[Suggestion] =
     if (localType.isEmpty) {
       Seq();
     } else if (path.isEmpty) {

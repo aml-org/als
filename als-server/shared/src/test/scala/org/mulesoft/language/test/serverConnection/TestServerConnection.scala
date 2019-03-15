@@ -1,11 +1,12 @@
 package org.mulesoft.language.test.serverConnection
 
-import org.mulesoft.language.common.dtoTypes._
+import common.dtoTypes.Position
+import org.mulesoft.language.common.dtoTypes.{IDetailsItem, IDetailsReport, IUIDisplayRequest, ChangedDocument => SharedChangedDocument, OpenedDocument => SharedOpenedDocument, StructureReport => SharedStructureReport, ValidationReport => SharedValidationReport}
 import org.mulesoft.language.common.logger.MutedLogger
 import org.mulesoft.language.entryPoints.common.{MessageDispatcher, ProtocolMessage => SharedProtocolMessage, ProtocolSeqMessage => SharedProtocolSeqMessage}
 import org.mulesoft.language.server.core.connections.AbstractServerConnection
-import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
-import org.mulesoft.language.test.clientConnection.TestClientConnetcion
+import org.mulesoft.language.server.modules.editorManager.EditorManagerModule
+import org.mulesoft.language.test.clientConnection.TestClientConnection
 import org.mulesoft.language.test.dtoTypes._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -22,57 +23,57 @@ class WrappedMessage { //extends js.Object {
   //  var payload: js.Object = null;
 }
 
-class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
-  extends MutedLogger
+class TestServerConnection(clientProcess: Seq[TestClientConnection])
+    extends MutedLogger
     with MessageDispatcher[ProtocolMessagePayload, NodeMsgTypeMeta]
     with AbstractServerConnection {
 
   var lastStructureReport: Option[StructureReport] = None
 
-  var editorManager: Option[IEditorManagerModule] = None
+  var editorManager: Option[EditorManagerModule] = None
 
   initialize()
 
   protected def initialize(): Unit = {
     this.newMeta("EXISTS", Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientBoolResponse", true)))
     this.newMeta("READ_DIR",
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientStringSeqResponse", true)))
-    this.newMeta("IS_DIRECTORY",
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientBoolResponse", true)))
+                 Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientStringSeqResponse", true)))
+    this
+      .newMeta("IS_DIRECTORY", Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientBoolResponse", true)))
     this.newMeta("CONTENT", Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClientStringResponse", true)))
 
     this.newVoidHandler("CHANGE_POSITION",
-      handleChangedPosition _,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedPosition")))
+                        handleChangedPosition,
+                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedPosition")))
 
     this.newVoidHandler("OPEN_DOCUMENT",
-      this.handleOpenDocument _,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.OpenedDocument")))
+                        this.handleOpenDocument,
+                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.OpenedDocument")))
 
     this.newVoidHandler("CLOSE_DOCUMENT",
-      (document: ClosedDocument) => Unit,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClosedDocument", true)))
+                        (document: ClosedDocument) => Unit,
+                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ClosedDocument", true)))
 
     this.newVoidHandler("CHANGE_DOCUMENT",
-      this.handleChangedDocument _,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedDocument")))
+                        this.handleChangedDocument,
+                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.ChangedDocument")))
 
     this.newFutureHandler(
       "GET_STRUCTURE",
-      this.handleGetStructure _,
+      this.handleGetStructure,
       Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.GetStructureRequest", true, true)))
 
     this.newFutureHandler("RENAME",
-      this.handleRename _,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.RenameRequest")))
+                          this.handleRename,
+                          Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.RenameRequest")))
 
     this.newVoidHandler("SET_LOGGER_CONFIGURATION",
-      this.handleSetLoggerConfiguration _,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.LoggerSettings")))
+                        this.handleSetLoggerConfiguration,
+                        Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.LoggerSettings")))
 
     this.newFutureHandler("GET_SUGGESTIONS",
-      this.handleGetSuggestions _,
-      Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.GetCompletionRequest")))
+                          this.handleGetSuggestions,
+                          Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.GetCompletionRequest")))
 
     this.newFutureHandler[FindDeclarationRequest, LocationsResponse](
       "OPEN_DECLARATION",
@@ -85,24 +86,10 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
 
     this.newFutureHandler[FindReferencesRequest, LocationsResponse](
       "FIND_REFERENCES",
-      (request: FindReferencesRequest) =>
-        findReferencesListeners
-          .head(request.uri, request.position)
-          .map(result => new LocationsResponse(result.map(location => Location.sharedToTransport(location)))),
+      this.handleFindReferences,
       Option(NodeMsgTypeMeta("org.mulesoft.language.test.dtoTypes.FindReferencesRequest"))
     )
   }
-
-  //  protected def internalSendJSONMessage(message: js.Object): Unit = {
-  //
-  //    if(message.hasOwnProperty("payload") && message.asInstanceOf[WrappedMessage].payload.hasOwnProperty("wrapped")) {
-  //      var payload = message.asInstanceOf[WrappedMessage].payload.asInstanceOf[WrappedPayload]
-  //
-  //      message.asInstanceOf[WrappedMessage].payload = payload.wrapped
-  //    }
-  //
-  //    Globals.process.send(message)
-  //  }
 
   def handleChangedPosition(changedPosition: ChangedPosition): Unit = {}
 
@@ -111,7 +98,7 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
     firstOpt match {
       case Some(listener) =>
         listener(getStructure.wrapped).map(resultMap => {
-          GetStructureResponse(resultMap.map { case (key, value) => (key, StructureNode.sharedToTransport(value)) })
+          GetStructureResponse(resultMap.toList)
         })
       case _ => Future.failed(new Exception("No structure providers found"))
     }
@@ -136,7 +123,20 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
           .map(result => {
             result.map(suggestion => Suggestion.sharedToTransport(suggestion))
           })
-          .map(GetCompletionResponse(_))
+          .map(GetCompletionResponse)
+      case _ => Future.failed(new Exception("No structure providers found"))
+    }
+  }
+
+  def handleFindReferences(findReferences: FindReferencesRequest): Future[LocationsResponse] = {
+    val firstOpt = this.findReferencesListeners.find(_ => true)
+    firstOpt match {
+      case Some(listener) =>
+        listener(findReferences.uri, findReferences.position)
+          .map(result => {
+            result.map(reference => Location.sharedToTransport(reference))
+          })
+          .map(LocationsResponse(_))
       case _ => Future.failed(new Exception("No structure providers found"))
     }
   }
@@ -160,7 +160,7 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
   }
 
   def handleSetLoggerConfiguration(loggerSettings: LoggerSettings): Unit = {
-    this.setLoggerConfiguration(LoggerSettings.transportToShared(loggerSettings))
+    this.withSettings(LoggerSettings.transportToShared(loggerSettings))
 
   }
 
@@ -169,7 +169,7 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
     *
     * @param report - structure report.
     */
-  def structureAvailable(report: IStructureReport): Unit = {
+  def structureAvailable(report: SharedStructureReport): Unit = {
     this.send("STRUCTURE_REPORT", StructureReport.sharedToTransport(report))
   }
 
@@ -178,7 +178,7 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
     *
     * @param report
     */
-  override def validated(report: IValidationReport): Unit = {
+  override def validated(report: SharedValidationReport): Unit = {
     this.send("VALIDATION_REPORT", ValidationReport.sharedToTransport(report))
   }
 
@@ -260,7 +260,7 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
     //  "NodeMessageDispatcher", "internalSendMessage")
 
     //this.internalSendJSONMessage(protocolMessage.asInstanceOf[js.Object])
-    clientProcess.foreach(_.internalHandleRecievedMessage(message))
+    clientProcess.foreach(_.internalHandleReceivedMessage(message))
   }
 
   /**
@@ -283,7 +283,7 @@ class TestServerConnection(clientProcess: Seq[TestClientConnetcion])
     //this.internalSendJSONMessage(protocolMessage.asInstanceOf[js.Object])
   }
 
-  def rename(uri: String, position: Int, newName: String): Future[Seq[IChangedDocument]] = {
+  def rename(uri: String, position: Position, newName: String): Future[Seq[SharedChangedDocument]] = {
     renameListeners.head(uri, position, newName)
   }
 }

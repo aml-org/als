@@ -1,4 +1,4 @@
-FROM sgrio/java-oracle:jdk_8
+FROM ubuntu:16.04
 
 ARG USER_HOME_DIR="/root"
 
@@ -43,3 +43,13 @@ RUN \
 
 RUN \
   apt-get install nodejs --assume-yes
+
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+ENV JAVA_TOOL_OPTIONS -Dfile.encoding=UTF8
+
+# Final user and home config
+RUN useradd --create-home --shell /bin/bash jenkins
+USER jenkins
+WORKDIR /home/jenkins

@@ -1,0 +1,240 @@
+[
+  {
+    "name": "paths",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 5,
+        "character": 0
+      },
+      "end": {
+        "line": 36,
+        "character": 22
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 5,
+        "character": 0
+      },
+      "end": {
+        "line": 36,
+        "character": 22
+      }
+    },
+    "children": [
+      {
+        "name": "/pets/{id}",
+        "kind": 12,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 6,
+            "character": 2
+          },
+          "end": {
+            "line": 36,
+            "character": 22
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 6,
+            "character": 2
+          },
+          "end": {
+            "line": 6,
+            "character": 14
+          }
+        },
+        "children": [
+          {
+            "name": "idHeader",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 8,
+                "character": 6
+              },
+              "end": {
+                "line": 36,
+                "character": 22
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 8,
+                "character": 12
+              },
+              "end": {
+                "line": 8,
+                "character": 20
+              }
+            },
+            "children": [
+              {
+                "name": "schema",
+                "kind": 19,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 16,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 36,
+                    "character": 22
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 16,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 36,
+                    "character": 22
+                  }
+                },
+                "children": [
+                  {
+                    "name": "xml",
+                    "kind": 8,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 26,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 31,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 26,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 31,
+                        "character": 0
+                      }
+                    },
+                    "children": []
+                  },
+                  {
+                    "name": "",
+                    "kind": 8,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 32,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 34,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 32,
+                        "character": 0
+                      },
+                      "end": {
+                        "line": 34,
+                        "character": 0
+                      }
+                    },
+                    "children": []
+                  },
+                  {
+                    "name": "name",
+                    "kind": 7,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 20,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 22,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 20,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 20,
+                        "character": 14
+                      }
+                    },
+                    "children": []
+                  },
+                  {
+                    "name": "tag",
+                    "kind": 7,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 22,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 24,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 22,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 22,
+                        "character": 13
+                      }
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "info",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 0
+      }
+    },
+    "children": []
+  }
+]

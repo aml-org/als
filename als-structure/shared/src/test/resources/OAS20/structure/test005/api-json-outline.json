@@ -1,0 +1,134 @@
+[
+  {
+    "name": "r1",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 7,
+        "character": 4
+      },
+      "end": {
+        "line": 12,
+        "character": 5
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 7,
+        "character": 4
+      },
+      "end": {
+        "line": 7,
+        "character": 8
+      }
+    },
+    "children": [
+      {
+        "name": "schema",
+        "kind": 15,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 9,
+            "character": 6
+          },
+          "end": {
+            "line": 11,
+            "character": 7
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 9,
+            "character": 6
+          },
+          "end": {
+            "line": 9,
+            "character": 14
+          }
+        },
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "r2",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 19,
+        "character": 5
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 8
+      }
+    },
+    "children": [
+      {
+        "name": "schema",
+        "kind": 17,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 15,
+            "character": 6
+          },
+          "end": {
+            "line": 18,
+            "character": 7
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 15,
+            "character": 6
+          },
+          "end": {
+            "line": 15,
+            "character": 14
+          }
+        },
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "info",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 5,
+        "character": 3
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 5,
+        "character": 3
+      }
+    },
+    "children": []
+  }
+]

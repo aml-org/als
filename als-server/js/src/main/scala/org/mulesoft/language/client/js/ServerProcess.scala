@@ -4,19 +4,18 @@ package org.mulesoft.language.client.js
 import org.mulesoft.language.client.js.dtoTypes.{ProtocolMessagePayload, StructureReport}
 import org.mulesoft.language.client.js.serverConnection.{NodeServerConnection, ProtocolMessage}
 import org.mulesoft.language.entryPoints.common.ProtocolSeqMessage
-import org.mulesoft.language.server.modules.astManager.{ASTManager, IASTManagerModule}
+import org.mulesoft.language.server.modules.astManager.{ASTManager, ASTManagerModule}
 import org.mulesoft.language.server.modules.dialectManager.DialectManager
-import org.mulesoft.language.server.modules.editorManager.IEditorManagerModule
-import org.mulesoft.language.server.modules.findDeclaration.FIndDeclarationModule
+import org.mulesoft.language.server.modules.editorManager.EditorManagerModule
+import org.mulesoft.language.server.modules.findDeclaration.FindDeclarationModule
 import org.mulesoft.language.server.modules.findReferences.FindReferencesModule
-import org.mulesoft.language.server.modules.hlastManager.HLASTmanager
+import org.mulesoft.language.server.modules.hlastManager.HlAstManager
 import org.mulesoft.language.server.modules.outline.StructureManager
 import org.mulesoft.language.server.modules.suggestions.SuggestionsManager
 import org.mulesoft.language.server.modules.validationManager.ValidationManager
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
-//import upickle.default._
 import org.mulesoft.language.client.js.CustomPicklerConfig.{macroRW, ReadWriter => RW}
 import org.mulesoft.language.server.core.Server
 
@@ -75,27 +74,27 @@ object ServerProcess {
 
     server.registerModule(new ASTManager())
     server.registerModule(new DialectManager())
-    server.registerModule(new HLASTmanager())
+    server.registerModule(new HlAstManager())
     server.registerModule(new ValidationManager())
     server.registerModule(new SuggestionsManager())
     server.registerModule(new StructureManager())
 
     server.registerModule(new FindReferencesModule())
-    server.registerModule(new FIndDeclarationModule())
+    server.registerModule(new FindDeclarationModule())
 
-    server.enableModule(IASTManagerModule.moduleId)
+    server.enableModule(ASTManagerModule.moduleId)
     //server.enableModule(IDialectManagerModule.moduleId)
-    server.enableModule(HLASTmanager.moduleId)
+    server.enableModule(HlAstManager.moduleId)
     server.enableModule(ValidationManager.moduleId)
     server.enableModule(SuggestionsManager.moduleId)
     server.enableModule(StructureManager.moduleId)
 
     server.enableModule(FindReferencesModule.moduleId)
-    server.enableModule(FIndDeclarationModule.moduleId)
+    server.enableModule(FindDeclarationModule.moduleId)
 
-    val editorManager = server.modules.get(IEditorManagerModule.moduleId)
+    val editorManager = server.modules.get(EditorManagerModule.moduleId)
     if (editorManager.isDefined) {
-      connection.editorManager = Some(editorManager.get.asInstanceOf[IEditorManagerModule])
+      connection.editorManager = Some(editorManager.get.asInstanceOf[EditorManagerModule])
     }
   }
 }

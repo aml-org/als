@@ -1,13 +1,13 @@
 package org.mulesoft.language.entryPoints.common
 
-import org.mulesoft.language.common.logger.ILogger
+import org.mulesoft.language.common.logger.Logger
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Random, Success, Try}
 
-trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
+trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends Logger {
 
   /**
     * Handlers returning nothing
@@ -59,7 +59,7 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
     *
     * @param message - message to send
     */
-  def internalSendMessage(message: ProtocolMessage[PayloadType]): Unit;
+  def internalSendMessage(message: ProtocolMessage[PayloadType]): Unit
 
   /**
     * Performs actual message sending.
@@ -76,7 +76,7 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
     *
     * @param message - error message that was recieved
     */
-  def internalHandleRecievedMessage(message: ProtocolMessage[PayloadType]): Unit = {
+  def internalHandleReceivedMessage(message: ProtocolMessage[PayloadType]): Unit = {
 
     if (message.id.isDefined && this.callbacks.contains(message.id.get)) {
       // handling the case when this message is an answer for a previously sent message
@@ -96,11 +96,11 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
     } else {
       // handling the case when the message needs to be passed to the handling functions
 
-      val voidHandler = this.voidHandlers.get(message.`type`);
-      val promiseHandler = this.promiseHandlers.get(message.`type`);
-      val directHandler = this.directHandlers.get(message.`type`);
-      val tryHandler = this.tryHandlers.get(message.`type`);
-      val promiseSeqHandler = this.promiseSeqHandlers.get(message.`type`);
+      val voidHandler = this.voidHandlers.get(message.`type`)
+      val promiseHandler = this.promiseHandlers.get(message.`type`)
+      val directHandler = this.directHandlers.get(message.`type`)
+      val tryHandler = this.tryHandlers.get(message.`type`)
+      val promiseSeqHandler = this.promiseSeqHandlers.get(message.`type`)
 
       if (voidHandler.isDefined) {
 
@@ -134,43 +134,6 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
               )
             )
         }
-        //
-        //      } else if (directHandler.isDefined) {
-        //
-        //        val handler = directHandler.get
-        //        val result = handler(message.payload.get)
-        //
-        //        this.internalSendMessage(
-        //          ProtocolMessage[PayloadType](
-        //            `type` =  message.`type`,
-        //            payload = Option(result),
-        //            id = message.id,
-        //            errorMessage = None
-        //          )
-        //        )
-        //      } else if (tryHandler.isDefined) {
-        //
-        //        val handler = tryHandler.get
-        //        val tryResult = handler(message.payload.get)
-        //
-        //        tryResult match {
-        //          case Success(result) => this.internalSendMessage(
-        //            ProtocolMessage[PayloadType](
-        //              `type` =  message.`type`,
-        //              payload = Option(result),
-        //              id = message.id,
-        //              errorMessage = None
-        //            )
-        //          )
-        //          case Failure(failure) => this.internalSendMessage(
-        //            ProtocolMessage[PayloadType](
-        //              `type` =  message.`type`,
-        //              payload = None,
-        //              id = message.id,
-        //              errorMessage = Option(failure.toString)
-        //            )
-        //          )
-        //        }
 
       } else if (promiseSeqHandler.isDefined) {
 
@@ -214,10 +177,10 @@ trait MessageDispatcher[PayloadType, MessageTypeMetaType] extends ILogger {
     */
   def sendWithResponse[ResultType <: PayloadType](messageType: String, payload: PayloadType): Future[ResultType] = {
 
-    val messageID = this.newRandomId();
+    val messageID = this.newRandomId()
 
     val promise = Promise[ResultType]()
-    callbacks(messageID) = promise.asInstanceOf[Promise[PayloadType]];
+    callbacks(messageID) = promise.asInstanceOf[Promise[PayloadType]]
 
     this.internalSendMessage(
       ProtocolMessage[PayloadType](

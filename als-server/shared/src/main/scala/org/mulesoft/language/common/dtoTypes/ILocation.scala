@@ -1,5 +1,7 @@
 package org.mulesoft.language.common.dtoTypes
 
+import common.dtoTypes.PositionRange
+
 /**
   * Range in a particular document
   */
@@ -18,5 +20,5 @@ trait ILocation {
   /**
     * Range in the document.
     */
-  var range: IRange
+  var posRange: PositionRange // Range
 }

@@ -1,8 +1,5 @@
 package org.mulesoft.language.common.logger
 
-trait LogMessage {
-  var message: String
-  var severity: MessageSeverity.Value
-  var component: String
-  var subcomponent: String
-}
+import org.mulesoft.language.common.logger.MessageSeverity.MessageSeverity
+
+case class LogMessage(content: String, severity: MessageSeverity, component: String, subComponent: String)

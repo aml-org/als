@@ -1,0 +1,109 @@
+[
+  {
+    "name": "/users",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 0
+      },
+      "end": {
+        "line": 14,
+        "character": 25
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 6
+      }
+    },
+    "children": [
+      {
+        "name": "/{userIds}",
+        "kind": 12,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 5,
+            "character": 2
+          },
+          "end": {
+            "line": 14,
+            "character": 25
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 5,
+            "character": 2
+          },
+          "end": {
+            "line": 5,
+            "character": 12
+          }
+        },
+        "children": [
+          {
+            "name": "userIds",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 8,
+                "character": 6
+              },
+              "end": {
+                "line": 14,
+                "character": 25
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 8,
+                "character": 6
+              },
+              "end": {
+                "line": 8,
+                "character": 13
+              }
+            },
+            "children": [
+              {
+                "name": "items",
+                "kind": 15,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 11,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 14,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 11,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 11,
+                    "character": 13
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
