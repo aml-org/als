@@ -29,11 +29,11 @@ class CompletionProvider {
     val range = Option(
       PositionRange(Position(request.position - request.prefix.size, _config.originalContent.get),
                     Position(request.position, _config.originalContent.get)))
-    fulfillRequest(request).map(
+    fulfillRequest(request, range).map(
       result => {
         if (filterByPrefix) filter(result, request)
         else result
-      }.map(s => Suggestion(s.text, s.description, s.displayText, s.prefix, range))
+      }
     )
   }
 
@@ -82,7 +82,7 @@ class CompletionProvider {
     result
   }
 
-  def fulfillRequest(request: ICompletionRequest): Future[Seq[SuggestionInterface]] = {
+  def fulfillRequest(request: ICompletionRequest, range: Option[PositionRange]): Future[Seq[SuggestionInterface]] = {
 
     val filteredPlugins = _pluginsRegistry.plugins.filter(plugin => {
       plugin.isApplicable(request)
@@ -91,10 +91,10 @@ class CompletionProvider {
       .sequence(
         filteredPlugins.map(_.suggest(request))
       )
-      .map(responses => responses.flatMap(adjustedSuggestions))
+      .map(responses => responses.flatMap(r => adjustedSuggestions(r, range)))
   }
 
-  def adjustedSuggestions(response: ICompletionResponse): Seq[SuggestionInterface] = {
+  def adjustedSuggestions(response: ICompletionResponse, range: Option[PositionRange]): Seq[SuggestionInterface] = {
     val isKey  = response.kind == LocationKind.KEY_COMPLETION
     val isYAML = response.request.config.astProvider.exists(_.syntax == Syntax.YAML)
     val isJSON = response.request.config.astProvider.exists(_.syntax == Syntax.JSON)
@@ -128,14 +128,14 @@ class CompletionProvider {
         if (!hasLine || !hasColon) {
           result = result.map(x => {
             val newText = x.text + ":" + x.trailingWhitespace
-            Suggestion(newText, x.description, x.displayText, x.prefix).withCategory(x.category)
+            Suggestion(newText, x.description, x.displayText, x.prefix, range).withCategory(x.category)
           })
         }
       } else if (!isKey) {
         result = result.map(x => {
           val prefix = x.prefix
           if (prefix == ":" && (!x.text.startsWith("\n") || x.text.startsWith("\r\n"))) {
-            Suggestion(" " + x.text, x.description, x.displayText, x.prefix).withCategory(x.category)
+            Suggestion(" " + x.text, x.description, x.displayText, x.prefix, range).withCategory(x.category)
           } else {
             x
           }
@@ -161,7 +161,7 @@ class CompletionProvider {
         result = result.map(x => {
           val isJSONObject = isJSON && x.text.startsWith("{") && x.text.endsWith("}")
           val newText      = if (!isJSONObject && (!endingQuote || !x.text.endsWith("\""))) x.text + postfix else x.text
-          Suggestion(newText, x.description, x.displayText, x.prefix).withCategory(x.category)
+          Suggestion(newText, x.description, x.displayText, x.prefix, range).withCategory(x.category)
         })
       }
     }

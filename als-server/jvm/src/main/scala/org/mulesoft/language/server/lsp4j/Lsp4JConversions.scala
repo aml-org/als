@@ -62,7 +62,7 @@ object Lsp4JConversions {
       case _ =>
         result.setInsertText(suggestion.text)
     }
-    result.setDetail(suggestion.category)
+    result.setDetail(suggestion.description)
 
     result
   }
