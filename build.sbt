@@ -15,8 +15,6 @@ version := deps("version")
 
 scalaVersion := "2.12.6"
 
-publish := {}
-
 jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
 
 val settings = Common.settings ++ Common.publish ++ Seq(
@@ -48,10 +46,26 @@ val settings = Common.settings ++ Common.publish ++ Seq(
   )
 )
 
+lazy val common = crossProject(JSPlatform, JVMPlatform).settings(
+  Seq(
+    name := "als-common"
+  ))
+  .in(file("./als-common"))
+  .settings(settings: _*)
+  .jsSettings(
+    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
+    scalaJSModuleKind := ModuleKind.CommonJSModule
+    //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
+  )
+
+lazy val commonJVM = common.jvm.in(file("./als-common/jvm"))
+lazy val commonJS = common.js.in(file("./als-common/js"))
+
 lazy val hl = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
     name := "als-hl"
   ))
+  .dependsOn(common)
   .in(file("./als-hl"))
   .settings(settings: _*)
   .jsSettings(
@@ -82,12 +96,12 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
 lazy val suggestionsJVM = suggestions.jvm.in(file("./als-suggestions/jvm"))
 lazy val suggestionsJS = suggestions.js.in(file("./als-suggestions/js"))
 
-lazy val outline = crossProject(JSPlatform, JVMPlatform).settings(
+lazy val structure = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
-    name := "als-outline"
+    name := "als-structure"
   ))
   .dependsOn(hl)
-  .in(file("./als-outline"))
+  .in(file("./als-structure"))
   .settings(settings: _*)
   .jsSettings(
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
@@ -97,24 +111,35 @@ lazy val outline = crossProject(JSPlatform, JVMPlatform).settings(
     //    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"als-suggestions.js"
   )
 
-lazy val outlineJVM = outline.jvm.in(file("./als-outline/jvm"))
-lazy val outlineJS = outline.js.in(file("./als-outline/js"))
+lazy val structureJVM = structure.jvm.in(file("./als-structure/jvm"))
+lazy val structureJS = structure.js.in(file("./als-structure/js"))
 
-lazy val server = crossProject(JSPlatform, JVMPlatform).settings(
-  Seq(
+lazy val server = crossProject(JSPlatform, JVMPlatform)
+  .settings(Seq(
     name := "als-server"
+  ))
+  .dependsOn(suggestions, structure % "compile->compile;test->test")
+  .in(file("./als-server"))
+  .settings(settings: _*)
+  .jvmSettings(
+    // https://mvnrepository.com/artifact/org.eclipse.lsp4j/org.eclipse.lsp4j
+    libraryDependencies += "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.6.0",
+    packageOptions in(Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
+    aggregate in assembly := true,
+    mainClass in assembly := Some("org.mulesoft.language.server.lsp4j.Main"),
+    mainClass in Compile := Some("org.mulesoft.language.server.lsp4j.Main"),
+    scalacOptions += "-Xmixin-force-forwarders:false",
+    assemblyMergeStrategy in assembly := {
+      case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+      case x => MergeStrategy.first
+    }
   )
-)
-  .dependsOn(suggestions, outline)
-  .in(file("./als-server")).settings(settings: _*).jvmSettings(
-  packageOptions in(Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
-  aggregate in assembly := true
-).jsSettings(
-  libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
-  libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
-  scalaJSModuleKind := ModuleKind.CommonJSModule,
-  artifactPath in(Compile, fullOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.js"
-)
+  .jsSettings(
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
+    libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
+    artifactPath in(Compile, fullOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.js"
+  )
 
 
 
@@ -130,7 +155,7 @@ buildJS := {
   "./als-server/js/build-scripts/buildJs.sh".!
 }
 
-mainClass in Compile := Some("org.mulesoft.language.client.js.Main")
+mainClass in Compile := Some("org.mulesoft.language.server.lsp4j.Main")
 
 val buildSuggestionsJS = TaskKey[Unit]("buildSuggestionsJS", "Build suggestions npm module")
 
@@ -204,10 +229,51 @@ runSonar := {
 // run only one?
 addCommandAlias(
   "testJVM",
-  "; serverJVM/test; suggestionsJVM/test; outlineJVM/test; hlJVM/test"
+  "; serverJVM/test; suggestionsJVM/test; structureJVM/test; hlJVM/test"
 )
 
 addCommandAlias(
   "testJS",
-  "; serverJS/test; suggestionsJS/test; outlineJVM/test; hlJS/test"
+  "; serverJS/test; suggestionsJS/test; structureJVM/test; hlJS/test"
 )
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}
+
+
+
+//******* fat jar*****************************
+
+lazy val core = crossProject(JSPlatform,JVMPlatform).settings(
+  Seq(
+    name := "api-language-server"
+  )
+)
+  .dependsOn(suggestions, structure, hl, server)
+  .in(file(".")).settings(settings: _*).jvmSettings(
+  libraryDependencies += "com.github.amlorg" %%% "amf-aml" % deps("amf"),
+  //	packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
+  //        aggregate in assembly := true,
+  assemblyMergeStrategy in assembly := {
+    case x if x.toString.endsWith("JS_DEPENDENCIES")             => MergeStrategy.discard
+    case PathList(ps @ _*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
+    case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
+    case x => {
+      MergeStrategy.first
+    }
+  },
+  assemblyJarName in assembly := "server.jar",
+  addArtifact(Artifact("api-language-server", ""), sbtassembly.AssemblyKeys.assembly)
+).jsSettings(
+  libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
+  libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
+  scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
+  scalaJSModuleKind := ModuleKind.CommonJSModule,
+  scalaJSUseMainModuleInitializer := true,
+  mainClass in Compile := Some("org.mulesoft.language.client.js.ServerProcess"),
+  artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"serverProcess.js"
+)
+
+lazy val coreJVM = core.jvm.in(file("./"))

@@ -4,24 +4,19 @@ import org.mulesoft.positioning.IPositionsMapper
 import org.mulesoft.typesystem.json.interfaces.NodeRange
 import org.yaml.model._
 
-class YRange(_start: YPoint, _end: YPoint) extends NodeRange {
-
-  def start: YPoint = _start
-
-  def end: YPoint = _end
-
-  override def toString: String = if (isEmprty) "[empty]" else s"[$start-$end]"
+class YRange(val start: YPoint, val end: YPoint) extends NodeRange {
+  override def toString: String = if (isEmpty) "[empty]" else s"[$start-$end]"
 
   def ==(other: NodeRange): Boolean = start == other.start && end == other.end
 
-  def isEmprty: Boolean = this == YRange.empty
+  def isEmpty: Boolean = this == YRange.empty
 }
 
 object YRange {
 
   val empty = YRange(YPoint(-1, -1), YPoint(-1, -1))
 
-  def apply(_start: YPoint, _end: YPoint): YRange = new YRange(_start, _end)
+  def apply(start: YPoint, end: YPoint): YRange = new YRange(start, end)
 
   private def apply(yPart: YPart): YRange = {
     val yRange      = yPart.range

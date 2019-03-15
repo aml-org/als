@@ -1,15 +1,17 @@
 package org.mulesoft.language.server.modules
 
+import common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.high.level.Search
 import org.mulesoft.high.level.interfaces.IProject
-import org.mulesoft.language.common.dtoTypes.{ILocation, IRange}
+import org.mulesoft.language.common.dtoTypes.ILocation
 
 import scala.collection.mutable.ListBuffer
 
-private class TextIssue(var label: String, var start: Int, var end: Int)
+private case class TextIssue(label: String, start: Int, end: Int)
 
 object SearchUtils {
-  private val breakers = Seq(",", ".", ";", ":", " ", "\"", "'", "{", "}", "[", "]", "/", "|", "\n", "\t", "\r").map(_.charAt(0))
+  private val breakers =
+    Seq(",", ".", ";", ":", " ", "\"", "'", "{", "}", "[", "]", "/", "|", "\n", "\t", "\r").map(_.charAt(0))
 
   private def findTextIssue(content: String, position: Int): TextIssue = {
     var start = position
@@ -33,7 +35,7 @@ object SearchUtils {
 
     start = start + 1
 
-    new TextIssue(content.substring(start, end), start, end)
+    TextIssue(content.substring(start, end), start, end)
   }
 
   private def findTextIssues(content: String, label: String, searchStart: Int, searchEnd: Int): Seq[TextIssue] = {
@@ -52,6 +54,9 @@ object SearchUtils {
 
   private def isBreaker(index: Int, content: String): Boolean = breakers.contains(content.charAt(index))
 
+  def findReferences(project: IProject, position: Position): Option[Seq[ILocation]] =
+    findReferences(project, position.offset(project.rootASTUnit.text))
+
   def findReferences(project: IProject, position: Int): Option[Seq[ILocation]] = {
     Search.findReferencesByPosition(project.rootASTUnit, position) match {
       case Some(searchResult) => {
@@ -66,87 +71,102 @@ object SearchUtils {
         val issueName = findTextIssue(project.rootASTUnit.text, position).label
 
         nodes.foreach(node => {
-          var nodeRange = node.sourceInfo.ranges.headOption.get
+          val nodeRange = node.sourceInfo.ranges.headOption.get
 
-          findTextIssues(node.astUnit.text, issueName, nodeRange.start.position, nodeRange.end.position).foreach(issue => result += new ILocation {
-            var range: IRange = new IRange(issue.start, issue.end)
+          findTextIssues(node.astUnit.text, issueName, nodeRange.start.position, nodeRange.end.position)
+            .foreach(issue =>
+              result += new ILocation {
+                private val rawText: String = node.astUnit.text
 
-            var uri: String = node.astUnit.path.replace("file:///", "/")
+                var posRange: PositionRange =
+                  PositionRange(Position(issue.start, rawText), Position(issue.end, rawText))
 
-            var version: Int = -1
+                var uri: String = node.astUnit.path.replace("file:///", "/") //TODO: keep protocol?
 
-            override def toString: String = uri + "_" + issue.start + "_" + issue.end
+                var version: Int = -1
 
-            override def equals(obj: scala.Any): Boolean = toString().equals(obj.toString())
+                override def toString: String = uri + "_" + issue.start + "_" + issue.end
 
-            override def hashCode(): Int = toString().hashCode()
-          })
+                override def equals(obj: scala.Any): Boolean = toString().equals(obj.toString())
+
+                override def hashCode(): Int = toString().hashCode()
+              })
         })
 
-        Some(result.sortWith((l1, l2) => l1.range.start < l2.range.start))
-      };
+        Some(result.sortWith((l1, l2) => l1.posRange.start < l2.posRange.start))
+      }
 
       case _ => None;
     }
   }
 
-  def findDeclaration(project: IProject, position: Int): Option[Seq[ILocation]] = {
+  def findDeclaration(project: IProject, position: Position): Option[Seq[ILocation]] = {
     Search.findDefinitionByPosition(project.rootASTUnit, position) match {
-      case Some(searchResult) => Some(Seq(searchResult.definition).map(_.sourceInfo.ranges.headOption).filter(_ match {
-        case Some(range) => range.start.resolved
+      case Some(searchResult) =>
+        Some(
+          Seq(searchResult.definition)
+            .map(_.sourceInfo.ranges.headOption)
+            .filter(_ match {
+              case Some(range) => range.start.resolved
 
-        case _ => false
-      }).map(lowLevelRange => {
-        val unit = searchResult.definition.astUnit
+              case _ => false
+            })
+            .map(lowLevelRange => {
+              val unit = searchResult.definition.astUnit
 
-        val start = lowLevelRange.get.start.position
+              val start = lowLevelRange.get.start.position
 
-        val end = start + unit.text.substring(start).indexOf(":")
+              val end = start + unit.text.substring(start).indexOf(":")
 
-        new ILocation {
-          var range: IRange = IRange(start, end)
+              new ILocation {
+                private val rawText: String = unit.text
 
-          var uri: String = unit.path.replace("file:///", "/")
+                var posRange: PositionRange = PositionRange(Position(start, rawText), Position(end, rawText))
 
-          var version: Int = -1
-        }
-      }))
+                var uri: String = unit.path.replace("file:///", "/")
+
+                var version: Int = -1
+              }
+            }))
 
       case _ => None
     }
   }
 
-  def findAll(project: IProject, position: Int): Option[Seq[ILocation]] = {
+  def findAll(project: IProject, position: Position): Option[Seq[ILocation]] = {
     (findDeclaration(project, position) match {
-      case Some(result) => if (result.isEmpty) {
-        None
-      } else {
-        Some(result)
-      }
+      case Some(result) =>
+        if (result.isEmpty) {
+          None
+        } else {
+          Some(result)
+        }
 
       case _ => None
     }) match {
-      case Some(result) => findReferences(project, result.head.range.start + 1) match {
-        case Some(refs) => Some(refs.toBuffer += result.head)
+      case Some(result) =>
+        findReferences(project, result.head.posRange.start.offset(project.rootASTUnit.text) + 1) match {
+          case Some(refs) => Some(refs.toBuffer += result.head)
+          case _ => None
+        }
 
-        case _ => None
-      }
+      case _ =>
+        findReferences(project, position) match {
+          case Some(refs) =>
+            Some(refs.toBuffer += new ILocation {
+              private val text: String = project.rootASTUnit.text
 
-      case _ => findReferences(project, position) match {
-        case Some(refs) => Some(refs.toBuffer += new ILocation {
-          var issue: TextIssue = findTextIssue(project.rootASTUnit.text, position)
+              var issue: TextIssue = findTextIssue(text, position.offset(text))
 
-          var range: IRange = IRange(issue.start, issue.end)
+              var posRange: PositionRange = PositionRange(Position(issue.start, text), Position(issue.end, text))
 
-          var uri: String = project.rootASTUnit.path.replace("file:///", "/")
+              var uri: String = project.rootASTUnit.path.replace("file:///", "/")
 
-          var version: Int = -1
-        })
+              var version: Int = -1
+            })
 
-        case _ => None
-      }
+          case _ => None
+        }
     }
   }
-
-  // Some(findReferences(project, result.head.range.start + 1).get.toBuffer += result.head)
 }

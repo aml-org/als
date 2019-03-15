@@ -1,5 +1,6 @@
 package org.mulesoft.positioning
 
+import common.dtoTypes.Position
 import org.mulesoft.typesystem.json.interfaces.{NodeRange, Point}
 
 trait IPositionsMapper {
@@ -8,9 +9,11 @@ trait IPositionsMapper {
 
   def initPoint(point: Point): Unit
 
-  def mapToPosition(line: Int, colum: Int): Int
+  def mapToPosition(line: Int, column: Int): Int
 
   def offset(position: Int): Int
+
+  def offset(position: Position): Int = mapToPosition(position.line, position.column)
 
   def lineOffset(str: String): Int
 

@@ -9,25 +9,25 @@ import scala.collection.Map
 
 trait IASTUnit {
 
-    def universe:IUniverse
+  def universe: IUniverse
 
-    def baseUnit:BaseUnit
+  def baseUnit: BaseUnit
 
-    def dependencies: Map[String,DependencyEntry[_ <: IASTUnit]]
+  def dependencies: Map[String, DependencyEntry[_ <: IASTUnit]]
 
-    def dependants: Map[String,DependencyEntry[_ <: IASTUnit]]
+  def dependants: Map[String, DependencyEntry[_ <: IASTUnit]]
 
-    def types: ITypeCollection
+  def types: ITypeCollection
 
-    def project:IProject
+  def project: IProject
 
-    def rootNode:IHighLevelNode
+  def rootNode: IHighLevelNode
 
-    def path:String
+  def path: String
 
-    def positionsMapper:IPositionsMapper
+  def positionsMapper: IPositionsMapper
 
-    def text:String
+  def text: String
 
-    def resolve(path:String): Option[IASTUnit]
+  def resolve(path: String): Option[IASTUnit]
 }

@@ -1,19 +1,19 @@
 package org.mulesoft.language.server.modules.validationManager
 
-import org.mulesoft.language.common.dtoTypes.IValidationReport
+import org.mulesoft.language.common.dtoTypes.ValidationReport
 import org.mulesoft.language.server.common.reconciler.Runnable
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success}
 
-class ValidationRunnable(var uri: String, task: () => Future[IValidationReport]) extends Runnable[IValidationReport] {
+class ValidationRunnable(var uri: String, task: () => Future[ValidationReport]) extends Runnable[ValidationReport] {
   private var canceled = false
 
   private val kind = "ValidationRunnable"
 
-  def run(): Promise[IValidationReport] = {
-    val promise = Promise[IValidationReport]()
+  def run(): Promise[ValidationReport] = {
+    val promise = Promise[ValidationReport]()
 
     task() andThen {
       case Success(report) => promise.success(report)

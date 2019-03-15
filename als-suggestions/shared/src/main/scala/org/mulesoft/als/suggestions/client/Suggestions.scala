@@ -64,17 +64,16 @@ object Suggestions {
 
     completionProviderFuture
       .flatMap(_.suggest)
-      .map(
-        suggestions =>
-          suggestions.map(
-            suggestion =>
-              new Suggestion(
-                text = suggestion.text,
-                description = suggestion.description,
-                displayText = suggestion.displayText,
-                prefix = suggestion.prefix,
-                category = suggestion.category
-            )))
+      .map(suggestions =>
+        suggestions.map(suggestion =>
+          new Suggestion(
+            text = suggestion.text,
+            description = suggestion.description,
+            displayText = suggestion.displayText,
+            prefix = suggestion.prefix,
+            category = suggestion.category,
+            range = suggestion.range
+        )))
       .map(suggestions => suggestions)
   }
 

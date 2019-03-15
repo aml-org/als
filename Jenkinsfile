@@ -36,10 +36,11 @@ pipeline {
         anyOf {
           branch 'master'
           branch 'devel'
+          branch 'fat-jar-publish'
         }
       }
       steps {
-        sh 'sbt -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 publish'
+        sh 'sbt -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 publish coreJVM/publish'
       }
     }
   }

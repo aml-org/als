@@ -56,15 +56,15 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
           case "type" =>
             refYamlKind = templateRefYamlKind(request, owner, "type")
             readableName = "Resource type"
-            Search.getDeclarations(n.astUnit, "ResourceType");
+            Search.getDeclarations(n.astUnit, "ResourceType")
 
           case "is" =>
             squareBracketsRequired = true
             refYamlKind = templateRefYamlKind(request, owner, "is")
             readableName = "Trait"
-            Search.getDeclarations(n.astUnit, "Trait");
+            Search.getDeclarations(n.astUnit, "Trait")
 
-          case _ => Seq();
+          case _ => Seq()
         }
         declarations = declarations.filter(x => {
           val nameOpt = x.node
@@ -98,12 +98,12 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
             .getOrElse(Nil)
         } else {
           declarations.map(declaration => {
-            val ts = toTemplateSuggestion(declaration, refYamlKind.get)
+            val ts = toTemplateSuggestion(declaration, refYamlKind.get, request.prefix)
             Suggestion(ts.get.text, readableName, ts.get.name, request.prefix)
           })
         }
 
-      case _ => Seq();
+      case _ => Seq()
     }
 
     val response = CompletionResponse(result, LocationKind.VALUE_COMPLETION, request)
@@ -145,7 +145,21 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
 
   def templateRefYamlKind(request: ICompletionRequest, owner: IHighLevelNode, propName: String): Option[RefYamlKind] = {
     request.astNode.flatMap(node => {
-      var pos = request.position
+
+      var openBracket = false
+
+      def isEntry(entry: YMapEntry, propName: String): Boolean = {
+        if (entry.key.value.toString == propName) true
+        else
+          entry.value.value.asInstanceOf[YMap].entries.head match {
+            case h if h.key.value.toString == propName =>
+              openBracket = true
+              true
+            case _ => false
+          }
+      }
+
+      val pos = request.position
       val pm  = node.astUnit.positionsMapper
       Option(owner).flatMap(pNode => {
         val si = pNode.sourceInfo
@@ -153,9 +167,13 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
           .filter(_.isInstanceOf[YMapEntry])
           .map(_.asInstanceOf[YMapEntry].value.value)
           .filter(_.isInstanceOf[YMap])
-          .flatMap(_.asInstanceOf[YMap].entries.find(e => e.key.value.toString == propName))
+          .flatMap(_.asInstanceOf[YMap].entries.find(e => isEntry(e, propName)))
           .flatMap(propNode => {
-            var line    = YRange(propNode, Option(pm)).start.line
+            val pNode = openBracket match {
+              case true if propNode.value.isInstanceOf[YMapEntry] => propNode.value.asInstanceOf[YMapEntry]
+              case _                                              => propNode
+            }
+            val line    = YRange(propNode, Option(pm)).start.line
             val lineStr = pm.lineString(line)
             val offset  = lineStr.map(pm.lineOffset).getOrElse(-1)
             propNode.value.value match {
@@ -173,7 +191,7 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
                       wrappedFlow = isFlow(x.value, pm)
                     }
                   })
-                Some(RefYamlKind.sequence(fl, wrappedInMap, wrappedFlow, off))
+                Some(RefYamlKind.sequence(fl || openBracket, wrappedInMap, wrappedFlow, off))
               case map: YMap =>
                 val fl           = isFlow(map, pm)
                 val off          = if (fl) -1 else offset
@@ -187,7 +205,7 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
                       wrappedFlow = isFlow(x.value.value, pm)
                     }
                   })
-                Some(RefYamlKind.map(fl, wrappedInMap, wrappedFlow, off))
+                Some(RefYamlKind.map(fl || openBracket, wrappedInMap, wrappedFlow, off))
               case _ => None
             }
           })
@@ -195,7 +213,7 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
     })
   }
 
-  def toTemplateSuggestion(decl: Declaration, kind: RefYamlKind): Option[TemplateSuggestion] = {
+  def toTemplateSuggestion(decl: Declaration, kind: RefYamlKind, prefix: String): Option[TemplateSuggestion] = {
     val declNode = decl.node
     val nameOpt  = declNode.attribute("name").flatMap(_.value).map(_.toString)
     if (nameOpt.isEmpty) {
@@ -211,12 +229,10 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
       val params    = declNode.attributes("parameters").flatMap(_.value).map(_.toString)
       if (isTrait) {
         if (params.isEmpty) {
-          if (kind.inSequence) {
-            Some(TemplateSuggestion(name, name, kind))
-          } else if (kind.inMap && !kind.flow) {
+          if (kind.inMap && !kind.flow) {
             Some(TemplateSuggestion(name, s"- $name", kind))
           } else {
-            Some(TemplateSuggestion(name, s"[ $name ]", kind))
+            Some(TemplateSuggestion(name, name, kind))
           }
         } else {
           if (kind.inMap && !kind.flow) {
@@ -307,11 +323,11 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
 }
 
 object TemplateReferencesCompletionPlugin {
-  val ID = "templateRef.completion";
+  val ID = "templateRef.completion"
 
-  val supportedLanguages: List[Vendor] = List(Raml10);
+  val supportedLanguages: List[Vendor] = List(Raml10)
 
-  def apply(): TemplateReferencesCompletionPlugin = new TemplateReferencesCompletionPlugin();
+  def apply(): TemplateReferencesCompletionPlugin = new TemplateReferencesCompletionPlugin()
 }
 
 case class RefYamlKind(inSequence: Boolean,

@@ -1,8 +1,9 @@
 package org.mulesoft.als.suggestions
 
+import common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.implementation.{CompletionRequest, LocationKindDetectTool, Suggestion}
 import org.mulesoft.als.suggestions.interfaces.LocationKind._
-import org.mulesoft.als.suggestions.interfaces._
+import org.mulesoft.als.suggestions.interfaces.{Suggestion => SuggestionInterface, _}
 import org.mulesoft.high.level.interfaces.{IASTUnit, IParseResult}
 import org.mulesoft.positioning.{PositionsMapper, YamlLocation, YamlSearch}
 import org.yaml.model.YPart
@@ -21,28 +22,26 @@ class CompletionProvider {
     this
   }
 
-  def suggest: Future[Seq[ISuggestion]] = suggest(true)
+  def suggest: Future[Seq[SuggestionInterface]] = suggest(true)
 
-  def suggest(filterByPrefix: Boolean): Future[Seq[ISuggestion]] = {
-
+  def suggest(filterByPrefix: Boolean): Future[Seq[SuggestionInterface]] = {
     val request = composeRequest
-    fulfillRequest(request).map(result => {
-      if (filterByPrefix) {
-        filter(result, request)
-      } else {
-        result
-      }
-    })
+    val range = Option(
+      PositionRange(Position(request.position - request.prefix.size, _config.originalContent.get),
+                    Position(request.position, _config.originalContent.get)))
+    fulfillRequest(request).map(
+      result => {
+        if (filterByPrefix) filter(result, request)
+        else result
+      }.map(s => Suggestion(s.text, s.description, s.displayText, s.prefix, range))
+    )
   }
 
   def composeRequest: ICompletionRequest = {
-    var prefix: String = ""
-
-    var position: Int = -1
-
+    var prefix: String        = ""
+    var position: Int         = -1
     var currentIndent: String = ""
-
-    var indentCount: Int = 0
+    var indentCount: Int      = 0
 
     _config.editorStateProvider match {
       case Some(esp) =>
@@ -52,13 +51,13 @@ class CompletionProvider {
 
         currentIndent = CompletionProvider.getCurrentIndent(esp)
 
-        indentCount = CompletionProvider.getCurrentIndentCount(esp);
-      case none => throw new Error("Editor state provider must be supplied")
+        indentCount = CompletionProvider.getCurrentIndentCount(esp)
+      case _ => throw new Error("Editor state provider must be supplied")
     }
 
     val text   = _config.editorStateProvider.get.getText
-    var isJSON = text.trim.startsWith("{")
-    var result = CompletionRequest(LocationKindDetectTool.determineCompletionKind(text, position),
+    val isJSON = text.trim.startsWith("{")
+    val result = CompletionRequest(LocationKindDetectTool.determineCompletionKind(text, position),
                                    prefix,
                                    position,
                                    _config,
@@ -67,37 +66,35 @@ class CompletionProvider {
 
     _config.astProvider match {
       case Some(ap) =>
-        var ast                                      = CompletionProvider.getAstNode(position, prefix, ap)
-        var astNode                                  = ast._1
-        var astUnit: Option[IASTUnit]                = astNode.map(_.astUnit)
-        var positionsMapper                          = astUnit.map(_.positionsMapper)
-        var yamlLoaction: Option[YamlLocation]       = None
-        var actualYamlLoaction: Option[YamlLocation] = None
+        val ast                                      = CompletionProvider.getAstNode(position, prefix, ap)
+        val astNode                                  = ast._1
+        val astUnit: Option[IASTUnit]                = astNode.map(_.astUnit)
+        val positionsMapper                          = astUnit.map(_.positionsMapper)
+        var yamlLocation: Option[YamlLocation]       = None
+        var actualYamlLocation: Option[YamlLocation] = None
         if (positionsMapper.isDefined) {
-          yamlLoaction = ast._2.map(YamlLocation(_, positionsMapper.get))
-          actualYamlLoaction = ast._2.map(YamlSearch.getLocation(position, _, positionsMapper.get, List(), isJSON))
+          yamlLocation = ast._2.map(YamlLocation(_, positionsMapper.get))
+          actualYamlLocation = ast._2.map(YamlSearch.getLocation(position, _, positionsMapper.get, List(), isJSON))
         }
-        result.withAstNode(ast._1).withYamlLocation(yamlLoaction).withActualYamlLocation(actualYamlLoaction)
+        result.withAstNode(ast._1).withYamlLocation(yamlLocation).withActualYamlLocation(actualYamlLocation)
       case None =>
     }
     result
   }
 
-  def fulfillRequest(request: ICompletionRequest): Future[Seq[ISuggestion]] = {
+  def fulfillRequest(request: ICompletionRequest): Future[Seq[SuggestionInterface]] = {
 
     val filteredPlugins = _pluginsRegistry.plugins.filter(plugin => {
       plugin.isApplicable(request)
     })
-
     Future
       .sequence(
         filteredPlugins.map(_.suggest(request))
       )
       .map(responses => responses.flatMap(adjustedSuggestions))
-
   }
 
-  def adjustedSuggestions(response: ICompletionResponse): Seq[ISuggestion] = {
+  def adjustedSuggestions(response: ICompletionResponse): Seq[SuggestionInterface] = {
     val isKey  = response.kind == LocationKind.KEY_COMPLETION
     val isYAML = response.request.config.astProvider.exists(_.syntax == Syntax.YAML)
     val isJSON = response.request.config.astProvider.exists(_.syntax == Syntax.JSON)
@@ -109,13 +106,13 @@ class CompletionProvider {
     if (_config.originalContent.isDefined) {
       val position = response.request.position
       val pm       = PositionsMapper("original.text").withText(_config.originalContent.get)
-      var lineOpt  = pm.lineContainingPosition(position)
-      var point    = pm.point(position)
+      val lineOpt  = pm.lineContainingPosition(position)
+      val point    = pm.point(position)
       if (lineOpt.isDefined) {
         hasLine = true
         val tail = lineOpt.get.substring(point.column)
         hasQuote = tail.contains("\"")
-        var colonIndex = tail.indexOf(":")
+        val colonIndex = tail.indexOf(":")
         hasColon = colonIndex >= 0
         if (colonIndex > 0) {
           hasKeyClosingQuote = tail.substring(0, colonIndex).trim.endsWith("\"")
@@ -136,7 +133,7 @@ class CompletionProvider {
         }
       } else if (!isKey) {
         result = result.map(x => {
-          var prefix = x.prefix
+          val prefix = x.prefix
           if (prefix == ":" && (!x.text.startsWith("\n") || x.text.startsWith("\r\n"))) {
             Suggestion(" " + x.text, x.description, x.displayText, x.prefix).withCategory(x.category)
           } else {
@@ -153,11 +150,7 @@ class CompletionProvider {
           if (!hasColon && !response.noColon) {
             postfix += ":"
           }
-        }
-        //                else if (!hasColon && !response.noColon) {
-        //                    postfix += "\":"
-        //                }
-        else if (!hasQuote) {
+        } else if (!hasQuote) {
           postfix += "\""
         }
       } else if (!hasQuote) {
@@ -166,7 +159,7 @@ class CompletionProvider {
       }
       if (postfix.nonEmpty) {
         result = result.map(x => {
-          var isJSONObject = isJSON && x.text.startsWith("{") && x.text.endsWith("}")
+          val isJSONObject = isJSON && x.text.startsWith("{") && x.text.endsWith("}")
           val newText      = if (!isJSONObject && (!endingQuote || !x.text.endsWith("\""))) x.text + postfix else x.text
           Suggestion(newText, x.description, x.displayText, x.prefix).withCategory(x.category)
         })
@@ -175,20 +168,16 @@ class CompletionProvider {
     result
   }
 
-  def filter(suggestions: Seq[ISuggestion], request: ICompletionRequest): Seq[ISuggestion] = {
+  def filter(suggestions: Seq[SuggestionInterface], request: ICompletionRequest): Seq[SuggestionInterface] = {
     suggestions.filter(s => {
       val prefix = s.prefix.toLowerCase
-      if (prefix.isEmpty || prefix == ":" || prefix == "/") {
-        true
-      } else {
-        s.displayText.toLowerCase.startsWith(prefix)
-      }
+      if (prefix.isEmpty || prefix == ":" || prefix == "/") true
+      else s.displayText.toLowerCase.startsWith(prefix)
     })
   }
 }
 
 object CompletionProvider {
-
   private val prefixRegex = """(\b|['"~`!@#\$%^&*\(\)\{\}\[\]=\+,\/\?>])?(([\w\.]+[\w-\/\.]*)|()|([.:;\[{\(< ]+))$""".r
 
   def apply(): CompletionProvider = new CompletionProvider()
@@ -214,11 +203,11 @@ object CompletionProvider {
   }
 
   def getLine(content: IEditorStateProvider): String = {
-    var offset: Int  = content.getOffset
-    var text: String = content.getText
+    val offset: Int  = content.getOffset
+    val text: String = content.getText
 
     var result = ""
-    var ind    = text.lastIndexWhere(c => { c == '\r' || c == '\n' || c == ' ' || c == '\t' }, offset - 1)
+    val ind    = text.lastIndexWhere(c => { c == '\r' || c == '\n' || c == ' ' || c == '\t' }, offset - 1)
 
     if (ind >= 0) {
       result = text.substring(ind + 1, offset)
@@ -228,70 +217,47 @@ object CompletionProvider {
   }
 
   def getCurrentIndent(content: IEditorStateProvider): String = {
-    var currentIndentation = getIndentation(content.getText, content.getOffset);
-
-    if (currentIndentation.contains(" ")) {
-      return "  ";
+    (getIndentation(content.getText, content.getOffset),
+     getIndentation(content.getText, getLineStart(content.getText, content.getOffset))) match {
+      case (currentIndentation, previousIndentation)
+          if (!currentIndentation.contains(" ") && currentIndentation.contains("\t")) ||
+            (!previousIndentation.contains(" ") && previousIndentation.contains("\t")) =>
+        "\t"
+      case _ => "  "
     }
-
-    if (currentIndentation.contains("\t")) {
-      return "\t";
-    }
-
-    var startIndex = getLineStart(content.getText, content.getOffset);
-
-    var previousIndentation = getIndentation(content.getText, startIndex);
-
-    if (previousIndentation.contains(" ")) {
-      return "  ";
-    }
-
-    if (previousIndentation.contains("\t")) {
-      return "\t";
-    }
-
-    "  ";
   }
 
   def getLineStart(text: String, offset: Int): Int = {
-    text.lastIndexWhere(c => { c == '\r' || c == '\n' }, offset - 1);
+    text.lastIndexWhere(c => { c == '\r' || c == '\n' }, offset - 1)
   }
 
   def getIndentation(text: String, offset: Int): String = {
-    var lineStartPosition: Int = getLineStart(text, offset);
+    val lineStartPosition: Int = getLineStart(text, offset)
 
-    if (lineStartPosition <= 0) {
-      return "";
-    }
+    if (lineStartPosition <= 0) ""
+    else {
+      val line = text.substring(lineStartPosition + 1, offset)
 
-    var line = text.substring(lineStartPosition + 1, offset);
+      val trimmed = line.trim
 
-    var trimmed = line.trim;
-
-    if (trimmed.length == 0) {
-      line
-    } else {
-      var end = line.indexOf(trimmed)
-
-      line.substring(0, end);
+      if (trimmed.length == 0)
+        line
+      else {
+        val end = line.indexOf(trimmed)
+        line.substring(0, end)
+      }
     }
   }
 
   def getCurrentIndentCount(content: IEditorStateProvider): Int = {
-    var indentWidth: Int = getCurrentIndent(content).length;
-
-    if (indentWidth <= 0) {
-      return 0;
-    }
-
-    getIndentation(content.getText, content.getOffset).length / indentWidth;
+    Math.max(0, getIndentation(content.getText, content.getOffset).length / getCurrentIndent(content).length)
   }
 
   def valuePrefix(content: IEditorStateProvider): String = {
-    var offset = content.getOffset
-    var text   = content.getText
+    val offset = content.getOffset
+    val text   = content.getText
     var result = ""
-    var ind = text.lastIndexWhere(c => {
+    val ind = text.lastIndexWhere(c => {
       c == '\r' || c == '\n' || c == ' ' || c == '\t' || c == '\"' || c == ''' || c == ':' || c == '('
     }, offset - 1)
     if (ind >= 0) {
@@ -300,58 +266,52 @@ object CompletionProvider {
     result
   }
   def getAstNode(position: Int, prefix: String, astProvider: IASTProvider): (Option[IParseResult], Option[YPart]) = {
-    var astNodeOpt = astProvider.getSelectedNode
-    var yamlNodes = astNodeOpt match {
+    val astNodeOpt = astProvider.getSelectedNode
+    val yamlNodes = astNodeOpt match {
       case Some(n) => n.sourceInfo.yamlSources
       case _       => Seq()
     }
     (astNodeOpt, yamlNodes.headOption)
   }
   def prepareYamlContent(text: String, offset: Int): String = {
-    var completionkind = LocationKindDetectTool.determineCompletionKind(text, offset);
-    completionkind match {
+    val completionKind = LocationKindDetectTool.determineCompletionKind(text, offset)
+    completionKind match {
       case KEY_COMPLETION | ANNOTATION_COMPLETION | SEQUENCE_KEY_COPLETION => {
-        var newLineIndex = text.indexOf("\n", offset);
-        var rightPart = if (newLineIndex < 0) {
-          text.substring(offset);
-        } else {
-          text.substring(offset, newLineIndex);
-        }
+        val newLineIndex = text.indexOf("\n", offset)
+        val rightPart =
+          if (newLineIndex < 0) text.substring(offset)
+          else text.substring(offset, newLineIndex)
         val colonIndex = rightPart.indexOf(":")
-        if (colonIndex < 0) {
-          text.substring(0, offset) + "k: " + text.substring(offset);
-        } else if (colonIndex == 0) {
-          text.substring(0, offset) + "k" + text.substring(offset);
-        } else {
-          text;
-        }
+        if (colonIndex < 0)
+          text.substring(0, offset) + "k: " + text.substring(offset)
+        else if (colonIndex == 0)
+          text.substring(0, offset) + "k" + text.substring(offset)
+        else text
       }
       case _ =>
-        if (offset == text.length) {
-          text + "\n"
-        } else {
-          text;
-        }
+        if (offset == text.length) text + "\n"
+        else text
     }
   }
   def prepareJsonContent(text: String, offset: Int): String = {
-    var lineStart = text.lastIndexOf("\n", Math.max(0, offset - 1))
-    if (lineStart < 0)
-      lineStart = 0
-    else
-      lineStart += 1
+    var lineStart = text.lastIndexOf("\n", Math.max(0, offset - 1)) match {
+      case lStart if lStart < 0 => 0
+      case lStart               => lStart + 1
+    }
+    if (lineStart < 0) lineStart = 0
+    else lineStart += 1
+
     var lineEnd = text.indexOf("\n", offset)
-    if (lineEnd < 0)
-      lineEnd = text.length
-    var line                         = text.substring(lineStart, lineEnd)
-    var off                          = offset - lineStart
-    var lineTrim                     = line.trim
-    var textEnding                   = text.substring(lineEnd + 1).trim
+    if (lineEnd < 0) lineEnd = text.length
+    val line                         = text.substring(lineStart, lineEnd)
+    val off                          = offset - lineStart
+    val lineTrim                     = line.trim
+    val textEnding                   = text.substring(lineEnd + 1).trim
     val hasComplexValueStartSameLine = lineTrim.endsWith("{") || lineTrim.endsWith("[")
-    var hasComplexValueSameLine      = hasComplexValueStartSameLine || lineTrim.endsWith("}") || lineTrim.endsWith("]")
+    val hasComplexValueSameLine      = hasComplexValueStartSameLine || lineTrim.endsWith("}") || lineTrim.endsWith("]")
     val hasComplexValueStartNextLine = !lineTrim.endsWith(",") && (textEnding.startsWith("{") || textEnding.startsWith(
       "["))
-    var hasComplexValueNextLine = !lineTrim.endsWith(",") & (hasComplexValueStartNextLine || textEnding.startsWith("}") || textEnding
+    val hasComplexValueNextLine = !lineTrim.endsWith(",") & (hasComplexValueStartNextLine || textEnding.startsWith("}") || textEnding
       .startsWith("]"))
     val hasComplexValueStart = hasComplexValueStartNextLine || hasComplexValueStartSameLine
     var needComa             = !(lineTrim.endsWith(",") || hasComplexValueNextLine || hasComplexValueSameLine)
@@ -375,14 +335,13 @@ object CompletionProvider {
     } else if (colonIndex <= off) {
       colonIndex = line.lastIndexOf(":", off)
       var substr               = line.substring(colonIndex + 1).trim
-      var hasOpenCurlyBracket  = substr.startsWith("{")
-      var hasOpenSquareBracket = substr.startsWith("[")
+      val hasOpenCurlyBracket  = substr.startsWith("{")
+      val hasOpenSquareBracket = substr.startsWith("[")
       newLine = line.substring(0, off)
       if (hasOpenCurlyBracket || hasOpenSquareBracket) {
         substr = substr.substring(1)
       }
-      var hasOpenValueQuote  = substr.startsWith("\"")
-      var hasCloseValueQuote = line.indexOf("\"", off) >= 0
+      var hasOpenValueQuote = substr.startsWith("\"")
       if (!hasOpenValueQuote && !(hasOpenCurlyBracket || hasOpenSquareBracket)) {
         newLine += "\""
         hasOpenValueQuote = true
@@ -398,7 +357,7 @@ object CompletionProvider {
       }
     } else {
       if (line.substring(colonIndex + 1).trim.startsWith("\"")) {
-        var openQuoteInd = line.indexOf("\"", colonIndex)
+        val openQuoteInd = line.indexOf("\"", colonIndex)
         if (off > openQuoteInd) {
           if (!lineTrim.endsWith("\"")) {
             newLine += "\""

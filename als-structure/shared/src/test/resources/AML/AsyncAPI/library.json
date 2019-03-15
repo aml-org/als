@@ -1,0 +1,186 @@
+[
+  {
+    "name": "messages",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 4,
+        "character": 0
+      },
+      "end": {
+        "line": 16,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 4,
+        "character": 0
+      },
+      "end": {
+        "line": 16,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "payload",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 9,
+            "character": 0
+          },
+          "end": {
+            "line": 16,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 9,
+            "character": 0
+          },
+          "end": {
+            "line": 16,
+            "character": 0
+          }
+        },
+        "children": [
+          {
+            "name": "p1",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 12,
+                "character": 0
+              },
+              "end": {
+                "line": 13,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 12,
+                "character": 0
+              },
+              "end": {
+                "line": 13,
+                "character": 0
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "p2",
+            "kind": 8,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 14,
+                "character": 0
+              },
+              "end": {
+                "line": 16,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 14,
+                "character": 0
+              },
+              "end": {
+                "line": 16,
+                "character": 0
+              }
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "key1",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 6,
+            "character": 6
+          },
+          "end": {
+            "line": 7,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 6,
+            "character": 6
+          },
+          "end": {
+            "line": 6,
+            "character": 10
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "key2",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 7,
+            "character": 6
+          },
+          "end": {
+            "line": 8,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 7,
+            "character": 6
+          },
+          "end": {
+            "line": 7,
+            "character": 10
+          }
+        },
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "securitySchemes",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 18,
+        "character": 0
+      },
+      "end": {
+        "line": 19,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 18,
+        "character": 0
+      },
+      "end": {
+        "line": 19,
+        "character": 0
+      }
+    },
+    "children": []
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "name": "externalDocs",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 6,
+        "character": 18
+      },
+      "end": {
+        "line": 9,
+        "character": 3
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 18
+      },
+      "end": {
+        "line": 9,
+        "character": 3
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "info",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 5,
+        "character": 3
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 5,
+        "character": 3
+      }
+    },
+    "children": []
+  }
+]

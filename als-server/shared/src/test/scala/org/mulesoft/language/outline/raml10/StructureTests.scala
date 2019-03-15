@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.raml10
 
-import org.mulesoft.language.outline.StructureTest
+import org.mulesoft.language.outline.AlsStructureTest
 
-class StructureTests extends StructureTest with RAML10Test {
+class StructureTests extends AlsStructureTest with RAML10Test {
 
   test("/test 001") {
     runTest("structure/test001/api.raml", "structure/test001/api-outline.json")
