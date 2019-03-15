@@ -89,4 +89,16 @@ class JiraSuggestionsTests extends RAML10Test {
   ignore("ALS-732 Open Sequence with trait") {
     this.runTest("jira-tests/als-732/test04.raml", Set("trait2"))
   }
+
+  test("Category matching test 01") {
+    this.runTestCategory("jira-tests/category/test01.raml")
+  }
+
+  test("Category matching test 02") {
+    this.runTestCategory("jira-tests/category/test02.raml")
+  }
+
+  test("Category matching test 03") {
+    this.runTestCategory("jira-tests/category/test03.raml")
+  }
 }

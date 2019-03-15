@@ -6,7 +6,7 @@ import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.suggestions.CompletionProvider
-import org.mulesoft.als.suggestions.client.Suggestions
+import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.high.level.InitOptions
 import org.mulesoft.high.level.amfmanager.ParserHelper
@@ -22,17 +22,51 @@ trait SuggestionsTest extends AsyncFunSuite {
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
+  def matchCategory(suggestion: Suggestion): Boolean = {
+    suggestion.displayText.toLowerCase() match {
+      case t if t == "securityschemes" =>
+        suggestion.category.toLowerCase() == "security"
+      case t if t == "baseuri" =>
+        suggestion.category.toLowerCase() == "root"
+      case t if t == "protocols" =>
+        suggestion.category.toLowerCase() == "root"
+      case t if t == "uses" =>
+        suggestion.category.toLowerCase() == "unknown"
+      case _ => true
+    }
+  }
+
+  def assertCategory(path: String, suggestions: Set[Suggestion]): Assertion = {
+    if (suggestions.forall(matchCategory))
+      succeed
+    else fail(s"Difference in categories for $path")
+  }
+
   def assert(path: String, actualSet: Set[String], golden: Set[String]): Assertion = {
     val diff1 = actualSet.diff(golden)
     val diff2 = golden.diff(actualSet)
 
     diff1.foreach(println)
     diff2.foreach(println)
-
     if (diff1.isEmpty && diff2.isEmpty) succeed
     else
       fail(s"Difference for $path: got [${actualSet.mkString(", ")}] while expecting [${golden.mkString(", ")}]")
   }
+
+  /**
+    * @param path                URI for the API resource
+    * @param originalSuggestions Expected result set
+    * @param label               Pointer placeholder
+    * @param cut                 if true, cuts text after label
+    * @param labels              set of every label in the file (needed for cleaning API)
+    */
+  def runTestCategory(path: String,
+                      label: String = "*",
+                      cut: Boolean = false,
+                      labels: Array[String] = Array("*")): Future[Assertion] =
+    this
+      .suggestFull(path, label, cut, labels)
+      .map(r => assertCategory(path, r.toSet))
 
   /**
     * @param path                URI for the API resource
@@ -76,6 +110,30 @@ trait SuggestionsTest extends AsyncFunSuite {
 
       suggestions <- Suggestions.suggest(format, url, position, env, this.platform)
     } yield suggestions.map(suggestion => suggestion.text)
+  }
+
+  def suggestFull(path: String,
+                  label: String = "*",
+                  cutTail: Boolean = false,
+                  labels: Array[String] = Array("*")): Future[Seq[Suggestion]] = {
+
+    var position = 0
+    val url      = filePath(path)
+
+    for {
+      _       <- Suggestions.init(InitOptions.AllProfiles)
+      content <- platform.resolve(url)
+      env <- Future.successful {
+        val fileContentsStr = content.stream.toString
+        val markerInfo      = this.findMarker(fileContentsStr)
+
+        position = markerInfo.position
+
+        this.buildEnvironment(url, markerInfo.originalContent, content.mime)
+      }
+
+      suggestions <- Suggestions.suggest(format, url, position, env, this.platform)
+    } yield suggestions.map(suggestion => suggestion)
   }
 
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])

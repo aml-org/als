@@ -22,7 +22,7 @@ class Suggestion(_text: String,
 
   override def prefix: String = _prefix
 
-  override def category: String = categoryOpt.getOrElse(description)
+  override def category: String = categoryOpt.getOrElse("unknown")
 
   override def trailingWhitespace: String = _trailingWhitespace
 
