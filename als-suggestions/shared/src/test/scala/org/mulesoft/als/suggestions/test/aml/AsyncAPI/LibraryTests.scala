@@ -12,7 +12,7 @@ class LibraryTests extends AMLSuggestionsTest {
 
   test("test002") {
     this.runTest("library/test002.yaml",
-                 Set("externalDocs:\n      ", "description:", "headers:\n      ", "tags:\n      "))
+                 Set("externalDocs:\n      ", "description: ", "headers:\n      ", "tags:\n      "))
   }
 
   test("test003") {
@@ -32,35 +32,35 @@ class LibraryTests extends AMLSuggestionsTest {
     this.runTest(
       "library/test006.yaml",
       Set(
-        "pattern:",
-        "maxItems:",
+        "pattern: ",
+        "maxItems: ",
         "required:\n        ",
         "items:\n        ",
-        "exclusiveMaximum:",
-        "\"$schema\":",
+        "exclusiveMaximum: ",
+        "\"$schema\": ",
         "type:\n        ",
         "xml:\n        ",
-        "key:",
-        "minimum:",
-        "maximum:",
+        "key: ",
+        "minimum: ",
+        "maximum: ",
         "default:\n        ",
-        "exclusiveMinimum:",
-        "multipleOf:",
-        "description:",
-        "minProperties:",
+        "exclusiveMinimum: ",
+        "multipleOf: ",
+        "description: ",
+        "minProperties: ",
         "patternProperties:\n        ",
-        "maxLength:",
-        "title:",
-        "minLength:",
-        "minItems:",
-        "additionalItems:",
-        "id:",
-        "uniqueItems:"
+        "maxLength: ",
+        "title: ",
+        "minLength: ",
+        "minItems: ",
+        "additionalItems: ",
+        "id: ",
+        "uniqueItems: "
       )
     )
   }
 
   test("test007") {
-    this.runTest("library/test007.yaml", Set("name:", "description:"))
+    this.runTest("library/test007.yaml", Set("name: ", "description: "))
   }
 }
