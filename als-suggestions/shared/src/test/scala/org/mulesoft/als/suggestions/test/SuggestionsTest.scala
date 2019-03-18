@@ -55,7 +55,6 @@ trait SuggestionsTest extends AsyncFunSuite {
 
   /**
     * @param path                URI for the API resource
-    * @param originalSuggestions Expected result set
     * @param label               Pointer placeholder
     * @param cut                 if true, cuts text after label
     * @param labels              set of every label in the file (needed for cleaning API)
@@ -65,7 +64,7 @@ trait SuggestionsTest extends AsyncFunSuite {
                       cut: Boolean = false,
                       labels: Array[String] = Array("*")): Future[Assertion] =
     this
-      .suggestFull(path, label, cut, labels)
+      .suggest(path, label, cut, labels)
       .map(r => assertCategory(path, r.toSet))
 
   /**
@@ -82,7 +81,7 @@ trait SuggestionsTest extends AsyncFunSuite {
               labels: Array[String] = Array("*")): Future[Assertion] =
     this
       .suggest(path, label, cut, labels)
-      .map(r => assert(path, r.toSet, originalSuggestions))
+      .map(r => assert(path, r.map(_.text).toSet, originalSuggestions))
 
   def format: String
 
@@ -91,31 +90,7 @@ trait SuggestionsTest extends AsyncFunSuite {
   def suggest(path: String,
               label: String = "*",
               cutTail: Boolean = false,
-              labels: Array[String] = Array("*")): Future[Seq[String]] = {
-
-    var position = 0
-    val url      = filePath(path)
-
-    for {
-      _       <- Suggestions.init(InitOptions.AllProfiles)
-      content <- platform.resolve(url)
-      env <- Future.successful {
-        val fileContentsStr = content.stream.toString
-        val markerInfo      = this.findMarker(fileContentsStr)
-
-        position = markerInfo.position
-
-        this.buildEnvironment(url, markerInfo.originalContent, content.mime)
-      }
-
-      suggestions <- Suggestions.suggest(format, url, position, env, this.platform)
-    } yield suggestions.map(suggestion => suggestion.text)
-  }
-
-  def suggestFull(path: String,
-                  label: String = "*",
-                  cutTail: Boolean = false,
-                  labels: Array[String] = Array("*")): Future[Seq[Suggestion]] = {
+              labels: Array[String] = Array("*")): Future[Seq[Suggestion]] = {
 
     var position = 0
     val url      = filePath(path)

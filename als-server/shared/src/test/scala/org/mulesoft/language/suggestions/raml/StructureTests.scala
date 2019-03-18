@@ -6,6 +6,9 @@ class StructureTests extends RAMLSuggestionTest {
     runTest("structure/test01.raml", Set("responses:\n      "))
   }
 
+  // TODO: tests are failing when "test 01" doesn't run first"
+  //  for example: "serverJVM/testOnly *StructureTests* -- -z "test 02"" fails,
+  //  while "serverJVM/testOnly *StructureTests* -- -z "test 01"" runs without problems
   test("test 02") {
     runTest("structure/test02.raml", Set("types:\n  "))
   }
@@ -15,7 +18,7 @@ class StructureTests extends RAMLSuggestionTest {
   }
 
   test("test 04") {
-    runTest("structure/test04.raml", Set("title:"))
+    runTest("structure/test04.raml", Set("title: "))
   }
 
   test("test 05") {
@@ -23,7 +26,7 @@ class StructureTests extends RAMLSuggestionTest {
   }
 
   test("test 06") {
-    runTest("structure/test06.raml", Set("description:"))
+    runTest("structure/test06.raml", Set("description: "))
   }
 
   test("test 07") {
@@ -31,14 +34,14 @@ class StructureTests extends RAMLSuggestionTest {
   }
 
   test("test 08") {
-    runTest("structure/test08.raml", Set("version:"))
+    runTest("structure/test08.raml", Set("version: "))
   }
 
   test("test 09") {
-    runTest("structure/test09.raml", Set("baseUri:", "baseUriParameters:\n  "))
+    runTest("structure/test09.raml", Set("baseUri: ", "baseUriParameters:\n  "))
   }
 
   test("test 10") {
-    runTest("structure/test10.raml", Set("protocols:"))
+    runTest("structure/test10.raml", Set("protocols: "))
   }
 }

@@ -29,12 +29,10 @@ class CompletionProvider {
     val range = Option(
       PositionRange(Position(request.position - request.prefix.size, _config.originalContent.get),
                     Position(request.position, _config.originalContent.get)))
-    fulfillRequest(request, range).map(
-      result => {
-        if (filterByPrefix) filter(result, request)
-        else result
-      }
-    )
+    fulfillRequest(request, range).map(result => {
+      if (filterByPrefix) filter(result, request)
+      else result
+    })
   }
 
   def composeRequest: ICompletionRequest = {
@@ -127,17 +125,21 @@ class CompletionProvider {
       if (!response.noColon && isKey) {
         if (!hasLine || !hasColon) {
           result = result.map(x => {
-            val newText = x.text + ":" + x.trailingWhitespace
+            val newText = x.text + ":" + { if (x.trailingWhitespace.isEmpty) " " else x.trailingWhitespace }
             Suggestion(newText, x.description, x.displayText, x.prefix, range).withCategory(x.category)
           })
         }
       } else if (!isKey) {
         result = result.map(x => {
           val prefix = x.prefix
-          if (prefix == ":" && (!x.text.startsWith("\n") || x.text.startsWith("\r\n"))) {
+          if (prefix == ":" && (!x.text.startsWith("\n") || x.text.startsWith("\r\n") || x.text.startsWith(" "))) {
             Suggestion(" " + x.text, x.description, x.displayText, x.prefix, range).withCategory(x.category)
           } else {
-            x
+            Suggestion({ if (x.text.endsWith(":")) s"${x.text} " else x.text },
+                       x.description,
+                       x.displayText,
+                       x.prefix,
+                       range).withCategory(x.category)
           }
         })
       }
@@ -275,7 +277,7 @@ object CompletionProvider {
   }
   def prepareYamlContent(text: String, offset: Int): String = {
     val completionKind = LocationKindDetectTool.determineCompletionKind(text, offset)
-    completionKind match {
+    val result = completionKind match {
       case KEY_COMPLETION | ANNOTATION_COMPLETION | SEQUENCE_KEY_COPLETION => {
         val newLineIndex = text.indexOf("\n", offset)
         val rightPart =
@@ -284,15 +286,26 @@ object CompletionProvider {
         val colonIndex = rightPart.indexOf(":")
         if (colonIndex < 0)
           text.substring(0, offset) + "k: " + text.substring(offset)
-        else if (colonIndex == 0)
-          text.substring(0, offset) + "k" + text.substring(offset)
-        else text
+        else if (colonIndex == 0) {
+          val leftPart       = text.substring(0, offset)
+          val leftOfSentence = leftPart.substring(Math.max(leftPart.lastIndexOf('\n'), 0), offset)
+          val rightPart      = text.substring(offset)
+          val rightOfSentence =
+            rightPart.substring(0, Math.min(Math.max(rightPart.indexOf('\n'), 0), rightPart.length))
+
+          val openBrackets = { leftOfSentence + rightOfSentence }.count(_ == '[') - {
+            leftOfSentence + rightOfSentence
+          }.count(_ == '[')
+          text + "k" + " ]" * openBrackets + rightPart
+        } else text
       }
       case _ =>
         if (offset == text.length) text + "\n"
         else text
     }
+    result // + "\n"
   }
+
   def prepareJsonContent(text: String, offset: Int): String = {
     var lineStart = text.lastIndexOf("\n", Math.max(0, offset - 1)) match {
       case lStart if lStart < 0 => 0
