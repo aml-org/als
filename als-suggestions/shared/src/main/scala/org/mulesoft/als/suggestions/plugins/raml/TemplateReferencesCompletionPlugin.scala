@@ -27,7 +27,7 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
   override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
     val paramFor = inParamOf(request)
 
-    val result = request.astNode.flatMap(_.parent) match {
+    val result: Seq[Suggestion] = request.astNode.flatMap(_.parent) match {
       case Some(n) =>
         var owner            = n.asElement.get
         var propName: String = n.property.flatMap(_.nameId).getOrElse("")
@@ -85,7 +85,6 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
             .find(declaration =>
               paramFor.contains(declaration.node.attribute("name").get.value.asInstanceOf[Some[String]].get))
             .map { declaration =>
-              val typeName = declaration.node.definition.nameId.get
               val paramNames =
                 declaration.node.attributes("parameters").map(param => param.value.asInstanceOf[Some[String]].get)
 
@@ -93,7 +92,9 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
                 actualPrefix = actualPrefix.substring(actualPrefix.indexOf("{") + 1).trim()
               }
 
-              paramNames.map(name => Suggestion(name, readableName + " parameter", name, actualPrefix))
+              paramNames.map(name => {
+                Suggestion(name, readableName + " parameter", name, actualPrefix)
+              })
             }
             .getOrElse(Nil)
         } else {
@@ -117,21 +118,18 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
 
     val lineStart = text.substring(0, currentPosition).lastIndexOf("\n") + 1
 
-    if (lineStart < 0) {
+    if (lineStart < 0)
       return None
-    }
 
     var line = text.substring(lineStart, currentPosition)
 
-    val openSquaresCount = line.count(_ == "{".charAt(0))
+    val openSquaresCount = line.count(_ == "{")
 
-    if (openSquaresCount < 2) {
+    if (openSquaresCount < 2)
       return None
-    }
 
-    if (line.last == "{".charAt(0)) {
+    if (line.last == "{")
       line = line + " "
-    }
 
     val rightExps = line.split("\\{")
 
@@ -222,11 +220,11 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
         case Nil                             => TemplateSuggestion(name, name, kind)
         case _ =>
           kind.inMap match {
-            case true if !kind.flow && !kind.wrappedFlow =>
+            case true if !kind.flow && !kind.wrappedFlow && !kind.inSequence =>
               TemplateSuggestion(name, s"- " + toBlockObject(name, params, paramOffStr), kind)
             case false if kind.inSequence && !kind.flow && !kind.wrappedFlow =>
               TemplateSuggestion(name, toBlockObject(name, params, paramOffStr), kind)
-            case _ if kind.inSequence =>
+            case _ if kind.inSequence || kind.flow || kind.wrappedFlow =>
               TemplateSuggestion(name, toFlowObject(name, params), kind)
             case _ =>
               TemplateSuggestion(name, s"\n$valOffStr- " + toBlockObject(name, params, paramOffStr), kind)
