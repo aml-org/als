@@ -44,4 +44,8 @@ class StructureTests extends RAMLSuggestionTest {
   test("test 10") {
     runTest("structure/test10.raml", Set("protocols: "))
   }
+
+  test("test empty root") {
+    runTest("testEmpty.raml", Set("#%RAML 1.0", "#%RAML 0.8", "swagger: '2.0'"))
+  }
 }

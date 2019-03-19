@@ -3,7 +3,6 @@ package org.mulesoft.als.suggestions.test.raml08
 import org.mulesoft.als.suggestions.test.raml10.TestRamlResponseCodes
 
 class StructureTests extends RAML08Test {
-
   test("StructureTests responses") {
     this.runTest("structure/test01.raml", Set("responses:\n      "))
   }

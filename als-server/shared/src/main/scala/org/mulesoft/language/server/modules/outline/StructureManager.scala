@@ -1,7 +1,9 @@
 package org.mulesoft.language.server.modules.outline
 
+import common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.language.common.dtoTypes.StructureReport
+import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.{ConfigFactory, DocumentSymbol, StructureBuilder}
 import org.mulesoft.language.outline.structure.structureInterfaces.{StructureConfiguration, StructureNodeJSON}
 import org.mulesoft.language.server.common.utils.PathRefine
@@ -82,6 +84,13 @@ class StructureManager extends AbstractServerModule {
   }
 
   def onDocumentStructure(url: String): Future[Seq[DocumentSymbol]] = {
+    val emptyDocumentSymbol = List(
+      DocumentSymbol("",
+                     SymbolKind(21),
+                     false,
+                     PositionRange(Position(0, 0), Position(0, 0)),
+                     PositionRange(Position(0, 0), Position(0, 0)),
+                     Nil))
 
     this.connection.debug("Asked for structure:\n" + url, "StructureManager", "onDocumentStructure")
 
@@ -100,9 +109,17 @@ class StructureManager extends AbstractServerModule {
 
           result
         })
+        .recoverWith {
+          case t: Throwable =>
+            this.connection
+              .debugDetail(s"Got the following error in $url => ${t.getMessage}",
+                           "StructureManager",
+                           "onDocumentStructure")
+            Future.successful(emptyDocumentSymbol)
+        }
 
     } else {
-      Future.successful(Nil)
+      Future.successful(emptyDocumentSymbol)
     }
   }
 
