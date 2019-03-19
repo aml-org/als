@@ -2580,6 +2580,23 @@ object RAML10Universe {
              "annotations": [],
              "valueConstraint": null,
              "optional": false
+          },
+          {
+             "name": "items",
+             "type": {
+               "base": {
+                 "typeName": "any",
+                 "nameSpace": "",
+                 "basicName": "any",
+                 "typeKind": 0,
+                 "typeArguments": [],
+                 "modulePath": null
+               },
+               "typeKind": 1
+             },
+             "annotations": [],
+             "valueConstraint": null,
+             "optional": false
           }
         ],
         "isInterface": false,

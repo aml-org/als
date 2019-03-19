@@ -483,7 +483,8 @@ class StructureTests extends RAML10Test {
         "discriminatorValue: ",
         "examples:\n          ",
         "facets:\n          ",
-        "example:\n          "
+        "example:\n          ",
+        "items: "
       )
     )
   }
@@ -492,6 +493,7 @@ class StructureTests extends RAML10Test {
     this.runTest("structure/test153.raml", Set("required: "))
   }
 
+  //TODO: What is the utility of this test below? is this good behaviour?
   test("Query parameter with comment") {
     this.runTest(
       "structure/test154.raml",
@@ -507,7 +509,8 @@ class StructureTests extends RAML10Test {
           "schema",
           "facets",
           "properties",
-          "description")
+          "description",
+          "items")
     )
   }
 
@@ -526,7 +529,8 @@ class StructureTests extends RAML10Test {
         "examples:\n        ",
         "facets:\n        ",
         "example:\n        ",
-        "properties:\n        "
+        "properties:\n        ",
+        "items: "
       )
     )
   }
@@ -549,7 +553,8 @@ class StructureTests extends RAML10Test {
         "examples:\n        ",
         "example:\n        ",
         "facets:\n        ",
-        "properties:\n        "
+        "properties:\n        ",
+        "items: "
       )
     )
   }
@@ -571,7 +576,8 @@ class StructureTests extends RAML10Test {
         "schema: ",
         "facets:\n      ",
         "example:\n      ",
-        "properties:\n      "
+        "properties:\n      ",
+        "items: "
       )
     )
   }
@@ -594,7 +600,8 @@ class StructureTests extends RAML10Test {
         "schema: ",
         "facets:\n              ",
         "example:\n              ",
-        "properties:\n              "
+        "properties:\n              ",
+        "items: "
       )
     )
   }
@@ -719,7 +726,8 @@ class StructureTests extends RAML10Test {
         "default: ",
         "examples:\n               ",
         "description: ",
-        "facets:\n               "
+        "facets:\n               ",
+        "items: "
       )
     )
   }

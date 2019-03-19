@@ -36,7 +36,8 @@ class JiraSuggestionsTests extends RAML10Test {
         "type: ",
         "enum: ",
         "schema: ",
-        "default: "
+        "default: ",
+        "items: "
       )
     )
   }
