@@ -20,7 +20,8 @@ class BodyTests extends RAML10Test {
         "examples:\n        ",
         "example:\n        ",
         "facets:\n        ",
-        "properties:\n        "
+        "properties:\n        ",
+        "items: "
       )
     )
   }
@@ -47,7 +48,8 @@ class BodyTests extends RAML10Test {
         "examples:\n            ",
         "example:\n            ",
         "facets:\n            ",
-        "properties:\n            "
+        "properties:\n            ",
+        "items: "
       )
     )
   }

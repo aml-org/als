@@ -221,7 +221,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 
   override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
     var responseKind: LocationKind = LocationKind.KEY_COMPLETION
-    var result = request.astNode match {
+    val result = request.astNode match {
       case Some(_n) =>
         var n = _n
 
@@ -345,15 +345,16 @@ class StructureCompletionPlugin extends ICompletionPlugin {
           var element = n.asElement.get
 
           extractSuggestableProperties(element).map(prop => {
-            var pName       = prop.nameId.get
+            val pName       = prop.nameId.get
             val description = prop.getExtra(DescriptionExtra).map(_.text).getOrElse("")
-            var text        = if (isYAML && pName.startsWith("$")) s""""$pName"""" else pName
-            var suggestion  = Suggestion(text, description, pName, request.prefix)
+            val text        = if (isYAML && pName.startsWith("$")) s""""$pName"""" else pName
+            val suggestion  = Suggestion(text, description, pName, request.prefix)
             ProjectBuilder
               .determineFormat(element.astUnit.baseUnit)
               .flatMap(SuggestionCategoryRegistry.getCategory(_, pName, Option(element.definition), prop.range))
               .foreach(suggestion.withCategory)
-            var needBrake = pName != "enum" && pName != "mediaType" && pName != "securedBy" && pName != "protocols" && prop.range
+            val needBrake = !(pName == "items" && element.definition.universe.name
+              .exists(s => s.contains("RAML"))) && pName != "enum" && pName != "mediaType" && pName != "securedBy" && pName != "protocols" && prop.range
               .exists(r => !r.isValueType && (!r.isAssignableFrom("Reference") || prop.isMultiValue))
 
             if (needBrake) {
