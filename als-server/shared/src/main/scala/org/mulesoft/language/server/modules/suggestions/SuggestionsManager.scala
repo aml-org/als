@@ -4,6 +4,7 @@ import amf.core.remote.{Raml10, Vendor}
 import common.dtoTypes.Position
 import org.mulesoft.als.suggestions
 import org.mulesoft.als.suggestions.CompletionProvider
+import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.implementation.CompletionConfig
 import org.mulesoft.als.suggestions.interfaces.{Suggestion, Syntax}
 import org.mulesoft.high.level.implementation.AlsPlatform
@@ -130,6 +131,14 @@ class SuggestionsManager extends AbstractServerModule {
 
         CompletionProvider().withConfig(completionConfig)
       })
+      .recoverWith {
+        case e: Throwable =>
+          println(e)
+          Future.successful(Suggestions.buildCompletionProviderNoAST(unmodifiedContent, url, position, platform))
+        case any =>
+          println(any)
+          Future.failed(new Error("Failed to construct CompletionProvider"))
+      }
 
   }
 }

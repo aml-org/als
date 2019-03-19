@@ -14,6 +14,7 @@ import scala.concurrent.Future
 class ParserHelper(val platform: Platform) extends CommandHelper {
 
   private def parseInput(config: ParserConfig, env: Environment): Future[BaseUnit] = {
+
     val inputFile = ensureUrl(config.input.get)
 
     RuntimeCompiler(
@@ -30,17 +31,15 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
 
   def parseResult(config: ParserConfig): Future[ParseResult] = {
     for {
-      unit <- parse(config)
+      unit   <- parse(config)
       report <- report(unit, config)
-    } yield {
-      ParseResult(unit, report)
-    }
+    } yield ParseResult(unit, report)
   }
 
   def parse(config: ParserConfig, env: Environment = Environment()): Future[BaseUnit] = {
     for {
-      _ <- AmfInitializationHandler.init()
-      _ <- processDialects(config)
+      _     <- AmfInitializationHandler.init()
+      _     <- processDialects(config)
       model <- parseInput(config, env)
     } yield model
   }

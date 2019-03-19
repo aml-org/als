@@ -69,10 +69,8 @@ class TextDocumentServiceImpl(val settings: Option[LoggerSettings])
       items => forLeft[util.List[CompletionItem], CompletionList](completionItems(items))
     )
 
-  override def rename(params: RenameParams): CompletableFuture[WorkspaceEdit] = {
+  override def rename(params: RenameParams): CompletableFuture[WorkspaceEdit] =
     javaFuture(notifyRename(params.getTextDocument.getUri, params.getPosition, params.getNewName), lsp4JWorkspaceEdit)
-
-  }
 
   override def documentSymbol(
       params: DocumentSymbolParams): CompletableFuture[util.List[messages.Either[SymbolInformation, DocumentSymbol]]] =

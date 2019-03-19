@@ -37,11 +37,13 @@ class HlAstManager extends AbstractServerModule with IHLASTManagerModule {
   }
 
   override def launch(): Future[Unit] =
-    super.launch()
+    super
+      .launch()
       .flatMap(_ => {
         this.getASTManager.onNewASTAvailable(this.onNewASTAvailableListener)
 
-        Core.init()
+        Core
+          .init()
           .map(_ => initialized = true)
       })
 
@@ -105,14 +107,14 @@ class HlAstManager extends AbstractServerModule with IHLASTManagerModule {
   def forceGetCurrentAST(uri: String): Future[IProject] = {
 
     this.connection.debug(s"Calling forceGetCurrentAST for uri $uri", "HlAstManager", "forceGetCurrentAST")
+    getASTManager.forceGetCurrentAST(uri).flatMap(hlFromAST)
 
-    val current = this.currentASTs.get(uri)
-
-    if (current.isDefined) {
-      Future.successful(current.get)
-    } else {
-      getASTManager.forceGetCurrentAST(uri).flatMap(hlFromAST)
-    }
+    // Cache will break in some cases
+//    this.currentASTs.get(uri) match {
+//      case Some(current) => Future.successful(current)
+//      case _ =>
+//        getASTManager.forceGetCurrentAST(uri).flatMap(hlFromAST)
+//    }
   }
 
   /**

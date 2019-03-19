@@ -303,7 +303,7 @@ object CompletionProvider {
         if (offset == text.length) text + "\n"
         else text
     }
-    result // + "\n"
+    result
   }
 
   def prepareJsonContent(text: String, offset: Int): String = {
