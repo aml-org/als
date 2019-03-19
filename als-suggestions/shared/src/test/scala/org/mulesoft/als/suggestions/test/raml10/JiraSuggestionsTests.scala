@@ -96,6 +96,10 @@ class JiraSuggestionsTests extends RAML10Test {
                  Set("{ trait1: {  param1 : ,  param2 : } }", "{ trait2: {  param1 : ,  param2 : } }"))
   }
 
+  test("ALS-710 Body values") {
+    this.runTest("jira-tests/als-710/test01.raml", Set())
+  }
+
   test("Category matching test 01") {
     this.runTestCategory("jira-tests/category/test01.raml")
   }
