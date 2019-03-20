@@ -402,8 +402,8 @@ class StructureCompletionPlugin extends ICompletionPlugin {
       .elements("properties")
       .filter(_.definition match {
         case propertyType =>
-          Seq("StringTypeDeclaration", "NumberTypeDeclaration", "BooleanTypeDeclaration").exists(
-            propertyType.isAssignableFrom(_))
+          Seq("StringTypeDeclaration", "NumberTypeDeclaration", "BooleanTypeDeclaration", "ArrayTypeDeclaration")
+            .exists(propertyType.isAssignableFrom(_))
 
         case _ => false
       })
@@ -552,6 +552,12 @@ class StructureCompletionPlugin extends ICompletionPlugin {
           .`type`("ObjectTypeDeclaration")
           .flatMap(_.property("properties"))
           .foreach(p => result += p)
+
+        definition.universe
+          .`type`("ArrayTypeDeclaration")
+          .flatMap(_.property("items"))
+          .foreach(p => result += p)
+
       }
     }
     result
