@@ -483,8 +483,7 @@ class StructureTests extends RAML10Test {
         "discriminatorValue: ",
         "examples:\n          ",
         "facets:\n          ",
-        "example:\n          ",
-        "items: "
+        "example:\n          "
       )
     )
   }
