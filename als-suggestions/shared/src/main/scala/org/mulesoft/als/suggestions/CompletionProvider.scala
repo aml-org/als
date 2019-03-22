@@ -26,10 +26,7 @@ class CompletionProvider {
 
   def suggest(filterByPrefix: Boolean): Future[Seq[SuggestionInterface]] = {
     val request = composeRequest
-    val range = Option(
-      PositionRange(Position(request.position - request.prefix.size, _config.originalContent.get),
-                    Position(request.position, _config.originalContent.get)))
-    fulfillRequest(request, range).map(result => {
+    fulfillRequest(request).map(result => {
       if (filterByPrefix) filter(result, request)
       else result
     })
@@ -80,7 +77,7 @@ class CompletionProvider {
     result
   }
 
-  def fulfillRequest(request: ICompletionRequest, range: Option[PositionRange]): Future[Seq[SuggestionInterface]] = {
+  def fulfillRequest(request: ICompletionRequest): Future[Seq[SuggestionInterface]] = {
 
     val filteredPlugins = _pluginsRegistry.plugins.filter(plugin => {
       plugin.isApplicable(request)
@@ -89,10 +86,10 @@ class CompletionProvider {
       .sequence(
         filteredPlugins.map(_.suggest(request))
       )
-      .map(responses => responses.flatMap(r => adjustedSuggestions(r, range)))
+      .map(responses => responses.flatMap(r => adjustedSuggestions(r, request.position)))
   }
 
-  def adjustedSuggestions(response: ICompletionResponse, range: Option[PositionRange]): Seq[SuggestionInterface] = {
+  def adjustedSuggestions(response: ICompletionResponse, offset: Int): Seq[SuggestionInterface] = {
     val isKey  = response.kind == LocationKind.KEY_COMPLETION
     val isYAML = response.request.config.astProvider.exists(_.syntax == Syntax.YAML)
     val isJSON = response.request.config.astProvider.exists(_.syntax == Syntax.JSON)
@@ -121,25 +118,33 @@ class CompletionProvider {
     }
 
     var result = response.suggestions
+
+    def range(offset: Int, prefix: String): Option[PositionRange] =
+      Option(
+        PositionRange(Position(offset - prefix.size, _config.originalContent.get),
+                      Position(offset, _config.originalContent.get)))
+
     if (isYAML) {
       if (!response.noColon && isKey) {
         if (!hasLine || !hasColon) {
           result = result.map(x => {
             val newText = x.text + ":" + { if (x.trailingWhitespace.isEmpty) " " else x.trailingWhitespace }
-            Suggestion(newText, x.description, x.displayText, x.prefix, range).withCategory(x.category)
+            Suggestion(newText, x.description, x.displayText, x.prefix, range(offset, x.prefix))
+              .withCategory(x.category)
           })
         }
       } else if (!isKey) {
         result = result.map(x => {
           val prefix = x.prefix
           if (prefix == ":" && (!x.text.startsWith("\n") || x.text.startsWith("\r\n") || x.text.startsWith(" "))) {
-            Suggestion(" " + x.text, x.description, x.displayText, x.prefix, range).withCategory(x.category)
+            Suggestion(" " + x.text, x.description, x.displayText, x.prefix, range(offset, x.prefix))
+              .withCategory(x.category)
           } else {
             Suggestion({ if (x.text.endsWith(":")) s"${x.text} " else x.text },
                        x.description,
                        x.displayText,
                        x.prefix,
-                       range).withCategory(x.category)
+                       range(offset, x.prefix)).withCategory(x.category)
           }
         })
       }
@@ -163,7 +168,7 @@ class CompletionProvider {
         result = result.map(x => {
           val isJSONObject = isJSON && x.text.startsWith("{") && x.text.endsWith("}")
           val newText      = if (!isJSONObject && (!endingQuote || !x.text.endsWith("\""))) x.text + postfix else x.text
-          Suggestion(newText, x.description, x.displayText, x.prefix, range).withCategory(x.category)
+          Suggestion(newText, x.description, x.displayText, x.prefix, range(offset, x.prefix)).withCategory(x.category)
         })
       }
     }

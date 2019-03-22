@@ -66,7 +66,7 @@ object PathCompletion {
             .filter(fullFilePath =>
               filter.isDefined && fullFilePath.startsWith(filter.get) && fullFilePath != defaultPath)
             .map(fullFilePath => {
-              var result = fullFilePath.stripPrefix(finalDirectoryPath)
+              val result = fullFilePath.stripPrefix(finalDirectoryPath)
               alsPlatform.directoryResolver
                 .isDirectory(fullFilePath)
                 .map({
