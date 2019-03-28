@@ -6,7 +6,7 @@ class AnnotatonsTests extends RAML10Test {
   }
 
   test("Method annotations 2") {
-    this.runTest("annotations/test02.raml", Set("AOne):", "ATwo):"))
+    this.runTest("annotations/test02.raml", Set("AOne): ", "ATwo): "))
   }
 
   test("Resource annotations 1") {
@@ -14,7 +14,7 @@ class AnnotatonsTests extends RAML10Test {
   }
 
   test("Resource annotations 2") {
-    this.runTest("annotations/test04.raml", Set("AOne):", "ATwo):"))
+    this.runTest("annotations/test04.raml", Set("AOne): ", "ATwo): "))
   }
 
   test("TypeDeclaration annotations 1") {
@@ -22,6 +22,6 @@ class AnnotatonsTests extends RAML10Test {
   }
 
   test("TypeDeclaration annotations 2") {
-    this.runTest("annotations/test06.raml", Set("AOne):", "ATwo):"))
+    this.runTest("annotations/test06.raml", Set("AOne): ", "ATwo): "))
   }
 }

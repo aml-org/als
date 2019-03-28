@@ -4,6 +4,7 @@ import amf.core.remote.{Raml10, Vendor}
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.Search
+import org.mulesoft.high.level.implementation.ASTNodeImpl
 import org.mulesoft.high.level.interfaces.IParseResult
 import org.yaml.model.{YMapEntry, YNode, YScalar}
 
@@ -17,9 +18,11 @@ class TypeReferencesCompletionPlugin extends ICompletionPlugin {
 
   override def isApplicable(request: ICompletionRequest): Boolean = request.config.astProvider match {
     case Some(astProvider) =>
-      languages.indexOf(astProvider.language) >= 0 && request.astNode.isDefined && request.astNode.get != null && !IncludeCompletionPlugin
-        .apply()
-        .isApplicable(request) && isInTypeTypeProperty(request)
+      languages.indexOf(astProvider.language) >= 0 && request.astNode.isDefined && request.astNode.get != null &&
+        isInTypeTypeProperty(request) &&
+        !IncludeCompletionPlugin
+          .apply()
+          .isApplicable(request)
 
     case _ => false
   }
@@ -40,8 +43,7 @@ class TypeReferencesCompletionPlugin extends ICompletionPlugin {
   }
 
   private def elementIsPropertyType(node: IParseResult) = {
-    val pm = node.astUnit.positionsMapper
-    val result = node.sourceInfo.yamlSources.headOption
+    node.sourceInfo.yamlSources.headOption
       .filter(_.isInstanceOf[YMapEntry])
       .map(_.asInstanceOf[YMapEntry])
       .exists(p = me => {
@@ -49,17 +51,15 @@ class TypeReferencesCompletionPlugin extends ICompletionPlugin {
         val valueScalar = value.value
 
         val valueTag = value match {
-          case node: YNode.MutRef => node.origTag
-
-          case node: YNode => node.tag
-
-          case _ => null
+          case node: YNode.MutRef => Option(node.origTag)
+          case node: YNode        => Option(node.tag)
+          case _                  => None
         }
-
-        val isScalar = (valueTag == null || valueTag.text != "!include") && valueScalar.isInstanceOf[YScalar]
-        isScalar
+        node.property match {
+          case Some(prop) if prop.nameId.contains("methods") => false
+          case _                                             => (valueTag.exists(_.text != "!include")) && valueScalar.isInstanceOf[YScalar]
+        }
       })
-    result
   }
 }
 

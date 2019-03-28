@@ -10,17 +10,18 @@ class BodyTests extends RAML10Test {
         "application/xml:\n        ",
         "multipart/form-data:\n        ",
         "application/x-www-form-urlencoded:\n        ",
-        "displayName:",
-        "type:",
-        "enum:",
+        "displayName: ",
+        "type: ",
+        "enum: ",
         "xml:\n        ",
-        "default:",
-        "description:",
-        "schema:",
+        "default: ",
+        "description: ",
+        "schema: ",
         "examples:\n        ",
         "example:\n        ",
         "facets:\n        ",
-        "properties:\n        "
+        "properties:\n        ",
+        "items: "
       )
     )
   }
@@ -37,17 +38,18 @@ class BodyTests extends RAML10Test {
       Set(
         "application/json:\n            ",
         "application/xml:\n            ",
-        "displayName:",
-        "type:",
-        "enum:",
+        "displayName: ",
+        "type: ",
+        "enum: ",
         "xml:\n            ",
-        "default:",
-        "description:",
-        "schema:",
+        "default: ",
+        "description: ",
+        "schema: ",
         "examples:\n            ",
         "example:\n            ",
         "facets:\n            ",
-        "properties:\n            "
+        "properties:\n            ",
+        "items: "
       )
     )
   }

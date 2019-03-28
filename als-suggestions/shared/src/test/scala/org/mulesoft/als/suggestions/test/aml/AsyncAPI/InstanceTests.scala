@@ -13,7 +13,7 @@ class InstanceTests extends AMLSuggestionsTest {
 
   //TODO: review result set, and verify termsOfService is effectively missing
   ignore("test002") {
-    this.runTest("instance/test002.yaml", Set("contact:\n    ", "description:", "title:", "license:\n    "))
+    this.runTest("instance/test002.yaml", Set("contact:\n    ", "description: ", "title: ", "license:\n    "))
   }
 
   test("test003") {
@@ -35,6 +35,6 @@ class InstanceTests extends AMLSuggestionsTest {
   }
 
   test("test007") {
-    this.runTest("instance/test007.yaml", Set("name:", "description:"))
+    this.runTest("instance/test007.yaml", Set("name: ", "description: "))
   }
 }

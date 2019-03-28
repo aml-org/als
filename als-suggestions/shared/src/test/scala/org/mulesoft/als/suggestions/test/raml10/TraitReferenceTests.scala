@@ -33,11 +33,11 @@ class TraitReferenceTests extends RAML10Test {
         """
             |      - trait1:
             |          param1:
-            |          param2:""".stripMargin,
+            |          param2: """.stripMargin,
         """
             |      - trait2:
             |          param1:
-            |          param2:""".stripMargin
+            |          param2: """.stripMargin
       )
     )
   }
@@ -57,10 +57,10 @@ class TraitReferenceTests extends RAML10Test {
       Set(
         """- trait1:
               |          param1:
-              |          param2:""".stripMargin,
+              |          param2: """.stripMargin,
         """- trait2:
               |          param1:
-              |          param2:""".stripMargin
+              |          param2: """.stripMargin
       )
     )
   }
@@ -71,10 +71,10 @@ class TraitReferenceTests extends RAML10Test {
       Set(
         """trait1:
               |          param1:
-              |          param2:""".stripMargin,
+              |          param2: """.stripMargin,
         """trait2:
               |          param1:
-              |          param2:""".stripMargin
+              |          param2: """.stripMargin
       )
     )
   }
@@ -83,7 +83,7 @@ class TraitReferenceTests extends RAML10Test {
     this.runTest("traitReferences/test012.raml",
                  Set("""trait2:
               |          param1:
-              |          param2:""".stripMargin))
+              |          param2: """.stripMargin))
   }
 
   test("Trait Fragment last operation") {

@@ -7,10 +7,10 @@ class ExamplesStructureTests extends RAML10Test {
     this.runTest(
       "structure/examples/example-filtered-01.raml",
       Set(
-        "value:",
-        "strict:",
-        "displayName:",
-        "annotations:",
+        "value: ",
+        "strict: ",
+        "displayName: ",
+        "annotations: ",
       )
     )
   }
@@ -19,7 +19,7 @@ class ExamplesStructureTests extends RAML10Test {
     this.runTest(
       "structure/examples/example-filtered-02.raml",
       Set(
-        "value:"
+        "value: "
       )
     )
   }
@@ -28,11 +28,11 @@ class ExamplesStructureTests extends RAML10Test {
     this.runTest(
       "structure/examples/example-simple.raml",
       Set(
-        "value:",
-        "description:",
-        "strict:",
-        "displayName:",
-        "annotations:",
+        "value: ",
+        "description: ",
+        "strict: ",
+        "displayName: ",
+        "annotations: ",
       )
     )
   }
@@ -41,11 +41,11 @@ class ExamplesStructureTests extends RAML10Test {
     this.runTest(
       "structure/examples/examples-named.raml",
       Set(
-        "value:",
-        "description:",
-        "strict:",
-        "displayName:",
-        "annotations:",
+        "value: ",
+        "description: ",
+        "strict: ",
+        "displayName: ",
+        "annotations: ",
       )
     )
   }
@@ -54,10 +54,10 @@ class ExamplesStructureTests extends RAML10Test {
     this.runTest(
       "structure/examples/examples-named-filtered.raml",
       Set(
-        "value:",
-        "strict:",
-        "displayName:",
-        "annotations:",
+        "value: ",
+        "strict: ",
+        "displayName: ",
+        "annotations: ",
       )
     )
   }
@@ -73,11 +73,11 @@ class ExamplesStructureTests extends RAML10Test {
     this.runTest(
       "structure/examples/examples-fragment-01.raml",
       Set(
-        "value:",
-        "description:",
-        "strict:",
-        "displayName:",
-        "annotations:",
+        "value: ",
+        "description: ",
+        "strict: ",
+        "displayName: ",
+        "annotations: ",
       )
     )
   }
