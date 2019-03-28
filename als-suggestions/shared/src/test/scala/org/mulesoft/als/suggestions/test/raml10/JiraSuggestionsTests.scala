@@ -31,12 +31,13 @@ class JiraSuggestionsTests extends RAML10Test {
         "xml:\n            ",
         "facets:\n            ",
         "examples:\n            ",
-        "description:",
-        "displayName:",
-        "type:",
-        "enum:",
-        "schema:",
-        "default:"
+        "description: ",
+        "displayName: ",
+        "type: ",
+        "enum: ",
+        "schema: ",
+        "default: ",
+        "items: "
       )
     )
   }
@@ -70,24 +71,34 @@ class JiraSuggestionsTests extends RAML10Test {
   }
 
   test("ALS-732 Single") {
-    this.runTest("jira-tests/als-732/test01.raml", Set("trait1", "trait2"))
+    this.runTest(
+      "jira-tests/als-732/test01.raml",
+      Set("\n      - trait1:\n          param1:\n          param2: ",
+          "\n      - trait2:\n          param1:\n          param2: ")
+    )
   }
 
   test("ALS-732 Sequence") {
-    this.runTest("jira-tests/als-732/test02.raml", Set("trait2"))
+    this.runTest("jira-tests/als-732/test02.raml",
+                 Set("{ trait1: {  param1 : ,  param2 : } }", "{ trait2: {  param1 : ,  param2 : } }"))
   }
 
   test("ALS-732 Open Sequence") {
-    this.runTest("jira-tests/als-732/test03.raml", Set("trait1", "trait2"))
+    this.runTest("jira-tests/als-732/test03.raml",
+                 Set("{ trait1: {  param1 : ,  param2 : } }", "{ trait2: {  param1 : ,  param2 : } }"))
   }
 
   test("ALS-732 Flow Sequence") {
-    this.runTest("jira-tests/als-732/test04.raml", Set("trait2"))
+    this.runTest("jira-tests/als-732/test04.raml", Set("trait2:\n          param1:\n          param2: "))
   }
 
-  //TODO: Check written values in non valid array
-  ignore("ALS-732 Open Sequence with trait") {
-    this.runTest("jira-tests/als-732/test04.raml", Set("trait2"))
+  test("ALS-736 Open Sequence with trait") {
+    this.runTest("jira-tests/als-736/test01.raml",
+                 Set("{ trait1: {  param1 : ,  param2 : } }", "{ trait2: {  param1 : ,  param2 : } }"))
+  }
+
+  test("ALS-710 Body values") {
+    this.runTest("jira-tests/als-710/test01.raml", Set())
   }
 
   test("Category matching test 01") {

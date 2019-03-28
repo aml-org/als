@@ -17,15 +17,15 @@ class StructureTestsOasYaml extends OAS20Test {
   }
 
   test("InfoObject title") {
-    this.runTest("structure/test15.yml", Set("title:"))
+    this.runTest("structure/test15.yml", Set("title: "))
   }
 
   test("InfoObject version") {
-    this.runTest("structure/test16.yml", Set("version:"))
+    this.runTest("structure/test16.yml", Set("version: "))
   }
 
   test("InfoObject description") {
-    this.runTest("structure/test17.yml", Set("description:"))
+    this.runTest("structure/test17.yml", Set("description: "))
   }
 
   test("InfoObject contact") {
@@ -33,31 +33,31 @@ class StructureTestsOasYaml extends OAS20Test {
   }
 
   test("LicenseObject name") {
-    this.runTest("structure/test21.yml", Set("name:"))
+    this.runTest("structure/test21.yml", Set("name: "))
   }
 
   test("LicenseObject url") {
-    this.runTest("structure/test22.yml", Set("url:"))
+    this.runTest("structure/test22.yml", Set("url: "))
   }
 
   test("ContactObject name") {
-    this.runTest("structure/test23.yml", Set("name:"))
+    this.runTest("structure/test23.yml", Set("name: "))
   }
 
   test("ContactObject url") {
-    this.runTest("structure/test24.yml", Set("url:"))
+    this.runTest("structure/test24.yml", Set("url: "))
   }
 
   test("ContactObject email") {
-    this.runTest("structure/test25.yml", Set("email:"))
+    this.runTest("structure/test25.yml", Set("email: "))
   }
 
   test("ExternalDocumentationObject url") {
-    this.runTest("structure/test26.yml", Set("url:"))
+    this.runTest("structure/test26.yml", Set("url: "))
   }
 
   test("ExternalDocumentationObject description") {
-    this.runTest("structure/test27.yml", Set("description:"))
+    this.runTest("structure/test27.yml", Set("description: "))
   }
 
   test("PathItemObject post, put, patch") {
@@ -69,15 +69,15 @@ class StructureTestsOasYaml extends OAS20Test {
   }
 
   test("OperationObject summary") {
-    this.runTest("structure/test34.yml", Set("summary:"))
+    this.runTest("structure/test34.yml", Set("summary: "))
   }
 
   test("OperationObject description") {
-    this.runTest("structure/test35.yml", Set("description:"))
+    this.runTest("structure/test35.yml", Set("description: "))
   }
 
   test("OperationObject operationId") {
-    this.runTest("structure/test37.yml", Set("operationId:"))
+    this.runTest("structure/test37.yml", Set("operationId: "))
   }
 
   test("OperationObject parameters") {
@@ -89,7 +89,7 @@ class StructureTestsOasYaml extends OAS20Test {
   }
 
   test("OperationObject deprecated") {
-    this.runTest("structure/test43.yml", Set("deprecated:"))
+    this.runTest("structure/test43.yml", Set("deprecated: "))
   }
 
   test("OperationObject security") {
@@ -97,7 +97,7 @@ class StructureTestsOasYaml extends OAS20Test {
   }
 
   test("ResponseObject description") {
-    this.runTest("structure/test47.yml", Set("description:"))
+    this.runTest("structure/test47.yml", Set("description: "))
   }
 
   test("ResponseObject schema") {
@@ -113,7 +113,7 @@ class StructureTestsOasYaml extends OAS20Test {
   }
 
   test("ParameterObject description") {
-    this.runTest("structure/test52.yml", Set("description:"))
+    this.runTest("structure/test52.yml", Set("description: "))
   }
 
   test("BodyParameterObject schema") {
@@ -121,31 +121,31 @@ class StructureTestsOasYaml extends OAS20Test {
   }
 
   test("ItemsObject format") {
-    this.runTest("structure/test58.yml", Set("format:"))
+    this.runTest("structure/test58.yml", Set("format: "))
   }
 
   test("ItemsObject default") {
-    this.runTest("structure/test59.yml", Set("default:"))
+    this.runTest("structure/test59.yml", Set("default: "))
   }
 
   test("ItemsObject maximum") {
-    this.runTest("structure/test60.yml", Set("maximum:"))
+    this.runTest("structure/test60.yml", Set("maximum: "))
   }
 
   test("ItemsObject minimum") {
-    this.runTest("structure/test62.yml", Set("minimum:"))
+    this.runTest("structure/test62.yml", Set("minimum: "))
   }
 
   test("ItemsObject pattern") {
-    this.runTest("structure/test66.yml", Set("pattern:"))
+    this.runTest("structure/test66.yml", Set("pattern: "))
   }
 
   test("ItemsObject multipleOf") {
-    this.runTest("structure/test71.yml", Set("multipleOf:"))
+    this.runTest("structure/test71.yml", Set("multipleOf: "))
   }
 
   test("ItemsObject example") {
-    this.runTest("structure/test72.yml", Set("example:"))
+    this.runTest("structure/test72.yml", Set("example: "))
   }
 
   test("ItemsObject items") {
@@ -153,11 +153,11 @@ class StructureTestsOasYaml extends OAS20Test {
   }
 
   test("SchemaObject title") {
-    this.runTest("structure/test75.yml", Set("title:"))
+    this.runTest("structure/test75.yml", Set("title: "))
   }
 
   test("SchemaObject description") {
-    this.runTest("structure/test76.yml", Set("description:"))
+    this.runTest("structure/test76.yml", Set("description: "))
   }
 
   test("SchemaObject properties") {
@@ -165,7 +165,7 @@ class StructureTestsOasYaml extends OAS20Test {
   }
 
   test("SchemaObject discriminator") {
-    this.runTest("structure/test78.yml", Set("discriminator:"))
+    this.runTest("structure/test78.yml", Set("discriminator: "))
   }
 
   test("SchemaObject xml") {
@@ -185,7 +185,7 @@ class StructureTestsOasYaml extends OAS20Test {
   }
 
   test("Security reference") {
-    this.runTest("structure/test109.yml", Set("BasicAuth1:", "BasicAuth2:"))
+    this.runTest("structure/test109.yml", Set("BasicAuth1: ", "BasicAuth2: "))
   }
 
   test("request parameter type 1") {

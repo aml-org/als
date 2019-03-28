@@ -147,6 +147,7 @@ class ASTManager extends AbstractServerModule with ASTManagerModule {
       .map(unit => registerNewAST(document.uri, document.version, unit))
       .recover {
         case e: Throwable =>
+          this.currentASTs.remove(document.uri)
           val writer = new StringWriter()
           e.printStackTrace(new PrintWriter(writer))
           connection

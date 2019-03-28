@@ -3,7 +3,6 @@ package org.mulesoft.als.suggestions.test.raml08
 import org.mulesoft.als.suggestions.test.raml10.TestRamlResponseCodes
 
 class StructureTests extends RAML08Test {
-
   test("StructureTests responses") {
     this.runTest("structure/test01.raml", Set("responses:\n      "))
   }
@@ -13,7 +12,7 @@ class StructureTests extends RAML08Test {
   }
 
   test("StructureTests root node title") {
-    this.runTest("structure/test04.raml", Set("title:"))
+    this.runTest("structure/test04.raml", Set("title: "))
   }
 
   test("StructureTests root node traits") {
@@ -25,19 +24,19 @@ class StructureTests extends RAML08Test {
   }
 
   test("StructureTests root node version") {
-    this.runTest("structure/test08.raml", Set("version:"))
+    this.runTest("structure/test08.raml", Set("version: "))
   }
 
   test("StructureTests root node baseUri") {
-    this.runTest("structure/test09.raml", Set("baseUri:", "baseUriParameters:\n  "))
+    this.runTest("structure/test09.raml", Set("baseUri: ", "baseUriParameters:\n  "))
   }
 
   test("StructureTests root node protocols") {
-    this.runTest("structure/test10.raml", Set("protocols:"))
+    this.runTest("structure/test10.raml", Set("protocols: "))
   }
 
   test("StructureTests root node mediaType") {
-    this.runTest("structure/test11.raml", Set("mediaType:"))
+    this.runTest("structure/test11.raml", Set("mediaType: "))
   }
 
   test("StructureTests root node schemas") {
@@ -49,7 +48,7 @@ class StructureTests extends RAML08Test {
   }
 
   test("StructureTests root node securedBy") {
-    this.runTest("structure/test14.raml", Set("securedBy:"))
+    this.runTest("structure/test14.raml", Set("securedBy: "))
   }
 
   test("StructureTests node method body") {
@@ -61,15 +60,15 @@ class StructureTests extends RAML08Test {
   }
 
   test("StructureTests resource node type") {
-    this.runTest("structure/test22.raml", Set("type:"))
+    this.runTest("structure/test22.raml", Set("type: "))
   }
 
   test("StructureTests resource node description") {
-    this.runTest("structure/test23.raml", Set("description:"))
+    this.runTest("structure/test23.raml", Set("description: "))
   }
 
   test("StructureTests resource node displayName") {
-    this.runTest("structure/test24.raml", Set("displayName:"))
+    this.runTest("structure/test24.raml", Set("displayName: "))
   }
 
   test("StructureTests resource node put, post, patch") {
@@ -105,7 +104,7 @@ class StructureTests extends RAML08Test {
   }
 
   test("StructureTests method node response description") {
-    this.runTest("structure/test34.raml", Set("description:"))
+    this.runTest("structure/test34.raml", Set("description: "))
   }
 
   test("StructureTests method node responses") {
@@ -117,7 +116,7 @@ class StructureTests extends RAML08Test {
   }
 
   test("StructureTests method node description") {
-    this.runTest("structure/test38.raml", Set("description:"))
+    this.runTest("structure/test38.raml", Set("description: "))
   }
 
   test("StructureTests method node response headers") {
@@ -133,15 +132,15 @@ class StructureTests extends RAML08Test {
   }
 
   test("StructureTests resourceType node type") {
-    this.runTest("structure/test45.raml", Set("type:"))
+    this.runTest("structure/test45.raml", Set("type: "))
   }
 
   test("StructureTests resourceType node description") {
-    this.runTest("structure/test46.raml", Set("description:"))
+    this.runTest("structure/test46.raml", Set("description: "))
   }
 
   test("StructureTests resourceType node displayName") {
-    this.runTest("structure/test47.raml", Set("displayName:"))
+    this.runTest("structure/test47.raml", Set("displayName: "))
   }
 
   test("StructureTests resourceType node put, post, patch") {
@@ -169,7 +168,7 @@ class StructureTests extends RAML08Test {
   }
 
   test("StructureTests resourceType node usage") {
-    this.runTest("structure/test55.raml", Set("usage:"))
+    this.runTest("structure/test55.raml", Set("usage: "))
   }
 
   test("StructureTests trait node queryString, queryParameters") {
@@ -185,11 +184,11 @@ class StructureTests extends RAML08Test {
   }
 
   test("StructureTests trait node description") {
-    this.runTest("structure/test63.raml", Set("description:"))
+    this.runTest("structure/test63.raml", Set("description: "))
   }
 
   test("StructureTests trait node displayName") {
-    this.runTest("structure/test64.raml", Set("displayName:"))
+    this.runTest("structure/test64.raml", Set("displayName: "))
   }
 
   test("StructureTests trait node body") {
@@ -197,7 +196,7 @@ class StructureTests extends RAML08Test {
   }
 
   test("StructureTests Security Scheme Declaration node type") {
-    this.runTest("structure/test83.raml", Set("type:"))
+    this.runTest("structure/test83.raml", Set("type: "))
   }
 
   test("StructureTests Security Scheme Declaration node settings ") {
@@ -205,11 +204,11 @@ class StructureTests extends RAML08Test {
   }
 
   test("StructureTests Security Scheme Declaration node OAuth 2.0 settings accessTokenUri") {
-    this.runTest("structure/test86.raml", Set("accessTokenUri:"))
+    this.runTest("structure/test86.raml", Set("accessTokenUri: "))
   }
 
   test("StructureTests Security Scheme Declaration node description") {
-    this.runTest("structure/test89.raml", Set("description:"))
+    this.runTest("structure/test89.raml", Set("description: "))
   }
 
   test("StructureTests Security Scheme Declaration OAuth 2.0 describedBy node headers") {
@@ -221,31 +220,31 @@ class StructureTests extends RAML08Test {
   }
 
   test("StructureTests Security Scheme Declaration OAuth 1.0 settings node requestTokenUri") {
-    this.runTest("structure/test94.raml", Set("requestTokenUri:"))
+    this.runTest("structure/test94.raml", Set("requestTokenUri: "))
   }
 
   test("StructureTests Security Scheme Declaration OAuth 1.0 settings node tokenCredentialsUri") {
-    this.runTest("structure/test96.raml", Set("tokenCredentialsUri:"))
+    this.runTest("structure/test96.raml", Set("tokenCredentialsUri: "))
   }
 
   test("documentation item fields") {
-    this.runTest("structure/test98.raml", Set("title:", "content:"))
+    this.runTest("structure/test98.raml", Set("title: ", "content: "))
   }
 
   test("documentation item 'title'") {
-    this.runTest("structure/test99.raml", Set("title:"))
+    this.runTest("structure/test99.raml", Set("title: "))
   }
 
   test("documentation item 'content'") {
-    this.runTest("structure/test100.raml", Set("content:"))
+    this.runTest("structure/test100.raml", Set("content: "))
   }
 
   test("documentation item 'content' after 'title'") {
-    this.runTest("structure/test101.raml", Set("content:"))
+    this.runTest("structure/test101.raml", Set("content: "))
   }
 
   test("documentation item 'title' before 'content'") {
-    this.runTest("structure/test102.raml", Set("title:"))
+    this.runTest("structure/test102.raml", Set("title: "))
   }
 
   test("response codes test 01") {
@@ -284,9 +283,9 @@ class StructureTests extends RAML08Test {
     this.runTest(
       "methods/test02.raml",
       Set(
-        "displayName:",
-        "type:",
-        "description:",
+        "displayName: ",
+        "type: ",
+        "description: ",
         "get:\n    ",
         "put:\n    ",
         "post:\n    ",
@@ -296,7 +295,7 @@ class StructureTests extends RAML08Test {
         "patch:\n    ",
         "trace:\n    ",
         "connect:\n    ",
-        "securedBy:",
+        "securedBy: ",
         "is:\n    ",
         "uriParameters:\n    ",
         "baseUriParameters:\n    "

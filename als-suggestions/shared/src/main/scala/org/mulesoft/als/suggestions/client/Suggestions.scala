@@ -59,7 +59,7 @@ object Suggestions {
           Future.successful(this.buildCompletionProviderNoAST(originalContent, url, position, patchedPlatform))
         case any =>
           println(any)
-          Future.failed(new Error("Failed to construct Completionprovider"))
+          Future.failed(new Error("Failed to construct CompletionProvider"))
       }
 
     completionProviderFuture
