@@ -14,51 +14,44 @@ import scala.concurrent.{Future, Promise}
 
 class BooleanPropertyCompletionPlugin extends ICompletionPlugin {
 
-    override def id: String = BooleanPropertyCompletionPlugin.ID
+  override def id: String = BooleanPropertyCompletionPlugin.ID
 
-    override def languages: Seq[Vendor] = StructureCompletionPlugin.supportedLanguages
-    
-    override def isApplicable(request: ICompletionRequest): Boolean = {
+  override def languages: Seq[Vendor] = StructureCompletionPlugin.supportedLanguages
 
-        if(request.config.astProvider.map(_.language).map(languages.indexOf).exists(_<0)){
-            false
-        }
-        else if(request.astNode.isEmpty){
-            false
-        }
-        else if(!request.astNode.exists(_.isAttr)) {
-            false
-        }
-        else if(request.astNode.flatMap(_.property).isEmpty) {
-            false
-        }
-        else {
-            val prop = request.astNode.get.property.get
-            if(prop.range.isEmpty){
-                false
-            }
-            else {
-                val range = prop.range.get
-                range.isAssignableFrom("BooleanType") || range.isAssignableFrom("BooleanTypeDeclaration") || range.isAssignableFrom("boolean")
-            }
-        }
+  override def isApplicable(request: ICompletionRequest): Boolean = {
+
+    if (request.config.astProvider.map(_.language).map(languages.indexOf).exists(_ < 0))
+      false
+    else if (request.astNode.isEmpty)
+      false
+    else if (!request.astNode.exists(_.isAttr))
+      false
+    else if (request.astNode.flatMap(_.property).isEmpty)
+      false
+    else {
+      val prop = request.astNode.get.property.get
+      if (prop.range.isEmpty)
+        false
+      else {
+        val range = prop.range.get
+        range.isAssignableFrom("BooleanType") || range.isAssignableFrom("BooleanTypeDeclaration") || range
+          .isAssignableFrom("boolean")
+      }
     }
+  }
 
-    override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
-        val result = Seq(Suggestion("true", "Boolean value", "true", request.prefix), Suggestion("false", id, "false", request.prefix))
-        val response = CompletionResponse(result, LocationKind.VALUE_COMPLETION, request)
-        Promise.successful(response).future
-    }
- }
-
-object BooleanPropertyCompletionPlugin {
-    val ID = "boolean.property.completion";
-
-    val supportedLanguages:List[Vendor] = List(Raml10, Oas, Oas20, Aml);
-
-    def apply():BooleanPropertyCompletionPlugin = new BooleanPropertyCompletionPlugin();
+  override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
+    val result = Seq(Suggestion("true", "Boolean value", "true", request.prefix),
+                     Suggestion("false", "Boolean value", "false", request.prefix))
+    val response = CompletionResponse(result, LocationKind.VALUE_COMPLETION, request)
+    Promise.successful(response).future
+  }
 }
 
+object BooleanPropertyCompletionPlugin {
+  val ID = "boolean.property.completion"
 
+  val supportedLanguages: List[Vendor] = List(Raml10, Oas, Oas20, Aml)
 
-
+  def apply(): BooleanPropertyCompletionPlugin = new BooleanPropertyCompletionPlugin()
+}
