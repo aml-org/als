@@ -83,8 +83,8 @@ class TestClientConnection(serverProcess: Seq[TestServerConnection])
     * @param document
     */
   override def documentChanged(document: SharedChangedDocument): Unit = {
-    val commonChangeddDocument = this.versionManager.registerChangedDocument(document)
-    commonChangeddDocument.foreach(doc => {
+    val commonChangedDocument = this.versionManager.registerChangedDocument(document)
+    commonChangedDocument.foreach(doc => {
       this.send("CHANGE_DOCUMENT", ChangedDocument.sharedToTransport(doc))
     })
   }
@@ -242,9 +242,8 @@ class TestClientConnection(serverProcess: Seq[TestServerConnection])
     */
   override def executeContextAction(uri: String,
                                     action: IExecutableAction,
-                                    position: Int): Future[Seq[SharedChangedDocument]] = {
+                                    position: Int): Future[Seq[SharedChangedDocument]] =
     Future.successful(Seq())
-  }
 
   /**
     * Executes the specified action. If action has UI, causes a consequent
@@ -257,9 +256,8 @@ class TestClientConnection(serverProcess: Seq[TestServerConnection])
     */
   override def executeContextActionByID(uri: String,
                                         actionID: String,
-                                        position: Int): Future[Seq[SharedChangedDocument]] = {
+                                        position: Int): Future[Seq[SharedChangedDocument]] =
     Future.successful(Seq())
-  }
 
   /**
     * Changes value of details item.
@@ -272,8 +270,7 @@ class TestClientConnection(serverProcess: Seq[TestServerConnection])
   override def changeDetailValue(uri: String,
                                  position: Int,
                                  itemID: String,
-                                 value: AnyVal): Future[Seq[SharedChangedDocument]] = {
+                                 value: AnyVal): Future[Seq[SharedChangedDocument]] =
     //this.send("CHANGE_DETAIL_VALUE", StructureReport.sharedToTransport(report))
     Future.successful(Seq())
-  }
 }

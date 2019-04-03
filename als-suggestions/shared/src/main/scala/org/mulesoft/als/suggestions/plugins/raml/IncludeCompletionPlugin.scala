@@ -10,22 +10,21 @@ class IncludeCompletionPlugin extends InclusionSuggestion {
   override def languages: Seq[Vendor] = IncludeCompletionPlugin.supportedLanguages
 
   override protected def decorate(path: String, prefix: String): String =
-    if (path.startsWith("/") && prefix == "/") path.stripPrefix("/") else path
+    if (path.startsWith("/") && prefix.replace("!include", "").trim == "/") path.stripPrefix("/") else path
 
-  override protected def isRightTypeInclusion(request: ICompletionRequest): Boolean = {
-    if (request.actualYamlLocation.isEmpty) {
+  override protected def isRightTypeInclusion(request: ICompletionRequest): Boolean =
+    if (request.actualYamlLocation.isEmpty)
       false
-    } else if (request.actualYamlLocation.get.node.isEmpty) {
+    else if (request.actualYamlLocation.get.node.isEmpty)
       false
-    } else if (!request.actualYamlLocation.get.node.get.yPart.isInstanceOf[YNode]) {
+    else if (!request.actualYamlLocation.get.node.get.yPart.isInstanceOf[YNode])
       false
-    } else {
-
-      if (request.actualYamlLocation.get.value.isEmpty) {
+    else {
+      if (request.actualYamlLocation.get.value.isEmpty)
         false
-      } else if (!request.actualYamlLocation.get.value.get.yPart.isInstanceOf[YScalar]) {
+      else if (!request.actualYamlLocation.get.value.get.yPart.isInstanceOf[YScalar])
         false
-      } else {
+      else {
         val nodePart = request.actualYamlLocation.get.node.get.yPart
 
         val valuePart = request.actualYamlLocation.get.value.get.yPart.asInstanceOf[YScalar]
@@ -44,7 +43,6 @@ class IncludeCompletionPlugin extends InclusionSuggestion {
         else !UsesCompletionPlugin().isApplicable(request)
       }
     }
-  }
 
   override protected val description: String = "File path"
 }
