@@ -10,19 +10,14 @@ object PathRefine {
     val isWindows = platform.operativeSystem().toLowerCase().indexOf("win") == 0
     // println(s"Platform is: ${platform.operativeSystem()}, windows detected: ${isWindows}")
     var result = uri
-    if (isWindows) {
-      if (Option(uri).isDefined) {
+    if (isWindows)
+      if (Option(uri).isDefined)
         result = platform.decodeURIComponent(uri).replace("\\", "/")
-      }
-    }
-    if (!result.startsWith("file://") && !result.startsWith("http:") && !result.startsWith("https:")) {
-      if (result.startsWith("/")) {
+    if (!result.startsWith("file://") && !result.startsWith("http:") && !result.startsWith("https:"))
+      if (result.startsWith("/"))
         result = "file://" + result
-      }
-      else {
+      else
         result = "file:///" + result
-      }
-    }
     result
   }
 

@@ -45,6 +45,11 @@ class StructureTests extends RAMLSuggestionTest {
     runTest("structure/test10.raml", Set("protocols: "))
   }
 
+  // TODO: files with spaces are not correctly encoded
+  ignore("test with spaces") {
+    runTest("structure/with spaces/root test.raml", Set("lib test.raml"))
+  }
+
   test("test empty root") {
     runTest("testEmpty.raml", Set("#%RAML 1.0", "#%RAML 0.8", "swagger: '2.0'"))
   }
