@@ -51,7 +51,7 @@ abstract class AlsPlatform(val defaultEnvironment: Environment = Environment()) 
   def directoryResolver: DirectoryResolver = resolver
 
   def resolvePath(absBasePath: String, path: String): Option[String] =
-    Option(decodeURI(Context(this, absBasePath).resolve(normalizePath(path))))
+    Option(decodeURI(Context(this, normalizePath(absBasePath)).resolve(normalizePath(path))))
 }
 
 object AlsPlatform {
