@@ -112,4 +112,31 @@ class JiraSuggestionsTests extends RAML10Test {
   test("Category matching test 03") {
     this.runTestCategory("jira-tests/category/test03.raml")
   }
+
+  test("Trait type suggestion") {
+    this.runTest(
+      "jira-tests/als-752/test01.raml",
+      Set(
+        "number",
+        "any",
+        "union",
+        "date-only",
+        "time-only",
+        "datetime",
+        "ProcessVariableList",
+        "ProcessModel",
+        "string",
+        "datetime-only",
+        "object",
+        "nil",
+        "array",
+        "version",
+        "boolean",
+        "file",
+        "integer",
+        "Process",
+        "Task"
+      )
+    )
+  }
 }
