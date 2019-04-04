@@ -35,13 +35,12 @@ object Search {
   private def extractDeclarations(unit: IASTUnit, typeName: String) = {
     if (unit.baseUnit.isInstanceOf[DeclaresModel]) {
       unit.rootNode.children.flatMap(x => {
-        if (!x.isElement) {
+        if (!x.isElement)
           None
-        } else if (x.asElement.get.definition.isAssignableFrom(typeName)) {
+        else if (x.asElement.get.definition.isAssignableFrom(typeName))
           x.asElement
-        } else {
+        else
           None
-        }
       })
     } else Nil
   }
