@@ -9,18 +9,33 @@ object PathRefine {
 
     val isWindows = platform.operativeSystem().toLowerCase().indexOf("win") == 0
     // println(s"Platform is: ${platform.operativeSystem()}, windows detected: ${isWindows}")
-    var result = uri
-    if (isWindows)
-      if (Option(uri).isDefined)
-        result = platform.decodeURIComponent(uri).replace("\\", "/")
+    val decoded = SpaceDecoderBuilder.getDecoder.decodeSpace(uri)
+    val result =
+      if (isWindows && Option(decoded).isDefined)
+        platform.decodeURIComponent(decoded).replace("\\", "/")
+      else decoded
+
     if (!result.startsWith("file://") && !result.startsWith("http:") && !result.startsWith("https:"))
       if (result.startsWith("/"))
-        result = "file://" + result
+        "file://" + result
       else
-        result = "file:///" + result
-    result
+        "file:///" + result
+    else result
   }
 
+  def encodePath(uri: String): String = {
+    SpaceDecoderBuilder.getDecoder.encodeSpace(uri)
+  }
+
+}
+
+object SpaceDecoderBuilder {
+  def getDecoder: SpaceDecoder = PlatformSpaceDecoder
+}
+
+trait SpaceDecoder {
+  def decodeSpace(uri: String): String
+  def encodeSpace(uri: String): String
 }
 
 // $COVERAGE-ON$
