@@ -1,31 +1,36 @@
 package org.mulesoft.language.outline.structure.structureImpl
 
 import amf.client.model.DataTypes
-import amf.core.annotations.{LexicalInformation, SourceAST}
+import amf.core.annotations._
 import amf.core.metamodel.domain.extensions.PropertyShapeModel
 import amf.core.model.domain.{DomainElement, NamedDomainElement}
 import amf.plugins.domain.shapes.metamodel.{ArrayShapeModel, FileShapeModel, NodeShapeModel, ScalarShapeModel}
 import amf.plugins.domain.shapes.models.ScalarShape
 import amf.plugins.domain.webapi.metamodel.templates.ResourceTypeModel
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
-import common.dtoTypes.{EmptyPositionRange, PositionRange}
+import common.dtoTypes.{EmptyPositionRange, Position, PositionRange}
 import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.language.outline.common.commonInterfaces.{CategoryFilter, LabelProvider, VisibilityFilter}
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureConfiguration
-import org.mulesoft.lexer.InputRange
 import org.yaml.model.YMapEntry
+
+import scala.collection.{GenTraversableOnce, mutable}
 class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibilityFilter: VisibilityFilter) {
 
   def listSymbols(categoryFilter: List[CategoryFilter]): List[DocumentSymbol] =
     root.children
       .filter(c => !c.isAttr && visibilityFilter(c) && categoryFilter.exists(_.apply(c)))
       .map(documentSymbol)
-      .toList
+      .toList ++ childDocumentSymbol(root)
+
+  def fullRange(ranges: Seq[PositionRange]): PositionRange = {
+    val sorted = ranges.sortWith((a, b) => a.start < b.start)
+    PositionRange(sorted.head.start, sorted.last.end)
+  }
 
   private def documentSymbol(hlNode: IParseResult): DocumentSymbol = {
     val (range, keyRange) = positionRange(hlNode)
-
     DocumentSymbol(
       labelProvider.getLabelText(hlNode),
       KindForResultMatcher.getKind(hlNode),
@@ -33,20 +38,100 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
       range,
       keyRange,
       hlNode.children
-        .filter(c => (!c.isAttr) && visibilityFilter(c))
+        .filter(c => !c.isAttr && visibilityFilter(c))
         .map(documentSymbol)
-        .toList
+        .toList ++ childDocumentSymbol(hlNode)
     )
+  }
+
+  // TODO: ALS-759 after dialect refactor, fix this
+  def synthesizedChildren(filtered: Seq[IParseResult]): List[DocumentSymbol] = {
+    val result = mutable.ListBuffer[DocumentSymbol]()
+    filtered.foreach(f => {
+      if (f.property.get.nameId.get == "host") {
+        val rangeHostLexicalInformation: Option[PositionRange] = f.amfNode.fields
+          .fields()
+          .head
+          .value
+          .annotations
+          .find(classOf[HostLexicalInformation])
+          .map(li =>
+            PositionRange(Position(li.range.start.line - 1, li.range.start.column),
+                          Position(li.range.end.line - 1, li.range.end.column)))
+        rangeHostLexicalInformation match {
+          case Some(li) =>
+            result.append(
+              DocumentSymbol("host", KindForResultMatcher.getKind(f), deprecated = false, li, li, Nil)
+            )
+          case _ => ???
+        }
+      }
+      if (f.property.get.nameId.get == "basePath") {
+        val rangeBasePathLexicalInformation: Option[PositionRange] = f.amfNode.fields
+          .fields()
+          .head
+          .value
+          .annotations
+          .find(classOf[BasePathLexicalInformation])
+          .map(li =>
+            PositionRange(Position(li.range.start.line - 1, li.range.start.column),
+                          Position(li.range.end.line - 1, li.range.end.column)))
+        rangeBasePathLexicalInformation match {
+          case Some(li) =>
+            result.append(
+              DocumentSymbol("basePath", KindForResultMatcher.getKind(f), deprecated = false, li, li, Nil)
+            )
+          case _ => ???
+        }
+      }
+    })
+    result.toList
+  }
+
+  private def childDocumentSymbol(hlNode: IParseResult) = {
+    val attrChildren = hlNode.children
+      .filter(c => c.isAttr && visibilityFilter(c))
+
+    val labels = attrChildren.map(labelProvider.getLabelText).distinct
+    val result = mutable.ListBuffer[DocumentSymbol]()
+    labels
+      .foreach(label => {
+        val corresponding: Seq[IParseResult] = attrChildren.filter(
+          c =>
+            labelProvider.getLabelText(c) == label &&
+              !c.amfNode.annotations
+                .contains(classOf[SynthesizedField])) // TODO: ALS-759 after dialect refactor, fix this
+        if (corresponding.size > 0)
+          result.append(
+            DocumentSymbol(
+              label,
+              KindForResultMatcher.getKind(corresponding.head),
+              deprecated = false,
+              fullRange(corresponding.map(positionRange(_)._1)),
+              corresponding.map(positionRange(_)._2).sortWith((a, b) => a.start < b.start).head,
+              Nil
+            ))
+      })
+    result.toList ++
+      // TODO: ALS-759 after dialect refactor, fix this
+      synthesizedChildren(
+        attrChildren.filter(c =>
+          labels.contains(labelProvider.getLabelText(c)) &&
+            c.amfNode.annotations.contains(classOf[SynthesizedField])))
+
   }
 
   private def positionRange(node: IParseResult): (PositionRange, PositionRange) = {
     node.sourceInfo.yamlSources.headOption.map(_.range) match {
       case Some(syamlRange) =>
         val keyRange = (node.amfNode match {
-          case n: NamedDomainElement => n.name.annotations().find(classOf[LexicalInformation])
-            .map(_.range)
+          case n: NamedDomainElement =>
+            n.name
+              .annotations()
+              .find(classOf[LexicalInformation])
+              .map(_.range)
               .map(PositionRange(_))
-          case _                     => None
+          case _ => None
         }).orElse {
           node.amfNode.annotations
             .find(classOf[SourceAST])
