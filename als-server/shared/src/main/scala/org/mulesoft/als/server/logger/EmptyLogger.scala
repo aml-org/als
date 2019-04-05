@@ -1,0 +1,13 @@
+package org.mulesoft.als.server.logger
+
+/**
+  * Logger that logs nothing
+  */
+object EmptyLogger extends AbstractLogger {
+
+  protected def executeLogging(msg: String, severity: MessageSeverity.Value): Unit = {}
+
+  override protected val settings: Option[LoggerSettings] = None
+
+  override def withSettings(settings: LoggerSettings): this.type = this
+}

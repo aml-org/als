@@ -39,10 +39,11 @@ val settings = Common.settings ++ Common.publish ++ Seq(
     "com.github.amlorg" %%% "amf-aml" % deps("amf"),
     "org.mule.common" %%% "scala-common" % deps("common"),
     "org.mule.syaml" %%% "syaml" % deps("syaml"),
-    "org.scalatest" %%% "scalatest" % "3.0.5" % Test,
     "com.chuusai" %% "shapeless" % "2.3.3",
     "org.scala-js" %% "scalajs-stubs" % scalaJSVersion % "provided",
-    "com.lihaoyi" %%% "upickle" % "0.5.1" % Test
+    
+    "org.scalatest" %%% "scalatest" % "3.0.5" % Test,
+    "org.scalamock" %%% "scalamock" % "4.1.0" % Test
   )
 )
 
@@ -116,7 +117,8 @@ lazy val structureJS = structure.js.in(file("./als-structure/js"))
 
 lazy val server = crossProject(JSPlatform, JVMPlatform)
   .settings(Seq(
-    name := "als-server"
+    name := "als-server",
+    libraryDependencies += "org.wvlet.airframe" %% "airframe" % "19.3.7"
   ))
   .dependsOn(suggestions, structure % "compile->compile;test->test")
   .in(file("./als-server"))
@@ -126,11 +128,11 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies += "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.6.0",
     packageOptions in(Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
     aggregate in assembly := true,
-    mainClass in assembly := Some("org.mulesoft.language.server.lsp4j.Main"),
-    mainClass in Compile := Some("org.mulesoft.language.server.lsp4j.Main"),
+    mainClass in assembly := Some("org.mulesoft.als.server.lsp4j.Main"),
+    mainClass in Compile := Some("org.mulesoft.als.server.lsp4j.Main"),
     scalacOptions += "-Xmixin-force-forwarders:false",
     assemblyMergeStrategy in assembly := {
-      case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+      case PathList("META-INF", xs@_*) => MergeStrategy.discard
       case x => MergeStrategy.first
     }
   )
@@ -155,7 +157,7 @@ buildJS := {
   "./als-server/js/build-scripts/buildJs.sh".!
 }
 
-mainClass in Compile := Some("org.mulesoft.language.server.lsp4j.Main")
+mainClass in Compile := Some("org.mulesoft.als.server.lsp4j.Main")
 
 val buildSuggestionsJS = TaskKey[Unit]("buildSuggestionsJS", "Build suggestions npm module")
 
@@ -238,7 +240,7 @@ addCommandAlias(
 )
 
 assemblyMergeStrategy in assembly := {
-  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case PathList("META-INF", xs@_*) => MergeStrategy.discard
   case x => MergeStrategy.first
 }
 
@@ -246,7 +248,7 @@ assemblyMergeStrategy in assembly := {
 
 //******* fat jar*****************************
 
-lazy val core = crossProject(JSPlatform,JVMPlatform).settings(
+lazy val core = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
     name := "api-language-server"
   )
@@ -257,8 +259,8 @@ lazy val core = crossProject(JSPlatform,JVMPlatform).settings(
   //	packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
   //        aggregate in assembly := true,
   assemblyMergeStrategy in assembly := {
-    case x if x.toString.endsWith("JS_DEPENDENCIES")             => MergeStrategy.discard
-    case PathList(ps @ _*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
+    case x if x.toString.endsWith("JS_DEPENDENCIES") => MergeStrategy.discard
+    case PathList(ps@_*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
     case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
     case x => {
       MergeStrategy.first
@@ -273,7 +275,7 @@ lazy val core = crossProject(JSPlatform,JVMPlatform).settings(
   scalaJSModuleKind := ModuleKind.CommonJSModule,
   scalaJSUseMainModuleInitializer := true,
   mainClass in Compile := Some("org.mulesoft.language.client.js.ServerProcess"),
-  artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"serverProcess.js"
+  artifactPath in(Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" / "serverProcess.js"
 )
 
 lazy val coreJVM = core.jvm.in(file("./"))
