@@ -23,7 +23,60 @@
         "character": 12
       }
     },
-    "children": []
+    "children": [
+      {
+        "name": "key",
+        "kind": 19,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 1
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 1
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "value",
+        "kind": 19,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 1
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 1
+          }
+        },
+        "children": []
+      }
+    ]
   },
   {
     "name": "UserXML",
@@ -47,6 +100,137 @@
       "end": {
         "line": 0,
         "character": 1
+      }
+    },
+    "children": [
+      {
+        "name": "key",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 1
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 1
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "value",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 1
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 1
+          }
+        },
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "mediaType",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 4,
+        "character": 12
+      },
+      "end": {
+        "line": 4,
+        "character": 28
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 4,
+        "character": 12
+      },
+      "end": {
+        "line": 4,
+        "character": 28
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "title",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 2,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 2,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "version",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
       }
     },
     "children": []

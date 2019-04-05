@@ -105,4 +105,8 @@ class RAML10StructureTests extends RAML10StructureTest {
   test("test 027") {
     this.runTest("test027/extension.raml", "test027/api-outline.json")
   }
+
+  test("test 028 - Complex structure") {
+    this.runTest("test028/api.raml", "test028/api-outline.json")
+  }
 }

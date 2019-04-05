@@ -48,6 +48,137 @@
             "character": 14
           }
         },
+        "children": [
+          {
+            "name": "type",
+            "kind": 15,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 10,
+                "character": 8
+              },
+              "end": {
+                "line": 10,
+                "character": 24
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 10,
+                "character": 8
+              },
+              "end": {
+                "line": 10,
+                "character": 24
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "$ref",
+            "kind": 15,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 1
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 1
+              }
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "key",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 7,
+            "character": 4
+          },
+          "end": {
+            "line": 7,
+            "character": 8
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 7,
+            "character": 4
+          },
+          "end": {
+            "line": 7,
+            "character": 8
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "description",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 8,
+            "character": 6
+          },
+          "end": {
+            "line": 8,
+            "character": 45
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 8,
+            "character": 6
+          },
+          "end": {
+            "line": 8,
+            "character": 45
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "$ref",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 1
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 1
+          }
+        },
         "children": []
       }
     ]
@@ -101,6 +232,163 @@
             "character": 14
           }
         },
+        "children": [
+          {
+            "name": "type",
+            "kind": 17,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 16,
+                "character": 8
+              },
+              "end": {
+                "line": 16,
+                "character": 25
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 16,
+                "character": 8
+              },
+              "end": {
+                "line": 16,
+                "character": 25
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "$ref",
+            "kind": 17,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 1
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 0,
+                "character": 0
+              },
+              "end": {
+                "line": 0,
+                "character": 1
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "format",
+            "kind": 17,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 17,
+                "character": 8
+              },
+              "end": {
+                "line": 17,
+                "character": 25
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 17,
+                "character": 8
+              },
+              "end": {
+                "line": 17,
+                "character": 25
+              }
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "key",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 13,
+            "character": 4
+          },
+          "end": {
+            "line": 13,
+            "character": 8
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 13,
+            "character": 4
+          },
+          "end": {
+            "line": 13,
+            "character": 8
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "description",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 14,
+            "character": 6
+          },
+          "end": {
+            "line": 14,
+            "character": 27
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 14,
+            "character": 6
+          },
+          "end": {
+            "line": 14,
+            "character": 27
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "$ref",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 1
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 0,
+            "character": 0
+          },
+          "end": {
+            "line": 0,
+            "character": 1
+          }
+        },
         "children": []
       }
     ]
@@ -129,6 +417,59 @@
         "character": 3
       }
     },
-    "children": []
+    "children": [
+      {
+        "name": "title",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 4,
+            "character": 4
+          },
+          "end": {
+            "line": 4,
+            "character": 33
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 4,
+            "character": 4
+          },
+          "end": {
+            "line": 4,
+            "character": 33
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "version",
+        "kind": 8,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 4
+          },
+          "end": {
+            "line": 3,
+            "character": 27
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 3,
+            "character": 4
+          },
+          "end": {
+            "line": 3,
+            "character": 27
+          }
+        },
+        "children": []
+      }
+    ]
   }
 ]
