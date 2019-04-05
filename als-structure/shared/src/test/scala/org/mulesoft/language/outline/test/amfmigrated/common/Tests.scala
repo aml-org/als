@@ -159,7 +159,7 @@ object Tests {
   }
 
   /** Force golden override. */
-  private def goldenOverride: Boolean = false //Option(getProperty("golden.override")).isDefined
+  private def goldenOverride: Boolean = false // Option(getProperty("golden.override")).isDefined
 
   def checkDiff(a: String, fileA: String, b: String, fileB: String): Assertion = {
     val diffs: List[Diff.Delta[String]] = Diff.ignoreAllSpace.diff(a, b)

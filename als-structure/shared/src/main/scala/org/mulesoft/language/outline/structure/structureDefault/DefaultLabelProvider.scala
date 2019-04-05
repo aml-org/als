@@ -12,7 +12,7 @@ class DefaultLabelProvider extends LabelProvider {
     if (node.isAttr) {
       var attr = node.asInstanceOf[IAttribute]
       if (attr.value.isDefined) {
-        val valString = (attr.name + ":") + attr.value.get.toString
+        val valString = (attr.name)
         resultOpt = Some(valString)
       }
 
@@ -28,15 +28,14 @@ class DefaultLabelProvider extends LabelProvider {
           resultOpt = Some(valString)
         }
 
-      }
-      else if (hlNode.definition.nameId.contains(RamlDefinitionKeys.USES_DECLARATION)) {
+      } else if (hlNode.definition.nameId.contains(RamlDefinitionKeys.USES_DECLARATION)) {
         val titleAttribute = hlNode.attribute("key")
         if (titleAttribute.isDefined) {
           val valString = titleAttribute.get.value.map(_.toString).getOrElse("")
           resultOpt = Some(valString)
         }
-      }
-      else if (hlNode.definition.isAssignableFrom(OASDefinitionKeys.ParameterObject) || hlNode.definition.nameId.contains(OASDefinitionKeys.TagObject)) {
+      } else if (hlNode.definition.isAssignableFrom(OASDefinitionKeys.ParameterObject) || hlNode.definition.nameId
+                   .contains(OASDefinitionKeys.TagObject)) {
         val titleAttribute = hlNode.attribute("name")
         if (titleAttribute.isDefined) {
           val valString = titleAttribute.get.value.map(_.toString).getOrElse("")
@@ -60,20 +59,23 @@ class DefaultLabelProvider extends LabelProvider {
     var typeAttribute: Option[IAttribute] = None
     if (hlNode.definition.isAssignableFrom("ResourceBase")) {
       typeAttribute = hlNode.element("type").flatMap(_.attribute("name"))
-    }
-    else {
+    } else {
       typeAttribute = hlNode.attribute("type")
     }
-    typeAttribute.flatMap(_.value).map(x => x match {
-      case jw: JSONWrapper =>
-        var strVal: String = jw.kind match {
-          case STRING => s":${jw.value(STRING).get}"
-          case NUMBER => s":${jw.value(NUMBER).get}"
-          case BOOLEAN => s":${jw.value(BOOLEAN).get}"
-          case _ => ""
-        }
-        strVal
-      case _ => s":$x"
-    }).orElse(Some(""))
+    typeAttribute
+      .flatMap(_.value)
+      .map(x =>
+        x match {
+          case jw: JSONWrapper =>
+            var strVal: String = jw.kind match {
+              case STRING  => s":${jw.value(STRING).get}"
+              case NUMBER  => s":${jw.value(NUMBER).get}"
+              case BOOLEAN => s":${jw.value(BOOLEAN).get}"
+              case _       => ""
+            }
+            strVal
+          case _ => s":$x"
+      })
+      .orElse(Some(""))
   }
 }
