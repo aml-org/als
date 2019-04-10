@@ -226,4 +226,8 @@ class StructureTestsOasYaml extends OAS20Test {
   test("test operation consumes suggestions") {
     this.runTest("structure/consumes/operation.yml", OasCommonMediaTypes.all.toSet)
   }
+
+  test("test schemes without line break") {
+    this.runTest("structure/test128.yml", Set("schemes: "))
+  }
 }

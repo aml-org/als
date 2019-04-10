@@ -21,20 +21,19 @@ class KnownPropertyValuesCompletionPlugin extends ICompletionPlugin {
 
   override def isApplicable(request: ICompletionRequest): Boolean = {
 
-    if (request.astNode.isEmpty) {
+    if (request.astNode.isEmpty)
       false
-    } else {
+    else {
       val prop = request.astNode.get.property
-      if (request.actualYamlLocation.isEmpty) {
+      if (request.actualYamlLocation.isEmpty)
         false
-      } else if (request.kind == LocationKind.KEY_COMPLETION
-                 && !prop.flatMap(_.range).exists(_.isArray)) {
+      else if (request.kind == LocationKind.KEY_COMPLETION
+               && !prop.flatMap(_.range).exists(_.isArray))
         false
-      } else if (request.actualYamlLocation.isEmpty || request.yamlLocation.isEmpty) {
+      else if (request.actualYamlLocation.isEmpty || request.yamlLocation.isEmpty)
         false
-      } else {
+      else
         true
-      }
     }
   }
 
