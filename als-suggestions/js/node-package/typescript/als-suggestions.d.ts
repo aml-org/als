@@ -730,7 +730,7 @@ declare module '@mulesoft/als-suggestions' {
         defaultValue: DataNode
         defaultValueStr: StrField
 
-        values: StrField[]
+        values: ScalarNode[]
         location: string
         inherits: Shape[]
         or: Shape[]
@@ -746,7 +746,7 @@ declare module '@mulesoft/als-suggestions' {
 
         withDefaultValue(default_: DataNode): this
 
-        withValues(values: string[]): this
+        withValues(values: DataNode[]): this
 
         withInherits(inherits: Shape[]): this
 
@@ -1941,3 +1941,4 @@ declare module '@mulesoft/als-suggestions' {
   }
 
 }
+
