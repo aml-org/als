@@ -16,17 +16,11 @@ class DefaultContentProvider(visibilityFilter: VisibilityFilter,
   def buildChildren(node: StructureNode): Seq[DocumentSymbol] = {
 
     val source: IParseResult = node.getSource
-
-    if (source.isAttr) {
-
+    if (source.isAttr)
       Seq.empty
-
-    } else if (source.isElement) {
-
+    else if (source.isElement)
       new StructureBuilder(source, labelProvider, visibilityFilter).listSymbols(Nil).filter(_.name.length > 0)
-    } else {
-
+    else
       Seq.empty
-    }
   }
 }

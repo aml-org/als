@@ -45,6 +45,10 @@ class StructureTests extends RAMLSuggestionTest {
     runTest("structure/test10.raml", Set("protocols: "))
   }
 
+  ignore("test with spaces") { // TODO: How to test in JS?
+    runTest("structure/with spaces/root test.raml", Set("lib test.raml"))
+  }
+
   test("test empty root") {
     runTest("testEmpty.raml", Set("#%RAML 1.0", "#%RAML 0.8", "swagger: '2.0'"))
   }

@@ -353,9 +353,12 @@ class StructureCompletionPlugin extends ICompletionPlugin {
               .determineFormat(element.astUnit.baseUnit)
               .flatMap(SuggestionCategoryRegistry.getCategory(_, pName, Option(element.definition), prop.range))
               .foreach(suggestion.withCategory)
-            val needBrake = !(pName == "items" && element.definition.universe.name
-              .exists(s => s.contains("RAML"))) && pName != "enum" && pName != "mediaType" && pName != "securedBy" && pName != "protocols" && prop.range
-              .exists(r => !r.isValueType && (!r.isAssignableFrom("Reference") || prop.isMultiValue))
+            val needBrake =
+              !(pName == "items" && element.definition.universe.name.exists(s => s.contains("RAML"))) &&
+                !(pName == "schemes" && element.definition.universe.name.exists(s => s.contains("OAS"))) &&
+                pName != "enum" && pName != "mediaType" && pName != "securedBy" && pName != "protocols" &&
+                prop.range
+                  .exists(r => !r.isValueType && (!r.isAssignableFrom("Reference") || prop.isMultiValue))
 
             if (needBrake) {
               val off = element.sourceInfo.valueOffset.getOrElse(0) + 2

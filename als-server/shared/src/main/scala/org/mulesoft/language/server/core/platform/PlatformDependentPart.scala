@@ -4,6 +4,7 @@ package org.mulesoft.language.server.core.platform
 import java.net.URI
 
 import amf.client.remote.Content
+import org.mulesoft.language.server.common.utils.SpaceDecoderBuilder
 
 import scala.concurrent.Future
 
@@ -31,7 +32,7 @@ trait PlatformDependentPart {
 
   def normalizeURL(url: String): String
 
-  def normalizePath(url: String): String = new URI(encodeURI(url)).normalize.toString
+  def normalizePath(url: String): String = new URI(SpaceDecoderBuilder.getDecoder.encodeSpace(url)).getPath
 
   def findCharInCharSequence(stream: CharSequence)(p: Char => Boolean): Option[Char] = stream.toString.find(p)
 

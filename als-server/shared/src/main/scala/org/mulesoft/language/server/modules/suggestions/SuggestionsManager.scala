@@ -30,14 +30,11 @@ class SuggestionsManager extends AbstractServerModule {
 
   val onDocumentCompletionListener: (String, Position) => Future[Seq[Suggestion]] = onDocumentCompletion
 
-  protected def getEditorManager: EditorManagerModule = {
-
+  protected def getEditorManager: EditorManagerModule =
     this.getDependencyById(EditorManagerModule.moduleId).get
-  }
 
-  protected def getHLASTManager: HlAstManager = {
+  protected def getHLASTManager: HlAstManager =
     getDependencyById(HlAstManager.moduleId).get
-  }
 
   override def launch(): Future[Unit] =
     super

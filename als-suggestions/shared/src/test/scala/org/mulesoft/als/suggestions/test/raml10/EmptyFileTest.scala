@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.test.raml10
 
-class EmtyFileTest extends RAML10Test {
+class EmptyFileTest extends RAML10Test {
 
     test("Empty YAML file completion"){
         this.runTest("empty/test001.raml", Set("#%RAML 1.0", "#%RAML 0.8", "swagger: '2.0'"))

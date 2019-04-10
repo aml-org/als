@@ -10,9 +10,8 @@ import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
 
 abstract class AlsPlatform(val defaultEnvironment: Environment = Environment()) extends Platform {
-  override def resolve(url: String, env: Environment = defaultEnvironment): Future[Content] = {
+  override def resolve(url: String, env: Environment = defaultEnvironment): Future[Content] =
     super.resolve(url, env)
-  }
 
   def withOverride(url: String, content: String): AlsPlatform = {
     val resolvedPath = resolvePath(url)
@@ -39,14 +38,12 @@ abstract class AlsPlatform(val defaultEnvironment: Environment = Environment()) 
 
     override protected def refinePath(path: String): String = {
       var p = path
-      if (p.startsWith("file://")) {
+      if (p.startsWith("file://"))
         if (operativeSystem().toLowerCase().startsWith("win")
-            && p.startsWith("file:///")) {
+            && p.startsWith("file:///"))
           p = p.substring("file:///".length)
-        } else {
+        else
           p = p.substring("file://".length)
-        }
-      }
       p
     }
   }
@@ -54,7 +51,7 @@ abstract class AlsPlatform(val defaultEnvironment: Environment = Environment()) 
   def directoryResolver: DirectoryResolver = resolver
 
   def resolvePath(absBasePath: String, path: String): Option[String] =
-    Option(decodeURI(Context(this, absBasePath).resolve(normalizePath(path))))
+    Option(decodeURI(Context(this, normalizePath(absBasePath)).resolve(normalizePath(path))))
 }
 
 object AlsPlatform {

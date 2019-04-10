@@ -71,11 +71,10 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
             .attribute("name")
             .flatMap(_.value)
             .map(name => {
-              if (x.namespace.isDefined) {
+              if (x.namespace.isDefined)
                 s"${x.namespace}.$name"
-              } else {
+              else
                 name.toString
-              }
             })
           nameOpt.isDefined && !usedTemplateNames.contains(nameOpt.get)
         })
@@ -128,7 +127,7 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
     if (openSquaresCount < 2)
       return None
 
-    if (line.last == "{")
+    if (line.last == '{')
       line = line + " "
 
     val rightExps = line.split("\\{")
@@ -148,13 +147,13 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
 
       def isEntry(entry: YMapEntry, propName: String): Boolean = {
         if (entry.key.value.toString == propName) true
-        else
+        else if (entry.value.value.isInstanceOf[YMap])
           entry.value.value.asInstanceOf[YMap].entries.head match {
             case h if h.key.value.toString == propName =>
               openBracket = true
               true
             case _ => false
-          }
+          } else false
       }
       val pm = node.astUnit.positionsMapper
       Option(owner).flatMap(pNode => {
@@ -193,9 +192,8 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
                   .find(YRange(_, Some(pm)).containsPosition(request.position))
                   .foreach(x => {
                     wrappedInMap = x.value.value.isInstanceOf[YMap]
-                    if (wrappedInMap) {
+                    if (wrappedInMap)
                       wrappedFlow = isFlow(x.value.value, pm)
-                    }
                   })
                 Some(RefYamlKind.map(fl || openBracket, wrappedInMap, wrappedFlow, off))
               case _ => None

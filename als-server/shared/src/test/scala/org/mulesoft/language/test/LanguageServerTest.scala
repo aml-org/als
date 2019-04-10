@@ -135,8 +135,6 @@ trait LanguageServerTest extends AsyncFunSuite with PlatformSecrets {
       })
       .map(x => x.asInstanceOf[DocumentSymbol])
   }
-  def filePath(path: String): String = {
-    var rootDir = System.getProperty("user.dir")
+  def filePath(path: String): String =
     s"file://als-server/shared/src/test/resources/$rootPath/$path".replace('\\', '/').replace("null/", "")
-  }
 }
