@@ -1,5 +1,6 @@
 package org.mulesoft.language.server.modules.validationManager
 
+import amf.ProfileName
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.services.RuntimeValidator
@@ -111,7 +112,7 @@ class ValidationManager extends AbstractServerModule {
     val customProfileLoaded = if (config.customProfile.isDefined) {
       RuntimeValidator.loadValidationProfile(config.customProfile.get)
     } else {
-      Future.successful(config.profile)
+      Future.successful(ProfileName(baseUnit.sourceVendor.map(_.name).getOrElse(language)))
     }
 
     customProfileLoaded.flatMap(profile => RuntimeValidator(baseUnit, profile))
