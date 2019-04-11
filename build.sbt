@@ -43,7 +43,8 @@ val settings = Common.settings ++ Common.publish ++ Seq(
     "org.scala-js" %% "scalajs-stubs" % scalaJSVersion % "provided",
     
     "org.scalatest" %%% "scalatest" % "3.0.5" % Test,
-    "org.scalamock" %%% "scalamock" % "4.1.0" % Test
+    "org.scalamock" %%% "scalamock" % "4.1.0" % Test,
+    "com.lihaoyi" %%% "upickle" % "0.5.1" % Test
   )
 )
 
