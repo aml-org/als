@@ -1,5 +1,6 @@
 package org.mulesoft.language.server.js
 
+import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
 import org.mulesoft.language.client.js.MSLSPHttpFetcher
 
 import scalajs.js
@@ -9,7 +10,6 @@ import concurrent.ExecutionContext.Implicits.global
 import org.mulesoft.language.server.core
 import org.mulesoft.language.server.modules.astManager.ASTManager
 import org.mulesoft.language.server.modules.editorManager.EditorManager
-import org.mulesoft.language.server.modules.validationManager.ValidationManager
 
 @JSImport("vscode-languageserver", "TextDocuments")
 class JSTextDocuments extends js.Object {
@@ -171,7 +171,7 @@ class MSLSPServerProcess extends js.Object {
 
     var editorManager     = new EditorManager();
     var astManager        = new ASTManager();
-    var validationManager = new ValidationManager();
+    var validationManager = new DiagnosticManager();
 
     server.registerModule(editorManager);
     server.registerModule(astManager);
