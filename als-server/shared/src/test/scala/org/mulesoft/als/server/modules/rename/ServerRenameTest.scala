@@ -13,15 +13,17 @@ import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.rename.{RenameParams, RenameRequestType}
 import org.scalatest.Assertion
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 abstract class ServerRenameTest extends LanguageServerBaseTest {
+
+  override implicit val executionContext = ExecutionContext.Implicits.global
 
   override def addModules(documentManager: TextDocumentManager,
                           serverPlatform: ServerPlatform,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val astManager = new AstManager(documentManager, serverPlatform, logger)
+    val astManager   = new AstManager(documentManager, serverPlatform, logger)
     val hlAstManager = new HlAstManager(documentManager, astManager, serverPlatform, logger)
     val renameModule = new RenameModule(hlAstManager, serverPlatform, logger)
 
@@ -32,18 +34,17 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
   }
 
   def runTest(path: String, newName: String): Future[Assertion] = withServer[Assertion] { server =>
-
-    val resultPath = path.replace(".", "-renamed.")
-    val resolved = filePath(path)
-    val resolvedResultPath = filePath(resultPath)
+    val resultPath                     = path.replace(".", "-renamed.")
+    val resolved                       = filePath(path)
+    val resolvedResultPath             = filePath(resultPath)
     var renamedContent: Option[String] = None
-    var content: Option[String] = None
+    var content: Option[String]        = None
 
     Future
       .sequence(List(platform.resolve(resolved), platform.resolve(resolvedResultPath)))
       .flatMap(contents => {
 
-        val fileContentsStr = contents.head.stream.toString
+        val fileContentsStr        = contents.head.stream.toString
         val renamedFileContentsStr = contents.last.stream.toString
         renamedContent = Option(renamedFileContentsStr.trim)
         val markerInfo = this.findMarker(fileContentsStr)
@@ -58,9 +59,7 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
           .map(workspaceEdit => {
             closeFile(server)(filePath)
 
-            val edits = workspaceEdit.changes
-              .flatMap { case (_, textEdits) => textEdits }
-              .toList
+            val edits = workspaceEdit.changes.flatMap { case (_, textEdits) => textEdits }.toList
 
             var newText = content.get
             edits
@@ -68,8 +67,7 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
               .foreach(edit =>
                 newText = newText.substring(0, toPosition(edit.range.start).offset(newText)) +
                   edit.newText +
-                  newText.substring(toPosition(edit.range.end).offset(newText))
-              )
+                  newText.substring(toPosition(edit.range.end).offset(newText)))
             val result = renamedContent.contains(newText.trim)
 
             if (result) succeed
@@ -95,4 +93,3 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
 
   class MarkerInfo(val content: String, val position: Position, val rawContent: String)
 }
-

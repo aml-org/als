@@ -1,6 +1,10 @@
 package org.mulesoft.als.server.modules.completion.raml
 
+import scala.concurrent.ExecutionContext
+
 class IncludeTests extends RAMLSuggestionTestServer {
+
+  override implicit val executionContext = ExecutionContext.Implicits.global
 
   ignore("test01") {
     runTest("includes/testGroup01/test01.raml", Set("testFragment.raml", "testFragment2.raml"))

@@ -1,6 +1,10 @@
 package org.mulesoft.als.server.modules.completion.raml
 
+import scala.concurrent.ExecutionContext
+
 class StructureTests extends RAMLSuggestionTestServer {
+
+  override implicit val executionContext = ExecutionContext.Implicits.global
 
   test("test 01") {
     runTest("structure/test01.raml", Set("responses:\n      "))
