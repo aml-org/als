@@ -189,7 +189,7 @@ setSonarProperties := {
     "sonar.projectVersion" -> "1.0.0",
     "sonar.sourceEncoding" -> "UTF-8",
     "sonar.github.repository" -> "mulesoft/als",
-    "sonar.modules" -> "als-fat",
+    "sonar.modules" -> "als-hl,als-server",
     "als-server.sonar.sources" -> "shared/src/main/scala",
     "als-server.sonar.scoverage.reportPath" -> "jvm/target/scala-2.12/scoverage-report/scoverage.xml",
     "als-hl.sonar.sources" -> "shared/src/main/scala",
