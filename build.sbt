@@ -33,10 +33,7 @@ val settings = Common.settings ++ Common.publish ++ Seq(
   credentials ++= Common.credentials(),
 
   libraryDependencies ++= Seq(
-    "com.github.amlorg" %%% "amf-webapi" % deps("amf"),
-    "com.github.amlorg" %%% "amf-core" % deps("amf"),
     "com.github.amlorg" %%% "amf-client" % deps("amf"),
-    "com.github.amlorg" %%% "amf-aml" % deps("amf"),
     "org.mule.common" %%% "scala-common" % deps("common"),
     "org.mule.syaml" %%% "syaml" % deps("syaml"),
     "com.chuusai" %% "shapeless" % "2.3.3",
@@ -192,7 +189,7 @@ setSonarProperties := {
     "sonar.projectVersion" -> "1.0.0",
     "sonar.sourceEncoding" -> "UTF-8",
     "sonar.github.repository" -> "mulesoft/als",
-    "sonar.modules" -> "als-hl,als-server",
+    "sonar.modules" -> "als-fat",
     "als-server.sonar.sources" -> "shared/src/main/scala",
     "als-server.sonar.scoverage.reportPath" -> "jvm/target/scala-2.12/scoverage-report/scoverage.xml",
     "als-hl.sonar.sources" -> "shared/src/main/scala",
