@@ -8,7 +8,12 @@ import org.mulesoft.lsp.configuration.{ClientCapabilities, InitializeParams, Tra
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.scalatest.{Matchers, _}
 
+import scala.concurrent.ExecutionContext
+
 class LanguageServerImplTest extends AsyncFlatSpec with Matchers with PlatformSecrets with OptionValues {
+
+  override implicit val executionContext = ExecutionContext.Implicits.global
+
   behavior of "LanguageServerImpl"
   it should "open file" in {
     val documentManager = new TextDocumentManager(EmptyLogger, platform)
@@ -17,13 +22,15 @@ class LanguageServerImplTest extends AsyncFlatSpec with Matchers with PlatformSe
       .withTextDocumentSyncConsumer(documentManager)
       .build()
 
-    server.initialize(InitializeParams(ClientCapabilities(), TraceKind.Off))
+    server
+      .initialize(InitializeParams(ClientCapabilities(), TraceKind.Off))
       .map(_ => {
         server.initialized()
 
-        server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
-          TextDocumentItem("file://api.raml", "raml", 0, "#%RAML 1.0")
-        ))
+        server.textDocumentSyncConsumer.didOpen(
+          DidOpenTextDocumentParams(
+            TextDocumentItem("file://api.raml", "raml", 0, "#%RAML 1.0")
+          ))
 
         val document = documentManager.getTextDocument("file://api.raml").value
 

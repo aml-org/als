@@ -8,17 +8,20 @@ import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
 
+import scala.concurrent.ExecutionContext
+
 class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
-  override def rootPath: String = ""
+  override implicit val executionContext = ExecutionContext.Implicits.global
+  override def rootPath: String          = ""
 
   override def addModules(documentManager: TextDocumentManager,
                           serverPlatform: ServerPlatform,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val astManager = new AstManager(documentManager, serverPlatform, logger)
+    val astManager   = new AstManager(documentManager, serverPlatform, logger)
     val hlAstManager = new HlAstManager(documentManager, astManager, serverPlatform, logger)
-    val module = new StructureManager(documentManager, hlAstManager, serverPlatform, logger)
+    val module       = new StructureManager(documentManager, hlAstManager, serverPlatform, logger)
 
     builder
       .addInitializable(astManager)
@@ -40,10 +43,10 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
       handler(DocumentSymbolParams(TextDocumentIdentifier(url)))
         .collect { case Right(symbols) => symbols }
-        .map(symbols => symbols
-          .collectFirst { case o if o.name == "MyType" => succeed }
-          .getOrElse(fail("Invalid outline"))
-        )
+        .map(symbols =>
+          symbols
+            .collectFirst { case o if o.name == "MyType" => succeed }
+            .getOrElse(fail("Invalid outline")))
     }
   }
 
@@ -63,10 +66,10 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
       handler(DocumentSymbolParams(TextDocumentIdentifier(url)))
         .collect { case Right(symbols) => symbols }
-        .map(symbols => symbols
-          .collectFirst { case o if o.name == "MyType" => fail("Should fail") }
-          .getOrElse(succeed)
-        )
+        .map(symbols =>
+          symbols
+            .collectFirst { case o if o.name == "MyType" => fail("Should fail") }
+            .getOrElse(succeed))
     }
   }
 }

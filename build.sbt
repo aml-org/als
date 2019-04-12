@@ -249,13 +249,13 @@ assemblyMergeStrategy in assembly := {
 
 //******* fat jar*****************************
 
-lazy val core = crossProject(JSPlatform, JVMPlatform).settings(
+lazy val fat = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
     name := "api-language-server"
   )
 )
-  .dependsOn(suggestions, structure, hl, server)
-  .in(file(".")).settings(settings: _*).jvmSettings(
+  .dependsOn(suggestions, structure , hl , server)
+  .in(file("./als-fat")).settings(settings: _*).jvmSettings(
   libraryDependencies += "com.github.amlorg" %%% "amf-aml" % deps("amf"),
   //	packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
   //        aggregate in assembly := true,
@@ -279,4 +279,4 @@ lazy val core = crossProject(JSPlatform, JVMPlatform).settings(
   artifactPath in(Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" / "serverProcess.js"
 )
 
-lazy val coreJVM = core.jvm.in(file("./"))
+lazy val coreJVM = fat.jvm.in(file("./als-fat/jvm"))
