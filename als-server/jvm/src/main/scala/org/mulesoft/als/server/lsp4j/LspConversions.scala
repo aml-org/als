@@ -2,7 +2,14 @@ package org.mulesoft.als.server.lsp4j
 
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
-import org.mulesoft.lsp.common.{Position, Range, TextDocumentIdentifier, TextDocumentItem, TextDocumentPositionParams, VersionedTextDocumentIdentifier}
+import org.mulesoft.lsp.common.{
+  Position,
+  Range,
+  TextDocumentIdentifier,
+  TextDocumentItem,
+  TextDocumentPositionParams,
+  VersionedTextDocumentIdentifier
+}
 import org.mulesoft.lsp.configuration.TraceKind.TraceKind
 import org.mulesoft.lsp.configuration.{TraceKind, _}
 import org.mulesoft.lsp.feature.completion.CompletionItemKind.CompletionItemKind
@@ -11,7 +18,12 @@ import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticClientCapabilities
 import org.mulesoft.lsp.feature.documentsymbol.SymbolKind.SymbolKind
-import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolClientCapabilities, DocumentSymbolParams, SymbolKind, SymbolKindClientCapabilities}
+import org.mulesoft.lsp.feature.documentsymbol.{
+  DocumentSymbolClientCapabilities,
+  DocumentSymbolParams,
+  SymbolKind,
+  SymbolKindClientCapabilities
+}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
@@ -27,7 +39,8 @@ object LspConversions {
 
   def booleanOrFalse(value: java.lang.Boolean): Boolean = !(value == null) && value
 
-  implicit def synchronizationClientCapabilities(capabilities: lsp4j.SynchronizationCapabilities): SynchronizationClientCapabilities =
+  implicit def synchronizationClientCapabilities(
+      capabilities: lsp4j.SynchronizationCapabilities): SynchronizationClientCapabilities =
     SynchronizationClientCapabilities(
       Option(capabilities.getDynamicRegistration),
       Option(capabilities.getWillSave),
@@ -35,25 +48,27 @@ object LspConversions {
       Option(capabilities.getDidSave)
     )
 
-  implicit def diagnosticClientCapabilities(capabilities: lsp4j.PublishDiagnosticsCapabilities): DiagnosticClientCapabilities =
+  implicit def diagnosticClientCapabilities(
+      capabilities: lsp4j.PublishDiagnosticsCapabilities): DiagnosticClientCapabilities =
     DiagnosticClientCapabilities(Option(capabilities.getRelatedInformation))
 
   implicit def completionItemKind(kind: lsp4j.CompletionItemKind): CompletionItemKind =
     CompletionItemKind(kind.getValue)
 
-  implicit def completionItemKindClientCapabilities(capabilities: lsp4j.CompletionItemKindCapabilities): CompletionItemKindClientCapabilities =
+  implicit def completionItemKindClientCapabilities(
+      capabilities: lsp4j.CompletionItemKindCapabilities): CompletionItemKindClientCapabilities =
     CompletionItemKindClientCapabilities(
       Option(capabilities.getValueSet).map(_.asScala.map(completionItemKind).toSet).getOrElse(Set())
     )
 
-  implicit def completionItemClientCapabilities(capabilities: lsp4j.CompletionItemCapabilities): CompletionItemClientCapabilities =
+  implicit def completionItemClientCapabilities(
+      capabilities: lsp4j.CompletionItemCapabilities): CompletionItemClientCapabilities =
     CompletionItemClientCapabilities(
       Option(capabilities.getSnippetSupport),
       Option(capabilities.getCommitCharactersSupport),
       Option(capabilities.getDeprecatedSupport),
       Option(capabilities.getPreselectSupport)
     )
-
 
   implicit def completionClientCapabilities(capabilities: lsp4j.CompletionCapabilities): CompletionClientCapabilities =
     CompletionClientCapabilities(
@@ -70,9 +85,11 @@ object LspConversions {
     SymbolKind(capabilities.getValue)
 
   implicit def symbolKindClientCapabilities(capabilities: lsp4j.SymbolKindCapabilities): SymbolKindClientCapabilities =
-    SymbolKindClientCapabilities(Option(capabilities.getValueSet).map(_.asScala.map(symbolKind).toSet).getOrElse(Set()))
+    SymbolKindClientCapabilities(
+      Option(capabilities.getValueSet).map(_.asScala.map(symbolKind).toSet).getOrElse(Set()))
 
-  implicit def documentSymbolClientCapabilities(capabilities: lsp4j.DocumentSymbolCapabilities): DocumentSymbolClientCapabilities =
+  implicit def documentSymbolClientCapabilities(
+      capabilities: lsp4j.DocumentSymbolCapabilities): DocumentSymbolClientCapabilities =
     DocumentSymbolClientCapabilities(
       Option(capabilities.getDynamicRegistration),
       Option(capabilities.getSymbolKind).map(symbolKindClientCapabilities),
@@ -88,8 +105,8 @@ object LspConversions {
       Option(capabilities.getPrepareSupport)
     )
 
-
-  implicit def textDocumentClientCapabilities(capabilities: lsp4j.TextDocumentClientCapabilities): TextDocumentClientCapabilities =
+  implicit def textDocumentClientCapabilities(
+      capabilities: lsp4j.TextDocumentClientCapabilities): TextDocumentClientCapabilities =
     TextDocumentClientCapabilities(
       Option(capabilities.getSynchronization),
       Option(capabilities.getPublishDiagnostics),
@@ -100,7 +117,8 @@ object LspConversions {
       Option(capabilities.getRename)
     )
 
-  implicit def workspaceClientCapabilities(capabilities: lsp4j.WorkspaceClientCapabilities): WorkspaceClientCapabilities =
+  implicit def workspaceClientCapabilities(
+      capabilities: lsp4j.WorkspaceClientCapabilities): WorkspaceClientCapabilities =
     WorkspaceClientCapabilities()
 
   implicit def clientCapabilities(capabilities: lsp4j.ClientCapabilities): ClientCapabilities =
@@ -116,8 +134,8 @@ object LspConversions {
 
   implicit def initializeParams(params: lsp4j.InitializeParams): InitializeParams =
     InitializeParams(
-      params.getCapabilities,
-      params.getTrace,
+      Option(params.getCapabilities).map(clientCapabilities),
+      Option(params.getTrace).map(traceKind),
       Option(params.getRootUri),
       Option(params.getProcessId),
       Option(params.getWorkspaceFolders).map(_.asScala.map(workspaceFolder)),
@@ -126,9 +144,9 @@ object LspConversions {
     )
 
   implicit def textDocumentSyncKind(kind: lsp4j.TextDocumentSyncKind): TextDocumentSyncKind = kind match {
-    case lsp4j.TextDocumentSyncKind.Full => TextDocumentSyncKind.Full
+    case lsp4j.TextDocumentSyncKind.Full        => TextDocumentSyncKind.Full
     case lsp4j.TextDocumentSyncKind.Incremental => TextDocumentSyncKind.Incremental
-    case lsp4j.TextDocumentSyncKind.None => TextDocumentSyncKind.None
+    case lsp4j.TextDocumentSyncKind.None        => TextDocumentSyncKind.None
   }
 
   implicit def saveOptions(options: lsp4j.SaveOptions): SaveOptions =
@@ -153,9 +171,8 @@ object LspConversions {
   implicit def completionOptions(options: lsp4j.CompletionOptions): CompletionOptions =
     CompletionOptions(
       Option(options.getResolveProvider),
-      Option(options.getTriggerCharacters).map(_.asScala.map(_ (0)).toSet)
+      Option(options.getTriggerCharacters).map(_.asScala.map(_(0)).toSet)
     )
-
 
   implicit def serverCapabilities(result: lsp4j.ServerCapabilities): ServerCapabilities =
     ServerCapabilities(
@@ -181,10 +198,12 @@ object LspConversions {
 
   implicit def range(range: lsp4j.Range): Range = Range(range.getStart, range.getEnd)
 
-  implicit def textDocumentContentChangeEvent(event: lsp4j.TextDocumentContentChangeEvent): TextDocumentContentChangeEvent =
+  implicit def textDocumentContentChangeEvent(
+      event: lsp4j.TextDocumentContentChangeEvent): TextDocumentContentChangeEvent =
     TextDocumentContentChangeEvent(event.getText, Option(event.getRange).map(range), Option(event.getRangeLength))
 
-  implicit def versionedTextDocumentIdentifier(identifier: lsp4j.VersionedTextDocumentIdentifier): VersionedTextDocumentIdentifier =
+  implicit def versionedTextDocumentIdentifier(
+      identifier: lsp4j.VersionedTextDocumentIdentifier): VersionedTextDocumentIdentifier =
     VersionedTextDocumentIdentifier(identifier.getUri, Option(identifier.getVersion))
 
   implicit def didOpenTextDocumentParams(params: lsp4j.DidOpenTextDocumentParams): DidOpenTextDocumentParams =
@@ -194,7 +213,8 @@ object LspConversions {
     DidCloseTextDocumentParams(params.getTextDocument)
 
   implicit def didChangeTextDocumentParams(params: lsp4j.DidChangeTextDocumentParams): DidChangeTextDocumentParams =
-    DidChangeTextDocumentParams(params.getTextDocument, params.getContentChanges.asScala.map(textDocumentContentChangeEvent))
+    DidChangeTextDocumentParams(params.getTextDocument,
+                                params.getContentChanges.asScala.map(textDocumentContentChangeEvent))
 
   implicit def referenceContext(context: lsp4j.ReferenceContext): ReferenceContext =
     ReferenceContext(context.isIncludeDeclaration)
@@ -203,7 +223,7 @@ object LspConversions {
     CompletionTriggerKind(kind.getValue)
 
   implicit def completionContext(context: lsp4j.CompletionContext): CompletionContext =
-    CompletionContext(context.getTriggerKind, Option(context.getTriggerCharacter).map(_ (0)))
+    CompletionContext(context.getTriggerKind, Option(context.getTriggerCharacter).map(_(0)))
 
   implicit def referenceParams(params: lsp4j.ReferenceParams): ReferenceParams =
     ReferenceParams(params.getTextDocument, params.getPosition, params.getContext)
@@ -219,6 +239,5 @@ object LspConversions {
 
   implicit def documentSymbolParams(params: lsp4j.DocumentSymbolParams): DocumentSymbolParams =
     DocumentSymbolParams(params.getTextDocument)
-
 
 }
