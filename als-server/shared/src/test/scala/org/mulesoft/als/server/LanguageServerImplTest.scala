@@ -23,7 +23,7 @@ class LanguageServerImplTest extends AsyncFlatSpec with Matchers with PlatformSe
       .build()
 
     server
-      .initialize(InitializeParams(ClientCapabilities(), TraceKind.Off))
+      .initialize(InitializeParams.default)
       .map(_ => {
         server.initialized()
 
