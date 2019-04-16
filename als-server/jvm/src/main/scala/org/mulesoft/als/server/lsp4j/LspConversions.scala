@@ -108,13 +108,13 @@ object LspConversions {
   implicit def textDocumentClientCapabilities(
       capabilities: lsp4j.TextDocumentClientCapabilities): TextDocumentClientCapabilities =
     TextDocumentClientCapabilities(
-      Option(capabilities.getSynchronization),
-      Option(capabilities.getPublishDiagnostics),
-      Option(capabilities.getCompletion),
-      Option(capabilities.getReferences),
-      Option(capabilities.getDocumentSymbol),
-      Option(capabilities.getDefinition),
-      Option(capabilities.getRename)
+      Option(capabilities.getSynchronization).map(synchronizationClientCapabilities),
+      Option(capabilities.getPublishDiagnostics).map(diagnosticClientCapabilities),
+      Option(capabilities.getCompletion).map(completionClientCapabilities),
+      Option(capabilities.getReferences).map(referenceClientCapabilities),
+      Option(capabilities.getDocumentSymbol).map(documentSymbolClientCapabilities),
+      Option(capabilities.getDefinition).map(definitionClientCapabilities),
+      Option(capabilities.getRename).map(renameClientCapabilities)
     )
 
   implicit def workspaceClientCapabilities(
@@ -123,8 +123,8 @@ object LspConversions {
 
   implicit def clientCapabilities(capabilities: lsp4j.ClientCapabilities): ClientCapabilities =
     ClientCapabilities(
-      Option(capabilities.getWorkspace),
-      Option(capabilities.getTextDocument)
+      Option(capabilities.getWorkspace).map(workspaceClientCapabilities),
+      Option(capabilities.getTextDocument).map(textDocumentClientCapabilities)
     )
 
   implicit def traceKind(kind: String): TraceKind = TraceKind.withName(kind)
@@ -157,10 +157,10 @@ object LspConversions {
   implicit def textDocumentSyncOptions(options: lsp4j.TextDocumentSyncOptions): TextDocumentSyncOptions =
     TextDocumentSyncOptions(
       Option(options.getOpenClose),
-      Option(options.getChange),
+      Option(options.getChange).map(textDocumentSyncKind),
       Option(options.getWillSave),
       Option(options.getWillSaveWaitUntil),
-      Option(options.getSave)
+      Option(options.getSave).map(saveOptions)
     )
 
   implicit def renameOptions(options: lsp4j.RenameOptions): RenameOptions =
@@ -181,7 +181,7 @@ object LspConversions {
     else
       ServerCapabilities(
         Option(result.getTextDocumentSync).map(either(_, textDocumentSyncKind, textDocumentSyncOptions)),
-        Option(result.getCompletionProvider),
+        Option(result.getCompletionProvider).map(completionOptions),
         booleanOrFalse(result.getDefinitionProvider),
         booleanOrFalse(result.getReferencesProvider),
         booleanOrFalse(result.getDocumentSymbolProvider),
