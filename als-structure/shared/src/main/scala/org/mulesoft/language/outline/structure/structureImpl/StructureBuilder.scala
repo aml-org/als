@@ -25,8 +25,9 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
       .toList ++ childDocumentSymbol(root)
 
   def fullRange(ranges: Seq[PositionRange]): PositionRange = {
-    val sorted = ranges.sortWith((a, b) => a.start < b.start)
-    PositionRange(sorted.head.start, sorted.last.end)
+    val sortedStart = ranges.sortWith((a, b) => a.start < b.start)
+    val sortedEnd   = ranges.sortWith((a, b) => a.end < b.end)
+    PositionRange(sortedStart.head.start, sortedEnd.last.end)
   }
 
   private def documentSymbol(hlNode: IParseResult): DocumentSymbol = {
@@ -122,30 +123,32 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
   }
 
   private def positionRange(node: IParseResult): (PositionRange, PositionRange) = {
-    node.sourceInfo.yamlSources.headOption.map(_.range) match {
-      case Some(syamlRange) =>
-        val keyRange = (node.amfNode match {
-          case n: NamedDomainElement =>
-            n.name
-              .annotations()
-              .find(classOf[LexicalInformation])
-              .map(_.range)
-              .map(PositionRange(_))
-          case _ => None
-        }).orElse {
-          node.amfNode.annotations
-            .find(classOf[SourceAST])
-            .map(_.ast)
-            .flatMap {
-              case entry: YMapEntry =>
-                Some(PositionRange(entry.key.range))
-              case _ => None
-            }
-        }
-        val finalNodeRange = PositionRange(syamlRange)
-        (finalNodeRange, keyRange.getOrElse(finalNodeRange))
-      case _ => (EmptyPositionRange, EmptyPositionRange)
+    val valRange = node.amfNode.annotations
+      .find(classOf[SourceAST]) match {
+      case Some(sAST: SourceAST) => Option(PositionRange(sAST.ast.range))
+      case _                     => None
     }
+    val keyRange = (node.amfNode match {
+      case n: NamedDomainElement =>
+        n.name
+          .annotations()
+          .find(classOf[LexicalInformation])
+          .map(_.range)
+          .map(PositionRange(_))
+      case _ => None
+    }).orElse {
+        node.amfNode.annotations
+          .find(classOf[SourceAST])
+          .map(_.ast)
+          .flatMap {
+            case entry: YMapEntry =>
+              Some(PositionRange(entry.key.range))
+            case _ => None
+          }
+      }
+      .orElse(valRange)
+    (fullRange(Seq(valRange.getOrElse(EmptyPositionRange), keyRange.getOrElse(EmptyPositionRange))),
+     keyRange.getOrElse(EmptyPositionRange))
   }
 }
 
