@@ -133,15 +133,17 @@ object LspConversions {
     WorkspaceFolder(Option(folder.getUri), Option(folder.getName))
 
   implicit def initializeParams(params: lsp4j.InitializeParams): InitializeParams =
-    InitializeParams(
-      Option(params.getCapabilities).map(clientCapabilities),
-      Option(params.getTrace).map(traceKind),
-      Option(params.getRootUri),
-      Option(params.getProcessId),
-      Option(params.getWorkspaceFolders).map(_.asScala.map(workspaceFolder)),
-      Option(params.getRootPath),
-      Option(params.getInitializationOptions)
-    )
+    Option(params).map { p =>
+      InitializeParams(
+        Option(p.getCapabilities).map(clientCapabilities),
+        Option(p.getTrace).map(traceKind),
+        Option(p.getRootUri),
+        Option(p.getProcessId),
+        Option(p.getWorkspaceFolders).map(_.asScala.map(workspaceFolder)),
+        Option(p.getRootPath),
+        Option(p.getInitializationOptions)
+      )
+    } getOrElse InitializeParams.default
 
   implicit def textDocumentSyncKind(kind: lsp4j.TextDocumentSyncKind): TextDocumentSyncKind = kind match {
     case lsp4j.TextDocumentSyncKind.Full        => TextDocumentSyncKind.Full
@@ -175,18 +177,20 @@ object LspConversions {
     )
 
   implicit def serverCapabilities(result: lsp4j.ServerCapabilities): ServerCapabilities =
-    ServerCapabilities(
-      Option(result.getTextDocumentSync).map(either(_, textDocumentSyncKind, textDocumentSyncOptions)),
-      Option(result.getCompletionProvider),
-      booleanOrFalse(result.getDefinitionProvider),
-      booleanOrFalse(result.getReferencesProvider),
-      booleanOrFalse(result.getDocumentSymbolProvider),
-      Option(result.getRenameProvider).flatMap(eitherRenameOptions),
-      Option(result.getExperimental)
-    )
+    if (result == null) ServerCapabilities.empty
+    else
+      ServerCapabilities(
+        Option(result.getTextDocumentSync).map(either(_, textDocumentSyncKind, textDocumentSyncOptions)),
+        Option(result.getCompletionProvider),
+        booleanOrFalse(result.getDefinitionProvider),
+        booleanOrFalse(result.getReferencesProvider),
+        booleanOrFalse(result.getDocumentSymbolProvider),
+        Option(result.getRenameProvider).flatMap(eitherRenameOptions),
+        Option(result.getExperimental)
+      )
 
   implicit def initializeResult(result: lsp4j.InitializeResult): InitializeResult =
-    InitializeResult(result.getCapabilities)
+    Option(result).map(r => InitializeResult(serverCapabilities(r.getCapabilities))).getOrElse(InitializeResult.empty)
 
   implicit def textDocumentIdentifier(identifier: lsp4j.TextDocumentIdentifier): TextDocumentIdentifier =
     TextDocumentIdentifier(identifier.getUri)
