@@ -28,4 +28,20 @@ class Lsp4jLanguageServerImplTest extends AsyncFlatSpec with PlatformSecrets {
     server.initialize(new InitializeParams()).toScala.map(_ => succeed)
   }
 
+  behavior of "Lsp4j LanguageServerImpl with null params"
+  it should "initialize should not fail" in {
+
+    val myString = "#%RAML 1.0\ntitle:test"
+    val in       = new ByteArrayInputStream(myString.getBytes())
+    val baos     = new ByteArrayOutputStream()
+    val out      = new ObjectOutputStream(baos)
+
+    val logger: Logger   = EmptyLogger
+    val clientConnection = ClientConnection(logger)
+
+    val server = new LanguageServerImpl(LanguageServerFactory.alsLanguageServer(clientConnection, logger))
+
+    server.initialize(null).toScala.map(_ => succeed)
+  }
+
 }

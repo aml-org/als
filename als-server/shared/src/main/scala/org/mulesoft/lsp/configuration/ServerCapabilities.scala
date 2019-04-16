@@ -18,7 +18,6 @@ import org.mulesoft.lsp.textsync.TextDocumentSyncOptions
   *                               `prepareSupport` in its initial `initialize` request.
   * @param experimental           Experimental server capabilities.
   */
-
 case class ServerCapabilities(textDocumentSync: Option[Either[TextDocumentSyncKind, TextDocumentSyncOptions]] = None,
                               completionProvider: Option[CompletionOptions] = None,
                               definitionProvider: Boolean = false,
@@ -26,3 +25,7 @@ case class ServerCapabilities(textDocumentSync: Option[Either[TextDocumentSyncKi
                               documentSymbolProvider: Boolean = false,
                               renameProvider: Option[RenameOptions] = None,
                               experimental: Option[AnyRef] = None)
+
+object ServerCapabilities {
+  def empty = ServerCapabilities()
+}
