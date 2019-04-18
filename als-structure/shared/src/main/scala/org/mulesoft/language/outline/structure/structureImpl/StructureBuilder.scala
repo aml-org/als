@@ -9,24 +9,30 @@ import amf.plugins.domain.shapes.models.ScalarShape
 import amf.plugins.domain.webapi.metamodel.templates.ResourceTypeModel
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
 import common.dtoTypes.{EmptyPositionRange, Position, PositionRange}
-import org.mulesoft.high.level.interfaces.IParseResult
+import org.mulesoft.high.level.interfaces.{IHighLevelNode, IParseResult}
 import org.mulesoft.language.outline.common.commonInterfaces.{CategoryFilter, LabelProvider, VisibilityFilter}
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureConfiguration
 import org.yaml.model.YMapEntry
 
 import scala.collection.{GenTraversableOnce, mutable}
+
 class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibilityFilter: VisibilityFilter) {
 
-  def listSymbols(categoryFilter: List[CategoryFilter]): List[DocumentSymbol] =
-    root.children
+  def listSymbols(categoryFilter: List[CategoryFilter]): List[DocumentSymbol] = {
+
+    val list = root.children
       .filter(c => !c.isAttr && visibilityFilter(c) && categoryFilter.exists(_.apply(c)))
+      .filter(c => c.asInstanceOf[IHighLevelNode].attribute("title").isDefined)
+      .filter(c => c.asInstanceOf[IHighLevelNode].attribute("title").get.value.map(_.toString).isDefined)
       .map(documentSymbol)
       .toList ++ childDocumentSymbol(root)
+    list
+  }
 
   def fullRange(ranges: Seq[PositionRange]): PositionRange = {
     val sortedStart = ranges.sortWith((a, b) => a.start < b.start)
-    val sortedEnd   = ranges.sortWith((a, b) => a.end < b.end)
+    val sortedEnd = ranges.sortWith((a, b) => a.end < b.end)
     PositionRange(sortedStart.head.start, sortedEnd.last.end)
   }
 
@@ -58,7 +64,7 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
           .find(classOf[HostLexicalInformation])
           .map(li =>
             PositionRange(Position(li.range.start.line - 1, li.range.start.column),
-                          Position(li.range.end.line - 1, li.range.end.column)))
+              Position(li.range.end.line - 1, li.range.end.column)))
         rangeHostLexicalInformation match {
           case Some(li) =>
             result.append(
@@ -76,7 +82,7 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
           .find(classOf[BasePathLexicalInformation])
           .map(li =>
             PositionRange(Position(li.range.start.line - 1, li.range.start.column),
-                          Position(li.range.end.line - 1, li.range.end.column)))
+              Position(li.range.end.line - 1, li.range.end.column)))
         rangeBasePathLexicalInformation match {
           case Some(li) =>
             result.append(
@@ -102,7 +108,7 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
             labelProvider.getLabelText(c) == label &&
               !c.amfNode.annotations
                 .contains(classOf[SynthesizedField])) // TODO: ALS-759 after dialect refactor, fix this
-        if (corresponding.size > 0)
+        if (corresponding.nonEmpty)
           result.append(
             DocumentSymbol(
               label,
@@ -126,7 +132,7 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
     val valRange = node.amfNode.annotations
       .find(classOf[SourceAST]) match {
       case Some(sAST: SourceAST) => Option(PositionRange(sAST.ast.range))
-      case _                     => None
+      case _ => None
     }
     val keyRange = (node.amfNode match {
       case n: NamedDomainElement =>
@@ -137,18 +143,18 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
           .map(PositionRange(_))
       case _ => None
     }).orElse {
-        node.amfNode.annotations
-          .find(classOf[SourceAST])
-          .map(_.ast)
-          .flatMap {
-            case entry: YMapEntry =>
-              Some(PositionRange(entry.key.range))
-            case _ => None
-          }
-      }
+      node.amfNode.annotations
+        .find(classOf[SourceAST])
+        .map(_.ast)
+        .flatMap {
+          case entry: YMapEntry =>
+            Some(PositionRange(entry.key.range))
+          case _ => None
+        }
+    }
       .orElse(valRange)
     (fullRange(Seq(valRange.getOrElse(EmptyPositionRange), keyRange.getOrElse(EmptyPositionRange))),
-     keyRange.getOrElse(EmptyPositionRange))
+      keyRange.getOrElse(EmptyPositionRange))
   }
 }
 
@@ -160,13 +166,13 @@ object KindForResultMatcher {
         domainElement.meta match {
           case ScalarShapeModel =>
             kindForScalar(hlNode.amfNode.asInstanceOf[ScalarShape])
-          case NodeShapeModel                    => SymbolKind.Object
-          case ArrayShapeModel                   => SymbolKind.Array
-          case FileShapeModel                    => SymbolKind.File
+          case NodeShapeModel => SymbolKind.Object
+          case ArrayShapeModel => SymbolKind.Array
+          case FileShapeModel => SymbolKind.File
           case EndPointModel | ResourceTypeModel => SymbolKind.Function
-          case OperationModel | OperationModel   => SymbolKind.Method
-          case PropertyShapeModel                => SymbolKind.Property
-          case _                                 => SymbolKind.Field
+          case OperationModel | OperationModel => SymbolKind.Method
+          case PropertyShapeModel => SymbolKind.Property
+          case _ => SymbolKind.Field
         }
       case _ => SymbolKind.Field
     }
@@ -176,11 +182,11 @@ object KindForResultMatcher {
     scalarShape.dataType.option() match {
       case Some(DataTypes.Boolean) => SymbolKind.Boolean
       case Some(
-          DataTypes.Number | DataTypes.Decimal | DataTypes.Double | DataTypes.Float | DataTypes.Long |
-          DataTypes.Integer) =>
+      DataTypes.Number | DataTypes.Decimal | DataTypes.Double | DataTypes.Float | DataTypes.Long |
+      DataTypes.Integer) =>
         SymbolKind.Boolean
       case Some(DataTypes.File) => SymbolKind.File
-      case _                    => SymbolKind.String
+      case _ => SymbolKind.String
 
     }
   }
