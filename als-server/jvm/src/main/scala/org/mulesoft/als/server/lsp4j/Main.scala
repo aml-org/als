@@ -1,24 +1,42 @@
 package org.mulesoft.als.server.lsp4j
 
-import java.net.ServerSocket
+import java.net.{ServerSocket, Socket}
 
 import org.eclipse.lsp4j.launch.LSPLauncher
 import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
 
 object Main {
-  def main(args: Array[String]): Unit = {
-//    val o = new PrintStream(new File(s"${System.getProperty("user.home")}/Downloads/log.txt"))
-//    System.setOut(o)
-//    System.setErr(o)
-    System.out.println("This will be written to the text file")
+  case class Options(port: Int, listen: Boolean)
+  val DefaultOptions = Options(4000, listen = false)
 
-    val port = if (args.length >= 1) args(0) else "4000"
+  def readOptions(args: Array[String]): Options = {
+    def innerReadOptions(options: Options, list: List[String]): Options = list match {
+        case Nil => options
+        case "--port" :: value :: tail =>
+          innerReadOptions(options.copy(port = value.toInt), tail)
+        case "--listen" :: tail =>
+          innerReadOptions(options.copy(listen = true), tail)
+
+        case _ =>
+          throw new IllegalArgumentException()
+      }
+
+    innerReadOptions(DefaultOptions, args.toList)
+  }
+
+  def createSocket(options: Options): Socket = options match {
+    case Options(port, true) =>
+      new ServerSocket(port).accept()
+    case Options(port, false) =>
+      new Socket("localhost", port)
+  }
+
+  def main(args: Array[String]): Unit = {
+    val options = readOptions(args)
+
     try {
-      val serverSocket = new ServerSocket(port.toInt)
-      do {
-        val socket = serverSocket.accept()
-        System.out.println("Incomming connection")
+      val socket = createSocket(options)
 
         val in  = socket.getInputStream
         val out = socket.getOutputStream
@@ -27,14 +45,11 @@ object Main {
         val clientConnection = ClientConnection(logger)
         val server           = new LanguageServerImpl(LanguageServerFactory.alsLanguageServer(clientConnection, logger))
 
-        val workspaceService = new WorkspaceServiceImpl()
-
         val launcher = LSPLauncher.createServerLauncher(server, in, out)
         val client   = launcher.getRemoteProxy
         clientConnection.connect(LanguageClientWrapper(client))
         launcher.startListening
         println("ALS started")
-      } while (true)
     } catch {
       case e: Exception =>
         e.printStackTrace()
