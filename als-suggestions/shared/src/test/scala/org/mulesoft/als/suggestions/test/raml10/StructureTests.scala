@@ -737,4 +737,26 @@ class StructureTests extends RAML10Test {
       Set("get:\n    ")
     )
   }
+
+  test("test for index out of bounds") {
+    this.runTest(
+      "canda-commons-api/reduced.raml",
+      Set(
+        "traits:\n  ",
+        "documentation:\n  ",
+        "baseUri: ",
+        "description: ",
+        "schemas:\n  ",
+        "annotationTypes:\n  ",
+        "uses:\n  ",
+        "resourceTypes:\n  ",
+        "protocols: ",
+        "types:\n  ",
+        "baseUriParameters:\n  ",
+        "securedBy: ",
+        "mediaType: ",
+        "securitySchemes:\n  "
+      )
+    )
+  }
 }
