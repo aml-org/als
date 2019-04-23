@@ -20,7 +20,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 object DialectUniversesProvider {
 
-  private val map: mutable.Map[String, mutable.Map[String, IDialectUniverse]] = mutable.Map()
+  private val map: mutable.Map[String, mutable.Map[String, IDialectUniverse]] =
+    mutable.Map()
 
   def getUniverse(d: Dialect): IDialectUniverse = {
 
@@ -44,20 +45,35 @@ object DialectUniversesProvider {
   def buildAndLoadDialects(initOptions: InitOptions): Future[Unit] = {
     map.clear()
     AmfInitializationHandler.init().flatMap { _ =>
-      val dialectsOpts = LoaderForDialects.rootDialects.filter(t => initOptions.contains(t._1)).map {
-        case (_, rd) =>
-          var dialectCfg = new ParserConfig(
-            Some(ParserConfig.PARSE),
-            Some(rd),
-            Some("AML 1.0"),
-            Some("application/yaml"),
-            None,
-            Some("AMF"),
-            Some("application/json+ld")
-          )
+      val rl = new ResourceLoader {
+        override def fetch(resource: String): Future[Content] =
+          Future(
+            initOptions.customDialects
+              .find(_.url == resource)
+              .map(c => Content(new CharSequenceStream(c.content), c.url, None))
+              .get)
 
-          AMLPlugin.registry.registerDialect(rd, LoaderForDialects.env)
+        override def accepts(resource: String): Boolean =
+          initOptions.customDialects.exists(_.url == resource)
       }
+      val newEnv = LoaderForDialects.env.add(rl)
+
+      val dialectsOpts =
+        (LoaderForDialects.rootDialects ++ initOptions.customDialects.map(c => c.name.profile -> c.url).toMap).map {
+          case (_, rd) =>
+            var dialectCfg = new ParserConfig(
+              Some(ParserConfig.PARSE),
+              Some(rd),
+              Some("AML 1.0"),
+              Some("application/yaml"),
+              None,
+              Some("AMF"),
+              Some("application/json+ld")
+            )
+
+            AMLPlugin.registry.registerDialect(rd, newEnv)
+        }
+
       Future.sequence(dialectsOpts).map(_.foreach(getUniverse))
     }
   }
@@ -69,9 +85,11 @@ object LoaderForDialects extends ResourceLoader with PlatformSecrets {
   // todo: use directly dialect file resource location (better for edit) Delete interface and objects.
   private val dialects: Seq[DialectConf] = Seq(AsyncAPIDialect)
 
-  private val dialectsMap: Predef.Map[String, String] = dialects.flatMap(d => d.files).toMap
+  private val dialectsMap: Predef.Map[String, String] =
+    dialects.flatMap(d => d.files).toMap
 
-  val rootDialects: Predef.Map[ProfileName, String] = dialects.map(d => d.profileName -> d.rootUrl).toMap
+  val rootDialects: Predef.Map[ProfileName, String] =
+    dialects.map(d => d.profileName -> d.rootUrl).toMap
 
   override def fetch(resource: String): Future[Content] =
     Future(Content(new CharSequenceStream(dialectsMap(resource)), resource))

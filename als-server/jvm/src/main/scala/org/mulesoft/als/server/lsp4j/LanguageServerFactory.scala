@@ -15,27 +15,30 @@ import org.mulesoft.als.server.modules.rename.RenameModule
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.platform.ServerPlatform
 import org.mulesoft.als.server.textsync.TextDocumentManager
+import org.mulesoft.high.level.CustomDialects
 import org.mulesoft.high.level.implementation.AlsPlatformWrapper
 import org.mulesoft.lsp.server.LanguageServer
 
 object LanguageServerFactory extends PlatformSecrets {
 
-  def alsLanguageServer(clientNotifier: ClientNotifier, logger: Logger): LanguageServer = {
+  def alsLanguageServer(clientNotifier: ClientNotifier,
+                        logger: Logger,
+                        dialects: Seq[CustomDialects] = Seq()): LanguageServer = {
     val documentManager = new TextDocumentManager(logger, platform)
 
     val someDirectoryResolver = Some(DefaultJvmDirectoryResolver)
 
-    val alsPlatform = new AlsPlatformWrapper(dirResolver = someDirectoryResolver)
+    val alsPlatform    = new AlsPlatformWrapper(dirResolver = someDirectoryResolver)
     val serverPlatform = new ServerPlatform(logger, documentManager, someDirectoryResolver)
 
-    val astManager = new AstManager(documentManager, serverPlatform, logger)
-    val hlAstManager = new HlAstManager(documentManager, astManager, serverPlatform, logger)
+    val astManager        = new AstManager(documentManager, serverPlatform, logger)
+    val hlAstManager      = new HlAstManager(documentManager, astManager, serverPlatform, logger, dialects)
     val completionManager = new SuggestionsManager(documentManager, hlAstManager, serverPlatform, logger)
-    val definitionModule = new DefinitionModule(hlAstManager, serverPlatform, logger)
+    val definitionModule  = new DefinitionModule(hlAstManager, serverPlatform, logger)
     val diagnosticManager = new DiagnosticManager(documentManager, astManager, clientNotifier, alsPlatform, logger)
-    val referenceModule = new FindReferencesModule(hlAstManager, alsPlatform, logger)
-    val renameModule = new RenameModule(hlAstManager, alsPlatform, logger)
-    val structureManager = new StructureManager(documentManager, hlAstManager, alsPlatform, logger)
+    val referenceModule   = new FindReferencesModule(hlAstManager, alsPlatform, logger)
+    val renameModule      = new RenameModule(hlAstManager, alsPlatform, logger)
+    val structureManager  = new StructureManager(documentManager, hlAstManager, alsPlatform, logger)
 
     LanguageServerBuilder()
       .withTextDocumentSyncConsumer(documentManager)
