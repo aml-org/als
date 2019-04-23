@@ -319,13 +319,13 @@ class RAML10ASTFactory private extends RAMLASTFactory {
           }
           typeOpt match {
             case Some(t) =>
-              var discriminated   = discriminate(t, fragment.encodes, nominalType)
-              var fragmentTypeOpt = u.`type`("FragmentDeclaration")
+              val discriminated   = discriminate(t, fragment.encodes, nominalType)
+              val fragmentTypeOpt = u.`type`("FragmentDeclaration")
               fragmentTypeOpt match {
                 case Some(ft) =>
                   if (discriminated.isInstanceOf[AbstractType]
                       && ft.isInstanceOf[AbstractType]) {
-                    var result = new StructuredType(discriminated.nameId.get + "Fragment", u)
+                    val result = new StructuredType(discriminated.nameId.get + "Fragment", u)
                     result.addSuperType(ft.asInstanceOf[AbstractType])
                     result.addSuperType(discriminated.asInstanceOf[AbstractType])
                     Some(result)
