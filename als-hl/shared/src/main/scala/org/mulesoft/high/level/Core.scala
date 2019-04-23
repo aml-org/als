@@ -1,5 +1,6 @@
 package org.mulesoft.high.level
 
+import amf.ProfileName
 import amf.core.model.document.BaseUnit
 import org.mulesoft.high.level.builder.{ASTFactoryRegistry, ProjectBuilder, UniverseProvider}
 import org.mulesoft.high.level.implementation.AlsPlatform
@@ -22,3 +23,5 @@ object Core {
     ProjectBuilder.buildProject(unit, platform)
   }
 }
+
+case class CustomDialects(name: ProfileName, url: String, content: String)
