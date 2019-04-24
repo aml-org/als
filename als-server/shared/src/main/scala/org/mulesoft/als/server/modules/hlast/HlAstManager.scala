@@ -80,8 +80,7 @@ class HlAstManager(private val textDocumentManager: TextDocumentManager,
   /**
     * Builds new AST for content
     */
-  def forceBuildNewAST(_uri: String, text: String): Future[IProject] = {
-    val uri = PathRefine.refinePath(_uri, platform)
+  def forceBuildNewAST(uri: String, text: String): Future[IProject] = {
     logger.debug(s"Calling forceBuildNewAST for uri $uri", "HlAstManager", "forceBuildNewAST")
 
     astManager

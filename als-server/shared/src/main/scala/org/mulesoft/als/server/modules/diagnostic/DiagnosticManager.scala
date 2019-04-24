@@ -26,7 +26,7 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
                         private val clientNotifier: ClientNotifier,
                         private val platform: AlsPlatform,
                         private val logger: Logger)
-  extends ClientNotifierModule[DiagnosticClientCapabilities, Unit] {
+    extends ClientNotifierModule[DiagnosticClientCapabilities, Unit] {
 
   override val `type`: ConfigType[DiagnosticClientCapabilities, Unit] = DiagnosticConfigType
 
@@ -58,8 +58,7 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
     }
   }
 
-  private def gatherValidationErrors(docUri: String, docVersion: Int, astNode: BaseUnit): Future[ValidationReport] = {
-    val uri = PathRefine.refinePath(docUri, platform)
+  private def gatherValidationErrors(uri: String, docVersion: Int, astNode: BaseUnit): Future[ValidationReport] = {
     val editorOption = textDocumentManager.getTextDocument(uri)
 
     if (editorOption.isDefined) {
@@ -71,13 +70,13 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
           val endTime = System.currentTimeMillis()
 
           this.logger.debugDetail(s"It took ${endTime - startTime} milliseconds to validate",
-            "ValidationManager",
-            "gatherValidationErrors")
+                                  "ValidationManager",
+                                  "gatherValidationErrors")
 
           val issues =
-            report.results.map(validationResult => this.amfValidationResultToIssue(docUri, validationResult))
+            report.results.map(validationResult => this.amfValidationResultToIssue(uri, validationResult))
 
-          ValidationReport(docUri, docVersion, issues)
+          ValidationReport(uri, docVersion, issues)
         })
     } else {
       Future.failed(new Exception("Cant find the editor for uri " + uri))
@@ -96,15 +95,17 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
   private def report(uri: String, baseUnit: BaseUnit): Future[AMFValidationReport] = {
     val language = textDocumentManager.getTextDocument(uri).map(_.language).getOrElse("OAS 2.0")
 
-    val config = new ParserConfig(Some(ParserConfig.VALIDATE),
-      Some(uri),
+    val config = new ParserConfig(
+      Some(ParserConfig.VALIDATE),
+      Some(PathRefine.refinePath(uri, platform)),
       Some(language),
       Some("application/yaml"),
       None,
       Some(language),
       Some("application/yaml"),
       false,
-      true)
+      true
+    )
 
     val customProfileLoaded = if (config.customProfile.isDefined) {
       RuntimeValidator.loadValidationProfile(config.customProfile.get)

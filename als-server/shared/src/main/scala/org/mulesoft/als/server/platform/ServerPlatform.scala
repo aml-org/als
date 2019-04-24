@@ -16,7 +16,7 @@ import scala.concurrent.Future
 object Http {
   def unapply(uri: String): Option[(String, String, String)] = uri match {
     case url if url.startsWith("http://") || url.startsWith("https://") =>
-      val protocol = url.substring(0, url.indexOf("://") + 3)
+      val protocol        = url.substring(0, url.indexOf("://") + 3)
       val rightOfProtocol = url.stripPrefix(protocol)
       val host =
         if (rightOfProtocol.contains("/")) rightOfProtocol.substring(0, rightOfProtocol.indexOf("/"))
@@ -59,17 +59,16 @@ class ServerPlatform(val logger: Logger,
                      val textDocumentManager: TextDocumentManager,
                      directoryResolver: Option[DirectoryResolver] = None,
                      defaultEnvironment: Environment = Environment())
-  extends AlsPlatformWrapper(defaultEnvironment, dirResolver = directoryResolver) { self =>
+    extends AlsPlatformWrapper(defaultEnvironment, dirResolver = directoryResolver) { self =>
 
   val fileLoader = new DefaultFileLoader(this)
 
   override val loaders: Seq[ResourceLoader] = Seq(fileLoader)
 
-  override def resolvePath(_uri: String): String = {
+  override def resolvePath(uri: String): String = {
+    val refineUri = PathRefine.refinePath(uri, this)
 
-    var uri = _uri
-    uri = PathRefine.refinePath(uri, this)
-    val result = uri match {
+    val result = refineUri match {
       case File(path) =>
         val isWindows = operativeSystem().toLowerCase().indexOf("win") >= 0
         if (path.startsWith("/")) {
@@ -82,28 +81,21 @@ class ServerPlatform(val logger: Logger,
 
       case Http(protocol, host, path) => protocol + host + withTrailingSlash(path)
 
-      case _ => File.FILE_PROTOCOL + uri
+      case _ => File.FILE_PROTOCOL + refineUri
     }
 
-    logger.debugDetail(s"Resolved $uri as $result", "ConnectionBasedPlatform", "resolvePath")
+    logger.debugDetail(s"Resolved $refineUri as $result", "ConnectionBasedPlatform", "resolvePath")
 
     result
   }
 
-  def fetchFile(_path: String): Future[Content] = {
-    var path = _path
-
-    this.logger.debugDetail("Asked to fetch file " + path, "ConnectionBasedPlatform", "fetchFile")
-
-    path = PathRefine.refinePath(path, this)
-    this.logger.debugDetail("Refined path is " + path, "ConnectionBasedPlatform", "fetchFile")
-
-    val uri = path
+  def fetchFile(uri: String): Future[Content] = {
+    this.logger.debugDetail("Asked to fetch file " + uri, "ConnectionBasedPlatform", "fetchFile")
 
     val editorOption = textDocumentManager.getTextDocument(uri)
     logger.debugDetail(s"Result of editor check for uri $uri: ${editorOption.isDefined}",
-      "ConnectionBasedPlatform",
-      "fetchFile")
+                       "ConnectionBasedPlatform",
+                       "fetchFile")
 
     val contentFuture =
       if (editorOption.isDefined) {
@@ -116,12 +108,11 @@ class ServerPlatform(val logger: Logger,
     contentFuture
       .map(content => {
 
-        Content(new CharSequenceStream(path, content),
-          ensureFileAuthority(path),
-          extension(path).flatMap(mimeFromExtension))
+        Content(new CharSequenceStream(uri, content),
+                ensureFileAuthority(uri),
+                extension(uri).flatMap(mimeFromExtension))
       })
   }
-
 
   private def withTrailingSlash(path: String) = {
     (if (!path.startsWith("/")) "/" else "") + path
