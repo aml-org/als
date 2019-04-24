@@ -95,4 +95,11 @@ class ExamplesStructureTests extends RAML10Test {
       Set()
     )
   }
+
+  test("NamedExample under value name") {
+    this.runTest(
+      "structure/examples/examples-naming.raml",
+      Set()
+    )
+  }
 }
