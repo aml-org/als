@@ -11,7 +11,12 @@ import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.als.server.util.PathRefine
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.common.Location
-import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceConfigType, ReferenceParams, ReferenceRequestType}
+import org.mulesoft.lsp.feature.reference.{
+  ReferenceClientCapabilities,
+  ReferenceConfigType,
+  ReferenceParams,
+  ReferenceRequestType
+}
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -20,7 +25,8 @@ import scala.util.{Failure, Success}
 
 class FindReferencesModule(private val hlAstManager: HlAstManager,
                            private val platform: AlsPlatform,
-                           private val logger: Logger) extends RequestModule[ReferenceClientCapabilities, Unit] {
+                           private val logger: Logger)
+    extends RequestModule[ReferenceClientCapabilities, Unit] {
 
   override val `type`: ConfigType[ReferenceClientCapabilities, Unit] = ReferenceConfigType
 
@@ -39,17 +45,17 @@ class FindReferencesModule(private val hlAstManager: HlAstManager,
 
   override def initialize(): Future[Unit] = Future.successful()
 
-  def findReferences(_uri: String, position: Position): Future[Seq[ILocation]] = {
-    val uri = PathRefine.refinePath(_uri, platform)
+  def findReferences(uri: String, position: Position): Future[Seq[ILocation]] = {
+    val refinedUri = PathRefine.refinePath(uri, platform)
     logger.debug(s"Finding references at position $position", "FindReferencesModule", "findReferences")
 
     val promise = Promise[Seq[ILocation]]()
 
     currentAst(uri).andThen {
       case Success(project) =>
-        SearchUtils.findReferences(project, position.offset(project.units(uri).text)) match {
+        SearchUtils.findReferences(project, position.offset(project.units(refinedUri).text)) match {
           case Some(searchResult) => promise.success(searchResult)
-          case _ => Seq()
+          case _                  => Seq()
         }
 
       case Failure(error) => promise.failure(error)

@@ -10,20 +10,21 @@ import scala.collection.mutable
 import scala.concurrent.Future
 import scala.language.experimental.macros
 
-
 class TextDocumentManager(private val logger: Logger, private val platform: Platform)
-  extends TextDocumentSyncConsumer {
+    extends TextDocumentSyncConsumer {
 
   override val `type`: TextDocumentSyncConfigType.type = TextDocumentSyncConfigType
 
-  override def applyConfig(config: Option[SynchronizationClientCapabilities]): Either[TextDocumentSyncKind, TextDocumentSyncOptions] = {
+  override def applyConfig(
+      config: Option[SynchronizationClientCapabilities]): Either[TextDocumentSyncKind, TextDocumentSyncOptions] = {
     logger.debug("Config applied", "TextDocumentManager", "applyConfig")
 
-    Right(TextDocumentSyncOptions(
-      save = None,
-      openClose = Some(true),
-      change = Some(TextDocumentSyncKind.Full)
-    ))
+    Right(
+      TextDocumentSyncOptions(
+        save = None,
+        openClose = Some(true),
+        change = Some(TextDocumentSyncKind.Full)
+      ))
   }
 
   var uriToEditor: mutable.Map[String, TextDocument] = mutable.HashMap()
@@ -48,33 +49,31 @@ class TextDocumentManager(private val logger: Logger, private val platform: Plat
     if (unsubscribe) documentCloseListeners.remove(listener) else documentCloseListeners.add(listener)
 
   def getTextDocument(uri: String): Option[TextDocument] = {
-    val refinedUri = PathRefine.refinePath(uri, platform)
+    logger.debugDetail(s"Asked for uri $uri, while having following editors registered: " +
+                         this.uriToEditor.keys.mkString(","),
+                       "EditorManager",
+                       "getTextDocument")
 
-    logger.debugDetail(s"Asked for uri $refinedUri, while having following editors registered: " +
-      this.uriToEditor.keys.mkString(","),
-      "EditorManager",
-      "getTextDocument")
-
-    val directResult = this.uriToEditor.get(refinedUri)
+    val directResult = uriToEditor.get(uri)
 
     if (directResult.isDefined) {
 
       directResult
-    } else if (refinedUri.startsWith("file://") || refinedUri.startsWith("FILE://")) {
+    } else if (uri.startsWith("file://") || uri.startsWith("FILE://")) {
 
       var found: Option[TextDocument] = None
 
-      if (refinedUri.startsWith("file:///") || refinedUri.startsWith("FILE:///")) {
-        val path: String = refinedUri.substring("file:///".length).replace("%5C", "\\")
-        val result = this.uriToEditor.get(path)
+      if (uri.startsWith("file:///") || uri.startsWith("FILE:///")) {
+        val path: String = uri.substring("file:///".length).replace("%5C", "\\")
+        val result       = this.uriToEditor.get(path)
         if (result.isDefined) {
           found = result
         }
       }
 
       if (found.isEmpty) {
-        val path: String = refinedUri.substring("file://".length).replace("%5C", "\\")
-        val result = this.uriToEditor.get(path)
+        val path: String = uri.substring("file://".length).replace("%5C", "\\")
+        val result       = this.uriToEditor.get(path)
         if (result.isDefined) {
           found = result
         }
@@ -92,9 +91,9 @@ class TextDocumentManager(private val logger: Logger, private val platform: Plat
     logger.debug("Document is opened", "EditorManager", "onOpenDocument")
 
     val language = determineLanguage(document.uri, document.text)
-    val syntax = determineSyntax(document.uri, document.text)
+    val syntax   = determineSyntax(document.uri, document.text)
 
-    this.uriToEditor(PathRefine.refinePath(document.uri, platform)) =
+    this.uriToEditor(document.uri) =
       new TextDocument(document.uri, document.version, document.text, language, syntax, logger)
 
     this.documentChangeListeners.foreach { listener =>
@@ -117,16 +116,16 @@ class TextDocumentManager(private val logger: Logger, private val platform: Plat
     logger.debugDetail("Uri is:\n " + document.uri, "EditorManager", "onChangeDocument")
     logger.debugDetail("Text is:\n " + document.text, "EditorManager", "onChangeDocument")
 
-    val refinedUri = PathRefine.refinePath(document.uri, platform)
-    uriToEditor.get(refinedUri)
+    uriToEditor
+      .get(document.uri)
       .foreach(current => {
         val currentVersion = current.version
-        val currentText = current.text
+        val currentText    = current.text
 
         if (currentVersion == document.version) {
           this.logger.debugDetail("Version of the reported change is equal to the previous one",
-            "EditorManager",
-            "onChangeDocument")
+                                  "EditorManager",
+                                  "onChangeDocument")
 
           return
         }
@@ -139,18 +138,16 @@ class TextDocumentManager(private val logger: Logger, private val platform: Plat
 
       })
 
-    val language = this.determineLanguage(refinedUri, document.text.get)
-    val syntax = this.determineSyntax(refinedUri, document.text.get)
+    val language = this.determineLanguage(document.uri, document.text.get)
+    val syntax   = this.determineSyntax(document.uri, document.text.get)
 
-    uriToEditor(refinedUri) =
-      new TextDocument(refinedUri, document.version, document.text.get, language, syntax, logger)
+    uriToEditor(document.uri) =
+      new TextDocument(document.uri, document.version, document.text.get, language, syntax, logger)
 
     documentChangeListeners.foreach(listener => listener(document))
   }
 
-  def onCloseDocument(uri: String): Unit = {
-    uriToEditor.remove(PathRefine.refinePath(uri, platform))
-  }
+  def onCloseDocument(uri: String): Unit = uriToEditor.remove(uri)
 
   def onChangePosition(uri: String, position: Int): Unit = {
     val editorOption = this.getTextDocument(uri)
@@ -184,8 +181,8 @@ class TextDocumentManager(private val logger: Logger, private val platform: Plat
 
   override def didChange(params: DidChangeTextDocumentParams): Unit = {
     val document = params.textDocument
-    val version = document.version.getOrElse(0)
-    val text = params.contentChanges.headOption.map(_.text)
+    val version  = document.version.getOrElse(0)
+    val text     = params.contentChanges.headOption.map(_.text)
 
     documentWasChanged(ChangedDocument(document.uri, version, text, None))
   }
