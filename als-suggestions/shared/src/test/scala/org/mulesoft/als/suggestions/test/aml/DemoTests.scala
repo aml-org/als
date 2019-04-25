@@ -13,13 +13,4 @@ class DemoTests extends AMLSuggestionsTest {
       ProfileName("Mark Visit 1.0")
     )
   }
-
-  test("test suggest map") {
-    this.withDialect(
-      "visit242.yaml",
-      Set("Pilar", "BA", "SFO", "Chicago", "Palo Alto"),
-      "dialect.yaml",
-      ProfileName("Mark Visit 1.0")
-    )
-  }
 }

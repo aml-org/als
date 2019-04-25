@@ -59,7 +59,9 @@ object DialectUniversesProvider {
       val newEnv = LoaderForDialects.env.add(rl)
 
       val dialectsOpts =
-        (LoaderForDialects.rootDialects ++ initOptions.customDialects.map(c => c.name.profile -> c.url).toMap).map {
+        (LoaderForDialects.rootDialects.filter(t => initOptions.contains(t._1)) ++ initOptions.customDialects
+          .map(c => c.name.profile -> c.url)
+          .toMap).map {
           case (_, rd) =>
             var dialectCfg = new ParserConfig(
               Some(ParserConfig.PARSE),
