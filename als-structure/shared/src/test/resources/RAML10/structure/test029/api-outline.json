@@ -1,0 +1,80 @@
+[
+  {
+    "name": "mediaType",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 19
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 19
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "title",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 19
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 19
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "version",
+    "kind": 8,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 19
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 19
+      }
+    },
+    "children": []
+  }
+]

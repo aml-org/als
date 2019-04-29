@@ -109,4 +109,7 @@ class RAML10StructureTests extends RAML10StructureTest {
   test("test 028 - Complex structure") {
     this.runTest("test028/api.raml", "test028/api-outline.json")
   }
+  test("test 029 - Should not display empty node") {
+    this.runTest("test029/api.raml", "test029/api-outline.json")
+  }
 }
