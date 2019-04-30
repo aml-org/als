@@ -1,7 +1,7 @@
 package org.mulesoft.high.level.interfaces
 
 import amf.core.model.domain.AmfObject
-import common.dtoTypes.Position
+import common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition}
 
 trait IHighLevelNode extends IParseResult {

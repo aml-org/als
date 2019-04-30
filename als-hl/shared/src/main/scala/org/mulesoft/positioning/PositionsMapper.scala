@@ -31,7 +31,7 @@ case class PositionsMapper(override val uri: String) extends IPositionsMapper {
   }
 
   def mapToPosition(line: Int, colum: Int): Int = {
-    if (line < 0 || line > lineLengthSums.length - 1) {
+    if (line < 0 || line > lineLengthSums.length - 1 || line > lineLengths.length - 1) {
       -1
     } else if (colum > lineLengths(line)) {
       if (line == lineLengths.length - 1) {
@@ -57,11 +57,11 @@ case class PositionsMapper(override val uri: String) extends IPositionsMapper {
   def initMapping(): Unit = {
 
     var ind = 0
-    val l = text.length
+    val l   = text.length
 
     var ignoreNext = false
 
-    for {i <- 0 until l} {
+    for { i <- 0 until l } {
 
       if (ignoreNext) {
         ignoreNext = false
@@ -129,11 +129,11 @@ case class PositionsMapper(override val uri: String) extends IPositionsMapper {
   override def point(position: Int): Point = {
 
     if (position == text.length) {
-      var line = lineLengths.length - 1
+      var line   = lineLengths.length - 1
       var column = lineLengths(lineLengths.length - 1)
       YPoint(line, column, position)
     } else if (position == text.length + 1) {
-      var line = lineLengths.length - 1
+      var line   = lineLengths.length - 1
       var column = lineLengths(lineLengths.length - 1) - 1
       YPoint(line, column, position - 1)
     } else {
@@ -151,8 +151,8 @@ case class PositionsMapper(override val uri: String) extends IPositionsMapper {
     if (line < 0 || line > lineLengthSums.length - 1) {
       None
     } else {
-      val start = lineLengthSums(line)
-      val end = lineLengthSums(line + 1)
+      val start  = lineLengthSums(line)
+      val end    = lineLengthSums(line + 1)
       val result = text.substring(start, end)
       Some(result)
     }
@@ -169,7 +169,7 @@ case class PositionsMapper(override val uri: String) extends IPositionsMapper {
       None
     } else {
       var start = lineLengthSums(lineIndex)
-      var end = lineLengthSums(lineIndex + 1)
+      var end   = lineLengthSums(lineIndex + 1)
       Some(text.substring(start, end))
     }
   }

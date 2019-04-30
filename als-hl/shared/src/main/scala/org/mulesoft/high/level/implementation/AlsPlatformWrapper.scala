@@ -9,6 +9,7 @@ import org.mulesoft.high.level.interfaces.DirectoryResolver
 class AlsPlatformWrapper(defaultEnvironment: Environment = Environment(), dirResolver: Option[DirectoryResolver])
     extends AlsPlatform(defaultEnvironment)
     with PlatformSecrets {
+
   override def withDefaultEnvironment(defaultEnvironment: Environment): AlsPlatform =
     new AlsPlatformWrapper(defaultEnvironment, dirResolver)
 

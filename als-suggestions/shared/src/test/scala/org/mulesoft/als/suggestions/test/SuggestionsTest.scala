@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.test
 
+import amf.ProfileName
 import amf.client.remote.Content
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
@@ -8,7 +9,7 @@ import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.suggestions.CompletionProvider
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.high.level.InitOptions
+import org.mulesoft.high.level.{CustomDialects, InitOptions}
 import org.mulesoft.high.level.amfmanager.ParserHelper
 import org.mulesoft.high.level.implementation.{AlsPlatform, AlsPlatformWrapper}
 import org.mulesoft.high.level.interfaces.IProject
@@ -50,7 +51,8 @@ trait SuggestionsTest extends AsyncFunSuite {
     diff2.foreach(println)
     if (diff1.isEmpty && diff2.isEmpty) succeed
     else
-      fail(s"Difference for $path: got [${actualSet.mkString(", ")}] while expecting [${golden.mkString(", ")}]")
+      fail(s"Difference for $path: got [${actualSet
+        .mkString(", ")}] while expecting [${golden.mkString(", ")}]")
   }
 
   /**
@@ -78,10 +80,22 @@ trait SuggestionsTest extends AsyncFunSuite {
               originalSuggestions: Set[String],
               label: String = "*",
               cut: Boolean = false,
-              labels: Array[String] = Array("*")): Future[Assertion] =
+              labels: Array[String] = Array("*"),
+              customDialect: Option[CustomDialects] = None): Future[Assertion] =
     this
-      .suggest(path, label, cut, labels)
+      .suggest(path, label, cut, labels, customDialect)
       .map(r => assert(path, r.map(_.text).toSet, originalSuggestions))
+
+  def withDialect(path: String,
+                  originalSuggestions: Set[String],
+                  dialectPath: String,
+                  dialectProfile: ProfileName): Future[Assertion] = {
+    platform.resolve(filePath(dialectPath)).flatMap { c =>
+      runTest(path,
+              originalSuggestions,
+              customDialect = Some(CustomDialects(dialectProfile, c.url, c.stream.toString)))
+    }
+  }
 
   def format: String
 
@@ -90,13 +104,14 @@ trait SuggestionsTest extends AsyncFunSuite {
   def suggest(path: String,
               label: String = "*",
               cutTail: Boolean = false,
-              labels: Array[String] = Array("*")): Future[Seq[Suggestion]] = {
+              labels: Array[String] = Array("*"),
+              customDialect: Option[CustomDialects] = None): Future[Seq[Suggestion]] = {
 
     var position = 0
     val url      = filePath(path)
 
     for {
-      _       <- Suggestions.init(InitOptions.AllProfiles)
+      _       <- Suggestions.init(InitOptions.AllProfiles.withCustomDialects(customDialect.toSeq))
       content <- platform.resolve(url)
       env <- Future.successful {
         val fileContentsStr = content.stream.toString
@@ -130,13 +145,15 @@ trait SuggestionsTest extends AsyncFunSuite {
     helper.parse(cfg, env)
   }
 
-  def buildParserConfig(language: String, url: String): ParserConfig = Suggestions.buildParserConfig(language, url)
+  def buildParserConfig(language: String, url: String): ParserConfig =
+    Suggestions.buildParserConfig(language, url)
 
   def buildEnvironment(fileUrl: String, content: String, mime: Option[String]): Environment = {
     var loaders: Seq[ResourceLoader] = List(new ResourceLoader {
       override def accepts(resource: String): Boolean = resource == fileUrl
 
-      override def fetch(resource: String): Future[Content] = Future.successful(new Content(content, fileUrl))
+      override def fetch(resource: String): Future[Content] =
+        Future.successful(new Content(content, fileUrl))
     })
 
     loaders ++= platform.loaders()
@@ -144,7 +161,8 @@ trait SuggestionsTest extends AsyncFunSuite {
     Environment(loaders)
   }
 
-  def buildHighLevel(model: BaseUnit): Future[IProject] = Suggestions.buildHighLevel(model, platform)
+  def buildHighLevel(model: BaseUnit): Future[IProject] =
+    Suggestions.buildHighLevel(model, platform)
 
   def buildCompletionProvider(project: IProject,
                               url: String,
@@ -156,7 +174,9 @@ trait SuggestionsTest extends AsyncFunSuite {
     Suggestions.buildCompletionProviderNoAST(text, url, position, platform)
 
   def filePath(path: String): String = {
-    var result = s"file://als-suggestions/shared/src/test/resources/test/$rootPath/$path".replace('\\', '/')
+    var result =
+      s"file://als-suggestions/shared/src/test/resources/test/$rootPath/$path"
+        .replace('\\', '/')
     result = result.replace("/null", "")
     result
   }
@@ -181,7 +201,8 @@ trait SuggestionsTest extends AsyncFunSuite {
       val rawContent = str1.replace(label, "")
 
       val preparedContent =
-        org.mulesoft.als.suggestions.Core.prepareText(rawContent, position, YAML)
+        org.mulesoft.als.suggestions.Core
+          .prepareText(rawContent, position, YAML)
       new MarkerInfo(preparedContent, position, rawContent)
     }
 

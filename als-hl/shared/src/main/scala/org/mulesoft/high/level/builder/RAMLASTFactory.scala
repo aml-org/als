@@ -10,7 +10,7 @@ import amf.core.parser.Annotations
 import amf.core.remote.Vendor
 import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorDeclaration
 import amf.plugins.domain.shapes.metamodel._
-import amf.plugins.domain.shapes.models.Example
+import amf.plugins.domain.shapes.models.{Example, Examples}
 import amf.plugins.domain.webapi.annotations.ParentEndPoint
 import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.metamodel.security._
@@ -350,15 +350,16 @@ class RelativeUriValueBuffer(element: AmfObject, hlNode: IHighLevelNode)
 class ExamplesFilter(single: Boolean) extends IPropertyMatcher {
   override def doOperate(obj: AmfObject, hlNode: IHighLevelNode): Seq[MatchResult] = {
     obj match {
-      case e: Example =>
-        var hasNullName = Option(e.name.value()).isEmpty
-        if (single == hasNullName) {
-          List(ElementMatchResult(e))
-        } else {
-          Seq()
-        }
-      case _ => Seq()
+      case es: Examples => es.examples.flatMap(operationExample)
+      case e: Example   => operationExample(e).toSeq
+      case _            => Seq()
     }
+  }
+
+  private def operationExample(e: Example): Option[MatchResult] = {
+    var hasNullName = Option(e.name.value()).isEmpty
+    if (single == hasNullName) Some(ElementMatchResult(e))
+    else None
   }
 
   override def doAppendNewValue(cfg: NodeCreationConfig): Option[MatchResult] = None
