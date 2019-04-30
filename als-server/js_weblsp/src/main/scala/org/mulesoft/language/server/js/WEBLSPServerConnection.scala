@@ -1,5 +1,7 @@
 package org.mulesoft.language.server.js;
 
+import org.mulesoft.als.server.modules.diagnostic.ValidationReport
+import org.mulesoft.als.server.textsync.{ChangedDocument, OpenedDocument}
 import org.mulesoft.language.common.logger.{ILoggerSettings, IPrintlnLogger}
 import org.mulesoft.language.common.dtoTypes._
 import org.mulesoft.language.entryPoints.common.ProtocolSeqMessage

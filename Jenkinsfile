@@ -40,7 +40,7 @@ pipeline {
         }
       }
       steps {
-        sh 'sbt -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 publish coreJVM/publish'
+        sh 'sbt publish'
       }
     }
   }

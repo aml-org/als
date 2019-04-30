@@ -1,12 +1,19 @@
 package org.mulesoft.als.suggestions.plugins.raml
-import amf.core.parser.YNodeLikeOps
+import amf.core.annotations.{LexicalInformation, SourceAST}
+import amf.core.model.domain.AmfObject
+import amf.core.parser.{Position => AmfPosition}
 import amf.core.remote.{Raml10, Vendor}
+import amf.plugins.document.webapi.model.NamedExampleFragment
+import amf.plugins.domain.shapes.models.Example
+import common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
 import org.mulesoft.als.suggestions.interfaces.LocationKind.KEY_COMPLETION
 import org.mulesoft.als.suggestions.interfaces._
-import org.mulesoft.high.level.interfaces.{IAttribute, IHighLevelNode, IParseResult}
-import org.mulesoft.positioning.YamlLocation
-import org.mulesoft.typesystem.nominal_interfaces.extras.{DescriptionExtra, PropertySyntaxExtra}
+import org.mulesoft.als.suggestions.plugins.raml.ExampleStructureCompletionPlugin.{
+  ID,
+  possibleSuggestions,
+  supportedLanguages
+}
 import org.yaml.model.{YMap, YMapEntry}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -19,93 +26,83 @@ object RequestOps {
 
 }
 class ExampleStructureCompletionPlugin extends ICompletionPlugin with ExampleCompletionTools {
-  override def id: String = ExampleStructureCompletionPlugin.ID
+  override def id: String = ID
 
-  override def languages: Seq[Vendor] = ExampleStructureCompletionPlugin.supportedLanguages
+  override def languages: Seq[Vendor] = supportedLanguages
 
-  def onlyExampleFacets(node: IAttribute, facets: Seq[String], prefix: String): Boolean = {
-    val p         = node.parent
-    val allFacets = facets :+ (prefix + "k")
-    p.flatMap(_.sourceInfo.yamlSources.headOption) match {
-      case Some(y: YMapEntry) =>
-        y.value.toOption[YMap] match {
-          case Some(yMap) =>
-            yMap.entries.forall(entry => allFacets.contains(entry.key.value.toString))
-          case _ => false
-        }
-      case _ => false
+  private def getExampleNode(amfOpt: Option[AmfObject], pos: Position): Option[Example] = {
+    amfOpt match {
+      case Some(ex: Example) => Some(ex)
+      case Some(nef: NamedExampleFragment) =>
+        nef.encodes.examples
+          .find(
+            e =>
+              e.annotations
+                .find(classOf[SourceAST])
+                .exists(s =>
+                  PositionRange(s.ast.range)
+                    .contains(pos)))
+      case _ => None
     }
-  }
-
-  private def exampleFacets(p: Option[IHighLevelNode], isYaml: Boolean, prefix: String): Seq[Suggestion] = {
-    p.map(_.definition.allProperties)
-      .getOrElse(Seq())
-      .filter(prop => !prop.getExtra(PropertySyntaxExtra).exists(extra => extra.isHiddenFromUI))
-      .map(prop => {
-        val pName       = prop.nameId.getOrElse("")
-        val description = prop.getExtra(DescriptionExtra).map(_.text).getOrElse("")
-        val text        = if (isYaml && pName.startsWith("$")) s""""$pName"""" else pName
-        Suggestion(text, description, pName, prefix)
-      })
   }
 
   override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
+    Future {
+      val suggestions: Seq[String] =
+        findExample(request)
+          .map(t => possibleSuggestions.filter(s => !getAstFacets(t._2.toAmfPosition(), t._1).contains(s)))
+          .getOrElse(Nil)
 
-    val suggestions =
-      request.astNode.flatMap(_.asAttr) match {
-        case Some(n) =>
-          val possibleSuggestions = exampleFacets(n.parent, request.isYaml, request.prefix)
-          if (valueExampleSpec(n) && onlyExampleFacets(n, possibleSuggestions.map(_.displayText), request.prefix))
-            possibleSuggestions
-          else
-            Seq()
+      CompletionResponse(suggestions.map(s => Suggestion(s, s, s, request.prefix)), KEY_COMPLETION, request)
 
-      }
-    Future { CompletionResponse(filteredSuggestions(request, suggestions), KEY_COMPLETION, request) }
+    }
   }
 
-  private def filteredSuggestions(request: ICompletionRequest, suggestions: Seq[Suggestion]) = {
-    val siblings = request.astNode.map(existingSiblings).getOrElse(Seq())
-    suggestions
-      .filter(_.displayText.startsWith(request.prefix))
-      .filter(s => !siblings.contains(s.displayText))
+  private def inName(ex: Example, amfPosition: AmfPosition): Boolean = {
+    ex.name.annotations().find(classOf[LexicalInformation]).exists(_.range.start.line == amfPosition.line)
   }
 
-  private def existingSiblings(node: IParseResult): Seq[String] =
-    node.sourceInfo.yamlSources.headOption match {
-      case Some(m: YMap) => m.entries.map(_.key.value.toString)
-      case _             => Seq()
+  private def getAstFacets(position: AmfPosition, ex: Example): Seq[String] =
+    getFacets(ex, position)
+
+  private def findExample(request: ICompletionRequest): Option[(Example, Position)] = {
+    val position = Position(request.position, request.config.originalContent.getOrElse(""))
+    getExampleNode(request.astNode.map(_.amfNode), position).map(e => (e, position))
+  }
+
+  def getProperties(yMap: YMap, position: AmfPosition): Seq[String] =
+    yMap.entries.filter(e => e.key.range.lineFrom != position.line).flatMap { e =>
+      e.key.asScalar.map(_.text)
     }
 
-  private def valueExampleSpec(n: IAttribute) =
-    (n.name == "value") && n.parent.exists(_.definition.isAssignableFrom("ExampleSpec"))
+  def getValueProperties(yMapEntry: YMapEntry, position: AmfPosition): Seq[String] =
+    yMapEntry.value.asOption[YMap].map(getProperties(_, position)).getOrElse(Nil)
+
+  def getFacets(amfObject: AmfObject, position: AmfPosition): Seq[String] =
+    amfObject.annotations.find(classOf[SourceAST]).map(_.ast) match {
+      case Some(map: YMap)    => getProperties(map, position) // anonymous example
+      case Some(e: YMapEntry) => getValueProperties(e, position) // named example
+      case _                  => Nil
+    }
+
+  private def onlyExampleFacets(ex: Example, position: Position): Boolean = {
+    val amfPosition = position.toAmfPosition()
+    !inName(ex, amfPosition) && getAstFacets(amfPosition, ex).forall(f => possibleSuggestions.contains(f))
+  }
 
   override def isApplicable(request: ICompletionRequest): Boolean =
-    isStructureApplicable(request) && isExample(request)
+    isKey(request) && exampleQualifies(request)
 
-  private def isStructureApplicable(request: ICompletionRequest) = {
-    request.astNode match {
-      case Some(node) =>
-        request.actualYamlLocation.filter(_.inKey(request.position)) match {
-          case Some(l) =>
-            request.actualYamlLocation.exists(_.mapEntry.exists(x => x.yPart == l.mapEntry.get.yPart)) ||
-              actualValueInMapEntries(request, l)
-          case _ => false
-        }
-      case _ => false
+  private def exampleQualifies(request: ICompletionRequest) = {
+    findExample(request) match {
+      case Some((ex, position)) => onlyExampleFacets(ex, position)
+      case _                    => false
     }
   }
 
-  private def actualValueInMapEntries(request: ICompletionRequest, l: YamlLocation): Boolean = {
-    request.yamlLocation.get.value.get.yPart match {
-      case m: YMap =>
-        l.mapEntry match {
-          case Some(me) => m.entries.contains(me.yPart)
-          case _        => false
-        }
-      case _ => false
-    }
-  }
+  private def isKey(request: ICompletionRequest) =
+    request.actualYamlLocation.exists(_.inKey(request.position))
+
 }
 
 object ExampleStructureCompletionPlugin {
@@ -114,4 +111,12 @@ object ExampleStructureCompletionPlugin {
   val supportedLanguages: List[Vendor] = List(Raml10)
 
   def apply(): ExampleStructureCompletionPlugin = new ExampleStructureCompletionPlugin()
+
+  val possibleSuggestions: Seq[String] = Seq(
+    "description",
+    "value",
+    "strict",
+    "displayName",
+    "annotations"
+  )
 }

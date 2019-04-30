@@ -1,12 +1,12 @@
 package org.mulesoft.language.server.js
 
+import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
+
 import scalajs.js
 import js.annotation._
-
 import org.mulesoft.language.server.core
 import org.mulesoft.language.server.modules.astManager.ASTManager
 import org.mulesoft.language.server.modules.editorManager.EditorManager
-import org.mulesoft.language.server.modules.validationManager.ValidationManager
 
 @js.native
 @JSImport("aml-shacl-node", JSImport.Default)
@@ -115,7 +115,7 @@ class WEBLSPServerProcess extends js.Object {
 
     var editorManager     = new EditorManager();
     var astManager        = new ASTManager();
-    var validationManager = new ValidationManager();
+    var validationManager = new DiagnosticManager();
 
     server.registerModule(editorManager);
     server.registerModule(astManager);

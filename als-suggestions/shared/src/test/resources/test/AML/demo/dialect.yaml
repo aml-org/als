@@ -1,0 +1,45 @@
+#%Dialect 1.0
+
+dialect: Mark Visit
+version: 1.0
+
+external:
+  schema-org: http://schema.org/
+  visit: https://github.amlorg.com/visit#
+
+nodeMappings:
+
+  MarkVisitNode:
+    classTerm: visit.VisitNode
+    mapping:
+      date:
+        propertyTerm: schema-org.date
+        range: date
+        mandatory: true
+      meetings:
+        propertyTerm: visit.meetings
+        range: MeetingNode
+        mapKey: schema-org.name
+      office:
+        propertyTerm: visit.office
+        range: string
+        mandatory: true
+        enum: [Pilar, BA, SFO, Chicago, Palo Alto]
+        unique: true
+  MeetingNode:
+    classTerm: visit.MeetingNode
+    mapping:
+      meetingName:
+        propertyTerm: schema-org.name
+        range: string
+      about:
+        propertyTerm: visit.about
+        range: string
+      duration:
+        propertyTerm: visit.duration
+        range: integer
+        mandatory: true
+
+documents:
+  root:
+    encodes: MarkVisitNode

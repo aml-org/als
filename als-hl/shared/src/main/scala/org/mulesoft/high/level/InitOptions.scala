@@ -6,10 +6,15 @@ import scala.collection.mutable.ListBuffer
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 
 @JSExportAll
-class InitOptions(val vendors: Set[ProfileName]) {
-  def filterClone(initialized: Set[ProfileName]) = new InitOptions(vendors.filter(!initialized.contains(_)))
+class InitOptions(val vendors: Set[ProfileName], val customDialects: Seq[CustomDialects] = Seq()) {
+  def filterClone(initialized: Set[ProfileName]) =
+    new InitOptions(vendors.filter(!initialized.contains(_)),
+                    customDialects.filter(c => !initialized.contains(c.name)))
 
   def contains(profile: ProfileName): Boolean = vendors.contains(profile)
+
+  def withCustomDialects(dialects: Seq[CustomDialects]) = new InitOptions(vendors, dialects)
+
 }
 // todo: vendors instead of profiles?
 

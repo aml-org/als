@@ -29,6 +29,12 @@ case class Position(line: Int, column: Int) {
   def >=(other: Position): Boolean = (line > other.line) || (line == other.line && column >= other.column)
 
   def ==(other: Position): Boolean = line == other.line && column == other.column
+
+  def moveColumn(value: Int): Position = copy(column = column + value)
+
+  def moveLine(value: Int): Position = copy(line = line + value)
+
+  def toAmfPosition(): AmfPosition = AmfPosition(line + 1, column)
 }
 
 object Position {
