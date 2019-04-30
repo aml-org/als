@@ -69,7 +69,7 @@ class ExamplesStructureTests extends RAML10Test {
     )
   }
 
-  test("NamedExample fragment") {
+  test("NamedExample fragment with name") {
     this.runTest(
       "structure/examples/examples-fragment-01.raml",
       Set(
