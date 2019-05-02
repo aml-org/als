@@ -5,6 +5,7 @@ import Dependencies.deps
 import org.scalajs.core.tools.linker.ModuleKind
 import org.scalajs.core.tools.linker.backend.OutputMode
 import org.scalajs.sbtplugin.ScalaJSPlugin.AutoImport.scalaJSOutputMode
+import sbt.File
 import sbt.Keys.{mainClass, packageOptions}
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
@@ -18,6 +19,21 @@ scalaVersion := "2.12.6"
 jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
 
 publish := {}
+
+lazy val workspaceDirectory: File =
+  sys.props.get("sbt.mulesoft") match {
+    case Some(x) => file(x)
+    case _       => Path.userHome / "mulesoft"
+  }
+
+val amfVersion = "4.1.0-SNAPSHOT"
+
+lazy val amfJVMRef = ProjectRef(workspaceDirectory / "amf", "clientJVM")
+lazy val amfJSRef = ProjectRef(workspaceDirectory / "amf", "clientJS")
+lazy val amfLibJVM = "com.github.amlorg" %% "amf-client" % amfVersion
+lazy val amfLibJS = "com.github.amlorg" %% "amf-client_sjs0.6" % amfVersion
+
+
 
 val settings = Common.settings ++ Common.publish ++ Seq(
   organization := "org.mule.als",
@@ -35,7 +51,6 @@ val settings = Common.settings ++ Common.publish ++ Seq(
   credentials ++= Common.credentials(),
 
   libraryDependencies ++= Seq(
-    "com.github.amlorg" %%% "amf-client" % deps("amf"),
     "org.mule.common" %%% "scala-common" % deps("common"),
     "org.mule.syaml" %%% "syaml" % deps("syaml"),
     "com.chuusai" %% "shapeless" % "2.3.3",
@@ -59,8 +74,8 @@ lazy val common = crossProject(JSPlatform, JVMPlatform).settings(
     //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
   )
 
-lazy val commonJVM = common.jvm.in(file("./als-common/jvm"))
-lazy val commonJS = common.js.in(file("./als-common/js"))
+lazy val commonJVM = common.jvm.in(file("./als-common/jvm")).sourceDependency(amfJVMRef, amfLibJVM)
+lazy val commonJS = common.js.in(file("./als-common/js")).sourceDependency(amfJSRef, amfLibJS)
 
 lazy val hl = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
