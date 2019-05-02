@@ -257,7 +257,7 @@
                     ]
                   },
                   {
-                    "name": "",
+                    "name": "externalDocs",
                     "kind": 8,
                     "deprecated": false,
                     "range": {
