@@ -421,58 +421,6 @@
     ]
   },
   {
-    "name": "",
-    "kind": 8,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 19,
-        "character": 2
-      },
-      "end": {
-        "line": 22,
-        "character": 0
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 19,
-        "character": 2
-      },
-      "end": {
-        "line": 22,
-        "character": 0
-      }
-    },
-    "children": []
-  },
-  {
-    "name": "",
-    "kind": 8,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 22,
-        "character": 2
-      },
-      "end": {
-        "line": 23,
-        "character": 0
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 22,
-        "character": 2
-      },
-      "end": {
-        "line": 23,
-        "character": 0
-      }
-    },
-    "children": []
-  },
-  {
     "name": "info",
     "kind": 8,
     "deprecated": false,

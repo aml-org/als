@@ -248,9 +248,7 @@ object TypeBuilder {
     })
   }
 
-  def normalizedPath(unit: BaseUnit): String = {
-    unitPath(unit.id)
-  }
+  def normalizedPath(unit: BaseUnit): String = unitPath(unit.location().getOrElse(unit.id))
 
   def unitPath(str: String): String = {
     var ref = str

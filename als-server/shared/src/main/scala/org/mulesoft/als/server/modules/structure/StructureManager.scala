@@ -1,16 +1,15 @@
 package org.mulesoft.als.server.modules.structure
 
 import common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.LspConverter
-import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.modules.hlast.{HlAstListener, HlAstManager}
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.high.level.implementation.AlsPlatform
 import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.{ConfigFactory, DocumentSymbol, StructureBuilder}
-import org.mulesoft.als.server.util.PathRefine
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.documentsymbol.{
@@ -79,7 +78,7 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
       )
 
       // not part oif the protocol, extend it?
-      // this.connection.structureAvailable(structureReport)
+//       this.connection.structureAvailable(structureReport)
     }
   }
 
