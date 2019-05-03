@@ -1,16 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.raml
-import amf.core.annotations.SourceAST
 import amf.core.parser.YNodeLikeOps
 import amf.core.remote.{Raml10, Vendor}
-import amf.plugins.document.webapi.model.NamedExampleFragment
-import common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
 import org.mulesoft.als.suggestions.interfaces.LocationKind.KEY_COMPLETION
 import org.mulesoft.als.suggestions.interfaces._
 import org.mulesoft.high.level.interfaces.{IAttribute, IHighLevelNode, IParseResult}
 import org.mulesoft.positioning.YamlLocation
 import org.mulesoft.typesystem.nominal_interfaces.extras.{DescriptionExtra, PropertySyntaxExtra}
-import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
+import org.yaml.model.{YMap, YMapEntry}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -52,40 +49,17 @@ class ExampleStructureCompletionPlugin extends ICompletionPlugin with ExampleCom
       })
   }
 
-  def hasName(e: IHighLevelNode, pos: Position): Boolean =
-    (e.amfNode.isInstanceOf[NamedExampleFragment]) &&
-      e.amfNode
-        .asInstanceOf[NamedExampleFragment]
-        .encodes
-        .examples
-        .exists(
-          e =>
-            e.annotations
-              .find(classOf[SourceAST])
-              .exists(s =>
-                PositionRange(s.ast.range)
-                  .contains(pos)))
-
   override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
     val suggestions =
-      request.astNode match {
-        case Some(n) if n.isAttr =>
-          val attr                = n.asAttr.get
-          val possibleSuggestions = exampleFacets(attr.parent, request.isYaml, request.prefix)
-          if (valueExampleSpec(attr) && onlyExampleFacets(attr,
-                                                          possibleSuggestions.map(_.displayText),
-                                                          request.prefix))
+      request.astNode.flatMap(_.asAttr) match {
+        case Some(n) =>
+          val possibleSuggestions = exampleFacets(n.parent, request.isYaml, request.prefix)
+          if (valueExampleSpec(n) && onlyExampleFacets(n, possibleSuggestions.map(_.displayText), request.prefix))
             possibleSuggestions
           else
             Seq()
-        case Some(n) if n.isElement =>
-          val e = n.asElement.get
-          if (hasName(e, Position(request.position, request.config.originalContent.getOrElse(""))))
-            exampleFacets(Option(e), request.isYaml, request.prefix)
-          else
-            Seq()
-        case _ => Seq()
+
       }
     Future { CompletionResponse(filteredSuggestions(request, suggestions), KEY_COMPLETION, request) }
   }
@@ -111,7 +85,7 @@ class ExampleStructureCompletionPlugin extends ICompletionPlugin with ExampleCom
 
   private def isStructureApplicable(request: ICompletionRequest) = {
     request.astNode match {
-      case Some(_) =>
+      case Some(node) =>
         request.actualYamlLocation.filter(_.inKey(request.position)) match {
           case Some(l) =>
             request.actualYamlLocation.exists(_.mapEntry.exists(x => x.yPart == l.mapEntry.get.yPart)) ||
