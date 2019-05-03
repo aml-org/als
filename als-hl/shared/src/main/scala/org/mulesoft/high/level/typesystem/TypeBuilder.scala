@@ -1,6 +1,6 @@
 package org.mulesoft.high.level.typesystem
 
-import amf.core.annotations.Aliases
+import amf.core.annotations.{Aliases, DeclaredElement}
 import amf.core.metamodel.document.{BaseUnitModel, DocumentModel}
 import amf.core.model.document.{BaseUnit, Document, Fragment, Module}
 import amf.core.model.domain.{AmfArray, AmfScalar, ScalarNode, Shape}
@@ -71,6 +71,15 @@ object TypeBuilder {
   private def getOrCreate(shape: Shape, universe: IUniverse, ctx: Context): AbstractType = {
     Option(shape.name).flatMap(name => ctx.bundle.getType(shape.id, name.value())) match {
       case Some(t) => t
+      case _ if shape.annotations.contains(classOf[DeclaredElement]) =>
+        ctx.cached(shape) match {
+          case Some(a) => a
+          case _ =>
+            val inlineType = initType(shape, universe, ctx)
+            ctx.add(shape, inlineType)
+            fillType(inlineType, ctx)
+            inlineType
+        }
       case _ =>
         val inlineType = initType(shape, universe, ctx)
         fillType(inlineType, ctx)
@@ -277,6 +286,15 @@ object TypeBuilder {
 class Context(val units: Map[String, BaseUnit],
               val bundle: TypeCollectionBundle,
               val parentUniverse: IUniverse,
-              val factory: IASTFactory) {}
+              val factory: IASTFactory) {
+  def cached(shape: Shape): Option[AbstractType] = cache.get(shape)
+
+  def add(shape: Shape, t: AbstractType): AbstractType = {
+    cache += shape -> t
+    t
+  }
+
+  val cache: mutable.Map[Shape, AbstractType] = mutable.Map()
+}
 
 class BaseUnitReference(val reference: String, val unit: BaseUnit) {}

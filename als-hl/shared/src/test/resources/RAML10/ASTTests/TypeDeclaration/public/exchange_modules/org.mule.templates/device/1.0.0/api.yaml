@@ -1,0 +1,25 @@
+#%AsyncAPI 0.6
+
+asyncapi: 2.0.0
+schemas:
+    A:
+        type: string
+    B:
+        type: string
+
+topics:
+
+  my.topic:
+    publish:
+      summary: a summary
+      description: a description
+      payload:
+        type:
+            $ref: 
+
+
+            
+
+
+
+
