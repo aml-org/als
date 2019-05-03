@@ -25,8 +25,6 @@ import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.util.matching.Regex
 import amf.core.parser._
-import amf.plugins.document.webapi.model.NamedExampleFragment
-import amf.plugins.domain.shapes.models.Example
 
 class StructureCompletionPlugin extends ICompletionPlugin {
 
@@ -34,18 +32,12 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 
   override def languages: Seq[Vendor] = StructureCompletionPlugin.supportedLanguages
 
-  private def isExample(request: ICompletionRequest) = {
-    request.astNode.map(_.amfNode) match {
-      case Some(_: Example | _: NamedExampleFragment) => true
-      case _                                          => false
-    }
-  }
-
   override def isApplicable(request: ICompletionRequest): Boolean = request.config.astProvider match {
     case Some(astProvider) =>
       if (request.astNode.isEmpty || request.astNode.get == null) {
         false
-      } else if (AnnotationReferencesCompletionPlugin().isApplicable(request) || isExample(request)) {
+      } else if (AnnotationReferencesCompletionPlugin().isApplicable(request) || ExampleStructureCompletionPlugin()
+                   .isApplicable(request)) {
         false
       } else if (languages.indexOf(astProvider.language) < 0) {
         false
