@@ -33,8 +33,6 @@ case class Position(line: Int, column: Int) {
   def moveColumn(value: Int): Position = copy(column = column + value)
 
   def moveLine(value: Int): Position = copy(line = line + value)
-
-  def toAmfPosition(): AmfPosition = AmfPosition(line + 1, column)
 }
 
 object Position {
