@@ -22,9 +22,7 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
   def listSymbols(categoryFilter: List[CategoryFilter]): List[DocumentSymbol] = {
 
     val list = root.children
-      .filter(c => !c.isAttr && visibilityFilter(c) && categoryFilter.exists(_.apply(c)))
-      .filter(c => c.asInstanceOf[IHighLevelNode].attribute("title").isDefined)
-      .filter(c => c.asInstanceOf[IHighLevelNode].attribute("title").get.value.map(_.toString).isDefined)
+      .filter(c => !c.isAttr && categoryFilter.exists(_.apply(c)) && filterEmptyNodes(c))
       .map(documentSymbol)
       .toList ++ childDocumentSymbol(root)
     list
@@ -34,6 +32,11 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
     val sortedStart = ranges.sortWith((a, b) => a.start < b.start)
     val sortedEnd = ranges.sortWith((a, b) => a.end < b.end)
     PositionRange(sortedStart.head.start, sortedEnd.last.end)
+  }
+
+  private def filterEmptyNodes(node: IParseResult): Boolean = {
+    node.asInstanceOf[IHighLevelNode].attribute("title").isDefined &&
+      node.asInstanceOf[IHighLevelNode].attribute("title").get.value.map(_.toString).isDefined
   }
 
   private def documentSymbol(hlNode: IParseResult): DocumentSymbol = {

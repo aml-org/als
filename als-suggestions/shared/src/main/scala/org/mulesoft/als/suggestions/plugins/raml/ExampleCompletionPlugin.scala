@@ -85,10 +85,10 @@ class ExampleCompletionPlugin extends ICompletionPlugin with ExampleCompletionTo
       case Some(node) =>
         Some(
           YamlSearch.getLocation(relativePosition(request),
-                                 parsedScalar,
-                                 PositionsMapper("").withText(node.text),
-                                 List(),
-                                 true));
+            parsedScalar,
+            PositionsMapper("").withText(node.text),
+            List(),
+            true));
 
       case _ => Option.empty;
     }
@@ -125,7 +125,7 @@ class ExampleCompletionPlugin extends ICompletionPlugin with ExampleCompletionTo
       .substring(indentedPosition);
 
     var notIndentedLeftPart =
-      actualLeftPart.lines.map(_.drop(firstIndent) + "\n").mkString
+      actualLeftPart.linesIterator.map(_.drop(firstIndent) + "\n").mkString
 
     notIndentedLeftPart.indexOf(positionMarker);
   }
@@ -197,13 +197,13 @@ class ExampleCompletionPlugin extends ICompletionPlugin with ExampleCompletionTo
         .filter(item => !siblingNames.contains(item.nameId.get))
         .map(prop => {
           var propertyName = prop.nameId.get
-          var ws: String   = ""
+          var ws: String = ""
           if (prop.range.exists(!_.isValueType)) {
             request.astNode
               .map(_.astUnit.positionsMapper)
               .foreach(pm => {
                 val point = pm.point(request.position)
-                val line  = pm.line(point.line).getOrElse("")
+                val line = pm.line(point.line).getOrElse("")
                 ws = "\n" + " " * pm.lineOffset(line) + "  "
               })
           }
@@ -237,7 +237,7 @@ class ExampleCompletionPlugin extends ICompletionPlugin with ExampleCompletionTo
                                 case scalar: YScalar => scalar.text
 
                                 case _ => null
-                            })
+                              })
                             .filter(_ != null)
 
                         case _ => Seq()
@@ -272,7 +272,7 @@ class ExampleCompletionPlugin extends ICompletionPlugin with ExampleCompletionTo
             case scalar: YScalar => current.equals(scalar.text);
 
             case _ => false;
-        }) match {
+          }) match {
           case Some(entry) =>
             entry.value match {
               case node: YNode => yNodeByPath(node, path.dropRight(1));
