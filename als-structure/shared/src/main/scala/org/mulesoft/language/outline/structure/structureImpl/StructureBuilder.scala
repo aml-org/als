@@ -35,8 +35,11 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
   }
 
   private def filterEmptyNodes(node: IParseResult): Boolean = {
-    node.asInstanceOf[IHighLevelNode].attribute("title").isDefined &&
-      node.asInstanceOf[IHighLevelNode].attribute("title").get.value.map(_.toString).isDefined
+    val res = (node.asInstanceOf[IHighLevelNode].attribute("title").isDefined &&
+      node.asInstanceOf[IHighLevelNode].attribute("title").get.value.map(_.toString).isDefined) || (node.asInstanceOf[IHighLevelNode].attribute("name").isDefined &&
+      node.asInstanceOf[IHighLevelNode].attribute("name").get.value.map(_.toString).isDefined) || (node.asInstanceOf[IHighLevelNode].attribute("key").isDefined &&
+      node.asInstanceOf[IHighLevelNode].attribute("key").get.value.map(_.toString).isDefined)
+    res
   }
 
   private def documentSymbol(hlNode: IParseResult): DocumentSymbol = {
