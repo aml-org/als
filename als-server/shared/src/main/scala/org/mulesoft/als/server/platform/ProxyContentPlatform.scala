@@ -25,8 +25,8 @@ class ProxyFileLoader(platform: ProxyContentPlatform) extends ResourceLoader {
 
 class ProxyContentPlatform(private val base: ServerPlatform,
                            private val logger: Logger,
-                           private val map: Map[String, String]) extends Platform {
-  self =>
+                           private val map: Map[String, String])
+    extends Platform { self =>
 
   def this(source: ServerPlatform, logger: Logger, overrideUrl: String, overrideContent: String) = {
     this(source, logger, Map(overrideUrl -> overrideContent))
@@ -44,26 +44,24 @@ class ProxyContentPlatform(private val base: ServerPlatform,
 
   override def resolvePath(uri: String): String = base.resolvePath(uri)
 
-  def fetchFile(_path: String): Future[Content] = {
-    var path = _path
-    path = PathRefine.refinePath(path, this)
+  def fetchFile(uri: String): Future[Content] = {
+    val refinedUri = PathRefine.refinePath(uri, this)
 
-    logger.debugDetail(
-      "Asked to fetch file " + path + " while override urls are " + map.keys.mkString(", "),
-      "ProxyContentPlatform",
-      "fetchFile")
+    logger.debugDetail("Asked to fetch file " + refinedUri + " while override urls are " + map.keys.mkString(", "),
+                       "ProxyContentPlatform",
+                       "fetchFile")
 
-    if (this.map.contains(path) ||
-      (path.startsWith("file://") && this.map.contains(path.substring("file://".length)))) {
+    if (this.map.contains(uri) ||
+        (uri.startsWith("file://") && this.map.contains(uri.substring("file://".length)))) {
 
-      logger.debugDetail("Path found to be overriden " + path, "ProxyContentPlatform", "fetchFile")
+      logger.debugDetail("Path found to be overriden " + refinedUri, "ProxyContentPlatform", "fetchFile")
 
       Future.successful(
-        Content(new CharSequenceStream(path, this.map(path)),
-          ensureFileAuthority(path),
-          extension(path).flatMap(mimeFromExtension)))
+        Content(new CharSequenceStream(uri, this.map(uri)),
+                ensureFileAuthority(uri),
+                extension(uri).flatMap(mimeFromExtension)))
     } else {
-      base.fetchFile(path)
+      base.fetchFile(uri)
     }
   }
 

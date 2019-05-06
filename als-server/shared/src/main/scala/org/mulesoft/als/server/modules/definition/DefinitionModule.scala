@@ -21,7 +21,7 @@ import scala.util.{Failure, Success}
 class DefinitionModule(private val hlAstManager: HlAstManager,
                        private val platform: AlsPlatform,
                        private val logger: Logger)
-  extends RequestModule[DefinitionClientCapabilities, Unit] {
+    extends RequestModule[DefinitionClientCapabilities, Unit] {
 
   override val `type`: ConfigType[DefinitionClientCapabilities, Unit] = DefinitionConfigType
 
@@ -40,8 +40,7 @@ class DefinitionModule(private val hlAstManager: HlAstManager,
 
   override def applyConfig(config: Option[DefinitionClientCapabilities]): Unit = {}
 
-  private def findDeclaration(_uri: String, position: Position): Future[Seq[ILocation]] = {
-    val uri = PathRefine.refinePath(_uri, platform)
+  private def findDeclaration(uri: String, position: Position): Future[Seq[ILocation]] = {
     val promise = Promise[Seq[ILocation]]()
 
     currentAst(uri) andThen {

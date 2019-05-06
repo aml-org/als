@@ -26,7 +26,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                          private val hlAstManager: HlAstManager,
                          private val platform: AlsPlatform,
                          private val logger: Logger)
-  extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
+    extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
   override val `type`: ConfigType[CompletionClientCapabilities, CompletionOptions] = CompletionConfigType
 
   def completionItem(suggestion: Suggestion): CompletionItem = {
@@ -68,22 +68,22 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
   protected def onDocumentCompletion(uri: String, position: Position): Future[Seq[Suggestion]] = {
     val refinedUri = PathRefine.refinePath(uri, platform)
 
-    logger.debug(s"Calling for completion for uri $refinedUri and position $position",
-      "SuggestionsManager",
-      "onDocumentCompletion")
+    logger.debug(s"Calling for completion for uri $uri and position $position",
+                 "SuggestionsManager",
+                 "onDocumentCompletion")
 
     textDocumentManager
-      .getTextDocument(refinedUri)
+      .getTextDocument(uri)
       .map(editor => {
         val syntax = if (editor.syntax == "YAML") Syntax.YAML else Syntax.JSON
 
         val startTime = System.currentTimeMillis()
 
         val originalText = editor.text
-        val offset = position.offset(originalText)
-        val text = suggestions.Core.prepareText(originalText, offset, syntax)
+        val offset       = position.offset(originalText)
+        val text         = suggestions.Core.prepareText(originalText, offset, syntax)
 
-        val vendorOption = Vendor.unapply(editor.language)
+        val vendorOption   = Vendor.unapply(editor.language)
         val vendor: Vendor = vendorOption.getOrElse(Raml10)
         //      this.logger.debug("Vendor is: " + vendor,
         //        "SuggestionsManager", "onDocumentCompletion")
@@ -98,41 +98,42 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
         //      this.logger.debug("Completion substring: " + text.substring(position-10, position),
         //        "SuggestionsManager", "onDocumentCompletion")
 
-        buildCompletionProviderAST(text, originalText, refinedUri, offset, vendor, syntax, AlsPlatform.default) // todo find a way to instanciate some platform usings als protocol (initialization maybe?)
+        buildCompletionProviderAST(text, originalText, uri, refinedUri, offset, vendor, syntax, AlsPlatform.default) // todo find a way to instanciate some platform usings als protocol (initialization maybe?)
           .flatMap(provider => {
-          provider.suggest
-            .map(result => {
-              this.logger.debug(s"Got ${result.length} proposals", "SuggestionsManager", "onDocumentCompletion")
+            provider.suggest
+              .map(result => {
+                this.logger.debug(s"Got ${result.length} proposals", "SuggestionsManager", "onDocumentCompletion")
 
-              val endTime = System.currentTimeMillis()
+                val endTime = System.currentTimeMillis()
 
-              this.logger.debugDetail(s"It took ${endTime - startTime} milliseconds to complete",
-                "ASTMaSuggestionsManagernager",
-                "onDocumentCompletion")
-              result
-            })
-        })
+                this.logger.debugDetail(s"It took ${endTime - startTime} milliseconds to complete",
+                                        "ASTMaSuggestionsManagernager",
+                                        "onDocumentCompletion")
+                result
+              })
+          })
       })
       .getOrElse(Future.successful(Seq.empty[Suggestion]))
   }
 
   def buildCompletionProviderAST(text: String,
                                  unmodifiedContent: String,
-                                 url: String,
+                                 uri: String,
+                                 refinedUri: String,
                                  position: Int,
                                  vendor: Vendor,
                                  syntax: Syntax,
                                  platform: AlsPlatform): Future[CompletionProvider] = {
 
     hlAstManager
-      .forceBuildNewAST(url, text)
+      .forceBuildNewAST(uri, text)
       .map(hlAST => {
 
-        val baseName = url.substring(url.lastIndexOf('/') + 1)
+        val baseName = refinedUri.substring(refinedUri.lastIndexOf('/') + 1)
 
         val astProvider = new ASTProvider(hlAST.rootASTUnit.rootNode, vendor, syntax, position)
 
-        val editorStateProvider = new EditorStateProvider(text, url, baseName, position)
+        val editorStateProvider = new EditorStateProvider(text, refinedUri, baseName, position)
 
         val completionConfig = new CompletionConfig(platform)
           .withEditorStateProvider(editorStateProvider)
@@ -144,7 +145,8 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
       .recoverWith {
         case e: Throwable =>
           println(e)
-          Future.successful(Suggestions.buildCompletionProviderNoAST(unmodifiedContent, url, position, platform))
+          Future.successful(
+            Suggestions.buildCompletionProviderNoAST(unmodifiedContent, refinedUri, position, platform))
         case any =>
           println(any)
           Future.failed(new Error("Failed to construct CompletionProvider"))

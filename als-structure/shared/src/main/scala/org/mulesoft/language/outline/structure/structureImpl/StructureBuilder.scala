@@ -11,22 +11,20 @@ import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
 import common.dtoTypes.{EmptyPositionRange, Position, PositionRange}
 import org.mulesoft.high.level.interfaces.{IHighLevelNode, IParseResult}
 import org.mulesoft.language.outline.common.commonInterfaces.{CategoryFilter, LabelProvider, VisibilityFilter}
+import org.mulesoft.language.outline.structure.structureDefault.NonEmptyNameVisibilityFilter
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureConfiguration
 import org.yaml.model.YMapEntry
 
 import scala.collection.{GenTraversableOnce, mutable}
 
-class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibilityFilter: VisibilityFilter) {
+class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, filters: Seq[VisibilityFilter]) {
 
-  def listSymbols(categoryFilter: List[CategoryFilter]): List[DocumentSymbol] = {
-
-    val list = root.children
-      .filter(c => !c.isAttr && categoryFilter.exists(_.apply(c)) && filterEmptyNodes(c))
+  def listSymbols(categoryFilter: List[CategoryFilter]): List[DocumentSymbol] =
+    root.children
+      .filter(c => !c.isAttr && filters.forall(_.apply(c)) && categoryFilter.exists(_.apply(c)) && filterEmptyNodes(c))
       .map(documentSymbol)
       .toList ++ childDocumentSymbol(root)
-    list
-  }
 
   def fullRange(ranges: Seq[PositionRange]): PositionRange = {
     val sortedStart = ranges.sortWith((a, b) => a.start < b.start)
@@ -35,11 +33,12 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
   }
 
   private def filterEmptyNodes(node: IParseResult): Boolean = {
-    val res = (node.asInstanceOf[IHighLevelNode].attribute("title").isDefined &&
-      node.asInstanceOf[IHighLevelNode].attribute("title").get.value.map(_.toString).isDefined) || (node.asInstanceOf[IHighLevelNode].attribute("name").isDefined &&
-      node.asInstanceOf[IHighLevelNode].attribute("name").get.value.map(_.toString).isDefined) || (node.asInstanceOf[IHighLevelNode].attribute("key").isDefined &&
-      node.asInstanceOf[IHighLevelNode].attribute("key").get.value.map(_.toString).isDefined)
-    res
+    (node.asInstanceOf[IHighLevelNode].attribute("title").isDefined &&
+      node.asInstanceOf[IHighLevelNode].attribute("title").get.value.map(_.toString).isDefined) ||
+      (node.asInstanceOf[IHighLevelNode].attribute("name").isDefined &&
+        node.asInstanceOf[IHighLevelNode].attribute("name").get.value.map(_.toString).isDefined) ||
+      (node.asInstanceOf[IHighLevelNode].attribute("key").isDefined &&
+        node.asInstanceOf[IHighLevelNode].attribute("key").get.value.map(_.toString).isDefined)
   }
 
   private def documentSymbol(hlNode: IParseResult): DocumentSymbol = {
@@ -51,7 +50,7 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
       range,
       keyRange,
       hlNode.children
-        .filter(c => !c.isAttr && visibilityFilter(c))
+        .filter(c => !c.isAttr && filters.forall(_.apply(c)))
         .map(documentSymbol)
         .toList ++ childDocumentSymbol(hlNode)
     )
@@ -103,7 +102,7 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
 
   private def childDocumentSymbol(hlNode: IParseResult) = {
     val attrChildren = hlNode.children
-      .filter(c => c.isAttr && visibilityFilter(c))
+      .filter(c => c.isAttr && filters.forall(_.apply(c)))
 
     val labels = attrChildren.map(labelProvider.getLabelText).distinct
     val result = mutable.ListBuffer[DocumentSymbol]()
@@ -114,7 +113,7 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, visibil
             labelProvider.getLabelText(c) == label &&
               !c.amfNode.annotations
                 .contains(classOf[SynthesizedField])) // TODO: ALS-759 after dialect refactor, fix this
-        if (corresponding.nonEmpty)
+        if (corresponding.size > 0)
           result.append(
             DocumentSymbol(
               label,
@@ -200,9 +199,13 @@ object KindForResultMatcher {
 
 object StructureBuilder {
   def apply(ast: IParseResult, config: StructureConfiguration): StructureBuilder =
-    new StructureBuilder(ast, config.labelProvider, config.visibilityFilter)
+    new StructureBuilder(ast,
+      config.labelProvider,
+      Seq(config.visibilityFilter, NonEmptyNameVisibilityFilter(config.labelProvider)))
 
   def listSymbols(ast: IParseResult, config: StructureConfiguration): List[DocumentSymbol] =
-    new StructureBuilder(ast, config.labelProvider, config.visibilityFilter)
+    new StructureBuilder(ast,
+      config.labelProvider,
+      Seq(config.visibilityFilter, NonEmptyNameVisibilityFilter(config.labelProvider)))
       .listSymbols(config.categories.keys.map(config.categories(_)).toList)
 }

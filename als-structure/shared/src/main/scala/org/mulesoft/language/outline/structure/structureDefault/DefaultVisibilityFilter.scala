@@ -1,7 +1,7 @@
 package org.mulesoft.language.outline.structure.structureDefault
 
 import org.mulesoft.high.level.interfaces.IParseResult
-import org.mulesoft.language.outline.common.commonInterfaces.VisibilityFilter
+import org.mulesoft.language.outline.common.commonInterfaces.{LabelProvider, VisibilityFilter}
 
 class DefaultVisibilityFilter extends VisibilityFilter {
 
@@ -14,4 +14,9 @@ class DefaultVisibilityFilter extends VisibilityFilter {
   def apply(node: IParseResult): Boolean = {
     true
   }
+}
+
+object NonEmptyNameVisibilityFilter {
+  def apply(labelProvider: LabelProvider): VisibilityFilter =
+    (node: IParseResult) => labelProvider.getLabelText(node).nonEmpty
 }

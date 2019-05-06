@@ -6,7 +6,7 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.util.PathRefine
-import org.mulesoft.high.level.Core
+import org.mulesoft.high.level.{Core, CustomDialects, InitOptions}
 import org.mulesoft.high.level.implementation.AlsPlatform
 import org.mulesoft.high.level.interfaces.IProject
 
@@ -18,7 +18,9 @@ import scala.concurrent.Future
 class HlAstManager(private val textDocumentManager: TextDocumentManager,
                    private val astManager: AstManager,
                    private val platform: AlsPlatform,
-                   private val logger: Logger) extends Initializable {
+                   private val logger: Logger,
+                   private val dialects: Seq[CustomDialects] = Seq())
+    extends Initializable {
 
   private var initialized: Boolean = false
 
@@ -28,7 +30,7 @@ class HlAstManager(private val textDocumentManager: TextDocumentManager,
 
   override def initialize(): Future[Unit] =
     Core
-      .init()
+      .init(InitOptions.AllProfiles.withCustomDialects(dialects))
       .map(_ => initialized = true)
       .map(_ => astManager.onNewASTAvailable(this.newASTAvailable))
 
@@ -59,10 +61,12 @@ class HlAstManager(private val textDocumentManager: TextDocumentManager,
 
   def hlFromAST(ast: BaseUnit): Future[IProject] = {
     val startTime = System.currentTimeMillis()
-    Core.buildModel(ast, this.platform)
+    Core
+      .buildModel(ast, this.platform)
       .map(result => {
         val endTime = System.currentTimeMillis()
-        logger.debugDetail(s"It took ${endTime - startTime} milliseconds to build ALS ast", "HlAstManager", "hlFromAST")
+        logger
+          .debugDetail(s"It took ${endTime - startTime} milliseconds to build ALS ast", "HlAstManager", "hlFromAST")
 
         result
       })
@@ -76,8 +80,7 @@ class HlAstManager(private val textDocumentManager: TextDocumentManager,
   /**
     * Builds new AST for content
     */
-  def forceBuildNewAST(_uri: String, text: String): Future[IProject] = {
-    val uri = PathRefine.refinePath(_uri, platform)
+  def forceBuildNewAST(uri: String, text: String): Future[IProject] = {
     logger.debug(s"Calling forceBuildNewAST for uri $uri", "HlAstManager", "forceBuildNewAST")
 
     astManager
@@ -106,4 +109,3 @@ class HlAstManager(private val textDocumentManager: TextDocumentManager,
 
   }
 }
-

@@ -22,7 +22,7 @@ private class TextIssue(var label: String, var start: Int, var end: Int)
 class RenameModule(private val hlAstManager: HlAstManager,
                    private val platform: AlsPlatform,
                    private val logger: Logger)
-  extends RequestModule[RenameClientCapabilities, RenameOptions] {
+    extends RequestModule[RenameClientCapabilities, RenameOptions] {
 
   override val `type`: RenameConfigType.type = RenameConfigType
 
@@ -40,12 +40,11 @@ class RenameModule(private val hlAstManager: HlAstManager,
 
   override def initialize(): Future[Unit] = Future.successful()
 
-  private def findTargets(_uri: String, position: Position, newName: String): Future[Seq[ChangedDocument]] = {
-    val uri = PathRefine.refinePath(_uri, platform)
+  private def findTargets(uri: String, position: Position, newName: String): Future[Seq[ChangedDocument]] = {
     val promise = Promise[Seq[ChangedDocument]]()
 
     currentAst(uri).andThen {
-      case Success(project) => {
+      case Success(project) =>
         SearchUtils.findAll(project, position) match {
           case Some(found) =>
             promise.success(found.map(location =>
@@ -53,7 +52,6 @@ class RenameModule(private val hlAstManager: HlAstManager,
 
           case _ => promise.success(Seq())
         }
-      }
 
       case Failure(error) => promise.failure(error)
     }

@@ -1,11 +1,18 @@
 package org.mulesoft.language.outline.structure.structureDefault
 
+import amf.core.model.domain.{AmfObject, DomainElement, NamedDomainElement}
 import org.mulesoft.high.level.interfaces.{IAttribute, IHighLevelNode, IParseResult}
 import org.mulesoft.language.outline.common.commonInterfaces.LabelProvider
 import org.mulesoft.typesystem.json.interfaces.JSONWrapper
 import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
 
 class DefaultLabelProvider extends LabelProvider {
+
+  def nameForNonNamed(amfNode: AmfObject) = {
+    amfNode match {
+      case d: DomainElement =>
+    }
+  }
 
   def getLabelText(node: IParseResult): String = {
     var resultOpt: Option[String] = None
@@ -19,7 +26,7 @@ class DefaultLabelProvider extends LabelProvider {
     } else if (node.isElement) {
 
       val hlNode = node.asInstanceOf[IHighLevelNode]
-
+      // should i add logic ofr all non named elements interface?
       if (hlNode.definition.nameId.contains(RamlDefinitionKeys.DOCUMENTATION_ITEM)) {
 
         val titleAttribute = hlNode.attribute("title")

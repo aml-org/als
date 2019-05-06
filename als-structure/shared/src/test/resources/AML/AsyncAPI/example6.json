@@ -839,59 +839,6 @@
             },
             "children": [
               {
-                "name": "",
-                "kind": 8,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 54,
-                    "character": 0
-                  },
-                  "end": {
-                    "line": 56,
-                    "character": 0
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 54,
-                    "character": 0
-                  },
-                  "end": {
-                    "line": 56,
-                    "character": 0
-                  }
-                },
-                "children": [
-                  {
-                    "name": "type",
-                    "kind": 8,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 54,
-                        "character": 0
-                      },
-                      "end": {
-                        "line": 56,
-                        "character": 0
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 54,
-                        "character": 0
-                      },
-                      "end": {
-                        "line": 56,
-                        "character": 0
-                      }
-                    },
-                    "children": []
-                  }
-                ]
-              },
-              {
                 "name": "type",
                 "kind": 8,
                 "deprecated": false,
