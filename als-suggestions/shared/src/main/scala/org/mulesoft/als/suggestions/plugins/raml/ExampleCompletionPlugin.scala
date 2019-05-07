@@ -124,7 +124,7 @@ class ExampleCompletionPlugin extends ICompletionPlugin with ExampleCompletionTo
     actualLeftPart = actualLeftPart.substring(0, indentedPosition) + positionMarker + actualLeftPart
       .substring(indentedPosition);
 
-    var notIndentedLeftPart =
+    val notIndentedLeftPart =
       actualLeftPart.lines.map(_.drop(firstIndent) + "\n").mkString
 
     notIndentedLeftPart.indexOf(positionMarker);

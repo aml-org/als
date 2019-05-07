@@ -11,7 +11,7 @@ import scala.concurrent.Future
 
 abstract class AlsPlatform(val defaultEnvironment: Environment = Environment()) extends Platform {
   override def resolve(url: String, env: Environment = defaultEnvironment): Future[Content] =
-    super.resolve(url, env)
+    super.resolve(resolver.fullPath(url, operativeSystem()), env)
 
   def withOverride(url: String, content: String): AlsPlatform = {
     val resolvedPath = resolvePath(url)
@@ -36,18 +36,8 @@ abstract class AlsPlatform(val defaultEnvironment: Environment = Environment()) 
 
     override def isDirectory(path: String): Future[Boolean] = fs.asyncFile(refinePath(path)).isDirectory
 
-    override protected def refinePath(path: String): String = {
-      var p = path
-      if (p.startsWith("file://"))
-        if (operativeSystem().toLowerCase().startsWith("win")
-            && p.startsWith("file:///"))
-          p = p.substring("file:///".length)
-        else
-          p = p.substring("file://".length)
-      p
-    }
+    override protected def refinePath(path: String): String = PathResolver.refinePath(operativeSystem(), path)
   }
-
   def directoryResolver: DirectoryResolver = resolver
 
   def resolvePath(absBasePath: String, path: String): Option[String] =
@@ -56,4 +46,18 @@ abstract class AlsPlatform(val defaultEnvironment: Environment = Environment()) 
 
 object AlsPlatform {
   def default = new AlsPlatformWrapper(dirResolver = None)
+}
+
+object PathResolver {
+  def refinePath(os: String, path: String): String = {
+    val isWindows = os.toLowerCase().startsWith("win")
+    var p         = if (isWindows) path.replace('\\', '/') else path
+    if (p.startsWith("file://"))
+      if (isWindows
+          && p.startsWith("file:///"))
+        p = p.substring("file:///".length)
+      else
+        p = p.substring("file://".length)
+    p
+  }
 }

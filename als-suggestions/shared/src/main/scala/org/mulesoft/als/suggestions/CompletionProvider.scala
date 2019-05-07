@@ -340,13 +340,11 @@ object CompletionProvider {
     result
   }
 
-  def prepareJsonContent(text: String, offset: Int): String = {
-    var lineStart = text.lastIndexOf("\n", Math.max(0, offset - 1)) match {
-      case lStart if lStart < 0 => 0
-      case lStart               => lStart + 1
-    }
-    if (lineStart < 0) lineStart = 0
-    else lineStart += 1
+  def prepareJsonContent(textRaw: String, offsetRaw: Int): String = {
+    val EOL       = textRaw.find(_ == '\r').map(_ => "\r\n").getOrElse("\n")
+    val text      = textRaw.replace(EOL, "\n")
+    val offset    = offsetRaw - textRaw.substring(0, offsetRaw).count(_ == '\r')
+    val lineStart = 0.max(text.lastIndexOf("\n", 0.max(offset - 1)) + 1)
 
     var lineEnd = text.indexOf("\n", offset)
     if (lineEnd < 0) lineEnd = text.length
@@ -372,12 +370,10 @@ object CompletionProvider {
     if (colonIndex < 0) {
       if (lineTrim.startsWith("\"")) {
         newLine = line.substring(0, off) + "x\" : "
-        if (!hasComplexValueStart) {
+        if (!hasComplexValueStart)
           newLine += "\"\""
-        }
-        if (!(hasComplexValueSameLine || hasComplexValueNextLine)) {
+        if (!(hasComplexValueSameLine || hasComplexValueNextLine))
           newLine += ","
-        }
       }
     } else if (colonIndex <= off) {
       colonIndex = line.lastIndexOf(":", off)
@@ -385,37 +381,30 @@ object CompletionProvider {
       val hasOpenCurlyBracket  = substr.startsWith("{")
       val hasOpenSquareBracket = substr.startsWith("[")
       newLine = line.substring(0, off)
-      if (hasOpenCurlyBracket || hasOpenSquareBracket) {
+      if (hasOpenCurlyBracket || hasOpenSquareBracket)
         substr = substr.substring(1)
-      }
       var hasOpenValueQuote = substr.startsWith("\"")
       if (!hasOpenValueQuote && !(hasOpenCurlyBracket || hasOpenSquareBracket)) {
         newLine += "\""
         hasOpenValueQuote = true
       }
-      if (hasOpenValueQuote) {
+      if (hasOpenValueQuote)
         newLine += "\""
-      }
-      if (hasComplexValueSameLine) {
+      if (hasComplexValueSameLine)
         newLine += lineTrim.charAt(lineTrim.length - 1)
-      }
-      if (lineTrim.endsWith(",")) {
+      if (lineTrim.endsWith(","))
         newLine += ","
-      }
     } else {
       if (line.substring(colonIndex + 1).trim.startsWith("\"")) {
         val openQuoteInd = line.indexOf("\"", colonIndex)
-        if (off > openQuoteInd) {
-          if (!lineTrim.endsWith("\"")) {
+        if (off > openQuoteInd)
+          if (!lineTrim.endsWith("\""))
             newLine += "\""
-          }
-        }
       }
-      if (needComa) {
+      if (needComa)
         newLine += ","
-      }
     }
     val result = text.substring(0, lineStart) + newLine + text.substring(lineEnd)
-    result
+    result.replace("\n", EOL)
   }
 }
