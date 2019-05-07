@@ -19,7 +19,9 @@ class DefaultContentProvider(visibilityFilter: VisibilityFilter,
     if (source.isAttr)
       Seq.empty
     else if (source.isElement)
-      new StructureBuilder(source, labelProvider, visibilityFilter).listSymbols(Nil).filter(_.name.length > 0)
+      new StructureBuilder(source, labelProvider, Seq(visibilityFilter, NonEmptyNameVisibilityFilter(labelProvider)))
+        .listSymbols(Nil)
+        .filter(_.name.length > 0)
     else
       Seq.empty
   }
