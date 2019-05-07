@@ -120,6 +120,7 @@ object Diff {
     val out    = new PrintWriter(writer)
     deltas.foreach(_.print(out))
     writer.toString
+      .replace("\r\n", "\n")
   }
 
   /** Create a differ with the specified String comparator. */

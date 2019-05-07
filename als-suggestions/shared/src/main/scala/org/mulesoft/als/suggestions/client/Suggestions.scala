@@ -42,13 +42,18 @@ object Suggestions {
       }
   }
 
+  def getMediaType(originalContent: String): Syntax = {
+
+    val trimmed = originalContent.trim
+    if (trimmed.startsWith("{") || trimmed.startsWith("[")) Syntax.JSON else Syntax.YAML
+  }
+
   private def suggestWithPatchedPlatform(language: String,
                                          url: String,
                                          originalContent: String,
                                          position: Int,
                                          patchedPlatform: AlsPlatform): Future[Seq[Suggestion]] = {
     val config = this.buildParserConfig(language, url)
-
     val completionProviderFuture: Future[CompletionProvider] = this
       .amfParse(config, patchedPlatform.defaultEnvironment, patchedPlatform)
       .flatMap(this.buildHighLevel(_, patchedPlatform))
@@ -137,7 +142,7 @@ object Suggestions {
 
     val trimmed = text.trim
     val vendor  = if (trimmed.startsWith("#%RAML")) Raml10 else Oas20
-    val syntax  = if (trimmed.startsWith("{") || trimmed.startsWith("[")) Syntax.JSON else Syntax.YAML
+    val syntax  = getMediaType(trimmed)
 
     val astProvider = new EmptyASTProvider(vendor, syntax)
 

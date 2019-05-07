@@ -18,31 +18,21 @@ case class PositionsMapper(override val uri: String) extends IPositionsMapper {
     initPoint(range.end)
   }
 
-  def initPoint(point: Point): Unit = {
-    if (point.position >= 0) {
-      return
-    }
-    point match {
-      case yp: YPoint =>
-        var pos = mapToPosition(point.line, point.column)
-        yp.setPosition(pos)
-      case _ =>
-    }
-  }
-
-  def mapToPosition(line: Int, colum: Int): Int = {
-    if (line < 0 || line > lineLengthSums.length - 1 || line > lineLengths.length - 1) {
-      -1
-    } else if (colum > lineLengths(line)) {
-      if (line == lineLengths.length - 1) {
-        textLength
-      } else {
-        -1
+  def initPoint(point: Point): Unit =
+    if (point.position < 0)
+      point match {
+        case yp: YPoint =>
+          val pos = mapToPosition(point.line, point.column)
+          yp.setPosition(pos)
+        case _ =>
       }
-    } else {
-      lineLengthSums(line) + colum
-    }
-  }
+
+  def mapToPosition(line: Int, column: Int): Int =
+    if (line < 0 || line > lineLengthSums.length - 1 || line > lineLengths.length - 1) -1
+    else if (column > lineLengths(line)) {
+      if (line == lineLengths.length - 1) textLength
+      else -1
+    } else lineLengthSums(line) + column
 
   def withText(_text: String): PositionsMapper = {
     setText(_text)
@@ -55,42 +45,27 @@ case class PositionsMapper(override val uri: String) extends IPositionsMapper {
   }
 
   def initMapping(): Unit = {
-
-    var ind = 0
-    val l   = text.length
-
+    var ind        = 0
+    val l          = text.length
     var ignoreNext = false
-
-    for { i <- 0 until l } {
-
-      if (ignoreNext) {
-        ignoreNext = false
-      } else {
-
-        ignoreNext = false
-
-        if (text.charAt(i) == '\r') {
-          if (i < l - 1 && text.charAt(i + 1) == '\n') {
-
-            appendLineLength(i - ind + 2)
-
-            ind = i + 2
-
-            ignoreNext = true
-          } else {
-
-            appendLineLength(i - ind + 1)
-            ind = i + 1
-          }
-        } else if (text.charAt(i) == '\n') {
-
+    for { i <- 0 until l } if (ignoreNext)
+      ignoreNext = false
+    else {
+      ignoreNext = false
+      if (text.charAt(i) == '\r') {
+        if (i < l - 1 && text.charAt(i + 1) == '\n') {
+          appendLineLength(i - ind + 2)
+          ind = i + 2
+          ignoreNext = true
+        } else {
           appendLineLength(i - ind + 1)
           ind = i + 1
         }
+      } else if (text.charAt(i) == '\n') {
+        appendLineLength(i - ind + 1)
+        ind = i + 1
       }
-
     }
-
     appendLineLength(l - ind)
   }
 
@@ -100,13 +75,9 @@ case class PositionsMapper(override val uri: String) extends IPositionsMapper {
   }
 
   override def offset(position: Int): Int = {
-    if (position <= 0 || text.lengthCompare(position) < 0) {
-      0
-    } else {
-      var ind = text.lastIndexOf('\n', position - 1)
-      if (ind < 0) {
-        ind = 0
-      }
+    if (position <= 0 || text.lengthCompare(position) < 0) 0
+    else {
+      val ind = 0.max(text.lastIndexOf('\n', position - 1))
       position - (ind + 1)
     }
   }
@@ -114,49 +85,41 @@ case class PositionsMapper(override val uri: String) extends IPositionsMapper {
   // $COVERAGE-OFF$
   override def lineOffset(str: String): Int = {
     var nonWhitespaceIndex = str.indexWhere(!Character.isWhitespace(_))
-    if (nonWhitespaceIndex < 0) {
+    if (nonWhitespaceIndex < 0)
       nonWhitespaceIndex = str.length
-    }
     val whiteSpaceLines = str.substring(0, nonWhitespaceIndex).split("\r\n").flatMap(_.split("\n"))
-    if (whiteSpaceLines.isEmpty) {
-      0
-    } else {
-      var result = whiteSpaceLines.map(_.length).min
-      result
-    }
+    if (whiteSpaceLines.isEmpty) 0
+    else whiteSpaceLines.map(_.length).min
   }
 
   override def point(position: Int): Point = {
-
     if (position == text.length) {
-      var line   = lineLengths.length - 1
-      var column = lineLengths(lineLengths.length - 1)
+      val line   = lineLengths.length - 1
+      val column = lineLengths(lineLengths.length - 1)
       YPoint(line, column, position)
     } else if (position == text.length + 1) {
-      var line   = lineLengths.length - 1
-      var column = lineLengths(lineLengths.length - 1) - 1
+      val line   = lineLengths.length - 1
+      val column = lineLengths(lineLengths.length - 1) - 1
       YPoint(line, column, position - 1)
     } else {
-      var line = lineLengthSums.lastIndexWhere(position >= _)
+      val line = lineLengthSums.lastIndexWhere(position >= _)
       if (line < 0) {
-        var errorMessage = s"Character position exceeds text length: $position > ${text.length}. Path: $uri"
+        val errorMessage = s"Character position exceeds text length: $position > ${text.length}. Path: $uri"
         throw new Error(errorMessage)
       }
-      var column = if (line == 0) position else position - lineLengthSums(line)
+      val column = if (line == 0) position else position - lineLengthSums(line)
       YPoint(line, column, position)
     }
   }
 
-  override def lineString(line: Int): Option[String] = {
-    if (line < 0 || line > lineLengthSums.length - 1) {
+  override def lineString(line: Int): Option[String] =
+    if (line < 0 || line > lineLengthSums.length - 1)
       None
-    } else {
-      val start  = lineLengthSums(line)
-      val end    = lineLengthSums(line + 1)
-      val result = text.substring(start, end)
-      Some(result)
+    else {
+      val start = lineLengthSums(line)
+      val end   = lineLengthSums(line + 1)
+      Option(text.substring(start, end))
     }
-  }
 
   // $COVERAGE-ON$
   override def getText: String = text
@@ -165,18 +128,17 @@ case class PositionsMapper(override val uri: String) extends IPositionsMapper {
 
   // $COVERAGE-OFF$
   override def line(lineIndex: Int): Option[String] = {
-    if (lineIndex < 0 || lineIndex > lineLengthSums.length - 1) {
+    if (lineIndex < 0 || lineIndex > lineLengthSums.length - 1)
       None
-    } else {
-      var start = lineLengthSums(lineIndex)
-      var end   = lineLengthSums(lineIndex + 1)
+    else {
+      val start = lineLengthSums(lineIndex)
+      val end   = lineLengthSums(lineIndex + 1)
       Some(text.substring(start, end))
     }
   }
 
-  override def lineContainingPosition(position: Int): Option[String] = {
+  override def lineContainingPosition(position: Int): Option[String] =
     line(point(position).line)
-  }
 
   // $COVERAGE-ON$
 }

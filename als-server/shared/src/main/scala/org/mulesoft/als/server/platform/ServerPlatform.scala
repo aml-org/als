@@ -69,15 +69,7 @@ class ServerPlatform(val logger: Logger,
     val refineUri = PathRefine.refinePath(uri, this)
 
     val result = refineUri match {
-      case File(path) =>
-        val isWindows = operativeSystem().toLowerCase().indexOf("win") >= 0
-        if (path.startsWith("/")) {
-          File.FILE_PROTOCOL + path
-        } else if (isWindows) {
-          File.FILE_PROTOCOL + withTrailingSlash(path)
-        } else {
-          File.FILE_PROTOCOL + path
-        }
+      case File(path) => File.FILE_PROTOCOL + path
 
       case Http(protocol, host, path) => protocol + host + withTrailingSlash(path)
 
