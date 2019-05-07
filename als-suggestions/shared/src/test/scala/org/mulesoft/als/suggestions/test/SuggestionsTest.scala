@@ -44,8 +44,17 @@ trait SuggestionsTest extends AsyncFunSuite {
   }
 
   def assert(path: String, actualSet: Set[String], golden: Set[String]): Assertion = {
-    val diff1 = actualSet.diff(golden)
-    val diff2 = golden.diff(actualSet)
+    def replaceEOL(s: String): String = {
+      s.replace(System.lineSeparator(), "\n")
+    }
+
+    val diff1 = actualSet
+      .map(replaceEOL)
+      .diff(golden.map(replaceEOL))
+
+    val diff2 = golden
+      .map(replaceEOL)
+      .diff(actualSet.map(replaceEOL))
 
     diff1.foreach(println)
     diff2.foreach(println)
@@ -198,7 +207,7 @@ trait SuggestionsTest extends AsyncFunSuite {
     if (position < 0) {
       new MarkerInfo(str1, str1.length, str1)
     } else {
-      val rawContent = str1.replace(label, "")
+      val rawContent = str1.replace(label, "") //.replace("\r\n", "\n")
 
       val preparedContent =
         org.mulesoft.als.suggestions.Core

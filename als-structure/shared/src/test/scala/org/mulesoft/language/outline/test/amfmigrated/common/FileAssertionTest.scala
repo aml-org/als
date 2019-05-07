@@ -2,6 +2,7 @@ package org.mulesoft.language.outline.test.amfmigrated.common
 
 import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.common.io.{AsyncFile, FileSystem}
+import org.mulesoft.high.level.implementation.PathResolver
 import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -14,7 +15,7 @@ trait FileAssertionTest extends PlatformSecrets {
 
   protected def writeTemporaryFile(golden: String)(content: String): Future[AsyncFile] = {
     val file   = tmp(s"${golden.replaceAll("/", "-")}.tmp")
-    val actual = fs.asyncFile(file)
+    val actual = fs.asyncFile(PathResolver.refinePath(platform.operativeSystem(), file))
     actual.write(content).map(_ => actual)
   }
 
@@ -23,8 +24,12 @@ trait FileAssertionTest extends PlatformSecrets {
     expected.read().flatMap(_ => Tests.checkDiff(actual, expected))
   }
 
+  private def endWithLineSeparator(path: String, separator: Char) =
+    if (path.endsWith(s"$separator")) path
+    else path + separator
+
   /** Return random temporary file name for testing. */
   def tmp(name: String = ""): String =
-    (platform.tmpdir() + platform.fs.separatorChar + System.nanoTime() + "-" + name)
-      .replaceAll(s"${platform.fs.separatorChar}${platform.fs.separatorChar}", s"${platform.fs.separatorChar}")
+    (endWithLineSeparator(platform.tmpdir(), platform.fs.separatorChar) + System.nanoTime() + "-" + name)
+  //.replaceAll(s"${platform.fs.separatorChar}${platform.fs.separatorChar}", s"${platform.fs.separatorChar}")
 }

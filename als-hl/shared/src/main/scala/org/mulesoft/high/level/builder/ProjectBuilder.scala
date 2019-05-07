@@ -132,21 +132,14 @@ object ProjectBuilder {
     formatOpt
   }
 
-  private def listUnits(rootUnit: BaseUnit): Map[String, BaseUnit] = {
-    val processed: mutable.Map[String, BaseUnit] = mutable.Map()
-    var toProcess: ListBuffer[BaseUnit]          = ListBuffer() += rootUnit
-    var i: Int                                   = 0
-    while (toProcess.lengthCompare(i) > 0) {
-      val unit = toProcess(i)
-      val id   = TypeBuilder.normalizedPath(unit)
-
-      processed(id) = unit
-      val newRefs = TypeBuilder.getReferences(unit).filter(u => !processed.contains(u.reference))
-      newRefs.foreach(ref => {
-        toProcess += ref.unit
-        processed(ref.reference) = ref.unit
-      })
-      i += 1
+  private def listUnits(rootUnit: BaseUnit,
+                        processed: mutable.Map[String, BaseUnit] = mutable.Map()): Map[String, BaseUnit] = {
+    val id = TypeBuilder.normalizedPath(rootUnit)
+    if (!processed.contains(id)) {
+      processed(id) = rootUnit
+      rootUnit.references.foreach { unit =>
+        listUnits(unit, processed)
+      }
     }
     processed
   }
