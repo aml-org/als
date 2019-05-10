@@ -270,7 +270,7 @@ lazy val fat = crossProject(JSPlatform, JVMPlatform).settings(
 )
   .dependsOn(suggestions, structure , hl , server)
   .in(file("./als-fat")).settings(settings: _*).jvmSettings(
-  libraryDependencies += "com.github.amlorg" %%% "amf-aml" % deps("amf"),
+  libraryDependencies += "com.github.amlorg" %%% "amf-aml" % amfVersion,
   //	packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
   //        aggregate in assembly := true,
   assemblyMergeStrategy in assembly := {
