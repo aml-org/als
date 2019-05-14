@@ -32,191 +32,115 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 
   override def languages: Seq[Vendor] = StructureCompletionPlugin.supportedLanguages
 
-  override def isApplicable(request: ICompletionRequest): Boolean = request.config.astProvider match {
-    case Some(astProvider) =>
-      if (request.astNode.isEmpty || request.astNode.get == null) {
-        false
-      } else if (AnnotationReferencesCompletionPlugin().isApplicable(request) || ExampleStructureCompletionPlugin()
-                   .isApplicable(request)) {
-        false
-      } else if (languages.indexOf(astProvider.language) < 0) {
-        false
-      } else if (isContentType(request)) {
-        true
-      } else if (isDiscriminatorValue(request)) {
-        true
-      } else {
-        request.actualYamlLocation match {
-          case Some(l) =>
-            if (l.inKey(request.position)) {
-              if (request.astNode.get.isAttr) {
+  override def isApplicable(request: ICompletionRequest): Boolean =
+    request.config.astProvider match {
+      case Some(astProvider) =>
+        if (request.astNode.isEmpty || request.astNode.get == null)
+          false
+        else if (AnnotationReferencesCompletionPlugin().isApplicable(request) || ExampleStructureCompletionPlugin()
+                   .isApplicable(request))
+          false
+        else if (languages.indexOf(astProvider.language) < 0)
+          false
+        else if (isContentType(request))
+          true
+        else if (isDiscriminatorValue(request))
+          true
+        else
+          request.actualYamlLocation match {
+            case Some(l) =>
+              if (l.inKey(request.position)) {
+                if (request.astNode.get.isAttr)
+                  true
+                else if (request.yamlLocation.get.mapEntry.exists(x => x.yPart == l.mapEntry.get.yPart))
+                  true
+                else
+                  request.yamlLocation.get.value.get.yPart match {
+                    case m: YMap =>
+                      l.mapEntry match {
+                        case Some(me) =>
+                          m.entries.contains(me.yPart)
+                        case _ => false
+                      }
+                    case _ => false
+                  }
+              } else if (isDefinitionRequired(request))
                 true
-              } else if (request.yamlLocation.get.mapEntry.exists(x => x.yPart == l.mapEntry.get.yPart)) {
+              else if (isSecurityReference(request))
                 true
-              } else {
-                request.yamlLocation.get.value.get.yPart match {
-                  case m: YMap =>
-                    l.mapEntry match {
-                      case Some(me) =>
-                        m.entries.contains(me.yPart)
-                      case _ => false
-                    }
-                  case _ => false
-                }
-              }
-            } else if (isDefinitionRequired(request)) {
-              true
-            } else if (isSecurityReference(request)) {
-              true
-            } else if (isRequestParameterName(request)) {
-              true
-            } else {
-              isMethodKey(request)
-            }
-          case _ => false
-        }
-      }
-    case _ => false
-  }
-
-  def isRequestParameterName(request: ICompletionRequest): Boolean = {
-    request.astNode.get.asAttr match {
-      case Some(node) =>
-        node.parent match {
-          case Some(parent) =>
-            node.property match {
-              case Some(prop) =>
-                prop.nameId match {
-                  case Some(name) =>
-                    "name".equals(name) && parent.definition.isAssignableFrom("BodyParameterObject") && (parent
-                      .attribute("in") match {
-                      case Some(inAttr) =>
-                        inAttr.value match {
-                          case Some(value: String) => "query".equals(value)
-
-                          case _ => false
-                        }
-
-                      case _ => false
-                    })
-
-                  case _ => false
-                }
-
-              case _ => false
-            }
-
-          case _ => false
-        }
-
-      case _ => false
-    }
-  }
-
-  def isSecurityReference(request: ICompletionRequest): Boolean = {
-    request.astNode.get.asElement match {
-      case Some(node) => node.definition.isAssignableFrom("SecurityRequirementObject")
-
-      case _ => false
-    }
-  }
-
-  def isDefinitionRequired(request: ICompletionRequest): Boolean = {
-    request.astNode.get.asElement match {
-      case Some(node) => {
-        request.actualYamlLocation match {
-          case Some(location) => {
-            location.keyNode match {
-              case Some(keyNode) =>
-                keyNode.yPart match {
-                  case yPart: YNode =>
-                    if ("required".equals(yPart.toString())) {
-                      node.definition.isAssignableFrom("DefinitionObject")
-                    } else {
-                      false
-                    }
-
-                  case _ => false
-                }
-
-              case _ => false
-            }
-          }
-
-          case _ => false
-        }
-      }
-      case _ => false
-    }
-  }
-
-  def isMethodKey(request: ICompletionRequest): Boolean = request.astNode match {
-    case Some(node) =>
-      node.property match {
-        case Some(property) =>
-          property.domain match {
-            case Some(domain) => domain.isAssignableFrom("Method")
-
+              else if (isRequestParameterName(request))
+                true
+              else
+                isMethodKey(request)
             case _ => false
           }
-
-        case _ => false
-      }
-
-    case _ => false
-  }
-
-  def contentTypes(request: ICompletionRequest): Seq[String] = {
-    var extra = request.astNode.get.asElement.get.definition.universe
-      .`type`("Api")
-      .get
-      .property("mediaType")
-      .get
-      .getExtra(PropertySyntaxExtra)
-      .get
-
-    extra.oftenValues.map(_.asInstanceOf[String])
-  }
-
-  def isBody(node: IParseResult): Boolean = {
-    node.property.get.nameId.get == "body"
-  }
-
-  def isDiscriminatorValue(request: ICompletionRequest): Boolean = {
-    if (request.astNode.get.property.isEmpty || request.astNode.get.property.get == null) {
-      return false
+      case _ => false
     }
 
-    if (request.astNode.get.property.get.nameId.get != "discriminator") {
-      return false
-    }
+  def isRequestParameterName(request: ICompletionRequest): Boolean =
+    request.astNode
+      .flatMap(_.asAttr)
+      .flatMap(
+        node =>
+          node.parent.flatMap(
+            parent =>
+              node.property.flatMap(prop =>
+                prop.nameId.map(name =>
+                  "name".equals(name) &&
+                    parent.definition.isAssignableFrom("BodyParameterObject") &&
+                    parent.attribute("in").flatMap(inAttr => inAttr.value).exists("query".equals)))))
+      .getOrElse(false)
 
-    request.astNode.get.property.get.domain.get.isAssignableFrom("TypeDeclaration")
-  }
+  def isSecurityReference(request: ICompletionRequest): Boolean =
+    request.astNode
+      .flatMap(_.asElement)
+      .exists(_.definition.isAssignableFrom("SecurityRequirementObject"))
+
+  def isDefinitionRequired(request: ICompletionRequest): Boolean =
+    request.astNode
+      .map(_.asElement)
+      .flatMap(
+        node =>
+          request.actualYamlLocation.flatMap(
+            _.keyNode.map(kn =>
+              kn.yPart match {
+                case yPart: YNode =>
+                  "required".equals(yPart.toString()) &&
+                    node.exists(_.definition.isAssignableFrom("DefinitionObject"))
+                case _ => false
+            })
+        ))
+      .getOrElse(false)
+
+  def isMethodKey(request: ICompletionRequest): Boolean =
+    request.astNode
+      .flatMap(node => node.property.flatMap(property => property.domain.map(_.isAssignableFrom("Method"))))
+      .getOrElse(false)
+
+  def contentTypes(request: ICompletionRequest): Seq[String] =
+    request.astNode
+      .flatMap(_.asElement)
+      .flatMap(_.definition.universe.`type`("Api"))
+      .flatMap(_.property("mediaType"))
+      .flatMap(_.getExtra(PropertySyntaxExtra))
+      .map(_.oftenValues.map(_.asInstanceOf[String]))
+      .getOrElse(Nil)
+
+  def isBody(node: IParseResult): Boolean =
+    node.property
+      .flatMap(_.nameId)
+      .map("body".equals)
+      .getOrElse(false)
+
+  def isDiscriminatorValue(request: ICompletionRequest): Boolean =
+    !(request.astNode.exists(_.property.isEmpty) || request.astNode.flatMap(_.property).contains(null)) &&
+      !request.astNode.flatMap(_.property).flatMap(_.nameId).exists(_ != "discriminator") &&
+      request.astNode.flatMap(_.property).flatMap(_.domain).exists(_.isAssignableFrom("TypeDeclaration"))
 
   def isContentType(request: ICompletionRequest): Boolean = {
-    getBody(request) match {
-      case Some(body) =>
-        if (!isBody(body)) {
-          return false
-        }
-      case _ => {
-        return false
-      }
-    }
-
-    request.actualYamlLocation match {
-      case Some(location) =>
-        location.keyValue match {
-          case Some(yPart) => yPart.toString() == "body"
-
-          case _ => return false
-        }
-
-      case _ => return false
-    }
-
-    request.actualYamlLocation.get.keyValue.get.yPart.asInstanceOf[YScalar].text == "body"
+    getBody(request).exists(isBody) &&
+    (request.actualYamlLocation.flatMap(_.keyValue.map(_.toString == "body")) getOrElse false) &&
+    (request.actualYamlLocation.get.keyValue.get.yPart.asInstanceOf[YScalar].text == "body")
   }
 
   override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
@@ -251,7 +175,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                 n = _n.parent.get
               }
             } else if (!property.isMultiValue && n.sourceInfo.yamlSources.nonEmpty) {
-              var isInKey =
+              val isInKey =
                 YamlLocation(n.sourceInfo.yamlSources.head, n.astUnit.positionsMapper).inKey(request.position)
               if (isInKey) {
                 n = _n.parent.get
@@ -263,13 +187,13 @@ class StructureCompletionPlugin extends ICompletionPlugin {
         if (isInKey) {
           n = _n.parent.get
         }
-        var isYAML = request.config.astProvider.map(_.syntax).contains(Syntax.YAML)
+        val isYAML = request.config.astProvider.map(_.syntax).contains(Syntax.YAML)
 
         if (isRequestParameterName(request)) {
           responseKind = LocationKind.VALUE_COMPLETION
 
           extractPathItemObject(request) match {
-            case Some(pathItemObject) => {
+            case Some(pathItemObject) =>
               pathItemObject.attribute("path") match {
                 case Some(pathAttr) =>
                   pathAttr.value match {
@@ -286,7 +210,6 @@ class StructureCompletionPlugin extends ICompletionPlugin {
 
                 case _ => Seq()
               }
-            }
 
             case _ => Seq()
           }
@@ -316,16 +239,16 @@ class StructureCompletionPlugin extends ICompletionPlugin {
             .elements("properties")
             .foreach {
               case propsNode: IHighLevelNode => {
-                var names = propsNode
+                propsNode
                   .attributes("name")
                   .map(attr => attr.value)
                   .filter(item =>
                     item match {
-                      case Some(defined) => true
+                      case Some(_) => true
 
                       case _ => false
                   })
-                  .foreach(item => nameList += item.get.toString)
+                  .foreach(item => item.foreach(nameList += _.toString))
               }
 
               case _ => Seq()
@@ -342,7 +265,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
           responseKind = LocationKind.VALUE_COMPLETION
           extractFirstLevelScalars(request).map(name => Suggestion(name, description, name, request.prefix))
         } else if (n.isElement) {
-          var element = n.asElement.get
+          val element = n.asElement.get
 
           extractSuggestableProperties(element).map(prop => {
             val pName       = prop.nameId.get
@@ -377,40 +300,23 @@ class StructureCompletionPlugin extends ICompletionPlugin {
     Promise.successful(response).future
   }
 
-  def extractPathItemObject(request: ICompletionRequest): Option[IHighLevelNode] = {
-    request.astNode.get.parent match {
-      case Some(paramObject) =>
-        paramObject.parent match {
-          case Some(operation) =>
-            operation.parent match {
-              case Some(pathItem) =>
-                if (pathItem.definition.isAssignableFrom("PathItemObject")) {
-                  Some(pathItem)
-                } else {
-                  None
-                }
-
-              case _ => None
-            }
-
-          case _ => None
-        }
-
-      case _ => None
-    }
-  }
+  def extractPathItemObject(request: ICompletionRequest): Option[IHighLevelNode] =
+    request.astNode
+      .flatMap(_.parent)
+      .flatMap(_.parent)
+      .flatMap(_.parent)
+      .filter(_.definition.isAssignableFrom("PathItemObject"))
 
   def extractFirstLevelScalars(request: ICompletionRequest): Seq[String] =
-    request.astNode.get.parent.get
-      .elements("properties")
-      .filter(_.definition match {
-        case propertyType =>
-          Seq("StringTypeDeclaration", "NumberTypeDeclaration", "BooleanTypeDeclaration", "ArrayTypeDeclaration")
-            .exists(propertyType.isAssignableFrom(_))
-
-        case _ => false
-      })
-      .map(p => p.definition.nameId.get)
+    request.astNode
+      .flatMap(_.parent)
+      .map(
+        _.elements("properties")
+          .filter(f =>
+            Seq("StringTypeDeclaration", "NumberTypeDeclaration", "BooleanTypeDeclaration", "ArrayTypeDeclaration")
+              .exists(f.definition.isAssignableFrom(_)))
+          .map(p => p.definition.nameId.get))
+      .getOrElse(Nil)
 
   def getBody(request: ICompletionRequest): Option[IParseResult] = {
     //TODO: implement when node searching will be fixed.
@@ -423,61 +329,66 @@ class StructureCompletionPlugin extends ICompletionPlugin {
     val isTypeDeclaration = node.definition.isAssignableFrom("TypeDeclaration")
 
     node.children.foreach(x => {
-      if (x.sourceInfo.yamlSources.nonEmpty) {
-        x.property match {
-          case Some(p) =>
-            p.nameId match {
-              case Some(n) =>
-                var append = true
-                if (n == "required" && p.domain.flatMap(_.nameId).contains("TypeDeclaration")) {
-                  append = x.sourceInfo.yamlSources.nonEmpty
-                }
-                if (append) {
-                  existingProperties(n) = p
-                }
-
-              case _ =>
-            }
-
-          case _ =>
-        }
-      }
-    })
-
-    if (node.sourceInfo.yamlSources.length > 0) {
-      node.sourceInfo.yamlSources.head match {
-        case mapEntry: YMapEntry =>
-          mapEntry.value match {
-            case ynodeValue: YNode =>
-              ynodeValue.value match {
-                case value: YMap =>
-                  value.entries.foreach(entry =>
-                    entry.key.value match {
-                      case scalar: YScalar => {
-                        var name = scalar.text
-
-                        if (!existingProperties.keySet.contains(name)) {
-                          node.definition.allProperties.find(prop => prop.nameId.get.equals(name)) match {
-                            case Some(property) => {
-                              existingProperties(name) = property
-                            }
-
-                            case _ =>
-                          }
-                        }
-                      }
-
-                      case _ =>
-                  })
-
-                case _ =>
-              }
+      if (x.sourceInfo.yamlSources.nonEmpty) x.property match {
+        case Some(p) =>
+          p.nameId match {
+            case Some(n) =>
+              var append = true
+              if (n == "required" && p.domain.flatMap(_.nameId).contains("TypeDeclaration"))
+                append = x.sourceInfo.yamlSources.nonEmpty
+              if (append) existingProperties(n) = p
 
             case _ =>
           }
 
         case _ =>
       }
+    })
+
+    if (node.sourceInfo.yamlSources.length > 0) node.sourceInfo.yamlSources.head match {
+      case mapEntry: YMapEntry =>
+        mapEntry.value match {
+          case ynodeValue: YNode =>
+            ynodeValue.value match {
+              case value: YMap =>
+                value.entries.foreach(entry =>
+                  entry.key.value match {
+                    case scalar: YScalar =>
+                      val name = scalar.text
+
+                      if (!existingProperties.keySet.contains(name))
+                        node.definition.allProperties.find(prop => prop.nameId.get.equals(name)) match {
+                          case Some(property) =>
+                            existingProperties(name) = property
+
+                          case _ =>
+                        }
+
+                    case _ =>
+                })
+
+              case _ =>
+            }
+
+          case _ =>
+        }
+      case value: YMap =>
+        value.entries.foreach(entry =>
+          entry.key.value match {
+            case scalar: YScalar =>
+              val name = scalar.text
+
+              if (!existingProperties.keySet.contains(name))
+                node.definition.allProperties.find(prop => prop.nameId.get.equals(name)) match {
+                  case Some(property) =>
+                    existingProperties(name) = property
+
+                  case _ =>
+                }
+
+            case _ =>
+        })
+      case _ =>
     }
 
     if (isTypeDeclaration) {
@@ -516,13 +427,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                     }
                   case _ => false
                 }
-                if (isPrimitive) {
-                  true
-                } else if (e.isEmbeddedInArray || e.isEmbeddedInMaps) {
-                  true
-                } else {
-                  false
-                }
+                (isPrimitive || e.isEmbeddedInArray || e.isEmbeddedInMaps)
               } else true
             } else false
           case _ => false
@@ -530,7 +435,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
     if (definition.isAssignableFrom("TypeDeclaration")) {
       var typeIsSet = false
       node.sourceInfo.yamlSources.foreach(ys => {
-        YamlLocation(ys, node.astUnit.positionsMapper).value.foreach(v => {
+        YamlLocation(ys, node.astUnit.positionsMapper).value.foreach(f = v => {
           v.yPart match {
             case map: YMap =>
               map.entries.find(e => {
@@ -543,7 +448,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                   case _ => false
                 }
               }) match {
-                case Some(e) => typeIsSet = true
+                case Some(_) => typeIsSet = true
                 case _       =>
               }
             case _ =>

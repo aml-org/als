@@ -65,7 +65,7 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, filters
             result.append(
               DocumentSymbol("host", KindForResultMatcher.getKind(f), deprecated = false, li, li, Nil)
             )
-          case _ => ???
+          case _ =>
         }
       }
       if (f.property.get.nameId.get == "basePath") {
@@ -83,7 +83,7 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, filters
             result.append(
               DocumentSymbol("basePath", KindForResultMatcher.getKind(f), deprecated = false, li, li, Nil)
             )
-          case _ => ???
+          case _ =>
         }
       }
     })
