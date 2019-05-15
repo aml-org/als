@@ -302,12 +302,12 @@ class RAML10ASTFactory private extends RAMLASTFactory {
   }
 
   override def determineRootType(baseUnit: BaseUnit, nominalType: Option[ITypeDefinition]): Option[ITypeDefinition] = {
-    var u     = universe.get
-    var uName = u.name.orNull
+    val u     = universe.get
+    val uName = u.name.orNull
     if (uName == "RAML") {
       baseUnit match {
         case fragment: Fragment =>
-          var typeOpt = fragment.meta match {
+          val typeOpt = fragment.meta match {
             case SecuritySchemeFragmentModel            => u.`type`("AbstractSecurityScheme")
             case DataTypeFragmentModel                  => u.`type`("TypeDeclaration")
             case ResourceTypeFragmentModel              => u.`type`("ResourceType")
@@ -319,13 +319,13 @@ class RAML10ASTFactory private extends RAMLASTFactory {
           }
           typeOpt match {
             case Some(t) =>
-              var discriminated   = discriminate(t, fragment.encodes, nominalType)
-              var fragmentTypeOpt = u.`type`("FragmentDeclaration")
+              val discriminated   = discriminate(t, fragment.encodes, nominalType)
+              val fragmentTypeOpt = u.`type`("FragmentDeclaration")
               fragmentTypeOpt match {
                 case Some(ft) =>
                   if (discriminated.isInstanceOf[AbstractType]
                       && ft.isInstanceOf[AbstractType]) {
-                    var result = new StructuredType(discriminated.nameId.get + "Fragment", u)
+                    val result = new StructuredType(discriminated.nameId.get + "Fragment", u)
                     result.addSuperType(ft.asInstanceOf[AbstractType])
                     result.addSuperType(discriminated.asInstanceOf[AbstractType])
                     Some(result)
@@ -367,27 +367,27 @@ class RAML10ASTFactory private extends RAMLASTFactory {
     } else if (!_bundle.isInstanceOf[ITypeCollectionBundle]) {
       None
     } else {
-      var shape  = shapeOpt.get
-      var bundle = _bundle.asInstanceOf[TypeCollectionBundle]
-      var result = amfNode match {
+      val shape  = shapeOpt.get
+      val bundle = _bundle.asInstanceOf[TypeCollectionBundle]
+      val result = amfNode match {
         case bu: BaseUnit =>
           bu match {
             case atdf: AnnotationTypeDeclarationFragment =>
-              var t = TypeBuilder.getOrCreate(shape, universe.get, bundle, this)
+              val t = TypeBuilder.getOrCreate(shape, universe.get, bundle, this)
               t.fixFacet("allowedTargets", atdf.encodes.domain, TypeBuilder.BUILTIN)
               Some(t)
             case dtf: DataTypeFragment =>
-              var t = TypeBuilder.getOrCreate(shape, universe.get, bundle, this)
+              val t = TypeBuilder.getOrCreate(shape, universe.get, bundle, this)
               Some(t)
             case _ => None
           }
-        case de: DomainElement =>
+        case _: DomainElement =>
           nodeProperty.flatMap(_.nameId).orNull match {
             case "types"           => bundle.getType(shape.id, shape.name.value())
             case "annotationTypes" => bundle.getAnnotationType(shape.id, shape.name.value())
             case "properties" =>
               if (shape.name.nonEmpty) {
-                var pName = shape.name.value()
+                val pName = shape.name.value()
                 parent.flatMap(_.localType).flatMap(_.properties.find(_.nameId.get == pName)).flatMap(_.range)
               } else {
                 None
@@ -401,7 +401,7 @@ class RAML10ASTFactory private extends RAMLASTFactory {
                 })
             case "facets" =>
               if (shape.name.nonEmpty) {
-                var pName = shape.name.value()
+                val pName = shape.name.value()
                 parent.flatMap(_.localType).flatMap(_.facets.find(_.nameId.get == pName)).flatMap(_.range)
               } else {
                 None
@@ -441,7 +441,7 @@ class RequiredPropertyValueBuffer(element: AmfObject, hlNode: IHighLevelNode)
   override def setValue(value: Any): Unit = {
     value match {
       case required: Boolean =>
-        var newMinCount = if (required) 1 else 0
+        val newMinCount = if (required) 1 else 0
         getMinCount match {
           case Some(mc) =>
             if ((mc > 0) != required) {

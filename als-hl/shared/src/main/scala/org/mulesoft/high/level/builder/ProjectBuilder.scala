@@ -1,14 +1,16 @@
 package org.mulesoft.high.level.builder
 
+import amf.core.model.domain.ExternalDomainElement
 import amf.core.annotations.{Aliases, SourceVendor}
 import amf.core.metamodel.document.DocumentModel
-import amf.core.model.document.{BaseUnit, ExternalFragment, Fragment, Module}
+import amf.core.model.document.{BaseUnit, EncodesModel, ExternalFragment, Fragment, Module}
 import amf.core.remote.Vendor
 import amf.plugins.document.vocabularies.model.document.{
   DialectInstance,
   DialectInstanceFragment,
   DialectInstanceLibrary
 }
+import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer20010315ExclOmitComments
 import org.mulesoft.high.level.dialect.DialectProjectBuilder
 import org.mulesoft.high.level.implementation.{ASTUnit, AlsPlatform, Project}
 import org.mulesoft.high.level.interfaces.IProject
@@ -122,14 +124,13 @@ object ProjectBuilder {
   }
 
   def determineFormat(baseUnit: BaseUnit): Option[Vendor] = {
-    var formatOpt = baseUnit.annotations.find(classOf[SourceVendor]).map(_.vendor)
-    if (formatOpt.isEmpty) {
-      Option(baseUnit.fields.getValue(DocumentModel.Encodes)) match {
-        case Some(value) => formatOpt = value.value.annotations.find(classOf[SourceVendor]).map(_.vendor)
-        case _           =>
-      }
+    baseUnit match {
+      case _: ExternalFragment => None
+      case _ if baseUnit.annotations.contains(classOf[SourceVendor]) =>
+        baseUnit.annotations.find(classOf[SourceVendor]).map(_.vendor)
+      case e: EncodesModel => e.encodes.annotations.find(classOf[SourceVendor]).map(_.vendor)
+      case _               => None
     }
-    formatOpt
   }
 
   private def listUnits(rootUnit: BaseUnit,
