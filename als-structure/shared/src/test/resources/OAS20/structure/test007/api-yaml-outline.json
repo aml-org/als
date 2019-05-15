@@ -94,12 +94,12 @@
     },
     "selectionRange": {
       "start": {
-        "line": 1,
-        "character": 0
+        "line": 4,
+        "character": 9
       },
       "end": {
-        "line": 8,
-        "character": 0
+        "line": 4,
+        "character": 27
       }
     },
     "children": [
@@ -119,12 +119,12 @@
         },
         "selectionRange": {
           "start": {
-            "line": 1,
-            "character": 0
+            "line": 4,
+            "character": 9
           },
           "end": {
-            "line": 8,
-            "character": 0
+            "line": 4,
+            "character": 27
           }
         },
         "children": []
@@ -145,12 +145,12 @@
         },
         "selectionRange": {
           "start": {
-            "line": 1,
-            "character": 0
+            "line": 4,
+            "character": 9
           },
           "end": {
-            "line": 8,
-            "character": 0
+            "line": 4,
+            "character": 27
           }
         },
         "children": []
