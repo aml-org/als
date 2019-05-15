@@ -699,11 +699,11 @@
     "selectionRange": {
       "start": {
         "line": 1,
-        "character": 0
+        "character": 7
       },
       "end": {
-        "line": 35,
-        "character": 108
+        "line": 1,
+        "character": 18
       }
     },
     "children": []
@@ -725,11 +725,11 @@
     "selectionRange": {
       "start": {
         "line": 1,
-        "character": 0
+        "character": 7
       },
       "end": {
-        "line": 35,
-        "character": 108
+        "line": 1,
+        "character": 18
       }
     },
     "children": []

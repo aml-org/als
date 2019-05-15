@@ -436,11 +436,11 @@
     "selectionRange": {
       "start": {
         "line": 1,
-        "character": 0
+        "character": 7
       },
       "end": {
-        "line": 14,
-        "character": 25
+        "line": 1,
+        "character": 24
       }
     },
     "children": []
