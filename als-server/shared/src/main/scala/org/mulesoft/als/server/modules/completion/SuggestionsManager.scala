@@ -58,7 +58,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
     }
   )
 
-  override def applyConfig(config: Option[CompletionClientCapabilities]): CompletionOptions = CompletionOptions()
+  override def applyConfig(config: Option[CompletionClientCapabilities]): CompletionOptions = CompletionOptions(None, Some(Set('[')))
 
   val onDocumentCompletionListener: (String, Position) => Future[Seq[Suggestion]] = onDocumentCompletion
 
