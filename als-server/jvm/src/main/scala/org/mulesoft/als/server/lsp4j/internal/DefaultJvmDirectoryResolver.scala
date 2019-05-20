@@ -4,7 +4,7 @@ import java.net.URI
 import java.nio.file.{Files, Paths}
 import java.util.stream.Collectors
 
-import org.mulesoft.high.level.interfaces.DirectoryResolver
+import org.mulesoft.als.common.DirectoryResolver
 
 import scala.collection.JavaConverters._
 import scala.concurrent.Future
@@ -21,7 +21,7 @@ object DefaultJvmDirectoryResolver extends DirectoryResolver {
   }
 
   def isDirectory(path: String): Future[Boolean] = Future.successful {
-    Files.exists(toJavaPath(path))
+    Files.isDirectory(toJavaPath(path))
   }
 
   private def toJavaPath(path: String) =

@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.common
 
-import common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.server.modules.common.interfaces.ILocation
 import org.mulesoft.als.server.textsync.ChangedDocument
 import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
@@ -15,7 +15,8 @@ object LspConverter {
 
   def toLspPosition(position: Position): LspPosition = LspPosition(position.line, position.column)
 
-  def toLspRange(position: PositionRange): LspRange = LspRange(toLspPosition(position.start), toLspPosition(position.end))
+  def toLspRange(position: PositionRange): LspRange =
+    LspRange(toLspPosition(position.start), toLspPosition(position.end))
 
   def toLspLocation(location: ILocation): LspLocation = LspLocation(location.uri, toLspRange(location.posRange))
 

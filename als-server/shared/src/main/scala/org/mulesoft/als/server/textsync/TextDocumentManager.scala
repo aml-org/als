@@ -10,7 +10,7 @@ import scala.collection.mutable
 import scala.concurrent.Future
 import scala.language.experimental.macros
 
-class TextDocumentManager(private val logger: Logger, private val platform: Platform)
+class TextDocumentManager(private val platform: Platform, private val logger: Logger)
     extends TextDocumentSyncConsumer {
 
   override val `type`: TextDocumentSyncConfigType.type = TextDocumentSyncConfigType
@@ -176,7 +176,10 @@ class TextDocumentManager(private val logger: Logger, private val platform: Plat
     if (text.trim.startsWith("{")) "JSON" else "YAML"
 
   override def didOpen(params: DidOpenTextDocumentParams): Unit = {
-    onOpenDocument(OpenedDocument(params.textDocument.uri, params.textDocument.version, params.textDocument.text))
+    onOpenDocument(
+      OpenedDocument(platform.decodeURI(params.textDocument.uri),
+                     params.textDocument.version,
+                     params.textDocument.text))
   }
 
   override def didChange(params: DidChangeTextDocumentParams): Unit = {

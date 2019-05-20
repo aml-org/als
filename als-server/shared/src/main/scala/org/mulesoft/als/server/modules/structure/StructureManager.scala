@@ -1,12 +1,13 @@
 package org.mulesoft.als.server.modules.structure
 
-import common.dtoTypes.{Position, PositionRange}
+import amf.core.remote.Platform
+import amf.core.unsafe.PlatformSecrets
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.LspConverter
 import org.mulesoft.als.server.modules.hlast.{HlAstListener, HlAstManager}
 import org.mulesoft.als.server.textsync.TextDocumentManager
-import org.mulesoft.high.level.implementation.AlsPlatform
 import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.{ConfigFactory, DocumentSymbol, StructureBuilder}
@@ -26,8 +27,8 @@ import scala.concurrent.Future
 
 class StructureManager(private val textDocumentManager: TextDocumentManager,
                        private val hlAstManager: HlAstManager,
-                       private val platform: AlsPlatform,
-                       private val logger: Logger)
+                       private val logger: Logger,
+                       private val platform: Platform)
     extends RequestModule[DocumentSymbolClientCapabilities, Unit] {
 
   override val `type`: ConfigType[DocumentSymbolClientCapabilities, Unit] = DocumentSymbolConfigType
@@ -40,7 +41,7 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
 
       override def apply(
           params: DocumentSymbolParams): Future[Either[Seq[SymbolInformation], Seq[LspDocumentSymbol]]] = {
-        onDocumentStructure(params.textDocument.uri)
+        onDocumentStructure(platform.decodeURI(params.textDocument.uri))
           .map(_.map(LspConverter.toLspDocumentSymbol))
           .map(Right.apply)
       }

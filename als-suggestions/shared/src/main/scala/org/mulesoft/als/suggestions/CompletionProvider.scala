@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions
 
-import common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.CompletionProvider.{getAstNode, getInnerNode}
 import org.mulesoft.als.suggestions.implementation.{CompletionRequest, LocationKindDetectTool, Suggestion}
 import org.mulesoft.als.suggestions.interfaces.LocationKind._

@@ -1,37 +1,33 @@
 package org.mulesoft.high.level.builder
 
-import amf.core.model.domain.ExternalDomainElement
 import amf.core.annotations.{Aliases, SourceVendor}
-import amf.core.metamodel.document.DocumentModel
-import amf.core.model.document.{BaseUnit, EncodesModel, ExternalFragment, Fragment, Module}
-import amf.core.remote.Vendor
+import amf.core.model.document._
+import amf.core.remote.{Platform, Vendor}
 import amf.plugins.document.vocabularies.model.document.{
   DialectInstance,
   DialectInstanceFragment,
   DialectInstanceLibrary
 }
-import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer20010315ExclOmitComments
 import org.mulesoft.high.level.dialect.DialectProjectBuilder
-import org.mulesoft.high.level.implementation.{ASTUnit, AlsPlatform, Project}
+import org.mulesoft.high.level.implementation.{ASTUnit, Project}
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.high.level.typesystem.TypeBuilder
 import org.mulesoft.typesystem.project._
 
-import scala.collection.mutable.ListBuffer
 import scala.collection.{Map, mutable}
 
 object ProjectBuilder {
 
-  def buildProject(rootUnit: BaseUnit, alsPlatform: AlsPlatform): IProject = {
+  def buildProject(rootUnit: BaseUnit, platform: Platform): IProject = {
     rootUnit match {
-      case di: DialectInstance          => DialectProjectBuilder.getInstance.buildProject(di, alsPlatform)
-      case dil: DialectInstanceLibrary  => DialectProjectBuilder.getInstance.buildProject(dil, alsPlatform)
-      case dif: DialectInstanceFragment => DialectProjectBuilder.getInstance.buildProject(dif, alsPlatform)
-      case _                            => buildProjectInternal(rootUnit, alsPlatform)
+      case di: DialectInstance          => DialectProjectBuilder.getInstance.buildProject(di, platform)
+      case dil: DialectInstanceLibrary  => DialectProjectBuilder.getInstance.buildProject(dil, platform)
+      case dif: DialectInstanceFragment => DialectProjectBuilder.getInstance.buildProject(dif, platform)
+      case _                            => buildProjectInternal(rootUnit, platform)
     }
   }
 
-  def buildProjectInternal(rootUnit: BaseUnit, alsPlatform: AlsPlatform): IProject = {
+  def buildProjectInternal(rootUnit: BaseUnit, platform: Platform): IProject = {
 
     val formatOpt = determineFormat(rootUnit)
     if (formatOpt.isEmpty) {
@@ -42,7 +38,7 @@ object ProjectBuilder {
       case Some(factory) =>
         val units    = listUnits(rootUnit)
         val bundle   = TypeBuilder.buildTypes(units, factory)
-        val project  = Project(bundle, format, alsPlatform)
+        val project  = Project(bundle, format, platform)
         val astUnits = createASTUnits(units, bundle, project)
         astUnits.values.foreach(project.addUnit)
         initASTUnits(astUnits, bundle, factory)

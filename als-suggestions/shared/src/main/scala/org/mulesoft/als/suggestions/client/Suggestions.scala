@@ -1,9 +1,12 @@
 package org.mulesoft.als.suggestions.client
 
+import amf.client.remote.Content
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote._
 import amf.internal.environment.Environment
+import amf.internal.resource.ResourceLoader
+import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher}
 import org.mulesoft.als.suggestions.implementation.{
   CompletionConfig,
   DummyASTProvider,
@@ -15,7 +18,6 @@ import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.{CompletionProvider, Core}
 import org.mulesoft.high.level.InitOptions
 import org.mulesoft.high.level.amfmanager.ParserHelper
-import org.mulesoft.high.level.implementation.AlsPlatform
 import org.mulesoft.high.level.interfaces.IProject
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -27,18 +29,26 @@ object Suggestions {
   def suggest(language: String,
               url: String,
               position: Int,
+              directoryResolver: DirectoryResolver,
               environment: Environment,
-              platform: AlsPlatform): Future[Seq[Suggestion]] = {
+              platform: Platform): Future[Seq[Suggestion]] = {
+
     platform
       .resolve(url, environment)
       .map(content => {
-        val originalContent      = content.stream.toString
-        val (_, patchedPlatform) = patchContent(platform, url, originalContent, position)
-        (originalContent, patchedPlatform)
+        val originalContent = content.stream.toString
+        val (_, patchedEnv) = patchContentInEnvironment(environment, url, originalContent, position)
+        (originalContent, patchedEnv)
       })
       .flatMap {
-        case (originalContent, patchedPlatform) =>
-          suggestWithPatchedPlatform(language, url, originalContent, position, patchedPlatform)
+        case (originalContent, patchedEnv) =>
+          suggestWithPatchedEnvironment(language,
+                                        url,
+                                        originalContent,
+                                        position,
+                                        directoryResolver,
+                                        patchedEnv,
+                                        platform)
       }
   }
 
@@ -48,20 +58,24 @@ object Suggestions {
     if (trimmed.startsWith("{") || trimmed.startsWith("[")) Syntax.JSON else Syntax.YAML
   }
 
-  private def suggestWithPatchedPlatform(language: String,
-                                         url: String,
-                                         originalContent: String,
-                                         position: Int,
-                                         patchedPlatform: AlsPlatform): Future[Seq[Suggestion]] = {
+  private def suggestWithPatchedEnvironment(language: String,
+                                            url: String,
+                                            originalContent: String,
+                                            position: Int,
+                                            directoryResolver: DirectoryResolver,
+                                            environment: Environment,
+                                            platform: Platform): Future[Seq[Suggestion]] = {
+
     val config = this.buildParserConfig(language, url)
     val completionProviderFuture: Future[CompletionProvider] = this
-      .amfParse(config, patchedPlatform.defaultEnvironment, patchedPlatform)
-      .flatMap(this.buildHighLevel(_, patchedPlatform))
-      .map(this.buildCompletionProvider(_, url, position, originalContent, patchedPlatform))
+      .amfParse(config, environment, platform)
+      .flatMap(this.buildHighLevel(_, platform))
+      .map(this.buildCompletionProvider(_, url, position, originalContent, directoryResolver, platform))
       .recoverWith {
         case e: Throwable =>
           println(e)
-          Future.successful(this.buildCompletionProviderNoAST(originalContent, url, position, patchedPlatform))
+          Future.successful(
+            this.buildCompletionProviderNoAST(originalContent, url, position, directoryResolver, platform))
         case any =>
           println(any)
           Future.failed(new Error("Failed to construct CompletionProvider"))
@@ -96,17 +110,18 @@ object Suggestions {
   def amfParse(config: ParserConfig, environment: Environment, platform: Platform): Future[BaseUnit] =
     ParserHelper(platform).parse(config, environment)
 
-  def patchContent(platform: AlsPlatform,
-                   fileUrl: String,
-                   fileContentsStr: String,
-                   position: Int): (String, AlsPlatform) = {
-    val patchedContent       = Core.prepareText(fileContentsStr, position, YAML)
-    val platformWithOverride = platform.withOverride(fileUrl, patchedContent)
+  def patchContentInEnvironment(environment: Environment,
+                                fileUrl: String,
+                                fileContentsStr: String,
+                                position: Int): (String, Environment) = {
 
-    (patchedContent, platformWithOverride)
+    val patchedContent  = Core.prepareText(fileContentsStr, position, YAML)
+    val envWithOverride = EnvironmentPatcher.patch(environment, fileUrl, patchedContent)
+
+    (patchedContent, envWithOverride)
   }
 
-  def buildHighLevel(model: BaseUnit, platform: AlsPlatform): Future[IProject] = {
+  def buildHighLevel(model: BaseUnit, platform: Platform): Future[IProject] = {
     org.mulesoft.high.level.Core.buildModel(model, platform)
   }
 
@@ -114,7 +129,8 @@ object Suggestions {
                               url: String,
                               position: Int,
                               originalContent: String,
-                              platform: AlsPlatform): CompletionProvider = {
+                              directoryResolver: DirectoryResolver,
+                              platform: Platform): CompletionProvider = {
 
     val rootUnit = project.rootASTUnit
 
@@ -123,7 +139,7 @@ object Suggestions {
     val baseName = url.substring(url.lastIndexOf('/') + 1)
 
     val editorStateProvider = new DummyEditorStateProvider(rootUnit.text, url, baseName, position)
-    val completionConfig = new CompletionConfig(platform)
+    val completionConfig = new CompletionConfig(directoryResolver, platform)
       .withAstProvider(astProvider)
       .withEditorStateProvider(editorStateProvider)
       .withOriginalContent(originalContent)
@@ -134,7 +150,8 @@ object Suggestions {
   def buildCompletionProviderNoAST(text: String,
                                    url: String,
                                    position: Int,
-                                   platform: AlsPlatform): CompletionProvider = {
+                                   directoryResolver: DirectoryResolver,
+                                   platform: Platform): CompletionProvider = {
 
     val baseName = url.substring(url.lastIndexOf('/') + 1)
 
@@ -146,7 +163,7 @@ object Suggestions {
 
     val astProvider = new EmptyASTProvider(vendor, syntax)
 
-    val completionConfig = new CompletionConfig(platform)
+    val completionConfig = new CompletionConfig(directoryResolver, platform)
       .withEditorStateProvider(editorStateProvider)
       .withAstProvider(astProvider)
       .withOriginalContent(text)

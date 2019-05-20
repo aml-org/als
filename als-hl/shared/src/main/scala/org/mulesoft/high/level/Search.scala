@@ -4,7 +4,7 @@ import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.document.DeclaresModel
 import amf.core.model.domain.AmfScalar
 import amf.core.remote._
-import common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.high.level.interfaces.{IASTUnit, IHighLevelNode, IParseResult}
 import org.mulesoft.positioning.YamlLocation
 import org.mulesoft.typesystem.json.interfaces.JSONWrapper
