@@ -2,22 +2,21 @@ package org.mulesoft.als.server.modules.ast
 
 import java.io.{PrintWriter, StringWriter}
 
-import amf.client.remote.Content
 import amf.core.AMF
 import amf.core.client.ParserConfig
-import amf.core.lexer.CharSequenceStream
 import amf.core.model.document.BaseUnit
-import amf.internal.resource.ResourceLoader
+import amf.core.remote.Platform
+import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
-import org.mulesoft.als.server.Initializable
-import org.mulesoft.als.server.textsync.{ChangedDocument, OpenedDocument, TextDocument, TextDocumentManager}
-import org.mulesoft.high.level.amfmanager.ParserHelper
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.features.validation.AMFValidatorPlugin
+import org.mulesoft.als.common.EnvironmentPatcher
+import org.mulesoft.als.server.Initializable
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
-import org.mulesoft.als.server.platform.{ProxyContentPlatform, ServerPlatform}
+import org.mulesoft.als.server.textsync.{ChangedDocument, OpenedDocument, TextDocumentManager}
+import org.mulesoft.high.level.amfmanager.ParserHelper
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -27,9 +26,13 @@ import scala.concurrent.Future
   * AST manager
   */
 class AstManager(private val textDocumentManager: TextDocumentManager,
-                 private val platform: ServerPlatform,
+                 private val baseEnvironment: Environment,
+                 private val platform: Platform,
                  private val logger: Logger)
     extends Initializable {
+
+  private val serverEnvironment = Environment()
+    .withLoaders(TextDocumentLoader(textDocumentManager) +: baseEnvironment.loaders)
 
   /**
     * Current AST listeners
@@ -77,31 +80,17 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
   def getCurrentAST(uri: String): Option[BaseUnit] = None // this.currentASTs.get(uri)
 
   def forceGetCurrentAST(uri: String): Future[BaseUnit] = {
-    //    this.currentASTs.get(uri) match {
-    //      case Some(current) => Future.successful(current)
-    //      case _ =>
     val editorOption = textDocumentManager.getTextDocument(uri)
     if (editorOption.isDefined) {
       init()
-        .flatMap(_ => parse(uri, editorOption.map(loaderFromEditor)))
+        .flatMap(_ => parse(uri))
     } else {
       Future.failed(new Exception("No editor found for uri " + uri))
     }
-    //    }
   }
 
-  private def loaderFromEditor(textEditor: TextDocument) = {
-    new ResourceLoader {
-      override def fetch(resource: String): Future[Content] =
-        Future(Content(new CharSequenceStream(resource, textEditor._buffer.text), resource))
-
-      override def accepts(resource: String): Boolean = platform.resolvePath(textEditor.path) == resource
-    }
-  }
-
-  def onNewASTAvailable(listener: AstListener, unsubscribe: Boolean = false): Unit = {
-    this.addListener(this.astListeners, listener, unsubscribe)
-  }
+  def onNewASTAvailable(listener: AstListener, unsubscribe: Boolean = false): Unit =
+    addListener(astListeners, listener, unsubscribe)
 
   def onOpenDocument(document: OpenedDocument): Unit =
     parse(document.uri)
@@ -109,22 +98,14 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
 
   def onChangeDocument(document: ChangedDocument): Unit = {
     logger.debug(s"document ${document.uri} is changed", "ASTManager", "onChangeDocument")
-    val resolvedPath = platform.resolvePath(document.uri)
-    val resourceLoader = document.text.map(t => {
-      new ResourceLoader {
-        override def fetch(resource: String): Future[Content] =
-          Future(Content(new CharSequenceStream(t), resolvedPath))
 
-        override def accepts(resource: String): Boolean = resource == resolvedPath
-      }
-    })
     reconciler
-      .shedule(new DocumentChangedRunnable(document.uri, () => parse(resolvedPath, resourceLoader)))
+      .shedule(new DocumentChangedRunnable(document.uri, () => parse(document.uri)))
       .future
       .map(unit => registerNewAST(document.uri, document.version, unit))
       .recover {
         case e: Throwable =>
-          this.currentASTs.remove(document.uri)
+          currentASTs.remove(document.uri)
           val writer = new StringWriter()
           e.printStackTrace(new PrintWriter(writer))
           logger.debug(s"Failed to parse ${document.uri} with exception $writer", "ASTManager", "onChangeDocument")
@@ -132,24 +113,24 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
   }
 
   def onCloseDocument(uri: String): Unit = {
-    this.currentASTs.remove(uri)
+    currentASTs.remove(uri)
 
   }
 
   def registerNewAST(uri: String, version: Int, ast: BaseUnit): Unit = {
 
-    this.logger.debug("Registering new AST for URI: " + uri, "ASTManager", "registerNewAST")
+    logger.debug("Registering new AST for URI: " + uri, "ASTManager", "registerNewAST")
 
-    this.currentASTs(uri) = ast
+    currentASTs(uri) = ast
 
-    this.notifyASTChanged(uri, version, ast)
+    notifyASTChanged(uri, version, ast)
   }
 
-  def notifyASTChanged(uri: String, version: Int, ast: BaseUnit) = {
+  def notifyASTChanged(uri: String, version: Int, ast: BaseUnit): Unit = {
 
-    this.logger.debug("Got new AST parser results, notifying the listeners", "ASTManager", "notifyASTChanged")
+    logger.debug("Got new AST parser results, notifying the listeners", "ASTManager", "notifyASTChanged")
 
-    this.astListeners.foreach { listener =>
+    astListeners.foreach { listener =>
       listener.apply(uri, version, ast)
     }
 
@@ -162,21 +143,15 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     * Gets current AST if there is any.
     * If not, performs immediate asynchronous parsing and returns the results.
     *
-    * @param uri
     */
   def forceBuildNewAST(uri: String, text: String): Future[BaseUnit] =
     parseWithContentSubstitution(uri, text)
 
-  def parse(uri: String, loaderOpt: Option[ResourceLoader] = None): Future[BaseUnit] = {
-    val language = textDocumentManager.getTextDocument(uri).map(_.language).getOrElse("OAS 2.0")
+  def parse(uri: String): Future[BaseUnit] = {
+    val protocolUri = platform.decodeURI(platform.resolvePath(platform.encodeURI(uri)))
+    val language    = textDocumentManager.getTextDocument(protocolUri).map(_.language).getOrElse("OAS 2.0")
 
-    val protocolUri = platform.resolvePath(uri)
     logger.debugDetail(s"Protocol uri is $protocolUri", "ASTManager", "parse")
-
-    val defaultEnvironment = platform.defaultEnvironment.add(platform.fileLoader)
-    val environment = loaderOpt
-      .map(defaultEnvironment.add)
-      .getOrElse(defaultEnvironment)
 
     val config = new ParserConfig(
       Some(ParserConfig.PARSE),
@@ -192,7 +167,7 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
 
     val helper = ParserHelper(platform)
 
-    helper.parse(config, environment).map { result =>
+    helper.parse(config, serverEnvironment).map { result =>
       val endTime = System.currentTimeMillis()
       logger.debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast", "ASTManager", "parse")
       result
@@ -200,13 +175,15 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
   }
 
   def parseWithContentSubstitution(uri: String, content: String): Future[BaseUnit] = {
-    val proxyPlatform = new ProxyContentPlatform(platform, logger, uri, content)
+    val protocolUri = platform.decodeURI(platform.resolvePath(platform.encodeURI(uri)))
 
-    val language = textDocumentManager.getTextDocument(uri).map(_.language).getOrElse("OAS 2.0")
+    val patchedEnvironment = EnvironmentPatcher.patch(serverEnvironment, uri, content)
+
+    val language = textDocumentManager.getTextDocument(protocolUri).map(_.language).getOrElse("OAS 2.0")
 
     val cfg = new ParserConfig(
       Some(ParserConfig.PARSE),
-      Some(uri),
+      Some(protocolUri),
       Some(language),
       Some("application/yaml"),
       None,
@@ -216,14 +193,14 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
 
     val startTime = System.currentTimeMillis()
 
-    val helper = ParserHelper(proxyPlatform)
-
-    helper.parse(cfg, proxyPlatform.defaultEnvironment).map { r =>
-      val endTime = System.currentTimeMillis()
-      this.logger.debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast",
-                              "ASTManager",
-                              "parseWithContentSubstitution")
-      r
-    }
+    ParserHelper(platform)
+      .parse(cfg, patchedEnvironment)
+      .map { result =>
+        val endTime = System.currentTimeMillis()
+        logger.debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast",
+                           "ASTManager",
+                           "parseWithContentSubstitution")
+        result
+      }
   }
 }

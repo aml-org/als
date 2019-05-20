@@ -16,7 +16,7 @@ class LanguageServerImplTest extends AsyncFlatSpec with Matchers with PlatformSe
 
   behavior of "LanguageServerImpl"
   it should "open file" in {
-    val documentManager = new TextDocumentManager(EmptyLogger, platform)
+    val documentManager = new TextDocumentManager(platform, EmptyLogger)
 
     val server = LanguageServerBuilder()
       .withTextDocumentSyncConsumer(documentManager)

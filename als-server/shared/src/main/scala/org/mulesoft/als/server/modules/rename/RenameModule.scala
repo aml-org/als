@@ -1,14 +1,13 @@
 package org.mulesoft.als.server.modules.rename
 
-import common.dtoTypes.Position
+import amf.core.remote.Platform
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.{LspConverter, SearchUtils, TextEdit}
 import org.mulesoft.als.server.modules.hlast.HlAstManager
 import org.mulesoft.als.server.textsync.ChangedDocument
-import org.mulesoft.high.level.implementation.AlsPlatform
 import org.mulesoft.high.level.interfaces.IProject
-import org.mulesoft.als.server.util.PathRefine
 import org.mulesoft.lsp.edit.WorkspaceEdit
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.rename._
@@ -19,9 +18,7 @@ import scala.util.{Failure, Success}
 
 private class TextIssue(var label: String, var start: Int, var end: Int)
 
-class RenameModule(private val hlAstManager: HlAstManager,
-                   private val platform: AlsPlatform,
-                   private val logger: Logger)
+class RenameModule(private val hlAstManager: HlAstManager, private val logger: Logger, private val platform: Platform)
     extends RequestModule[RenameClientCapabilities, RenameOptions] {
 
   override val `type`: RenameConfigType.type = RenameConfigType
@@ -33,7 +30,9 @@ class RenameModule(private val hlAstManager: HlAstManager,
       override def `type`: RenameRequestType.type = RenameRequestType
 
       override def apply(params: RenameParams): Future[WorkspaceEdit] =
-        findTargets(params.textDocument.uri, LspConverter.toPosition(params.position), params.newName)
+        findTargets(platform.decodeURI(params.textDocument.uri),
+                    LspConverter.toPosition(params.position),
+                    params.newName)
           .map(LspConverter.toWorkspaceEdit)
     }
   )

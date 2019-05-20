@@ -1,6 +1,6 @@
 package org.mulesoft.positioning
 
-import common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.typesystem.json.interfaces.NodeRange
 import org.mulesoft.typesystem.syaml.to.json.YRange
 import org.yaml.model._
@@ -78,18 +78,16 @@ class YamlLocation private {
       _keyNode.get.yPart.value match {
         case sc: YScalar =>
           var valString = sc.value
-          var start = _keyNode.get.range.start.position
-          var end = _keyNode.get.range.end.position
+          var start     = _keyNode.get.range.start.position
+          var end       = _keyNode.get.range.end.position
           if (start + ("_" + valString).trim.length - 1 == end) {
             true
-          }
-          else {
+          } else {
             false
           }
         case _ => false
       }
-    }
-    else false
+    } else false
   }
 
   def inKey(position: Position): Boolean = {
@@ -98,14 +96,13 @@ class YamlLocation private {
       _keyNode.get.yPart.value match {
         case sc: YScalar =>
           val valString = sc.value
-          val start = _keyNode.get.range.start.position
-          val end = _keyNode.get.range.end.position
+          val start     = _keyNode.get.range.start.position
+          val end       = _keyNode.get.range.end.position
           if (start + ("_" + valString).trim.length - 1 == end) true else false
 
         case _ => false
       }
-    }
-    else false
+    } else false
   }
 
   def inValue(position: Int): Boolean = {
@@ -114,26 +111,23 @@ class YamlLocation private {
 
   private def innerContainsPosition(pos: Int, arg: Option[YamlPartWithRange[_]]): Boolean = arg match {
     case Some(n) => n.containsPosition(pos)
-    case None => false
+    case None    => false
   }
 
   private def innerContainsPosition(position: Position, arg: Option[YamlPartWithRange[_]]): Boolean = arg match {
     case Some(n) => n.containsPosition(position)
-    case None => false
+    case None    => false
   }
 
   def hasSameNode(another: YamlLocation): Boolean = innerSameContent(_node, another._node)
 
   def hasSameValue(another: YamlLocation): Boolean = innerSameContent(_value, another._value)
 
-  private def innerSameContent(
-                                arg1: Option[YamlPartWithRange[_]],
-                                arg2: Option[YamlPartWithRange[_]]): Boolean = {
+  private def innerSameContent(arg1: Option[YamlPartWithRange[_]], arg2: Option[YamlPartWithRange[_]]): Boolean = {
 
     if (arg2.isEmpty || arg1.isEmpty) {
       false
-    }
-    else {
+    } else {
       arg1.get.yPart == arg2.get.yPart
     }
   }
@@ -158,21 +152,25 @@ object YamlLocation {
     yPart match {
       case mapEntry: YMapEntry =>
         val _mapEntry = YamlPartWithRange(mapEntry, mapper)
-        val node = mapEntry.value
-        val _node = YamlPartWithRange(node, mapper)
-        val value = node.value
-        val _value = YamlPartWithRange(value, mapper)
-        val keyNode = mapEntry.key
-        val _keyNode = YamlPartWithRange(keyNode, mapper)
-        val keyValue = keyNode.value
+        val node      = mapEntry.value
+        val _node     = YamlPartWithRange(node, mapper)
+        val value     = node.value
+        val _value    = YamlPartWithRange(value, mapper)
+        val keyNode   = mapEntry.key
+        val _keyNode  = YamlPartWithRange(keyNode, mapper)
+        val keyValue  = keyNode.value
         val _keyValue = YamlPartWithRange(keyValue, mapper)
-        result.withMapEntry(_mapEntry).withNode(_node)
-          .withValue(_value).withKeyNode(_keyNode)
-          .withKeyValue(_keyValue).withParentStack(parentStack)
+        result
+          .withMapEntry(_mapEntry)
+          .withNode(_node)
+          .withValue(_value)
+          .withKeyNode(_keyNode)
+          .withKeyValue(_keyValue)
+          .withParentStack(parentStack)
 
       case node: YNode =>
-        val _node = YamlPartWithRange(node, mapper)
-        val value = node.value
+        val _node  = YamlPartWithRange(node, mapper)
+        val value  = node.value
         val _value = YamlPartWithRange(value, mapper)
         result.withNode(_node).withValue(_value).withParentStack(parentStack)
 
@@ -189,7 +187,7 @@ object YamlLocation {
   }
 }
 
-class YamlPartWithRange[T <: YPart] private(_yPart: T, _range: NodeRange) {
+class YamlPartWithRange[T <: YPart] private (_yPart: T, _range: NodeRange) {
 
   def yPart: T = _yPart
 

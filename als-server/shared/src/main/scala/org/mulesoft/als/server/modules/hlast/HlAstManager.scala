@@ -1,14 +1,13 @@
 package org.mulesoft.als.server.modules.hlast
 
 import amf.core.model.document.BaseUnit
+import amf.core.remote.Platform
 import org.mulesoft.als.server.Initializable
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
-import org.mulesoft.als.server.util.PathRefine
-import org.mulesoft.high.level.{Core, CustomDialects, InitOptions}
-import org.mulesoft.high.level.implementation.AlsPlatform
 import org.mulesoft.high.level.interfaces.IProject
+import org.mulesoft.high.level.{Core, CustomDialects, InitOptions}
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
@@ -17,7 +16,7 @@ import scala.concurrent.Future
 
 class HlAstManager(private val textDocumentManager: TextDocumentManager,
                    private val astManager: AstManager,
-                   private val platform: AlsPlatform,
+                   private val platform: Platform,
                    private val logger: Logger,
                    private val dialects: Seq[CustomDialects] = Seq())
     extends Initializable {
@@ -54,7 +53,7 @@ class HlAstManager(private val textDocumentManager: TextDocumentManager,
     logger.debug("Got new AST parser results, notifying the listeners", "HlAstManager", "notifyASTChanged")
 
     this.astListeners.foreach { listener =>
-      listener.apply(uri, version, project.rootASTUnit.rootNode)
+      listener.apply(platform.decodeURI(uri), version, project.rootASTUnit.rootNode)
     }
 
   }
@@ -62,7 +61,7 @@ class HlAstManager(private val textDocumentManager: TextDocumentManager,
   def hlFromAST(ast: BaseUnit): Future[IProject] = {
     val startTime = System.currentTimeMillis()
     Core
-      .buildModel(ast, this.platform)
+      .buildModel(ast, platform)
       .map(result => {
         val endTime = System.currentTimeMillis()
         logger

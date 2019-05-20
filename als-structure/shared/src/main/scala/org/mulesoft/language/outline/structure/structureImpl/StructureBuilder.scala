@@ -8,7 +8,7 @@ import amf.plugins.domain.shapes.metamodel.{ArrayShapeModel, FileShapeModel, Nod
 import amf.plugins.domain.shapes.models.ScalarShape
 import amf.plugins.domain.webapi.metamodel.templates.ResourceTypeModel
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
-import common.dtoTypes.{EmptyPositionRange, Position, PositionRange}
+import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, Position, PositionRange}
 import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.language.outline.common.commonInterfaces.{CategoryFilter, LabelProvider, VisibilityFilter}
 import org.mulesoft.language.outline.structure.structureDefault.NonEmptyNameVisibilityFilter

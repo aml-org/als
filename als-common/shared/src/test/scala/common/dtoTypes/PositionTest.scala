@@ -1,5 +1,6 @@
 package common.dtoTypes
 
+import org.mulesoft.als.common.dtoTypes.Position
 import org.scalatest.FunSuite
 
 class PositionTest extends FunSuite {

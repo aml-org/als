@@ -1,12 +1,12 @@
 package org.mulesoft.high.level.implementation
 
-import amf.core.remote.Vendor
+import amf.core.remote.{Platform, Vendor}
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.typesystem.project.ITypeCollectionBundle
 
 import scala.collection.mutable
 
-class Project(bundle: ITypeCollectionBundle, _lang: Vendor, _platform: AlsPlatform) extends IProject {
+class Project(bundle: ITypeCollectionBundle, _lang: Vendor, platform: Platform) extends IProject {
 
   private var _rootASTUnit: Option[ASTUnit] = None
 
@@ -19,8 +19,6 @@ class Project(bundle: ITypeCollectionBundle, _lang: Vendor, _platform: AlsPlatfo
   override def units: collection.Map[String, ASTUnit] = _units
 
   override def types: ITypeCollectionBundle = bundle
-
-  override def platform: AlsPlatform = _platform
 
   def setRootUnit(u: ASTUnit): Unit = {
     _rootASTUnit = Some(u)
@@ -41,11 +39,12 @@ class Project(bundle: ITypeCollectionBundle, _lang: Vendor, _platform: AlsPlatfo
   }
 
   override def resolvePath(absBasePath: String, path: String): Option[String] =
-    _platform.resolvePath(absBasePath, path)
+    Some(platform.resolvePath(absBasePath + path.stripPrefix("/")))
+
 }
 
 object Project {
 
-  def apply(bundle: ITypeCollectionBundle, lang: Vendor, platform: AlsPlatform): Project =
+  def apply(bundle: ITypeCollectionBundle, lang: Vendor, platform: Platform): Project =
     new Project(bundle, lang, platform)
 }

@@ -1,9 +1,11 @@
 package org.mulesoft.als.server.textsync
 
+import amf.core.remote.Platform
+import amf.internal.environment.Environment
+import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.hlast.HlAstManager
 import org.mulesoft.als.server.modules.structure.StructureManager
-import org.mulesoft.als.server.platform.ServerPlatform
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
@@ -13,15 +15,18 @@ import scala.concurrent.ExecutionContext
 class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
   override implicit val executionContext = ExecutionContext.Implicits.global
-  override def rootPath: String          = ""
+
+  override def rootPath: String = ""
 
   override def addModules(documentManager: TextDocumentManager,
-                          serverPlatform: ServerPlatform,
+                          platform: Platform,
+                          directoryResolver: DirectoryResolver,
+                          baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val astManager   = new AstManager(documentManager, serverPlatform, logger)
-    val hlAstManager = new HlAstManager(documentManager, astManager, serverPlatform, logger)
-    val module       = new StructureManager(documentManager, hlAstManager, serverPlatform, logger)
+    val astManager   = new AstManager(documentManager, baseEnvironment, platform, logger)
+    val hlAstManager = new HlAstManager(documentManager, astManager, platform, logger)
+    val module       = new StructureManager(documentManager, hlAstManager, logger, platform)
 
     builder
       .addInitializable(astManager)

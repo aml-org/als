@@ -2,15 +2,17 @@ package org.mulesoft.als.server.modules.dialect
 
 import amf.core.AMF
 import amf.core.client.ParserConfig
+import amf.core.remote.Platform
+import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.features.validation.AMFValidatorPlugin
+import org.mulesoft.als.common.EnvironmentPatcher
 import org.mulesoft.als.server.Initializable
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.dialect.dialects.AsyncAPI
-import org.mulesoft.als.server.platform.{ProxyContentPlatform, ServerPlatform}
 import org.mulesoft.high.level.amfmanager.ParserHelper
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -19,8 +21,8 @@ import scala.concurrent.Future
 /**
   * AST manager
   */
-class DialectManager(astManager: AstManager, platform: ServerPlatform, logger: Logger)
-  extends Initializable {
+class DialectManager(astManager: AstManager, baseEnvironment: Environment, platform: Platform, logger: Logger)
+    extends Initializable {
 
   override def initialize(): Future[Unit] =
     amfInit()
@@ -39,11 +41,11 @@ class DialectManager(astManager: AstManager, platform: ServerPlatform, logger: L
       .init()
       .flatMap(_ => {
 
-        val dialecOpts = dialects.map(d => {
+        val dialectOpts = dialects.map(dialect => {
 
-          var dialectCfg = new ParserConfig(
+          val dialectCfg = new ParserConfig(
             Some(ParserConfig.PARSE),
-            Some(d.rootUrl),
+            Some(dialect.rootUrl),
             Some("AML 1.0"),
             Some("application/yaml"),
             None,
@@ -51,11 +53,10 @@ class DialectManager(astManager: AstManager, platform: ServerPlatform, logger: L
             Some("application/json+ld")
           )
 
-          val proxyPlatform = new ProxyContentPlatform(platform, logger, d.files)
-          val helper = ParserHelper(proxyPlatform)
-          helper.parse(dialectCfg, proxyPlatform.defaultEnvironment)
+          val helper = ParserHelper(platform)
+          helper.parse(dialectCfg, EnvironmentPatcher.patch(baseEnvironment, dialect.files.toMap))
         })
-        Future.sequence(dialecOpts).map(_ => {})
+        Future.sequence(dialectOpts).map(_ => {})
       })
   }
 }

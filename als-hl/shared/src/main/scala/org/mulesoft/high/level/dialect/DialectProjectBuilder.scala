@@ -1,14 +1,12 @@
 package org.mulesoft.high.level.dialect
 
-import amf.core.remote.Vendor._
 import amf.core.annotations.{Aliases, SourceAST}
-import amf.core.metamodel.document.DocumentModel
-import amf.core.model.document.{BaseUnit, Module}
-import amf.core.model.domain.AmfArray
+import amf.core.model.document.BaseUnit
+import amf.core.remote.Platform
+import amf.core.remote.Vendor._
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.metamodel.document.DialectInstanceModel
 import amf.plugins.document.vocabularies.model.document.{
-  Dialect,
   DialectInstance,
   DialectInstanceFragment,
   DialectInstanceLibrary
@@ -23,14 +21,12 @@ import org.mulesoft.typesystem.nominal_interfaces.IDialectUniverse
 import org.mulesoft.typesystem.project.{ModuleDependencyEntry, TypeCollection, TypeCollectionBundle}
 import org.yaml.model.{YNode, YPart, YSequence}
 
-import scala.collection.Map
-import scala.collection.mutable
-import scala.collection.IndexedSeq
+import scala.collection.{IndexedSeq, Map, mutable}
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 class DialectProjectBuilder {
 
-  def buildProject(rootUnit: BaseUnit, platform: AlsPlatform): IProject = {
+  def buildProject(rootUnit: BaseUnit, platform: Platform): IProject = {
 
     val u: IDialectUniverse = getUniverse(rootUnit.fields(DialectInstanceModel.DefinedBy).toString)
     val unitPath            = TypeBuilder.normalizedPath(rootUnit)

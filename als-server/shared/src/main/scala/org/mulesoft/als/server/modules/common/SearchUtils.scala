@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.common
 
-import common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.server.modules.common.interfaces.ILocation
 import org.mulesoft.high.level.Search
 import org.mulesoft.high.level.interfaces.IProject
@@ -15,7 +15,7 @@ object SearchUtils {
 
   private def findTextIssue(content: String, position: Int): TextIssue = {
     var start = position
-    var end = position
+    var end   = position
 
     if (isBreaker(end, content)) {
       end = end - 1
@@ -90,7 +90,7 @@ object SearchUtils {
                 override def equals(obj: scala.Any): Boolean = toString().equals(obj.toString())
 
                 override def hashCode(): Int = toString().hashCode()
-              })
+            })
         })
 
         Some(result.sortWith((l1, l2) => l1.posRange.start < l2.posRange.start))
@@ -147,7 +147,7 @@ object SearchUtils {
       case Some(result) =>
         findReferences(project, result.head.posRange.start.offset(project.rootASTUnit.text) + 1) match {
           case Some(refs) => Some(refs.toBuffer += result.head)
-          case _ => None
+          case _          => None
         }
 
       case _ =>
