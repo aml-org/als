@@ -188,6 +188,7 @@ enablePlugins(SonarRunnerPlugin)
 
 lazy val sonarUrl = sys.env.getOrElse("SONAR_SERVER_URL", "Not found url.")
 lazy val token = sys.env.getOrElse("SONAR_SERVER_TOKEN", "Not found token.")
+lazy val branch = sys.env.getOrElse("BRANCH_NAME", "devel")
 
 sonarProperties ++= Map(
   "sonar.host.url" -> sonarUrl,
@@ -197,6 +198,8 @@ sonarProperties ++= Map(
   "sonar.projectVersion" -> "1.0.0",
   "sonar.sourceEncoding" -> "UTF-8",
   "sonar.github.repository" -> "mulesoft/als",
+
+  "sonar.branch.name" -> branch,
 
   "sonar.scala.coverage.reportPaths" -> "als-server/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-structure/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-suggestions/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-hl/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-common/jvm/target/scala-2.12/scoverage-report/scoverage.xml",
   "sonar.sources" -> "als-server/shared/src/main/scala,als-structure/shared/src/main/scala,als-suggestions/shared/src/main/scala,als-hl/shared/src/main/scala,als-common/shared/src/main/scala"
