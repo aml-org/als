@@ -1,7 +1,5 @@
 package org.mulesoft.high.level.test
 
-import java.io.File
-
 import amf.client.remote.Content
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
@@ -10,7 +8,6 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.high.level.Core
 import org.mulesoft.high.level.amfmanager.ParserHelper
-import org.mulesoft.high.level.implementation.AlsPlatform
 import org.mulesoft.high.level.interfaces.IProject
 import org.scalatest.{Assertion, AsyncFunSuite}
 
@@ -29,7 +26,7 @@ trait AstTest extends AsyncFunSuite with PlatformSecrets {
 
   def parse(path: String, env: Environment = Environment()): Future[IProject] = {
 
-    parseAMF(path, env).flatMap(unit => Core.buildModel(unit, AlsPlatform.default))
+    parseAMF(path, env).flatMap(unit => Core.buildModel(unit, platform))
   }
 
   def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] = {

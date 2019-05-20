@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.client.js
 import amf.client.remote.Content
 import amf.client.resource.{ClientResourceLoader, ResourceLoader}
 import amf.core.remote.Vendor
-import org.mulesoft.high.level.interfaces.{DirectoryResolver => InternalDirectoryResolver}
+import org.mulesoft.als.common.{DirectoryResolver => InternalDirectoryResolver}
 import org.scalatest.{AsyncFunSuite, Matchers}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -93,15 +93,13 @@ class JsSuggestionsTest extends AsyncFunSuite with Matchers {
     val clientResolver = js
       .use(new ClientDirectoryResolver {
         override def exists(path: String): js.Promise[Boolean] =
-          Future(Seq("file:///api.raml", "file://fragment.raml", "file://another.raml").contains(path)).toJSPromise
+          Future(Seq("/api.raml", "fragment.raml", "another.raml").contains(path)).toJSPromise
 
-        override def readDir(path: String): js.Promise[js.Array[String]] = {
-          Future(Seq("file:///dir/fragment.raml", "file:///dir/another.raml")).map(_.toJSArray).toJSPromise
-        }
+        override def readDir(path: String): js.Promise[js.Array[String]] =
+          Future(Seq("/fragment.raml", "/another.raml")).map(_.toJSArray).toJSPromise
 
-        override def isDirectory(path: String): js.Promise[Boolean] = {
+        override def isDirectory(path: String): js.Promise[Boolean] =
           Future(path endsWith "dir/").toJSPromise
-        }
       })
       .as[ClientDirectoryResolver]
 
@@ -110,11 +108,7 @@ class JsSuggestionsTest extends AsyncFunSuite with Matchers {
       .toFuture
       .flatMap(_ => {
         JsSuggestions
-          .suggest(Vendor.RAML.name,
-                   "file:///dir/api.raml",
-                   51,
-                   js.Array(fileLoader),
-                   Some(clientResolver).orUndefined)
+          .suggest(Vendor.RAML.name, "file:///dir/api.raml", 51, js.Array(fileLoader), clientResolver)
           .toFuture
           .map(suggestions => {
             val seq = suggestions.toSeq

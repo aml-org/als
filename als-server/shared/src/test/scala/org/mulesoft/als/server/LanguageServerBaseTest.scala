@@ -1,11 +1,13 @@
 package org.mulesoft.als.server
 
+import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
+import amf.internal.environment.Environment
+import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
-import org.mulesoft.als.server.platform.ServerPlatform
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
-import org.mulesoft.lsp.configuration.{ClientCapabilities, InitializeParams, TraceKind}
+import org.mulesoft.lsp.configuration.InitializeParams
 import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync.{
   DidChangeTextDocumentParams,
@@ -21,19 +23,22 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
 
   val logger: Logger = EmptyLogger
 
-  val initializeParams = InitializeParams.default
+  protected val initializeParams = InitializeParams.default
 
   def addModules(documentManager: TextDocumentManager,
-                 serverPlatform: ServerPlatform,
+                 platform: Platform,
+                 directoryResolver: DirectoryResolver,
+                 baseEnvironment: Environment,
                  builder: LanguageServerBuilder): LanguageServerBuilder
 
   def withServer[R](fn: LanguageServer => Future[R]): Future[R] = {
-    val documentManager                = new TextDocumentManager(logger, platform)
-    val serverPlatform: ServerPlatform = new ServerPlatform(logger, documentManager)
+    val documentManager = new TextDocumentManager(platform, logger)
     val builder = LanguageServerBuilder()
       .withTextDocumentSyncConsumer(documentManager)
 
-    val server = addModules(documentManager, serverPlatform, builder).build()
+    val directoryResolver = new PlatformDirectoryResolver(platform)
+    val baseEnvironment   = Environment().add(new PlatformFileLoader(platform))
+    val server            = addModules(documentManager, platform, directoryResolver, baseEnvironment, builder).build()
 
     server
       .initialize(initializeParams)

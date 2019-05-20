@@ -1,4 +1,4 @@
-package common.dtoTypes
+package org.mulesoft.als.common.dtoTypes
 
 object AscendingPositionOrdering extends Ordering[Position]{
   override def compare(x: Position, y: Position): Int =

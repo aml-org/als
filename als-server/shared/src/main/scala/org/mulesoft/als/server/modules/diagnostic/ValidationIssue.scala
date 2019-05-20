@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import common.dtoTypes.PositionRange
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.server.modules.common.LspConverter.toLspRange
 import org.mulesoft.als.server.modules.diagnostic.ValidationSeverity.ValidationSeverity
 import org.mulesoft.lsp.common.Location

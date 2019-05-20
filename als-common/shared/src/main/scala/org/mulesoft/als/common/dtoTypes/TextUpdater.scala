@@ -1,4 +1,4 @@
-package common.dtoTypes
+package org.mulesoft.als.common.dtoTypes
 
 import java.lang.Math.max
 

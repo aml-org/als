@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.interfaces
 
-import common.dtoTypes.PositionRange
+import org.mulesoft.als.common.dtoTypes.PositionRange
 
 trait Suggestion {
   def text: String

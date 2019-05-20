@@ -4,21 +4,22 @@ import amf.ProfileName
 import amf.client.remote.Content
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
+import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
+import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.CompletionProvider
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.high.level.{CustomDialects, InitOptions}
 import org.mulesoft.high.level.amfmanager.ParserHelper
-import org.mulesoft.high.level.implementation.{AlsPlatform, AlsPlatformWrapper}
 import org.mulesoft.high.level.interfaces.IProject
+import org.mulesoft.high.level.{CustomDialects, InitOptions}
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait SuggestionsTest extends AsyncFunSuite {
-  val platform: AlsPlatform = AlsPlatform.default
+trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
+  private val directoryResolver = new PlatformDirectoryResolver(platform)
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
@@ -65,10 +66,10 @@ trait SuggestionsTest extends AsyncFunSuite {
   }
 
   /**
-    * @param path                URI for the API resource
-    * @param label               Pointer placeholder
-    * @param cut                 if true, cuts text after label
-    * @param labels              set of every label in the file (needed for cleaning API)
+    * @param path   URI for the API resource
+    * @param label  Pointer placeholder
+    * @param cut    if true, cuts text after label
+    * @param labels set of every label in the file (needed for cleaning API)
     */
   def runTestCategory(path: String,
                       label: String = "*",
@@ -131,7 +132,7 @@ trait SuggestionsTest extends AsyncFunSuite {
         this.buildEnvironment(url, markerInfo.originalContent, content.mime)
       }
 
-      suggestions <- Suggestions.suggest(format, url, position, env, this.platform)
+      suggestions <- Suggestions.suggest(format, url, position, directoryResolver, env, platform)
     } yield suggestions.map(suggestion => suggestion)
   }
 
@@ -177,10 +178,10 @@ trait SuggestionsTest extends AsyncFunSuite {
                               url: String,
                               position: Int,
                               originalContent: String): CompletionProvider =
-    Suggestions.buildCompletionProvider(project, url, position, originalContent, platform)
+    Suggestions.buildCompletionProvider(project, url, position, originalContent, directoryResolver, platform)
 
   def buildCompletionProviderNoAST(text: String, url: String, position: Int): CompletionProvider =
-    Suggestions.buildCompletionProviderNoAST(text, url, position, platform)
+    Suggestions.buildCompletionProviderNoAST(text, url, position, directoryResolver, platform)
 
   def filePath(path: String): String = {
     var result =
