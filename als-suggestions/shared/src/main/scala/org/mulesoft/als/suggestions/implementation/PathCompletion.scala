@@ -1,20 +1,27 @@
 package org.mulesoft.als.suggestions.implementation
 
-import org.mulesoft.high.level.implementation.AlsPlatform
+import amf.core.remote.Platform
+import org.mulesoft.als.common.DirectoryResolver
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object PathCompletion {
 
-  def complete(defaultPath: String, additionalPath: String, alsPlatform: AlsPlatform): Future[Seq[String]] = {
+  private def resolvePath(platform: Platform, basePath: String, path: String): String =
+    platform.decodeURI(platform.resolvePath(platform.encodeURI(basePath + path.stripPrefix("/"))))
 
-    alsPlatform.directoryResolver
+  def complete(defaultPath: String,
+               additionalPath: String,
+               directoryResolver: DirectoryResolver,
+               platform: Platform): Future[Seq[String]] = {
+
+    directoryResolver
       .isDirectory(defaultPath)
       .flatMap(isDir => {
         var directoryPath =
           if (!isDir)
-            alsPlatform.directoryResolver.dirName(defaultPath)
+            directoryResolver.dirName(defaultPath)
           else
             defaultPath
 
@@ -27,18 +34,13 @@ object PathCompletion {
             None
 
         val modifiedDirectoryPath: String =
-          if (additionalDirectoryPath.isDefined) {
-
-            val resolved = alsPlatform.resolvePath(directoryPath, additionalDirectoryPath.get)
-
-            if (resolved.isDefined) resolved.get else directoryPath
-          } else {
-            directoryPath
-          }
+          additionalDirectoryPath
+            .map(resolvePath(platform, directoryPath, _))
+            .getOrElse(directoryPath)
 
         var finalDirectoryPath = directoryPath
 
-        val filesFuture = alsPlatform.directoryResolver
+        val filesFuture = directoryResolver
           .isDirectory(modifiedDirectoryPath)
           .flatMap(modifiedIsDirectory => {
 
@@ -46,28 +48,21 @@ object PathCompletion {
               finalDirectoryPath = modifiedDirectoryPath
             }
 
-            alsPlatform.directoryResolver.readDir(finalDirectoryPath)
+            directoryResolver.readDir(finalDirectoryPath)
           })
 
         filesFuture.flatMap(shortFilePaths => {
-
           val fullFilePaths: Seq[String] =
             shortFilePaths
-              .filter(
-                shortFilePath => alsPlatform.resolvePath(finalDirectoryPath, shortFilePath).isDefined
-              )
-              .map(
-                shortFilePath => alsPlatform.resolvePath(finalDirectoryPath, shortFilePath).get
-              )
+              .map(resolvePath(platform, finalDirectoryPath, _))
 
-          val filter = alsPlatform.resolvePath(directoryPath, additionalPath)
+          val filter = resolvePath(platform, directoryPath, additionalPath)
 
           val futures: Seq[Future[String]] = fullFilePaths
-            .filter(fullFilePath =>
-              filter.isDefined && fullFilePath.startsWith(filter.get) && fullFilePath != defaultPath)
+            .filter(fullFilePath => fullFilePath.startsWith(filter) && fullFilePath != defaultPath)
             .map(fullFilePath => {
               val result = fullFilePath.stripPrefix(finalDirectoryPath)
-              alsPlatform.directoryResolver
+              directoryResolver
                 .isDirectory(fullFilePath)
                 .map({
                   case true if !result.endsWith("/") => result + "/"

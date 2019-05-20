@@ -3,17 +3,16 @@ package org.mulesoft.als.server.modules.diagnostic
 import amf.ProfileName
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
+import amf.core.remote.Platform
 import amf.core.services.RuntimeValidator
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
-import common.dtoTypes.{EmptyPositionRange, PositionRange}
+import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, PositionRange}
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.{AstListener, AstManager}
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
 import org.mulesoft.als.server.textsync.TextDocumentManager
-import org.mulesoft.high.level.implementation.AlsPlatform
-import org.mulesoft.als.server.util.PathRefine
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
 
@@ -24,7 +23,7 @@ import scala.util.{Failure, Success}
 class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
                         private val astManager: AstManager,
                         private val clientNotifier: ClientNotifier,
-                        private val platform: AlsPlatform,
+                        private val platform: Platform,
                         private val logger: Logger)
     extends ClientNotifierModule[DiagnosticClientCapabilities, Unit] {
 
@@ -97,7 +96,7 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
 
     val config = new ParserConfig(
       Some(ParserConfig.VALIDATE),
-      Some(PathRefine.refinePath(uri, platform)),
+      Some(platform.resolvePath(uri)),
       Some(language),
       Some("application/yaml"),
       None,

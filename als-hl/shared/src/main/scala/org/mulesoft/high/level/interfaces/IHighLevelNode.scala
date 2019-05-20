@@ -1,7 +1,7 @@
 package org.mulesoft.high.level.interfaces
 
 import amf.core.model.domain.AmfObject
-import common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.typesystem.nominal_interfaces.{IProperty, ITypeDefinition}
 
 trait IHighLevelNode extends IParseResult {
@@ -59,18 +59,18 @@ trait IHighLevelNode extends IParseResult {
   override protected def selectNodeWhichContainsPosition(pos: Int): Option[IParseResult] = {
     if (sourceInfo.containsPosition(pos)) {
       var path = astUnit.path
-      var matchedSiblings = children.filter(x => {
-        val up = x.unitPath
-        up.isEmpty || up.contains(path)
-      }).flatMap(_.getNodeByPosition(pos))
+      var matchedSiblings = children
+        .filter(x => {
+          val up = x.unitPath
+          up.isEmpty || up.contains(path)
+        })
+        .flatMap(_.getNodeByPosition(pos))
       if (matchedSiblings.nonEmpty) {
         matchedSiblings.headOption
-      }
-      else {
+      } else {
         Some(this)
       }
-    }
-    else {
+    } else {
       None
     }
   }
@@ -78,18 +78,18 @@ trait IHighLevelNode extends IParseResult {
   override protected def selectNodeWhichContainsPosition(position: Position): Option[IParseResult] = {
     if (sourceInfo.containsPosition(position)) {
       val path = astUnit.path
-      val matchedSiblings = children.filter(x => {
-        val up = x.unitPath
-        up.isEmpty || up.contains(path)
-      }).flatMap(_.getNodeByPosition(position))
+      val matchedSiblings = children
+        .filter(x => {
+          val up = x.unitPath
+          up.isEmpty || up.contains(path)
+        })
+        .flatMap(_.getNodeByPosition(position))
       if (matchedSiblings.nonEmpty) {
         matchedSiblings.headOption
-      }
-      else {
+      } else {
         Some(this)
       }
-    }
-    else {
+    } else {
       None
     }
   }

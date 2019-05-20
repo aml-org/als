@@ -2,21 +2,20 @@ package org.mulesoft.als.suggestions.client.js
 
 import amf.client.remote.Content
 import amf.client.resource.ClientResourceLoader
+import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
 import org.mulesoft.high.level.InitOptions
-import org.mulesoft.high.level.interfaces.{DirectoryResolver => InternalResolver}
-import org.mulesoft.high.level.implementation.{AlsPlatform, AlsPlatformWrapper}
+import org.mulesoft.als.common.{PlatformDirectoryResolver, DirectoryResolver => InternalResolver}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
-import scala.scalajs.js.Promise
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel, ScalaJSDefined}
 
 @JSExportTopLevel("Suggestions")
-object JsSuggestions {
+object JsSuggestions extends PlatformSecrets with EmptyDirectoryResolver {
 
   @JSExport
   def init(options: InitOptions = InitOptions.WebApiProfiles): js.Promise[Unit] =
@@ -35,13 +34,12 @@ object JsSuggestions {
               url: String,
               position: Int,
               loaders: js.Array[ClientResourceLoader] = js.Array(),
-              dirResolver: js.UndefOr[ClientDirectoryResolver] = js.undefined): js.Promise[js.Array[Suggestion]] = {
+              dirResolver: ClientDirectoryResolver = emptyDirectoryResolver): js.Promise[js.Array[Suggestion]] = {
+
     val environment = new Environment(loaders.map(internalResourceLoader).toSeq)
-    val alsPlatform: AlsPlatform =
-      new AlsPlatformWrapper(environment, dirResolver.toOption.map(DirectoryResolverAdapter.convert))
 
     Suggestions
-      .suggest(language, url, position, environment, alsPlatform)
+      .suggest(language, url, position, DirectoryResolverAdapter.convert(dirResolver), environment, platform)
       .map(_.toJSArray)
       .toJSPromise
   }
@@ -61,11 +59,12 @@ object DirectoryResolverAdapter {
   def convert(clientResolver: ClientDirectoryResolver): InternalResolver = {
     new InternalResolver {
 
-      override def exists(path: String): Future[Boolean] = clientResolver.exists(path).toFuture
+      override def exists(path: String): Future[Boolean] = clientResolver.exists(toPath(path)).toFuture
 
-      override def readDir(path: String): Future[Seq[String]] = clientResolver.readDir(path).toFuture.map(_.toSeq)
+      override def readDir(path: String): Future[Seq[String]] =
+        clientResolver.readDir(toPath(path)).toFuture.map(_.toSeq)
 
-      override def isDirectory(path: String): Future[Boolean] = clientResolver.isDirectory(path).toFuture
+      override def isDirectory(path: String): Future[Boolean] = clientResolver.isDirectory(toPath(path)).toFuture
 
     }
   }

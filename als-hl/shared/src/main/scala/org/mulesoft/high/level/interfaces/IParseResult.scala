@@ -3,7 +3,7 @@ package org.mulesoft.high.level.interfaces
 import amf.core.annotations.SourceNode
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.AmfObject
-import common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.typesystem.nominal_interfaces.IProperty
 import org.mulesoft.typesystem.typesystem_interfaces.IHasExtra
 
@@ -44,13 +44,12 @@ trait IParseResult extends IHasExtra {
   def getNodeByPosition(pos: Int): Option[IParseResult] =
     selectNodeWhichContainsPosition(pos).map(n => {
       val posOffset = astUnit.positionsMapper.offset(pos)
-      var result = n
+      var result    = n
       if (result.sourceInfo.isYAML) {
-        while (
-          result.parent.isDefined
-            && result.sourceInfo.valueOffset.isDefined
-            && result.sourceInfo.valueOffset.get > posOffset
-            && !result.sourceInfo.containsPositionInKey(pos)) {
+        while (result.parent.isDefined
+               && result.sourceInfo.valueOffset.isDefined
+               && result.sourceInfo.valueOffset.get > posOffset
+               && !result.sourceInfo.containsPositionInKey(pos)) {
 
           result = result.parent.get
         }
@@ -62,13 +61,12 @@ trait IParseResult extends IHasExtra {
     selectNodeWhichContainsPosition(position)
       .map(n => {
         val posOffset = astUnit.positionsMapper.offset(position)
-        var result = n
+        var result    = n
         if (result.sourceInfo.isYAML) {
-          while (
-            result.parent.isDefined
-              && result.sourceInfo.valueOffset.isDefined
-              && result.sourceInfo.valueOffset.get > posOffset
-              && !result.sourceInfo.containsPositionInKey(position)) {
+          while (result.parent.isDefined
+                 && result.sourceInfo.valueOffset.isDefined
+                 && result.sourceInfo.valueOffset.get > posOffset
+                 && !result.sourceInfo.containsPositionInKey(position)) {
 
             result = result.parent.get
           }
@@ -84,11 +82,12 @@ trait IParseResult extends IHasExtra {
   }
 
   def unitPath: Option[String] = {
-    val opt: Option[String] = amfNode.annotations.find(classOf[SourceNode]).map(_.node.sourceName).orElse(Option(amfNode.id))
+    val opt: Option[String] =
+      amfNode.annotations.find(classOf[SourceNode]).map(_.node.sourceName).orElse(Option(amfNode.id))
     opt match {
       case Some(str) =>
         var result = str
-        val ind = str.indexOf("#")
+        val ind    = str.indexOf("#")
         if (ind >= 0) {
           result = str.substring(0, ind)
         }

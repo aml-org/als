@@ -1,14 +1,10 @@
 package org.mulesoft.als.suggestions.implementation
 
-import org.mulesoft.als.suggestions.interfaces.{
-  IASTProvider,
-  ICompletionConfig,
-  IEditorStateProvider,
-  IExtendedFSProvider
-}
-import org.mulesoft.high.level.implementation.AlsPlatform
+import amf.core.remote.Platform
+import org.mulesoft.als.common.DirectoryResolver
+import org.mulesoft.als.suggestions.interfaces.{IASTProvider, ICompletionConfig, IEditorStateProvider}
 
-class CompletionConfig(_platform: AlsPlatform) extends ICompletionConfig {
+class CompletionConfig(val directoryResolver: DirectoryResolver, val platform: Platform) extends ICompletionConfig {
 
   var _astProvider: Option[IASTProvider] = None
 
@@ -19,8 +15,6 @@ class CompletionConfig(_platform: AlsPlatform) extends ICompletionConfig {
   override def astProvider: Option[IASTProvider] = _astProvider
 
   override def editorStateProvider: Option[IEditorStateProvider] = _editorStateProvider
-
-  override def platform: AlsPlatform = _platform
 
   override def originalContent: Option[String] = _originalContent
 

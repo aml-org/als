@@ -1,10 +1,12 @@
 package org.mulesoft.als.server.modules.reference
 
-import common.dtoTypes.Position
+import amf.core.remote.Platform
+import amf.internal.environment.Environment
+import org.mulesoft.als.common.DirectoryResolver
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.common.LspConverter
 import org.mulesoft.als.server.modules.hlast.HlAstManager
-import org.mulesoft.als.server.platform.ServerPlatform
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
@@ -13,12 +15,14 @@ import org.mulesoft.lsp.feature.reference.{ReferenceContext, ReferenceParams, Re
 abstract class ServerReferenceTest extends LanguageServerBaseTest {
 
   override def addModules(documentManager: TextDocumentManager,
-                          serverPlatform: ServerPlatform,
+                          platform: Platform,
+                          directoryResolver: DirectoryResolver,
+                          baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val astManager = new AstManager(documentManager, serverPlatform, logger)
-    val hlAstManager = new HlAstManager(documentManager, astManager, serverPlatform, logger)
-    val referencesModule = new FindReferencesModule(hlAstManager, serverPlatform, logger)
+    val astManager       = new AstManager(documentManager, baseEnvironment, platform, logger)
+    val hlAstManager     = new HlAstManager(documentManager, astManager, platform, logger)
+    val referencesModule = new FindReferencesModule(hlAstManager, platform, logger)
 
     builder
       .addInitializable(astManager)
@@ -37,7 +41,7 @@ abstract class ServerReferenceTest extends LanguageServerBaseTest {
           |    properties:
           |      p1: MyType
           |""".stripMargin
-      val ind = content1.indexOf("MyType:") + 2
+      val ind      = content1.indexOf("MyType:") + 2
       val position = LspConverter.toLspPosition(Position(ind, content1))
 
       val url = "file:///findReferencesTest001.raml"
