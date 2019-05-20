@@ -1,3 +1,6 @@
+import java.io.{File, FileOutputStream}
+import java.util.Properties
+
 import Dependencies.deps
 import org.scalajs.core.tools.linker.ModuleKind
 import org.scalajs.core.tools.linker.backend.OutputMode
@@ -186,24 +189,54 @@ buildSuggestionsJS := {
 
 enablePlugins(SonarRunnerPlugin)
 
-lazy val sonarUrl = sys.env.getOrElse("SONAR_SERVER_URL", "Not found url.")
-lazy val token = sys.env.getOrElse("SONAR_SERVER_TOKEN", "Not found token.")
-lazy val branch = sys.env.getOrElse("BRANCH_NAME", "devel")
-
-sonarProperties ++= Map(
-  "sonar.host.url" -> sonarUrl,
-  "sonar.login" -> token,
-  "sonar.projectKey" -> "mulesoft.als",
-  "sonar.projectName" -> "ALS",
-  "sonar.projectVersion" -> "1.0.0",
-  "sonar.sourceEncoding" -> "UTF-8",
-  "sonar.github.repository" -> "mulesoft/als",
-
-  "sonar.branch.name" -> branch,
-
-  "sonar.scala.coverage.reportPaths" -> "als-server/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-structure/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-suggestions/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-hl/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-common/jvm/target/scala-2.12/scoverage-report/scoverage.xml",
-  "sonar.sources" -> "als-server/shared/src/main/scala,als-structure/shared/src/main/scala,als-suggestions/shared/src/main/scala,als-hl/shared/src/main/scala,als-common/shared/src/main/scala"
+val setSonarProperties = TaskKey[Unit](
+  "setSonarProperties",
+  "Set sonar properties!"
 )
+
+setSonarProperties := {
+  lazy val url = sys.env.getOrElse("SONAR_SERVER_URL", "Not found url.")
+  lazy val token = sys.env.getOrElse("SONAR_SERVER_TOKEN", "Not found token.")
+
+  val values = Map(
+    "sonar.host.url" -> url,
+    "sonar.login" -> token,
+    "sonar.projectKey" -> "mulesoft.als",
+    "sonar.projectName" -> "ALS",
+    "sonar.projectVersion" -> "1.0.0",
+    "sonar.sourceEncoding" -> "UTF-8",
+    "sonar.github.repository" -> "mulesoft/als",
+
+    "sonar.scala.coverage.reportPaths" -> "als-server/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-structure/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-suggestions/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-hl/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-common/jvm/target/scala-2.12/scoverage-report/scoverage.xml",
+    "sonar.sources" -> "als-server/shared/src/main/scala,als-structure/shared/src/main/scala,als-suggestions/shared/src/main/scala,als-hl/shared/src/main/scala,als-common/shared/src/main/scala"
+  )
+  sonarProperties := values
+
+  val p = new Properties()
+  values.foreach(v => p.put(v._1, v._2))
+  val stream = new FileOutputStream(file("./sonar-project.properties"))
+  p.store(stream, null)
+  stream.close()
+}
+
+val runSonar = TaskKey[Unit](
+  "runSonar",
+  "Run sonar!")
+runSonar := {
+
+  //  sonarRunnerOptions := Seq(
+  //    "-D",
+  //    s"sonar.host.url=$url",
+  //    "-D",
+  //    s"sonar.login=$token"
+  //  )
+
+  //  val a = generateSonarConfiguration.value
+
+  setSonarProperties.value
+  sonar.value
+}
+
 
 //**************** ALIASES *********************************************************************************************
 // run only one?
@@ -233,7 +266,6 @@ lazy val fat = crossProject(JSPlatform, JVMPlatform).settings(
 )
   .dependsOn(suggestions, structure , hl , server)
   .in(file("./als-fat")).settings(settings: _*).jvmSettings(
-  libraryDependencies += "com.github.amlorg" %%% "amf-aml" % amfVersion,
   //	packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
   //        aggregate in assembly := true,
   assemblyMergeStrategy in assembly := {
