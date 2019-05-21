@@ -14,7 +14,7 @@ trait FileAssertionTest extends PlatformSecrets {
 
   protected def writeTemporaryFile(golden: String)(content: String): Future[AsyncFile] = {
     val file   = tmp(s"${golden.replaceAll("/", "-")}.tmp")
-    val actual = fs.asyncFile(platform.resolvePath(file))
+    val actual = fs.asyncFile(file)
     actual.write(content).map(_ => actual)
   }
 
