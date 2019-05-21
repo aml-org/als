@@ -1,253 +1,16 @@
 [
   {
-    "name": "Getting Started",
-    "kind": 8,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 5,
-        "character": 3
-      },
-      "end": {
-        "line": 7,
-        "character": 0
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 5,
-        "character": 3
-      },
-      "end": {
-        "line": 7,
-        "character": 0
-      }
-    },
-    "children": [
-      {
-        "name": "content",
-        "kind": 8,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 5,
-            "character": 3
-          },
-          "end": {
-            "line": 7,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 5,
-            "character": 3
-          },
-          "end": {
-            "line": 7,
-            "character": 0
-          }
-        },
-        "children": []
-      },
-      {
-        "name": "title",
-        "kind": 8,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 5,
-            "character": 3
-          },
-          "end": {
-            "line": 7,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 5,
-            "character": 3
-          },
-          "end": {
-            "line": 7,
-            "character": 0
-          }
-        },
-        "children": []
-      }
-    ]
-  },
-  {
-    "name": "Basics of Authentication",
-    "kind": 8,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 7,
-        "character": 3
-      },
-      "end": {
-        "line": 9,
-        "character": 0
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 7,
-        "character": 3
-      },
-      "end": {
-        "line": 9,
-        "character": 0
-      }
-    },
-    "children": [
-      {
-        "name": "content",
-        "kind": 8,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 7,
-            "character": 3
-          },
-          "end": {
-            "line": 9,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 7,
-            "character": 3
-          },
-          "end": {
-            "line": 9,
-            "character": 0
-          }
-        },
-        "children": []
-      },
-      {
-        "name": "title",
-        "kind": 8,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 7,
-            "character": 3
-          },
-          "end": {
-            "line": 9,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 7,
-            "character": 3
-          },
-          "end": {
-            "line": 9,
-            "character": 0
-          }
-        },
-        "children": []
-      }
-    ]
-  },
-  {
-    "name": "Rendering Data as Graphs",
-    "kind": 8,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 9,
-        "character": 3
-      },
-      "end": {
-        "line": 11,
-        "character": 0
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 9,
-        "character": 3
-      },
-      "end": {
-        "line": 11,
-        "character": 0
-      }
-    },
-    "children": [
-      {
-        "name": "content",
-        "kind": 8,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 9,
-            "character": 3
-          },
-          "end": {
-            "line": 11,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 9,
-            "character": 3
-          },
-          "end": {
-            "line": 11,
-            "character": 0
-          }
-        },
-        "children": []
-      },
-      {
-        "name": "title",
-        "kind": 8,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 9,
-            "character": 3
-          },
-          "end": {
-            "line": 11,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 9,
-            "character": 3
-          },
-          "end": {
-            "line": 11,
-            "character": 0
-          }
-        },
-        "children": []
-      }
-    ]
-  },
-  {
     "name": "title",
-    "kind": 8,
+    "kind": 15,
     "deprecated": false,
     "range": {
       "start": {
         "line": 1,
-        "character": 0
+        "character": 7
       },
       "end": {
-        "line": 11,
-        "character": 0
+        "line": 1,
+        "character": 17
       }
     },
     "selectionRange": {
@@ -264,12 +27,38 @@
   },
   {
     "name": "version",
-    "kind": 8,
+    "kind": 15,
     "deprecated": false,
     "range": {
       "start": {
-        "line": 1,
-        "character": 0
+        "line": 2,
+        "character": 9
+      },
+      "end": {
+        "line": 2,
+        "character": 11
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 9
+      },
+      "end": {
+        "line": 2,
+        "character": 11
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "documentations",
+    "kind": 18,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 5,
+        "character": 3
       },
       "end": {
         "line": 11,
@@ -278,14 +67,93 @@
     },
     "selectionRange": {
       "start": {
-        "line": 1,
-        "character": 7
+        "line": 5,
+        "character": 3
       },
       "end": {
-        "line": 1,
-        "character": 17
+        "line": 11,
+        "character": 0
       }
     },
-    "children": []
+    "children": [
+      {
+        "name": "0",
+        "kind": 19,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 5,
+            "character": 3
+          },
+          "end": {
+            "line": 7,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 5,
+            "character": 3
+          },
+          "end": {
+            "line": 7,
+            "character": 0
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "1",
+        "kind": 19,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 7,
+            "character": 3
+          },
+          "end": {
+            "line": 9,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 7,
+            "character": 3
+          },
+          "end": {
+            "line": 9,
+            "character": 0
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "2",
+        "kind": 19,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 9,
+            "character": 3
+          },
+          "end": {
+            "line": 11,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 9,
+            "character": 3
+          },
+          "end": {
+            "line": 11,
+            "character": 0
+          }
+        },
+        "children": []
+      }
+    ]
   }
 ]
