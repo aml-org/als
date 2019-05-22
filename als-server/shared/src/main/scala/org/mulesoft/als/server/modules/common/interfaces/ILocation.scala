@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.common.interfaces
 
-import common.dtoTypes.PositionRange
+import org.mulesoft.als.common.dtoTypes.PositionRange
 
 /**
   * Range in a particular document

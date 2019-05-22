@@ -12,8 +12,21 @@ pipeline {
     stage('Test') {
       steps {
         wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
+          sh 'sbt -mem 4096 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 clean coverage test coverageReport'
+        }
+      }
+    }
+    stage('Coverage') {
+      when {
+        anyOf {
+          branch 'master'
+          branch 'devel'
+        }
+      }
+      steps {
+        wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
           withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'sonarqube-official', passwordVariable: 'SONAR_SERVER_TOKEN', usernameVariable: 'SONAR_SERVER_URL']]) {
-            sh 'sbt -mem 4096 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 clean coverage test coverageReport runSonar'
+            sh 'sbt sonar'
           }
         }
       }

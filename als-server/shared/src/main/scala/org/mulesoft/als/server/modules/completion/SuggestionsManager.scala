@@ -1,7 +1,8 @@
 package org.mulesoft.als.server.modules.completion
 
-import amf.core.remote.{Raml10, Vendor}
-import common.dtoTypes.Position
+import amf.core.remote.{Platform, Raml10, Vendor}
+import org.mulesoft.als.common.DirectoryResolver
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.LspConverter
@@ -12,8 +13,6 @@ import org.mulesoft.als.suggestions.CompletionProvider
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.implementation.CompletionConfig
 import org.mulesoft.als.suggestions.interfaces.{Suggestion, Syntax}
-import org.mulesoft.high.level.implementation.AlsPlatform
-import org.mulesoft.als.server.util.PathRefine
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.RequestHandler
@@ -24,7 +23,8 @@ import scala.concurrent.Future
 
 class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                          private val hlAstManager: HlAstManager,
-                         private val platform: AlsPlatform,
+                         private val directoryResolver: DirectoryResolver,
+                         private val platform: Platform,
                          private val logger: Logger)
     extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
   override val `type`: ConfigType[CompletionClientCapabilities, CompletionOptions] = CompletionConfigType
@@ -51,14 +51,15 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
       override def `type`: CompletionRequestType.type = CompletionRequestType
 
       override def apply(params: CompletionParams): Future[Either[Seq[CompletionItem], CompletionList]] = {
-        onDocumentCompletion(params.textDocument.uri, LspConverter.toPosition(params.position))
+        onDocumentCompletion(platform.decodeURI(params.textDocument.uri), LspConverter.toPosition(params.position))
           .map(_.map(completionItem))
           .map(Left.apply)
       }
     }
   )
 
-  override def applyConfig(config: Option[CompletionClientCapabilities]): CompletionOptions = CompletionOptions()
+  override def applyConfig(config: Option[CompletionClientCapabilities]): CompletionOptions =
+    CompletionOptions(None, Some(Set('[')))
 
   val onDocumentCompletionListener: (String, Position) => Future[Seq[Suggestion]] = onDocumentCompletion
 
@@ -66,7 +67,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
     suggestions.Core.init()
 
   protected def onDocumentCompletion(uri: String, position: Position): Future[Seq[Suggestion]] = {
-    val refinedUri = PathRefine.refinePath(uri, platform)
+    val refinedUri = platform.decodeURI(platform.resolvePath(platform.encodeURI(uri)))
 
     logger.debug(s"Calling for completion for uri $uri and position $position",
                  "SuggestionsManager",
@@ -85,20 +86,8 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
 
         val vendorOption   = Vendor.unapply(editor.language)
         val vendor: Vendor = vendorOption.getOrElse(Raml10)
-        //      this.logger.debug("Vendor is: " + vendor,
-        //        "SuggestionsManager", "onDocumentCompletion")
 
-        //TODO add unapply to suggestion's Syntax
-
-        //      this.logger.debug(s"TEXT:",
-        //        "SuggestionsManager", "onDocumentCompletion")
-        //      this.logger.debug(text,
-        //        "SuggestionsManager", "onDocumentCompletion")
-        //
-        //      this.logger.debug("Completion substring: " + text.substring(position-10, position),
-        //        "SuggestionsManager", "onDocumentCompletion")
-
-        buildCompletionProviderAST(text, originalText, uri, refinedUri, offset, vendor, syntax, AlsPlatform.default) // todo find a way to instanciate some platform usings als protocol (initialization maybe?)
+        buildCompletionProviderAST(text, originalText, uri, refinedUri, offset, vendor, syntax)
           .flatMap(provider => {
             provider.suggest
               .map(result => {
@@ -122,8 +111,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                                  refinedUri: String,
                                  position: Int,
                                  vendor: Vendor,
-                                 syntax: Syntax,
-                                 platform: AlsPlatform): Future[CompletionProvider] = {
+                                 syntax: Syntax): Future[CompletionProvider] = {
 
     hlAstManager
       .forceBuildNewAST(uri, text)
@@ -135,7 +123,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
 
         val editorStateProvider = new EditorStateProvider(text, refinedUri, baseName, position)
 
-        val completionConfig = new CompletionConfig(platform)
+        val completionConfig = new CompletionConfig(directoryResolver, platform)
           .withEditorStateProvider(editorStateProvider)
           .withAstProvider(astProvider)
           .withOriginalContent(unmodifiedContent)
@@ -146,7 +134,8 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
         case e: Throwable =>
           println(e)
           Future.successful(
-            Suggestions.buildCompletionProviderNoAST(unmodifiedContent, refinedUri, position, platform))
+            Suggestions
+              .buildCompletionProviderNoAST(unmodifiedContent, refinedUri, position, directoryResolver, platform))
         case any =>
           println(any)
           Future.failed(new Error("Failed to construct CompletionProvider"))

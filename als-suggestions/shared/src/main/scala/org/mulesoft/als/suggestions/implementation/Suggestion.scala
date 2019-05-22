@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.implementation
 
-import common.dtoTypes.PositionRange
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.suggestions.interfaces.{Suggestion => SuggestionInterface}
 
 class Suggestion(_text: String,

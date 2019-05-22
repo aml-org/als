@@ -15,6 +15,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 trait InclusionSuggestion extends ICompletionPlugin {
 
   protected val description: String
+
   override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
 
     val baseDir = request.astNode.get.astUnit.project.rootPath
@@ -30,7 +31,7 @@ trait InclusionSuggestion extends ICompletionPlugin {
     } else {
       val prefix = if (relativePrefix.startsWith("/")) relativePrefix.substring(1) else relativePrefix
       PathCompletion
-        .complete(baseDir, relativePath, request.config.platform)
+        .complete(baseDir, relativePath, request.config.directoryResolver, request.config.platform)
         .map(paths => {
           val suggestions = paths.map(path => {
             val pathStartingWithPrefix = decorate(

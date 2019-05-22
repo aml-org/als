@@ -1,6 +1,6 @@
 package org.mulesoft.language.outline.structure.structureImpl
 
-import common.dtoTypes.PositionRange
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 
 case class DocumentSymbol(name: String,
@@ -17,7 +17,7 @@ object DocumentSymbol {
             range: PositionRange,
             selectionRange: PositionRange,
             children: List[DocumentSymbol]): DocumentSymbol = {
-    val intersection = range.intersection(selectionRange)
+    val intersection  = range.intersection(selectionRange)
     val resolvedRange = intersection.getOrElse(range)
 
     new DocumentSymbol(name, kind, deprecated, range, resolvedRange, children)

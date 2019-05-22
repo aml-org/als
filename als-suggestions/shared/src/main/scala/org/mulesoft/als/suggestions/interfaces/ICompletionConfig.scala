@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions.interfaces
 
-import org.mulesoft.high.level.implementation.AlsPlatform
+import amf.core.remote.Platform
+import org.mulesoft.als.common.DirectoryResolver
 
 trait ICompletionConfig {
 
@@ -8,7 +9,9 @@ trait ICompletionConfig {
 
   def editorStateProvider: Option[IEditorStateProvider]
 
-  def platform: AlsPlatform
+  def directoryResolver: DirectoryResolver
+
+  def platform: Platform
 
   def originalContent: Option[String]
 

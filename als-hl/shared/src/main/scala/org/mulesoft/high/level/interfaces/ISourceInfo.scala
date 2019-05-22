@@ -1,6 +1,6 @@
 package org.mulesoft.high.level.interfaces
 
-import common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.positioning.{IPositionsMapper, YamlLocation}
 import org.mulesoft.typesystem.json.interfaces.{JSONWrapper, NodeRange}
 import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
@@ -22,11 +22,13 @@ trait ISourceInfo {
 
   def containsPosition(position: Position): Boolean = ranges.exists(_.containsPosition(position))
 
-  def containsPositionInKey(pos: Int): Boolean = yamlSources
-    .exists(x => positionsMapper.exists(pm => YamlLocation(x, pm).inKey(pos)))
+  def containsPositionInKey(pos: Int): Boolean =
+    yamlSources
+      .exists(x => positionsMapper.exists(pm => YamlLocation(x, pm).inKey(pos)))
 
-  def containsPositionInKey(position: Position): Boolean = yamlSources
-    .exists(x => positionsMapper.exists(pm => YamlLocation(x, pm).inKey(position)))
+  def containsPositionInKey(position: Position): Boolean =
+    yamlSources
+      .exists(x => positionsMapper.exists(pm => YamlLocation(x, pm).inKey(position)))
 
   def isInitialized: Boolean
 

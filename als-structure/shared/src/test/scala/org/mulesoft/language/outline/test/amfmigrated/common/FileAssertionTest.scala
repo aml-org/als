@@ -2,7 +2,6 @@ package org.mulesoft.language.outline.test.amfmigrated.common
 
 import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.common.io.{AsyncFile, FileSystem}
-import org.mulesoft.high.level.implementation.PathResolver
 import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -15,7 +14,7 @@ trait FileAssertionTest extends PlatformSecrets {
 
   protected def writeTemporaryFile(golden: String)(content: String): Future[AsyncFile] = {
     val file   = tmp(s"${golden.replaceAll("/", "-")}.tmp")
-    val actual = fs.asyncFile(PathResolver.refinePath(platform.operativeSystem(), file))
+    val actual = fs.asyncFile(file)
     actual.write(content).map(_ => actual)
   }
 
@@ -30,6 +29,5 @@ trait FileAssertionTest extends PlatformSecrets {
 
   /** Return random temporary file name for testing. */
   def tmp(name: String = ""): String =
-    (endWithLineSeparator(platform.tmpdir(), platform.fs.separatorChar) + System.nanoTime() + "-" + name)
-  //.replaceAll(s"${platform.fs.separatorChar}${platform.fs.separatorChar}", s"${platform.fs.separatorChar}")
+    endWithLineSeparator(platform.tmpdir(), platform.fs.separatorChar) + System.nanoTime() + "-" + name
 }

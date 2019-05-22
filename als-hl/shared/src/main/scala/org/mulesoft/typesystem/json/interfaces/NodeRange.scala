@@ -1,6 +1,6 @@
 package org.mulesoft.typesystem.json.interfaces
 
-import common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 
 trait NodeRange {
 
