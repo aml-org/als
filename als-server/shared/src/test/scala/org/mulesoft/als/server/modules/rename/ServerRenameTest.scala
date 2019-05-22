@@ -1,12 +1,14 @@
 package org.mulesoft.als.server.modules.rename
 
-import common.dtoTypes.{DescendingPositionOrdering, Position}
+import amf.core.remote.Platform
+import amf.internal.environment.Environment
+import org.mulesoft.als.common.DirectoryResolver
+import org.mulesoft.als.common.dtoTypes.{DescendingPositionOrdering, Position}
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.als.server.modules.common.LspConverter
 import org.mulesoft.als.server.modules.common.LspConverter.toPosition
 import org.mulesoft.als.server.modules.hlast.HlAstManager
-import org.mulesoft.als.server.platform.ServerPlatform
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.lsp.common.TextDocumentIdentifier
@@ -20,12 +22,14 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
   override implicit val executionContext = ExecutionContext.Implicits.global
 
   override def addModules(documentManager: TextDocumentManager,
-                          serverPlatform: ServerPlatform,
+                          platform: Platform,
+                          directoryResolver: DirectoryResolver,
+                          baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val astManager   = new AstManager(documentManager, serverPlatform, logger)
-    val hlAstManager = new HlAstManager(documentManager, astManager, serverPlatform, logger)
-    val renameModule = new RenameModule(hlAstManager, serverPlatform, logger)
+    val astManager   = new AstManager(documentManager, baseEnvironment, platform, logger)
+    val hlAstManager = new HlAstManager(documentManager, astManager, platform, logger)
+    val renameModule = new RenameModule(hlAstManager, logger, platform)
 
     builder
       .addInitializable(astManager)

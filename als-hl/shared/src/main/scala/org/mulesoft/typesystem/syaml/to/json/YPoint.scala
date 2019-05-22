@@ -1,6 +1,6 @@
 package org.mulesoft.typesystem.syaml.to.json
 
-import common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.typesystem.json.interfaces.Point
 
 class YPoint(_line: Int, _column: Int) extends Point {

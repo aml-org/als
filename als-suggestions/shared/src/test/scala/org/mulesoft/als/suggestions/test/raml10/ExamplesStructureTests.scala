@@ -69,7 +69,7 @@ class ExamplesStructureTests extends RAML10Test {
     )
   }
 
-  test("NamedExample fragment") {
+  ignore("NamedExample fragment") { // Change in AMF 3.2.1
     this.runTest(
       "structure/examples/examples-fragment-01.raml",
       Set(

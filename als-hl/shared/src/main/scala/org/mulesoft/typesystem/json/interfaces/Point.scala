@@ -1,6 +1,6 @@
 package org.mulesoft.typesystem.json.interfaces
 
-import common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.Position
 
 trait Point {
 

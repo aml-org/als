@@ -1,10 +1,12 @@
 package org.mulesoft.als.server.modules.completion
 
-import common.dtoTypes.Position
+import amf.core.remote.Platform
+import amf.internal.environment.Environment
+import org.mulesoft.als.common.DirectoryResolver
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.common.LspConverter.toLspPosition
 import org.mulesoft.als.server.modules.hlast.HlAstManager
-import org.mulesoft.als.server.platform.ServerPlatform
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
@@ -18,12 +20,14 @@ import scala.concurrent.Future
 abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherValues {
 
   override def addModules(documentManager: TextDocumentManager,
-                          serverPlatform: ServerPlatform,
+                          platform: Platform,
+                          directoryResolver: DirectoryResolver,
+                          baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val astManager = new AstManager(documentManager, serverPlatform, logger)
-    val hlAstManager = new HlAstManager(documentManager, astManager, serverPlatform, logger)
-    val completionManager = new SuggestionsManager(documentManager, hlAstManager, serverPlatform, logger)
+    val astManager        = new AstManager(documentManager, baseEnvironment, platform, logger)
+    val hlAstManager      = new HlAstManager(documentManager, astManager, platform, logger)
+    val completionManager = new SuggestionsManager(documentManager, hlAstManager, directoryResolver, platform, logger)
 
     builder
       .addInitializable(astManager)
@@ -31,28 +35,28 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
       .addRequestModule(completionManager)
   }
 
-  def runTest(path: String, expectedSuggestions: Set[String]): Future[Assertion] = withServer[Assertion]{ server =>
-    val resolved = filePath(path)
-      for {
-        content <- this.platform.resolve(resolved)
-        suggestions <- {
-          val fileContentsStr = content.stream.toString
-          val markerInfo      = this.findMarker(fileContentsStr)
+  def runTest(path: String, expectedSuggestions: Set[String]): Future[Assertion] = withServer[Assertion] { server =>
+    val resolved = filePath(platform.encodeURI(path))
+    for {
+      content <- this.platform.resolve(resolved)
+      suggestions <- {
+        val fileContentsStr = content.stream.toString
+        val markerInfo      = this.findMarker(fileContentsStr)
 
-          getServerCompletions(resolved, server, markerInfo)
-        }
-      } yield {
-        val resultSet = suggestions
-          .map(item => item.textEdit.map(_.newText).orElse(item.insertText).value)
-          .toSet
-        val diff1     = resultSet.diff(expectedSuggestions)
-        val diff2     = expectedSuggestions.diff(resultSet)
-
-        if (diff1.isEmpty && diff2.isEmpty) succeed
-        else
-          fail(
-            s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
+        getServerCompletions(resolved, server, markerInfo)
       }
+    } yield {
+      val resultSet = suggestions
+        .map(item => item.textEdit.map(_.newText).orElse(item.insertText).value)
+        .toSet
+      val diff1 = resultSet.diff(expectedSuggestions)
+      val diff2 = expectedSuggestions.diff(resultSet)
+
+      if (diff1.isEmpty && diff2.isEmpty) succeed
+      else
+        fail(
+          s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
+    }
   }
 
   def getServerCompletions(filePath: String,
@@ -63,14 +67,12 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
 
     val completionHandler = server.resolveHandler(CompletionRequestType).value
 
-    completionHandler(CompletionParams(
-      TextDocumentIdentifier(filePath),
-      toLspPosition(markerInfo.position)))
-        .map(completions => {
-          closeFile(server)(filePath)
+    completionHandler(CompletionParams(TextDocumentIdentifier(filePath), toLspPosition(markerInfo.position)))
+      .map(completions => {
+        closeFile(server)(filePath)
 
-          completions.left.value
-        })
+        completions.left.value
+      })
   }
 
   def findMarker(str: String, label: String = "*", cut: Boolean = true): MarkerInfo = {

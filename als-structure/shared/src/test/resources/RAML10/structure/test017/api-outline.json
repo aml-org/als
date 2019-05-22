@@ -252,11 +252,11 @@
     "selectionRange": {
       "start": {
         "line": 1,
-        "character": 0
+        "character": 7
       },
       "end": {
-        "line": 11,
-        "character": 46
+        "line": 1,
+        "character": 20
       }
     },
     "children": []

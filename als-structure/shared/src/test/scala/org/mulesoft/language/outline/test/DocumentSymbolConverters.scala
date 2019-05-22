@@ -1,6 +1,6 @@
 package org.mulesoft.language.outline.test
 
-import common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import upickle.default.{macroRW, ReadWriter => RW}
 

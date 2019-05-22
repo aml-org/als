@@ -3,11 +3,11 @@ package org.mulesoft.language.outline.test
 import amf.client.remote.Content
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
+import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.high.level.Core
 import org.mulesoft.high.level.amfmanager.ParserHelper
-import org.mulesoft.high.level.implementation.AlsPlatform
 import org.mulesoft.high.level.interfaces.{IParseResult, IProject}
 import org.mulesoft.language.outline.structure.structureImpl.{ConfigFactory, DocumentSymbol, StructureBuilder}
 import org.mulesoft.language.outline.test.amfmigrated.common.FileAssertionTest
@@ -28,12 +28,10 @@ object File {
   }
 }
 
-trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest {
+trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformSecrets {
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
-
-  override val platform: AlsPlatform = AlsPlatform.default
 
   def readDataFromAST(project: IProject, position: Int): T
 
@@ -43,7 +41,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest {
 
   def runTest(path: String, jsonPath: String): Future[Assertion] = {
 
-    val fullFilePath = filePath(path)
+    val fullFilePath = filePath(platform.encodeURI(path)) // filePath(path)
     val fullJsonPath = filePath(jsonPath)
 
     for {
@@ -56,6 +54,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest {
   }
 
   def format: String
+
   def rootPath: String
 
   def bulbLoaders(path: String, content: String): Seq[ResourceLoader] = {
@@ -138,6 +137,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest {
     var env: Environment = Environment()
     env
   }
+
   //  def cacheUnit(fileUrl: String, content: String, position: Int, mime: Option[String]): Unit = {
   //
   //    File.unapply(fileUrl).foreach(x=>this.platform.cacheResourceText(

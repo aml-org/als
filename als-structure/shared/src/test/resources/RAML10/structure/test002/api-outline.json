@@ -942,11 +942,11 @@
     "selectionRange": {
       "start": {
         "line": 1,
-        "character": 0
+        "character": 7
       },
       "end": {
-        "line": 25,
-        "character": 0
+        "line": 1,
+        "character": 10
       }
     },
     "children": []

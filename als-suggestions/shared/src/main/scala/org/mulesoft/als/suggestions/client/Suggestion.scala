@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.client
 
-import common.dtoTypes.PositionRange
+import org.mulesoft.als.common.dtoTypes.PositionRange
 
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 

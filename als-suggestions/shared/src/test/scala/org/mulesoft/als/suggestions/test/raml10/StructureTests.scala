@@ -748,7 +748,6 @@ class StructureTests extends RAML10Test {
         "description: ",
         "schemas:\n  ",
         "annotationTypes:\n  ",
-        "uses:\n  ",
         "resourceTypes:\n  ",
         "protocols: ",
         "types:\n  ",

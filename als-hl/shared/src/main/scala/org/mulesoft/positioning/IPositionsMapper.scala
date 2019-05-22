@@ -1,6 +1,6 @@
 package org.mulesoft.positioning
 
-import common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.typesystem.json.interfaces.{NodeRange, Point}
 
 trait IPositionsMapper {

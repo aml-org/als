@@ -1,14 +1,14 @@
 package org.mulesoft.als.server.modules.definition
 
-import common.dtoTypes.Position
+import amf.core.remote.Platform
+import amf.core.unsafe.PlatformSecrets
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.interfaces.ILocation
 import org.mulesoft.als.server.modules.common.{LspConverter, SearchUtils}
 import org.mulesoft.als.server.modules.hlast.HlAstManager
-import org.mulesoft.high.level.implementation.AlsPlatform
 import org.mulesoft.high.level.interfaces.IProject
-import org.mulesoft.als.server.util.PathRefine
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.common.{Location, TextDocumentPositionParams}
 import org.mulesoft.lsp.feature.RequestHandler
@@ -19,8 +19,8 @@ import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success}
 
 class DefinitionModule(private val hlAstManager: HlAstManager,
-                       private val platform: AlsPlatform,
-                       private val logger: Logger)
+                       private val logger: Logger,
+                       private val platform: Platform)
     extends RequestModule[DefinitionClientCapabilities, Unit] {
 
   override val `type`: ConfigType[DefinitionClientCapabilities, Unit] = DefinitionConfigType
@@ -32,7 +32,7 @@ class DefinitionModule(private val hlAstManager: HlAstManager,
       override def `type`: DefinitionRequestType.type = DefinitionRequestType
 
       override def apply(params: TextDocumentPositionParams): Future[Seq[Location]] = {
-        findDeclaration(params.textDocument.uri, LspConverter.toPosition(params.position))
+        findDeclaration(platform.decodeURI(params.textDocument.uri), LspConverter.toPosition(params.position))
           .map(_.map(LspConverter.toLspLocation))
       }
     }
@@ -57,7 +57,6 @@ class DefinitionModule(private val hlAstManager: HlAstManager,
     promise.future
   }
 
-  private def currentAst(uri: String): Future[IProject] = {
+  private def currentAst(uri: String): Future[IProject] =
     hlAstManager.forceGetCurrentAST(uri)
-  }
 }
