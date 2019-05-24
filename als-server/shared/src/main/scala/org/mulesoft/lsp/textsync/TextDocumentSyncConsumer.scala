@@ -4,7 +4,9 @@ import org.mulesoft.als.server.InitializableModule
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 
 trait TextDocumentSyncConsumer
-  extends InitializableModule[SynchronizationClientCapabilities, Either[TextDocumentSyncKind, TextDocumentSyncOptions]] {
+    extends InitializableModule[SynchronizationClientCapabilities,
+                                Either[TextDocumentSyncKind, TextDocumentSyncOptions]] {
+
   /**
     * The document open notification is sent from the client to the server to
     * signal newly opened text documents. The document's truth is now managed
@@ -32,4 +34,6 @@ trait TextDocumentSyncConsumer
     * Registration Options: TextDocumentRegistrationOptions
     */
   def didClose(params: DidCloseTextDocumentParams): Unit
+
+  def didFocus(params: DidFocusParams): Unit
 }
