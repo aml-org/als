@@ -98,7 +98,6 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
 
   def onChangeDocument(document: ChangedDocument): Unit = {
     logger.debug(s"document ${document.uri} is changed", "ASTManager", "onChangeDocument")
-
     reconciler
       .shedule(new DocumentChangedRunnable(document.uri, () => parse(document.uri)))
       .future
@@ -112,10 +111,8 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
       }
   }
 
-  def onCloseDocument(uri: String): Unit = {
+  def onCloseDocument(uri: String): Unit =
     currentASTs.remove(uri)
-
-  }
 
   def registerNewAST(uri: String, version: Int, ast: BaseUnit): Unit = {
 

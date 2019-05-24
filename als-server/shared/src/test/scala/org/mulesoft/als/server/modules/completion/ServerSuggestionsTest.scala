@@ -78,9 +78,9 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
   def findMarker(str: String, label: String = "*", cut: Boolean = true): MarkerInfo = {
     val offset = str.indexOf(label)
 
-    if (offset < 0) {
+    if (offset < 0)
       new MarkerInfo(str, Position(str.length, str), str)
-    } else {
+    else {
       val rawContent = str.substring(0, offset) + str.substring(offset + 1)
       val preparedContent =
         org.mulesoft.als.suggestions.Core.prepareText(rawContent, offset, YAML)
