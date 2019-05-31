@@ -23,7 +23,7 @@ lazy val workspaceDirectory: File =
     case _       => Path.userHome / "mulesoft"
   }
 
-val amfVersion = deps("version")
+val amfVersion = deps("amf")
 
 lazy val amfJVMRef = ProjectRef(workspaceDirectory / "amf", "clientJVM")
 lazy val amfJSRef = ProjectRef(workspaceDirectory / "amf", "clientJS")
