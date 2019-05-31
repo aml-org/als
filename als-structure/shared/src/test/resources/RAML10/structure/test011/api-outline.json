@@ -285,32 +285,6 @@
             },
             "children": [
               {
-                "name": "name",
-                "kind": 8,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 13,
-                    "character": 0
-                  },
-                  "end": {
-                    "line": 14,
-                    "character": 0
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 13,
-                    "character": 0
-                  },
-                  "end": {
-                    "line": 14,
-                    "character": 0
-                  }
-                },
-                "children": []
-              },
-              {
                 "name": "wrapped",
                 "kind": 8,
                 "deprecated": false,
