@@ -112,10 +112,8 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
       }
   }
 
-  def onCloseDocument(uri: String): Unit = {
+  def onCloseDocument(uri: String): Unit =
     currentASTs.remove(uri)
-
-  }
 
   def registerNewAST(uri: String, version: Int, ast: BaseUnit): Unit = {
 

@@ -2,7 +2,6 @@ package org.mulesoft.als.server.textsync
 
 import amf.core.remote._
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.util.PathRefine
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
 
@@ -56,34 +55,28 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
 
     val directResult = uriToEditor.get(uri)
 
-    if (directResult.isDefined) {
-
+    if (directResult.isDefined)
       directResult
-    } else if (uri.startsWith("file://") || uri.startsWith("FILE://")) {
+    else if (uri.startsWith("file://") || uri.startsWith("FILE://")) {
 
       var found: Option[TextDocument] = None
 
       if (uri.startsWith("file:///") || uri.startsWith("FILE:///")) {
         val path: String = uri.substring("file:///".length).replace("%5C", "\\")
         val result       = this.uriToEditor.get(path)
-        if (result.isDefined) {
+        if (result.isDefined)
           found = result
-        }
       }
 
       if (found.isEmpty) {
         val path: String = uri.substring("file://".length).replace("%5C", "\\")
         val result       = this.uriToEditor.get(path)
-        if (result.isDefined) {
+        if (result.isDefined)
           found = result
-        }
       }
 
       found
-    } else {
-
-      None
-    }
+    } else None
   }
 
   def onOpenDocument(document: OpenedDocument): Unit = {
@@ -175,22 +168,29 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
   def determineSyntax(url: String, text: String): String =
     if (text.trim.startsWith("{")) "JSON" else "YAML"
 
-  override def didOpen(params: DidOpenTextDocumentParams): Unit = {
+  override def didOpen(params: DidOpenTextDocumentParams): Unit =
     onOpenDocument(
       OpenedDocument(platform.decodeURI(params.textDocument.uri),
                      params.textDocument.version,
                      params.textDocument.text))
-  }
 
   override def didChange(params: DidChangeTextDocumentParams): Unit = {
     val document = params.textDocument
     val version  = document.version.getOrElse(0)
     val text     = params.contentChanges.headOption.map(_.text)
 
-    documentWasChanged(ChangedDocument(document.uri, version, text, None))
+    documentWasChanged(ChangedDocument(platform.decodeURI(document.uri), version, text, None))
   }
 
-  override def didClose(params: DidCloseTextDocumentParams): Unit = {
-    onCloseDocument(params.textDocument.uri)
+  override def didClose(params: DidCloseTextDocumentParams): Unit =
+    onCloseDocument(platform.decodeURI(params.textDocument.uri))
+
+  override def didFocus(params: DidFocusParams): Unit = {
+    val decodedUri = platform.decodeURI(params.uri)
+    getTextDocument(decodedUri)
+      .map(
+        td =>
+          documentChangeListeners
+            .foreach(listener => listener(ChangedDocument(decodedUri, params.version, Option(td.text), None))))
   }
 }
