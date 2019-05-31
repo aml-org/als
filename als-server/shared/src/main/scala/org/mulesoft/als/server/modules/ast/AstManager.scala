@@ -98,6 +98,7 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
 
   def onChangeDocument(document: ChangedDocument): Unit = {
     logger.debug(s"document ${document.uri} is changed", "ASTManager", "onChangeDocument")
+
     reconciler
       .shedule(new DocumentChangedRunnable(document.uri, () => parse(document.uri)))
       .future
