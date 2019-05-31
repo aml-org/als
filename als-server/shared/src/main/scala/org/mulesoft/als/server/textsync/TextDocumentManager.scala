@@ -26,7 +26,34 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
       ))
   }
 
-  var uriToEditor: mutable.Map[String, TextDocument] = mutable.HashMap()
+  case class UriToEditor() {
+    private val uriToEditor: mutable.Map[String, TextDocument] = mutable.Map()
+
+    def +(tuple: (String, TextDocument)): UriToEditor = {
+      uriToEditor.put(platform.encodeURI(tuple._1), tuple._2)
+      uriToEditor.put(tuple._1, tuple._2)
+      this
+    }
+
+    def putEncoded(encodedIRI: String, textDocument: TextDocument): UriToEditor = {
+      uriToEditor.put(encodedIRI, textDocument)
+      this
+    }
+
+    def get(iri: String): Option[TextDocument] = uriToEditor.get(iri).orElse(uriToEditor.get(platform.encodeURI(iri)))
+
+    def uris: Set[String] = uriToEditor.keys.toSet
+
+    def remove(iri: String): Unit = {
+      if (uriToEditor.contains(iri)) uriToEditor.remove(iri)
+      else {
+        val str = platform.encodeURI(iri)
+        if (uriToEditor.contains(str)) uriToEditor.remove(str)
+      }
+    }
+  }
+
+  private val uriToEditor = UriToEditor()
 
   var documentChangeListeners: mutable.Set[ChangedDocument => Unit] = mutable.Set()
 
@@ -49,7 +76,7 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
 
   def getTextDocument(uri: String): Option[TextDocument] = {
     logger.debugDetail(s"Asked for uri $uri, while having following editors registered: " +
-                         this.uriToEditor.keys.mkString(","),
+                         this.uriToEditor.uris.mkString(","),
                        "EditorManager",
                        "getTextDocument")
 
@@ -86,8 +113,8 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
     val language = determineLanguage(document.uri, document.text)
     val syntax   = determineSyntax(document.uri, document.text)
 
-    this.uriToEditor(document.uri) =
-      new TextDocument(document.uri, document.version, document.text, language, syntax, logger)
+    this.uriToEditor + (document.uri,
+    new TextDocument(document.uri, document.version, document.text, language, syntax, logger))
 
     this.documentChangeListeners.foreach { listener =>
       listener(ChangedDocument(document.uri, document.version, Some(document.text), None))
@@ -134,8 +161,8 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
     val language = this.determineLanguage(document.uri, document.text.get)
     val syntax   = this.determineSyntax(document.uri, document.text.get)
 
-    uriToEditor(document.uri) =
-      new TextDocument(document.uri, document.version, document.text.get, language, syntax, logger)
+    uriToEditor + (document.uri,
+    new TextDocument(document.uri, document.version, document.text.get, language, syntax, logger))
 
     documentChangeListeners.foreach(listener => listener(document))
   }
@@ -188,7 +215,7 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
   override def didFocus(params: DidFocusParams): Unit = {
     val decodedUri = platform.decodeURI(params.uri)
     getTextDocument(decodedUri)
-      .map(
+      .foreach(
         td =>
           documentChangeListeners
             .foreach(listener => listener(ChangedDocument(decodedUri, params.version, Option(td.text), None))))
