@@ -12,6 +12,7 @@ import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync.{
   DidChangeTextDocumentParams,
   DidCloseTextDocumentParams,
+  DidFocusParams,
   DidOpenTextDocumentParams,
   TextDocumentContentChangeEvent
 }
@@ -50,6 +51,9 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
 
   def openFile(server: LanguageServer)(uri: String, text: String): Unit =
     server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(TextDocumentItem(uri, "", 0, text)))
+
+  def onFocus(server: LanguageServer)(uri: String, version: Int): Unit =
+    server.textDocumentSyncConsumer.didFocus(DidFocusParams(uri, version))
 
   def closeFile(server: LanguageServer)(uri: String): Unit =
     server.textDocumentSyncConsumer.didClose(DidCloseTextDocumentParams(TextDocumentIdentifier(uri)))

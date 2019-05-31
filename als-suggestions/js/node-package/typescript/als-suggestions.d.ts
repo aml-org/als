@@ -28,6 +28,8 @@ declare module '@mulesoft/als-suggestions' {
 
     static validate(model: model.document.BaseUnit, profileName: ProfileName, messageStyle: MessageStyle, env?: client.environment.Environment): Promise<client.validate.ValidationReport>
 
+    static validateResolved(model: model.document.BaseUnit, profileName: ProfileName, messageStyle: MessageStyle, env?: client.environment.Environment): Promise<client.validate.ValidationReport>
+
     static loadValidationProfile(url: string): Promise<string>
 
     static registerNamespace(alias: string, prefix: string): boolean
@@ -1425,7 +1427,7 @@ declare module '@mulesoft/als-suggestions' {
         contentType: StrField[]
         request: Request
         responses: Response[]
-        security: DomainElement[]
+        security: ParametrizedSecurityScheme[]
         callbacks: Callback[]
         servers: Server[]
 
@@ -1451,7 +1453,7 @@ declare module '@mulesoft/als-suggestions' {
 
         withResponses(responses: Response[]): this
 
-        withSecurity(security: DomainElement[]): this
+        withSecurity(security: ParametrizedSecurityScheme[]): this
 
         withCallbacks(callbacks: Callback[]): this
 
