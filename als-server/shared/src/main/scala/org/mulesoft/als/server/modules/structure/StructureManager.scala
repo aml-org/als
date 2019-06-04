@@ -41,7 +41,7 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
 
       override def apply(
           params: DocumentSymbolParams): Future[Either[Seq[SymbolInformation], Seq[LspDocumentSymbol]]] = {
-        onDocumentStructure(platform.decodeURI(params.textDocument.uri))
+        onDocumentStructure(params.textDocument.uri)
           .map(_.map(LspConverter.toLspDocumentSymbol))
           .map(Right.apply)
       }

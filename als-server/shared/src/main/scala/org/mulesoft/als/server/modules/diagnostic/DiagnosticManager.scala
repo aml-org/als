@@ -96,7 +96,7 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
 
     val config = new ParserConfig(
       Some(ParserConfig.VALIDATE),
-      Some(platform.resolvePath(platform.encodeURI(uri))),
+      Some(platform.resolvePath(uri)),
       Some(language),
       Some("application/yaml"),
       None,
