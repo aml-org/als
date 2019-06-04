@@ -53,7 +53,7 @@ class HlAstManager(private val textDocumentManager: TextDocumentManager,
     logger.debug("Got new AST parser results, notifying the listeners", "HlAstManager", "notifyASTChanged")
 
     this.astListeners.foreach { listener =>
-      listener.apply(platform.decodeURI(uri), version, project.rootASTUnit.rootNode)
+      listener.apply(uri, version, project.rootASTUnit.rootNode)
     }
 
   }

@@ -32,7 +32,7 @@ class DefinitionModule(private val hlAstManager: HlAstManager,
       override def `type`: DefinitionRequestType.type = DefinitionRequestType
 
       override def apply(params: TextDocumentPositionParams): Future[Seq[Location]] = {
-        findDeclaration(platform.decodeURI(params.textDocument.uri), LspConverter.toPosition(params.position))
+        findDeclaration(params.textDocument.uri, LspConverter.toPosition(params.position))
           .map(_.map(LspConverter.toLspLocation))
       }
     }

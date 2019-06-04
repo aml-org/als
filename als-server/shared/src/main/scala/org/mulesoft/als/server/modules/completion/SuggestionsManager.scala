@@ -51,7 +51,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
       override def `type`: CompletionRequestType.type = CompletionRequestType
 
       override def apply(params: CompletionParams): Future[Either[Seq[CompletionItem], CompletionList]] = {
-        onDocumentCompletion(platform.decodeURI(params.textDocument.uri), LspConverter.toPosition(params.position))
+        onDocumentCompletion(params.textDocument.uri, LspConverter.toPosition(params.position))
           .map(_.map(completionItem))
           .map(Left.apply)
       }
@@ -67,7 +67,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
     suggestions.Core.init()
 
   protected def onDocumentCompletion(uri: String, position: Position): Future[Seq[Suggestion]] = {
-    val refinedUri = platform.decodeURI(platform.resolvePath(platform.encodeURI(uri)))
+    val refinedUri = platform.decodeURI(platform.resolvePath(uri))
 
     logger.debug(s"Calling for completion for uri $uri and position $position",
                  "SuggestionsManager",
