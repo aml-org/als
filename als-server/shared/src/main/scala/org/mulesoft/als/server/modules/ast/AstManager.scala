@@ -146,8 +146,8 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     parseWithContentSubstitution(uri, text)
 
   def parse(uri: String): Future[BaseUnit] = {
-    val protocolUri = platform.decodeURI(platform.resolvePath(platform.encodeURI(uri)))
-    val language    = textDocumentManager.getTextDocument(protocolUri).map(_.language).getOrElse("OAS 2.0")
+    val protocolUri = platform.decodeURI(platform.resolvePath(uri))
+    val language    = textDocumentManager.getTextDocument(uri).map(_.language).getOrElse("OAS 2.0")
 
     logger.debugDetail(s"Protocol uri is $protocolUri", "ASTManager", "parse")
 
@@ -173,11 +173,11 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
   }
 
   def parseWithContentSubstitution(uri: String, content: String): Future[BaseUnit] = {
-    val protocolUri = platform.decodeURI(platform.resolvePath(platform.encodeURI(uri)))
+    val protocolUri = platform.decodeURI(platform.resolvePath(uri))
 
     val patchedEnvironment = EnvironmentPatcher.patch(serverEnvironment, uri, content)
 
-    val language = textDocumentManager.getTextDocument(protocolUri).map(_.language).getOrElse("OAS 2.0")
+    val language = textDocumentManager.getTextDocument(uri).map(_.language).getOrElse("OAS 2.0")
 
     val cfg = new ParserConfig(
       Some(ParserConfig.PARSE),

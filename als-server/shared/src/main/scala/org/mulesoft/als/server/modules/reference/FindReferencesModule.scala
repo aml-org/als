@@ -36,7 +36,7 @@ class FindReferencesModule(private val hlAstManager: HlAstManager,
       override def `type`: RequestType[ReferenceParams, Seq[Location]] = ReferenceRequestType
 
       override def apply(params: ReferenceParams): Future[Seq[Location]] = {
-        findReferences(platform.decodeURI(params.textDocument.uri), LspConverter.toPosition(params.position))
+        findReferences(params.textDocument.uri, LspConverter.toPosition(params.position))
           .map(_.map(LspConverter.toLspLocation))
       }
     }

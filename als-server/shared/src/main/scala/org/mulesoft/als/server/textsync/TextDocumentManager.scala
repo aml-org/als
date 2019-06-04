@@ -30,27 +30,17 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
     private val uriToEditor: mutable.Map[String, TextDocument] = mutable.Map()
 
     def +(tuple: (String, TextDocument)): UriToEditor = {
-      uriToEditor.put(platform.encodeURI(tuple._1), tuple._2)
       uriToEditor.put(tuple._1, tuple._2)
       this
     }
 
-    def putEncoded(encodedIRI: String, textDocument: TextDocument): UriToEditor = {
-      uriToEditor.put(encodedIRI, textDocument)
-      this
-    }
-
-    def get(iri: String): Option[TextDocument] = uriToEditor.get(iri).orElse(uriToEditor.get(platform.encodeURI(iri)))
+    def get(iri: String): Option[TextDocument] =
+      uriToEditor.get(iri)
 
     def uris: Set[String] = uriToEditor.keys.toSet
 
-    def remove(iri: String): Unit = {
+    def remove(iri: String): Unit =
       if (uriToEditor.contains(iri)) uriToEditor.remove(iri)
-      else {
-        val str = platform.encodeURI(iri)
-        if (uriToEditor.contains(str)) uriToEditor.remove(str)
-      }
-    }
   }
 
   private val uriToEditor = UriToEditor()
@@ -196,28 +186,23 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
     if (text.trim.startsWith("{")) "JSON" else "YAML"
 
   override def didOpen(params: DidOpenTextDocumentParams): Unit =
-    onOpenDocument(
-      OpenedDocument(platform.decodeURI(params.textDocument.uri),
-                     params.textDocument.version,
-                     params.textDocument.text))
+    onOpenDocument(OpenedDocument(params.textDocument.uri, params.textDocument.version, params.textDocument.text))
 
   override def didChange(params: DidChangeTextDocumentParams): Unit = {
     val document = params.textDocument
     val version  = document.version.getOrElse(0)
     val text     = params.contentChanges.headOption.map(_.text)
 
-    documentWasChanged(ChangedDocument(platform.decodeURI(document.uri), version, text, None))
+    documentWasChanged(ChangedDocument(document.uri, version, text, None))
   }
 
   override def didClose(params: DidCloseTextDocumentParams): Unit =
-    onCloseDocument(platform.decodeURI(params.textDocument.uri))
+    onCloseDocument(params.textDocument.uri)
 
-  override def didFocus(params: DidFocusParams): Unit = {
-    val decodedUri = platform.decodeURI(params.uri)
-    getTextDocument(decodedUri)
+  override def didFocus(params: DidFocusParams): Unit =
+    getTextDocument(params.uri)
       .foreach(
         td =>
           documentChangeListeners
-            .foreach(listener => listener(ChangedDocument(decodedUri, params.version, Option(td.text), None))))
-  }
+            .foreach(listener => listener(ChangedDocument(params.uri, params.version, Option(td.text), None))))
 }
