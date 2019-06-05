@@ -18,16 +18,7 @@ object Common {
   )
 
   val publish: Seq[Def.Setting[_]] = Seq(
-    publishTo := Some(if (isSnapshot.value) snapshots else releases),
-    publishConfiguration ~= { config =>
-      val newArts = config.artifacts.filterKeys(_.`type` != Artifact.SourceType)
-      new PublishConfiguration(config.ivyFile,
-                               config.resolverName,
-                               newArts,
-                               config.checksums,
-                               config.logging,
-                               overwrite = true)
-    }
+    publishTo := Some(if (isSnapshot.value) snapshots else releases)
   )
 
   def credentials(): Seq[Credentials] = {
