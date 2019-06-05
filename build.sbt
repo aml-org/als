@@ -6,12 +6,14 @@ import sbt.File
 import sbt.Keys.{mainClass, packageOptions}
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
+import scala.language.postfixOps
+import scala.sys.process._
 
 name := "api-language-server"
 
 version := deps("version")
 
-scalaVersion := "2.12.6"
+scalaVersion := "2.12.8"
 
 jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
 
@@ -128,10 +130,8 @@ lazy val structureJVM = structure.jvm.in(file("./als-structure/jvm"))
 lazy val structureJS = structure.js.in(file("./als-structure/js"))
 
 lazy val server = crossProject(JSPlatform, JVMPlatform)
-  .settings(Seq(
-    name := "als-server",
-    libraryDependencies += "org.wvlet.airframe" %% "airframe" % "19.3.7"
-  ))
+  .settings(name := "als-server")
+  .settings(libraryDependencies += "org.wvlet.airframe" %% "airframe" % "19.3.7")
   .dependsOn(suggestions, structure % "compile->compile;test->test")
   .in(file("./als-server"))
   .settings(settings: _*)
@@ -166,7 +166,7 @@ val buildJS = TaskKey[Unit]("buildJS", "Build npm module")
 
 buildJS := {
   val _ = (fullOptJS in Compile in serverJS).value
-  "./als-server/js/build-scripts/buildJs.sh".!
+  "./als-server/js/build-scripts/buildJs.sh" !
 }
 
 mainClass in Compile := Some("org.mulesoft.als.server.lsp4j.Main")
@@ -179,7 +179,7 @@ buildSuggestionsJS := {
   Process(
     "./build-package.sh",
     new File("./als-suggestions/js/node-package/")
-  ).!
+  ) !
 }
 
 // ************** SONAR *******************************
