@@ -2,6 +2,8 @@ package org.mulesoft.als.common.dtoTypes
 
 import amf.core.parser.{Position => AmfPosition}
 
+import scala.annotation.tailrec
+
 /**
   * @param line   Line position in a document (zero-based).
   * @param column Character offset on a line in a document (zero-based). Assuming that the line is
@@ -17,7 +19,7 @@ case class Position(line: Int, column: Int) {
       case current :: rest                     => innerOffset(rest, currentLine + 1, currentOffset + current.length)
     }
 
-    if (line < 0 || column < 0) -1 else innerOffset(text.linesWithSeparators.toList, 0, 0)
+    if (line < 0 || column < 0) -1 else innerOffset(TextHelper.linesWithSeparators(text), 0, 0)
   }
 
   def <(other: Position): Boolean = (line < other.line) || (line == other.line && column < other.column)
@@ -48,13 +50,34 @@ object Position {
 
     offset match {
       case value if value < 0 => Position0
-      case _                  => toPosition(0, 0, text.linesWithSeparators.toList)
+      case _                  => toPosition(0, 0, TextHelper.linesWithSeparators(text))
     }
   }
 
   def min(first: Position, second: Position): Position = if (second < first) second else first
 
   def max(first: Position, second: Position): Position = if (second > first) second else first
+}
+
+private object TextHelper {
+  def linesWithSeparators(text: String): List[String] = {
+    def isBreakLine(head: Char): Boolean = head == '\n' || head == '\r'
+
+    def addToResult(result: List[StringBuilder], head: Char): List[StringBuilder] = {
+      result.last.append(head)
+      if (isBreakLine(head)) result :+ new StringBuilder else result
+    }
+
+
+    @tailrec def innerFn(result: List[StringBuilder], rest: List[Char]): List[StringBuilder] = rest match {
+      case Nil => result
+      case head :: Nil => addToResult(result, head)
+      case head :: tail => innerFn(addToResult(result, head), tail)
+    }
+
+    innerFn(List(new StringBuilder), text.toList)
+      .map(_.mkString)
+  }
 }
 
 object Position0 extends Position(0, 0)
