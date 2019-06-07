@@ -50,7 +50,7 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
         .collect { case Right(symbols) => symbols }
         .map(symbols =>
           symbols
-            .collectFirst { case o if o.name == "MyType" => succeed }
+            .collectFirst { case o if o.name == "title" => succeed }
             .getOrElse(fail("Invalid outline")))
     }
   }
