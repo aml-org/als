@@ -167,10 +167,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
   }
 
   def getDocumentSymbolFromAST(ast: IParseResult, language: String, position: Int): List[DocumentSymbol] =
-    ConfigFactory
-      .getConfig(new ASTProvider(ast, position, language))
-      .map(c => StructureBuilder.listSymbols(ast, c))
-      .getOrElse(Nil)
+    StructureBuilder.listSymbols(ast.amfBaseUnit)
 
 }
 

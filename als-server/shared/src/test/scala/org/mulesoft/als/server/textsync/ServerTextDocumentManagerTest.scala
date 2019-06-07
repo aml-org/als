@@ -24,13 +24,11 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
                           baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val astManager   = new AstManager(documentManager, baseEnvironment, platform, logger)
-    val hlAstManager = new HlAstManager(documentManager, astManager, platform, logger)
-    val module       = new StructureManager(documentManager, hlAstManager, logger, platform)
+    val astManager = new AstManager(documentManager, baseEnvironment, platform, logger)
+    val module     = new StructureManager(documentManager, astManager, logger, platform)
 
     builder
       .addInitializable(astManager)
-      .addInitializable(hlAstManager)
       .addRequestModule(module)
   }
 
