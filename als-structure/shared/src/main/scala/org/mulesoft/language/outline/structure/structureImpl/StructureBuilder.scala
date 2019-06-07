@@ -2,6 +2,7 @@ package org.mulesoft.language.outline.structure.structureImpl
 
 import amf.client.model.DataTypes
 import amf.core.metamodel.domain.extensions.PropertyShapeModel
+import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
 import amf.core.remote.{Oas, Raml}
 import amf.plugins.domain.shapes.metamodel.{ArrayShapeModel, FileShapeModel, NodeShapeModel, ScalarShapeModel}
@@ -17,16 +18,16 @@ import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.
 import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{OasBuilderFactory, RamlBuilderFactory}
 import org.mulesoft.language.outline.structure.structureInterfaces.StructureConfiguration
 
-class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, filters: Seq[VisibilityFilter]) {
+class StructureBuilder(unit: BaseUnit) {
 
-  private val builderFactory: BuilderFactory = root.amfBaseUnit.sourceVendor match {
+  private val builderFactory: BuilderFactory = unit.sourceVendor match {
     case Some(_: Raml) => RamlBuilderFactory
     case Some(_: Oas)  => OasBuilderFactory
     case _             => AmlBuilderFactory
   }
 
-  def listSymbols(categoryFilter: List[CategoryFilter]): List[DocumentSymbol] = {
-    builderFactory.builderFor(root.amfBaseUnit).map(_.build().toList).getOrElse(Nil)
+  def listSymbols(): List[DocumentSymbol] = {
+    builderFactory.builderFor(unit).map(_.build().toList).getOrElse(Nil)
   }
 
   def fullRange(ranges: Seq[PositionRange]): PositionRange = {
@@ -37,16 +38,9 @@ class StructureBuilder(root: IParseResult, labelProvider: LabelProvider, filters
 }
 
 object StructureBuilder {
-  def apply(ast: IParseResult, config: StructureConfiguration): StructureBuilder =
-    new StructureBuilder(ast,
-                         config.labelProvider,
-                         Seq(config.visibilityFilter, NonEmptyNameVisibilityFilter(config.labelProvider)))
+  def apply(unit: BaseUnit): StructureBuilder = new StructureBuilder(unit)
 
-  def listSymbols(ast: IParseResult, config: StructureConfiguration): List[DocumentSymbol] =
-    new StructureBuilder(ast,
-                         config.labelProvider,
-                         Seq(config.visibilityFilter, NonEmptyNameVisibilityFilter(config.labelProvider)))
-      .listSymbols(config.categories.keys.map(config.categories(_)).toList)
+  def listSymbols(ast: BaseUnit): List[DocumentSymbol] = new StructureBuilder(ast).listSymbols()
 }
 
 object KindForResultMatcher {
