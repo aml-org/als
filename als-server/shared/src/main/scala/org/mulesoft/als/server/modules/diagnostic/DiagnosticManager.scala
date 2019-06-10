@@ -88,7 +88,12 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
       .map(position => PositionRange(position.range))
       .getOrElse(EmptyPositionRange)
 
-    ValidationIssue("PROPERTY_UNUSED", ValidationSeverity(validationResult.level), uri, messageText, range, List())
+    ValidationIssue("PROPERTY_UNUSED",
+                    ValidationSeverity(validationResult.level),
+                    validationResult.location.getOrElse(uri),
+                    messageText,
+                    range,
+                    List())
   }
 
   private def report(uri: String, baseUnit: BaseUnit): Future[AMFValidationReport] = {
