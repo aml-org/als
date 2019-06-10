@@ -104,7 +104,6 @@ class CompletionProvider {
   }
 
   def fulfillRequest(request: ICompletionRequest): Future[Seq[SuggestionInterface]] = {
-
     val filteredPlugins = _pluginsRegistry.plugins.filter(plugin => {
       plugin.isApplicable(request)
     })

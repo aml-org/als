@@ -77,14 +77,10 @@ class YamlLocation private {
     else if (_keyNode.exists(_.range.end.position == position)) {
       _keyNode.get.yPart.value match {
         case sc: YScalar =>
-          var valString = sc.value
-          var start     = _keyNode.get.range.start.position
-          var end       = _keyNode.get.range.end.position
-          if (start + ("_" + valString).trim.length - 1 == end) {
-            true
-          } else {
-            false
-          }
+          val valString = sc.value
+          val start     = _keyNode.get.range.start.position
+          val end       = _keyNode.get.range.end.position
+          start + ("_" + valString).trim.length - 1 == end
         case _ => false
       }
     } else false
@@ -98,7 +94,7 @@ class YamlLocation private {
           val valString = sc.value
           val start     = _keyNode.get.range.start.position
           val end       = _keyNode.get.range.end.position
-          if (start + ("_" + valString).trim.length - 1 == end) true else false
+          start + ("_" + valString).trim.length - 1 == end
 
         case _ => false
       }

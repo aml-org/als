@@ -39,7 +39,7 @@ class Project(bundle: ITypeCollectionBundle, _lang: Vendor, platform: Platform) 
   }
 
   override def resolvePath(absBasePath: String, path: String): Option[String] =
-    Some(platform.resolvePath(absBasePath + path.stripPrefix("/")))
+    Some(platform.resolvePath(absBasePath + platform.encodeURI(path.stripPrefix("/"))))
 
 }
 

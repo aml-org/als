@@ -29,23 +29,22 @@ object ProjectBuilder {
 
   def buildProjectInternal(rootUnit: BaseUnit, platform: Platform): IProject = {
 
-    val formatOpt = determineFormat(rootUnit)
-    if (formatOpt.isEmpty) {
-      throw new Error("Unable to determine input format")
-    }
-    val format = formatOpt.get
-    ASTFactoryRegistry.getFactory(format) match {
-      case Some(factory) =>
-        val units    = listUnits(rootUnit)
-        val bundle   = TypeBuilder.buildTypes(units, factory)
-        val project  = Project(bundle, format, platform)
-        val astUnits = createASTUnits(units, bundle, project)
-        astUnits.values.foreach(project.addUnit)
-        initASTUnits(astUnits, bundle, factory)
-        val rootUnitPath = TypeBuilder.normalizedPath(rootUnit)
-        project.setRootUnit(astUnits(rootUnit.location().getOrElse(rootUnitPath)))
-        project
-      case _ => throw new Error("Unknown format: " + format)
+    determineFormat(rootUnit) match {
+      case Some(format) =>
+        ASTFactoryRegistry.getFactory(format) match {
+          case Some(factory) =>
+            val units    = listUnits(rootUnit)
+            val bundle   = TypeBuilder.buildTypes(units, factory)
+            val project  = Project(bundle, format, platform)
+            val astUnits = createASTUnits(units, bundle, project)
+            astUnits.values.foreach(project.addUnit)
+            initASTUnits(astUnits, bundle, factory)
+            val rootUnitPath = TypeBuilder.normalizedPath(rootUnit)
+            project.setRootUnit(astUnits(rootUnit.location().getOrElse(rootUnitPath)))
+            project
+          case _ => throw new Error("Unknown format: " + format)
+        }
+      case _ => throw new Error("Unable to determine input format")
     }
   }
   def createASTUnits(units: Map[String, BaseUnit],
