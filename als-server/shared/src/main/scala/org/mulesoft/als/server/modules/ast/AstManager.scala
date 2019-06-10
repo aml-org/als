@@ -11,7 +11,7 @@ import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.features.validation.AMFValidatorPlugin
-import org.mulesoft.als.common.EnvironmentPatcher
+import org.mulesoft.als.common.{EnvironmentPatcher, FileUtils}
 import org.mulesoft.als.server.Initializable
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
@@ -77,7 +77,8 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     AMF.init()
   }
 
-  def getCurrentAST(uri: String): Option[BaseUnit] = None // this.currentASTs.get(uri)
+  def getCurrentAST(uri: String): Option[BaseUnit] =
+    None // this.currentASTs.get(uri)
 
   def forceGetCurrentAST(uri: String): Future[BaseUnit] = {
     val editorOption = textDocumentManager.getTextDocument(uri)
@@ -135,7 +136,8 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
   }
 
   def addListener[T](memberListeners: mutable.Set[T], listener: T, unsubscribe: Boolean = false): Unit =
-    if (unsubscribe) memberListeners.remove(listener) else memberListeners.add(listener)
+    if (unsubscribe) memberListeners.remove(listener)
+    else memberListeners.add(listener)
 
   /**
     * Gets current AST if there is any.
@@ -146,14 +148,17 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     parseWithContentSubstitution(uri, text)
 
   def parse(uri: String): Future[BaseUnit] = {
-    val protocolUri = platform.decodeURI(platform.resolvePath(uri))
-    val language    = textDocumentManager.getTextDocument(uri).map(_.language).getOrElse("OAS 2.0")
+    val amfURI = FileUtils.getDecodedUri(uri, platform)
+    val language = textDocumentManager
+      .getTextDocument(uri)
+      .map(_.language)
+      .getOrElse("OAS 2.0")
 
-    logger.debugDetail(s"Protocol uri is $protocolUri", "ASTManager", "parse")
+    logger.debugDetail(s"Protocol uri is $amfURI", "ASTManager", "parse")
 
     val config = new ParserConfig(
       Some(ParserConfig.PARSE),
-      Some(protocolUri),
+      Some(amfURI),
       Some(language),
       Some("application/yaml"),
       None,
@@ -173,15 +178,17 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
   }
 
   def parseWithContentSubstitution(uri: String, content: String): Future[BaseUnit] = {
-    val protocolUri = platform.decodeURI(platform.resolvePath(uri))
+    val patchedEnvironment =
+      EnvironmentPatcher.patch(serverEnvironment, FileUtils.getEncodedUri(uri, platform), content)
 
-    val patchedEnvironment = EnvironmentPatcher.patch(serverEnvironment, uri, content)
-
-    val language = textDocumentManager.getTextDocument(uri).map(_.language).getOrElse("OAS 2.0")
+    val language = textDocumentManager
+      .getTextDocument(uri)
+      .map(_.language)
+      .getOrElse("OAS 2.0")
 
     val cfg = new ParserConfig(
       Some(ParserConfig.PARSE),
-      Some(protocolUri),
+      Some(FileUtils.getDecodedUri(uri, platform)),
       Some(language),
       Some("application/yaml"),
       None,

@@ -144,9 +144,13 @@ object Tests {
   }
 
   def checkDiff(a: AsyncFile, e: AsyncFile, encoding: String = Utf8): Future[Assertion] = {
+    def replaceEOL(s: String): String =
+      s.replace("\r\n", "\n")
+
     a.read(encoding).zip(e.read(encoding)).map {
       case (actual, expected) =>
-        val diffs = Diff.ignoreAllSpace.diff(actual.toString, expected.toString)
+        val diffs = Diff.ignoreAllSpace
+          .diff(replaceEOL(actual.toString), replaceEOL(expected.toString))
         if (diffs.nonEmpty) {
           if (goldenOverride) {
             a.read(encoding).map(content => e.write(content.toString, encoding))
