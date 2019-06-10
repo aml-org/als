@@ -24,9 +24,5 @@ object DefaultJvmDirectoryResolver extends DirectoryResolver {
     Files.isDirectory(toJavaPath(path))
   }
 
-  private def toJavaPath(path: String) =
-    path match {
-      case p if p.startsWith("file://") => Paths.get(p.substring("file://".length))
-      case _                            => Paths.get(new URI(path))
-    }
+  private def toJavaPath(path: String) = Paths.get(new URI(path))
 }

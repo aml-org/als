@@ -10,7 +10,7 @@ class ResourceTypeReferenceTests extends RAML10Test {
     this.runTest("resourceTypeReferences/test002.raml", Set("resourceType1: ", "resourceType2: "))
   }
 
-  test("test003") {
+  test("test003") { // TODO: No multilines are allowed in completions. Replace for a snippet?
     this.runTest(
       "resourceTypeReferences/test003.raml",
       Set(
@@ -26,7 +26,7 @@ class ResourceTypeReferenceTests extends RAML10Test {
     )
   }
 
-  test("test004") {
+  test("test004") { // TODO: No multilines are allowed in completions. Replace for a snippet?
     this.runTest(
       "resourceTypeReferences/test004.raml",
       Set(

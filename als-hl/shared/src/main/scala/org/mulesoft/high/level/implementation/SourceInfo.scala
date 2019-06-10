@@ -116,7 +116,7 @@ class SourceInfo private extends ISourceInfo {
       _positionsMapper = referingUnit.map(_.positionsMapper)
 
       if (_yamlSources.lengthCompare(1) == 0) {
-        var yl = YamlLocation(_yamlSources.head, _positionsMapper)
+        val yl = YamlLocation(_yamlSources.head, _positionsMapper)
         yl.node
           .flatMap(_.yPart match {
             case mr: MutRef => Some(mr)
@@ -127,10 +127,10 @@ class SourceInfo private extends ISourceInfo {
             case _               => None
           })
           .foreach(includePathObj => {
-            var includePath = includePathObj.toString
+            val includePath = includePathObj.toString
             withIncludePathLabel(includePath)
-            var ownPath = referingUnit match {
-              case Some(u) => Some(u.path)
+            val ownPath = referingUnit match {
+              case Some(u) => Some(u.path.substring(0, u.path.length.min(u.path.lastIndexOf('/') + 1)))
               case _       => inExternalFile
             }
             ownPath.flatMap(x => project.resolvePath(x, includePath)).foreach(withExternalLocationPath)

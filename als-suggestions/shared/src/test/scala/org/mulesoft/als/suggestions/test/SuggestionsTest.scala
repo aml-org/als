@@ -46,7 +46,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
   def assert(path: String, actualSet: Set[String], golden: Set[String]): Assertion = {
     def replaceEOL(s: String): String = {
-      s.replace(System.lineSeparator(), "\n")
+      s.replace("\r\n", "\n")
     }
 
     val diff1 = actualSet
