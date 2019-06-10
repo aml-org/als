@@ -4,6 +4,9 @@ import amf.core.remote._
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
+import java.net.URI
+
+import org.mulesoft.als.common.FileUtils
 
 import scala.collection.mutable
 import scala.concurrent.Future
@@ -12,7 +15,8 @@ import scala.language.experimental.macros
 class TextDocumentManager(private val platform: Platform, private val logger: Logger)
     extends TextDocumentSyncConsumer {
 
-  override val `type`: TextDocumentSyncConfigType.type = TextDocumentSyncConfigType
+  override val `type`: TextDocumentSyncConfigType.type =
+    TextDocumentSyncConfigType
 
   override def applyConfig(
       config: Option[SynchronizationClientCapabilities]): Either[TextDocumentSyncKind, TextDocumentSyncOptions] = {
@@ -27,25 +31,30 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
   }
 
   case class UriToEditor() {
+
     private val uriToEditor: mutable.Map[String, TextDocument] = mutable.Map()
 
     def +(tuple: (String, TextDocument)): UriToEditor = {
-      uriToEditor.put(tuple._1, tuple._2)
+      uriToEditor.put(FileUtils.getPath(tuple._1, platform), tuple._2)
       this
     }
 
     def get(iri: String): Option[TextDocument] =
-      uriToEditor.get(iri)
+      uriToEditor.get(FileUtils.getPath(iri, platform))
 
     def uris: Set[String] = uriToEditor.keys.toSet
 
-    def remove(iri: String): Unit =
-      if (uriToEditor.contains(iri)) uriToEditor.remove(iri)
+    def remove(iri: String): Unit = {
+      val path = FileUtils.getPath(iri, platform)
+      if (uriToEditor.contains(path))
+        uriToEditor.remove(path)
+    }
   }
 
   private val uriToEditor = UriToEditor()
 
-  var documentChangeListeners: mutable.Set[ChangedDocument => Unit] = mutable.Set()
+  var documentChangeListeners: mutable.Set[ChangedDocument => Unit] =
+    mutable.Set()
 
   var documentOpenListeners: mutable.Set[OpenedDocument => Unit] = mutable.Set()
 
@@ -56,13 +65,16 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
   override def initialize(): Future[Unit] = Future.successful()
 
   def onChangeDocument(listener: ChangedDocument => Unit, unsubscribe: Boolean = false): Unit =
-    if (unsubscribe) documentChangeListeners.remove(listener) else documentChangeListeners.add(listener)
+    if (unsubscribe) documentChangeListeners.remove(listener)
+    else documentChangeListeners.add(listener)
 
   def onOpenedDocument(listener: OpenedDocument => Unit, unsubscribe: Boolean = false): Unit =
-    if (unsubscribe) documentOpenListeners.remove(listener) else documentOpenListeners.add(listener)
+    if (unsubscribe) documentOpenListeners.remove(listener)
+    else documentOpenListeners.add(listener)
 
   def onClosedDocument(listener: String => Unit, unsubscribe: Boolean = false): Unit =
-    if (unsubscribe) documentCloseListeners.remove(listener) else documentCloseListeners.add(listener)
+    if (unsubscribe) documentCloseListeners.remove(listener)
+    else documentCloseListeners.add(listener)
 
   def getTextDocument(uri: String): Option[TextDocument] = {
     logger.debugDetail(s"Asked for uri $uri, while having following editors registered: " +
@@ -170,16 +182,15 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
   def determineLanguage(url: String, text: String): String = {
 
     if (url.endsWith(".raml")) {
-      if (text.startsWith("#%RAML 1.0")) {
+      if (text.startsWith("#%RAML 1.0"))
         Raml10.toString
-      } else {
+      else
         Raml08.toString
-      }
-    } else if ((url.endsWith(".yaml") || url.endsWith(".yml")) && text.startsWith("#%")) {
+    } else if ((url.endsWith(".yaml") || url.endsWith(".yml")) && text
+                 .startsWith("#%"))
       Aml.toString
-    } else {
+    else
       Oas20.toString
-    }
   }
 
   def determineSyntax(url: String, text: String): String =
