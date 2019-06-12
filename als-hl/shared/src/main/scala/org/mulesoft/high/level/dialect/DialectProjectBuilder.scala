@@ -163,6 +163,7 @@ class DialectProjectBuilder {
     val unit                                       = parent.astUnit
     val rootUnit                                   = unit.baseUnit
     val sourcesMap: mutable.Map[String, SourceAST] = mutable.Map()
+
     dde.propertyAnnotations
       .map(e => (e._1, e._2.find(classOf[SourceAST])))
       .foreach(e => e._2.foreach(src => sourcesMap.put(e._1, src)))
