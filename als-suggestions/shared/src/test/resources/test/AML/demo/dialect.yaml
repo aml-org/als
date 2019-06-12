@@ -19,7 +19,7 @@ nodeMappings:
       meetings:
         propertyTerm: visit.meetings
         range: MeetingNode
-        mapKey: schema-org.name
+        mapKey: meetingName
       office:
         propertyTerm: visit.office
         range: string
