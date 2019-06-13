@@ -3,9 +3,19 @@ package org.mulesoft.als.suggestions
 import org.mulesoft.als.suggestions.implementation.SuggestionCategoryRegistry
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
-import org.mulesoft.als.suggestions.plugins.oas.{DefinitionReferenceCompletionPlugin, EmptyFileCompletionPlugin, ParameterReferencePlugin, ResponseReferencePlugin}
+import org.mulesoft.als.suggestions.plugins.oas.{
+  DefinitionReferenceCompletionPlugin,
+  EmptyFileCompletionPlugin,
+  ParameterReferencePlugin,
+  ResponseReferencePlugin
+}
 import org.mulesoft.als.suggestions.plugins.raml._
-import org.mulesoft.als.suggestions.plugins.{BooleanPropertyCompletionPlugin, KnownKeyPropertyValuesCompletionPlugin, KnownPropertyValuesCompletionPlugin, StructureCompletionPlugin}
+import org.mulesoft.als.suggestions.plugins.{
+  BooleanPropertyCompletionPlugin,
+  KnownKeyPropertyValuesCompletionPlugin,
+  KnownPropertyValuesCompletionPlugin,
+  StructureCompletionPlugin
+}
 import org.mulesoft.high.level.InitOptions
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -41,6 +51,7 @@ object Core {
         CompletionPluginsRegistry.registerPlugin(BooleanPropertyCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(CommonHeadersNamesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(ExampleStructureCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(BaseUriParametersCompletionPlugin())
       })
 
   def prepareText(text: String, offset: Int, syntax: Syntax): String =
@@ -49,7 +60,7 @@ object Core {
     } else {
       syntax match {
         case YAML => CompletionProvider.prepareYamlContent(text, offset);
-        case _ => throw new Error(s"Syntax not supported: $syntax");
+        case _    => throw new Error(s"Syntax not supported: $syntax");
       }
     }
 }
