@@ -19,7 +19,7 @@
 //return unit.highLevel().asInstanceOf[IHighLevelNode]
 //
 //}
-//  def getSelectedNode(): IParseResult = {
+//  def getNodeByPosition(): IParseResult = {
 // var editor = this.editorProvider.getCurrentEditor()
 //if ((!editor))
 //return null
