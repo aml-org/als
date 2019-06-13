@@ -29,7 +29,7 @@
 // var root = _astProvider.getASTRoot()
 //if ((root&&(position!=null)))
 //return root.findElementAtOffset( position )
-//var astProviderSelectedNode = _astProvider.getSelectedNode()
+//var astProviderSelectedNode = _astProvider.getNodeByPosition()
 //if (astProviderSelectedNode)
 //return astProviderSelectedNode
 //

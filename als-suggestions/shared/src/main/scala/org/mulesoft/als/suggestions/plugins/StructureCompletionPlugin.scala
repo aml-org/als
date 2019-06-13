@@ -129,8 +129,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
   def isBody(node: IParseResult): Boolean =
     node.property
       .flatMap(_.nameId)
-      .map("body".equals)
-      .getOrElse(false)
+      .exists("body".equals)
 
   def isDiscriminatorValue(request: ICompletionRequest): Boolean =
     !(request.astNode.exists(_.property.isEmpty) || request.astNode.flatMap(_.property).contains(null)) &&
