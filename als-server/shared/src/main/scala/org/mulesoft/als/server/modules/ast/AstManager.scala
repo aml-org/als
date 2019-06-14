@@ -2,11 +2,13 @@ package org.mulesoft.als.server.modules.ast
 
 import java.io.{PrintWriter, StringWriter}
 
+import amf.client.remote.Content
 import amf.core.AMF
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
+import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
@@ -31,9 +33,6 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
                  private val logger: Logger)
     extends Initializable {
 
-  private val serverEnvironment = Environment()
-    .withLoaders(TextDocumentLoader(textDocumentManager) +: baseEnvironment.loaders)
-
   /**
     * Current AST listeners
     */
@@ -42,7 +41,9 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
   /**
     * Map from uri to AST
     */
-  var currentASTs: mutable.Map[String, BaseUnit] = mutable.HashMap()
+  val currentASTs: mutable.Map[String, BaseUnit] = mutable.HashMap()
+
+  val fileDependencies = new FileDependencies()
 
   private var initialized: Option[Future[Unit]] = None
 
@@ -170,7 +171,7 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
 
     val helper = ParserHelper(platform)
 
-    helper.parse(config, serverEnvironment).map { result =>
+    helper.parse(config, envForValidation(uri)).map { result =>
       val endTime = System.currentTimeMillis()
       logger.debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast", "ASTManager", "parse")
       result
@@ -208,4 +209,39 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
         result
       }
   }
+
+  private val serverEnvironment = Environment()
+    .withLoaders(TextDocumentLoader(textDocumentManager) +: baseEnvironment.loaders)
+
+  private def envForValidation(root: String) = {
+    val wrapperLoader = new ResourceLoader {
+      override def fetch(resource: String): Future[Content] = {
+        platform
+          .resolve(resource, serverEnvironment)
+          .map(c => {
+            fileDependencies.addDependencie(root, resource)
+            c
+          })
+      }
+
+      override def accepts(resource: String): Boolean = serverEnvironment.loaders.exists(_.accepts(resource))
+    }
+
+    Environment()
+      .withLoaders(Seq(wrapperLoader))
+  }
+}
+
+class FileDependencies() {
+  private val map: mutable.Map[String, Set[String]] = mutable.Map()
+
+  def addDependencie(root: String, dependency: String): Unit = {
+    if (FileUtils.getWithProtocol(root) != dependency)
+      map.get(root) match {
+        case Some(set: Set[String]) => map.update(root, set + dependency)
+        case _                      => map.put(root, Set(dependency))
+      }
+  }
+
+  def dependenciesFor(root: String): Set[String] = map.getOrElse(root, Set.empty)
 }

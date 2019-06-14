@@ -34,4 +34,12 @@ case class ValidationIssue(code: String,
 
   lazy val diagnosticRelatedInformation: DiagnosticRelatedInformation =
     DiagnosticRelatedInformation(Location(filePath, toLspRange(range)), text)
+
+  override def equals(obj: Any): Boolean = {
+    obj match {
+      case vi: ValidationIssue =>
+        vi.`type` == this.`type` && vi.range == this.range && vi.text == this.text
+      case _ => false
+    }
+  }
 }
