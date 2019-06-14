@@ -24,4 +24,12 @@ object FileUtils {
 
   def getDecodedUri(uri: String, platform: Platform): String =
     FILE_PROTOCOL + getPath(uri, platform)
+
+  def getWithProtocol(uri: String): String = {
+    if (uri.toUpperCase.startsWith("HTTP")) uri
+    else {
+      if (uri.toUpperCase.startsWith("FILE")) uri
+      else FILE_PROTOCOL + uri
+    }
+  }
 }
