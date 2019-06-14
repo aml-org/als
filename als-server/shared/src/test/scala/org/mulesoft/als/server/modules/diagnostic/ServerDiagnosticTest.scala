@@ -65,8 +65,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
   test("diagnostics test 001 - onFocus") {
     withServer { server =>
-      val mainFilePath = s"api.raml"
-      val libFilePath  = s"lib1.raml"
+      val mainFilePath = s"file://api.raml"
+      val libFilePath  = s"file://lib1.raml"
 
       val mainContent =
         """#%RAML 1.0
@@ -100,10 +100,18 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
        */
       for {
         a <- openFileNotification(server)(libFilePath, libFileContent)
-        b <- openFileNotification(server)(mainFilePath, mainContent)
+        b <- {
+          val rootNotif = openFileNotification(server)(mainFilePath, mainContent)
+          MockClientNotifier.nextCall // get the lib notification sent as son of root. Discard it
+          rootNotif
+        }
         c <- focusNotification(server)(libFilePath, 0)
         d <- changeNotification(server)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
-        e <- focusNotification(server)(mainFilePath, 0)
+        e <- {
+          val rootNotif = focusNotification(server)(mainFilePath, 0)
+          MockClientNotifier.nextCall // get the lib notification sent as son of root. Discard it
+          rootNotif
+        }
       } yield {
         server.shutdown()
         assert(

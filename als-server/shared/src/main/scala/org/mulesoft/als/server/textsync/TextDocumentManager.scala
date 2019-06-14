@@ -49,7 +49,11 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
       if (uriToEditor.contains(path))
         uriToEditor.remove(path)
     }
+
+    def versionOf(iri: String) = get(iri).map(_.version)
   }
+
+  def versionOf(iri: String): Int = uriToEditor.versionOf(iri).getOrElse(0)
 
   private val uriToEditor = UriToEditor()
 

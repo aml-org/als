@@ -44,6 +44,13 @@ case class Position(line: Int, column: Int) {
   def moveColumn(value: Int): Position = copy(column = column + value)
 
   def moveLine(value: Int): Position = copy(line = line + value)
+
+  override def toString: String = s"($line,$column)"
+
+  override def equals(obj: Any): Boolean = obj match {
+    case p: Position => p.column == column && p.line == line
+    case _           => false
+  }
 }
 
 object Position {
