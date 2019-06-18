@@ -53,7 +53,7 @@
   },
   {
     "name": "unknowns",
-    "kind": 8,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -78,7 +78,7 @@
     "children": [
       {
         "name": "r1",
-        "kind": 8,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -131,7 +131,7 @@
       },
       {
         "name": "r2",
-        "kind": 8,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -156,7 +156,7 @@
         "children": [
           {
             "name": "default",
-            "kind": 17,
+            "kind": 16,
             "deprecated": false,
             "range": {
               "start": {

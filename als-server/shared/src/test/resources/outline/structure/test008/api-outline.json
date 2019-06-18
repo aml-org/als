@@ -156,7 +156,7 @@
       },
       {
         "name": "Weight",
-        "kind": 17,
+        "kind": 16,
         "deprecated": false,
         "range": {
           "start": {
@@ -182,7 +182,7 @@
       },
       {
         "name": "NilValue",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -207,7 +207,7 @@
         "children": [
           {
             "name": "example",
-            "kind": 8,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -287,7 +287,7 @@
       },
       {
         "name": "Age",
-        "kind": 17,
+        "kind": 16,
         "deprecated": false,
         "range": {
           "start": {

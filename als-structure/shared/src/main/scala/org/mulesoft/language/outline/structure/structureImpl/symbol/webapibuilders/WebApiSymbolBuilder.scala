@@ -166,7 +166,7 @@ class CreativeWorkListSymbolBuilder(element: AmfArray)(override implicit val fac
       case (e: CreativeWork, index) =>
         val range = PositionRange(
           e.annotations.find(classOf[LexicalInformation]).map(l => l.range).getOrElse(amf.core.parser.Range.NONE))
-        DocumentSymbol(index.toString, SymbolKind.Object, false, range, range, Nil)
+        DocumentSymbol(index.toString, SymbolKind.Class, false, range, range, Nil)
     })
     .toList
   override def build(): Seq[DocumentSymbol] = {

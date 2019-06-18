@@ -53,7 +53,7 @@
   },
   {
     "name": "internalApiKey",
-    "kind": 8,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -79,7 +79,7 @@
   },
   {
     "name": "securityDefinitions",
-    "kind": 8,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -104,7 +104,7 @@
     "children": [
       {
         "name": "petstoreImplicit",
-        "kind": 8,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -129,7 +129,7 @@
         "children": [
           {
             "name": "\"user\"",
-            "kind": 8,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -155,7 +155,7 @@
           },
           {
             "name": "\"user:email\"",
-            "kind": 8,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -183,7 +183,7 @@
       },
       {
         "name": "internalApiKey",
-        "kind": 8,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {

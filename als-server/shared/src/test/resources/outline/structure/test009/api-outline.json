@@ -27,7 +27,7 @@
   },
   {
     "name": "types",
-    "kind": 19,
+    "kind": 5,
     "deprecated": false,
     "range": {
       "start": {
@@ -52,7 +52,7 @@
     "children": [
       {
         "name": "Admin",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -156,7 +156,7 @@
         "children": [
           {
             "name": "Alertable",
-            "kind": 8,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -210,7 +210,7 @@
       },
       {
         "name": "Person",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -315,7 +315,7 @@
       },
       {
         "name": "Manager",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -447,7 +447,7 @@
       },
       {
         "name": "AlertableAdmin",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
