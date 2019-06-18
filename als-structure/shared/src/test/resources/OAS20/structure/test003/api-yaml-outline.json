@@ -53,7 +53,7 @@
   },
   {
     "name": "schemes",
-    "kind": 19,
+    "kind": 5,
     "deprecated": false,
     "range": {
       "start": {
@@ -78,7 +78,7 @@
     "children": [
       {
         "name": "Pet",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -157,7 +157,7 @@
       },
       {
         "name": "ErrorModel",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {

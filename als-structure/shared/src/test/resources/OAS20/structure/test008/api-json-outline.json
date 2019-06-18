@@ -78,7 +78,7 @@
     "children": [
       {
         "name": "idHeader",
-        "kind": 8,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -103,7 +103,7 @@
         "children": [
           {
             "name": "idHeader",
-            "kind": 19,
+            "kind": 5,
             "deprecated": false,
             "range": {
               "start": {
@@ -128,7 +128,7 @@
             "children": [
               {
                 "name": "item0",
-                "kind": 8,
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {

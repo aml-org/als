@@ -103,7 +103,7 @@
         "children": [
           {
             "name": "503",
-            "kind": 8,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -153,7 +153,7 @@
                 "children": [
                   {
                     "name": "X-waiting-period",
-                    "kind": 8,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -178,7 +178,7 @@
                     "children": [
                       {
                         "name": "X-waiting-period",
-                        "kind": 17,
+                        "kind": 16,
                         "deprecated": false,
                         "range": {
                           "start": {
