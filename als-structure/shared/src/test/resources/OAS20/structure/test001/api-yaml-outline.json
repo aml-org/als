@@ -53,7 +53,7 @@
   },
   {
     "name": "API Support",
-    "kind": 8,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -79,7 +79,7 @@
   },
   {
     "name": "Apache 2.0",
-    "kind": 8,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {

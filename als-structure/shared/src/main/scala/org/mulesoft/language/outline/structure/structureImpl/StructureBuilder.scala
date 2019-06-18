@@ -51,15 +51,15 @@ object KindForResultMatcher {
         domainElement.meta match {
           case ScalarShapeModel =>
             kindForScalar(hlNode.amfNode.asInstanceOf[ScalarShape])
-          case NodeShapeModel                    => SymbolKind.Object
+          case NodeShapeModel                    => SymbolKind.Class
           case ArrayShapeModel                   => SymbolKind.Array
           case FileShapeModel                    => SymbolKind.File
           case EndPointModel | ResourceTypeModel => SymbolKind.Function
           case OperationModel | OperationModel   => SymbolKind.Method
           case PropertyShapeModel                => SymbolKind.Property
-          case _                                 => SymbolKind.Field
+          case _                                 => SymbolKind.Property
         }
-      case _ => SymbolKind.Field
+      case _ => SymbolKind.Property
     }
   }
 
@@ -69,15 +69,15 @@ object KindForResultMatcher {
         domainElement.meta match {
           case ScalarShapeModel =>
             kindForScalar(element.asInstanceOf[ScalarShape])
-          case NodeShapeModel                    => SymbolKind.Object
+          case NodeShapeModel                    => SymbolKind.Class
           case ArrayShapeModel                   => SymbolKind.Array
           case FileShapeModel                    => SymbolKind.File
           case EndPointModel | ResourceTypeModel => SymbolKind.Function
           case OperationModel | OperationModel   => SymbolKind.Method
           case PropertyShapeModel                => SymbolKind.Property
-          case _                                 => SymbolKind.Field
+          case _                                 => SymbolKind.Property
         }
-      case _ => SymbolKind.Field
+      case _ => SymbolKind.Property
     }
   }
 
@@ -87,7 +87,7 @@ object KindForResultMatcher {
       case Some(
           DataTypes.Number | DataTypes.Decimal | DataTypes.Double | DataTypes.Float | DataTypes.Long |
           DataTypes.Integer) =>
-        SymbolKind.Boolean
+        SymbolKind.Number
       case Some(DataTypes.File) => SymbolKind.File
       case _                    => SymbolKind.String
 

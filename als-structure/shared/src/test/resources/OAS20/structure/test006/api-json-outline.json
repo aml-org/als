@@ -53,7 +53,7 @@
   },
   {
     "name": "pet",
-    "kind": 8,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -79,7 +79,7 @@
   },
   {
     "name": "pet1",
-    "kind": 8,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {

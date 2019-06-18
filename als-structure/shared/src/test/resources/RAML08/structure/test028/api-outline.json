@@ -53,7 +53,7 @@
   },
   {
     "name": "types",
-    "kind": 19,
+    "kind": 5,
     "deprecated": false,
     "range": {
       "start": {
@@ -78,7 +78,7 @@
     "children": [
       {
         "name": "UserJSON",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -131,7 +131,7 @@
       },
       {
         "name": "UserXML",
-        "kind": 8,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {

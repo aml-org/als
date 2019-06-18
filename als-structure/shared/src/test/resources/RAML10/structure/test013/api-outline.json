@@ -103,7 +103,7 @@
         "children": [
           {
             "name": "request",
-            "kind": 8,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -153,7 +153,7 @@
                 "children": [
                   {
                     "name": "X-Dept",
-                    "kind": 8,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -259,7 +259,7 @@
                   },
                   {
                     "name": "X-Tracker",
-                    "kind": 8,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {

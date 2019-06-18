@@ -77,7 +77,7 @@
         "children": [
           {
             "name": "200",
-            "kind": 8,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -102,7 +102,7 @@
             "children": [
               {
                 "name": "application/xml",
-                "kind": 8,
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -127,7 +127,7 @@
                 "children": [
                   {
                     "name": "schema",
-                    "kind": 8,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -209,7 +209,7 @@
             "children": [
               {
                 "name": "request",
-                "kind": 8,
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -234,7 +234,7 @@
                 "children": [
                   {
                     "name": "application/json",
-                    "kind": 8,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -259,7 +259,7 @@
                     "children": [
                       {
                         "name": "schema",
-                        "kind": 8,
+                        "kind": 7,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -295,7 +295,7 @@
   },
   {
     "name": "trait",
-    "kind": 8,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -320,7 +320,7 @@
     "children": [
       {
         "name": "base",
-        "kind": 8,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -345,7 +345,7 @@
         "children": [
           {
             "name": "queryParameters",
-            "kind": 8,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
