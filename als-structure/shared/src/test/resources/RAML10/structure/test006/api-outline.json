@@ -52,7 +52,7 @@
     "children": [
       {
         "name": "0",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {

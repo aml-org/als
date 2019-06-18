@@ -27,7 +27,7 @@
   },
   {
     "name": "securitySchemes",
-    "kind": 8,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -52,7 +52,7 @@
     "children": [
       {
         "name": "oauth_1_0",
-        "kind": 8,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -77,7 +77,7 @@
         "children": [
           {
             "name": "settings",
-            "kind": 8,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {

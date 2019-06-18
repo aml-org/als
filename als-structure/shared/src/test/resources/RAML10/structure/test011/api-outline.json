@@ -27,7 +27,7 @@
   },
   {
     "name": "types",
-    "kind": 19,
+    "kind": 5,
     "deprecated": false,
     "range": {
       "start": {
@@ -52,7 +52,7 @@
     "children": [
       {
         "name": "Person",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -185,7 +185,7 @@
       },
       {
         "name": "Address",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {

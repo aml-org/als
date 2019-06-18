@@ -78,7 +78,7 @@
     "children": [
       {
         "name": "0",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -104,7 +104,7 @@
       },
       {
         "name": "1",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -130,7 +130,7 @@
       },
       {
         "name": "2",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {

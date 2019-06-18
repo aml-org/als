@@ -102,7 +102,7 @@
             "children": [
               {
                 "name": "200",
-                "kind": 8,
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -127,7 +127,7 @@
                 "children": [
                   {
                     "name": "application/json",
-                    "kind": 8,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -152,7 +152,7 @@
                     "children": [
                       {
                         "name": "schema",
-                        "kind": 19,
+                        "kind": 5,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -207,7 +207,7 @@
                   },
                   {
                     "name": "application/xml",
-                    "kind": 8,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -232,7 +232,7 @@
                     "children": [
                       {
                         "name": "application/xml",
-                        "kind": 19,
+                        "kind": 5,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -268,7 +268,7 @@
   },
   {
     "name": "types",
-    "kind": 19,
+    "kind": 5,
     "deprecated": false,
     "range": {
       "start": {
@@ -293,7 +293,7 @@
     "children": [
       {
         "name": "Admin",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -372,7 +372,7 @@
       },
       {
         "name": "Alertable",
-        "kind": 8,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -398,7 +398,7 @@
       },
       {
         "name": "Org",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -503,7 +503,7 @@
       },
       {
         "name": "Person",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -608,7 +608,7 @@
       },
       {
         "name": "Manager",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -740,7 +740,7 @@
       },
       {
         "name": "AlertableAdmin",
-        "kind": 19,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {

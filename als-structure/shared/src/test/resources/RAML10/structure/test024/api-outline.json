@@ -77,7 +77,7 @@
         "children": [
           {
             "name": "200",
-            "kind": 8,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -102,7 +102,7 @@
             "children": [
               {
                 "name": "application/raml+yaml",
-                "kind": 8,
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -127,7 +127,7 @@
                 "children": [
                   {
                     "name": "schema",
-                    "kind": 8,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -155,7 +155,7 @@
               },
               {
                 "name": "text/yaml",
-                "kind": 8,
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -180,7 +180,7 @@
                 "children": [
                   {
                     "name": "schema",
-                    "kind": 8,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -208,7 +208,7 @@
               },
               {
                 "name": "text/x-yaml",
-                "kind": 8,
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -233,7 +233,7 @@
                 "children": [
                   {
                     "name": "schema",
-                    "kind": 8,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -261,7 +261,7 @@
               },
               {
                 "name": "application/yaml",
-                "kind": 8,
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -286,7 +286,7 @@
                 "children": [
                   {
                     "name": "schema",
-                    "kind": 8,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -314,7 +314,7 @@
               },
               {
                 "name": "application/x-yaml",
-                "kind": 8,
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -339,7 +339,7 @@
                 "children": [
                   {
                     "name": "schema",
-                    "kind": 8,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
