@@ -8,6 +8,7 @@ import org.yaml.model.YMapEntry
 import amf.core.utils._
 import amf.core.parser.{Range => AmfRange}
 import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.lexer.InputRange
 
 class ObjectNodeSymbolBuilder(obj: ObjectNode)(override implicit val factory: BuilderFactory)
     extends ElementSymbolBuilder[ObjectNode] {
@@ -18,7 +19,11 @@ class ObjectNodeSymbolBuilder(obj: ObjectNode)(override implicit val factory: Bu
       .flatMap {
         case (n, d) =>
           val range = PositionRange(
-            obj.propertyAnnotations(n).find(classOf[LexicalInformation]).map(l => l.range).getOrElse(AmfRange.NONE))
+            obj
+              .propertyAnnotations(n)
+              .find(classOf[LexicalInformation])
+              .map(l => l.range)
+              .getOrElse(AmfRange(InputRange.Zero)))
           val selectionRange = obj.propertyAnnotations
             .get(n)
             .flatMap(_.find(classOf[SourceAST]))
