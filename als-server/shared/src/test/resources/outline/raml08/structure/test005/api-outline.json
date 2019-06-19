@@ -131,21 +131,21 @@
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": -1,
+                        "line": 0,
                         "character": 0
                       },
                       "end": {
-                        "line": -1,
+                        "line": 0,
                         "character": 0
                       }
                     },
                     "selectionRange": {
                       "start": {
-                        "line": -1,
+                        "line": 0,
                         "character": 0
                       },
                       "end": {
-                        "line": -1,
+                        "line": 0,
                         "character": 0
                       }
                     },
@@ -263,21 +263,21 @@
                         "deprecated": false,
                         "range": {
                           "start": {
-                            "line": -1,
+                            "line": 0,
                             "character": 0
                           },
                           "end": {
-                            "line": -1,
+                            "line": 0,
                             "character": 0
                           }
                         },
                         "selectionRange": {
                           "start": {
-                            "line": -1,
+                            "line": 0,
                             "character": 0
                           },
                           "end": {
-                            "line": -1,
+                            "line": 0,
                             "character": 0
                           }
                         },

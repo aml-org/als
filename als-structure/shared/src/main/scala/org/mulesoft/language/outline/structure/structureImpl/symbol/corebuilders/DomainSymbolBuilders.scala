@@ -7,6 +7,7 @@ import amf.core.parser.{FieldEntry, Range => AmfRange}
 import amf.plugins.domain.webapi.metamodel.WebApiModel
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
+import org.mulesoft.lexer.InputRange
 import org.yaml.model.YMapEntry
 
 trait FatherSymbolBuilder[T <: AmfObject] extends ElementSymbolBuilder[T] {
@@ -37,7 +38,7 @@ trait AmfObjSymbolBuilder[T <: AmfObject] extends FatherSymbolBuilder[T] {
     element.annotations
       .find(classOf[LexicalInformation])
       .map(l => PositionRange(l.range))
-      .getOrElse(PositionRange(amf.core.parser.Range.NONE))
+      .getOrElse(PositionRange(InputRange.Zero))
 
   override def build(): Seq[DocumentSymbol] =
     Seq(
