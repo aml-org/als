@@ -13,8 +13,6 @@ name := "api-language-server"
 
 version := deps("version")
 
-scalaVersion := "2.12.8"
-
 jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
 
 publish := {}
