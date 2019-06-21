@@ -238,9 +238,7 @@ lazy val fat = crossProject(JSPlatform, JVMPlatform).settings(
     case x if x.toString.endsWith("JS_DEPENDENCIES") => MergeStrategy.discard
     case PathList(ps@_*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
     case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
-    case x =>
-      val oldStrategy = (assemblyMergeStrategy in assembly).value
-      oldStrategy(x)
+    case x => MergeStrategy.first
   },
   assemblyJarName in assembly := "server.jar",
   addArtifact(Artifact("api-language-server", ""), sbtassembly.AssemblyKeys.assembly)
