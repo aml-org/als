@@ -16,6 +16,8 @@ import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
 
+import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -46,18 +48,22 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
     logger.debug("Got new AST:\n" + ast.toString, "ValidationManager", "newASTAvailable")
 
     reconciler.shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, version, ast))).future andThen {
-      case Success(report) =>
-        logger.debug("Number of errors is:\n" + report.issues.length, "ValidationManager", "newASTAvailable")
-        clientNotifier.notifyDiagnostic(report.publishDiagnosticsParams)
+      case Success(reports: Seq[ValidationReport]) =>
+        logger.debug("Number of errors is:\n" + reports.flatMap(_.issues).length,
+                     "ValidationManager",
+                     "newASTAvailable")
+        reports.foreach { r =>
+          clientNotifier.notifyDiagnostic(r.publishDiagnosticsParams)
+        }
 
       case Failure(exception) =>
         exception.printStackTrace()
         logger.error("Error on validation: " + exception.toString, "ValidationManager", "newASTAvailable")
-        clientNotifier.notifyDiagnostic(ValidationReport(uri, 0, Seq()).publishDiagnosticsParams)
+        clientNotifier.notifyDiagnostic(ValidationReport(uri, 0, Set.empty).publishDiagnosticsParams)
     }
   }
 
-  private def gatherValidationErrors(uri: String, docVersion: Int, astNode: BaseUnit): Future[ValidationReport] = {
+  private def gatherValidationErrors(uri: String, docVersion: Int, astNode: BaseUnit): Future[Seq[ValidationReport]] = {
     val editorOption = textDocumentManager.getTextDocument(uri)
 
     if (editorOption.isDefined) {
@@ -72,23 +78,65 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
                                   "ValidationManager",
                                   "gatherValidationErrors")
 
-          val issues =
-            report.results.map(validationResult => this.amfValidationResultToIssue(uri, validationResult))
-
-          ValidationReport(uri, docVersion, issues)
+          buildIssueResults(uri, docVersion, report)
         })
     } else {
       Future.failed(new Exception("Cant find the editor for uri " + uri))
     }
   }
 
-  def amfValidationResultToIssue(uri: String, validationResult: AMFValidationResult): ValidationIssue = {
+  def buildIssueResults(root: String, docVersion: Int, report: AMFValidationReport): Seq[ValidationReport] = {
+    val located: Map[String, Seq[AMFValidationResult]] = report.results.groupBy(_.location.getOrElse(root))
+
+    val (rootReport, sonsAmfReport) = located.partition(_._1 == root)
+
+    val collectedFirstErrors: ListBuffer[(String, ValidationIssue)] = ListBuffer[(String, ValidationIssue)]()
+    val sonsReports = astManager.fileDependencies
+      .dependenciesFor(root)
+      .map { son =>
+        sonsAmfReport.get(son) match {
+          case Some(results) if results.nonEmpty =>
+            val r      = results.map(amfValidationResultToIssue).toSet
+            val report = ValidationReport(son, textDocumentManager.versionOf(son), r)
+            collectedFirstErrors ++= r.collectFirst({ case v if v.`type` == ValidationSeverity.Error => (son, v) })
+            report
+          case _ => ValidationReport(son, textDocumentManager.versionOf(son), Set.empty)
+        }
+      }
+
+    val rootIssues = rootReport.get(root).map(rr => rr.map(amfValidationResultToIssue).toSet).getOrElse(Nil)
+    val finalRoot =
+      ValidationReport(root, docVersion, (buildTopFiveIssues(root, collectedFirstErrors.toList) ++ rootIssues).toSet)
+
+    Seq(finalRoot) ++ sonsReports
+  }
+
+  private def buildTopFiveIssues(root: String,
+                                 collectedFirstErrors: List[(String, ValidationIssue)]): Option[ValidationIssue] = {
+    val messageBuilder: ListBuffer[String] = new ListBuffer[String]
+    if (collectedFirstErrors.nonEmpty) {
+      messageBuilder += "Dependency errors found:"
+      collectedFirstErrors.take(5).foreach { vi =>
+        messageBuilder += s"\t${vi._1} at: ${vi._2.range.toString}"
+      }
+      if (collectedFirstErrors.length > 5) messageBuilder += "and more..."
+      Some(
+        ValidationIssue("PROPERTY_UNUSED",
+                        ValidationSeverity.Error,
+                        "",
+                        messageBuilder.mkString("\n"),
+                        EmptyPositionRange,
+                        Nil))
+    } else None
+  }
+
+  def amfValidationResultToIssue(validationResult: AMFValidationResult): ValidationIssue = {
     val messageText = validationResult.message
     val range = validationResult.position
       .map(position => PositionRange(position.range))
       .getOrElse(EmptyPositionRange)
 
-    ValidationIssue("PROPERTY_UNUSED", ValidationSeverity(validationResult.level), uri, messageText, range, List())
+    ValidationIssue("PROPERTY_UNUSED", ValidationSeverity(validationResult.level), "", messageText, range, List())
   }
 
   private def report(uri: String, baseUnit: BaseUnit): Future[AMFValidationReport] = {
@@ -96,7 +144,7 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
 
     val config = new ParserConfig(
       Some(ParserConfig.VALIDATE),
-      Some(platform.resolvePath(platform.encodeURI(uri))),
+      Some(platform.resolvePath(uri)),
       Some(language),
       Some("application/yaml"),
       None,

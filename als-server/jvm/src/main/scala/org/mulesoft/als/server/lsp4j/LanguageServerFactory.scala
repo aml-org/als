@@ -39,7 +39,7 @@ object LanguageServerFactory extends PlatformSecrets {
     val diagnosticManager = new DiagnosticManager(documentManager, astManager, clientNotifier, platform, logger)
     val referenceModule   = new FindReferencesModule(hlAstManager, platform, logger)
     val renameModule      = new RenameModule(hlAstManager, logger, platform)
-    val structureManager  = new StructureManager(documentManager, hlAstManager, logger, platform)
+    val structureManager  = new StructureManager(documentManager, astManager, logger, platform)
 
     LanguageServerBuilder()
       .withTextDocumentSyncConsumer(documentManager)

@@ -1,95 +1,16 @@
 [
   {
-    "name": "externalDocs",
-    "kind": 8,
+    "name": "title",
+    "kind": 15,
     "deprecated": false,
     "range": {
       "start": {
-        "line": 6,
-        "character": 18
+        "line": 4,
+        "character": 13
       },
       "end": {
-        "line": 9,
-        "character": 3
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 6,
-        "character": 18
-      },
-      "end": {
-        "line": 9,
-        "character": 3
-      }
-    },
-    "children": [
-      {
-        "name": "url",
-        "kind": 8,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 6,
-            "character": 18
-          },
-          "end": {
-            "line": 9,
-            "character": 3
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 6,
-            "character": 18
-          },
-          "end": {
-            "line": 9,
-            "character": 3
-          }
-        },
-        "children": []
-      },
-      {
-        "name": "description",
-        "kind": 8,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 6,
-            "character": 18
-          },
-          "end": {
-            "line": 9,
-            "character": 3
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 6,
-            "character": 18
-          },
-          "end": {
-            "line": 9,
-            "character": 3
-          }
-        },
-        "children": []
-      }
-    ]
-  },
-  {
-    "name": "info",
-    "kind": 8,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 0,
-        "character": 0
-      },
-      "end": {
-        "line": 10,
-        "character": 1
+        "line": 4,
+        "character": 33
       }
     },
     "selectionRange": {
@@ -102,55 +23,81 @@
         "character": 33
       }
     },
+    "children": []
+  },
+  {
+    "name": "version",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 15
+      },
+      "end": {
+        "line": 3,
+        "character": 27
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 15
+      },
+      "end": {
+        "line": 3,
+        "character": 27
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "documentations",
+    "kind": 18,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 6,
+        "character": 18
+      },
+      "end": {
+        "line": 9,
+        "character": 3
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 18
+      },
+      "end": {
+        "line": 9,
+        "character": 3
+      }
+    },
     "children": [
       {
-        "name": "title",
-        "kind": 8,
+        "name": "0",
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
-            "line": 0,
-            "character": 0
+            "line": 6,
+            "character": 18
           },
           "end": {
-            "line": 10,
-            "character": 1
+            "line": 9,
+            "character": 3
           }
         },
         "selectionRange": {
           "start": {
-            "line": 4,
-            "character": 13
+            "line": 6,
+            "character": 18
           },
           "end": {
-            "line": 4,
-            "character": 33
-          }
-        },
-        "children": []
-      },
-      {
-        "name": "version",
-        "kind": 8,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 0,
-            "character": 0
-          },
-          "end": {
-            "line": 10,
-            "character": 1
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 4,
-            "character": 13
-          },
-          "end": {
-            "line": 4,
-            "character": 33
+            "line": 9,
+            "character": 3
           }
         },
         "children": []

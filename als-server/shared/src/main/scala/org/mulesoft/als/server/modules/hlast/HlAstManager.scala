@@ -31,10 +31,10 @@ class HlAstManager(private val textDocumentManager: TextDocumentManager,
     Core
       .init(InitOptions.AllProfiles.withCustomDialects(dialects))
       .map(_ => initialized = true)
-      .map(_ => astManager.onNewASTAvailable(this.newASTAvailable))
+//      .map(_ => astManager.onNewASTAvailable(this.newASTAvailable))
 
-  def onNewASTAvailable(listener: HlAstListener, unsubscribe: Boolean = false): Unit =
-    addListener(this.astListeners, listener, unsubscribe)
+//  def onNewASTAvailable(listener: HlAstListener, unsubscribe: Boolean = false): Unit =
+//    addListener(this.astListeners, listener, unsubscribe)
 
   def newASTAvailable(uri: String, version: Int, ast: BaseUnit): Unit = {
 
@@ -53,7 +53,7 @@ class HlAstManager(private val textDocumentManager: TextDocumentManager,
     logger.debug("Got new AST parser results, notifying the listeners", "HlAstManager", "notifyASTChanged")
 
     this.astListeners.foreach { listener =>
-      listener.apply(platform.decodeURI(uri), version, project.rootASTUnit.rootNode)
+      listener.apply(uri, version, project.rootASTUnit.rootNode)
     }
 
   }

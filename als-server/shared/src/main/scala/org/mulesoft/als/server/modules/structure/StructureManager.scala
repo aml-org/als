@@ -1,16 +1,15 @@
 package org.mulesoft.als.server.modules.structure
 
+import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
-import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.server.modules.ast.{AstListener, AstManager}
 import org.mulesoft.als.server.modules.common.LspConverter
-import org.mulesoft.als.server.modules.hlast.{HlAstListener, HlAstManager}
 import org.mulesoft.als.server.textsync.TextDocumentManager
-import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
-import org.mulesoft.language.outline.structure.structureImpl.{ConfigFactory, DocumentSymbol, StructureBuilder}
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureBuilder}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.documentsymbol.{
@@ -26,7 +25,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class StructureManager(private val textDocumentManager: TextDocumentManager,
-                       private val hlAstManager: HlAstManager,
+                       private val astManager: AstManager,
                        private val logger: Logger,
                        private val platform: Platform)
     extends RequestModule[DocumentSymbolClientCapabilities, Unit] {
@@ -41,14 +40,14 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
 
       override def apply(
           params: DocumentSymbolParams): Future[Either[Seq[SymbolInformation], Seq[LspDocumentSymbol]]] = {
-        onDocumentStructure(platform.decodeURI(params.textDocument.uri))
+        onDocumentStructure(params.textDocument.uri)
           .map(_.map(LspConverter.toLspDocumentSymbol))
           .map(Right.apply)
       }
     }
   )
 
-  val onNewASTAvailableListener: HlAstListener = (uri: String, version: Int, ast: IParseResult) => {
+  val onNewASTAvailableListener: AstListener = (uri: String, version: Int, ast: BaseUnit) => {
     StructureManager.this.newASTAvailable(uri, version, ast)
   }
 
@@ -56,11 +55,11 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
     onDocumentStructure
 
   override def initialize(): Future[Unit] = {
-    this.hlAstManager.onNewASTAvailable(this.onNewASTAvailableListener)
+//    this.astManager.onNewASTAvailable(this.onNewASTAvailableListener)
     Future.successful()
   }
 
-  def newASTAvailable(uri: String, astVersion: Int, ast: IParseResult): Unit = {
+  def newASTAvailable(uri: String, astVersion: Int, ast: BaseUnit): Unit = {
     logger.debug("Got new AST:\n" + ast.toString, "StructureManager", "newASTAvailable")
 
     val editor = textDocumentManager.getTextDocument(uri)
@@ -98,11 +97,11 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
 
     if (editor.isDefined) {
 
-      this.hlAstManager
+      this.astManager
         .forceGetCurrentAST(url)
         .map(ast => {
           val result = StructureManager.this
-            .getStructureFromAST(ast.rootASTUnit.rootNode, editor.get.language, editor.get.cursorPosition)
+            .getStructureFromAST(ast, editor.get.language, editor.get.cursorPosition)
 
           logger
             .debugDetail(s"Got result for url $url of size ${result.size}", "StructureManager", "onDocumentStructure")
@@ -123,11 +122,6 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
     }
   }
 
-  def getStructureFromAST(ast: IParseResult, language: String, position: Int): List[DocumentSymbol] = {
-
-    ConfigFactory.getConfig(new ASTProvider(ast, position, language)) match {
-      case Some(config) => StructureBuilder.listSymbols(ast, config)
-      case _            => Nil
-    }
-  }
+  def getStructureFromAST(ast: BaseUnit, language: String, position: Int): List[DocumentSymbol] =
+    StructureBuilder.listSymbols(ast)
 }

@@ -11,9 +11,9 @@ import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
   * @param issues         Validation issues.
   *
   */
-case class ValidationReport(pointOfViewUri: String, version: Int, issues: Seq[ValidationIssue]) {
+case class ValidationReport(pointOfViewUri: String, version: Int, issues: Set[ValidationIssue]) {
   lazy val publishDiagnosticsParams: PublishDiagnosticsParams = AlsPublishDiagnosticsParams(
     pointOfViewUri,
-    issues.map(_.diagnostic)
+    issues.map(_.diagnostic).toSeq
   )
 }

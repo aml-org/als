@@ -144,9 +144,13 @@ object Tests {
   }
 
   def checkDiff(a: AsyncFile, e: AsyncFile, encoding: String = Utf8): Future[Assertion] = {
+    def replaceEOL(s: String): String =
+      s.replace("\r\n", "\n")
+
     a.read(encoding).zip(e.read(encoding)).map {
       case (actual, expected) =>
-        val diffs = Diff.ignoreAllSpace.diff(actual.toString, expected.toString)
+        val diffs = Diff.ignoreAllSpace
+          .diff(replaceEOL(actual.toString), replaceEOL(expected.toString))
         if (diffs.nonEmpty) {
           if (goldenOverride) {
             a.read(encoding).map(content => e.write(content.toString, encoding))
@@ -159,7 +163,7 @@ object Tests {
   }
 
   /** Force golden override. */
-  private def goldenOverride: Boolean = false // Option(getProperty("golden.override")).isDefined
+  private def goldenOverride: Boolean = Option(getProperty("golden.override")).isDefined
 
   def checkDiff(a: String, fileA: String, b: String, fileB: String): Assertion = {
     val diffs: List[Diff.Delta[String]] = Diff.ignoreAllSpace.diff(a, b)

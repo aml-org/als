@@ -116,7 +116,7 @@ object AsyncAPIDialect extends DialectConf {
       |        propertyTerm: oas.topics
       |        range: TopicItemObject
       |        mandatory: true
-      |        mapKey: async.topicTemplate
+      |        mapKey: template
       |      security:
       |        propertyTerm: oas.securityRequirements
       |        range: SecurityRequirementObject
@@ -128,8 +128,8 @@ object AsyncAPIDialect extends DialectConf {
       |      simpleMap:
       |        propertyTerm: async.mapProperty
       |        range: MapEntry
-      |        mapKey: async.keyString
-      |        mapValue: async.valueString
+      |        mapKey: key
+      |        mapValue: value
       |
       |  InfoObject:
       |    classTerm: schema-org.CreativeWork
@@ -200,7 +200,7 @@ object AsyncAPIDialect extends DialectConf {
       |      variables:
       |        propertyTerm: oas.templateVars
       |        range: TemplateVariableObject
-      |        mapKey: schema-org.name
+      |        mapKey: name
       |
       |  TemplateVariableObject:
       |    classTerm: oas.TemplateVariable
@@ -260,8 +260,8 @@ object AsyncAPIDialect extends DialectConf {
       |      simpleMap:
       |        propertyTerm: async.mapProperty
       |        range: MapEntry
-      |        mapKey: async.keyString
-      |        mapValue: async.valueString
+      |        mapKey: key
+      |        mapValue: value
       |
       |  # Temporary
       |  SchemaObject:
@@ -340,11 +340,11 @@ object AsyncAPIDialect extends DialectConf {
       |      properties:
       |        propertyTerm: json-schema.properties
       |        range: SchemaObject
-      |        mapKey: json-schema.propertyKey
+      |        mapKey: key
       |      patternProperties:
       |        propertyTerm: json-schema.patternProperties
       |        range: SchemaObject
-      |        mapKey: json-schema.propertyKey
+      |        mapKey: key
       |      key:
       |        propertyTerm: json-schema.propertyKey
       |        range: string
