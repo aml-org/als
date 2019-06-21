@@ -4,10 +4,12 @@ import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
+import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.configuration.InitializeParams
+import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync.{
   DidChangeTextDocumentParams,
@@ -18,13 +20,44 @@ import org.mulesoft.lsp.textsync.{
 }
 import org.scalatest.{AsyncFunSuite, Matchers, OptionValues}
 
-import scala.concurrent.Future
+import scala.concurrent.{Future, Promise}
 
 abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets with Matchers with OptionValues {
 
   val logger: Logger = EmptyLogger
 
   protected val initializeParams = InitializeParams.default
+
+  object MockClientNotifier extends ClientNotifier {
+    var promise: Option[Promise[PublishDiagnosticsParams]] = None
+
+    def nextCall: Future[PublishDiagnosticsParams] = {
+      if (promise.isEmpty)
+        promise = Some(Promise[PublishDiagnosticsParams]())
+      promise.get.future
+    }
+
+    override def notifyDiagnostic(params: PublishDiagnosticsParams): Unit = {
+      promise.foreach(_.success(params))
+      promise = None
+    }
+  }
+
+  def openFileNotification(server: LanguageServer)(file: String, content: String): Future[PublishDiagnosticsParams] = {
+    openFile(server)(file, content)
+    MockClientNotifier.nextCall
+  }
+
+  def focusNotification(server: LanguageServer)(file: String, version: Int): Future[PublishDiagnosticsParams] = {
+    onFocus(server)(file, version)
+    MockClientNotifier.nextCall
+  }
+
+  def changeNotification(
+      server: LanguageServer)(file: String, content: String, version: Int): Future[PublishDiagnosticsParams] = {
+    changeFile(server)(file, content, version)
+    MockClientNotifier.nextCall
+  }
 
   def addModules(documentManager: TextDocumentManager,
                  platform: Platform,

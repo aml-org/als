@@ -17,6 +17,8 @@ class LanguageServerImpl(private val inner: server.LanguageServer) extends Langu
 
   private val textDocumentService = new TextDocumentServiceImpl(inner)
 
+  private val workspaceService = new WorkspaceServiceImpl(inner)
+
   override def initialize(params: lsp4j.InitializeParams): CompletableFuture[lsp4j.InitializeResult] =
     javaFuture(inner.initialize(params), lsp4JInitializeResult)
 
@@ -32,6 +34,6 @@ class LanguageServerImpl(private val inner: server.LanguageServer) extends Langu
   @JsonDelegate
   override def getTextDocumentService: CustomTextDocumentService = textDocumentService
 
-  override def getWorkspaceService: WorkspaceService = new WorkspaceServiceImpl()
+  override def getWorkspaceService: WorkspaceServiceImpl = workspaceService
 
 }

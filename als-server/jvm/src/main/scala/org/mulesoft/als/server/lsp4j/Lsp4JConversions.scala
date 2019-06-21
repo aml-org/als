@@ -3,7 +3,9 @@ package org.mulesoft.als.server.lsp4j
 import java.util
 import java.util.concurrent.CompletableFuture
 
+import com.google.common.collect.Lists
 import org.eclipse.lsp4j
+import org.eclipse.lsp4j.ExecuteCommandOptions
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{Location, Position, Range, VersionedTextDocumentIdentifier}
@@ -28,7 +30,8 @@ object Lsp4JConversions {
 
   private implicit def javaInteger(option: Option[Int]): Integer = option.map(Integer.valueOf).orNull
 
-  private implicit def javaBoolean(option: Option[Boolean]): java.lang.Boolean = option.map(java.lang.Boolean.valueOf).orNull
+  private implicit def javaBoolean(option: Option[Boolean]): java.lang.Boolean =
+    option.map(java.lang.Boolean.valueOf).orNull
 
   private def jEither[A, B, C, D](either: Either[A, B], leftTo: A => C, rightTo: B => D): JEither[C, D] =
     either.fold[JEither[C, D]](a => JEither.forLeft[C, D](leftTo(a)), b => JEither.forRight[C, D](rightTo(b)))
@@ -36,7 +39,7 @@ object Lsp4JConversions {
   private def javaList[F, T](items: Seq[F], convert: F => T): util.List[T] = items.map(convert).toList.asJava
 
   implicit def javaFuture[F, T](future: Future[F], convert: F => T)(
-    implicit context: ExecutionContext): CompletableFuture[T] =
+      implicit context: ExecutionContext): CompletableFuture[T] =
     future.map[T](convert).toJava.toCompletableFuture
 
   implicit def lsp4JTextEdit(textEdit: TextEdit): lsp4j.TextEdit =
@@ -45,7 +48,8 @@ object Lsp4JConversions {
   implicit def lsp4JTextEdits(textEdits: Seq[TextEdit]): util.List[lsp4j.TextEdit] =
     javaList(textEdits, lsp4JTextEdit)
 
-  implicit def lsp4JVersionedTextDocumentIdentifier(identifier: VersionedTextDocumentIdentifier): lsp4j.VersionedTextDocumentIdentifier =
+  implicit def lsp4JVersionedTextDocumentIdentifier(
+      identifier: VersionedTextDocumentIdentifier): lsp4j.VersionedTextDocumentIdentifier =
     new lsp4j.VersionedTextDocumentIdentifier(identifier.uri, identifier.version)
 
   implicit def lsp4JTextDocumentEdit(textEdit: TextDocumentEdit): lsp4j.TextDocumentEdit =
@@ -62,7 +66,8 @@ object Lsp4JConversions {
 
   implicit def lsp4JResourceOperation(operation: ResourceOperation): lsp4j.ResourceOperation = operation match {
     case CreateFile(uri, options) => new lsp4j.CreateFile(uri, options.map(lsp4JCreateFileOptions).orNull)
-    case RenameFile(uri, newUri, options) => new lsp4j.RenameFile(uri, newUri, options.map(lsp4JRenameFileOptions).orNull)
+    case RenameFile(uri, newUri, options) =>
+      new lsp4j.RenameFile(uri, newUri, options.map(lsp4JRenameFileOptions).orNull)
     case DeleteFile(uri, options) => new lsp4j.DeleteFile(uri, options.map(lsp4JDeleteFileOptions).orNull)
   }
 
@@ -71,14 +76,17 @@ object Lsp4JConversions {
 
     result.setChanges(workspaceEdit.changes.mapValues(_.map(lsp4JTextEdit).asJava).asJava)
     result.setDocumentChanges(workspaceEdit.documentChanges.map {
-      case Left(edit) => JEither.forLeft(lsp4JTextDocumentEdit(edit)): JEither[lsp4j.TextDocumentEdit, lsp4j.ResourceOperation]
-      case Right(operation) => JEither.forRight(lsp4JResourceOperation(operation)): JEither[lsp4j.TextDocumentEdit, lsp4j.ResourceOperation]
+      case Left(edit) =>
+        JEither.forLeft(lsp4JTextDocumentEdit(edit)): JEither[lsp4j.TextDocumentEdit, lsp4j.ResourceOperation]
+      case Right(operation) =>
+        JEither.forRight(lsp4JResourceOperation(operation)): JEither[lsp4j.TextDocumentEdit, lsp4j.ResourceOperation]
     }.asJava)
 
     result
   }
 
-  implicit def lsp4JPosition(position: Position): lsp4j.Position = new lsp4j.Position(position.line, position.character)
+  implicit def lsp4JPosition(position: Position): lsp4j.Position =
+    new lsp4j.Position(position.line, position.character)
 
   implicit def lsp4JRange(range: Range): lsp4j.Range =
     new lsp4j.Range(lsp4JPosition(range.start), range.end)
@@ -124,12 +132,16 @@ object Lsp4JConversions {
   implicit def lsp4JCompletionList(list: CompletionList): lsp4j.CompletionList =
     new lsp4j.CompletionList(list.isIncomplete, javaList(list.items, lsp4JCompletionItem))
 
-  implicit def lsp4JCompletionEither(either: Either[Seq[CompletionItem], CompletionList]): JEither[util.List[lsp4j.CompletionItem], lsp4j.CompletionList] =
+  implicit def lsp4JCompletionEither(either: Either[Seq[CompletionItem], CompletionList])
+    : JEither[util.List[lsp4j.CompletionItem], lsp4j.CompletionList] =
     jEither(either, lsp4JCompletionItems, lsp4JCompletionList)
 
   implicit def lsp4JDocumentSymbol(symbol: DocumentSymbol): lsp4j.DocumentSymbol = {
     val result =
-      new lsp4j.DocumentSymbol(symbol.name, lsp4j.SymbolKind.forValue(symbol.kind.id), symbol.range, symbol.selectionRange)
+      new lsp4j.DocumentSymbol(symbol.name,
+                               lsp4j.SymbolKind.forValue(symbol.kind.id),
+                               symbol.range,
+                               symbol.selectionRange)
 
     result.setDeprecated(symbol.deprecated)
     result.setChildren(javaList(symbol.children, lsp4JDocumentSymbol))
@@ -138,11 +150,10 @@ object Lsp4JConversions {
   }
 
   implicit def lsp4JSymbolInformation(symbol: SymbolInformation): lsp4j.SymbolInformation = {
-    val result = new lsp4j.SymbolInformation(
-      symbol.name,
-      lsp4j.SymbolKind.forValue(symbol.kind.id),
-      symbol.location,
-      symbol.containerName.orNull)
+    val result = new lsp4j.SymbolInformation(symbol.name,
+                                             lsp4j.SymbolKind.forValue(symbol.kind.id),
+                                             symbol.location,
+                                             symbol.containerName.orNull)
 
     result.setDeprecated(symbol.deprecated)
 
@@ -152,16 +163,21 @@ object Lsp4JConversions {
   implicit def lsp4JDocumentSymbols(symbols: Seq[DocumentSymbol]): util.List[lsp4j.DocumentSymbol] =
     javaList(symbols, lsp4JDocumentSymbol)
 
-  implicit def lsp4JDocumentSymbolsResult(result: Either[Seq[SymbolInformation], Seq[DocumentSymbol]]): util.List[JEither[lsp4j.SymbolInformation, lsp4j.DocumentSymbol]] =
+  implicit def lsp4JDocumentSymbolsResult(result: Either[Seq[SymbolInformation], Seq[DocumentSymbol]])
+    : util.List[JEither[lsp4j.SymbolInformation, lsp4j.DocumentSymbol]] =
     result.fold[util.List[JEither[lsp4j.SymbolInformation, lsp4j.DocumentSymbol]]](
-      results => javaList(results, (item: SymbolInformation) => JEither.forLeft[lsp4j.SymbolInformation, lsp4j.DocumentSymbol](item)),
-      results => javaList(results, (item: DocumentSymbol) => JEither.forRight[lsp4j.SymbolInformation, lsp4j.DocumentSymbol](item))
+      results =>
+        javaList(results,
+                 (item: SymbolInformation) => JEither.forLeft[lsp4j.SymbolInformation, lsp4j.DocumentSymbol](item)),
+      results =>
+        javaList(results,
+                 (item: DocumentSymbol) => JEither.forRight[lsp4j.SymbolInformation, lsp4j.DocumentSymbol](item))
     )
 
   implicit def lsp4JTextDocumentSyncKind(kind: TextDocumentSyncKind): lsp4j.TextDocumentSyncKind = kind match {
-    case TextDocumentSyncKind.Full => lsp4j.TextDocumentSyncKind.Full
+    case TextDocumentSyncKind.Full        => lsp4j.TextDocumentSyncKind.Full
     case TextDocumentSyncKind.Incremental => lsp4j.TextDocumentSyncKind.Incremental
-    case TextDocumentSyncKind.None => lsp4j.TextDocumentSyncKind.None
+    case TextDocumentSyncKind.None        => lsp4j.TextDocumentSyncKind.None
   }
 
   implicit def lsp4JSaveOptions(options: SaveOptions): lsp4j.SaveOptions =
@@ -187,9 +203,11 @@ object Lsp4JConversions {
     result
   }
 
-  implicit def lsp4JEitherRenameOptions(options: Option[RenameOptions]): JEither[java.lang.Boolean, lsp4j.RenameOptions] =
+  implicit def lsp4JEitherRenameOptions(
+      options: Option[RenameOptions]): JEither[java.lang.Boolean, lsp4j.RenameOptions] =
     options
-      .map(renameOptions => JEither.forRight[java.lang.Boolean, lsp4j.RenameOptions](lsp4JRenameOptions(renameOptions)))
+      .map(renameOptions =>
+        JEither.forRight[java.lang.Boolean, lsp4j.RenameOptions](lsp4JRenameOptions(renameOptions)))
       .getOrElse(JEither.forLeft(false))
 
   implicit def lsp4JCompletionOptions(options: CompletionOptions): lsp4j.CompletionOptions =
@@ -198,25 +216,26 @@ object Lsp4JConversions {
       options.triggerCharacters.map(_.map(java.lang.String.valueOf).toList.asJava).orNull
     )
 
-
   implicit def lsp4JServerCapabilities(capabilities: ServerCapabilities): lsp4j.ServerCapabilities = {
     val result = new lsp4j.ServerCapabilities()
-    result.setTextDocumentSync(capabilities.textDocumentSync
-      .map(jEither(_, lsp4JTextDocumentSyncKind, lsp4JTextDocumentSyncOptions))
-      .map(v => {
-        println(v)
-        v
-      })
-      .orNull)
-    result.setCompletionProvider(capabilities.completionProvider
-      .map(lsp4JCompletionOptions)
-      .orNull
-    )
+    result.setTextDocumentSync(
+      capabilities.textDocumentSync
+        .map(jEither(_, lsp4JTextDocumentSyncKind, lsp4JTextDocumentSyncOptions))
+        .map(v => {
+          println(v)
+          v
+        })
+        .orNull)
+    result.setCompletionProvider(
+      capabilities.completionProvider
+        .map(lsp4JCompletionOptions)
+        .orNull)
     result.setDefinitionProvider(capabilities.definitionProvider)
     result.setReferencesProvider(capabilities.referencesProvider)
     result.setDocumentSymbolProvider(capabilities.documentSymbolProvider)
     result.setRenameProvider(capabilities.renameProvider)
     result.setExperimental(capabilities.experimental)
+    result.setExecuteCommandProvider(new ExecuteCommandOptions(Lists.newArrayList("didFocusChange")))
 
     result
   }
@@ -227,7 +246,8 @@ object Lsp4JConversions {
   implicit def lsp4JDiagnosticSeverity(diagnostic: DiagnosticSeverity): lsp4j.DiagnosticSeverity =
     lsp4j.DiagnosticSeverity.forValue(diagnostic.id)
 
-  implicit def lsp4JDiagnosticRelatedInformation(diagnostic: DiagnosticRelatedInformation): lsp4j.DiagnosticRelatedInformation =
+  implicit def lsp4JDiagnosticRelatedInformation(
+      diagnostic: DiagnosticRelatedInformation): lsp4j.DiagnosticRelatedInformation =
     new lsp4j.DiagnosticRelatedInformation(diagnostic.location, diagnostic.message)
 
   implicit def lsp4JDiagnostic(diagnostic: Diagnostic): lsp4j.Diagnostic = {

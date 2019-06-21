@@ -3,51 +3,17 @@ package org.mulesoft.als.server.modules.diagnostic
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.DirectoryResolver
-import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
-import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
-import org.mulesoft.lsp.server.LanguageServer
 
-import scala.concurrent.{ExecutionContext, Future, Promise}
+import scala.concurrent.ExecutionContext
 
 class ServerDiagnosticTest extends LanguageServerBaseTest {
 
   override implicit val executionContext = ExecutionContext.Implicits.global
 
   override def rootPath: String = ""
-
-  private object MockClientNotifier extends ClientNotifier {
-    var promise: Option[Promise[PublishDiagnosticsParams]] = None
-
-    def nextCall: Future[PublishDiagnosticsParams] = {
-      if (promise.isEmpty)
-        promise = Some(Promise[PublishDiagnosticsParams]())
-      promise.get.future
-    }
-
-    override def notifyDiagnostic(params: PublishDiagnosticsParams): Unit = {
-      promise.foreach(_.success(params))
-      promise = None
-    }
-  }
-
-  def openFileNotification(server: LanguageServer)(file: String, content: String): Future[PublishDiagnosticsParams] = {
-    openFile(server)(file, content)
-    MockClientNotifier.nextCall
-  }
-
-  def focusNotification(server: LanguageServer)(file: String, version: Int): Future[PublishDiagnosticsParams] = {
-    onFocus(server)(file, version)
-    MockClientNotifier.nextCall
-  }
-
-  def changeNotification(
-      server: LanguageServer)(file: String, content: String, version: Int): Future[PublishDiagnosticsParams] = {
-    changeFile(server)(file, content, version)
-    MockClientNotifier.nextCall
-  }
 
   override def addModules(documentManager: TextDocumentManager,
                           platform: Platform,
