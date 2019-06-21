@@ -6,6 +6,8 @@ import sbt.File
 import sbt.Keys.{mainClass, packageOptions}
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
+import scala.sys.process.Process
+
 name := "api-language-server"
 
 version := deps("version")
@@ -234,6 +236,7 @@ lazy val fat = crossProject(JSPlatform, JVMPlatform).settings(
   //	packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
   //        aggregate in assembly := true,
   assemblyMergeStrategy in assembly := {
+    case x if x.toString.contains("commons/logging") => MergeStrategy.discard
     case x if x.toString.endsWith("JS_DEPENDENCIES") => MergeStrategy.discard
     case PathList(ps@_*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
     case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
