@@ -38,5 +38,4 @@ class LanguageServerImplTest extends AsyncFlatSpec with Matchers with PlatformSe
         document.version should be(0)
       })
   }
-
 }
