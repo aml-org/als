@@ -1,16 +1,16 @@
 [
   {
-    "name": "paths",
-    "kind": 8,
+    "name": "title",
+    "kind": 15,
     "deprecated": false,
     "range": {
       "start": {
-        "line": 1,
-        "character": 0
+        "line": 4,
+        "character": 9
       },
       "end": {
-        "line": 34,
-        "character": 0
+        "line": 4,
+        "character": 27
       }
     },
     "selectionRange": {
@@ -23,15 +23,67 @@
         "character": 27
       }
     },
+    "children": []
+  },
+  {
+    "name": "version",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 11
+      },
+      "end": {
+        "line": 3,
+        "character": 21
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 11
+      },
+      "end": {
+        "line": 3,
+        "character": 21
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "/pets/{id}",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 6,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 14
+      }
+    },
     "children": [
       {
-        "name": "/pets/{id}",
-        "kind": 12,
+        "name": "post",
+        "kind": 6,
         "deprecated": false,
         "range": {
           "start": {
-            "line": 6,
-            "character": 2
+            "line": 7,
+            "character": 4
           },
           "end": {
             "line": 34,
@@ -40,198 +92,93 @@
         },
         "selectionRange": {
           "start": {
-            "line": 6,
-            "character": 2
+            "line": 7,
+            "character": 4
           },
           "end": {
-            "line": 6,
-            "character": 14
+            "line": 7,
+            "character": 8
           }
         },
         "children": [
           {
-            "name": "post",
-            "kind": 6,
+            "name": "200",
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 7,
-                "character": 4
+                "line": 9,
+                "character": 8
               },
               "end": {
-                "line": 34,
+                "line": 30,
                 "character": 0
               }
             },
             "selectionRange": {
               "start": {
-                "line": 7,
-                "character": 4
+                "line": 9,
+                "character": 8
               },
               "end": {
-                "line": 7,
-                "character": 8
+                "line": 9,
+                "character": 13
               }
             },
             "children": [
               {
-                "name": "responses",
-                "kind": 6,
+                "name": "headers",
+                "kind": 18,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 7,
-                    "character": 4
+                    "line": 13,
+                    "character": 18
                   },
                   "end": {
-                    "line": 34,
+                    "line": 23,
                     "character": 0
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 7,
-                    "character": 4
+                    "line": 13,
+                    "character": 18
                   },
                   "end": {
-                    "line": 7,
-                    "character": 8
+                    "line": 23,
+                    "character": 0
                   }
                 },
                 "children": [
                   {
-                    "name": "200",
-                    "kind": 8,
+                    "name": "X-Rate-Limit-Limit",
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 9,
-                        "character": 8
+                        "line": 14,
+                        "character": 12
                       },
                       "end": {
-                        "line": 30,
+                        "line": 17,
                         "character": 0
                       }
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 9,
-                        "character": 8
+                        "line": 14,
+                        "character": 12
                       },
                       "end": {
-                        "line": 9,
-                        "character": 13
+                        "line": 14,
+                        "character": 30
                       }
                     },
                     "children": [
                       {
-                        "name": "$ref",
-                        "kind": 8,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 12,
-                            "character": 12
-                          },
-                          "end": {
-                            "line": 13,
-                            "character": 0
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 12,
-                            "character": 12
-                          },
-                          "end": {
-                            "line": 12,
-                            "character": 18
-                          }
-                        },
-                        "children": [
-                          {
-                            "name": "type",
-                            "kind": 8,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 12,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 13,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 12,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 12,
-                                "character": 18
-                              }
-                            },
-                            "children": []
-                          },
-                          {
-                            "name": "$ref",
-                            "kind": 8,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 12,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 13,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 12,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 12,
-                                "character": 18
-                              }
-                            },
-                            "children": []
-                          }
-                        ]
-                      },
-                      {
-                        "name": "application/json",
-                        "kind": 8,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 24,
-                            "character": 12
-                          },
-                          "end": {
-                            "line": 30,
-                            "character": 0
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 24,
-                            "character": 12
-                          },
-                          "end": {
-                            "line": 24,
-                            "character": 28
-                          }
-                        },
-                        "children": []
-                      },
-                      {
-                        "name": "X-Rate-Limit-Limit",
-                        "kind": 8,
+                        "name": "schema",
+                        "kind": 16,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -249,94 +196,42 @@
                             "character": 12
                           },
                           "end": {
-                            "line": 14,
-                            "character": 30
+                            "line": 17,
+                            "character": 0
                           }
                         },
-                        "children": [
-                          {
-                            "name": "type",
-                            "kind": 17,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 14,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 17,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 14,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 14,
-                                "character": 30
-                              }
-                            },
-                            "children": []
-                          },
-                          {
-                            "name": "description",
-                            "kind": 17,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 14,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 17,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 14,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 14,
-                                "character": 30
-                              }
-                            },
-                            "children": []
-                          },
-                          {
-                            "name": "name",
-                            "kind": 8,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 14,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 17,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 14,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 14,
-                                "character": 30
-                              }
-                            },
-                            "children": []
-                          }
-                        ]
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "name": "X-Rate-Limit-Remaining",
+                    "kind": 7,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 17,
+                        "character": 12
                       },
+                      "end": {
+                        "line": 20,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 17,
+                        "character": 12
+                      },
+                      "end": {
+                        "line": 17,
+                        "character": 34
+                      }
+                    },
+                    "children": [
                       {
-                        "name": "X-Rate-Limit-Remaining",
-                        "kind": 8,
+                        "name": "schema",
+                        "kind": 16,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -354,94 +249,42 @@
                             "character": 12
                           },
                           "end": {
-                            "line": 17,
-                            "character": 34
+                            "line": 20,
+                            "character": 0
                           }
                         },
-                        "children": [
-                          {
-                            "name": "type",
-                            "kind": 17,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 17,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 20,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 17,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 17,
-                                "character": 34
-                              }
-                            },
-                            "children": []
-                          },
-                          {
-                            "name": "description",
-                            "kind": 17,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 17,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 20,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 17,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 17,
-                                "character": 34
-                              }
-                            },
-                            "children": []
-                          },
-                          {
-                            "name": "name",
-                            "kind": 8,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 17,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 20,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 17,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 17,
-                                "character": 34
-                              }
-                            },
-                            "children": []
-                          }
-                        ]
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "name": "X-Rate-Limit-Reset",
+                    "kind": 7,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 20,
+                        "character": 12
                       },
+                      "end": {
+                        "line": 23,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 20,
+                        "character": 12
+                      },
+                      "end": {
+                        "line": 20,
+                        "character": 30
+                      }
+                    },
+                    "children": [
                       {
-                        "name": "X-Rate-Limit-Reset",
-                        "kind": 8,
+                        "name": "schema",
+                        "kind": 16,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -459,349 +302,8 @@
                             "character": 12
                           },
                           "end": {
-                            "line": 20,
-                            "character": 30
-                          }
-                        },
-                        "children": [
-                          {
-                            "name": "type",
-                            "kind": 17,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 20,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 23,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 20,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 20,
-                                "character": 30
-                              }
-                            },
-                            "children": []
-                          },
-                          {
-                            "name": "description",
-                            "kind": 17,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 20,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 23,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 20,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 20,
-                                "character": 30
-                              }
-                            },
-                            "children": []
-                          },
-                          {
-                            "name": "name",
-                            "kind": 8,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 20,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 23,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 20,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 20,
-                                "character": 30
-                              }
-                            },
-                            "children": []
-                          }
-                        ]
-                      },
-                      {
-                        "name": "description",
-                        "kind": 8,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 9,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 30,
+                            "line": 23,
                             "character": 0
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 9,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 9,
-                            "character": 13
-                          }
-                        },
-                        "children": []
-                      },
-                      {
-                        "name": "code",
-                        "kind": 8,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 9,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 30,
-                            "character": 0
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 9,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 9,
-                            "character": 13
-                          }
-                        },
-                        "children": []
-                      },
-                      {
-                        "name": "$ref",
-                        "kind": 8,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 9,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 30,
-                            "character": 0
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 9,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 9,
-                            "character": 13
-                          }
-                        },
-                        "children": []
-                      }
-                    ]
-                  },
-                  {
-                    "name": "default",
-                    "kind": 8,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 30,
-                        "character": 8
-                      },
-                      "end": {
-                        "line": 34,
-                        "character": 0
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 30,
-                        "character": 8
-                      },
-                      "end": {
-                        "line": 30,
-                        "character": 15
-                      }
-                    },
-                    "children": [
-                      {
-                        "name": "$ref",
-                        "kind": 8,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 33,
-                            "character": 12
-                          },
-                          "end": {
-                            "line": 34,
-                            "character": 0
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 33,
-                            "character": 12
-                          },
-                          "end": {
-                            "line": 33,
-                            "character": 18
-                          }
-                        },
-                        "children": [
-                          {
-                            "name": "type",
-                            "kind": 8,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 33,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 34,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 33,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 33,
-                                "character": 18
-                              }
-                            },
-                            "children": []
-                          },
-                          {
-                            "name": "$ref",
-                            "kind": 8,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 33,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 34,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 33,
-                                "character": 12
-                              },
-                              "end": {
-                                "line": 33,
-                                "character": 18
-                              }
-                            },
-                            "children": []
-                          }
-                        ]
-                      },
-                      {
-                        "name": "description",
-                        "kind": 8,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 30,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 34,
-                            "character": 0
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 30,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 30,
-                            "character": 15
-                          }
-                        },
-                        "children": []
-                      },
-                      {
-                        "name": "code",
-                        "kind": 8,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 30,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 34,
-                            "character": 0
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 30,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 30,
-                            "character": 15
-                          }
-                        },
-                        "children": []
-                      },
-                      {
-                        "name": "$ref",
-                        "kind": 8,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 30,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 34,
-                            "character": 0
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 30,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 30,
-                            "character": 15
                           }
                         },
                         "children": []
@@ -811,27 +313,53 @@
                 ]
               },
               {
-                "name": "method",
-                "kind": 6,
+                "name": "default",
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 7,
-                    "character": 4
+                    "line": 12,
+                    "character": 12
                   },
                   "end": {
-                    "line": 34,
+                    "line": 13,
                     "character": 0
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 7,
-                    "character": 4
+                    "line": 12,
+                    "character": 12
                   },
                   "end": {
-                    "line": 7,
-                    "character": 8
+                    "line": 13,
+                    "character": 0
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "application/json",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 24,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 30,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 24,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 24,
+                    "character": 28
                   }
                 },
                 "children": []
@@ -839,13 +367,13 @@
             ]
           },
           {
-            "name": "path",
-            "kind": 12,
+            "name": "default",
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 6,
-                "character": 2
+                "line": 30,
+                "character": 8
               },
               "end": {
                 "line": 34,
@@ -854,96 +382,44 @@
             },
             "selectionRange": {
               "start": {
-                "line": 6,
-                "character": 2
+                "line": 30,
+                "character": 8
               },
               "end": {
-                "line": 6,
-                "character": 14
+                "line": 30,
+                "character": 15
               }
             },
-            "children": []
+            "children": [
+              {
+                "name": "default",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 33,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 34,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 33,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 34,
+                    "character": 0
+                  }
+                },
+                "children": []
+              }
+            ]
           }
         ]
-      }
-    ]
-  },
-  {
-    "name": "info",
-    "kind": 8,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 1,
-        "character": 0
-      },
-      "end": {
-        "line": 34,
-        "character": 0
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 4,
-        "character": 9
-      },
-      "end": {
-        "line": 4,
-        "character": 27
-      }
-    },
-    "children": [
-      {
-        "name": "title",
-        "kind": 8,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 1,
-            "character": 0
-          },
-          "end": {
-            "line": 34,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 4,
-            "character": 9
-          },
-          "end": {
-            "line": 4,
-            "character": 27
-          }
-        },
-        "children": []
-      },
-      {
-        "name": "version",
-        "kind": 8,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 1,
-            "character": 0
-          },
-          "end": {
-            "line": 34,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 4,
-            "character": 9
-          },
-          "end": {
-            "line": 4,
-            "character": 27
-          }
-        },
-        "children": []
       }
     ]
   }

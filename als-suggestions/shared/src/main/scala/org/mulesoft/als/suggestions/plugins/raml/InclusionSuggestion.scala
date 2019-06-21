@@ -17,7 +17,6 @@ trait InclusionSuggestion extends ICompletionPlugin {
   protected val description: String
 
   override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
-
     val baseDir = request.astNode.get.astUnit.project.rootPath
 
     val relativePath = request.prefix.replace("!include", "").trim
@@ -58,7 +57,6 @@ trait InclusionSuggestion extends ICompletionPlugin {
   protected def decorate(path: String, prefix: String): String = path
 
   override def isApplicable(request: ICompletionRequest): Boolean = request.config.astProvider match {
-
     case Some(astProvider) =>
       languages.indexOf(astProvider.language) >= 0 && isRightTypeInclusion(request)
 

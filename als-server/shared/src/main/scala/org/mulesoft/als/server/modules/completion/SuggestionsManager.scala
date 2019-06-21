@@ -27,7 +27,8 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                          private val platform: Platform,
                          private val logger: Logger)
     extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
-  override val `type`: ConfigType[CompletionClientCapabilities, CompletionOptions] = CompletionConfigType
+  override val `type`: ConfigType[CompletionClientCapabilities, CompletionOptions] =
+    CompletionConfigType
 
   def completionItem(suggestion: Suggestion): CompletionItem = {
     suggestion.range match {
@@ -51,7 +52,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
       override def `type`: CompletionRequestType.type = CompletionRequestType
 
       override def apply(params: CompletionParams): Future[Either[Seq[CompletionItem], CompletionList]] = {
-        onDocumentCompletion(platform.decodeURI(params.textDocument.uri), LspConverter.toPosition(params.position))
+        onDocumentCompletion(params.textDocument.uri, LspConverter.toPosition(params.position))
           .map(_.map(completionItem))
           .map(Left.apply)
       }
@@ -67,7 +68,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
     suggestions.Core.init()
 
   protected def onDocumentCompletion(uri: String, position: Position): Future[Seq[Suggestion]] = {
-    val refinedUri = platform.decodeURI(platform.resolvePath(platform.encodeURI(uri)))
+    val refinedUri = platform.decodeURI(platform.resolvePath(uri))
 
     logger.debug(s"Calling for completion for uri $uri and position $position",
                  "SuggestionsManager",
@@ -96,7 +97,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                 val endTime = System.currentTimeMillis()
 
                 this.logger.debugDetail(s"It took ${endTime - startTime} milliseconds to complete",
-                                        "ASTMaSuggestionsManagernager",
+                                        "ASTSuggestionsManager",
                                         "onDocumentCompletion")
                 result
               })
@@ -119,9 +120,11 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
 
         val baseName = refinedUri.substring(refinedUri.lastIndexOf('/') + 1)
 
-        val astProvider = new ASTProvider(hlAST.rootASTUnit.rootNode, vendor, syntax, position)
+        val astProvider =
+          new ASTProvider(hlAST.rootASTUnit.rootNode, vendor, syntax, position)
 
-        val editorStateProvider = new EditorStateProvider(text, refinedUri, baseName, position)
+        val editorStateProvider =
+          new EditorStateProvider(text, refinedUri, baseName, position)
 
         val completionConfig = new CompletionConfig(directoryResolver, platform)
           .withEditorStateProvider(editorStateProvider)

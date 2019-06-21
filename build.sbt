@@ -6,12 +6,11 @@ import sbt.File
 import sbt.Keys.{mainClass, packageOptions}
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
-
 name := "api-language-server"
 
 version := deps("version")
 
-scalaVersion := "2.12.6"
+scalaVersion := "2.12.8"
 
 jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
 
@@ -23,7 +22,7 @@ lazy val workspaceDirectory: File =
     case _       => Path.userHome / "mulesoft"
   }
 
-val amfVersion = "3.2.1-1"
+val amfVersion = deps("amf")
 
 lazy val amfJVMRef = ProjectRef(workspaceDirectory / "amf", "clientJVM")
 lazy val amfJSRef = ProjectRef(workspaceDirectory / "amf", "clientJS")
@@ -128,10 +127,8 @@ lazy val structureJVM = structure.jvm.in(file("./als-structure/jvm"))
 lazy val structureJS = structure.js.in(file("./als-structure/js"))
 
 lazy val server = crossProject(JSPlatform, JVMPlatform)
-  .settings(Seq(
-    name := "als-server",
-    libraryDependencies += "org.wvlet.airframe" %% "airframe" % "19.3.7"
-  ))
+  .settings(name := "als-server")
+  .settings(libraryDependencies += "org.wvlet.airframe" %% "airframe" % "19.3.7")
   .dependsOn(suggestions, structure % "compile->compile;test->test")
   .in(file("./als-server"))
   .settings(settings: _*)

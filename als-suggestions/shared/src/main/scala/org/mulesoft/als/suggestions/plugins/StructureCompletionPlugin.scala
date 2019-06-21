@@ -37,8 +37,8 @@ class StructureCompletionPlugin extends ICompletionPlugin {
       case Some(astProvider) =>
         if (request.astNode.isEmpty || request.astNode.get == null)
           false
-        else if (AnnotationReferencesCompletionPlugin().isApplicable(request) || ExampleStructureCompletionPlugin()
-                   .isApplicable(request))
+        else if (AnnotationReferencesCompletionPlugin().isApplicable(request) ||
+                 ExampleStructureCompletionPlugin().isApplicable(request))
           false
         else if (languages.indexOf(astProvider.language) < 0)
           false
@@ -129,8 +129,7 @@ class StructureCompletionPlugin extends ICompletionPlugin {
   def isBody(node: IParseResult): Boolean =
     node.property
       .flatMap(_.nameId)
-      .map("body".equals)
-      .getOrElse(false)
+      .exists("body".equals)
 
   def isDiscriminatorValue(request: ICompletionRequest): Boolean =
     !(request.astNode.exists(_.property.isEmpty) || request.astNode.flatMap(_.property).contains(null)) &&

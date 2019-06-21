@@ -13,11 +13,9 @@ case class ClientConnection(logger: Logger) extends LanguageClientAware with Cli
     client.publishDiagnostic(params)
   }
 
-  private def applyToClient(fn: LanguageClient => Unit): Unit = {
-    if (clientProxy.isEmpty) {
+  private def applyToClient(fn: LanguageClient => Unit): Unit =
+    if (clientProxy.isEmpty)
       logger.warning("Client not connect", "ClientConnection", "applyToClient")
-    } else {
+    else
       fn(clientProxy.get)
-    }
-  }
 }

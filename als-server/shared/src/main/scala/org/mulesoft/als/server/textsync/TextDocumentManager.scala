@@ -4,6 +4,9 @@ import amf.core.remote._
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
+import java.net.URI
+
+import org.mulesoft.als.common.FileUtils
 
 import scala.collection.mutable
 import scala.concurrent.Future
@@ -12,7 +15,8 @@ import scala.language.experimental.macros
 class TextDocumentManager(private val platform: Platform, private val logger: Logger)
     extends TextDocumentSyncConsumer {
 
-  override val `type`: TextDocumentSyncConfigType.type = TextDocumentSyncConfigType
+  override val `type`: TextDocumentSyncConfigType.type =
+    TextDocumentSyncConfigType
 
   override def applyConfig(
       config: Option[SynchronizationClientCapabilities]): Either[TextDocumentSyncKind, TextDocumentSyncOptions] = {
@@ -26,9 +30,35 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
       ))
   }
 
-  var uriToEditor: mutable.Map[String, TextDocument] = mutable.HashMap()
+  case class UriToEditor() {
 
-  var documentChangeListeners: mutable.Set[ChangedDocument => Unit] = mutable.Set()
+    private val uriToEditor: mutable.Map[String, TextDocument] = mutable.Map()
+
+    def +(tuple: (String, TextDocument)): UriToEditor = {
+      uriToEditor.put(FileUtils.getPath(tuple._1, platform), tuple._2)
+      this
+    }
+
+    def get(iri: String): Option[TextDocument] =
+      uriToEditor.get(FileUtils.getPath(iri, platform))
+
+    def uris: Set[String] = uriToEditor.keys.toSet
+
+    def remove(iri: String): Unit = {
+      val path = FileUtils.getPath(iri, platform)
+      if (uriToEditor.contains(path))
+        uriToEditor.remove(path)
+    }
+
+    def versionOf(iri: String) = get(iri).map(_.version)
+  }
+
+  def versionOf(iri: String): Int = uriToEditor.versionOf(iri).getOrElse(0)
+
+  private val uriToEditor = UriToEditor()
+
+  var documentChangeListeners: mutable.Set[ChangedDocument => Unit] =
+    mutable.Set()
 
   var documentOpenListeners: mutable.Set[OpenedDocument => Unit] = mutable.Set()
 
@@ -39,17 +69,20 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
   override def initialize(): Future[Unit] = Future.successful()
 
   def onChangeDocument(listener: ChangedDocument => Unit, unsubscribe: Boolean = false): Unit =
-    if (unsubscribe) documentChangeListeners.remove(listener) else documentChangeListeners.add(listener)
+    if (unsubscribe) documentChangeListeners.remove(listener)
+    else documentChangeListeners.add(listener)
 
   def onOpenedDocument(listener: OpenedDocument => Unit, unsubscribe: Boolean = false): Unit =
-    if (unsubscribe) documentOpenListeners.remove(listener) else documentOpenListeners.add(listener)
+    if (unsubscribe) documentOpenListeners.remove(listener)
+    else documentOpenListeners.add(listener)
 
   def onClosedDocument(listener: String => Unit, unsubscribe: Boolean = false): Unit =
-    if (unsubscribe) documentCloseListeners.remove(listener) else documentCloseListeners.add(listener)
+    if (unsubscribe) documentCloseListeners.remove(listener)
+    else documentCloseListeners.add(listener)
 
   def getTextDocument(uri: String): Option[TextDocument] = {
     logger.debugDetail(s"Asked for uri $uri, while having following editors registered: " +
-                         this.uriToEditor.keys.mkString(","),
+                         this.uriToEditor.uris.mkString(","),
                        "EditorManager",
                        "getTextDocument")
 
@@ -86,8 +119,8 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
     val language = determineLanguage(document.uri, document.text)
     val syntax   = determineSyntax(document.uri, document.text)
 
-    this.uriToEditor(document.uri) =
-      new TextDocument(document.uri, document.version, document.text, language, syntax, logger)
+    this.uriToEditor + (document.uri,
+    new TextDocument(document.uri, document.version, document.text, language, syntax, logger))
 
     this.documentChangeListeners.foreach { listener =>
       listener(ChangedDocument(document.uri, document.version, Some(document.text), None))
@@ -134,8 +167,8 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
     val language = this.determineLanguage(document.uri, document.text.get)
     val syntax   = this.determineSyntax(document.uri, document.text.get)
 
-    uriToEditor(document.uri) =
-      new TextDocument(document.uri, document.version, document.text.get, language, syntax, logger)
+    uriToEditor + (document.uri,
+    new TextDocument(document.uri, document.version, document.text.get, language, syntax, logger))
 
     documentChangeListeners.foreach(listener => listener(document))
   }
@@ -153,44 +186,38 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
   def determineLanguage(url: String, text: String): String = {
 
     if (url.endsWith(".raml")) {
-      if (text.startsWith("#%RAML 1.0")) {
+      if (text.startsWith("#%RAML 1.0"))
         Raml10.toString
-      } else {
+      else
         Raml08.toString
-      }
-    } else if ((url.endsWith(".yaml") || url.endsWith(".yml")) && text.startsWith("#%")) {
+    } else if ((url.endsWith(".yaml") || url.endsWith(".yml")) && text
+                 .startsWith("#%"))
       Aml.toString
-    } else {
+    else
       Oas20.toString
-    }
   }
 
   def determineSyntax(url: String, text: String): String =
     if (text.trim.startsWith("{")) "JSON" else "YAML"
 
   override def didOpen(params: DidOpenTextDocumentParams): Unit =
-    onOpenDocument(
-      OpenedDocument(platform.decodeURI(params.textDocument.uri),
-                     params.textDocument.version,
-                     params.textDocument.text))
+    onOpenDocument(OpenedDocument(params.textDocument.uri, params.textDocument.version, params.textDocument.text))
 
   override def didChange(params: DidChangeTextDocumentParams): Unit = {
     val document = params.textDocument
     val version  = document.version.getOrElse(0)
     val text     = params.contentChanges.headOption.map(_.text)
 
-    documentWasChanged(ChangedDocument(platform.decodeURI(document.uri), version, text, None))
+    documentWasChanged(ChangedDocument(document.uri, version, text, None))
   }
 
   override def didClose(params: DidCloseTextDocumentParams): Unit =
-    onCloseDocument(platform.decodeURI(params.textDocument.uri))
+    onCloseDocument(params.textDocument.uri)
 
-  override def didFocus(params: DidFocusParams): Unit = {
-    val decodedUri = platform.decodeURI(params.uri)
-    getTextDocument(decodedUri)
-      .map(
+  override def didFocus(params: DidFocusParams): Unit =
+    getTextDocument(params.uri)
+      .foreach(
         td =>
           documentChangeListeners
-            .foreach(listener => listener(ChangedDocument(decodedUri, params.version, Option(td.text), None))))
-  }
+            .foreach(listener => listener(ChangedDocument(params.uri, params.version, Option(td.text), None))))
 }

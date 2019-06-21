@@ -2,16 +2,18 @@ package org.mulesoft.als.server.modules.ast
 
 import java.io.{PrintWriter, StringWriter}
 
+import amf.client.remote.Content
 import amf.core.AMF
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
+import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.features.validation.AMFValidatorPlugin
-import org.mulesoft.als.common.EnvironmentPatcher
+import org.mulesoft.als.common.{EnvironmentPatcher, FileUtils}
 import org.mulesoft.als.server.Initializable
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
@@ -31,9 +33,6 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
                  private val logger: Logger)
     extends Initializable {
 
-  private val serverEnvironment = Environment()
-    .withLoaders(TextDocumentLoader(textDocumentManager) +: baseEnvironment.loaders)
-
   /**
     * Current AST listeners
     */
@@ -42,7 +41,9 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
   /**
     * Map from uri to AST
     */
-  var currentASTs: mutable.Map[String, BaseUnit] = mutable.HashMap()
+  val currentASTs: mutable.Map[String, BaseUnit] = mutable.HashMap()
+
+  val fileDependencies = new FileDependencies()
 
   private var initialized: Option[Future[Unit]] = None
 
@@ -77,7 +78,8 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     AMF.init()
   }
 
-  def getCurrentAST(uri: String): Option[BaseUnit] = None // this.currentASTs.get(uri)
+  def getCurrentAST(uri: String): Option[BaseUnit] =
+    None // this.currentASTs.get(uri)
 
   def forceGetCurrentAST(uri: String): Future[BaseUnit] = {
     val editorOption = textDocumentManager.getTextDocument(uri)
@@ -135,7 +137,8 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
   }
 
   def addListener[T](memberListeners: mutable.Set[T], listener: T, unsubscribe: Boolean = false): Unit =
-    if (unsubscribe) memberListeners.remove(listener) else memberListeners.add(listener)
+    if (unsubscribe) memberListeners.remove(listener)
+    else memberListeners.add(listener)
 
   /**
     * Gets current AST if there is any.
@@ -146,14 +149,17 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     parseWithContentSubstitution(uri, text)
 
   def parse(uri: String): Future[BaseUnit] = {
-    val protocolUri = platform.decodeURI(platform.resolvePath(platform.encodeURI(uri)))
-    val language    = textDocumentManager.getTextDocument(protocolUri).map(_.language).getOrElse("OAS 2.0")
+    val amfURI = FileUtils.getDecodedUri(uri, platform)
+    val language = textDocumentManager
+      .getTextDocument(uri)
+      .map(_.language)
+      .getOrElse("OAS 2.0")
 
-    logger.debugDetail(s"Protocol uri is $protocolUri", "ASTManager", "parse")
+    logger.debugDetail(s"Protocol uri is $amfURI", "ASTManager", "parse")
 
     val config = new ParserConfig(
       Some(ParserConfig.PARSE),
-      Some(protocolUri),
+      Some(amfURI),
       Some(language),
       Some("application/yaml"),
       None,
@@ -165,7 +171,7 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
 
     val helper = ParserHelper(platform)
 
-    helper.parse(config, serverEnvironment).map { result =>
+    helper.parse(config, envForValidation(uri)).map { result =>
       val endTime = System.currentTimeMillis()
       logger.debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast", "ASTManager", "parse")
       result
@@ -173,15 +179,17 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
   }
 
   def parseWithContentSubstitution(uri: String, content: String): Future[BaseUnit] = {
-    val protocolUri = platform.decodeURI(platform.resolvePath(platform.encodeURI(uri)))
+    val patchedEnvironment =
+      EnvironmentPatcher.patch(serverEnvironment, FileUtils.getEncodedUri(uri, platform), content)
 
-    val patchedEnvironment = EnvironmentPatcher.patch(serverEnvironment, uri, content)
-
-    val language = textDocumentManager.getTextDocument(protocolUri).map(_.language).getOrElse("OAS 2.0")
+    val language = textDocumentManager
+      .getTextDocument(uri)
+      .map(_.language)
+      .getOrElse("OAS 2.0")
 
     val cfg = new ParserConfig(
       Some(ParserConfig.PARSE),
-      Some(protocolUri),
+      Some(FileUtils.getDecodedUri(uri, platform)),
       Some(language),
       Some("application/yaml"),
       None,
@@ -201,4 +209,39 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
         result
       }
   }
+
+  private val serverEnvironment = Environment()
+    .withLoaders(TextDocumentLoader(textDocumentManager) +: baseEnvironment.loaders)
+
+  private def envForValidation(root: String) = {
+    val wrapperLoader = new ResourceLoader {
+      override def fetch(resource: String): Future[Content] = {
+        platform
+          .resolve(resource, serverEnvironment)
+          .map(c => {
+            fileDependencies.addDependencie(root, resource)
+            c
+          })
+      }
+
+      override def accepts(resource: String): Boolean = serverEnvironment.loaders.exists(_.accepts(resource))
+    }
+
+    Environment()
+      .withLoaders(Seq(wrapperLoader))
+  }
+}
+
+class FileDependencies() {
+  private val map: mutable.Map[String, Set[String]] = mutable.Map()
+
+  def addDependencie(root: String, dependency: String): Unit = {
+    if (FileUtils.getWithProtocol(root) != dependency)
+      map.get(root) match {
+        case Some(set: Set[String]) => map.update(root, set + dependency)
+        case _                      => map.put(root, Set(dependency))
+      }
+  }
+
+  def dependenciesFor(root: String): Set[String] = map.getOrElse(root, Set.empty)
 }

@@ -37,7 +37,7 @@ nodeMappings:
         propertyTerm: oas.topics
         range: TopicItemObject
         mandatory: true
-        mapKey: async.topicTemplate
+        mapKey: template
       security:
         propertyTerm: oas.securityRequirements
         range: SecurityRequirementObject
@@ -49,8 +49,8 @@ nodeMappings:
       simpleMap:
         propertyTerm: async.mapProperty
         range: MapEntry
-        mapKey: async.keyString
-        mapValue: async.valueString
+        mapKey: key
+        mapValue: value
 
   InfoObject:
     classTerm: schema-org.CreativeWork
@@ -121,7 +121,7 @@ nodeMappings:
       variables:
         propertyTerm: oas.templateVars
         range: TemplateVariableObject
-        mapKey: schema-org.name
+        mapKey: name
 
   TemplateVariableObject:
     classTerm: oas.TemplateVariable
@@ -181,8 +181,8 @@ nodeMappings:
       simpleMap:
         propertyTerm: async.mapProperty
         range: MapEntry
-        mapKey: async.keyString
-        mapValue: async.valueString
+        mapKey: key
+        mapValue: value
 
   # Temporary
   SchemaObject:
@@ -261,11 +261,11 @@ nodeMappings:
       properties:
         propertyTerm: json-schema.properties
         range: SchemaObject
-        mapKey: json-schema.propertyKey
+        mapKey: key
       patternProperties:
         propertyTerm: json-schema.patternProperties
         range: SchemaObject
-        mapKey: json-schema.propertyKey
+        mapKey: key
       key:
         propertyTerm: json-schema.propertyKey
         range: string
@@ -359,6 +359,7 @@ nodeMappings:
         range: boolean
 
   MapEntry:
+    classTerm: async.StringMapEntry
     mapping:
       key:
         propertyTerm: async.keyString

@@ -30,9 +30,7 @@ class RenameModule(private val hlAstManager: HlAstManager, private val logger: L
       override def `type`: RenameRequestType.type = RenameRequestType
 
       override def apply(params: RenameParams): Future[WorkspaceEdit] =
-        findTargets(platform.decodeURI(params.textDocument.uri),
-                    LspConverter.toPosition(params.position),
-                    params.newName)
+        findTargets(params.textDocument.uri, LspConverter.toPosition(params.position), params.newName)
           .map(LspConverter.toWorkspaceEdit)
     }
   )

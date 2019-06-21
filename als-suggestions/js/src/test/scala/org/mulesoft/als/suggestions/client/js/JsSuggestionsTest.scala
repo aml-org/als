@@ -11,21 +11,20 @@ import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 
 class JsSuggestionsTest extends AsyncFunSuite with Matchers {
-  override implicit val executionContext: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext =
+    scala.concurrent.ExecutionContext.Implicits.global
 
   test("Basic suggestion on file") {
     val fileContent =
-      """#%RAML 1.0
-        |title: Project 2
-        |
-      """.stripMargin
+      "#%RAML 1.0\ntitle: Project 2\n\n"
 
     val fileLoader = js
       .use(new ResourceLoader {
         override def fetch(resource: String): js.Promise[Content] =
           js.Promise.resolve[Content](new Content(fileContent, resource))
 
-        override def accepts(resource: String): Boolean = resource == "file:///api.raml"
+        override def accepts(resource: String): Boolean =
+          resource == "file:///api.raml"
       })
       .as[ClientResourceLoader]
 
@@ -42,17 +41,15 @@ class JsSuggestionsTest extends AsyncFunSuite with Matchers {
 
   test("Basic suggestion on file root") {
     val fileContent =
-      """#%RAML 1.0
-        |title: Project 2
-        |
-      """.stripMargin
+      "#%RAML 1.0\ntitle: Project 2\n\n"
 
     val fileLoader = js
       .use(new ResourceLoader {
         override def fetch(resource: String): js.Promise[Content] =
           js.Promise.resolve[Content](new Content(fileContent, resource))
 
-        override def accepts(resource: String): Boolean = resource == "file:///api.raml"
+        override def accepts(resource: String): Boolean =
+          resource == "file:///api.raml"
       })
       .as[ClientResourceLoader]
 
@@ -68,13 +65,14 @@ class JsSuggestionsTest extends AsyncFunSuite with Matchers {
   }
 
   test("Custom Directory Resolver") {
-    val api = "#%RAML 1.0\ntitle: Project 2\ntraits:\n  t: !include  \ntypes:\n  a: string"
+    val api =
+      "#%RAML 1.0\ntitle: Project 2\ntraits:\n  t: !include  \ntypes:\n  a: string"
 
     val fragment =
       """#%RAML 1.0 Trait
         |responses:
         | 200:
-      """.stripMargin
+      """.stripMargin.replace("\r\n", "\n")
 
     val fileLoader = js
       .use(new ResourceLoader {
@@ -96,7 +94,9 @@ class JsSuggestionsTest extends AsyncFunSuite with Matchers {
           Future(Seq("/api.raml", "fragment.raml", "another.raml").contains(path)).toJSPromise
 
         override def readDir(path: String): js.Promise[js.Array[String]] =
-          Future(Seq("/fragment.raml", "/another.raml")).map(_.toJSArray).toJSPromise
+          Future(Seq("/fragment.raml", "/another.raml"))
+            .map(_.toJSArray)
+            .toJSPromise
 
         override def isDirectory(path: String): js.Promise[Boolean] =
           Future(path endsWith "dir/").toJSPromise

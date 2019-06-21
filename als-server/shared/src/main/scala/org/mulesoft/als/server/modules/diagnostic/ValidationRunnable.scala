@@ -6,13 +6,14 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success}
 
-class ValidationRunnable(var uri: String, task: () => Future[ValidationReport]) extends Runnable[ValidationReport] {
+class ValidationRunnable(var uri: String, task: () => Future[Seq[ValidationReport]])
+    extends Runnable[Seq[ValidationReport]] {
   private var canceled = false
 
   private val kind = "ValidationRunnable"
 
-  def run(): Promise[ValidationReport] = {
-    val promise = Promise[ValidationReport]()
+  def run(): Promise[Seq[ValidationReport]] = {
+    val promise = Promise[Seq[ValidationReport]]()
 
     task() andThen {
       case Success(report) => promise.success(report)
