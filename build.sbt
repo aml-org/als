@@ -8,11 +8,12 @@ import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 import scala.sys.process.Process
 
+import scala.language.postfixOps
+import scala.sys.process._
+
 name := "api-language-server"
 
 version := deps("version")
-
-scalaVersion := "2.12.8"
 
 jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
 
@@ -165,7 +166,7 @@ val buildJS = TaskKey[Unit]("buildJS", "Build npm module")
 
 buildJS := {
   val _ = (fullOptJS in Compile in serverJS).value
-  "./als-server/js/build-scripts/buildJs.sh".!
+  "./als-server/js/build-scripts/buildJs.sh" !
 }
 
 mainClass in Compile := Some("org.mulesoft.als.server.lsp4j.Main")
@@ -178,7 +179,7 @@ buildSuggestionsJS := {
   Process(
     "./build-package.sh",
     new File("./als-suggestions/js/node-package/")
-  ).!
+  ) !
 }
 
 // ************** SONAR *******************************
@@ -240,9 +241,7 @@ lazy val fat = crossProject(JSPlatform, JVMPlatform).settings(
     case x if x.toString.endsWith("JS_DEPENDENCIES") => MergeStrategy.discard
     case PathList(ps@_*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
     case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
-    case x =>
-      val oldStrategy = (assemblyMergeStrategy in assembly).value
-      oldStrategy(x)
+    case x => MergeStrategy.first
   },
   assemblyJarName in assembly := "server.jar",
   addArtifact(Artifact("api-language-server", ""), sbtassembly.AssemblyKeys.assembly)
