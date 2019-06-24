@@ -233,18 +233,22 @@ lazy val fat = crossProject(JSPlatform, JVMPlatform).settings(
   )
 )
   .dependsOn(suggestions, structure , hl , server)
+  .enablePlugins(AssemblyPlugin)
   .in(file("./als-fat")).settings(settings: _*).jvmSettings(
-  //	packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
-  //        aggregate in assembly := true,
-  assemblyMergeStrategy in assembly := {
-    case x if x.toString.contains("commons/logging") => MergeStrategy.discard
-    case x if x.toString.endsWith("JS_DEPENDENCIES") => MergeStrategy.discard
-    case PathList(ps@_*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
-    case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
-    case x => MergeStrategy.first
-  },
-  assemblyJarName in assembly := "server.jar",
-  addArtifact(Artifact("api-language-server", ""), sbtassembly.AssemblyKeys.assembly)
+  	packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
+      aggregate in assembly := true,
+    artifact in (Compile, assembly) := {
+      val art = (artifact in (Compile, assembly)).value
+      art.withClassifier(Some("assembly"))
+    },
+     addArtifact(artifact in (Compile, assembly), assembly),
+    assemblyMergeStrategy in assembly := {
+      case x if x.toString.contains("commons/logging") => MergeStrategy.discard
+      case x if x.toString.endsWith("JS_DEPENDENCIES") => MergeStrategy.discard
+      case PathList(ps@_*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
+      case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
+      case x => MergeStrategy.first
+    },
 ).jsSettings(
   libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
   libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
