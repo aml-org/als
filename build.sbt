@@ -237,11 +237,8 @@ lazy val fat = crossProject(JSPlatform, JVMPlatform).settings(
   .in(file("./als-fat")).settings(settings: _*).jvmSettings(
   	packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
       aggregate in assembly := true,
-    artifact in (Compile, assembly) := {
-      val art = (artifact in (Compile, assembly)).value
-      art.withClassifier(Some("assembly"))
-    },
-     addArtifact(artifact in (Compile, assembly), assembly),
+    publishArtifact in (Compile, packageBin) := false,
+    addArtifact(Artifact("api-language-server", ""), assembly),
     assemblyMergeStrategy in assembly := {
       case x if x.toString.contains("commons/logging") => MergeStrategy.discard
       case x if x.toString.endsWith("JS_DEPENDENCIES") => MergeStrategy.discard

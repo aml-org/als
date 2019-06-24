@@ -21,7 +21,8 @@ object Common {
     publishTo := Some(if (isSnapshot.value) snapshots else releases),
     publishConfiguration ~= { config =>
       val newArts = config.artifacts.filter(_._1.`type` != Artifact.SourceType)
-      config.withArtifacts(newArts).withOverwrite(true)
+      config.withOverwrite(true)
+      config
     }
   )
 
