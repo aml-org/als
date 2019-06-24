@@ -1,5 +1,5 @@
 import sbt.Keys.{scalacOptions, _}
-import sbt.{Def, _}
+import sbt.{Def, config, _}
 
 object Common {
 
@@ -18,7 +18,11 @@ object Common {
   )
 
   val publish: Seq[Def.Setting[_]] = Seq(
-    publishTo := Some(if (isSnapshot.value) snapshots else releases)
+    publishTo := Some(if (isSnapshot.value) snapshots else releases),
+    publishConfiguration ~= { config =>
+      val newArts = config.artifacts.filter(_._1.`type` != Artifact.SourceType)
+      config.withArtifacts(newArts).withOverwrite(true)
+    }
   )
 
   def credentials(): Seq[Credentials] = {
