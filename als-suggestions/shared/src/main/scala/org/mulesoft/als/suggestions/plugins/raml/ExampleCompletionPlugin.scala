@@ -83,13 +83,14 @@ class ExampleCompletionPlugin extends ICompletionPlugin with ExampleCompletionTo
   def findLocationInParsedScalar(request: ICompletionRequest, parsedScalar: YNode): Option[YamlLocation] =
     extractScalarNode(request) match {
       case Some(node) =>
-        Some(YamlSearch
-          .getLocation(relativePosition(request), parsedScalar, PositionsMapper("").withText(node.text), List(), true))
-
-      case _ => Option.empty;
+        relativePosition(request).map(
+          pos =>
+            YamlSearch
+              .getLocation(pos, parsedScalar, PositionsMapper("").withText(node.text), List(), true))
+      case _ => None
     }
 
-  def relativePosition(request: ICompletionRequest): Int = {
+  def relativePosition(request: ICompletionRequest): Option[Int] = {
     var scalarPosition = request.yamlLocation.get.value.get.range.start.position
 
     var text = getContent(request)
@@ -116,14 +117,19 @@ class ExampleCompletionPlugin extends ICompletionPlugin with ExampleCompletionTo
       .mkString + actualLeftPart
 
     indentedPosition = indentedPosition + firstIndent
+    // if i'm at the first line of a multiline with pipe is not part of the json, so it should not have position inside it
+    if (indentedPosition >= 0) {
 
-    actualLeftPart = actualLeftPart.substring(0, indentedPosition) + positionMarker + actualLeftPart
-      .substring(indentedPosition)
+      actualLeftPart = actualLeftPart.substring(0, indentedPosition) + positionMarker + actualLeftPart
+        .substring(indentedPosition)
 
-    val notIndentedLeftPart =
-      actualLeftPart.linesIterator.map(_.drop(firstIndent) + "\n").mkString
+      val notIndentedLeftPart =
+        actualLeftPart.linesIterator.map(_.drop(firstIndent) + "\n").mkString
 
-    notIndentedLeftPart.indexOf(positionMarker)
+      val indexOf = notIndentedLeftPart.indexOf(positionMarker)
+
+      if (indexOf < 0) None else Some(indexOf)
+    } else None
   }
 
   def getContent(request: ICompletionRequest): String = {
