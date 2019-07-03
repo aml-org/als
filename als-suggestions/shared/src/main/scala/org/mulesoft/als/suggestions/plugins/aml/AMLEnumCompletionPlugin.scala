@@ -2,21 +2,32 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.annotations.SourceAST
 import amf.core.model.document.Document
-import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{AmfUtils, YamlUtils}
 import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlugin, RawSuggestion}
 import org.mulesoft.lsp.edit.TextEdit
+import org.yaml.model.YPart
 
 import scala.concurrent.Future
 
-class AMLEnumCompletions(params: CompletionParams) extends AMLSuggestionsHelper {
+class AMLEnumCompletions(params: CompletionParams, ast: Option[YPart]) extends AMLSuggestionsHelper {
   private def getSuggestions: Seq[String] =
     AmfUtils
       .getFieldEntryByPosition(params.currentBaseUnit, params.position.moveLine(1))
       .flatMap(e => {
         params.propertyMappings
-          .find(pm => pm.fields.fields().exists(f => f.value.toString == e.field.value.iri()))
-          .map(_.enum().flatMap(_.option().map(_.toString)))
+          .find(
+            pm =>
+              pm.fields
+                .fields()
+                .exists(f => f.value.toString == e.field.value.iri()))
+          .map(pm =>
+            pm.enum()
+              .flatMap(_.option().map(e => {
+                if (pm.allowMultiple().value() && params.prefix.isEmpty && !YamlUtils
+                      .isArray(ast, params.position.moveLine(1)))
+                  s"\n${getIndentation(params.currentBaseUnit, params.position)}- ${e.toString}"
+                else e.toString
+              })))
       })
       .getOrElse(Nil)
 
@@ -42,12 +53,13 @@ object AMLEnumCompletionPlugin extends CompletionPlugin {
 
   override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] = {
     val ast = params.currentBaseUnit match {
-      case d: Document => d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)
-      case bu          => bu.annotations.find(classOf[SourceAST]).map(_.ast)
+      case d: Document =>
+        d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)
+      case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
     }
-    val amfPosition = Position(params.position.line + 1, params.position.column)
-    if (!YamlUtils.isKey(ast, amfPosition))
-      new AMLEnumCompletions(params).resolve()
+
+    if (!YamlUtils.isKey(ast, params.position.moveLine(1)))
+      new AMLEnumCompletions(params, ast).resolve()
     else Future.successful(Seq())
   }
 }
