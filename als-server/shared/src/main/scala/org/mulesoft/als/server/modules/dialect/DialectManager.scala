@@ -9,11 +9,11 @@ import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.features.validation.AMFValidatorPlugin
 import org.mulesoft.als.common.EnvironmentPatcher
-import org.mulesoft.als.server.Initializable
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.dialect.dialects.AsyncAPI
 import org.mulesoft.high.level.amfmanager.ParserHelper
+import org.mulesoft.lsp.Initializable
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

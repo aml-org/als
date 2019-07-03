@@ -1,4 +1,4 @@
-package org.mulesoft.als.server
+package org.mulesoft.lsp
 
 import scala.concurrent.Future
 
