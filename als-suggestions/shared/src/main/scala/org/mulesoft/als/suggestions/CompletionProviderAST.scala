@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions
 
 import amf.core.annotations.SourceAST
 import amf.core.model.document.BaseUnit
-import amf.core.model.domain.AmfObject
+import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.common.YamlUtils
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.interfaces._
@@ -38,10 +38,10 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
       getPrefix(request.baseUnit.annotations.find(classOf[SourceAST]).map(sAST => sAST.ast), request.position)
     CompletionPluginsRegistryAML
       .pluginSuggestions(new CompletionParams {
-        override val currentBaseUnit: BaseUnit = request.baseUnit
-        override val node: AmfObject           = request.selectedNode
-        override val position: Position        = request.position
-        override val prefix: String            = linePrefix
+        override val currentBaseUnit: BaseUnit              = request.baseUnit
+        override val position: Position                     = request.position
+        override val prefix: String                         = linePrefix
+        override val propertyMappings: Seq[PropertyMapping] = request.propertyMapping
       })
       .map(suggestions => {
         filteredSuggestions(suggestions, linePrefix)
