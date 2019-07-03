@@ -7,6 +7,8 @@ import org.yaml.model.{YMap, YMapEntry, YNode, YNonContent, YPart, YSequence}
 import scala.annotation.tailrec
 
 object YamlUtils {
+  def isArray(ast: Option[YPart], amfPosition: Position): Boolean =
+    ast.exists(getNodeByPosition(_, amfPosition).isInstanceOf[YSequence])
 
   def isKey(maybePart: Option[YPart], amfPosition: Position): Boolean =
     maybePart.exists(part => {
