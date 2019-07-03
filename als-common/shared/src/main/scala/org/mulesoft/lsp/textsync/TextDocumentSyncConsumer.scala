@@ -1,6 +1,6 @@
 package org.mulesoft.lsp.textsync
 
-import org.mulesoft.als.server.InitializableModule
+import org.mulesoft.lsp.InitializableModule
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 
 trait TextDocumentSyncConsumer

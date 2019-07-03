@@ -8,20 +8,28 @@ import org.eclipse.lsp4j
 import org.eclipse.lsp4j.ExecuteCommandOptions
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.mulesoft.lsp.command.Command
-import org.mulesoft.lsp.common.{Location, Position, Range, VersionedTextDocumentIdentifier}
+import org.mulesoft.lsp.common.{Location, Position, VersionedTextDocumentIdentifier, Range}
 import org.mulesoft.lsp.configuration.{InitializeResult, ServerCapabilities}
-import org.mulesoft.lsp.edit._
-import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
-import org.mulesoft.lsp.feature.codeactions.{CodeAction, CodeActionKind, CodeActionOptions}
+import org.mulesoft.lsp.edit.{
+  CreateFile,
+  DeleteFile,
+  DeleteFileOptions,
+  NewFileOptions,
+  RenameFile,
+  ResourceOperation,
+  TextDocumentEdit,
+  TextEdit,
+  WorkspaceEdit
+}
+import org.mulesoft.lsp.feature.completion.{CompletionItem, CompletionList, CompletionOptions}
 import org.mulesoft.lsp.feature.completion.CompletionItemKind.CompletionItemKind
 import org.mulesoft.lsp.feature.completion.InsertTextFormat.InsertTextFormat
-import org.mulesoft.lsp.feature.completion.{CompletionItem, CompletionList, CompletionOptions}
-import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
 import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticRelatedInformation, PublishDiagnosticsParams}
+import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbol, SymbolInformation}
 import org.mulesoft.lsp.feature.rename.RenameOptions
-import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync.{SaveOptions, TextDocumentSyncKind, TextDocumentSyncOptions}
+import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 
 import scala.collection.JavaConverters._
 import scala.compat.java8.FutureConverters._

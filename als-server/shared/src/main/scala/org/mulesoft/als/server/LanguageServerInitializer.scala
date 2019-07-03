@@ -1,6 +1,6 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.lsp.ConfigType
+import org.mulesoft.lsp.{ConfigType, Initializable}
 import org.mulesoft.lsp.configuration.{ClientCapabilities, InitializeParams, InitializeResult, ServerCapabilities}
 import org.mulesoft.lsp.feature.codeactions.CodeActionConfigType
 import org.mulesoft.lsp.feature.completion.CompletionConfigType
@@ -13,9 +13,7 @@ import org.mulesoft.lsp.textsync.TextDocumentSyncConfigType
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-
-class LanguageServerInitializer(private val configMap: ConfigMap,
-                                private val initializables: Seq[Initializable]) {
+class LanguageServerInitializer(private val configMap: ConfigMap, private val initializables: Seq[Initializable]) {
 
   private def applyCapabilitiesConfig(clientCapabilities: ClientCapabilities): ServerCapabilities = {
     val textDocument = clientCapabilities.textDocument
@@ -38,7 +36,8 @@ class LanguageServerInitializer(private val configMap: ConfigMap,
   def initialize(params: InitializeParams): Future[InitializeResult] = {
     val serverCapabilities = applyCapabilitiesConfig(params.capabilities)
 
-    Future.sequence(initializables.map(_.initialize()))
+    Future
+      .sequence(initializables.map(_.initialize()))
       .map(_ => InitializeResult(serverCapabilities))
   }
 }

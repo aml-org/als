@@ -2,7 +2,7 @@ package org.mulesoft.als.common
 
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.lexer.InputRange
-import org.yaml.model.{YMap, YMapEntry, YNode, YNonContent, YPart}
+import org.yaml.model.{YMap, YMapEntry, YNode, YNonContent, YPart, YSequence}
 
 import scala.annotation.tailrec
 
@@ -25,12 +25,16 @@ object YamlUtils {
   def childWithPosition(s: YPart, amfPosition: Position): Option[YPart] =
     s.children
       .filterNot(_.isInstanceOf[YNonContent])
-      .find({
+      .filter {
         case entry: YMapEntry => contains(entry.range, amfPosition)
         case map: YMap        => contains(map.range, amfPosition)
         case node: YNode      => contains(node.range, amfPosition)
+        case seq: YSequence   => contains(seq.range, amfPosition)
         case _                => false
-      })
+      }
+      .lastOption
+  // it should be the last, because of cases in which ranges go from NodeA[(1,0)(2,0)] and NodeB[(2,0)(2,3)],
+  // for position (2,0), the last one is the one containing the pointer
 
   @tailrec
   final def getNodeByPosition(s: YPart, amfPosition: Position): YPart =
@@ -40,7 +44,7 @@ object YamlUtils {
     }
 
   def getNodeBrothers(s: YPart, amfPosition: Position): Seq[YPart] =
-    getParent(s, amfPosition, None).map(_.children).getOrElse(Nil)
+    getParent(s, amfPosition, Some(s)).flatMap(getParent(s, _, None)).map(_.children).getOrElse(Nil)
 
   @tailrec
   final def getParent(s: YPart, amfPosition: Position, parent: Option[YPart]): Option[YPart] =

@@ -10,13 +10,13 @@ import org.mulesoft.als.server.modules.hlast.HlAstManager
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.common.Location
+import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.lsp.feature.reference.{
   ReferenceClientCapabilities,
   ReferenceConfigType,
   ReferenceParams,
   ReferenceRequestType
 }
-import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}

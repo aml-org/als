@@ -4,7 +4,6 @@ import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.modules.hlast.HlAstManager
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.TextDocumentIdentifier

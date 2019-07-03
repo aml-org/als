@@ -1,8 +1,7 @@
 package org.mulesoft.lsp.feature.documentsymbol
 
-import org.mulesoft.lsp.common.Range
 import org.mulesoft.lsp.feature.documentsymbol.SymbolKind.SymbolKind
-
+import org.mulesoft.lsp.common.Range
 
 /**
   * Represents programming constructs like variables, classes, interfaces etc. that appear in a document. Document symbols can be

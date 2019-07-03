@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions
 
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.als.suggestions.CompletionProvider.{getAstNode, getInnerNode}
+import org.mulesoft.als.suggestions.CompletionProviderWebApi.{getAstNode, getInnerNode}
 import org.mulesoft.als.suggestions.implementation.{CompletionRequest, LocationKindDetectTool, Suggestion}
 import org.mulesoft.als.suggestions.interfaces.LocationKind._
 import org.mulesoft.als.suggestions.interfaces.{Suggestion => SuggestionInterface, _}
@@ -14,17 +14,17 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps
 
-class CompletionProvider {
+class CompletionProviderWebApi extends CompletionProvider {
   var _config: ICompletionConfig = _
 
   var _pluginsRegistry: ICompletionPluginsRegistry = CompletionPluginsRegistry.instance
 
-  def withConfig(cfg: ICompletionConfig): CompletionProvider = {
+  def withConfig(cfg: ICompletionConfig): CompletionProviderWebApi = {
     _config = cfg
     this
   }
 
-  def suggest: Future[Seq[SuggestionInterface]] = suggest(true)
+  override def suggest: Future[Seq[SuggestionInterface]] = suggest(true)
 
   def suggest(filterByPrefix: Boolean): Future[Seq[SuggestionInterface]] = {
     val request = composeRequest
@@ -44,9 +44,9 @@ class CompletionProvider {
       case Some(esp) =>
         position = esp.getOffset
 
-        currentIndent = CompletionProvider.getCurrentIndent(esp)
+        currentIndent = CompletionProviderWebApi.getCurrentIndent(esp)
 
-        indentCount = CompletionProvider.getCurrentIndentCount(esp)
+        indentCount = CompletionProviderWebApi.getCurrentIndentCount(esp)
 
         prefix = _config.astProvider match {
           case Some(ap) =>
@@ -71,7 +71,7 @@ class CompletionProvider {
               case _ =>
                 esp.getText.substring(0, position)
             }
-            result.substring(CompletionProvider.getIdxForPrefix(result) + 1).dropWhile(_ == ' ')
+            result.substring(CompletionProviderWebApi.getIdxForPrefix(result) + 1).dropWhile(_ == ' ')
         }
       case _ => throw new Error("Editor state provider must be supplied")
     }
@@ -87,7 +87,7 @@ class CompletionProvider {
 
     _config.astProvider match {
       case Some(ap) =>
-        val ast                                      = CompletionProvider.getAstNode(ap)
+        val ast                                      = CompletionProviderWebApi.getAstNode(ap)
         val astNode                                  = ast._1
         val astUnit: Option[IASTUnit]                = astNode.map(_.astUnit)
         val positionsMapper                          = astUnit.map(_.positionsMapper)
@@ -143,7 +143,7 @@ class CompletionProvider {
 
     def range(offset: Int, prefix: String): Option[PositionRange] =
       Option(
-        PositionRange(Position(offset - prefix.size, _config.originalContent.get),
+        PositionRange(Position(offset - prefix.length, _config.originalContent.get),
                       Position(offset, _config.originalContent.get)))
 
     if (isYAML) {
@@ -198,10 +198,10 @@ class CompletionProvider {
     })
 }
 
-object CompletionProvider {
-  def apply(): CompletionProvider = new CompletionProvider()
+object CompletionProviderWebApi {
+  def apply(): CompletionProviderWebApi = new CompletionProviderWebApi()
 
-  def getIdxForPrefix(text: String) =
+  def getIdxForPrefix(text: String): Int =
     text
       .lastIndexOf("\n")
       .max(text.lastIndexOf("\""))
