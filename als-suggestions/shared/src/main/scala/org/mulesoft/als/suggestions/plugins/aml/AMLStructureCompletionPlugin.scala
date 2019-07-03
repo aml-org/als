@@ -46,29 +46,8 @@ class AMLStructureCompletions(params: CompletionParams, brothers: Set[String]) e
       })
       .getOrElse("  ")
 
-  private def getSuggestions: Seq[(String, String)] = {
-    val dialect: Dialect =
-      params.currentBaseUnit.sourceVendor.flatMap(v => DialectRegistry.get(v.name).headOption) match {
-        case Some(d) => d
-        case _ =>
-          params.currentBaseUnit match {
-            case d: DialectInstance =>
-              AMLPlugin.registry
-                .dialectFor(d)
-                .getOrElse(throw new Exception(s"No Dialect for ${params.currentBaseUnit.id} found"))
-          }
-      }
-
-    val maybeMapping: Option[DomainElement] =
-      AmfUtils
-        .getFieldEntryByPosition(params.currentBaseUnit, Position(params.position.line + 1, params.position.column))
-        .flatMap(fe => getDialectNode(dialect, fe)) // maybe worth to keep calculated as or instead of params.node?
-
-    maybeMapping match {
-      case Some(nm: domain.NodeMapping) => nm.propertiesMapping().map(extractText(_, getIndentation))
-      case _                            => Nil
-    }
-  }
+  private def getSuggestions: Seq[(String, String)] =
+    params.propertyMappings.map(extractText(_, getIndentation))
 
   def resolve(): Future[Seq[RawSuggestion]] =
     Future.successful(
