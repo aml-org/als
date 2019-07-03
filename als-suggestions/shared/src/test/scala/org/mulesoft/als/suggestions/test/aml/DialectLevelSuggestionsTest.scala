@@ -4,14 +4,10 @@ import amf.client.remote.Content
 import amf.core.lexer.CharSequenceStream
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.DomainElement
-import amf.core.remote.Vendor
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance}
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping}
-import org.mulesoft.als.suggestions.CompletionProvider
 import org.mulesoft.als.suggestions.test.SuggestionsTest
-import org.mulesoft.high.level.builder.UniverseProvider
-import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.scalatest.exceptions.TestFailedException
 
 import scala.concurrent.Future
@@ -31,7 +27,6 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
 
   private def getPropertiesByPath(d: Dialect, nodeName: String): Seq[PropertyMapping] = {
     val de: Option[DomainElement] = d.declares.find(de => de.id endsWith s"/${nodeName}")
-    de.get
     de match {
       case Some(n: NodeMapping) => n.propertiesMapping()
     }

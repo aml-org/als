@@ -1,15 +1,15 @@
 package org.mulesoft.als.server.lsp4j
 
 import org.eclipse.lsp4j._
-import org.scalatest.{FlatSpec, FunSuite}
-import LspConversions._
-
-import scala.collection.JavaConverters._
+import org.mulesoft.als.server.lsp4j.LspConversions._
 import org.mulesoft.lsp.configuration.{
-  InitializeParams => InternalParams,
   ClientCapabilities => InternalCapabilities,
+  InitializeParams => InternalParams,
   TextDocumentClientCapabilities => InternalDocumentClient
 }
+import org.scalatest.FunSuite
+
+import scala.collection.JavaConverters._
 
 class LsConvertionsTest extends FunSuite {
 

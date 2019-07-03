@@ -4,7 +4,7 @@ import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.als.server.logger.EmptyLogger
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.lsp.common.TextDocumentItem
-import org.mulesoft.lsp.configuration.{ClientCapabilities, InitializeParams, TraceKind}
+import org.mulesoft.lsp.configuration.InitializeParams
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.scalatest.{Matchers, _}
 
