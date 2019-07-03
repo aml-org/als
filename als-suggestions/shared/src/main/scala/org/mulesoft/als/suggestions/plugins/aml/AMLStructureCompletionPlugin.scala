@@ -26,28 +26,8 @@ class AMLStructureCompletions(params: CompletionParams, brothers: Set[String]) e
     (cleanText, whiteSpaces)
   }
 
-  // TODO: remove or separate indentation from ALS
-  //  If not removed, clean up and use AST
-  //  In case of maintaining it inside plugins, extract method to common
-  def getIndentation: String =
-    params.currentBaseUnit.raw
-      .flatMap(text => {
-        val left = text.substring(0, params.position.offset(text))
-        val line = left.substring(left.lastIndexOf("\n")).stripPrefix("\n")
-        val first = line.headOption match {
-          case Some(c) if c == ' ' || c == '\t' => Some(c)
-          case _                                => None
-        }
-        first.map(f => {
-          val spaces = line.substring(0, line.takeWhile(_ == f).length)
-          if (f == '\t') s"$spaces\t"
-          else s"$spaces  "
-        })
-      })
-      .getOrElse("  ")
-
   private def getSuggestions: Seq[(String, String)] =
-    params.propertyMappings.map(extractText(_, getIndentation))
+    params.propertyMappings.map(extractText(_, getIndentation(params.currentBaseUnit, params.position)))
 
   def resolve(): Future[Seq[RawSuggestion]] =
     Future.successful(
