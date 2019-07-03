@@ -4,30 +4,57 @@ import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.mulesoft.lsp.common.{
   Position,
-  Range,
   TextDocumentIdentifier,
   TextDocumentItem,
   TextDocumentPositionParams,
-  VersionedTextDocumentIdentifier
+  VersionedTextDocumentIdentifier,
+  Range
 }
 import org.mulesoft.lsp.configuration.TraceKind.TraceKind
-import org.mulesoft.lsp.configuration.{TraceKind, _}
+import org.mulesoft.lsp.configuration.{
+  ClientCapabilities,
+  InitializeParams,
+  InitializeResult,
+  ServerCapabilities,
+  TextDocumentClientCapabilities,
+  TraceKind,
+  WorkspaceClientCapabilities,
+  WorkspaceFolder
+}
+import org.mulesoft.lsp.feature.completion.{
+  CompletionClientCapabilities,
+  CompletionContext,
+  CompletionItemClientCapabilities,
+  CompletionItemKind,
+  CompletionItemKindClientCapabilities,
+  CompletionOptions,
+  CompletionParams,
+  CompletionTriggerKind
+}
 import org.mulesoft.lsp.feature.completion.CompletionItemKind.CompletionItemKind
 import org.mulesoft.lsp.feature.completion.CompletionTriggerKind.CompletionTriggerKind
-import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticClientCapabilities
-import org.mulesoft.lsp.feature.documentsymbol.SymbolKind.SymbolKind
 import org.mulesoft.lsp.feature.documentsymbol.{
   DocumentSymbolClientCapabilities,
   DocumentSymbolParams,
   SymbolKind,
   SymbolKindClientCapabilities
 }
+import org.mulesoft.lsp.feature.documentsymbol.SymbolKind.SymbolKind
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
+import org.mulesoft.lsp.textsync.{
+  DidChangeTextDocumentParams,
+  DidCloseTextDocumentParams,
+  DidOpenTextDocumentParams,
+  SaveOptions,
+  SynchronizationClientCapabilities,
+  TextDocumentContentChangeEvent,
+  TextDocumentSyncKind,
+  TextDocumentSyncOptions
+}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
-import org.mulesoft.lsp.textsync._
 
 import scala.collection.JavaConverters._
 import scala.language.implicitConversions

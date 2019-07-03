@@ -24,18 +24,18 @@ import org.eclipse.lsp4j.{
 import org.mulesoft.als.server.custom.CustomTextDocumentService
 import org.mulesoft.als.server.lsp4j.Lsp4JConversions._
 import org.mulesoft.als.server.lsp4j.LspConversions._
+import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.lsp.feature.completion.CompletionRequestType
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
 import org.mulesoft.lsp.feature.reference.ReferenceRequestType
 import org.mulesoft.lsp.feature.rename.RenameRequestType
-import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
-import org.mulesoft.lsp.server
+import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync.DidFocusParams
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class TextDocumentServiceImpl(private val inner: server.LanguageServer) extends CustomTextDocumentService {
+class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomTextDocumentService {
 
   private val textDocumentSyncConsumer = inner.textDocumentSyncConsumer
 

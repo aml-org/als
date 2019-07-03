@@ -14,19 +14,26 @@ class Suggestion(_text: String,
 
   private var _trailingWhitespace: String = ""
 
+  private var prefixOpt: Option[String] = Option(_prefix)
+
   override def text: String = _text
 
   override def description: String = _description
 
   override def displayText: String = _displayText
 
-  override def prefix: String = _prefix
+  override def prefix: String = prefixOpt.getOrElse("")
 
   override def category: String = categoryOpt.getOrElse("unknown")
 
   override def trailingWhitespace: String = _trailingWhitespace
 
   override def range: Option[PositionRange] = _range
+
+  def withPrefix(prefix: String): Suggestion = {
+    prefixOpt = Option(prefix)
+    this
+  }
 
   def withCategory(cat: String): Suggestion = {
     categoryOpt = Option(cat)

@@ -42,4 +42,6 @@ case class ValidationIssue(code: String,
       case _ => false
     }
   }
+
+  override def hashCode(): Int = super.hashCode()
 }

@@ -4,9 +4,9 @@ import org.mulesoft.lsp.feature.completion.CompletionClientCapabilities
 import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticClientCapabilities
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolClientCapabilities
-import org.mulesoft.lsp.textsync.SynchronizationClientCapabilities
 import org.mulesoft.lsp.feature.reference.ReferenceClientCapabilities
 import org.mulesoft.lsp.feature.rename.RenameClientCapabilities
+import org.mulesoft.lsp.textsync.SynchronizationClientCapabilities
 
 /**
   * Text document specific client capabilities.

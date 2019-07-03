@@ -1,6 +1,8 @@
 package org.mulesoft.als.server.modules.completion
 
 import amf.core.remote.{Platform, Raml10, Vendor}
+import amf.plugins.document.vocabularies.AMLPlugin
+import amf.plugins.document.vocabularies.model.document.DialectInstance
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
@@ -9,20 +11,28 @@ import org.mulesoft.als.server.modules.common.LspConverter
 import org.mulesoft.als.server.modules.hlast.HlAstManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.suggestions
-import org.mulesoft.als.suggestions.CompletionProvider
-import org.mulesoft.als.suggestions.client.Suggestions
+import org.mulesoft.als.suggestions.client.{Suggestions, SuggestionsAST}
 import org.mulesoft.als.suggestions.implementation.CompletionConfig
-import org.mulesoft.als.suggestions.interfaces.{Suggestion, Syntax}
+import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Suggestion, Syntax}
+import org.mulesoft.als.suggestions.{BaseCompletionPluginsRegistryAML, CompletionProviderWebApi}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.RequestHandler
-import org.mulesoft.lsp.feature.completion._
+import org.mulesoft.lsp.feature.completion.{
+  CompletionClientCapabilities,
+  CompletionConfigType,
+  CompletionItem,
+  CompletionList,
+  CompletionOptions,
+  CompletionParams,
+  CompletionRequestType
+}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
-                         private val hlAstManager: HlAstManager,
+                         val hlAstManager: HlAstManager,
                          private val directoryResolver: DirectoryResolver,
                          private val platform: Platform,
                          private val logger: Logger)
@@ -114,25 +124,42 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                                  vendor: Vendor,
                                  syntax: Syntax): Future[CompletionProvider] = {
 
-    hlAstManager
+    hlAstManager.astManager
       .forceBuildNewAST(uri, text)
-      .map(hlAST => {
+      .flatMap {
+        case bu: DialectInstance =>
+          SuggestionsAST.init(BaseCompletionPluginsRegistryAML.get(), AMLPlugin.registry.dialectFor(bu).toSeq)
 
-        val baseName = refinedUri.substring(refinedUri.lastIndexOf('/') + 1)
+          Future(
+            SuggestionsAST.buildCompletionProviderAST(bu,
+                                                      bu.id,
+                                                      Position(position, bu.raw.getOrElse("")),
+                                                      bu.raw.getOrElse(""),
+                                                      directoryResolver,
+                                                      platform))
 
-        val astProvider =
-          new ASTProvider(hlAST.rootASTUnit.rootNode, vendor, syntax, position)
+        // Todo: erase high-level when possible
+        case bu =>
+          hlAstManager
+            .forceBuildNewAST(bu)
+            .map(hlAST => {
 
-        val editorStateProvider =
-          new EditorStateProvider(text, refinedUri, baseName, position)
+              val baseName = refinedUri.substring(refinedUri.lastIndexOf('/') + 1)
 
-        val completionConfig = new CompletionConfig(directoryResolver, platform)
-          .withEditorStateProvider(editorStateProvider)
-          .withAstProvider(astProvider)
-          .withOriginalContent(unmodifiedContent)
+              val astProvider =
+                new ASTProvider(hlAST.rootASTUnit.rootNode, vendor, syntax, position)
 
-        CompletionProvider().withConfig(completionConfig)
-      })
+              val editorStateProvider =
+                new EditorStateProvider(text, refinedUri, baseName, position)
+
+              val completionConfig = new CompletionConfig(directoryResolver, platform)
+                .withEditorStateProvider(editorStateProvider)
+                .withAstProvider(astProvider)
+                .withOriginalContent(unmodifiedContent)
+
+              CompletionProviderWebApi().withConfig(completionConfig)
+            })
+      }
       .recoverWith {
         case e: Throwable =>
           println(e)
@@ -143,6 +170,5 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
           println(any)
           Future.failed(new Error("Failed to construct CompletionProvider"))
       }
-
   }
 }

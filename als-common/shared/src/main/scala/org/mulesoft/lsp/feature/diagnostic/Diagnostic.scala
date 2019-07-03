@@ -1,7 +1,7 @@
 package org.mulesoft.lsp.feature.diagnostic
 
-import org.mulesoft.lsp.common.Range
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
+import org.mulesoft.lsp.common.Range
 
 /** Represents a diagnostic, such as a compiler error or warning. Diagnostic objects are only valid in the scope of
   * a resource.

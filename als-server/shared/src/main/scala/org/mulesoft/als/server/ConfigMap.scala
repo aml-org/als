@@ -1,6 +1,6 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.lsp.ConfigType
+import org.mulesoft.lsp.{ConfigHandler, ConfigType}
 
 trait ConfigMap {
   def put[T, V](key: ConfigType[T, V], value: ConfigHandler[T, V]): ConfigMap
@@ -13,8 +13,9 @@ object ConfigMap {
     def put[T, V](key: ConfigType[T, V], value: ConfigHandler[T, V]): ConfigMap =
       new WrappedMap(m + (key -> value.asInstanceOf[ConfigHandler[_, _]]))
 
-    def apply[T, V](key: ConfigType[T, V]): Option[ConfigHandler[T, V]] = m
-      .get(key).asInstanceOf[Option[ConfigHandler[T, V]]]
+    def apply[T, V](key: ConfigType[T, V]): Option[ConfigHandler[T, V]] =
+      m.get(key)
+        .asInstanceOf[Option[ConfigHandler[T, V]]]
   }
 
   def empty: ConfigMap = new WrappedMap(Map())
