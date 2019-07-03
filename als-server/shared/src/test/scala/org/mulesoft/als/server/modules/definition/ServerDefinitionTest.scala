@@ -9,9 +9,9 @@ import org.mulesoft.als.server.modules.common.LspConverter
 import org.mulesoft.als.server.modules.hlast.HlAstManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
-import org.mulesoft.lsp.common
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentPositionParams}
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
+import org.mulesoft.lsp.common.{Position => lspPosition}
 
 abstract class ServerDefinitionTest extends LanguageServerBaseTest {
 
@@ -53,7 +53,7 @@ abstract class ServerDefinitionTest extends LanguageServerBaseTest {
 
       handler(new TextDocumentPositionParams() {
         override val textDocument: TextDocumentIdentifier = TextDocumentIdentifier(url)
-        override val position: common.Position            = usagePosition
+        override val position: lspPosition                = usagePosition
       }).map(declarations => {
         closeFile(server)(url)
 

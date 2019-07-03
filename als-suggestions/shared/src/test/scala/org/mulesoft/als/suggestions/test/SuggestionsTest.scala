@@ -8,8 +8,9 @@ import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.common.PlatformDirectoryResolver
-import org.mulesoft.als.suggestions.CompletionProvider
+import org.mulesoft.als.suggestions.{BaseCompletionPluginsRegistryAML, CompletionProviderWebApi}
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
+import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.high.level.amfmanager.ParserHelper
 import org.mulesoft.high.level.interfaces.IProject
@@ -91,19 +92,22 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
               label: String = "*",
               cut: Boolean = false,
               labels: Array[String] = Array("*"),
-              customDialect: Option[CustomDialects] = None): Future[Assertion] =
+              customDialect: Option[CustomDialects] = None,
+              pluginsAML: Seq[CompletionPlugin] = BaseCompletionPluginsRegistryAML.get()): Future[Assertion] =
     this
-      .suggest(path, label, cut, labels, customDialect)
+      .suggest(path, label, cut, labels, customDialect, pluginsAML)
       .map(r => assert(path, r.map(_.text).toSet, originalSuggestions))
 
   def withDialect(path: String,
                   originalSuggestions: Set[String],
                   dialectPath: String,
-                  dialectProfile: ProfileName): Future[Assertion] = {
+                  dialectProfile: ProfileName,
+                  pluginsAML: Seq[CompletionPlugin] = BaseCompletionPluginsRegistryAML.get()): Future[Assertion] = {
     platform.resolve(filePath(dialectPath)).flatMap { c =>
       runTest(path,
               originalSuggestions,
-              customDialect = Some(CustomDialects(dialectProfile, c.url, c.stream.toString)))
+              customDialect = Some(CustomDialects(dialectProfile, c.url, c.stream.toString)),
+              pluginsAML = pluginsAML)
     }
   }
 
@@ -115,7 +119,8 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
               label: String = "*",
               cutTail: Boolean = false,
               labels: Array[String] = Array("*"),
-              customDialect: Option[CustomDialects] = None): Future[Seq[Suggestion]] = {
+              customDialect: Option[CustomDialects] = None,
+              pluginsAML: Seq[CompletionPlugin] = BaseCompletionPluginsRegistryAML.get()): Future[Seq[Suggestion]] = {
 
     var position = 0
     val url      = filePath(path)
@@ -132,7 +137,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
         this.buildEnvironment(url, markerInfo.originalContent, content.mime)
       }
 
-      suggestions <- Suggestions.suggest(format, url, position, directoryResolver, env, platform)
+      suggestions <- Suggestions.suggest(format, url, position, directoryResolver, env, platform, pluginsAML)
     } yield suggestions.map(suggestion => suggestion)
   }
 
@@ -177,10 +182,10 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
   def buildCompletionProvider(project: IProject,
                               url: String,
                               position: Int,
-                              originalContent: String): CompletionProvider =
+                              originalContent: String): CompletionProviderWebApi =
     Suggestions.buildCompletionProvider(project, url, position, originalContent, directoryResolver, platform)
 
-  def buildCompletionProviderNoAST(text: String, url: String, position: Int): CompletionProvider =
+  def buildCompletionProviderNoAST(text: String, url: String, position: Int): CompletionProviderWebApi =
     Suggestions.buildCompletionProviderNoAST(text, url, position, directoryResolver, platform)
 
   def filePath(path: String): String = {
@@ -208,7 +213,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     if (position < 0) {
       new MarkerInfo(str1, str1.length, str1)
     } else {
-      val rawContent = str1.replace(label, "") //.replace("\r\n", "\n")
+      val rawContent = str1.replace(label, "")
 
       val preparedContent =
         org.mulesoft.als.suggestions.Core

@@ -1,8 +1,9 @@
 package org.mulesoft.als.suggestions
 
+import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.suggestions.implementation.SuggestionCategoryRegistry
-import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
+import org.mulesoft.als.suggestions.interfaces.{CompletionPlugin, Syntax}
 import org.mulesoft.als.suggestions.plugins.oas.{
   DefinitionReferenceCompletionPlugin,
   EmptyFileCompletionPlugin,
@@ -22,13 +23,20 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps
 
+object CoreAST {
+  def init(plugins: Seq[CompletionPlugin] = Nil, dialects: Seq[Dialect]): Unit = {
+    CompletionPluginsRegistryAML.cleanPlugins()
+    for { d <- dialects } DialectRegistry.update(d)
+    for { p <- plugins } CompletionPluginsRegistryAML.registerPlugin(p)
+  }
+}
+
 object Core {
   def init(initOptions: InitOptions = InitOptions.AllProfiles): Future[Unit] =
     org.mulesoft.high.level.Core
       .init(initOptions)
-      .flatMap(x => SuggestionCategoryRegistry.init())
-      .map(x => {
-
+      .flatMap(_ => SuggestionCategoryRegistry.init())
+      .map(_ => {
         CompletionPluginsRegistry.registerPlugin(StructureCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(KnownKeyPropertyValuesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(KnownPropertyValuesCompletionPlugin())
@@ -56,10 +64,10 @@ object Core {
 
   def prepareText(text: String, offset: Int, syntax: Syntax): String =
     if (text.trim.startsWith("{")) {
-      CompletionProvider.prepareJsonContent(text, offset)
+      CompletionProviderWebApi.prepareJsonContent(text, offset)
     } else {
       syntax match {
-        case YAML => CompletionProvider.prepareYamlContent(text, offset);
+        case YAML => CompletionProviderWebApi.prepareYamlContent(text, offset);
         case _    => throw new Error(s"Syntax not supported: $syntax");
       }
     }
