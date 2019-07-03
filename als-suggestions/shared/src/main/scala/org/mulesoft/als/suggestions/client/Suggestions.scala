@@ -3,10 +3,12 @@ package org.mulesoft.als.suggestions.client
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.AmfObject
+import amf.core.parser.FieldEntry
 import amf.core.remote._
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance}
+import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{AmfUtils, DirectoryResolver, EnvironmentPatcher}
 import org.mulesoft.als.suggestions._
@@ -95,16 +97,23 @@ object SuggestionsAST extends SuggestionsHelper {
                                  pos: Position,
                                  originalContent: String,
                                  directoryResolver: DirectoryResolver,
-                                 platform: Platform): CompletionProviderAST =
+                                 platform: Platform): CompletionProviderAST = {
+    val dialect: Option[Dialect] = bu match {
+      case d: DialectInstance =>
+        AMLPlugin.registry
+          .dialectFor(d)
+      case _ => None
+    }
+
     CompletionProviderAST(new CompletionRequest {
 
       override val baseUnit: BaseUnit = bu
 
       override val position: Position = pos
 
-      override val selectedNode: AmfObject =
-        AmfUtils.getNodeByPosition(bu, Position(position.line + 1, position.column))
+      override val propertyMapping: Seq[PropertyMapping] = AmfUtils.getPropertyMappings(bu, pos, dialect)
     })
+  }
 }
 
 object Suggestions extends SuggestionsHelper {
