@@ -2,14 +2,9 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.annotations.SourceAST
 import amf.core.model.document.Document
-import amf.core.model.domain.DomainElement
-import amf.plugins.document.vocabularies.AMLPlugin
-import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance}
-import amf.plugins.document.vocabularies.model.domain
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import org.mulesoft.als.common.YamlUtils
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.common.{AmfUtils, YamlUtils}
-import org.mulesoft.als.suggestions.DialectRegistry
 import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlugin, RawSuggestion}
 import org.mulesoft.lsp.edit.TextEdit
 import org.yaml.model.YMapEntry
@@ -55,7 +50,7 @@ object AMLStructureCompletionPlugin extends CompletionPlugin {
       case d: Document => d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)
       case bu          => bu.annotations.find(classOf[SourceAST]).map(_.ast)
     }
-    val amfPosition = Position(params.position.line + 1, params.position.column)
+    val amfPosition = params.position.moveLine(1)
     if (YamlUtils.isKey(ast, amfPosition))
       new AMLStructureCompletions(
         params,
