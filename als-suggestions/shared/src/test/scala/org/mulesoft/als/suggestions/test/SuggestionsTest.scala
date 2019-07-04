@@ -8,19 +8,16 @@ import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.common.PlatformDirectoryResolver
-import org.mulesoft.als.suggestions.{BaseCompletionPluginsRegistryAML, CompletionProviderWebApi}
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.high.level.amfmanager.ParserHelper
-import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.high.level.{CustomDialects, InitOptions}
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
 
 trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
-  private val directoryResolver = new PlatformDirectoryResolver(platform)
+  protected val directoryResolver = new PlatformDirectoryResolver(platform)
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
@@ -92,22 +89,19 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
               label: String = "*",
               cut: Boolean = false,
               labels: Array[String] = Array("*"),
-              customDialect: Option[CustomDialects] = None,
-              pluginsAML: Seq[CompletionPlugin] = BaseCompletionPluginsRegistryAML.get()): Future[Assertion] =
+              customDialect: Option[CustomDialects] = None): Future[Assertion] =
     this
-      .suggest(path, label, cut, labels, customDialect, pluginsAML)
+      .suggest(path, label, cut, labels, customDialect)
       .map(r => assert(path, r.map(_.text).toSet, originalSuggestions))
 
   def withDialect(path: String,
                   originalSuggestions: Set[String],
                   dialectPath: String,
-                  dialectProfile: ProfileName,
-                  pluginsAML: Seq[CompletionPlugin] = BaseCompletionPluginsRegistryAML.get()): Future[Assertion] = {
+                  dialectProfile: ProfileName): Future[Assertion] = {
     platform.resolve(filePath(dialectPath)).flatMap { c =>
       runTest(path,
               originalSuggestions,
-              customDialect = Some(CustomDialects(dialectProfile, c.url, c.stream.toString)),
-              pluginsAML = pluginsAML)
+              customDialect = Some(CustomDialects(dialectProfile, c.url, c.stream.toString)))
     }
   }
 
@@ -119,8 +113,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
               label: String = "*",
               cutTail: Boolean = false,
               labels: Array[String] = Array("*"),
-              customDialect: Option[CustomDialects] = None,
-              pluginsAML: Seq[CompletionPlugin] = BaseCompletionPluginsRegistryAML.get()): Future[Seq[Suggestion]] = {
+              customDialect: Option[CustomDialects] = None): Future[Seq[Suggestion]] = {
 
     var position = 0
     val url      = filePath(path)
@@ -137,7 +130,7 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
         this.buildEnvironment(url, markerInfo.originalContent, content.mime)
       }
 
-      suggestions <- Suggestions.suggest(format, url, position, directoryResolver, env, platform, pluginsAML)
+      suggestions <- Suggestions.suggest(format, url, position, directoryResolver, env, platform)
     } yield suggestions.map(suggestion => suggestion)
   }
 
@@ -175,18 +168,6 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
 
     Environment(loaders)
   }
-
-  def buildHighLevel(model: BaseUnit): Future[IProject] =
-    Suggestions.buildHighLevel(model, platform)
-
-  def buildCompletionProvider(project: IProject,
-                              url: String,
-                              position: Int,
-                              originalContent: String): CompletionProviderWebApi =
-    Suggestions.buildCompletionProvider(project, url, position, originalContent, directoryResolver, platform)
-
-  def buildCompletionProviderNoAST(text: String, url: String, position: Int): CompletionProviderWebApi =
-    Suggestions.buildCompletionProviderNoAST(text, url, position, directoryResolver, platform)
 
   def filePath(path: String): String = {
     var result =
