@@ -11,7 +11,7 @@ class BasicCoreTestsRAML extends CoreTest with DummyPlugins {
 
   ignore("RAML protocols") {
     for {
-      result <- suggest("structure/test01.raml", Seq(AMLStructureCompletionPlugin))
+      result <- suggest("structure/test01.raml")
     } yield assert(result.length == 1 && result.forall(d => d.description == "responses"))
   }
 }

@@ -1,9 +1,8 @@
 package org.mulesoft.als.suggestions
 
-import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.suggestions.implementation.SuggestionCategoryRegistry
+import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
-import org.mulesoft.als.suggestions.interfaces.{CompletionPlugin, Syntax}
 import org.mulesoft.als.suggestions.plugins.oas.{
   DefinitionReferenceCompletionPlugin,
   EmptyFileCompletionPlugin,
@@ -22,14 +21,6 @@ import org.mulesoft.high.level.InitOptions
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps
-
-object CoreAST {
-  def init(plugins: Seq[CompletionPlugin] = Nil, dialects: Seq[Dialect]): Unit = {
-    CompletionPluginsRegistryAML.cleanPlugins()
-    for { d <- dialects } DialectRegistry.update(d)
-    for { p <- plugins } CompletionPluginsRegistryAML.registerPlugin(p)
-  }
-}
 
 object Core {
   def init(initOptions: InitOptions = InitOptions.AllProfiles): Future[Unit] =
@@ -60,6 +51,11 @@ object Core {
         CompletionPluginsRegistry.registerPlugin(CommonHeadersNamesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(ExampleStructureCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(BaseUriParametersCompletionPlugin())
+
+        // **************** AML *************************
+        // initialize aml plugins option?
+
+        AMLBaseCompletionPlugins.initAll()
       })
 
   def prepareText(text: String, offset: Int, syntax: Syntax): String =
