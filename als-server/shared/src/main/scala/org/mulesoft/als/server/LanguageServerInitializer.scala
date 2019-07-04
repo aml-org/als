@@ -2,6 +2,7 @@ package org.mulesoft.als.server
 
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.configuration.{ClientCapabilities, InitializeParams, InitializeResult, ServerCapabilities}
+import org.mulesoft.lsp.feature.codeactions.CodeActionConfigType
 import org.mulesoft.lsp.feature.completion.CompletionConfigType
 import org.mulesoft.lsp.feature.definition.DefinitionConfigType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolConfigType
@@ -25,7 +26,8 @@ class LanguageServerInitializer(private val configMap: ConfigMap,
       applyConfig(DefinitionConfigType, textDocument.flatMap(_.definition)).isDefined,
       applyConfig(ReferenceConfigType, textDocument.flatMap(_.references)).isDefined,
       applyConfig(DocumentSymbolConfigType, textDocument.flatMap(_.documentSymbol)).isDefined,
-      applyConfig(RenameConfigType, textDocument.flatMap(_.rename))
+      applyConfig(RenameConfigType, textDocument.flatMap(_.rename)),
+      applyConfig(CodeActionConfigType, textDocument.flatMap(_.codeActionCapabilities))
     )
   }
 
