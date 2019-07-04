@@ -10,23 +10,29 @@ import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapp
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 
 object AmfUtils {
-  def getPropertyMappings(bu: BaseUnit, position: Position, dialect: Option[Dialect]): Seq[PropertyMapping] = {
+  def getPropertyMappings(amfObject: AmfObject,
+                          amfPosition: Position,
+                          dialect: Option[Dialect]): Seq[PropertyMapping] =
     dialect
-      .map(d => {
-        val maybeMapping: Option[DomainElement] =
-          getDialectNode(d, getNodeByPosition(bu, Position(position.line + 1, position.column)))
-        maybeMapping match {
-          case Some(nm: domain.NodeMapping) => nm.propertiesMapping()
-          case _                            => Nil
-        }
-      })
+      .flatMap(d => getDialectNode(d, amfObject, getFieldEntryByPosition(amfObject, amfPosition)))
+      .map {
+        case nm: domain.NodeMapping => nm.propertiesMapping()
+        case _                      => Nil
+      }
       .getOrElse(Nil)
-  }
 
-  def getFieldEntryByPosition(bu: BaseUnit, amfPosition: Position): Option[FieldEntry] =
-    getNodeByPosition(bu, amfPosition).fields
+  def getFieldEntryByPosition(amfObject: AmfObject, amfPosition: Position): Option[FieldEntry] =
+    amfObject.fields
       .fields()
-      .find(f => f.value.value.position().exists(containsLine(_, amfPosition.line)))
+      .find(f =>
+        f.value.value match {
+          case _: AmfArray =>
+            f.value.annotations
+              .find(classOf[LexicalInformation])
+              .exists(containsPosition(_, amfPosition))
+          case _ =>
+            f.value.value.position().exists(containsLine(_, amfPosition.line))
+      })
 
   def getNodeByPosition(bu: BaseUnit, amfPosition: Position): AmfObject =
     findInnerSon(bu, amfPosition)
@@ -38,7 +44,10 @@ object AmfUtils {
         .find(f => {
           f.value.value match {
             case a: AmfArray =>
-              arrayContainsPosition(a, amfPosition)
+              a.position()
+                .map(p => containsPosition(p, amfPosition))
+                .getOrElse(arrayContainsPosition(a, amfPosition))
+
             case v =>
               v.position() match {
                 case Some(p) =>
@@ -87,8 +96,19 @@ object AmfUtils {
         case _       => false
     })
 
-  def getDialectNode(dialect: Dialect, node: AmfObject): Option[DomainElement] = dialect.declares.find {
-    case s: NodeMapping => s.nodetypeMapping.value() == node.meta.`type`.head.iri()
-    case _              => false
-  }
+  def getDialectNode(dialect: Dialect, amfObject: AmfObject, fieldEntry: Option[FieldEntry]): Option[DomainElement] =
+    dialect.declares.find {
+      case s: NodeMapping =>
+        s.nodetypeMapping.value() == amfObject.meta.`type`.head.iri() &&
+          fieldEntry.forall(f => {
+            s.propertiesMapping()
+              .find(
+                pm =>
+                  pm.fields
+                    .fields()
+                    .exists(_.value.toString == f.field.value.iri()))
+              .exists(_.mapTermKeyProperty().isNullOrEmpty)
+          })
+      case _ => false
+    }
 }

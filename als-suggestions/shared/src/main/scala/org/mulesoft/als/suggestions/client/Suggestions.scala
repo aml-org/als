@@ -105,13 +105,19 @@ object SuggestionsAST extends SuggestionsHelper {
       case _ => None
     }
 
+    val amfPosition = pos.moveLine(1)
+    val amfObject   = AmfUtils.getNodeByPosition(bu, amfPosition)
+
     CompletionProviderAST(new CompletionRequest {
 
       override val baseUnit: BaseUnit = bu
 
       override val position: Position = pos
 
-      override val propertyMapping: Seq[PropertyMapping] = AmfUtils.getPropertyMappings(bu, pos, dialect)
+      override val propertyMapping: Seq[PropertyMapping] =
+        AmfUtils.getPropertyMappings(amfObject, amfPosition, dialect)
+
+      override val fieldEntry: Option[FieldEntry] = AmfUtils.getFieldEntryByPosition(amfObject, amfPosition)
     })
   }
 }
