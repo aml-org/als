@@ -2,30 +2,21 @@ package org.mulesoft.als.server.lsp4j
 
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
-import org.mulesoft.lsp.common.{
-  Position,
-  Range,
-  TextDocumentIdentifier,
-  TextDocumentItem,
-  TextDocumentPositionParams,
-  VersionedTextDocumentIdentifier
-}
+import org.mulesoft.lsp.common.{Location, Position, Range, TextDocumentIdentifier, TextDocumentItem, TextDocumentPositionParams, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.configuration.TraceKind.TraceKind
 import org.mulesoft.lsp.configuration.{TraceKind, _}
+import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
 import org.mulesoft.lsp.feature.completion.CompletionItemKind.CompletionItemKind
 import org.mulesoft.lsp.feature.completion.CompletionTriggerKind.CompletionTriggerKind
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
-import org.mulesoft.lsp.feature.diagnostic.DiagnosticClientCapabilities
+import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticClientCapabilities, DiagnosticRelatedInformation, DiagnosticSeverity}
 import org.mulesoft.lsp.feature.documentsymbol.SymbolKind.SymbolKind
-import org.mulesoft.lsp.feature.documentsymbol.{
-  DocumentSymbolClientCapabilities,
-  DocumentSymbolParams,
-  SymbolKind,
-  SymbolKindClientCapabilities
-}
+import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolClientCapabilities, DocumentSymbolParams, SymbolKind, SymbolKindClientCapabilities}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
+import org.mulesoft.lsp.feature.codeactions.{CodeActionContext, CodeActionKind, CodeActionOptions, CodeActionParams}
+import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
 
@@ -170,6 +161,15 @@ object LspConversions {
     either(options, booleanOrFalse, renameOptions)
       .fold(value => if (value) Some(RenameOptions()) else None, Some.apply)
 
+  implicit def codeActionKind(kind: String): CodeActionKind = CodeActionKind.withName(kind)
+
+  implicit def codeActionOptions(options: lsp4j.CodeActionOptions): CodeActionOptions =
+    CodeActionOptions(Option(options.getCodeActionKinds).map(_.asScala.toSeq))
+
+  implicit def eitherCodeActionProviderOptions(options: JEither[java.lang.Boolean, lsp4j.CodeActionOptions]): Option[CodeActionOptions] =
+    either(options, booleanOrFalse, codeActionOptions)
+      .fold(value => if (value) Some(CodeActionOptions()) else None, Some.apply)
+
   implicit def completionOptions(options: lsp4j.CompletionOptions): CompletionOptions =
     CompletionOptions(
       Option(options.getResolveProvider),
@@ -186,6 +186,7 @@ object LspConversions {
         booleanOrFalse(result.getReferencesProvider),
         booleanOrFalse(result.getDocumentSymbolProvider),
         Option(result.getRenameProvider).flatMap(eitherRenameOptions),
+        Option(result.getCodeActionProvider).flatMap(eitherCodeActionProviderOptions),
         Option(result.getExperimental)
       )
 
@@ -240,6 +241,34 @@ object LspConversions {
 
   implicit def renameParams(params: lsp4j.RenameParams): RenameParams =
     RenameParams(params.getTextDocument, params.getPosition, params.getNewName)
+
+  implicit def location(location: lsp4j.Location): Location =
+    Location(location.getUri, location.getRange)
+
+  implicit def diagnosticRelatedInformation(info: lsp4j.DiagnosticRelatedInformation): DiagnosticRelatedInformation =
+    DiagnosticRelatedInformation(info.getLocation, info.getMessage)
+
+  implicit def diagnosticSeverity(diagnosticSeverity: lsp4j.DiagnosticSeverity): DiagnosticSeverity =
+    DiagnosticSeverity(diagnosticSeverity.getValue)
+
+  implicit def diagnostic(diagnostic: lsp4j.Diagnostic): Diagnostic =
+    Diagnostic(
+      diagnostic.getRange,
+      diagnostic.getMessage,
+      Option(diagnostic.getSeverity).map(diagnosticSeverity),
+      Option(diagnostic.getCode),
+      Option(diagnostic.getSource),
+      Option(diagnostic.getRelatedInformation).map(_.asScala.map(diagnosticRelatedInformation)).getOrElse(Seq())
+    )
+
+  implicit def codeActionContext(context: lsp4j.CodeActionContext): CodeActionContext =
+    CodeActionContext(
+      context.getDiagnostics.asScala.map(diagnostic),
+      Option(context.getOnly).map(_.asScala.map(codeActionKind))
+    )
+
+  implicit def codeActionParams(params: lsp4j.CodeActionParams): CodeActionParams =
+    CodeActionParams(params.getTextDocument, params.getRange, params.getContext)
 
   implicit def documentSymbolParams(params: lsp4j.DocumentSymbolParams): DocumentSymbolParams =
     DocumentSymbolParams(params.getTextDocument)
