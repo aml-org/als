@@ -6,13 +6,10 @@ import amf.core.model.document.BaseUnit
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
-import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.PlatformDirectoryResolver
-import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.suggestions.client.{Suggestion, SuggestionsAST}
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.Core
+import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.als.suggestions.{BaseCompletionPluginsRegistryAML, Core}
 import org.mulesoft.high.level.amfmanager.ParserHelper
 import org.scalatest.{Assertion, AsyncFunSuite}
 
@@ -26,28 +23,21 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
   def rootPath: String
 
   def suggest(path: String,
-              plugins: Seq[CompletionPlugin],
-              dialects: Seq[Dialect] = Nil,
               label: String = "*",
               cutTail: Boolean = false,
               labels: Array[String] = Array("*")): Future[Seq[Suggestion]] = {
 
-    var position: Position = Position(0, 0)
-    val url                = filePath(path)
-
-    SuggestionsAST.init(plugins, dialects)
+    val url = filePath(path)
     for {
       content <- platform.resolve(url)
-      env <- Future.successful {
+      (env, position) <- Future.successful {
         val fileContentsStr = content.stream.toString
         val markerInfo      = this.findMarker(fileContentsStr)
 
-        position = Position(markerInfo.position, markerInfo.content)
-
-        this.buildEnvironment(url, markerInfo.originalContent, content.mime)
+        (this.buildEnvironment(url, markerInfo.originalContent, content.mime), markerInfo.position)
       }
 
-      suggestions <- SuggestionsAST.suggest(format, url, position, directoryResolver, env, platform)
+      suggestions <- Suggestions.suggest(format, url, position, directoryResolver, env, platform)
     } yield suggestions.map(suggestion => suggestion)
   }
 
@@ -94,13 +84,9 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
     Environment(loaders)
   }
 
-  def runTestForCustomDialect(
-      path: String,
-      dialectPath: String,
-      originalSuggestions: Set[String],
-      plugins: Seq[CompletionPlugin] = BaseCompletionPluginsRegistryAML.get()): Future[Assertion] =
+  def runTestForCustomDialect(path: String, dialectPath: String, originalSuggestions: Set[String]): Future[Assertion] =
     parseAMF(filePath(dialectPath)).flatMap(_ =>
-      suggest(path, plugins).map(suggestions => {
+      suggest(path).map(suggestions => {
         assert(suggestions.map(_.displayText).size == originalSuggestions.size)
         assert(suggestions.map(_.displayText).forall(s => originalSuggestions.contains(s)))
         assert(originalSuggestions.forall(s => suggestions.map(_.displayText).contains(s)))

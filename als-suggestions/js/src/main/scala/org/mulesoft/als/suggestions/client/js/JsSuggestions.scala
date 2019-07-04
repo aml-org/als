@@ -4,11 +4,9 @@ import amf.client.remote.Content
 import amf.client.resource.ClientResourceLoader
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
+import org.mulesoft.als.common.{DirectoryResolver => InternalResolver}
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
 import org.mulesoft.high.level.InitOptions
-import org.mulesoft.als.common.{PlatformDirectoryResolver, DirectoryResolver => InternalResolver}
-import org.mulesoft.als.suggestions.BaseCompletionPluginsRegistryAML
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -32,24 +30,16 @@ object JsSuggestions extends PlatformSecrets with EmptyDirectoryResolver {
     }
 
   @JSExport
-  def suggest(
-      language: String,
-      url: String,
-      position: Int,
-      loaders: js.Array[ClientResourceLoader] = js.Array(),
-      dirResolver: ClientDirectoryResolver = emptyDirectoryResolver,
-      pluginsAML: Seq[CompletionPlugin] = BaseCompletionPluginsRegistryAML.get()): js.Promise[js.Array[Suggestion]] = {
+  def suggest(language: String,
+              url: String,
+              position: Int,
+              loaders: js.Array[ClientResourceLoader] = js.Array(),
+              dirResolver: ClientDirectoryResolver = emptyDirectoryResolver): js.Promise[js.Array[Suggestion]] = {
 
     val environment = new Environment(loaders.map(internalResourceLoader).toSeq)
 
     Suggestions
-      .suggest(language,
-               url,
-               position,
-               DirectoryResolverAdapter.convert(dirResolver),
-               environment,
-               platform,
-               pluginsAML)
+      .suggest(language, url, position, DirectoryResolverAdapter.convert(dirResolver), environment, platform)
       .map(_.toJSArray)
       .toJSPromise
   }
