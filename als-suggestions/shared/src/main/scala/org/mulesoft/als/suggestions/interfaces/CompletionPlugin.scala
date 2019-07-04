@@ -26,6 +26,7 @@ trait CompletionParams {
   val propertyMappings: Seq[PropertyMapping]
   val position: Position
   val prefix: String
+  val fieldEntry: Option[FieldEntry]
 }
 
 trait RawSuggestion {

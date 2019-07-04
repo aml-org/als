@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.annotations.SourceAST
 import amf.core.model.document.Document
-import org.mulesoft.als.common.{AmfUtils, YamlUtils}
+import org.mulesoft.als.common.YamlUtils
 import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlugin, RawSuggestion}
 import org.mulesoft.lsp.edit.TextEdit
 import org.yaml.model.YPart
@@ -11,8 +11,7 @@ import scala.concurrent.Future
 
 class AMLEnumCompletions(params: CompletionParams, ast: Option[YPart]) extends AMLSuggestionsHelper {
   private def getSuggestions: Seq[String] =
-    AmfUtils
-      .getFieldEntryByPosition(params.currentBaseUnit, params.position.moveLine(1))
+    params.fieldEntry
       .flatMap(e => {
         params.propertyMappings
           .find(
