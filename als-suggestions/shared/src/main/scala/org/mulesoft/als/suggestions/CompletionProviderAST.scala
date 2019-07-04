@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions
 
 import amf.core.annotations.SourceAST
 import amf.core.model.document.BaseUnit
+import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.common.YamlUtils
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
@@ -42,6 +43,7 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
         override val position: Position                     = request.position
         override val prefix: String                         = linePrefix
         override val propertyMappings: Seq[PropertyMapping] = request.propertyMapping
+        override val fieldEntry: Option[FieldEntry]         = request.fieldEntry
       })
       .map(suggestions => {
         filteredSuggestions(suggestions, linePrefix)
