@@ -11,6 +11,8 @@ import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{Location, Position, Range, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.configuration.{InitializeResult, ServerCapabilities}
 import org.mulesoft.lsp.edit._
+import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
+import org.mulesoft.lsp.feature.codeactions.{CodeAction, CodeActionKind, CodeActionOptions}
 import org.mulesoft.lsp.feature.completion.CompletionItemKind.CompletionItemKind
 import org.mulesoft.lsp.feature.completion.InsertTextFormat.InsertTextFormat
 import org.mulesoft.lsp.feature.completion.{CompletionItem, CompletionList, CompletionOptions}
@@ -163,6 +165,22 @@ object Lsp4JConversions {
   implicit def lsp4JDocumentSymbols(symbols: Seq[DocumentSymbol]): util.List[lsp4j.DocumentSymbol] =
     javaList(symbols, lsp4JDocumentSymbol)
 
+  implicit def lsp4JCodeAction(codeAction: CodeAction): lsp4j.CodeAction = {
+    val result = new lsp4j.CodeAction(codeAction.title)
+
+    result.setKind(codeAction.kind.map(lsp4JCodeActionKind).orNull)
+    result.setCommand(codeAction.command.map(lsp4JCommand).orNull)
+    result.setEdit(codeAction.edit.map(lsp4JWorkspaceEdit).orNull)
+    codeAction.diagnostics
+      .foreach(diagnostics => result.setDiagnostics(javaList(diagnostics, lsp4JDiagnostic)))
+
+    result
+  }
+
+  implicit def lsp4JCodeActionResult(result: Seq[CodeAction]): util.List[JEither[lsp4j.Command, lsp4j.CodeAction]] =
+    javaList(result, (action: CodeAction) => JEither.forRight(lsp4JCodeAction(action)))
+
+
   implicit def lsp4JDocumentSymbolsResult(result: Either[Seq[SymbolInformation], Seq[DocumentSymbol]])
     : util.List[JEither[lsp4j.SymbolInformation, lsp4j.DocumentSymbol]] =
     result.fold[util.List[JEither[lsp4j.SymbolInformation, lsp4j.DocumentSymbol]]](
@@ -216,6 +234,25 @@ object Lsp4JConversions {
       options.triggerCharacters.map(_.map(java.lang.String.valueOf).toList.asJava).orNull
     )
 
+  implicit def lsp4JCodeActionKind(kind: CodeActionKind): String = kind match {
+    case CodeActionKind.QuickFix => lsp4j.CodeActionKind.QuickFix
+    case CodeActionKind.Refactor => lsp4j.CodeActionKind.Refactor
+    case CodeActionKind.RefactorExtract => lsp4j.CodeActionKind.RefactorExtract
+    case CodeActionKind.RefactorInline => lsp4j.CodeActionKind.RefactorInline
+    case CodeActionKind.RefactorRewrite => lsp4j.CodeActionKind.RefactorRewrite
+    case CodeActionKind.Source => lsp4j.CodeActionKind.Source
+    case CodeActionKind.SourceOrganizeImports => lsp4j.CodeActionKind.SourceOrganizeImports
+    case _ => kind.toString
+  }
+
+  implicit def lsp4JCodeActionOptions(options: CodeActionOptions): lsp4j.CodeActionOptions =
+    new lsp4j.CodeActionOptions(options.codeActionKinds.map(_.asJava).orNull)
+
+  implicit def lsp4JEitherCodeActionOptions(options: Option[CodeActionOptions]): JEither[java.lang.Boolean, lsp4j.CodeActionOptions] =
+    options
+      .map(codeActionOptions => JEither.forRight[java.lang.Boolean, lsp4j.CodeActionOptions](lsp4JCodeActionOptions(codeActionOptions)))
+      .getOrElse(JEither.forLeft(false))
+
   implicit def lsp4JServerCapabilities(capabilities: ServerCapabilities): lsp4j.ServerCapabilities = {
     val result = new lsp4j.ServerCapabilities()
     result.setTextDocumentSync(
@@ -234,6 +271,8 @@ object Lsp4JConversions {
     result.setReferencesProvider(capabilities.referencesProvider)
     result.setDocumentSymbolProvider(capabilities.documentSymbolProvider)
     result.setRenameProvider(capabilities.renameProvider)
+    result.setCodeActionProvider(capabilities.codeActionProvider)
+
     result.setExperimental(capabilities.experimental)
     result.setExecuteCommandProvider(new ExecuteCommandOptions(Lists.newArrayList("didFocusChange")))
 
