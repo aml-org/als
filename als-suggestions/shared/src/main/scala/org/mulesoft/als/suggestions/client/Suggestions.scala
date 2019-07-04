@@ -2,7 +2,6 @@ package org.mulesoft.als.suggestions.client
 
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
-import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
 import amf.core.remote._
 import amf.internal.environment.Environment
@@ -19,108 +18,13 @@ import org.mulesoft.als.suggestions.implementation.{
   EmptyASTProvider
 }
 import org.mulesoft.als.suggestions.interfaces.Syntax._
-import org.mulesoft.als.suggestions.interfaces.{CompletionPlugin, CompletionProvider, CompletionRequest, Syntax}
+import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, CompletionRequest, Syntax}
 import org.mulesoft.high.level.InitOptions
 import org.mulesoft.high.level.amfmanager.ParserHelper
 import org.mulesoft.high.level.interfaces.IProject
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-
-object SuggestionsAST extends SuggestionsHelper {
-  def init(options: Seq[CompletionPlugin], dialects: Seq[Dialect]): Unit =
-    CoreAST.init(options, dialects)
-
-  def suggest(language: String,
-              url: String,
-              position: Position,
-              directoryResolver: DirectoryResolver,
-              environment: Environment,
-              platform: Platform): Future[Seq[Suggestion]] = {
-
-    platform
-      .resolve(url, environment)
-      .map(content => {
-        val originalContent = content.stream.toString
-        val (_, patchedEnv) =
-          patchContentInEnvironment(environment, url, originalContent, position.offset(originalContent))
-        (originalContent, patchedEnv)
-      })
-      .flatMap {
-        case (originalContent, patchedEnv) =>
-          suggestWithPatchedEnvironment(language,
-                                        url,
-                                        originalContent,
-                                        position,
-                                        directoryResolver,
-                                        patchedEnv,
-                                        platform)
-      }
-  }
-
-  private def suggestWithPatchedEnvironment(language: String,
-                                            url: String,
-                                            originalContent: String,
-                                            position: Position,
-                                            directoryResolver: DirectoryResolver,
-                                            environment: Environment,
-                                            platform: Platform): Future[Seq[Suggestion]] = {
-
-    val config = this.buildParserConfig(language, url)
-    val completionProviderFuture: Future[CompletionProviderAST] = this
-      .amfParse(config, environment, platform)
-      .map(bu => this.buildCompletionProviderAST(bu, url, position, originalContent, directoryResolver, platform))
-      .recoverWith {
-        case any =>
-          println(any)
-          Future.failed(new Error("Failed to construct CompletionProvider"))
-      }
-
-    completionProviderFuture
-      .flatMap(_.suggest)
-      .map(suggestions => {
-        suggestions.map(
-          suggestion =>
-            new Suggestion(
-              text = suggestion.text,
-              description = suggestion.description,
-              displayText = suggestion.displayText,
-              prefix = suggestion.prefix,
-              category = suggestion.category,
-              range = suggestion.range
-          ))
-      })
-  }
-
-  def buildCompletionProviderAST(bu: BaseUnit,
-                                 url: String,
-                                 pos: Position,
-                                 originalContent: String,
-                                 directoryResolver: DirectoryResolver,
-                                 platform: Platform): CompletionProviderAST = {
-    val dialect: Option[Dialect] = bu match {
-      case d: DialectInstance =>
-        AMLPlugin.registry
-          .dialectFor(d)
-      case _ => None
-    }
-
-    val amfPosition = pos.moveLine(1)
-    val amfObject   = AmfUtils.getNodeByPosition(bu, amfPosition)
-
-    CompletionProviderAST(new CompletionRequest {
-
-      override val baseUnit: BaseUnit = bu
-
-      override val position: Position = pos
-
-      override val propertyMapping: Seq[PropertyMapping] =
-        AmfUtils.getPropertyMappings(amfObject, amfPosition, dialect)
-
-      override val fieldEntry: Option[FieldEntry] = AmfUtils.getFieldEntryByPosition(amfObject, amfPosition)
-    })
-  }
-}
 
 object Suggestions extends SuggestionsHelper {
   def init(options: InitOptions = InitOptions.WebApiProfiles): Future[Unit] = Core.init(options)
@@ -130,8 +34,7 @@ object Suggestions extends SuggestionsHelper {
               position: Int,
               directoryResolver: DirectoryResolver,
               environment: Environment,
-              platform: Platform,
-              pluginsAML: Seq[CompletionPlugin] = BaseCompletionPluginsRegistryAML.get()): Future[Seq[Suggestion]] = {
+              platform: Platform): Future[Seq[Suggestion]] = {
 
     platform
       .resolve(url, environment)
@@ -148,40 +51,41 @@ object Suggestions extends SuggestionsHelper {
                                         position,
                                         directoryResolver,
                                         patchedEnv,
-                                        platform,
-                                        pluginsAML)
+                                        platform)
       }
   }
 
-  private def suggestWithPatchedEnvironment(
-      language: String,
-      url: String,
-      originalContent: String,
-      position: Int,
-      directoryResolver: DirectoryResolver,
-      environment: Environment,
-      platform: Platform,
-      pluginsAML: Seq[CompletionPlugin] = BaseCompletionPluginsRegistryAML.get()): Future[Seq[Suggestion]] = {
+  def buildProvider(bu: BaseUnit,
+                    position: Int,
+                    directoryResolver: DirectoryResolver,
+                    platform: Platform,
+                    url: String,
+                    originalContent: String): Future[CompletionProvider] = {
+    dialectFor(bu) match {
+      case Some(d) =>
+        Future(
+          buildCompletionProviderAST(bu,
+                                     d,
+                                     bu.id,
+                                     Position(position, bu.raw.getOrElse("")),
+                                     bu.raw.getOrElse(""),
+                                     directoryResolver,
+                                     platform))
+      case _ =>
+        this
+          .buildHighLevel(bu, platform)
+          .map(this.buildCompletionProvider(_, url, position, originalContent, directoryResolver, platform))
+    }
+  }
 
-    val config = this.buildParserConfig(language, url)
-    val completionProviderFuture: Future[CompletionProvider] = this
-      .amfParse(config, environment, platform)
-      .flatMap {
-        case bu: DialectInstance =>
-          SuggestionsAST.init(pluginsAML, AMLPlugin.registry.dialectFor(bu).toSeq)
-
-          Future(
-            SuggestionsAST.buildCompletionProviderAST(bu,
-                                                      bu.id,
-                                                      Position(position, bu.raw.getOrElse("")),
-                                                      bu.raw.getOrElse(""),
-                                                      directoryResolver,
-                                                      platform))
-        case bu =>
-          this
-            .buildHighLevel(bu, platform)
-            .map(this.buildCompletionProvider(_, url, position, originalContent, directoryResolver, platform))
-      }
+  def buildProviderAsync(unitFuture: Future[BaseUnit],
+                         position: Int,
+                         directoryResolver: DirectoryResolver,
+                         platform: Platform,
+                         url: String,
+                         originalContent: String): Future[CompletionProvider] = {
+    unitFuture
+      .flatMap(buildProvider(_, position, directoryResolver, platform, url, originalContent))
       .recoverWith {
         case e: Throwable =>
           println(e)
@@ -191,7 +95,29 @@ object Suggestions extends SuggestionsHelper {
           println(any)
           Future.failed(new Error("Failed to construct CompletionProvider"))
       }
-    completionProviderFuture
+  }
+
+  private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
+    case d: DialectInstance => AMLPlugin.registry.dialectFor(d)
+//    case d if d.sourceVendor.contains(Oas20) => Some(OAS20Dialect.dialect)
+    case _ => None
+  }
+
+  private def suggestWithPatchedEnvironment(language: String,
+                                            url: String,
+                                            originalContent: String,
+                                            position: Int,
+                                            directoryResolver: DirectoryResolver,
+                                            environment: Environment,
+                                            platform: Platform): Future[Seq[Suggestion]] = {
+
+    val config = this.buildParserConfig(language, url)
+    buildProviderAsync(this.amfParse(config, environment, platform),
+                       position,
+                       directoryResolver,
+                       platform,
+                       url,
+                       originalContent)
       .flatMap(_.suggest())
       .map(suggestions => suggestions map toClientSuggestion)
   }
@@ -207,16 +133,15 @@ object Suggestions extends SuggestionsHelper {
     )
   }
 
-  def buildHighLevel(model: BaseUnit, platform: Platform): Future[IProject] = {
+  private def buildHighLevel(model: BaseUnit, platform: Platform): Future[IProject] =
     org.mulesoft.high.level.Core.buildModel(model, platform)
-  }
 
-  def buildCompletionProvider(project: IProject,
-                              url: String,
-                              position: Int,
-                              originalContent: String,
-                              directoryResolver: DirectoryResolver,
-                              platform: Platform): CompletionProviderWebApi = {
+  private def buildCompletionProvider(project: IProject,
+                                      url: String,
+                                      position: Int,
+                                      originalContent: String,
+                                      directoryResolver: DirectoryResolver,
+                                      platform: Platform): CompletionProviderWebApi = {
 
     val rootUnit = project.rootASTUnit
 
@@ -233,11 +158,11 @@ object Suggestions extends SuggestionsHelper {
     CompletionProviderWebApi().withConfig(completionConfig)
   }
 
-  def buildCompletionProviderNoAST(text: String,
-                                   url: String,
-                                   position: Int,
-                                   directoryResolver: DirectoryResolver,
-                                   platform: Platform): CompletionProviderWebApi = {
+  private def buildCompletionProviderNoAST(text: String,
+                                           url: String,
+                                           position: Int,
+                                           directoryResolver: DirectoryResolver,
+                                           platform: Platform): CompletionProviderWebApi = {
 
     val baseName = url.substring(url.lastIndexOf('/') + 1)
 
@@ -255,6 +180,30 @@ object Suggestions extends SuggestionsHelper {
       .withOriginalContent(text)
 
     CompletionProviderWebApi().withConfig(completionConfig)
+  }
+
+  private def buildCompletionProviderAST(bu: BaseUnit,
+                                         dialect: Dialect,
+                                         url: String,
+                                         pos: Position,
+                                         originalContent: String,
+                                         directoryResolver: DirectoryResolver,
+                                         platform: Platform): CompletionProviderAST = {
+
+    val amfPosition = pos.moveLine(1)
+    val amfObject   = AmfUtils.getNodeByPosition(bu, amfPosition)
+
+    CompletionProviderAST(new CompletionRequest {
+
+      override val baseUnit: BaseUnit = bu
+
+      override val position: Position = pos
+
+      override val propertyMapping: Seq[PropertyMapping] =
+        AmfUtils.getPropertyMappings(amfObject, amfPosition, dialect)
+
+      override val fieldEntry: Option[FieldEntry] = AmfUtils.getFieldEntryByPosition(amfObject, amfPosition)
+    })
   }
 }
 

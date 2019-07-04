@@ -33,6 +33,10 @@ object CompletionPluginsRegistryAML {
   def cleanPlugins(): Unit = registry.cleanPlugins()
 }
 
-object BaseCompletionPluginsRegistryAML {
-  def get(): Seq[CompletionPlugin] = Seq(AMLStructureCompletionPlugin, AMLEnumCompletionPlugin)
+object AMLBaseCompletionPlugins {
+  private val all = Seq(AMLStructureCompletionPlugin, AMLEnumCompletionPlugin)
+
+  def get(): Seq[CompletionPlugin] = all
+
+  def initAll(): Unit = all.foreach(CompletionPluginsRegistryAML.registerPlugin)
 }
