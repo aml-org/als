@@ -1,8 +1,7 @@
 package org.mulesoft.als.server.modules.completion
 
+import amf.core.model.document.BaseUnit
 import amf.core.remote.{Platform, Raml10, Vendor}
-import amf.plugins.document.vocabularies.AMLPlugin
-import amf.plugins.document.vocabularies.model.document.DialectInstance
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
@@ -11,22 +10,12 @@ import org.mulesoft.als.server.modules.common.LspConverter
 import org.mulesoft.als.server.modules.hlast.HlAstManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.suggestions
-import org.mulesoft.als.suggestions.client.{Suggestions, SuggestionsAST}
-import org.mulesoft.als.suggestions.implementation.CompletionConfig
+import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Suggestion, Syntax}
-import org.mulesoft.als.suggestions.{BaseCompletionPluginsRegistryAML, CompletionProviderWebApi}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.RequestHandler
-import org.mulesoft.lsp.feature.completion.{
-  CompletionClientCapabilities,
-  CompletionConfigType,
-  CompletionItem,
-  CompletionList,
-  CompletionOptions,
-  CompletionParams,
-  CompletionRequestType
-}
+import org.mulesoft.lsp.feature.completion._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -100,7 +89,8 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
 
         buildCompletionProviderAST(text, originalText, uri, refinedUri, offset, vendor, syntax)
           .flatMap(provider => {
-            provider.suggest
+            provider
+              .suggest()
               .map(result => {
                 this.logger.debug(s"Got ${result.length} proposals", "SuggestionsManager", "onDocumentCompletion")
 
@@ -124,51 +114,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                                  vendor: Vendor,
                                  syntax: Syntax): Future[CompletionProvider] = {
 
-    hlAstManager.astManager
-      .forceBuildNewAST(uri, text)
-      .flatMap {
-        case bu: DialectInstance =>
-          SuggestionsAST.init(BaseCompletionPluginsRegistryAML.get(), AMLPlugin.registry.dialectFor(bu).toSeq)
-
-          Future(
-            SuggestionsAST.buildCompletionProviderAST(bu,
-                                                      bu.id,
-                                                      Position(position, bu.raw.getOrElse("")),
-                                                      bu.raw.getOrElse(""),
-                                                      directoryResolver,
-                                                      platform))
-
-        // Todo: erase high-level when possible
-        case bu =>
-          hlAstManager
-            .forceBuildNewAST(bu)
-            .map(hlAST => {
-
-              val baseName = refinedUri.substring(refinedUri.lastIndexOf('/') + 1)
-
-              val astProvider =
-                new ASTProvider(hlAST.rootASTUnit.rootNode, vendor, syntax, position)
-
-              val editorStateProvider =
-                new EditorStateProvider(text, refinedUri, baseName, position)
-
-              val completionConfig = new CompletionConfig(directoryResolver, platform)
-                .withEditorStateProvider(editorStateProvider)
-                .withAstProvider(astProvider)
-                .withOriginalContent(unmodifiedContent)
-
-              CompletionProviderWebApi().withConfig(completionConfig)
-            })
-      }
-      .recoverWith {
-        case e: Throwable =>
-          println(e)
-          Future.successful(
-            Suggestions
-              .buildCompletionProviderNoAST(unmodifiedContent, refinedUri, position, directoryResolver, platform))
-        case any =>
-          println(any)
-          Future.failed(new Error("Failed to construct CompletionProvider"))
-      }
+    val eventualUnit: Future[BaseUnit] = hlAstManager.astManager.forceBuildNewAST(uri, text)
+    Suggestions.buildProviderAsync(eventualUnit, position, directoryResolver, platform, uri, unmodifiedContent)
   }
 }

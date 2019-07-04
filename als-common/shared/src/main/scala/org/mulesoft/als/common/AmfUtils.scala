@@ -10,16 +10,11 @@ import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapp
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 
 object AmfUtils {
-  def getPropertyMappings(amfObject: AmfObject,
-                          amfPosition: Position,
-                          dialect: Option[Dialect]): Seq[PropertyMapping] =
-    dialect
-      .flatMap(d => getDialectNode(d, amfObject, getFieldEntryByPosition(amfObject, amfPosition)))
-      .map {
-        case nm: domain.NodeMapping => nm.propertiesMapping()
-        case _                      => Nil
-      }
-      .getOrElse(Nil)
+  def getPropertyMappings(amfObject: AmfObject, amfPosition: Position, dialect: Dialect): Seq[PropertyMapping] =
+    getDialectNode(dialect, amfObject, getFieldEntryByPosition(amfObject, amfPosition)) match {
+      case Some(nm: domain.NodeMapping) => nm.propertiesMapping()
+      case _                            => Nil
+    }
 
   def getFieldEntryByPosition(amfObject: AmfObject, amfPosition: Position): Option[FieldEntry] =
     amfObject.fields
