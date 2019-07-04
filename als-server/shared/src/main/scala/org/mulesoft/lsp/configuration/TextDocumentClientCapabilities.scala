@@ -1,5 +1,6 @@
 package org.mulesoft.lsp.configuration
 
+import org.mulesoft.lsp.feature.codeactions.CodeActionCapabilities
 import org.mulesoft.lsp.feature.completion.CompletionClientCapabilities
 import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticClientCapabilities
@@ -17,4 +18,6 @@ case class TextDocumentClientCapabilities(synchronization: Option[Synchronizatio
                                           references: Option[ReferenceClientCapabilities] = None,
                                           documentSymbol: Option[DocumentSymbolClientCapabilities] = None,
                                           definition: Option[DefinitionClientCapabilities] = None,
-                                          rename: Option[RenameClientCapabilities] = None)
+                                          rename: Option[RenameClientCapabilities] = None,
+                                          codeActionCapabilities: Option[CodeActionCapabilities] = None,
+                                         )

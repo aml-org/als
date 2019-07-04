@@ -13,6 +13,7 @@ import org.mulesoft.als.server.modules.completion.SuggestionsManager
 import org.mulesoft.als.server.modules.definition.DefinitionModule
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
 import org.mulesoft.als.server.modules.hlast.HlAstManager
+import org.mulesoft.als.server.modules.quickfixes.QuickFixesModule
 import org.mulesoft.als.server.modules.reference.FindReferencesModule
 import org.mulesoft.als.server.modules.rename.RenameModule
 import org.mulesoft.als.server.modules.structure.StructureManager
@@ -39,6 +40,7 @@ object LanguageServerFactory extends PlatformSecrets {
     val diagnosticManager = new DiagnosticManager(documentManager, astManager, clientNotifier, platform, logger)
     val referenceModule   = new FindReferencesModule(hlAstManager, platform, logger)
     val renameModule      = new RenameModule(hlAstManager, logger, platform)
+    val quickFixesModule  = new QuickFixesModule()
     val structureManager  = new StructureManager(documentManager, astManager, logger, platform)
 
     LanguageServerBuilder()
@@ -50,6 +52,7 @@ object LanguageServerFactory extends PlatformSecrets {
       .addRequestModule(definitionModule)
       .addRequestModule(referenceModule)
       .addRequestModule(renameModule)
+      .addRequestModule(quickFixesModule)
       .addRequestModule(structureManager)
       .build()
   }
