@@ -3,31 +3,48 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.core.annotations.SourceAST
 import amf.core.model.document.Document
 import org.mulesoft.als.common.YamlUtils
-import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlugin, RawSuggestion}
+import org.mulesoft.als.common.YamlUtils.{getNodeByPosition, getParents}
+import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.suggestions.interfaces.{
+  CompletionParams,
+  CompletionPlugin,
+  RawSuggestion
+}
 import org.mulesoft.lsp.edit.TextEdit
 import org.yaml.model.YPart
 
 import scala.concurrent.Future
 
-class AMLEnumCompletions(params: CompletionParams, ast: Option[YPart]) extends AMLSuggestionsHelper {
+class AMLEnumCompletions(params: CompletionParams,
+                         ast: Option[YPart],
+                         parents: Seq[YPart])
+    extends AMLSuggestionsHelper {
+
+  def presentArray(value: String,
+                   parents: Seq[YPart],
+                   amfPosition: Position): String = {
+//    if (YamlUtils.isInArray(parents, amfPosition))
+//      value
+//    else
+      s"\n${getIndentation(params.currentBaseUnit, params.position)}- ${value}"
+  }
+
   private def getSuggestions: Seq[String] =
-    params.fieldEntry
-      .flatMap(e => {
-        params.propertyMappings
-          .find(
-            pm =>
-              pm.fields
-                .fields()
-                .exists(f => f.value.toString == e.field.value.iri()))
-          .map(pm =>
-            pm.enum()
-              .flatMap(_.option().map(e => {
-                if (pm.allowMultiple().value() && params.prefix.isEmpty && !YamlUtils
-                      .isArray(ast, params.position.moveLine(1)))
-                  s"\n${getIndentation(params.currentBaseUnit, params.position)}- ${e.toString}"
-                else e.toString
-              })))
-      })
+    params.propertyMappings.headOption
+      .map(
+        pm =>
+          pm.enum()
+            .flatMap(_.option().map(e => {
+              val amfPosition: Position = params.position.moveLine(1)
+              val selectedNode: Option[YPart] =
+                ast.map(getNodeByPosition(_, amfPosition))
+              if (pm.allowMultiple()
+                    .value() && params.prefix.isEmpty && !YamlUtils
+                    .isArray(selectedNode, amfPosition) && !YamlUtils
+                    .isInArray(parents, amfPosition)) {
+                presentArray(e.toString, parents, amfPosition)
+              } else e.toString
+            })))
       .getOrElse(Nil)
 
   def resolve(): Future[Seq[RawSuggestion]] =
@@ -57,8 +74,15 @@ object AMLEnumCompletionPlugin extends CompletionPlugin {
       case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
     }
 
-    if (!YamlUtils.isKey(ast, params.position.moveLine(1)))
-      new AMLEnumCompletions(params, ast).resolve()
-    else Future.successful(Seq())
+    ast
+      .map(a => {
+        val amfPosition = params.position.moveLine(1)
+        val parents = getParents(a, amfPosition, Seq())
+        if (YamlUtils.isInArray(parents, amfPosition) || !YamlUtils
+              .isKey(parents.headOption, amfPosition))
+          new AMLEnumCompletions(params, ast, parents).resolve()
+        else
+          Future.successful(Nil)
+      }).getOrElse(Future.successful(Nil))
   }
 }
