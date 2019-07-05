@@ -9,7 +9,8 @@ import scala.concurrent.Future
 object PathCompletion {
 
   private def resolvePath(platform: Platform, basePath: String, path: String): String =
-    platform.resolvePath(basePath + path.stripPrefix("/"))
+    if (path.nonEmpty) platform.resolvePath(basePath + path.stripPrefix("/"))
+    else basePath
 
   def complete(defaultPath: String,
                nonEncodedAdditionalPath: String,
@@ -55,7 +56,7 @@ object PathCompletion {
         filesFuture.flatMap(shortFilePaths => {
           val fullFilePaths: Seq[String] =
             shortFilePaths
-              .map(platform.encodeURI(_))
+              .map(platform.encodeURI)
               .map(resolvePath(platform, finalDirectoryPath, _))
 
           val filter = resolvePath(platform, directoryPath, additionalPath)
@@ -67,8 +68,9 @@ object PathCompletion {
               directoryResolver
                 .isDirectory(fullFilePath)
                 .map({
-                  case true if !result.endsWith("/") => platform.decodeURI(result) + "/"
-                  case _                             => platform.decodeURI(result)
+                  case true if !result.endsWith("/") =>
+                    platform.decodeURI(result) + "/"
+                  case _ => platform.decodeURI(result)
                 })
             })
           Future.sequence(futures)
