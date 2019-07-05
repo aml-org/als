@@ -24,8 +24,18 @@ class InstanceTests extends AMLSuggestionsTest {
   }
 
   test("test004") {
-    this.runTest("instance/test004.yaml",
-                 Set("[ null ]", "[ boolean ]", "[ string ]", "[ array ]", "[ object ]", "[ number ]", "[ integer ]"))
+    this.runTest(
+      "instance/test004.yaml",
+      Set(
+        "\n          - null",
+        "\n          - boolean",
+        "\n          - string",
+        "\n          - array",
+        "\n          - object",
+        "\n          - number",
+        "\n          - integer"
+      )
+    )
   }
 
   test("test005") {
@@ -40,4 +50,9 @@ class InstanceTests extends AMLSuggestionsTest {
   test("test007") {
     this.runTest("instance/test007.yaml", Set("name: ", "description: "))
   }
+
+  test("test008") {
+    this.runTest("instance/test008.yaml", Set("null", "boolean", "string", "array", "object", "number", "integer"))
+  }
+
 }

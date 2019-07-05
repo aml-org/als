@@ -27,7 +27,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object Suggestions extends SuggestionsHelper {
-  def init(options: InitOptions = InitOptions.WebApiProfiles): Future[Unit] = Core.init(options)
+  def init(options: InitOptions = InitOptions.WebApiProfiles): Future[Unit] =
+    Core.init(options)
 
   def suggest(language: String,
               url: String,
@@ -40,7 +41,8 @@ object Suggestions extends SuggestionsHelper {
       .resolve(url, environment)
       .map(content => {
         val originalContent = content.stream.toString
-        val (_, patchedEnv) = patchContentInEnvironment(environment, url, originalContent, position)
+        val (_, patchedEnv) =
+          patchContentInEnvironment(environment, url, originalContent, position)
         (originalContent, patchedEnv)
       })
       .flatMap {
@@ -149,7 +151,8 @@ object Suggestions extends SuggestionsHelper {
 
     val baseName = url.substring(url.lastIndexOf('/') + 1)
 
-    val editorStateProvider = new DummyEditorStateProvider(rootUnit.text, url, baseName, position)
+    val editorStateProvider =
+      new DummyEditorStateProvider(rootUnit.text, url, baseName, position)
     val completionConfig = new CompletionConfig(directoryResolver, platform)
       .withAstProvider(astProvider)
       .withEditorStateProvider(editorStateProvider)
@@ -166,7 +169,8 @@ object Suggestions extends SuggestionsHelper {
 
     val baseName = url.substring(url.lastIndexOf('/') + 1)
 
-    val editorStateProvider = new DummyEditorStateProvider(text, url, baseName, position)
+    val editorStateProvider =
+      new DummyEditorStateProvider(text, url, baseName, position)
 
     val trimmed = text.trim
     val vendor  = if (trimmed.startsWith("#%RAML")) Raml10 else Oas20
@@ -192,6 +196,8 @@ object Suggestions extends SuggestionsHelper {
 
     val amfPosition = pos.moveLine(1)
     val amfObject   = AmfUtils.getNodeByPosition(bu, amfPosition)
+    val maybeFieldEntry =
+      AmfUtils.getFieldEntryByPosition(amfObject, amfPosition)
 
     CompletionProviderAST(new CompletionRequest {
 
@@ -200,9 +206,9 @@ object Suggestions extends SuggestionsHelper {
       override val position: Position = pos
 
       override val propertyMapping: Seq[PropertyMapping] =
-        AmfUtils.getPropertyMappings(amfObject, amfPosition, dialect)
+        AmfUtils.getPropertyMappings(amfObject, amfPosition, dialect, maybeFieldEntry)
 
-      override val fieldEntry: Option[FieldEntry] = AmfUtils.getFieldEntryByPosition(amfObject, amfPosition)
+      override val fieldEntry: Option[FieldEntry] = maybeFieldEntry
     })
   }
 }
@@ -215,7 +221,8 @@ trait SuggestionsHelper {
   def getMediaType(originalContent: String): Syntax = {
 
     val trimmed = originalContent.trim
-    if (trimmed.startsWith("{") || trimmed.startsWith("[")) Syntax.JSON else Syntax.YAML
+    if (trimmed.startsWith("{") || trimmed.startsWith("[")) Syntax.JSON
+    else Syntax.YAML
   }
 
   def patchContentInEnvironment(environment: Environment,
@@ -223,8 +230,9 @@ trait SuggestionsHelper {
                                 fileContentsStr: String,
                                 position: Int): (String, Environment) = {
 
-    val patchedContent  = Core.prepareText(fileContentsStr, position, YAML)
-    val envWithOverride = EnvironmentPatcher.patch(environment, fileUrl, patchedContent)
+    val patchedContent = Core.prepareText(fileContentsStr, position, YAML)
+    val envWithOverride =
+      EnvironmentPatcher.patch(environment, fileUrl, patchedContent)
 
     (patchedContent, envWithOverride)
   }
