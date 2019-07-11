@@ -13,10 +13,13 @@ import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.high.level.amfmanager.ParserHelper
 import org.scalatest.{Assertion, AsyncFunSuite}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 trait CoreTest extends AsyncFunSuite with PlatformSecrets {
   private val directoryResolver = new PlatformDirectoryResolver(platform)
+
+  implicit override def executionContext: ExecutionContext =
+    scala.concurrent.ExecutionContext.Implicits.global
 
   def format: String
 
