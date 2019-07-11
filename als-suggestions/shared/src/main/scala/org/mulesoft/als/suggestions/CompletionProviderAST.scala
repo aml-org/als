@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions
 import amf.core.annotations.SourceAST
 import amf.core.model.document.BaseUnit
 import amf.core.parser.FieldEntry
+import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.common.YamlUtils
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
@@ -24,7 +25,9 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
 
   private def getPrefix(ast: Option[YPart], position: Position): String =
     ast
-      .map(YamlUtils.getNodeByPosition(_, Position(position.line + 1, position.column)))
+      .map(
+        YamlUtils
+          .getNodeByPosition(_, Position(position.line + 1, position.column)))
       .map {
         case node: YNode => extractText(node, position)
         case _           => ""
@@ -36,20 +39,26 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
 
   override def suggest(): Future[Seq[Suggestion]] = {
     val linePrefix =
-      getPrefix(request.baseUnit.annotations.find(classOf[SourceAST]).map(sAST => sAST.ast), request.position)
+      getPrefix(request.baseUnit.annotations
+                  .find(classOf[SourceAST])
+                  .map(sAST => sAST.ast),
+                request.position)
     CompletionPluginsRegistryAML
       .pluginSuggestions(new CompletionParams {
-        override val currentBaseUnit: BaseUnit              = request.baseUnit
-        override val position: Position                     = request.position
-        override val prefix: String                         = linePrefix
-        override val propertyMappings: Seq[PropertyMapping] = request.propertyMapping
-        override val fieldEntry: Option[FieldEntry]         = request.fieldEntry
+        override val currentBaseUnit: BaseUnit = request.baseUnit
+        override val position: Position        = request.position
+        override val prefix: String            = linePrefix
+        override val propertyMappings: Seq[PropertyMapping] =
+          request.propertyMapping
+        override val fieldEntry: Option[FieldEntry] = request.fieldEntry
+        override val actualDialect: Dialect         = request.actualDialect
       })
       .map(suggestions => {
         filteredSuggestions(suggestions, linePrefix)
           .map(rawSuggestion =>
             new Suggestion {
-              override def text: String = rawSuggestion.newText + rawSuggestion.whiteSpacesEnding
+              override def text: String =
+                rawSuggestion.newText + rawSuggestion.whiteSpacesEnding
 
               override def description: String = rawSuggestion.description
 
@@ -59,7 +68,8 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
 
               override def category: String = "" // TODO: Category for AML?
 
-              override def trailingWhitespace: String = rawSuggestion.whiteSpacesEnding
+              override def trailingWhitespace: String =
+                rawSuggestion.whiteSpacesEnding
 
               override def range: Option[PositionRange] = None
           })
@@ -68,5 +78,6 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
 }
 
 object CompletionProviderAST {
-  def apply(request: CompletionRequest): CompletionProviderAST = new CompletionProviderAST(request)
+  def apply(request: CompletionRequest): CompletionProviderAST =
+    new CompletionProviderAST(request)
 }

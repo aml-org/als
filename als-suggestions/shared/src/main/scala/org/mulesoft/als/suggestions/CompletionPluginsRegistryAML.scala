@@ -1,7 +1,11 @@
 package org.mulesoft.als.suggestions
 
 import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlugin, RawSuggestion}
-import org.mulesoft.als.suggestions.plugins.aml.{AMLEnumCompletionPlugin, AMLStructureCompletionPlugin}
+import org.mulesoft.als.suggestions.plugins.aml.{
+  AMLEnumCompletionPlugin,
+  AMLRootDeclarationsCompletionPlugin,
+  AMLStructureCompletionPlugin
+}
 
 import scala.collection.mutable
 import scala.concurrent.Future
@@ -34,7 +38,7 @@ object CompletionPluginsRegistryAML {
 }
 
 object AMLBaseCompletionPlugins {
-  private val all = Seq(AMLStructureCompletionPlugin, AMLEnumCompletionPlugin)
+  private val all = Seq(AMLStructureCompletionPlugin, AMLEnumCompletionPlugin, AMLRootDeclarationsCompletionPlugin)
 
   def get(): Seq[CompletionPlugin] = all
 
