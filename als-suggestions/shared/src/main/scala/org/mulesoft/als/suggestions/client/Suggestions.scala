@@ -209,6 +209,8 @@ object Suggestions extends SuggestionsHelper {
         AmfUtils.getPropertyMappings(amfObject, amfPosition, dialect, maybeFieldEntry)
 
       override val fieldEntry: Option[FieldEntry] = maybeFieldEntry
+
+      override val actualDialect = dialect
     })
   }
 }
