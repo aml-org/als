@@ -4,8 +4,7 @@ import amf.core.annotations.SourceAST
 import amf.core.model.document.Document
 import amf.core.remote.{Raml08, Raml10, Vendor}
 import amf.plugins.domain.webapi.models.{Parameter, WebApi}
-import org.mulesoft.als.common.YamlUtils
-import org.mulesoft.als.common.YamlUtils.getParents
+import org.mulesoft.als.common.NodeBranchBuilder
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
 import org.mulesoft.als.suggestions.interfaces.{
@@ -40,7 +39,7 @@ class BaseUriParametersCompletionPlugin extends ICompletionPlugin {
       }
 
     val parent: Option[YPart] =
-      getYaml(request).flatMap(yPart => YamlUtils.getParents(yPart, getPosition(request), Seq()).tail.headOption)
+      getYaml(request).flatMap(NodeBranchBuilder.build(_, getPosition(request)).parent)
 
     val result: Seq[String] = request.astNode
       .map(ast =>
@@ -78,8 +77,7 @@ class BaseUriParametersCompletionPlugin extends ICompletionPlugin {
       getYaml(request).forall(a => {
         val amfPosition = Position(request.position, request.astNode.flatMap(_.amfBaseUnit.raw).getOrElse(""))
           .moveLine(1)
-        val parents = getParents(a, amfPosition, Seq())
-        YamlUtils.isKey(parents.headOption, getPosition(request))
+        NodeBranchBuilder.build(a, amfPosition).isKey
       })
 }
 

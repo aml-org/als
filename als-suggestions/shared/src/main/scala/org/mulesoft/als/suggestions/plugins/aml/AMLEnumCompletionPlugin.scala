@@ -2,32 +2,18 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.annotations.SourceAST
 import amf.core.model.document.Document
-import org.mulesoft.als.common.YamlUtils
-import org.mulesoft.als.common.YamlUtils.{getNodeByPosition, getParents}
-import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.suggestions.interfaces.{
-  CompletionParams,
-  CompletionPlugin,
-  RawSuggestion
-}
+import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
+import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlugin, RawSuggestion}
 import org.mulesoft.lsp.edit.TextEdit
 import org.yaml.model.YPart
 
 import scala.concurrent.Future
 
-class AMLEnumCompletions(params: CompletionParams,
-                         ast: Option[YPart],
-                         parents: Seq[YPart])
+class AMLEnumCompletions(params: CompletionParams, ast: Option[YPart], yPartBranch: YPartBranch)
     extends AMLSuggestionsHelper {
 
-  def presentArray(value: String,
-                   parents: Seq[YPart],
-                   amfPosition: Position): String = {
-//    if (YamlUtils.isInArray(parents, amfPosition))
-//      value
-//    else
-      s"\n${getIndentation(params.currentBaseUnit, params.position)}- ${value}"
-  }
+  def presentArray(value: String): String =
+    s"\n${getIndentation(params.currentBaseUnit, params.position)}- $value"
 
   private def getSuggestions: Seq[String] =
     params.propertyMappings.headOption
@@ -35,15 +21,11 @@ class AMLEnumCompletions(params: CompletionParams,
         pm =>
           pm.enum()
             .flatMap(_.option().map(e => {
-              val amfPosition: Position = params.position.moveLine(1)
-              val selectedNode: Option[YPart] =
-                ast.map(getNodeByPosition(_, amfPosition))
+
               if (pm.allowMultiple()
-                    .value() && params.prefix.isEmpty && !YamlUtils
-                    .isArray(selectedNode, amfPosition) && !YamlUtils
-                    .isInArray(parents, amfPosition)) {
-                presentArray(e.toString, parents, amfPosition)
-              } else e.toString
+                    .value() && params.prefix.isEmpty && !yPartBranch.isArray && !yPartBranch.isInArray)
+                presentArray(e.toString)
+              else e.toString
             })))
       .getOrElse(Nil)
 
@@ -74,15 +56,10 @@ object AMLEnumCompletionPlugin extends CompletionPlugin {
       case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
     }
 
-    ast
-      .map(a => {
-        val amfPosition = params.position.moveLine(1)
-        val parents = getParents(a, amfPosition, Seq())
-        if (YamlUtils.isInArray(parents, amfPosition) || !YamlUtils
-              .isKey(parents.headOption, amfPosition))
-          new AMLEnumCompletions(params, ast, parents).resolve()
-        else
-          Future.successful(Nil)
-      }).getOrElse(Future.successful(Nil))
+    ast.map(NodeBranchBuilder.build(_, params.position)) match {
+      case Some(yPart: YPartBranch) if yPart.isInArray || !yPart.isKey =>
+        new AMLEnumCompletions(params, ast, yPart).resolve()
+      case _ => Future.successful(Nil)
+    }
   }
 }

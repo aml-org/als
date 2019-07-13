@@ -2,15 +2,14 @@ package org.mulesoft.als.suggestions.client
 
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
-import amf.core.parser.FieldEntry
 import amf.core.remote._
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.common.{AmfUtils, DirectoryResolver, EnvironmentPatcher}
+import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher}
 import org.mulesoft.als.suggestions._
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.implementation.{
   CompletionConfig,
   DummyASTProvider,
@@ -18,7 +17,7 @@ import org.mulesoft.als.suggestions.implementation.{
   EmptyASTProvider
 }
 import org.mulesoft.als.suggestions.interfaces.Syntax._
-import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, CompletionRequest, Syntax}
+import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
 import org.mulesoft.high.level.InitOptions
 import org.mulesoft.high.level.amfmanager.ParserHelper
 import org.mulesoft.high.level.interfaces.IProject
@@ -195,23 +194,7 @@ object Suggestions extends SuggestionsHelper {
                                          platform: Platform): CompletionProviderAST = {
 
     val amfPosition = pos.moveLine(1)
-    val amfObject   = AmfUtils.getNodeByPosition(bu, amfPosition)
-    val maybeFieldEntry =
-      AmfUtils.getFieldEntryByPosition(amfObject, amfPosition)
-
-    CompletionProviderAST(new CompletionRequest {
-
-      override val baseUnit: BaseUnit = bu
-
-      override val position: Position = pos
-
-      override val propertyMapping: Seq[PropertyMapping] =
-        AmfUtils.getPropertyMappings(amfObject, amfPosition, dialect, maybeFieldEntry)
-
-      override val fieldEntry: Option[FieldEntry] = maybeFieldEntry
-
-      override val actualDialect = dialect
-    })
+    CompletionProviderAST(AmlCompletionRequest(amfPosition, bu, dialect))
   }
 }
 
