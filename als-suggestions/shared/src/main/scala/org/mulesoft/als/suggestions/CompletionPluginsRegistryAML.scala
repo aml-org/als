@@ -42,5 +42,8 @@ object AMLBaseCompletionPlugins {
 
   def get(): Seq[CompletionPlugin] = all
 
-  def initAll(): Unit = all.foreach(CompletionPluginsRegistryAML.registerPlugin)
+  def initAll(): Unit = {
+    CompletionPluginsRegistryAML.cleanPlugins()
+    all.foreach(CompletionPluginsRegistryAML.registerPlugin)
+  }
 }
