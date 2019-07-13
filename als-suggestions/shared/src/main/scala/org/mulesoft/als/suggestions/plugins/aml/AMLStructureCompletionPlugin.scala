@@ -3,11 +3,10 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.core.annotations.SourceAST
 import amf.core.model.document.Document
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import org.mulesoft.als.common.YamlUtils.getParents
-import org.mulesoft.als.common.{AmfUtils, YamlUtils}
+import org.mulesoft.als.common.AmfSonElementFinder._
+import org.mulesoft.als.common.NodeBranchBuilder
 import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlugin, RawSuggestion}
 import org.mulesoft.lsp.edit.TextEdit
-import org.yaml.model.YMapEntry
 
 import scala.concurrent.Future
 
@@ -22,7 +21,7 @@ class AMLStructureCompletions(params: CompletionParams, brothers: Set[String]) e
   }
 
   private def getSuggestions: Seq[(String, String)] =
-    params.propertyMappings.map(extractText(_, getIndentation(params.currentBaseUnit, params.position)))
+    params.propertyMappings.map(extractText(_, getIndentation(params.currentBaseUnit, params.position.moveLine(-1)))) // todo: we should work always with amf position in suggestions
 
   def resolve(): Future[Seq[RawSuggestion]] =
     Future.successful(
@@ -51,26 +50,17 @@ object AMLStructureCompletionPlugin extends CompletionPlugin {
         d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)
       case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
     }
-    val amfPosition = params.position.moveLine(1)
 
     ast
       .map(a => {
-        val parents = getParents(a, amfPosition, Seq())
-        if (YamlUtils
-              .isKey(parents.headOption, amfPosition) && !params.fieldEntry
+        val yPart = NodeBranchBuilder.build(a, params.position)
+        if (yPart.isKey && !params.fieldEntry
               .exists(_.value.value
                 .position()
-                .exists(li => AmfUtils.containsPosition(li, amfPosition, None))))
+                .exists(li => li.contains(params.position))))
           new AMLStructureCompletions(
             params,
-            ast
-              .map(yaml =>
-                YamlUtils.getNodeBrothers(yaml, amfPosition).flatMap {
-                  case yme: YMapEntry => yme.key.asScalar.map(_.text)
-                  case _              => None
-              })
-              .getOrElse(Nil)
-              .toSet
+            yPart.brothersKeys
           ).resolve()
         else Future.successful(Seq())
       })

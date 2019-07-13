@@ -5,7 +5,7 @@ import amf.core.model.document.BaseUnit
 import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import org.mulesoft.als.common.YamlUtils
+import org.mulesoft.als.common.NodeBranchBuilder
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.interfaces._
 import org.yaml.model.{YNode, YPart}
@@ -20,19 +20,14 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
     node
       .as[String]
       .lines
-      .toList(position.line + 1 - node.range.lineFrom)
+      .toList(position.line - node.range.lineFrom)
       .substring(0, position.column - node.range.columnFrom)
 
   private def getPrefix(ast: Option[YPart], position: Position): String =
-    ast
-      .map(
-        YamlUtils
-          .getNodeByPosition(_, Position(position.line + 1, position.column)))
-      .map {
-        case node: YNode => extractText(node, position)
-        case _           => ""
-      }
-      .getOrElse("")
+    ast.map(NodeBranchBuilder.build(_, position).node) match {
+      case Some(node: YNode) => extractText(node, position)
+      case _                 => ""
+    }
 
   private def filteredSuggestions(allSuggestions: Seq[RawSuggestion], prefix: String): Seq[RawSuggestion] =
     allSuggestions.filter(s => s.displayText.startsWith(prefix) || s.newText.startsWith(prefix))

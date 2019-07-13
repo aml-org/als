@@ -2,12 +2,11 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.annotations.SourceAST
 import amf.core.model.document.Document
-import amf.plugins.document.vocabularies.model.domain.{PropertyMapping, PublicNodeMapping}
-import org.mulesoft.als.common.YamlUtils.getParents
-import org.mulesoft.als.common.{AmfUtils, YamlUtils}
+import amf.plugins.document.vocabularies.model.domain.PublicNodeMapping
+import org.mulesoft.als.common.AmfSonElementFinder._
+import org.mulesoft.als.common.NodeBranchBuilder
 import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlugin, RawSuggestion}
 import org.mulesoft.lsp.edit.TextEdit
-import org.yaml.model.YMapEntry
 
 import scala.concurrent.Future
 
@@ -52,27 +51,18 @@ object AMLRootDeclarationsCompletionPlugin extends CompletionPlugin {
         d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)
       case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
     }
-    val amfPosition = params.position.moveLine(1)
 
     ast
       .map(a => {
-        val parents = getParents(a, amfPosition, Seq())
-        if (parents.length <= 2 && // entry and root
-            YamlUtils
-              .isKey(parents.headOption, amfPosition) && !params.fieldEntry
+        val yPart = NodeBranchBuilder.build(a, params.position)
+        if (yPart.isAtRoot && // entry and root
+            yPart.isKey && !params.fieldEntry
               .exists(_.value.value
                 .position()
-                .exists(li => AmfUtils.containsPosition(li, amfPosition, None))))
+                .exists(li => li.contains(params.position))))
           new AMLRootDeclarationsCompletionPlugin(
             params,
-            ast
-              .map(yaml =>
-                YamlUtils.getNodeBrothers(yaml, amfPosition).flatMap {
-                  case yme: YMapEntry => yme.key.asScalar.map(_.text)
-                  case _              => None
-              })
-              .getOrElse(Nil)
-              .toSet
+            yPart.brothersKeys
           ).resolve()
         else Future.successful(Seq())
       })
