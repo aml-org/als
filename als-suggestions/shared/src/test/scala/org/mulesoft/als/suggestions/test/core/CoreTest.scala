@@ -10,6 +10,7 @@ import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.Core
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
+import org.mulesoft.high.level.InitOptions
 import org.mulesoft.high.level.amfmanager.ParserHelper
 import org.scalatest.{Assertion, AsyncFunSuite}
 
@@ -88,12 +89,15 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
   }
 
   def runTestForCustomDialect(path: String, dialectPath: String, originalSuggestions: Set[String]): Future[Assertion] =
-    parseAMF(filePath(dialectPath)).flatMap(_ =>
-      suggest(path).map(suggestions => {
-        assert(suggestions.map(_.displayText).size == originalSuggestions.size)
-        assert(suggestions.map(_.displayText).forall(s => originalSuggestions.contains(s)))
-        assert(originalSuggestions.forall(s => suggestions.map(_.displayText).contains(s)))
-      }))
+    Suggestions
+      .init(InitOptions.AllProfiles)
+      .flatMap(_ => parseAMF(filePath(dialectPath)))
+      .flatMap(_ =>
+        suggest(path).map(suggestions => {
+          assert(suggestions.map(_.displayText).size == originalSuggestions.size)
+          assert(suggestions.map(_.displayText).forall(s => originalSuggestions.contains(s)))
+          assert(originalSuggestions.forall(s => suggestions.map(_.displayText).contains(s)))
+        }))
 
   def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] = {
     val cfg = new ParserConfig(
