@@ -25,15 +25,13 @@ class AmlCompletionRequest(override val baseUnit: BaseUnit,
           case _: AmfArray =>
             f.value.annotations
               .find(classOf[LexicalInformation])
-              .exists(_.contains(position)) && f.value.annotations
-              .find(classOf[LexicalInformation])
-              .forall(_.containsCompletly(position))
+              .exists(_.containsCompletely(position))
           case v =>
             v.position()
               .exists(_.contains(position)) &&
               f.value.annotations
                 .find(classOf[LexicalInformation])
-                .forall(_.containsCompletly(position))
+                .forall(_.containsCompletely(position))
       })
   }
 
