@@ -1,7 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.annotations.SourceAST
-import amf.core.model.document.Document
+import amf.core.model.document.{DeclaresModel, Document}
+import amf.plugins.document.vocabularies.model.document.{DialectInstance, DialectInstanceLibrary}
 import amf.plugins.document.vocabularies.model.domain.PublicNodeMapping
 import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common.NodeBranchBuilder
@@ -18,11 +19,21 @@ class AMLRootDeclarationsCompletionPlugin(params: CompletionParams, brothers: Se
     else (s"${mapping.name().value()}", ":\n  ")
 
   private def getSuggestions: Seq[(String, String)] =
-    params.actualDialect
-      .documents()
-      .root()
-      .declaredNodes()
-      .map(extractText)
+    params.currentBaseUnit match {
+      case _: DialectInstance =>
+        params.actualDialect
+          .documents()
+          .root()
+          .declaredNodes()
+          .map(extractText)
+      case _: DialectInstanceLibrary =>
+        params.actualDialect
+          .documents()
+          .library()
+          .declaredNodes()
+          .map(extractText)
+      case _ => Nil
+    }
 
   def resolve(): Future[Seq[RawSuggestion]] =
     Future.successful(
@@ -55,11 +66,7 @@ object AMLRootDeclarationsCompletionPlugin extends CompletionPlugin {
     ast
       .map(a => {
         val yPart = NodeBranchBuilder.build(a, params.position)
-        if (yPart.isAtRoot && // entry and root
-            yPart.isKey && !params.fieldEntry
-              .exists(_.value.value
-                .position()
-                .exists(li => li.contains(params.position))))
+        if (yPart.isAtRoot && yPart.isKey)
           new AMLRootDeclarationsCompletionPlugin(
             params,
             yPart.brothersKeys

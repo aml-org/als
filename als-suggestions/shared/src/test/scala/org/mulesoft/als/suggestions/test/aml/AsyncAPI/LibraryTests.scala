@@ -20,13 +20,23 @@ class LibraryTests extends AMLSuggestionsTest {
   }
 
   test("test004") {
-    this.runTest("library/test004.yaml",
-                 Set("[ null ]", "[ boolean ]", "[ string ]", "[ array ]", "[ object ]", "[ number ]", "[ integer ]"))
+    this.runTest(
+      "library/test004.yaml",
+      Set(
+        "\n            - null",
+        "\n            - boolean",
+        "\n            - string",
+        "\n            - array",
+        "\n            - object",
+        "\n            - number",
+        "\n            - integer"
+      )
+    )
   }
 
-//    test("test005"){
-//        this.runTest("library/test005.yaml", Set("null", "boolean", "string", "array", "object", "number", "integer"))
-//    }
+  test("test005") {
+    this.runTest("library/test005.yaml", Set("null", "boolean", "string", "array", "object", "number", "integer"))
+  }
 
   test("test006") {
     this.runTest(
@@ -34,16 +44,16 @@ class LibraryTests extends AMLSuggestionsTest {
       Set(
         "pattern: ",
         "maxItems: ",
-        "required:\n        ",
+        "required: ",
         "items:\n        ",
         "exclusiveMaximum: ",
         "\"$schema\": ",
-        "type:\n        ",
+        "type: ",
         "xml:\n        ",
         "key: ",
         "minimum: ",
         "maximum: ",
-        "default:\n        ",
+        "default: ",
         "exclusiveMinimum: ",
         "multipleOf: ",
         "description: ",

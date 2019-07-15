@@ -20,7 +20,7 @@ object AmfSonElementFinder {
                     p =>
                       p.contains(amfPosition) && f.value.annotations
                         .find(classOf[LexicalInformation])
-                        .forall(_.containsCompletly(amfPosition)))
+                        .forall(_.containsCompletely(amfPosition)))
                   .getOrElse(
                     arrayContainsPosition(a,
                                           amfPosition,
@@ -32,7 +32,7 @@ object AmfSonElementFinder {
                   case Some(p) =>
                     p.contains(amfPosition) && f.value.value.annotations
                       .find(classOf[LexicalInformation])
-                      .forall(_.containsCompletly(amfPosition))
+                      .forall(_.containsCompletely(amfPosition))
 
                   case _ => false
                 }
@@ -50,7 +50,7 @@ object AmfSonElementFinder {
                   case o: AmfObject
                       if entry.value.annotations
                         .find(classOf[LexicalInformation])
-                        .forall(_.containsCompletly(amfPosition)) =>
+                        .forall(_.containsCompletely(amfPosition)) =>
                     Some(o)
                   case _ => None
                 }
@@ -74,37 +74,37 @@ object AmfSonElementFinder {
 
   implicit class AlsAmfElement(element: AmfElement) {
 
-    def findSon(position: Position): Option[AmfElement] = { // todo: recursive with cicly control?
+    def findSon(position: Position): Option[AmfElement] = { // todo: recursive with cycle control?
       element match {
-        case obj: AmfObject => Some(obj.findSon(position))
-        case arra: AmfArray => arra.findSon(position)
-        case other          => None
+        case obj: AmfObject  => Some(obj.findSon(position))
+        case array: AmfArray => array.findSon(position)
+        case _               => None
       }
     }
   }
 
   implicit class AlsLexicalInformation(li: LexicalInformation) {
 
-    /**
-      * In the same line as the value and inside the range of a field
-      * @param li -> LexicalInformation for the value
-      * @param amfPosition -> Position (1 based) to search for
-      * @return -> Is in the same line as the value and inside the range of a field
-      */
-    def contains(pos: Position): Boolean = Range(li.range.start.line, li.range.end.line + 1).contains(pos.line)
+    def contains(pos: Position): Boolean =
+      Range(li.range.start.line, li.range.end.line + 1)
+        .contains(pos.line) && !isLastLine(pos)
 
-    def containsCompletly(pos: Position): Boolean =
+    def isLastLine(pos: Position): Boolean =
+      li.range.end.column == 0 && pos.line == li.range.end.line
+
+    def containsCompletely(pos: Position): Boolean =
       PositionRange(Position(li.range.start.line, li.range.start.column),
                     Position(li.range.end.line, li.range.end.column))
-        .contains(pos)
+        .contains(pos) && !isLastLine(pos)
   }
 
   private def arrayContainsPosition(amfArray: AmfArray,
                                     amfPosition: Position,
                                     fieldLi: Option[LexicalInformation]): Boolean =
     amfArray.values.exists(_.position() match {
-      case Some(p) => p.contains(amfPosition) && fieldLi.forall(_.containsCompletly(amfPosition))
-      case _       => false
+      case Some(p) =>
+        p.contains(amfPosition) && fieldLi.forall(_.containsCompletely(amfPosition))
+      case _ => false
     })
 
 }
