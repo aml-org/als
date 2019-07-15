@@ -12,7 +12,7 @@ import scala.concurrent.Future
 
 class AMLStructureCompletions(params: CompletionParams, brothers: Set[String]) extends AMLSuggestionsHelper {
 
-  def extractText(mapping: PropertyMapping, indent: String): (String, String) = {
+  private def extractText(mapping: PropertyMapping, indent: String): (String, String) = {
     val cleanText = mapping.name().value()
     val whiteSpaces =
       if (mapping.literalRange().isNullOrEmpty) s":\n$indent"
@@ -20,8 +20,14 @@ class AMLStructureCompletions(params: CompletionParams, brothers: Set[String]) e
     (cleanText, whiteSpaces)
   }
 
+  private def startsWithLetter(string: String) = {
+    val validSet: Set[Char] = (('a' to 'z') ++ ('A' to 'Z') ++ "\"" ++ "\'").toSet
+    if (string.headOption.exists(validSet.contains)) true
+    else false
+  }
+
   private def getSuggestions: Seq[(String, String)] =
-    params.propertyMappings.map(extractText(_, getIndentation(params.currentBaseUnit, params.position.moveLine(-1)))) // todo: we should work always with amf position in suggestions
+    params.propertyMappings.map(extractText(_, getIndentation(params.currentBaseUnit, params.position)))
 
   def resolve(): Future[Seq[RawSuggestion]] =
     Future.successful(
@@ -29,7 +35,7 @@ class AMLStructureCompletions(params: CompletionParams, brothers: Set[String]) e
         .filter(tuple => !brothers.contains(tuple._1)) // TODO: extract filter for all plugins?
         .map(s =>
           new RawSuggestion {
-            override def newText: String = s._1
+            override def newText: String = if (startsWithLetter(s._1)) s._1 else s""""${s._1}""""
 
             override def displayText: String = s._1
 
