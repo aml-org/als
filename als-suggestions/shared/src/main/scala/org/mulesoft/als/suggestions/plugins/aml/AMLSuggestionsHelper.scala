@@ -10,7 +10,8 @@ trait AMLSuggestionsHelper {
   def getIndentation(bu: BaseUnit, position: Position): String =
     bu.raw
       .flatMap(text => {
-        val left = text.substring(0, position.offset(text))
+        val pos  = position.moveLine(-1)
+        val left = text.substring(0, pos.offset(text))
         val line = left.substring(left.lastIndexOf("\n")).stripPrefix("\n")
         val first = line.headOption match {
           case Some(c) if c == ' ' || c == '\t' => Some(c)
