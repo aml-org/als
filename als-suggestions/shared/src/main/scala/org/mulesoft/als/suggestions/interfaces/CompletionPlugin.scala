@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions.interfaces
 
 import amf.core.model.document.BaseUnit
+import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
@@ -28,6 +29,7 @@ trait CompletionParams {
   val prefix: String
   val fieldEntry: Option[FieldEntry]
   val actualDialect: Dialect
+  val amfObject: AmfObject
 }
 
 trait RawSuggestion {

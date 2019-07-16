@@ -15,7 +15,7 @@ class AmlCompletionRequest(override val baseUnit: BaseUnit,
                            override val actualDialect: Dialect)
     extends CompletionRequest {
 
-  private lazy val amfObject = baseUnit.findSon(position)
+  override lazy val amfObject: AmfObject = baseUnit.findSon(position)
 
   override lazy val fieldEntry: Option[FieldEntry] = {
     amfObject.fields
