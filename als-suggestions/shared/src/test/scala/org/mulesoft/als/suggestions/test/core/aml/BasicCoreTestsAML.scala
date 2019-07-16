@@ -26,6 +26,10 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
     this.runTestForCustomDialect("visit03.yaml", "dialect.yaml", Set("office"))
   }
 
+  test("known values test") {
+    this.runTestForCustomDialect("visit04.yaml", "dialect.yaml", Set("1", "2", "3"))
+  }
+
   test("Custom Plugins completion Dummy") {
 
     for {

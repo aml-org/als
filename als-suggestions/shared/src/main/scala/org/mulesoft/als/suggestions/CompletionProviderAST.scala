@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions
 
 import amf.core.annotations.SourceAST
 import amf.core.model.document.BaseUnit
+import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
@@ -47,6 +48,7 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
           request.propertyMapping
         override val fieldEntry: Option[FieldEntry] = request.fieldEntry
         override val actualDialect: Dialect         = request.actualDialect
+        override val amfObject: AmfObject           = request.amfObject
       })
       .map(suggestions => {
         filteredSuggestions(suggestions, linePrefix)
