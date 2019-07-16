@@ -1,0 +1,50 @@
+#%Dialect 1.0
+
+dialect: Media Types Dialect
+version: 1.0
+
+external:
+  schema-org: http://schema.org/
+  mediaType: http://a.ml/vocabularies/http#
+
+nodeMappings:
+  Root:
+    classTerm: schema-org.Root
+    mapping:
+      rc:
+        propertyTerm: schema-org.response
+        range: Response
+      mt:
+        propertyTerm: schema-org.mediaType
+        range: MediaType
+  Response:
+    classTerm: mediaType.Response
+    mapping:
+      responseCode:
+        propertyTerm: schema-org.name
+        range: ResponseObject
+        mapKey: code
+  ResponseObject:
+    classTerm: mediaType.ResponseObject
+    mapping:
+      code:
+        propertyTerm: schema-org.name
+        range: string
+  MediaType:
+    classTerm: schema-org.WebAPI
+    mapping:
+      mediaType:
+        propertyTerm: mediaType.contentType
+        range: MediaTypeObject
+        mapKey: type
+  MediaTypeObject:
+    classTerm: mediaType.MediaTypeObject
+    mapping:
+      type:
+        propertyTerm: mediaType.contentType
+        range: string
+
+
+documents:
+  root:
+    encodes: Root
