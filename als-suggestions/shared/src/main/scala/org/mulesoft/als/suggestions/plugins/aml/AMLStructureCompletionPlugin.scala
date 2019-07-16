@@ -20,7 +20,7 @@ class AMLStructureCompletions(params: CompletionParams, brothers: Set[String]) e
     (cleanText, whiteSpaces)
   }
 
-  private def startsWithLetter(string: String) = {
+  private def startsWithLetter(string: String) = { // TODO: move to single object responsible for presentation
     val validSet: Set[Char] = (('a' to 'z') ++ ('A' to 'Z') ++ "\"" ++ "\'").toSet
     if (string.headOption.exists(validSet.contains)) true
     else false

@@ -5,6 +5,7 @@ import org.mulesoft.als.suggestions.CompletionPluginsRegistryAML
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.test.core.{CoreTest, DummyPlugins}
 import org.mulesoft.high.level.InitOptions
+import org.mulesoft.typesystem.definition.system.{OasCommonMediaTypes, OasResponseCodes}
 
 import scala.concurrent.Future
 
@@ -26,8 +27,16 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
     this.runTestForCustomDialect("visit03.yaml", "dialect.yaml", Set("office"))
   }
 
-  test("known values test") {
-    this.runTestForCustomDialect("visit04.yaml", "dialect.yaml", Set("1", "2", "3"))
+  test("Known Values - Response Codes") {
+    this.runTestForCustomDialect("otherDialects/responseCodes.yaml",
+                                 "otherDialects/knownValuesDialect.yaml",
+                                 OasResponseCodes.all.toSet)
+  }
+
+  test("Known Values - Media Types") {
+    this.runTestForCustomDialect("otherDialects/mediaTypes.yaml",
+                                 "otherDialects/knownValuesDialect.yaml",
+                                 OasCommonMediaTypes.all.toSet)
   }
 
   test("Custom Plugins completion Dummy") {
