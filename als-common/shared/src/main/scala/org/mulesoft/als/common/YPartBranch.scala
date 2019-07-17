@@ -8,6 +8,8 @@ import scala.annotation.tailrec
 case class YPartBranch(node: YPart, position: Position, private val stack: Seq[YPart]) {
   val isKey: Boolean = stack.headOption.exists(_.isKey(position))
 
+  val isValue: Boolean = stack.headOption.exists(_.isInstanceOf[YMapEntry]) && !isKey
+
   val isAtRoot: Boolean = stack.length <= 2
   val isArray: Boolean  = node.isArray
   lazy val isInArray: Boolean = {
@@ -22,10 +24,7 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
     isKey && inner(stack)
   }
 
-  val parent: Option[YPart] = stack.headOption match {
-    case Some(entry: YMapEntry) => stack.tail.headOption
-    case _                      => stack.headOption
-  }
+  val parent: Option[YPart] = stack.headOption
 
   def brothers: Seq[YPart] = {
     val map = stack.headOption match {
@@ -57,6 +56,8 @@ object NodeBranchBuilder {
     childWithPosition(s, amfPosition) match {
       case Some(c) =>
         getStack(c, amfPosition, s +: parents)
+      case None if s.isInstanceOf[YMapEntry] =>
+        getStack(s.asInstanceOf[YMapEntry].value, amfPosition, s +: parents)
       case None if s.isInstanceOf[YScalar] =>
         parents
       case _ => s +: parents
@@ -66,11 +67,13 @@ object NodeBranchBuilder {
     ast.children
       .filterNot(_.isInstanceOf[YNonContent])
       .filter {
-        case entry: YMapEntry => entry.range.toPositionRange.contains(amfPosition)
-        case map: YMap        => map.range.toPositionRange.contains(amfPosition)
-        case node: YNode      => node.range.toPositionRange.contains(amfPosition)
-        case seq: YSequence   => seq.range.toPositionRange.contains(amfPosition)
-        case _                => false
+        case entry: YMapEntry =>
+          val string = entry.key.toString
+          entry.range.toPositionRange.contains(amfPosition)
+        case map: YMap      => map.range.toPositionRange.contains(amfPosition)
+        case node: YNode    => node.range.toPositionRange.contains(amfPosition)
+        case seq: YSequence => seq.range.toPositionRange.contains(amfPosition)
+        case _              => false
       }
       .lastOption
 

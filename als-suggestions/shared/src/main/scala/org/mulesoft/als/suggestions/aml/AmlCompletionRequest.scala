@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions.aml
 
 import amf.core.annotations.LexicalInformation
+import amf.core.metamodel.document.BaseUnitModel
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfArray, AmfObject, DomainElement}
 import amf.core.parser.FieldEntry
@@ -15,7 +16,8 @@ class AmlCompletionRequest(override val baseUnit: BaseUnit,
                            override val actualDialect: Dialect)
     extends CompletionRequest {
 
-  override lazy val amfObject: AmfObject = baseUnit.findSon(position)
+  override lazy val amfObject: AmfObject =
+    baseUnit.findSon(position, Seq((f: FieldEntry) => f.field != BaseUnitModel.References))
 
   override lazy val fieldEntry: Option[FieldEntry] = {
     amfObject.fields
