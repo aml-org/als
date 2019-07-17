@@ -4,6 +4,7 @@ import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlug
 import org.mulesoft.als.suggestions.plugins.aml.{
   AMLEnumCompletionPlugin,
   AMLKnownValueCompletions,
+  AMLDeclarationsReferencesCompletionPlugin,
   AMLRootDeclarationsCompletionPlugin,
   AMLStructureCompletionPlugin
 }
@@ -39,10 +40,13 @@ object CompletionPluginsRegistryAML {
 }
 
 object AMLBaseCompletionPlugins {
-  private val all = Seq(AMLStructureCompletionPlugin,
-                        AMLEnumCompletionPlugin,
-                        AMLKnownValueCompletions,
-                        AMLRootDeclarationsCompletionPlugin)
+  private val all = Seq(
+    AMLStructureCompletionPlugin,
+    AMLEnumCompletionPlugin,
+    AMLRootDeclarationsCompletionPlugin,
+    AMLDeclarationsReferencesCompletionPlugin,
+    AMLKnownValueCompletions
+  )
 
   def get(): Seq[CompletionPlugin] = all
 
