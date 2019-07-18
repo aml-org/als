@@ -59,12 +59,11 @@ object Core {
       })
 
   def prepareText(text: String, offset: Int, syntax: Syntax): String =
-    if (text.trim.startsWith("{")) {
-      CompletionProviderWebApi.prepareJsonContent(text, offset)
-    } else {
+    if (text.trim.startsWith("{"))
+      ContentPatcher.prepareJsonContent(text, offset)
+    else
       syntax match {
-        case YAML => CompletionProviderWebApi.prepareYamlContent(text, offset);
-        case _    => throw new Error(s"Syntax not supported: $syntax");
+        case YAML => ContentPatcher.prepareYamlContent(text, offset)
+        case _    => throw new Error(s"Syntax not supported: $syntax")
       }
-    }
 }
