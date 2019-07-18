@@ -39,7 +39,7 @@ class BaseUriParametersCompletionPlugin extends ICompletionPlugin {
       }
 
     val parent: Option[YPart] =
-      getYaml(request).flatMap(NodeBranchBuilder.build(_, getPosition(request)).parent)
+      getYaml(request).flatMap(NodeBranchBuilder.build(_, getPosition(request)).parentMap)
 
     val result: Seq[String] = request.astNode
       .map(ast =>
