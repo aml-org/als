@@ -22,7 +22,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object Suggestions {
-  def init(options: InitOptions = InitOptions.WebApiProfiles): Future[Unit] = Core.init(options)
+  def init(options: InitOptions = InitOptions.WebApiProfiles): Future[Unit] =
+    Core.init(options)
 
   def suggest(language: String,
               url: String,
@@ -35,7 +36,8 @@ object Suggestions {
       .resolve(url, environment)
       .map(content => {
         val originalContent = content.stream.toString
-        val (_, patchedEnv) = patchContentInEnvironment(environment, url, originalContent, position)
+        val (_, patchedEnv) =
+          patchContentInEnvironment(environment, url, originalContent, position)
         (originalContent, patchedEnv)
       })
       .flatMap {
@@ -51,9 +53,9 @@ object Suggestions {
   }
 
   def getMediaType(originalContent: String): Syntax = {
-
     val trimmed = originalContent.trim
-    if (trimmed.startsWith("{") || trimmed.startsWith("[")) Syntax.JSON else Syntax.YAML
+    if (trimmed.startsWith("{") || trimmed.startsWith("[")) Syntax.JSON
+    else Syntax.YAML
   }
 
   private def suggestWithPatchedEnvironment(language: String,
@@ -113,8 +115,9 @@ object Suggestions {
                                 fileContentsStr: String,
                                 position: Int): (String, Environment) = {
 
-    val patchedContent  = Core.prepareText(fileContentsStr, position, YAML)
-    val envWithOverride = EnvironmentPatcher.patch(environment, fileUrl, patchedContent)
+    val patchedContent = Core.prepareText(fileContentsStr, position, YAML)
+    val envWithOverride =
+      EnvironmentPatcher.patch(environment, fileUrl, patchedContent)
 
     (patchedContent, envWithOverride)
   }
@@ -136,7 +139,8 @@ object Suggestions {
 
     val baseName = url.substring(url.lastIndexOf('/') + 1)
 
-    val editorStateProvider = new DummyEditorStateProvider(rootUnit.text, url, baseName, position)
+    val editorStateProvider =
+      new DummyEditorStateProvider(rootUnit.text, url, baseName, position)
     val completionConfig = new CompletionConfig(directoryResolver, platform)
       .withAstProvider(astProvider)
       .withEditorStateProvider(editorStateProvider)
@@ -153,7 +157,8 @@ object Suggestions {
 
     val baseName = url.substring(url.lastIndexOf('/') + 1)
 
-    val editorStateProvider = new DummyEditorStateProvider(text, url, baseName, position)
+    val editorStateProvider =
+      new DummyEditorStateProvider(text, url, baseName, position)
 
     val trimmed = text.trim
     val vendor  = if (trimmed.startsWith("#%RAML")) Raml10 else Oas20
