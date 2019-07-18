@@ -26,9 +26,8 @@ object Core {
   def init(initOptions: InitOptions = InitOptions.AllProfiles): Future[Unit] =
     org.mulesoft.high.level.Core
       .init(initOptions)
-      .flatMap(x => SuggestionCategoryRegistry.init())
-      .map(x => {
-
+      .flatMap(_ => SuggestionCategoryRegistry.init())
+      .map(_ => {
         CompletionPluginsRegistry.registerPlugin(StructureCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(KnownKeyPropertyValuesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(KnownPropertyValuesCompletionPlugin())
@@ -55,12 +54,11 @@ object Core {
       })
 
   def prepareText(text: String, offset: Int, syntax: Syntax): String =
-    if (text.trim.startsWith("{")) {
-      CompletionProvider.prepareJsonContent(text, offset)
-    } else {
+    if (text.trim.startsWith("{"))
+      ContentPatcher.prepareJsonContent(text, offset)
+    else
       syntax match {
-        case YAML => CompletionProvider.prepareYamlContent(text, offset);
-        case _    => throw new Error(s"Syntax not supported: $syntax");
+        case YAML => ContentPatcher.prepareYamlContent(text, offset)
+        case _    => throw new Error(s"Syntax not supported: $syntax")
       }
-    }
 }
