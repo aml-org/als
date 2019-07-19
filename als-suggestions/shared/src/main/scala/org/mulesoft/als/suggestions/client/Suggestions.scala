@@ -68,8 +68,8 @@ object Suggestions extends SuggestionsHelper {
           buildCompletionProviderAST(bu,
                                      d,
                                      bu.id,
-                                     Position(position, bu.raw.getOrElse("")),
-                                     bu.raw.getOrElse(""),
+                                     Position(position, originalContent),
+                                     originalContent,
                                      directoryResolver,
                                      platform))
       case _ =>
@@ -100,7 +100,7 @@ object Suggestions extends SuggestionsHelper {
 
   private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
     case d: DialectInstanceTrait => AMLPlugin.registry.dialectFor(d)
-    //    case d if d.sourceVendor.contains(Oas20) => Some(OAS20Dialect.dialect)
+//    case d if d.sourceVendor.contains(Oas20) => Some(OAS20Dialect.dialect)
     case _ => None
   }
 
@@ -194,7 +194,19 @@ object Suggestions extends SuggestionsHelper {
                                          platform: Platform): CompletionProviderAST = {
 
     val amfPosition = pos.moveLine(1)
-    CompletionProviderAST(AmlCompletionRequest(amfPosition, bu, dialect))
+    def styler =
+      (isKey: Boolean) =>
+        SuggestionStyler.adjustedSuggestions(
+          StylerParams(
+            getMediaType(originalContent) == Syntax.YAML,
+            isKey,
+            false, // just in annotations??
+            originalContent,
+            pos
+          ),
+          _
+      )
+    CompletionProviderAST(AmlCompletionRequest(amfPosition, bu, dialect, styler))
   }
 }
 

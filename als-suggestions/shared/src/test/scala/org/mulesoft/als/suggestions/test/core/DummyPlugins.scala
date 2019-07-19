@@ -11,7 +11,8 @@ trait DummyPlugins {
 
     override def id = "DummyInvalidCompletionPlugin"
 
-    override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] = Future.successful(Seq())
+    override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] =
+      Future.successful(Seq())
   }
 
   object DummyInvalidCompletionPlugin {
@@ -22,7 +23,7 @@ trait DummyPlugins {
 
     override def id = "DummyCompletionPlugin"
 
-    override def resolve(params: CompletionParams) =
+    override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] =
       Future.successful(Seq(new RawSuggestion {
         override def newText: String = "dummy newText"
 
@@ -33,6 +34,8 @@ trait DummyPlugins {
         override def textEdits: Seq[TextEdit] = Seq()
 
         override def whiteSpacesEnding: String = "dummy whiteSpaces"
+
+        override def isKey: Boolean = false
       }))
   }
 

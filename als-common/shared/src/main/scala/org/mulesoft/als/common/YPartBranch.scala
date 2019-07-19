@@ -1,8 +1,9 @@
 package org.mulesoft.als.common
 
+import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.dtoTypes.Position
 import org.yaml.model._
-import YamlWrapper._
+
 import scala.annotation.tailrec
 
 case class YPartBranch(node: YPart, position: Position, private val stack: Seq[YPart]) {
@@ -27,9 +28,10 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
   val parent: Option[YPart] = stack.headOption
 
   val parentMap: Option[YMap] = stack.headOption match {
-    case Some(e: YMapEntry) => stack.tail.headOption.collect({ case m: YMap => m })
-    case Some(m: YMap)      => Some(m)
-    case _                  => None
+    case Some(e: YMapEntry) =>
+      stack.tail.headOption.collect({ case m: YMap => m })
+    case Some(m: YMap) => Some(m)
+    case _             => None
   }
 
   private def findFirstOf[T <: YPart](clazz: Class[T], l: Seq[YPart]): Option[T] = {
@@ -81,11 +83,12 @@ object NodeBranchBuilder {
     ast.children
       .filterNot(_.isInstanceOf[YNonContent])
       .filter {
-        case entry: YMapEntry => entry.range.toPositionRange.contains(amfPosition)
-        case map: YMap        => map.range.toPositionRange.contains(amfPosition)
-        case node: YNode      => node.range.toPositionRange.contains(amfPosition)
-        case seq: YSequence   => seq.range.toPositionRange.contains(amfPosition)
-        case _                => false
+        case entry: YMapEntry =>
+          entry.range.toPositionRange.contains(amfPosition)
+        case map: YMap      => map.range.toPositionRange.contains(amfPosition)
+        case node: YNode    => node.range.toPositionRange.contains(amfPosition)
+        case seq: YSequence => seq.range.toPositionRange.contains(amfPosition)
+        case _              => false
       }
       .lastOption
 

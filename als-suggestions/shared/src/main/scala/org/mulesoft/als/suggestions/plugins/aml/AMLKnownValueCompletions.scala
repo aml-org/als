@@ -18,25 +18,32 @@ class AMLKnownValueCompletions(params: CompletionParams) extends AMLSuggestionsH
       .getOrElse(Nil)
 
   def resolve(): Future[Seq[RawSuggestion]] =
-    Future.successful(getSuggestions.map(s =>
-      new RawSuggestion {
-        override def newText: String = s.text
+    Future.successful({
+      val whitespaces =
+        s"\n${getIndentation(params.currentBaseUnit, params.position)}"
+      val isInKey = params.yPartBranch.forall(_.isKey)
+      getSuggestions.map(s =>
+        new RawSuggestion {
+          override def newText: String = s.text
 
-        override def displayText: String = s.text
+          override def displayText: String = s.text
 
-        override def description: String = s.description.getOrElse(s.text)
+          override def description: String = s.description.getOrElse(s.text)
 
-        override def textEdits: Seq[TextEdit] = Seq()
+          override def textEdits: Seq[TextEdit] = Seq()
 
-        override def whiteSpacesEnding: String = ""
-    }))
+          override def whiteSpacesEnding: String = whitespaces
+
+          override def isKey: Boolean = isInKey
+      })
+    })
 }
 
 object AMLKnownValueCompletions extends CompletionPlugin {
   override def id = "AMLKnownValueCompletions"
 
   override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] = {
-
-    new AMLKnownValueCompletions(params).resolve()
+    new AMLKnownValueCompletions(params)
+      .resolve()
   }
 }

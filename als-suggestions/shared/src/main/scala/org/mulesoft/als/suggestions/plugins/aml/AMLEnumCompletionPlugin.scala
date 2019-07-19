@@ -9,7 +9,7 @@ import org.yaml.model.YPart
 
 import scala.concurrent.Future
 
-class AMLEnumCompletions(params: CompletionParams, ast: Option[YPart], yPartBranch: YPartBranch)
+class AMLEnumCompletionsPlugin(params: CompletionParams, ast: Option[YPart], yPartBranch: YPartBranch)
     extends AMLSuggestionsHelper {
 
   def presentArray(value: String): String =
@@ -43,6 +43,8 @@ class AMLEnumCompletions(params: CompletionParams, ast: Option[YPart], yPartBran
             override def textEdits: Seq[TextEdit] = Seq()
 
             override def whiteSpacesEnding: String = ""
+
+            override def isKey: Boolean = false
         }))
 }
 
@@ -58,7 +60,7 @@ object AMLEnumCompletionPlugin extends CompletionPlugin {
 
     ast.map(NodeBranchBuilder.build(_, params.position)) match {
       case Some(yPart: YPartBranch) if yPart.isInArray || !yPart.isKey =>
-        new AMLEnumCompletions(params, ast, yPart).resolve()
+        new AMLEnumCompletionsPlugin(params, ast, yPart).resolve()
       case _ => Future.successful(Nil)
     }
   }
