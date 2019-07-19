@@ -4,14 +4,20 @@ import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.implementation.{Suggestion => SuggestionImpl}
 import org.mulesoft.als.suggestions.interfaces.Suggestion
 
-object SuggestionStyler {
-
-  def adjustedSuggestions(suggestions: Seq[Suggestion],
-                          isYAML: Boolean,
-                          isKey: Boolean,
-                          noColon: Boolean, // just set in AnnotationReferencesCompletionPlugin ??
-                          position: Position,
-                          originalContent: String): Seq[Suggestion] = {
+case class StylerParams(isYAML: Boolean,
+                        isKey: Boolean,
+                        noColon: Boolean,
+                        hasQuote: Boolean,
+                        hasColon: Boolean,
+                        hasLine: Boolean,
+                        hasKeyClosingQuote: Boolean,
+                        position: Position)
+object StylerParams {
+  def apply(isYAML: Boolean,
+            isKey: Boolean,
+            noColon: Boolean,
+            originalContent: String,
+            position: Position): StylerParams = {
 
     var hasQuote           = false
     var hasColon           = false
@@ -33,11 +39,32 @@ object SuggestionStyler {
     else
       hasKeyClosingQuote = hasQuote
 
+    StylerParams(isYAML,
+                 isKey,
+                 noColon, // just set in AnnotationReferencesCompletionPlugin ??
+                 hasQuote,
+                 hasColon,
+                 hasLine,
+                 hasKeyClosingQuote,
+                 position)
+  }
+}
+
+object SuggestionStyler {
+
+  def adjustedSuggestions(stylerParams: StylerParams, suggestions: Seq[Suggestion]): Seq[Suggestion] = {
+
     val styler =
-      if (isYAML)
-        yamlStyle(noColon, isKey, hasLine, hasColon, _)
+      if (stylerParams.isYAML)
+        yamlStyle(stylerParams.noColon, stylerParams.isKey, stylerParams.hasLine, stylerParams.hasColon, _)
       else
-        jsonStyle(noColon, isKey, hasLine, hasColon, hasKeyClosingQuote, hasQuote, _)
+        jsonStyle(stylerParams.noColon,
+                  stylerParams.isKey,
+                  stylerParams.hasLine,
+                  stylerParams.hasColon,
+                  stylerParams.hasKeyClosingQuote,
+                  stylerParams.hasQuote,
+                  _)
 
     suggestions.map(
       s =>
@@ -46,7 +73,8 @@ object SuggestionStyler {
           s.description,
           s.displayText,
           s.prefix,
-          Option(PositionRange(position.moveColumn(-s.prefix.length), position))).withCategory(s.category))
+          Option(PositionRange(stylerParams.position.moveColumn(-s.prefix.length), stylerParams.position)))
+          .withCategory(s.category))
   }
 
   private def yamlStyle(noColon: Boolean,

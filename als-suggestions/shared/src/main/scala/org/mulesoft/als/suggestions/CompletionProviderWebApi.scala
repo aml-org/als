@@ -15,7 +15,8 @@ import scala.language.postfixOps
 class CompletionProviderWebApi extends CompletionProvider {
   var _config: ICompletionConfig = _
 
-  var _pluginsRegistry: ICompletionPluginsRegistry = CompletionPluginsRegistry.instance
+  var _pluginsRegistry: ICompletionPluginsRegistry =
+    CompletionPluginsRegistry.instance
 
   def withConfig(cfg: ICompletionConfig): CompletionProviderWebApi = {
     _config = cfg
@@ -58,8 +59,8 @@ class CompletionProviderWebApi extends CompletionProvider {
                   case Some(ast) =>
                     ast.sourceInfo.content match {
                       case Some(content) =>
-                        if (content.length - position - result.length - 1 >= 0 && content.charAt(
-                              position - result.length - 1) == '!')
+                        if (content.length - position - result.length - 1 >= 0 && content
+                              .charAt(position - result.length - 1) == '!')
                           s"!$result"
                         else result
                       case _ => result
@@ -69,7 +70,9 @@ class CompletionProviderWebApi extends CompletionProvider {
               case _ =>
                 esp.getText.substring(0, position)
             }
-            result.substring(CompletionProviderWebApi.getIdxForPrefix(result) + 1).dropWhile(_ == ' ')
+            result
+              .substring(CompletionProviderWebApi.getIdxForPrefix(result) + 1)
+              .dropWhile(_ == ' ')
         }
       case _ => throw new Error("Editor state provider must be supplied")
     }
@@ -93,9 +96,14 @@ class CompletionProviderWebApi extends CompletionProvider {
         var actualYamlLocation: Option[YamlLocation] = None
         if (positionsMapper.isDefined) {
           yamlLocation = ast._2.map(YamlLocation(_, positionsMapper.get))
-          actualYamlLocation = ast._2.map(YamlSearch.getLocation(position, _, positionsMapper.get, List(), isJSON))
+          actualYamlLocation = ast._2.map(
+            YamlSearch
+              .getLocation(position, _, positionsMapper.get, List(), isJSON))
         }
-        result.withAstNode(ast._1).withYamlLocation(yamlLocation).withActualYamlLocation(actualYamlLocation)
+        result
+          .withAstNode(ast._1)
+          .withYamlLocation(yamlLocation)
+          .withActualYamlLocation(actualYamlLocation)
       case None =>
     }
     result
@@ -108,15 +116,20 @@ class CompletionProviderWebApi extends CompletionProvider {
     Future
       .sequence(filteredPlugins.map(_.suggest(request)))
       .map(responses =>
-        responses.flatMap(r =>
-          SuggestionStyler.adjustedSuggestions(
-            r.suggestions,
-            request.config.astProvider.exists(_.syntax == Syntax.YAML),
-            r.kind == LocationKind.KEY_COMPLETION,
-            r.noColon,
-            Position(request.position, _config.originalContent.get),
-            _config.originalContent.get
-        )))
+        responses.flatMap(r => {
+
+          val styler = SuggestionStyler.adjustedSuggestions(
+            StylerParams(
+              request.config.astProvider.exists(_.syntax == Syntax.YAML),
+              r.kind == LocationKind.KEY_COMPLETION,
+              r.noColon,
+              _config.originalContent.get,
+              Position(request.position, _config.originalContent.get)
+            ),
+            _
+          )
+          styler(r.suggestions)
+        }))
   }
 
   def filter(suggestions: Seq[SuggestionInterface], request: ICompletionRequest): Seq[SuggestionInterface] =
@@ -172,7 +185,8 @@ object CompletionProviderWebApi {
   def getInnerNode(yNon: YNonContent, position: Position): String =
     yNon.tokens.find(y => containsPosition(y.range, position)) match {
       case Some(ast) => getLastInnerNode(ast, position)
-      case _         => getInnerNode(yNon.children.find(y => containsPosition(y.range, position)), position)
+      case _ =>
+        getInnerNode(yNon.children.find(y => containsPosition(y.range, position)), position)
     }
 
   def getInnerNode(yPart: YPart, position: Position): String =

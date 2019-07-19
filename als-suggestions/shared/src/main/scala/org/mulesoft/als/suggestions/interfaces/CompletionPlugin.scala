@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.interfaces
 
 import amf.core.annotations.SourceAST
-import amf.core.model.document.BaseUnit
+import amf.core.model.document.{BaseUnit, EncodesModel}
 import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.model.document.Dialect
@@ -32,9 +32,16 @@ trait CompletionParams {
   val prefix: String
   val fieldEntry: Option[FieldEntry]
   val actualDialect: Dialect
-  lazy val declarationProvider: DeclarationProvider = DeclarationProvider(currentBaseUnit, Some(actualDialect))
-  lazy val yPartBranch: Option[YPartBranch] =
-    currentBaseUnit.annotations.find(classOf[SourceAST]).map(a => NodeBranchBuilder.build(a.ast, position))
+  lazy val declarationProvider: DeclarationProvider =
+    DeclarationProvider(currentBaseUnit, Some(actualDialect))
+  val yPartBranch: Option[YPartBranch]
+
+//  = (currentBaseUnit match {
+//    case eM: EncodesModel => eM.encodes
+//    case bu               => bu
+//  }).annotations
+//    .find(classOf[SourceAST])
+//    .map(a => NodeBranchBuilder.build(a.ast, position))
   val amfObject: AmfObject
 }
 
@@ -47,11 +54,13 @@ trait RawSuggestion {
 
   def textEdits: Seq[TextEdit]
 
+  def isKey: Boolean
+
   def whiteSpacesEnding: String
 }
 
 object RawSuggestion {
-  def apply(value: String): RawSuggestion = {
+  def apply(value: String, isAKey: Boolean): RawSuggestion = {
     new RawSuggestion {
       override def newText: String = value
 
@@ -62,10 +71,12 @@ object RawSuggestion {
       override def textEdits: Seq[TextEdit] = Seq()
 
       override def whiteSpacesEnding: String = ""
+
+      override def isKey: Boolean = isAKey
     }
   }
 
-  def apply(value: String, ws: String): RawSuggestion = {
+  def apply(value: String, ws: String, isAKey: Boolean): RawSuggestion = {
     new RawSuggestion {
       override def newText: String = value
 
@@ -76,6 +87,8 @@ object RawSuggestion {
       override def textEdits: Seq[TextEdit] = Seq()
 
       override def whiteSpacesEnding: String = ws
+
+      override def isKey: Boolean = isAKey
     }
   }
 }

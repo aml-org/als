@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.core.model.domain.{AmfObject, AmfScalar}
 import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
-import amf.plugins.document.vocabularies.model.domain.{DialectDomainElement, PropertyMapping}
+import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.suggestions.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlugin, RawSuggestion}
 import org.yaml.model.{YMapEntry, YPart}
@@ -21,11 +21,13 @@ class AMLDeclarationsReferencesCompletionPlugin(nodeTypeMappings: Seq[String],
       if (prefix.contains(".")) resolveAliased(prefix.split('.').head)
       else resolveLocal(actualName)
 
-    values.map(RawSuggestion.apply)
+    values.map(RawSuggestion.apply(_, false))
   }
 
   private def resolveAliased(alias: String) =
-    nodeTypeMappings.flatMap(provider.forNodeType(_, alias)).map(n => alias + "." + n)
+    nodeTypeMappings
+      .flatMap(provider.forNodeType(_, alias))
+      .map(n => alias + "." + n)
 
   private def resolveLocal(actualName: Option[String]) = {
     val names = nodeTypeMappings.flatMap(provider.forNodeType)

@@ -36,7 +36,7 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
   private def addPropTrailingSpaces(propertyMapping: PropertyMapping, level: Int): String = {
     if (propertyMapping.literalRange().option().isEmpty) {
       propertyMapping.name().value() + ":\n" + (" " * (level * 2))
-    } else propertyMapping.name().value() + ":"
+    } else propertyMapping.name().value() + ": "
   }
 
   protected def parse(content: Content): Future[BaseUnit] =
