@@ -1,5 +1,5 @@
 import sbt.Keys.{scalacOptions, _}
-import sbt.{Def, _}
+import sbt.{Def, config, _}
 
 object Common {
 
@@ -9,7 +9,7 @@ object Common {
   val releases: MavenRepository  = "MuleSoft releases" at s"$nexus/releases"
 
   val settings: Seq[Def.Setting[_]] = Seq(
-    scalaVersion := "2.12.6",
+    scalaVersion := "2.12.8",
     parallelExecution in Test := false,
     fork in Test := false,
     scalacOptions ++= Seq("-unchecked", "-target:jvm-1.8" /* , "-deprecation", "-Xfatal-warnings" */ ),
@@ -20,13 +20,9 @@ object Common {
   val publish: Seq[Def.Setting[_]] = Seq(
     publishTo := Some(if (isSnapshot.value) snapshots else releases),
     publishConfiguration ~= { config =>
-      val newArts = config.artifacts.filterKeys(_.`type` != Artifact.SourceType)
-      new PublishConfiguration(config.ivyFile,
-                               config.resolverName,
-                               newArts,
-                               config.checksums,
-                               config.logging,
-                               overwrite = true)
+      val newArts = config.artifacts.filter(_._1.`type` != Artifact.SourceType)
+      config.withOverwrite(true)
+      config
     }
   )
 

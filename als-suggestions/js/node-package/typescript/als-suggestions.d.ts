@@ -888,7 +888,7 @@ declare module '@mulesoft/als-suggestions' {
       }
 
       export class RecursiveShape extends Shape {
-        fixPoint: StrField
+        fixpoint: StrField
 
         withFixPoint(shapeId: string): this
       }

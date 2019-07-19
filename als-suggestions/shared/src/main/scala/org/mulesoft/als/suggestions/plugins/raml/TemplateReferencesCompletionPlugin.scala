@@ -97,9 +97,11 @@ class TemplateReferencesCompletionPlugin extends ICompletionPlugin {
             }
             .getOrElse(Nil)
         } else {
-          declarations.map(declaration => {
-            val ts = toTemplateSuggestion(declaration, refYamlKind.get, request.prefix)
-            Suggestion(ts.get.text, readableName, ts.get.name, request.prefix)
+          declarations.flatMap(declaration => {
+            refYamlKind.map(r => {
+              val ts = toTemplateSuggestion(declaration, r, request.prefix)
+              Suggestion(ts.get.text, readableName, ts.get.name, request.prefix)
+            })
           })
         }
 

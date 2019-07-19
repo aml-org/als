@@ -44,4 +44,8 @@ class ResourceTypeReferenceTests extends RAML10Test {
     this.runTest("resourceTypeReferences/test005.raml",
                  Set("{ resourceType1: {  param1 : ,  param2 : } }", "{ resourceType2: {  param1 : ,  param2 : } }"))
   }
+
+  test("test006") {
+    this.runTest("resourceTypeReferences/test006.raml", Set("searchableColl"))
+  }
 }
