@@ -2,11 +2,11 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 
 import amf.core.annotations.{LexicalInformation, SourceAST}
 import amf.core.metamodel.domain.{ArrayNodeModel, ObjectNodeModel}
-import amf.core.model.domain.{AmfElement, ArrayNode, ObjectNode, ScalarNode}
+import amf.core.model.domain._
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.yaml.model.YMapEntry
 import amf.core.utils._
-import amf.core.parser.{Range => AmfRange}
+import amf.core.parser.{Value, Range => AmfRange}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.lexer.InputRange
 
@@ -14,30 +14,35 @@ class ObjectNodeSymbolBuilder(obj: ObjectNode)(override implicit val factory: Bu
     extends ElementSymbolBuilder[ObjectNode] {
 
   override def build(): Seq[DocumentSymbol] = {
-    obj.properties
-      .filter(p => !p._2.isInstanceOf[ScalarNode])
+    obj
+      .propertyFields()
+      .flatMap(f => {
+        val value = obj.fields.getValueAsOption(f)
+        value.map(v => f -> v)
+      })
       .flatMap {
-        case (n, d) =>
-          val range = PositionRange(
-            obj
-              .propertyAnnotations(n)
-              .find(classOf[LexicalInformation])
-              .map(l => l.range)
-              .getOrElse(AmfRange(InputRange.Zero)))
-          val selectionRange = obj.propertyAnnotations
-            .get(n)
-            .flatMap(_.find(classOf[SourceAST]))
+        case (n, Value(v: ScalarNode, _)) => Nil
+        case (n, Value(v: DataNode, a)) =>
+          val range = PositionRange(a.find(classOf[LexicalInformation]).map(l => l.range).getOrElse(AmfRange(InputRange.Zero)))
+          val selectionRange = a
+            .find(classOf[SourceAST])
             .map(_.ast)
             .collect({ case e: YMapEntry => PositionRange(e.key.range) })
             .getOrElse(range)
           factory
-            .builderFor(d)
+            .builderFor(v)
             .map(_.build())
             .map { r =>
               Seq(
-                new DocumentSymbol(n.urlComponentDecoded, SymbolKind.Property, false, range, selectionRange, r.toList))
+                new DocumentSymbol(n.value.name.urlComponentDecoded,
+                                   SymbolKind.Property,
+                                   false,
+                                   range,
+                                   selectionRange,
+                                   r.toList))
             }
             .getOrElse(Nil)
+        case _ => Nil
 
       }
       .toSeq

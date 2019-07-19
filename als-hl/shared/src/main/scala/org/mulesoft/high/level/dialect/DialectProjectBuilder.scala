@@ -2,6 +2,7 @@ package org.mulesoft.high.level.dialect
 
 import amf.core.annotations.{Aliases, SourceAST}
 import amf.core.model.document.BaseUnit
+import amf.core.model.domain.{AmfArray, AmfScalar}
 import amf.core.remote.Platform
 import amf.core.remote.Vendor._
 import amf.plugins.document.vocabularies.AMLPlugin
@@ -11,7 +12,7 @@ import amf.plugins.document.vocabularies.model.document.{
   DialectInstanceFragment,
   DialectInstanceLibrary
 }
-import amf.plugins.document.vocabularies.model.domain.{DialectDomainElement, PropertyMapping}
+import amf.plugins.document.vocabularies.model.domain.{DialectDomainElement, ObjectMapProperty, PropertyMapping}
 import org.mulesoft.high.level.implementation._
 import org.mulesoft.high.level.interfaces._
 import org.mulesoft.high.level.typesystem.TypeBuilder
@@ -163,96 +164,105 @@ class DialectProjectBuilder {
     val unit                                       = parent.astUnit
     val rootUnit                                   = unit.baseUnit
     val sourcesMap: mutable.Map[String, SourceAST] = mutable.Map()
+    val definition                                 = parent.definition
 
-    dde.propertyAnnotations
-      .map(e => (e._1, e._2.find(classOf[SourceAST])))
-      .foreach(e => e._2.foreach(src => sourcesMap.put(e._1, src)))
+    dde.fields.foreach({
+      case (f, v) =>
+        dde.definedBy
+          .propertiesMapping()
+          .find(_.nodePropertyMapping().option().exists(_ == f.value.iri()))
+          .flatMap(_.name().option())
+          .foreach {
+            propName =>
+              val propId = f.value.iri()
+              v.annotations
+                .find(classOf[SourceAST])
+                .orElse(v.value.annotations.find(classOf[SourceAST]))
+                .foreach(src => sourcesMap.put(propId, src))
+              v.value match {
+                case element: DialectDomainElement
+                    if dde.definedBy
+                      .propertiesMapping()
+                      .find(_.nodePropertyMapping().option().exists(_ == f.value.iri()))
+                      .exists(_.classification() == ObjectMapProperty) =>
+                  DialectUniverseBuilder
+                    .findPropertyByRdfId(propId, definition)
+                    .foreach(p => {
+                      val srcOpt     = sourcesMap.get(propId).map(_.ast)
+                      val sourceInfo = SourceInfo().withReferingUnit(unit)
+                      srcOpt.foreach(x => sourceInfo.withSources(Seq(x)))
 
-    val definition = parent.definition
-    dde.literalProperties.foreach(p => {
-      val propId    = p._1
-      val propValue = p._2
-      propertyNameFromId(propId).foreach(propName => {
-        val srcOpt     = sourcesMap.get(propId).map(_.ast)
-        val sourceInfo = SourceInfo().withReferingUnit(unit)
-        srcOpt.foreach(x => sourceInfo.withSources(Seq(x)))
-        val propOpt                           = definition.property(propName)
-        var rangeOpt                          = propOpt.flatMap(_.range)
-        val children: ListBuffer[ASTPropImpl] = ListBuffer()
-        propValue match {
-          case seq: Seq[Any] =>
-            rangeOpt = rangeOpt.flatMap(x => {
-              if (x.isArray) {
-                x.array.flatMap(_.componentType)
-              } else {
-                Some(x)
-              }
-            })
-            val arr = ArrayBuffer[Any]() ++= seq
-            val srcSeq: IndexedSeq[YPart] = srcOpt match {
-              case Some(x) =>
-                x match {
-                  case s: YSequence => s.nodes
-                  case n: YNode =>
-                    n.value match {
-                      case s: YSequence => s.nodes
-                      case _            => IndexedSeq(x)
+                      val buf  = new LiteralPropertyValueBuffer(dde, propId, element, srcOpt)
+                      val prop = new ASTPropImpl(dde, rootUnit, Some(parent), definition, Some(p), buf)
+                      prop.setASTUnit(unit)
+                      parent.addChild(prop)
+                    })
+                case element: DialectDomainElement =>
+                  val srcOpt = sourcesMap.get(propId).map(_.ast)
+                  addObjectProperty(parent, element, propName, srcOpt)
+
+                case array: AmfArray if array.values.headOption.exists(_.isInstanceOf[DialectDomainElement]) =>
+                  val values: Seq[DialectDomainElement] = array.values.collect({ case d: DialectDomainElement => d })
+
+                  values.foreach(x => {
+                    addObjectProperty(parent, x, propName, None)
+                  })
+
+                case array: AmfArray =>
+                  val srcOpt     = sourcesMap.get(propId).map(_.ast)
+                  val sourceInfo = SourceInfo().withReferingUnit(unit)
+                  srcOpt.foreach(x => sourceInfo.withSources(Seq(x)))
+                  val propOpt                           = definition.property(propName)
+                  var rangeOpt                          = propOpt.flatMap(_.range)
+                  val children: ListBuffer[ASTPropImpl] = ListBuffer()
+                  rangeOpt = rangeOpt.flatMap(x => {
+                    if (x.isArray) {
+                      x.array.flatMap(_.componentType)
+                    } else {
+                      Some(x)
                     }
-                  case _ => IndexedSeq(x)
-                }
-              case _ => IndexedSeq()
-            }
-            for (i <- 0 until arr.length) {
-              val buf  = new LiteralArrayPropertyValueBuffer(dde, propId, arr, srcSeq, i)
-              val prop = new ASTPropImpl(dde, rootUnit, Some(parent), rangeOpt.orNull, propOpt, buf)
-              prop.setASTUnit(unit)
-              children += prop
-            }
-          case _ =>
-            val buf = new LiteralPropertyValueBuffer(dde, propId, propValue, srcOpt)
+                  })
+                  val arr = ArrayBuffer[Any]() ++= array.values.collect({ case s: AmfScalar => s.value })
+                  val srcSeq: IndexedSeq[YPart] = srcOpt match {
+                    case Some(x) =>
+                      x match {
+                        case s: YSequence => s.nodes
+                        case n: YNode =>
+                          n.value match {
+                            case s: YSequence => s.nodes
+                            case _            => IndexedSeq(x)
+                          }
+                        case _ => IndexedSeq(x)
+                      }
+                    case _ => IndexedSeq()
+                  }
+                  for (i <- 0 until arr.length) {
+                    val buf  = new LiteralArrayPropertyValueBuffer(dde, propId, arr, srcSeq, i)
+                    val prop = new ASTPropImpl(dde, rootUnit, Some(parent), rangeOpt.orNull, propOpt, buf)
+                    prop.setASTUnit(unit)
+                    children += prop
+                  }
+                  children.foreach(parent.addChild)
 
-            val prop = new ASTPropImpl(dde, rootUnit, Some(parent), rangeOpt.orNull, propOpt, buf)
-            prop.setASTUnit(unit)
-            children += prop
-        }
-        children.foreach(parent.addChild)
-      })
-    })
-    dde.objectProperties.foreach(p => {
-      val propId    = p._1
-      val childNode = p._2
-      propertyNameFromId(propId).foreach(propName => {
-        val srcOpt = sourcesMap.get(propId).map(_.ast)
-        addObjectProperty(parent, childNode, propName, srcOpt)
-      })
-    })
-    dde.objectCollectionProperties.foreach(p => {
-      val propId                            = p._1
-      val values: Seq[DialectDomainElement] = p._2
-      propertyNameFromId(propId).foreach(propName => {
-        values.foreach(x => {
-          addObjectProperty(parent, x, propName, None)
-        })
-      })
-    })
-    dde.mapKeyProperties.foreach(p => {
-      val propId    = p._1
-      val propValue = p._2
-      DialectUniverseBuilder
-        .findPropertyByRdfId(propId, definition)
-        .foreach(p => {
-          val srcOpt     = sourcesMap.get(propId).map(_.ast)
-          val sourceInfo = SourceInfo().withReferingUnit(unit)
-          srcOpt.foreach(x => sourceInfo.withSources(Seq(x)))
+                case scalar: AmfScalar =>
+                  val definition = parent.definition
+                  val srcOpt     = sourcesMap.get(propId).map(_.ast)
+                  val sourceInfo = SourceInfo().withReferingUnit(unit)
+                  srcOpt.foreach(x => sourceInfo.withSources(Seq(x)))
+                  val propOpt                           = definition.property(propName)
+                  var rangeOpt                          = propOpt.flatMap(_.range)
+                  val children: ListBuffer[ASTPropImpl] = ListBuffer()
+                  val buf                               = new LiteralPropertyValueBuffer(dde, propId, scalar.value, srcOpt)
 
-          val buf = new LiteralPropertyValueBuffer(dde, propId, propValue, srcOpt)
+                  val prop = new ASTPropImpl(dde, rootUnit, Some(parent), rangeOpt.orNull, propOpt, buf)
+                  prop.setASTUnit(unit)
+                  children += prop
+                  children.foreach(parent.addChild)
+                // todo: map key?
 
-          val prop = new ASTPropImpl(dde, rootUnit, Some(parent), definition, Some(p), buf)
-          prop.setASTUnit(unit)
-          parent.addChild(prop)
-        })
+              }
+          }
     })
-    dde.linkProperties.foreach(p => {})
   }
 
   private def addObjectProperty(node: ASTNodeImpl,

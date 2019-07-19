@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.implementation
 
+import org.mulesoft.als.suggestions.implementation.LocationKindDetectTool.checkIfInVersionHeader
 import org.mulesoft.als.suggestions.interfaces.LocationKind
 import org.mulesoft.als.suggestions.interfaces.LocationKind._
 import org.mulesoft.als.suggestions.implementation.MultilineStartCheckResult._
@@ -24,21 +25,31 @@ object LocationKindDetectTool {
       val point   = pm.point(offset)
       val column  = point.column
       val posLine = pm.lineString(point.line).get
-      if (checkIfAnnotation(posLine, column)) {
-        ANNOTATION_COMPLETION
-      } else if (checkIfPath(posLine, column)) {
-        PATH_COMPLETION
-      } else if (checkIfInVersionHeader(posLine, point)) {
+      if (checkIfInVersionHeader(posLine, point))
         VERSION_COMPLETION
-      } else if (checkIfInComment(posLine, column)) {
-        INCOMMENT
-      } else if (checkIfDirective(posLine, column)) {
-        DIRECTIVE_COMPLETION
-      } else if (posLine.lastIndexOf(':', column - 1) < 0) {
-        KEY_COMPLETION
-      } else {
+      else
+        determineCompletionKindAtText(posLine, column)
+    }
+  }
+
+  def determineCompletionKindAtText(posLine: String, column: Int): LocationKind = {
+    if (checkIfAnnotation(posLine, column)) {
+      ANNOTATION_COMPLETION
+    } else if (checkIfPath(posLine, column)) {
+      PATH_COMPLETION
+    } else if (checkIfInComment(posLine, column)) {
+      INCOMMENT
+    } else if (checkIfDirective(posLine, column)) {
+      DIRECTIVE_COMPLETION
+    } else if (posLine.lastIndexOf(':', column - 1) < 0) {
+      KEY_COMPLETION
+    } else {
+      if (posLine.contains('{')) {
+        val flowMapContent = posLine.substring(posLine.indexOf('{') + 1,
+                                               if (posLine.contains('}')) posLine.lastIndexOf('}') else posLine.length)
+        determineCompletionKindAtText(flowMapContent, column - posLine.indexOf('{'))
+      } else
         VALUE_COMPLETION
-      }
     }
   }
 

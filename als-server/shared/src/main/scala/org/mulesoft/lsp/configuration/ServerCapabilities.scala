@@ -1,5 +1,6 @@
 package org.mulesoft.lsp.configuration
 
+import org.mulesoft.lsp.feature.codeactions.CodeActionOptions
 import org.mulesoft.lsp.feature.completion.CompletionOptions
 import org.mulesoft.lsp.feature.rename.RenameOptions
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
@@ -24,6 +25,7 @@ case class ServerCapabilities(textDocumentSync: Option[Either[TextDocumentSyncKi
                               referencesProvider: Boolean = false,
                               documentSymbolProvider: Boolean = false,
                               renameProvider: Option[RenameOptions] = None,
+                              codeActionProvider: Option[CodeActionOptions] = None,
                               experimental: Option[AnyRef] = None)
 
 object ServerCapabilities {
