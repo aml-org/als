@@ -9,7 +9,7 @@ import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.common.NodeBranchBuilder
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.interfaces._
-import org.yaml.model.{YNode, YPart}
+import org.yaml.model.{YNode, YPart, YType}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -18,11 +18,15 @@ import scala.language.postfixOps
 class CompletionProviderAST(request: CompletionRequest) extends CompletionProvider {
 
   private def extractText(node: YNode, position: Position): String =
-    node
-      .as[String]
-      .lines
-      .toList(position.line - node.range.lineFrom)
-      .substring(0, position.column - node.range.columnFrom)
+    node.tagType match {
+      case YType.Str =>
+        node
+          .as[String]
+          .lines
+          .toList(position.line - node.range.lineFrom)
+          .substring(0, position.column - node.range.columnFrom)
+      case _ => ""
+    }
 
   private def getPrefix(ast: Option[YPart], position: Position): String =
     ast.map(NodeBranchBuilder.build(_, position).node) match {

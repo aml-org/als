@@ -20,5 +20,11 @@ object YamlWrapper {
         case entry: YMapEntry => entry.key.range.toPositionRange.contains(amfPosition)
         case _                => false
       }
+
+    def isValue(amfPosition: Position): Boolean =
+      selectedNode match {
+        case entry: YMapEntry => entry.value.range.toPositionRange.contains(amfPosition)
+        case _                => false
+      }
   }
 }

@@ -7,7 +7,7 @@ class DemoTests extends AMLSuggestionsTest {
 
   test("test suggest offices") {
     this.withDialect(
-      "visit24.yaml",
+      "visit04.yaml",
       Set("Pilar", "BA", "SFO", "Chicago", "Palo Alto"),
       "dialect.yaml",
       ProfileName("Mark Visit 1.0")
