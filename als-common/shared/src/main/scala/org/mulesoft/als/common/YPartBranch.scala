@@ -8,6 +8,8 @@ import scala.annotation.tailrec
 case class YPartBranch(node: YPart, position: Position, private val stack: Seq[YPart]) {
   val isKey: Boolean = stack.headOption.exists(_.isKey(position))
 
+  val isValue: Boolean = stack.headOption.exists(_.isInstanceOf[YMapEntry]) && !isKey
+
   val isAtRoot: Boolean = stack.length <= 2
   val isArray: Boolean  = node.isArray
   lazy val isInArray: Boolean = {
@@ -22,9 +24,20 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
     isKey && inner(stack)
   }
 
-  val parent: Option[YPart] = stack.headOption match {
-    case Some(entry: YMapEntry) => stack.tail.headOption
-    case _                      => stack.headOption
+  val parent: Option[YPart] = stack.headOption
+
+  val parentMap: Option[YMap] = stack.headOption match {
+    case Some(e: YMapEntry) => stack.tail.headOption.collect({ case m: YMap => m })
+    case Some(m: YMap)      => Some(m)
+    case _                  => None
+  }
+
+  private def findFirstOf[T <: YPart](clazz: Class[T], l: Seq[YPart]): Option[T] = {
+    l match {
+      case head :: _ if clazz.isInstance(head) => Some(head.asInstanceOf[T])
+      case head :: Nil                         => None
+      case _ :: tail                           => findFirstOf(clazz, tail)
+    }
   }
 
   def brothers: Seq[YPart] = {
@@ -57,6 +70,8 @@ object NodeBranchBuilder {
     childWithPosition(s, amfPosition) match {
       case Some(c) =>
         getStack(c, amfPosition, s +: parents)
+      case None if s.isInstanceOf[YMapEntry] =>
+        getStack(s.asInstanceOf[YMapEntry].value, amfPosition, s +: parents)
       case None if s.isInstanceOf[YScalar] =>
         parents
       case _ => s +: parents

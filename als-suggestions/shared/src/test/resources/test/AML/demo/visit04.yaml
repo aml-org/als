@@ -1,6 +1,4 @@
 #%Mark Visit 1.0
-date: 01/01/1999
-office: Pilar
-meetings:
-  name:
-    duration: *
+date: 2019/04/23
+office: *
+

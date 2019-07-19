@@ -1,0 +1,16 @@
+#%Library / References 1.0
+
+types:
+  libType1:
+    range: string
+    long: 6
+  libType2:
+    range: integer
+    long: 10
+schemes:
+  libScheme1:
+    kind: string
+    length: 4
+  libScheme2:
+    kind: float
+    length: 1
