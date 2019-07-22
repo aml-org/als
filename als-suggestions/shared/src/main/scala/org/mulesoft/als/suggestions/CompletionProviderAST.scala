@@ -9,7 +9,7 @@ import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.interfaces._
-import org.yaml.model.{YNode, YPart}
+import org.yaml.model.{YNode, YPart, YType}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -17,17 +17,22 @@ import scala.language.postfixOps
 
 class CompletionProviderAST(request: CompletionRequest) extends CompletionProvider {
 
-  private def extractText(node: YNode, position: Position): String = {
-    val lines =
-      node.value.toString // this way in order to keep quotation marks for json
-      .lines.drop(position.line - node.range.lineFrom)
-    if (lines.hasNext) {
-      val l   = lines.next()
-      val idx = position.column - node.range.columnFrom
-      if (l.isEmpty || idx <= 0) ""
-      else l.substring(0, l.length min idx).stripPrefix("\"")
-    } else ""
-  }
+  private def extractText(node: YNode, position: Position): String =
+    node.tagType match {
+      case YType.Str =>
+        val lines: Iterator[String] = node
+          .as[String]
+          .lines
+          .drop(position.line - node.range.lineFrom)
+        if (lines.hasNext)
+          lines
+            .next()
+            .substring(0, position.column - node.range.columnFrom - {
+              if (node.asScalar.exists(_.mark.plain)) 0 else 1 // if there is a quotation mark, adjust the range according
+            })
+        else ""
+      case _ => ""
+    }
 
   private def getPrefix(ast: Option[YPart], position: Position): String =
     request.yPartBranch.map(_.node) match {
