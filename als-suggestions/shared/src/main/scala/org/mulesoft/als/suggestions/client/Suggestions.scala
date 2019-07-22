@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.client
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote._
+import amf.dialects.OAS20Dialect
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceTrait}
