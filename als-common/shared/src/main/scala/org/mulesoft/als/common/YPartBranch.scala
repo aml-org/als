@@ -27,12 +27,16 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
 
   val parent: Option[YPart] = stack.headOption
 
-  val parentMap: Option[YMap] = stack.headOption match {
+  lazy val parentMap: Option[YMap] = stack.headOption match {
     case Some(e: YMapEntry) =>
       stack.tail.headOption.collect({ case m: YMap => m })
     case Some(m: YMap) => Some(m)
     case _             => None
   }
+
+  lazy val parentEntry: Option[YMapEntry] = findFirstOf(classOf[YMapEntry], stack)
+
+  def getAncestor(l: Int): Option[YPart] = if (stack.length < l) None else Some(stack(l))
 
   private def findFirstOf[T <: YPart](clazz: Class[T], l: Seq[YPart]): Option[T] = {
     l match {

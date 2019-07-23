@@ -15,32 +15,51 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class CompletionPluginsRegistryAML {
 
-  private var pluginsSet: mutable.Set[CompletionPlugin] = mutable.Set()
+  private val pluginsSet: mutable.Set[CompletionPlugin] = mutable.Set()
 
-  def plugins: Seq[CompletionPlugin] = pluginsSet.toSeq
-
-  def registerPlugin(plugin: CompletionPlugin): Unit = pluginsSet += plugin
-
-  def cleanPlugins(): Unit = pluginsSet = mutable.Set()
-}
-
-object CompletionPluginsRegistryAML {
-
-  private val registry = new CompletionPluginsRegistryAML
-
-  def pluginSuggestions(params: CompletionParams): Future[Seq[RawSuggestion]] = {
-    Future.sequence(
-      registry.plugins.map(p => p.resolve(params))
-    ) map { _.flatten }
+  def registerPlugin(plugin: CompletionPlugin): CompletionPluginsRegistryAML = {
+    pluginsSet += plugin
+    this
   }
 
-  def registerPlugin(plugin: CompletionPlugin): Unit = registry.registerPlugin(plugin)
+  def cleanPlugins(): Unit = pluginsSet.clear()
 
-  def cleanPlugins(): Unit = registry.cleanPlugins()
+  def suggests(params: CompletionParams): Future[Seq[RawSuggestion]] = {
+    val seq: Seq[Future[Seq[RawSuggestion]]] = pluginsSet.map(_.resolve(params)).toSeq
+    Future
+      .sequence(seq)
+      .map(s => {
+        s
+        s.flatten
+      })
+  }
+}
+
+object CompletionsPluginHandler {
+
+  private val registries: mutable.Map[String, CompletionPluginsRegistryAML] = mutable.Map()
+
+  def pluginSuggestions(params: CompletionParams): Future[Seq[RawSuggestion]] =
+    registries.getOrElse(params.actualDialect.id, AMLBaseCompletionPlugins.base).suggests(params)
+
+  def registerPlugin(plugin: CompletionPlugin, dialect: String): Unit = registries.get(dialect) match {
+    case Some(registry) => registry.registerPlugin(plugin)
+    case _              => registries.put(dialect, new CompletionPluginsRegistryAML().registerPlugin(plugin))
+  }
+
+  def registerPlugins(plugins: Seq[CompletionPlugin], dialect: String): Unit = registries.get(dialect) match {
+    case Some(registry) => plugins.foreach(registry.registerPlugin)
+    case _ =>
+      val p = new CompletionPluginsRegistryAML()
+      plugins.foreach(p.registerPlugin)
+      registries.put(dialect, p)
+  }
+
+  def cleanIndex(): Unit = registries.keys.foreach(registries.remove)
 }
 
 object AMLBaseCompletionPlugins {
-  private val all = Seq(
+  val all: Seq[CompletionPlugin] = Seq(
     AMLStructureCompletionPlugin,
     AMLEnumCompletionPlugin,
     AMLRootDeclarationsCompletionPlugin,
@@ -48,10 +67,9 @@ object AMLBaseCompletionPlugins {
     AMLKnownValueCompletions
   )
 
-  def get(): Seq[CompletionPlugin] = all
-
-  def initAll(): Unit = {
-    CompletionPluginsRegistryAML.cleanPlugins()
-    all.foreach(CompletionPluginsRegistryAML.registerPlugin)
+  val base: CompletionPluginsRegistryAML = {
+    val b = new CompletionPluginsRegistryAML
+    all.foreach(b.registerPlugin)
+    b
   }
 }
