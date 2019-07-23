@@ -18,7 +18,7 @@ object SuggestionStyler {
     var hasLine            = false
     var hasKeyClosingQuote = false
 
-    val lines = originalContent.lines drop position.line
+    val lines: Iterator[String] = originalContent.linesIterator drop position.line
     val lineOpt =
       if (lines hasNext) lines next
       else ""
