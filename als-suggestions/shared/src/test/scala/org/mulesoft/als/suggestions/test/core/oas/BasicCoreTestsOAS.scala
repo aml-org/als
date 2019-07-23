@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions.test.core.oas
 
-import org.mulesoft.als.suggestions.CompletionPluginsRegistryAML
+import amf.dialects.OAS20Dialect
+import org.mulesoft.als.suggestions.CompletionsPluginHandler
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.test.core.{CoreTest, DummyPlugins}
 import org.mulesoft.high.level.InitOptions
@@ -18,9 +19,9 @@ class BasicCoreTestsOAS extends CoreTest with DummyPlugins {
     for {
       _ <- Suggestions.init(InitOptions.AllProfiles)
       _ <- Future {
-        CompletionPluginsRegistryAML.cleanPlugins()
-        Seq(DummyCompletionPlugin(), DummyInvalidCompletionPlugin())
-          .foreach(CompletionPluginsRegistryAML.registerPlugin)
+        CompletionsPluginHandler.cleanIndex()
+        CompletionsPluginHandler.registerPlugins(Seq(DummyCompletionPlugin(), DummyInvalidCompletionPlugin()),
+                                                 OAS20Dialect().id)
       }
       result <- suggest("structure/test01.yml")
     } yield assert(result.length == 1 && result.forall(_.description == "dummy description"))

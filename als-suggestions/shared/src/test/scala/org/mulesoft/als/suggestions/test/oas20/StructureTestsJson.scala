@@ -231,4 +231,9 @@ class StructureTestsJson extends OAS20Test {
   test("test operation consumes suggestions") {
     this.runTest("structure_json/consumes/operation.json", OasCommonMediaTypes.all.toSet)
   }
+
+  // todo: activate when start working with oas dialect
+  ignore("test required properties names") {
+    this.runTest("structure_json/shapes/required-properties-name.json", Set("name", "tag", "anotherPro"))
+  }
 }

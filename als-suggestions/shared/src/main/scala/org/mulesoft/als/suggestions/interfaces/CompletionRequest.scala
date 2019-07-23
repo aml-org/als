@@ -24,5 +24,5 @@ trait CompletionRequest {
 
   val styler: Boolean => Seq[Suggestion] => Seq[Suggestion]
 
-  val yPartBranch: Option[YPartBranch]
+  val yPartBranch: YPartBranch
 }

@@ -53,7 +53,7 @@ object AMLRootDeclarationsCompletionPlugin extends CompletionPlugin {
   override def id = "AMLRootDeclarationsCompletionPlugin"
 
   override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] = {
-    if (params.yPartBranch.exists(_.isAtRoot) && params.yPartBranch.exists(_.isKey))
+    if (params.yPartBranch.isAtRoot && params.yPartBranch.isKey)
       new AMLRootDeclarationsCompletionPlugin(
         params
       ).resolve()
