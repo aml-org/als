@@ -33,14 +33,8 @@ trait CompletionParams {
   val actualDialect: Dialect
   lazy val declarationProvider: DeclarationProvider =
     DeclarationProvider(currentBaseUnit, Some(actualDialect))
-  val yPartBranch: Option[YPartBranch]
+  val yPartBranch: YPartBranch
 
-//  = (currentBaseUnit match {
-//    case eM: EncodesModel => eM.encodes
-//    case bu               => bu
-//  }).annotations
-//    .find(classOf[SourceAST])
-//    .map(a => NodeBranchBuilder.build(a.ast, position))
   val amfObject: AmfObject
 }
 

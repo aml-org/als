@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions
 
+import org.mulesoft.als.suggestions.aml.webapi.OasCompletionPluginRegistry
 import org.mulesoft.als.suggestions.implementation.SuggestionCategoryRegistry
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
@@ -55,7 +56,7 @@ object Core {
         // **************** AML *************************
         // initialize aml plugins option?
 
-        AMLBaseCompletionPlugins.initAll()
+        OasCompletionPluginRegistry.init()
       })
 
   def prepareText(text: String, offset: Int, syntax: Syntax): String =

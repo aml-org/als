@@ -51,7 +51,7 @@ object AMLStructureCompletionPlugin extends CompletionPlugin {
   override def id = "AMLStructureCompletionPlugin"
 
   override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] = {
-    if (params.yPartBranch.exists(_.isKey) && !params.fieldEntry
+    if (params.yPartBranch.isKey && !params.fieldEntry
           .exists(_.value.value
             .position()
             .exists(li => li.contains(params.position))))

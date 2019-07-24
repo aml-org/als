@@ -40,7 +40,7 @@ object AMLDeclarationsReferencesCompletionPlugin extends CompletionPlugin {
 
   override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] = {
     Future.successful({
-      if (params.yPartBranch.exists(_.isValue)) {
+      if (params.yPartBranch.isValue) {
         val actualName = params.amfObject.fields
           .getValueAsOption(DialectDomainElementModel.DeclarationName)
           .map(_.value)
@@ -56,7 +56,7 @@ object AMLDeclarationsReferencesCompletionPlugin extends CompletionPlugin {
 
   private def getObjectRangeIds(params: CompletionParams): Seq[String] = {
     getFieldIri(params.fieldEntry, params.propertyMappings)
-      .orElse(declaredFromKey(params.yPartBranch.flatMap(_.parent), params.propertyMappings))
+      .orElse(declaredFromKey(params.yPartBranch.parent, params.propertyMappings))
       .map(_.objectRange().flatMap(_.option())) match {
       case Some(seq) => seq
       case _         => referenceFromDeclared(params.amfObject)
