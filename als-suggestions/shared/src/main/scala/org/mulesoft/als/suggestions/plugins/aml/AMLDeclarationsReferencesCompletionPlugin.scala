@@ -21,7 +21,7 @@ class AMLDeclarationsReferencesCompletionPlugin(nodeTypeMappings: Seq[String],
       if (prefix.contains(".")) resolveAliased(prefix.split('.').head)
       else resolveLocal(actualName)
 
-    values.map(RawSuggestion.apply(_, false))
+    values.map(RawSuggestion.apply(_, isAKey = false))
   }
 
   private def resolveAliased(alias: String) =

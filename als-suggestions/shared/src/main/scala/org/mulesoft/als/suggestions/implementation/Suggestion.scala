@@ -61,11 +61,13 @@ object Suggestion {
       if (index == _prefix.size)
         new Suggestion(_text.substring(index), _description, _displayText.split('.').last, "", _range)
       else
-        new Suggestion(_text.substring(index + 1),
-                       _description,
-                       _displayText.substring(index + 1),
-                       _prefix.substring(index + 1),
-                       _range)
+        new Suggestion(
+          _text.substring(index + 1),
+          _description,
+          _displayText.substring(index + 1),
+          _prefix.substring(index + 1),
+          _range.collectFirst({ case r: PositionRange => r.copy(start = r.start.moveColumn(index + 1)) })
+        )
     else new Suggestion(_text, _description, _displayText, _prefix, _range)
   }
 }

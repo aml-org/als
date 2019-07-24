@@ -1,12 +1,11 @@
 package org.mulesoft.als.suggestions.interfaces
 
-import amf.core.annotations.SourceAST
-import amf.core.model.document.{BaseUnit, EncodesModel}
+import amf.core.model.document.BaseUnit
 import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
+import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.DeclarationProvider
 import org.mulesoft.lsp.edit.TextEdit
@@ -61,19 +60,7 @@ trait RawSuggestion {
 
 object RawSuggestion {
   def apply(value: String, isAKey: Boolean): RawSuggestion = {
-    new RawSuggestion {
-      override def newText: String = value
-
-      override def displayText: String = value
-
-      override def description: String = value
-
-      override def textEdits: Seq[TextEdit] = Seq()
-
-      override def whiteSpacesEnding: String = ""
-
-      override def isKey: Boolean = isAKey
-    }
+    apply(value, "", isAKey)
   }
 
   def apply(value: String, ws: String, isAKey: Boolean): RawSuggestion = {
