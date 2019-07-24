@@ -21,7 +21,6 @@ class AMLKnownValueCompletions(params: CompletionParams) extends AMLSuggestionsH
     Future.successful({
       val whitespaces =
         s"\n${getIndentation(params.currentBaseUnit, params.position)}"
-      val isInKey = params.yPartBranch.forall(_.isKey)
       getSuggestions.map(s =>
         new RawSuggestion {
           override def newText: String = s.text
@@ -34,7 +33,7 @@ class AMLKnownValueCompletions(params: CompletionParams) extends AMLSuggestionsH
 
           override def whiteSpacesEnding: String = whitespaces
 
-          override def isKey: Boolean = isInKey
+          override def isKey: Boolean = params.yPartBranch.isKey
       })
     })
 }

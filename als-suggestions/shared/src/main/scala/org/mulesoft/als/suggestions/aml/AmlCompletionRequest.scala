@@ -11,6 +11,7 @@ import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.interfaces.{CompletionRequest, Suggestion}
+import org.yaml.model.YDocument
 
 class AmlCompletionRequest(override val baseUnit: BaseUnit,
                            override val position: Position,
@@ -21,14 +22,14 @@ class AmlCompletionRequest(override val baseUnit: BaseUnit,
   override lazy val amfObject: AmfObject =
     baseUnit.findSon(position, Seq((f: FieldEntry) => f.field != BaseUnitModel.References))
 
-  override lazy val yPartBranch: Option[YPartBranch] = {
+  override lazy val yPartBranch: YPartBranch = {
     val ast = baseUnit match {
       case d: Document =>
         d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)
       case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
     }
-    ast
-      .map(a => { NodeBranchBuilder.build(a, position) })
+
+    NodeBranchBuilder.build(ast.getOrElse(YDocument(IndexedSeq.empty, "")), position)
   }
 
   override lazy val fieldEntry: Option[FieldEntry] = {

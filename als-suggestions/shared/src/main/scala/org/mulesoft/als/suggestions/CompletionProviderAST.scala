@@ -35,13 +35,13 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
     }
 
   private def getPrefix(ast: Option[YPart], position: Position): String =
-    request.yPartBranch.map(_.node) match {
-      case Some(node: YNode) => extractText(node, position)
-      case _                 => ""
+    request.yPartBranch.node match {
+      case node: YNode => extractText(node, position)
+      case _           => ""
     }
 
   private def brothersAndPrefix(prefix: String)(s: RawSuggestion): Boolean =
-    !request.yPartBranch.exists(ypb => ypb.isKey && (ypb.brothersKeys contains s.newText)) &&
+    !(request.yPartBranch.isKey && (request.yPartBranch.brothersKeys contains s.newText)) &&
       s.newText.startsWith(prefix)
 
   override def suggest(): Future[Seq[Suggestion]] = {
@@ -55,17 +55,17 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
     val linePrefix =
       getPrefix(maybePart, request.position)
 
-    CompletionPluginsRegistryAML
+    CompletionsPluginHandler
       .pluginSuggestions(new CompletionParams {
         override val currentBaseUnit: BaseUnit = request.baseUnit
         override val position: Position        = request.position
         override val prefix: String            = linePrefix
         override val propertyMappings: Seq[PropertyMapping] =
           request.propertyMapping
-        override val fieldEntry: Option[FieldEntry]   = request.fieldEntry
-        override val actualDialect: Dialect           = request.actualDialect
-        override val amfObject: AmfObject             = request.amfObject
-        override val yPartBranch: Option[YPartBranch] = request.yPartBranch
+        override val fieldEntry: Option[FieldEntry] = request.fieldEntry
+        override val actualDialect: Dialect         = request.actualDialect
+        override val amfObject: AmfObject           = request.amfObject
+        override val yPartBranch: YPartBranch       = request.yPartBranch
       })
       .map(suggestions => {
         val grouped: Map[Boolean, Seq[(Boolean, Suggestion)]] =

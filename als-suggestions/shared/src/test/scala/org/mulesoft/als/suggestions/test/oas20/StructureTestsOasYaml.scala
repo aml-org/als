@@ -230,4 +230,14 @@ class StructureTestsOasYaml extends OAS20Test {
   test("test schemes without line break") {
     this.runTest("structure/test128.yml", Set("schemes: "))
   }
+
+  // todo: activate when start working with oas dialect
+  ignore("test required properties names yaml") {
+    this.runTest("structure/shapes/required-properties-name.yml", Set("name", "tag", "anotherPro"))
+  }
+
+  // todo: activate when start working with oas dialect
+  ignore("test required properties names yaml existing") {
+    this.runTest("structure/shapes/required-properties-name-existing.yml", Set("name", "anotherPro"))
+  }
 }
