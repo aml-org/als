@@ -1,16 +1,11 @@
 package org.mulesoft.als.suggestions
 
 import amf.core.annotations.SourceAST
-import amf.core.model.document.{BaseUnit, EncodesModel}
-import amf.core.model.domain.AmfObject
-import amf.core.parser.FieldEntry
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import org.mulesoft.als.common.YPartBranch
+import amf.core.model.document.EncodesModel
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.interfaces._
 import org.yaml.model.{YNode, YPart, YType}
-
+import RequestToCompletionParams._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps
@@ -56,38 +51,11 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
       getPrefix(maybePart, request.position)
 
     CompletionsPluginHandler
-      .pluginSuggestions(new CompletionParams {
-        override val currentBaseUnit: BaseUnit = request.baseUnit
-        override val position: Position        = request.position
-        override val prefix: String            = linePrefix
-        override val propertyMappings: Seq[PropertyMapping] =
-          request.propertyMapping
-        override val fieldEntry: Option[FieldEntry] = request.fieldEntry
-        override val actualDialect: Dialect         = request.actualDialect
-        override val amfObject: AmfObject           = request.amfObject
-        override val yPartBranch: YPartBranch       = request.yPartBranch
-      })
+      .pluginSuggestions(request.toParams(linePrefix))
       .map(suggestions => {
         val grouped: Map[Boolean, Seq[(Boolean, Suggestion)]] =
           (suggestions filter brothersAndPrefix(linePrefix))
-            .map(rawSuggestion =>
-              (rawSuggestion.isKey, new Suggestion {
-                override def text: String =
-                  rawSuggestion.newText
-
-                override def description: String = rawSuggestion.description
-
-                override def displayText: String = rawSuggestion.displayText
-
-                override def prefix: String = linePrefix
-
-                override def category: String = "" // TODO: Category for AML?
-
-                override def trailingWhitespace: String =
-                  rawSuggestion.whiteSpacesEnding
-
-                override def range: Option[PositionRange] = None
-              }))
+            .map(rawSuggestion => (rawSuggestion.isKey, rawSuggestion.toSuggestion(linePrefix)))
             .groupBy(_._1)
         grouped.keys.flatMap(k => request.styler(k)(grouped(k).map(_._2))).toSeq
       })

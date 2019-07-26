@@ -3,9 +3,8 @@ package org.mulesoft.als.suggestions.client
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote._
-import amf.dialects.OAS20Dialect
+import amf.dialects.{OAS20Dialect, WebApiDialectsRegistry}
 import amf.internal.environment.Environment
-import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceTrait}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher}
@@ -100,8 +99,8 @@ object Suggestions extends SuggestionsHelper {
   }
 
   private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
-    case d: DialectInstanceTrait => AMLPlugin.registry.dialectFor(d)
-//    case d if d.sourceVendor.contains(Oas20) => Some(OAS20Dialect.dialect)
+    case d: DialectInstanceTrait => WebApiDialectsRegistry.dialectFor(bu)
+    //case d if d.sourceVendor.contains(Oas20) => Some(OAS20Dialect.dialect)
     case _ => None
   }
 

@@ -2,8 +2,8 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.plugins.document.vocabularies.model.document.{DialectInstance, DialectInstanceLibrary}
 import amf.plugins.document.vocabularies.model.domain.PublicNodeMapping
-import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlugin, RawSuggestion}
-import org.mulesoft.lsp.edit.TextEdit
+import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
 
 import scala.concurrent.Future
 
@@ -14,15 +14,15 @@ class AMLRootDeclarationsCompletionPlugin(params: CompletionParams) extends AMLS
     else (s"${mapping.name().value()}", "\n  ")
 
   private def getSuggestions: Seq[(String, String)] =
-    params.currentBaseUnit match {
+    params.baseUnit match {
       case _: DialectInstance =>
-        params.actualDialect
+        params.dialect
           .documents()
           .root()
           .declaredNodes()
           .map(extractText)
       case _: DialectInstanceLibrary =>
-        params.actualDialect
+        params.dialect
           .documents()
           .library()
           .declaredNodes()
@@ -33,20 +33,7 @@ class AMLRootDeclarationsCompletionPlugin(params: CompletionParams) extends AMLS
   def resolve(): Future[Seq[RawSuggestion]] =
     Future.successful(
       getSuggestions
-        .map(s =>
-          new RawSuggestion {
-            override def newText: String = s._1
-
-            override def displayText: String = s._1
-
-            override def description: String = s._1
-
-            override def textEdits: Seq[TextEdit] = Seq()
-
-            override def whiteSpacesEnding: String = s._2
-
-            override def isKey: Boolean = true
-        }))
+        .map(s => RawSuggestion(s._1, s._2, isAKey = true)))
 }
 
 object AMLRootDeclarationsCompletionPlugin extends CompletionPlugin {

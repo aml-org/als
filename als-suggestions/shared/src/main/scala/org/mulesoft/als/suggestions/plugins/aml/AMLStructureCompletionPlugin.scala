@@ -2,8 +2,8 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.common.AmfSonElementFinder._
-import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlugin, RawSuggestion}
-import org.mulesoft.lsp.edit.TextEdit
+import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
 
 import scala.concurrent.Future
 
@@ -25,26 +25,20 @@ class AMLStructureCompletionsPlugin(params: CompletionParams) extends AMLSuggest
   }
 
   private def getSuggestions: Seq[(String, String)] =
-    params.propertyMappings.map(extractText(_, getIndentation(params.currentBaseUnit, params.position)))
+    params.propertyMappings.map(extractText(_, getIndentation(params.baseUnit, params.position)))
 
   def resolve(): Future[Seq[RawSuggestion]] =
     Future.successful(
       getSuggestions
-        .map(s =>
-          new RawSuggestion {
-            override def newText: String =
-              if (startsWithLetter(s._1)) s._1 else s""""${s._1}""""
-
-            override def displayText: String = s._1
-
-            override def description: String = s._1
-
-            override def textEdits: Seq[TextEdit] = Seq()
-
-            override def whiteSpacesEnding: String = s._2
-
-            override def isKey: Boolean = true
-        }))
+        .map(
+          s =>
+            RawSuggestion(if (startsWithLetter(s._1)) s._1
+                          else s""""${s._1}"""",
+                          s._1,
+                          s._1,
+                          Seq(),
+                          isKey = true,
+                          s._2)))
 }
 
 object AMLStructureCompletionPlugin extends CompletionPlugin {
