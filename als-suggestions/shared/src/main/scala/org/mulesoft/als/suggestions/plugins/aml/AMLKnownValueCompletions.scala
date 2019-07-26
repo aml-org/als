@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlugin, RawSuggestion}
+import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.patched.{PatchedSuggestion, PatchedSuggestionsForDialect}
-import org.mulesoft.lsp.edit.TextEdit
+import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
 
 import scala.concurrent.Future
 
@@ -20,21 +20,9 @@ class AMLKnownValueCompletions(params: CompletionParams) extends AMLSuggestionsH
   def resolve(): Future[Seq[RawSuggestion]] =
     Future.successful({
       val whitespaces =
-        s"\n${getIndentation(params.currentBaseUnit, params.position)}"
+        s"\n${getIndentation(params.baseUnit, params.position)}"
       getSuggestions.map(s =>
-        new RawSuggestion {
-          override def newText: String = s.text
-
-          override def displayText: String = s.text
-
-          override def description: String = s.description.getOrElse(s.text)
-
-          override def textEdits: Seq[TextEdit] = Seq()
-
-          override def whiteSpacesEnding: String = whitespaces
-
-          override def isKey: Boolean = params.yPartBranch.isKey
-      })
+        RawSuggestion(s.text, s.text, s.description.getOrElse(s.text), Seq(), params.yPartBranch.isKey, whitespaces))
     })
 }
 

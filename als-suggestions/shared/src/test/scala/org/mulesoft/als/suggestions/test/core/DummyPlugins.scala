@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.test.core
 
-import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlugin, RawSuggestion}
-import org.mulesoft.lsp.edit.TextEdit
+import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
 
 import scala.concurrent.Future
 
@@ -24,19 +24,14 @@ trait DummyPlugins {
     override def id = "DummyCompletionPlugin"
 
     override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] =
-      Future.successful(Seq(new RawSuggestion {
-        override def newText: String = "dummy newText"
-
-        override def displayText: String = "dummy displayText"
-
-        override def description: String = "dummy description"
-
-        override def textEdits: Seq[TextEdit] = Seq()
-
-        override def whiteSpacesEnding: String = "dummy whiteSpaces"
-
-        override def isKey: Boolean = false
-      }))
+      Future.successful(
+        Seq(
+          RawSuggestion("dummy newText",
+                        "dummy displayText",
+                        "dummy description",
+                        Seq(),
+                        isKey = false,
+                        "dummy whiteSpaces")))
   }
 
   object DummyCompletionPlugin {

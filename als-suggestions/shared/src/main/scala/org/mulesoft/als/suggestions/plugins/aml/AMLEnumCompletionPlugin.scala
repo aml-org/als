@@ -3,8 +3,8 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.core.annotations.SourceAST
 import amf.core.model.document.Document
 import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
-import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlugin, RawSuggestion}
-import org.mulesoft.lsp.edit.TextEdit
+import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
 import org.yaml.model.YPart
 
 import scala.concurrent.Future
@@ -13,7 +13,7 @@ class AMLEnumCompletionsPlugin(params: CompletionParams, ast: Option[YPart], yPa
     extends AMLSuggestionsHelper {
 
   def presentArray(value: String): String =
-    s"\n${getIndentation(params.currentBaseUnit, params.position)}- $value"
+    s"\n${getIndentation(params.baseUnit, params.position)}- $value"
 
   private def getSuggestions: Seq[String] =
     params.propertyMappings.headOption
@@ -32,27 +32,14 @@ class AMLEnumCompletionsPlugin(params: CompletionParams, ast: Option[YPart], yPa
   def resolve(): Future[Seq[RawSuggestion]] =
     Future.successful(
       getSuggestions
-        .map(s =>
-          new RawSuggestion {
-            override def newText: String = s
-
-            override def displayText: String = s
-
-            override def description: String = s
-
-            override def textEdits: Seq[TextEdit] = Seq()
-
-            override def whiteSpacesEnding: String = ""
-
-            override def isKey: Boolean = false
-        }))
+        .map(s => RawSuggestion(s, isAKey = false)))
 }
 
 object AMLEnumCompletionPlugin extends CompletionPlugin {
   override def id = "AMLEnumCompletionPlugin"
 
   override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] = {
-    val ast = params.currentBaseUnit match {
+    val ast = params.baseUnit match {
       case d: Document =>
         d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)
       case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)

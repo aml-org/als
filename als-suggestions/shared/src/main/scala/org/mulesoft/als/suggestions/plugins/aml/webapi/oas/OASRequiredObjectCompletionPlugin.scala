@@ -3,7 +3,8 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 import amf.core.parser._
 import amf.plugins.domain.shapes.models.NodeShape
 import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.als.suggestions.interfaces.{CompletionParams, CompletionPlugin, RawSuggestion}
+import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
+import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
 
 import scala.concurrent.Future
 
