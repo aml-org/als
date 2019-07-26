@@ -9,30 +9,21 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.interfaces.CompletionRequest
 
-case class CompletionParams(baseUnit: BaseUnit,
-                            propertyMappings: Seq[PropertyMapping],
-                            position: Position,
-                            prefix: String,
-                            amfObject: AmfObject,
-                            dialect: Dialect,
-                            yPartBranch: YPartBranch,
-                            fieldEntry: Option[FieldEntry]) {
+class CompletionParams(private val request: CompletionRequest, val prefix: String) {
 
+  val baseUnit: BaseUnit                     = request.baseUnit
+  val propertyMappings: Seq[PropertyMapping] = request.propertyMapping
+  val position: Position                     = request.position
+  val amfObject: AmfObject                   = request.amfObject
+  val dialect: Dialect                       = request.actualDialect
+  val yPartBranch: YPartBranch               = request.yPartBranch
+  val fieldEntry: Option[FieldEntry]         = request.fieldEntry
   lazy val declarationProvider: DeclarationProvider =
     DeclarationProvider(baseUnit, Some(dialect))
 }
 
 object RequestToCompletionParams {
   implicit class RequestConverter(request: CompletionRequest) {
-    def toParams(linePrefix: String): CompletionParams = {
-      CompletionParams(request.baseUnit,
-                       request.propertyMapping,
-                       request.position,
-                       linePrefix,
-                       request.amfObject,
-                       request.actualDialect,
-                       request.yPartBranch,
-                       request.fieldEntry)
-    }
+    def toParams(linePrefix: String): CompletionParams = new CompletionParams(request, linePrefix)
   }
 }
