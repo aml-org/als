@@ -4,6 +4,7 @@ import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote._
 import amf.dialects.WebApiDialectsRegistry
+import amf.dialects.{OAS20Dialect, RAML10Dialect, WebApiDialectsRegistry}
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceUnit}
 import org.mulesoft.als.common.dtoTypes.Position
@@ -109,9 +110,10 @@ object Suggestions extends SuggestionsHelper {
     !originalContent.substring(0, position).replaceAll("^\\{?\\s+", "").contains('\n')
 
   private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
-    case _: DialectInstanceUnit => WebApiDialectsRegistry.dialectFor(bu)
-//    case d if d.sourceVendor.contains(Oas20) => Some(OAS20Dialect.dialect)
-    case _ => None
+    case d: DialectInstanceUnit              => WebApiDialectsRegistry.dialectFor(bu)
+    case d if d.sourceVendor.contains(Oas20)  => Some(OAS20Dialect.dialect)
+    case d if d.sourceVendor.contains(Raml10) => Some(RAML10Dialect.dialect)
+    case _                                    => None
   }
 
   private def suggestWithPatchedEnvironment(language: String,

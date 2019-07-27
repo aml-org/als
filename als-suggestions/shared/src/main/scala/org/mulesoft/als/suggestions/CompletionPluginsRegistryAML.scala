@@ -20,11 +20,7 @@ class CompletionPluginsRegistryAML {
 
   def suggests(params: AMLCompletionParams): Future[Seq[RawSuggestion]] = {
     val seq: Seq[Future[Seq[RawSuggestion]]] = pluginsSet.map(_.resolve(params)).toSeq
-    Future
-      .sequence(seq)
-      .map(s => {
-        s.flatten
-      })
+    Future.sequence(seq).map(_.flatten)
   }
 }
 
