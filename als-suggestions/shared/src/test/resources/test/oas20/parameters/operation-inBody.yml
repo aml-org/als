@@ -1,0 +1,10 @@
+swagger: '2.0'
+info:
+  title: Swagger Sample API
+paths:
+  /pets:
+    post:
+      description: Returns a pet based on ID
+      parameters:
+        - in: body
+          *
