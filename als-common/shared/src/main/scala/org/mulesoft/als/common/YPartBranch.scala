@@ -46,6 +46,8 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
     }
   }
 
+  def ancestorOf[T <: YPart](clazz: Class[T]): Option[T] = findFirstOf(clazz, stack.tail)
+
   // content patch will add a { k: }, I need to get up the k node, the k: entry, and the {k: } map
   private def getSequence: Option[YSequence] = {
     val offset = if (isKey) 4 else 0

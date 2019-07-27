@@ -1,18 +1,25 @@
 package org.mulesoft.als.common
 
-import amf.core.annotations.LexicalInformation
+import amf.core.annotations.{LexicalInformation, SynthesizedField}
+import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
 import amf.core.parser.FieldEntry
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 object AmfSonElementFinder {
 
   implicit class AlsAmfObject(obj: AmfObject) {
 
     private def minor(left: FieldEntry, right: FieldEntry): FieldEntry = {
-      right.value.value.position().orElse(right.value.annotations.find(classOf[LexicalInformation])) match {
+      right.value.value
+        .position()
+        .orElse(right.value.annotations.find(classOf[LexicalInformation])) match {
         case Some(LexicalInformation(rightRange)) =>
-          left.value.value.position().orElse(left.value.annotations.find(classOf[LexicalInformation])) match {
+          left.value.value
+            .position()
+            .orElse(left.value.annotations.find(classOf[LexicalInformation])) match {
             case Some(LexicalInformation(leftRange)) =>
               if (leftRange.contains(rightRange)) right
               else left
@@ -52,11 +59,15 @@ object AmfSonElementFinder {
                 .find(classOf[LexicalInformation])
                 .forall(_.containsCompletely(amfPosition))
 
-            case _ => false
+            case _ => f.value.annotations.contains(classOf[SynthesizedField])
           }
       }
     }
-    def findSon(amfPosition: Position, filterFns: Seq[FieldEntry => Boolean]): AmfObject = {
+
+    def findSon(amfPosition: Position, filterFns: Seq[FieldEntry => Boolean]): AmfObject =
+      findSonWithStack(amfPosition, filterFns)._1
+
+    def findSonWithStack(amfPosition: Position, filterFns: Seq[FieldEntry => Boolean]): (AmfObject, Seq[AmfObject]) = {
       val posFilter = positionFinderFN(amfPosition)
       def innerNode(amfObject: AmfObject): Option[FieldEntry] =
         amfObject.fields
@@ -64,13 +75,14 @@ object AmfSonElementFinder {
           .filter(f => {
             filterFns.forall(fn => fn(f)) && posFilter(f)
           }) match {
-          case Nil          => None
-          case head :: Nil  => Some(head)
-          case head :: tail => findMinor(tail).orElse(Some(head))
+          case Nil  => None
+          case list => list.lastOption
+//          case head :: tail => findMinor(tail).orElse(Some(head))
         }
 
-      var a: Iterable[AmfObject] = None // todo: recursive instead of tail recursive?
-      var result                 = obj
+      var a: Iterable[AmfObject]        = None // todo: recursive instead of tail recursive?
+      val stack: ArrayBuffer[AmfObject] = ArrayBuffer()
+      var result                        = obj
       do {
         a = innerNode(result).flatMap(entry =>
           entry.value.value match {
@@ -87,9 +99,12 @@ object AmfSonElementFinder {
             case e: AmfObject => Some(e)
             case _            => None
         })
-        a.headOption.foreach(result = _)
+        a.headOption.foreach(head => {
+          stack.prepend(result)
+          result = head
+        })
       } while (a.nonEmpty)
-      result
+      (result, stack)
     }
   }
 
@@ -136,5 +151,4 @@ object AmfSonElementFinder {
         p.contains(amfPosition) && fieldLi.forall(_.containsCompletely(amfPosition))
       case _ => false
     })
-
 }

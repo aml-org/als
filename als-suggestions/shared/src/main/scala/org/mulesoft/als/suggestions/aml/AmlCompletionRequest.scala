@@ -1,7 +1,6 @@
 package org.mulesoft.als.suggestions.aml
 
-import amf.core.annotations.{LexicalInformation, SourceAST}
-import amf.core.metamodel.document.BaseUnitModel
+import amf.core.annotations.{LexicalInformation, SourceAST, SynthesizedField}
 import amf.core.model.document.{BaseUnit, Document}
 import amf.core.model.domain.{AmfArray, AmfObject, DomainElement}
 import amf.core.parser.FieldEntry
@@ -11,6 +10,7 @@ import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapp
 import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common.{DirectoryResolver, NodeBranchBuilder, YPartBranch}
 import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.{NodeBranchBuilder, ObjectInTree, ObjectInTreeBuilder, YPartBranch}
 import org.mulesoft.als.suggestions.interfaces.{CompletionRequest, Suggestion}
 import org.yaml.model.YDocument
 
@@ -22,8 +22,7 @@ class AmlCompletionRequest(override val baseUnit: BaseUnit,
                            override val styler: Boolean => Seq[Suggestion] => Seq[Suggestion])
     extends CompletionRequest {
 
-  override lazy val amfObject: AmfObject =
-    baseUnit.findSon(position, Seq((f: FieldEntry) => f.field != BaseUnitModel.References))
+  override lazy val objectInTree: ObjectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
 
   override lazy val yPartBranch: YPartBranch = {
     val ast = baseUnit match {
@@ -35,8 +34,8 @@ class AmlCompletionRequest(override val baseUnit: BaseUnit,
     NodeBranchBuilder.build(ast.getOrElse(YDocument(IndexedSeq.empty, "")), position)
   }
 
-  override lazy val fieldEntry: Option[FieldEntry] = {
-    amfObject.fields
+  override lazy val fieldEntry: Option[FieldEntry] = { // todo: maybe this should be a seq and not an option
+    objectInTree.obj.fields
       .fields()
       .find(f =>
         f.value.value match {
@@ -49,12 +48,13 @@ class AmlCompletionRequest(override val baseUnit: BaseUnit,
               .exists(_.contains(position)) &&
               f.value.annotations
                 .find(classOf[LexicalInformation])
-                .forall(_.containsCompletely(position))
+                .forall(_.containsCompletely(position)) && !f.value.value.annotations
+              .contains(classOf[SynthesizedField])
       })
   }
 
   override val propertyMapping: Seq[PropertyMapping] = {
-    val mappings = getDialectNode(actualDialect, amfObject, fieldEntry) match {
+    val mappings = getDialectNode(objectInTree.obj, fieldEntry) match {
       case Some(nm: NodeMapping) => nm.propertiesMapping()
       case _                     => Nil
     }
@@ -76,10 +76,8 @@ class AmlCompletionRequest(override val baseUnit: BaseUnit,
     }
   }
 
-  private def getDialectNode(dialect: Dialect,
-                             amfObject: AmfObject,
-                             fieldEntry: Option[FieldEntry]): Option[DomainElement] =
-    dialect.declares.find {
+  private def getDialectNode(amfObject: AmfObject, fieldEntry: Option[FieldEntry]): Option[DomainElement] =
+    actualDialect.declares.find {
       case s: NodeMapping =>
         s.nodetypeMapping.value() == amfObject.meta.`type`.head.iri() &&
           fieldEntry.forall(f => {
