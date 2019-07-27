@@ -23,6 +23,10 @@ case class RawSuggestion(newText: String,
 }
 
 object RawSuggestion {
+  def forKey(value: String): RawSuggestion = {
+    apply(value, "", isAKey = true)
+  }
+
   def apply(value: String, isAKey: Boolean): RawSuggestion = {
     apply(value, "", isAKey)
   }
