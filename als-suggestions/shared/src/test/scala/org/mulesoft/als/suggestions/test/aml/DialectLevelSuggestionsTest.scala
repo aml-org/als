@@ -31,7 +31,6 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
 
   private def getPropertiesByPath(d: Dialect, nodeName: String): Seq[PropertyMapping] = {
     val de: Option[DomainElement] = d.declares.find(de => de.id endsWith s"/${nodeName}")
-    de.get
     de match {
       case Some(n: NodeMapping) => n.propertiesMapping()
     }

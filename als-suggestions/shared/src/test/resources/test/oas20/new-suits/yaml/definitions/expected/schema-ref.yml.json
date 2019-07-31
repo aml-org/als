@@ -1,0 +1,21 @@
+[
+  {
+    "text": "\"#/definitions/a\"",
+    "description": "Reference to #/definitions/a",
+    "displayText": "#/definitions/a",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  }
+]

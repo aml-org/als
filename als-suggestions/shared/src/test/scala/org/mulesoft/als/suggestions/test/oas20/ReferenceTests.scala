@@ -2,132 +2,150 @@ package org.mulesoft.als.suggestions.test.oas20
 
 class ReferenceTests extends OAS20Test {
 
-  test("Shema reference test 001"){
-    this.runTest("references/schemas/test001.yml", Set("\n          \"$ref\": \"#/definitions/Type1\"", "\n          \"$ref\": \"#/definitions/Type2\""))
+  test("Shema reference test 001") {
+    this.runSuggestionTest(
+      "references/schemas/test001.yml",
+      Set("\n          \"$ref\": \"#/definitions/Type1\"", "\n          \"$ref\": \"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 002"){
-    this.runTest("references/schemas/test002.yml", Set("\n          \"$ref\": \"#/definitions/Type1\"", "\n          \"$ref\": \"#/definitions/Type2\""))
+  test("Shema reference test 002") {
+    this.runSuggestionTest(
+      "references/schemas/test002.yml",
+      Set("\n          \"$ref\": \"#/definitions/Type1\"", "\n          \"$ref\": \"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 003"){
-    this.runTest("references/schemas/test003.yml", Set(" \"#/definitions/Type1\"", " \"#/definitions/Type2\""))
+  test("Shema reference test 003") {
+    this.runSuggestionTest("references/schemas/test003.yml",
+                           Set(" \"#/definitions/Type1\"", " \"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 004"){
-    this.runTest("references/schemas/test004.yml", Set("\"#/definitions/Type1\"", "\"#/definitions/Type2\""))
+  test("Shema reference test 004") {
+    this.runSuggestionTest("references/schemas/test004.yml", Set("\"#/definitions/Type1\"", "\"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 005"){
-    this.runTest("references/schemas/test005.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
+  test("Shema reference test 005") {
+    this.runSuggestionTest("references/schemas/test005.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
   }
 
-  test("Shema reference test 006"){
-    this.runTest("references/schemas/test006.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
+  test("Shema reference test 006") {
+    this.runSuggestionTest("references/schemas/test006.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
   }
 
-  test("Shema reference test 007"){
-    this.runTest("references/schemas/test007.yml", Set("/definitions/Type1", "/definitions/Type2"))
+  test("Shema reference test 007") {
+    this.runSuggestionTest("references/schemas/test007.yml", Set("/definitions/Type1", "/definitions/Type2"))
   }
 
-  test("Shema reference test 008"){
-    this.runTest("references/schemas/test008.yml", Set("/definitions/Type1", "/definitions/Type2"))
+  test("Shema reference test 008") {
+    this.runSuggestionTest("references/schemas/test008.yml", Set("/definitions/Type1", "/definitions/Type2"))
   }
 
-  test("Shema reference test 009"){
-    this.runTest("references/schemas/test009.yml", Set("\n            \"$ref\": \"#/definitions/Type1\"", "\n            \"$ref\": \"#/definitions/Type2\""))
+  test("Shema reference test 009") {
+    this.runSuggestionTest(
+      "references/schemas/test009.yml",
+      Set("\n            \"$ref\": \"#/definitions/Type1\"", "\n            \"$ref\": \"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 010"){
-    this.runTest("references/schemas/test010.yml", Set("\n            \"$ref\": \"#/definitions/Type1\"", "\n            \"$ref\": \"#/definitions/Type2\""))
+  test("Shema reference test 010") {
+    this.runSuggestionTest(
+      "references/schemas/test010.yml",
+      Set("\n            \"$ref\": \"#/definitions/Type1\"", "\n            \"$ref\": \"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 011"){
-    this.runTest("references/schemas/test011.yml", Set(" \"#/definitions/Type1\"", " \"#/definitions/Type2\""))
+  test("Shema reference test 011") {
+    this.runSuggestionTest("references/schemas/test011.yml",
+                           Set(" \"#/definitions/Type1\"", " \"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 012"){
-    this.runTest("references/schemas/test012.yml", Set("\"#/definitions/Type1\"", "\"#/definitions/Type2\""))
+  test("Shema reference test 012") {
+    this.runSuggestionTest("references/schemas/test012.yml", Set("\"#/definitions/Type1\"", "\"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 013"){
-    this.runTest("references/schemas/test013.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
+  test("Shema reference test 013") {
+    this.runSuggestionTest("references/schemas/test013.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
   }
 
-  test("Shema reference test 014"){
-    this.runTest("references/schemas/test014.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
+  test("Shema reference test 014") {
+    this.runSuggestionTest("references/schemas/test014.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
   }
 
-  test("Shema reference test 015"){
-    this.runTest("references/schemas/test015.yml", Set("/definitions/Type1", "/definitions/Type2"))
+  test("Shema reference test 015") {
+    this.runSuggestionTest("references/schemas/test015.yml", Set("/definitions/Type1", "/definitions/Type2"))
   }
 
-  test("Shema reference test 016"){
-    this.runTest("references/schemas/test016.yml", Set("/definitions/Type1", "/definitions/Type2"))
+  test("Shema reference test 016") {
+    this.runSuggestionTest("references/schemas/test016.yml", Set("/definitions/Type1", "/definitions/Type2"))
   }
 
-  test("Shema reference test 017"){
-    this.runTest("references/schemas/test017.yml", Set("\n            \"$ref\": \"#/definitions/Type1\"", "\n            \"$ref\": \"#/definitions/Type2\""))
+  test("Shema reference test 017") {
+    this.runSuggestionTest(
+      "references/schemas/test017.yml",
+      Set("\n            \"$ref\": \"#/definitions/Type1\"", "\n            \"$ref\": \"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 018"){
-    this.runTest("references/schemas/test018.yml", Set("\n            \"$ref\": \"#/definitions/Type1\"", "\n            \"$ref\": \"#/definitions/Type2\""))
+  test("Shema reference test 018") {
+    this.runSuggestionTest(
+      "references/schemas/test018.yml",
+      Set("\n            \"$ref\": \"#/definitions/Type1\"", "\n            \"$ref\": \"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 019"){
-    this.runTest("references/schemas/test019.yml", Set(" \"#/definitions/Type1\"", " \"#/definitions/Type2\""))
+  test("Shema reference test 019") {
+    this.runSuggestionTest("references/schemas/test019.yml",
+                           Set(" \"#/definitions/Type1\"", " \"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 020"){
-    this.runTest("references/schemas/test020.yml", Set("\"#/definitions/Type1\"", "\"#/definitions/Type2\""))
+  test("Shema reference test 020") {
+    this.runSuggestionTest("references/schemas/test020.yml", Set("\"#/definitions/Type1\"", "\"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 021"){
-    this.runTest("references/schemas/test021.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
+  test("Shema reference test 021") {
+    this.runSuggestionTest("references/schemas/test021.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
   }
 
-  test("Shema reference test 022"){
-    this.runTest("references/schemas/test022.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
+  test("Shema reference test 022") {
+    this.runSuggestionTest("references/schemas/test022.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
   }
 
-  test("Shema reference test 023"){
-    this.runTest("references/schemas/test023.yml", Set("/definitions/Type1", "/definitions/Type2"))
+  test("Shema reference test 023") {
+    this.runSuggestionTest("references/schemas/test023.yml", Set("/definitions/Type1", "/definitions/Type2"))
   }
 
-  test("Shema reference test 024"){
-    this.runTest("references/schemas/test024.yml", Set("/definitions/Type1", "/definitions/Type2"))
+  test("Shema reference test 024") {
+    this.runSuggestionTest("references/schemas/test024.yml", Set("/definitions/Type1", "/definitions/Type2"))
   }
 
-  test("Shema reference test 025"){
-    this.runTest("references/schemas/test025.yml", Set("\n    \"$ref\": \"#/definitions/Type1\"", "\n    \"$ref\": \"#/definitions/Type2\""))
+  test("Shema reference test 025") {
+    this.runSuggestionTest("references/schemas/test025.yml",
+                           Set("\n    \"$ref\": \"#/definitions/Type1\"", "\n    \"$ref\": \"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 026"){
-    this.runTest("references/schemas/test026.yml", Set("\n    \"$ref\": \"#/definitions/Type1\"", "\n    \"$ref\": \"#/definitions/Type2\""))
+  test("Shema reference test 026") {
+    this.runSuggestionTest("references/schemas/test026.yml",
+                           Set("\n    \"$ref\": \"#/definitions/Type1\"", "\n    \"$ref\": \"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 027"){
-    this.runTest("references/schemas/test027.yml", Set(" \"#/definitions/Type1\"", " \"#/definitions/Type2\""))
+  test("Shema reference test 027") {
+    this.runSuggestionTest("references/schemas/test027.yml",
+                           Set(" \"#/definitions/Type1\"", " \"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 028"){
-    this.runTest("references/schemas/test028.yml", Set("\"#/definitions/Type1\"", "\"#/definitions/Type2\""))
+  test("Shema reference test 028") {
+    this.runSuggestionTest("references/schemas/test028.yml", Set("\"#/definitions/Type1\"", "\"#/definitions/Type2\""))
   }
 
-  test("Shema reference test 029"){
-    this.runTest("references/schemas/test029.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
+  test("Shema reference test 029") {
+    this.runSuggestionTest("references/schemas/test029.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
   }
 
-  test("Shema reference test 030"){
-    this.runTest("references/schemas/test030.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
+  test("Shema reference test 030") {
+    this.runSuggestionTest("references/schemas/test030.yml", Set("#/definitions/Type1", "#/definitions/Type2"))
   }
 
-  test("Shema reference test 031"){
-    this.runTest("references/schemas/test031.yml", Set("/definitions/Type1", "/definitions/Type2"))
+  test("Shema reference test 031") {
+    this.runSuggestionTest("references/schemas/test031.yml", Set("/definitions/Type1", "/definitions/Type2"))
   }
 
-  test("Shema reference test 032"){
-    this.runTest("references/schemas/test032.yml", Set("/definitions/Type1", "/definitions/Type2"))
+  test("Shema reference test 032") {
+    this.runSuggestionTest("references/schemas/test032.yml", Set("/definitions/Type1", "/definitions/Type2"))
   }
 
 //  test("Parameter reference test 001"){
@@ -202,36 +220,42 @@ class ReferenceTests extends OAS20Test {
 //    this.runTest("references/parameters/test018.yml", Set("/parameters/param1", "/parameters/param2"))
 //  }
 
- test("Response reference test 001"){
-    this.runTest("references/responses/test001.yml", Set("\n          \"$ref\": \"#/responses/response1\"", "\n          \"$ref\": \"#/responses/response2\""))
+  test("Response reference test 001") {
+    this.runSuggestionTest(
+      "references/responses/test001.yml",
+      Set("\n          \"$ref\": \"#/responses/response1\"", "\n          \"$ref\": \"#/responses/response2\""))
   }
 
-  test("Response reference test 002"){
-    this.runTest("references/responses/test002.yml", Set("\n          \"$ref\": \"#/responses/response1\"", "\n          \"$ref\": \"#/responses/response2\""))
+  test("Response reference test 002") {
+    this.runSuggestionTest(
+      "references/responses/test002.yml",
+      Set("\n          \"$ref\": \"#/responses/response1\"", "\n          \"$ref\": \"#/responses/response2\""))
   }
 
-  test("Response reference test 003"){
-    this.runTest("references/responses/test003.yml", Set(" \"#/responses/response1\"", " \"#/responses/response2\""))
+  test("Response reference test 003") {
+    this.runSuggestionTest("references/responses/test003.yml",
+                           Set(" \"#/responses/response1\"", " \"#/responses/response2\""))
   }
 
-  test("Response reference test 004"){
-    this.runTest("references/responses/test004.yml", Set("\"#/responses/response1\"", "\"#/responses/response2\""))
+  test("Response reference test 004") {
+    this.runSuggestionTest("references/responses/test004.yml",
+                           Set("\"#/responses/response1\"", "\"#/responses/response2\""))
   }
 
-  test("Response reference test 005"){
-    this.runTest("references/responses/test005.yml", Set("#/responses/response1", "#/responses/response2"))
+  test("Response reference test 005") {
+    this.runSuggestionTest("references/responses/test005.yml", Set("#/responses/response1", "#/responses/response2"))
   }
 
-  test("Response reference test 006"){
-    this.runTest("references/responses/test006.yml", Set("#/responses/response1", "#/responses/response2"))
+  test("Response reference test 006") {
+    this.runSuggestionTest("references/responses/test006.yml", Set("#/responses/response1", "#/responses/response2"))
   }
 
-  test("Response reference test 007"){
-    this.runTest("references/responses/test007.yml", Set("/responses/response1", "/responses/response2"))
+  test("Response reference test 007") {
+    this.runSuggestionTest("references/responses/test007.yml", Set("/responses/response1", "/responses/response2"))
   }
 
-  test("Response reference test 008"){
-    this.runTest("references/responses/test008.yml", Set("/responses/response1", "/responses/response2"))
+  test("Response reference test 008") {
+    this.runSuggestionTest("references/responses/test008.yml", Set("/responses/response1", "/responses/response2"))
   }
 
 }

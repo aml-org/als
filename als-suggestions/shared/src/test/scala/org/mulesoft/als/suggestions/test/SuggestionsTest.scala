@@ -1,16 +1,14 @@
 package org.mulesoft.als.suggestions.test
 
 import amf.ProfileName
-import amf.client.remote.Content
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
-import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.CompletionProvider
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
-import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
+import org.mulesoft.high.level.CustomDialects
 import org.mulesoft.high.level.amfmanager.ParserHelper
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.high.level.{CustomDialects, InitOptions}
@@ -18,8 +16,7 @@ import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
-  private val directoryResolver = new PlatformDirectoryResolver(platform)
+trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
@@ -86,12 +83,12 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     * @param cut                 if true, cuts text after label
     * @param labels              set of every label in the file (needed for cleaning API)
     */
-  def runTest(path: String,
-              originalSuggestions: Set[String],
-              label: String = "*",
-              cut: Boolean = false,
-              labels: Array[String] = Array("*"),
-              customDialect: Option[CustomDialects] = None): Future[Assertion] =
+  def runSuggestionTest(path: String,
+                        originalSuggestions: Set[String],
+                        label: String = "*",
+                        cut: Boolean = false,
+                        labels: Array[String] = Array("*"),
+                        customDialect: Option[CustomDialects] = None): Future[Assertion] =
     this
       .suggest(path, label, cut, labels, customDialect)
       .map(r => assert(path, r.map(_.text).toSet, originalSuggestions))
@@ -101,9 +98,10 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
                   dialectPath: String,
                   dialectProfile: ProfileName): Future[Assertion] = {
     platform.resolve(filePath(dialectPath)).flatMap { c =>
-      runTest(path,
-              originalSuggestions,
-              customDialect = Some(CustomDialects(dialectProfile, c.url, c.stream.toString)))
+      runSuggestionTest(path,
+                        originalSuggestions,
+                        cut = false,
+                        customDialect = Some(CustomDialects(dialectProfile, c.url, c.stream.toString)))
     }
   }
 
@@ -112,28 +110,11 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
   def rootPath: String
 
   def suggest(path: String,
-              label: String = "*",
-              cutTail: Boolean = false,
-              labels: Array[String] = Array("*"),
+              label: String,
+              cutTail: Boolean,
+              labels: Array[String],
               customDialect: Option[CustomDialects] = None): Future[Seq[Suggestion]] = {
-
-    var position = 0
-    val url      = filePath(path)
-
-    for {
-      _       <- Suggestions.init(InitOptions.AllProfiles.withCustomDialects(customDialect.toSeq))
-      content <- platform.resolve(url)
-      env <- Future.successful {
-        val fileContentsStr = content.stream.toString
-        val markerInfo      = this.findMarker(fileContentsStr)
-
-        position = markerInfo.position
-
-        this.buildEnvironment(url, markerInfo.originalContent, content.mime)
-      }
-
-      suggestions <- Suggestions.suggest(format, url, position, directoryResolver, env, platform)
-    } yield suggestions.map(suggestion => suggestion)
+    super.suggest(filePath(path), format, customDialect)
   }
 
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])
@@ -158,19 +139,6 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
   def buildParserConfig(language: String, url: String): ParserConfig =
     Suggestions.buildParserConfig(language, url)
 
-  def buildEnvironment(fileUrl: String, content: String, mime: Option[String]): Environment = {
-    var loaders: Seq[ResourceLoader] = List(new ResourceLoader {
-      override def accepts(resource: String): Boolean = resource == fileUrl
-
-      override def fetch(resource: String): Future[Content] =
-        Future.successful(new Content(content, fileUrl))
-    })
-
-    loaders ++= platform.loaders()
-
-    Environment(loaders)
-  }
-
   def buildHighLevel(model: BaseUnit): Future[IProject] =
     Suggestions.buildHighLevel(model, platform)
 
@@ -191,32 +159,4 @@ trait SuggestionsTest extends AsyncFunSuite with PlatformSecrets {
     result
   }
 
-  def findMarker(str: String,
-                 label: String = "*",
-                 cut: Boolean = false,
-                 labels: Array[String] = Array("*")): MarkerInfo = {
-    val position = str.indexOf(label)
-
-    val str1 = {
-      if (cut && position >= 0) {
-        str.substring(0, position)
-      } else {
-        str
-      }
-    }
-
-    if (position < 0) {
-      new MarkerInfo(str1, str1.length, str1)
-    } else {
-      val rawContent = str1.replace(label, "") //.replace("\r\n", "\n")
-
-      val preparedContent =
-        org.mulesoft.als.suggestions.Core
-          .prepareText(rawContent, position, YAML)
-      new MarkerInfo(preparedContent, position, rawContent)
-    }
-
-  }
 }
-
-class MarkerInfo(val content: String, val position: Int, val originalContent: String) {}

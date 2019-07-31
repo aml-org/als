@@ -1,0 +1,97 @@
+[
+  {
+    "text": "namespace",
+    "description": "Allows to configure the name of the XML namespace.",
+    "displayText": "namespace",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 13
+        },
+        "end": {
+          "line": 8,
+          "character": 13
+        }
+      }
+    ]
+  },
+  {
+    "text": "prefix",
+    "description": "Allows to configure the prefix which will be used during serialization to XML.",
+    "displayText": "prefix",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 13
+        },
+        "end": {
+          "line": 8,
+          "character": 13
+        }
+      }
+    ]
+  },
+  {
+    "text": "name",
+    "description": "Allows to override the name of the XML element or XML attribute in it's XML representation.",
+    "displayText": "name",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 13
+        },
+        "end": {
+          "line": 8,
+          "character": 13
+        }
+      }
+    ]
+  },
+  {
+    "text": "wrapped",
+    "description": "If wrapped is set to true, a type instance should be wrapped in its own XML element. It can not be true for scalar types and it can not be true at the same moment when attribute is true.",
+    "displayText": "wrapped",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 13
+        },
+        "end": {
+          "line": 8,
+          "character": 13
+        }
+      }
+    ]
+  },
+  {
+    "text": "attribute",
+    "description": "If attribute is set to true, a type instance should be serialized as an XML attribute. It can only be true for scalar types.",
+    "displayText": "attribute",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 13
+        },
+        "end": {
+          "line": 8,
+          "character": 13
+        }
+      }
+    ]
+  }
+]
