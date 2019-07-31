@@ -1,0 +1,59 @@
+[
+  {
+    "text": "basic",
+    "description": "Possible 'type' value",
+    "displayText": "basic",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 15
+        },
+        "end": {
+          "line": 4,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "apiKey",
+    "description": "Possible 'type' value",
+    "displayText": "apiKey",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 15
+        },
+        "end": {
+          "line": 4,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "oauth2",
+    "description": "Possible 'type' value",
+    "displayText": "oauth2",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 15
+        },
+        "end": {
+          "line": 4,
+          "character": 15
+        }
+      }
+    ]
+  }
+]

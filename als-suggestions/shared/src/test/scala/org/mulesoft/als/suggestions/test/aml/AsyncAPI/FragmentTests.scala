@@ -7,11 +7,12 @@ class FragmentTests extends AMLSuggestionsTest {
   def rootPath: String = "AML/AsyncAPI"
 
   test("test001") {
-    this.runTest("fragment/test001.yaml", Set("externalDocs:\n  ", "description: ", "headers:\n  ", "tags:\n  "))
+    this.runSuggestionTest("fragment/test001.yaml",
+                           Set("externalDocs:\n  ", "description: ", "headers:\n  ", "tags:\n  "))
   }
 
   test("test002") {
-    this.runTest(
+    this.runSuggestionTest(
       "fragment/test002.yaml",
       Set(
         "pattern: ",
@@ -43,20 +44,21 @@ class FragmentTests extends AMLSuggestionsTest {
   }
 
   test("test003") {
-    this.runTest("fragment/test003.yaml", Set())
+    this.runSuggestionTest("fragment/test003.yaml", Set())
   }
 
   test("test004") {
-    this.runTest("fragment/test004.yaml",
-                 Set("[ null ]", "[ boolean ]", "[ string ]", "[ array ]", "[ object ]", "[ number ]", "[ integer ]"))
+    this.runSuggestionTest(
+      "fragment/test004.yaml",
+      Set("[ null ]", "[ boolean ]", "[ string ]", "[ array ]", "[ object ]", "[ number ]", "[ integer ]"))
   }
 
 //    test("test005"){
-//        this.runTest("fragment/test005.yaml",  Set("null", "boolean", "string", "array", "object", "number", "integer"))
+//        this.runSuggestionTest("fragment/test005.yaml",  Set("null", "boolean", "string", "array", "object", "number", "integer"))
 //    }
 
   test("test006") {
-    this.runTest(
+    this.runSuggestionTest(
       "fragment/test006.yaml",
       Set(
         "pattern: ",
@@ -88,6 +90,6 @@ class FragmentTests extends AMLSuggestionsTest {
   }
 
   test("test007") {
-    this.runTest("fragment/test007.yaml", Set("name: ", "description: "))
+    this.runSuggestionTest("fragment/test007.yaml", Set("name: ", "description: "))
   }
 }

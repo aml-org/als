@@ -1,0 +1,97 @@
+[
+  {
+    "text": "description",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 10
+        },
+        "end": {
+          "line": 11,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "schema",
+    "description": "schema",
+    "displayText": "schema",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 10
+        },
+        "end": {
+          "line": 11,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "headers",
+    "description": "headers",
+    "displayText": "headers",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 10
+        },
+        "end": {
+          "line": 11,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "examples",
+    "description": "examples",
+    "displayText": "examples",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 10
+        },
+        "end": {
+          "line": 11,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"$ref\": ",
+    "description": "$ref",
+    "displayText": "$ref",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 10
+        },
+        "end": {
+          "line": 11,
+          "character": 10
+        }
+      }
+    ]
+  }
+]

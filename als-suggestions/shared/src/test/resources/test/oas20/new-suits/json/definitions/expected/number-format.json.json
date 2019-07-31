@@ -1,0 +1,40 @@
+[
+  {
+    "text": "float",
+    "description": "",
+    "displayText": "float",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 17
+        },
+        "end": {
+          "line": 5,
+          "character": 17
+        }
+      }
+    ]
+  },
+  {
+    "text": "double",
+    "description": "",
+    "displayText": "double",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 17
+        },
+        "end": {
+          "line": 5,
+          "character": 17
+        }
+      }
+    ]
+  }
+]

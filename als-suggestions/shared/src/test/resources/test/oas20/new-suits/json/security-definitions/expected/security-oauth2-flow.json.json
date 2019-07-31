@@ -1,0 +1,78 @@
+[
+  {
+    "text": "implicit",
+    "description": "Possible 'flow' value",
+    "displayText": "implicit",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 15
+        },
+        "end": {
+          "line": 5,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "password",
+    "description": "Possible 'flow' value",
+    "displayText": "password",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 15
+        },
+        "end": {
+          "line": 5,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "application",
+    "description": "Possible 'flow' value",
+    "displayText": "application",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 15
+        },
+        "end": {
+          "line": 5,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "accessCode",
+    "description": "Possible 'flow' value",
+    "displayText": "accessCode",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 15
+        },
+        "end": {
+          "line": 5,
+          "character": 15
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,59 @@
+[
+  {
+    "text": "description: ",
+    "description": "",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "in: ",
+    "description": "",
+    "displayText": "in",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "name: ",
+    "description": "",
+    "displayText": "name",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  }
+]

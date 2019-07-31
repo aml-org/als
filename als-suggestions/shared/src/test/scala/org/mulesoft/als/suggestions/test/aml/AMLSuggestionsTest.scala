@@ -11,6 +11,6 @@ abstract class AMLSuggestionsTest extends SuggestionsTest {
   def format: String = Aml.toString
 
   def runTestForCustomDialect(path: String, dialectPath: String, originalSuggestions: Set[String]): Future[Assertion] = {
-    parseAMF(filePath(dialectPath)).flatMap(_ => runTest(path, originalSuggestions))
+    parseAMF(filePath(dialectPath)).flatMap(_ => runSuggestionTest(path, originalSuggestions))
   }
 }
