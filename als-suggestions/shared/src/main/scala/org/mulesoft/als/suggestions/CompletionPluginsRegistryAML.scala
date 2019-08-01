@@ -58,7 +58,8 @@ object AMLBaseCompletionPlugins {
     AMLEnumCompletionPlugin,
     AMLRootDeclarationsCompletionPlugin,
     AMLDeclarationsReferencesCompletionPlugin,
-    AMLKnownValueCompletions
+    AMLKnownValueCompletions,
+    AMLComponentKeyCompletionPlugin
   )
 
   val base: CompletionPluginsRegistryAML = {

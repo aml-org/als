@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
+import amf.core.model.document.DeclaresModel
 import amf.plugins.document.vocabularies.model.document.{DialectInstance, DialectInstanceLibrary}
 import amf.plugins.document.vocabularies.model.domain.PublicNodeMapping
 import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
@@ -15,18 +16,24 @@ class AMLRootDeclarationsCompletionPlugin(params: CompletionParams) extends AMLS
 
   private def getSuggestions: Seq[(String, String)] =
     params.baseUnit match {
-      case _: DialectInstance =>
-        params.dialect
-          .documents()
-          .root()
-          .declaredNodes()
-          .map(extractText)
-      case _: DialectInstanceLibrary =>
-        params.dialect
-          .documents()
-          .library()
-          .declaredNodes()
-          .map(extractText)
+      case d: DeclaresModel if params.dialect.documents().declarationsPath().option().isDefined =>
+        params.dialect.documents().declarationsPath().option().map(v => (v, "\n  ")).toSeq
+      case d: DeclaresModel =>
+        params.baseUnit match {
+          case _: DialectInstance =>
+            params.dialect
+              .documents()
+              .root()
+              .declaredNodes()
+              .map(extractText)
+          case _: DialectInstanceLibrary =>
+            params.dialect
+              .documents()
+              .library()
+              .declaredNodes()
+              .map(extractText)
+          case _ => Nil
+        }
       case _ => Nil
     }
 
