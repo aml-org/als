@@ -1,0 +1,21 @@
+[
+  {
+    "text": "name",
+    "description": "Required. The name of the parameter. Parameter names are case sensitive.\nIf in is \"path\", the name field MUST correspond to the associated path segment from the path field in the Paths Object. See Path Templating for further information.\nFor all other cases, the name corresponds to the parameter name used based on the in property.",
+    "displayText": "name",
+    "prefix": "nam",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 11
+        },
+        "end": {
+          "line": 9,
+          "character": 14
+        }
+      }
+    ]
+  }
+]
