@@ -149,11 +149,11 @@ class StructureTestsJson extends OAS20Test {
   }
 
   test("SchemaObject readOnly") {
-    this.runSuggestionTest("structure_json/test85.json", Set("readOnly\":"))
+    this.runSuggestionTest("structure_json/test85.json", Set("\"readOnly\":"))
   }
 
   test("TagObject description") {
-    this.runSuggestionTest("structure_json/test88.json", Set("description\":"))
+    this.runSuggestionTest("structure_json/test88.json", Set("\"description\":"))
   }
 
   test("TagObject externalDocs") {
@@ -161,11 +161,11 @@ class StructureTestsJson extends OAS20Test {
   }
 
   test("XMLObject namespace") {
-    this.runSuggestionTest("structure_json/test104.json", Set("namespace\":"))
+    this.runSuggestionTest("structure_json/test104.json", Set("\"namespace\":"))
   }
 
   test("XMLObject prefix") {
-    this.runSuggestionTest("structure_json/test105.json", Set("prefix\":"))
+    this.runSuggestionTest("structure_json/test105.json", Set("\"prefix\":"))
   }
 
   test("complete key start (element property)") {
@@ -186,25 +186,25 @@ class StructureTestsJson extends OAS20Test {
   }
 
   test("incomplete key end") {
-    this.runSuggestionTest("structure_json/test107.json", Set("parameters\":", "paths\":"))
+    this.runSuggestionTest("structure_json/test107.json", Set("\"parameters\":", "\"paths\":"))
   }
 
   test("empty open quote") {
     this.runSuggestionTest(
       "structure_json/test108.json",
       Set(
-        "paths\":",
-        "responses\":",
-        "securityDefinitions\":",
-        "parameters\":",
-        "definitions\":",
-        "security\":",
-        "consumes\":",
-        "externalDocs\":",
-        "host\":",
-        "schemes\":",
-        "produces\":",
-        "basePath\":"
+        "\"paths\":",
+        "\"responses\":",
+        "\"securityDefinitions\":",
+        "\"parameters\":",
+        "\"definitions\":",
+        "\"security\":",
+        "\"consumes\":",
+        "\"externalDocs\":",
+        "\"host\":",
+        "\"schemes\":",
+        "\"produces\":",
+        "\"basePath\":"
       )
     )
   }

@@ -3,15 +3,11 @@ package org.mulesoft.als.suggestions.test.oas20
 class ReferenceTests extends OAS20Test {
 
   test("Shema reference test 001") {
-    this.runSuggestionTest(
-      "references/schemas/test001.yml",
-      Set("\n          \"$ref\": \"#/definitions/Type1\"", "\n          \"$ref\": \"#/definitions/Type2\""))
+    this.runSuggestionTest("references/schemas/test001.yml", Set.empty)
   }
 
   test("Shema reference test 002") {
-    this.runSuggestionTest(
-      "references/schemas/test002.yml",
-      Set("\n          \"$ref\": \"#/definitions/Type1\"", "\n          \"$ref\": \"#/definitions/Type2\""))
+    this.runSuggestionTest("references/schemas/test002.yml", Set.empty)
   }
 
   test("Shema reference test 003") {
@@ -40,15 +36,11 @@ class ReferenceTests extends OAS20Test {
   }
 
   test("Shema reference test 009") {
-    this.runSuggestionTest(
-      "references/schemas/test009.yml",
-      Set("\n            \"$ref\": \"#/definitions/Type1\"", "\n            \"$ref\": \"#/definitions/Type2\""))
+    this.runSuggestionTest("references/schemas/test009.yml", Set.empty)
   }
 
   test("Shema reference test 010") {
-    this.runSuggestionTest(
-      "references/schemas/test010.yml",
-      Set("\n            \"$ref\": \"#/definitions/Type1\"", "\n            \"$ref\": \"#/definitions/Type2\""))
+    this.runSuggestionTest("references/schemas/test010.yml", Set.empty)
   }
 
   test("Shema reference test 011") {
@@ -74,18 +66,6 @@ class ReferenceTests extends OAS20Test {
 
   test("Shema reference test 016") {
     this.runSuggestionTest("references/schemas/test016.yml", Set("/definitions/Type1", "/definitions/Type2"))
-  }
-
-  test("Shema reference test 017") {
-    this.runSuggestionTest(
-      "references/schemas/test017.yml",
-      Set("\n            \"$ref\": \"#/definitions/Type1\"", "\n            \"$ref\": \"#/definitions/Type2\""))
-  }
-
-  test("Shema reference test 018") {
-    this.runSuggestionTest(
-      "references/schemas/test018.yml",
-      Set("\n            \"$ref\": \"#/definitions/Type1\"", "\n            \"$ref\": \"#/definitions/Type2\""))
   }
 
   test("Shema reference test 019") {
@@ -114,13 +94,11 @@ class ReferenceTests extends OAS20Test {
   }
 
   test("Shema reference test 025") {
-    this.runSuggestionTest("references/schemas/test025.yml",
-                           Set("\n    \"$ref\": \"#/definitions/Type1\"", "\n    \"$ref\": \"#/definitions/Type2\""))
+    this.runSuggestionTest("references/schemas/test025.yml", Set.empty)
   }
 
   test("Shema reference test 026") {
-    this.runSuggestionTest("references/schemas/test026.yml",
-                           Set("\n    \"$ref\": \"#/definitions/Type1\"", "\n    \"$ref\": \"#/definitions/Type2\""))
+    this.runSuggestionTest("references/schemas/test026.yml", Set.empty)
   }
 
   test("Shema reference test 027") {
@@ -221,15 +199,11 @@ class ReferenceTests extends OAS20Test {
 //  }
 
   test("Response reference test 001") {
-    this.runSuggestionTest(
-      "references/responses/test001.yml",
-      Set("\n          \"$ref\": \"#/responses/response1\"", "\n          \"$ref\": \"#/responses/response2\""))
+    this.runSuggestionTest("references/responses/test001.yml", Set.empty)
   }
 
   test("Response reference test 002") {
-    this.runSuggestionTest(
-      "references/responses/test002.yml",
-      Set("\n          \"$ref\": \"#/responses/response1\"", "\n          \"$ref\": \"#/responses/response2\""))
+    this.runSuggestionTest("references/responses/test002.yml", Set.empty)
   }
 
   test("Response reference test 003") {
