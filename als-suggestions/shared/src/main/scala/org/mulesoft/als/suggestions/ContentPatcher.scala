@@ -109,6 +109,28 @@ object ContentPatcher {
           if (!lineTrim.endsWith("\""))
             newLine += "\""
       }
+      newLine.split(':').toList match {
+        case head :: tail if tail.nonEmpty =>
+          val entryValue = tail.last
+          val prefix: String = entryValue.trim.headOption.getOrElse("") match {
+            case '-' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' => ""
+            case 't' | 'f'                                                       => ""
+            case '{' | '[' | '"'                                                 => ""
+            case _                                                               => '"'.toString
+          }
+          val newEntryValue =
+            if (entryValue.endsWith(","))
+              entryValue.substring(0, entryValue.length - 2)
+            else entryValue
+          val postFix =
+            if (prefix.nonEmpty && !entryValue.trim.endsWith("\"")) "\","
+            else ","
+          needComa = false
+          newLine = head + ":" + prefix + newEntryValue + postFix
+        case head :: Nil if needComa =>
+          newLine += "\"\","
+          needComa = false
+      }
       if (needComa)
         newLine += ","
     }
