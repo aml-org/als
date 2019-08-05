@@ -7,6 +7,11 @@ import org.yaml.model._
 import scala.annotation.tailrec
 
 case class YPartBranch(node: YPart, position: Position, private val stack: Seq[YPart]) {
+
+  val isEmptyNode: Boolean = node match {
+    case n: YNode => n.tagType == YType.Null
+    case _        => false
+  }
   val isKey: Boolean = stack.headOption.exists(_.isKey(position))
 
   lazy val hasIncludeTag: Boolean = node match {
