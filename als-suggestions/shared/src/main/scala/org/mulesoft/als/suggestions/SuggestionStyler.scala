@@ -108,7 +108,10 @@ object SuggestionStyler {
     val isJSONObject = (suggestion.text startsWith "{") && (suggestion.text endsWith "}")
     var endingQuote  = false
     var postfix      = ""
+    var prefix       = ""
     if (isKey) {
+      if (!suggestion.text.startsWith("\"") && !hasKeyClosingQuote)
+        prefix = "\""
       if (!hasKeyClosingQuote) {
         postfix += "\""
         if (!hasColon && !noColon)
@@ -123,8 +126,10 @@ object SuggestionStyler {
       postfix += "\""
       endingQuote = true
     }
-    if (!isJSONObject && (!endingQuote || !(suggestion.text endsWith "\"")))
-      suggestion.text + postfix
-    else suggestion.text
+    prefix + {
+      if (!isJSONObject && (!endingQuote || !(suggestion.text endsWith "\"")))
+        suggestion.text + postfix
+      else suggestion.text
+    }
   }
 }

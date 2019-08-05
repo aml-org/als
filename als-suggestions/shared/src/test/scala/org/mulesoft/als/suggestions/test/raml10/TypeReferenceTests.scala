@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.test.raml10
 class TypeReferenceTests extends RAML10Test {
 
   test("TypeDeclaration shortcut 01") {
-    this.runTest(
+    this.runSuggestionTest(
       "typeReferences/test001.raml",
       Set(
         "nil",
@@ -27,11 +27,11 @@ class TypeReferenceTests extends RAML10Test {
   }
 
   test("TypeDeclaration shortcut 02") {
-    this.runTest("typeReferences/test002.raml", Set("stype2", "stype3", "string"))
+    this.runSuggestionTest("typeReferences/test002.raml", Set("stype2", "stype3", "string"))
   }
 
   test("TypeDeclaration explicit 01") {
-    this.runTest(
+    this.runSuggestionTest(
       "typeReferences/test003.raml",
       Set(
         "nil",
@@ -55,11 +55,11 @@ class TypeReferenceTests extends RAML10Test {
   }
 
   test("TypeDeclaration explicit 02") {
-    this.runTest("typeReferences/test004.raml", Set("stype2", "stype3", "string"))
+    this.runSuggestionTest("typeReferences/test004.raml", Set("stype2", "stype3", "string"))
   }
 
   test("Property type shortcut 01") {
-    this.runTest(
+    this.runSuggestionTest(
       "typeReferences/test005.raml",
       Set(
         "nil",
@@ -84,11 +84,11 @@ class TypeReferenceTests extends RAML10Test {
   }
 
   test("Property type shortcut 02") {
-    this.runTest("typeReferences/test006.raml", Set("stype1", "stype2", "stype3", "string"))
+    this.runSuggestionTest("typeReferences/test006.raml", Set("stype1", "stype2", "stype3", "string"))
   }
 
   test("Property type explicit 01") {
-    this.runTest(
+    this.runSuggestionTest(
       "typeReferences/test007.raml",
       Set(
         "nil",
@@ -113,11 +113,11 @@ class TypeReferenceTests extends RAML10Test {
   }
 
   test("Property type explicit 02") {
-    this.runTest("typeReferences/test008.raml", Set("stype1", "stype2", "stype3", "string"))
+    this.runSuggestionTest("typeReferences/test008.raml", Set("stype1", "stype2", "stype3", "string"))
   }
 
   test("Items type shortcut 01") {
-    this.runTest(
+    this.runSuggestionTest(
       "typeReferences/test009.raml",
       Set(
         "nil",
@@ -142,11 +142,11 @@ class TypeReferenceTests extends RAML10Test {
   }
 
   test("Items type shortcut 02") {
-    this.runTest("typeReferences/test010.raml", Set("stype1", "stype2", "stype3", "string"))
+    this.runSuggestionTest("typeReferences/test010.raml", Set("stype1", "stype2", "stype3", "string"))
   }
 
   test("Items type explicit 01") {
-    this.runTest(
+    this.runSuggestionTest(
       "typeReferences/test011.raml",
       Set(
         "nil",
@@ -171,10 +171,11 @@ class TypeReferenceTests extends RAML10Test {
   }
 
   test("Items type explicit 02") {
-    this.runTest("typeReferences/test012.raml", Set("stype1", "stype2", "stype3", "string"))
+    this.runSuggestionTest("typeReferences/test012.raml", Set("stype1", "stype2", "stype3", "string"))
   }
 
   test("Test type reference from a lib declaration") {
-    this.runTest("typeReferences/through-lib/api.raml", Set("myTypes.Person", "myTypes.Employee", "myTypes.Manager"))
+    this.runSuggestionTest("typeReferences/through-lib/api.raml",
+                           Set("myTypes.Person", "myTypes.Employee", "myTypes.Manager"))
   }
 }

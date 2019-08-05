@@ -1,0 +1,40 @@
+[
+  {
+    "text": "type",
+    "description": "",
+    "displayText": "type",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "description",
+    "description": "",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  }
+]

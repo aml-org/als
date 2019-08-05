@@ -1,0 +1,78 @@
+[
+  {
+    "text": "[ http ]",
+    "description": "Possible 'schemes' value",
+    "displayText": "[ http ]",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 14
+        },
+        "end": {
+          "line": 2,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
+    "text": "[ https ]",
+    "description": "Possible 'schemes' value",
+    "displayText": "[ https ]",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 14
+        },
+        "end": {
+          "line": 2,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
+    "text": "[ ws ]",
+    "description": "Possible 'schemes' value",
+    "displayText": "[ ws ]",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 14
+        },
+        "end": {
+          "line": 2,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
+    "text": "[ wss ]",
+    "description": "Possible 'schemes' value",
+    "displayText": "[ wss ]",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 14
+        },
+        "end": {
+          "line": 2,
+          "character": 14
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,40 @@
+[
+  {
+    "text": "url: ",
+    "description": "The URL for the target documentation. Value MUST be in the format of a URL.",
+    "displayText": "url",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "description: ",
+    "description": "A short description of the target documentation. GFM syntax can be used for rich text representation.",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      }
+    ]
+  }
+]

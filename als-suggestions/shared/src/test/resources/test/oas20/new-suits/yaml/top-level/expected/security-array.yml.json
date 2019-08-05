@@ -1,0 +1,21 @@
+[
+  {
+    "text": "security: ",
+    "description": "security definition reference",
+    "displayText": "security",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      }
+    ]
+  }
+]

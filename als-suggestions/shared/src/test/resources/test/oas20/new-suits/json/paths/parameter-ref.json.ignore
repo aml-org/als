@@ -1,0 +1,17 @@
+{
+  "swagger": "2.0",
+  "parameters": {
+    "named": {
+      "in": "body"
+    }
+  },
+  "paths": {
+    "/path": {
+      "parameters": [
+        {
+          "$ref": "*"
+        }
+      ]
+    }
+  }
+}

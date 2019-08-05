@@ -1,0 +1,78 @@
+[
+  {
+    "text": "required",
+    "description": "Determines whether this parameter is mandatory. If the parameter is in 'path', this property is required and its value MUST be true. Otherwise, the property MAY be included and its default value is false.",
+    "displayText": "required",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 13
+        },
+        "end": {
+          "line": 12,
+          "character": 13
+        }
+      }
+    ]
+  },
+  {
+    "text": "description",
+    "description": "A brief description. This could contain examples of use. GFM syntax can be used for rich text representation.",
+    "displayText": "description",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 13
+        },
+        "end": {
+          "line": 12,
+          "character": 13
+        }
+      }
+    ]
+  },
+  {
+    "text": "name",
+    "description": "Required. The name of the parameter. Parameter names are case sensitive.\nIf in is \"path\", the name field MUST correspond to the associated path segment from the path field in the Paths Object. See Path Templating for further information.\nFor all other cases, the name corresponds to the parameter name used based on the in property.",
+    "displayText": "name",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 13
+        },
+        "end": {
+          "line": 12,
+          "character": 13
+        }
+      }
+    ]
+  },
+  {
+    "text": "schema",
+    "description": "",
+    "displayText": "schema",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 13
+        },
+        "end": {
+          "line": 12,
+          "character": 13
+        }
+      }
+    ]
+  }
+]

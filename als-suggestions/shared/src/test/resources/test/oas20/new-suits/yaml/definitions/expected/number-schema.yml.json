@@ -1,0 +1,249 @@
+[
+  {
+    "text": "exclusiveMinimum: ",
+    "description": "",
+    "displayText": "exclusiveMinimum",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "enum: ",
+    "description": "",
+    "displayText": "enum",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "exclusiveMaximum: ",
+    "description": "",
+    "displayText": "exclusiveMaximum",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "xml:\n      ",
+    "description": "",
+    "displayText": "xml",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "minimum: ",
+    "description": "",
+    "displayText": "minimum",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "maximum: ",
+    "description": "",
+    "displayText": "maximum",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "default: ",
+    "description": "",
+    "displayText": "default",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "multipleOf: ",
+    "description": "",
+    "displayText": "multipleOf",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "description: ",
+    "description": "",
+    "displayText": "description",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "title: ",
+    "description": "",
+    "displayText": "title",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"$ref\": ",
+    "description": "",
+    "displayText": "$ref",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "format: ",
+    "description": "",
+    "displayText": "format",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "example: ",
+    "description": "",
+    "displayText": "example",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  }
+]

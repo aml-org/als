@@ -133,7 +133,7 @@ object Suggestions extends SuggestionsHelper {
       .map(suggestions => suggestions map toClientSuggestion)
   }
 
-  private def toClientSuggestion(suggestion: interfaces.Suggestion) = {
+  private def toClientSuggestion(suggestion: interfaces.Suggestion) =
     new Suggestion(
       text = suggestion.text,
       description = suggestion.description,
@@ -142,7 +142,6 @@ object Suggestions extends SuggestionsHelper {
       category = suggestion.category,
       range = suggestion.range
     )
-  }
 
   private def buildHighLevel(model: BaseUnit, platform: Platform): Future[IProject] =
     org.mulesoft.high.level.Core.buildModel(model, platform)

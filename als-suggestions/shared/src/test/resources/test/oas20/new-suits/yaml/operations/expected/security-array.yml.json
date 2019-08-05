@@ -1,0 +1,21 @@
+[
+  {
+    "text": "api_key: ",
+    "description": "security definition reference",
+    "displayText": "api_key",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 10,
+          "character": 10
+        },
+        "end": {
+          "line": 10,
+          "character": 10
+        }
+      }
+    ]
+  }
+]

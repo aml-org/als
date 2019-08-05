@@ -1,0 +1,23 @@
+swagger: "2.0"
+info:
+  title: test
+paths:
+  /pets/{id}:
+    parameters:
+      -
+        nam*: in
+        :
+        header
+        description: ID of pet to use
+        required: true
+        type: array
+        items:
+          type: string
+      -
+        name: id
+        in: path
+        description: ID of pet to use
+      -
+        "$ref": "#/parameters/skipParam"
+    post:
+      description: Returns a pet based on ID

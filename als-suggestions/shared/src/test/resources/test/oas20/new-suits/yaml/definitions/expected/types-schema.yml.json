@@ -1,0 +1,135 @@
+[
+  {
+    "text": "string",
+    "description": "Possible 'type' value",
+    "displayText": "string",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "number",
+    "description": "Possible 'type' value",
+    "displayText": "number",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "integer",
+    "description": "Possible 'type' value",
+    "displayText": "integer",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "boolean",
+    "description": "Possible 'type' value",
+    "displayText": "boolean",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "array",
+    "description": "Possible 'type' value",
+    "displayText": "array",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "file",
+    "description": "Possible 'type' value",
+    "displayText": "file",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "object",
+    "description": "Possible 'type' value",
+    "displayText": "object",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  }
+]
