@@ -1,9 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.model.domain.{AmfObject, AmfScalar}
+import amf.core.annotations.SourceAST
+import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
-import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import org.mulesoft.als.common.ElementNameExtractor._
+import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.{CompletionParams, DeclarationProvider, RawSuggestion}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.{AMLCompletionParams, DeclarationProvider, RawSuggestion}
 import org.yaml.model.{YMapEntry, YPart}
@@ -41,10 +44,7 @@ object AMLDeclarationsReferencesCompletionPlugin extends AMLCompletionPlugin {
   override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] = {
     Future.successful({
       if (params.yPartBranch.isValue) {
-        val actualName = params.amfObject.fields
-          .getValueAsOption(DialectDomainElementModel.DeclarationName)
-          .map(_.value)
-          .collect({ case s: AmfScalar => s.value.toString })
+        val actualName = params.amfObject.elementIdentifier()
         new AMLDeclarationsReferencesCompletionPlugin(getObjectRangeIds(params),
                                                       params.prefix,
                                                       params.declarationProvider,
@@ -68,8 +68,14 @@ object AMLDeclarationsReferencesCompletionPlugin extends AMLCompletionPlugin {
 
   private def referenceFromDeclared(amfObject: AmfObject): immutable.Seq[String] =
     amfObject.fields.fields() match {
-      case head :: Nil if head.field == DialectDomainElementModel.DeclarationName =>
+      case head :: Nil if amfObject.elementIdentifier().nonEmpty =>
         amfObject.meta.`type`.map(_.iri())
+      case others if others.nonEmpty => // hack for inferred fields like data type
+        amfObject.annotations.find(classOf[SourceAST]).map(_.ast) match {
+          case Some(entry: YMapEntry) =>
+            amfObject.meta.`type`.map(_.iri())
+          case _ => Nil
+        }
       case _ => Nil
     }
 

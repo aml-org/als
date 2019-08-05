@@ -4,6 +4,7 @@ import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, Property
 import amf.core.metamodel.domain.{DataNodeModel, ShapeModel}
 import amf.core.vocabulary.Namespace
 import amf.core.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdFloat, xsdInteger, xsdString}
+import amf.dialects.RAML10Dialect
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import amf.plugins.domain.shapes.metamodel._
@@ -13,7 +14,28 @@ object Raml10TypesDialect {
   val DialectLocation = "file://parallel-als/vocabularies/dialects/raml10.yaml"
 
   val ShapeNodeId: String = DialectLocation + "#/declarations/ShapeNode"
-
+  val shapeTypesProperty: PropertyMapping = PropertyMapping()
+    .withId(DialectLocation + "#/declarations/ShapeNode/inherits")
+    .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
+    .withName("type")
+    .withEnum(
+      Seq(
+        "string",
+        "number",
+        "integer",
+        "boolean",
+        "array",
+        "file",
+        "object",
+        "date-only",
+        "time-only",
+        "datetime-only",
+        "datetime",
+        "nil",
+        "any"
+      ))
+    .withLiteralRange(xsdString.iri())
+    .withObjectRange(Seq(ShapeNodeId))
   val shapeProperties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/ShapeNode/in")
@@ -32,29 +54,6 @@ object Raml10TypesDialect {
       .withName("displayName")
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
-      .withId(DialectLocation + "#/declarations/ShapeNode/inherits")
-      .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
-      .withName("type")
-      .withEnum(
-        Seq(
-          "string",
-          "number",
-          "integer",
-          "float",
-          "boolean",
-          "array",
-          "file",
-          "object",
-          "date",
-          "date-only",
-          "time-only",
-          "datetime-only",
-          "datetime",
-          "nil"
-        ))
-      .withLiteralRange(xsdString.iri())
-      .withObjectRange(Seq(ShapeNodeId)),
-    PropertyMapping()
       .withId(DialectLocation + "#/declarations/ShapeNode/description")
       .withNodePropertyMapping(ShapeModel.Description.value.iri())
       .withName("description")
@@ -64,7 +63,8 @@ object Raml10TypesDialect {
       .withNodePropertyMapping(ShapeModel.CustomShapeProperties.value.iri())
       .withName("facets")
       .withObjectRange(Seq(CustomDomainPropertyModel.`type`.head.iri()))
-      .withMapTermKeyProperty(CustomDomainPropertyModel.Name.value.iri())
+      .withMapTermKeyProperty(CustomDomainPropertyModel.Name.value.iri()),
+    shapeTypesProperty
   )
 
   val ShapeNode: NodeMapping = NodeMapping()
@@ -182,6 +182,12 @@ object Raml10TypesDialect {
     .withNodeTypeMapping(UnionShapeModel.`type`.head.iri())
     .withPropertiesMapping(anyShapeProperties)
 
+  val ScalarShapeNode: NodeMapping = NodeMapping()
+    .withId(DialectLocation + "#/declarations/ScalarShapeNode")
+    .withName("ScalarShapeNode")
+    .withNodeTypeMapping(ScalarShapeModel.`type`.head.iri())
+    .withPropertiesMapping(anyShapeProperties)
+
   val StringShapeNode: NodeMapping = NodeMapping()
     .withId(DialectLocation + "#/declarations/StringShapeNode")
     .withName("StringShapeNode")
@@ -270,13 +276,9 @@ object Raml10TypesDialect {
     .withNodeTypeMapping(NilShapeModel.`type`.head.iri())
 
   val dialect: Dialect = {
-    Dialect()
-      .withId(DialectLocation)
-      .withName("RAML")
-      .withVersion("1.0")
-      .withLocation(DialectLocation)
-      .withId(DialectLocation)
-      .withDeclares(
+    val dialect = RAML10Dialect()
+    dialect.withDeclares(
+      dialect.declares ++
         Seq(
           AnyShapeNode,
           PropertyShapeNode,
@@ -286,7 +288,8 @@ object Raml10TypesDialect {
           StringShapeNode,
           NumberShapeNode,
           FileShapeNode,
-          NilShapeNode
+          NilShapeNode,
+          ScalarShapeNode
         ))
   }
 }
