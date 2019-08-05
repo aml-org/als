@@ -21,7 +21,6 @@ class TypeReferenceTests extends RAML10Test {
         "object",
         "stype2",
         "stype3",
-        "union"
       )
     )
   }
@@ -48,8 +47,7 @@ class TypeReferenceTests extends RAML10Test {
         "array",
         "object",
         "stype2",
-        "stype3",
-        "union"
+        "stype3"
       )
     )
   }
@@ -77,8 +75,7 @@ class TypeReferenceTests extends RAML10Test {
         "object",
         "stype1",
         "stype2",
-        "stype3",
-        "union"
+        "stype3"
       )
     )
   }
@@ -106,8 +103,7 @@ class TypeReferenceTests extends RAML10Test {
         "object",
         "stype1",
         "stype2",
-        "stype3",
-        "union"
+        "stype3"
       )
     )
   }
@@ -135,8 +131,7 @@ class TypeReferenceTests extends RAML10Test {
         "object",
         "stype1",
         "stype2",
-        "stype3",
-        "union"
+        "stype3"
       )
     )
   }
@@ -164,8 +159,7 @@ class TypeReferenceTests extends RAML10Test {
         "object",
         "stype1",
         "stype2",
-        "stype3",
-        "union"
+        "stype3"
       )
     )
   }
@@ -176,6 +170,6 @@ class TypeReferenceTests extends RAML10Test {
 
   test("Test type reference from a lib declaration") {
     this.runSuggestionTest("typeReferences/through-lib/api.raml",
-                           Set("myTypes.Person", "myTypes.Employee", "myTypes.Manager"))
+                           Set("myTypes"))
   }
 }
