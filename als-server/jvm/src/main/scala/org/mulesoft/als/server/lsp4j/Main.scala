@@ -7,11 +7,15 @@ import amf.core.lexer.FileStream
 import org.eclipse.lsp4j.launch.LSPLauncher
 import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
-import org.mulesoft.high.level.CustomDialects
+import org.mulesoft.high.level.{CustomDialects, CustomVocabulary}
 
 object Main {
-  case class Options(port: Int, listen: Boolean, dialectPath: Option[String], dialectName: Option[String])
-  val DefaultOptions = Options(4000, listen = false, dialectPath = None, dialectName = None)
+  case class Options(port: Int,
+                     listen: Boolean,
+                     dialectPath: Option[String],
+                     dialectName: Option[String],
+                     vocabularyPath: Option[String])
+  val DefaultOptions = Options(4000, listen = false, dialectPath = None, dialectName = None, vocabularyPath = None)
 
   def readOptions(args: Array[String]): Options = {
     def innerReadOptions(options: Options, list: List[String]): Options =
@@ -23,6 +27,8 @@ object Main {
           innerReadOptions(options.copy(listen = true), tail)
         case "--dialect" :: value :: tail =>
           innerReadOptions(options.copy(dialectPath = Some(value)), tail)
+        case "--vocabulary" :: value :: tail =>
+          innerReadOptions(options.copy(vocabularyPath = Some(value)), tail)
         case "--dialectProfile" :: value :: tail =>
           innerReadOptions(options.copy(dialectName = Some(value)), tail)
         case _ =>
@@ -33,9 +39,9 @@ object Main {
   }
 
   def createSocket(options: Options): Socket = options match {
-    case Options(port, true, _, _) =>
+    case Options(port, true, _, _, _) =>
       new ServerSocket(port).accept()
-    case Options(port, false, _, _) =>
+    case Options(port, false, _, _, _) =>
       new Socket("localhost", port)
   }
 
@@ -54,7 +60,7 @@ object Main {
         LanguageServerFactory.alsLanguageServer(
           clientConnection,
           logger,
-          options.dialectPath.map(readDialectFile(_, options.dialectName.get)).toSeq))
+          options.dialectPath.map(readDialectFile(_, options.dialectName.get, options.vocabularyPath)).toSeq))
 
       val launcher = LSPLauncher.createServerLauncher(server, in, out)
       val client   = launcher.getRemoteProxy
@@ -67,8 +73,11 @@ object Main {
     }
   }
 
-  private def readDialectFile(path: String, profile: String) = {
-    CustomDialects(ProfileName(profile), path, new FileStream(path).toString())
+  private def readDialectFile(path: String, profile: String, vocabularyPath: Option[String]) = {
+    CustomDialects(ProfileName(profile),
+                   path,
+                   new FileStream(path).toString(),
+                   vocabularyPath.map(vp => CustomVocabulary(vp, new FileStream(vp).toString())))
   }
 
 }

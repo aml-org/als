@@ -1,0 +1,13 @@
+{
+  "swagger": "2.0",
+  "securityDefinitions": {
+    "security": {
+      "type": "oauth2"
+    }
+  },
+  "security": [
+    {
+      "security": "*"
+    }
+  ]
+}

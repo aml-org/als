@@ -1,0 +1,10 @@
+{
+  "swagger": "2.0",
+  "definitions": {
+    "name": {
+      "type": "array",
+      "items": "string",
+      "example": "*"
+    }
+  }
+}

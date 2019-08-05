@@ -15,7 +15,7 @@ import org.mulesoft.als.suggestions.plugins.raml.{
 }
 import org.mulesoft.high.level.builder.ProjectBuilder
 import org.mulesoft.high.level.interfaces.{IHighLevelNode, IParseResult}
-import org.mulesoft.positioning.YamlLocation
+import org.mulesoft.positioning.{YamlLocation, YamlPartWithRange}
 import org.mulesoft.typesystem.nominal_interfaces.extras.{DescriptionExtra, PropertySyntaxExtra}
 import org.mulesoft.typesystem.nominal_interfaces.{IArrayType, IProperty}
 import org.yaml.model.{YMap, YMapEntry, YNode, YScalar}
@@ -70,12 +70,19 @@ class StructureCompletionPlugin extends ICompletionPlugin {
                 true
               else if (isRequestParameterName(request))
                 true
-              else
-                isMethodKey(request)
+              else if (isMethodKey(request)) true
+              else isEmptyMap(l)
             case _ => false
           }
       case _ => false
     }
+
+  def isEmptyMap(yamlLocation: YamlLocation): Boolean = {
+    yamlLocation.node.flatMap(n => n.yPart.toOption[YMap]) match {
+      case Some(m) => m.entries.isEmpty
+      case _       => false
+    }
+  }
 
   def isRequestParameterName(request: ICompletionRequest): Boolean =
     request.astNode

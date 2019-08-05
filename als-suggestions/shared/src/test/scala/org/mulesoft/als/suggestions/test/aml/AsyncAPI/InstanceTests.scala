@@ -7,25 +7,23 @@ class InstanceTests extends AMLSuggestionsTest {
 
   def rootPath: String = "AML/AsyncAPI"
 
-  // TODO: Root declarations plugin
-  //   field is taken as if the previous node is father (lexical information includes until next node
   test("test001") {
-    this.runTest("instance/test001.yaml",
-                 Set("securitySchemes:\n  ", "schemas:\n  ", "security:\n  ", "servers:\n  ", "simpleMap:\n  "))
+    this.runSuggestionTest(
+      "instance/test001.yaml",
+      Set("securitySchemes:\n  ", "schemas:\n  ", "security:\n  ", "servers:\n  ", "simpleMap:\n  "))
   }
 
   test("test002") {
-    this.runTest("instance/test002.yaml",
-                 Set("termsOfService: ", "contact:\n    ", "description: ", "title: ", "license:\n    "))
+    this.runSuggestionTest("instance/test002.yaml",
+                           Set("termsOfService: ", "contact:\n    ", "description: ", "title: ", "license:\n    "))
   }
 
-  //TODO: AMLStructureCompletionPlugin <- filter if name key is expected?
   test("test003") {
-    this.runTest("instance/test003.yaml", Set())
+    this.runSuggestionTest("instance/test003.yaml", Set())
   }
 
   test("test004") {
-    this.runTest(
+    this.runSuggestionTest(
       "instance/test004.yaml",
       Set(
         "\n          - null",
@@ -40,24 +38,27 @@ class InstanceTests extends AMLSuggestionsTest {
   }
 
   test("test005") {
-    this.runTest("instance/test005.yaml", Set("null", "boolean", "string", "array", "object", "number", "integer"))
+    this.runSuggestionTest("instance/test005.yaml",
+                           Set("null", "boolean", "string", "array", "object", "number", "integer"))
   }
 
   test("test006") {
-    this.runTest("instance/test006.yaml",
-                 Set("externalDocs:\n        ", "headers:\n        ", "tags:\n        ", "simpleMap:\n        "))
+    this.runSuggestionTest(
+      "instance/test006.yaml",
+      Set("externalDocs:\n        ", "headers:\n        ", "tags:\n        ", "simpleMap:\n        "))
   }
 
   test("test007") {
-    this.runTest("instance/test007.yaml", Set("name: ", "description: "))
+    this.runSuggestionTest("instance/test007.yaml", Set("name: ", "description: "))
   }
 
   test("test008") {
-    this.runTest("instance/test008.yaml", Set("null", "boolean", "string", "array", "object", "number", "integer"))
+    this.runSuggestionTest("instance/test008.yaml",
+                           Set("null", "boolean", "string", "array", "object", "number", "integer"))
   }
 
   test("test root level suggestions") {
-    this.runTest(
+    this.runSuggestionTest(
       "instance/root-suggestions.yaml",
       Set(
         "topics:\n  ",
@@ -102,6 +103,6 @@ class InstanceTests extends AMLSuggestionsTest {
   }
 
   test("empty file test") {
-    this.runTest("instance/empty.yaml", Set("#%Library/AsyncAPI0.6"))
+    this.runSuggestionTest("instance/empty.yaml", Set("#%Library/AsyncAPI0.6"))
   }
 }

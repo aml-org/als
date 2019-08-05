@@ -1,0 +1,269 @@
+[
+  {
+    "text": "securityDefinitions",
+    "description": "Security scheme definitions that can be used across the specification.",
+    "displayText": "securityDefinitions",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 3
+        },
+        "end": {
+          "line": 2,
+          "character": 3
+        }
+      }
+    ]
+  },
+  {
+    "text": "consumes",
+    "description": "A list of MIME types the APIs can consume. This is global to all APIs but can be overridden on specific API calls. Value MUST be as described under Mime Types.",
+    "displayText": "consumes",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 3
+        },
+        "end": {
+          "line": 2,
+          "character": 3
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameters",
+    "description": "An object to hold parameters that can be used across operations. This property does not define global parameters for all operations.",
+    "displayText": "parameters",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 3
+        },
+        "end": {
+          "line": 2,
+          "character": 3
+        }
+      }
+    ]
+  },
+  {
+    "text": "definitions",
+    "description": "An object to hold data types produced and consumed by operations.",
+    "displayText": "definitions",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 3
+        },
+        "end": {
+          "line": 2,
+          "character": 3
+        }
+      }
+    ]
+  },
+  {
+    "text": "security",
+    "description": "A declaration of which security schemes are applied for the API as a whole. The list of values describes alternative security schemes that can be used (that is, there is a logical OR between the security requirements). Individual operations can override this definition.",
+    "displayText": "security",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 3
+        },
+        "end": {
+          "line": 2,
+          "character": 3
+        }
+      }
+    ]
+  },
+  {
+    "text": "responses",
+    "description": "An object to hold responses that can be used across operations. This property does not define global responses for all operations.",
+    "displayText": "responses",
+    "prefix": "",
+    "category": "responses",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 3
+        },
+        "end": {
+          "line": 2,
+          "character": 3
+        }
+      }
+    ]
+  },
+  {
+    "text": "paths",
+    "description": "The available paths and operations for the API.",
+    "displayText": "paths",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 3
+        },
+        "end": {
+          "line": 2,
+          "character": 3
+        }
+      }
+    ]
+  },
+  {
+    "text": "externalDocs",
+    "description": "Additional external documentation.",
+    "displayText": "externalDocs",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 3
+        },
+        "end": {
+          "line": 2,
+          "character": 3
+        }
+      }
+    ]
+  },
+  ,
+  {
+    "text": "tags",
+    "description": "A list of tags used by the specification with additional metadata.",
+    "displayText": "tags",
+    "prefix": "",
+    "category": "tags",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 3
+        },
+        "end": {
+          "line": 2,
+          "character": 3
+        }
+      }
+    ]
+  },
+  {
+    "text": "host",
+    "description": "The host (name or ip) serving the API. This MUST be the host only and does not include the scheme nor sub-paths. It MAY include a port. If the host is not included, the host serving the documentation is to be used (including the port). The host does not support path templating.",
+    "displayText": "host",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 3
+        },
+        "end": {
+          "line": 2,
+          "character": 3
+        }
+      }
+    ]
+  },
+  {
+    "text": "schemes",
+    "description": "The transfer protocol of the API. Values MUST be from the list: \"http\", \"https\", \"ws\", \"wss\". If the schemes is not included, the default scheme to be used is the one used to access the Swagger definition itself.",
+    "displayText": "schemes",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 3
+        },
+        "end": {
+          "line": 2,
+          "character": 3
+        }
+      }
+    ]
+  },
+  {
+    "text": "info",
+    "description": "",
+    "displayText": "info",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 3
+        },
+        "end": {
+          "line": 2,
+          "character": 3
+        }
+      }
+    ]
+  },
+  {
+    "text": "produces",
+    "description": "A list of MIME types the APIs can consume. This is global to all APIs but can be overridden on specific API calls. Value MUST be as described under Mime Types.",
+    "displayText": "produces",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 3
+        },
+        "end": {
+          "line": 2,
+          "character": 3
+        }
+      }
+    ]
+  },
+  {
+    "text": "basePath",
+    "description": "The base path on which the API is served, which is relative to the host. If it is not included, the API is served directly under the host. The value MUST start with a leading slash (/). The basePath does not support path templating.",
+    "displayText": "basePath",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 3
+        },
+        "end": {
+          "line": 2,
+          "character": 3
+        }
+      }
+    ]
+  }
+]

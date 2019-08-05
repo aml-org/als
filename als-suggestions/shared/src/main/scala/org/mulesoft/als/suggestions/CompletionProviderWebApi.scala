@@ -193,14 +193,15 @@ object CompletionProviderWebApi {
     getInnerNode(yPart.children.find(y => containsPosition(y.range, position)), position)
 
   def getLastInnerNode(ast: AstToken, position: Position): String = {
-    val result = ast.text
-      .substring(0, positionWithOffset(position, Position(ast.range.lineFrom, ast.range.columnFrom)).column)
-    result.substring(0.max(result.lastIndexOf('\"') + 1))
+    getSubStringFromPosition(ast.text, position, ast.range)
   }
 
-  def getLastInnerNode(tag: YTag, position: Position): String = {
-    val result = tag.text
-      .substring(0, positionWithOffset(position, Position(tag.range.lineFrom, tag.range.columnFrom)).column)
+  def getLastInnerNode(tag: YTag, position: Position): String = getSubStringFromPosition(tag.text, position, tag.range)
+
+  private def getSubStringFromPosition(text: String, position: Position, nodeRange: InputRange): String = {
+    val result = text.substring(
+      0,
+      positionWithOffset(position, Position(nodeRange.lineFrom, nodeRange.columnFrom)).column.min(text.length))
     result.substring(0.max(result.lastIndexOf('\"') + 1))
   }
 

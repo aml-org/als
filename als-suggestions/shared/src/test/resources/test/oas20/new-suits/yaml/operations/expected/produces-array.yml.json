@@ -1,0 +1,192 @@
+[
+  {
+    "text": "text/plain; charset=utf-8",
+    "description": "Possible 'produces' value",
+    "displayText": "text/plain; charset=utf-8",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 18
+        },
+        "end": {
+          "line": 4,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/json",
+    "description": "Possible 'produces' value",
+    "displayText": "application/json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 18
+        },
+        "end": {
+          "line": 4,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/vnd.github+json",
+    "description": "Possible 'produces' value",
+    "displayText": "application/vnd.github+json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 18
+        },
+        "end": {
+          "line": 4,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/vnd.github.v3+json",
+    "description": "Possible 'produces' value",
+    "displayText": "application/vnd.github.v3+json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 18
+        },
+        "end": {
+          "line": 4,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/vnd.github.v3.raw+json",
+    "description": "Possible 'produces' value",
+    "displayText": "application/vnd.github.v3.raw+json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 18
+        },
+        "end": {
+          "line": 4,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/vnd.github.v3.text+json",
+    "description": "Possible 'produces' value",
+    "displayText": "application/vnd.github.v3.text+json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 18
+        },
+        "end": {
+          "line": 4,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/vnd.github.v3.html+json",
+    "description": "Possible 'produces' value",
+    "displayText": "application/vnd.github.v3.html+json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 18
+        },
+        "end": {
+          "line": 4,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/vnd.github.v3.full+json",
+    "description": "Possible 'produces' value",
+    "displayText": "application/vnd.github.v3.full+json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 18
+        },
+        "end": {
+          "line": 4,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "appxlication/vnd.github.v3.diff",
+    "description": "Possible 'produces' value",
+    "displayText": "appxlication/vnd.github.v3.diff",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 18
+        },
+        "end": {
+          "line": 4,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/vnd.github.v3.patch",
+    "description": "Possible 'produces' value",
+    "displayText": "application/vnd.github.v3.patch",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 18
+        },
+        "end": {
+          "line": 4,
+          "character": 18
+        }
+      }
+    ]
+  }
+]

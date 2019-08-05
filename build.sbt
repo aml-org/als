@@ -99,7 +99,7 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
     name := "als-suggestions"
   ))
-  .dependsOn(hl)
+  .dependsOn( common % "compile->compile;test->test",hl)
   .in(file("./als-suggestions"))
   .settings(settings: _*)
   .jsSettings(
@@ -115,7 +115,7 @@ lazy val structure = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
     name := "als-structure"
   ))
-  .dependsOn(hl)
+  .dependsOn(hl,common % "compile->compile;test->test" )
   .in(file("./als-structure"))
   .settings(settings: _*)
   .jsSettings(

@@ -1,0 +1,40 @@
+[
+  {
+    "text": "int32",
+    "description": "Possible format value",
+    "displayText": "int32",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "int64",
+    "description": "Possible format value",
+    "displayText": "int64",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  }
+]

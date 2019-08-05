@@ -1,0 +1,40 @@
+[
+  {
+    "text": "query",
+    "description": "Possible 'in' value",
+    "displayText": "query",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 13
+        },
+        "end": {
+          "line": 5,
+          "character": 13
+        }
+      }
+    ]
+  },
+  {
+    "text": "header",
+    "description": "Possible 'in' value",
+    "displayText": "header",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 13
+        },
+        "end": {
+          "line": 5,
+          "character": 13
+        }
+      }
+    ]
+  }
+]
