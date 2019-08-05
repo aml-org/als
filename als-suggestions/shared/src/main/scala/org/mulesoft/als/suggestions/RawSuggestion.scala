@@ -2,16 +2,24 @@ package org.mulesoft.als.suggestions
 
 import org.mulesoft.als.suggestions.implementation.Suggestion
 import org.mulesoft.lsp.edit.TextEdit
+import org.mulesoft.lsp.feature.completion.InsertTextFormat
 
 case class RawSuggestion(newText: String,
                          displayText: String,
                          description: String,
                          textEdits: Seq[TextEdit],
                          isKey: Boolean,
-                         whiteSpacesEnding: String) {
+                         whiteSpacesEnding: String,
+                         isSnippet: Boolean = false) {
+
+  implicit def bool2InsertTextFormat(v: Boolean): InsertTextFormat.Value =
+    if (v) InsertTextFormat.Snippet
+    else InsertTextFormat.PlainText
 
   def toSuggestion(linePrefix: String): Suggestion =
-    new Suggestion(newText, description, displayText, linePrefix, None).withTrailingWhitespace(whiteSpacesEnding)
+    new Suggestion(newText, description, displayText, linePrefix, None)
+      .withTrailingWhitespace(whiteSpacesEnding)
+      .withInsertTextFormat(isSnippet)
 }
 
 object RawSuggestion {

@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions
 
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
 
 import scala.collection.mutable
@@ -9,21 +9,20 @@ import scala.concurrent.Future
 
 class CompletionPluginsRegistryAML {
 
-  private val pluginsSet: mutable.Set[CompletionPlugin] = mutable.Set()
+  private val pluginsSet: mutable.Set[AMLCompletionPlugin] = mutable.Set()
 
-  def registerPlugin(plugin: CompletionPlugin): CompletionPluginsRegistryAML = {
+  def registerPlugin(plugin: AMLCompletionPlugin): CompletionPluginsRegistryAML = {
     pluginsSet += plugin
     this
   }
 
   def cleanPlugins(): Unit = pluginsSet.clear()
 
-  def suggests(params: CompletionParams): Future[Seq[RawSuggestion]] = {
+  def suggests(params: AMLCompletionParams): Future[Seq[RawSuggestion]] = {
     val seq: Seq[Future[Seq[RawSuggestion]]] = pluginsSet.map(_.resolve(params)).toSeq
     Future
       .sequence(seq)
       .map(s => {
-        s
         s.flatten
       })
   }
@@ -33,15 +32,15 @@ object CompletionsPluginHandler {
 
   private val registries: mutable.Map[String, CompletionPluginsRegistryAML] = mutable.Map()
 
-  def pluginSuggestions(params: CompletionParams): Future[Seq[RawSuggestion]] =
+  def pluginSuggestions(params: AMLCompletionParams): Future[Seq[RawSuggestion]] =
     registries.getOrElse(params.dialect.id, AMLBaseCompletionPlugins.base).suggests(params)
 
-  def registerPlugin(plugin: CompletionPlugin, dialect: String): Unit = registries.get(dialect) match {
+  def registerPlugin(plugin: AMLCompletionPlugin, dialect: String): Unit = registries.get(dialect) match {
     case Some(registry) => registry.registerPlugin(plugin)
     case _              => registries.put(dialect, new CompletionPluginsRegistryAML().registerPlugin(plugin))
   }
 
-  def registerPlugins(plugins: Seq[CompletionPlugin], dialect: String): Unit = registries.get(dialect) match {
+  def registerPlugins(plugins: Seq[AMLCompletionPlugin], dialect: String): Unit = registries.get(dialect) match {
     case Some(registry) => plugins.foreach(registry.registerPlugin)
     case _ =>
       val p = new CompletionPluginsRegistryAML()
@@ -53,7 +52,7 @@ object CompletionsPluginHandler {
 }
 
 object AMLBaseCompletionPlugins {
-  val all: Seq[CompletionPlugin] = Seq(
+  val all: Seq[AMLCompletionPlugin] = Seq(
     AMLStructureCompletionPlugin,
     AMLEnumCompletionPlugin,
     AMLRootDeclarationsCompletionPlugin,

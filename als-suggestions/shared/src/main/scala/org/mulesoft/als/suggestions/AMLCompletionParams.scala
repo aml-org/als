@@ -9,7 +9,7 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.interfaces.CompletionRequest
 
-class CompletionParams(private val request: CompletionRequest, val prefix: String) {
+class AMLCompletionParams(private val request: CompletionRequest, val prefix: String) {
 
   val baseUnit: BaseUnit                     = request.baseUnit
   val propertyMappings: Seq[PropertyMapping] = request.propertyMapping
@@ -24,6 +24,6 @@ class CompletionParams(private val request: CompletionRequest, val prefix: Strin
 
 object RequestToCompletionParams {
   implicit class RequestConverter(request: CompletionRequest) {
-    def toParams(linePrefix: String): CompletionParams = new CompletionParams(request, linePrefix)
+    def toParams(linePrefix: String): AMLCompletionParams = new AMLCompletionParams(request, linePrefix)
   }
 }

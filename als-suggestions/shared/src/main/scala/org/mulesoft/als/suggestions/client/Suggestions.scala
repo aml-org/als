@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.client
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote._
-import amf.dialects.{OAS20Dialect, WebApiDialectsRegistry}
+import amf.dialects.WebApiDialectsRegistry
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceTrait}
 import org.mulesoft.als.common.dtoTypes.Position
@@ -72,6 +72,10 @@ object Suggestions extends SuggestionsHelper {
                                      originalContent,
                                      directoryResolver,
                                      platform))
+      case _ if isHeader(position, url, originalContent) =>
+        Future(
+          new CompletionProviderHeaders(url, originalContent, Position(position, originalContent))
+        )
       case _ =>
         this
           .buildHighLevel(bu, platform)
@@ -88,6 +92,8 @@ object Suggestions extends SuggestionsHelper {
     unitFuture
       .flatMap(buildProvider(_, position, directoryResolver, platform, url, originalContent))
       .recoverWith {
+        case _: amf.core.exception.UnsupportedVendorException if isHeader(position, url, originalContent) =>
+          Future.successful(new CompletionProviderHeaders(url, originalContent, Position(position, originalContent)))
         case e: Throwable =>
           println(e)
           Future.successful(
@@ -98,8 +104,12 @@ object Suggestions extends SuggestionsHelper {
       }
   }
 
+  private def isHeader(position: Int, url: String, originalContent: String): Boolean =
+    !url.toLowerCase().endsWith(".raml") &&
+      !originalContent.substring(0, position).replaceAll("^\\{?\\s+", "").contains('\n')
+
   private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
-    case d: DialectInstanceTrait => WebApiDialectsRegistry.dialectFor(bu)
+    case _: DialectInstanceTrait => WebApiDialectsRegistry.dialectFor(bu)
     //case d if d.sourceVendor.contains(Oas20) => Some(OAS20Dialect.dialect)
     case _ => None
   }

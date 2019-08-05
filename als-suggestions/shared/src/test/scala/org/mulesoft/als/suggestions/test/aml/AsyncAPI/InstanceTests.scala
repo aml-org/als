@@ -101,4 +101,7 @@ class InstanceTests extends AMLSuggestionsTest {
     )
   }
 
+  test("empty file test") {
+    this.runTest("instance/empty.yaml", Set("#%Library/AsyncAPI0.6"))
+  }
 }

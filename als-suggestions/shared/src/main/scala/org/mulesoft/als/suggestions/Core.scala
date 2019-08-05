@@ -57,6 +57,7 @@ object Core {
         // initialize aml plugins option?
 
         OasCompletionPluginRegistry.init()
+        HeaderBaseCompletionPlugins.initAll() // TODO: inside OAS CPR?
       })
 
   def prepareText(text: String, offset: Int, syntax: Syntax): String =
