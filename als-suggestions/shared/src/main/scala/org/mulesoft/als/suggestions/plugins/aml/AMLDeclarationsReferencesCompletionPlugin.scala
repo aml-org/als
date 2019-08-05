@@ -4,8 +4,8 @@ import amf.core.model.domain.{AmfObject, AmfScalar}
 import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
-import org.mulesoft.als.suggestions.{CompletionParams, DeclarationProvider, RawSuggestion}
+import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.{AMLCompletionParams, DeclarationProvider, RawSuggestion}
 import org.yaml.model.{YMapEntry, YPart}
 
 import scala.collection.immutable
@@ -35,10 +35,10 @@ class AMLDeclarationsReferencesCompletionPlugin(nodeTypeMappings: Seq[String],
   }
 }
 
-object AMLDeclarationsReferencesCompletionPlugin extends CompletionPlugin {
+object AMLDeclarationsReferencesCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "AMLDeclarationsReferencesCompletionPlugin"
 
-  override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] = {
+  override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] = {
     Future.successful({
       if (params.yPartBranch.isValue) {
         val actualName = params.amfObject.fields
@@ -54,7 +54,7 @@ object AMLDeclarationsReferencesCompletionPlugin extends CompletionPlugin {
 
   }
 
-  private def getObjectRangeIds(params: CompletionParams): Seq[String] = {
+  private def getObjectRangeIds(params: AMLCompletionParams): Seq[String] = {
     getFieldIri(params.fieldEntry, params.propertyMappings)
       .orElse(declaredFromKey(params.yPartBranch.parent, params.propertyMappings))
       .map(_.objectRange().flatMap(_.option())) match {

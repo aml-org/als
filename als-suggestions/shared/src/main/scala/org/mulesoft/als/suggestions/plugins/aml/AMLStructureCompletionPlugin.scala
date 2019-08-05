@@ -3,14 +3,14 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.core.model.domain.AmfObject
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import org.mulesoft.als.common.AmfSonElementFinder._
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
-import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
+import org.mulesoft.als.common.AmfSonElementFinder.AlsLexicalInformation
+import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
+import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
-class AMLStructureCompletionsPlugin(params: CompletionParams) extends AMLSuggestionsHelper {
+class AMLStructureCompletionsPlugin(params: AMLCompletionParams) extends AMLSuggestionsHelper {
 
   private def extractText(mapping: PropertyMapping, indent: String): (String, String) = {
     val cleanText = mapping.name().value()
@@ -43,21 +43,26 @@ class AMLStructureCompletionsPlugin(params: CompletionParams) extends AMLSuggest
                         s._2))
 }
 
-object AMLStructureCompletionPlugin extends CompletionPlugin {
+object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLStructureCompletionPlugin"
 
-  override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] = {
+  override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] = {
     Future {
-      if (params.yPartBranch.isKey && !params.fieldEntry
-            .exists(_.value.value
-              .position()
-              .exists(li => li.contains(params.position)))) {
+      if (params.yPartBranch.isKey && !isInFieldValue(params)) {
         val isEncoded = isEncodes(params.amfObject, params.dialect)
         if ((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded)
           new AMLStructureCompletionsPlugin(params).resolve()
         else Seq()
       } else Seq()
     }
+  }
+
+  private def isInFieldValue(params: AMLCompletionParams): Boolean = {
+    params.fieldEntry
+      .exists(
+        _.value.value
+          .position()
+          .exists(li => li.contains(params.position)))
   }
 
   private def isEncodes(amfObject: AmfObject, dialect: Dialect) = {

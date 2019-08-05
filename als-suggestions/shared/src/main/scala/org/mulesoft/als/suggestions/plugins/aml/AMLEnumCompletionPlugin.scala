@@ -3,13 +3,13 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.core.annotations.SourceAST
 import amf.core.model.document.Document
 import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
-import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
+import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
 import org.yaml.model.YPart
 
 import scala.concurrent.Future
 
-class AMLEnumCompletionsPlugin(params: CompletionParams, ast: Option[YPart], yPartBranch: YPartBranch)
+class AMLEnumCompletionsPlugin(params: AMLCompletionParams, ast: Option[YPart], yPartBranch: YPartBranch)
     extends AMLSuggestionsHelper {
 
   def presentArray(value: String): String =
@@ -35,10 +35,10 @@ class AMLEnumCompletionsPlugin(params: CompletionParams, ast: Option[YPart], yPa
         .map(s => RawSuggestion(s, isAKey = false)))
 }
 
-object AMLEnumCompletionPlugin extends CompletionPlugin {
+object AMLEnumCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLEnumCompletionPlugin"
 
-  override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] = {
+  override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] = {
     val ast = params.baseUnit match {
       case d: Document =>
         d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)

@@ -1,17 +1,17 @@
 package org.mulesoft.als.suggestions.test.core
 
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
-import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
+import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
 
 import scala.concurrent.Future
 
 trait DummyPlugins {
 
-  class DummyInvalidCompletionPlugin extends CompletionPlugin {
+  class DummyInvalidCompletionPlugin extends AMLCompletionPlugin {
 
     override def id = "DummyInvalidCompletionPlugin"
 
-    override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] =
+    override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] =
       Future.successful(Seq())
   }
 
@@ -19,11 +19,11 @@ trait DummyPlugins {
     def apply() = new DummyInvalidCompletionPlugin()
   }
 
-  class DummyCompletionPlugin extends CompletionPlugin {
+  class DummyCompletionPlugin extends AMLCompletionPlugin {
 
     override def id = "DummyCompletionPlugin"
 
-    override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] =
+    override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] =
       Future.successful(
         Seq(
           RawSuggestion("dummy newText",

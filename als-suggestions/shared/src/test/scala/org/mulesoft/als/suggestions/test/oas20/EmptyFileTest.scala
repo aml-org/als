@@ -1,13 +1,39 @@
 package org.mulesoft.als.suggestions.test.oas20
 
 class EmptyFileTest extends OAS20Test {
+  // TODO: enable when OAS20Dialect is enabled
+  ignore("Empty YAML file completion") {
+    this.runTest(
+      "empty/file/empty.yml",
+      Set(
+        "#%Patch/AsyncAPI0.6",
+        "#%Library/AsyncAPI0.6",
+        "#%SecurityScheme/AsyncAPI0.6",
+        "swagger: \"2.0\"",
+        "#%Schema/AsyncAPI0.6",
+        "#%AsyncAPI0.6",
+        "#%Message/AsyncAPI0.6"
+      )
+    )
+  }
 
-    test("Empty YAML file completion"){
-        this.runTest("empty/file/empty.yml", Set("#%RAML 1.0", "#%RAML 0.8", "swagger: '2.0'"))
-    }
+  ignore("After Key empty YAML") {
+    this.runTest("empty/file/afterKey.yml", Set("swagger: \"2.0\""))
+  }
 
-    test("Empty JSON file completion"){
-        this.runTest("empty/file/empty.json", Set("\"swagger\": \"2.0\""))
-    }
+  ignore("Empty JSON file completion (no brackets)") {
+    this.runTest("empty/file/withoutBracket.json", Set("{\n  \"swagger\": \"2.0\"\n}"))
+  }
 
+  ignore("Empty JSON file completion") {
+    this.runTest("empty/file/empty.json", Set("\"swagger\": \"2.0\""))
+  }
+
+  ignore("Empty JSON file completion (with swagger key)") {
+    this.runTest("empty/file/emptyWithKey.json", Set("\"swagger\": \"2.0\""))
+  }
+
+  test("Empty JSON file completion (with wrong swagger key)") {
+    this.runTest("empty/file/emptyWithWrongKey.json", Set())
+  }
 }

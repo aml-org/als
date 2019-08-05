@@ -3,7 +3,7 @@ package org.mulesoft.als.server.modules.completion
 import amf.core.model.document.BaseUnit
 import amf.core.remote.{Platform, Raml10, Vendor}
 import org.mulesoft.als.common.DirectoryResolver
-import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.LspConverter
@@ -29,21 +29,16 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
   override val `type`: ConfigType[CompletionClientCapabilities, CompletionOptions] =
     CompletionConfigType
 
-  def completionItem(suggestion: Suggestion): CompletionItem = {
-    suggestion.range match {
-      case Some(r) =>
-        CompletionItem(
-          suggestion.displayText,
-          textEdit = Some(TextEdit(LspConverter.toLspRange(r), suggestion.text)),
-          detail = Some(suggestion.description)
-        )
-      case _ =>
-        CompletionItem(
-          suggestion.displayText,
-          insertText = Some(suggestion.text),
-          detail = Some(suggestion.description)
-        )
-    }
+  def completionItem(suggestion: Suggestion, position: Position): CompletionItem = {
+    val range: PositionRange = suggestion.range
+      .getOrElse(PositionRange(position.moveColumn(-suggestion.prefix.length), position))
+
+    CompletionItem(
+      suggestion.displayText,
+      textEdit = Some(TextEdit(LspConverter.toLspRange(range), suggestion.text)),
+      detail = Some(suggestion.description),
+      insertTextFormat = Some(suggestion.insertTextFormat)
+    )
   }
 
   override val getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
@@ -52,7 +47,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
 
       override def apply(params: CompletionParams): Future[Either[Seq[CompletionItem], CompletionList]] = {
         onDocumentCompletion(params.textDocument.uri, LspConverter.toPosition(params.position))
-          .map(_.map(completionItem))
+          .map(_.map(completionItem(_, LspConverter.toPosition(params.position))))
           .map(Left.apply)
       }
     }

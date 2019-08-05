@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.implementation
 
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.suggestions.interfaces.{Suggestion => SuggestionInterface}
+import org.mulesoft.lsp.feature.completion.InsertTextFormat
 
 class Suggestion(_text: String,
                  _description: String,
@@ -16,6 +17,8 @@ class Suggestion(_text: String,
 
   private var prefixOpt: Option[String] = Option(_prefix)
 
+  private var insertTextFormatInternal: InsertTextFormat.Value = InsertTextFormat.PlainText
+
   override def text: String = _text
 
   override def description: String = _description
@@ -27,6 +30,8 @@ class Suggestion(_text: String,
   override def category: String = categoryOpt.getOrElse("unknown")
 
   override def trailingWhitespace: String = _trailingWhitespace
+
+  override def insertTextFormat: InsertTextFormat.Value = insertTextFormatInternal
 
   override def range: Option[PositionRange] = _range
 
@@ -45,10 +50,16 @@ class Suggestion(_text: String,
     this
   }
 
+  def withInsertTextFormat(value: InsertTextFormat.Value): Suggestion = {
+    insertTextFormatInternal = value
+    this
+  }
+
   override def toString: String = text
 }
 
 object Suggestion {
+
   def apply(_text: String,
             _description: String,
             _displayText: String,

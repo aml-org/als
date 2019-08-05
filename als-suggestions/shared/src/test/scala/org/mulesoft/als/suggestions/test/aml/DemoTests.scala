@@ -13,4 +13,13 @@ class DemoTests extends AMLSuggestionsTest {
       ProfileName("Mark Visit 1.0")
     )
   }
+
+  test("test empty file") {
+    this.withDialect(
+      "empty.yaml",
+      Set("#%MarkVisit1.0"),
+      "dialect.yaml",
+      ProfileName("Mark Visit 1.0")
+    )
+  }
 }
