@@ -2,10 +2,8 @@ package org.mulesoft.als.suggestions
 
 import amf.core.annotations.Aliases
 import amf.core.model.document.{BaseUnit, DeclaresModel}
-import amf.core.model.domain.{AmfScalar, DomainElement}
-import amf.core.vocabulary.Namespace
-import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import amf.plugins.document.vocabularies.model.document.Dialect
+import org.mulesoft.als.common.ElementNameExtractor._
 
 import scala.collection.mutable
 
@@ -69,7 +67,7 @@ object DeclarationProvider {
   private def populateDeclares(de: DeclaresModel, provider: DeclarationProvider): Unit =
     de.declares.foreach { d =>
       d.meta.`type`.foreach { iri =>
-        provider.put(iri.iri(), elementIdentifier(d).toSet)
+        provider.put(iri.iri(), d.elementIdentifier().toSet)
       }
     }
 

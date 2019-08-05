@@ -62,16 +62,17 @@ class AmlCompletionRequest(override val baseUnit: BaseUnit,
       case Some(e) =>
         if (e.value.value
               .position()
-              .exists(li => li.contains(position)))
-          mappings
+              .exists(li => li.contains(position))) {
+          val maybeMappings = mappings
             .find(
               pm =>
                 pm.fields
                   .fields()
                   .exists(f => f.value.toString == e.field.value.iri()))
             .map(Seq(_))
-            .getOrElse(Nil)
-        else mappings
+          maybeMappings
+            .getOrElse(mappings)
+        } else mappings
       case _ => mappings
     }
   }
