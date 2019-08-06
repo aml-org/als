@@ -5,10 +5,12 @@ import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.common.ElementNameExtractor._
+import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
 import org.mulesoft.als.suggestions.{CompletionParams, DeclarationProvider, RawSuggestion}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.{AMLCompletionParams, DeclarationProvider, RawSuggestion}
+import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
 import org.yaml.model.{YMapEntry, YPart}
 
 import scala.collection.immutable

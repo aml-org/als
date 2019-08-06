@@ -1,4 +1,4 @@
-package org.mulesoft.als.suggestions
+package org.mulesoft.als.suggestions.aml.declarations
 
 import amf.core.annotations.Aliases
 import amf.core.model.document.{BaseUnit, DeclaresModel}
