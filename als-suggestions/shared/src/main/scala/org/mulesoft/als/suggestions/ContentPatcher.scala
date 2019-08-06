@@ -19,15 +19,15 @@ object ContentPatcher {
           if (newLineIndex < 0) text.substring(offset)
           else text.substring(offset, newLineIndex)
         val colonIndex = rightPart.indexOf(":")
+        val leftPart   = text.substring(0, offset)
+        val leftOfSentence =
+          leftPart.substring(0 max leftPart.lastIndexOf('\n'), offset)
         if (colonIndex < 0)
           text.substring(0, offset) + "k: " + text.substring(offset)
         else if (colonIndex == 0) {
-          val leftPart = text.substring(0, offset)
-          val leftOfSentence =
-            leftPart.substring(Math.max(leftPart.lastIndexOf('\n'), 0), offset)
           val rightPart = text.substring(offset)
           val rightOfSentence =
-            rightPart.substring(0, Math.min(Math.max(rightPart.indexOf('\n'), 0), rightPart.length))
+            rightPart.substring(0, rightPart.length min (0 max rightPart.indexOf('\n')))
 
           val openBrackets = { leftOfSentence + rightOfSentence }
             .count(_ == '[') - {

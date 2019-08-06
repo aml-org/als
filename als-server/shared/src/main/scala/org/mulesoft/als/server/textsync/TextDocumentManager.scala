@@ -1,12 +1,10 @@
 package org.mulesoft.als.server.textsync
 
 import amf.core.remote._
+import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
-import java.net.URI
-
-import org.mulesoft.als.common.FileUtils
 
 import scala.collection.mutable
 import scala.concurrent.Future
@@ -50,7 +48,7 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
         uriToEditor.remove(path)
     }
 
-    def versionOf(iri: String) = get(iri).map(_.version)
+    def versionOf(iri: String): Option[Int] = get(iri).map(_.version)
   }
 
   def versionOf(iri: String): Int = uriToEditor.versionOf(iri).getOrElse(0)

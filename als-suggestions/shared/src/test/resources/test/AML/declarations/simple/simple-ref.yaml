@@ -1,0 +1,10 @@
+#%References 1.0
+
+title: test
+version: v1
+type: *
+
+types:
+  aType:
+    range: string
+    long: 4

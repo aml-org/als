@@ -4,14 +4,9 @@ import amf.ProfileName
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
-import org.mulesoft.als.common.PlatformDirectoryResolver
-import org.mulesoft.als.suggestions.CompletionProvider
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
 import org.mulesoft.high.level.CustomDialects
 import org.mulesoft.high.level.amfmanager.ParserHelper
-import org.mulesoft.high.level.interfaces.IProject
-import org.mulesoft.high.level.{CustomDialects, InitOptions}
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -138,18 +133,6 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
 
   def buildParserConfig(language: String, url: String): ParserConfig =
     Suggestions.buildParserConfig(language, url)
-
-  def buildHighLevel(model: BaseUnit): Future[IProject] =
-    Suggestions.buildHighLevel(model, platform)
-
-  def buildCompletionProvider(project: IProject,
-                              url: String,
-                              position: Int,
-                              originalContent: String): CompletionProvider =
-    Suggestions.buildCompletionProvider(project, url, position, originalContent, directoryResolver, platform)
-
-  def buildCompletionProviderNoAST(text: String, url: String, position: Int): CompletionProvider =
-    Suggestions.buildCompletionProviderNoAST(text, url, position, directoryResolver, platform)
 
   def filePath(path: String): String = {
     var result =

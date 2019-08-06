@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.test.aml.AsyncAPI
 
+import amf.ProfileName
 import org.mulesoft.als.suggestions.test.aml.AMLSuggestionsTest
 
 class InstanceTests extends AMLSuggestionsTest {
@@ -12,10 +13,9 @@ class InstanceTests extends AMLSuggestionsTest {
       Set("securitySchemes:\n  ", "schemas:\n  ", "security:\n  ", "servers:\n  ", "simpleMap:\n  "))
   }
 
-  //TODO: review result set, and verify termsOfService is effectively missing
-  ignore("test002") {
+  test("test002") {
     this.runSuggestionTest("instance/test002.yaml",
-                           Set("contact:\n    ", "description: ", "title: ", "license:\n    "))
+                           Set("termsOfService: ", "contact:\n    ", "description: ", "title: ", "license:\n    "))
   }
 
   test("test003") {
@@ -25,12 +25,22 @@ class InstanceTests extends AMLSuggestionsTest {
   test("test004") {
     this.runSuggestionTest(
       "instance/test004.yaml",
-      Set("[ null ]", "[ boolean ]", "[ string ]", "[ array ]", "[ object ]", "[ number ]", "[ integer ]"))
+      Set(
+        "\n          - null",
+        "\n          - boolean",
+        "\n          - string",
+        "\n          - array",
+        "\n          - object",
+        "\n          - number",
+        "\n          - integer"
+      )
+    )
   }
 
-//    test("test005"){
-//        this.runSuggestionTest("instance/test005.yaml", Set("null", "boolean", "string", "array", "object", "number", "integer"))
-//    }
+  test("test005") {
+    this.runSuggestionTest("instance/test005.yaml",
+                           Set("null", "boolean", "string", "array", "object", "number", "integer"))
+  }
 
   test("test006") {
     this.runSuggestionTest(
@@ -42,4 +52,57 @@ class InstanceTests extends AMLSuggestionsTest {
     this.runSuggestionTest("instance/test007.yaml", Set("name: ", "description: "))
   }
 
+  test("test008") {
+    this.runSuggestionTest("instance/test008.yaml",
+                           Set("null", "boolean", "string", "array", "object", "number", "integer"))
+  }
+
+  test("test root level suggestions") {
+    this.runSuggestionTest(
+      "instance/root-suggestions.yaml",
+      Set(
+        "topics:\n  ",
+        "schemas:\n  ",
+        "info:\n  ",
+        "externalDocs:\n  ",
+        "servers:\n  ",
+        "baseTopic: ",
+        "asyncapi: ",
+        "messages:\n  ",
+        "security:\n  ",
+        "simpleMap:\n  ",
+        "securitySchemes:\n  "
+      )
+    )
+  }
+
+  test("test suggestions with component key") {
+    withDialect(
+      "instance/component-key-suggestions.yaml",
+      Set("asyncapi: ",
+          "baseTopic: ",
+          "info:\n  ",
+          "servers:\n  ",
+          "topics:\n  ",
+          "security:\n  ",
+          "externalDocs:\n  ",
+          "simpleMap:\n  ",
+          "components:\n  "),
+      "dialect10.yaml",
+      ProfileName("AsyncAPI 1.0")
+    )
+  }
+
+  test("test declaration suggestions in component key") {
+    withDialect(
+      "instance/suggestions-in-component-key.yaml",
+      Set("schemas:\n    ", "messages:\n    ", "securitySchemes:\n    "),
+      "dialect10.yaml",
+      ProfileName("AsyncAPI 1.0")
+    )
+  }
+
+  test("empty file test") {
+    this.runSuggestionTest("instance/empty.yaml", Set("#%Library/AsyncAPI0.6"))
+  }
 }

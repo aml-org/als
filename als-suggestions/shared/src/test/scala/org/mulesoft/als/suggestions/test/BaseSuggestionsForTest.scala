@@ -56,14 +56,13 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
     val str1 = {
       if (cut && position >= 0) {
         str.substring(0, position)
-      } else {
+      } else
         str
-      }
     }
 
-    if (position < 0) {
+    if (position < 0)
       new MarkerInfo(str1, str1.length, str1)
-    } else {
+    else {
       val rawContent = str1.replace(label, "")
 
       val preparedContent =

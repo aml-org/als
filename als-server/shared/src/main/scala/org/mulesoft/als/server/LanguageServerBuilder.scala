@@ -2,13 +2,14 @@ package org.mulesoft.als.server
 
 import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync.TextDocumentSyncConsumer
+import org.mulesoft.lsp.{Initializable, InitializableModule}
 
 import scala.collection.mutable
 
 class LanguageServerBuilder {
   private val initializableModules = mutable.ListBuffer[InitializableModule[_, _]]()
-  private val requestModules = mutable.ListBuffer[RequestModule[_, _]]()
-  private val initializables = mutable.ListBuffer[Initializable]()
+  private val requestModules       = mutable.ListBuffer[RequestModule[_, _]]()
+  private val initializables       = mutable.ListBuffer[Initializable]()
 
   private var maybeTextSyncConsumer: Option[TextDocumentSyncConsumer] = None
 
@@ -44,10 +45,9 @@ class LanguageServerBuilder {
 
     val allInitializables = initializables ++ requestModules ++ initializableModules :+ textDocumentSyncConsumer
 
-    new LanguageServerImpl(
-      textDocumentSyncConsumer,
-      new LanguageServerInitializer(configMap, allInitializables),
-      handlerMap)
+    new LanguageServerImpl(textDocumentSyncConsumer,
+                           new LanguageServerInitializer(configMap, allInitializables),
+                           handlerMap)
   }
 }
 

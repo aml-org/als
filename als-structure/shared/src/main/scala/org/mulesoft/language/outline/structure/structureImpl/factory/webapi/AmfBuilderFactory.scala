@@ -26,10 +26,8 @@ trait AmfBuilderFactory extends BuilderFactory {
     ArrayNodeSymbolBuilder,
     PropertyShapeSymbolBuilder,
     EndPointListBuilder,
-    NameFieldSymbolBuilder,
     WebApiVersionBuilder,
     WebApiSymbolBuilder,
-    DomainElementSymbolBuilder,
     CreativeWorkListSymbolBuilder,
     ShapeInheritsSymbolBuilder
   )
