@@ -7,12 +7,14 @@ resourceTypes:
     post:
       description: <<param2>>
   resourceType2:
-    description: <<param1>>
+    description: <<param3>>
     get:
-      description: <<param2>>
+      description: <<param4>>
 
 /resource:
   type:
-    res*
+    resourceType1:
+      *
+    resourceType2:
 
 /res2:
