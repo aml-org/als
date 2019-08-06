@@ -4,7 +4,7 @@ import amf.core.annotations.SourceAST
 import amf.core.model.document.Document
 import amf.core.remote.{Raml08, Raml10, Vendor}
 import amf.plugins.domain.webapi.models.{Parameter, WebApi}
-import org.mulesoft.als.common.YamlUtils
+import org.mulesoft.als.common.NodeBranchBuilder
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggestion}
 import org.mulesoft.als.suggestions.interfaces.{
@@ -38,8 +38,8 @@ class BaseUriParametersCompletionPlugin extends ICompletionPlugin {
         case _ => false
       }
 
-    val parent: Option[YPart] = getYaml(request).flatMap(yPart =>
-      YamlUtils.getParent(yPart, getPosition(request), None).flatMap(parent => YamlUtils.getParent(yPart, parent)))
+    val parent: Option[YPart] =
+      getYaml(request).flatMap(NodeBranchBuilder.build(_, getPosition(request)).parentMap)
 
     val result: Seq[String] = request.astNode
       .map(ast =>
@@ -62,10 +62,8 @@ class BaseUriParametersCompletionPlugin extends ICompletionPlugin {
     Future.successful(CompletionResponse(toSuggestions(result), LocationKind.KEY_COMPLETION, request))
   }
 
-  private def getPosition(request: ICompletionRequest): Position = {
-    val position = Position(request.position, request.astNode.flatMap(_.amfBaseUnit.raw).getOrElse(""))
-    Position(position.line + 1, position.column)
-  }
+  private def getPosition(request: ICompletionRequest): Position =
+    Position(request.position, request.astNode.flatMap(_.amfBaseUnit.raw).getOrElse("")).moveLine(1)
 
   private def getYaml(request: ICompletionRequest): Option[YPart] =
     request.astNode.flatMap(ast =>
@@ -76,7 +74,11 @@ class BaseUriParametersCompletionPlugin extends ICompletionPlugin {
 
   override def isApplicable(request: ICompletionRequest): Boolean =
     request.astNode.exists(_.amfNode.isInstanceOf[Parameter]) &&
-      YamlUtils.isKey(getYaml(request), getPosition(request))
+      getYaml(request).forall(a => {
+        val amfPosition = Position(request.position, request.astNode.flatMap(_.amfBaseUnit.raw).getOrElse(""))
+          .moveLine(1)
+        NodeBranchBuilder.build(a, amfPosition).isKey
+      })
 }
 
 object BaseUriParametersCompletionPlugin {

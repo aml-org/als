@@ -2,10 +2,13 @@ package org.mulesoft.language.outline.structure.structureImpl
 
 import amf.core.model.domain.{AmfElement, _}
 import amf.core.parser.{FieldEntry, Value}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.DomainElementSymbolBuilder
+import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.NameFieldSymbolBuilder
 
 trait BuilderFactory {
 
-  protected def companion                       = CompanionList(baseUnitBuilder)
+  protected def companion: CompanionList =
+    CompanionList(baseUnitBuilder) ++ List(DomainElementSymbolBuilder, NameFieldSymbolBuilder)
   private lazy val companionList: CompanionList = companion
 
   implicit val factory: BuilderFactory = this

@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.definition
 
 import amf.core.remote.Platform
-import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger

@@ -3,17 +3,21 @@ package org.mulesoft.als.suggestions.client
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote._
+import amf.dialects.WebApiDialectsRegistry
 import amf.internal.environment.Environment
+import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceTrait}
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher}
+import org.mulesoft.als.suggestions._
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.implementation.{
   CompletionConfig,
   DummyASTProvider,
   DummyEditorStateProvider,
   EmptyASTProvider
 }
-import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
-import org.mulesoft.als.suggestions.{CompletionProvider, Core}
+import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
 import org.mulesoft.high.level.InitOptions
 import org.mulesoft.high.level.amfmanager.ParserHelper
 import org.mulesoft.high.level.interfaces.IProject
@@ -21,7 +25,7 @@ import org.mulesoft.high.level.interfaces.IProject
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object Suggestions {
+object Suggestions extends SuggestionsHelper {
   def init(options: InitOptions = InitOptions.WebApiProfiles): Future[Unit] =
     Core.init(options)
 
@@ -52,10 +56,62 @@ object Suggestions {
       }
   }
 
-  def getMediaType(originalContent: String): Syntax = {
-    val trimmed = originalContent.trim
-    if (trimmed.startsWith("{") || trimmed.startsWith("[")) Syntax.JSON
-    else Syntax.YAML
+  def buildProvider(bu: BaseUnit,
+                    position: Int,
+                    directoryResolver: DirectoryResolver,
+                    platform: Platform,
+                    url: String,
+                    originalContent: String): Future[CompletionProvider] = {
+    dialectFor(bu) match {
+      case Some(d) =>
+        Future(
+          buildCompletionProviderAST(bu,
+                                     d,
+                                     bu.id,
+                                     Position(position, originalContent),
+                                     originalContent,
+                                     directoryResolver,
+                                     platform))
+      case _ if isHeader(position, url, originalContent) =>
+        Future(
+          new CompletionProviderHeaders(url, originalContent, Position(position, originalContent))
+        )
+      case _ =>
+        this
+          .buildHighLevel(bu, platform)
+          .map(this.buildCompletionProvider(_, url, position, originalContent, directoryResolver, platform))
+    }
+  }
+
+  def buildProviderAsync(unitFuture: Future[BaseUnit],
+                         position: Int,
+                         directoryResolver: DirectoryResolver,
+                         platform: Platform,
+                         url: String,
+                         originalContent: String): Future[CompletionProvider] = {
+    unitFuture
+      .flatMap(buildProvider(_, position, directoryResolver, platform, url, originalContent))
+      .recoverWith {
+        case _: amf.core.exception.UnsupportedVendorException if isHeader(position, url, originalContent) =>
+          Future.successful(new CompletionProviderHeaders(url, originalContent, Position(position, originalContent)))
+        case e: Throwable =>
+          println(e)
+          Future.successful(
+            this.buildCompletionProviderNoAST(originalContent, url, position, directoryResolver, platform))
+        case any =>
+          println(any)
+          Future.failed(new Error("Failed to construct CompletionProvider"))
+      }
+  }
+
+  private def isHeader(position: Int, url: String, originalContent: String): Boolean =
+    !url.toLowerCase().endsWith(".raml") &&
+      !originalContent.substring(0, position).replaceAll("^\\{?\\s+", "").contains('\n')
+
+  private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
+    case _: DialectInstanceTrait => WebApiDialectsRegistry.dialectFor(bu)
+    //case d if d.sourceVendor.contains(Oas20) => Some(OAS20Dialect.dialect)
+    case _ => None
   }
 
   private def suggestWithPatchedEnvironment(language: String,
@@ -67,71 +123,35 @@ object Suggestions {
                                             platform: Platform): Future[Seq[Suggestion]] = {
 
     val config = this.buildParserConfig(language, url)
-    val completionProviderFuture: Future[CompletionProvider] = this
-      .amfParse(config, environment, platform)
-      .flatMap(this.buildHighLevel(_, platform))
-      .map(this.buildCompletionProvider(_, url, position, originalContent, directoryResolver, platform))
-      .recoverWith {
-        case e: Throwable =>
-          println(e)
-          Future.successful(
-            this.buildCompletionProviderNoAST(originalContent, url, position, directoryResolver, platform))
-        case any =>
-          println(any)
-          Future.failed(new Error("Failed to construct CompletionProvider"))
-      }
-
-    completionProviderFuture
-      .flatMap(_.suggest)
-      .map(suggestions =>
-        suggestions.map(suggestion =>
-          new Suggestion(
-            text = suggestion.text,
-            description = suggestion.description,
-            displayText = suggestion.displayText,
-            prefix = suggestion.prefix,
-            category = suggestion.category,
-            range = suggestion.range
-        )))
-      .map(suggestions => suggestions)
+    buildProviderAsync(this.amfParse(config, environment, platform),
+                       position,
+                       directoryResolver,
+                       platform,
+                       url,
+                       originalContent)
+      .flatMap(_.suggest())
+      .map(suggestions => suggestions map toClientSuggestion)
   }
 
-  def buildParserConfig(language: String, url: String): ParserConfig =
-    new ParserConfig(
-      Some(ParserConfig.PARSE),
-      Some(url),
-      Some(language),
-      Some("application/yaml"),
-      None,
-      Some("AMF Graph"),
-      Some("application/ld+json")
+  private def toClientSuggestion(suggestion: interfaces.Suggestion) =
+    new Suggestion(
+      text = suggestion.text,
+      description = suggestion.description,
+      displayText = suggestion.displayText,
+      prefix = suggestion.prefix,
+      category = suggestion.category,
+      range = suggestion.range
     )
 
-  def amfParse(config: ParserConfig, environment: Environment, platform: Platform): Future[BaseUnit] =
-    ParserHelper(platform).parse(config, environment)
-
-  def patchContentInEnvironment(environment: Environment,
-                                fileUrl: String,
-                                fileContentsStr: String,
-                                position: Int): (String, Environment) = {
-
-    val patchedContent = Core.prepareText(fileContentsStr, position, YAML)
-    val envWithOverride =
-      EnvironmentPatcher.patch(environment, fileUrl, patchedContent)
-
-    (patchedContent, envWithOverride)
-  }
-
-  def buildHighLevel(model: BaseUnit, platform: Platform): Future[IProject] = {
+  private def buildHighLevel(model: BaseUnit, platform: Platform): Future[IProject] =
     org.mulesoft.high.level.Core.buildModel(model, platform)
-  }
 
-  def buildCompletionProvider(project: IProject,
-                              url: String,
-                              position: Int,
-                              originalContent: String,
-                              directoryResolver: DirectoryResolver,
-                              platform: Platform): CompletionProvider = {
+  private def buildCompletionProvider(project: IProject,
+                                      url: String,
+                                      position: Int,
+                                      originalContent: String,
+                                      directoryResolver: DirectoryResolver,
+                                      platform: Platform): CompletionProviderWebApi = {
 
     val rootUnit = project.rootASTUnit
 
@@ -146,14 +166,14 @@ object Suggestions {
       .withEditorStateProvider(editorStateProvider)
       .withOriginalContent(originalContent)
 
-    CompletionProvider().withConfig(completionConfig)
+    CompletionProviderWebApi().withConfig(completionConfig)
   }
 
-  def buildCompletionProviderNoAST(text: String,
-                                   url: String,
-                                   position: Int,
-                                   directoryResolver: DirectoryResolver,
-                                   platform: Platform): CompletionProvider = {
+  private def buildCompletionProviderNoAST(text: String,
+                                           url: String,
+                                           position: Int,
+                                           directoryResolver: DirectoryResolver,
+                                           platform: Platform): CompletionProviderWebApi = {
 
     val baseName = url.substring(url.lastIndexOf('/') + 1)
 
@@ -171,6 +191,66 @@ object Suggestions {
       .withAstProvider(astProvider)
       .withOriginalContent(text)
 
-    CompletionProvider().withConfig(completionConfig)
+    CompletionProviderWebApi().withConfig(completionConfig)
   }
+
+  private def buildCompletionProviderAST(bu: BaseUnit,
+                                         dialect: Dialect,
+                                         url: String,
+                                         pos: Position,
+                                         originalContent: String,
+                                         directoryResolver: DirectoryResolver,
+                                         platform: Platform): CompletionProviderAST = {
+
+    val amfPosition = pos.moveLine(1)
+    def styler =
+      (isKey: Boolean) =>
+        SuggestionStyler.adjustedSuggestions(
+          StylerParams(
+            getMediaType(originalContent) == Syntax.YAML,
+            isKey,
+            false, // just in annotations??
+            originalContent,
+            pos
+          ),
+          _
+      )
+    CompletionProviderAST(AmlCompletionRequest(amfPosition, bu, dialect, styler))
+  }
+}
+
+trait SuggestionsHelper {
+
+  def amfParse(config: ParserConfig, environment: Environment, platform: Platform): Future[BaseUnit] =
+    ParserHelper(platform).parse(config, environment)
+
+  def getMediaType(originalContent: String): Syntax = {
+
+    val trimmed = originalContent.trim
+    if (trimmed.startsWith("{") || trimmed.startsWith("[")) Syntax.JSON
+    else Syntax.YAML
+  }
+
+  def patchContentInEnvironment(environment: Environment,
+                                fileUrl: String,
+                                fileContentsStr: String,
+                                position: Int): (String, Environment) = {
+
+    val patchedContent = Core.prepareText(fileContentsStr, position, YAML)
+    val envWithOverride =
+      EnvironmentPatcher.patch(environment, fileUrl, patchedContent)
+
+    (patchedContent, envWithOverride)
+  }
+
+  def buildParserConfig(language: String, url: String): ParserConfig =
+    new ParserConfig(
+      Some(ParserConfig.PARSE),
+      Some(url),
+      Some(language),
+      Some("application/yaml"),
+      None,
+      Some("AMF Graph"),
+      Some("application/ld+json")
+    )
 }

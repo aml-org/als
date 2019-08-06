@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions
 
+import org.mulesoft.als.suggestions.aml.webapi.OasCompletionPluginRegistry
 import org.mulesoft.als.suggestions.implementation.SuggestionCategoryRegistry
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
@@ -51,6 +52,12 @@ object Core {
         CompletionPluginsRegistry.registerPlugin(CommonHeadersNamesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(ExampleStructureCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(BaseUriParametersCompletionPlugin())
+
+        // **************** AML *************************
+        // initialize aml plugins option?
+
+        OasCompletionPluginRegistry.init()
+        HeaderBaseCompletionPlugins.initAll() // TODO: inside OAS CPR?
       })
 
   def prepareText(text: String, offset: Int, syntax: Syntax): String =
