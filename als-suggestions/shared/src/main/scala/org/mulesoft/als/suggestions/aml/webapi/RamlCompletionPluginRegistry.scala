@@ -12,7 +12,9 @@ object RamlCompletionPluginRegistry {
       RamlTypeFacetsCompletionPlugin :+
       RamlTypeDeclarationReferenceCompletionPlugin :+
       RamlCustomFacetsCompletionPlugin :+
-      AnnotationReferenceCompletionPlugin
+      AnnotationReferenceCompletionPlugin :+
+      RamlResourceTypeReference :+
+      RamlResourceTypeVariablesImp
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, RAML10Dialect().id)
