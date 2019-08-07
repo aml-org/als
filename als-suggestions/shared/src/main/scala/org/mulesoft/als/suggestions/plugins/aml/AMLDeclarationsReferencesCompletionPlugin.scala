@@ -5,12 +5,10 @@ import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.common.ElementNameExtractor._
+import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
-import org.mulesoft.als.suggestions.{CompletionParams, DeclarationProvider, RawSuggestion}
-import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.{AMLCompletionParams, DeclarationProvider, RawSuggestion}
-import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
 import org.yaml.model.{YMapEntry, YPart}
 
 import scala.collection.immutable
@@ -43,7 +41,7 @@ class AMLDeclarationsReferencesCompletionPlugin(nodeTypeMappings: Seq[String],
 object AMLDeclarationsReferencesCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "AMLDeclarationsReferencesCompletionPlugin"
 
-  override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] = {
+  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful({
       if (params.yPartBranch.isValue) {
         val actualName = params.amfObject.elementIdentifier()
@@ -56,9 +54,9 @@ object AMLDeclarationsReferencesCompletionPlugin extends AMLCompletionPlugin {
 
   }
 
-  private def getObjectRangeIds(params: AMLCompletionParams): Seq[String] =
-    getFieldIri(params.fieldEntry, params.propertyMappings)
-      .orElse(declaredFromKey(params.yPartBranch.parent, params.propertyMappings))
+  private def getObjectRangeIds(params: AmlCompletionRequest): Seq[String] = {
+    getFieldIri(params.fieldEntry, params.propertyMapping)
+      .orElse(declaredFromKey(params.yPartBranch.parent, params.propertyMapping))
       .map(_.objectRange().flatMap(_.option())) match {
       case Some(seq) => seq
       case _         => referenceFromDeclared(params.amfObject)

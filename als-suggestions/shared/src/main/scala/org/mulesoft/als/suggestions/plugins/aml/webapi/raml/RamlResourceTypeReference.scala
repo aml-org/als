@@ -4,9 +4,10 @@ import amf.plugins.domain.webapi.metamodel.templates.ResourceTypeModel
 import amf.plugins.domain.webapi.models.EndPoint
 import amf.plugins.domain.webapi.models.templates.ParametrizedResourceType
 import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLDeclarationsReferencesCompletionPlugin
-import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
 import org.yaml.model.{YMapEntry, YNode}
 
 import scala.concurrent.Future
@@ -14,7 +15,7 @@ import scala.concurrent.Future
 object RamlResourceTypeReference extends CompletionPlugin {
   override def id: String = "RamlResourceTypeReferenceCompletionPlugin"
 
-  override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] = {
+  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(
       if ((params.amfObject.isInstanceOf[EndPoint]
           || params.amfObject.isInstanceOf[ParametrizedResourceType])
