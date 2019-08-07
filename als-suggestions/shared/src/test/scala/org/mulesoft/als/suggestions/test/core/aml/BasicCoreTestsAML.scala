@@ -16,28 +16,51 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
   def format: String = Aml.toString
 
   test("full root structure") {
-    this.runTestForCustomDialect("visit01.yaml", "dialect.yaml", Set("office", "date", "meetings"))
+    runTestForCustomDialect("visit01.yaml", "dialect.yaml", Set("office", "date", "meetings"))
   }
 
   test("some root structure") {
-    this.runTestForCustomDialect("visit02.yaml", "dialect.yaml", Set("date", "meetings"))
+    runTestForCustomDialect("visit02.yaml", "dialect.yaml", Set("date", "meetings"))
   }
 
   test("root structure with prefix") {
-    this.runTestForCustomDialect("visit03.yaml", "dialect.yaml", Set("office"))
+    runTestForCustomDialect("visit03.yaml", "dialect.yaml", Set("office"))
   }
 
   test("Known Values - Response Codes") {
-    this.runTestForCustomDialect("otherDialects/responseCodes.yaml",
-                                 "otherDialects/knownValuesDialect.yaml",
-                                 OasResponseCodes.all.toSet)
+    runTestForCustomDialect("otherDialects/responseCodes.yaml",
+                            "otherDialects/knownValuesDialect.yaml",
+                            OasResponseCodes.all.toSet)
   }
 
   test("Known Values - Media Types") {
-    this.runTestForCustomDialect("otherDialects/mediaTypes.yaml",
-                                 "otherDialects/knownValuesDialect.yaml",
-                                 OasCommonMediaTypes.all.toSet)
+    runTestForCustomDialect("otherDialects/mediaTypes.yaml",
+                            "otherDialects/knownValuesDialect.yaml",
+                            OasCommonMediaTypes.all.toSet)
   }
+
+  // BEGIN ARRAY
+  test("AllowMultiple Enum - Single Value") {
+    runTestForCustomDialect("otherDialects/testArraysInstance02.yaml",
+                            "otherDialects/testArraysDialect.yaml",
+                            Set("First", "Second", "Third", "Fourth"))
+  }
+  test("AllowMultiple Enum - Multiple Value") {
+    runTestForCustomDialect("otherDialects/testArraysInstance01.yaml",
+                            "otherDialects/testArraysDialect.yaml",
+                            Set("Second", "Third", "Fourth"))
+  }
+  test("AllowMultiple Enum - Single Value w/prefix") {
+    runTestForCustomDialect("otherDialects/testArraysInstance03.yaml",
+                            "otherDialects/testArraysDialect.yaml",
+                            Set("First", "Fourth"))
+  }
+  test("AllowMultiple Enum - Multiple Value w/prefix") {
+    runTestForCustomDialect("otherDialects/testArraysInstance04.yaml",
+                            "otherDialects/testArraysDialect.yaml",
+                            Set("Fourth"))
+  }
+  // END ARRAY
 
   test("Custom Plugins completion Dummy") {
 

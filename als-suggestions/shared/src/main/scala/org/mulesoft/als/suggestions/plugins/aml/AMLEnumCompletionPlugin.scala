@@ -12,21 +12,10 @@ import scala.concurrent.Future
 class AMLEnumCompletionsPlugin(params: AMLCompletionParams, ast: Option[YPart], yPartBranch: YPartBranch)
     extends AMLSuggestionsHelper {
 
-  def presentArray(value: String): String =
-    s"\n${getIndentation(params.baseUnit, params.position)}- $value"
-
   private def getSuggestions: Seq[String] =
     params.propertyMappings.headOption
-      .map(
-        pm =>
-          pm.enum()
-            .flatMap(_.option().map(e => {
-
-              if (pm.allowMultiple()
-                    .value() && params.prefix.isEmpty && !yPartBranch.isArray && !yPartBranch.isInArray)
-                presentArray(e.toString)
-              else e.toString
-            })))
+      .map(_.enum()
+        .flatMap(_.option().map(_.toString)))
       .getOrElse(Nil)
 
   def resolve(): Future[Seq[RawSuggestion]] =

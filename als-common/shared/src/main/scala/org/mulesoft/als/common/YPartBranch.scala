@@ -50,6 +50,18 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
     }
   }
 
+  def arraySiblings: Seq[String] = {
+    // content patch will add a { k: }, I need to get up the k node, the k: entry, and the {k: } map
+    stack.drop(4).headOption match {
+      case Some(node: YNode) =>
+        node.value match {
+          case s: YSequence => s.nodes.flatMap(node => node.asScalar.map(_.text))
+          case _            => Seq()
+        }
+      case _ => Seq()
+    }
+  }
+
   def brothers: Seq[YPart] = {
     val map = stack.headOption match {
       case Some(entry: YMapEntry) => stack.tail.headOption

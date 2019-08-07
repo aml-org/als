@@ -1,0 +1,4 @@
+#%TestArray1.0
+
+#single element arrays prefix is correct
+rc: F*
