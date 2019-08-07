@@ -5,12 +5,12 @@ import amf.plugins.domain.webapi.models.Payload
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.interfaces.{AMLCompletionPlugin, CompletionPlugin}
 import org.yaml.model.{YMapEntry, YType}
 
 import scala.concurrent.Future
 
-object OasInBodyParametersCompletionPlugin extends CompletionPlugin {
+object OasInBodyParametersCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "OasInBodyParametersCompletionPlugin"
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {

@@ -7,7 +7,7 @@ import scala.concurrent.Future
 
 trait CompletionPlugin[T] {
   def id: String
-  def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]]
+  def resolve(request: T): Future[Seq[RawSuggestion]]
 
   override def equals(obj: Any): Boolean = obj match {
     case other: CompletionPlugin[T] => other.id == id
