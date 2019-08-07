@@ -44,6 +44,14 @@ class DeclarationProvider(componentId: Option[String] = None) {
     isLocallyDeclared(nodeTypeMapping) || libraries.exists(_._2.isLocallyDeclared(nodeTypeMapping))
 
   def isLocallyDeclared(nodeTypeMapping: NodeTypeMapping): Boolean = declarations.contains(nodeTypeMapping)
+
+  def filterLocal(element: Name, mapping: NodeTypeMapping): this.type = {
+    declarations.get(mapping) match {
+      case Some(set) => declarations.update(mapping, set.filterNot(_ == element))
+      case None      => // ignore
+    }
+    this
+  }
 }
 
 object DeclarationProvider {

@@ -3,8 +3,9 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 import amf.core.parser._
 import amf.plugins.domain.shapes.models.NodeShape
 import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
-import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
+import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
 
 import scala.concurrent.Future
 
@@ -21,7 +22,7 @@ class OASRequiredObjectCompletionPlugin(ns: NodeShape, requireds: Seq[String]) {
 object OASRequiredObjectCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "OASRequiredObjectCompletionPlugin"
 
-  override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] = {
+  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(
       params.amfObject match {
         case ns: NodeShape => resolveNode(ns, params.yPartBranch)
