@@ -1,12 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
+import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.patched.{PatchedSuggestion, PatchedSuggestionsForDialect}
-import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
 
 import scala.concurrent.Future
 
-class AMLKnownValueCompletionPlugin(params: AMLCompletionParams) extends AMLSuggestionsHelper {
+class AMLKnownValueCompletions(params: AmlCompletionRequest) extends AMLSuggestionsHelper {
 
   private def getSuggestions: Seq[PatchedSuggestion] =
     params.fieldEntry
@@ -30,8 +31,8 @@ class AMLKnownValueCompletionPlugin(params: AMLCompletionParams) extends AMLSugg
 object AMLKnownValueCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLKnownValueCompletionPlugin"
 
-  override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] = {
-    new AMLKnownValueCompletionPlugin(params)
+  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
+    new AMLKnownValueCompletions(params)
       .resolve()
   }
 }

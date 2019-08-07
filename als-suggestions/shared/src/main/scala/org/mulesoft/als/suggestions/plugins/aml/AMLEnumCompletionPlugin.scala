@@ -3,6 +3,8 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.core.annotations.SourceAST
 import amf.core.model.document.Document
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
 import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
 import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
@@ -11,19 +13,19 @@ import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
 
 import scala.concurrent.Future
 
-class AMLEnumCompletionsPlugin(params: AMLCompletionParams) extends AMLSuggestionsHelper {
+class AMLEnumCompletionsPlugin(params: AmlCompletionRequest) extends AMLSuggestionsHelper {
 
   def presentArray(value: String): String =
     s"\n${getIndentation(params.baseUnit, params.position)}- $value"
 
   private def getSuggestions: Seq[String] = {
-    params.propertyMappings match {
+    params.propertyMapping match {
       case head :: Nil => suggestMapping(head)
       case Nil         => Nil
       case list =>
         params.yPartBranch.parentEntry match {
           case Some(entry) =>
-            params.propertyMappings
+            params.propertyMapping
               .find(pm => entry.key.asScalar.exists(s => pm.name().option().contains(s.text)))
               .map(suggestMapping)
               .getOrElse(Nil)

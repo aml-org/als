@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions
 
-import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
+import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
 
 import scala.collection.mutable
@@ -18,7 +19,7 @@ class CompletionPluginsRegistryAML {
 
   def cleanPlugins(): Unit = pluginsSet.clear()
 
-  def suggests(params: AMLCompletionParams): Future[Seq[RawSuggestion]] = {
+  def suggests(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     val seq: Seq[Future[Seq[RawSuggestion]]] = pluginsSet.map(_.resolve(params)).toSeq
     Future.sequence(seq).map(_.flatten)
   }
@@ -28,8 +29,8 @@ object CompletionsPluginHandler {
 
   private val registries: mutable.Map[String, CompletionPluginsRegistryAML] = mutable.Map()
 
-  def pluginSuggestions(params: AMLCompletionParams): Future[Seq[RawSuggestion]] =
-    registries.getOrElse(params.dialect.id, AMLBaseCompletionPlugins.base).suggests(params)
+  def pluginSuggestions(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
+    registries.getOrElse(params.actualDialect.id, AMLBaseCompletionPlugins.base).suggests(params)
 
   def registerPlugin(plugin: AMLCompletionPlugin, dialect: String): Unit = registries.get(dialect) match {
     case Some(registry) => registry.registerPlugin(plugin)
