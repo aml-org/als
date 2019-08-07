@@ -1,59 +1,22 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
+import amf.core.model.domain.DomainElement
+import amf.core.model.domain.templates.ParametrizedDeclaration
 import amf.plugins.domain.webapi.metamodel.templates.ResourceTypeModel
 import amf.plugins.domain.webapi.models.EndPoint
 import amf.plugins.domain.webapi.models.templates.ParametrizedResourceType
 import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.als.suggestions.RawSuggestion
-import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.AMLDeclarationsReferencesCompletionPlugin
-import org.yaml.model.{YMapEntry, YNode}
 
-import scala.concurrent.Future
+object RamlResourceTypeReference extends RamlAbstractDeclarationReference {
 
-object RamlResourceTypeReference extends CompletionPlugin {
   override def id: String = "RamlResourceTypeReferenceCompletionPlugin"
 
-  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    Future.successful(
-      if ((params.amfObject.isInstanceOf[EndPoint]
-          || params.amfObject.isInstanceOf[ParametrizedResourceType])
-          && isResourceTypeDef(params.yPartBranch)) {
-        new AMLDeclarationsReferencesCompletionPlugin(
-          Seq(ResourceTypeModel.`type`.head.iri()),
-          stringValue(params.yPartBranch),
-          params.declarationProvider,
-          None).resolve().map(r => r.copy(isKey = params.yPartBranch.isKey))
-      } else Nil)
+  override def entryKey: String = "type"
 
-  }
+  override def iriDeclaration: String = ResourceTypeModel.`type`.head.iri()
 
-  private def isResourceTypeDef(yPartBranch: YPartBranch) =
-    isValueInType(yPartBranch) || isKeyInTypeMap(yPartBranch)
+  override protected def isValue(yPartBranch: YPartBranch): Boolean = yPartBranch.isValue
 
-  /**
-    * /endpoint:
-    *   type: * || type: res*
-    *case type 1 is object enpoint other cases are parametrized declaration parser
-    */
-  private def isValueInType(yPartBranch: YPartBranch) =
-    yPartBranch.isValue && yPartBranch.parentEntryIs("type")
-
-  /**
-    * /endpoint:
-    *   type:
-    *     res*
-    */
-  private def isKeyInTypeMap(yPartBranch: YPartBranch): Boolean =
-    yPartBranch.isKey && yPartBranch
-      .ancestorOf(classOf[YMapEntry])
-      .exists(_.key.asScalar.exists(_.text == "type"))
-
-  private def stringValue(yPart: YPartBranch) = {
-    yPart.node match {
-      case n: YNode => n.asScalar.map(_.text).getOrElse("")
-      case _        => ""
-    }
-  }
+  override val elementClass: Class[_ <: DomainElement]                       = classOf[EndPoint]
+  override val abstractDeclarationClass: Class[_ <: ParametrizedDeclaration] = classOf[ParametrizedResourceType]
 }
