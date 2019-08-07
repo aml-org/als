@@ -2,16 +2,17 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.model.domain.Shape
 import amf.plugins.domain.shapes.models.NodeShape
+import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLSuggestionsHelper
-import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
 
 import scala.concurrent.Future
 
 object RamlCustomFacetsCompletionPlugin extends CompletionPlugin with AMLSuggestionsHelper {
   override def id: String = "RamlCustomFacetsCompletionPlugin"
 
-  override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] = {
+  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(params.amfObject match {
       case s: Shape if params.yPartBranch.isKey && params.fieldEntry.isEmpty =>
         CustomFacetFinder("\n" + getIndentation(params.baseUnit, params.position))

@@ -3,14 +3,15 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.core.model.domain.AmfObject
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import org.mulesoft.als.common.AmfSonElementFinder.AlsLexicalInformation
-import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
-import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.common.AmfSonElementFinder._
+import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
+import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class AMLStructureCompletionsPlugin(params: AMLCompletionParams) extends AMLSuggestionsHelper {
+class AMLStructureCompletionsPlugin(params: AmlCompletionRequest) extends AMLSuggestionsHelper {
 
   private def extractText(mapping: PropertyMapping, indent: String): (String, String) = {
     val cleanText = mapping.name().value()
@@ -28,7 +29,7 @@ class AMLStructureCompletionsPlugin(params: AMLCompletionParams) extends AMLSugg
   }
 
   private def getSuggestions: Seq[(String, String)] =
-    params.propertyMappings.map(extractText(_, getIndentation(params.baseUnit, params.position)))
+    params.propertyMapping.map(extractText(_, getIndentation(params.baseUnit, params.position)))
 
   def resolve(): Seq[RawSuggestion] =
     getSuggestions
@@ -46,10 +47,10 @@ class AMLStructureCompletionsPlugin(params: AMLCompletionParams) extends AMLSugg
 object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLStructureCompletionPlugin"
 
-  override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] = {
+  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
       if (params.yPartBranch.isKey && !isInFieldValue(params)) {
-        val isEncoded = isEncodes(params.amfObject, params.dialect)
+        val isEncoded = isEncodes(params.amfObject, params.actualDialect)
         if ((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded)
           new AMLStructureCompletionsPlugin(params).resolve()
         else Seq()
