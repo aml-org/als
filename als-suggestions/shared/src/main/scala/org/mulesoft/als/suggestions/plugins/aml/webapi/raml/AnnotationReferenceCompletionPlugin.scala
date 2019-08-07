@@ -3,11 +3,11 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 import amf.core.metamodel.domain.extensions.CustomDomainPropertyModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 
 import scala.concurrent.Future
 
-object AnnotationReferenceCompletionPlugin extends CompletionPlugin {
+object AnnotationReferenceCompletionPlugin extends AMLCompletionPlugin {
 
   override def id: String = "AnnotationReferenceCompletionPlugin"
 

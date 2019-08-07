@@ -5,11 +5,8 @@ import amf.core.model.document.Document
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
-import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
-import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
+import org.yaml.model.YPart
 
 import scala.concurrent.Future
 

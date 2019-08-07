@@ -7,13 +7,13 @@ import amf.plugins.domain.shapes.models.UnresolvedShape
 import org.mulesoft.als.common.ElementNameExtractor._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLDeclarationsReferencesCompletionPlugin
 import org.yaml.model.YMapEntry
 
 import scala.concurrent.Future
 
-object RamlTypeDeclarationReferenceCompletionPlugin extends CompletionPlugin {
+object RamlTypeDeclarationReferenceCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "RamlTypeDeclarationReferenceCompletionPlugin"
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {

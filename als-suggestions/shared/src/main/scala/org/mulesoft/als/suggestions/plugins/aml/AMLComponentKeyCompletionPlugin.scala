@@ -5,8 +5,6 @@ import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
-import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.yaml.model.YMapEntry
 
