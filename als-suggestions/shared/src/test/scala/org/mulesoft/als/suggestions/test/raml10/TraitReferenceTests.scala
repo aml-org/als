@@ -15,7 +15,7 @@ class TraitReferenceTests extends RAML10Test {
   }
 
   test("test004") {
-    this.runSuggestionTest("traitReferences/test004.raml", Set("- trait1", "- trait2"))
+    this.runSuggestionTest("traitReferences/test004.raml", Set("trait1", "trait2"))
   }
 
   test("test005") {
@@ -29,61 +29,34 @@ class TraitReferenceTests extends RAML10Test {
   test("test007") {
     this.runSuggestionTest(
       "traitReferences/test007.raml",
-      Set(
-        """
-            |      - trait1:
-            |          param1:
-            |          param2: """.stripMargin,
-        """
-            |      - trait2:
-            |          param1:
-            |          param2: """.stripMargin
-      )
+      Set("trait1", "trait2")
     )
   }
 
   test("test008") {
-    this.runSuggestionTest("traitReferences/test008.raml",
-                           Set("{ trait1: {  param1 : ,  param2 : } }", "{ trait2: {  param1 : ,  param2 : } }"))
+    this.runSuggestionTest("traitReferences/test008.raml", Set.empty)
   }
 
   test("test009") {
-    this.runSuggestionTest("traitReferences/test009.raml", Set("{ trait2: {  param1 : ,  param2 : } }"))
+    this.runSuggestionTest("traitReferences/test009.raml", Set("param1: ", "param2: "))
   }
 
   test("test010") {
     this.runSuggestionTest(
       "traitReferences/test010.raml",
-      Set(
-        """- trait1:
-              |          param1:
-              |          param2: """.stripMargin,
-        """- trait2:
-              |          param1:
-              |          param2: """.stripMargin
-      )
+      Set.empty
     )
   }
 
   test("test011") {
     this.runSuggestionTest(
       "traitReferences/test011.raml",
-      Set(
-        """trait1:
-              |          param1:
-              |          param2: """.stripMargin,
-        """trait2:
-              |          param1:
-              |          param2: """.stripMargin
-      )
+      Set("param2: ")
     )
   }
 
   test("test012") {
-    this.runSuggestionTest("traitReferences/test012.raml",
-                           Set("""trait2:
-              |          param1:
-              |          param2: """.stripMargin))
+    this.runSuggestionTest("traitReferences/test012.raml", Set("param1: ", "param2: "))
   }
 
   test("Trait Fragment last operation") {
@@ -129,7 +102,7 @@ class TraitReferenceTests extends RAML10Test {
 
 //
 //  test("test013") {
-//    this.runTest("traitReferences/test013.raml",
+//    this.runSuggestionTest("traitReferences/test013.raml",
 //        Set("param1", "param2"))
 //  }
 //

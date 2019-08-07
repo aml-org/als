@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.test.core
 
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 
 import scala.concurrent.Future
 

@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.interfaces.{AMLCompletionPlugin, CompletionPlugin}
 import org.mulesoft.als.suggestions.plugins.aml.patched.{PatchedSuggestion, PatchedSuggestionsForDialect}
 
 import scala.concurrent.Future

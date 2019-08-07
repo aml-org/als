@@ -7,11 +7,11 @@ class ResourceTypeReferenceTests extends RAML10Test {
   }
 
   test("test002") {
-    this.runSuggestionTest("resourceTypeReferences/test002.raml", Set("resourceType1: ", "resourceType2: "))
+    this.runSuggestionTest("resourceTypeReferences/test002.raml", Set("resourceType1", "resourceType2"))
   }
 
   test("test007") {
-    this.runTest("resourceTypeReferences/test007.raml", Set("resourceType1", "resourceType2"))
+    this.runSuggestionTest("resourceTypeReferences/test007.raml", Set("resourceType1", "resourceType2"))
   }
 
   test("test003") { // TODO: No multilines are allowed in completions. Replace for a snippet?
@@ -37,6 +37,6 @@ class ResourceTypeReferenceTests extends RAML10Test {
   }
 
   test("test006") {
-    this.runSuggestionTest("resourceTypeReferences/test006.raml", Set("searchableColl: "))
+    this.runSuggestionTest("resourceTypeReferences/test006.raml", Set("searchableColl"))
   }
 }
