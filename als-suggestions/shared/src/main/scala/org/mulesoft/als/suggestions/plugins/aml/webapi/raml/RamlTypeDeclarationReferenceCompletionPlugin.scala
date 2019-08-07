@@ -5,9 +5,10 @@ import amf.core.metamodel.domain.ShapeModel
 import amf.core.model.domain.Shape
 import amf.plugins.domain.shapes.models.UnresolvedShape
 import org.mulesoft.als.common.ElementNameExtractor._
+import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLDeclarationsReferencesCompletionPlugin
-import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
 import org.yaml.model.YMapEntry
 
 import scala.concurrent.Future
@@ -15,7 +16,7 @@ import scala.concurrent.Future
 object RamlTypeDeclarationReferenceCompletionPlugin extends CompletionPlugin {
   override def id: String = "RamlTypeDeclarationReferenceCompletionPlugin"
 
-  override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] = {
+  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful {
       params.amfObject match {
         case s: Shape if params.yPartBranch.isValue =>
