@@ -1,45 +1,13 @@
 package org.mulesoft.als.suggestions
 
-import amf.core.annotations.SourceAST
-import amf.core.model.document.EncodesModel
-import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces._
-import org.yaml.model.{YNode, YPart, YTag, YType}
-import RequestToCompletionParams._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps
 
-class CompletionProviderAST(request: CompletionRequest) extends CompletionProvider {
-
-  private def extractText(node: YNode, position: Position): String =
-    node.tagType match {
-      case YType.Str =>
-        val lines: Iterator[String] = node
-          .as[String]
-          .lines
-          .drop(position.line - node.range.lineFrom)
-        if (lines.hasNext)
-          lines
-            .next()
-            .substring(0, position.column - node.range.columnFrom - {
-              if (node.asScalar.exists(_.mark.plain)) 0 else 1 // if there is a quotation mark, adjust the range according
-            })
-        else ""
-      case YType.Include =>
-        node match {
-          case mr: YNode.MutRef if mr.origTag.tagType == YType.Include => mr.origValue.toString
-          case _                                                       => ""
-        }
-      case _ => ""
-    }
-
-  private def getPrefix(ast: Option[YPart], position: Position): String =
-    request.yPartBranch.node match {
-      case node: YNode => extractText(node, position)
-      case _           => ""
-    }
+class CompletionProviderAST(request: AmlCompletionRequest) extends CompletionProvider {
 
   private def brothersAndPrefix(prefix: String)(s: RawSuggestion): Boolean =
     !(request.yPartBranch.isKey && (request.yPartBranch.brothersKeys contains s.newText)) &&
@@ -49,23 +17,14 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
     request.yPartBranch.arraySiblings.contains(value)
 
   override def suggest(): Future[Seq[Suggestion]] = {
-    lazy val maybePart: Option[YPart] = (request.baseUnit match {
-      case eM: EncodesModel => eM.encodes
-      case bu               => bu
-    }).annotations
-      .find(classOf[SourceAST])
-      .map(sAST => sAST.ast)
-
-    val linePrefix =
-      getPrefix(maybePart, request.position)
 
     CompletionsPluginHandler
-      .pluginSuggestions(request.toParams(linePrefix))
+      .pluginSuggestions(request)
       .map(suggestions => {
         val grouped: Map[Boolean, Seq[(Boolean, Suggestion)]] =
-          (suggestions filter brothersAndPrefix(linePrefix))
+          (suggestions filter brothersAndPrefix(request.prefix))
             .filterNot(rs => arraySiblings(rs.newText))
-            .map(rawSuggestion => (rawSuggestion.isKey, rawSuggestion.toSuggestion(linePrefix)))
+            .map(rawSuggestion => (rawSuggestion.isKey, rawSuggestion.toSuggestion(request.prefix)))
             .groupBy(_._1)
         grouped.keys.flatMap(k => request.styler(k)(grouped(k).map(_._2))).toSeq
       })
@@ -73,6 +32,6 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
 }
 
 object CompletionProviderAST {
-  def apply(request: CompletionRequest): CompletionProviderAST =
+  def apply(request: AmlCompletionRequest): CompletionProviderAST =
     new CompletionProviderAST(request)
 }

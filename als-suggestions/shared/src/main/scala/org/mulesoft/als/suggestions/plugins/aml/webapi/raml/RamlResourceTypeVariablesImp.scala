@@ -3,15 +3,16 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 import amf.core.model.domain.AmfObject
 import amf.core.model.domain.templates.VariableValue
 import amf.plugins.domain.webapi.models.templates.ParametrizedResourceType
+import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
-import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
 
 import scala.concurrent.Future
 
 object RamlResourceTypeVariablesImp extends CompletionPlugin {
   override def id: String = "RamlResourceTypeVariablesImp"
 
-  override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] = {
+  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(
       if (params.amfObject.isInstanceOf[VariableValue] && params.yPartBranch.isKey) {
         getVariablesFromParent(params.branchStack.headOption).map(RawSuggestion.forKey)

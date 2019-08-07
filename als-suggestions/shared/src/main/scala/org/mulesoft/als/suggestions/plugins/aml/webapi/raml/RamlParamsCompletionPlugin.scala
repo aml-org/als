@@ -4,18 +4,19 @@ import amf.core.model.domain.Shape
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.ParameterModel
 import amf.plugins.domain.webapi.models.Parameter
+import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
-import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
 
 import scala.concurrent.Future
 
 object RamlParamsCompletionPlugin extends CompletionPlugin {
   override def id: String = "RamlParamsCompletionPlugin"
 
-  override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] =
+  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future.successful(computeSuggestions(params))
 
-  private def computeSuggestions(params: CompletionParams) = {
+  private def computeSuggestions(params: AmlCompletionRequest) = {
     if (params.yPartBranch.isKey) {
       params.amfObject match {
         case param: Parameter if isNotName(params) =>
@@ -28,7 +29,7 @@ object RamlParamsCompletionPlugin extends CompletionPlugin {
     } else Nil
   }
 
-  private def isNotName(params: CompletionParams): Boolean = {
+  private def isNotName(params: AmlCompletionRequest): Boolean = {
     params.fieldEntry match {
       case Some(FieldEntry(field, value)) => field != ParameterModel.Name
       case _                              => true

@@ -6,16 +6,17 @@ import amf.core.model.domain.extensions.PropertyShape
 import amf.core.model.domain.{AmfObject, Shape}
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import amf.plugins.domain.shapes.models.ScalarShape
+import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
-import org.mulesoft.als.suggestions.{CompletionParams, RawSuggestion}
 
 import scala.concurrent.Future
 
 object RamlTypeFacetsCompletionPlugin extends CompletionPlugin {
   override def id: String = "RamlTypeFacetsCompletionPlugin"
 
-  override def resolve(params: CompletionParams): Future[Seq[RawSuggestion]] = {
+  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(params.amfObject match {
       case shape: Shape if params.yPartBranch.isKey && !params.fieldEntry.exists(f => f.field == ShapeModel.Name) =>
         resolveShape(shape, params.branchStack)
