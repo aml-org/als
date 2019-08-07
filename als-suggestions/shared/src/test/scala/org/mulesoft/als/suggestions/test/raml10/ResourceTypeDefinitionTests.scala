@@ -3,11 +3,11 @@ package org.mulesoft.als.suggestions.test.raml10
 class ResourceTypeDefinitionTests extends RAML10Test {
 
   test("Name level test") {
-    this.runTest("resourceTypeDefinition/name-level.raml", Set.empty)
+    this.runSuggestionTest("resourceTypeDefinition/name-level.raml", Set.empty)
   }
 
   test("Endpoint facets level") {
-    this.runTest(
+    this.runSuggestionTest(
       "resourceTypeDefinition/endpoint-level.raml",
       Set(
         "displayName: ",
@@ -28,7 +28,7 @@ class ResourceTypeDefinitionTests extends RAML10Test {
   }
 
   test("Operation facets level") {
-    this.runTest(
+    this.runSuggestionTest(
       "resourceTypeDefinition/operation-level.raml",
       Set(
         "displayName: ",
@@ -46,7 +46,7 @@ class ResourceTypeDefinitionTests extends RAML10Test {
   }
 
   test("Resource reference in resource type def") {
-    this.runTest(
+    this.runSuggestionTest(
       "resourceTypeDefinition/resource-type-ref.raml",
       Set("r2")
     )

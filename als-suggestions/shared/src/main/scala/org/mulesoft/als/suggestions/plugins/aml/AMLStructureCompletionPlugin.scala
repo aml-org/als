@@ -6,7 +6,7 @@ import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -58,7 +58,7 @@ object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
     }
   }
 
-  private def isInFieldValue(params: AMLCompletionParams): Boolean = {
+  private def isInFieldValue(params: AmlCompletionRequest): Boolean = {
     params.fieldEntry
       .exists(
         _.value.value

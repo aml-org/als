@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.annotations.SourceAST
+import amf.core.metamodel.domain.DomainElementModel
 import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
@@ -8,10 +9,9 @@ import org.mulesoft.als.common.ElementNameExtractor._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.interfaces.{AMLCompletionPlugin, CompletionPlugin}
 import org.yaml.model.{YMapEntry, YPart}
 
-import scala.collection.immutable
 import scala.concurrent.Future
 
 class AMLDeclarationsReferencesCompletionPlugin(nodeTypeMappings: Seq[String],
@@ -55,18 +55,19 @@ object AMLDeclarationsReferencesCompletionPlugin extends AMLCompletionPlugin {
   }
 
   private def getObjectRangeIds(params: AmlCompletionRequest): Seq[String] = {
-    getFieldIri(params.fieldEntry, params.propertyMapping)
+    val candidates = getFieldIri(params.fieldEntry, params.propertyMapping)
       .orElse(declaredFromKey(params.yPartBranch.parent, params.propertyMapping))
       .map(_.objectRange().flatMap(_.option())) match {
       case Some(seq) => seq
       case _         => referenceFromDeclared(params.amfObject)
     }
+    candidates.filter(_ != DomainElementModel.`type`.head.iri())
 
   private def getFieldIri(fieldEntry: Option[FieldEntry],
                           propertyMapping: Seq[PropertyMapping]): Option[PropertyMapping] =
     fieldEntry.flatMap(fe => propertyMapping.find(_.nodePropertyMapping().value() == fe.field.value.iri()))
 
-  private def referenceFromDeclared(amfObject: AmfObject): immutable.Seq[String] =
+  private def referenceFromDeclared(amfObject: AmfObject): Seq[String] = {
     amfObject.fields.fields() match {
       case head :: Nil if amfObject.elementIdentifier().nonEmpty =>
         amfObject.meta.`type`.map(_.iri())

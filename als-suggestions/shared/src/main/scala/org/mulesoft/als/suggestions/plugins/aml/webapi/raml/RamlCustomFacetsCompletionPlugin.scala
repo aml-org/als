@@ -4,12 +4,12 @@ import amf.core.model.domain.Shape
 import amf.plugins.domain.shapes.models.NodeShape
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLSuggestionsHelper
 
 import scala.concurrent.Future
 
-object RamlCustomFacetsCompletionPlugin extends CompletionPlugin with AMLSuggestionsHelper {
+object RamlCustomFacetsCompletionPlugin extends AMLCompletionPlugin with AMLSuggestionsHelper {
   override def id: String = "RamlCustomFacetsCompletionPlugin"
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {

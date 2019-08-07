@@ -8,12 +8,12 @@ import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import amf.plugins.domain.shapes.models.ScalarShape
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
 
 import scala.concurrent.Future
 
-object RamlTypeFacetsCompletionPlugin extends CompletionPlugin {
+object RamlTypeFacetsCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "RamlTypeFacetsCompletionPlugin"
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {

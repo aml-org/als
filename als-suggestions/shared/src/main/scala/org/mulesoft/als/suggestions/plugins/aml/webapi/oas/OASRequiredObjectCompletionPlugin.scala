@@ -5,7 +5,7 @@ import amf.plugins.domain.shapes.models.NodeShape
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.CompletionPlugin
+import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 
 import scala.concurrent.Future
 
