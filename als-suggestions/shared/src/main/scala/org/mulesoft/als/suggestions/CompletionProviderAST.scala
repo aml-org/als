@@ -39,6 +39,9 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
     !(request.yPartBranch.isKey && (request.yPartBranch.brothersKeys contains s.newText)) &&
       s.newText.startsWith(prefix)
 
+  private def arraySiblings(value: String): Boolean =
+    request.yPartBranch.arraySiblings.contains(value)
+
   override def suggest(): Future[Seq[Suggestion]] = {
     lazy val maybePart: Option[YPart] = (request.baseUnit match {
       case eM: EncodesModel => eM.encodes
@@ -55,6 +58,7 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
       .map(suggestions => {
         val grouped: Map[Boolean, Seq[(Boolean, Suggestion)]] =
           (suggestions filter brothersAndPrefix(linePrefix))
+            .filterNot(rs => arraySiblings(rs.newText))
             .map(rawSuggestion => (rawSuggestion.isKey, rawSuggestion.toSuggestion(linePrefix)))
             .groupBy(_._1)
         grouped.keys.flatMap(k => request.styler(k)(grouped(k).map(_._2))).toSeq

@@ -50,15 +50,7 @@ class FragmentTests extends AMLSuggestionsTest {
   test("test004") {
     this.runSuggestionTest(
       "fragment/test004.yaml",
-      Set(
-        "\n        - null",
-        "\n        - boolean",
-        "\n        - string",
-        "\n        - array",
-        "\n        - object",
-        "\n        - number",
-        "\n        - integer"
-      )
+      Set("number", "string", "null", "object", "array", "boolean", "integer")
     )
   }
 

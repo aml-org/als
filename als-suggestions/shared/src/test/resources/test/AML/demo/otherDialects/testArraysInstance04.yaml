@@ -1,0 +1,6 @@
+#%TestArray1.0
+
+#array prefix is correct
+rc:
+  - First
+  - F*

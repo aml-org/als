@@ -110,7 +110,7 @@ object Suggestions extends SuggestionsHelper {
 
   private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
     case _: DialectInstanceTrait => WebApiDialectsRegistry.dialectFor(bu)
-    //case d if d.sourceVendor.contains(Oas20) => Some(OAS20Dialect.dialect)
+//    case d if d.sourceVendor.contains(Oas20) => Some(OAS20Dialect.dialect)
     case _ => None
   }
 
