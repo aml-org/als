@@ -43,3 +43,5 @@ nodeMappings:
 documents:
   root:
     encodes: MarkVisitNode
+  options:
+    styleFlavour: JsonStyle

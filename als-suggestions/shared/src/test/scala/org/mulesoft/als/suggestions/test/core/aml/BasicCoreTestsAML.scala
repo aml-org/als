@@ -39,29 +39,6 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
                             OasCommonMediaTypes.all.toSet)
   }
 
-  // BEGIN ARRAY
-  test("AllowMultiple Enum - Single Value") {
-    runTestForCustomDialect("otherDialects/testArraysInstance02.yaml",
-                            "otherDialects/testArraysDialect.yaml",
-                            Set("First", "Second", "Third", "Fourth"))
-  }
-  test("AllowMultiple Enum - Multiple Value") {
-    runTestForCustomDialect("otherDialects/testArraysInstance01.yaml",
-                            "otherDialects/testArraysDialect.yaml",
-                            Set("Second", "Third", "Fourth"))
-  }
-  test("AllowMultiple Enum - Single Value w/prefix") {
-    runTestForCustomDialect("otherDialects/testArraysInstance03.yaml",
-                            "otherDialects/testArraysDialect.yaml",
-                            Set("First", "Fourth"))
-  }
-  test("AllowMultiple Enum - Multiple Value w/prefix") {
-    runTestForCustomDialect("otherDialects/testArraysInstance04.yaml",
-                            "otherDialects/testArraysDialect.yaml",
-                            Set("Fourth"))
-  }
-  // END ARRAY
-
   test("Custom Plugins completion Dummy") {
 
     for {

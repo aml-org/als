@@ -29,8 +29,7 @@ class InstanceTests extends AMLSuggestionsTest {
   }
 
   test("test005") {
-    runSuggestionTest("instance/test005.yaml",
-                      Set("boolean", "null", "string", "array", "object", "number", "integer"))
+    runSuggestionTest("instance/test005.yaml", Set("boolean", "null", "string", "array", "number", "integer"))
   }
 
   test("test006") {
