@@ -1,6 +1,6 @@
 #%Dialect 1.0
 
-dialect: References
+dialect: Style
 version: 1.0
 
 external:
@@ -22,7 +22,7 @@ nodeMappings:
         propertyTerm: mock.Long
         range: integer
   RootNode:
-    classTerm: mock.MeetingNode
+    classTerm: mock.RootNode
     mapping:
       title:
         propertyTerm: schema-org.name
@@ -37,7 +37,8 @@ nodeMappings:
 documents:
   root:
     encodes: RootNode
-    declares:
-      types: SomeType
+  fragments:
+    encodes:
+      Types: SomeType
   options:
     styleFlavour: JsonStyle

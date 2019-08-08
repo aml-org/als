@@ -1,6 +1,6 @@
 #%Dialect 1.0
 
-dialect: Test Array
+dialect: Style
 version: 1.0
 
 external:
@@ -14,8 +14,6 @@ nodeMappings:
       rc:
         propertyTerm: schema-org.response
         range: String
-        enum: [First, Second, Third, Fourth]
-        allowMultiple: true
 
 
 
@@ -23,4 +21,4 @@ documents:
   root:
     encodes: Root
   options:
-    styleFlavour: JsonStyle
+    styleFlavour: RamlStyle
