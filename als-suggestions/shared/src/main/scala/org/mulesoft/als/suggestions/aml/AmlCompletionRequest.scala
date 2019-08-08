@@ -77,9 +77,9 @@ class AmlCompletionRequest(override val baseUnit: BaseUnit,
       })
   }
 
-  val propertyMapping: Seq[PropertyMapping] = {
+  val propertyMapping: List[PropertyMapping] = {
     val mappings = getDialectNode(objectInTree.obj, fieldEntry) match {
-      case Some(nm: NodeMapping) => nm.propertiesMapping()
+      case Some(nm: NodeMapping) => nm.propertiesMapping().toList
       case _                     => Nil
     }
     fieldEntry match {
@@ -93,7 +93,7 @@ class AmlCompletionRequest(override val baseUnit: BaseUnit,
                 pm.fields
                   .fields()
                   .exists(f => f.value.toString == e.field.value.iri()))
-            .map(Seq(_))
+            .map(List(_))
           maybeMappings
             .getOrElse(mappings)
         } else mappings
