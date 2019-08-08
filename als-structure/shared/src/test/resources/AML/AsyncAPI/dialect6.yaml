@@ -375,6 +375,8 @@ documents:
       schemas: SchemaObject
       messages: MessageObject
       securitySchemes: SecuritySchemeObject
+  options:
+    styleFlavour: JsonStyle
   fragments:
     encodes:
       Schema: SchemaObject

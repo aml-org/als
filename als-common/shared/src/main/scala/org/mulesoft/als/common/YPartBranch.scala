@@ -13,17 +13,8 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
 
   val isAtRoot: Boolean = stack.length <= 2
   val isArray: Boolean  = node.isArray
-  lazy val isInArray: Boolean = {
-    @tailrec
-    def inner(parents: Seq[YPart]): Boolean =
-      parents.headOption match {
-        case Some(_: YSequence) => true
-        case Some(_)            => inner(parents.tail)
-        case _                  => false
-      }
-
-    isKey && inner(stack)
-  }
+  lazy val isInArray: Boolean =
+    getSequence.isDefined
 
   val parent: Option[YPart] = stack.headOption
 
@@ -50,17 +41,23 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
     }
   }
 
-  def arraySiblings: Seq[String] = {
-    // content patch will add a { k: }, I need to get up the k node, the k: entry, and the {k: } map
-    stack.drop(4).headOption match {
+  // content patch will add a { k: }, I need to get up the k node, the k: entry, and the {k: } map
+  private def getSequence: Option[YSequence] = {
+    val offset = if (isKey) 4 else 0
+    stack.drop(offset).headOption match {
       case Some(node: YNode) =>
         node.value match {
-          case s: YSequence => s.nodes.flatMap(node => node.asScalar.map(_.text))
-          case _            => Seq()
+          case s: YSequence => Some(s)
+          case _            => None
         }
-      case _ => Seq()
+      case _ => None
     }
   }
+
+  def arraySiblings: Seq[String] =
+    getSequence
+      .map(_.nodes.flatMap(node => node.asScalar.map(_.text)))
+      .getOrElse(Seq())
 
   def brothers: Seq[YPart] = {
     val map = stack.headOption match {
@@ -68,7 +65,12 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
       case Some(m: YMap)          => Some(m)
       case _                      => None
     }
-    map.map(_.children.filterNot(_ == node)).getOrElse(Nil)
+    map
+      .map(_.children.filterNot(_.isInstanceOf[YNonContent]).filterNot {
+        case e: YMapEntry => e.key == node
+        case c            => c == node
+      })
+      .getOrElse(Nil)
   }
 
   def brothersKeys: Set[String] =

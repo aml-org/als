@@ -6,7 +6,7 @@ import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
 
 import scala.concurrent.Future
 
-class AMLKnownValueCompletions(params: AMLCompletionParams) extends AMLSuggestionsHelper {
+class AMLKnownValueCompletionPlugin(params: AMLCompletionParams) extends AMLSuggestionsHelper {
 
   private def getSuggestions: Seq[PatchedSuggestion] =
     params.fieldEntry
@@ -22,15 +22,16 @@ class AMLKnownValueCompletions(params: AMLCompletionParams) extends AMLSuggestio
       val whitespaces =
         s"\n${getIndentation(params.baseUnit, params.position)}"
       getSuggestions.map(s =>
+        // TODO: isKey is not consistent due to ContentPatch: review if field is Scalar?
         RawSuggestion(s.text, s.text, s.description.getOrElse(s.text), Seq(), params.yPartBranch.isKey, whitespaces))
     })
 }
 
-object AMLKnownValueCompletions extends AMLCompletionPlugin {
-  override def id = "AMLKnownValueCompletions"
+object AMLKnownValueCompletionPlugin extends AMLCompletionPlugin {
+  override def id = "AMLKnownValueCompletionPlugin"
 
   override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] = {
-    new AMLKnownValueCompletions(params)
+    new AMLKnownValueCompletionPlugin(params)
       .resolve()
   }
 }
