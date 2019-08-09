@@ -1,0 +1,21 @@
+[
+  {
+    "text": "security-scheme.raml",
+    "description": "security-scheme.raml",
+    "displayText": "security-scheme.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 15
+        },
+        "end": {
+          "line": 2,
+          "character": 15
+        }
+      }
+    ]
+  }
+]

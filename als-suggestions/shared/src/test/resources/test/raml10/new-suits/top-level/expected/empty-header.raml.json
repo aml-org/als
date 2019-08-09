@@ -1,0 +1,40 @@
+[
+  {
+    "text": "#%RAML 0.8",
+    "description": "Initialize new #%RAML 0.8 document",
+    "displayText": "#%RAML 0.8",
+    "prefix": "#",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 1
+        }
+      }
+    ]
+  },
+  {
+    "text": "#%RAML 1.0",
+    "description": "Initialize new #%RAML 1.0 document",
+    "displayText": "#%RAML 1.0",
+    "prefix": "#",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 1
+        }
+      }
+    ]
+  }
+]

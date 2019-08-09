@@ -1,0 +1,7 @@
+#%RAML 1.0
+annotationTypes:
+  myAnnotation: string
+
+/endpoint:
+  displayName:
+    *
