@@ -1,0 +1,4 @@
+#%JSONStyle1.0
+
+#being in the value of the object, the reference tag should be included in suggestions
+rc: *

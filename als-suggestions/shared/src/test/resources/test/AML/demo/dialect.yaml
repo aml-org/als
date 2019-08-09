@@ -44,4 +44,4 @@ documents:
   root:
     encodes: MarkVisitNode
   options:
-    styleFlavour: JsonStyle
+    referenceStyle: JsonSchemaStyle

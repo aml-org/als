@@ -9,6 +9,11 @@ import scala.annotation.tailrec
 case class YPartBranch(node: YPart, position: Position, private val stack: Seq[YPart]) {
   val isKey: Boolean = stack.headOption.exists(_.isKey(position))
 
+  lazy val hasIncludeTag: Boolean = node match {
+    case mr: YNode.MutRef => mr.origTag.tagType == YType.Include
+    case _                => false
+  }
+
   val isValue: Boolean = stack.headOption.exists(_.isInstanceOf[YMapEntry]) && !isKey
 
   val isAtRoot: Boolean = stack.length <= 2

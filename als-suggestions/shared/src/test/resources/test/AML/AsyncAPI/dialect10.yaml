@@ -382,4 +382,4 @@ documents:
       securitySchemes: SecuritySchemeObject
   options:
     declarationsPath: components
-    styleFlavour: JsonStyle
+    referenceStyle: JsonSchemaStyle

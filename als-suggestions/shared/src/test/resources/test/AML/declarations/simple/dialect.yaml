@@ -40,4 +40,4 @@ documents:
     declares:
       types: SomeType
   options:
-    styleFlavour: JsonStyle
+    referenceStyle: JsonSchemaStyle

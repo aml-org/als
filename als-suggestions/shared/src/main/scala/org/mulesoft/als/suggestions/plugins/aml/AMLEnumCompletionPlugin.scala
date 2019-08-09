@@ -25,5 +25,5 @@ object AMLEnumCompletionPlugin extends AMLCompletionPlugin {
   override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] =
     if (params.yPartBranch.isValue || params.yPartBranch.isInArray)
       new AMLEnumCompletionsPlugin(params).resolve()
-    else Future.successful(Nil)
+    else emptySuggestion
 }

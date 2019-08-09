@@ -59,7 +59,8 @@ object AMLBaseCompletionPlugins {
     AMLDeclarationsReferencesCompletionPlugin,
     AMLKnownValueCompletionPlugin,
     AMLComponentKeyCompletionPlugin,
-    AMLRefTagCompletionPlugin
+    AMLRefTagCompletionPlugin,
+    AMLPathCompletionPlugin
   )
 
   val base: CompletionPluginsRegistryAML = {

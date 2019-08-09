@@ -1,6 +1,6 @@
 #%Dialect 1.0
 
-dialect: Style
+dialect: NOStyle
 version: 1.0
 
 external:
@@ -37,7 +37,5 @@ nodeMappings:
 documents:
   root:
     encodes: RootNode
-  fragments:
-    encodes:
-      Types: SomeType
-  options:
+    declares:
+      types: SomeType
