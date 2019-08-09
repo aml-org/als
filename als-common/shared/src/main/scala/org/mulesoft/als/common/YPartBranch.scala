@@ -43,6 +43,9 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
 
   def ancestorOf[T <: YPart](clazz: Class[T]): Option[T] = findFirstOf(clazz, stack.tail)
 
+  def isKeyDescendanceOf(key: String): Boolean =
+    isKey && ancestorOf(classOf[YMapEntry]).flatMap(_.key.asScalar.map(_.text)).contains(key)
+
   private def findFirstOf[T <: YPart](clazz: Class[T], l: Seq[YPart]): Option[T] = {
     l match {
       case head :: _ if clazz.isInstance(head) => Some(head.asInstanceOf[T])
