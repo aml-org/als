@@ -1,0 +1,21 @@
+[
+  {
+    "text": "trait.raml",
+    "description": "trait.raml",
+    "displayText": "trait.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 15
+        },
+        "end": {
+          "line": 2,
+          "character": 15
+        }
+      }
+    ]
+  }
+]

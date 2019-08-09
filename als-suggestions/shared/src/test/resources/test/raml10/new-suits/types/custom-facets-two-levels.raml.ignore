@@ -1,0 +1,15 @@
+#%RAML 1.0
+title: test
+types:
+  CustomDate:
+    type: date-only
+    facets:
+      onlyFutureDates?: boolean
+      noHolidays: boolean
+  AnotherDate:
+    type: date-only
+    facets:
+      aNewFacet: boolean
+  PossibleMeetingDate:
+    type: AnotherDate
+    *
