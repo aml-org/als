@@ -1,0 +1,40 @@
+[
+  {
+    "text": "value: ",
+    "description": "value",
+    "displayText": "value",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "(myAnnotation): ",
+    "description": "(myAnnotation)",
+    "displayText": "(myAnnotation)",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  }
+]

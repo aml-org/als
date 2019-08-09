@@ -1,0 +1,21 @@
+[
+  {
+    "text": "name",
+    "description": "name",
+    "displayText": "name",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start":{
+          "line": 9,
+          "character": 8
+        },
+        "end": {
+          "line": 9,
+          "character": 8
+        }
+      }
+    ]
+  }
+]

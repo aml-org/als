@@ -1,0 +1,40 @@
+[
+  {
+    "text": "p1: ",
+    "description": "p1",
+    "displayText": "p1",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 6
+        },
+        "end": {
+          "line": 8,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "p2: ",
+    "description": "p2",
+    "displayText": "p2",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 6
+        },
+        "end": {
+          "line": 8,
+          "character": 6
+        }
+      }
+    ]
+  }
+]

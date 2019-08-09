@@ -1,0 +1,21 @@
+[
+  {
+    "text": "named-example.raml",
+    "description": "named-example.raml",
+    "displayText": "named-example.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 23
+        },
+        "end": {
+          "line": 4,
+          "character": 23
+        }
+      }
+    ]
+  }
+]

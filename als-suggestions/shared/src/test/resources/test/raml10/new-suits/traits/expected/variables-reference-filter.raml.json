@@ -1,0 +1,21 @@
+[
+  {
+    "text": "param2: ",
+    "description": "param2",
+    "displayText": "param2",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 17,
+          "character": 8
+        },
+        "end": {
+          "line": 17,
+          "character": 8
+        }
+      }
+    ]
+  }
+]

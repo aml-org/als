@@ -1,0 +1,78 @@
+[
+  {
+    "text": "HTTP",
+    "description": "HTTP",
+    "displayText": "HTTP",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 11
+        },
+        "end": {
+          "line": 1,
+          "character": 11
+        }
+      }
+    ]
+  },
+  {
+    "text": "HTTPS",
+    "description": "HTTPS",
+    "displayText": "HTTPS",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 11
+        },
+        "end": {
+          "line": 1,
+          "character": 11
+        }
+      }
+    ]
+  },
+  {
+    "text": "http",
+    "description": "http",
+    "displayText": "http",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 11
+        },
+        "end": {
+          "line": 1,
+          "character": 11
+        }
+      }
+    ]
+  },
+  {
+    "text": "https",
+    "description": "https",
+    "displayText": "https",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 11
+        },
+        "end": {
+          "line": 1,
+          "character": 11
+        }
+      }
+    ]
+  }
+]

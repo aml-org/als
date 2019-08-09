@@ -1,0 +1,40 @@
+[
+  {
+    "text": "SCO1:\n            ",
+    "description": "SCO1",
+    "displayText": "SCO1",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start":{
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "SCO2\n            ",
+    "description": "SCO2",
+    "displayText": "SCO2",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start":{
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  }
+]
