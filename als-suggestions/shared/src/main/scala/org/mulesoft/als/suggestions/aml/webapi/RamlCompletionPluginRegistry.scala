@@ -7,7 +7,7 @@ import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPlugin
 
 object RamlCompletionPluginRegistry {
 
-  private val all :Seq[AMLCompletionPlugin]=
+  private val all: Seq[AMLCompletionPlugin] =
     AMLBaseCompletionPlugins.all :+
       RamlParamsCompletionPlugin :+
       RamlTypeFacetsCompletionPlugin :+
@@ -17,7 +17,8 @@ object RamlCompletionPluginRegistry {
       RamlResourceTypeReference :+
       RamlParametrizedDeclarationVariablesRef :+
       RamlAbstractDefinition :+
-      RamlTraitReference
+      RamlTraitReference :+
+      BaseUriParameterCompletionPlugin
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, RAML10Dialect().id)
