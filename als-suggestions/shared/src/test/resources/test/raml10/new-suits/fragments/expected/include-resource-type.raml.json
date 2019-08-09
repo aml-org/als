@@ -1,0 +1,21 @@
+[
+  {
+    "text": "resource-type.raml",
+    "description": "resource-type.raml",
+    "displayText": "resource-type.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 15
+        },
+        "end": {
+          "line": 2,
+          "character": 15
+        }
+      }
+    ]
+  }
+]

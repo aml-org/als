@@ -1,0 +1,249 @@
+[
+  {
+    "text": "any",
+    "description": "any",
+    "displayText": "any",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 21
+        },
+        "end": {
+          "line": 4,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "array",
+    "description": "array",
+    "displayText": "array",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 21
+        },
+        "end": {
+          "line": 4,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "boolean",
+    "description": "boolean",
+    "displayText": "boolean",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 21
+        },
+        "end": {
+          "line": 4,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "date-only",
+    "description": "date-only",
+    "displayText": "date-only",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 21
+        },
+        "end": {
+          "line": 4,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "datetime",
+    "description": "datetime",
+    "displayText": "datetime",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 21
+        },
+        "end": {
+          "line": 4,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "datetime-only",
+    "description": "datetime-only",
+    "displayText": "datetime-only",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 21
+        },
+        "end": {
+          "line": 4,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "file",
+    "description": "file",
+    "displayText": "file",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 21
+        },
+        "end": {
+          "line": 4,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "integer",
+    "description": "integer",
+    "displayText": "integer",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 21
+        },
+        "end": {
+          "line": 4,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "nil",
+    "description": "nil",
+    "displayText": "nil",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 21
+        },
+        "end": {
+          "line": 4,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "number",
+    "description": "number",
+    "displayText": "number",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 21
+        },
+        "end": {
+          "line": 4,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "object",
+    "description": "object",
+    "displayText": "object",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 21
+        },
+        "end": {
+          "line": 4,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "string",
+    "description": "string",
+    "displayText": "string",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 21
+        },
+        "end": {
+          "line": 4,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "time-only",
+    "description": "time-only",
+    "displayText": "time-only",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 21
+        },
+        "end": {
+          "line": 4,
+          "character": 21
+        }
+      }
+    ]
+  }
+]

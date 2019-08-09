@@ -1,0 +1,40 @@
+[
+  {
+    "text": "uri:\n      ",
+    "description": "uri",
+    "displayText": "uri",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "anotherUri:\n      ",
+    "description": "anotherUri",
+    "displayText": "anotherUri",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  }
+]

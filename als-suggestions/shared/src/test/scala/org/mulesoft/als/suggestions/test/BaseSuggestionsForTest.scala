@@ -7,7 +7,9 @@ import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
+import org.mulesoft.common.io.SyncFile
 import org.mulesoft.high.level.{CustomDialects, InitOptions}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -21,13 +23,26 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
     for {
       _       <- Suggestions.init(InitOptions.AllProfiles.withCustomDialects(customDialect.toSeq))
       content <- platform.resolve(url)
+      r       <- suggestFromFile(content.stream.toString, url, content.mime, format, customDialect)
+    } yield r
+  }
+
+  def suggestFromFile(content: String,
+                      url: String,
+                      mime: Option[String],
+                      format: String,
+                      customDialect: Option[CustomDialects]): Future[Seq[Suggestion]] = {
+
+    var position = 0
+    for {
+      _ <- Suggestions.init(InitOptions.AllProfiles.withCustomDialects(customDialect.toSeq))
       env <- Future.successful {
-        val fileContentsStr = content.stream.toString
+        val fileContentsStr = content
         val markerInfo      = this.findMarker(fileContentsStr)
 
         position = markerInfo.position
 
-        this.buildEnvironment(url, markerInfo.originalContent, content.mime)
+        this.buildEnvironment(url, markerInfo.originalContent, mime)
       }
 
       suggestions <- Suggestions.suggest(format, url, position, directoryResolver, env, platform)

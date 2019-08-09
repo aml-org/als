@@ -1,0 +1,21 @@
+[
+  {
+    "text": "uri:\n    ",
+    "description": "uri",
+    "displayText": "uri",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  }
+]

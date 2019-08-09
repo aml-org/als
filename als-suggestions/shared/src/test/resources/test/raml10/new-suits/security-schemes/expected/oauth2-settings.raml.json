@@ -1,0 +1,79 @@
+[
+  {
+    "text": "authorizationUri",
+    "description": "authorizationUri",
+    "displayText": "authorizationUri",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start":{
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "accessTokenUri",
+    "description": "accessTokenUri",
+    "displayText": "accessTokenUri",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start":{
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "authorizationGrants:\n        ",
+    "description": "authorizationGrants",
+    "displayText": "authorizationGrants",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start":{
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "scopes:\n        ",
+    "description": "scopes",
+    "displayText": "scopes",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start":{
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  }
+
+]

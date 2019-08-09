@@ -1,0 +1,21 @@
+[
+  {
+    "text": "scopes:\n        ",
+    "description": "scopes",
+    "displayText": "scopes",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start":{
+          "line": 9,
+          "character": 6
+        },
+        "end": {
+          "line": 9,
+          "character": 6
+        }
+      }
+    ]
+  }
+]

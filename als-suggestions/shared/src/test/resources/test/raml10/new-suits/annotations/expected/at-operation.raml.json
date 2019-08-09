@@ -1,0 +1,211 @@
+[
+  {
+    "text": "(myAnnotation): ",
+    "description": "(myAnnotation)",
+    "displayText": "(myAnnotation)",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "body:\n      ",
+    "description": "body",
+    "displayText": "body",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "description: ",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "displayName: ",
+    "description": "displayName",
+    "displayText": "displayName",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "headers:\n      ",
+    "description": "headers",
+    "displayText": "headers",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "is:\n      ",
+    "description": "is",
+    "displayText": "is",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "protocols: ",
+    "description": "protocols",
+    "displayText": "protocols",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "queryParameters:\n      ",
+    "description": "queryParameters",
+    "displayText": "queryParameters",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "queryString:\n      ",
+    "description": "queryString",
+    "displayText": "queryString",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "responses:\n      ",
+    "description": "responses",
+    "displayText": "responses",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "securedBy: ",
+    "description": "securedBy",
+    "displayText": "securedBy",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  }
+]

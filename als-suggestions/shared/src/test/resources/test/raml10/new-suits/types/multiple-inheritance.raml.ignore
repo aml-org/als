@@ -1,0 +1,6 @@
+#%RAML 1.0
+types:
+  B: string
+  C: string
+  A:
+    type: [B, *]

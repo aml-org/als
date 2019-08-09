@@ -1,0 +1,59 @@
+[
+  {
+    "text": "HMAC-SHA1",
+    "description": "HMAC-SHA1",
+    "displayText": "HMAC-SHA1",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start":{
+          "line": 6,
+          "character": 18
+        },
+        "end": {
+          "line": 6,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "RSA-SHA1",
+    "description": "RSA-SHA1",
+    "displayText": "RSA-SHA1",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start":{
+          "line": 6,
+          "character": 18
+        },
+        "end": {
+          "line": 6,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "PLAINTEXT",
+    "description": "PLAINTEXT",
+    "displayText": "PLAINTEXT",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start":{
+          "line": 6,
+          "character": 18
+        },
+        "end": {
+          "line": 6,
+          "character": 18
+        }
+      }
+    ]
+  }
+]

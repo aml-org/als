@@ -1,0 +1,13 @@
+#%RAML 1.0
+title: test
+traits:
+  tr:
+    description: <<param1>>
+    responses:
+      <<param2>>:
+
+/endpoint:
+  get:
+    is:
+      tr:
+        *

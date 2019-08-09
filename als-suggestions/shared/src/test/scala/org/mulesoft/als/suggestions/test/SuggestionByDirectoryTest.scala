@@ -13,7 +13,8 @@ import scala.concurrent.{ExecutionContext, Future}
 
 trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTest with FileAssertionTest {
 
-  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext =
+    ExecutionContext.Implicits.global
 
   def basePath: String
 
@@ -29,19 +30,26 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
 
   private def forDirectory(dir: SyncFile): Unit = {
     val (subDirs, files) =
-      dir.list.filter(_ != "expected").map(l => Fs.syncFile(dir.path + "/" + l)).partition(_.isDirectory)
+      dir.list
+        .filter(_ != "expected")
+        .map(l => Fs.syncFile(dir.path + "/" + l))
+        .partition(_.isDirectory)
     val validFiles = files.filter(f => f.name.endsWith(fileExtension) || f.name.endsWith(fileExtension + ".ignore"))
     if (subDirs.nonEmpty || validFiles.nonEmpty) {
       s"in directory: ${dir.name}" - {
         subDirs.foreach(forDirectory)
         validFiles.foreach { f =>
-          if (f.name.endsWith(".ignore")) s"Golden: ${f.name}" ignore {
-            Future.successful(succeed)
-          } else {
-            s"Suggest over ${f.name}" in {
-              testSuggestion(f)
+          val content = f.read()
+          if (content.toString.contains("*")) {
+            if (f.name.endsWith(".ignore")) s"Golden: ${f.name}" ignore {
+              Future.successful(succeed)
+            } else {
+              s"Suggest over ${f.name}" in {
+                testSuggestion(content.toString, f)
+              }
             }
-          }
+          } else Future.successful(succeed)
+
         }
       }
     }
@@ -50,13 +58,18 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
   def writeDataToString(data: List[Suggestion]): String =
     write[List[SuggestionNode]](data.map(SuggestionNode.sharedToTransport), 2)
 
-  private def testSuggestion(f: SyncFile): Future[Assertion] = {
+  private def testSuggestion(content: String, f: SyncFile): Future[Assertion] = {
 
     val expected = f.parent + "/expected/" + f.name + ".json"
     for {
-      s   <- suggest("file://" + f.path, origin.vendor.toString, None)
-      tmp <- writeTemporaryFile(expected)(writeDataToString(s.toList))
-      r   <- assertDifferences(tmp, expected)
+      s <- suggestFromFile(content,
+                           "file://" + f.name,
+                           Some("application/" + origin.syntax.extension),
+                           origin.vendor.toString,
+                           None)
+      tmp <- writeTemporaryFile(expected)(
+        writeDataToString(s.sortWith((s1, s2) => s1.text.compareTo(s2.text) < 0).toList))
+      r <- assertDifferences(tmp, expected)
     } yield r
   }
 }
