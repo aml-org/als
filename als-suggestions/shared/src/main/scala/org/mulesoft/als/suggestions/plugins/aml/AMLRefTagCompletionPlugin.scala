@@ -2,11 +2,13 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.model.StrField
 import amf.core.model.domain.AmfObject
+import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLRefTagCompletionPlugin"
@@ -16,8 +18,8 @@ object AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   private val refSuggestion = Seq(RawSuggestion("$ref", "$ref", "reference tag", Seq(), isKey = true, " "))
 
   override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] =
-    Future.successful {
-      getSuggestion(params, Option(params.dialect.documents()).map(_.styleFlavour()))
+    Future {
+      getSuggestion(params, Option(params.dialect.documents()).map(_.referenceStyle()))
     }
 
   private def isDeclarable(amfObject: AmfObject, dialect: Dialect): Boolean = {
@@ -41,12 +43,12 @@ object AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   def getSuggestion(params: AMLCompletionParams, style: Option[StrField]): Seq[RawSuggestion] =
     if (params.yPartBranch.isValue)
       style match {
-        case Some(s) if s.is("JsonStyle") => Seq()
-        case _                            => includeSuggestion
+        case Some(s) if s.is(ReferenceStyles.JSONSCHEMA) || params.yPartBranch.hasIncludeTag => Seq()
+        case _                                                                               => includeSuggestion
       } else
       style match {
         case Some(s)
-            if s.is("RamlStyle") ||
+            if s.is(ReferenceStyles.RAML) ||
               params.yPartBranch.brothers.nonEmpty ||
               params.yPartBranch.isInArray || !isDeclarable(params.amfObject, params.dialect) =>
           Seq()

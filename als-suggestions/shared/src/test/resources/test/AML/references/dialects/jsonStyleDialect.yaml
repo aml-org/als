@@ -1,6 +1,6 @@
 #%Dialect 1.0
 
-dialect: Style
+dialect: JSONStyle
 version: 1.0
 
 external:
@@ -37,7 +37,8 @@ nodeMappings:
 documents:
   root:
     encodes: RootNode
-  library:
-    declares:
-      types: SomeType
+  fragments:
+    encodes:
+      Types: SomeType
   options:
+    referenceStyle: JsonSchemaStyle

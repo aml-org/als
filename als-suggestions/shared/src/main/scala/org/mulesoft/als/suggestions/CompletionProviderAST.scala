@@ -4,8 +4,9 @@ import amf.core.annotations.SourceAST
 import amf.core.model.document.EncodesModel
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.interfaces._
-import org.yaml.model.{YNode, YPart, YType}
+import org.yaml.model.{YNode, YPart, YTag, YType}
 import RequestToCompletionParams._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps
@@ -26,6 +27,11 @@ class CompletionProviderAST(request: CompletionRequest) extends CompletionProvid
               if (node.asScalar.exists(_.mark.plain)) 0 else 1 // if there is a quotation mark, adjust the range according
             })
         else ""
+      case YType.Include =>
+        node match {
+          case mr: YNode.MutRef if mr.origTag.tagType == YType.Include => mr.origValue.toString
+          case _                                                       => ""
+        }
       case _ => ""
     }
 

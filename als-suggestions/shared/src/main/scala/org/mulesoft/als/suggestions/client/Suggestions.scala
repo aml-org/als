@@ -93,11 +93,10 @@ object Suggestions extends SuggestionsHelper {
       .flatMap(buildProvider(_, position, directoryResolver, platform, url, originalContent))
       .recoverWith {
         case _: amf.core.exception.UnsupportedVendorException if isHeader(position, url, originalContent) =>
-          Future.successful(new CompletionProviderHeaders(url, originalContent, Position(position, originalContent)))
+          Future(new CompletionProviderHeaders(url, originalContent, Position(position, originalContent)))
         case e: Throwable =>
           println(e)
-          Future.successful(
-            this.buildCompletionProviderNoAST(originalContent, url, position, directoryResolver, platform))
+          Future(this.buildCompletionProviderNoAST(originalContent, url, position, directoryResolver, platform))
         case any =>
           println(any)
           Future.failed(new Error("Failed to construct CompletionProvider"))
@@ -209,13 +208,13 @@ object Suggestions extends SuggestionsHelper {
           StylerParams(
             getMediaType(originalContent) == Syntax.YAML,
             isKey,
-            false, // just in annotations??
+            noColon = false, // just in annotations??
             originalContent,
             pos
           ),
           _
       )
-    CompletionProviderAST(AmlCompletionRequest(amfPosition, bu, dialect, styler))
+    CompletionProviderAST(AmlCompletionRequest(amfPosition, bu, dialect, platform, directoryResolver, styler))
   }
 }
 

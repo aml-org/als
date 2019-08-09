@@ -3,10 +3,11 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.core.model.document.DeclaresModel
 import amf.plugins.document.vocabularies.model.document.{DialectInstance, DialectInstanceLibrary}
 import amf.plugins.document.vocabularies.model.domain.PublicNodeMapping
-import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class AMLRootDeclarationsCompletionPlugin(params: AMLCompletionParams) extends AMLSuggestionsHelper {
 
@@ -38,9 +39,10 @@ class AMLRootDeclarationsCompletionPlugin(params: AMLCompletionParams) extends A
     }
 
   def resolve(): Future[Seq[RawSuggestion]] =
-    Future.successful(
+    Future {
       getSuggestions
-        .map(s => RawSuggestion(s._1, s._2, isAKey = true)))
+        .map(s => RawSuggestion(s._1, s._2, isAKey = true))
+    }
 }
 
 object AMLRootDeclarationsCompletionPlugin extends AMLCompletionPlugin {
@@ -51,6 +53,6 @@ object AMLRootDeclarationsCompletionPlugin extends AMLCompletionPlugin {
       new AMLRootDeclarationsCompletionPlugin(
         params
       ).resolve()
-    else Future.successful(Seq())
+    else emptySuggestion
   }
 }

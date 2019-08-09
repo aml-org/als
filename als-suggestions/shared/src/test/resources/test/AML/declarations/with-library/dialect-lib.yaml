@@ -53,5 +53,5 @@ documents:
       types: SomeType
       schemes: SomeScheme
   options:
-    styleFlavour: JsonStyle
+    referenceStyle: JsonSchemaStyle
 

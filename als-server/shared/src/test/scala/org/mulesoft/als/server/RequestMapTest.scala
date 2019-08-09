@@ -11,7 +11,7 @@ class RequestMapTest extends AsyncFlatSpec with Matchers with OptionValues {
   case object SumRequestHandler extends RequestHandler[(Int, Int), Int] {
     override def `type`: SumRequestType.type = SumRequestType
 
-    override def apply(params: (Int, Int)): Future[Int] = Future.successful(params._1 + params._2)
+    override def apply(params: (Int, Int)): Future[Int] = Future(params._1 + params._2)
   }
 
   behavior of "RequestMap"
@@ -23,6 +23,6 @@ class RequestMapTest extends AsyncFlatSpec with Matchers with OptionValues {
     val handler = requestMap(SumRequestType).value
 
     handler((5, 4))
-      .map(_ should be (9))
+      .map(_ should be(9))
   }
 }

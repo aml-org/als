@@ -1,0 +1,8 @@
+#%NOStyle1.0
+
+title: test without style
+version: 1
+#having a facet, the reference tag should not be suggested
+type:
+  name: name
+  *
