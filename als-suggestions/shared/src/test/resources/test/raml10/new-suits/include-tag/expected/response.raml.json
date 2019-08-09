@@ -1,0 +1,21 @@
+[
+  {
+    "text": "!include",
+    "description": "!include",
+    "displayText": "!include",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 11
+        },
+        "end": {
+          "line": 4,
+          "character": 11
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,21 @@
+[
+  {
+    "text": "p2: ",
+    "description": "p2",
+    "displayText": "p2",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 10,
+          "character": 8
+        },
+        "end": {
+          "line": 10,
+          "character": 8
+        }
+      }
+    ]
+  }
+]

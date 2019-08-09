@@ -1,0 +1,78 @@
+[
+  {
+    "text": "authorization_code",
+    "description": "authorization_code",
+    "displayText": "authorization_code",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start":{
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "password",
+    "description": "password",
+    "displayText": "password",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start":{
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "client_credentials",
+    "description": "client_credentials",
+    "displayText": "client_credentials",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start":{
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "implicit",
+    "description": "implicit",
+    "displayText": "implicit",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start":{
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  }
+]
