@@ -12,7 +12,7 @@ trait AMLSuggestionsHelper {
       .flatMap(text => {
         val pos  = position.moveLine(-1)
         val left = text.substring(0, pos.offset(text))
-        val line = left.substring(left.lastIndexOf("\n")).stripPrefix("\n")
+        val line = if (left.contains("\n")) left.substring(left.lastIndexOf("\n")).stripPrefix("\n") else left
         val first = line.headOption match {
           case Some(c) if c == ' ' || c == '\t' => Some(c)
           case _                                => None
