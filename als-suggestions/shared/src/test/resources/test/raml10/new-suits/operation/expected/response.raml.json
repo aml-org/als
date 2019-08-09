@@ -1,0 +1,59 @@
+[
+  {
+    "text": "body:\n          ",
+    "description": "body",
+    "displayText": "body",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 8
+        },
+        "end": {
+          "line": 6,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "description: ",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 8
+        },
+        "end": {
+          "line": 6,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "headers:\n          ",
+    "description": "headers",
+    "displayText": "headers",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 8
+        },
+        "end": {
+          "line": 6,
+          "character": 8
+        }
+      }
+    ]
+  }
+]

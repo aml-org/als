@@ -1,0 +1,192 @@
+[
+  {
+    "text": "baseUri: ",
+    "description": "baseUri",
+    "displayText": "baseUri",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "baseUriParameters:\n  ",
+    "description": "baseUriParameters",
+    "displayText": "baseUriParameters",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "description: ",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "documentation:\n  ",
+    "description": "documentation",
+    "displayText": "documentation",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "mediaType: ",
+    "description": "mediaType",
+    "displayText": "mediaType",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "protocols: ",
+    "description": "protocols",
+    "displayText": "protocols",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "resources:\n  ",
+    "description": "resources",
+    "displayText": "resources",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "securedBy: ",
+    "description": "securedBy",
+    "displayText": "securedBy",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "title: ",
+    "description": "title",
+    "displayText": "title",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "version: ",
+    "description": "version",
+    "displayText": "version",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  }
+]

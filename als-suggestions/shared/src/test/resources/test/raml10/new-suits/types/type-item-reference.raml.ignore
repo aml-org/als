@@ -1,0 +1,7 @@
+#%RAML 1.0
+types:
+  A:
+    type: object
+  B:
+    type: array
+    items: *

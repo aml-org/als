@@ -1,0 +1,17 @@
+#%RAML 1.0
+title: test
+resourceTypes:
+  rt:
+    description: <<param1>>
+    get:
+      description: <<param2>>
+  rt2:
+    description: <<param3>>
+    get:
+      description: <<param4>>
+
+/endpoint:
+  type:
+    rt:
+      param1:
+      *

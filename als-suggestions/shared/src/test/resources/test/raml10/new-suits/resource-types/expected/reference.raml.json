@@ -1,0 +1,21 @@
+[
+  {
+    "text": "rt",
+    "description": "rt",
+    "displayText": "rt",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 8
+        },
+        "end": {
+          "line": 7,
+          "character": 8
+        }
+      }
+    ]
+  }
+]
