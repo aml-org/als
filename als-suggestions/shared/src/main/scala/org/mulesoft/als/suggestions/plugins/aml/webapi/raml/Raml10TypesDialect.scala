@@ -4,9 +4,16 @@ import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, Property
 import amf.core.metamodel.domain.{DataNodeModel, ShapeModel}
 import amf.core.vocabulary.Namespace
 import amf.core.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdFloat, xsdInteger, xsdString}
+import amf.dialects.OAS20Dialect.DialectLocation
 import amf.dialects.RAML10Dialect
+import amf.dialects.RAML10Dialect.{DialectLocation, DialectNodes}
 import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import amf.plugins.document.vocabularies.model.domain.{
+  DocumentMapping,
+  NodeMapping,
+  PropertyMapping,
+  PublicNodeMapping
+}
 import amf.plugins.domain.shapes.metamodel._
 
 object Raml10TypesDialect {
@@ -291,5 +298,31 @@ object Raml10TypesDialect {
           NilShapeNode,
           ScalarShapeNode
         ))
+
+    val declaredNodes = Seq(
+      PublicNodeMapping().withId(DialectLocation + "#/documents/types").withName("types").withMappedNode(ShapeNode.id),
+      PublicNodeMapping()
+        .withId(DialectLocation + "#/documents/resourceTypes")
+        .withName("resourceTypes")
+        .withMappedNode(DialectNodes.ResourceTypeNode.id),
+      PublicNodeMapping()
+        .withId(DialectLocation + "#/documents/traits")
+        .withName("traits")
+        .withMappedNode(DialectNodes.TraitNode.id),
+      PublicNodeMapping()
+        .withId(DialectLocation + "#/documents/securitySchemes")
+        .withName("securitySchemes")
+        .withMappedNode("SecurityScheme.node.id"), // todo
+      PublicNodeMapping()
+        .withId(DialectLocation + "#/documents/annotationsTypes")
+        .withName("annotationsTypes")
+        .withMappedNode("AnnotationsTypes.node.id") // todo
+    )
+
+    dialect.documents().root().withDeclaredNodes(declaredNodes)
+    dialect
+      .documents()
+      .withLibrary(DocumentMapping().withId(DialectLocation + "#/library").withDeclaredNodes(declaredNodes))
+    dialect
   }
 }
