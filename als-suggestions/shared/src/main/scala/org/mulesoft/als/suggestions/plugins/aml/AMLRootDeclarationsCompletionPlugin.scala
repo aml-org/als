@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.model.document.DeclaresModel
+import amf.core.model.document.{DeclaresModel, Document, Module}
+import amf.plugins.document.vocabularies.metamodel.domain.DocumentsModelModel
 import amf.plugins.document.vocabularies.model.document.{DialectInstance, DialectInstanceLibrary}
 import amf.plugins.document.vocabularies.model.domain.PublicNodeMapping
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -23,13 +24,13 @@ class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) extends 
         params.actualDialect.documents().declarationsPath().option().map(v => (v, "\n  ")).toSeq
       case d: DeclaresModel =>
         params.baseUnit match {
-          case _: DialectInstance =>
+          case _: DialectInstance | _: Document =>
             params.actualDialect
               .documents()
               .root()
               .declaredNodes()
               .map(extractText)
-          case _: DialectInstanceLibrary =>
+          case _: DialectInstanceLibrary | _: Module =>
             params.actualDialect
               .documents()
               .library()
@@ -40,9 +41,12 @@ class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) extends 
       case _ => Nil
     }
 
+  def usesSuggestion(): Option[(String, String)] =
+    params.actualDialect.documents().fields.getValueAsOption(DocumentsModelModel.Library).map(_ => ("uses", "\n  "))
+
   def resolve(): Future[Seq[RawSuggestion]] =
     Future {
-      getSuggestions
+      (getSuggestions ++ usesSuggestion())
         .map(s => RawSuggestion(s._1, s._2, isAKey = true))
     }
 }
