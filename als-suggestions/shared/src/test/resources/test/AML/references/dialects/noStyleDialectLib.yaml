@@ -1,6 +1,6 @@
 #%Dialect 1.0
 
-dialect: Style
+dialect: NOStyleLib
 version: 1.0
 
 external:
@@ -37,8 +37,6 @@ nodeMappings:
 documents:
   root:
     encodes: RootNode
-  fragments:
-    encodes:
-      Types: SomeType
-  options:
-    styleFlavour: JsonStyle
+  library:
+    declares:
+      types: SomeType

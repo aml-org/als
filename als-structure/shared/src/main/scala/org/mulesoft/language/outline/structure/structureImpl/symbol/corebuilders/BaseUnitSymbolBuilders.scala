@@ -28,7 +28,7 @@ abstract class BaseUnitSymbolBuilder(element: BaseUnit)(override implicit val fa
       case (name, builders) =>
         val childrens = builders.flatMap(_.build())
 
-        childrens match {
+        childrens.toList match {
           case Nil => None
           case head :: tail =>
             Some(

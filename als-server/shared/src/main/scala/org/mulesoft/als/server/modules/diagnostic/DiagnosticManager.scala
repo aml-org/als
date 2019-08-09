@@ -157,7 +157,7 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
     val customProfileLoaded = if (config.customProfile.isDefined) {
       RuntimeValidator.loadValidationProfile(config.customProfile.get)
     } else {
-      Future.successful(ProfileName(baseUnit.sourceVendor.map(_.name).getOrElse(language)))
+      Future(ProfileName(baseUnit.sourceVendor.map(_.name).getOrElse(language)))
     }
 
     customProfileLoaded.flatMap(profile => RuntimeValidator(baseUnit, profile))

@@ -27,18 +27,6 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
     runTestForCustomDialect("visit03.yaml", "dialect.yaml", Set("office"))
   }
 
-  test("Known Values - Response Codes") {
-    runTestForCustomDialect("otherDialects/responseCodes.yaml",
-                            "otherDialects/knownValuesDialect.yaml",
-                            OasResponseCodes.all.toSet)
-  }
-
-  test("Known Values - Media Types") {
-    runTestForCustomDialect("otherDialects/mediaTypes.yaml",
-                            "otherDialects/knownValuesDialect.yaml",
-                            OasCommonMediaTypes.all.toSet)
-  }
-
   test("Custom Plugins completion Dummy") {
 
     for {
