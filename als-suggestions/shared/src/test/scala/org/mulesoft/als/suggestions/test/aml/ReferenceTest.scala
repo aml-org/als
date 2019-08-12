@@ -71,7 +71,7 @@ class ReferenceTest extends AMLSuggestionsTest {
   test("RamlStyle path suggestion - !include tag value") {
     withDialect(
       "instances/ramlStylePathInstanceInclude.yaml",
-      Set("test file 1.yaml", "test file 2.raml"),
+      Set("test file 1.yaml", "test file 2.raml", "test dir/", "inner dir/"),
       "dialects/ramlStyleDialect.yaml",
       ProfileName("RAMLStyle 1.0")
     )
@@ -80,7 +80,7 @@ class ReferenceTest extends AMLSuggestionsTest {
   test("No Style path suggestion - !include tag value") {
     withDialect(
       "instances/noStylePathInstanceInclude.yaml",
-      Set("other file.txt", "test file 1.yaml", "test file 2.raml"),
+      Set("test file 1.yaml", "test file 2.raml", "test dir/", "inner dir/"),
       "dialects/noStyleDialect.yaml",
       ProfileName("NOStyle 1.0")
     )
@@ -103,16 +103,18 @@ class ReferenceTest extends AMLSuggestionsTest {
   test("No Style path suggestion - $ref tag value") {
     withDialect(
       "instances/noStylePathInstanceRef.yaml",
-      Set("other file.txt", "test file 1.yaml", "test file 2.raml"),
+      Set("test file 1.yaml", "test file 2.raml", "test dir/", "inner dir/"),
       "dialects/noStyleDialect.yaml",
       ProfileName("NOStyle 1.0")
     )
   }
 
   test("JsonSchemaStyle path suggestion - $ref tag value") {
-    withDialect("instances/jsonStylePathInstanceRef.yaml",
-                Set("test file 1.yaml", "test file 2.raml"),
-                "dialects/jsonStyleDialect.yaml",
-                ProfileName("JSONStyle 1.0"))
+    withDialect(
+      "instances/jsonStylePathInstanceRef.yaml",
+      Set("test file 1.yaml", "test file 2.raml", "test dir/"),
+      "dialects/jsonStyleDialect.yaml",
+      ProfileName("JSONStyle 1.0")
+    )
   }
 }
