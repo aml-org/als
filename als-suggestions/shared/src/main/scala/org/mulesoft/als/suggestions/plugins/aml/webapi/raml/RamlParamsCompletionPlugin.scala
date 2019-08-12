@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.domain.Shape
+import amf.core.model.domain.{AmfObject, Shape}
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.ParameterModel
 import amf.plugins.domain.webapi.models.Parameter
@@ -20,13 +20,17 @@ object RamlParamsCompletionPlugin extends AMLCompletionPlugin {
     if (params.yPartBranch.isKey) {
       params.amfObject match {
         case param: Parameter if isNotName(params) =>
-          RamlTypeFacetsCompletionPlugin.resolveShape(param.schema, params.branchStack) :+ RawSuggestion.forKey(
-            "required")
+          computeParam(param, params.branchStack, getIndentation(params.baseUnit, params.position))
         case shape: Shape if params.branchStack.headOption.exists(_.isInstanceOf[Parameter]) =>
           Seq(RawSuggestion.forKey("required"))
         case _ => Nil
       }
     } else Nil
+  }
+
+  def computeParam(param: Parameter, branchStack: Seq[AmfObject], identation: String): Seq[RawSuggestion] = {
+    RamlTypeFacetsCompletionPlugin.resolveShape(param.schema, branchStack, identation) :+ RawSuggestion.forKey(
+      "required")
   }
 
   private def isNotName(params: AmlCompletionRequest): Boolean = {

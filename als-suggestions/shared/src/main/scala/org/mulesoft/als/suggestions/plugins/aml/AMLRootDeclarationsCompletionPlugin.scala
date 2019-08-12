@@ -12,7 +12,7 @@ import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) extends AMLSuggestionsHelper {
+class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) {
 
   def extractText(mapping: PublicNodeMapping): (String, String) =
     if (mapping.mappedNode().isNullOrEmpty) (s"${mapping.name().value()}", "")
