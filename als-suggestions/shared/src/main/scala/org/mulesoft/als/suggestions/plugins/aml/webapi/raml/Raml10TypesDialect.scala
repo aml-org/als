@@ -4,9 +4,8 @@ import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, Property
 import amf.core.metamodel.domain.{DataNodeModel, ShapeModel}
 import amf.core.vocabulary.Namespace
 import amf.core.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdFloat, xsdInteger, xsdString}
-import amf.dialects.OAS20Dialect.DialectLocation
 import amf.dialects.RAML10Dialect
-import amf.dialects.RAML10Dialect.{DialectLocation, DialectNodes}
+import amf.dialects.RAML10Dialect.DialectNodes
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{
   DocumentMapping,
@@ -54,7 +53,7 @@ object Raml10TypesDialect {
       .withId(DialectLocation + "#/declarations/ShapeNode/default")
       .withNodePropertyMapping(ShapeModel.Default.value.iri())
       .withName("default")
-      .withObjectRange(Seq(DataNodeModel.`type`.head.iri())),
+      .withLiteralRange(xsdString.iri()),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/ShapeNode/displayName")
       .withNodePropertyMapping(ShapeModel.DisplayName.value.iri())

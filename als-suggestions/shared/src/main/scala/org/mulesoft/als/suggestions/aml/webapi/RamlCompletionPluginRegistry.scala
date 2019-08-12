@@ -18,7 +18,8 @@ object RamlCompletionPluginRegistry {
       RamlParametrizedDeclarationVariablesRef :+
       RamlAbstractDefinition :+
       RamlTraitReference :+
-      BaseUriParameterCompletionPlugin
+      BaseUriParameterCompletionPlugin :+
+      RamlBaseUriParameterFacets
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, RAML10Dialect().id)
