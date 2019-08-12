@@ -59,25 +59,26 @@ object AMLDeclarationsReferencesCompletionPlugin extends AMLCompletionPlugin {
       .orElse(declaredFromKey(params.yPartBranch.parent, params.propertyMapping))
       .map(_.objectRange().flatMap(_.option())) match {
       case Some(seq) => seq
-      case _         => referenceFromDeclared(params.amfObject)
+      case _         => referenceFromDeclared(params.amfObject).toSeq
     }
     candidates.filter(_ != DomainElementModel.`type`.head.iri())
+  }
 
   private def getFieldIri(fieldEntry: Option[FieldEntry],
                           propertyMapping: Seq[PropertyMapping]): Option[PropertyMapping] =
     fieldEntry.flatMap(fe => propertyMapping.find(_.nodePropertyMapping().value() == fe.field.value.iri()))
 
-  private def referenceFromDeclared(amfObject: AmfObject): Seq[String] = {
+  private def referenceFromDeclared(amfObject: AmfObject): Option[String] = {
     amfObject.fields.fields() match {
       case head :: Nil if amfObject.elementIdentifier().nonEmpty =>
-        amfObject.meta.`type`.map(_.iri())
+        amfObject.meta.`type`.headOption.map(_.iri())
       case others if others.nonEmpty => // hack for inferred fields like data type
         amfObject.annotations.find(classOf[SourceAST]).map(_.ast) match {
           case Some(entry: YMapEntry) =>
-            amfObject.meta.`type`.map(_.iri())
-          case _ => Nil
+            amfObject.meta.`type`.headOption.map(_.iri())
+          case _ => None
         }
-      case _ => Nil
+      case _ => None
     }
 
   private def declaredFromKey(parent: Option[YPart], propertyMapping: Seq[PropertyMapping]): Option[PropertyMapping] =
