@@ -1,8 +1,0 @@
-#%RAML 1.0
-title: test
-/endpoint:
-  get:
-    responses:
-      body:
-        application/json:
-          *
