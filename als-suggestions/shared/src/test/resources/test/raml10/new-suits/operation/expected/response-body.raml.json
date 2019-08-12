@@ -1,19 +1,190 @@
 [
   {
-    "text": "body:\n          ",
-    "description": "body",
-    "displayText": "body",
+    "text": "application/json:            ",
+    "description": "application/json",
+    "displayText": "application/json",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 6,
-          "character": 8
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 6,
-          "character": 8
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/vnd.github+json:            ",
+    "description": "application/vnd.github+json",
+    "displayText": "application/vnd.github+json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/vnd.github.v3+json:            ",
+    "description": "application/vnd.github.v3+json",
+    "displayText": "application/vnd.github.v3+json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/vnd.github.v3.full+json:            ",
+    "description": "application/vnd.github.v3.full+json",
+    "displayText": "application/vnd.github.v3.full+json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/vnd.github.v3.html+json:            ",
+    "description": "application/vnd.github.v3.html+json",
+    "displayText": "application/vnd.github.v3.html+json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/vnd.github.v3.patch:            ",
+    "description": "application/vnd.github.v3.patch",
+    "displayText": "application/vnd.github.v3.patch",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/vnd.github.v3.raw+json:            ",
+    "description": "application/vnd.github.v3.raw+json",
+    "displayText": "application/vnd.github.v3.raw+json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/vnd.github.v3.text+json:            ",
+    "description": "application/vnd.github.v3.text+json",
+    "displayText": "application/vnd.github.v3.text+json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "appxlication/vnd.github.v3.diff:            ",
+    "description": "appxlication/vnd.github.v3.diff",
+    "displayText": "appxlication/vnd.github.v3.diff",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "default: ",
+    "description": "default",
+    "displayText": "default",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
         }
       }
     ]
@@ -27,31 +198,164 @@
     "range": [
       {
         "start": {
-          "line": 6,
-          "character": 8
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 6,
-          "character": 8
+          "line": 7,
+          "character": 10
         }
       }
     ]
   },
   {
-    "text": "headers:\n          ",
-    "description": "headers",
-    "displayText": "headers",
+    "text": "displayName: ",
+    "description": "displayName",
+    "displayText": "displayName",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 6,
-          "character": 8
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 6,
-          "character": 8
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "enum:\n            ",
+    "description": "enum",
+    "displayText": "enum",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "example:\n            ",
+    "description": "example",
+    "displayText": "example",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "examples:\n            ",
+    "description": "examples",
+    "displayText": "examples",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "facets:\n            ",
+    "description": "facets",
+    "displayText": "facets",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "text/plain; charset=utf-8:            ",
+    "description": "text/plain; charset=utf-8",
+    "displayText": "text/plain; charset=utf-8",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "type:\n            ",
+    "description": "type",
+    "displayText": "type",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "xml:\n            ",
+    "description": "xml",
+    "displayText": "xml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
         }
       }
     ]
