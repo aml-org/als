@@ -21,7 +21,8 @@ object RamlCompletionPluginRegistry {
       RamlAbstractDefinition :+
       RamlTraitReference :+
       BaseUriParameterCompletionPlugin :+
-      RamlBaseUriParameterFacets
+      RamlBaseUriParameterFacets :+
+      RamlPayloadMediaTypeCompletionPlugin
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, RAML10Dialect().id)

@@ -77,10 +77,28 @@ class AmlCompletionRequest(override val baseUnit: BaseUnit,
       })
   }
 
+  private def parentTermKey(): Seq[PropertyMapping] =
+    objectInTree.stack.headOption
+      .flatMap(getDialectNode(_, None))
+      .collectFirst({ case n: NodeMapping => n })
+      .map(_.propertiesMapping())
+      .getOrElse(Nil)
+      .filter(_.mapTermKeyProperty().option().isDefined)
+
   val propertyMapping: List[PropertyMapping] = {
+    val parentMappins = parentTermKey()
+
     val mappings = getDialectNode(objectInTree.obj, fieldEntry) match {
-      case Some(nm: NodeMapping) => nm.propertiesMapping().toList
-      case _                     => Nil
+      case Some(nm: NodeMapping) =>
+        val termOption = parentMappins
+          .find(pr => pr.objectRange().exists(or => or.value() == nm.id))
+          .flatMap(_.mapTermKeyProperty().option())
+
+        (termOption match {
+          case Some(term) => nm.propertiesMapping().filter(p => !p.nodePropertyMapping().option().contains(term))
+          case _          => nm.propertiesMapping()
+        }).toList
+      case _ => Nil
     }
     fieldEntry match {
       case Some(e) =>
