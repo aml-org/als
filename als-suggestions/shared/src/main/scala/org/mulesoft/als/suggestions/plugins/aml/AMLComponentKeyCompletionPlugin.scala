@@ -10,7 +10,7 @@ import org.yaml.model.YMapEntry
 
 import scala.concurrent.Future
 
-object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin with AMLSuggestionsHelper {
+object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLComponentKeyCompletionPlugin"
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =

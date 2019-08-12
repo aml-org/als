@@ -7,10 +7,10 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 
 import scala.concurrent.Future
 
-class AMLEnumCompletionsPlugin(params: AmlCompletionRequest) extends AMLSuggestionsHelper {
+class AMLEnumCompletionsPlugin(params: AmlCompletionRequest, indentation: String) {
 
   def presentArray(value: String): String =
-    s"\n${getIndentation(params.baseUnit, params.position)}- $value"
+    s"\n$indentation- $value"
 
   private def getSuggestions: Seq[String] = {
     params.propertyMapping match {
@@ -40,6 +40,6 @@ object AMLEnumCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] =
     if (params.yPartBranch.isValue || params.yPartBranch.isInArray)
-      new AMLEnumCompletionsPlugin(params).resolve()
+      new AMLEnumCompletionsPlugin(params,getIndentation(params.baseUnit, params.position)).resolve()
     else emptySuggestion
 }

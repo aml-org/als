@@ -39,15 +39,16 @@ object AmfSonElementFinder {
 
     private def positionFinderFN(amfPosition: Position)(): FieldEntry => Boolean = (f: FieldEntry) => {
       f.value.value match {
-        case a: AmfArray =>
-          a.position()
+        case arr: AmfArray =>
+          arr
+            .position()
             .map(
               p =>
                 p.contains(amfPosition) && f.value.annotations
                   .find(classOf[LexicalInformation])
                   .forall(_.containsCompletely(amfPosition)))
             .getOrElse(
-              arrayContainsPosition(a,
+              arrayContainsPosition(arr,
                                     amfPosition,
                                     f.value.annotations
                                       .find(classOf[LexicalInformation])))
