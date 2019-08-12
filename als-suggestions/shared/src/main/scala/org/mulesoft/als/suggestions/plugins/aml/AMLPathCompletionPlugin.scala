@@ -1,5 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
+import amf.core.registries.AMFPluginsRegistry
+import amf.core.remote.Platform
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.{DirectoryResolver, FileUtils, YPartBranch}
@@ -24,7 +26,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
     isStyleValue(ReferenceStyles.JSONSCHEMA, yPartBranch, dialect) &&
       yPartBranch.parentEntry.exists(p => p.key.asScalar.exists(_.text == "$ref"))
 
-  // just take directory paths
+  // exclude file name
   def extractPath(parts: String): String =
     if (parts.indexOf('/') > 0)
       parts.substring(0, parts.lastIndexOf('/') + 1)
@@ -46,15 +48,38 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
 
   private def listDirectory(params: AMLCompletionParams,
                             relativePath: String,
-                            fullURI: String): Future[Seq[RawSuggestion]] = {
-    params.directoryResolver.readDir(fullURI).map(toSuggestions(relativePath, _))
-  }
+                            fullURI: String): Future[Seq[RawSuggestion]] =
+    params.directoryResolver
+      .readDir(fullURI)
+      .flatMap(withIsDir(_, fullURI, params.directoryResolver, params.platform))
+      .map(s => {
+        val filtered = s
+          .filter(tuple => tuple._2 || supportedMime(tuple._1, params.platform))
+          .map(t => if (t._2) s"${t._1}/" else t._1)
+        toSuggestions(relativePath, filtered, params.platform)
+      })
 
-  private def toSuggestions(relativePath: String, files: Seq[String]): Seq[RawSuggestion] = {
+  private def withIsDir(files: Seq[String],
+                        fullUri: String,
+                        directoryResolver: DirectoryResolver,
+                        platform: Platform): Future[Seq[(String, Boolean)]] =
+    Future.sequence {
+      files.map(
+        file =>
+          directoryResolver
+            .isDirectory(s"${FileUtils.getPath(fullUri, platform)}$file")
+            .map(isDir => (file, isDir)))
+    }
+
+  private def toSuggestions(relativePath: String, files: Seq[String], platform: Platform): Seq[RawSuggestion] =
     files.map(toRawSuggestion(relativePath, _))
-  }
 
-  private def toRawSuggestion(relativePath: String, file: String) = {
+  private def supportedMime(file: String, platform: Platform): Boolean =
+    platform
+      .extension(file)
+      .flatMap(platform.mimeFromExtension)
+      .exists(mime => AMFPluginsRegistry.syntaxPluginForMediaType(mime).isDefined)
+
+  private def toRawSuggestion(relativePath: String, file: String) =
     RawSuggestion(s"$relativePath$file", s"$relativePath$file", "Path suggestion", Nil, isKey = false, "")
-  }
 }
