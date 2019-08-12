@@ -76,7 +76,7 @@
     ]
   },
   {
-    "text": "example: ",
+    "text": "example:\n      ",
     "description": "example",
     "displayText": "example",
     "prefix": "",
@@ -209,7 +209,7 @@
     ]
   },
   {
-    "text": "type: ",
+    "text": "type:\n      ",
     "description": "type",
     "displayText": "type",
     "prefix": "",
