@@ -5,7 +5,7 @@ import amf.core.model.document.BaseUnit
 import amf.core.remote._
 import amf.dialects.WebApiDialectsRegistry
 import amf.internal.environment.Environment
-import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceTrait}
+import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceUnit}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher}
 import org.mulesoft.als.suggestions._
@@ -109,7 +109,7 @@ object Suggestions extends SuggestionsHelper {
       !originalContent.substring(0, position).replaceAll("^\\{?\\s+", "").contains('\n')
 
   private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
-    case _: DialectInstanceTrait => WebApiDialectsRegistry.dialectFor(bu)
+    case _: DialectInstanceUnit => WebApiDialectsRegistry.dialectFor(bu)
 //    case d if d.sourceVendor.contains(Oas20) => Some(OAS20Dialect.dialect)
     case _ => None
   }
