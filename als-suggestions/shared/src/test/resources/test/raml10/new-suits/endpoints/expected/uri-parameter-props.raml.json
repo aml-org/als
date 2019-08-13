@@ -1,8 +1,8 @@
 [
   {
-    "text": "displayName: ",
-    "description": "displayName",
-    "displayText": "displayName",
+    "text": "default: ",
+    "description": "default",
+    "displayText": "default",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -38,9 +38,85 @@
     ]
   },
   {
-    "text": "examples:\n      ",
+    "text": "displayName: ",
+    "description": "displayName",
+    "displayText": "displayName",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "enum:\n        ",
+    "description": "enum",
+    "displayText": "enum",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "example:\n        ",
+    "description": "example",
+    "displayText": "example",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "examples:\n        ",
     "description": "examples",
     "displayText": "examples",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "facets:\n        ",
+    "description": "facets",
+    "displayText": "facets",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -76,47 +152,9 @@
     ]
   },
   {
-    "text": "type: ",
-    "description": "type",
-    "displayText": "type",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
-  },
-  {
-    "text": "xml:\n      ",
-    "description": "xml",
-    "displayText": "xml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
-  },
-  {
-    "text": "facets:\n      ",
-    "description": "facets",
-    "displayText": "facets",
+    "text": "minLength: ",
+    "description": "minLength",
+    "displayText": "minLength",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -152,9 +190,9 @@
     ]
   },
   {
-    "text": "(myAnnotation): ",
-    "description": "(myAnnotation)",
-    "displayText": "(myAnnotation)",
+    "text": "required: ",
+    "description": "required",
+    "displayText": "required",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -171,9 +209,9 @@
     ]
   },
   {
-    "text": "example: ",
-    "description": "example",
-    "displayText": "example",
+    "text": "type:\n        ",
+    "description": "type",
+    "displayText": "type",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -190,47 +228,9 @@
     ]
   },
   {
-    "text": "minLength: ",
-    "description": "minLength",
-    "displayText": "minLength",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
-  },
-  {
-    "text": "default: ",
-    "description": "default",
-    "displayText": "default",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
-  },
-  {
-    "text": "enum:\n      ",
-    "description": "enum",
-    "displayText": "enum",
+    "text": "xml:\n        ",
+    "description": "xml",
+    "displayText": "xml",
     "prefix": "",
     "category": "unknown",
     "range": [
