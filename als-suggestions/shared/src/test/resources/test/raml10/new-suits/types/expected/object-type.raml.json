@@ -19,7 +19,7 @@
     ]
   },
   {
-    "text": "default:\n      ",
+    "text": "default: ",
     "description": "default",
     "displayText": "default",
     "prefix": "",

@@ -2,12 +2,11 @@
 title: test
 types:
   CustomDate:
-    type: date-only
     facets:
       onlyFutureDates?: boolean
       noHolidays: boolean
   AnotherDate:
-    type: date-only
+    type: CustomDate
     facets:
       aNewFacet: boolean
   PossibleMeetingDate:
