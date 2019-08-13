@@ -22,11 +22,10 @@ object CompletionPluginsRegistryHeaders {
 
   private val registry = new CompletionPluginsRegistryHeaders
 
-  def pluginSuggestions(params: HeaderCompletionParams): Future[Seq[RawSuggestion]] = {
+  def pluginSuggestions(params: HeaderCompletionParams): Future[Seq[RawSuggestion]] =
     Future.sequence(
       registry.plugins.map(p => p.resolve(params))
     ) map { _.flatten }
-  }
 
   def registerPlugin(plugin: HeaderCompletionPlugin): Unit = registry.registerPlugin(plugin)
 

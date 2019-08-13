@@ -74,7 +74,7 @@ object Suggestions extends SuggestionsHelper {
                                      platform))
       case _ if isHeader(position, url, originalContent) =>
         Future(
-          new CompletionProviderHeaders(url, originalContent, Position(position, originalContent))
+          HeaderCompletionProviderBuilder.build(url, originalContent, Position(position, originalContent))
         )
       case _ =>
         this
@@ -93,7 +93,9 @@ object Suggestions extends SuggestionsHelper {
       .flatMap(buildProvider(_, position, directoryResolver, platform, url, originalContent))
       .recoverWith {
         case _: amf.core.exception.UnsupportedVendorException if isHeader(position, url, originalContent) =>
-          Future(new CompletionProviderHeaders(url, originalContent, Position(position, originalContent)))
+          if (!url.toLowerCase().endsWith(".raml"))
+            Future(HeaderCompletionProviderBuilder.build(url, originalContent, Position(position, originalContent)))
+          else Future(RamlHeaderCompletionProvider.build(url, originalContent, Position(position, originalContent)))
         case e: Throwable =>
           println(e)
           Future(this.buildCompletionProviderNoAST(originalContent, url, position, directoryResolver, platform))
@@ -104,8 +106,7 @@ object Suggestions extends SuggestionsHelper {
   }
 
   private def isHeader(position: Int, url: String, originalContent: String): Boolean =
-    !url.toLowerCase().endsWith(".raml") &&
-      !originalContent.substring(0, position).replaceAll("^\\{?\\s+", "").contains('\n')
+    !originalContent.substring(0, position).replaceAll("^\\{?\\s+", "").contains('\n')
 
   private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
     case _: DialectInstanceUnit => WebApiDialectsRegistry.dialectFor(bu)
