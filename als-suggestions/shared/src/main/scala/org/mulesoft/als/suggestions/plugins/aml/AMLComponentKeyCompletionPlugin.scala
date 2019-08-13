@@ -24,7 +24,7 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
         .option()
         .map(_.split('/').last) match {
         case Some(keyDeclarations) if isSonOf(keyDeclarations, params.yPartBranch) =>
-          buildDeclaredKeys(params.actualDialect, "\n" + getIndentation(params.baseUnit, params.position))
+          buildDeclaredKeys(params.actualDialect, params.indentation)
         case _ => Seq()
       }
     } else Seq()
