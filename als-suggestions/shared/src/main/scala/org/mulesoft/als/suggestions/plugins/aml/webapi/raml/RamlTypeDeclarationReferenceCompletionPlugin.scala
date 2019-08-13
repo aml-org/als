@@ -20,23 +20,25 @@ object RamlTypeDeclarationReferenceCompletionPlugin extends AMLCompletionPlugin 
     Future.successful {
       params.amfObject match {
         case s: Shape if params.yPartBranch.isValue =>
+          val iri =
+            if (s.annotations.contains(classOf[SynthesizedField]) || params.yPartBranch.isEmptyNode)
+              ShapeModel.`type`.head.iri()
+            else s.meta.`type`.head.iri()
+          val declaredSuggestions = new AMLDeclarationsReferencesCompletionPlugin(Seq(iri),
+                                                                                  params.prefix,
+                                                                                  params.declarationProvider,
+                                                                                  s.name.option()).resolve()
+
           params.yPartBranch.parent
             .collectFirst({ case e: YMapEntry => e })
             .flatMap(_.key.asScalar.map(_.text)) match {
-            case Some("type") =>
-              // i need to force generic shape model search for default amf parsed types
-              val iri =
-                if (s.annotations.contains(classOf[SynthesizedField]) || params.yPartBranch.isEmptyNode)
-                  ShapeModel.`type`.head.iri()
-                else s.meta.`type`.head.iri()
-              new AMLDeclarationsReferencesCompletionPlugin(Seq(iri),
-                                                            params.prefix,
-                                                            params.declarationProvider,
-                                                            s.name.option()).resolve()
+            case Some("type") => declaredSuggestions
+            // i need to force generic shape model search for default amf parsed types
+
             case Some(text)
                 if params.amfObject.elementIdentifier().contains(text) || params.amfObject
                   .isInstanceOf[UnresolvedShape] =>
-              Raml10TypesDialect.shapeTypesProperty
+              declaredSuggestions ++ Raml10TypesDialect.shapeTypesProperty
                 .enum()
                 .map(v => v.value().toString)
                 .map(RawSuggestion.apply(_, isAKey = false))

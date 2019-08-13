@@ -76,7 +76,7 @@
     ]
   },
   {
-    "text": "example: ",
+    "text": "example:\n      ",
     "description": "example",
     "displayText": "example",
     "prefix": "",
@@ -133,7 +133,7 @@
     ]
   },
   {
-    "text": "items: ",
+    "text": "items:\n      ",
     "description": "items",
     "displayText": "items",
     "prefix": "",

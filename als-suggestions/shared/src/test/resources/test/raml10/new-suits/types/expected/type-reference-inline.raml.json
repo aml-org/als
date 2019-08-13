@@ -19,25 +19,6 @@
     ]
   },
   {
-    "text": "B",
-    "description": "A",
-    "displayText": "A",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 5
-        },
-        "end": {
-          "line": 4,
-          "character": 5
-        }
-      }
-    ]
-  },
-  {
     "text": "any",
     "description": "any",
     "displayText": "any",
