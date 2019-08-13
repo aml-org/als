@@ -1,8 +1,8 @@
 [
   {
-    "text": "uri:\n      ",
-    "description": "uri",
-    "displayText": "uri",
+    "text": "anotherUri:\n        ",
+    "description": "anotherUri",
+    "displayText": "anotherUri",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -19,9 +19,9 @@
     ]
   },
   {
-    "text": "anotherUri:\n      ",
-    "description": "anotherUri",
-    "displayText": "anotherUri",
+    "text": "uri:\n        ",
+    "description": "uri",
+    "displayText": "uri",
     "prefix": "",
     "category": "unknown",
     "range": [
