@@ -14,7 +14,7 @@ object RamlCustomFacetsCompletionPlugin extends AMLCompletionPlugin {
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(params.amfObject match {
       case s: Shape if params.yPartBranch.isKey && params.fieldEntry.isEmpty =>
-        CustomFacetFinder("\n" + getIndentation(params.baseUnit, params.position))
+        CustomFacetFinder(params.indentation)
           .getCustomFacets(s, Nil)
       case _ => Nil
     })
