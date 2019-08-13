@@ -13,10 +13,10 @@ import scala.concurrent.Future
 
 class AMLStructureCompletionsPlugin(params: AmlCompletionRequest, indentation: String) {
 
-  private def extractText(mapping: PropertyMapping, indent: String): (String, String) = {
+  private def extractText(mapping: PropertyMapping): (String, String) = {
     val cleanText = mapping.name().value()
     val whiteSpaces =
-      if (mapping.literalRange().isNullOrEmpty) s"\n$indent"
+      if (mapping.literalRange().isNullOrEmpty) indentation
       else ""
     (cleanText, whiteSpaces)
   }
@@ -28,8 +28,7 @@ class AMLStructureCompletionsPlugin(params: AmlCompletionRequest, indentation: S
     else false
   }
 
-  private def getSuggestions: Seq[(String, String)] =
-    params.propertyMapping.map(extractText(_, indentation))
+  private def getSuggestions: Seq[(String, String)] = params.propertyMapping.map(extractText)
 
   def resolve(): Seq[RawSuggestion] =
     getSuggestions
@@ -52,7 +51,7 @@ object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
       if (params.yPartBranch.isKey && !isInFieldValue(params)) {
         val isEncoded = isEncodes(params.amfObject, params.actualDialect)
         if ((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded)
-          new AMLStructureCompletionsPlugin(params, getIndentation(params.baseUnit, params.position)).resolve()
+          new AMLStructureCompletionsPlugin(params, params.indentation).resolve()
         else Seq()
       } else Seq()
     }
