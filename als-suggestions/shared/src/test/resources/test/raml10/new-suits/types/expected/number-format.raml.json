@@ -1,5 +1,81 @@
 [
   {
+    "text": "double",
+    "description": "double",
+    "displayText": "double",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 12
+        },
+        "end": {
+          "line": 4,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "float",
+    "description": "float",
+    "displayText": "float",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 12
+        },
+        "end": {
+          "line": 4,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "int",
+    "description": "int",
+    "displayText": "int",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 12
+        },
+        "end": {
+          "line": 4,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "int16",
+    "description": "int16",
+    "displayText": "int16",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 12
+        },
+        "end": {
+          "line": 4,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
     "text": "int32",
     "description": "int32",
     "displayText": "int32",
@@ -38,9 +114,9 @@
     ]
   },
   {
-    "text": "int",
-    "description": "int",
-    "displayText": "int",
+    "text": "int8",
+    "description": "int8",
+    "displayText": "int8",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -60,82 +136,6 @@
     "text": "long",
     "description": "long",
     "displayText": "long",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 12
-        },
-        "end": {
-          "line": 4,
-          "character": 12
-        }
-      }
-    ]
-  },
-  {
-    "text": "float",
-    "description": "float",
-    "displayText": "float",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 12
-        },
-        "end": {
-          "line": 4,
-          "character": 12
-        }
-      }
-    ]
-  },
-  {
-    "text": "double",
-    "description": "double",
-    "displayText": "double",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 12
-        },
-        "end": {
-          "line": 4,
-          "character": 12
-        }
-      }
-    ]
-  },
-  {
-    "text": "int16",
-    "description": "int16",
-    "displayText": "int16",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 12
-        },
-        "end": {
-          "line": 4,
-          "character": 12
-        }
-      }
-    ]
-  },
-  {
-    "text": "int8",
-    "description": "int8",
-    "displayText": "int8",
     "prefix": "",
     "category": "unknown",
     "range": [
