@@ -43,14 +43,18 @@ object AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   def getSuggestion(params: AMLCompletionParams, style: Option[StrField]): Seq[RawSuggestion] =
     if (params.yPartBranch.isValue)
       style match {
-        case Some(s) if s.is(ReferenceStyles.JSONSCHEMA) || params.yPartBranch.hasIncludeTag => Seq()
-        case _                                                                               => includeSuggestion
+        case Some(s)
+            if s.is(ReferenceStyles.JSONSCHEMA) ||
+              params.yPartBranch.hasIncludeTag =>
+          Seq()
+        case _ => includeSuggestion
       } else
       style match {
         case Some(s)
             if s.is(ReferenceStyles.RAML) ||
               params.yPartBranch.brothers.nonEmpty ||
-              params.yPartBranch.isInArray || !isDeclarable(params.amfObject, params.dialect) =>
+              params.yPartBranch.isInArray ||
+              !isDeclarable(params.amfObject, params.dialect) =>
           Seq()
         case _ => refSuggestion
       }
