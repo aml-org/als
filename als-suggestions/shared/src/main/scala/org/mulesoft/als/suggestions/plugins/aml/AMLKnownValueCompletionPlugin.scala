@@ -20,11 +20,8 @@ class AMLKnownValueCompletions(params: AmlCompletionRequest, indentation: String
 
   def resolve(): Future[Seq[RawSuggestion]] =
     Future.successful({
-      val whitespaces =
-        s"\n$indentation"
       getSuggestions.map(s =>
-        // TODO: isKey is not consistent due to ContentPatch: review if field is Scalar?
-        RawSuggestion(s.text, s.text, s.description.getOrElse(s.text), Seq(), params.yPartBranch.isKey, whitespaces))
+        RawSuggestion(s.text, s.text, s.description.getOrElse(s.text), Seq(), params.yPartBranch.isKey, indentation))
     })
 }
 
@@ -32,7 +29,7 @@ object AMLKnownValueCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLKnownValueCompletionPlugin"
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    new AMLKnownValueCompletions(params, getIndentation(params.baseUnit, params.position))
+    new AMLKnownValueCompletions(params, params.indentation)
       .resolve()
   }
 }

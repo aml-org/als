@@ -22,7 +22,7 @@ object RamlBaseUriParameterFacets extends AMLCompletionPlugin {
             .flatMap(_.variables.find(_.position().exists(l => l.contains(request.position))))
             .headOption match {
             case Some(p) if !isWrittingParamName(request.yPartBranch) =>
-              RamlParamsCompletionPlugin.computeParam(p, Nil, getIndentation(request.baseUnit, request.position))
+              RamlParamsCompletionPlugin.computeParam(p, Nil, request.indentation)
             case _ => Nil
           }
         case _ => Nil
