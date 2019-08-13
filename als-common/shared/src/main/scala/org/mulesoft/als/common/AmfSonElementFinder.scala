@@ -77,7 +77,7 @@ object AmfSonElementFinder {
             filterFns.forall(fn => fn(f)) && posFilter(f)
           }) match {
           case Nil  => None
-          case list => list.lastOption
+          case list => findMinor(list.toSeq)
 //          case head :: tail => findMinor(tail).orElse(Some(head))
         }
 
@@ -110,12 +110,38 @@ object AmfSonElementFinder {
   }
 
   implicit class AlsAmfArray(array: AmfArray) {
-    def findSon(amfPosition: Position, filterFns: Seq[FieldEntry => Boolean]): Option[AmfElement] =
-      array.values.find(v =>
+    private def minor(left: AmfElement, right: AmfElement) = {
+      right
+        .position() match {
+        case Some(LexicalInformation(rightRange)) =>
+          left.position() match {
+            case Some(LexicalInformation(leftRange)) =>
+              if (leftRange.contains(rightRange)) right
+              else left
+            case _ => right
+          }
+        case None => left
+      }
+    }
+
+    private def findMinor(elements: List[AmfElement]): Option[AmfElement] = {
+      elements match {
+        case Nil         => None
+        case head :: Nil => Some(head)
+        case list =>
+          val m = minor(list.head, list.tail.head)
+          findMinor(m +: list.tail.tail)
+      }
+    }
+
+    def findSon(amfPosition: Position, filterFns: Seq[FieldEntry => Boolean]): Option[AmfElement] = {
+      val sons: Seq[AmfElement] = array.values.filter(v =>
         v.position() match {
           case Some(p) => p.contains(amfPosition)
           case _       => false
       })
+      findMinor(sons.toList)
+    }
   }
 
   implicit class AlsAmfElement(element: AmfElement) {
