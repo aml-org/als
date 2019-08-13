@@ -109,13 +109,18 @@ object Suggestions extends SuggestionsHelper {
   }
 
   private def isHeader(position: Int, url: String, originalContent: String): Boolean =
-    !originalContent.substring(0, position).replaceAll("^\\{?\\s+", "").contains('\n')
+    !url.toLowerCase().endsWith(".raml") &&
+      !originalContent
+        .substring(0, position)
+        .replaceAll("^\\{?\\s+", "")
+        .contains('\n')
 
   private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
     case d: DialectInstanceUnit              => WebApiDialectsRegistry.dialectFor(bu)
-    case d if d.sourceVendor.contains(Oas20)  => Some(OAS20Dialect.dialect)
-    case d if d.sourceVendor.contains(Raml10) => Some(Raml10TypesDialect.dialect)
-    case _                                    => None
+    case d if d.sourceVendor.contains(Oas20) => Some(OAS20Dialect.dialect)
+    case d if d.sourceVendor.contains(Raml10) =>
+      Some(Raml10TypesDialect.dialect)
+    case _ => None
   }
 
   private def suggestWithPatchedEnvironment(language: String,

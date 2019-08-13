@@ -1,6 +1,6 @@
 [
   {
-    "text": "application/json:          ",
+    "text": "application/json:\n          ",
     "description": "application/json",
     "displayText": "application/json",
     "prefix": "",
@@ -19,7 +19,7 @@
     ]
   },
   {
-    "text": "application/vnd.github+json:          ",
+    "text": "application/vnd.github+json:\n          ",
     "description": "application/vnd.github+json",
     "displayText": "application/vnd.github+json",
     "prefix": "",
@@ -38,7 +38,7 @@
     ]
   },
   {
-    "text": "application/vnd.github.v3+json:          ",
+    "text": "application/vnd.github.v3+json:\n          ",
     "description": "application/vnd.github.v3+json",
     "displayText": "application/vnd.github.v3+json",
     "prefix": "",
@@ -57,7 +57,7 @@
     ]
   },
   {
-    "text": "application/vnd.github.v3.full+json:          ",
+    "text": "application/vnd.github.v3.full+json:\n          ",
     "description": "application/vnd.github.v3.full+json",
     "displayText": "application/vnd.github.v3.full+json",
     "prefix": "",
@@ -76,7 +76,7 @@
     ]
   },
   {
-    "text": "application/vnd.github.v3.html+json:          ",
+    "text": "application/vnd.github.v3.html+json:\n          ",
     "description": "application/vnd.github.v3.html+json",
     "displayText": "application/vnd.github.v3.html+json",
     "prefix": "",
@@ -95,7 +95,7 @@
     ]
   },
   {
-    "text": "application/vnd.github.v3.patch:          ",
+    "text": "application/vnd.github.v3.patch:\n          ",
     "description": "application/vnd.github.v3.patch",
     "displayText": "application/vnd.github.v3.patch",
     "prefix": "",
@@ -114,7 +114,7 @@
     ]
   },
   {
-    "text": "application/vnd.github.v3.raw+json:          ",
+    "text": "application/vnd.github.v3.raw+json:\n          ",
     "description": "application/vnd.github.v3.raw+json",
     "displayText": "application/vnd.github.v3.raw+json",
     "prefix": "",
@@ -133,7 +133,7 @@
     ]
   },
   {
-    "text": "application/vnd.github.v3.text+json:          ",
+    "text": "application/vnd.github.v3.text+json:\n          ",
     "description": "application/vnd.github.v3.text+json",
     "displayText": "application/vnd.github.v3.text+json",
     "prefix": "",
@@ -152,7 +152,7 @@
     ]
   },
   {
-    "text": "appxlication/vnd.github.v3.diff:          ",
+    "text": "appxlication/vnd.github.v3.diff:\n          ",
     "description": "appxlication/vnd.github.v3.diff",
     "displayText": "appxlication/vnd.github.v3.diff",
     "prefix": "",
@@ -304,7 +304,7 @@
     ]
   },
   {
-    "text": "text/plain; charset=utf-8:          ",
+    "text": "text/plain; charset=utf-8:\n          ",
     "description": "text/plain; charset=utf-8",
     "displayText": "text/plain; charset=utf-8",
     "prefix": "",
