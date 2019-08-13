@@ -20,7 +20,7 @@ object RamlParamsCompletionPlugin extends AMLCompletionPlugin {
     if (params.yPartBranch.isKey) {
       params.amfObject match {
         case param: Parameter if isNotName(params) =>
-          computeParam(param, params.branchStack, getIndentation(params.baseUnit, params.position))
+          computeParam(param, params.branchStack, params.indentation)
         case shape: Shape if params.branchStack.headOption.exists(_.isInstanceOf[Parameter]) =>
           Seq(RawSuggestion.forKey("required"))
         case _ => Nil

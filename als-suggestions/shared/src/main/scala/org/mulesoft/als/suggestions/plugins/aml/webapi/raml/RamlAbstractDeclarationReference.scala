@@ -27,10 +27,15 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
 
         val brothers = getBrothers(params)
 
-        new AMLDeclarationsReferencesCompletionPlugin(Seq(iriDeclaration),
-                                                      stringValue(params.yPartBranch),
-                                                      params.declarationProvider,
-                                                      None).resolve().filter(r => !brothers.contains(r.newText))
+        val suggestions =
+          new AMLDeclarationsReferencesCompletionPlugin(Seq(iriDeclaration),
+                                                        stringValue(params.yPartBranch),
+                                                        params.declarationProvider,
+                                                        None).resolve().filter(r => !brothers.contains(r.newText))
+
+        if (params.yPartBranch.isKey)
+          suggestions.map(s => s.copy(isKey = true, whiteSpacesEnding = params.indentation))
+        else suggestions
       } else Nil)
 
   }

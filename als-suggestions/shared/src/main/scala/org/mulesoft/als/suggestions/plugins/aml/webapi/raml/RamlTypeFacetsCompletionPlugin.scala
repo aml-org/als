@@ -19,12 +19,12 @@ object RamlTypeFacetsCompletionPlugin extends AMLCompletionPlugin {
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(params.amfObject match {
       case shape: Shape if params.yPartBranch.isKey && !params.fieldEntry.exists(f => f.field == ShapeModel.Name) =>
-        resolveShape(shape, params.branchStack, getIndentation(params.baseUnit, params.position))
+        resolveShape(shape, params.branchStack, params.indentation)
       case _ => Nil
     })
   }
 
-  def resolveShape(shape: Shape, branchStack: Seq[AmfObject], identation: String): Seq[RawSuggestion] = {
+  def resolveShape(shape: Shape, branchStack: Seq[AmfObject], indentation: String): Seq[RawSuggestion] = {
 
     val node = shape match {
       case scalar: ScalarShape =>
@@ -41,12 +41,12 @@ object RamlTypeFacetsCompletionPlugin extends AMLCompletionPlugin {
           .find(_.nodetypeMapping.option().contains(shape.meta.`type`.head.iri()))
     }
 
-    val classSuggestions = node.map(n => n.propertiesRaw(identation)).getOrElse(Nil)
+    val classSuggestions = node.map(n => n.propertiesRaw(indentation)).getOrElse(Nil)
 
     // corner case, property shape should suggest facets of the range PLUS required
     val finalSuggestions: Iterable[RawSuggestion] with (RawSuggestion with Int => Any) = branchStack.headOption match {
       case Some(_: PropertyShape) =>
-        (Raml10TypesDialect.PropertyShapeNode.propertiesRaw(identation) ++ classSuggestions).toSet
+        (Raml10TypesDialect.PropertyShapeNode.propertiesRaw(indentation) ++ classSuggestions).toSet
       case _ => classSuggestions
     }
 
