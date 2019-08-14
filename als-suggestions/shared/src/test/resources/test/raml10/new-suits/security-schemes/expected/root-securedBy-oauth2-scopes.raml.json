@@ -1,37 +1,37 @@
 [
   {
-    "text": "SCO1:\n                  ",
+    "text": "SCO1",
     "description": "SCO1",
     "displayText": "SCO1",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
-        "start":{
-          "line": 9,
+        "start": {
+          "line": 10,
           "character": 16
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 16
         }
       }
     ]
   },
   {
-    "text": "SCO2\n                  ",
+    "text": "SCO2",
     "description": "SCO2",
     "displayText": "SCO2",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
-        "start":{
-          "line": 9,
+        "start": {
+          "line": 10,
           "character": 16
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 16
         }
       }
