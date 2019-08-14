@@ -295,7 +295,10 @@ object Raml10TypesDialect {
           NumberShapeNode,
           FileShapeNode,
           NilShapeNode,
-          ScalarShapeNode
+          ScalarShapeNode,
+          SecuritySchemesDialect.SecurityScheme,
+          SecuritySchemesDialect.OAuth1Settings,
+          SecuritySchemesDialect.OAuth2Settings
         ))
 
     val declaredNodes = Seq(
@@ -311,7 +314,7 @@ object Raml10TypesDialect {
       PublicNodeMapping()
         .withId(DialectLocation + "#/documents/securitySchemes")
         .withName("securitySchemes")
-        .withMappedNode("SecurityScheme.node.id"), // todo
+        .withMappedNode(SecuritySchemesDialect.SecurityScheme.id), // todo
       PublicNodeMapping()
         .withId(DialectLocation + "#/documents/annotationsTypes")
         .withName("annotationsTypes")

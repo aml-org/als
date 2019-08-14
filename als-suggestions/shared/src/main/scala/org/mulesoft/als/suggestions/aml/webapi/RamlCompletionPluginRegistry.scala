@@ -24,7 +24,11 @@ object RamlCompletionPluginRegistry {
       RamlBaseUriParameterFacets :+
       RamlPayloadMediaTypeCompletionPlugin :+
       RamlNumberShapeFormatValues :+
-      Raml10HeaderCompletionPlugin
+      Raml10HeaderCompletionPlugin :+
+      SecurityScopesCompletionPlugin :+
+      SecuredByCompletionPlugin :+
+      SecuritySchemeStructureCompletionPlugin :+
+      SecuritySettingsFacetsCompletionPlugin
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, RAML10Dialect().id)

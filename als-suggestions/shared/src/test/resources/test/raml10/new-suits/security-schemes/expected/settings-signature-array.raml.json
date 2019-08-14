@@ -7,26 +7,7 @@
     "category": "unknown",
     "range": [
       {
-        "start":{
-          "line": 7,
-          "character": 10
-        },
-        "end": {
-          "line": 7,
-          "character": 10
-        }
-      }
-    ]
-  },
-  {
-    "text": "RSA-SHA1",
-    "description": "RSA-SHA1",
-    "displayText": "RSA-SHA1",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start":{
+        "start": {
           "line": 7,
           "character": 10
         },
@@ -45,7 +26,26 @@
     "category": "unknown",
     "range": [
       {
-        "start":{
+        "start": {
+          "line": 7,
+          "character": 10
+        },
+        "end": {
+          "line": 7,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "RSA-SHA1",
+    "description": "RSA-SHA1",
+    "displayText": "RSA-SHA1",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
           "line": 7,
           "character": 10
         },
