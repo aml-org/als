@@ -1,24 +1,5 @@
 [
   {
-    "text": "requestTokenUri: ",
-    "description": "requestTokenUri",
-    "displayText": "requestTokenUri",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 6,
-          "character": 6
-        },
-        "end": {
-          "line": 6,
-          "character": 6
-        }
-      }
-    ]
-  },
-  {
     "text": "authorizationUri: ",
     "description": "authorizationUri",
     "displayText": "authorizationUri",
@@ -38,9 +19,9 @@
     ]
   },
   {
-    "text": "tokenCredentialsUri: ",
-    "description": "tokenCredentialsUri",
-    "displayText": "tokenCredentialsUri",
+    "text": "requestTokenUri: ",
+    "description": "requestTokenUri",
+    "displayText": "requestTokenUri",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -57,9 +38,28 @@
     ]
   },
   {
-    "text": "signatures:\n      ",
+    "text": "signatures: ",
     "description": "signatures",
     "displayText": "signatures",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "tokenCredentialsUri: ",
+    "description": "tokenCredentialsUri",
+    "displayText": "tokenCredentialsUri",
     "prefix": "",
     "category": "unknown",
     "range": [

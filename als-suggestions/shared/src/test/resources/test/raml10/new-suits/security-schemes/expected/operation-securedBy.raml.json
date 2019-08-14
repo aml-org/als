@@ -8,12 +8,12 @@
     "range": [
       {
         "start": {
-          "line": 4,
-          "character": 4
+          "line": 8,
+          "character": 15
         },
         "end": {
-          "line": 4,
-          "character": 4
+          "line": 8,
+          "character": 15
         }
       }
     ]

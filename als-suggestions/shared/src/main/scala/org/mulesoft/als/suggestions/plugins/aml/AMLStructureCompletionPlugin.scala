@@ -11,7 +11,7 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class AMLStructureCompletionsPlugin(params: AmlCompletionRequest, indentation: String) {
+class AMLStructureCompletionsPlugin(propertyMapping: Seq[PropertyMapping], indentation: String) {
 
   private def extractText(mapping: PropertyMapping): (String, String) = {
     val cleanText = mapping.name().value()
@@ -28,7 +28,7 @@ class AMLStructureCompletionsPlugin(params: AmlCompletionRequest, indentation: S
     else false
   }
 
-  private def getSuggestions: Seq[(String, String)] = params.propertyMapping.map(extractText)
+  private def getSuggestions: Seq[(String, String)] = propertyMapping.map(extractText)
 
   def resolve(): Seq[RawSuggestion] =
     getSuggestions
@@ -51,7 +51,7 @@ object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
       if (params.yPartBranch.isKey && !isInFieldValue(params)) {
         val isEncoded = isEncodes(params.amfObject, params.actualDialect)
         if ((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded)
-          new AMLStructureCompletionsPlugin(params, params.indentation).resolve()
+          new AMLStructureCompletionsPlugin(params.propertyMapping, params.indentation).resolve()
         else Seq()
       } else Seq()
     }

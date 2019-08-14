@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.model.domain.Shape
+import amf.plugins.domain.webapi.models.security.SecurityScheme
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -14,8 +15,8 @@ object RamlStructureCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     request.amfObject match {
-      case s: Shape => Future { Nil }
-      case _        => AMLStructureCompletionPlugin.resolve(request)
+      case _: Shape | _: SecurityScheme => Future { Nil }
+      case _                            => AMLStructureCompletionPlugin.resolve(request)
     }
   }
 }
