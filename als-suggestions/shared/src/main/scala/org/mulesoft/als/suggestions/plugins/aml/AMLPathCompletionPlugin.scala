@@ -28,7 +28,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
 
   // exclude file name
   def extractPath(parts: String): String =
-    if (parts.indexOf('/') > 0)
+    if (parts.lastIndexOf('/') >= 0)
       parts.substring(0, parts.lastIndexOf('/') + 1)
     else ""
 
@@ -67,7 +67,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
       files.map(
         file =>
           directoryResolver
-            .isDirectory(s"${FileUtils.getPath(fullUri, platform)}$file")
+            .isDirectory(FileUtils.getEncodedUri(s"${FileUtils.getPath(fullUri, platform)}$file", platform))
             .map(isDir => (file, isDir)))
     }
 
