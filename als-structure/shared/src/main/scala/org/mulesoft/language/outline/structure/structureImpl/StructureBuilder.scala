@@ -11,12 +11,9 @@ import amf.plugins.domain.webapi.metamodel.templates.ResourceTypeModel
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.high.level.interfaces.IParseResult
-import org.mulesoft.language.outline.common.commonInterfaces.{CategoryFilter, LabelProvider, VisibilityFilter}
-import org.mulesoft.language.outline.structure.structureDefault.NonEmptyNameVisibilityFilter
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.AmlBuilderFactory
 import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{OasBuilderFactory, RamlBuilderFactory}
-import org.mulesoft.language.outline.structure.structureInterfaces.StructureConfiguration
 
 class StructureBuilder(unit: BaseUnit) {
 
