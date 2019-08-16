@@ -1,0 +1,97 @@
+[
+  {
+    "text": "byte",
+    "description": "",
+    "displayText": "byte",
+    "prefix": "",
+    "category": "",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 12
+        },
+        "end": {
+          "line": 4,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "binary",
+    "description": "",
+    "displayText": "binary",
+    "prefix": "",
+    "category": "",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 12
+        },
+        "end": {
+          "line": 4,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "date",
+    "description": "",
+    "displayText": "date",
+    "prefix": "",
+    "category": "",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 12
+        },
+        "end": {
+          "line": 4,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "date-time",
+    "description": "",
+    "displayText": "date-time",
+    "prefix": "",
+    "category": "",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 12
+        },
+        "end": {
+          "line": 4,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "password",
+    "description": "",
+    "displayText": "password",
+    "prefix": "",
+    "category": "",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 12
+        },
+        "end": {
+          "line": 4,
+          "character": 12
+        }
+      }
+    ]
+  }
+]

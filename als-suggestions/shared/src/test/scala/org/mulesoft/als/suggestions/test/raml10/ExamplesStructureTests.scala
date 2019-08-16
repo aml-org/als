@@ -4,7 +4,7 @@ class ExamplesStructureTests extends RAML10Test {
 
 
   test("Simple example filtered 01") {
-    this.runTest(
+    this.runSuggestionTest(
       "structure/examples/example-filtered-01.raml",
       Set(
         "value: ",
@@ -16,7 +16,7 @@ class ExamplesStructureTests extends RAML10Test {
   }
 
   test("Simple example filtered 02") {
-    this.runTest(
+    this.runSuggestionTest(
       "structure/examples/example-filtered-02.raml",
       Set(
         "value: "
@@ -25,7 +25,7 @@ class ExamplesStructureTests extends RAML10Test {
   }
 
   test("Simple example") {
-    this.runTest(
+    this.runSuggestionTest(
       "structure/examples/example-simple.raml",
       Set(
         "value: ",
@@ -38,7 +38,7 @@ class ExamplesStructureTests extends RAML10Test {
   }
 
   test("Named examples") {
-    this.runTest(
+    this.runSuggestionTest(
       "structure/examples/examples-named.raml",
       Set(
         "value: ",
@@ -51,7 +51,7 @@ class ExamplesStructureTests extends RAML10Test {
   }
 
   test("Named examples filtered") {
-    this.runTest(
+    this.runSuggestionTest(
       "structure/examples/examples-named-filtered.raml",
       Set(
         "value: ",
@@ -63,14 +63,14 @@ class ExamplesStructureTests extends RAML10Test {
   }
 
   test("Not Named example") {
-    this.runTest(
+    this.runSuggestionTest(
       "structure/examples/examples-not-named.raml",
       Set()
     )
   }
 
   ignore("NamedExample fragment") { // Change in AMF 3.2.1
-    this.runTest(
+    this.runSuggestionTest(
       "structure/examples/examples-fragment-01.raml",
       Set(
         "value: ",
@@ -83,21 +83,21 @@ class ExamplesStructureTests extends RAML10Test {
   }
 
   test("NamedExample fragment without name") {
-    this.runTest(
+    this.runSuggestionTest(
       "structure/examples/examples-fragment-not-named-01.raml",
       Set()
     )
   }
 
   test("NamedExample under value key") {
-    this.runTest(
+    this.runSuggestionTest(
       "structure/examples/value-example.raml",
       Set()
     )
   }
 
   test("NamedExample under value name") {
-    this.runTest(
+    this.runSuggestionTest(
       "structure/examples/examples-naming.raml",
       Set()
     )

@@ -1,0 +1,97 @@
+[
+  {
+    "text": "description: ",
+    "description": "",
+    "displayText": "description",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"$ref\": ",
+    "description": "",
+    "displayText": "$ref",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "schema:\n      ",
+    "description": "",
+    "displayText": "schema",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "examples:\n      ",
+    "description": "",
+    "displayText": "examples",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "headers:\n      ",
+    "description": "",
+    "displayText": "headers",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  }
+]

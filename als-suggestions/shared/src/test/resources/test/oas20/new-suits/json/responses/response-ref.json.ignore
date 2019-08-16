@@ -1,0 +1,17 @@
+{
+  "swagger": "2.0",
+  "responses": {
+    "Found": {
+      "description": "founded object"
+    }
+  },
+  "paths": {
+    "/path": {
+      "get": {
+        "200": {
+          "$ref": "*"
+        }
+      }
+    }
+  }
+}

@@ -4,23 +4,42 @@ import java.util
 import java.util.concurrent.CompletableFuture
 
 import org.eclipse.lsp4j.jsonrpc.messages
-import org.eclipse.lsp4j.{CodeAction, CodeActionParams, Command, CompletionItem, CompletionList, CompletionParams, DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams, DocumentSymbol, DocumentSymbolParams, Location, ReferenceParams, RenameParams, SymbolInformation, TextDocumentPositionParams, WorkspaceEdit}
+import org.eclipse.lsp4j.{
+  CodeAction,
+  CodeActionParams,
+  Command,
+  CompletionItem,
+  CompletionList,
+  CompletionParams,
+  DidChangeTextDocumentParams,
+  DidCloseTextDocumentParams,
+  DidOpenTextDocumentParams,
+  DidSaveTextDocumentParams,
+  DocumentSymbol,
+  DocumentSymbolParams,
+  Location,
+  ReferenceParams,
+  RenameParams,
+  SymbolInformation,
+  TextDocumentPositionParams,
+  WorkspaceEdit
+}
 import org.mulesoft.als.server.custom.CustomTextDocumentService
 import org.mulesoft.als.server.lsp4j.Lsp4JConversions._
 import org.mulesoft.als.server.lsp4j.LspConversions._
 import org.mulesoft.lsp.feature.codeactions.CodeActionRequestType
+import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.lsp.feature.completion.CompletionRequestType
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
 import org.mulesoft.lsp.feature.reference.ReferenceRequestType
 import org.mulesoft.lsp.feature.rename.RenameRequestType
-import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
-import org.mulesoft.lsp.server
+import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync.DidFocusParams
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class TextDocumentServiceImpl(private val inner: server.LanguageServer) extends CustomTextDocumentService {
+class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomTextDocumentService {
 
   private val textDocumentSyncConsumer = inner.textDocumentSyncConsumer
 
@@ -60,6 +79,7 @@ class TextDocumentServiceImpl(private val inner: server.LanguageServer) extends 
       params: DocumentSymbolParams): CompletableFuture[util.List[messages.Either[SymbolInformation, DocumentSymbol]]] =
     javaFuture(resolveHandler(DocumentSymbolRequestType)(params), lsp4JDocumentSymbolsResult)
 
-  override def codeAction(params: CodeActionParams): CompletableFuture[util.List[messages.Either[Command, CodeAction]]] =
+  override def codeAction(
+      params: CodeActionParams): CompletableFuture[util.List[messages.Either[Command, CodeAction]]] =
     javaFuture(resolveHandler(CodeActionRequestType)(params), lsp4JCodeActionResult)
 }

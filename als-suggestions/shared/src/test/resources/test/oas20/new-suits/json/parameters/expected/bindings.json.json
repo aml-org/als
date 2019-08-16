@@ -1,0 +1,97 @@
+[
+  {
+    "text": "query",
+    "description": "",
+    "displayText": "query",
+    "prefix": "",
+    "category": "query",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 8
+        },
+        "end": {
+          "line": 3,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "body",
+    "description": "",
+    "displayText": "body",
+    "prefix": "",
+    "category": "body",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 8
+        },
+        "end": {
+          "line": 3,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "header",
+    "description": "",
+    "displayText": "header",
+    "prefix": "",
+    "category": "header",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 8
+        },
+        "end": {
+          "line": 3,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "path",
+    "description": "",
+    "displayText": "path",
+    "prefix": "",
+    "category": "path",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 8
+        },
+        "end": {
+          "line": 3,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "formData",
+    "description": "",
+    "displayText": "formData",
+    "prefix": "",
+    "category": "formData",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 8
+        },
+        "end": {
+          "line": 3,
+          "character": 8
+        }
+      }
+    ]
+  }
+]

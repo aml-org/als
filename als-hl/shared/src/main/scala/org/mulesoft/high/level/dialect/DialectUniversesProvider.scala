@@ -49,12 +49,15 @@ object DialectUniversesProvider {
         override def fetch(resource: String): Future[Content] =
           Future(
             initOptions.customDialects
-              .find(_.url == resource)
-              .map(c => Content(new CharSequenceStream(c.content), c.url, None))
-              .get)
+              .find(cd => cd.url == resource || cd.customVocabulary.exists(_.url == resource)) match {
+              case Some(cd) if cd.url == resource => Content(new CharSequenceStream(cd.content), cd.url, None)
+              case Some(cd) =>
+                Content(new CharSequenceStream(cd.customVocabulary.get.content), cd.customVocabulary.get.url, None)
+            })
 
         override def accepts(resource: String): Boolean =
-          initOptions.customDialects.exists(_.url == resource)
+          initOptions.customDialects.exists(_.url == resource) || initOptions.customDialects.exists(
+            _.customVocabulary.exists(_.url == resource))
       }
       val newEnv = LoaderForDialects.env.add(rl)
 

@@ -6,11 +6,11 @@ import amf.core.model.document.BaseUnit
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
+import common.diff.FileAssertionTest
 import org.mulesoft.high.level.Core
 import org.mulesoft.high.level.amfmanager.ParserHelper
 import org.mulesoft.high.level.interfaces.{IParseResult, IProject}
 import org.mulesoft.language.outline.structure.structureImpl.{ConfigFactory, DocumentSymbol, StructureBuilder}
-import org.mulesoft.language.outline.test.amfmigrated.common.FileAssertionTest
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}

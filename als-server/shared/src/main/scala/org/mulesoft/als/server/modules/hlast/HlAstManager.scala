@@ -2,12 +2,12 @@ package org.mulesoft.als.server.modules.hlast
 
 import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
-import org.mulesoft.als.server.Initializable
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.high.level.{Core, CustomDialects, InitOptions}
+import org.mulesoft.lsp.Initializable
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
@@ -15,7 +15,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class HlAstManager(private val textDocumentManager: TextDocumentManager,
-                   private val astManager: AstManager,
+                   val astManager: AstManager,
                    private val platform: Platform,
                    private val logger: Logger,
                    private val dialects: Seq[CustomDialects] = Seq())
@@ -31,10 +31,6 @@ class HlAstManager(private val textDocumentManager: TextDocumentManager,
     Core
       .init(InitOptions.AllProfiles.withCustomDialects(dialects))
       .map(_ => initialized = true)
-//      .map(_ => astManager.onNewASTAvailable(this.newASTAvailable))
-
-//  def onNewASTAvailable(listener: HlAstListener, unsubscribe: Boolean = false): Unit =
-//    addListener(this.astListeners, listener, unsubscribe)
 
   def newASTAvailable(uri: String, version: Int, ast: BaseUnit): Unit = {
 
@@ -87,6 +83,19 @@ class HlAstManager(private val textDocumentManager: TextDocumentManager,
       .flatMap(hlFromAST) recoverWith {
       case error =>
         logger.debugDetail(s"Failed to build AST for uri $uri", "HlAstManager", "forceBuildNewAST")
+        Future.failed(error)
+    }
+  }
+
+  /**
+    * Builds new AST for content
+    */
+  def forceBuildNewAST(bu: BaseUnit): Future[IProject] = {
+    logger.debug(s"Calling forceBuildNewAST for BaseUnit ${bu.id}", "HlAstManager", "forceBuildNewAST")
+
+    hlFromAST(bu) recoverWith {
+      case error =>
+        logger.debugDetail(s"Failed to build AST for BaseUnit ${bu.id}", "HlAstManager", "forceBuildNewAST")
         Future.failed(error)
     }
   }

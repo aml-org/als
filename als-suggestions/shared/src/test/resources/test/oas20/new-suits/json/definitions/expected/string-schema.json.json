@@ -1,0 +1,192 @@
+[
+  {
+    "text": "enum",
+    "description": "",
+    "displayText": "enum",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "xml",
+    "description": "",
+    "displayText": "xml",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "default",
+    "description": "",
+    "displayText": "default",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "pattern",
+    "description": "",
+    "displayText": "pattern",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "description",
+    "description": "",
+    "displayText": "description",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "maxLength",
+    "description": "",
+    "displayText": "maxLength",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "title",
+    "description": "",
+    "displayText": "title",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "minLength",
+    "description": "",
+    "displayText": "minLength",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "format",
+    "description": "",
+    "displayText": "format",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "example",
+    "description": "",
+    "displayText": "example",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  }
+]

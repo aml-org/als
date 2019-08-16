@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions.interfaces
 
 import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.lsp.feature.completion.InsertTextFormat
 
 trait Suggestion {
   def text: String
@@ -16,4 +17,6 @@ trait Suggestion {
   def trailingWhitespace: String
 
   def range: Option[PositionRange]
+
+  def insertTextFormat: InsertTextFormat.Value = InsertTextFormat.PlainText
 }

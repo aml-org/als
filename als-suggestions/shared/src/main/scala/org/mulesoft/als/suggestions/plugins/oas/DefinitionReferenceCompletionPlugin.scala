@@ -137,10 +137,11 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
     checkPropertyDetectedCase(request) match {
       case Some(x) => Some(x)
       case None =>
-        checkPropertyNotDetectedCase(request) match {
-          case Some(x) => Some(x)
-          case None    => None
-        }
+        if (request.actualYamlLocation.flatMap(_.mapEntry).exists(_.yPart.key.asScalar.exists(_.text == "$ref")))
+          checkPropertyNotDetectedCase(request) match {
+            case Some(x) => Some(x)
+            case None    => None
+          } else None
     }
 
   private def checkPropertyNotDetectedCase(request: ICompletionRequest): Option[RefCompletionCase] = {
@@ -172,7 +173,7 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
             .flatMap(p =>
               actualLocation.keyValue.flatMap(keyValue =>
                 keyValue.yPart match {
-                  case scalar: YScalar =>
+                  case scalar: YScalar if scalar.text == "$ref" =>
                     val key = scalar.value
                     if (p.nameId.contains(key))
                       selectPreciseCompletionStyle(request, position, actualLocation, pm, node.astUnit, isJSON)
@@ -249,32 +250,39 @@ class DefinitionReferenceCompletionPlugin extends ICompletionPlugin {
     else if (request.yamlLocation.get.value.get.yPart != request.actualYamlLocation.get.value.get.yPart)
       None
     else {
-      val node: IParseResult = request.astNode.get
-      val position: Int      = request.position
-      val actualLocation     = request.actualYamlLocation.get
-      val pm                 = node.astUnit.positionsMapper
-
-      node.property match {
-        case Some(nodeProp) =>
-          acceptedProperties.get.find(x => x.nameId.isDefined && x.nameId == nodeProp.nameId) match {
-            case Some(p) =>
-              if (actualLocation.inKey(position))
-                None
-              else if (actualLocation.keyValue.isDefined)
-                selectPreciseCompletionStyle(request, position, actualLocation, pm, node.astUnit, isJSON)
-              else
-                None
-            case None =>
-              if (nodeProp.nameId.contains("$ref"))
-                if (node.parent.map(_.definition).exists(_.isAssignableFrom("SchemaObject")))
-                  Some(REF_PROPERTY_VALUE())
-                else
-                  None
-              else
-                None
-          }
-        case None => None
+      request.actualYamlLocation.flatMap(_.mapEntry) match {
+        case Some(entry) if entry.yPart.key.asScalar.exists(_.text == "$ref") => computeRef(request, isJSON)
+        case _                                                                => None
       }
+    }
+  }
+
+  private def computeRef(request: ICompletionRequest, isJSON: Boolean): Option[RefCompletionCase] = {
+    val node: IParseResult = request.astNode.get
+    val position: Int      = request.position
+    val actualLocation     = request.actualYamlLocation.get
+    val pm                 = node.astUnit.positionsMapper
+
+    node.property match {
+      case Some(nodeProp) =>
+        acceptedProperties.get.find(x => x.nameId.isDefined && x.nameId == nodeProp.nameId) match {
+          case Some(p) =>
+            if (actualLocation.inKey(position))
+              None
+            else if (actualLocation.keyValue.isDefined)
+              selectPreciseCompletionStyle(request, position, actualLocation, pm, node.astUnit, isJSON)
+            else
+              None
+          case None =>
+            if (nodeProp.nameId.contains("$ref"))
+              if (node.parent.map(_.definition).exists(_.isAssignableFrom("SchemaObject")))
+                Some(REF_PROPERTY_VALUE())
+              else
+                None
+            else
+              None
+        }
+      case None => None
     }
   }
 

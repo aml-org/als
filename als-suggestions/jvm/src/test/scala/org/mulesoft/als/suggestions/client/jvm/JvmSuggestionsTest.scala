@@ -15,13 +15,12 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
   override implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
   // TODO: AMF is having trouble with "file:/" prefix (it transforms it in "file:///")
-//  val url = "file:/Users/mdeachaval/runtime-studio.product/apiwithdependencies/capurro/apiwithdependencies.raml"
   val url = "file:///absolute/path/api.raml"
 
   val textInput: String =
     """#%RAML 1.0
       |title: ApiWithDependencies10
-      |""".stripMargin
+      |""".stripMargin.replaceAllLiterally("\r\n", "\n")
 
   val fileLoader: ResourceLoader = new ResourceLoader {
     override def accepts(resource: String): Boolean = resource == url

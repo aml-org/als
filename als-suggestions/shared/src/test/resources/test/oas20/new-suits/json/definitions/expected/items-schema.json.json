@@ -1,0 +1,249 @@
+[
+  {
+    "text": "enum",
+    "description": "",
+    "displayText": "enum",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 9
+        },
+        "end": {
+          "line": 6,
+          "character": 9
+        }
+      }
+    ]
+  },
+  {
+    "text": "type",
+    "description": "",
+    "displayText": "type",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 9
+        },
+        "end": {
+          "line": 6,
+          "character": 9
+        }
+      }
+    ]
+  },
+  {
+    "text": "xml",
+    "description": "",
+    "displayText": "xml",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 9
+        },
+        "end": {
+          "line": 6,
+          "character": 9
+        }
+      }
+    ]
+  },
+  {
+    "text": "default",
+    "description": "",
+    "displayText": "default",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 9
+        },
+        "end": {
+          "line": 6,
+          "character": 9
+        }
+      }
+    ]
+  },
+  {
+    "text": "pattern",
+    "description": "",
+    "displayText": "pattern",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 9
+        },
+        "end": {
+          "line": 6,
+          "character": 9
+        }
+      }
+    ]
+  },
+  {
+    "text": "description",
+    "description": "",
+    "displayText": "description",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 9
+        },
+        "end": {
+          "line": 6,
+          "character": 9
+        }
+      }
+    ]
+  },
+  {
+    "text": "readOnly",
+    "description": "",
+    "displayText": "readOnly",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 9
+        },
+        "end": {
+          "line": 6,
+          "character": 9
+        }
+      }
+    ]
+  },
+  {
+    "text": "maxLength",
+    "description": "",
+    "displayText": "maxLength",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 9
+        },
+        "end": {
+          "line": 6,
+          "character": 9
+        }
+      }
+    ]
+  },
+  {
+    "text": "title",
+    "description": "",
+    "displayText": "title",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 9
+        },
+        "end": {
+          "line": 6,
+          "character": 9
+        }
+      }
+    ]
+  },
+  {
+    "text": "minLength",
+    "description": "",
+    "displayText": "minLength",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 9
+        },
+        "end": {
+          "line": 6,
+          "character": 9
+        }
+      }
+    ]
+  },
+  {
+    "text": "$ref",
+    "description": "",
+    "displayText": "$ref",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 9
+        },
+        "end": {
+          "line": 6,
+          "character": 9
+        }
+      }
+    ]
+  },
+  {
+    "text": "example",
+    "description": "",
+    "displayText": "example",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 9
+        },
+        "end": {
+          "line": 6,
+          "character": 9
+        }
+      }
+    ]
+  },
+  {
+    "text": "format",
+    "description": "",
+    "displayText": "format",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 9
+        },
+        "end": {
+          "line": 6,
+          "character": 9
+        }
+      }
+    ]
+  }
+]

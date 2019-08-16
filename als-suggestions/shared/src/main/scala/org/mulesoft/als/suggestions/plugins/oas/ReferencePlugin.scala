@@ -32,9 +32,13 @@ abstract class ReferencePlugin extends ICompletionPlugin {
                    .exists(_.isKey)) {
         false
       } else {
-        request.actualYamlLocation match {
-          case Some(l) => l.inKey(request.position) || request.yamlLocation.get.hasSameValue(l);
-          case _       => false;
+        request.actualYamlLocation.flatMap(_.mapEntry) match {
+          case Some(entry) if entry.yPart.key.asScalar.exists(_.text == "$ref") =>
+            request.actualYamlLocation match {
+              case Some(l) => l.inKey(request.position) || request.yamlLocation.get.hasSameValue(l);
+              case _       => false;
+            }
+          case _ => false
         }
       }
 
