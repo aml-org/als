@@ -165,6 +165,7 @@ object CompletionProviderWebApi {
     else Position(line, col)
   }
 
+  @scala.annotation.tailrec
   def getPrefixByPosition(sNode: String, position: Position): String =
     if (position.line > 0)
       getPrefixByPosition(sNode.substring(sNode.indexOf('\n')), Position(position.line - 1, position.column))

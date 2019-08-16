@@ -73,9 +73,9 @@ object Suggestions extends SuggestionsHelper {
                                      directoryResolver,
                                      platform))
       case _ if isHeader(position, url, originalContent) =>
-        Future(
-          HeaderCompletionProviderBuilder.build(url, originalContent, Position(position, originalContent))
-        )
+        if (!url.toLowerCase().endsWith(".raml"))
+          Future(HeaderCompletionProviderBuilder.build(url, originalContent, Position(position, originalContent)))
+        else Future(RamlHeaderCompletionProvider.build(url, originalContent, Position(position, originalContent)))
       case _ =>
         this
           .buildHighLevel(bu, platform)
@@ -247,10 +247,6 @@ trait SuggestionsHelper {
     new ParserConfig(
       Some(ParserConfig.PARSE),
       Some(url),
-      Some(language),
-      Some("application/yaml"),
-      None,
-      Some("AMF Graph"),
-      Some("application/ld+json")
+      Some(language)
     )
 }

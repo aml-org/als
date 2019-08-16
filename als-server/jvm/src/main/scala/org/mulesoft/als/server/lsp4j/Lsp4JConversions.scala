@@ -269,10 +269,10 @@ object Lsp4JConversions {
     result.setTextDocumentSync(
       capabilities.textDocumentSync
         .map(jEither(_, lsp4JTextDocumentSyncKind, lsp4JTextDocumentSyncOptions))
-        .map(v => {
-          println(v)
-          v
-        })
+//        .map(v => {
+//          println(v)
+//          v
+//        })
         .orNull)
     result.setCompletionProvider(
       capabilities.completionProvider

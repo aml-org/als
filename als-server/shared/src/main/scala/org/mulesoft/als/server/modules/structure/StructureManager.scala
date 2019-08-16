@@ -66,7 +66,7 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
 
     if (editor.isDefined) {
 
-      val struct = this.getStructureFromAST(ast, editor.get.language, editor.get.cursorPosition)
+      val struct = this.getStructureFromAST(ast, editor.get.cursorPosition)
 
       logger
         .debugDetail(s"Got result for url $uri of size ${struct.size}", "StructureManager", "onDocumentStructure")
@@ -101,7 +101,7 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
         .forceGetCurrentAST(url)
         .map(ast => {
           val result = StructureManager.this
-            .getStructureFromAST(ast, editor.get.language, editor.get.cursorPosition)
+            .getStructureFromAST(ast, editor.get.cursorPosition)
 
           logger
             .debugDetail(s"Got result for url $url of size ${result.size}", "StructureManager", "onDocumentStructure")
@@ -122,6 +122,6 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
     }
   }
 
-  def getStructureFromAST(ast: BaseUnit, language: String, position: Int): List[DocumentSymbol] =
+  def getStructureFromAST(ast: BaseUnit, position: Int): List[DocumentSymbol] =
     StructureBuilder.listSymbols(ast)
 }
