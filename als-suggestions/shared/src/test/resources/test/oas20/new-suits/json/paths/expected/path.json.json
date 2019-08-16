@@ -1,0 +1,154 @@
+[
+  {
+    "text": "get",
+    "description": "key of the operation",
+    "displayText": "get",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "put",
+    "description": "key of the operation",
+    "displayText": "put",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "delete",
+    "description": "key of the operation",
+    "displayText": "delete",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "post",
+    "description": "key of the operation",
+    "displayText": "post",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "options",
+    "description": "key of the operation",
+    "displayText": "options",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "head",
+    "description": "key of the operation",
+    "displayText": "head",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "patch",
+    "description": "key of the operation",
+    "displayText": "patch",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameters",
+    "description": "A list of parameters that are applicable for all the operations described under this path. These parameters can be overridden at the operation level, but cannot be removed there. The list MUST NOT include duplicated parameters. A unique parameter is defined by a combination of a name and location. The list can use the Reference Object to link to parameters that are defined at the Swagger Object's parameters. There can be one 'body' parameter at most.",
+    "displayText": "parameters",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  }
+]

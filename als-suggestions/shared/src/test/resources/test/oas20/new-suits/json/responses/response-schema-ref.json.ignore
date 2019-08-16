@@ -1,0 +1,20 @@
+{
+  "swagger": "2.0",
+  "definitions": {
+    "A": {
+      "description": "an object",
+      "type": "string"
+    }
+  },
+  "paths": {
+    "/path": {
+      "get": {
+        "200": {
+          "schema": {
+            "$ref": "*"
+          }
+        }
+      }
+    }
+  }
+}

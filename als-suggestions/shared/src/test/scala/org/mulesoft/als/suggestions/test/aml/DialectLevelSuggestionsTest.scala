@@ -4,14 +4,11 @@ import amf.client.remote.Content
 import amf.core.lexer.CharSequenceStream
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.DomainElement
-import amf.core.remote.Vendor
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance}
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping}
-import org.mulesoft.als.suggestions.CompletionProvider
+import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.test.SuggestionsTest
-import org.mulesoft.high.level.builder.UniverseProvider
-import org.mulesoft.high.level.interfaces.IHighLevelNode
 import org.scalatest.exceptions.TestFailedException
 
 import scala.concurrent.Future
@@ -30,8 +27,7 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
                                       markerOriginalContent: String)
 
   private def getPropertiesByPath(d: Dialect, nodeName: String): Seq[PropertyMapping] = {
-    val de: Option[DomainElement] = d.declares.find(de => de.id endsWith s"/${nodeName}")
-    de.get
+    val de: Option[DomainElement] = d.declares.find(de => de.id endsWith s"/$nodeName")
     de match {
       case Some(n: NodeMapping) => n.propertiesMapping()
     }
@@ -40,23 +36,20 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
   private def addPropTrailingSpaces(propertyMapping: PropertyMapping, level: Int): String = {
     if (propertyMapping.literalRange().option().isEmpty) {
       propertyMapping.name().value() + ":\n" + (" " * (level * 2))
-    } else propertyMapping.name().value() + ":"
+    } else propertyMapping.name().value() + ": "
   }
 
   protected def parse(content: Content): Future[BaseUnit] =
-    init.flatMap(_ =>
+    init().flatMap(_ =>
       this.parseAMF(content.url, this.buildEnvironment(content.url, content.stream.toString, content.mime)))
 
   private def suggestFromParsed(bu: BaseUnit,
                                 url: String,
                                 originalContent: String,
                                 position: Int): Future[Seq[String]] = {
-    this
-      .buildHighLevel(bu)
-      .map(project => {
-        this.buildCompletionProvider(project, url, position, originalContent)
-      })
-      .flatMap(_.suggest)
+    Suggestions
+      .buildProvider(bu, position, directoryResolver, platform, url, originalContent)
+      .flatMap(_.suggest())
       .map(suggestions =>
         suggestions.map(suggestion => {
           suggestion.text
@@ -67,13 +60,11 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
     bu match {
       case d: DialectInstance =>
         AMLPlugin.registry.dialectFor(d) match {
-          case Some(d: Dialect) => {
+          case Some(d: Dialect) =>
             nodeName match {
               case Some(n) => getPropertiesByPath(d, n).map(addPropTrailingSpaces(_, level)).toSet
               case None    => getRootProperties(d)
             }
-
-          }
           case _ => fail(s"Cannot find dialect for ${d.definedBy().value()}")
         }
       case other => fail(s"Dialect Instance expected but ${other.meta.getClass.getName} found")
@@ -89,11 +80,10 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
       .map(e => e.propertiesMapping().map(addPropTrailingSpaces(_, 1)).toSet)
       .getOrElse(Set.empty) ++ mapping
       .declaredNodes()
-      .map(_.name().value() + ":\n" + (" " * (2))) // declared cannot be scalars??
+      .map(_.name().value() + ":\n" + (" " * 2)) // declared cannot be scalars??
   }
 
   protected def assertCases(bu: BaseUnit, cases: Seq[PositionResult], content: Content): Future[Seq[Result]] = {
-    val cp = buildCompletionProviderNoAST(content.stream.toString, content.url, 1)
 
     Future.sequence(cases.map { c =>
       suggestFromParsed(bu, content.url, c.markerOriginalContent, c.position)

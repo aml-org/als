@@ -10,7 +10,13 @@ import org.mulesoft.als.server.textsync.ChangedDocument
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.lsp.edit.WorkspaceEdit
 import org.mulesoft.lsp.feature.RequestHandler
-import org.mulesoft.lsp.feature.rename._
+import org.mulesoft.lsp.feature.rename.{
+  RenameClientCapabilities,
+  RenameConfigType,
+  RenameOptions,
+  RenameParams,
+  RenameRequestType
+}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}

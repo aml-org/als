@@ -13,7 +13,7 @@ class ResponseTests extends RAML10Test {
   }
 
   private def runOrderedTest(path: String, expected: Seq[String]): Future[Assertion] = {
-    this.suggest(path).map { actual =>
+    this.suggest(filePath(path), format, None).map { actual =>
       assert(actual.map(_.text).equals(expected))
     }
   }

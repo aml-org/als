@@ -3,15 +3,15 @@ package org.mulesoft.als.suggestions.test.raml10
 class ResourceTypeReferenceTests extends RAML10Test {
 
   test("test001") {
-    this.runTest("resourceTypeReferences/test001.raml", Set("resourceType1", "resourceType2"))
+    this.runSuggestionTest("resourceTypeReferences/test001.raml", Set("resourceType1", "resourceType2"))
   }
 
   test("test002") {
-    this.runTest("resourceTypeReferences/test002.raml", Set("resourceType1: ", "resourceType2: "))
+    this.runSuggestionTest("resourceTypeReferences/test002.raml", Set("resourceType1: ", "resourceType2: "))
   }
 
   test("test003") { // TODO: No multilines are allowed in completions. Replace for a snippet?
-    this.runTest(
+    this.runSuggestionTest(
       "resourceTypeReferences/test003.raml",
       Set(
         """
@@ -27,7 +27,7 @@ class ResourceTypeReferenceTests extends RAML10Test {
   }
 
   test("test004") { // TODO: No multilines are allowed in completions. Replace for a snippet?
-    this.runTest(
+    this.runSuggestionTest(
       "resourceTypeReferences/test004.raml",
       Set(
         """resourceType1:
@@ -41,11 +41,12 @@ class ResourceTypeReferenceTests extends RAML10Test {
   }
 
   test("test005") {
-    this.runTest("resourceTypeReferences/test005.raml",
-                 Set("{ resourceType1: {  param1 : ,  param2 : } }", "{ resourceType2: {  param1 : ,  param2 : } }"))
+    this.runSuggestionTest(
+      "resourceTypeReferences/test005.raml",
+      Set("{ resourceType1: {  param1 : ,  param2 : } }", "{ resourceType2: {  param1 : ,  param2 : } }"))
   }
 
   test("test006") {
-    this.runTest("resourceTypeReferences/test006.raml", Set("searchableColl"))
+    this.runSuggestionTest("resourceTypeReferences/test006.raml", Set("searchableColl"))
   }
 }

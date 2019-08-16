@@ -14,11 +14,11 @@ import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.features.validation.AMFValidatorPlugin
 import org.mulesoft.als.common.{EnvironmentPatcher, FileUtils}
-import org.mulesoft.als.server.Initializable
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
 import org.mulesoft.als.server.textsync.{ChangedDocument, OpenedDocument, TextDocumentManager}
 import org.mulesoft.high.level.amfmanager.ParserHelper
+import org.mulesoft.lsp.Initializable
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global

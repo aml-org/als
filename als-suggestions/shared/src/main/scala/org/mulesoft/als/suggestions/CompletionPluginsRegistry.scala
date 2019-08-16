@@ -4,22 +4,22 @@ import org.mulesoft.als.suggestions.interfaces.{ICompletionPlugin, ICompletionPl
 
 import scala.collection.mutable
 
-class CompletionPluginsRegistry private extends ICompletionPluginsRegistry{
+class CompletionPluginsRegistry private extends ICompletionPluginsRegistry {
 
-    var pluginsMap:mutable.Map[String,ICompletionPlugin] = mutable.Map()
+  var pluginsMap: mutable.Map[String, ICompletionPlugin] = mutable.Map()
 
-    override def plugins: Seq[ICompletionPlugin] = pluginsMap.values.toList
+  override def plugins: Seq[ICompletionPlugin] = pluginsMap.values.toList
 
-    override def registerPlugin(plugin: ICompletionPlugin): Unit = pluginsMap(plugin.id) = plugin
+  override def registerPlugin(plugin: ICompletionPlugin): Unit = pluginsMap(plugin.id) = plugin
 
-    override def plugin(id: String): Option[ICompletionPlugin] = pluginsMap.get(id)
+  override def plugin(id: String): Option[ICompletionPlugin] = pluginsMap.get(id)
 }
 
 object CompletionPluginsRegistry {
 
-    private var _instance = new CompletionPluginsRegistry
+  private val _instance = new CompletionPluginsRegistry
 
-    def instance:CompletionPluginsRegistry = _instance
+  def instance: CompletionPluginsRegistry = _instance
 
-    def registerPlugin(plugin:ICompletionPlugin):Unit = _instance.registerPlugin(plugin)
+  def registerPlugin(plugin: ICompletionPlugin): Unit = _instance.registerPlugin(plugin)
 }

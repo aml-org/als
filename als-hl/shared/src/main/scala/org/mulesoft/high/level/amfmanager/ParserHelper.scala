@@ -19,7 +19,7 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
 
     RuntimeCompiler(
       inputFile,
-      Option(effectiveMediaType(config.inputMediaType, config.inputFormat)),
+      None,
       config.inputFormat,
       Context(platform),
       UnspecifiedReference,

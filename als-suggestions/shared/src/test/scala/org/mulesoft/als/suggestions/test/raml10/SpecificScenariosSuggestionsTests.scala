@@ -3,26 +3,26 @@ package org.mulesoft.als.suggestions.test.raml10
 class SpecificScenariosSuggestionsTests extends RAML10Test {
 
   test("MediaType as Single") {
-    this.runTest("specific-scenarios/mediaType/mediaType01.raml",
-                 Set("application/json", "application/xml", "application/x-www-form-urlencoded"))
+    this.runSuggestionTest("specific-scenarios/mediaType/mediaType01.raml",
+                           Set("application/json", "application/xml", "application/x-www-form-urlencoded"))
   }
 
   test("MediaType as Sequence") {
-    this.runTest("specific-scenarios/mediaType/mediaType02.raml",
-                 Set("application/json", "application/x-www-form-urlencoded"))
+    this.runSuggestionTest("specific-scenarios/mediaType/mediaType02.raml",
+                           Set("application/json", "application/x-www-form-urlencoded"))
   }
 
   test("MediaType as Open Sequence") {
-    this.runTest("specific-scenarios/mediaType/mediaType03.raml",
-                 Set("application/json", "application/x-www-form-urlencoded", "application/xml"))
+    this.runSuggestionTest("specific-scenarios/mediaType/mediaType03.raml",
+                           Set("application/json", "application/x-www-form-urlencoded", "application/xml"))
   }
 
   test("MediaType Suggestions after '/' character in composed words 01") {
-    this.runTest("specific-scenarios/mediaType/mediaType04.raml", Set("json:\n              "))
+    this.runSuggestionTest("specific-scenarios/mediaType/mediaType04.raml", Set("json:\n              "))
   }
 
   test("MediaType Suggestions after '/' character in composed words 02") {
-    this.runTest(
+    this.runSuggestionTest(
       "specific-scenarios/mediaType/mediaType05.raml",
       Set(
         "application/json:\n            ",
@@ -44,35 +44,37 @@ class SpecificScenariosSuggestionsTests extends RAML10Test {
   }
 
   test("ALS-MediaType Suggestions after '/' character in composed words 03") {
-    this.runTest("specific-scenarios/mediaType/mediaType06.raml", Set("json:\n              ", "xml:\n              "))
+    this.runSuggestionTest("specific-scenarios/mediaType/mediaType06.raml",
+                           Set("json:\n              ", "xml:\n              "))
   }
 
   test("MediaType Suggestions after '/' character in composed words 04") {
-    this.runTest("specific-scenarios/mediaType/mediaType07.raml", Set())
+    this.runSuggestionTest("specific-scenarios/mediaType/mediaType07.raml", Set())
   }
 
   test("Library Types Suggestions") {
-    this.runTest("specific-scenarios/libraryTypes/api.raml", Set("Employee", "Person", "Manager"))
+    this.runSuggestionTest("specific-scenarios/libraryTypes/api.raml", Set("Employee", "Person", "Manager"))
   }
 
   test("Library Suggestions after '/'") {
-    this.runTest("specific-scenarios/librariesPaths/test01.raml", Set("library01.raml"))
+    this.runSuggestionTest("specific-scenarios/librariesPaths/test01.raml", Set("library01.raml"))
   }
 
   test("Multiple Library Suggestions 01") {
-    this.runTest("specific-scenarios/multipleLibraryTypes/test01.raml", Set("Employee", "Person", "Manager"))
+    this.runSuggestionTest("specific-scenarios/multipleLibraryTypes/test01.raml", Set("Employee", "Person", "Manager"))
   }
 
   test("Multiple Library Suggestions 02") {
-    this.runTest("specific-scenarios/multipleLibraryTypes/test02.raml", Set("Employee2", "Person2", "Manager2"))
+    this.runSuggestionTest("specific-scenarios/multipleLibraryTypes/test02.raml",
+                           Set("Employee2", "Person2", "Manager2"))
   }
 
   test("Check prefix in included directory") {
-    this.runTest("specific-scenarios/afterSlash/api.raml", Set("dataType.raml"))
+    this.runSuggestionTest("specific-scenarios/afterSlash/api.raml", Set("dataType.raml"))
   }
 
   test("Trait - Single") {
-    this.runTest(
+    this.runSuggestionTest(
       "specific-scenarios/traitCompletions/test01.raml",
       Set("\n      - trait1:\n          param1:\n          param2: ",
           "\n      - trait2:\n          param1:\n          param2: ")
@@ -80,27 +82,27 @@ class SpecificScenariosSuggestionsTests extends RAML10Test {
   }
 
   test("Trait - Sequence") {
-    this.runTest("specific-scenarios/traitCompletions/test02.raml",
-                 Set("{ trait1: {  param1 : ,  param2 : } }", "{ trait2: {  param1 : ,  param2 : } }"))
+    this.runSuggestionTest("specific-scenarios/traitCompletions/test02.raml",
+                           Set("{ trait1: {  param1 : ,  param2 : } }", "{ trait2: {  param1 : ,  param2 : } }"))
   }
 
   test("Trait - Open Sequence") {
-    this.runTest("specific-scenarios/traitCompletions/test03.raml",
-                 Set("{ trait1: {  param1 : ,  param2 : } }", "{ trait2: {  param1 : ,  param2 : } }"))
+    this.runSuggestionTest("specific-scenarios/traitCompletions/test03.raml",
+                           Set("{ trait1: {  param1 : ,  param2 : } }", "{ trait2: {  param1 : ,  param2 : } }"))
   }
 
   test("Trait - Flow Sequence") {
-    this.runTest("specific-scenarios/traitCompletions/test04.raml",
-                 Set("trait2:\n          param1:\n          param2: "))
+    this.runSuggestionTest("specific-scenarios/traitCompletions/test04.raml",
+                           Set("trait2:\n          param1:\n          param2: "))
   }
 
   test("Trait - Open Sequence with trait") {
-    this.runTest("specific-scenarios/traitCompletions/test05.raml",
-                 Set("{ trait1: {  param1 : ,  param2 : } }", "{ trait2: {  param1 : ,  param2 : } }"))
+    this.runSuggestionTest("specific-scenarios/traitCompletions/test05.raml",
+                           Set("{ trait1: {  param1 : ,  param2 : } }", "{ trait2: {  param1 : ,  param2 : } }"))
   }
 
   test("Method Body values") {
-    this.runTest("specific-scenarios/postValues/test01.raml", Set())
+    this.runSuggestionTest("specific-scenarios/postValues/test01.raml", Set())
   }
 
   test("Category matching test 01") {
@@ -116,7 +118,7 @@ class SpecificScenariosSuggestionsTests extends RAML10Test {
   }
 
   test("Trait - Type suggestion") {
-    this.runTest(
+    this.runSuggestionTest(
       "specific-scenarios/traitCompletions/test06.raml",
       Set(
         "number",

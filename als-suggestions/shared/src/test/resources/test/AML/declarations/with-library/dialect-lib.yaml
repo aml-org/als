@@ -1,0 +1,55 @@
+#%Dialect 1.0
+
+dialect: References
+version: 1.0
+
+external:
+  schema-org: http://schema.org/
+  mock: https://github.amlorg.com/mock#
+
+nodeMappings:
+
+  SomeType:
+    classTerm: mock.SomeType
+    mapping:
+      name:
+        propertyTerm: schema-org.name
+        range: string
+      range:
+        propertyTerm: mock.Range
+        range: string
+      long:
+        propertyTerm: mock.Long
+        range: integer
+  SomeScheme:
+    classTerm: mock.SomeScheme
+    mapping:
+      kind:
+        range: string
+      length:
+        range: integer
+  RootNode:
+    classTerm: mock.MeetingNode
+    mapping:
+      title:
+        propertyTerm: schema-org.name
+        range: string
+      version:
+        propertyTerm: mock.version
+        range: string
+      type:
+        propertyTerm: mock.Types
+        range: SomeType
+      scheme:
+        range: SomeScheme
+
+documents:
+  root:
+    encodes: RootNode
+    declares:
+      types: SomeType
+  library:
+    declares:
+      types: SomeType
+      schemes: SomeScheme
+

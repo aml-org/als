@@ -1,0 +1,230 @@
+[
+  {
+    "text": "enum: ",
+    "description": "",
+    "displayText": "enum",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "type: ",
+    "description": "Required. The type of the parameter. Since the parameter is not located at the request body, it is limited to simple types (that is, not an object). The value MUST be one of \"string\", \"number\", \"integer\", \"boolean\", \"array\" or \"file\". If type is \"file\", the consumes MUST be either \"multipart/form-data\" or \" application/x-www-form-urlencoded\" and the parameter MUST be in \"formData\".",
+    "displayText": "type",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "xml:\n      ",
+    "description": "",
+    "displayText": "xml",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "default: ",
+    "description": "",
+    "displayText": "default",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "pattern: ",
+    "description": "",
+    "displayText": "pattern",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "description: ",
+    "description": "",
+    "displayText": "description",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "maxLength: ",
+    "description": "",
+    "displayText": "maxLength",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "title: ",
+    "description": "",
+    "displayText": "title",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "minLength: ",
+    "description": "",
+    "displayText": "minLength",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"$ref\": ",
+    "description": "",
+    "displayText": "$ref",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "format: ",
+    "description": "",
+    "displayText": "format",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "example: ",
+    "description": "",
+    "displayText": "example",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  }
+]

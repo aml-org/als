@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.test.raml10
 class BodyTests extends RAML10Test {
 
   test("Method with no bodies") {
-    this.runTest(
+    this.runSuggestionTest(
       "body/test001.raml",
       Set(
         "application/json:\n        ",
@@ -27,13 +27,13 @@ class BodyTests extends RAML10Test {
   }
 
   test("Method with some bodies") {
-    this.runTest(
+    this.runSuggestionTest(
       "body/test002.raml",
       Set("application/json:\n      ", "multipart/form-data:\n      ", "application/x-www-form-urlencoded:\n      "))
   }
 
   test("Response with no bodies") {
-    this.runTest(
+    this.runSuggestionTest(
       "body/test003.raml",
       Set(
         "application/json:\n            ",
@@ -55,11 +55,11 @@ class BodyTests extends RAML10Test {
   }
 
   test("Response with some bodies") {
-    this.runTest("body/test004.raml", Set("application/json:\n          "))
+    this.runSuggestionTest("body/test004.raml", Set("application/json:\n          "))
   }
 
   test("Method body type shortcut") {
-    this.runTest(
+    this.runSuggestionTest(
       "body/test005.raml",
       Set("boolean",
           "integer",
@@ -81,7 +81,7 @@ class BodyTests extends RAML10Test {
   }
 
   test("Response body type shortcut") {
-    this.runTest(
+    this.runSuggestionTest(
       "body/test006.raml",
       Set("boolean",
           "integer",

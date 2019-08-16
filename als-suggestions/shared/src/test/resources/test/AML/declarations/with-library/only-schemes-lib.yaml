@@ -1,0 +1,9 @@
+#%Library / References 1.0
+
+schemes:
+  libScheme1:
+    kind: string
+    length: 4
+  libScheme2:
+    kind: float
+    length: 1

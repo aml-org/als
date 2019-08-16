@@ -1,0 +1,59 @@
+[
+  {
+    "text": "externalDocs:\n      ",
+    "description": "",
+    "displayText": "externalDocs",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 4
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "description: ",
+    "description": "",
+    "displayText": "description",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 4
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "name: ",
+    "description": "",
+    "displayText": "name",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 4
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      }
+    ]
+  }
+]

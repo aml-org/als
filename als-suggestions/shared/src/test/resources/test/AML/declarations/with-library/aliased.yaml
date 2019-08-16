@@ -1,0 +1,14 @@
+#%References 1.0
+
+uses:
+  defs: library.yaml
+  onlySh: only-schemes-lib.yaml
+
+title: test
+version: v1
+type: defs.*
+
+types:
+  aType:
+    range: string
+    long: 4

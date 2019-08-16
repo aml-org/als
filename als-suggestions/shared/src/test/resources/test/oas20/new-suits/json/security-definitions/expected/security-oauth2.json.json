@@ -1,0 +1,97 @@
+[
+  {
+    "text": "flow",
+    "description": "",
+    "displayText": "flow",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "tokenUrl",
+    "description": "",
+    "displayText": "tokenUrl",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "scopes",
+    "description": "",
+    "displayText": "scopes",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "description",
+    "description": "",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "authorizationUrl",
+    "description": "",
+    "displayText": "authorizationUrl",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  }
+]

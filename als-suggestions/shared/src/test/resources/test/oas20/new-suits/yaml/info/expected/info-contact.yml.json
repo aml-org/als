@@ -1,0 +1,59 @@
+[
+  {
+    "text": "url: ",
+    "description": "The URL pointing to the contact information. MUST be in the format of a URL.",
+    "displayText": "url",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "name: ",
+    "description": "The identifying name of the contact person/organization.",
+    "displayText": "name",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "email: ",
+    "description": "The URL pointing to the contact information. MUST be in the format of a URL.",
+    "displayText": "email",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  }
+]

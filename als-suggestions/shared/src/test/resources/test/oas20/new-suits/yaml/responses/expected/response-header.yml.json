@@ -1,0 +1,154 @@
+[
+  {
+    "text": "description",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "type",
+    "description": "type",
+    "displayText": "type",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "format",
+    "description": "format",
+    "displayText": "format",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "default",
+    "description": "default",
+    "displayText": "default",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "maxLength",
+    "description": "maxLength",
+    "displayText": "maxLength",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "minLength",
+    "description": "minLength",
+    "displayText": "minLength",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "pattern",
+    "description": "pattern",
+    "displayText": "pattern",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "enum",
+    "description": "enum",
+    "displayText": "enum",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      }
+    ]
+  }
+]

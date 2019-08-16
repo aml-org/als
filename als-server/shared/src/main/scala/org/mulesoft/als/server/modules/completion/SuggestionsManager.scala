@@ -1,18 +1,17 @@
 package org.mulesoft.als.server.modules.completion
 
+import amf.core.model.document.BaseUnit
 import amf.core.remote.{Platform, Raml10, Vendor}
 import org.mulesoft.als.common.DirectoryResolver
-import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.LspConverter
 import org.mulesoft.als.server.modules.hlast.HlAstManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.suggestions
-import org.mulesoft.als.suggestions.CompletionProvider
 import org.mulesoft.als.suggestions.client.Suggestions
-import org.mulesoft.als.suggestions.implementation.CompletionConfig
-import org.mulesoft.als.suggestions.interfaces.{Suggestion, Syntax}
+import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Suggestion, Syntax}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.RequestHandler
@@ -22,7 +21,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
-                         private val hlAstManager: HlAstManager,
+                         val hlAstManager: HlAstManager,
                          private val directoryResolver: DirectoryResolver,
                          private val platform: Platform,
                          private val logger: Logger)
@@ -30,21 +29,16 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
   override val `type`: ConfigType[CompletionClientCapabilities, CompletionOptions] =
     CompletionConfigType
 
-  def completionItem(suggestion: Suggestion): CompletionItem = {
-    suggestion.range match {
-      case Some(r) =>
-        CompletionItem(
-          suggestion.displayText,
-          textEdit = Some(TextEdit(LspConverter.toLspRange(r), suggestion.text)),
-          detail = Some(suggestion.description)
-        )
-      case _ =>
-        CompletionItem(
-          suggestion.displayText,
-          insertText = Some(suggestion.text),
-          detail = Some(suggestion.description)
-        )
-    }
+  def completionItem(suggestion: Suggestion, position: Position): CompletionItem = {
+    val range: PositionRange = suggestion.range
+      .getOrElse(PositionRange(position.moveColumn(-suggestion.prefix.length), position))
+
+    CompletionItem(
+      suggestion.displayText,
+      textEdit = Some(TextEdit(LspConverter.toLspRange(range), suggestion.text)),
+      detail = Some(suggestion.description),
+      insertTextFormat = Some(suggestion.insertTextFormat)
+    )
   }
 
   override val getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
@@ -53,7 +47,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
 
       override def apply(params: CompletionParams): Future[Either[Seq[CompletionItem], CompletionList]] = {
         onDocumentCompletion(params.textDocument.uri, LspConverter.toPosition(params.position))
-          .map(_.map(completionItem))
+          .map(_.map(completionItem(_, LspConverter.toPosition(params.position))))
           .map(Left.apply)
       }
     }
@@ -90,7 +84,8 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
 
         buildCompletionProviderAST(text, originalText, uri, refinedUri, offset, vendor, syntax)
           .flatMap(provider => {
-            provider.suggest
+            provider
+              .suggest()
               .map(result => {
                 this.logger.debug(s"Got ${result.length} proposals", "SuggestionsManager", "onDocumentCompletion")
 
@@ -114,35 +109,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                                  vendor: Vendor,
                                  syntax: Syntax): Future[CompletionProvider] = {
 
-    hlAstManager
-      .forceBuildNewAST(uri, text)
-      .map(hlAST => {
-
-        val baseName = refinedUri.substring(refinedUri.lastIndexOf('/') + 1)
-
-        val astProvider =
-          new ASTProvider(hlAST.rootASTUnit.rootNode, vendor, syntax, position)
-
-        val editorStateProvider =
-          new EditorStateProvider(text, refinedUri, baseName, position)
-
-        val completionConfig = new CompletionConfig(directoryResolver, platform)
-          .withEditorStateProvider(editorStateProvider)
-          .withAstProvider(astProvider)
-          .withOriginalContent(unmodifiedContent)
-
-        CompletionProvider().withConfig(completionConfig)
-      })
-      .recoverWith {
-        case e: Throwable =>
-          println(e)
-          Future.successful(
-            Suggestions
-              .buildCompletionProviderNoAST(unmodifiedContent, refinedUri, position, directoryResolver, platform))
-        case any =>
-          println(any)
-          Future.failed(new Error("Failed to construct CompletionProvider"))
-      }
-
+    val eventualUnit: Future[BaseUnit] = hlAstManager.astManager.forceBuildNewAST(uri, text)
+    Suggestions.buildProviderAsync(eventualUnit, position, directoryResolver, platform, uri, unmodifiedContent)
   }
 }
