@@ -32,7 +32,7 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
     if (Configuration.snippetsEnabled) s"{\n${text.linesIterator.map(l => s"  $l").mkString("\n")}\n  $$0\n}"
     else s"{\n${text.linesIterator.map(l => s"  $l").mkString("\n")}\n}"
 
-  private def getSuggestions(isJson: Boolean, hasBracket: Boolean = false): Seq[RawSuggestion] =
+  private def getSuggestions(isJson: Boolean, hasBracket: Boolean = false): Seq[RawSuggestion] = {
     AMLPlugin.registry
       .allDialects()
       .filter(_.documents().keyProperty().value())
@@ -48,7 +48,9 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
                       isKey = false,
                       "",
                       isSnippet = isASnippet)
-      }) :+ swaggerHeader(isJson, hasBracket) // TODO: remove when OAS is added as a Dialect
+      })
+      .toSeq :+ swaggerHeader(isJson, hasBracket) // TODO: remove when OAS is added as a Dialect
+  }
 
   override def resolve(params: HeaderCompletionParams): Future[Seq[RawSuggestion]] =
     Future.successful(
