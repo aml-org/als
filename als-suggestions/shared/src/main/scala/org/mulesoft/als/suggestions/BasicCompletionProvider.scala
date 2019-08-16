@@ -10,7 +10,7 @@ class BasicCompletionProvider(prefix: String, position: Position, suggestions: (
     extends CompletionProvider {
   override def suggest(): Future[Seq[Suggestion]] =
     suggestions()
-      .map(_.filter(_.newText startsWith prefix).map(_.toSuggestion(prefix)))
+      .map(_.distinct.filter(_.newText startsWith prefix).map(_.toSuggestion(prefix)))
 }
 
 trait BasicPrefixExtractor {

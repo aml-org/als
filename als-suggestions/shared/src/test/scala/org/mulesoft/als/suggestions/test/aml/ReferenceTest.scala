@@ -7,7 +7,7 @@ class ReferenceTest extends AMLSuggestionsTest {
 
   test("RamlStyle Flavour - suggests !include") {
     withDialect("instances/ramlStyleInstance.yaml",
-                Set("!include"),
+                Set("!include "),
                 "dialects/ramlStyleDialect.yaml",
                 ProfileName("RAMLStyle 1.0"))
   }
@@ -21,7 +21,7 @@ class ReferenceTest extends AMLSuggestionsTest {
 
   test("No Flavour specified - suggests !include") {
     withDialect("instances/noStyleInstance.yaml",
-                Set("!include"),
+                Set("!include "),
                 "dialects/noStyleDialect.yaml",
                 ProfileName("NOStyle 1.0"))
   }

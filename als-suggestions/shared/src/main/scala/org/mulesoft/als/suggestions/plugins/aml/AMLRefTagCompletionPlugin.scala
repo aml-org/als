@@ -14,7 +14,7 @@ object AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLRefTagCompletionPlugin"
 
   private val includeSuggestion = Seq(
-    RawSuggestion("!include", "!include", "inclusion tag", Seq(), isKey = false, " "))
+    RawSuggestion("!include ", "!include", "inclusion tag", Seq(), isKey = false, " "))
   private val refSuggestion = Seq(RawSuggestion("$ref", "$ref", "reference tag", Seq(), isKey = true, " "))
 
   override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] =
