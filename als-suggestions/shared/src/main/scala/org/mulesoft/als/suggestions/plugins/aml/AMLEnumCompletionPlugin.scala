@@ -4,7 +4,7 @@ import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class AMLEnumCompletionsPlugin(params: AmlCompletionRequest, indentation: String) {
@@ -38,8 +38,7 @@ class AMLEnumCompletionsPlugin(params: AmlCompletionRequest, indentation: String
 object AMLEnumCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLEnumCompletionPlugin"
 
-  override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] =
+  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     if (params.yPartBranch.isValue || params.yPartBranch.isInArray)
-      new AMLEnumCompletionsPlugin(params,getIndentation(params.baseUnit, params.position)).resolve()
-    else emptySuggestion
+      Future { new AMLEnumCompletionsPlugin(params, params.indentation).resolve() } else emptySuggestion
 }

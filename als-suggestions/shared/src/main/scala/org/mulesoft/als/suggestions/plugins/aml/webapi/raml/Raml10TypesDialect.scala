@@ -322,6 +322,7 @@ object Raml10TypesDialect {
     )
 
     dialect.documents().root().withDeclaredNodes(declaredNodes)
+
     dialect
       .documents()
       .withLibrary(DocumentMapping().withId(DialectLocation + "#/library").withDeclaredNodes(declaredNodes))
