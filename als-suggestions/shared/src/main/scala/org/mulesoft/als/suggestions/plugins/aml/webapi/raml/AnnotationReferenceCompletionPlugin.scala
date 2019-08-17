@@ -1,9 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.metamodel.domain.extensions.CustomDomainPropertyModel
+import amf.core.model.domain.extensions.CustomDomainProperty
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.yaml.model.YMapEntry
 
 import scala.concurrent.Future
 
@@ -13,13 +15,33 @@ object AnnotationReferenceCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(
-      if (params.yPartBranch.isKey && params.prefix.startsWith("(") || params.prefix.isEmpty) {
-        params.declarationProvider
+      if (params.yPartBranch.isKey && !params.yPartBranch.isInArray && (params.prefix
+            .startsWith("(") || params.prefix.isEmpty)) {
+        val annName = params.branchStack.headOption match {
+          case Some(c: CustomDomainProperty) => c.name.option()
+          case _                             => None
+        }
+        val annSuggestions = params.declarationProvider
           .forNodeType(CustomDomainPropertyModel.`type`.head.iri())
+          .filter(n => !annName.contains(n))
           .map(an => RawSuggestion.forKey(s"($an)"))
           .toSeq
+        if (isScalar(params)) RawSuggestion.forKey("value") +: annSuggestions
+        else annSuggestions
       } else Nil
     )
+  }
+
+  private def isScalar(params: AmlCompletionRequest): Boolean = {
+
+    params.yPartBranch.ancestorOf(classOf[YMapEntry]) match {
+      case Some(e: YMapEntry) =>
+        val entryName = e.key.asScalar.map(_.text)
+        params.propertyMapping
+          .find(_.name().option().exists(name => entryName.contains(name)))
+          .exists(p => p.literalRange().option().isDefined && !p.allowMultiple().value())
+      case _ => false
+    }
   }
 
 }

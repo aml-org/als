@@ -1,8 +1,8 @@
 [
   {
-    "text": "value:\n    ",
-    "description": "value",
-    "displayText": "value",
+    "text": "(myAnnotation): ",
+    "description": "(myAnnotation)",
+    "displayText": "(myAnnotation)",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -19,9 +19,9 @@
     ]
   },
   {
-    "text": "myAnnotation: ",
-    "description": "myAnnotation",
-    "displayText": "myAnnotation",
+    "text": "value: ",
+    "description": "value",
+    "displayText": "value",
     "prefix": "",
     "category": "unknown",
     "range": [
