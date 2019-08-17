@@ -36,43 +36,5 @@
         }
       }
     ]
-  },
-  {
-    "text": "http",
-    "description": "http",
-    "displayText": "http",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 2,
-          "character": 4
-        },
-        "end": {
-          "line": 2,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "https",
-    "description": "https",
-    "displayText": "https",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 2,
-          "character": 4
-        },
-        "end": {
-          "line": 2,
-          "character": 4
-        }
-      }
-    ]
   }
 ]
