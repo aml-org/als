@@ -3,7 +3,7 @@ package org.mulesoft.als.common
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.dtoTypes.Position
 import org.yaml.model._
-
+import amf.core.parser._
 import scala.annotation.tailrec
 
 case class YPartBranch(node: YPart, position: Position, private val stack: Seq[YPart]) {
@@ -12,6 +12,16 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
     case n: YNode => n.tagType == YType.Null
     case _        => false
   }
+
+  lazy val stringValue: String = node match {
+    case n: YNode =>
+      n.toOption[YScalar] match {
+        case Some(s) => s.text
+        case _       => n.toString
+      }
+    case _ => node.toString
+  }
+
   val isKey: Boolean = stack.headOption.exists(_.isKey(position))
 
   lazy val hasIncludeTag: Boolean = node match {
@@ -53,9 +63,6 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
       case _ :: tail                           => findFirstOf(clazz, tail)
     }
   }
-
-  def ancestorOf[T <: YPart](clazz: Class[T]): Option[T] = findFirstOf(clazz, stack.tail)
-
   // content patch will add a { k: }, I need to get up the k node, the k: entry, and the {k: } map
   private def getSequence: Option[YSequence] = {
     val offset = if (isKey) 4 else 0

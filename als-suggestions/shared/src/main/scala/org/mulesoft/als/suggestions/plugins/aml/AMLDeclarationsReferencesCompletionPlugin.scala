@@ -80,6 +80,7 @@ object AMLDeclarationsReferencesCompletionPlugin extends AMLCompletionPlugin {
         }
       case _ => None
     }
+  }
 
   private def declaredFromKey(parent: Option[YPart], propertyMapping: Seq[PropertyMapping]): Option[PropertyMapping] =
     parent
