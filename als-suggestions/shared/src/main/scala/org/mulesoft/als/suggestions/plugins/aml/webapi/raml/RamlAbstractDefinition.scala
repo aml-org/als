@@ -34,26 +34,13 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
     params.branchStack.collectFirst({ case a: AbstractDeclaration => a }) match {
       case Some(r: ResourceType) =>
         Some(
-          ElementInfo(r.asEndpoint(params.baseUnit, errorHandler = new LocalErrorHandler()),
+          ElementInfo(r.asEndpoint(params.baseUnit, errorHandler = LocalIgnoreErrorHandler),
                       r.name.value(),
                       r.meta.`type`.head.iri()))
 
       case Some(t: Trait) =>
         Some(ElementInfo(t.asOperation(params.baseUnit), t.name.value(), t.meta.`type`.head.iri()))
       case _ => None
-    }
-  }
-
-  sealed class LocalErrorHandler() extends ErrorHandler {
-    override def reportConstraint(id: String,
-                                  node: String,
-                                  property: Option[String],
-                                  message: String,
-                                  lexical: Option[LexicalInformation],
-                                  level: String,
-                                  location: Option[String]): Unit = {
-      println(
-        s"Error in RamlResourceTypeDefinition while trying to generate endpoint.\nMessage: $message\nNode: $node")
     }
   }
 

@@ -28,7 +28,8 @@ object RamlCompletionPluginRegistry {
       SecurityScopesCompletionPlugin :+
       SecuredByCompletionPlugin :+
       SecuritySchemeStructureCompletionPlugin :+
-      SecuritySettingsFacetsCompletionPlugin
+      SecuritySettingsFacetsCompletionPlugin :+
+      ObjectExamplePropertiesCompletionPlugin
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, RAML10Dialect().id)
