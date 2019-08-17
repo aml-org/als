@@ -1,24 +1,5 @@
 [
   {
-    "text": "(myAnnotation): ",
-    "description": "(myAnnotation)",
-    "displayText": "(myAnnotation)",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 2,
-          "character": 16
-        },
-        "end": {
-          "line": 2,
-          "character": 16
-        }
-      }
-    ]
-  },
-  {
     "text": "any",
     "description": "any",
     "displayText": "any",
