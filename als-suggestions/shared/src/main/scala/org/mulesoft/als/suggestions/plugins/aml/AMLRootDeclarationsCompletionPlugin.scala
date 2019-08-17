@@ -7,10 +7,9 @@ import amf.plugins.document.vocabularies.model.domain.PublicNodeMapping
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) {
 

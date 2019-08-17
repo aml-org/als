@@ -17,7 +17,10 @@ object BaseUriParameterCompletionPlugin extends AMLCompletionPlugin {
     Future.successful {
       val params = request.amfObject match {
         case webApi: WebApi if request.yPartBranch.isKeyDescendanceOf("baseUriParameters") =>
-          webApi.servers.flatMap(_.variables.flatMap(_.name.option()))
+          webApi.servers.flatMap(s => {
+            val url = s.url.option().getOrElse("")
+            s.variables.flatMap(_.name.option()).filter(n => url.contains(s"{$n}"))
+          })
         case p: Parameter
             if p.binding.option().contains("path") && request.fieldEntry.exists(_.field == ParameterModel.Name) =>
           request.branchStack.headOption match {
@@ -34,5 +37,6 @@ object BaseUriParameterCompletionPlugin extends AMLCompletionPlugin {
     e.parameters
       .filter(p => p.binding.option().contains("path") && p.annotations.contains(classOf[SynthesizedField]))
       .flatMap(_.name.option())
+      .filter(n => e.path.option().getOrElse("").contains(s"{$n}"))
   }
 }
