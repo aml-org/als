@@ -1,8 +1,27 @@
 [
   {
-    "text": "documentation:\n  ",
-    "description": "documentation",
-    "displayText": "documentation",
+    "text": "(myAnnotation): ",
+    "description": "(myAnnotation)",
+    "displayText": "(myAnnotation)",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 0
+        },
+        "end": {
+          "line": 4,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "annotationsTypes:\n  ",
+    "description": "annotationsTypes",
+    "displayText": "annotationsTypes",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -38,82 +57,6 @@
     ]
   },
   {
-    "text": "description: ",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 0
-        },
-        "end": {
-          "line": 4,
-          "character": 0
-        }
-      }
-    ]
-  },
-  {
-    "text": "securedBy: ",
-    "description": "securedBy",
-    "displayText": "securedBy",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 0
-        },
-        "end": {
-          "line": 4,
-          "character": 0
-        }
-      }
-    ]
-  },
-  {
-    "text": "title: ",
-    "description": "title",
-    "displayText": "title",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 0
-        },
-        "end": {
-          "line": 4,
-          "character": 0
-        }
-      }
-    ]
-  },
-  {
-    "text": "(myAnnotation): ",
-    "description": "(myAnnotation)",
-    "displayText": "(myAnnotation)",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 0
-        },
-        "end": {
-          "line": 4,
-          "character": 0
-        }
-      }
-    ]
-  },
-  {
     "text": "baseUriParameters:\n  ",
     "description": "baseUriParameters",
     "displayText": "baseUriParameters",
@@ -133,9 +76,9 @@
     ]
   },
   {
-    "text": "protocols: ",
-    "description": "protocols",
-    "displayText": "protocols",
+    "text": "description: ",
+    "description": "description",
+    "displayText": "description",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -152,9 +95,9 @@
     ]
   },
   {
-    "text": "version: ",
-    "description": "version",
-    "displayText": "version",
+    "text": "documentation:\n  ",
+    "description": "documentation",
+    "displayText": "documentation",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -190,28 +133,9 @@
     ]
   },
   {
-    "text": "types:\n  ",
-    "description": "types",
-    "displayText": "types",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 0
-        },
-        "end": {
-          "line": 4,
-          "character": 0
-        }
-      }
-    ]
-  },
-  {
-    "text": "traits:\n  ",
-    "description": "traits",
-    "displayText": "traits",
+    "text": "protocols: ",
+    "description": "protocols",
+    "displayText": "protocols",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -247,9 +171,9 @@
     ]
   },
   {
-    "text": "annotationTypes:\n  ",
-    "description": "annotationTypes",
-    "displayText": "annotationTypes",
+    "text": "securedBy: ",
+    "description": "securedBy",
+    "displayText": "securedBy",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -285,9 +209,85 @@
     ]
   },
   {
+    "text": "title: ",
+    "description": "title",
+    "displayText": "title",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 0
+        },
+        "end": {
+          "line": 4,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "traits:\n  ",
+    "description": "traits",
+    "displayText": "traits",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 0
+        },
+        "end": {
+          "line": 4,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "types:\n  ",
+    "description": "types",
+    "displayText": "types",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 0
+        },
+        "end": {
+          "line": 4,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
     "text": "uses:\n  ",
     "description": "uses",
     "displayText": "uses",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 0
+        },
+        "end": {
+          "line": 4,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "version: ",
+    "description": "version",
+    "displayText": "version",
     "prefix": "",
     "category": "unknown",
     "range": [

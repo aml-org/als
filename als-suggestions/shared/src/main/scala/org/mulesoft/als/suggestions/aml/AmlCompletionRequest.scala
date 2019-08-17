@@ -65,11 +65,10 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
               .exists(_.containsCompletely(position))
           case v =>
             v.position()
-              .exists(_.contains(position)) &&
-              f.value.annotations
-                .find(classOf[LexicalInformation])
-                .forall(_.containsCompletely(position)) && !f.value.value.annotations
-              .contains(classOf[SynthesizedField])
+              .exists(_.contains(position)) && (f.value.annotations
+              .find(classOf[LexicalInformation])
+              .forall(_.containsCompletely(position)) && !f.value.value.annotations
+              .contains(classOf[SynthesizedField]))
       })
   }
 

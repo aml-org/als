@@ -1,8 +1,8 @@
 [
   {
-    "text": "maxLength: ",
-    "description": "maxLength",
-    "displayText": "maxLength",
+    "text": "(myAnnotation): ",
+    "description": "(myAnnotation)",
+    "displayText": "(myAnnotation)",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -38,6 +38,25 @@
     ]
   },
   {
+    "text": "description: ",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
     "text": "displayName: ",
     "description": "displayName",
     "displayText": "displayName",
@@ -57,9 +76,47 @@
     ]
   },
   {
-    "text": "example: ",
+    "text": "enum:\n      ",
+    "description": "enum",
+    "displayText": "enum",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "example:\n      ",
     "description": "example",
     "displayText": "example",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "examples:\n      ",
+    "description": "examples",
+    "displayText": "examples",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -95,28 +152,9 @@
     ]
   },
   {
-    "text": "(myAnnotation): ",
-    "description": "(myAnnotation)",
-    "displayText": "(myAnnotation)",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 6,
-          "character": 4
-        },
-        "end": {
-          "line": 6,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "type: ",
-    "description": "type",
-    "displayText": "type",
+    "text": "maxLength: ",
+    "description": "maxLength",
+    "displayText": "maxLength",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -171,47 +209,9 @@
     ]
   },
   {
-    "text": "examples:\n      ",
-    "description": "examples",
-    "displayText": "examples",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 6,
-          "character": 4
-        },
-        "end": {
-          "line": 6,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "description: ",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 6,
-          "character": 4
-        },
-        "end": {
-          "line": 6,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "enum:\n      ",
-    "description": "enum",
-    "displayText": "enum",
+    "text": "type:\n      ",
+    "description": "type",
+    "displayText": "type",
     "prefix": "",
     "category": "unknown",
     "range": [
