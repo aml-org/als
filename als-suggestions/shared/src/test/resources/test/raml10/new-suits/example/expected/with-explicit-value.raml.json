@@ -8,11 +8,11 @@
     "range": [
       {
         "start": {
-          "line": 5,
+          "line": 8,
           "character": 6
         },
         "end": {
-          "line": 5,
+          "line": 8,
           "character": 6
         }
       }
@@ -27,11 +27,11 @@
     "range": [
       {
         "start": {
-          "line": 5,
+          "line": 8,
           "character": 6
         },
         "end": {
-          "line": 5,
+          "line": 8,
           "character": 6
         }
       }
@@ -46,30 +46,11 @@
     "range": [
       {
         "start": {
-          "line": 5,
+          "line": 8,
           "character": 6
         },
         "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
-  },
-  {
-    "text": "value: ",
-    "description": "value",
-    "displayText": "value",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
+          "line": 8,
           "character": 6
         }
       }
