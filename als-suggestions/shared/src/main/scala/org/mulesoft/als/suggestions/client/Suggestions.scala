@@ -4,8 +4,6 @@ import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote._
 import amf.dialects.{OAS20Dialect, WebApiDialectsRegistry}
-import amf.dialects.WebApiDialectsRegistry
-import amf.dialects.{OAS20Dialect, RAML10Dialect, WebApiDialectsRegistry}
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceUnit}
 import org.mulesoft.als.common.dtoTypes.Position
@@ -224,7 +222,8 @@ object Suggestions extends SuggestionsHelper {
           ),
           _
       )
-    CompletionProviderAST(AmlCompletionRequest(amfPosition, bu, dialect, platform, directoryResolver, styler))
+    CompletionProviderAST(
+      AmlCompletionRequestBuilder.build(bu, amfPosition, dialect, platform, directoryResolver, styler))
   }
 }
 

@@ -5,7 +5,7 @@ import amf.ProfileName
 class ReferenceTest extends AMLSuggestionsTest {
   override def rootPath: String = "AML/references"
 
-  test("RamlStyle Flavour - suggests !include") {
+  ignore("RamlStyle Flavour - suggests !include") {
     withDialect("instances/ramlStyleInstance.yaml",
                 Set("!include "),
                 "dialects/ramlStyleDialect.yaml",
@@ -19,7 +19,7 @@ class ReferenceTest extends AMLSuggestionsTest {
                 ProfileName("JSONStyle 1.0"))
   }
 
-  test("No Flavour specified - suggests !include") {
+  ignore("No Flavour specified - suggests !include") {
     withDialect("instances/noStyleInstance.yaml",
                 Set("!include "),
                 "dialects/noStyleDialect.yaml",
