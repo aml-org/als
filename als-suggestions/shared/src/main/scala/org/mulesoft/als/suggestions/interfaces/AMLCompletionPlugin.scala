@@ -2,13 +2,12 @@ package org.mulesoft.als.suggestions.interfaces
 
 import amf.core.model.document.BaseUnit
 import org.mulesoft.als.common.dtoTypes.Position
-import amf.core.model.document.BaseUnit
-import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 
 import scala.concurrent.Future
 
-trait AMLCompletionPlugin extends CompletionPlugin[AmlCompletionRequest]{
+trait AMLCompletionPlugin extends CompletionPlugin[AmlCompletionRequest] {
   protected def emptySuggestion: Future[Seq[RawSuggestion]] = Future.successful(Seq())
 
   // TODO: remove or separate indentation from ALS
