@@ -1,5 +1,43 @@
 [
   {
+    "text": "description: ",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 8
+        },
+        "end": {
+          "line": 9,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "displayName: ",
+    "description": "displayName",
+    "displayText": "displayName",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 8
+        },
+        "end": {
+          "line": 9,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
     "text": "p1: ",
     "description": "p1",
     "displayText": "p1",
@@ -22,6 +60,44 @@
     "text": "p2: ",
     "description": "p2",
     "displayText": "p2",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 8
+        },
+        "end": {
+          "line": 9,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "strict: ",
+    "description": "strict",
+    "displayText": "strict",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 8
+        },
+        "end": {
+          "line": 9,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "value: ",
+    "description": "value",
+    "displayText": "value",
     "prefix": "",
     "category": "unknown",
     "range": [
