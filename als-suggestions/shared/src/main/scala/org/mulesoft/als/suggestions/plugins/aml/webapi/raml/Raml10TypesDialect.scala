@@ -6,6 +6,7 @@ import amf.core.vocabulary.Namespace
 import amf.core.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdFloat, xsdInteger, xsdString}
 import amf.dialects.RAML10Dialect
 import amf.dialects.RAML10Dialect.DialectNodes
+import amf.dialects.RAML10Dialect.DialectNodes.ExampleNode
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{
   DocumentMapping,
@@ -89,12 +90,12 @@ object Raml10TypesDialect {
       .withId(DialectLocation + "#/declarations/AnyShapeNode/example")
       .withNodePropertyMapping(AnyShapeModel.Examples.value.iri())
       .withName("example")
-      .withObjectRange(Seq(DataNodeModel.`type`.head.iri())),
+      .withObjectRange(Seq(ExampleNode.id)),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/AnyShapeNode/examples")
       .withNodePropertyMapping(AnyShapeModel.Examples.value.iri())
       .withName("examples")
-      .withObjectRange(Seq(DataNodeModel.`type`.head.iri()))
+      .withObjectRange(Seq(ExampleNode.id))
       .withMapTermKeyProperty(ExampleModel.Name.value.iri())
   ) ++ shapeProperties
 
