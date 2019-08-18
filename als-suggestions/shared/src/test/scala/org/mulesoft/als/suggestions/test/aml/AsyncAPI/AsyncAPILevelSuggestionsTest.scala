@@ -25,7 +25,7 @@ class AsyncAPILevelSuggestionsTest extends DialectLevelSuggestionsTest {
         TestCaseLabel("[*1]", Some("ContactObject"), 3),
 //        TestCaseLabel("[*2]", Some("MessageObject"), 3),
 //        TestCaseLabel("[*3]", Some("SchemaObject"), 3),
-        TestCaseLabel("[*4]", Some("TopicItemObject"), 3),
+//        TestCaseLabel("[*4]", Some("TopicItemObject"), 3),
 //        TestCaseLabel("[*5]", Some("SecuritySchemeObject"), 3),
       )
     )

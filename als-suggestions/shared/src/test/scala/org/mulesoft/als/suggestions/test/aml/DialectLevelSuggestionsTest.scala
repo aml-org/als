@@ -81,7 +81,8 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
       .map(e => e.propertiesMapping().map(addPropTrailingSpaces(_, 1)).toSet)
       .getOrElse(Set.empty) ++ mapping
       .declaredNodes()
-      .map(_.name().value() + ":\n" + (" " * 2)) // declared cannot be scalars??
+      .map(_.name().value() + ":\n" + (" " * 2)) ++ // declared cannot be scalars??
+      Seq("uses" + ":\n" + (" " * 2))
   }
 
   protected def assertCases(bu: BaseUnit, cases: Seq[PositionResult], content: Content): Future[Seq[Result]] = {

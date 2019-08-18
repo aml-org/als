@@ -16,14 +16,13 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLPathCompletionPlugin"
 
   private def isStyleValue(style: String, yPartBranch: YPartBranch, dialect: Dialect): Boolean =
-    yPartBranch.hasIncludeTag && Option(dialect.documents()).forall(d =>
-      d.referenceStyle().is(style) || d.referenceStyle().isNullOrEmpty)
+    Option(dialect.documents()).forall(d => d.referenceStyle().is(style) || d.referenceStyle().isNullOrEmpty)
 
   private def isRamlInclusion(yPartBranch: YPartBranch, dialect: Dialect): Boolean =
-    isStyleValue(ReferenceStyles.RAML, yPartBranch, dialect)
+    yPartBranch.hasIncludeTag && isStyleValue(ReferenceStyles.RAML, yPartBranch, dialect)
 
   private def isJsonInclusion(yPartBranch: YPartBranch, dialect: Dialect): Boolean =
-    isStyleValue(ReferenceStyles.JSONSCHEMA, yPartBranch, dialect) &&
+    yPartBranch.isValue && isStyleValue(ReferenceStyles.JSONSCHEMA, yPartBranch, dialect) &&
       yPartBranch.parentEntry.exists(p => p.key.asScalar.exists(_.text == "$ref"))
 
   // exclude file name
