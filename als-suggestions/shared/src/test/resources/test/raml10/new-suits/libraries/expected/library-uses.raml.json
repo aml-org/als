@@ -1,8 +1,122 @@
 [
   {
+    "text": "aliased-complete-ref.raml",
+    "description": "Path suggestion",
+    "displayText": "aliased-complete-ref.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 12
+        },
+        "end": {
+          "line": 3,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "aliased-ref.raml",
+    "description": "Path suggestion",
+    "displayText": "aliased-ref.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 12
+        },
+        "end": {
+          "line": 3,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "expected/",
+    "description": "Path suggestion",
+    "displayText": "expected/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 12
+        },
+        "end": {
+          "line": 3,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "library-root.raml",
+    "description": "Path suggestion",
+    "displayText": "library-root.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 12
+        },
+        "end": {
+          "line": 3,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
     "text": "library.raml",
-    "description": "library.raml",
+    "description": "Path suggestion",
     "displayText": "library.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 12
+        },
+        "end": {
+          "line": 3,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "uses-alias.raml",
+    "description": "Path suggestion",
+    "displayText": "uses-alias.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 12
+        },
+        "end": {
+          "line": 3,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "uses.raml",
+    "description": "Path suggestion",
+    "displayText": "uses.raml",
     "prefix": "",
     "category": "unknown",
     "range": [

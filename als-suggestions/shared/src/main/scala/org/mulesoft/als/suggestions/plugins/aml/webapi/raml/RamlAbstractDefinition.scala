@@ -1,9 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.annotations.LexicalInformation
+import amf.core.model.document.Fragment
 import amf.core.model.domain.templates.AbstractDeclaration
 import amf.core.model.domain.{DataNode, DomainElement}
 import amf.core.parser.ErrorHandler
+import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
 import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequest, AmlCompletionRequestBuilder}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -19,6 +21,9 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
 
     info
       .map { info =>
+        if (params.baseUnit.isInstanceOf[Fragment]) {
+          info.element.fields.filter(t => !(t._1 == EndPointModel.Path || t._1 == OperationModel.Method))
+        }
         val newRequest =
           AmlCompletionRequestBuilder.forElement(info.element,
                                                  params.declarationProvider.filterLocal(info.name, info.iri),
