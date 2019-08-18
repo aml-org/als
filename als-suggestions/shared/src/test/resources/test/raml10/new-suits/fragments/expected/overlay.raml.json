@@ -1,5 +1,24 @@
 [
   {
+    "text": "annotationsTypes:\n  ",
+    "description": "annotationsTypes",
+    "displayText": "annotationsTypes",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
     "text": "baseUri: ",
     "description": "baseUri",
     "displayText": "baseUri",
@@ -76,6 +95,25 @@
     ]
   },
   {
+    "text": "extends: ",
+    "description": "extends",
+    "displayText": "extends",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
     "text": "mediaType: ",
     "description": "mediaType",
     "displayText": "mediaType",
@@ -114,9 +152,9 @@
     ]
   },
   {
-    "text": "resources:\n  ",
-    "description": "resources",
-    "displayText": "resources",
+    "text": "resourceTypes:\n  ",
+    "description": "resourceTypes",
+    "displayText": "resourceTypes",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -152,9 +190,85 @@
     ]
   },
   {
+    "text": "securitySchemes:\n  ",
+    "description": "securitySchemes",
+    "displayText": "securitySchemes",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
     "text": "title: ",
     "description": "title",
     "displayText": "title",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "traits:\n  ",
+    "description": "traits",
+    "displayText": "traits",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "types:\n  ",
+    "description": "types",
+    "displayText": "types",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "uses:\n  ",
+    "description": "uses",
+    "displayText": "uses",
     "prefix": "",
     "category": "unknown",
     "range": [

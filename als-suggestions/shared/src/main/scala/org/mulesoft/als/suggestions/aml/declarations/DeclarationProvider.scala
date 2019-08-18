@@ -21,6 +21,7 @@ class DeclarationProvider(componentId: Option[String] = None) {
     declarations.getOrElse(nodeTypeMapping, Set.empty) ++ libraries
       .filter(t => t._2.isLocallyDeclared(nodeTypeMapping))
       .keys
+      .map(_ + ".")
       .toSet
   def forNodeType(nodeTypeMapping: String, alias: Alias): Set[Name] =
     libraries.get(alias).map(d => d.forNodeType(nodeTypeMapping)).getOrElse(Set.empty)
