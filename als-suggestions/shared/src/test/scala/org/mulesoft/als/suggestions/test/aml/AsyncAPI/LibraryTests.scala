@@ -7,7 +7,7 @@ class LibraryTests extends AMLSuggestionsTest {
   def rootPath: String = "AML/AsyncAPI"
 
   test("test001") {
-    this.runSuggestionTest("library/test001.yaml", Set("schemas:\n  "))
+    this.runSuggestionTest("library/test001.yaml", Set("schemas:\n  ", "uses:\n  "))
   }
 
   test("test002") {

@@ -7,7 +7,7 @@ class DeclarationWithLibraryReferenceTest extends AMLSuggestionsTest {
 
   test("test with lib simple") {
 
-    withDialect("simple-empty.yaml", Set("defs", "aType"), "dialect-lib.yaml", ProfileName("References 1.0"))
+    withDialect("simple-empty.yaml", Set("defs.", "aType"), "dialect-lib.yaml", ProfileName("References 1.0"))
   }
 
   test("test with aliased ref") {
