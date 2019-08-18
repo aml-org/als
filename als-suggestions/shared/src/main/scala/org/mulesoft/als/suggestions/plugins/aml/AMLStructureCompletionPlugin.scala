@@ -64,13 +64,4 @@ object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
           .position()
           .exists(li => li.contains(params.position)))
   }
-
-  private def isEncodes(amfObject: AmfObject, dialect: Dialect) = {
-    val iri = amfObject.meta.`type`.head.iri()
-
-    dialect.declares
-      .find(nm => dialect.documents().root().encoded().option().contains(nm.id))
-      .collectFirst({ case d: NodeMapping if d.nodetypeMapping.option().contains(iri) => d })
-      .isDefined
-  }
 }

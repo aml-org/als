@@ -16,12 +16,11 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLPathCompletionPlugin"
 
   private def isStyleValue(style: String, yPartBranch: YPartBranch, dialect: Dialect): Boolean =
-    yPartBranch.isValue && Option(dialect.documents()).forall(d =>
+    yPartBranch.hasIncludeTag && Option(dialect.documents()).forall(d =>
       d.referenceStyle().is(style) || d.referenceStyle().isNullOrEmpty)
 
   private def isRamlInclusion(yPartBranch: YPartBranch, dialect: Dialect): Boolean =
-    isStyleValue(ReferenceStyles.RAML, yPartBranch, dialect) &&
-      yPartBranch.hasIncludeTag
+    isStyleValue(ReferenceStyles.RAML, yPartBranch, dialect)
 
   private def isJsonInclusion(yPartBranch: YPartBranch, dialect: Dialect): Boolean =
     isStyleValue(ReferenceStyles.JSONSCHEMA, yPartBranch, dialect) &&
@@ -37,28 +36,41 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     if (isRamlInclusion(params.yPartBranch, params.actualDialect) || isJsonInclusion(params.yPartBranch,
                                                                                      params.actualDialect)) {
-      val baseDir      = extractPath(FileUtils.getPath(params.baseUnit.location().getOrElse(""), params.platform)) // root path for file
-      val relativePath = extractPath(params.prefix) // already written part of the path
-      val fullURI      = FileUtils.getEncodedUri(s"$baseDir$relativePath", params.platform)
-
-      doIfDirectory(params.directoryResolver, fullURI)(listDirectory(params, relativePath, fullURI))
+      resolveInclusion(params.baseUnit.location().getOrElse(""),
+                       params.platform,
+                       params.prefix,
+                       params.directoryResolver)
     } else emptySuggestion
 
+  def resolveInclusion(actualLocation: String,
+                       platform: Platform,
+                       prefix: String,
+                       directoryResolver: DirectoryResolver): Future[Seq[RawSuggestion]] = {
+    val baseDir      = extractPath(FileUtils.getPath(actualLocation, platform)) // root path for file
+    val relativePath = extractPath(prefix) // already written part of the path
+    val fullURI      = FileUtils.getEncodedUri(s"$baseDir$relativePath", platform)
+    val actual       = actualLocation.stripPrefix(fullURI)
+
+    doIfDirectory(directoryResolver, fullURI)(
+      listDirectory(directoryResolver, platform, relativePath, actual, fullURI))
+  }
   private def doIfDirectory(directoryResolver: DirectoryResolver, fullURI: String)(
       doIt: => Future[Seq[RawSuggestion]]): Future[Seq[RawSuggestion]] =
     directoryResolver.isDirectory(fullURI).flatMap(if (_) doIt else emptySuggestion)
 
-  private def listDirectory(params: AmlCompletionRequest,
+  private def listDirectory(directoryResolver: DirectoryResolver,
+                            platform: Platform,
                             relativePath: String,
+                            actual: String,
                             fullURI: String): Future[Seq[RawSuggestion]] =
-    params.directoryResolver
+    directoryResolver
       .readDir(fullURI)
-      .flatMap(withIsDir(_, fullURI, params.directoryResolver, params.platform))
+      .flatMap(withIsDir(_, fullURI, directoryResolver, platform))
       .map(s => {
         val filtered = s
-          .filter(tuple => tuple._2 || supportedMime(tuple._1, params.platform))
+          .filter(tuple => tuple._1 != actual && (tuple._2 || supportedMime(tuple._1, platform)))
           .map(t => if (t._2) s"${t._1}/" else t._1)
-        toSuggestions(relativePath, filtered, params.platform)
+        toSuggestions(relativePath, filtered)
       })
 
   private def withIsDir(files: Seq[String],
@@ -73,7 +85,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
             .map(isDir => (file, isDir)))
     }
 
-  private def toSuggestions(relativePath: String, files: Seq[String], platform: Platform): Seq[RawSuggestion] =
+  private def toSuggestions(relativePath: String, files: Seq[String]): Seq[RawSuggestion] =
     files.map(toRawSuggestion(relativePath, _))
 
   private def supportedMime(file: String, platform: Platform): Boolean =
