@@ -8,8 +8,9 @@ class InstanceTests extends AMLSuggestionsTest {
   def rootPath: String = "AML/AsyncAPI"
 
   test("test001") {
-    runSuggestionTest("instance/test001.yaml",
-                      Set("securitySchemes:\n  ", "schemas:\n  ", "security:\n  ", "servers:\n  ", "simpleMap:\n  "))
+    runSuggestionTest(
+      "instance/test001.yaml",
+      Set("securitySchemes:\n  ", "schemas:\n  ", "uses:\n  ", "security:\n  ", "servers:\n  ", "simpleMap:\n  "))
   }
 
   test("test002") {
@@ -59,7 +60,8 @@ class InstanceTests extends AMLSuggestionsTest {
         "messages:\n  ",
         "security:\n  ",
         "simpleMap:\n  ",
-        "securitySchemes:\n  "
+        "securitySchemes:\n  ",
+        "uses:\n  "
       )
     )
   }
@@ -71,15 +73,18 @@ class InstanceTests extends AMLSuggestionsTest {
   test("test suggestions with component key") {
     withDialect(
       "instance/component-key-suggestions.yaml",
-      Set("asyncapi: ",
-          "baseTopic: ",
-          "info:\n  ",
-          "servers:\n  ",
-          "topics:\n  ",
-          "security:\n  ",
-          "externalDocs:\n  ",
-          "simpleMap:\n  ",
-          "components:\n  "),
+      Set(
+        "asyncapi: ",
+        "baseTopic: ",
+        "info:\n  ",
+        "servers:\n  ",
+        "topics:\n  ",
+        "security:\n  ",
+        "externalDocs:\n  ",
+        "simpleMap:\n  ",
+        "components:\n  ",
+        "uses:\n  "
+      ),
       "dialect10.yaml",
       ProfileName("AsyncAPI 1.0")
     )

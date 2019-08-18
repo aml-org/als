@@ -8,7 +8,7 @@ class FragmentTests extends AMLSuggestionsTest {
 
   test("test001") {
     this.runSuggestionTest("fragment/test001.yaml",
-                           Set("externalDocs:\n  ", "description: ", "headers:\n  ", "tags:\n  "))
+                           Set("externalDocs:\n  ", "uses:\n  ", "description: ", "headers:\n  ", "tags:\n  "))
   }
 
   test("test002") {
