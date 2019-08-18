@@ -29,6 +29,7 @@ object RamlTypeDeclarationReferenceCompletionPlugin extends AMLCompletionPlugin 
                                                                                   params.declarationProvider,
                                                                                   s.name.option()).resolve()
 
+          val name = params.amfObject.elementIdentifier()
           params.yPartBranch.parent
             .collectFirst({ case e: YMapEntry => e })
             .flatMap(_.key.asScalar.map(_.text)) match {
@@ -36,7 +37,7 @@ object RamlTypeDeclarationReferenceCompletionPlugin extends AMLCompletionPlugin 
             // i need to force generic shape model search for default amf parsed types
 
             case Some(text)
-                if params.amfObject.elementIdentifier().contains(text) || params.amfObject
+                if name.exists(Seq(text, "schema").contains) || params.amfObject
                   .isInstanceOf[UnresolvedShape] =>
               declaredSuggestions ++ Raml10TypesDialect.shapeTypesProperty
                 .enum()

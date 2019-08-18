@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
+import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.AMLlibraryPathCompletion
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -57,7 +58,8 @@ object AMLBaseCompletionPlugins {
     AMLKnownValueCompletionPlugin,
     AMLComponentKeyCompletionPlugin,
     AMLRefTagCompletionPlugin,
-    AMLPathCompletionPlugin
+    AMLPathCompletionPlugin,
+    AMLlibraryPathCompletion
   )
 
   val base: CompletionPluginsRegistryAML = {
