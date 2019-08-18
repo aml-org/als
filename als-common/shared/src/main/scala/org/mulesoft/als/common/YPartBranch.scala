@@ -13,13 +13,9 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
     case _        => false
   }
 
-  lazy val stringValue: String = node match {
-    case n: YNode =>
-      n.toOption[YScalar] match {
-        case Some(s) => s.text
-        case _       => n.toString
-      }
-    case _ => node.toString
+  lazy val tag: Option[YTag] = node match {
+    case n: YNode => Some(n.tag)
+    case _        => None
   }
 
   val isKey: Boolean = stack.headOption.exists(_.isKey(position))
@@ -29,7 +25,9 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
     case _                => false
   }
 
-  val isValue: Boolean = stack.headOption.exists(_.isInstanceOf[YMapEntry]) && !isKey
+  val isValue: Boolean = stack.headOption.exists(_.isInstanceOf[YMapEntry]) && !isKey && !hasIncludeTag
+
+  lazy val isIncludeTagValue: Boolean = stack.headOption.exists(_.isInstanceOf[YMapEntry]) && !isKey && hasIncludeTag
 
   val isAtRoot: Boolean = stack.length <= 2
   val isArray: Boolean  = node.isArray
@@ -55,6 +53,9 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
 
   def isKeyDescendanceOf(key: String): Boolean =
     isKey && ancestorOf(classOf[YMapEntry]).flatMap(_.key.asScalar.map(_.text)).contains(key)
+
+  def isValueDescendanceOf(key: String): Boolean =
+    isValue && ancestorOf(classOf[YMapEntry]).flatMap(_.key.asScalar.map(_.text)).contains(key)
 
   private def findFirstOf[T <: YPart](clazz: Class[T], l: Seq[YPart]): Option[T] = {
     l match {

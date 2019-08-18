@@ -1,18 +1,341 @@
 [
   {
+    "text": "annotation.raml",
+    "description": "Path suggestion",
+    "displayText": "annotation.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "api.raml",
+    "description": "Path suggestion",
+    "displayText": "api.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "data-type.raml",
+    "description": "Path suggestion",
+    "displayText": "data-type.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "documentation-item.raml",
+    "description": "Path suggestion",
+    "displayText": "documentation-item.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "expected/",
+    "description": "Path suggestion",
+    "displayText": "expected/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "extension-extends.raml",
+    "description": "Path suggestion",
+    "displayText": "extension-extends.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "extension.raml",
+    "description": "Path suggestion",
+    "displayText": "extension.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "include-annotation.raml",
+    "description": "Path suggestion",
+    "displayText": "include-annotation.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "include-data-type.raml",
+    "description": "Path suggestion",
+    "displayText": "include-data-type.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "include-named-example.raml",
+    "description": "Path suggestion",
+    "displayText": "include-named-example.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "include-resource-type.raml",
+    "description": "Path suggestion",
+    "displayText": "include-resource-type.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "include-security-scheme.raml",
+    "description": "Path suggestion",
+    "displayText": "include-security-scheme.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "named-example.raml",
+    "description": "Path suggestion",
+    "displayText": "named-example.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "overlay-extends.raml",
+    "description": "Path suggestion",
+    "displayText": "overlay-extends.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "overlay.raml",
+    "description": "Path suggestion",
+    "displayText": "overlay.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "resource-type.raml",
+    "description": "Path suggestion",
+    "displayText": "resource-type.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "security-scheme.raml",
+    "description": "Path suggestion",
+    "displayText": "security-scheme.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
     "text": "trait.raml",
-    "description": "trait.raml",
+    "description": "Path suggestion",
     "displayText": "trait.raml",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 2,
+          "line": 3,
           "character": 15
         },
         "end": {
-          "line": 2,
+          "line": 3,
           "character": 15
         }
       }

@@ -58,7 +58,7 @@ object AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   }
 
   def isRamlTag(params: AmlCompletionRequest): Boolean =
-    params.yPartBranch.isValue && !params.yPartBranch.hasIncludeTag && params.prefix.startsWith("!")
+    params.yPartBranch.isValue && (params.prefix.startsWith("!") || params.yPartBranch.tag.exists(t => t.text == "!"))
 
   def isJsonKey(params: AmlCompletionRequest): Boolean = {
     !(params.yPartBranch.hasIncludeTag || params.yPartBranch.brothers.nonEmpty ||
