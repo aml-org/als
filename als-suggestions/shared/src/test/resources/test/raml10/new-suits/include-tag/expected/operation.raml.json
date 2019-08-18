@@ -1,7 +1,7 @@
 [
   {
-    "text": "!include",
-    "description": "!include",
+    "text": "!include ",
+    "description": "inclusion tag",
     "displayText": "!include",
     "prefix": "",
     "category": "unknown",
@@ -9,11 +9,11 @@
       {
         "start": {
           "line": 2,
-          "character": 7
+          "character": 8
         },
         "end": {
           "line": 2,
-          "character": 7
+          "character": 8
         }
       }
     ]

@@ -1,4 +1,21 @@
-#%RAML 1.0
-/endpoint:
-  get:
-    responses: *
+[
+  {
+    "text": "!include ",
+    "description": "inclusion tag",
+    "displayText": "!include",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 16
+        },
+        "end": {
+          "line": 3,
+          "character": 16
+        }
+      }
+    ]
+  }
+]

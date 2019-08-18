@@ -63,7 +63,7 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
     val expected = f.parent + "/expected/" + f.name + ".json"
     for {
       s <- suggestFromFile(content,
-                           "file://" + f.name,
+                           "file://" + f.path,
                            Some("application/" + origin.syntax.extension),
                            origin.vendor.toString,
                            None)
