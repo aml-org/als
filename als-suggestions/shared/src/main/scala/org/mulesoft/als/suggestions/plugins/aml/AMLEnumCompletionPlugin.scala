@@ -1,44 +1,40 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class AMLEnumCompletionsPlugin(params: AmlCompletionRequest, indentation: String) {
+object AMLEnumCompletionPlugin extends AMLCompletionPlugin {
+  override def id = "AMLEnumCompletionPlugin"
 
-  def presentArray(value: String): String =
-    s"\n$indentation- $value"
+  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
+    Future {
+      if (params.yPartBranch.isValue || params.yPartBranch.isInArray)
+        getSuggestions(params.propertyMapping, params.yPartBranch)
+      else Nil
+    }
 
-  private def getSuggestions: Seq[String] = {
-    params.propertyMapping match {
+  def getSuggestions(propertyMapping: List[PropertyMapping], yPartBranch: YPartBranch): Seq[RawSuggestion] = {
+    val suggestions = propertyMapping match {
       case head :: Nil => suggestMapping(head)
       case Nil         => Nil
       case list =>
-        params.yPartBranch.parentEntry match {
+        yPartBranch.parentEntry match {
           case Some(entry) =>
-            params.propertyMapping
+            propertyMapping
               .find(pm => entry.key.asScalar.exists(s => pm.name().option().contains(s.text)))
               .map(suggestMapping)
               .getOrElse(Nil)
           case None => Nil
         }
     }
+    suggestions.map(RawSuggestion(_, isAKey = false))
   }
 
   private def suggestMapping(pm: PropertyMapping): Seq[String] = pm.enum().flatMap(_.option().map(e => e.toString))
-
-  def resolve(): Seq[RawSuggestion] =
-    getSuggestions
-      .map(s => RawSuggestion(s, isAKey = false))
-}
-
-object AMLEnumCompletionPlugin extends AMLCompletionPlugin {
-  override def id = "AMLEnumCompletionPlugin"
-
-  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
-    if (params.yPartBranch.isValue || params.yPartBranch.isInArray)
-      Future { new AMLEnumCompletionsPlugin(params, params.indentation).resolve() } else emptySuggestion
 }
