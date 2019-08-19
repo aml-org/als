@@ -8,7 +8,7 @@ import scala.concurrent.Future
 class ResponseTests extends RAML10Test {
 
   //Ciclo de tests
-  test(s"Response test") {
+  ignore(s"Response test") {
     this.runOrderedTest("responseCodes/responseCode01.raml", RamlResponseCodes.all.map(v => v + ":\n        ").sorted)
   }
 

@@ -75,7 +75,7 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
   }
   // content patch will add a { k: }, I need to get up the k node, the k: entry, and the {k: } map
   private def getSequence: Option[YSequence] = {
-    val offset = if (isKey) 4 else 0
+    val offset = if (isKey) 4 else if (isArray) 0 else 1
     stack.drop(offset).headOption match {
       case Some(node: YNode) =>
         node.value match {

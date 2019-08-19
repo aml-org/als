@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.test.raml10
 class ExamplesStructureTests extends RAML10Test {
 
 
-  test("Simple example filtered 01") {
+  ignore("Simple example filtered 01") {
     this.runSuggestionTest(
       "structure/examples/example-filtered-01.raml",
       Set(
@@ -15,7 +15,7 @@ class ExamplesStructureTests extends RAML10Test {
     )
   }
 
-  test("Simple example filtered 02") {
+  ignore("Simple example filtered 02") {
     this.runSuggestionTest(
       "structure/examples/example-filtered-02.raml",
       Set(
@@ -32,7 +32,6 @@ class ExamplesStructureTests extends RAML10Test {
         "description: ",
         "strict: ",
         "displayName: ",
-        "annotations: ",
       )
     )
   }
@@ -45,12 +44,11 @@ class ExamplesStructureTests extends RAML10Test {
         "description: ",
         "strict: ",
         "displayName: ",
-        "annotations: ",
       )
     )
   }
 
-  test("Named examples filtered") {
+  ignore("Named examples filtered") {
     this.runSuggestionTest(
       "structure/examples/examples-named-filtered.raml",
       Set(
@@ -82,7 +80,7 @@ class ExamplesStructureTests extends RAML10Test {
     )
   }
 
-  test("NamedExample fragment without name") {
+  ignore("NamedExample fragment without name") {
     this.runSuggestionTest(
       "structure/examples/examples-fragment-not-named-01.raml",
       Set()
