@@ -5,7 +5,7 @@ class EnumTests extends RAML10Test {
   test("Security scheme types completion") {
     this.runSuggestionTest(
       "enums/test001.raml",
-      Set("OAuth 1.0", "OAuth 2.0", "Basic Authentication", "Digest Authentication", "Pass Through", "x-{other}"))
+      Set("OAuth 1.0", "OAuth 2.0", "Basic Authentication", "Digest Authentication", "Pass Through", "x-"))
   }
 
   test("NumberType format completion") {
