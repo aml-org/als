@@ -7,7 +7,8 @@ class ResourceTypeReferenceTests extends RAML10Test {
   }
 
   test("test002") {
-    this.runSuggestionTest("resourceTypeReferences/test002.raml", Set("resourceType1", "resourceType2"))
+    this.runSuggestionTest("resourceTypeReferences/test002.raml",
+                           Set("resourceType1:\n      ", "resourceType2:\n      "))
   }
 
   test("test007") {
@@ -37,6 +38,6 @@ class ResourceTypeReferenceTests extends RAML10Test {
   }
 
   test("test006") {
-    this.runSuggestionTest("resourceTypeReferences/test006.raml", Set("searchableColl"))
+    this.runSuggestionTest("resourceTypeReferences/test006.raml", Set("searchableColl:\n    "))
   }
 }

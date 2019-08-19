@@ -15,7 +15,7 @@ object RamlStructureCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     request.amfObject match {
-      case _: Shape | _: SecurityScheme => Future { Nil }
+      case _: Shape | _: SecurityScheme => emptySuggestion
       case _                            => AMLStructureCompletionPlugin.resolve(request)
     }
   }

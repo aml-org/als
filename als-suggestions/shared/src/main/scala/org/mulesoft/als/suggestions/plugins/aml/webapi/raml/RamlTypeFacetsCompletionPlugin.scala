@@ -6,6 +6,7 @@ import amf.core.model.domain.extensions.PropertyShape
 import amf.core.model.domain.{AmfObject, Shape}
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import amf.plugins.domain.shapes.models.ScalarShape
+import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -18,11 +19,14 @@ object RamlTypeFacetsCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(params.amfObject match {
-      case shape: Shape if params.yPartBranch.isKey && !params.fieldEntry.exists(f => f.field == ShapeModel.Name) =>
+      case shape: Shape if isWrittingFacet(params.yPartBranch, shape) =>
         resolveShape(shape, params.branchStack, params.indentation)
       case _ => Nil
     })
   }
+
+  private def isWrittingFacet(yPartBranch: YPartBranch, shape: Shape): Boolean =
+    yPartBranch.isKey && shape.name.value() != yPartBranch.stringValue
 
   def resolveShape(shape: Shape, branchStack: Seq[AmfObject], indentation: String): Seq[RawSuggestion] = {
 

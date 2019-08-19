@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.aml
 import amf.core.annotations.{LexicalInformation, SourceAST, SynthesizedField}
 import amf.core.model.document.{BaseUnit, Document}
 import amf.core.model.domain.{AmfArray, AmfObject, DomainElement}
+import amf.core.parser
 import amf.core.parser.FieldEntry
 import amf.core.remote.Platform
 import amf.plugins.document.vocabularies.model.document.Dialect
@@ -12,6 +13,7 @@ import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common._
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.Suggestion
+import org.mulesoft.typesystem.syaml.to.json.YRange
 import org.yaml.model.{YDocument, YNode, YType}
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: Position,
@@ -57,7 +59,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
   lazy val fieldEntry: Option[FieldEntry] = { // todo: maybe this should be a seq and not an option
     objectInTree.obj.fields
       .fields()
-      .find(f =>
+      .filter(f =>
         f.value.value match {
           case _: AmfArray =>
             f.value.annotations
@@ -70,6 +72,9 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
               .forall(_.containsCompletely(position)) && !f.value.value.annotations
               .contains(classOf[SynthesizedField]))
       })
+      .toList
+      .sorted(FieldEntryOrdering)
+      .lastOption
   }
 
   private def parentTermKey(): Seq[PropertyMapping] =
