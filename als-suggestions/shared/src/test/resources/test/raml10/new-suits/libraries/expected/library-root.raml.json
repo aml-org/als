@@ -1,1 +1,135 @@
-[]
+[
+  {
+    "text": "annotationTypes:\n  ",
+    "description": "annotationTypes",
+    "displayText": "annotationTypes",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "resourceTypes:\n  ",
+    "description": "resourceTypes",
+    "displayText": "resourceTypes",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "securitySchemes:\n  ",
+    "description": "securitySchemes",
+    "displayText": "securitySchemes",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "traits:\n  ",
+    "description": "traits",
+    "displayText": "traits",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "types:\n  ",
+    "description": "types",
+    "displayText": "types",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "usage: ",
+    "description": "usage",
+    "displayText": "usage",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "uses:\n  ",
+    "description": "uses",
+    "displayText": "uses",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      }
+    ]
+  }
+]
