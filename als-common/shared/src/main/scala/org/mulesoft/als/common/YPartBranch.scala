@@ -38,7 +38,7 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
 
   lazy val isIncludeTagValue: Boolean = stack.headOption.exists(_.isInstanceOf[YMapEntry]) && !isKey && hasIncludeTag
 
-  val isAtRoot: Boolean = stack.length <= 2
+  val isAtRoot: Boolean = stack.count(_.isInstanceOf[YMap]) <= 1
   val isArray: Boolean  = node.isArray
   lazy val isInArray: Boolean =
     getSequence.isDefined
