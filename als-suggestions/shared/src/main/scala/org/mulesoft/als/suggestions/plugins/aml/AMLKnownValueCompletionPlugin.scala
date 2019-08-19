@@ -15,7 +15,7 @@ class AMLKnownValueCompletions(params: AmlCompletionRequest, indentation: String
         fe =>
           params.amfObject.meta.`type`.headOption.map(classTerm =>
             PatchedSuggestionsForDialect
-              .getKnownValues(classTerm.iri(), fe.field.toString)))
+              .getKnownValues(params.actualDialect.id, classTerm.iri(), fe.field.toString)))
       .getOrElse(Nil)
 
   def resolve(): Future[Seq[RawSuggestion]] =
