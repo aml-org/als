@@ -1,0 +1,344 @@
+[
+  {
+    "text": "API",
+    "description": "API",
+    "displayText": "API",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "AnnotationType",
+    "description": "AnnotationType",
+    "displayText": "AnnotationType",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "DocumentationItem",
+    "description": "DocumentationItem",
+    "displayText": "DocumentationItem",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "Example",
+    "description": "Example",
+    "displayText": "Example",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "Extension",
+    "description": "Extension",
+    "displayText": "Extension",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "Library",
+    "description": "Library",
+    "displayText": "Library",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "Method",
+    "description": "Method",
+    "displayText": "Method",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "Overlay",
+    "description": "Overlay",
+    "displayText": "Overlay",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "RequestBody",
+    "description": "RequestBody",
+    "displayText": "RequestBody",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "Resource",
+    "description": "Resource",
+    "displayText": "Resource",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "ResourceType",
+    "description": "ResourceType",
+    "displayText": "ResourceType",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "Response",
+    "description": "Response",
+    "displayText": "Response",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "ResponseBody",
+    "description": "ResponseBody",
+    "displayText": "ResponseBody",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "SecurityScheme",
+    "description": "SecurityScheme",
+    "displayText": "SecurityScheme",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "SecuritySchemeSettings",
+    "description": "SecuritySchemeSettings",
+    "displayText": "SecuritySchemeSettings",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "Trait",
+    "description": "Trait",
+    "displayText": "Trait",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "TypeDeclaration",
+    "description": "TypeDeclaration",
+    "displayText": "TypeDeclaration",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "allowedTargets: ",
+    "description": "allowedTargets",
+    "displayText": "allowedTargets",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  }
+]
