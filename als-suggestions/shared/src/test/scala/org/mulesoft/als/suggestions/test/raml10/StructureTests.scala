@@ -48,7 +48,7 @@ class StructureTests extends RAML10Test {
     this.runSuggestionTest("structure/test11.raml", Set("mediaType: "))
   }
 
-  test("StructureTests root node schemas") {
+  ignore("StructureTests root node schemas") {
     this.runSuggestionTest("structure/test12.raml", Set("schemas:\n  "))
   }
 
@@ -104,11 +104,11 @@ class StructureTests extends RAML10Test {
     this.runSuggestionTest("structure/test29.raml", Set("head:\n    "))
   }
 
-  test("StructureTests resource node trace") {
+  ignore("StructureTests resource node trace") {
     this.runSuggestionTest("structure/test30.raml", Set("trace:\n    "))
   }
 
-  test("StructureTests resource node connect") {
+  ignore("StructureTests resource node connect") {
     this.runSuggestionTest("structure/test31.raml", Set("connect:\n    "))
   }
 
@@ -188,11 +188,11 @@ class StructureTests extends RAML10Test {
     this.runSuggestionTest("structure/test52.raml", Set("head:\n      "))
   }
 
-  test("StructureTests resourceType node trace") {
+  ignore("StructureTests resourceType node trace") {
     this.runSuggestionTest("structure/test53.raml", Set("trace:\n      "))
   }
 
-  test("StructureTests resourceType node connect") {
+  ignore("StructureTests resourceType node connect") {
     this.runSuggestionTest("structure/test54.raml", Set("connect:\n      "))
   }
 
