@@ -133,6 +133,25 @@
     ]
   },
   {
+    "text": "items:\n              ",
+    "description": "items",
+    "displayText": "items",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
     "text": "maxLength: ",
     "description": "maxLength",
     "displayText": "maxLength",
@@ -174,6 +193,25 @@
     "text": "pattern: ",
     "description": "pattern",
     "displayText": "pattern",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "properties:\n              ",
+    "description": "properties",
+    "displayText": "properties",
     "prefix": "",
     "category": "unknown",
     "range": [
