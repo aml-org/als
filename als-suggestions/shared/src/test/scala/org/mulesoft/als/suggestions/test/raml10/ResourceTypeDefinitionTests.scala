@@ -12,6 +12,7 @@ class ResourceTypeDefinitionTests extends RAML10Test {
       Set(
         "displayName: ",
         "description: ",
+        "usage: ",
         "get:\n      ",
         "patch:\n      ",
         "put:\n      ",
