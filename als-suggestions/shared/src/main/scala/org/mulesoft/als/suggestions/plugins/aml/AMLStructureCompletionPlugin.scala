@@ -3,7 +3,6 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.core.model.domain.AmfObject
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
-import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -55,13 +54,5 @@ object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
         else Seq()
       } else Seq()
     }
-  }
-
-  private def isInFieldValue(params: AmlCompletionRequest): Boolean = {
-    params.fieldEntry
-      .exists(
-        _.value.value
-          .position()
-          .exists(li => li.contains(params.position)))
   }
 }
