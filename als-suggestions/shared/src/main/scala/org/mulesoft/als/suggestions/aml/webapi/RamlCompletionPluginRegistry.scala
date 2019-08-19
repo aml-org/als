@@ -36,7 +36,9 @@ object RamlCompletionPluginRegistry {
       ObjectExamplePropertiesCompletionPlugin :+
       ExampleStructure :+
       WebApiExtensionsPropertyCompletionPlugin :+
-      RAMLDeclarationsReferencesCompletionPlugin
+      RAMLDeclarationsReferencesCompletionPlugin :+
+      AnnotationFacets :+
+      NodeShapeDiscriminatorProperty
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, RAML10Dialect().id)

@@ -1,5 +1,24 @@
 [
   {
+    "text": "allowedTargets:\n      ",
+    "description": "allowedTargets",
+    "displayText": "allowedTargets",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
     "text": "default: ",
     "description": "default",
     "displayText": "default",

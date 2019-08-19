@@ -19,25 +19,6 @@
     ]
   },
   {
-    "text": "annotationsTypes:\n  ",
-    "description": "annotationsTypes",
-    "displayText": "annotationsTypes",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 0
-        },
-        "end": {
-          "line": 4,
-          "character": 0
-        }
-      }
-    ]
-  },
-  {
     "text": "baseUri: ",
     "description": "baseUri",
     "displayText": "baseUri",

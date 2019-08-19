@@ -1,0 +1,13 @@
+#%RAML 1.0
+title: test
+
+types:
+  SomeType:
+    type: object
+    discriminator: *
+    properties:
+      one: string
+      two: number
+      three:
+        properties:
+          prop: string

@@ -9,7 +9,7 @@ package object aml {
 
     def propertiesRaw(identation: String): Seq[RawSuggestion] = {
       nodeMapping.propertiesMapping().map { p =>
-        if (p.objectRange().nonEmpty)
+        if (p.objectRange().nonEmpty || p.allowMultiple().value())
           RawSuggestion(p.name().value(), identation, isAKey = true)
         else RawSuggestion.forKey(p.name().value())
       }
