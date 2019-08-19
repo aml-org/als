@@ -301,7 +301,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("Declaring Annotation Type facet type completion") {
-    this.runSuggestionTest("structure/test110.raml", Set("type: "))
+    this.runSuggestionTest("structure/test110.raml", Set("type:\n      "))
   }
 
   test("Declaring Annotation Type facet properties completion") {
@@ -471,7 +471,7 @@ class StructureTests extends RAML10Test {
     this.runSuggestionTest(
       "structure/test152.raml",
       Set(
-        "enum: ",
+        "enum:\n          ",
         "displayName: ",
         "additionalProperties: ",
         "xml:\n          ",
