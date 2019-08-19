@@ -1309,24 +1309,5 @@
         }
       }
     ]
-  },
-  {
-    "text": "default:\n        ",
-    "description": "default",
-    "displayText": "default",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
   }
 ]
