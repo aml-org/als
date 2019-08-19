@@ -13,6 +13,15 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
     case _        => false
   }
 
+  lazy val stringValue: String = node match {
+    case n: YNode =>
+      n.toOption[YScalar] match {
+        case Some(s) => s.text
+        case _       => n.toString
+      }
+    case _ => node.toString
+  }
+
   lazy val tag: Option[YTag] = node match {
     case n: YNode => Some(n.tag)
     case _        => None

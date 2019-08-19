@@ -282,6 +282,38 @@ object Raml10TypesDialect {
     .withName("NilShapeNode")
     .withNodeTypeMapping(NilShapeModel.`type`.head.iri())
 
+  val AnnotationType: NodeMapping = NodeMapping()
+    .withId(DialectLocation + "#/declarations/AnnotationType")
+    .withName("AnnotationType")
+    .withNodeTypeMapping(CustomDomainPropertyModel.`type`.head.iri())
+    .withPropertiesMapping(
+      Seq(
+        PropertyMapping()
+          .withId(DialectLocation + "#/declarations/AnnotationType/allowedTargets")
+          .withNodePropertyMapping(CustomDomainPropertyModel.Domain.value.iri())
+          .withName("allowedTargets")
+          .withAllowMultiple(true)
+          .withEnum(Seq(
+            "API",
+            "DocumentationItem",
+            "Resource",
+            "Method",
+            "Response",
+            "RequestBody",
+            "ResponseBody",
+            "TypeDeclaration",
+            "Example",
+            "ResourceType",
+            "Trait",
+            "SecurityScheme",
+            "SecuritySchemeSettings",
+            "AnnotationType",
+            "Library",
+            "Overlay",
+            "Extension"
+          ))
+          .withLiteralRange(xsdString.iri())))
+
   val dialect: Dialect = {
     val dialect = RAML10Dialect()
     dialect.withDeclares(
@@ -299,7 +331,8 @@ object Raml10TypesDialect {
           ScalarShapeNode,
           SecuritySchemesDialect.SecurityScheme,
           SecuritySchemesDialect.OAuth1Settings,
-          SecuritySchemesDialect.OAuth2Settings
+          SecuritySchemesDialect.OAuth2Settings,
+          AnnotationType
         ))
 
     val declaredNodes = Seq(
@@ -317,9 +350,9 @@ object Raml10TypesDialect {
         .withName("securitySchemes")
         .withMappedNode(SecuritySchemesDialect.SecurityScheme.id), // todo
       PublicNodeMapping()
-        .withId(DialectLocation + "#/documents/annotationsTypes")
-        .withName("annotationsTypes")
-        .withMappedNode("AnnotationsTypes.node.id") // todo
+        .withId(DialectLocation + "#/documents/annotationTypes")
+        .withName("annotationTypes")
+        .withMappedNode(AnnotationType.id) // todo
     )
 
     dialect.documents().root().withDeclaredNodes(declaredNodes)
