@@ -1,11 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.metamodel.domain.ShapeModel
 import amf.core.model.DataType
 import amf.core.model.domain.extensions.PropertyShape
 import amf.core.model.domain.{AmfObject, Shape}
+import amf.core.parser.Value
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
-import amf.plugins.domain.shapes.models.ScalarShape
+import amf.plugins.document.webapi.annotations.Inferred
+import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
+import amf.plugins.domain.shapes.models.{AnyShape, ScalarShape}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -48,13 +50,28 @@ object RamlTypeFacetsCompletionPlugin extends AMLCompletionPlugin {
     val classSuggestions = node.map(n => n.propertiesRaw(indentation)).getOrElse(Nil)
 
     // corner case, property shape should suggest facets of the range PLUS required
-    val finalSuggestions: Iterable[RawSuggestion] with (RawSuggestion with Int => Any) = branchStack.headOption match {
+    val finalSuggestions: Iterable[RawSuggestion] = (branchStack.headOption match {
       case Some(_: PropertyShape) =>
         (Raml10TypesDialect.PropertyShapeNode.propertiesRaw(indentation) ++ classSuggestions).toSet
       case _ => classSuggestions
-    }
+    }) ++ defaults(shape, indentation)
 
     finalSuggestions.toSeq
   }
 
+  private def defaults(s: Shape, indentation: String): Seq[RawSuggestion] = {
+    s match {
+      case s: ScalarShape =>
+        s.fields.getValueAsOption(ScalarShapeModel.DataType) match {
+          case Some(Value(_, ann)) if ann.contains(classOf[Inferred]) && s.isInstanceOf[ScalarShape] =>
+            Seq(RawSuggestion("properties", indentation, isAKey = true),
+                RawSuggestion("items", indentation, isAKey = true))
+          case _ => Nil
+        }
+      case a: AnyShape if a.isDefaultEmpty =>
+        Seq(RawSuggestion("properties", indentation, isAKey = true),
+            RawSuggestion("items", indentation, isAKey = true))
+      case _ => Nil
+    }
+  }
 }
