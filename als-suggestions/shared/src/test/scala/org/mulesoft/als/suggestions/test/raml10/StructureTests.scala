@@ -77,7 +77,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests resource node type") {
-    this.runSuggestionTest("structure/test22.raml", Set("type: "))
+    this.runSuggestionTest("structure/test22.raml", Set("type:\n    "))
   }
 
   test("StructureTests resource node description") {
@@ -153,7 +153,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("StructureTests resourceType node type") {
-    this.runSuggestionTest("structure/test45.raml", Set("type: "))
+    this.runSuggestionTest("structure/test45.raml", Set("type:\n      "))
   }
 
   test("StructureTests resourceType node description") {
@@ -357,7 +357,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("Type facet type completion") {
-    this.runSuggestionTest("structure/test125.raml", Set("type: "))
+    this.runSuggestionTest("structure/test125.raml", Set("type:\n      "))
   }
 
   test("Type facet schema completion") {
@@ -405,7 +405,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("Parameter facet type completion") {
-    this.runSuggestionTest("structure/test140.raml", Set("type: "))
+    this.runSuggestionTest("structure/test140.raml", Set("type:\n          "))
   }
 
   test("Parameter facet schema completion") {

@@ -11,8 +11,12 @@ object PatchedSuggestionsForDialect {
 
   private val classes: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
     Map(
+      FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.StatusCode.value.iri()) ->
+        Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_))),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.Name.value.iri()) ->
         Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_))),
+      FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.Accepts.value.iri()) ->
+        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
       FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.ContentType.value.iri()) ->
         Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
       FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->

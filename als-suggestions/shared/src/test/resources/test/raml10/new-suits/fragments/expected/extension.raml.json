@@ -1,8 +1,8 @@
 [
   {
-    "text": "annotationsTypes:\n  ",
-    "description": "annotationsTypes",
-    "displayText": "annotationsTypes",
+    "text": "annotationTypes:\n  ",
+    "description": "annotationTypes",
+    "displayText": "annotationTypes",
     "prefix": "",
     "category": "unknown",
     "range": [
