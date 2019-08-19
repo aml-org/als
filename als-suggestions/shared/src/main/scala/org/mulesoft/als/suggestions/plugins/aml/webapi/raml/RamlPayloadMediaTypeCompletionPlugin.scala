@@ -18,9 +18,13 @@ object RamlPayloadMediaTypeCompletionPlugin extends AMLCompletionPlugin {
     Future {
       request.branchStack.headOption match {
         case Some(p: Payload)
-            if request.yPartBranch.isKey && p.schema.fields.filter(f => f._1 != ShapeModel.Name).fields().isEmpty =>
+            if request.yPartBranch.isKey
+              && p.schema.fields.filter(f => f._1 != ShapeModel.Name).fields().isEmpty
+              && p.mediaType.option().isEmpty =>
           PatchedSuggestionsForDialect
-            .getKnownValues(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri())
+            .getKnownValues(request.actualDialect.id,
+                            PayloadModel.`type`.head.iri(),
+                            PayloadModel.MediaType.value.iri())
             .map(p => RawSuggestion(p.text, request.indentation, isAKey = true))
         case _ => Nil
       }

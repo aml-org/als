@@ -631,7 +631,7 @@ class StructureTests extends RAML10Test {
   }
 
   test("response codes test 02") {
-    this.runSuggestionTest("structure/test161.raml", TestRamlResponseCodes.all.toSet)
+    this.runSuggestionTest("structure/test161.raml", TestRamlResponseCodes.all.toSet.filter(t => !t.startsWith("200")))
   }
 
   test("facets test 1") {
