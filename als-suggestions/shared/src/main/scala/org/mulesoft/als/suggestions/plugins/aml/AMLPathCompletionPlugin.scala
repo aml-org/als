@@ -45,10 +45,11 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
                        platform: Platform,
                        prefix: String,
                        directoryResolver: DirectoryResolver): Future[Seq[RawSuggestion]] = {
-    val baseDir      = extractPath(FileUtils.getPath(actualLocation, platform)) // root path for file
+    val fullPath     = FileUtils.getPath(actualLocation, platform)
+    val baseDir      = extractPath(fullPath) // root path for file
     val relativePath = extractPath(prefix) // already written part of the path
     val fullURI      = FileUtils.getEncodedUri(s"$baseDir$relativePath", platform)
-    val actual       = actualLocation.stripPrefix(fullURI)
+    val actual       = fullPath.stripPrefix(baseDir)
 
     doIfDirectory(directoryResolver, fullURI)(
       listDirectory(directoryResolver, platform, relativePath, actual, fullURI))
