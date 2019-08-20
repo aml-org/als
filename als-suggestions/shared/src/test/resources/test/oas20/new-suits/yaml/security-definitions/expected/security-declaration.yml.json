@@ -1,10 +1,10 @@
 [
   {
-    "text": "type: ",
-    "description": "",
-    "displayText": "type",
+    "text": "description: ",
+    "description": "description",
+    "displayText": "description",
     "prefix": "",
-    "category": "security",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -19,9 +19,9 @@
     ]
   },
   {
-    "text": "description: ",
-    "description": "",
-    "displayText": "description",
+    "text": "type: ",
+    "description": "type",
+    "displayText": "type",
     "prefix": "",
     "category": "unknown",
     "range": [
