@@ -6,7 +6,7 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.AMLDeclarationsReferencesCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferences
 import org.yaml.model.{YMapEntry, YNode}
 
 import scala.concurrent.Future
@@ -28,10 +28,10 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
         val brothers = getBrothers(params)
 
         val suggestions =
-          new AMLDeclarationsReferencesCompletionPlugin(Seq(iriDeclaration),
-                                                        stringValue(params.yPartBranch),
-                                                        params.declarationProvider,
-                                                        None).resolve().filter(r => !brothers.contains(r.newText))
+          new AMLRamlStyleDeclarationsReferences(Seq(iriDeclaration),
+                                                 stringValue(params.yPartBranch),
+                                                 params.declarationProvider,
+                                                 None).resolve().filter(r => !brothers.contains(r.newText))
 
         if (params.yPartBranch.isKey)
           suggestions.map(s => s.copy(isKey = true, whiteSpacesEnding = params.indentation))

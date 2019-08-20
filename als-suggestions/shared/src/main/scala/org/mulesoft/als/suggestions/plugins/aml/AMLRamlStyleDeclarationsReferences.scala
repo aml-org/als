@@ -4,6 +4,8 @@ import amf.core.annotations.SourceAST
 import amf.core.metamodel.domain.DomainElementModel
 import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
+import amf.plugins.document.vocabularies.ReferenceStyles
+import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.common.ElementNameExtractor._
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -14,10 +16,10 @@ import org.yaml.model.{YMapEntry, YPart}
 
 import scala.concurrent.Future
 
-class AMLDeclarationsReferencesCompletionPlugin(nodeTypeMappings: Seq[String],
-                                                prefix: String,
-                                                provider: DeclarationProvider,
-                                                actualName: Option[String]) {
+class AMLRamlStyleDeclarationsReferences(nodeTypeMappings: Seq[String],
+                                         prefix: String,
+                                         provider: DeclarationProvider,
+                                         actualName: Option[String]) {
 
   def resolve(): Seq[RawSuggestion] = {
     val values =
@@ -38,23 +40,32 @@ class AMLDeclarationsReferencesCompletionPlugin(nodeTypeMappings: Seq[String],
   }
 }
 
-object AMLDeclarationsReferencesCompletionPlugin extends AMLCompletionPlugin {
+object AMLRamlStyleDeclarationsReferences extends AMLDeclarationReferences {
   override def id: String = "AMLDeclarationsReferencesCompletionPlugin"
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful({
-      if (params.yPartBranch.isValue) {
+      if (params.yPartBranch.isValue && styleOrEmpty(params.actualDialect)) {
         val actualName = params.amfObject.elementIdentifier()
-        new AMLDeclarationsReferencesCompletionPlugin(getObjectRangeIds(params),
+        new AMLRamlStyleDeclarationsReferences(getObjectRangeIds(params),
                                                       params.prefix,
                                                       params.declarationProvider,
                                                       actualName).resolve()
       } else Seq.empty
     })
-
   }
 
-  private def getObjectRangeIds(params: AmlCompletionRequest): Seq[String] = {
+  private def styleOrEmpty(dialect:Dialect) = {
+    dialect.documents().referenceStyle().option().forall(_ == ReferenceStyles.RAML)
+  }
+
+
+}
+
+
+trait AMLDeclarationReferences extends AMLCompletionPlugin{
+
+  protected def getObjectRangeIds(params: AmlCompletionRequest): Seq[String] = {
     val candidates = getFieldIri(params.fieldEntry, params.propertyMapping)
       .orElse(declaredFromKey(params.yPartBranch.parent, params.propertyMapping))
       .map(_.objectRange().flatMap(_.option())) match {

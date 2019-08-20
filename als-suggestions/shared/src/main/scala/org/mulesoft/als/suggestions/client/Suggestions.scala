@@ -7,7 +7,7 @@ import amf.dialects.{OAS20Dialect, WebApiDialectsRegistry}
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceUnit}
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher}
+import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher, YPartBranch}
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequestBuilder
 import org.mulesoft.als.suggestions.implementation.{
@@ -22,6 +22,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.Raml10TypesDialect
 import org.mulesoft.high.level.InitOptions
 import org.mulesoft.high.level.amfmanager.ParserHelper
 import org.mulesoft.high.level.interfaces.IProject
+import org.yaml.model.YNode
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
