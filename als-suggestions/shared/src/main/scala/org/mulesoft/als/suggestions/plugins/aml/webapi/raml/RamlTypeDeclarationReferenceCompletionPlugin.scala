@@ -10,14 +10,14 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLDeclarationsReferencesCompletionPlugin
 import org.yaml.model.YMapEntry
-
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object RamlTypeDeclarationReferenceCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "RamlTypeDeclarationReferenceCompletionPlugin"
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    Future.successful {
+    Future {
       params.amfObject match {
         case s: Shape if params.yPartBranch.isValue =>
           val iri =
@@ -38,7 +38,7 @@ object RamlTypeDeclarationReferenceCompletionPlugin extends AMLCompletionPlugin 
 
             case Some(text)
                 if name.exists(Seq(text, "schema").contains) || params.amfObject
-                  .isInstanceOf[UnresolvedShape] =>
+                  .isInstanceOf[UnresolvedShape] || text == "body" =>
               declaredSuggestions ++ Raml10TypesDialect.shapeTypesProperty
                 .enum()
                 .map(v => v.value().toString)
