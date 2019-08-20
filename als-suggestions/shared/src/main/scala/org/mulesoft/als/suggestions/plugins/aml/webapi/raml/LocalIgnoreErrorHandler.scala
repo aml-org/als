@@ -11,7 +11,7 @@ object LocalIgnoreErrorHandler extends ErrorHandler {
                                 lexical: Option[LexicalInformation],
                                 level: String,
                                 location: Option[String]): Unit = {
-    println(s"Error in RamlResourceTypeDefinition while trying to generate endpoint.\nMessage: $message\nNode: $node")
+    println(s"Error in local resolution.\nMessage: $message\nNode: $node")
   }
 
 }
