@@ -107,11 +107,10 @@ object Suggestions extends SuggestionsHelper {
   }
 
   private def isHeader(position: Int, url: String, originalContent: String): Boolean =
-    !url.toLowerCase().endsWith(".raml") &&
-      !originalContent
-        .substring(0, position)
-        .replaceAll("^\\{?\\s+", "")
-        .contains('\n')
+    !originalContent
+      .substring(0, position)
+      .replaceAll("^\\{?\\s+", "")
+      .contains('\n')
 
   private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
     case d: DialectInstanceUnit              => WebApiDialectsRegistry.dialectFor(bu)
