@@ -15,15 +15,15 @@ class TraitReferenceTests extends RAML10Test {
   }
 
   test("test004") {
-    this.runSuggestionTest("traitReferences/test004.raml", Set("trait1", "trait2"))
+    this.runSuggestionTest("traitReferences/test004.raml", Set("trait1:\n        ", "trait2:\n        "))
   }
 
   test("test005") {
-    this.runSuggestionTest("traitReferences/test005.raml", Set("trait1", "trait2"))
+    this.runSuggestionTest("traitReferences/test005.raml", Set("trait1:\n        ", "trait2:\n        "))
   }
 
   test("test006") {
-    this.runSuggestionTest("traitReferences/test006.raml", Set("trait2"))
+    this.runSuggestionTest("traitReferences/test006.raml", Set("trait2:\n        "))
   }
 
   test("test007") {
@@ -64,7 +64,6 @@ class TraitReferenceTests extends RAML10Test {
       "traitReferences/test-trait-external-01.raml",
       Set("number",
           "any",
-          "union",
           "date-only",
           "time-only",
           "datetime",
@@ -85,7 +84,6 @@ class TraitReferenceTests extends RAML10Test {
       "traitReferences/test-trait-external-02.raml",
       Set("number",
           "any",
-          "union",
           "date-only",
           "time-only",
           "datetime",
