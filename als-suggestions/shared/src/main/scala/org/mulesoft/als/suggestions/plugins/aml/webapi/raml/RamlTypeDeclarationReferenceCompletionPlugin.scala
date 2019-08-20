@@ -8,7 +8,7 @@ import org.mulesoft.als.common.ElementNameExtractor._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.AMLDeclarationsReferencesCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferences
 import org.yaml.model.YMapEntry
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -24,10 +24,10 @@ object RamlTypeDeclarationReferenceCompletionPlugin extends AMLCompletionPlugin 
             if (s.annotations.contains(classOf[SynthesizedField]) || params.yPartBranch.isEmptyNode)
               ShapeModel.`type`.head.iri()
             else s.meta.`type`.head.iri()
-          val declaredSuggestions = new AMLDeclarationsReferencesCompletionPlugin(Seq(iri),
-                                                                                  params.prefix,
-                                                                                  params.declarationProvider,
-                                                                                  s.name.option()).resolve()
+          val declaredSuggestions = new AMLRamlStyleDeclarationsReferences(Seq(iri),
+                                                                           params.prefix,
+                                                                           params.declarationProvider,
+                                                                           s.name.option()).resolve()
 
           val name = params.amfObject.elementIdentifier()
           params.yPartBranch.parent

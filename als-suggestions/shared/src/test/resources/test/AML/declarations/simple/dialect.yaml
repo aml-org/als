@@ -40,4 +40,4 @@ documents:
     declares:
       types: SomeType
   options:
-    referenceStyle: JsonSchemaStyle
+    referenceStyle: RamlStyle
