@@ -31,14 +31,14 @@ class EnumTest extends AMLSuggestionsTest {
                 ProfileName("Test Array 1.0"))
   }
 
-  test("Known Values - Response Codes") {
+  ignore("Known Values - Response Codes") {
     withDialect("instances/responseCodes.yaml",
                 OasResponseCodes.all.map(r => s"$r:\n      ").toSet,
                 "dialects/knownValuesDialect.yaml",
                 ProfileName("KnownValues 1.0"))
   }
 
-  test("Known Values - Media Types") {
+  ignore("Known Values - Media Types") {
     withDialect("instances/mediaTypes.yaml",
                 OasCommonMediaTypes.all.map(r => s"$r:\n      ").toSet,
                 "dialects/knownValuesDialect.yaml",
