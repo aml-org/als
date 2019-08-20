@@ -15,8 +15,7 @@ object AnnotationReferenceCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(
-      if (params.yPartBranch.isKey && !params.yPartBranch.isInArray && (params.prefix
-            .startsWith("(") || params.prefix.isEmpty)) {
+      if (params.yPartBranch.isKey && !params.yPartBranch.isInArray) {
         val annName = params.branchStack.headOption match {
           case Some(c: CustomDomainProperty) => c.name.option()
           case _                             => None
