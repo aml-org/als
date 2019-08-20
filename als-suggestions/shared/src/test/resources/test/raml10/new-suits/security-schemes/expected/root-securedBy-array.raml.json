@@ -1,6 +1,6 @@
 [
   {
-    "text": "name",
+    "text": "name:\n    ",
     "description": "name",
     "displayText": "name",
     "prefix": "",

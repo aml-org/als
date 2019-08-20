@@ -1,8 +1,8 @@
 [
   {
-    "text": "api_key: ",
-    "description": "security definition reference",
-    "displayText": "api_key",
+    "text": "internalApiKey:\n          ",
+    "description": "internalApiKey",
+    "displayText": "internalApiKey",
     "prefix": "",
     "category": "unknown",
     "range": [
