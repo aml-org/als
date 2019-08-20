@@ -1,15 +1,15 @@
 [
   {
-    "text": "/definitions/a",
-    "description": "Reference to /definitions/a",
-    "displayText": "/definitions/a",
-    "prefix": "/",
+    "text": "definitions/a",
+    "description": "Reference to #/definitions/a",
+    "displayText": "definitions/a",
+    "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
           "line": 7,
-          "character": 16
+          "character": 17
         },
         "end": {
           "line": 7,
