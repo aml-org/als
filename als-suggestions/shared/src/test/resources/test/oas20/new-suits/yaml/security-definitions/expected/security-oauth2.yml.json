@@ -1,48 +1,10 @@
 [
   {
-    "text": "flow: ",
-    "description": "",
-    "displayText": "flow",
+    "text": "authorizationUrl: ",
+    "description": "authorizationUrl",
+    "displayText": "authorizationUrl",
     "prefix": "",
-    "category": "security",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "tokenUrl: ",
-    "description": "",
-    "displayText": "tokenUrl",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "scopes:\n      ",
-    "description": "",
-    "displayText": "scopes",
-    "prefix": "",
-    "category": "security",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -58,7 +20,7 @@
   },
   {
     "text": "description: ",
-    "description": "",
+    "description": "description",
     "displayText": "description",
     "prefix": "",
     "category": "unknown",
@@ -76,11 +38,49 @@
     ]
   },
   {
-    "text": "authorizationUrl: ",
-    "description": "",
-    "displayText": "authorizationUrl",
+    "text": "flow: ",
+    "description": "flow",
+    "displayText": "flow",
     "prefix": "",
-    "category": "security",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "scopes:\n      ",
+    "description": "scopes",
+    "displayText": "scopes",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "tokenUrl: ",
+    "description": "tokenUrl",
+    "displayText": "tokenUrl",
+    "prefix": "",
+    "category": "unknown",
     "range": [
       {
         "start": {

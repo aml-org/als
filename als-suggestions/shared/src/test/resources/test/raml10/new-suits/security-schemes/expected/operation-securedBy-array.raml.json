@@ -1,13 +1,13 @@
 [
   {
-    "text": "name",
+    "text": "name:\n        ",
     "description": "name",
     "displayText": "name",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
-        "start":{
+        "start": {
           "line": 9,
           "character": 8
         },

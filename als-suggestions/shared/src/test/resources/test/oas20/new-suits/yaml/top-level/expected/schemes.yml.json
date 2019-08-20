@@ -1,8 +1,8 @@
 [
   {
-    "text": "[ http ]",
-    "description": "Possible 'schemes' value",
-    "displayText": "[ http ]",
+    "text": "http",
+    "description": "http",
+    "displayText": "http",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -19,9 +19,9 @@
     ]
   },
   {
-    "text": "[ https ]",
-    "description": "Possible 'schemes' value",
-    "displayText": "[ https ]",
+    "text": "https",
+    "description": "https",
+    "displayText": "https",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -38,9 +38,9 @@
     ]
   },
   {
-    "text": "[ ws ]",
-    "description": "Possible 'schemes' value",
-    "displayText": "[ ws ]",
+    "text": "ws",
+    "description": "ws",
+    "displayText": "ws",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -57,9 +57,9 @@
     ]
   },
   {
-    "text": "[ wss ]",
-    "description": "Possible 'schemes' value",
-    "displayText": "[ wss ]",
+    "text": "wss",
+    "description": "wss",
+    "displayText": "wss",
     "prefix": "",
     "category": "unknown",
     "range": [
