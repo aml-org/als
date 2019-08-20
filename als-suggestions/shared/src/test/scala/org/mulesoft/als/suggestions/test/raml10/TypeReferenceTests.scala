@@ -170,6 +170,6 @@ class TypeReferenceTests extends RAML10Test {
 
   test("Test type reference from a lib declaration") {
     this.runSuggestionTest("typeReferences/through-lib/api.raml",
-                           Set("myTypes"))
+                           Set("myTypes."))
   }
 }

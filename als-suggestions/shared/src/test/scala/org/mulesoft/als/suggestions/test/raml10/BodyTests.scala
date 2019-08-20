@@ -2,14 +2,12 @@ package org.mulesoft.als.suggestions.test.raml10
 
 class BodyTests extends RAML10Test {
 
-  test("Method with no bodies") {
+  ignore("Method with no bodies") {
     this.runSuggestionTest(
       "body/test001.raml",
       Set(
         "application/json:\n        ",
         "application/xml:\n        ",
-        "multipart/form-data:\n        ",
-        "application/x-www-form-urlencoded:\n        ",
         "displayName: ",
         "type: ",
         "enum: ",
@@ -27,9 +25,7 @@ class BodyTests extends RAML10Test {
   }
 
   test("Method with some bodies") {
-    this.runSuggestionTest(
-      "body/test002.raml",
-      Set("application/json:\n      ", "multipart/form-data:\n      ", "application/x-www-form-urlencoded:\n      "))
+    this.runSuggestionTest("body/test002.raml", Set("application/json:\n        "))
   }
 
   test("Response with no bodies") {
@@ -39,23 +35,22 @@ class BodyTests extends RAML10Test {
         "application/json:\n            ",
         "application/xml:\n            ",
         "displayName: ",
-        "type: ",
-        "enum: ",
+        "type:\n            ",
+        "enum:\n            ",
         "xml:\n            ",
         "default: ",
         "description: ",
-        "schema: ",
         "examples:\n            ",
         "example:\n            ",
         "facets:\n            ",
         "properties:\n            ",
-        "items: "
+        "items:\n            "
       )
     )
   }
 
   test("Response with some bodies") {
-    this.runSuggestionTest("body/test004.raml", Set("application/json:\n          "))
+    this.runSuggestionTest("body/test004.raml", Set("application/json:\n            "))
   }
 
   test("Method body type shortcut") {
@@ -75,8 +70,7 @@ class BodyTests extends RAML10Test {
           "array",
           "object",
           "A",
-          "B",
-          "union")
+          "B")
     )
   }
 
@@ -97,8 +91,7 @@ class BodyTests extends RAML10Test {
           "array",
           "object",
           "A",
-          "B",
-          "union")
+          "B")
     )
   }
 }

@@ -3,7 +3,12 @@ package org.mulesoft.als.suggestions.plugins.aml.patched
 import amf.dialects.OAS20Dialect
 import amf.plugins.domain.webapi.metamodel.{PayloadModel, ResponseModel, WebApiModel}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.Raml10TypesDialect
-import org.mulesoft.typesystem.definition.system.{OasCommonMediaTypes, OasResponseCodes, RamlResponseCodes}
+import org.mulesoft.typesystem.definition.system.{
+  OasCommonMediaTypes,
+  OasResponseCodes,
+  RamlCommonMediaTypes,
+  RamlResponseCodes
+}
 
 case class PatchedSuggestion(text: String, description: Option[String] = None)
 
@@ -11,41 +16,29 @@ case class FieldForClass(classTerm: String, propertyTerm: String)
 
 object PatchedSuggestionsForDialect {
 
-  private val classes: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
-    Map(
-      FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.StatusCode.value.iri()) ->
-        Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_))),
-      FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.Name.value.iri()) ->
-        Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_))),
-      FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.Accepts.value.iri()) ->
-        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
-      FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.ContentType.value.iri()) ->
-        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
-      FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
-        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_)))
-    )
-
-  private val commonClasses: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
-    Map(
-      FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.Name.value.iri()) ->
-        Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_))),
-      FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.Accepts.value.iri()) ->
-        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
-      FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.ContentType.value.iri()) ->
-        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
-      FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
-        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_)))
-    )
-
   private val oas20Classes: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
-    commonClasses ++ Map(
+    Map(
+      FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.Accepts.value.iri()) ->
+        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.ContentType.value.iri()) ->
+        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
+        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.StatusCode.value.iri()) ->
-        Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_))))
+        Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_)))
+    )
 
   private val raml10Classes: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
-    commonClasses ++ Map(
+    Map(
+      FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.Accepts.value.iri()) ->
+        Map("KnownValues" -> RamlCommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.ContentType.value.iri()) ->
+        Map("KnownValues" -> RamlCommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
+        Map("KnownValues" -> RamlCommonMediaTypes.all.map(PatchedSuggestion(_))),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.StatusCode.value.iri()) ->
-        Map("KnownValues" -> RamlResponseCodes.all.map(PatchedSuggestion(_))))
+        Map("KnownValues" -> RamlResponseCodes.all.map(PatchedSuggestion(_)))
+    )
 
   private val classesByDialect: Map[String, Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]]] =
     Map(Raml10TypesDialect.dialect.id -> raml10Classes, OAS20Dialect.dialect.id -> oas20Classes)

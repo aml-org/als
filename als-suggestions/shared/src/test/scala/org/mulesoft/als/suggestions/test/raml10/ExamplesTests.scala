@@ -5,7 +5,7 @@ class ExamplesTests extends RAML10Test {
     this.runSuggestionTest("examples/test01.raml", Set("valueSeven", "valueEight"))
   }
 
-  test("json test") {
+  ignore("json test") {
     this.runSuggestionTest("examples/test02.raml", Set("valueSeven", "valueEight"))
   }
 
