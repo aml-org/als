@@ -54,13 +54,14 @@ object AMLBaseCompletionPlugins {
     AMLStructureCompletionPlugin,
     AMLEnumCompletionPlugin,
     AMLRootDeclarationsCompletionPlugin,
-    AMLDeclarationsReferencesCompletionPlugin,
+    AMLRamlStyleDeclarationsReferences,
     AMLKnownValueCompletionPlugin,
     AMLComponentKeyCompletionPlugin,
     AMLRefTagCompletionPlugin,
     AMLPathCompletionPlugin,
     AMLlibraryPathCompletion,
-    AMLBooleanPropertyValue
+    AMLBooleanPropertyValue,
+    AMLJsonSchemaStyleDeclarationReferences
   )
 
   val base: CompletionPluginsRegistryAML = {

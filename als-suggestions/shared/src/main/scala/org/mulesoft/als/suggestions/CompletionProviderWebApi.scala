@@ -1,5 +1,7 @@
 package org.mulesoft.als.suggestions
 
+import amf.core.annotations.SourceAST
+import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.implementation.{CompletionRequest, LocationKindDetectTool}
 import org.mulesoft.als.suggestions.interfaces.{Suggestion => SuggestionInterface, _}
