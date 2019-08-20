@@ -1,9 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
+import amf.plugins.domain.webapi.metamodel.WebApiModel
 import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
+import amf.plugins.domain.webapi.models.WebApi
 import amf.plugins.domain.webapi.models.security.ParametrizedSecurityScheme
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
+import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLDeclarationsReferencesCompletionPlugin
 
@@ -15,14 +18,20 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
-      request.amfObject match {
-        case p: ParametrizedSecurityScheme =>
-          new AMLDeclarationsReferencesCompletionPlugin(Seq(SecuritySchemeModel.`type`.head.iri()),
-                                                        request.prefix,
-                                                        request.declarationProvider,
-                                                        None).resolve()
-        case _ => Nil
-      }
+      if (isWrittingSecuredBy(request)) getSecurityNames(request.prefix, request.declarationProvider)
+      else Nil
     }
   }
+
+  private def isWrittingSecuredBy(request: AmlCompletionRequest): Boolean = {
+    request.amfObject match {
+      case p: ParametrizedSecurityScheme => true
+      case w: WebApi                     => request.fieldEntry.exists(t => t.field == WebApiModel.Security)
+      case _                             => false
+    }
+  }
+
+  private def getSecurityNames(prefix: String, dp: DeclarationProvider) =
+    new AMLDeclarationsReferencesCompletionPlugin(Seq(SecuritySchemeModel.`type`.head.iri()), prefix, dp, None)
+      .resolve()
 }
