@@ -19,7 +19,8 @@ class TraitDefinitionTests extends RAML10Test {
         "body:\n      ",
         "protocols: ",
         "is:\n      ",
-        "securedBy: "
+        "securedBy: ",
+        "usage: "
       )
     )
   }
