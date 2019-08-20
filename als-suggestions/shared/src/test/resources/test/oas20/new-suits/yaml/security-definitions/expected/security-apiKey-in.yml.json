@@ -1,8 +1,8 @@
 [
   {
-    "text": "query",
-    "description": "Possible 'in' value",
-    "displayText": "query",
+    "text": "header",
+    "description": "header",
+    "displayText": "header",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -19,9 +19,9 @@
     ]
   },
   {
-    "text": "header",
-    "description": "Possible 'in' value",
-    "displayText": "header",
+    "text": "query",
+    "description": "query",
+    "displayText": "query",
     "prefix": "",
     "category": "unknown",
     "range": [

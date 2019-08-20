@@ -1,7 +1,7 @@
 [
   {
-    "text": "security: ",
-    "description": "security definition reference",
+    "text": "security:\n    ",
+    "description": "security",
     "displayText": "security",
     "prefix": "",
     "category": "unknown",
