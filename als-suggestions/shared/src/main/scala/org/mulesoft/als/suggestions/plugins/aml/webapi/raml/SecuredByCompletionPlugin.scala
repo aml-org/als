@@ -8,7 +8,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.AMLDeclarationsReferencesCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferences
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -32,6 +32,6 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
   }
 
   private def getSecurityNames(prefix: String, dp: DeclarationProvider) =
-    new AMLDeclarationsReferencesCompletionPlugin(Seq(SecuritySchemeModel.`type`.head.iri()), prefix, dp, None)
+    new AMLRamlStyleDeclarationsReferences(Seq(SecuritySchemeModel.`type`.head.iri()), prefix, dp, None)
       .resolve()
 }
