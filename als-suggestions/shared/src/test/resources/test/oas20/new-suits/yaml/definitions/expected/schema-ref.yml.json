@@ -1,8 +1,198 @@
 [
   {
-    "text": "\"#/definitions/a\"",
-    "description": "Reference to #/definitions/a",
-    "displayText": "#/definitions/a",
+    "text": "boolean-format.yml",
+    "description": "Path suggestion",
+    "displayText": "boolean-format.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "definitios.yml",
+    "description": "Path suggestion",
+    "displayText": "definitios.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "expected/",
+    "description": "Path suggestion",
+    "displayText": "expected/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "externalDocs-schema.yml",
+    "description": "Path suggestion",
+    "displayText": "externalDocs-schema.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "jsonschema.json",
+    "description": "Path suggestion",
+    "displayText": "jsonschema.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "required-properties-name.yml",
+    "description": "Path suggestion",
+    "displayText": "required-properties-name.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "schema-ref-comment.yml",
+    "description": "Path suggestion",
+    "displayText": "schema-ref-comment.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "schema-ref-separator-two.yml",
+    "description": "Path suggestion",
+    "displayText": "schema-ref-separator-two.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "schema-ref-separator.yml",
+    "description": "Path suggestion",
+    "displayText": "schema-ref-separator.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "types-schema.yml",
+    "description": "Path suggestion",
+    "displayText": "types-schema.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "xmlObject-schema.yml",
+    "description": "Path suggestion",
+    "displayText": "xmlObject-schema.yml",
     "prefix": "",
     "category": "unknown",
     "range": [
