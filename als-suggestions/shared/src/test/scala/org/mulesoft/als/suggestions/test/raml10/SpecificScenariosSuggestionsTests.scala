@@ -95,7 +95,6 @@ class SpecificScenariosSuggestionsTests extends RAML10Test {
       Set(
         "number",
         "any",
-        "union",
         "date-only",
         "time-only",
         "datetime",
@@ -106,7 +105,6 @@ class SpecificScenariosSuggestionsTests extends RAML10Test {
         "object",
         "nil",
         "array",
-        "version",
         "boolean",
         "file",
         "integer",
