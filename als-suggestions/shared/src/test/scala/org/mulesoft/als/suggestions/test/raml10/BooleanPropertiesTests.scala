@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.test.raml10
 
 class BooleanPropertiesTests extends RAML10Test {
-  test("XML.wrapped test 001") {
+  ignore("XML.wrapped test 001") {
     this.runSuggestionTest("booleanProperties/test001.raml", Set(" true", " false"))
   }
 
