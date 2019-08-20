@@ -1,0 +1,21 @@
+[
+  {
+    "text": "application/xml:\n            ",
+    "description": "application/xml",
+    "displayText": "application/xml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  }
+]

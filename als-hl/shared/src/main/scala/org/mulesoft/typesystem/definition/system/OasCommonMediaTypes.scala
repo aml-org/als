@@ -16,3 +16,12 @@ object OasCommonMediaTypes extends OftenKeysConfig {
   )
   override val quotedMark: String = "\""
 }
+
+object RamlCommonMediaTypes extends OftenKeysConfig {
+
+  override val all: Seq[String] = Seq(
+    "application/json",
+    "application/xml"
+  )
+  override val quotedMark: String = "\""
+}

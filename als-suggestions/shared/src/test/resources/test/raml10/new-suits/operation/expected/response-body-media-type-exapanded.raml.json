@@ -1,43 +1,5 @@
 [
   {
-    "text": "application/json:\n            ",
-    "description": "application/json",
-    "displayText": "application/json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 7,
-          "character": 10
-        },
-        "end": {
-          "line": 7,
-          "character": 10
-        }
-      }
-    ]
-  },
-  {
-    "text": "application/xml:\n            ",
-    "description": "application/xml",
-    "displayText": "application/xml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 7,
-          "character": 10
-        },
-        "end": {
-          "line": 7,
-          "character": 10
-        }
-      }
-    ]
-  },
-  {
     "text": "default: ",
     "description": "default",
     "displayText": "default",
@@ -46,12 +8,12 @@
     "range": [
       {
         "start": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         },
         "end": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         }
       }
     ]
@@ -65,12 +27,12 @@
     "range": [
       {
         "start": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         },
         "end": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         }
       }
     ]
@@ -84,18 +46,18 @@
     "range": [
       {
         "start": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         },
         "end": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         }
       }
     ]
   },
   {
-    "text": "enum:\n            ",
+    "text": "enum:\n              ",
     "description": "enum",
     "displayText": "enum",
     "prefix": "",
@@ -103,18 +65,18 @@
     "range": [
       {
         "start": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         },
         "end": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         }
       }
     ]
   },
   {
-    "text": "example:\n            ",
+    "text": "example:\n              ",
     "description": "example",
     "displayText": "example",
     "prefix": "",
@@ -122,18 +84,18 @@
     "range": [
       {
         "start": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         },
         "end": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         }
       }
     ]
   },
   {
-    "text": "examples:\n            ",
+    "text": "examples:\n              ",
     "description": "examples",
     "displayText": "examples",
     "prefix": "",
@@ -141,18 +103,18 @@
     "range": [
       {
         "start": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         },
         "end": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         }
       }
     ]
   },
   {
-    "text": "facets:\n            ",
+    "text": "facets:\n              ",
     "description": "facets",
     "displayText": "facets",
     "prefix": "",
@@ -160,18 +122,18 @@
     "range": [
       {
         "start": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         },
         "end": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         }
       }
     ]
   },
   {
-    "text": "items:\n            ",
+    "text": "items:\n              ",
     "description": "items",
     "displayText": "items",
     "prefix": "",
@@ -179,18 +141,18 @@
     "range": [
       {
         "start": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         },
         "end": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         }
       }
     ]
   },
   {
-    "text": "properties:\n            ",
+    "text": "properties:\n              ",
     "description": "properties",
     "displayText": "properties",
     "prefix": "",
@@ -198,18 +160,18 @@
     "range": [
       {
         "start": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         },
         "end": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         }
       }
     ]
   },
   {
-    "text": "type:\n            ",
+    "text": "type:\n              ",
     "description": "type",
     "displayText": "type",
     "prefix": "",
@@ -217,18 +179,18 @@
     "range": [
       {
         "start": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         },
         "end": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         }
       }
     ]
   },
   {
-    "text": "xml:\n            ",
+    "text": "xml:\n              ",
     "description": "xml",
     "displayText": "xml",
     "prefix": "",
@@ -236,12 +198,12 @@
     "range": [
       {
         "start": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         },
         "end": {
-          "line": 7,
-          "character": 10
+          "line": 8,
+          "character": 12
         }
       }
     ]
