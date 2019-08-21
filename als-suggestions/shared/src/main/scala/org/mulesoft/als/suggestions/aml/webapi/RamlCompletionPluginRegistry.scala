@@ -34,7 +34,7 @@ object RamlCompletionPluginRegistry {
       ObjectExamplePropertiesCompletionPlugin :+
       ExampleStructure :+
       WebApiExtensionsPropertyCompletionPlugin :+
-      RAMLDeclarationsReferencesCompletionPlugin :+
+      RamlDeclarationsReferencesCompletionPlugin :+
       AnnotationFacets :+
       NodeShapeDiscriminatorProperty :+
       UnitUsesFacet

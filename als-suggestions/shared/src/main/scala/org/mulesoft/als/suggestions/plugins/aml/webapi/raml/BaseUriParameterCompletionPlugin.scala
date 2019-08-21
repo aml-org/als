@@ -29,7 +29,7 @@ object BaseUriParameterCompletionPlugin extends AMLCompletionPlugin {
           }
         case _ => Nil
       }
-      params.map(p => RawSuggestion(p, request.indentation, isAKey = true))
+      params.map(p => RawSuggestion(p, request.indentation, isAKey = true, "parameters"))
     }
   }
 

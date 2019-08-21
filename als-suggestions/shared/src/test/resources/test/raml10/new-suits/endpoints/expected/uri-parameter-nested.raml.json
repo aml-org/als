@@ -4,7 +4,7 @@
     "description": "anotherUri",
     "displayText": "anotherUri",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
@@ -23,7 +23,7 @@
     "description": "uri",
     "displayText": "uri",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {

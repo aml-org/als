@@ -4,7 +4,7 @@
     "description": "scopes",
     "displayText": "scopes",
     "prefix": "",
-    "category": "unknown",
+    "category": "security",
     "range": [
       {
         "start":{

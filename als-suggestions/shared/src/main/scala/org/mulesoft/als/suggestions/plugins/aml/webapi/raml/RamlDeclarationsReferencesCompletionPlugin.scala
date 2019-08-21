@@ -9,7 +9,7 @@ import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferenc
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object RAMLDeclarationsReferencesCompletionPlugin extends AMLCompletionPlugin {
+object RamlDeclarationsReferencesCompletionPlugin extends AMLCompletionPlugin {
 
   override def id: String = "AMLDeclarationsReferencesCompletionPlugin"
 

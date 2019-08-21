@@ -19,7 +19,7 @@ object SecuritySettingsFacetsCompletionPlugin extends AMLCompletionPlugin {
         case Some(_: OAuth1Settings) if !fromReference =>
           SecuritySchemesDialect.OAuth1Settings.propertiesRaw(request.indentation)
         case Some(_: OAuth2Settings) if fromReference =>
-          Seq(RawSuggestion("scopes", request.indentation, isAKey = true))
+          Seq(RawSuggestion("scopes", request.indentation, isAKey = true, "security"))
         case Some(_: OAuth2Settings) => SecuritySchemesDialect.OAuth2Settings.propertiesRaw(request.indentation)
         case _                       => Nil
       }

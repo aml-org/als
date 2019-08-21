@@ -4,7 +4,7 @@
     "description": "default",
     "displayText": "default",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
@@ -23,7 +23,7 @@
     "description": "description",
     "displayText": "description",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -42,7 +42,7 @@
     "description": "displayName",
     "displayText": "displayName",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -61,7 +61,7 @@
     "description": "enum",
     "displayText": "enum",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
@@ -80,7 +80,7 @@
     "description": "example",
     "displayText": "example",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -99,7 +99,7 @@
     "description": "examples",
     "displayText": "examples",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -175,7 +175,7 @@
     "description": "type",
     "displayText": "type",
     "prefix": "",
-    "category": "unknown",
+    "category": "types and traits",
     "range": [
       {
         "start": {
