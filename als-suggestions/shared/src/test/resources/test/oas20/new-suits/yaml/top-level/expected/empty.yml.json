@@ -5,7 +5,18 @@
     "displayText": "#%AsyncAPI 0.6",
     "prefix": "",
     "category": "unknown",
-    "range": []
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      }
+    ]
   },
   {
     "text": "#%Library / AsyncAPI 0.6",
@@ -13,7 +24,18 @@
     "displayText": "#%Library / AsyncAPI 0.6",
     "prefix": "",
     "category": "unknown",
-    "range": []
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      }
+    ]
   },
   {
     "text": "#%Message / AsyncAPI 0.6",
@@ -21,7 +43,18 @@
     "displayText": "#%Message / AsyncAPI 0.6",
     "prefix": "",
     "category": "unknown",
-    "range": []
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      }
+    ]
   },
   {
     "text": "#%Patch / AsyncAPI 0.6",
@@ -29,7 +62,18 @@
     "displayText": "#%Patch / AsyncAPI 0.6",
     "prefix": "",
     "category": "unknown",
-    "range": []
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      }
+    ]
   },
   {
     "text": "#%Schema / AsyncAPI 0.6",
@@ -37,7 +81,18 @@
     "displayText": "#%Schema / AsyncAPI 0.6",
     "prefix": "",
     "category": "unknown",
-    "range": []
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      }
+    ]
   },
   {
     "text": "#%SecurityScheme / AsyncAPI 0.6",
@@ -45,7 +100,18 @@
     "displayText": "#%SecurityScheme / AsyncAPI 0.6",
     "prefix": "",
     "category": "unknown",
-    "range": []
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      }
+    ]
   },
   {
     "text": "swagger: \"2.0\"",
@@ -53,6 +119,17 @@
     "displayText": "swagger: \"2.0\"",
     "prefix": "",
     "category": "unknown",
-    "range": []
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      }
+    ]
   }
 ]
