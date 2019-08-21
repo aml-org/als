@@ -4,7 +4,7 @@
     "description": "annotationTypes",
     "displayText": "annotationTypes",
     "prefix": "",
-    "category": "unknown",
+    "category": "types and traits",
     "range": [
       {
         "start": {
@@ -23,7 +23,7 @@
     "description": "baseUri",
     "displayText": "baseUri",
     "prefix": "",
-    "category": "unknown",
+    "category": "root",
     "range": [
       {
         "start": {
@@ -42,7 +42,7 @@
     "description": "baseUriParameters",
     "displayText": "baseUriParameters",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
@@ -61,7 +61,7 @@
     "description": "description",
     "displayText": "description",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -80,7 +80,7 @@
     "description": "documentation",
     "displayText": "documentation",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -99,7 +99,7 @@
     "description": "mediaType",
     "displayText": "mediaType",
     "prefix": "",
-    "category": "unknown",
+    "category": "root",
     "range": [
       {
         "start": {
@@ -118,7 +118,7 @@
     "description": "protocols",
     "displayText": "protocols",
     "prefix": "",
-    "category": "unknown",
+    "category": "root",
     "range": [
       {
         "start": {
@@ -137,7 +137,7 @@
     "description": "resourceTypes",
     "displayText": "resourceTypes",
     "prefix": "",
-    "category": "unknown",
+    "category": "types and traits",
     "range": [
       {
         "start": {
@@ -156,7 +156,7 @@
     "description": "securedBy",
     "displayText": "securedBy",
     "prefix": "",
-    "category": "unknown",
+    "category": "security",
     "range": [
       {
         "start": {
@@ -175,7 +175,7 @@
     "description": "securitySchemes",
     "displayText": "securitySchemes",
     "prefix": "",
-    "category": "unknown",
+    "category": "security",
     "range": [
       {
         "start": {
@@ -194,7 +194,7 @@
     "description": "title",
     "displayText": "title",
     "prefix": "",
-    "category": "unknown",
+    "category": "root",
     "range": [
       {
         "start": {
@@ -213,7 +213,7 @@
     "description": "traits",
     "displayText": "traits",
     "prefix": "",
-    "category": "unknown",
+    "category": "types and traits",
     "range": [
       {
         "start": {
@@ -232,7 +232,7 @@
     "description": "types",
     "displayText": "types",
     "prefix": "",
-    "category": "unknown",
+    "category": "types and traits",
     "range": [
       {
         "start": {
@@ -270,7 +270,7 @@
     "description": "version",
     "displayText": "version",
     "prefix": "",
-    "category": "unknown",
+    "category": "root",
     "range": [
       {
         "start": {

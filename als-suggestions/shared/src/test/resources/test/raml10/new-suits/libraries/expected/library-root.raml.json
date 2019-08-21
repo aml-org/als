@@ -4,7 +4,7 @@
     "description": "annotationTypes",
     "displayText": "annotationTypes",
     "prefix": "",
-    "category": "unknown",
+    "category": "types and traits",
     "range": [
       {
         "start": {
@@ -23,7 +23,7 @@
     "description": "resourceTypes",
     "displayText": "resourceTypes",
     "prefix": "",
-    "category": "unknown",
+    "category": "types and traits",
     "range": [
       {
         "start": {
@@ -42,7 +42,7 @@
     "description": "securitySchemes",
     "displayText": "securitySchemes",
     "prefix": "",
-    "category": "unknown",
+    "category": "security",
     "range": [
       {
         "start": {
@@ -61,7 +61,7 @@
     "description": "traits",
     "displayText": "traits",
     "prefix": "",
-    "category": "unknown",
+    "category": "types and traits",
     "range": [
       {
         "start": {
@@ -80,7 +80,7 @@
     "description": "types",
     "displayText": "types",
     "prefix": "",
-    "category": "unknown",
+    "category": "types and traits",
     "range": [
       {
         "start": {
@@ -99,7 +99,7 @@
     "description": "usage",
     "displayText": "usage",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {

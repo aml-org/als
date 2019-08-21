@@ -7,6 +7,7 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
 import org.mulesoft.als.suggestions.plugins.aml.patched.PatchedSuggestionsForDialect
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -17,15 +18,20 @@ object RamlPayloadMediaTypeCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
-      if (isWrittingKEYMediaType(request)) {
+      if (isWritingKEYMediaType(request)) {
         PatchedSuggestionsForDialect
           .getKnownValues(request.actualDialect.id, PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri())
-          .map(p => RawSuggestion(p.text, request.indentation, isAKey = true))
+          .map(
+            p =>
+              RawSuggestion(p.text,
+                            request.indentation,
+                            isAKey = true,
+                            CategoryRegistry(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri())))
       } else Nil
     }
   }
 
-  private def isWrittingKEYMediaType(request: AmlCompletionRequest) = {
+  private def isWritingKEYMediaType(request: AmlCompletionRequest) = {
     request.yPartBranch.isKey &&
     (request.branchStack.headOption match {
       case Some(p: Payload) =>
@@ -40,7 +46,7 @@ object RamlPayloadMediaTypeCompletionPlugin extends AMLCompletionPlugin {
 //  private def isWrittingValueMediaType(request:AmlCompletionRequest) = {
 //    request.yPartBranch.isValue && request.yPartBranch.is
 //  }
-  // todo : replace hack when amf keep lexical information over media type field in payload
+  // todo : replace hack when amf keeps lexical information over media type field in payload
   private def inMediaType(yPartBranch: YPartBranch): Boolean =
     yPartBranch.stringValue.contains('/') && yPartBranch.isKeyDescendanceOf("body")
 }

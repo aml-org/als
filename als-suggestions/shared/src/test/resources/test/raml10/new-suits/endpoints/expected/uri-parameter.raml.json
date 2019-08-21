@@ -4,7 +4,7 @@
     "description": "uri",
     "displayText": "uri",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
