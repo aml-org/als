@@ -44,7 +44,7 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
       .root()
       .declaredNodes()
       .flatMap(node => node.name().option())
-      .map(RawSuggestion(_, indentation, isAKey = true))
+      .map(RawSuggestion(_, indentation, isAKey = true, "unknown"))
   }
 
   private def isSonOf(keyDeclaration: String, yPartBranch: YPartBranch) = {

@@ -7,6 +7,7 @@ import amf.plugins.domain.webapi.models.security.{OAuth2Settings, ParametrizedSe
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -14,19 +15,24 @@ import scala.concurrent.Future
 object SecurityScopesCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "SecurityScopes"
 
-  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
+  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future {
       request.fieldEntry match {
         case Some(FieldEntry(OAuth2SettingsModel.Scopes, Value(array: AmfArray, _))) =>
           val scopes = array.values.collect({ case s: Scope => s.name.option() }).flatten
           getParametrizedScopes(request.branchStack)
             .filter(s => !scopes.contains(s))
-            .map(RawSuggestion(_, request.indentation, isAKey = false))
+            .map(
+              t =>
+                RawSuggestion(t,
+                              request.indentation,
+                              isAKey = false,
+                              category = CategoryRegistry(OAuth2SettingsModel.`type`.head.iri(),
+                                                          OAuth2SettingsModel.Scopes.value.iri())))
         case _ => Nil
 
       }
     }
-  }
 
   private def getParametrizedScopes(branchStack: Seq[AmfObject]): Seq[String] = {
     branchStack.headOption match {

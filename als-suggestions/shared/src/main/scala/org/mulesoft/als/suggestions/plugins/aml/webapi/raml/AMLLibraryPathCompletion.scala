@@ -8,8 +8,8 @@ import org.mulesoft.als.suggestions.plugins.aml.AMLPathCompletionPlugin
 
 import scala.concurrent.Future
 
-object AMLlibraryPathCompletion extends AMLCompletionPlugin {
-  override def id: String = "AMLlibraryPathCompletion"
+object AMLLibraryPathCompletion extends AMLCompletionPlugin {
+  override def id: String = "AMLLibraryPathCompletion"
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
 

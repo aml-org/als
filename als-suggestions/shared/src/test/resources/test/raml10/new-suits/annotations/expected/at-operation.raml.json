@@ -4,7 +4,7 @@
     "description": "(myAnnotation)",
     "displayText": "(myAnnotation)",
     "prefix": "",
-    "category": "unknown",
+    "category": "annotations",
     "range": [
       {
         "start": {
@@ -23,7 +23,7 @@
     "description": "body",
     "displayText": "body",
     "prefix": "",
-    "category": "unknown",
+    "category": "body",
     "range": [
       {
         "start": {
@@ -42,7 +42,7 @@
     "description": "description",
     "displayText": "description",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -61,7 +61,7 @@
     "description": "displayName",
     "displayText": "displayName",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -80,7 +80,7 @@
     "description": "headers",
     "displayText": "headers",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
@@ -99,7 +99,7 @@
     "description": "is",
     "displayText": "is",
     "prefix": "",
-    "category": "unknown",
+    "category": "types and traits",
     "range": [
       {
         "start": {
@@ -118,7 +118,7 @@
     "description": "protocols",
     "displayText": "protocols",
     "prefix": "",
-    "category": "unknown",
+    "category": "root",
     "range": [
       {
         "start": {
@@ -137,7 +137,7 @@
     "description": "queryParameters",
     "displayText": "queryParameters",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
@@ -175,7 +175,7 @@
     "description": "responses",
     "displayText": "responses",
     "prefix": "",
-    "category": "unknown",
+    "category": "responses",
     "range": [
       {
         "start": {
@@ -194,7 +194,7 @@
     "description": "securedBy",
     "displayText": "securedBy",
     "prefix": "",
-    "category": "unknown",
+    "category": "security",
     "range": [
       {
         "start": {

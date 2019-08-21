@@ -11,6 +11,7 @@ import amf.plugins.domain.shapes.resolution.stages.elements.ShapeTransformationP
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -37,8 +38,10 @@ object ObjectExamplePropertiesCompletionPlugin extends AMLCompletionPlugin {
 
   private def propToRaw(propertyShape: PropertyShape, indentation: String) = {
     propertyShape.range match {
-      case _: NodeShape | _: ArrayShape => RawSuggestion.apply(propertyShape.name.value(), indentation, isAKey = true)
-      case _                            => RawSuggestion.forKey(propertyShape.name.value())
+      case _: NodeShape | _: ArrayShape =>
+        RawSuggestion(propertyShape.name.value(), indentation, isAKey = true, "parameters")
+      case _ =>
+        RawSuggestion.forKey(propertyShape.name.value(), "parameters")
     }
   }
 

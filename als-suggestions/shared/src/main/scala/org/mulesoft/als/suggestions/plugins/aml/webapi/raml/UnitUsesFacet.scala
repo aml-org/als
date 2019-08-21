@@ -17,7 +17,7 @@ object UnitUsesFacet extends AMLCompletionPlugin {
     Future {
       if (request.yPartBranch.isAtRoot && request.yPartBranch.isKey && !isInFieldValue(request) && !request.amfObject
             .isInstanceOf[AbstractDeclaration] && isNotDocument(request)) {
-        Seq(RawSuggestion.forKey("usage"))
+        Seq(RawSuggestion.forKey("usage", "docs"))
       } else Nil
     }
   }

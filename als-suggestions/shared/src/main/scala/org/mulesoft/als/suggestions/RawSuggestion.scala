@@ -10,6 +10,7 @@ case class RawSuggestion(newText: String,
                          textEdits: Seq[TextEdit],
                          isKey: Boolean,
                          whiteSpacesEnding: String,
+                         category: String = "unknown",
                          isSnippet: Boolean = false) {
 
   implicit def bool2InsertTextFormat(v: Boolean): InsertTextFormat.Value =
@@ -20,18 +21,23 @@ case class RawSuggestion(newText: String,
     new Suggestion(newText, description, displayText, linePrefix, None)
       .withTrailingWhitespace(whiteSpacesEnding)
       .withInsertTextFormat(isSnippet)
+      .withCategory(category)
 }
 
 object RawSuggestion {
   def forKey(value: String): RawSuggestion = {
-    apply(value, "", isAKey = true)
+    apply(value, "", isAKey = true, "unknown")
+  }
+
+  def forKey(value: String, category: String): RawSuggestion = {
+    apply(value, "", isAKey = true, category = category)
   }
 
   def apply(value: String, isAKey: Boolean): RawSuggestion = {
-    apply(value, "", isAKey)
+    apply(value, "", isAKey, "unknown")
   }
 
-  def apply(value: String, ws: String, isAKey: Boolean): RawSuggestion = {
-    new RawSuggestion(value, value, value, Seq(), isAKey, ws)
+  def apply(value: String, ws: String, isAKey: Boolean, category: String): RawSuggestion = {
+    new RawSuggestion(value, value, value, Seq(), isAKey, ws, category)
   }
 }

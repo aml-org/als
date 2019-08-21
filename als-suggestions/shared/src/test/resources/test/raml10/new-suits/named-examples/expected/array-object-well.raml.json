@@ -4,7 +4,7 @@
     "description": "p1",
     "displayText": "p1",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
@@ -23,7 +23,7 @@
     "description": "p2",
     "displayText": "p2",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
