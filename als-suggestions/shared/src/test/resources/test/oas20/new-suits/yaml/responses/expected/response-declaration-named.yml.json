@@ -1,10 +1,10 @@
 [
   {
     "text": "description: ",
-    "description": "",
+    "description": "description",
     "displayText": "description",
     "prefix": "",
-    "category": "docs",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -19,9 +19,28 @@
     ]
   },
   {
-    "text": "\"$ref\": ",
-    "description": "",
-    "displayText": "$ref",
+    "text": "examples:\n      ",
+    "description": "examples",
+    "displayText": "examples",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "headers:\n      ",
+    "description": "headers",
+    "displayText": "headers",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -39,10 +58,10 @@
   },
   {
     "text": "schema:\n      ",
-    "description": "",
+    "description": "schema",
     "displayText": "schema",
     "prefix": "",
-    "category": "schemas",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -57,30 +76,11 @@
     ]
   },
   {
-    "text": "examples:\n      ",
-    "description": "",
-    "displayText": "examples",
+    "text": "statusCode: ",
+    "description": "statusCode",
+    "displayText": "statusCode",
     "prefix": "",
-    "category": "docs",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 4
-        },
-        "end": {
-          "line": 3,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "headers:\n      ",
-    "description": "",
-    "displayText": "headers",
-    "prefix": "",
-    "category": "parameters",
+    "category": "unknown",
     "range": [
       {
         "start": {
