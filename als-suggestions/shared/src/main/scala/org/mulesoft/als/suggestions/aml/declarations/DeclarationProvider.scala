@@ -4,14 +4,17 @@ import amf.core.annotations.Aliases
 import amf.core.metamodel.domain.DomainElementModel
 import amf.core.model.document.{BaseUnit, DeclaresModel}
 import amf.core.model.domain.{AmfScalar, DomainElement}
-import amf.core.vocabulary.Namespace
+import amf.core.vocabulary.{Namespace, ValueType}
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import org.mulesoft.als.common.ElementNameExtractor._
 
 import scala.collection.mutable
 
 class DeclarationProvider(componentId: Option[String] = None) {
+
+  def isTermDeclarable(term: String): Boolean = declarableTerms.contains(term)
 
   case class DeclaredCandidates(local: Set[Name], alias: Set[Alias]) {
     def nonEmpty: Boolean = local.nonEmpty || alias.nonEmpty
@@ -34,6 +37,10 @@ class DeclarationProvider(componentId: Option[String] = None) {
 
   private val libraries: mutable.Map[Alias, DeclarationProvider] =
     mutable.Map.empty
+
+  private var declarableTerms: Seq[String] = Seq.empty
+
+  def putDeclarable(str: String): Unit = declarableTerms = str +: declarableTerms
 
   def put(typeMapping: NodeTypeMapping, elements: Set[Name]): Unit = declarations.get(typeMapping) match {
     case Some(set) => declarations.update(typeMapping, set ++ elements)
@@ -62,6 +69,9 @@ class DeclarationProvider(componentId: Option[String] = None) {
 object DeclarationProvider {
   def apply(bu: BaseUnit, d: Option[Dialect]): DeclarationProvider = {
     val provider = new DeclarationProvider(d.flatMap(_.documents().declarationsPath().option()))
+
+    populateDeclarables(d, provider)
+
     bu match {
       case de: DeclaresModel => populateDeclares(de, provider)
       case _                 => // ignore
@@ -74,6 +84,32 @@ object DeclarationProvider {
     }
 
     provider
+
+  }
+
+  private def populateDeclarables(d: Option[Dialect], provider: DeclarationProvider): Unit = {
+    val declaredIds = d
+      .map(_.documents())
+      .map(documents => {
+        val libDec: Seq[String] = Option(documents.library())
+          .map(_.declaredNodes().flatMap(_.fields.fields()).map(_.value.toString))
+          .getOrElse(Seq())
+        val fragEnc: Seq[String] =
+          Option(documents.fragments()).map(_.flatMap(_.fields.fields().map(_.value.toString))).getOrElse(Seq())
+        val rootDec: Seq[String] = Option(documents.root())
+          .map(_.declaredNodes().flatMap(_.mappedNode().option()))
+          .getOrElse(Seq())
+
+        libDec ++ fragEnc ++ rootDec
+      })
+      .getOrElse(Seq())
+
+    val nodes = d.map(_.declares.collect({ case n: NodeMapping => n })).getOrElse(Nil)
+    declaredIds.foreach { id =>
+      nodes.find(_.id == id).foreach { nm =>
+        provider.putDeclarable(nm.nodetypeMapping.value())
+      }
+    }
 
   }
 
