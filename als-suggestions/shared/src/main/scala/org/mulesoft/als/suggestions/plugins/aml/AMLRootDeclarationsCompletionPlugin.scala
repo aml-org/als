@@ -7,7 +7,7 @@ import amf.plugins.document.vocabularies.model.domain.PublicNodeMapping
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.AMLStructureCompletionPlugin.isInFieldValue
+import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -44,10 +44,10 @@ class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) {
   def usesSuggestion(): Option[(String, String)] =
     params.actualDialect.documents().fields.getValueAsOption(DocumentsModelModel.Library).map(_ => ("uses", "\n  "))
 
-  def resolve(): Future[Seq[RawSuggestion]] =
+  def resolve(classTerm: String): Future[Seq[RawSuggestion]] =
     Future {
       (getSuggestions ++ usesSuggestion())
-        .map(s => RawSuggestion(s._1, s._2, isAKey = true))
+        .map(s => RawSuggestion(s._1, s._2, isAKey = true, CategoryRegistry(classTerm, s._1)))
     }
 }
 
@@ -56,9 +56,8 @@ object AMLRootDeclarationsCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     if (params.yPartBranch.isAtRoot && params.yPartBranch.isKey && !isInFieldValue(params))
-      new AMLRootDeclarationsCompletionPlugin(
-        params
-      ).resolve()
+      new AMLRootDeclarationsCompletionPlugin(params)
+        .resolve(params.amfObject.meta.`type`.head.iri())
     else emptySuggestion
   }
 }

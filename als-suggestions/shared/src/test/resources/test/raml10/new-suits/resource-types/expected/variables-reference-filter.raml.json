@@ -4,7 +4,7 @@
     "description": "param2",
     "displayText": "param2",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {

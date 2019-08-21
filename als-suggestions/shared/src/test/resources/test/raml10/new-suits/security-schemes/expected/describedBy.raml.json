@@ -4,7 +4,7 @@
     "description": "headers",
     "displayText": "headers",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
@@ -23,7 +23,7 @@
     "description": "queryParameters",
     "displayText": "queryParameters",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
@@ -61,7 +61,7 @@
     "description": "responses",
     "displayText": "responses",
     "prefix": "",
-    "category": "unknown",
+    "category": "responses",
     "range": [
       {
         "start": {

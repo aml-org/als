@@ -34,7 +34,7 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
           .pluginSuggestions(newRequest)
           .map(seq => {
             if (params.branchStack.headOption.exists(_.isInstanceOf[AbstractDeclaration]) && params.yPartBranch.isKey)
-              seq ++ Seq(RawSuggestion.forKey("usage"))
+              seq ++ Seq(RawSuggestion.forKey("usage", "docs"))
             else seq
           })
       }

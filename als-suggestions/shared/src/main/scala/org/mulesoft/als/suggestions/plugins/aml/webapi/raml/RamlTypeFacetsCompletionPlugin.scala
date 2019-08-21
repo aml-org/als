@@ -64,13 +64,13 @@ object RamlTypeFacetsCompletionPlugin extends AMLCompletionPlugin {
       case s: ScalarShape =>
         s.fields.getValueAsOption(ScalarShapeModel.DataType) match {
           case Some(Value(_, ann)) if ann.contains(classOf[Inferred]) && s.isInstanceOf[ScalarShape] =>
-            Seq(RawSuggestion("properties", indentation, isAKey = true),
-                RawSuggestion("items", indentation, isAKey = true))
+            Seq(RawSuggestion("properties", indentation, isAKey = true, "unknown"),
+                RawSuggestion("items", indentation, isAKey = true, "unknown"))
           case _ => Nil
         }
       case a: AnyShape if a.isDefaultEmpty =>
-        Seq(RawSuggestion("properties", indentation, isAKey = true),
-            RawSuggestion("items", indentation, isAKey = true))
+        Seq(RawSuggestion("properties", indentation, isAKey = true, "unknown"),
+            RawSuggestion("items", indentation, isAKey = true, "unknown"))
       case _ => Nil
     }
   }

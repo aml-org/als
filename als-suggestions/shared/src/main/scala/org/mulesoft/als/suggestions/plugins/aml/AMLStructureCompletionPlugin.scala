@@ -6,6 +6,7 @@ import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapp
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -29,7 +30,7 @@ class AMLStructureCompletionsPlugin(propertyMapping: Seq[PropertyMapping], inden
 
   private def getSuggestions: Seq[(String, String)] = propertyMapping.map(extractText)
 
-  def resolve(): Seq[RawSuggestion] =
+  def resolve(classTerm: String): Seq[RawSuggestion] =
     getSuggestions
       .map(
         s =>
@@ -39,7 +40,8 @@ class AMLStructureCompletionsPlugin(propertyMapping: Seq[PropertyMapping], inden
                         s._1,
                         Seq(),
                         isKey = true,
-                        s._2))
+                        s._2,
+                        CategoryRegistry(classTerm, s._1)))
 }
 
 object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
@@ -50,7 +52,8 @@ object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
       if (params.yPartBranch.isKey && !isInFieldValue(params)) {
         val isEncoded = isEncodes(params.amfObject, params.actualDialect)
         if ((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded)
-          new AMLStructureCompletionsPlugin(params.propertyMapping, params.indentation).resolve()
+          new AMLStructureCompletionsPlugin(params.propertyMapping, params.indentation)
+            .resolve(params.amfObject.meta.`type`.head.iri())
         else Seq()
       } else Seq()
     }
