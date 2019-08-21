@@ -1,19 +1,19 @@
 [
   {
-    "text": "swagger: '2.0'",
-    "description": "Initialize new OAS 2.0 document",
-    "displayText": "swagger: '2.0'",
-    "prefix": "",
+    "text": "\"swagger\": \"2.0\"",
+    "description": "Define a OAS 2.0 file",
+    "displayText": "\"swagger\": \"2.0\"",
+    "prefix": "\"",
     "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 1,
+          "character": 1
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 1,
+          "character": 2
         }
       }
     ]

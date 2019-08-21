@@ -54,7 +54,7 @@ object SuggestionStyler {
 
   def adjustedSuggestions(stylerParams: StylerParams, suggestions: Seq[Suggestion]): Seq[Suggestion] = {
 
-    val styler =
+    val styler: Suggestion => String =
       if (stylerParams.isYAML)
         yamlStyle(stylerParams.noColon, stylerParams.isKey, stylerParams.hasLine, stylerParams.hasColon, _)
       else
@@ -66,16 +66,16 @@ object SuggestionStyler {
                   stylerParams.hasQuote,
                   _)
 
-    suggestions.map(
-      s =>
-        SuggestionImpl(
-          styler(s),
-          s.description,
-          s.displayText,
-          s.prefix,
-          Option(PositionRange(stylerParams.position.moveColumn(-s.prefix.length), stylerParams.position)))
-          .withCategory(s.category))
+    suggestions.map(s => asSuggestionImpl(styler)(s, stylerParams.position))
   }
+
+  def asSuggestionImpl(styler: Suggestion => String)(s: Suggestion, position: Position): SuggestionImpl =
+    SuggestionImpl(styler(s),
+                   s.description,
+                   s.displayText,
+                   s.prefix,
+                   s.range.orElse(Option(PositionRange(position.moveColumn(-s.prefix.length), position))))
+      .withCategory(s.category)
 
   private def yamlStyle(noColon: Boolean,
                         isKey: Boolean,
