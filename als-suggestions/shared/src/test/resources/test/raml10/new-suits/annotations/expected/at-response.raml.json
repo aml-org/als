@@ -4,7 +4,7 @@
     "description": "(myAnnotation)",
     "displayText": "(myAnnotation)",
     "prefix": "",
-    "category": "unknown",
+    "category": "annotations",
     "range": [
       {
         "start": {
@@ -23,7 +23,7 @@
     "description": "body",
     "displayText": "body",
     "prefix": "",
-    "category": "unknown",
+    "category": "responses",
     "range": [
       {
         "start": {
@@ -42,7 +42,7 @@
     "description": "description",
     "displayText": "description",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -61,7 +61,7 @@
     "description": "headers",
     "displayText": "headers",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {

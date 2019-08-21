@@ -19,12 +19,13 @@ object SecuritySchemeStructureCompletionPlugin extends AMLCompletionPlugin {
           SecuritySchemesDialect.DescribedBy.propertiesRaw(request.indentation)
         case s: SecurityScheme if request.fieldEntry.isEmpty && request.yPartBranch.isKey =>
           val suggestions =
-            new AMLStructureCompletionsPlugin(SecuritySchemesDialect.SecurityScheme.propertiesMapping(),
-                                              request.indentation).resolve()
+            new AMLStructureCompletionsPlugin(
+              SecuritySchemesDialect.SecurityScheme.propertiesMapping(),
+              request.indentation).resolve(SecuritySchemesDialect.SecurityScheme.meta.`type`.head.iri())
           if (s.`type`
                 .option()
                 .exists(t => Seq("OAuth 1.0", "OAuth 2.0").contains(t)))
-            suggestions :+ RawSuggestion("settings", request.indentation, isAKey = true)
+            suggestions :+ RawSuggestion("settings", request.indentation, isAKey = true, "security")
           else suggestions
 
         case _ => Nil
