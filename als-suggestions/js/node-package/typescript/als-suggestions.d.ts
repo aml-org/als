@@ -22,7 +22,7 @@ declare module '@mulesoft/als-suggestions' {
 
     static oas20Generator(): Oas20Renderer
 
-    // static amfGraphParser(): AmfGraphParser
+    static amfGraphParser(): parse.AmfGraphParser
 
     static amfGraphGenerator(): AmfGraphRenderer
 
@@ -73,8 +73,6 @@ declare module '@mulesoft/als-suggestions' {
     static OAS: MessageStyle
     static AMF: MessageStyle
   }
-
-  export class AmfGraphParser {}
 
   export class AmfGraphRenderer extends render.Renderer {
     constructor()
@@ -732,7 +730,7 @@ declare module '@mulesoft/als-suggestions' {
         defaultValue: DataNode
         defaultValueStr: StrField
 
-        values: ScalarNode[]
+        values: DataNode[]
         location: string
         inherits: Shape[]
         or: Shape[]
@@ -1249,6 +1247,8 @@ declare module '@mulesoft/als-suggestions' {
         minProperties: IntField
         maxProperties: IntField
         closed: BoolField
+        customShapeProperties: PropertyShape[]
+        customShapePropertyDefinitions: PropertyShape[]
         discriminator: StrField
         discriminatorValue: StrField
         properties: PropertyShape[]
@@ -1259,6 +1259,14 @@ declare module '@mulesoft/als-suggestions' {
         withMaxProperties(max: number): this
 
         withClosed(closed: boolean): this
+
+        withCustomShapeProperty(name: string): PropertyShape
+
+        withCustomShapeProperties(properties: PropertyShape[]): this
+
+        withCustomShapePropertyDefinition(name: string): PropertyShape
+
+        withCustomShapePropertyDefinitions(properties: PropertyShape[]): this
 
         withDiscriminator(discriminator: string): this
 
@@ -1834,6 +1842,11 @@ declare module '@mulesoft/als-suggestions' {
       reportValidation(profileName: string, messageStyle: string): Promise<client.validate.ValidationReport>
 
       reportCustomValidation(profileName: string, customProfilePath: string): Promise<client.validate.ValidationReport>
+    }
+
+    export class AmfGraphParser extends parse.Parser {
+      constructor()
+      constructor(env: client.environment.Environment)
     }
   }
 
