@@ -3,7 +3,8 @@ swagger: '2.0'
 paths:
   /path:
     get:
-      200:
-        examples:
-          application/json:
-            *
+      responses:
+        200:
+          examples:
+            application/json:
+              *

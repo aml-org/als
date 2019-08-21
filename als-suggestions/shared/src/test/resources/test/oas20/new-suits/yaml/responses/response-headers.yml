@@ -3,6 +3,7 @@ swagger: '2.0'
 paths:
   /path:
     get:
-      200:
-        headers:
-          *
+      responses:
+        200:
+          headers:
+            *
