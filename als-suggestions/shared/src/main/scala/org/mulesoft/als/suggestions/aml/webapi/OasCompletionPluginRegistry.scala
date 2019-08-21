@@ -12,7 +12,8 @@ object OasCompletionPluginRegistry {
     OasInBodyParametersCompletionPlugin :+
     OasTypeDeclarationReferenceCompletionPlugin :+
     OasCommonTypes :+
-    SecuredByCompletionPlugin
+    SecuredByCompletionPlugin :+
+    ExampleMediaType
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, OAS20Dialect().id)
