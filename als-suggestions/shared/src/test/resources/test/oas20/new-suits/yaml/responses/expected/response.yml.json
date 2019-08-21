@@ -1,6 +1,25 @@
 [
   {
-    "text": "description",
+    "text": "$ref: ",
+    "description": "reference tag",
+    "displayText": "$ref",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 10
+        },
+        "end": {
+          "line": 9,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "description: ",
     "description": "description",
     "displayText": "description",
     "prefix": "",
@@ -8,56 +27,18 @@
     "range": [
       {
         "start": {
-          "line": 8,
-          "character": 8
+          "line": 9,
+          "character": 10
         },
         "end": {
-          "line": 8,
-          "character": 8
+          "line": 9,
+          "character": 10
         }
       }
     ]
   },
   {
-    "text": "schema",
-    "description": "schema",
-    "displayText": "schema",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 8,
-          "character": 8
-        },
-        "end": {
-          "line": 8,
-          "character": 8
-        }
-      }
-    ]
-  },
-  {
-    "text": "headers",
-    "description": "headers",
-    "displayText": "headers",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 8,
-          "character": 8
-        },
-        "end": {
-          "line": 8,
-          "character": 8
-        }
-      }
-    ]
-  },
-  {
-    "text": "examples",
+    "text": "examples:\n            ",
     "description": "examples",
     "displayText": "examples",
     "prefix": "",
@@ -65,31 +46,50 @@
     "range": [
       {
         "start": {
-          "line": 8,
-          "character": 8
+          "line": 9,
+          "character": 10
         },
         "end": {
-          "line": 8,
-          "character": 8
+          "line": 9,
+          "character": 10
         }
       }
     ]
   },
   {
-    "text": "\"$ref\": ",
-    "description": "$ref",
-    "displayText": "$ref",
+    "text": "headers:\n            ",
+    "description": "headers",
+    "displayText": "headers",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 8,
-          "character": 8
+          "line": 9,
+          "character": 10
         },
         "end": {
-          "line": 8,
-          "character": 8
+          "line": 9,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "schema:\n            ",
+    "description": "schema",
+    "displayText": "schema",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 10
+        },
+        "end": {
+          "line": 9,
+          "character": 10
         }
       }
     ]

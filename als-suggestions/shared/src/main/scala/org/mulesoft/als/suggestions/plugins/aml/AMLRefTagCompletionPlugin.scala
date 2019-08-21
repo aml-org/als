@@ -1,11 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.model.StrField
 import amf.core.model.domain.AmfObject
 import amf.plugins.document.vocabularies.ReferenceStyles
-import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
+import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -23,30 +22,15 @@ object AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
       getSuggestion(request, Option(request.actualDialect.documents()).flatMap(_.referenceStyle().option()))
     }
 
-  private def isDeclarable(amfObject: AmfObject, dialect: Dialect): Boolean = {
-    val declared: Seq[String] = Option(dialect.documents())
-      .map(documents => {
-        val libDec: Seq[String] = Option(documents.library())
-          .map(_.declaredNodes().flatMap(_.fields.fields()).map(_.value.toString))
-          .getOrElse(Seq())
-        val fragEnc: Seq[String] =
-          Option(documents.fragments()).map(_.flatMap(_.fields.fields().map(_.value.toString))).getOrElse(Seq())
-        val rootDec: Seq[String] = Option(documents.root())
-          .map(_.declaredNodes().flatMap(_.fields.fields()).map(_.value.toString))
-          .getOrElse(Seq())
-
-        libDec ++ fragEnc ++ rootDec
-      })
-      .getOrElse(Seq())
-    declared.exists(d => amfObject.meta.`type`.exists(_.iri() == d))
-  }
+  private def isDeclarable(amfObject: AmfObject, dp: DeclarationProvider): Boolean =
+    amfObject.meta.`type`.exists(v => dp.isTermDeclarable(v.iri()))
 
   private def isValueRamlTag(params: AmlCompletionRequest) =
     params.yPartBranch.isValue && params.prefix.startsWith("!")
 
   private def isArrayTag(params: AmlCompletionRequest) =
     params.yPartBranch.brothers.nonEmpty || params.yPartBranch.isInArray ||
-      !isDeclarable(params.amfObject, params.actualDialect)
+      !isDeclarable(params.amfObject, params.declarationProvider)
 
   def getSuggestion(params: AmlCompletionRequest, style: Option[String]): Seq[RawSuggestion] = {
     style match {
@@ -61,8 +45,8 @@ object AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
     params.yPartBranch.isValue && (params.prefix.startsWith("!") || params.yPartBranch.tag.exists(t => t.text == "!"))
 
   def isJsonKey(params: AmlCompletionRequest): Boolean = {
-    !(params.yPartBranch.hasIncludeTag || params.yPartBranch.brothers.nonEmpty ||
-      params.yPartBranch.isInArray ||
-      !isDeclarable(params.amfObject, params.actualDialect))
+    !params.yPartBranch.hasIncludeTag && params.yPartBranch.brothers.isEmpty && isDeclarable(
+      params.amfObject,
+      params.declarationProvider) && !params.yPartBranch.isInArray
   }
 }
