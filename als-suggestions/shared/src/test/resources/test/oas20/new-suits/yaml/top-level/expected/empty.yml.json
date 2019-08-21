@@ -1,8 +1,122 @@
 [
   {
-    "text": "swagger: '2.0'",
-    "description": "Initialize new OAS 2.0 document",
-    "displayText": "swagger: '2.0'",
+    "text": "#%AsyncAPI 0.6",
+    "description": "Define a %AsyncAPI 0.6 file",
+    "displayText": "#%AsyncAPI 0.6",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "#%Library / AsyncAPI 0.6",
+    "description": "Define a %Library / AsyncAPI 0.6 file",
+    "displayText": "#%Library / AsyncAPI 0.6",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "#%Message / AsyncAPI 0.6",
+    "description": "Define a %Message / AsyncAPI 0.6 file",
+    "displayText": "#%Message / AsyncAPI 0.6",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "#%Patch / AsyncAPI 0.6",
+    "description": "Define a %Patch / AsyncAPI 0.6 file",
+    "displayText": "#%Patch / AsyncAPI 0.6",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "#%Schema / AsyncAPI 0.6",
+    "description": "Define a %Schema / AsyncAPI 0.6 file",
+    "displayText": "#%Schema / AsyncAPI 0.6",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "#%SecurityScheme / AsyncAPI 0.6",
+    "description": "Define a %SecurityScheme / AsyncAPI 0.6 file",
+    "displayText": "#%SecurityScheme / AsyncAPI 0.6",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "swagger: \"2.0\"",
+    "description": "Define a OAS 2.0 file",
+    "displayText": "swagger: \"2.0\"",
     "prefix": "",
     "category": "unknown",
     "range": [
