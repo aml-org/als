@@ -19,18 +19,18 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
     Future {
       if (isWrittingSecuredBy(request)) {
         val original = getSecurityNames(request.prefix, request.declarationProvider)
-        if(request.yPartBranch.isKey) original.map(r => r.copy(isKey = true, whiteSpacesEnding = request.indentation))
+        if (request.yPartBranch.isKey) original.map(r => r.copy(isKey = true, whiteSpacesEnding = request.indentation))
         else original
-      }
-      else Nil
+      } else Nil
     }
   }
 
   private def isWrittingSecuredBy(request: AmlCompletionRequest): Boolean = {
     request.amfObject match {
-      case p: ParametrizedSecurityScheme => true
-      case w: WebApi                     => request.fieldEntry.exists(t => t.field == WebApiModel.Security)
-      case _                             => false
+      case p: ParametrizedSecurityScheme =>
+        p.name.value() == "k" || (p.name.value() != "k" && !request.yPartBranch.parentEntryIs(p.name.value()))
+      case w: WebApi => request.fieldEntry.exists(t => t.field == WebApiModel.Security)
+      case _         => false
     }
   }
 
