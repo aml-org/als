@@ -1,10 +1,10 @@
 [
   {
-    "text": "securityDefinitions:\n  ",
-    "description": "Security scheme definitions that can be used across the specification.",
-    "displayText": "securityDefinitions",
+    "text": "basePath: ",
+    "description": "basePath",
+    "displayText": "basePath",
     "prefix": "",
-    "category": "root",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -19,30 +19,11 @@
     ]
   },
   {
-    "text": "consumes:\n  ",
-    "description": "A list of MIME types the APIs can consume. This is global to all APIs but can be overridden on specific API calls. Value MUST be as described under Mime Types.",
+    "text": "consumes: ",
+    "description": "consumes",
     "displayText": "consumes",
     "prefix": "",
-    "category": "root",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
-  },
-  {
-    "text": "parameters:\n  ",
-    "description": "An object to hold parameters that can be used across operations. This property does not define global parameters for all operations.",
-    "displayText": "parameters",
-    "prefix": "",
-    "category": "parameters",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -58,106 +39,10 @@
   },
   {
     "text": "definitions:\n  ",
-    "description": "An object to hold data types produced and consumed by operations.",
+    "description": "definitions",
     "displayText": "definitions",
     "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
-  },
-  {
-    "text": "security:\n  ",
-    "description": "A declaration of which security schemes are applied for the API as a whole. The list of values describes alternative security schemes that can be used (that is, there is a logical OR between the security requirements). Individual operations can override this definition.",
-    "displayText": "security",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
-  },
-  {
-    "text": "responses:\n  ",
-    "description": "An object to hold responses that can be used across operations. This property does not define global responses for all operations.",
-    "displayText": "responses",
-    "prefix": "",
-    "category": "responses",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
-  },
-  {
-    "text": "paths:\n  ",
-    "description": "The available paths and operations for the API.",
-    "displayText": "paths",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
-  },
-  {
-    "text": "externalDocs:\n  ",
-    "description": "Additional external documentation.",
-    "displayText": "externalDocs",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
-  },
-  ,
-  {
-    "text": "tags:\n  ",
-    "description": "A list of tags used by the specification with additional metadata.",
-    "displayText": "tags",
-    "prefix": "",
-    "category": "tags",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -173,29 +58,10 @@
   },
   {
     "text": "host: ",
-    "description": "The host (name or ip) serving the API. This MUST be the host only and does not include the scheme nor sub-paths. It MAY include a port. If the host is not included, the host serving the documentation is to be used (including the port). The host does not support path templating.",
+    "description": "host",
     "displayText": "host",
     "prefix": "",
-    "category": "root",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
-  },
-  {
-    "text": "schemes: ",
-    "description": "The transfer protocol of the API. Values MUST be from the list: \"http\", \"https\", \"ws\", \"wss\". If the schemes is not included, the default scheme to be used is the one used to access the Swagger definition itself.",
-    "displayText": "schemes",
-    "prefix": "",
-    "category": "root",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -211,10 +77,10 @@
   },
   {
     "text": "info:\n  ",
-    "description": "",
+    "description": "info",
     "displayText": "info",
     "prefix": "",
-    "category": "docs",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -229,11 +95,49 @@
     ]
   },
   {
-    "text": "produces:\n  ",
-    "description": "A list of MIME types the APIs can consume. This is global to all APIs but can be overridden on specific API calls. Value MUST be as described under Mime Types.",
+    "text": "parameters:\n  ",
+    "description": "parameters",
+    "displayText": "parameters",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "paths:\n  ",
+    "description": "paths",
+    "displayText": "paths",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "produces: ",
+    "description": "produces",
     "displayText": "produces",
     "prefix": "",
-    "category": "root",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -248,11 +152,87 @@
     ]
   },
   {
-    "text": "basePath: ",
-    "description": "The base path on which the API is served, which is relative to the host. If it is not included, the API is served directly under the host. The value MUST start with a leading slash (/). The basePath does not support path templating.",
-    "displayText": "basePath",
+    "text": "responses:\n  ",
+    "description": "responses",
+    "displayText": "responses",
     "prefix": "",
-    "category": "root",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "schemes: ",
+    "description": "schemes",
+    "displayText": "schemes",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "security: ",
+    "description": "security",
+    "displayText": "security",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "securityDefinitions:\n  ",
+    "description": "securityDefinitions",
+    "displayText": "securityDefinitions",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "tags:\n  ",
+    "description": "tags",
+    "displayText": "tags",
+    "prefix": "",
+    "category": "unknown",
     "range": [
       {
         "start": {
