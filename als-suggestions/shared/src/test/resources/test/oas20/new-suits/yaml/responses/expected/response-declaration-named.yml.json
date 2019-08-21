@@ -1,5 +1,24 @@
 [
   {
+    "text": "$ref: ",
+    "description": "reference tag",
+    "displayText": "$ref",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
     "text": "description: ",
     "description": "description",
     "displayText": "description",
