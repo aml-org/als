@@ -11,7 +11,7 @@ import scala.concurrent.Future
 
 object RamlDeclarationsReferencesCompletionPlugin extends AMLCompletionPlugin {
 
-  override def id: String = "AMLDeclarationsReferencesCompletionPlugin"
+  override def id: String = "AMLRamlStyleDeclarationsReferences"
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     request.amfObject match {
