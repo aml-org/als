@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.metamodel.domain.ShapeModel
 import amf.plugins.document.vocabularies.ReferenceStyles
+import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -13,19 +14,24 @@ import org.yaml.model.{DoubleQuoteMark, NonMark, ScalarMark}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class AMLJsonSchemaStyleDeclarationReferences(iriToNameMap: Map[String, String],
+class AMLJsonSchemaStyleDeclarationReferences(dialect: Dialect,
                                               ranges: Seq[String],
                                               actualName: Option[String],
-                                              mark: Option[ScalarMark]) {
+                                              yPart: YPartBranch,
+                                              iriToPath: Map[String, String]) {
 
-  def resolve(dp: DeclarationProvider, actualValue: String): Seq[RawSuggestion] = {
+  val mark: Option[ScalarMark] =
+    if (yPart.stringValue.isEmpty) yPart.getMark.filter(_ != NonMark).orElse(Some(DoubleQuoteMark))
+    else None
+
+  def resolve(dp: DeclarationProvider): Seq[RawSuggestion] = {
     val routes = ranges.flatMap { id =>
       dp.forNodeType(id).filter(n => !actualName.contains(n)).map { name =>
         nameForIri(id).fold(s"#/$name")(n => s"#/$n/$name")
       }
     }
 
-    val filtered = if (actualValue.isEmpty) routes else routes.filter(_.startsWith(actualValue))
+    val filtered = if (yPart.stringValue.isEmpty) routes else routes.filter(_.startsWith(yPart.stringValue))
     filtered
       .map(r => mark.fold(r)(m => m.markText(r)))
       .map(route => RawSuggestion(route, route, s"Reference to $route", Nil, isKey = false, ""))
@@ -35,49 +41,49 @@ class AMLJsonSchemaStyleDeclarationReferences(iriToNameMap: Map[String, String],
     val finalIri =
       if (iri.contains("Shape")) ShapeModel.`type`.head.iri()
       else iri
-    iriToNameMap.get(finalIri)
+    iriToPath.get(finalIri)
   }
 }
 
 object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences {
   override def id: String = "AMLJsonSchemaStyleDeclarationReferences"
 
+  def applies(request: AmlCompletionRequest): Boolean = {
+    val stringValue = request.yPartBranch.stringValue
+    request.yPartBranch.isValue && request.yPartBranch.parentEntryIs("$ref") && request.actualDialect
+      .documents()
+      .referenceStyle()
+      .option()
+      .forall(_ == ReferenceStyles.JSONSCHEMA) && isLocal(request.yPartBranch)
+  }
+
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
-      val stringValue = request.yPartBranch.stringValue
-      if (request.yPartBranch.isValue && request.yPartBranch.parentEntryIs("$ref") && request.actualDialect
-            .documents()
-            .referenceStyle()
-            .option()
-            .forall(_ == ReferenceStyles.JSONSCHEMA)) {
-        if (isLocal(request.yPartBranch)) {
-          val actualName = request.amfObject.elementIdentifier()
-
-          val mappings = request.actualDialect.declares.collect({ case n: NodeMapping => n })
-          val map: Map[String, String] = request.actualDialect
-            .documents()
-            .root()
-            .declaredNodes()
-            .flatMap(
-              dn =>
-                mappings
-                  .find(_.id == dn.mappedNode().value())
-                  .map(_.nodetypeMapping.value())
-                  .map(iri => iri -> dn.name().value()))
-            .toMap
-
-          val ids = getObjectRangeIds(request)
-          val mark =
-            if (request.yPartBranch.stringValue.isEmpty)
-              request.yPartBranch.getMark.filter(_ != NonMark).orElse(Some(DoubleQuoteMark))
-            else None
-          new AMLJsonSchemaStyleDeclarationReferences(map, ids, actualName, mark)
-            .resolve(request.declarationProvider, stringValue)
-
-        } else Nil // remotes here?
-
-      } else Nil
+      if (applies(request)) suggest(request)
+      else Nil // remotes here?
     }
+  }
+
+  def suggest(request: AmlCompletionRequest): Seq[RawSuggestion] = {
+    val actualName = request.amfObject.elementIdentifier()
+    val ids        = getObjectRangeIds(request)
+
+    val mappings: Seq[NodeMapping] = request.actualDialect.declares.collect({ case n: NodeMapping => n })
+
+    val map: Map[String, String] = request.actualDialect
+      .documents()
+      .root()
+      .declaredNodes()
+      .flatMap(
+        dn =>
+          mappings
+            .find(_.id == dn.mappedNode().value())
+            .map(_.nodetypeMapping.value())
+            .map(iri => iri -> dn.name().value()))
+      .toMap
+
+    new AMLJsonSchemaStyleDeclarationReferences(request.actualDialect, ids, actualName, request.yPartBranch, map)
+      .resolve(request.declarationProvider)
   }
 
   private def isLocal(yPart: YPartBranch) = yPart.stringValue.isEmpty || yPart.stringValue.startsWith("#")
