@@ -42,7 +42,7 @@
     "description": "examples",
     "displayText": "examples",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -80,7 +80,7 @@
     "description": "schema",
     "displayText": "schema",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
