@@ -32,6 +32,11 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
     case _        => None
   }
 
+  def keys: Seq[String] = stack.flatMap {
+    case e: YMapEntry => e.key.asScalar.map(_.text)
+    case _            => None
+  }
+
   val isKey: Boolean = stack.headOption.exists(_.isKey(position))
 
   lazy val hasIncludeTag: Boolean = node match {
