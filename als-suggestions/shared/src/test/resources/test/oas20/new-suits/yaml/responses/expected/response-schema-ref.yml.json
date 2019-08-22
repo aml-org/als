@@ -1,19 +1,209 @@
 [
   {
     "text": "\"#/definitions/A\"",
-    "description": "Reference to #/definitions/A",
-    "displayText": "#/definitions/A",
+    "description": "Reference to \"#/definitions/A\"",
+    "displayText": "\"#/definitions/A\"",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 10,
-          "character": 16
+          "line": 11,
+          "character": 18
         },
         "end": {
-          "line": 10,
-          "character": 16
+          "line": 11,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "expected/",
+    "description": "Path suggestion",
+    "displayText": "expected/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 18
+        },
+        "end": {
+          "line": 11,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-declaration-named.yml",
+    "description": "Path suggestion",
+    "displayText": "response-declaration-named.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 18
+        },
+        "end": {
+          "line": 11,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-declaration.yml",
+    "description": "Path suggestion",
+    "displayText": "response-declaration.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 18
+        },
+        "end": {
+          "line": 11,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-example.yml",
+    "description": "Path suggestion",
+    "displayText": "response-example.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 18
+        },
+        "end": {
+          "line": 11,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-examples.yml",
+    "description": "Path suggestion",
+    "displayText": "response-examples.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 18
+        },
+        "end": {
+          "line": 11,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-header.yml",
+    "description": "Path suggestion",
+    "displayText": "response-header.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 18
+        },
+        "end": {
+          "line": 11,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-headers.yml",
+    "description": "Path suggestion",
+    "displayText": "response-headers.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 18
+        },
+        "end": {
+          "line": 11,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-ref.yml",
+    "description": "Path suggestion",
+    "displayText": "response-ref.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 18
+        },
+        "end": {
+          "line": 11,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-schema.yml",
+    "description": "Path suggestion",
+    "displayText": "response-schema.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 18
+        },
+        "end": {
+          "line": 11,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "response.yml",
+    "description": "Path suggestion",
+    "displayText": "response.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 18
+        },
+        "end": {
+          "line": 11,
+          "character": 18
         }
       }
     ]
