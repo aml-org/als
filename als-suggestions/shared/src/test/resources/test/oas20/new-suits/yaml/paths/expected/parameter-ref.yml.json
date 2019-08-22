@@ -1,8 +1,116 @@
-swagger: '2.0'
-parameters:
-  named:
-    in: body
-paths:
-  /path:
-    parameters:
-      - $ref: *
+[
+  {
+    "text": "\"#/parameters/named\"",
+    "description": "Reference to \"#/parameters/named\"",
+    "displayText": "\"#/parameters/named\"",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
+    "text": "expected/",
+    "description": "Path suggestion",
+    "displayText": "expected/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameter-array.yml",
+    "description": "Path suggestion",
+    "displayText": "parameter-array.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameter.yml",
+    "description": "Path suggestion",
+    "displayText": "parameter.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
+    "text": "path-def.ext.yaml",
+    "description": "Path suggestion",
+    "displayText": "path-def.ext.yaml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
+    "text": "paths.yml",
+    "description": "Path suggestion",
+    "displayText": "paths.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      }
+    ]
+  }
+]

@@ -5,14 +5,19 @@ import amf.core.metamodel.domain.extensions.PropertyShapeModel
 import amf.core.vocabulary.Namespace.XsdTypes._
 import amf.dialects.OAS20Dialect
 import amf.dialects.OAS20Dialect.DialectNodes.{ExternalDocumentationObject, XMLObject, commonDataShapesProperties, commonParamProps}
-import amf.dialects.OAS20Dialect.{DialectLocation, ImplicitField, SchemaObjectId}
+import amf.dialects.OAS20Dialect.{DialectLocation, DialectNodes, ImplicitField, SchemaObjectId}
 import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping, PublicNodeMapping}
 import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, ArrayShapeModel, NodeShapeModel, ScalarShapeModel}
-import amf.plugins.domain.webapi.metamodel.{OperationModel, ParameterModel}
+import amf.plugins.domain.webapi.metamodel.{OperationModel, ParameterModel, PayloadModel}
 
 package object oas {
   object Oas20DialectWrapper {
+
+    private val PayloadParameter = NodeMapping()
+      .withId("#/declarations/PayloadParameter")
+      .withName("PayloadPArameter")
+      .withNodeTypeMapping(PayloadModel.`type`.head.iri())
 
     lazy val dialect: Dialect = {
 
@@ -28,6 +33,7 @@ package object oas {
           JsonSchemas.StringSchemaObject
         ))
     }
+
     val commonDataShapesProperties: Seq[PropertyMapping] = {
       Seq(
         PropertyMapping()
