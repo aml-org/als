@@ -9,7 +9,7 @@ import org.mulesoft.als.server.modules.common.{LspConverter, SearchUtils}
 import org.mulesoft.als.server.modules.hlast.HlAstManager
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.common.{Location, TextDocumentPositionParams}
+import org.mulesoft.lsp.common.{Location, LocationLink, TextDocumentPositionParams}
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.definition.{DefinitionClientCapabilities, DefinitionConfigType, DefinitionRequestType}
 
@@ -27,13 +27,14 @@ class DefinitionModule(private val hlAstManager: HlAstManager,
   override def initialize(): Future[Unit] = Future.successful()
 
   override def getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
-    new RequestHandler[TextDocumentPositionParams, Seq[Location]] {
+    new RequestHandler[TextDocumentPositionParams, Either[Seq[Location], Seq[LocationLink]]] {
       override def `type`: DefinitionRequestType.type = DefinitionRequestType
 
-      override def apply(params: TextDocumentPositionParams): Future[Seq[Location]] = {
-        findDeclaration(params.textDocument.uri, LspConverter.toPosition(params.position))
-          .map(_.map(LspConverter.toLspLocation))
-      }
+      override def apply(params: TextDocumentPositionParams): Future[Either[Seq[Location], Seq[LocationLink]]] = {
+          findDeclaration(params.textDocument.uri, LspConverter.toPosition(params.position))
+            .map(_.map(LspConverter.toLspLocation))
+            .map(Left(_))
+        }
     }
   )
 
