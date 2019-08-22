@@ -4,7 +4,7 @@
     "description": "attribute",
     "displayText": "attribute",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
@@ -23,7 +23,7 @@
     "description": "name",
     "displayText": "name",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
@@ -42,7 +42,7 @@
     "description": "namespace",
     "displayText": "namespace",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
@@ -61,7 +61,7 @@
     "description": "prefix",
     "displayText": "prefix",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
@@ -80,7 +80,7 @@
     "description": "wrapped",
     "displayText": "wrapped",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
