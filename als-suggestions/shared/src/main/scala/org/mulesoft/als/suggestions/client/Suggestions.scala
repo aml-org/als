@@ -18,6 +18,7 @@ import org.mulesoft.als.suggestions.implementation.{
 }
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.Oas20DialectWrapper
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.Raml10TypesDialect
 import org.mulesoft.high.level.InitOptions
 import org.mulesoft.high.level.amfmanager.ParserHelper
@@ -115,7 +116,7 @@ object Suggestions extends SuggestionsHelper {
 
   private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
     case d: DialectInstanceUnit              => WebApiDialectsRegistry.dialectFor(bu)
-    case d if d.sourceVendor.contains(Oas20) => Some(OAS20Dialect.dialect)
+    case d if d.sourceVendor.contains(Oas20) => Some(Oas20DialectWrapper.dialect)
     case d if d.sourceVendor.contains(Raml10) =>
       Some(Raml10TypesDialect.dialect)
     case _ => None
