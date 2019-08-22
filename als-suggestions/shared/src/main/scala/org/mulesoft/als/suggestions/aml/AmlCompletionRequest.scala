@@ -120,20 +120,22 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
   }
 
   private def getDialectNode(amfObject: AmfObject, fieldEntry: Option[FieldEntry]): Option[DomainElement] =
-    actualDialect.declares.find {
-      case s: NodeMapping =>
-        s.nodetypeMapping.value() == amfObject.meta.`type`.head.iri() &&
-          fieldEntry.forall(f => {
-            s.propertiesMapping()
-              .find(
-                pm =>
-                  pm.fields
-                    .fields()
-                    .exists(_.value.toString == f.field.value.iri()))
-              .exists(_.mapTermKeyProperty().isNullOrEmpty)
-          })
-      case _ => false
-    }
+    amfObject.meta.`type`.flatMap { v =>
+      actualDialect.declares.find {
+        case s: NodeMapping =>
+          s.nodetypeMapping.value() == v.iri() &&
+            fieldEntry.forall(f => {
+              s.propertiesMapping()
+                .find(
+                  pm =>
+                    pm.fields
+                      .fields()
+                      .exists(_.value.toString == f.field.value.iri()))
+                .exists(_.mapTermKeyProperty().isNullOrEmpty)
+            })
+        case _ => false
+      }
+    }.headOption
 
   lazy val declarationProvider: DeclarationProvider = {
     inheritedProvider.getOrElse(DeclarationProvider(baseUnit, Some(actualDialect)))

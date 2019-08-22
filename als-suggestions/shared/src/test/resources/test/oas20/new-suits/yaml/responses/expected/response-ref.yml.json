@@ -1,9 +1,192 @@
-swagger: '2.0'
-responses:
-  Found:
-    description: founded object
-paths:
-  /path:
-    get:
-      200:
-        $ref: *
+[
+  {
+    "text": "#/responses/Found",
+    "description": "Reference to #/responses/Found",
+    "displayText": "#/responses/Found",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 16
+        },
+        "end": {
+          "line": 9,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "expected/",
+    "description": "Path suggestion",
+    "displayText": "expected/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 16
+        },
+        "end": {
+          "line": 9,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-declaration-named.yml",
+    "description": "Path suggestion",
+    "displayText": "response-declaration-named.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 16
+        },
+        "end": {
+          "line": 9,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-declaration.yml",
+    "description": "Path suggestion",
+    "displayText": "response-declaration.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 16
+        },
+        "end": {
+          "line": 9,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-example.yml",
+    "description": "Path suggestion",
+    "displayText": "response-example.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 16
+        },
+        "end": {
+          "line": 9,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-examples.yml",
+    "description": "Path suggestion",
+    "displayText": "response-examples.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 16
+        },
+        "end": {
+          "line": 9,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-header.yml",
+    "description": "Path suggestion",
+    "displayText": "response-header.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 16
+        },
+        "end": {
+          "line": 9,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-headers.yml",
+    "description": "Path suggestion",
+    "displayText": "response-headers.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 16
+        },
+        "end": {
+          "line": 9,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-schema.yml",
+    "description": "Path suggestion",
+    "displayText": "response-schema.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 16
+        },
+        "end": {
+          "line": 9,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "response.yml",
+    "description": "Path suggestion",
+    "displayText": "response.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 16
+        },
+        "end": {
+          "line": 9,
+          "character": 16
+        }
+      }
+    ]
+  }
+]
