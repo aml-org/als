@@ -4,26 +4,7 @@ import java.util
 import java.util.concurrent.CompletableFuture
 
 import org.eclipse.lsp4j.jsonrpc.messages
-import org.eclipse.lsp4j.{
-  CodeAction,
-  CodeActionParams,
-  Command,
-  CompletionItem,
-  CompletionList,
-  CompletionParams,
-  DidChangeTextDocumentParams,
-  DidCloseTextDocumentParams,
-  DidOpenTextDocumentParams,
-  DidSaveTextDocumentParams,
-  DocumentSymbol,
-  DocumentSymbolParams,
-  Location,
-  ReferenceParams,
-  RenameParams,
-  SymbolInformation,
-  TextDocumentPositionParams,
-  WorkspaceEdit
-}
+import org.eclipse.lsp4j.{CodeAction, CodeActionParams, Command, CompletionItem, CompletionList, CompletionParams, DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams, DocumentSymbol, DocumentSymbolParams, Location, LocationLink, ReferenceParams, RenameParams, SymbolInformation, TextDocumentPositionParams, WorkspaceEdit}
 import org.mulesoft.als.server.custom.CustomTextDocumentService
 import org.mulesoft.als.server.lsp4j.Lsp4JConversions._
 import org.mulesoft.als.server.lsp4j.LspConversions._
@@ -65,8 +46,8 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
   override def references(params: ReferenceParams): CompletableFuture[util.List[_ <: Location]] =
     javaFuture(resolveHandler(ReferenceRequestType)(params), lsp4JLocations)
 
-  override def definition(params: TextDocumentPositionParams): CompletableFuture[util.List[_ <: Location]] =
-    javaFuture(resolveHandler(DefinitionRequestType)(params), lsp4JLocations)
+  override def definition(params: TextDocumentPositionParams): CompletableFuture[messages.Either[util.List[_ <: Location], util.List[_ <: LocationLink]]] =
+    javaFuture(resolveHandler(DefinitionRequestType)(params), lsp4JLocationsEither)
 
   override def completion(
       params: CompletionParams): CompletableFuture[messages.Either[util.List[CompletionItem], CompletionList]] =
