@@ -4,7 +4,7 @@
     "description": "description",
     "displayText": "description",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -42,7 +42,7 @@
     "description": "name",
     "displayText": "name",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {

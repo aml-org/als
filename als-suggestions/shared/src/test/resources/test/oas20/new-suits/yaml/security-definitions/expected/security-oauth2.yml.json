@@ -4,7 +4,7 @@
     "description": "authorizationUrl",
     "displayText": "authorizationUrl",
     "prefix": "",
-    "category": "unknown",
+    "category": "security",
     "range": [
       {
         "start": {
@@ -23,7 +23,7 @@
     "description": "description",
     "displayText": "description",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -42,7 +42,7 @@
     "description": "flow",
     "displayText": "flow",
     "prefix": "",
-    "category": "unknown",
+    "category": "security",
     "range": [
       {
         "start": {
@@ -61,7 +61,7 @@
     "description": "scopes",
     "displayText": "scopes",
     "prefix": "",
-    "category": "unknown",
+    "category": "security",
     "range": [
       {
         "start": {
@@ -80,7 +80,7 @@
     "description": "tokenUrl",
     "displayText": "tokenUrl",
     "prefix": "",
-    "category": "unknown",
+    "category": "security",
     "range": [
       {
         "start": {
