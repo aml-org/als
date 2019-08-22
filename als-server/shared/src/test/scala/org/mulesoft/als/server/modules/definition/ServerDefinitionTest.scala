@@ -13,7 +13,8 @@ import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentPositionPara
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
 import org.mulesoft.lsp.common.{Position => lspPosition}
 
-abstract class ServerDefinitionTest extends LanguageServerBaseTest {
+class ServerDefinitionTest extends LanguageServerBaseTest {
+  override def rootPath: String = ""
 
   override def addModules(documentManager: TextDocumentManager,
                           platform: Platform,
@@ -57,7 +58,7 @@ abstract class ServerDefinitionTest extends LanguageServerBaseTest {
       }).map(declarations => {
         closeFile(server)(url)
 
-        if (declarations.nonEmpty) {
+        if (declarations.isLeft) {
           succeed
         } else {
           fail("No references have been found")
