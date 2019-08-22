@@ -12,7 +12,6 @@ object OasCompletionPluginRegistry {
     OASRequiredObjectCompletionPlugin :+
     OasInBodyParametersCompletionPlugin :+
     OasTypeDeclarationReferenceCompletionPlugin :+
-    OasCommonTypes :+
     SecuredByCompletionPlugin :+
     ExampleMediaType :+
     OasStructurePlugin :+
