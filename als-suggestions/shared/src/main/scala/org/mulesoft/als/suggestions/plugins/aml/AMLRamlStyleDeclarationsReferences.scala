@@ -41,29 +41,27 @@ class AMLRamlStyleDeclarationsReferences(nodeTypeMappings: Seq[String],
 }
 
 object AMLRamlStyleDeclarationsReferences extends AMLDeclarationReferences {
-  override def id: String = "AMLDeclarationsReferencesCompletionPlugin"
+  override def id: String = "AMLRamlStyleDeclarationsReferences"
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful({
       if (params.yPartBranch.isValue && styleOrEmpty(params.actualDialect)) {
         val actualName = params.amfObject.elementIdentifier()
         new AMLRamlStyleDeclarationsReferences(getObjectRangeIds(params),
-                                                      params.prefix,
-                                                      params.declarationProvider,
-                                                      actualName).resolve()
+                                               params.prefix,
+                                               params.declarationProvider,
+                                               actualName).resolve()
       } else Seq.empty
     })
   }
 
-  private def styleOrEmpty(dialect:Dialect) = {
+  private def styleOrEmpty(dialect: Dialect) = {
     dialect.documents().referenceStyle().option().forall(_ == ReferenceStyles.RAML)
   }
 
-
 }
 
-
-trait AMLDeclarationReferences extends AMLCompletionPlugin{
+trait AMLDeclarationReferences extends AMLCompletionPlugin {
 
   protected def getObjectRangeIds(params: AmlCompletionRequest): Seq[String] = {
     val candidates = getFieldIri(params.fieldEntry, params.propertyMapping)
