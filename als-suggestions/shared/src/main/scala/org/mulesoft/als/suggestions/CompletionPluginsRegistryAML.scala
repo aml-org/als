@@ -14,6 +14,7 @@ class CompletionPluginsRegistryAML {
   private val pluginsSet: mutable.Set[AMLCompletionPlugin] = mutable.Set()
 
   def registerPlugin(plugin: AMLCompletionPlugin): CompletionPluginsRegistryAML = {
+    if (pluginsSet.contains(plugin)) pluginsSet.remove(plugin)
     pluginsSet += plugin
     this
   }
