@@ -11,7 +11,7 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object RamlStructureCompletionPlugin extends AMLCompletionPlugin {
-  override def id: String = "RamlStructureCompletionPlugin"
+  override def id: String = "AMLStructureCompletionPlugin"
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     request.amfObject match {
