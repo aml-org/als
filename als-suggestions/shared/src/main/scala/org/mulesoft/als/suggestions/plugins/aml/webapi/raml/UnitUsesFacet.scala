@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 import amf.core.model.document.{BaseUnit, Fragment, Module}
 import amf.core.model.domain.AmfObject
 import amf.core.model.domain.templates.AbstractDeclaration
+import amf.plugins.document.webapi.model.{ResourceTypeFragment, TraitFragment}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -15,8 +16,8 @@ object UnitUsesFacet extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
-      if (request.yPartBranch.isAtRoot && request.yPartBranch.isKey && !isInFieldValue(request) && !request.amfObject
-            .isInstanceOf[AbstractDeclaration] && isNotDocument(request)) {
+      if (request.yPartBranch.isAtRoot && request.yPartBranch.isKey && !isInFieldValue(request) && isNotDocument(
+            request)) {
         Seq(RawSuggestion.forKey("usage", "docs"))
       } else Nil
     }
@@ -24,9 +25,10 @@ object UnitUsesFacet extends AMLCompletionPlugin {
 
   private def isNotDocument(request: AmlCompletionRequest): Boolean = {
     request.branchStack.lastOption match {
-      case Some(u: BaseUnit) => moduleOrFragment(u)
-      case None              => moduleOrFragment(request.amfObject)
-      case _                 => false
+      case Some(_: ResourceTypeFragment | _: TraitFragment) => false
+      case Some(u: BaseUnit)                                => moduleOrFragment(u)
+      case None                                             => moduleOrFragment(request.amfObject)
+      case _                                                => false
     }
   }
 
