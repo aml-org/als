@@ -8,7 +8,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.common.ElementNameExtractor._
 import org.mulesoft.als.common.YPartBranch
-import org.yaml.model.{DoubleQuoteMark, ScalarMark}
+import org.yaml.model.{DoubleQuoteMark, NonMark, ScalarMark}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -68,7 +68,8 @@ object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences 
 
           val ids = getObjectRangeIds(request)
           val mark =
-            if (request.yPartBranch.stringValue.isEmpty) request.yPartBranch.getMark.orElse(Some(DoubleQuoteMark))
+            if (request.yPartBranch.stringValue.isEmpty)
+              request.yPartBranch.getMark.filter(_ != NonMark).orElse(Some(DoubleQuoteMark))
             else None
           new AMLJsonSchemaStyleDeclarationReferences(map, ids, actualName, mark)
             .resolve(request.declarationProvider, stringValue)

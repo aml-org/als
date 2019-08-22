@@ -90,7 +90,7 @@ trait AMLDeclarationReferences extends AMLCompletionPlugin {
             amfObject.meta.`type`.headOption.map(_.iri())
           case _ => None
         }
-      case _ => None
+      case _ => amfObject.meta.`type`.headOption.map(_.iri())
     }
   }
 
