@@ -8,7 +8,7 @@ import org.eclipse.lsp4j
 import org.eclipse.lsp4j.ExecuteCommandOptions
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.mulesoft.lsp.command.Command
-import org.mulesoft.lsp.common.{Location, Position, Range, VersionedTextDocumentIdentifier}
+import org.mulesoft.lsp.common.{Location, LocationLink, Position, Range, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.configuration.{InitializeResult, ServerCapabilities}
 import org.mulesoft.lsp.edit.{
   CreateFile,
@@ -106,8 +106,14 @@ object Lsp4JConversions {
   implicit def lsp4JLocation(location: Location): lsp4j.Location =
     new lsp4j.Location(s"file://${location.uri}", location.range)
 
+  implicit def lsp4JLocationLink(locationLink: LocationLink): lsp4j.LocationLink =
+    new lsp4j.LocationLink(s"file://${locationLink.targetUri}", locationLink.targetRange, locationLink.targetSelectionRange, locationLink.originSelectionRange.map(lsp4JRange).orNull)
+
   implicit def lsp4JLocations(locations: Seq[Location]): util.List[lsp4j.Location] =
     javaList(locations, lsp4JLocation)
+
+  implicit def lsp4JLocationLinks(locationLinks: Seq[LocationLink]): util.List[lsp4j.LocationLink] =
+    javaList(locationLinks, lsp4JLocationLink)
 
   implicit def lsp4JCompletionItemKind(kind: CompletionItemKind): lsp4j.CompletionItemKind =
     lsp4j.CompletionItemKind.forValue(kind.id)
@@ -147,6 +153,10 @@ object Lsp4JConversions {
   implicit def lsp4JCompletionEither(either: Either[Seq[CompletionItem], CompletionList])
     : JEither[util.List[lsp4j.CompletionItem], lsp4j.CompletionList] =
     jEither(either, lsp4JCompletionItems, lsp4JCompletionList)
+
+  implicit def lsp4JLocationsEither(either: Either[Seq[_ <:Location], Seq[_ <:LocationLink]])
+    : JEither[util.List[_ <: lsp4j.Location], util.List[_ <: lsp4j.LocationLink]] =
+    jEither(either, lsp4JLocations, lsp4JLocationLinks)
 
   implicit def lsp4JDocumentSymbol(symbol: DocumentSymbol): lsp4j.DocumentSymbol = {
     val result =

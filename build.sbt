@@ -137,7 +137,7 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
   .settings(settings: _*)
   .jvmSettings(
     // https://mvnrepository.com/artifact/org.eclipse.lsp4j/org.eclipse.lsp4j
-    libraryDependencies += "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.6.0",
+    libraryDependencies += "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.7.2",
     packageOptions in(Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
     aggregate in assembly := true,
     mainClass in assembly := Some("org.mulesoft.als.server.lsp4j.Main"),
