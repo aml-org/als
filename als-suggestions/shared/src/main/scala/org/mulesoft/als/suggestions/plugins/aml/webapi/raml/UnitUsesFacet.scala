@@ -2,7 +2,6 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.model.document.{BaseUnit, Fragment, Module}
 import amf.core.model.domain.AmfObject
-import amf.core.model.domain.templates.AbstractDeclaration
 import amf.plugins.document.webapi.model.{ResourceTypeFragment, TraitFragment}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest

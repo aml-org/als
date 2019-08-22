@@ -7,6 +7,7 @@ import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorDeclaration
 import org.mulesoft.als.common.ElementNameExtractor._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -68,7 +69,9 @@ trait AMLDeclarationReferences extends AMLCompletionPlugin {
       .orElse(declaredFromKey(params.yPartBranch.parent, params.propertyMapping))
       .map(_.objectRange().flatMap(_.option())) match {
       case Some(seq) => seq
-      case _         => referenceFromDeclared(params.amfObject).toSeq
+      case _ =>
+        val obj = if (params.amfObject.isInstanceOf[ErrorDeclaration]) params.branchStack.head else params.amfObject
+        referenceFromDeclared(obj).toSeq
     }
     candidates.filter(_ != DomainElementModel.`type`.head.iri())
   }
