@@ -1,12 +1,14 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
+import amf.core.annotations.DeclaredElement
 import amf.core.model.domain.Shape
-import amf.plugins.domain.webapi.models.{EndPoint, Parameter}
+import amf.dialects.OAS20Dialect
+import amf.plugins.domain.webapi.models.{EndPoint, Parameter, Payload}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.AMLStructureCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.{AMLStructureCompletionPlugin, AMLStructureCompletionsPlugin}
 
 import scala.concurrent.Future
 
