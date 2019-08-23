@@ -22,7 +22,7 @@ object RamlParamsCompletionPlugin extends AMLCompletionPlugin {
         case param: Parameter if isNotName(params) =>
           computeParam(param, params.branchStack, params.indentation)
         case shape: Shape if params.branchStack.headOption.exists(_.isInstanceOf[Parameter]) =>
-          Seq(RawSuggestion.forKey("required"))
+          Seq(RawSuggestion.forKey("required", "parameters"))
         case _ => Nil
       }
     } else Nil
@@ -30,7 +30,8 @@ object RamlParamsCompletionPlugin extends AMLCompletionPlugin {
 
   def computeParam(param: Parameter, branchStack: Seq[AmfObject], identation: String): Seq[RawSuggestion] = {
     RamlTypeFacetsCompletionPlugin.resolveShape(param.schema, branchStack, identation) :+ RawSuggestion.forKey(
-      "required")
+      "required",
+      "parameters")
   }
 
   private def isNotName(params: AmlCompletionRequest): Boolean = {

@@ -137,7 +137,7 @@
     "description": "xml",
     "displayText": "xml",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
