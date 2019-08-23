@@ -99,7 +99,7 @@
     "description": "parameters",
     "displayText": "parameters",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {

@@ -232,7 +232,7 @@
     "description": "properties",
     "displayText": "properties",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
@@ -251,7 +251,7 @@
     "description": "xml",
     "displayText": "xml",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
