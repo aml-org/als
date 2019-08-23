@@ -1,9 +1,344 @@
-swagger: '2.0'
-parameters:
-  named:
-    in: body
-paths:
-  /path:
-    get:
-      parameters:
-        - $ref: *
+[
+  {
+    "text": "\"#/parameters/named\"",
+    "description": "Reference to \"#/parameters/named\"",
+    "displayText": "\"#/parameters/named\"",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "bymethod/",
+    "description": "Path suggestion",
+    "displayText": "bymethod/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "consumes-array.yml",
+    "description": "Path suggestion",
+    "displayText": "consumes-array.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "consumes.yml",
+    "description": "Path suggestion",
+    "displayText": "consumes.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "expected/",
+    "description": "Path suggestion",
+    "displayText": "expected/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "external-docs.yml",
+    "description": "Path suggestion",
+    "displayText": "external-docs.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameter-array.yml",
+    "description": "Path suggestion",
+    "displayText": "parameter-array.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameter.yml",
+    "description": "Path suggestion",
+    "displayText": "parameter.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "produces-array.yml",
+    "description": "Path suggestion",
+    "displayText": "produces-array.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "produces.yml",
+    "description": "Path suggestion",
+    "displayText": "produces.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "reponses.yml",
+    "description": "Path suggestion",
+    "displayText": "reponses.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "schemes-array.yml",
+    "description": "Path suggestion",
+    "displayText": "schemes-array.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "schemes.yml",
+    "description": "Path suggestion",
+    "displayText": "schemes.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "security-array-named.yml",
+    "description": "Path suggestion",
+    "displayText": "security-array-named.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "security-array.yml",
+    "description": "Path suggestion",
+    "displayText": "security-array.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "security.yml",
+    "description": "Path suggestion",
+    "displayText": "security.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "tags-array.yml",
+    "description": "Path suggestion",
+    "displayText": "tags-array.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "tags.yml",
+    "description": "Path suggestion",
+    "displayText": "tags.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      }
+    ]
+  }
+]

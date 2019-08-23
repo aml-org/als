@@ -1,5 +1,24 @@
 [
   {
+    "text": "$ref: ",
+    "description": "reference tag",
+    "displayText": "$ref",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
     "text": "allOf: ",
     "description": "allOf",
     "displayText": "allOf",
