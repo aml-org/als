@@ -42,7 +42,7 @@
     "description": "p1",
     "displayText": "p1",
     "prefix": "",
-    "category": "parameters",
+    "category": "example",
     "range": [
       {
         "start": {
@@ -61,7 +61,7 @@
     "description": "p2",
     "displayText": "p2",
     "prefix": "",
-    "category": "parameters",
+    "category": "example",
     "range": [
       {
         "start": {
