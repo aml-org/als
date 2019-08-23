@@ -52,4 +52,6 @@ documents:
     declares:
       types: SomeType
       schemes: SomeScheme
+  options:
+    referenceStyle: JsonSchemaStyle
 

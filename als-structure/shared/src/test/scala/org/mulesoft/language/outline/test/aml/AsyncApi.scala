@@ -7,7 +7,7 @@ class AsyncApi extends DialectStructureTest {
     this.runTest("AsyncAPI/example6.yaml", "AsyncAPI/dialect6.yaml", "AsyncAPI/example6.json")
   }
 
-  test("Async API dialect library 001") {
+  ignore("Async API dialect library 001") {
     this.runTest("AsyncAPI/library.yaml", "AsyncAPI/dialect6.yaml", "AsyncAPI/library.json")
   }
 

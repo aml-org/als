@@ -1,15 +1,19 @@
 package org.mulesoft.als.suggestions.plugins.headers
 
-import amf.dialects.OAS20Dialect
 import amf.plugins.document.vocabularies.AMLPlugin
 import org.mulesoft.als.configuration.Configuration
-import org.mulesoft.als.suggestions.{HeaderCompletionParams, RawSuggestion}
 import org.mulesoft.als.suggestions.interfaces.HeaderCompletionPlugin
+import org.mulesoft.als.suggestions.{HeaderCompletionParams, RawSuggestion}
 
 import scala.concurrent.Future
 
 object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
   override def id: String = "KeyPropertyHeaderCompletionPlugin"
+
+  private def swaggerHeader(isJson: Boolean, hasBracket: Boolean) = {
+    val text = (if (isJson) jsonFlavour("swagger", "2.0", hasBracket) else yamlFlavour("swagger", "2.0"))._1
+    RawSuggestion(text, text, s"Define a OAS 2.0 file", Seq(), isKey = false, "")
+  }
 
   private def yamlFlavour(key: String, value: String) = (s"$key: ${"\"" + value + "\""}", false)
 
@@ -28,7 +32,7 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
     if (Configuration.snippetsEnabled) s"{\n${text.linesIterator.map(l => s"  $l").mkString("\n")}\n  $$0\n}"
     else s"{\n${text.linesIterator.map(l => s"  $l").mkString("\n")}\n}"
 
-  private def getSuggestions(isJson: Boolean, hasBracket: Boolean = false): Seq[RawSuggestion] =
+  private def getSuggestions(isJson: Boolean, hasBracket: Boolean = false): Seq[RawSuggestion] = {
     AMLPlugin.registry
       .allDialects()
       .filter(_.documents().keyProperty().value())
@@ -45,6 +49,8 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
                       "",
                       isSnippet = isASnippet)
       })
+      .toSeq :+ swaggerHeader(isJson, hasBracket) // TODO: remove when OAS is added as a Dialect
+  }
 
   override def resolve(params: HeaderCompletionParams): Future[Seq[RawSuggestion]] =
     Future.successful(

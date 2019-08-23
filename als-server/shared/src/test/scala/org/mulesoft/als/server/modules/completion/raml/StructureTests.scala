@@ -54,6 +54,6 @@ class StructureTests extends RAMLSuggestionTestServer {
   }
 
   test("test empty root") {
-    runTest("testEmpty.raml", Set("#%RAML 1.0", "#%RAML 0.8", "swagger: '2.0'"))
+    runTest("testEmpty.raml", Set("#%RAML 1.0"))
   }
 }

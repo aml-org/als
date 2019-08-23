@@ -1,0 +1,25 @@
+#%Dialect 1.0
+
+dialect: KeyProperty
+version: 1.0
+
+external:
+  schema-org: http://schema.org/
+  mock: https://github.amlorg.com/mock#
+
+nodeMappings:
+  RootNode:
+    classTerm: mock.RootNode
+    mapping:
+      title:
+        propertyTerm: schema-org.name
+        range: string
+      version:
+        propertyTerm: mock.version
+        range: string
+
+documents:
+  root:
+    encodes: RootNode
+  options:
+    keyProperty: true

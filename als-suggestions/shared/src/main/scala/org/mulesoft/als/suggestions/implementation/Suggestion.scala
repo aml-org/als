@@ -69,7 +69,7 @@ object Suggestion {
     val index =
       _prefix.lastIndexOf(".").max(_prefix.lastIndexOf("/"))
     if (index > 0 && _text.startsWith(_prefix))
-      if (index == _prefix.size)
+      if (index == _prefix.length)
         new Suggestion(_text.substring(index), _description, _displayText.split('.').last, "", _range)
       else
         new Suggestion(

@@ -5,13 +5,14 @@ import org.mulesoft.als.suggestions.implementation.{CompletionResponse, Suggesti
 import org.mulesoft.als.suggestions.interfaces._
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class EmptyRamlFileCompletionPlugin extends ICompletionPlugin {
   override def id: String = EmptyRamlFileCompletionPlugin.ID
 
   override def languages: Seq[Vendor] = EmptyRamlFileCompletionPlugin.supportedLanguages
 
-  override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = {
+  override def suggest(request: ICompletionRequest): Future[ICompletionResponse] = Future {
 
     val text                         = request.config.editorStateProvider.get.getText
     val str                          = text.substring(0, request.position)
@@ -40,8 +41,7 @@ class EmptyRamlFileCompletionPlugin extends ICompletionPlugin {
       else if (str.startsWith("#%RAML 1.0"))
         suggestions = EmptyRamlFileCompletionPlugin.fragmentNames.map(x => Suggestion(x, "Fragment header", x, prefix))
     }
-    val response = CompletionResponse(suggestions, LocationKind.VALUE_COMPLETION, request)
-    Future.successful(response)
+    CompletionResponse(suggestions, LocationKind.VALUE_COMPLETION, request)
   }
 
   override def isApplicable(request: ICompletionRequest): Boolean = {

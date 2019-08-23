@@ -1,16 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.annotations.SourceAST
-import amf.core.model.document.Document
-import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.{AMLCompletionParams, RawSuggestion}
-import org.yaml.model.YPart
 
 import scala.concurrent.Future
 
-class AMLEnumCompletionsPlugin(params: AMLCompletionParams, ast: Option[YPart], yPartBranch: YPartBranch)
-    extends AMLSuggestionsHelper {
+class AMLEnumCompletionsPlugin(params: AMLCompletionParams) extends AMLSuggestionsHelper {
 
   private def getSuggestions: Seq[String] =
     params.propertyMappings.headOption
@@ -27,17 +22,8 @@ class AMLEnumCompletionsPlugin(params: AMLCompletionParams, ast: Option[YPart], 
 object AMLEnumCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLEnumCompletionPlugin"
 
-  override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] = {
-    val ast = params.baseUnit match {
-      case d: Document =>
-        d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)
-      case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
-    }
-
-    ast.map(NodeBranchBuilder.build(_, params.position)) match {
-      case Some(yPart: YPartBranch) if yPart.isInArray || !yPart.isKey =>
-        new AMLEnumCompletionsPlugin(params, ast, yPart).resolve()
-      case _ => Future.successful(Nil)
-    }
-  }
+  override def resolve(params: AMLCompletionParams): Future[Seq[RawSuggestion]] =
+    if (params.yPartBranch.isValue || params.yPartBranch.isInArray)
+      new AMLEnumCompletionsPlugin(params).resolve()
+    else emptySuggestion
 }

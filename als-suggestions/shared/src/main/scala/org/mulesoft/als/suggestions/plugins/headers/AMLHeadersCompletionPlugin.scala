@@ -16,13 +16,14 @@ object AMLHeadersCompletionPlugin extends HeaderCompletionPlugin {
     .filterNot(_.documents().keyProperty().value())
     .flatMap(_.allHeaders)
     .map(h => s"#$h")
+    .toSeq
     .distinct
 
   override def resolve(params: HeaderCompletionParams): Future[Seq[RawSuggestion]] =
     Future.successful(
       if (!params.uri.toLowerCase().endsWith(".json"))
         allHeaders
-          .map(h => RawSuggestion(h, h, s"Define a ${h.substring(1)} file", Seq(), false, ""))
+          .map(h => RawSuggestion(h, h, s"Define a ${h.substring(1)} file", Seq(), isKey = false, ""))
       else Seq()
     )
 }

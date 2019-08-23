@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.test.raml10
 
 class FragmentTypeTest extends RAML10Test {
-
-  test("'#%RAML' completion") {
+  // TODO: Enable with RAML as AML merge (spec-oriented-refactor)
+  ignore("'#%RAML' completion") {
     this.runSuggestionTest(
       "fragmentType/test001.raml",
       Set(
@@ -20,7 +20,7 @@ class FragmentTypeTest extends RAML10Test {
     )
   }
 
-  test("'#%RAML ' completion") {
+  ignore("'#%RAML ' completion") {
     this.runSuggestionTest(
       "fragmentType/test002.raml",
       Set("ResourceType",
@@ -36,7 +36,7 @@ class FragmentTypeTest extends RAML10Test {
     )
   }
 
-  test("'#%RAML D' completion") {
+  ignore("'#%RAML D' completion") {
     this.runSuggestionTest("fragmentType/test003.raml", Set("DataType", "DocumentationItem"))
   }
 }

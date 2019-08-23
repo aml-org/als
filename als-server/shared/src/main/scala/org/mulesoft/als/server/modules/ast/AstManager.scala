@@ -150,17 +150,12 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
 
   def parse(uri: String): Future[BaseUnit] = {
     val amfURI = FileUtils.getDecodedUri(uri, platform)
-    val language = textDocumentManager
-      .getTextDocument(uri)
-      .map(_.language)
-      .getOrElse("OAS 2.0")
-
     logger.debugDetail(s"Protocol uri is $amfURI", "ASTManager", "parse")
 
     val config = new ParserConfig(
       Some(ParserConfig.PARSE),
       Some(amfURI),
-      Some(language),
+      None,
       Some("application/yaml"),
       None,
       Some("AMF Graph"),
@@ -182,19 +177,9 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     val patchedEnvironment =
       EnvironmentPatcher.patch(serverEnvironment, FileUtils.getEncodedUri(uri, platform), content)
 
-    val language = textDocumentManager
-      .getTextDocument(uri)
-      .map(_.language)
-      .getOrElse("OAS 2.0")
-
     val cfg = new ParserConfig(
       Some(ParserConfig.PARSE),
-      Some(FileUtils.getDecodedUri(uri, platform)),
-      Some(language),
-      Some("application/yaml"),
-      None,
-      Some("AMF Graph"),
-      Some("application/ld+json")
+      Some(FileUtils.getDecodedUri(uri, platform))
     )
 
     val startTime = System.currentTimeMillis()

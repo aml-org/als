@@ -73,9 +73,9 @@ object Suggestions extends SuggestionsHelper {
                                      directoryResolver,
                                      platform))
       case _ if isHeader(position, url, originalContent) =>
-        Future(
-          new CompletionProviderHeaders(url, originalContent, Position(position, originalContent))
-        )
+        if (!url.toLowerCase().endsWith(".raml"))
+          Future(HeaderCompletionProviderBuilder.build(url, originalContent, Position(position, originalContent)))
+        else Future(RamlHeaderCompletionProvider.build(url, originalContent, Position(position, originalContent)))
       case _ =>
         this
           .buildHighLevel(bu, platform)
@@ -93,11 +93,12 @@ object Suggestions extends SuggestionsHelper {
       .flatMap(buildProvider(_, position, directoryResolver, platform, url, originalContent))
       .recoverWith {
         case _: amf.core.exception.UnsupportedVendorException if isHeader(position, url, originalContent) =>
-          Future.successful(new CompletionProviderHeaders(url, originalContent, Position(position, originalContent)))
+          if (!url.toLowerCase().endsWith(".raml"))
+            Future(HeaderCompletionProviderBuilder.build(url, originalContent, Position(position, originalContent)))
+          else Future(RamlHeaderCompletionProvider.build(url, originalContent, Position(position, originalContent)))
         case e: Throwable =>
           println(e)
-          Future.successful(
-            this.buildCompletionProviderNoAST(originalContent, url, position, directoryResolver, platform))
+          Future(this.buildCompletionProviderNoAST(originalContent, url, position, directoryResolver, platform))
         case any =>
           println(any)
           Future.failed(new Error("Failed to construct CompletionProvider"))
@@ -105,8 +106,7 @@ object Suggestions extends SuggestionsHelper {
   }
 
   private def isHeader(position: Int, url: String, originalContent: String): Boolean =
-    !url.toLowerCase().endsWith(".raml") &&
-      !originalContent.substring(0, position).replaceAll("^\\{?\\s+", "").contains('\n')
+    !originalContent.substring(0, position).replaceAll("^\\{?\\s+", "").contains('\n')
 
   private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
     case _: DialectInstanceUnit => WebApiDialectsRegistry.dialectFor(bu)
@@ -209,13 +209,13 @@ object Suggestions extends SuggestionsHelper {
           StylerParams(
             getMediaType(originalContent) == Syntax.YAML,
             isKey,
-            false, // just in annotations??
+            noColon = false, // just in annotations??
             originalContent,
             pos
           ),
           _
       )
-    CompletionProviderAST(AmlCompletionRequest(amfPosition, bu, dialect, styler))
+    CompletionProviderAST(AmlCompletionRequest(amfPosition, bu, dialect, platform, directoryResolver, styler))
   }
 }
 
@@ -247,10 +247,6 @@ trait SuggestionsHelper {
     new ParserConfig(
       Some(ParserConfig.PARSE),
       Some(url),
-      Some(language),
-      Some("application/yaml"),
-      None,
-      Some("AMF Graph"),
-      Some("application/ld+json")
+      Some(language)
     )
 }

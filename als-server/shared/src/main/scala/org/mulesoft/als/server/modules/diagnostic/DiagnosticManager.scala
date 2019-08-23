@@ -1,9 +1,8 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.ProfileName
-import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
-import amf.core.remote.Platform
+import amf.core.remote.{Aml, Platform}
 import amf.core.services.RuntimeValidator
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
 import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, PositionRange}
@@ -16,7 +15,6 @@ import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
 
-import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -139,27 +137,11 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
     ValidationIssue("PROPERTY_UNUSED", ValidationSeverity(validationResult.level), "", messageText, range, List())
   }
 
-  private def report(uri: String, baseUnit: BaseUnit): Future[AMFValidationReport] = {
-    val language = textDocumentManager.getTextDocument(uri).map(_.language).getOrElse("OAS 2.0")
+  // check if DialectInstance <- nameAndVersion ?
+  // check if .raml (and force RAML vendor)
+  private def checkProfileName(baseUnit: BaseUnit): String =
+    baseUnit.sourceVendor.map(_.name).getOrElse(Aml.toString)
 
-    val config = new ParserConfig(
-      Some(ParserConfig.VALIDATE),
-      Some(platform.resolvePath(uri)),
-      Some(language),
-      Some("application/yaml"),
-      None,
-      Some(language),
-      Some("application/yaml"),
-      false,
-      true
-    )
-
-    val customProfileLoaded = if (config.customProfile.isDefined) {
-      RuntimeValidator.loadValidationProfile(config.customProfile.get)
-    } else {
-      Future.successful(ProfileName(baseUnit.sourceVendor.map(_.name).getOrElse(language)))
-    }
-
-    customProfileLoaded.flatMap(profile => RuntimeValidator(baseUnit, profile))
-  }
+  private def report(uri: String, baseUnit: BaseUnit): Future[AMFValidationReport] =
+    RuntimeValidator(baseUnit, ProfileName(checkProfileName(baseUnit)))
 }

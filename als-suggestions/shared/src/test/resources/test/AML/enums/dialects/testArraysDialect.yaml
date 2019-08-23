@@ -1,0 +1,26 @@
+#%Dialect 1.0
+
+dialect: Test Array
+version: 1.0
+
+external:
+  schema-org: http://schema.org/
+  mediaType: http://a.ml/vocabularies/http#
+
+nodeMappings:
+  Root:
+    classTerm: schema-org.Root
+    mapping:
+      rc:
+        propertyTerm: schema-org.response
+        range: string
+        enum: [First, Second, Third, Fourth]
+        allowMultiple: true
+
+
+
+documents:
+  root:
+    encodes: Root
+  options:
+    referenceStyle: JsonSchemaStyle

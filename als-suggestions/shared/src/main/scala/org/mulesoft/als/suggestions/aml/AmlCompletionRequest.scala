@@ -5,10 +5,11 @@ import amf.core.metamodel.document.BaseUnitModel
 import amf.core.model.document.{BaseUnit, Document}
 import amf.core.model.domain.{AmfArray, AmfObject, DomainElement}
 import amf.core.parser.FieldEntry
+import amf.core.remote.Platform
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import org.mulesoft.als.common.AmfSonElementFinder._
-import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
+import org.mulesoft.als.common.{DirectoryResolver, NodeBranchBuilder, YPartBranch}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.interfaces.{CompletionRequest, Suggestion}
 import org.yaml.model.YDocument
@@ -16,6 +17,8 @@ import org.yaml.model.YDocument
 class AmlCompletionRequest(override val baseUnit: BaseUnit,
                            override val position: Position,
                            override val actualDialect: Dialect,
+                           override val platform: Platform,
+                           override val directoryResolver: DirectoryResolver,
                            override val styler: Boolean => Seq[Suggestion] => Seq[Suggestion])
     extends CompletionRequest {
 
@@ -96,6 +99,8 @@ object AmlCompletionRequest {
   def apply(amfPosition: Position,
             bu: BaseUnit,
             dialect: Dialect,
+            platform: Platform,
+            directoryResolver: DirectoryResolver,
             styler: Boolean => Seq[Suggestion] => Seq[Suggestion]): AmlCompletionRequest =
-    new AmlCompletionRequest(bu, amfPosition, dialect, styler)
+    new AmlCompletionRequest(bu, amfPosition, dialect, platform, directoryResolver, styler)
 }

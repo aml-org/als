@@ -3,9 +3,10 @@ package org.mulesoft.als.suggestions
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
+import amf.core.remote.Platform
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.{DirectoryResolver, YPartBranch}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.interfaces.CompletionRequest
 
@@ -18,6 +19,8 @@ class AMLCompletionParams(private val request: CompletionRequest, val prefix: St
   val dialect: Dialect                       = request.actualDialect
   val yPartBranch: YPartBranch               = request.yPartBranch
   val fieldEntry: Option[FieldEntry]         = request.fieldEntry
+  val directoryResolver: DirectoryResolver   = request.directoryResolver
+  val platform: Platform                     = request.platform
   lazy val declarationProvider: DeclarationProvider =
     DeclarationProvider(baseUnit, Some(dialect))
 }
