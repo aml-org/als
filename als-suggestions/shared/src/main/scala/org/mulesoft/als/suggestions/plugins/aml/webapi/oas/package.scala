@@ -23,7 +23,7 @@ package object oas {
 
       val d = OAS20Dialect()
       d.withDeclares(
-        d.declares.filter(_.id != SchemaObjectId) ++ Seq(
+        d.declares.filter(p => !(p.id == SchemaObjectId || p.id == OAS20Dialect.DialectNodes.BodyParameterObject.id)) ++ Seq(
           JsonSchemas.SchemaObject,
           JsonSchemas.AnySchemaObject,
           JsonSchemas.ArraySchemaObject,
