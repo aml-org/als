@@ -137,7 +137,7 @@
     "description": "items",
     "displayText": "items",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
@@ -194,7 +194,7 @@
     "description": "pattern",
     "displayText": "pattern",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
@@ -213,7 +213,7 @@
     "description": "properties",
     "displayText": "properties",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
@@ -232,7 +232,7 @@
     "description": "required",
     "displayText": "required",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
@@ -270,7 +270,7 @@
     "description": "xml",
     "displayText": "xml",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {

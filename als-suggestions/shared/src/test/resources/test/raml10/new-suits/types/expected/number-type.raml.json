@@ -137,7 +137,7 @@
     "description": "format",
     "displayText": "format",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
@@ -213,7 +213,7 @@
     "description": "xml",
     "displayText": "xml",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {

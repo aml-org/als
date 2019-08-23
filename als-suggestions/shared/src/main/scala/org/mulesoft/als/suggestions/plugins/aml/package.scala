@@ -19,7 +19,8 @@ package object aml {
 
     def propertiesRaw(indentation: String, category: Option[String] = None): Seq[RawSuggestion] =
       nodeMapping.propertiesMapping().map { p =>
-        val c = CategoryRegistry(nodeMapping.meta.`type`.headOption.map(_.iri()).getOrElse(""), p.name().value())
+        val c = category.getOrElse(
+          CategoryRegistry(nodeMapping.meta.`type`.headOption.map(_.iri()).getOrElse(""), p.name().value()))
         p.toRaw(indentation, c)
       }
   }
