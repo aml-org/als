@@ -313,30 +313,57 @@
                 ]
               },
               {
-                "name": "default",
+                "name": "\"schema\"",
                 "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 13,
-                    "character": 14
+                    "line": 12,
+                    "character": 12
                   },
                   "end": {
-                    "line": 13,
-                    "character": 41
+                    "line": 14,
+                    "character": 13
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 13,
-                    "character": 14
+                    "line": 12,
+                    "character": 12
                   },
                   "end": {
-                    "line": 13,
-                    "character": 41
+                    "line": 12,
+                    "character": 20
                   }
                 },
-                "children": []
+                "children": [
+                  {
+                    "name": "default",
+                    "kind": 7,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 13,
+                        "character": 14
+                      },
+                      "end": {
+                        "line": 13,
+                        "character": 41
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 13,
+                        "character": 14
+                      },
+                      "end": {
+                        "line": 13,
+                        "character": 41
+                      }
+                    },
+                    "children": []
+                  }
+                ]
               },
               {
                 "name": "\"application/json\"",
@@ -392,30 +419,57 @@
             },
             "children": [
               {
-                "name": "default",
+                "name": "\"schema\"",
                 "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 42,
-                    "character": 14
+                    "line": 41,
+                    "character": 12
                   },
                   "end": {
-                    "line": 42,
-                    "character": 48
+                    "line": 43,
+                    "character": 13
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 42,
-                    "character": 14
+                    "line": 41,
+                    "character": 12
                   },
                   "end": {
-                    "line": 42,
-                    "character": 48
+                    "line": 41,
+                    "character": 20
                   }
                 },
-                "children": []
+                "children": [
+                  {
+                    "name": "default",
+                    "kind": 7,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 42,
+                        "character": 14
+                      },
+                      "end": {
+                        "line": 42,
+                        "character": 48
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 42,
+                        "character": 14
+                      },
+                      "end": {
+                        "line": 42,
+                        "character": 48
+                      }
+                    },
+                    "children": []
+                  }
+                ]
               }
             ]
           }
