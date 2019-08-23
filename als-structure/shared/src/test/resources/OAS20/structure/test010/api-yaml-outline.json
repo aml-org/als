@@ -313,13 +313,13 @@
                 ]
               },
               {
-                "name": "default",
+                "name": "schema",
                 "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 12,
-                    "character": 12
+                    "line": 11,
+                    "character": 10
                   },
                   "end": {
                     "line": 13,
@@ -328,15 +328,42 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 12,
-                    "character": 12
+                    "line": 11,
+                    "character": 10
                   },
                   "end": {
-                    "line": 13,
-                    "character": 0
+                    "line": 11,
+                    "character": 16
                   }
                 },
-                "children": []
+                "children": [
+                  {
+                    "name": "default",
+                    "kind": 7,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 12,
+                        "character": 12
+                      },
+                      "end": {
+                        "line": 13,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 12,
+                        "character": 12
+                      },
+                      "end": {
+                        "line": 13,
+                        "character": 0
+                      }
+                    },
+                    "children": []
+                  }
+                ]
               },
               {
                 "name": "application/json",
@@ -392,13 +419,13 @@
             },
             "children": [
               {
-                "name": "default",
+                "name": "schema",
                 "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 33,
-                    "character": 12
+                    "line": 32,
+                    "character": 10
                   },
                   "end": {
                     "line": 34,
@@ -407,15 +434,42 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 33,
-                    "character": 12
+                    "line": 32,
+                    "character": 10
                   },
                   "end": {
-                    "line": 34,
-                    "character": 0
+                    "line": 32,
+                    "character": 16
                   }
                 },
-                "children": []
+                "children": [
+                  {
+                    "name": "default",
+                    "kind": 7,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 33,
+                        "character": 12
+                      },
+                      "end": {
+                        "line": 34,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 33,
+                        "character": 12
+                      },
+                      "end": {
+                        "line": 34,
+                        "character": 0
+                      }
+                    },
+                    "children": []
+                  }
+                ]
               }
             ]
           }
