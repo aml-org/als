@@ -1,8 +1,8 @@
 [
   {
-    "text": "url: ",
-    "description": "A URL to the license used for the API. MUST be in the format of a URL.",
-    "displayText": "url",
+    "text": "name: ",
+    "description": "name",
+    "displayText": "name",
     "prefix": "",
     "category": "docs",
     "range": [
@@ -19,9 +19,9 @@
     ]
   },
   {
-    "text": "name: ",
-    "description": "The identifying name of license",
-    "displayText": "name",
+    "text": "url: ",
+    "description": "url",
+    "displayText": "url",
     "prefix": "",
     "category": "docs",
     "range": [
