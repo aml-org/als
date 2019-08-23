@@ -1,10 +1,10 @@
 [
   {
     "text": "myTag",
-    "description": "",
+    "description": "myTag",
     "displayText": "myTag",
     "prefix": "",
-    "category": "",
+    "category": "unknown",
     "range": [
       {
         "start": {

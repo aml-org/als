@@ -51,7 +51,7 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   def isJsonKey(params: AmlCompletionRequest): Boolean = {
     !params.yPartBranch.hasIncludeTag && params.yPartBranch.brothers.isEmpty &&
     isDeclarable(params) &&
-    params.fieldEntry.isEmpty && !params.yPartBranch.isInArray
+    params.fieldEntry.isEmpty && params.yPartBranch.isKey
   }
 }
 
