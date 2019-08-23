@@ -4,7 +4,7 @@
     "description": "p2",
     "displayText": "p2",
     "prefix": "",
-    "category": "parameters",
+    "category": "example",
     "range": [
       {
         "start": {
@@ -23,7 +23,7 @@
     "description": "p3",
     "displayText": "p3",
     "prefix": "",
-    "category": "parameters",
+    "category": "example",
     "range": [
       {
         "start": {
