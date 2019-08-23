@@ -1,45 +1,7 @@
 [
   {
-    "text": "required: ",
-    "description": "Determines whether this parameter is mandatory. If the parameter is in 'path', this property is required and its value MUST be true. Otherwise, the property MAY be included and its default value is false.",
-    "displayText": "required",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 7,
-          "character": 8
-        },
-        "end": {
-          "line": 7,
-          "character": 8
-        }
-      }
-    ]
-  },
-  {
-    "text": "type: ",
-    "description": "Required. The type of the parameter. Since the parameter is not located at the request body, it is limited to simple types (that is, not an object). The value MUST be one of \"string\", \"number\", \"integer\", \"boolean\", \"array\" or \"file\". If type is \"file\", the consumes MUST be either \"multipart/form-data\" or \" application/x-www-form-urlencoded\" and the parameter MUST be in \"formData\".",
-    "displayText": "type",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 7,
-          "character": 8
-        },
-        "end": {
-          "line": 7,
-          "character": 8
-        }
-      }
-    ]
-  },
-  {
     "text": "description: ",
-    "description": "A brief description. This could contain examples of use. GFM syntax can be used for rich text representation.",
+    "description": "description",
     "displayText": "description",
     "prefix": "",
     "category": "docs",
@@ -58,7 +20,7 @@
   },
   {
     "text": "name: ",
-    "description": "Required. The name of the parameter. Parameter names are case sensitive.\nIf in is \"path\", the name field MUST correspond to the associated path segment from the path field in the Paths Object. See Path Templating for further information.\nFor all other cases, the name corresponds to the parameter name used based on the in property.",
+    "description": "name",
     "displayText": "name",
     "prefix": "",
     "category": "parameters",
@@ -76,9 +38,9 @@
     ]
   },
   {
-    "text": "in: ",
-    "description": "The location of the parameter. Possible values are \"query\", \"header\", \"path\", \"formData\" or \"body\".",
-    "displayText": "in",
+    "text": "required: ",
+    "description": "required",
+    "displayText": "required",
     "prefix": "",
     "category": "parameters",
     "range": [
@@ -95,30 +57,11 @@
     ]
   },
   {
-    "text": "schema:\n          ",
-    "description": "",
+    "text": "schema: ",
+    "description": "schema",
     "displayText": "schema",
     "prefix": "",
     "category": "schemas",
-    "range": [
-      {
-        "start": {
-          "line": 7,
-          "character": 8
-        },
-        "end": {
-          "line": 7,
-          "character": 8
-        }
-      }
-    ]
-  },
-  {
-    "text": "\"$ref\": ",
-    "description": "",
-    "displayText": "$ref",
-    "prefix": "",
-    "category": "unknown",
     "range": [
       {
         "start": {
