@@ -1,4 +1,135 @@
-swagger: '2.0'
-paths:
-  /path:
-    $ref: *
+[
+  {
+    "text": "expected/",
+    "description": "Path suggestion",
+    "displayText": "expected/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameter-array.yml",
+    "description": "Path suggestion",
+    "displayText": "parameter-array.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameter-ref.yml",
+    "description": "Path suggestion",
+    "displayText": "parameter-ref.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameter.yml",
+    "description": "Path suggestion",
+    "displayText": "parameter.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "path-def.ext.yaml",
+    "description": "Path suggestion",
+    "displayText": "path-def.ext.yaml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "path.yml",
+    "description": "Path suggestion",
+    "displayText": "path.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "paths.yml",
+    "description": "Path suggestion",
+    "displayText": "paths.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  }
+]

@@ -95,6 +95,44 @@
     ]
   },
   {
+    "text": "path-ref.yml",
+    "description": "Path suggestion",
+    "displayText": "path-ref.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
+    "text": "path.yml",
+    "description": "Path suggestion",
+    "displayText": "path.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
     "text": "paths.yml",
     "description": "Path suggestion",
     "displayText": "paths.yml",

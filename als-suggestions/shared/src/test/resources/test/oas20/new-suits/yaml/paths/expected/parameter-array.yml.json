@@ -118,7 +118,7 @@
     "description": "in",
     "displayText": "in",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
