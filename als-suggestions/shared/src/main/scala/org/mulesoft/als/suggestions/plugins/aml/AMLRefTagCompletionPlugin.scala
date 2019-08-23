@@ -10,7 +10,7 @@ import org.mulesoft.als.common.ElementNameExtractor._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
+trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLRefTagCompletionPlugin"
 
   private val includeSuggestion = Seq(
@@ -22,16 +22,19 @@ object AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
       getSuggestion(request, Option(request.actualDialect.documents()).flatMap(_.referenceStyle().option()))
     }
 
-  private def isDeclarable(amfObject: AmfObject, dp: DeclarationProvider, actualKey: String): Boolean =
-    amfObject.meta.`type`
-      .exists(v => dp.isTermDeclarable(v.iri())) && !amfObject.elementIdentifier().contains(actualKey)
+  private def isDeclarable(params: AmlCompletionRequest): Boolean =
+    isObjectDeclarable(params) && !params.amfObject.elementIdentifier().contains(params.yPartBranch.stringValue)
+
+  protected def isObjectDeclarable(params: AmlCompletionRequest): Boolean =
+    params.amfObject.meta.`type`
+      .exists(v => params.declarationProvider.isTermDeclarable(v.iri()))
 
   private def isValueRamlTag(params: AmlCompletionRequest) =
     params.yPartBranch.isValue && params.prefix.startsWith("!")
 
   private def isArrayTag(params: AmlCompletionRequest) =
     params.yPartBranch.brothers.nonEmpty || params.yPartBranch.isInArray ||
-      !isDeclarable(params.amfObject, params.declarationProvider, params.yPartBranch.stringValue)
+      !isDeclarable(params)
 
   def getSuggestion(params: AmlCompletionRequest, style: Option[String]): Seq[RawSuggestion] = {
     style match {
@@ -46,9 +49,10 @@ object AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
     params.yPartBranch.isValue && (params.prefix.startsWith("!") || params.yPartBranch.tag.exists(t => t.text == "!"))
 
   def isJsonKey(params: AmlCompletionRequest): Boolean = {
-    !params.yPartBranch.hasIncludeTag && params.yPartBranch.brothers.isEmpty && isDeclarable(
-      params.amfObject,
-      params.declarationProvider,
-      params.yPartBranch.stringValue) && params.fieldEntry.isEmpty && !params.yPartBranch.isInArray
+    !params.yPartBranch.hasIncludeTag && params.yPartBranch.brothers.isEmpty &&
+    isDeclarable(params) &&
+    params.fieldEntry.isEmpty && !params.yPartBranch.isInArray
   }
 }
+
+object AMLRefTagCompletionPlugin extends AMLRefTagCompletionPlugin
