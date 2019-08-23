@@ -18,7 +18,7 @@ object ParameterReferenceCompletionPlugin extends AMLCompletionPlugin {
     Future {
       if (AMLJsonSchemaStyleDeclarationReferences.applies(request)) {
         request.amfObject match {
-          case p: Parameter if request.branchStack.headOption.exists(_.isInstanceOf[EndPoint]) =>
+          case p: Parameter =>
             new AMLJsonSchemaStyleDeclarationReferences(request.actualDialect,
                                                         paramIriMaps.keys.toSeq,
                                                         request.amfObject.elementIdentifier(),
