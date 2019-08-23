@@ -1,8 +1,8 @@
 [
   {
-    "text": "#/responses/Found",
-    "description": "Reference to #/responses/Found",
-    "displayText": "#/responses/Found",
+    "text": "\"#/responses/Found\"",
+    "description": "Reference to \"#/responses/Found\"",
+    "displayText": "\"#/responses/Found\"",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -136,6 +136,25 @@
     "text": "response-headers.yml",
     "description": "Path suggestion",
     "displayText": "response-headers.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 16
+        },
+        "end": {
+          "line": 9,
+          "character": 16
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-schema-ref.yml",
+    "description": "Path suggestion",
+    "displayText": "response-schema-ref.yml",
     "prefix": "",
     "category": "unknown",
     "range": [

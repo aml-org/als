@@ -1,8 +1,8 @@
 [
   {
-    "text": "url: ",
-    "description": "The URL pointing to the contact information. MUST be in the format of a URL.",
-    "displayText": "url",
+    "text": "email: ",
+    "description": "email",
+    "displayText": "email",
     "prefix": "",
     "category": "docs",
     "range": [
@@ -20,7 +20,7 @@
   },
   {
     "text": "name: ",
-    "description": "The identifying name of the contact person/organization.",
+    "description": "name",
     "displayText": "name",
     "prefix": "",
     "category": "docs",
@@ -38,9 +38,9 @@
     ]
   },
   {
-    "text": "email: ",
-    "description": "The URL pointing to the contact information. MUST be in the format of a URL.",
-    "displayText": "email",
+    "text": "url: ",
+    "description": "url",
+    "displayText": "url",
     "prefix": "",
     "category": "docs",
     "range": [
