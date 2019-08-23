@@ -17,7 +17,8 @@ object OasCompletionPluginRegistry {
     ParameterStructure :+
     OasTypeFacetsCompletionPlugin :+
     ParameterReferenceCompletionPlugin :+
-    OASRefTag
+    OASRefTag :+
+    OperationTags
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, OAS20Dialect().id)
