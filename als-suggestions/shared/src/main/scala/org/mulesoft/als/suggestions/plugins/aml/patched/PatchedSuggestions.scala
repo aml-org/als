@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml.patched
 
 import amf.dialects.OAS20Dialect
 import amf.plugins.domain.shapes.metamodel.ExampleModel
-import amf.plugins.domain.webapi.metamodel.{PayloadModel, ResponseModel, WebApiModel}
+import amf.plugins.domain.webapi.metamodel.{OperationModel, PayloadModel, ResponseModel, WebApiModel}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.Raml10TypesDialect
 import org.mulesoft.typesystem.definition.system.{
   OasCommonMediaTypes,
@@ -23,11 +23,17 @@ object PatchedSuggestionsForDialect {
         Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
       FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.ContentType.value.iri()) ->
         Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(OperationModel.`type`.head.iri(), OperationModel.ContentType.value.iri()) ->
+        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(OperationModel.`type`.head.iri(), OperationModel.Accepts.value.iri()) ->
+        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
       FieldForClass(ExampleModel.`type`.head.iri(), ExampleModel.MediaType.value.iri()) ->
         Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
       FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
         Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.StatusCode.value.iri()) ->
+        Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_))),
+      FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.Name.value.iri()) ->
         Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_)))
     )
 

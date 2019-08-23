@@ -9,7 +9,7 @@ object OasCompletionPluginRegistry {
 
   private val all = AMLBaseCompletionPlugins.all :+
     OASRequiredObjectCompletionPlugin :+
-    OasInBodyParametersCompletionPlugin :+
+//    OasInBodyParametersCompletionPlugin :+
     OasTypeDeclarationReferenceCompletionPlugin :+
     SecuredByCompletionPlugin :+
     ExampleMediaType :+
