@@ -13,8 +13,12 @@ import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentPositionPara
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
 import org.mulesoft.lsp.common.{Position => lspPosition}
 
+import scala.concurrent.ExecutionContext
+
 class ServerDefinitionTest extends LanguageServerBaseTest {
-  override def rootPath: String = ""
+
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
+  override def rootPath: String                            = ""
 
   override def addModules(documentManager: TextDocumentManager,
                           platform: Platform,
