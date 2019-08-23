@@ -1,0 +1,7 @@
+#%JSONStyle1.0
+
+title: test without style
+version: 1
+#having no other facet, the suggestions must include every facet and also the reference tag
+type:
+  *

@@ -54,7 +54,7 @@ object AMLDeclarationsReferencesCompletionPlugin extends AMLCompletionPlugin {
 
   }
 
-  private def getObjectRangeIds(params: AMLCompletionParams): Seq[String] = {
+  private def getObjectRangeIds(params: AMLCompletionParams): Seq[String] =
     getFieldIri(params.fieldEntry, params.propertyMappings)
       .orElse(declaredFromKey(params.yPartBranch.parent, params.propertyMappings))
       .map(_.objectRange().flatMap(_.option())) match {
@@ -62,18 +62,17 @@ object AMLDeclarationsReferencesCompletionPlugin extends AMLCompletionPlugin {
       case _         => referenceFromDeclared(params.amfObject)
     }
 
-  }
   private def getFieldIri(fieldEntry: Option[FieldEntry],
                           propertyMapping: Seq[PropertyMapping]): Option[PropertyMapping] =
     fieldEntry.flatMap(fe => propertyMapping.find(_.nodePropertyMapping().value() == fe.field.value.iri()))
 
-  private def referenceFromDeclared(amfObject: AmfObject): immutable.Seq[String] = {
+  private def referenceFromDeclared(amfObject: AmfObject): immutable.Seq[String] =
     amfObject.fields.fields() match {
       case head :: Nil if head.field == DialectDomainElementModel.DeclarationName =>
         amfObject.meta.`type`.map(_.iri())
       case _ => Nil
     }
-  }
+
   private def declaredFromKey(parent: Option[YPart], propertyMapping: Seq[PropertyMapping]): Option[PropertyMapping] =
     parent
       .collect({ case entry: YMapEntry => entry.key.toString })

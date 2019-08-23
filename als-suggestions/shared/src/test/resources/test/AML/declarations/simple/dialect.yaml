@@ -39,3 +39,5 @@ documents:
     encodes: RootNode
     declares:
       types: SomeType
+  options:
+    referenceStyle: JsonSchemaStyle

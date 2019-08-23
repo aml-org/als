@@ -114,11 +114,10 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
 
     logger.debug("Document is opened", "EditorManager", "onOpenDocument")
 
-    val language = determineLanguage(document.uri, document.text)
-    val syntax   = determineSyntax(document.uri, document.text)
+    val syntax = determineSyntax(document.uri, document.text)
 
     this.uriToEditor + (document.uri,
-    new TextDocument(document.uri, document.version, document.text, language, syntax, logger))
+    new TextDocument(document.uri, document.version, document.text, /* language, */ syntax, logger))
 
     this.documentChangeListeners.foreach { listener =>
       listener(ChangedDocument(document.uri, document.version, Some(document.text), None))
@@ -162,11 +161,10 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
 
       })
 
-    val language = this.determineLanguage(document.uri, document.text.get)
-    val syntax   = this.determineSyntax(document.uri, document.text.get)
+    val syntax = this.determineSyntax(document.uri, document.text.get)
 
     uriToEditor + (document.uri,
-    new TextDocument(document.uri, document.version, document.text.get, language, syntax, logger))
+    new TextDocument(document.uri, document.version, document.text.get, /* language, */ syntax, logger))
 
     documentChangeListeners.foreach(listener => listener(document))
   }
@@ -179,20 +177,6 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
     if (editorOption.isDefined) {
       editorOption.get.setCursorPosition(position)
     }
-  }
-
-  def determineLanguage(url: String, text: String): String = {
-
-    if (url.endsWith(".raml")) {
-      if (text.startsWith("#%RAML 1.0"))
-        Raml10.toString
-      else
-        Raml08.toString
-    } else if ((url.endsWith(".yaml") || url.endsWith(".yml")) && text
-                 .startsWith("#%"))
-      Aml.toString
-    else
-      Oas20.toString
   }
 
   def determineSyntax(url: String, text: String): String =

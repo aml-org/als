@@ -6,12 +6,13 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object EnvironmentPatcher {
 
   def patch(environment: Environment, uri: String, content: String): Environment = {
     val patchLoader = new ResourceLoader {
-      override def fetch(resource: String): Future[Content] = Future.successful(new Content(content, resource))
+      override def fetch(resource: String): Future[Content] = Future(new Content(content, resource))
 
       override def accepts(resource: String): Boolean = resource == uri
     }
@@ -22,7 +23,7 @@ object EnvironmentPatcher {
   def patch(environment: Environment, files: Map[String, String]): Environment = {
     val patchLoader = new ResourceLoader {
       override def fetch(resource: String): Future[Content] = files.get(resource) match {
-        case Some(content) => Future.successful(new Content(content, resource))
+        case Some(content) => Future(new Content(content, resource))
         case None          => Future.failed(new ResourceNotFound(s"Resource $resource not found"))
       }
 

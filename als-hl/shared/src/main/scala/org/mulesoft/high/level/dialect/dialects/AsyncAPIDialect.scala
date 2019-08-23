@@ -450,6 +450,8 @@ object AsyncAPIDialect extends DialectConf {
       |      schemas: SchemaObject
       |      messages: MessageObject
       |      securitySchemes: SecuritySchemeObject
+      |  options:
+      |    referenceStyle: JsonSchemaStyle
       |  fragments:
       |    encodes:
       |      Schema: SchemaObject

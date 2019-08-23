@@ -30,6 +30,7 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
     val de: Option[DomainElement] = d.declares.find(de => de.id endsWith s"/$nodeName")
     de match {
       case Some(n: NodeMapping) => n.propertiesMapping()
+      case _                    => Nil
     }
   }
 

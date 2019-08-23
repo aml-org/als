@@ -23,13 +23,6 @@ trait IAbstractTextEditor {
   def version: Int
 
   /**
-    * Language ID
-    *
-    * @return
-    */
-  def language: String
-
-  /**
     * Syntax ID
     *
     * @return

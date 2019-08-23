@@ -79,10 +79,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
         val offset       = position.offset(originalText)
         val text         = suggestions.Core.prepareText(originalText, offset, syntax)
 
-        val vendorOption   = Vendor.unapply(editor.language)
-        val vendor: Vendor = vendorOption.getOrElse(Raml10)
-
-        buildCompletionProviderAST(text, originalText, uri, refinedUri, offset, vendor, syntax)
+        buildCompletionProviderAST(text, originalText, uri, refinedUri, offset, /* vendor, */ syntax)
           .flatMap(provider => {
             provider
               .suggest()
@@ -106,7 +103,6 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                                  uri: String,
                                  refinedUri: String,
                                  position: Int,
-                                 vendor: Vendor,
                                  syntax: Syntax): Future[CompletionProvider] = {
 
     val eventualUnit: Future[BaseUnit] = hlAstManager.astManager.forceBuildNewAST(uri, text)

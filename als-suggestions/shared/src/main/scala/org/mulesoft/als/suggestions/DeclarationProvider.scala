@@ -52,7 +52,7 @@ object DeclarationProvider {
   def apply(bu: BaseUnit, d: Option[Dialect]): DeclarationProvider = {
     val provider = new DeclarationProvider(d.flatMap(_.documents().declarationsPath().option()))
     bu match {
-      case de: DeclaresModel => populareDeclares(de, provider)
+      case de: DeclaresModel => populateDeclares(de, provider)
       case _                 => // ignore
     }
 
@@ -66,16 +66,14 @@ object DeclarationProvider {
 
   }
 
-  private def populareDeclares(de: DeclaresModel, provider: DeclarationProvider): Unit = {
+  private def populateDeclares(de: DeclaresModel, provider: DeclarationProvider): Unit =
     de.declares.foreach { d =>
       d.meta.`type`.foreach { iri =>
         provider.put(iri.iri(), elementIdentifier(d).toSet)
       }
     }
-  }
 
-  private def elementIdentifier(element: DomainElement): Option[String] = {
-
+  private def elementIdentifier(element: DomainElement): Option[String] =
     element.fields
       .getValueAsOption(DialectDomainElementModel.DeclarationName)
       .map(_.value)
@@ -85,5 +83,4 @@ object DeclarationProvider {
           .find(fe => fe.field.value.iri() == (Namespace.Schema + "name").iri())
           .map(_.value.value))
       .collect({ case s: AmfScalar => s.value.toString })
-  }
 }

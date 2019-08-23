@@ -27,8 +27,7 @@ class LibraryTests extends AMLSuggestionsTest {
   }
 
   test("test005") {
-    this.runSuggestionTest("library/test005.yaml",
-                           Set("null", "boolean", "string", "array", "object", "number", "integer"))
+    this.runSuggestionTest("library/test005.yaml", Set("null", "boolean", "string", "array", "number", "integer"))
   }
 
   test("test006") {
