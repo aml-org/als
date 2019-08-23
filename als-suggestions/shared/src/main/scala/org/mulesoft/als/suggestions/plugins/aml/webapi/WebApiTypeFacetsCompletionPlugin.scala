@@ -60,13 +60,13 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin {
       case s: ScalarShape =>
         s.fields.getValueAsOption(ScalarShapeModel.DataType) match {
           case Some(Value(_, ann)) if ann.contains(classOf[Inferred]) && s.isInstanceOf[ScalarShape] =>
-            Seq(RawSuggestion("properties", indentation, isAKey = true, "unknown"),
-                RawSuggestion("items", indentation, isAKey = true, "unknown"))
+            Seq(RawSuggestion("properties", indentation, isAKey = true, "schemas"),
+                RawSuggestion("items", indentation, isAKey = true, "schemas"))
           case _ => Nil
         }
       case a: AnyShape if a.isDefaultEmpty =>
-        Seq(RawSuggestion("properties", indentation, isAKey = true, "unknown"),
-            RawSuggestion("items", indentation, isAKey = true, "unknown"))
+        Seq(RawSuggestion("properties", indentation, isAKey = true, "schemas"),
+            RawSuggestion("items", indentation, isAKey = true, "schemas"))
       case _ => Nil
     }
   }
