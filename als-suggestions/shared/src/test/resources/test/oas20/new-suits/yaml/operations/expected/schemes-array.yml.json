@@ -1,7 +1,7 @@
 [
   {
     "text": "http",
-    "description": "Possible 'schemes' value",
+    "description": "http",
     "displayText": "http",
     "prefix": "",
     "category": "unknown",
@@ -20,7 +20,7 @@
   },
   {
     "text": "https",
-    "description": "Possible 'schemes' value",
+    "description": "https",
     "displayText": "https",
     "prefix": "",
     "category": "unknown",
@@ -39,7 +39,7 @@
   },
   {
     "text": "ws",
-    "description": "Possible 'schemes' value",
+    "description": "ws",
     "displayText": "ws",
     "prefix": "",
     "category": "unknown",
@@ -58,7 +58,7 @@
   },
   {
     "text": "wss",
-    "description": "Possible 'schemes' value",
+    "description": "wss",
     "displayText": "wss",
     "prefix": "",
     "category": "unknown",
