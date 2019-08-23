@@ -4,6 +4,7 @@ definitions:
     type: array
     items:
       properties:
-        p1
+        p1:
+          type: string
     example:
       - *
