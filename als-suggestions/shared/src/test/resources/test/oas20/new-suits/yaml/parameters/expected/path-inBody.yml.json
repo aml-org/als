@@ -57,7 +57,7 @@
     ]
   },
   {
-    "text": "schema: ",
+    "text": "schema:\n          ",
     "description": "schema",
     "displayText": "schema",
     "prefix": "",
