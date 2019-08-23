@@ -40,6 +40,8 @@ object CategoryRegistry {
 
   private val setCategoriesDocs: Set[CategoryField] = Set(
     (WebApiModel.`type`.head.iri(), "info"),
+    (NodeMappingModel.`type`.head.iri(), "externalDocs"),
+    (NodeMappingModel.`type`.head.iri(), "title"),
     (TagModel.`type`.head.iri(), "description"),
     (TagModel.`type`.head.iri(), "name"),
     (WebApiModel.`type`.head.iri(), "externalDocs"),
@@ -78,21 +80,25 @@ object CategoryRegistry {
   private val setCategoriesParameters: Set[CategoryField] = Set(
     (WebApiModel.`type`.head.iri(), "baseUriParameters"),
     (ResponseModel.`type`.head.iri(), "headers"),
-    (NodeMappingModel.`type`.head.iri(), "headers"),
-    (NodeMappingModel.`type`.head.iri(), "queryParameters"),
     (OperationModel.`type`.head.iri(), "queryParameters"),
     (OperationModel.`type`.head.iri(), "headers"),
     (EndPointModel.`type`.head.iri(), "uriParameters"),
-    (NodeMappingModel.`type`.head.iri(), "enum"),
-    (NodeMappingModel.`type`.head.iri(), "default"),
-    (NodeMappingModel.`type`.head.iri(), "minLength"),
-    (NodeMappingModel.`type`.head.iri(), "maxLength"),
     (WebApiModel.`type`.head.iri(), "parameters"),
     (ParameterModel.`type`.head.iri(), "required"),
     (ParameterModel.`type`.head.iri(), "in"),
     (PayloadModel.`type`.head.iri(), "required"),
     (PayloadModel.`type`.head.iri(), "name"),
-    (PayloadModel.`type`.head.iri(), "in")
+    (PayloadModel.`type`.head.iri(), "in"),
+    (ParameterModel.`type`.head.iri(), "in"),
+    (NodeMappingModel.`type`.head.iri(), "headers"),
+    (NodeMappingModel.`type`.head.iri(), "queryParameters"),
+    (NodeMappingModel.`type`.head.iri(), "pattern"),
+    (NodeMappingModel.`type`.head.iri(), "format"),
+    (NodeMappingModel.`type`.head.iri(), "enum"),
+    (NodeMappingModel.`type`.head.iri(), "default"),
+    (NodeMappingModel.`type`.head.iri(), "minLength"),
+    (NodeMappingModel.`type`.head.iri(), "maxLength"),
+    (NodeMappingModel.`type`.head.iri(), "required")
   ).map(t => CategoryField(t._1, t._2, "parameters"))
 
   private val setCategoriesTypesAndTraits: Set[CategoryField] = Set(
@@ -140,7 +146,12 @@ object CategoryRegistry {
     (XMLSerializerModel.`type`.head.iri(), "name"),
     (XMLSerializerModel.`type`.head.iri(), "prefix"),
     (XMLSerializerModel.`type`.head.iri(), "wrapped"),
-    (XMLSerializerModel.`type`.head.iri(), "attribute")
+    (XMLSerializerModel.`type`.head.iri(), "attribute"),
+    (NodeMappingModel.`type`.head.iri(), "allOf"),
+    (NodeMappingModel.`type`.head.iri(), "items"),
+    (NodeMappingModel.`type`.head.iri(), "properties"),
+    (NodeMappingModel.`type`.head.iri(), "readOnly"),
+    (NodeMappingModel.`type`.head.iri(), "xml")
   ).map(t => CategoryField(t._1, t._2, "schemas"))
 
   private val setCategoriesSecurity: Set[CategoryField] = Set(

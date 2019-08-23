@@ -1,9 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
-import amf.client.model.DataTypes
-import amf.core.model.domain.Shape
-import amf.dialects.OAS20Dialect
-import amf.plugins.domain.shapes.models.{ArrayShape, ScalarShape}
+import amf.plugins.domain.shapes.models.ScalarShape
 import amf.plugins.domain.webapi.metamodel.ParameterModel
 import amf.plugins.domain.webapi.models.Parameter
 import org.mulesoft.als.common.YPartBranch
