@@ -67,7 +67,7 @@ class InstanceTests extends AMLSuggestionsTest {
   }
 
   test("empty file test") {
-    runSuggestionTest("instance/empty.yaml", Set("#%Library / AsyncAPI 0.6"))
+    runSuggestionTest("instance/empty.yaml", Set("6"))
   }
 
   test("test suggestions with component key") {
