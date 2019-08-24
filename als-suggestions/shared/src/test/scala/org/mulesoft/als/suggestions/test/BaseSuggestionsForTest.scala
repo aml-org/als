@@ -4,10 +4,12 @@ import amf.client.remote.Content
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
+import amf.plugins.document.vocabularies.AMLPlugin
 import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.common.io.SyncFile
+import org.mulesoft.high.level.builder.UniverseProvider
 import org.mulesoft.high.level.{CustomDialects, InitOptions}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -24,7 +26,13 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
       _       <- Suggestions.init(InitOptions.AllProfiles.withCustomDialects(customDialect.toSeq))
       content <- platform.resolve(url)
       r       <- suggestFromFile(content.stream.toString, url, content.mime, format, customDialect)
-    } yield r
+    } yield {
+      customDialect.foreach(c => {
+        AMLPlugin.registry.remove(c.url)
+        UniverseProvider.removeInitialized(c.name)
+      })
+      r
+    }
   }
 
   def suggestFromFile(content: String,

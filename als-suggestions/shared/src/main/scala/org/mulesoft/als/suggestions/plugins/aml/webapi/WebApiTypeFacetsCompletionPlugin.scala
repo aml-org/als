@@ -8,25 +8,37 @@ import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import amf.plugins.document.webapi.annotations.Inferred
 import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
 import amf.plugins.domain.shapes.models.{AnyShape, ScalarShape}
+import amf.plugins.domain.webapi.models.Parameter
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.Raml10TypesDialect
 import org.mulesoft.als.suggestions.plugins.aml._
+
 import scala.concurrent.Future
 
 trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin {
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(params.amfObject match {
-      case shape: Shape if isWrittingFacet(params.yPartBranch, shape) =>
+      case shape: Shape if isWrittingFacet(params.yPartBranch, shape, params.branchStack) =>
         resolveShape(shape, params.branchStack, params.indentation)
       case _ => Nil
     })
   }
 
-  private def isWrittingFacet(yPartBranch: YPartBranch, shape: Shape): Boolean =
-    yPartBranch.isKey && shape.name.value() != yPartBranch.stringValue
+  private def isWrittingFacet(yPartBranch: YPartBranch, shape: Shape, stack: Seq[AmfObject]): Boolean =
+    yPartBranch.isKey && !yPartBranch.isKeyDescendanceOf("required") && !writtingShapeName(shape, yPartBranch) && !writtinParamName(
+      stack,
+      yPartBranch)
+
+  private def writtingShapeName(shape: Shape, yPartBranch: YPartBranch) = shape.name.value() == yPartBranch.stringValue
+
+  private def writtinParamName(stack: Seq[AmfObject], yPartBranch: YPartBranch) =
+    stack.headOption.exists {
+      case p: Parameter => p.name.value() == yPartBranch.stringValue
+      case _            => false
+    }
 
   def resolveShape(shape: Shape, branchStack: Seq[AmfObject], indentation: String): Seq[RawSuggestion] = {
 

@@ -1,6 +1,8 @@
 package org.mulesoft.als.suggestions.test.core.aml
 
 import amf.core.remote.Aml
+import amf.plugins.document.vocabularies.AMLPlugin
+import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.suggestions.CompletionsPluginHandler
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.test.core.{CoreTest, DummyPlugins}
@@ -28,9 +30,9 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
   }
 
   test("Custom Plugins completion Dummy") {
-
+    val p = filePath("dialect.yaml")
     for {
-      dialect <- parseAMF(filePath("dialect.yaml"))
+      dialect <- parseAMF(p)
       _       <- Suggestions.init(InitOptions.AllProfiles)
       _ <- Future {
         CompletionsPluginHandler.cleanIndex()
@@ -38,6 +40,9 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
           .registerPlugins(Seq(DummyCompletionPlugin(), DummyInvalidCompletionPlugin()), dialect.id)
       }
       result <- suggest("visit01.yaml")
-    } yield assert(result.length == 1 && result.forall(_.description == "dummy description"))
+    } yield {
+      AMLPlugin.registry.remove(p)
+      assert(result.length == 1 && result.forall(_.description == "dummy description"))
+    }
   }
 }

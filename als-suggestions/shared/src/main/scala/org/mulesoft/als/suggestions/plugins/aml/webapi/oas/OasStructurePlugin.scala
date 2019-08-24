@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
 import amf.core.model.domain.Shape
 import amf.dialects.OAS20Dialect
-import amf.plugins.domain.webapi.models.{EndPoint, Parameter, WebApi}
+import amf.plugins.domain.webapi.models.{EndPoint, Parameter, Request, WebApi}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -19,6 +19,8 @@ object OasStructurePlugin extends AMLCompletionPlugin {
     request.amfObject match {
       case _: Parameter | _: Shape                           => emptySuggestion
       case _: EndPoint if isInParameter(request.yPartBranch) => emptySuggestion
+      case _: Request if request.fieldEntry.isEmpty && !definingParam(request.yPartBranch) =>
+        Future { OAS20Dialect.DialectNodes.OperationObject.propertiesRaw(request.indentation) }
       case _: WebApi if request.yPartBranch.isKeyDescendanceOf("info") =>
         infoSuggestions(request.indentation)
       case _ => AMLStructureCompletionPlugin.resolve(request)
@@ -30,4 +32,6 @@ object OasStructurePlugin extends AMLCompletionPlugin {
 
   def infoSuggestions(indentation: String) =
     Future(OAS20Dialect.DialectNodes.InfoObject.propertiesRaw(indentation, Some("docs")))
+
+  def definingParam(yPart: YPartBranch): Boolean = yPart.isKeyDescendanceOf("parameters")
 }

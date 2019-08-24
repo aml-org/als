@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.test.oas20
 
-import org.mulesoft.typesystem.definition.system.OasCommonMediaTypes
+import org.mulesoft.typesystem.definition.system.{OasCommonMediaTypes, OasResponseCodes}
 
 class StructureTestsOasYaml extends OAS20Test {
 
@@ -176,7 +176,7 @@ class StructureTestsOasYaml extends OAS20Test {
     this.runSuggestionTest("structure/test106.yml", Set())
   }
 
-  test("Response definition key") {
+  ignore("Response definition key") {
     this.runSuggestionTest("structure/test107.yml", Set())
   }
 
@@ -185,7 +185,7 @@ class StructureTestsOasYaml extends OAS20Test {
   }
 
   test("Security reference") {
-    this.runSuggestionTest("structure/test109.yml", Set("BasicAuth1: ", "BasicAuth2: "))
+    this.runSuggestionTest("structure/test109.yml", Set("BasicAuth1:\n          ", "BasicAuth2:\n          "))
   }
 
   test("request parameter type 1") {
@@ -205,7 +205,7 @@ class StructureTestsOasYaml extends OAS20Test {
   }
 
   test("response codes test 02") {
-    this.runSuggestionTest("structure/test114.yml", TestOasResponseCodes.all.toSet)
+    this.runSuggestionTest("structure/test114.yml", TestOasResponseCodes.all.filter(r => !r.contains("200")).toSet)
   }
 
   test("test property name suggestion") {
@@ -213,18 +213,20 @@ class StructureTestsOasYaml extends OAS20Test {
   }
 
   test("test root produces suggestions") {
-    this.runSuggestionTest("structure/produces/root.yml", OasCommonMediaTypes.all.toSet)
+    this.runSuggestionTest("structure/produces/root.yml", OasCommonMediaTypes.all.map(r => s"$r:\n    ").toSet)
   }
 
   test("test root consumes suggestions") {
-    this.runSuggestionTest("structure/consumes/root.yml", OasCommonMediaTypes.all.toSet)
+    this.runSuggestionTest("structure/consumes/root.yml", OasCommonMediaTypes.all.map(r => s"$r:\n    ").toSet)
   }
   test("test operation produces suggestions") {
-    this.runSuggestionTest("structure/produces/operation.yml", OasCommonMediaTypes.all.toSet)
+    this.runSuggestionTest("structure/produces/operation.yml",
+                           OasCommonMediaTypes.all.map(r => s"$r:\n          ").toSet)
   }
 
   test("test operation consumes suggestions") {
-    this.runSuggestionTest("structure/consumes/operation.yml", OasCommonMediaTypes.all.toSet)
+    this.runSuggestionTest("structure/consumes/operation.yml",
+                           OasCommonMediaTypes.all.map(r => s"$r:\n          ").toSet)
   }
 
   test("test schemes without line break") {

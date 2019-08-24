@@ -7,6 +7,8 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.common.ElementNameExtractor._
+import org.mulesoft.als.common.YPartBranch
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -51,8 +53,13 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   def isJsonKey(params: AmlCompletionRequest): Boolean = {
     !params.yPartBranch.hasIncludeTag && params.yPartBranch.brothers.isEmpty &&
     isDeclarable(params) &&
-    params.fieldEntry.isEmpty && params.yPartBranch.isKey
+    params.fieldEntry.isEmpty && params.yPartBranch.isKey &&
+    (params.yPartBranch.stringValue.isEmpty || params.yPartBranch.stringValue == "k" || params.yPartBranch.stringValue
+      .startsWith("$")) &&
+    !isExceptionCase(params.yPartBranch)
   }
+
+  protected def isExceptionCase(branch: YPartBranch): Boolean = false
 }
 
 object AMLRefTagCompletionPlugin extends AMLRefTagCompletionPlugin
