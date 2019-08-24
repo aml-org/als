@@ -1,10 +1,10 @@
 [
   {
-    "text": "byte",
-    "description": "",
-    "displayText": "byte",
+    "text": "binary",
+    "description": "binary",
+    "displayText": "binary",
     "prefix": "",
-    "category": "",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -19,11 +19,11 @@
     ]
   },
   {
-    "text": "binary",
-    "description": "",
-    "displayText": "binary",
+    "text": "byte",
+    "description": "byte",
+    "displayText": "byte",
     "prefix": "",
-    "category": "",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -39,10 +39,10 @@
   },
   {
     "text": "date",
-    "description": "",
+    "description": "date",
     "displayText": "date",
     "prefix": "",
-    "category": "",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -58,10 +58,10 @@
   },
   {
     "text": "date-time",
-    "description": "",
+    "description": "date-time",
     "displayText": "date-time",
     "prefix": "",
-    "category": "",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -77,10 +77,10 @@
   },
   {
     "text": "password",
-    "description": "",
+    "description": "password",
     "displayText": "password",
     "prefix": "",
-    "category": "",
+    "category": "unknown",
     "range": [
       {
         "start": {

@@ -54,13 +54,8 @@ package object oas {
       )
     }
 
-    val commonParamProps: Seq[PropertyMapping] = Seq(
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ParameterObject/description")
-        .withName("description")
-        .withMinCount(1)
-        .withNodePropertyMapping(ParameterModel.Description.value.iri())
-        .withLiteralRange(xsdString.iri()))
+    val commonParamProps: Seq[PropertyMapping] = Seq()
+
 
     val HeaderCommonObject = NodeMapping()
       .withId("#/declarations/HeaderCommonObject")
@@ -148,6 +143,12 @@ package object oas {
       val common: Seq[PropertyMapping] = commonDataShapesProperties ++ Seq(
         OAS20Dialect.shapesPropertyMapping) ++ Seq(
         PropertyMapping()
+          .withId(DialectLocation + "#/declarations/ParameterObject/description")
+          .withName("description")
+          .withMinCount(1)
+          .withNodePropertyMapping(ParameterModel.Description.value.iri())
+          .withLiteralRange(xsdString.iri()),
+        PropertyMapping()
           .withId(DialectLocation + s"#/declarations/Schema/title")
           .withName("title")
           .withNodePropertyMapping(ShapeModel.DisplayName.value.iri())
@@ -230,7 +231,7 @@ package object oas {
             .withLiteralRange(xsdString.iri())
         ))
 
-      val numberProps = Seq(
+      val numberProps = common ++ Seq(
         PropertyMapping()
           .withId(DialectLocation + "#/declarations/SchemaObject/multipleOf")
           .withName("multipleOf")
@@ -266,7 +267,7 @@ package object oas {
         .withName("IntegerSchemaObject ")
         .withNodeTypeMapping("IntegerSchemaObject.id")
         .withPropertiesMapping(
-          common ++ Seq(
+          numberProps ++  Seq(
             PropertyMapping()
               .withId(DialectLocation + "#/declarations/SchemaObject/format")
               .withName("format")
@@ -283,7 +284,7 @@ package object oas {
         .withName("NumberSchemaObject ")
         .withNodeTypeMapping("NumberSchemaObject.id")
         .withPropertiesMapping(
-          common ++ Seq(
+          numberProps ++ Seq(
             PropertyMapping()
               .withId(DialectLocation + "#/declarations/SchemaObject/format")
               .withName("format")
@@ -302,7 +303,7 @@ package object oas {
         .withId("#/declarations/ArraySchemaObject")
         .withName("ArraySchemaObject")
         .withNodeTypeMapping(ArrayShapeModel.`type`.head.iri())
-        .withPropertiesMapping(commonDataShapesProperties ++ Seq(
+        .withPropertiesMapping(common ++ Seq(
           PropertyMapping()
             .withId(DialectLocation + s"#/declarations/Schema/items")
             .withName("items")
@@ -345,7 +346,7 @@ package object oas {
         .withId("#/declarations/NodeSchemaObject")
         .withName("NodeSchemaObject")
         .withNodeTypeMapping(NodeShapeModel.`type`.head.iri())
-        .withPropertiesMapping(commonDataShapesProperties ++ Seq(
+        .withPropertiesMapping(common ++ Seq(
           PropertyMapping()
             .withId(DialectLocation + s"#/declarations/Schema/maxProperties")
             .withName("maxProperties")
