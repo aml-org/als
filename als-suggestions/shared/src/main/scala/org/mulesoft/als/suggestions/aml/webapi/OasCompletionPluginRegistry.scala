@@ -22,7 +22,8 @@ object OasCompletionPluginRegistry {
     ParameterReferenceCompletionPlugin :+
     OASRefTag :+
     OperationTags :+
-    ObjectExamplePropertiesCompletionPlugin
+    ObjectExamplePropertiesCompletionPlugin :+
+    OasNumberShapeFormatValues
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, OAS20Dialect().id)

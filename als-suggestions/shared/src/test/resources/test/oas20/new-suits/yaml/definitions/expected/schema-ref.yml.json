@@ -1,8 +1,46 @@
 [
   {
+    "text": "array-schema.yml",
+    "description": "Path suggestion",
+    "displayText": "array-schema.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
     "text": "boolean-format.yml",
     "description": "Path suggestion",
     "displayText": "boolean-format.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "definition.yml",
+    "description": "Path suggestion",
+    "displayText": "definition.yml",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -76,9 +114,161 @@
     ]
   },
   {
+    "text": "integer-format.yml",
+    "description": "Path suggestion",
+    "displayText": "integer-format.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "items-schema.yml",
+    "description": "Path suggestion",
+    "displayText": "items-schema.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
     "text": "jsonschema.json",
     "description": "Path suggestion",
     "displayText": "jsonschema.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "number-format.yml",
+    "description": "Path suggestion",
+    "displayText": "number-format.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "number-schema.yml",
+    "description": "Path suggestion",
+    "displayText": "number-schema.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "object-schema.yml",
+    "description": "Path suggestion",
+    "displayText": "object-schema.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "properties-schema.yml",
+    "description": "Path suggestion",
+    "displayText": "properties-schema.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "property-schema.yml",
+    "description": "Path suggestion",
+    "displayText": "property-schema.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "required-properties-name-existing.yml",
+    "description": "Path suggestion",
+    "displayText": "required-properties-name-existing.yml",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -155,6 +345,44 @@
     "text": "schema-ref-separator.yml",
     "description": "Path suggestion",
     "displayText": "schema-ref-separator.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "string-format.yml",
+    "description": "Path suggestion",
+    "displayText": "string-format.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "string-schema.yml",
+    "description": "Path suggestion",
+    "displayText": "string-schema.yml",
     "prefix": "",
     "category": "unknown",
     "range": [
