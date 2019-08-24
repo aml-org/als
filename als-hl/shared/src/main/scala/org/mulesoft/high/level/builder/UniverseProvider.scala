@@ -51,4 +51,6 @@ object UniverseProvider {
   }
 
   def universe(format: Vendor): Option[IUniverse] = universes.get(format)
+
+  def removeInitialized(profileName: ProfileName): Option[Future[Unit]] = initialized.remove(profileName)
 }

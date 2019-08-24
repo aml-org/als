@@ -6,6 +6,8 @@ import amf.core.model.document.BaseUnit
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
+import amf.plugins.document.vocabularies.AMLPlugin
+import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.Core
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
@@ -88,16 +90,19 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
     Environment(loaders)
   }
 
-  def runTestForCustomDialect(path: String, dialectPath: String, originalSuggestions: Set[String]): Future[Assertion] =
+  def runTestForCustomDialect(path: String, dialectPath: String, originalSuggestions: Set[String]): Future[Assertion] = {
+    val p = filePath(dialectPath)
     Suggestions
       .init(InitOptions.AllProfiles)
-      .flatMap(_ => parseAMF(filePath(dialectPath)))
+      .flatMap(_ => parseAMF(p))
       .flatMap(_ =>
         suggest(path).map(suggestions => {
+          AMLPlugin.registry.remove(p)
           assert(suggestions.map(_.displayText).size == originalSuggestions.size)
           assert(suggestions.map(_.displayText).forall(s => originalSuggestions.contains(s)))
           assert(originalSuggestions.forall(s => suggestions.map(_.displayText).contains(s)))
         }))
+  }
 
   def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] = {
     val cfg = new ParserConfig(

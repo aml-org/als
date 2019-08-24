@@ -190,7 +190,7 @@
     ]
   },
   {
-    "text": "properties: ",
+    "text": "properties:\n      ",
     "description": "properties",
     "displayText": "properties",
     "prefix": "",

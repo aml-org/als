@@ -360,8 +360,9 @@ package object oas {
           PropertyMapping()
             .withId(DialectLocation + s"#/declarations/Schema/properties")
             .withName("properties")
-            .withNodePropertyMapping(NodeShapeModel.MinProperties.value.iri())
-            .withLiteralRange(xsdInteger.iri()),
+            .withNodePropertyMapping(NodeShapeModel.Properties.value.iri())
+            .withMapTermKeyProperty(PropertyShapeModel.Name.value.iri())
+            .withObjectRange(Seq(SchemaObjectId)),
           PropertyMapping()
             .withId(
               DialectLocation + s"#/declarations/Schema/additionalProperties")
