@@ -57,6 +57,25 @@
     ]
   },
   {
+    "text": "description: ",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 8
+        },
+        "end": {
+          "line": 4,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
     "text": "enum: ",
     "description": "enum",
     "displayText": "enum",

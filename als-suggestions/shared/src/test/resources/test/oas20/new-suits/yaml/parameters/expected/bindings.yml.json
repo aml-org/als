@@ -4,7 +4,7 @@
     "description": "body",
     "displayText": "body",
     "prefix": "",
-    "category": "body",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -42,7 +42,7 @@
     "description": "header",
     "displayText": "header",
     "prefix": "",
-    "category": "parameters",
+    "category": "unknown",
     "range": [
       {
         "start": {
