@@ -5,6 +5,7 @@ import amf.core.metamodel.domain.ShapeModel
 import amf.core.model.domain.Shape
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.shapes.models.UnresolvedShape
+import amf.plugins.domain.webapi.models.{Parameter, Payload}
 import org.mulesoft.als.common.ElementNameExtractor._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -38,8 +39,10 @@ trait ShapeDeclarationReferenceCompletionPlugin extends AMLCompletionPlugin {
             // i need to force generic shape model search for default amf parsed types
 
             case Some(text)
-                if name.exists(Seq(text, "schema").contains) || params.amfObject
-                  .isInstanceOf[UnresolvedShape] || text == "body" =>
+                if name.contains(text) || params.amfObject
+                  .isInstanceOf[UnresolvedShape] || text == "body" ||
+                  (params.branchStack.headOption.exists(h => h.isInstanceOf[Parameter] || h.isInstanceOf[Payload]) && name
+                    .contains("schema")) =>
               declaredSuggestions ++ typeProperty
                 .enum()
                 .map(v => v.value().toString)

@@ -4,5 +4,5 @@ info:
 definitions:
   Type1:
     type: object
-    prorperties:
+    properties:
       *
