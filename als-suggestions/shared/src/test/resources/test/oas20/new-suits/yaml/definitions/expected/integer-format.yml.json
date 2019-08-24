@@ -1,7 +1,7 @@
 [
   {
     "text": "int32",
-    "description": "Possible format value",
+    "description": "int32",
     "displayText": "int32",
     "prefix": "",
     "category": "unknown",
@@ -9,18 +9,18 @@
       {
         "start": {
           "line": 4,
-          "character": 8
+          "character": 12
         },
         "end": {
           "line": 4,
-          "character": 8
+          "character": 12
         }
       }
     ]
   },
   {
     "text": "int64",
-    "description": "Possible format value",
+    "description": "int64",
     "displayText": "int64",
     "prefix": "",
     "category": "unknown",
@@ -28,11 +28,11 @@
       {
         "start": {
           "line": 4,
-          "character": 8
+          "character": 12
         },
         "end": {
           "line": 4,
-          "character": 8
+          "character": 12
         }
       }
     ]
