@@ -1,10 +1,10 @@
 [
   {
-    "text": "enum: ",
-    "description": "",
-    "displayText": "enum",
+    "text": "$ref: ",
+    "description": "reference tag",
+    "displayText": "$ref",
     "prefix": "",
-    "category": "parameters",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -19,28 +19,9 @@
     ]
   },
   {
-    "text": "type: ",
-    "description": "",
-    "displayText": "type",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
-  },
-  {
-    "text": "xml:\n        ",
-    "description": "",
-    "displayText": "xml",
+    "text": "allOf: ",
+    "description": "allOf",
+    "displayText": "allOf",
     "prefix": "",
     "category": "schemas",
     "range": [
@@ -58,7 +39,7 @@
   },
   {
     "text": "default: ",
-    "description": "",
+    "description": "default",
     "displayText": "default",
     "prefix": "",
     "category": "parameters",
@@ -76,27 +57,8 @@
     ]
   },
   {
-    "text": "pattern: ",
-    "description": "",
-    "displayText": "pattern",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
-  },
-  {
     "text": "description: ",
-    "description": "",
+    "description": "description",
     "displayText": "description",
     "prefix": "",
     "category": "docs",
@@ -114,87 +76,11 @@
     ]
   },
   {
-    "text": "readOnly: ",
-    "description": "",
-    "displayText": "readOnly",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
-  },
-  {
-    "text": "maxLength: ",
-    "description": "",
-    "displayText": "maxLength",
+    "text": "enum: ",
+    "description": "enum",
+    "displayText": "enum",
     "prefix": "",
     "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
-  },
-  {
-    "text": "title: ",
-    "description": "",
-    "displayText": "title",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
-  },
-  {
-    "text": "minLength: ",
-    "description": "",
-    "displayText": "minLength",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
-  },
-  {
-    "text": "\"$ref\": ",
-    "description": "",
-    "displayText": "$ref",
-    "prefix": "",
-    "category": "schemas",
     "range": [
       {
         "start": {
@@ -210,7 +96,7 @@
   },
   {
     "text": "example: ",
-    "description": "",
+    "description": "example",
     "displayText": "example",
     "prefix": "",
     "category": "docs",
@@ -228,11 +114,144 @@
     ]
   },
   {
-    "text": "format: ",
-    "description": "",
-    "displayText": "format",
+    "text": "externalDocs:\n        ",
+    "description": "externalDocs",
+    "displayText": "externalDocs",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "items:\n        ",
+    "description": "items",
+    "displayText": "items",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "properties:\n        ",
+    "description": "properties",
+    "displayText": "properties",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "readOnly: ",
+    "description": "readOnly",
+    "displayText": "readOnly",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "required: ",
+    "description": "required",
+    "displayText": "required",
     "prefix": "",
     "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "title: ",
+    "description": "title",
+    "displayText": "title",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "type: ",
+    "description": "type",
+    "displayText": "type",
+    "prefix": "",
+    "category": "types and traits",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "xml:\n        ",
+    "description": "xml",
+    "displayText": "xml",
+    "prefix": "",
+    "category": "schemas",
     "range": [
       {
         "start": {

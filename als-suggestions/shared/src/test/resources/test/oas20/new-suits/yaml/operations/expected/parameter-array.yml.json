@@ -23,7 +23,7 @@
     "description": "allOf",
     "displayText": "allOf",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
@@ -43,6 +43,25 @@
     "displayText": "default",
     "prefix": "",
     "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "description: ",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -99,7 +118,7 @@
     "description": "externalDocs",
     "displayText": "externalDocs",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -118,7 +137,7 @@
     "description": "format",
     "displayText": "format",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
@@ -194,7 +213,7 @@
     "description": "pattern",
     "displayText": "pattern",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
@@ -213,7 +232,7 @@
     "description": "readOnly",
     "displayText": "readOnly",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
@@ -232,7 +251,7 @@
     "description": "required",
     "displayText": "required",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
@@ -251,7 +270,7 @@
     "description": "title",
     "displayText": "title",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -289,7 +308,7 @@
     "description": "xml",
     "displayText": "xml",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
