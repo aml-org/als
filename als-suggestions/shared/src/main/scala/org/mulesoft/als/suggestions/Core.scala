@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions
 
+import amf.plugins.document.vocabularies.AMLPlugin
 import org.mulesoft.als.suggestions.aml.webapi.{OasCompletionPluginRegistry, RamlCompletionPluginRegistry}
 import org.mulesoft.als.suggestions.implementation.SuggestionCategoryRegistry
 import org.mulesoft.als.suggestions.interfaces.Syntax
@@ -24,7 +25,7 @@ import scala.concurrent.Future
 import scala.language.postfixOps
 
 object Core {
-  def init(initOptions: InitOptions = InitOptions.AllProfiles): Future[Unit] =
+  def init(initOptions: InitOptions = InitOptions.AllProfiles): Future[Unit] = {
     org.mulesoft.high.level.Core
       .init(initOptions)
       .flatMap(_ => SuggestionCategoryRegistry.init())
@@ -60,6 +61,7 @@ object Core {
         HeaderBaseCompletionPlugins.initAll() // TODO: inside OAS CPR?
         RamlCompletionPluginRegistry.init()
       })
+  }
 
   def prepareText(text: String, offset: Int, syntax: Syntax): String =
     if (text.trim.startsWith("{"))
