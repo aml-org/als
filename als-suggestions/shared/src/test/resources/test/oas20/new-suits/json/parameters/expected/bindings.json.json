@@ -1,95 +1,95 @@
 [
   {
-    "text": "query",
-    "description": "",
-    "displayText": "query",
-    "prefix": "",
-    "category": "query",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 8
-        },
-        "end": {
-          "line": 3,
-          "character": 8
-        }
-      }
-    ]
-  },
-  {
     "text": "body",
-    "description": "",
+    "description": "body",
     "displayText": "body",
     "prefix": "",
-    "category": "body",
+    "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 3,
-          "character": 8
+          "line": 4,
+          "character": 13
         },
         "end": {
-          "line": 3,
-          "character": 8
-        }
-      }
-    ]
-  },
-  {
-    "text": "header",
-    "description": "",
-    "displayText": "header",
-    "prefix": "",
-    "category": "header",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 8
-        },
-        "end": {
-          "line": 3,
-          "character": 8
-        }
-      }
-    ]
-  },
-  {
-    "text": "path",
-    "description": "",
-    "displayText": "path",
-    "prefix": "",
-    "category": "path",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 8
-        },
-        "end": {
-          "line": 3,
-          "character": 8
+          "line": 4,
+          "character": 13
         }
       }
     ]
   },
   {
     "text": "formData",
-    "description": "",
+    "description": "formData",
     "displayText": "formData",
     "prefix": "",
-    "category": "formData",
+    "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 3,
-          "character": 8
+          "line": 4,
+          "character": 13
         },
         "end": {
-          "line": 3,
-          "character": 8
+          "line": 4,
+          "character": 13
+        }
+      }
+    ]
+  },
+  {
+    "text": "header",
+    "description": "header",
+    "displayText": "header",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 13
+        },
+        "end": {
+          "line": 4,
+          "character": 13
+        }
+      }
+    ]
+  },
+  {
+    "text": "path",
+    "description": "path",
+    "displayText": "path",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 13
+        },
+        "end": {
+          "line": 4,
+          "character": 13
+        }
+      }
+    ]
+  },
+  {
+    "text": "query",
+    "description": "query",
+    "displayText": "query",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 13
+        },
+        "end": {
+          "line": 4,
+          "character": 13
         }
       }
     ]

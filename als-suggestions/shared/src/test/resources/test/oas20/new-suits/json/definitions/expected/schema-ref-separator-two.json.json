@@ -1,7 +1,7 @@
 [
   {
     "text": "a",
-    "description": "Reference to /definitions/a",
+    "description": "Reference to #/definitions/a",
     "displayText": "a",
     "prefix": "",
     "category": "unknown",

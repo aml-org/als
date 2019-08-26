@@ -1,37 +1,37 @@
 [
   {
-    "text": "byte",
-    "description": "",
-    "displayText": "byte",
+    "text": "binary",
+    "description": "binary",
+    "displayText": "binary",
     "prefix": "",
-    "category": "",
+    "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 4,
+          "line": 5,
           "character": 17
         },
         "end": {
-          "line": 4,
+          "line": 5,
           "character": 17
         }
       }
     ]
   },
   {
-    "text": "binary",
-    "description": "",
-    "displayText": "binary",
+    "text": "byte",
+    "description": "byte",
+    "displayText": "byte",
     "prefix": "",
-    "category": "",
+    "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 4,
+          "line": 5,
           "character": 17
         },
         "end": {
-          "line": 4,
+          "line": 5,
           "character": 17
         }
       }
@@ -39,18 +39,18 @@
   },
   {
     "text": "date",
-    "description": "",
+    "description": "date",
     "displayText": "date",
     "prefix": "",
-    "category": "",
+    "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 4,
+          "line": 5,
           "character": 17
         },
         "end": {
-          "line": 4,
+          "line": 5,
           "character": 17
         }
       }
@@ -58,18 +58,18 @@
   },
   {
     "text": "date-time",
-    "description": "",
+    "description": "date-time",
     "displayText": "date-time",
     "prefix": "",
-    "category": "",
+    "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 4,
+          "line": 5,
           "character": 17
         },
         "end": {
-          "line": 4,
+          "line": 5,
           "character": 17
         }
       }
@@ -77,18 +77,18 @@
   },
   {
     "text": "password",
-    "description": "",
+    "description": "password",
     "displayText": "password",
     "prefix": "",
-    "category": "",
+    "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 4,
+          "line": 5,
           "character": 17
         },
         "end": {
-          "line": 4,
+          "line": 5,
           "character": 17
         }
       }

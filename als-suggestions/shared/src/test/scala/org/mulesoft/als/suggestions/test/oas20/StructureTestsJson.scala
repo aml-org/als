@@ -20,7 +20,7 @@ class StructureTestsJson extends OAS20Test {
     this.runSuggestionTest("structure_json/test11.json", Set("securityDefinitions"))
   }
 
-  test("SwaggerObject externalDocs") {
+  ignore("SwaggerObject externalDocs") {
     this.runSuggestionTest("structure_json/test14.json", Set("externalDocs"))
   }
 
@@ -80,7 +80,7 @@ class StructureTestsJson extends OAS20Test {
     this.runSuggestionTest("structure_json/test112.json", Set("headers"))
   }
 
-  test("ParameterObject name") {
+  ignore("ParameterObject name") {
     this.runSuggestionTest("structure_json/test51.json", Set("name"))
   }
 
@@ -104,7 +104,7 @@ class StructureTestsJson extends OAS20Test {
     this.runSuggestionTest("structure_json/test63.json", Set("exclusiveMinimum"))
   }
 
-  test("ItemsObject maxLength") {
+  ignore("ItemsObject maxLength") {
     this.runSuggestionTest("structure_json/test64.json", Set("maxLength"))
   }
 
@@ -112,11 +112,11 @@ class StructureTestsJson extends OAS20Test {
     this.runSuggestionTest("structure_json/test66.json", Set("pattern"))
   }
 
-  test("ItemsObject maxItems") {
+  ignore("ItemsObject maxItems") {
     this.runSuggestionTest("structure_json/test67.json", Set("maxItems"))
   }
 
-  test("ItemsObject minItems") {
+  ignore("ItemsObject minItems") {
     this.runSuggestionTest("structure_json/test68.json", Set("minItems"))
   }
 
@@ -128,7 +128,7 @@ class StructureTestsJson extends OAS20Test {
     this.runSuggestionTest("structure_json/test73.json", Set("items"))
   }
 
-  test("ItemsObject collectionFormat") {
+  ignore("ItemsObject collectionFormat") {
     this.runSuggestionTest("structure_json/test74.json", Set("collectionFormat"))
   }
 
@@ -168,7 +168,7 @@ class StructureTestsJson extends OAS20Test {
     this.runSuggestionTest("structure_json/test105.json", Set("\"prefix\":"))
   }
 
-  test("complete key start (element property)") {
+  ignore("complete key start (element property)") {
     this.runSuggestionTest(
       "structure_json/test106.json",
       Set("responses",
@@ -189,7 +189,7 @@ class StructureTestsJson extends OAS20Test {
     this.runSuggestionTest("structure_json/test107.json", Set("\"parameters\":", "\"paths\":"))
   }
 
-  test("empty open quote") {
+  ignore("empty open quote") {
     this.runSuggestionTest(
       "structure_json/test108.json",
       Set(
@@ -214,7 +214,7 @@ class StructureTestsJson extends OAS20Test {
   }
 
   test("response codes test 02") {
-    this.runSuggestionTest("structure_json/test110.json", OasResponseCodes.all.toSet)
+    this.runSuggestionTest("structure_json/test110.json", OasResponseCodes.all.filter(r => !r.startsWith("200")).toSet)
   }
 
   test("test root produces suggestions") {

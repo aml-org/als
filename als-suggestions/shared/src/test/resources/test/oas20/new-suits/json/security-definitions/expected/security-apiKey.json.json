@@ -1,10 +1,10 @@
 [
   {
     "text": "description",
-    "description": "",
+    "description": "description",
     "displayText": "description",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -20,7 +20,7 @@
   },
   {
     "text": "in",
-    "description": "",
+    "description": "in",
     "displayText": "in",
     "prefix": "",
     "category": "security",
@@ -39,7 +39,7 @@
   },
   {
     "text": "name",
-    "description": "",
+    "description": "name",
     "displayText": "name",
     "prefix": "",
     "category": "security",

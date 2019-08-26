@@ -23,11 +23,12 @@ object OasTypeDeclarationReferenceCompletionPlugin extends ShapeDeclarationRefer
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     if (params.amfObject.isInstanceOf[Shape] &&
-        params.branchStack.headOption.exists(h => h.isInstanceOf[Parameter] || h.isInstanceOf[Payload]) && params.yPartBranch.isValue) {
+        params.branchStack.headOption.exists(h => h.isInstanceOf[Parameter] || h.isInstanceOf[Payload])) {
       val key = params.yPartBranch.parentEntry.flatMap(_.key.asScalar.map(_.text)).getOrElse("")
       if (key == "in") resolveIn(params)
       else if (OAS20Dialect.DialectNodes.ParameterObject.propertiesMapping().exists(_.name().value() == key))
         emptySuggestion
+      else if (params.yPartBranch.isValue && params.yPartBranch.parentEntryIs("schema")) emptySuggestion
       else super.resolve(params)
     } else emptySuggestion
   }

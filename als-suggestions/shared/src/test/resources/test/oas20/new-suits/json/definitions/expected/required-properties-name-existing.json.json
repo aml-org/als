@@ -1,0 +1,40 @@
+[
+  {
+    "text": "anotherPro",
+    "description": "anotherPro",
+    "displayText": "anotherPro",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 20,
+          "character": 9
+        },
+        "end": {
+          "line": 20,
+          "character": 9
+        }
+      }
+    ]
+  },
+  {
+    "text": "name",
+    "description": "name",
+    "displayText": "name",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 20,
+          "character": 9
+        },
+        "end": {
+          "line": 20,
+          "character": 9
+        }
+      }
+    ]
+  }
+]

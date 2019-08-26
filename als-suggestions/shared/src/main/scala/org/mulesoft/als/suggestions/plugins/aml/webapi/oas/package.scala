@@ -54,7 +54,28 @@ package object oas {
       )
     }
 
-    val commonParamProps: Seq[PropertyMapping] = Seq()
+    val paramBiding = PropertyMapping()
+      .withId(DialectLocation + "#/declarations/ParameterObject/binding")
+      .withName("in")
+      .withMinCount(1)
+      .withEnum(
+        Seq(
+          "query",
+          "header",
+          "path",
+          "formData",
+          "body"
+        ))
+      .withNodePropertyMapping(ParameterModel.Binding.value.iri())
+      .withLiteralRange(xsdString.iri())
+    val paramName = PropertyMapping()
+      .withId(DialectLocation + "#/declarations/ParameterObject/name")
+      .withName("name")
+      .withMinCount(1)
+      .withNodePropertyMapping(ParameterModel.Name.value.iri())
+      .withLiteralRange(xsdString.iri())
+
+    val basicParamsProps: Seq[PropertyMapping] = Seq(paramBiding, paramName)
 
 
     val HeaderCommonObject = NodeMapping()
@@ -62,12 +83,7 @@ package object oas {
       .withName("HeaderCommonObject")
       .withNodeTypeMapping("http://HeaderCommonObject/#mapping")
       .withPropertiesMapping(commonParamProps ++ Seq(
-        PropertyMapping()
-          .withId(DialectLocation + "#/declarations/ParameterObject/name")
-          .withName("name")
-          .withMinCount(1)
-          .withNodePropertyMapping(ParameterModel.Name.value.iri())
-          .withLiteralRange(xsdString.iri()),
+
         PropertyMapping()
           .withId(DialectLocation + "#/declarations/ParameterObject/type")
           .withName("type")
@@ -110,20 +126,6 @@ package object oas {
             .withLiteralRange(xsdString.iri())
         ))
 
-    val paramBiding = PropertyMapping()
-      .withId(DialectLocation + "#/declarations/ParameterObject/binding")
-      .withName("in")
-      .withMinCount(1)
-      .withEnum(
-        Seq(
-          "query",
-          "header",
-          "path",
-          "formData",
-          "body"
-        ))
-      .withNodePropertyMapping(ParameterModel.Binding.value.iri())
-      .withLiteralRange(xsdString.iri())
     val ParameterObject = NodeMapping()
       .withId("#/declarations/ParameterObject")
       .withName("ParameterObject")

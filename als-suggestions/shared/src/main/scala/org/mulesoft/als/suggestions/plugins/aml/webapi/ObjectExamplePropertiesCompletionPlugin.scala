@@ -15,11 +15,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.concurrent.Future
 
-case class ObjectExamplePropertiesCompletionPlugin(objectNode: ObjectNode, dialect:Dialect,branch: Seq[AmfObject]) {
+case class ObjectExamplePropertiesCompletionPlugin(objectNode: ObjectNode, dialect: Dialect, branch: Seq[AmfObject]) {
 
-  private val profile = if (dialect.id == Oas20DialectWrapper.dialect.id ) ProfileNames.OAS20 else ProfileNames.RAML
+  private val profile = if (dialect.id == Oas20DialectWrapper.dialect.id) ProfileNames.OAS20 else ProfileNames.RAML
 
-  def suggest(indentation:String):Seq[RawSuggestion] = {
+  def suggest(indentation: String): Seq[RawSuggestion] = {
     val definitionNode =
       findAndResolveFirst().flatMap(shapeForObj(_, (e: Example) => branch.contains(e)))
     definitionNode.map(_.properties.map(propToRaw(_, indentation))).getOrElse(Nil)
@@ -67,6 +67,15 @@ object ObjectExamplePropertiesCompletionPlugin extends AMLCompletionPlugin {
     Future {
       request.amfObject match {
         case o: ObjectNode if request.branchStack.exists(_.isInstanceOf[Shape]) && request.yPartBranch.isKey =>
+          new ObjectExamplePropertiesCompletionPlugin(o, request.actualDialect, request.branchStack)
+            .suggest(request.indentation)
+        case s: ScalarNode
+            if request.yPartBranch.isJson && request.yPartBranch.stringValue == "x" && request.branchStack.headOption
+              .exists(_.isInstanceOf[ArrayNode]) =>
+          val o = ObjectNode(s.annotations)
+          request.branchStack.headOption.collect({ case a: ArrayNode => a }).foreach { a =>
+            a.withMembers(Seq(o))
+          }
           new ObjectExamplePropertiesCompletionPlugin(o, request.actualDialect, request.branchStack)
             .suggest(request.indentation)
         case _ => Nil
