@@ -1,0 +1,21 @@
+[
+  {
+    "text": "json:\n            ",
+    "description": "application/json",
+    "displayText": "json",
+    "prefix": "j",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 22
+        },
+        "end": {
+          "line": 9,
+          "character": 23
+        }
+      }
+    ]
+  }
+]
