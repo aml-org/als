@@ -13,16 +13,8 @@
           "default": 222,
           "maximum": 2222,
           "exclusiveMaximum": true,
-          "minimum": 22,
+          "mini*":
           "exclusiveMinimum": true,
-          "maxLeng*":
-          "minLength": 1,
-          "pattern": [
-            "0-9"
-          ],
-          "maxItems": 1,
-          "minItems": 1,
-          "uniqueItems": false,
           "enum": [
             222
           ],
