@@ -3,9 +3,11 @@
   "paths": {
     "/path": {
       "get": {
-        "200": {
-          "schema": {
-            "*"
+        "responses": {
+          "200": {
+            "examples": {
+              "*"
+            }
           }
         }
       }

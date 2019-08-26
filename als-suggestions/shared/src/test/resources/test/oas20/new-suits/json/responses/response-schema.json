@@ -3,9 +3,9 @@
   "paths": {
     "/path": {
       "get": {
-        "200": {
-          "headers": {
-            "name": {
+        "responses": {
+          "200": {
+            "schema": {
               "*"
             }
           }

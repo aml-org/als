@@ -3,13 +3,13 @@
     "text": "#/definitions/a",
     "description": "Reference to #/definitions/a",
     "displayText": "#/definitions/a",
-    "prefix": "",
+    "prefix": "#",
     "category": "unknown",
     "range": [
       {
         "start": {
           "line": 7,
-          "character": 16
+          "character": 15
         },
         "end": {
           "line": 7,

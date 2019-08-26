@@ -1,7 +1,7 @@
 [
   {
     "text": "int32",
-    "description": "Possible format value",
+    "description": "int32",
     "displayText": "int32",
     "prefix": "",
     "category": "unknown",
@@ -20,7 +20,7 @@
   },
   {
     "text": "int64",
-    "description": "Possible format value",
+    "description": "int64",
     "displayText": "int64",
     "prefix": "",
     "category": "unknown",

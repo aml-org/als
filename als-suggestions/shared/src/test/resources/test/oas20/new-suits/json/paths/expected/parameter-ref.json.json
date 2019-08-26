@@ -1,8 +1,135 @@
-swagger: '2.0'
-parameters:
-  named:
-    in: body
-paths:
-  /path:
-    parameters:
-      - $ref: *
+[
+  {
+    "text": "#/parameters/named",
+    "description": "Reference to #/parameters/named",
+    "displayText": "#/parameters/named",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 19
+        },
+        "end": {
+          "line": 11,
+          "character": 19
+        }
+      }
+    ]
+  },
+  {
+    "text": "expected/",
+    "description": "Path suggestion",
+    "displayText": "expected/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 19
+        },
+        "end": {
+          "line": 11,
+          "character": 19
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameter-array.json",
+    "description": "Path suggestion",
+    "displayText": "parameter-array.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 19
+        },
+        "end": {
+          "line": 11,
+          "character": 19
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameter.json",
+    "description": "Path suggestion",
+    "displayText": "parameter.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 19
+        },
+        "end": {
+          "line": 11,
+          "character": 19
+        }
+      }
+    ]
+  },
+  {
+    "text": "path-ref.json",
+    "description": "Path suggestion",
+    "displayText": "path-ref.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 19
+        },
+        "end": {
+          "line": 11,
+          "character": 19
+        }
+      }
+    ]
+  },
+  {
+    "text": "path.json",
+    "description": "Path suggestion",
+    "displayText": "path.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 19
+        },
+        "end": {
+          "line": 11,
+          "character": 19
+        }
+      }
+    ]
+  },
+  {
+    "text": "paths.json",
+    "description": "Path suggestion",
+    "displayText": "paths.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 11,
+          "character": 19
+        },
+        "end": {
+          "line": 11,
+          "character": 19
+        }
+      }
+    ]
+  }
+]

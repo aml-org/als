@@ -1,247 +1,285 @@
 [
   {
-    "text": "maxItems",
-    "description": "",
-    "displayText": "maxItems",
+    "text": "allOf",
+    "description": "allOf",
+    "displayText": "allOf",
     "prefix": "",
-    "category": "parameters",
+    "category": "schemas",
     "range": [
       {
         "start": {
-          "line": 4,
-          "character": 4
+          "line": 5,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 4
+          "line": 5,
+          "character": 7
         }
       }
     ]
   },
   {
     "text": "collectionFormat",
-    "description": "",
+    "description": "collectionFormat",
     "displayText": "collectionFormat",
     "prefix": "",
-    "category": "parameters",
+    "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 4,
-          "character": 4
+          "line": 5,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "enum",
-    "description": "",
-    "displayText": "enum",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "items:\n    ",
-    "description": "",
-    "displayText": "items",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "xml:\n    ",
-    "description": "",
-    "displayText": "xml",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
+          "line": 5,
+          "character": 7
         }
       }
     ]
   },
   {
     "text": "default",
-    "description": "",
+    "description": "default",
     "displayText": "default",
     "prefix": "",
     "category": "parameters",
     "range": [
       {
         "start": {
-          "line": 4,
-          "character": 4
+          "line": 5,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 4
+          "line": 5,
+          "character": 7
         }
       }
     ]
   },
   {
     "text": "description",
-    "description": "",
+    "description": "description",
     "displayText": "description",
     "prefix": "",
     "category": "docs",
     "range": [
       {
         "start": {
-          "line": 4,
-          "character": 4
+          "line": 5,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 4
+          "line": 5,
+          "character": 7
         }
       }
     ]
   },
   {
-    "text": "readOnly",
-    "description": "",
-    "displayText": "readOnly",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "title",
-    "description": "",
-    "displayText": "title",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "minItems",
-    "description": "",
-    "displayText": "minItems",
+    "text": "enum",
+    "description": "enum",
+    "displayText": "enum",
     "prefix": "",
     "category": "parameters",
     "range": [
       {
         "start": {
-          "line": 4,
-          "character": 4
+          "line": 5,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "\"$ref\"",
-    "description": "",
-    "displayText": "$ref",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
+          "line": 5,
+          "character": 7
         }
       }
     ]
   },
   {
     "text": "example",
-    "description": "",
+    "description": "example",
     "displayText": "example",
     "prefix": "",
     "category": "docs",
     "range": [
       {
         "start": {
-          "line": 4,
-          "character": 4
+          "line": 5,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 4
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "externalDocs",
+    "description": "externalDocs",
+    "displayText": "externalDocs",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "items",
+    "description": "items",
+    "displayText": "items",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "maxItems",
+    "description": "maxItems",
+    "displayText": "maxItems",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "minItems",
+    "description": "minItems",
+    "displayText": "minItems",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "readOnly",
+    "description": "readOnly",
+    "displayText": "readOnly",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "required",
+    "description": "required",
+    "displayText": "required",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "title",
+    "description": "title",
+    "displayText": "title",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
         }
       }
     ]
   },
   {
     "text": "uniqueItems",
-    "description": "",
+    "description": "uniqueItems",
     "displayText": "uniqueItems",
     "prefix": "",
-    "category": "parameters",
+    "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 4,
-          "character": 4
+          "line": 5,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 4
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "xml",
+    "description": "xml",
+    "displayText": "xml",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
         }
       }
     ]

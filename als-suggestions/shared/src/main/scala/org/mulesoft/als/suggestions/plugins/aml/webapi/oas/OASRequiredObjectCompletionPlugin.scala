@@ -31,7 +31,7 @@ object OASRequiredObjectCompletionPlugin extends AMLCompletionPlugin {
 
   private def resolveNode(ns: NodeShape, yPartBranch: YPartBranch): Seq[RawSuggestion] = {
 
-    if (yPartBranch.isKeyDescendanceOf("required") || ((yPartBranch.isValue || yPartBranch.isArray) && yPartBranch
+    if (yPartBranch.isKeyDescendanceOf("required") || ((yPartBranch.isValue || yPartBranch.isArray || (yPartBranch.stringValue == "x" && yPartBranch.isInArray)) && yPartBranch
           .parentEntryIs("required"))) {
       new OASRequiredObjectCompletionPlugin(ns).resolve()
     } else Nil

@@ -1,19 +1,19 @@
 [
   {
     "text": "myTag",
-    "description": "",
+    "description": "myTag",
     "displayText": "myTag",
     "prefix": "",
-    "category": "",
+    "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 7,
-          "character": 14
+          "line": 12,
+          "character": 11
         },
         "end": {
-          "line": 7,
-          "character": 14
+          "line": 12,
+          "character": 11
         }
       }
     ]

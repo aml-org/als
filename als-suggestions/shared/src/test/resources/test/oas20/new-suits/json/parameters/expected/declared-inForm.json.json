@@ -1,162 +1,10 @@
 [
   {
-    "text": "maxItems",
-    "description": "",
-    "displayText": "maxItems",
+    "text": "allOf",
+    "description": "allOf",
+    "displayText": "allOf",
     "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 7
-        },
-        "end": {
-          "line": 5,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "exclusiveMinimum",
-    "description": "",
-    "displayText": "exclusiveMinimum",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 7
-        },
-        "end": {
-          "line": 5,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "required",
-    "description": "Determines whether this parameter is mandatory. If the parameter is in 'path', this property is required and its value MUST be true. Otherwise, the property MAY be included and its default value is false.",
-    "displayText": "required",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 7
-        },
-        "end": {
-          "line": 5,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "collectionFormat",
-    "description": "",
-    "displayText": "collectionFormat",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 7
-        },
-        "end": {
-          "line": 5,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "enum",
-    "description": "",
-    "displayText": "enum",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 7
-        },
-        "end": {
-          "line": 5,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "items",
-    "description": "",
-    "displayText": "items",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 7
-        },
-        "end": {
-          "line": 5,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "exclusiveMaximum",
-    "description": "",
-    "displayText": "exclusiveMaximum",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 7
-        },
-        "end": {
-          "line": 5,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "type",
-    "description": "Required. The type of the parameter. Since the parameter is not located at the request body, it is limited to simple types (that is, not an object). The value MUST be one of \"string\", \"number\", \"integer\", \"boolean\", \"array\" or \"file\". If type is \"file\", the consumes MUST be either \"multipart/form-data\" or \" application/x-www-form-urlencoded\" and the parameter MUST be in \"formData\".",
-    "displayText": "type",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 7
-        },
-        "end": {
-          "line": 5,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "minimum",
-    "description": "",
-    "displayText": "minimum",
-    "prefix": "",
-    "category": "parameters",
+    "category": "schemas",
     "range": [
       {
         "start": {
@@ -172,7 +20,7 @@
   },
   {
     "text": "default",
-    "description": "",
+    "description": "default",
     "displayText": "default",
     "prefix": "",
     "category": "parameters",
@@ -190,65 +38,8 @@
     ]
   },
   {
-    "text": "maximum",
-    "description": "",
-    "displayText": "maximum",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 7
-        },
-        "end": {
-          "line": 5,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "pattern",
-    "description": "",
-    "displayText": "pattern",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 7
-        },
-        "end": {
-          "line": 5,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "multipleOf",
-    "description": "",
-    "displayText": "multipleOf",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 7
-        },
-        "end": {
-          "line": 5,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
     "text": "description",
-    "description": "A brief description. This could contain examples of use. GFM syntax can be used for rich text representation.",
+    "description": "description",
     "displayText": "description",
     "prefix": "",
     "category": "docs",
@@ -266,9 +57,9 @@
     ]
   },
   {
-    "text": "allowEmptyValue",
-    "description": "",
-    "displayText": "allowEmptyValue",
+    "text": "enum",
+    "description": "enum",
+    "displayText": "enum",
     "prefix": "",
     "category": "parameters",
     "range": [
@@ -285,9 +76,47 @@
     ]
   },
   {
-    "text": "name",
-    "description": "Required. The name of the parameter. Parameter names are case sensitive.\nIf in is \"path\", the name field MUST correspond to the associated path segment from the path field in the Paths Object. See Path Templating for further information.\nFor all other cases, the name corresponds to the parameter name used based on the in property.",
-    "displayText": "name",
+    "text": "example",
+    "description": "example",
+    "displayText": "example",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "externalDocs",
+    "description": "externalDocs",
+    "displayText": "externalDocs",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "format",
+    "description": "format",
+    "displayText": "format",
     "prefix": "",
     "category": "parameters",
     "range": [
@@ -305,7 +134,7 @@
   },
   {
     "text": "maxLength",
-    "description": "",
+    "description": "maxLength",
     "displayText": "maxLength",
     "prefix": "",
     "category": "parameters",
@@ -324,7 +153,7 @@
   },
   {
     "text": "minLength",
-    "description": "",
+    "description": "minLength",
     "displayText": "minLength",
     "prefix": "",
     "category": "parameters",
@@ -342,9 +171,9 @@
     ]
   },
   {
-    "text": "minItems",
-    "description": "",
-    "displayText": "minItems",
+    "text": "pattern",
+    "description": "pattern",
+    "displayText": "pattern",
     "prefix": "",
     "category": "parameters",
     "range": [
@@ -361,11 +190,11 @@
     ]
   },
   {
-    "text": "$ref",
-    "description": "",
-    "displayText": "$ref",
+    "text": "readOnly",
+    "description": "readOnly",
+    "displayText": "readOnly",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
@@ -380,9 +209,9 @@
     ]
   },
   {
-    "text": "format",
-    "description": "",
-    "displayText": "format",
+    "text": "required",
+    "description": "required",
+    "displayText": "required",
     "prefix": "",
     "category": "parameters",
     "range": [
@@ -399,9 +228,9 @@
     ]
   },
   {
-    "text": "example",
-    "description": "",
-    "displayText": "example",
+    "text": "title",
+    "description": "title",
+    "displayText": "title",
     "prefix": "",
     "category": "docs",
     "range": [
@@ -418,11 +247,30 @@
     ]
   },
   {
-    "text": "uniqueItems",
-    "description": "",
-    "displayText": "uniqueItems",
+    "text": "type",
+    "description": "type",
+    "displayText": "type",
     "prefix": "",
-    "category": "parameters",
+    "category": "types and traits",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "xml",
+    "description": "xml",
+    "displayText": "xml",
+    "prefix": "",
+    "category": "schemas",
     "range": [
       {
         "start": {

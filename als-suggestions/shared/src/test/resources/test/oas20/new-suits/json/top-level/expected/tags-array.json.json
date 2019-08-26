@@ -1,26 +1,7 @@
 [
   {
-    "text": "externalDocs",
-    "description": "",
-    "displayText": "externalDocs",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 5
-        },
-        "end": {
-          "line": 3,
-          "character": 5
-        }
-      }
-    ]
-  },
-  {
     "text": "description",
-    "description": "",
+    "description": "description",
     "displayText": "description",
     "prefix": "",
     "category": "docs",
@@ -38,8 +19,27 @@
     ]
   },
   {
+    "text": "externalDocs",
+    "description": "externalDocs",
+    "displayText": "externalDocs",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 5
+        },
+        "end": {
+          "line": 3,
+          "character": 5
+        }
+      }
+    ]
+  },
+  {
     "text": "name",
-    "description": "",
+    "description": "name",
     "displayText": "name",
     "prefix": "",
     "category": "docs",

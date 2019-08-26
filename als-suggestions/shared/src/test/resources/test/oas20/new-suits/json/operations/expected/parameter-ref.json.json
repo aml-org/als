@@ -1,9 +1,344 @@
-swagger: '2.0'
-parameters:
-  named:
-    in: body
-paths:
-  /path:
-    get:
-      parameters:
-        - $ref: *
+[
+  {
+    "text": "#/parameters/named",
+    "description": "Reference to #/parameters/named",
+    "displayText": "#/parameters/named",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "bymethod/",
+    "description": "Path suggestion",
+    "displayText": "bymethod/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "consumes-array.json",
+    "description": "Path suggestion",
+    "displayText": "consumes-array.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "consumes.json",
+    "description": "Path suggestion",
+    "displayText": "consumes.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "expected/",
+    "description": "Path suggestion",
+    "displayText": "expected/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "external-docs.json",
+    "description": "Path suggestion",
+    "displayText": "external-docs.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameter-array.json",
+    "description": "Path suggestion",
+    "displayText": "parameter-array.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameter.json",
+    "description": "Path suggestion",
+    "displayText": "parameter.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "produces-array.json",
+    "description": "Path suggestion",
+    "displayText": "produces-array.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "produces.json",
+    "description": "Path suggestion",
+    "displayText": "produces.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "reponses.json",
+    "description": "Path suggestion",
+    "displayText": "reponses.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "schemes-array.json",
+    "description": "Path suggestion",
+    "displayText": "schemes-array.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "schemes.json",
+    "description": "Path suggestion",
+    "displayText": "schemes.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "security-array-named.json",
+    "description": "Path suggestion",
+    "displayText": "security-array-named.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "security-array.json",
+    "description": "Path suggestion",
+    "displayText": "security-array.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "security.json",
+    "description": "Path suggestion",
+    "displayText": "security.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "tags-array.json",
+    "description": "Path suggestion",
+    "displayText": "tags-array.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "tags.json",
+    "description": "Path suggestion",
+    "displayText": "tags.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  }
+]

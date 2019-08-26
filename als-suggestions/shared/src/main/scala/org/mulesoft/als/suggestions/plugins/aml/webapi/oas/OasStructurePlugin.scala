@@ -19,6 +19,7 @@ object OasStructurePlugin extends AMLCompletionPlugin {
     request.amfObject match {
       case _: Parameter | _: Shape                           => emptySuggestion
       case _: EndPoint if isInParameter(request.yPartBranch) => emptySuggestion
+      case _: Request if isInParameter(request.yPartBranch)  => emptySuggestion
       case _: Request if request.fieldEntry.isEmpty && !definingParam(request.yPartBranch) =>
         Future { OAS20Dialect.DialectNodes.OperationObject.propertiesRaw(request.indentation) }
       case _: WebApi if request.yPartBranch.isKeyDescendanceOf("info") =>
@@ -28,7 +29,8 @@ object OasStructurePlugin extends AMLCompletionPlugin {
   }
 
   def isInParameter(yPartBranch: YPartBranch): Boolean =
-    yPartBranch.isKeyDescendanceOf("parameters")
+    yPartBranch.isKeyDescendanceOf("parameters") || (yPartBranch.isJson && yPartBranch.isInArray && yPartBranch
+      .parentEntryIs("parameters"))
 
   def infoSuggestions(indentation: String) =
     Future(OAS20Dialect.DialectNodes.InfoObject.propertiesRaw(indentation, Some("docs")))
