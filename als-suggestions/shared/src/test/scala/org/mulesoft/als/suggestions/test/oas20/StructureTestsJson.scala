@@ -20,7 +20,7 @@ class StructureTestsJson extends OAS20Test {
     this.runSuggestionTest("structure_json/test11.json", Set("securityDefinitions"))
   }
 
-  ignore("SwaggerObject externalDocs") {
+  test("SwaggerObject externalDocs") {
     this.runSuggestionTest("structure_json/test14.json", Set("externalDocs"))
   }
 
