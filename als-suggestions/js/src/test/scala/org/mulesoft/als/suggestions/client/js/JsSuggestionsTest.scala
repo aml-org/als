@@ -33,9 +33,9 @@ class JsSuggestionsTest extends AsyncFunSuite with Matchers {
       .toFuture
       .flatMap(_ => {
         JsSuggestions
-          .suggest(Vendor.RAML.name, "file:///api.raml", 11, js.Array(fileLoader))
+          .suggest(Vendor.RAML.name, "file:///api.raml", 28, js.Array(fileLoader))
           .toFuture
-          .map(suggestions => assertResult(15)(suggestions.length))
+          .map(suggestions => assertResult(14)(suggestions.length))
       })
   }
 
@@ -60,7 +60,7 @@ class JsSuggestionsTest extends AsyncFunSuite with Matchers {
         JsSuggestions
           .suggest(Vendor.RAML.name, "file:///api.raml", 28, js.Array(fileLoader))
           .toFuture
-          .map(suggestions => assertResult(15)(suggestions.length))
+          .map(suggestions => assertResult(14)(suggestions.length))
       })
   }
 
@@ -113,8 +113,8 @@ class JsSuggestionsTest extends AsyncFunSuite with Matchers {
           .map(suggestions => {
             val seq = suggestions.toSeq
             seq.size should be(2)
-            seq.head.text should be("fragment 2.raml")
-            seq.last.text should be("another.raml")
+            seq.head.text should be("/fragment 2.raml")
+            seq.last.text should be("/another.raml")
           })
       })
   }
@@ -146,10 +146,10 @@ class JsSuggestionsTest extends AsyncFunSuite with Matchers {
     val clientResolver = js
       .use(new ClientDirectoryResolver {
         override def exists(path: String): js.Promise[Boolean] =
-          Future(Seq("/api.raml", "fragment%202.raml", "another.raml").contains(path)).toJSPromise
+          Future(Seq("api.raml", "fragment%202.raml", "another.raml").contains(path)).toJSPromise
 
         override def readDir(path: String): js.Promise[js.Array[String]] =
-          Future(Seq("/fragment 2.raml", "/another.raml"))
+          Future(Seq("fragment 2.raml", "another.raml"))
             .map(_.toJSArray)
             .toJSPromise
 

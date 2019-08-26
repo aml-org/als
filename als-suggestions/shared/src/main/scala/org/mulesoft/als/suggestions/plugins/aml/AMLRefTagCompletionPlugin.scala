@@ -29,13 +29,6 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
     params.amfObject.meta.`type`
       .exists(v => params.declarationProvider.isTermDeclarable(v.iri()))
 
-  private def isValueRamlTag(params: AmlCompletionRequest) =
-    params.yPartBranch.isValue && params.prefix.startsWith("!")
-
-  private def isArrayTag(params: AmlCompletionRequest) =
-    params.yPartBranch.brothers.nonEmpty || params.yPartBranch.isInArray ||
-      !isDeclarable(params)
-
   def getSuggestion(params: AmlCompletionRequest, style: Option[String]): Seq[RawSuggestion] = {
     style match {
       case Some(ReferenceStyles.RAML) if isRamlTag(params)       => includeSuggestion
@@ -52,12 +45,12 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
     (!params.yPartBranch.hasIncludeTag) && params.yPartBranch.brothers.isEmpty &&
     isDeclarable(params) &&
     isInFacet(params) &&
-    matchePrefixPatched(params) &&
+    matchPrefixPatched(params) &&
     !isExceptionCase(params.yPartBranch)
   }
 
-  private def matchePrefixPatched(params: AmlCompletionRequest) =
-    params.yPartBranch.stringValue.isEmpty || isPathedKey(params.yPartBranch) || params.yPartBranch.stringValue
+  private def matchPrefixPatched(params: AmlCompletionRequest) =
+    params.yPartBranch.stringValue.isEmpty || isPatchedKey(params.yPartBranch) || params.yPartBranch.stringValue
       .startsWith("$")
 
   private def isInFacet(params: AmlCompletionRequest): Boolean = isKeyAlone(params) || isPatchetJson(params)
@@ -68,7 +61,7 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   private def isPatchetJson(params: AmlCompletionRequest): Boolean =
     params.yPartBranch.isJson && params.yPartBranch.isInArray
 
-  private def isPathedKey(yPartBranch: YPartBranch): Boolean =
+  private def isPatchedKey(yPartBranch: YPartBranch): Boolean =
     (!yPartBranch.isJson && yPartBranch.stringValue == "k") || (yPartBranch.isJson && yPartBranch.stringValue == "x")
 
   protected def isExceptionCase(branch: YPartBranch): Boolean = false

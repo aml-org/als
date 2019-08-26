@@ -1,7 +1,8 @@
 package org.mulesoft.als.server.modules.completion
 
 import amf.core.model.document.BaseUnit
-import amf.core.remote.{Platform, Raml10, Vendor}
+import amf.core.remote.Platform
+import amf.internal.environment.Environment
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.server.RequestModule
@@ -24,6 +25,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                          val hlAstManager: HlAstManager,
                          private val directoryResolver: DirectoryResolver,
                          private val platform: Platform,
+                         private val environment: Environment,
                          private val logger: Logger)
     extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
   override val `type`: ConfigType[CompletionClientCapabilities, CompletionOptions] =
@@ -106,6 +108,12 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                                  syntax: Syntax): Future[CompletionProvider] = {
 
     val eventualUnit: Future[BaseUnit] = hlAstManager.astManager.forceBuildNewAST(uri, text)
-    Suggestions.buildProviderAsync(eventualUnit, position, directoryResolver, platform, uri, unmodifiedContent)
+    Suggestions.buildProviderAsync(eventualUnit,
+                                   position,
+                                   directoryResolver,
+                                   platform,
+                                   environment,
+                                   uri,
+                                   unmodifiedContent)
   }
 }
