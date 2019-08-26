@@ -35,7 +35,12 @@ object LanguageServerFactory extends PlatformSecrets {
     val astManager   = new AstManager(documentManager, baseEnvironment, platform, logger)
     val hlAstManager = new HlAstManager(documentManager, astManager, platform, logger, dialects)
     val completionManager =
-      new SuggestionsManager(documentManager, hlAstManager, DefaultJvmDirectoryResolver, platform, logger)
+      new SuggestionsManager(documentManager,
+                             hlAstManager,
+                             DefaultJvmDirectoryResolver,
+                             platform,
+                             baseEnvironment,
+                             logger)
     val definitionModule  = new DefinitionModule(hlAstManager, logger, platform)
     val diagnosticManager = new DiagnosticManager(documentManager, astManager, clientNotifier, platform, logger)
     val referenceModule   = new FindReferencesModule(hlAstManager, platform, logger)
