@@ -1,57 +1,38 @@
 [
   {
-    "text": "description",
-    "description": "description",
-    "displayText": "description",
+    "text": "$ref",
+    "description": "reference tag",
+    "displayText": "$ref",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 8,
-          "character": 14
+          "line": 9,
+          "character": 17
         },
         "end": {
-          "line": 8,
-          "character": 14
+          "line": 9,
+          "character": 17
         }
       }
     ]
   },
   {
-    "text": "type",
-    "description": "type",
-    "displayText": "type",
+    "text": "allOf",
+    "description": "allOf",
+    "displayText": "allOf",
     "prefix": "",
-    "category": "unknown",
+    "category": "schemas",
     "range": [
       {
         "start": {
-          "line": 8,
-          "character": 14
+          "line": 9,
+          "character": 17
         },
         "end": {
-          "line": 8,
-          "character": 14
-        }
-      }
-    ]
-  },
-  {
-    "text": "format",
-    "description": "format",
-    "displayText": "format",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 8,
-          "character": 14
-        },
-        "end": {
-          "line": 8,
-          "character": 14
+          "line": 9,
+          "character": 17
         }
       }
     ]
@@ -61,73 +42,35 @@
     "description": "default",
     "displayText": "default",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
-          "line": 8,
-          "character": 14
+          "line": 9,
+          "character": 17
         },
         "end": {
-          "line": 8,
-          "character": 14
+          "line": 9,
+          "character": 17
         }
       }
     ]
   },
   {
-    "text": "maxLength",
-    "description": "maxLength",
-    "displayText": "maxLength",
+    "text": "description",
+    "description": "description",
+    "displayText": "description",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
-          "line": 8,
-          "character": 14
+          "line": 9,
+          "character": 17
         },
         "end": {
-          "line": 8,
-          "character": 14
-        }
-      }
-    ]
-  },
-  {
-    "text": "minLength",
-    "description": "minLength",
-    "displayText": "minLength",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 8,
-          "character": 14
-        },
-        "end": {
-          "line": 8,
-          "character": 14
-        }
-      }
-    ]
-  },
-  {
-    "text": "pattern",
-    "description": "pattern",
-    "displayText": "pattern",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 8,
-          "character": 14
-        },
-        "end": {
-          "line": 8,
-          "character": 14
+          "line": 9,
+          "character": 17
         }
       }
     ]
@@ -137,16 +80,225 @@
     "description": "enum",
     "displayText": "enum",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {
-          "line": 8,
-          "character": 14
+          "line": 9,
+          "character": 17
         },
         "end": {
-          "line": 8,
-          "character": 14
+          "line": 9,
+          "character": 17
+        }
+      }
+    ]
+  },
+  {
+    "text": "example",
+    "description": "example",
+    "displayText": "example",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 17
+        },
+        "end": {
+          "line": 9,
+          "character": 17
+        }
+      }
+    ]
+  },
+  {
+    "text": "externalDocs",
+    "description": "externalDocs",
+    "displayText": "externalDocs",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 17
+        },
+        "end": {
+          "line": 9,
+          "character": 17
+        }
+      }
+    ]
+  },
+  {
+    "text": "format",
+    "description": "format",
+    "displayText": "format",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 17
+        },
+        "end": {
+          "line": 9,
+          "character": 17
+        }
+      }
+    ]
+  },
+  {
+    "text": "maxLength",
+    "description": "maxLength",
+    "displayText": "maxLength",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 17
+        },
+        "end": {
+          "line": 9,
+          "character": 17
+        }
+      }
+    ]
+  },
+  {
+    "text": "minLength",
+    "description": "minLength",
+    "displayText": "minLength",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 17
+        },
+        "end": {
+          "line": 9,
+          "character": 17
+        }
+      }
+    ]
+  },
+  {
+    "text": "pattern",
+    "description": "pattern",
+    "displayText": "pattern",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 17
+        },
+        "end": {
+          "line": 9,
+          "character": 17
+        }
+      }
+    ]
+  },
+  {
+    "text": "readOnly",
+    "description": "readOnly",
+    "displayText": "readOnly",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 17
+        },
+        "end": {
+          "line": 9,
+          "character": 17
+        }
+      }
+    ]
+  },
+  {
+    "text": "required",
+    "description": "required",
+    "displayText": "required",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 17
+        },
+        "end": {
+          "line": 9,
+          "character": 17
+        }
+      }
+    ]
+  },
+  {
+    "text": "title",
+    "description": "title",
+    "displayText": "title",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 17
+        },
+        "end": {
+          "line": 9,
+          "character": 17
+        }
+      }
+    ]
+  },
+  {
+    "text": "type",
+    "description": "type",
+    "displayText": "type",
+    "prefix": "",
+    "category": "types and traits",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 17
+        },
+        "end": {
+          "line": 9,
+          "character": 17
+        }
+      }
+    ]
+  },
+  {
+    "text": "xml",
+    "description": "xml",
+    "displayText": "xml",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 9,
+          "character": 17
+        },
+        "end": {
+          "line": 9,
+          "character": 17
         }
       }
     ]

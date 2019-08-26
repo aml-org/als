@@ -1,7 +1,7 @@
 [
   {
     "text": "contact",
-    "description": "Contact information for the exposed API",
+    "description": "contact",
     "displayText": "contact",
     "prefix": "",
     "category": "docs",
@@ -20,7 +20,7 @@
   },
   {
     "text": "description",
-    "description": "A short description of the application. GFM syntax can be used for rich text representation.",
+    "description": "description",
     "displayText": "description",
     "prefix": "",
     "category": "docs",
@@ -38,8 +38,27 @@
     ]
   },
   {
+    "text": "license",
+    "description": "license",
+    "displayText": "license",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 5
+        },
+        "end": {
+          "line": 3,
+          "character": 5
+        }
+      }
+    ]
+  },
+  {
     "text": "termsOfService",
-    "description": "The Terms of Service for the API.",
+    "description": "termsOfService",
     "displayText": "termsOfService",
     "prefix": "",
     "category": "docs",
@@ -58,7 +77,7 @@
   },
   {
     "text": "title",
-    "description": "The title of the application.",
+    "description": "title",
     "displayText": "title",
     "prefix": "",
     "category": "docs",
@@ -76,27 +95,8 @@
     ]
   },
   {
-    "text": "license",
-    "description": "The license information for the exposed API.",
-    "displayText": "license",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 5
-        },
-        "end": {
-          "line": 3,
-          "character": 5
-        }
-      }
-    ]
-  },
-  {
     "text": "version",
-    "description": "Provides the version of the application API (not to be confused with the specification version)",
+    "description": "version",
     "displayText": "version",
     "prefix": "",
     "category": "docs",

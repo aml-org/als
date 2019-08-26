@@ -1,10 +1,10 @@
 [
   {
-    "text": "float",
-    "description": "",
-    "displayText": "float",
+    "text": "double",
+    "description": "double",
+    "displayText": "double",
     "prefix": "",
-    "category": "parameters",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -19,11 +19,49 @@
     ]
   },
   {
-    "text": "double",
-    "description": "",
-    "displayText": "double",
+    "text": "float",
+    "description": "float",
+    "displayText": "float",
     "prefix": "",
-    "category": "parameters",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 17
+        },
+        "end": {
+          "line": 5,
+          "character": 17
+        }
+      }
+    ]
+  },
+  {
+    "text": "int32",
+    "description": "int32",
+    "displayText": "int32",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 17
+        },
+        "end": {
+          "line": 5,
+          "character": 17
+        }
+      }
+    ]
+  },
+  {
+    "text": "int64",
+    "description": "int64",
+    "displayText": "int64",
+    "prefix": "",
+    "category": "unknown",
     "range": [
       {
         "start": {

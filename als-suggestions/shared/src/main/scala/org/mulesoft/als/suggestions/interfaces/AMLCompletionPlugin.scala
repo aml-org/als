@@ -8,7 +8,6 @@ import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.common.AmfSonElementFinder._
-
 import scala.concurrent.Future
 
 trait AMLCompletionPlugin extends CompletionPlugin[AmlCompletionRequest] {

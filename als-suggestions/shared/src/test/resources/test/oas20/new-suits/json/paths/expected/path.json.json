@@ -1,29 +1,10 @@
 [
   {
-    "text": "get",
-    "description": "key of the operation",
-    "displayText": "get",
+    "text": "$ref",
+    "description": "reference tag",
+    "displayText": "$ref",
     "prefix": "",
-    "category": "methods",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 7
-        },
-        "end": {
-          "line": 4,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "put",
-    "description": "key of the operation",
-    "displayText": "put",
-    "prefix": "",
-    "category": "methods",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -39,7 +20,7 @@
   },
   {
     "text": "delete",
-    "description": "key of the operation",
+    "description": "delete",
     "displayText": "delete",
     "prefix": "",
     "category": "methods",
@@ -57,28 +38,9 @@
     ]
   },
   {
-    "text": "post",
-    "description": "key of the operation",
-    "displayText": "post",
-    "prefix": "",
-    "category": "methods",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 7
-        },
-        "end": {
-          "line": 4,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "options",
-    "description": "key of the operation",
-    "displayText": "options",
+    "text": "get",
+    "description": "get",
+    "displayText": "get",
     "prefix": "",
     "category": "methods",
     "range": [
@@ -96,7 +58,7 @@
   },
   {
     "text": "head",
-    "description": "key of the operation",
+    "description": "head",
     "displayText": "head",
     "prefix": "",
     "category": "methods",
@@ -114,9 +76,9 @@
     ]
   },
   {
-    "text": "patch",
-    "description": "key of the operation",
-    "displayText": "patch",
+    "text": "options",
+    "description": "options",
+    "displayText": "options",
     "prefix": "",
     "category": "methods",
     "range": [
@@ -134,10 +96,67 @@
   },
   {
     "text": "parameters",
-    "description": "A list of parameters that are applicable for all the operations described under this path. These parameters can be overridden at the operation level, but cannot be removed there. The list MUST NOT include duplicated parameters. A unique parameter is defined by a combination of a name and location. The list can use the Reference Object to link to parameters that are defined at the Swagger Object's parameters. There can be one 'body' parameter at most.",
+    "description": "parameters",
     "displayText": "parameters",
     "prefix": "",
-    "category": "parameters",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "patch",
+    "description": "patch",
+    "displayText": "patch",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "post",
+    "description": "post",
+    "displayText": "post",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "put",
+    "description": "put",
+    "displayText": "put",
+    "prefix": "",
+    "category": "methods",
     "range": [
       {
         "start": {

@@ -1,19 +1,19 @@
 [
   {
-    "text": "p1: ",
-    "description": "",
+    "text": "p1",
+    "description": "p1",
     "displayText": "p1",
     "prefix": "",
     "category": "example",
     "range": [
       {
         "start": {
-          "line": 8,
-          "character": 6
+          "line": 11,
+          "character": 9
         },
         "end": {
-          "line": 8,
-          "character": 6
+          "line": 11,
+          "character": 9
         }
       }
     ]

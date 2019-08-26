@@ -1,9 +1,211 @@
-swagger: '2.0'
-responses:
-  Found:
-    description: founded object
-paths:
-  /path:
-    get:
-      200:
-        $ref: *
+[
+  {
+    "text": "#/responses/Found",
+    "description": "Reference to #/responses/Found",
+    "displayText": "#/responses/Found",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "expected/",
+    "description": "Path suggestion",
+    "displayText": "expected/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-declaration-named.json",
+    "description": "Path suggestion",
+    "displayText": "response-declaration-named.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-declaration.json",
+    "description": "Path suggestion",
+    "displayText": "response-declaration.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-example.json",
+    "description": "Path suggestion",
+    "displayText": "response-example.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-examples.json",
+    "description": "Path suggestion",
+    "displayText": "response-examples.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-header.json",
+    "description": "Path suggestion",
+    "displayText": "response-header.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-headers.json",
+    "description": "Path suggestion",
+    "displayText": "response-headers.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-schema-ref.json",
+    "description": "Path suggestion",
+    "displayText": "response-schema-ref.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-schema.json",
+    "description": "Path suggestion",
+    "displayText": "response-schema.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "response.json",
+    "description": "Path suggestion",
+    "displayText": "response.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      }
+    ]
+  }
+]

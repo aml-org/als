@@ -17,5 +17,442 @@
         }
       }
     ]
+  },
+  {
+    "text": "array-schema.json",
+    "description": "Path suggestion",
+    "displayText": "array-schema.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "boolean-format.json",
+    "description": "Path suggestion",
+    "displayText": "boolean-format.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "definition.json",
+    "description": "Path suggestion",
+    "displayText": "definition.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "definitios.json",
+    "description": "Path suggestion",
+    "displayText": "definitios.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "expected/",
+    "description": "Path suggestion",
+    "displayText": "expected/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "externalDocs-schema.json",
+    "description": "Path suggestion",
+    "displayText": "externalDocs-schema.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "integer-format.json",
+    "description": "Path suggestion",
+    "displayText": "integer-format.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "items-schema.json",
+    "description": "Path suggestion",
+    "displayText": "items-schema.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "jsonschema.json",
+    "description": "Path suggestion",
+    "displayText": "jsonschema.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "number-format.json",
+    "description": "Path suggestion",
+    "displayText": "number-format.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "number-schema.json",
+    "description": "Path suggestion",
+    "displayText": "number-schema.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "object-schema.json",
+    "description": "Path suggestion",
+    "displayText": "object-schema.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "properties-schema.json",
+    "description": "Path suggestion",
+    "displayText": "properties-schema.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "property-schema.json",
+    "description": "Path suggestion",
+    "displayText": "property-schema.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "required-properties-name-existing.json",
+    "description": "Path suggestion",
+    "displayText": "required-properties-name-existing.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "required-properties-name.json",
+    "description": "Path suggestion",
+    "displayText": "required-properties-name.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "schema-ref-comment.json",
+    "description": "Path suggestion",
+    "displayText": "schema-ref-comment.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "schema-ref-separator-two.json",
+    "description": "Path suggestion",
+    "displayText": "schema-ref-separator-two.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "schema-ref-separator.json",
+    "description": "Path suggestion",
+    "displayText": "schema-ref-separator.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "string-format.json",
+    "description": "Path suggestion",
+    "displayText": "string-format.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "string-schema.json",
+    "description": "Path suggestion",
+    "displayText": "string-schema.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "types-schema.json",
+    "description": "Path suggestion",
+    "displayText": "types-schema.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "xmlObject-schema.json",
+    "description": "Path suggestion",
+    "displayText": "xmlObject-schema.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
   }
 ]
