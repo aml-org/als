@@ -25,9 +25,10 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
                           baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val astManager        = new AstManager(documentManager, baseEnvironment, platform, logger)
-    val hlAstManager      = new HlAstManager(documentManager, astManager, platform, logger)
-    val completionManager = new SuggestionsManager(documentManager, hlAstManager, directoryResolver, platform, logger)
+    val astManager   = new AstManager(documentManager, baseEnvironment, platform, logger)
+    val hlAstManager = new HlAstManager(documentManager, astManager, platform, logger)
+    val completionManager =
+      new SuggestionsManager(documentManager, hlAstManager, directoryResolver, platform, baseEnvironment, logger)
 
     builder
       .addInitializable(astManager)
@@ -86,7 +87,6 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
         org.mulesoft.als.suggestions.Core.prepareText(rawContent, offset, YAML)
       new MarkerInfo(preparedContent, Position(offset, str), rawContent)
     }
-
   }
 }
 
