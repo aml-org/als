@@ -3,13 +3,13 @@
     "text": "!include ",
     "description": "inclusion tag",
     "displayText": "!include",
-    "prefix": "",
+    "prefix": "!",
     "category": "unknown",
     "range": [
       {
         "start": {
           "line": 2,
-          "character": 8
+          "character": 7
         },
         "end": {
           "line": 2,
