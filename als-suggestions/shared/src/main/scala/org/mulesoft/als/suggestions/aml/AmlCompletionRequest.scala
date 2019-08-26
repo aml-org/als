@@ -10,7 +10,7 @@ import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common._
-import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.Suggestion
 import org.yaml.model.{YDocument, YNode, YType}
@@ -31,26 +31,29 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
   val prefix: String = {
     yPartBranch.node match {
       case node: YNode =>
-        node.tagType match {
-          case YType.Str =>
-            val lines: Iterator[String] = node
-              .as[String]
-              .lines
-              .drop(position.line - node.range.lineFrom)
-            if (lines.hasNext)
-              lines
-                .next()
-                .substring(0, position.column - node.range.columnFrom - {
-                  if (node.asScalar.exists(_.mark.plain)) 0 else 1 // if there is a quotation mark, adjust the range according
-                })
-            else ""
-          case YType.Include =>
-            node match {
-              case mr: YNode.MutRef if mr.origTag.tagType == YType.Include => mr.origValue.toString
-              case _                                                       => ""
-            }
-          case _ => ""
-        }
+        if (PositionRange(node.tag.range).contains(position.moveLine(-1)))
+          node.tag.text
+        else
+          node.tagType match {
+            case YType.Str =>
+              val lines: Iterator[String] = node
+                .as[String]
+                .lines
+                .drop(position.line - node.range.lineFrom)
+              if (lines.hasNext)
+                lines
+                  .next()
+                  .substring(0, position.column - node.range.columnFrom - {
+                    if (node.asScalar.exists(_.mark.plain)) 0 else 1 // if there is a quotation mark, adjust the range according
+                  })
+              else ""
+            case YType.Include =>
+              node match {
+                case mr: YNode.MutRef if mr.origTag.tagType == YType.Include => mr.origValue.toString
+                case _                                                       => ""
+              }
+            case _ => ""
+          }
       case _ => ""
     }
   }
