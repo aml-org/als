@@ -39,7 +39,7 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   }
 
   def isRamlTag(params: AmlCompletionRequest): Boolean =
-    params.yPartBranch.isValue && (params.prefix.startsWith("!") || params.yPartBranch.tag.exists(t => t.text == "!"))
+    params.yPartBranch.isValue && params.prefix.startsWith("!")
 
   def isJsonKey(params: AmlCompletionRequest): Boolean = {
     (!params.yPartBranch.hasIncludeTag) && params.yPartBranch.brothers.isEmpty &&
@@ -53,12 +53,12 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
     params.yPartBranch.stringValue.isEmpty || isPatchedKey(params.yPartBranch) || params.yPartBranch.stringValue
       .startsWith("$")
 
-  private def isInFacet(params: AmlCompletionRequest): Boolean = isKeyAlone(params) || isPatchetJson(params)
+  private def isInFacet(params: AmlCompletionRequest): Boolean = isKeyAlone(params) || isPatchedJson(params)
 
   private def isKeyAlone(params: AmlCompletionRequest): Boolean =
     params.fieldEntry.isEmpty && params.yPartBranch.isKey
 
-  private def isPatchetJson(params: AmlCompletionRequest): Boolean =
+  private def isPatchedJson(params: AmlCompletionRequest): Boolean =
     params.yPartBranch.isJson && params.yPartBranch.isInArray
 
   private def isPatchedKey(yPartBranch: YPartBranch): Boolean =

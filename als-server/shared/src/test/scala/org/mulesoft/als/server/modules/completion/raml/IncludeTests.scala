@@ -35,7 +35,7 @@ class IncludeTests extends RAMLSuggestionTestServer {
   }
 
   test("test with % 1") {
-    runTest("includes/testGroup%5A/test%25.raml", Set("with space/", "test%25 B.raml"))
+    runTest("includes/testGroup%5A/test%25.raml", Set("test%25 B.raml", "with space/"))
   }
 
   test("test with % 2") {
