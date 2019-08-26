@@ -1,19 +1,19 @@
 [
   {
-    "text": "definitions/",
-    "description": "jsonschema.json#/definitions/",
-    "displayText": "definitions/",
+    "text": "Adef/",
+    "description": "jsonschema.json#/definitions/Adef/",
+    "displayText": "Adef/",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
           "line": 4,
-          "character": 32
+          "character": 44
         },
         "end": {
           "line": 4,
-          "character": 32
+          "character": 44
         }
       }
     ]

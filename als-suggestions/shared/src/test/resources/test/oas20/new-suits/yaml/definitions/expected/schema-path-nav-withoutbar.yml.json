@@ -3,17 +3,17 @@
     "text": "definitions/",
     "description": "jsonschema.json#/definitions/",
     "displayText": "definitions/",
-    "prefix": "",
+    "prefix": "definitions",
     "category": "unknown",
     "range": [
       {
         "start": {
-          "line": 4,
-          "character": 32
+          "line": 3,
+          "character": 27
         },
         "end": {
-          "line": 4,
-          "character": 32
+          "line": 3,
+          "character": 38
         }
       }
     ]

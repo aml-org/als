@@ -1,15 +1,15 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
+import amf.client.plugins.AMFSyntaxPlugin
 import amf.core.registries.AMFPluginsRegistry
 import amf.core.remote.Platform
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.Dialect
-import org.mulesoft.als.common.{DirectoryResolver, FileUtils, YPartBranch}
+import org.mulesoft.als.common.{FileUtils, YPartBranch}
 import org.mulesoft.als.suggestions.RawSuggestion
-import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
+import org.mulesoft.als.suggestions.aml.{AmlCompletionRequest, CompletionEnvironment}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object AMLPathCompletionPlugin extends AMLCompletionPlugin {
@@ -35,65 +35,34 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     if (isRamlInclusion(params.yPartBranch, params.actualDialect) || isJsonInclusion(params.yPartBranch,
                                                                                      params.actualDialect)) {
-      resolveInclusion(params.baseUnit.location().getOrElse(""),
-                       params.platform,
-                       params.prefix,
-                       params.directoryResolver)
+      resolveInclusion(params.baseUnit.location().getOrElse(""), params.env, params.prefix)
     } else emptySuggestion
 
   def resolveInclusion(actualLocation: String,
-                       platform: Platform,
-                       prefix: String,
-                       directoryResolver: DirectoryResolver): Future[Seq[RawSuggestion]] = {
-    val fullPath     = FileUtils.getPath(actualLocation, platform)
+                       env: CompletionEnvironment,
+                       prefix: String): Future[Seq[RawSuggestion]] = {
+    val fullPath     = FileUtils.getPath(actualLocation, env.platform)
     val baseDir      = extractPath(fullPath) // root path for file
     val relativePath = extractPath(prefix) // already written part of the path
-    val fullURI      = FileUtils.getEncodedUri(s"$baseDir$relativePath", platform)
+    val fullURI      = FileUtils.getEncodedUri(s"$baseDir$relativePath", env.platform)
     val actual       = fullPath.stripPrefix(baseDir)
 
-    doIfDirectory(directoryResolver, fullURI)(
-      listDirectory(directoryResolver, platform, relativePath, actual, fullURI))
+    if (!prefix.startsWith("#"))
+      if (fullURI.contains("#") && !fullURI.startsWith("#"))
+        PathNavigation(fullURI, env.platform, env.env, prefix).suggest()
+      else FilesEnumeration(env.directoryResolver, env.platform, actual, relativePath).filesIn(fullURI)
+    else emptySuggestion
+
   }
-  private def doIfDirectory(directoryResolver: DirectoryResolver, fullURI: String)(
-      doIt: => Future[Seq[RawSuggestion]]): Future[Seq[RawSuggestion]] =
-    directoryResolver.isDirectory(fullURI).flatMap(if (_) doIt else emptySuggestion)
+}
 
-  private def listDirectory(directoryResolver: DirectoryResolver,
-                            platform: Platform,
-                            relativePath: String,
-                            actual: String,
-                            fullURI: String): Future[Seq[RawSuggestion]] =
-    directoryResolver
-      .readDir(fullURI)
-      .flatMap(withIsDir(_, fullURI, directoryResolver, platform))
-      .map(s => {
-        val filtered = s
-          .filter(tuple => tuple._1 != actual && (tuple._2 || supportedMime(tuple._1, platform)))
-          .map(t => if (t._2) s"${t._1}/" else t._1)
-        toSuggestions(relativePath, filtered)
-      })
-
-  private def withIsDir(files: Seq[String],
-                        fullUri: String,
-                        directoryResolver: DirectoryResolver,
-                        platform: Platform): Future[Seq[(String, Boolean)]] =
-    Future.sequence {
-      files.map(
-        file =>
-          directoryResolver
-            .isDirectory(FileUtils.getEncodedUri(s"${FileUtils.getPath(fullUri, platform)}$file", platform))
-            .map(isDir => (file, isDir)))
-    }
-
-  private def toSuggestions(relativePath: String, files: Seq[String]): Seq[RawSuggestion] =
-    files.map(toRawSuggestion(relativePath, _))
-
-  private def supportedMime(file: String, platform: Platform): Boolean =
+trait PathCompletion {
+  val platform: Platform
+  def supportedExtension(file: String): Boolean =
     platform
       .extension(file)
       .flatMap(platform.mimeFromExtension)
-      .exists(mime => AMFPluginsRegistry.syntaxPluginForMediaType(mime).isDefined)
+      .exists(pluginForMime(_).isDefined)
 
-  private def toRawSuggestion(relativePath: String, file: String) =
-    RawSuggestion(s"$relativePath$file", s"$relativePath$file", "Path suggestion", Nil, isKey = false, "")
+  def pluginForMime(mime: String): Option[AMFSyntaxPlugin] = AMFPluginsRegistry.syntaxPluginForMediaType(mime)
 }
