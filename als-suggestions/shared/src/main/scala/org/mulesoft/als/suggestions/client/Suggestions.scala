@@ -9,7 +9,7 @@ import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanc
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher, YPartBranch}
 import org.mulesoft.als.suggestions._
-import org.mulesoft.als.suggestions.aml.AmlCompletionRequestBuilder
+import org.mulesoft.als.suggestions.aml.{AmlCompletionRequestBuilder, CompletionEnvironment}
 import org.mulesoft.als.suggestions.implementation.{
   CompletionConfig,
   DummyASTProvider,
@@ -63,6 +63,7 @@ object Suggestions extends SuggestionsHelper {
                     position: Int,
                     directoryResolver: DirectoryResolver,
                     platform: Platform,
+                    env: Environment,
                     url: String,
                     originalContent: String): Future[CompletionProvider] = {
     dialectFor(bu) match {
@@ -74,6 +75,7 @@ object Suggestions extends SuggestionsHelper {
                                      Position(position, originalContent),
                                      originalContent,
                                      directoryResolver,
+                                     env,
                                      platform))
       case _ if isHeader(position, url, originalContent) =>
         if (!url.toLowerCase().endsWith(".raml"))
@@ -90,10 +92,11 @@ object Suggestions extends SuggestionsHelper {
                          position: Int,
                          directoryResolver: DirectoryResolver,
                          platform: Platform,
+                         env: Environment,
                          url: String,
                          originalContent: String): Future[CompletionProvider] = {
     unitFuture
-      .flatMap(buildProvider(_, position, directoryResolver, platform, url, originalContent))
+      .flatMap(buildProvider(_, position, directoryResolver, platform, env, url, originalContent))
       .recoverWith {
         case _: amf.core.exception.UnsupportedVendorException if isHeader(position, url, originalContent) =>
           if (!url.toLowerCase().endsWith(".raml"))
@@ -135,6 +138,7 @@ object Suggestions extends SuggestionsHelper {
                        position,
                        directoryResolver,
                        platform,
+                       environment,
                        url,
                        originalContent)
       .flatMap(_.suggest())
@@ -208,6 +212,7 @@ object Suggestions extends SuggestionsHelper {
                                          pos: Position,
                                          originalContent: String,
                                          directoryResolver: DirectoryResolver,
+                                         env: Environment,
                                          platform: Platform): CompletionProviderAST = {
 
     val amfPosition = pos.moveLine(1)
@@ -224,7 +229,8 @@ object Suggestions extends SuggestionsHelper {
           _
       )
     CompletionProviderAST(
-      AmlCompletionRequestBuilder.build(bu, amfPosition, dialect, platform, directoryResolver, styler))
+      AmlCompletionRequestBuilder
+        .build(bu, amfPosition, dialect, CompletionEnvironment(directoryResolver, platform, env), styler))
   }
 }
 

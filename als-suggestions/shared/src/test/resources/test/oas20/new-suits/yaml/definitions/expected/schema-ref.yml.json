@@ -304,6 +304,63 @@
     ]
   },
   {
+    "text": "schema-path-nav-two.yml",
+    "description": "Path suggestion",
+    "displayText": "schema-path-nav-two.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "schema-path-nav-withoutbar.yml",
+    "description": "Path suggestion",
+    "displayText": "schema-path-nav-withoutbar.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "schema-path-nav.yml",
+    "description": "Path suggestion",
+    "displayText": "schema-path-nav.yml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
     "text": "schema-ref-comment.yml",
     "description": "Path suggestion",
     "displayText": "schema-ref-comment.yml",

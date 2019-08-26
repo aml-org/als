@@ -3,23 +3,22 @@ package org.mulesoft.als.suggestions.aml
 import amf.core.annotations.{LexicalInformation, SourceAST, SynthesizedField}
 import amf.core.model.document.{BaseUnit, Document}
 import amf.core.model.domain.{AmfArray, AmfObject, DomainElement}
-import amf.core.parser
 import amf.core.parser.FieldEntry
 import amf.core.remote.Platform
+import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import org.mulesoft.als.common.AmfSonElementFinder._
-import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common._
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.Suggestion
-import org.mulesoft.typesystem.syaml.to.json.YRange
 import org.yaml.model.{YDocument, YNode, YType}
+
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: Position,
                            val actualDialect: Dialect,
-                           val platform: Platform,
-                           val directoryResolver: DirectoryResolver,
+                           val env: CompletionEnvironment,
                            val styler: Boolean => Seq[Suggestion] => Seq[Suggestion],
                            val yPartBranch: YPartBranch,
                            private val objectInTree: ObjectInTree,
@@ -165,8 +164,7 @@ object AmlCompletionRequestBuilder {
   def build(baseUnit: BaseUnit,
             position: Position,
             dialect: Dialect,
-            platform: Platform,
-            directoryResolver: DirectoryResolver,
+            env: CompletionEnvironment,
             styler: Boolean => Seq[Suggestion] => Seq[Suggestion]): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
       val ast = baseUnit match {
@@ -179,14 +177,7 @@ object AmlCompletionRequestBuilder {
     }
 
     val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
-    new AmlCompletionRequest(baseUnit,
-                             position,
-                             dialect,
-                             platform,
-                             directoryResolver,
-                             styler,
-                             yPartBranch,
-                             objectInTree)
+    new AmlCompletionRequest(baseUnit, position, dialect, env, styler, yPartBranch, objectInTree)
   }
 
   def forElement(element: DomainElement,
@@ -201,8 +192,7 @@ object AmlCompletionRequestBuilder {
       parent.baseUnit,
       parent.position,
       parent.actualDialect,
-      parent.platform,
-      parent.directoryResolver,
+      parent.env,
       parent.styler,
       parent.yPartBranch,
       objectInTree,
@@ -210,3 +200,5 @@ object AmlCompletionRequestBuilder {
     )
   }
 }
+
+case class CompletionEnvironment(directoryResolver: DirectoryResolver, platform: Platform, env: Environment)

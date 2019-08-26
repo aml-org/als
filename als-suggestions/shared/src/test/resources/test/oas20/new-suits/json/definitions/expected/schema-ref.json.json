@@ -323,6 +323,63 @@
     ]
   },
   {
+    "text": "schema-path-nav-two.json",
+    "description": "Path suggestion",
+    "displayText": "schema-path-nav-two.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "schema-path-nav-withoutbar.json",
+    "description": "Path suggestion",
+    "displayText": "schema-path-nav-withoutbar.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "schema-path-nav.json",
+    "description": "Path suggestion",
+    "displayText": "schema-path-nav.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
     "text": "schema-ref-comment.json",
     "description": "Path suggestion",
     "displayText": "schema-ref-comment.json",
