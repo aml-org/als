@@ -8,6 +8,13 @@ import scala.annotation.tailrec
 
 case class YPartBranch(node: YPart, position: Position, private val stack: Seq[YPart]) {
 
+  val isJson: Boolean = stack.lastOption
+    .collect({ case m: YMap => m })
+    .flatMap(_.children.find(_.isInstanceOf[YNonContent]))
+    .collectFirst({ case yt: YTokens => yt })
+    .flatMap(_.tokens.headOption)
+    .exists(_.text == "{")
+
   val isEmptyNode: Boolean = node match {
     case n: YNode => n.tagType == YType.Null
     case _        => false

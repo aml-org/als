@@ -1,83 +1,7 @@
 [
   {
-    "text": "string",
-    "description": "Possible 'type' value",
-    "displayText": "string",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 15
-        },
-        "end": {
-          "line": 4,
-          "character": 15
-        }
-      }
-    ]
-  },
-  {
-    "text": "number",
-    "description": "Possible 'type' value",
-    "displayText": "number",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 15
-        },
-        "end": {
-          "line": 4,
-          "character": 15
-        }
-      }
-    ]
-  },
-  {
-    "text": "integer",
-    "description": "Possible 'type' value",
-    "displayText": "integer",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 15
-        },
-        "end": {
-          "line": 4,
-          "character": 15
-        }
-      }
-    ]
-  },
-  {
-    "text": "boolean",
-    "description": "Possible 'type' value",
-    "displayText": "boolean",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 15
-        },
-        "end": {
-          "line": 4,
-          "character": 15
-        }
-      }
-    ]
-  },
-  {
     "text": "array",
-    "description": "Possible 'type' value",
+    "description": "array",
     "displayText": "array",
     "prefix": "",
     "category": "unknown",
@@ -95,8 +19,27 @@
     ]
   },
   {
+    "text": "boolean",
+    "description": "boolean",
+    "displayText": "boolean",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 15
+        },
+        "end": {
+          "line": 4,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
     "text": "file",
-    "description": "Possible 'type' value",
+    "description": "file",
     "displayText": "file",
     "prefix": "",
     "category": "unknown",
@@ -114,9 +57,66 @@
     ]
   },
   {
+    "text": "integer",
+    "description": "integer",
+    "displayText": "integer",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 15
+        },
+        "end": {
+          "line": 4,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "number",
+    "description": "number",
+    "displayText": "number",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 15
+        },
+        "end": {
+          "line": 4,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
     "text": "object",
-    "description": "Possible 'type' value",
+    "description": "object",
     "displayText": "object",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 15
+        },
+        "end": {
+          "line": 4,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "string",
+    "description": "string",
+    "displayText": "string",
     "prefix": "",
     "category": "unknown",
     "range": [

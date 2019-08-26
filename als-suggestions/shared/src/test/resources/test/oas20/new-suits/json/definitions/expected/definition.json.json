@@ -1,10 +1,10 @@
 [
   {
-    "text": "enum",
-    "description": "",
-    "displayText": "enum",
+    "text": "$ref",
+    "description": "reference tag",
+    "displayText": "$ref",
     "prefix": "",
-    "category": "parameters",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -19,28 +19,9 @@
     ]
   },
   {
-    "text": "type",
-    "description": "Required. The type of the parameter. Since the parameter is not located at the request body, it is limited to simple types (that is, not an object). The value MUST be one of \"string\", \"number\", \"integer\", \"boolean\", \"array\" or \"file\". If type is \"file\", the consumes MUST be either \"multipart/form-data\" or \" application/x-www-form-urlencoded\" and the parameter MUST be in \"formData\".",
-    "displayText": "type",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 7
-        },
-        "end": {
-          "line": 4,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "xml",
-    "description": "",
-    "displayText": "xml",
+    "text": "allOf",
+    "description": "allOf",
+    "displayText": "allOf",
     "prefix": "",
     "category": "schemas",
     "range": [
@@ -58,7 +39,7 @@
   },
   {
     "text": "default",
-    "description": "",
+    "description": "default",
     "displayText": "default",
     "prefix": "",
     "category": "parameters",
@@ -76,27 +57,8 @@
     ]
   },
   {
-    "text": "pattern",
-    "description": "",
-    "displayText": "pattern",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 7
-        },
-        "end": {
-          "line": 4,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
     "text": "description",
-    "description": "",
+    "description": "description",
     "displayText": "description",
     "prefix": "",
     "category": "docs",
@@ -114,85 +76,9 @@
     ]
   },
   {
-    "text": "maxLength",
-    "description": "",
-    "displayText": "maxLength",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 7
-        },
-        "end": {
-          "line": 4,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "title",
-    "description": "",
-    "displayText": "title",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 7
-        },
-        "end": {
-          "line": 4,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "minLength",
-    "description": "",
-    "displayText": "minLength",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 7
-        },
-        "end": {
-          "line": 4,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "$ref",
-    "description": "",
-    "displayText": "$ref",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 7
-        },
-        "end": {
-          "line": 4,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "format",
-    "description": "",
-    "displayText": "format",
+    "text": "enum",
+    "description": "enum",
+    "displayText": "enum",
     "prefix": "",
     "category": "parameters",
     "range": [
@@ -210,10 +96,162 @@
   },
   {
     "text": "example",
-    "description": "",
+    "description": "example",
     "displayText": "example",
     "prefix": "",
     "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "externalDocs",
+    "description": "externalDocs",
+    "displayText": "externalDocs",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "items",
+    "description": "items",
+    "displayText": "items",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "properties",
+    "description": "properties",
+    "displayText": "properties",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "readOnly",
+    "description": "readOnly",
+    "displayText": "readOnly",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "required",
+    "description": "required",
+    "displayText": "required",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "title",
+    "description": "title",
+    "displayText": "title",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "type",
+    "description": "type",
+    "displayText": "type",
+    "prefix": "",
+    "category": "types and traits",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 7
+        },
+        "end": {
+          "line": 4,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "xml",
+    "description": "xml",
+    "displayText": "xml",
+    "prefix": "",
+    "category": "schemas",
     "range": [
       {
         "start": {

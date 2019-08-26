@@ -5,8 +5,8 @@
       "get": {
         "responses": {
           "200": {
-            "examples": {
-              "application/json": {
+            "headers": {
+              "name": {
                 "*"
               }
             }

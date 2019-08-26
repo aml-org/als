@@ -1,8 +1,8 @@
 [
   {
-    "text": "[ text/plain; charset=utf-8 ]",
-    "description": "Possible 'consumes' value",
-    "displayText": "[ text/plain; charset=utf-8 ]",
+    "text": "application/json",
+    "description": "application/json",
+    "displayText": "application/json",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -19,9 +19,9 @@
     ]
   },
   {
-    "text": "[ application/json ]",
-    "description": "Possible 'consumes' value",
-    "displayText": "[ application/json ]",
+    "text": "application/vnd.github+json",
+    "description": "application/vnd.github+json",
+    "displayText": "application/vnd.github+json",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -38,9 +38,9 @@
     ]
   },
   {
-    "text": "[ application/vnd.github+json ]",
-    "description": "Possible 'consumes' value",
-    "displayText": "[ application/vnd.github+json ]",
+    "text": "application/vnd.github.v3+json",
+    "description": "application/vnd.github.v3+json",
+    "displayText": "application/vnd.github.v3+json",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -57,9 +57,9 @@
     ]
   },
   {
-    "text": "[ application/vnd.github.v3+json ]",
-    "description": "Possible 'consumes' value",
-    "displayText": "[ application/vnd.github.v3+json ]",
+    "text": "application/vnd.github.v3.full+json",
+    "description": "application/vnd.github.v3.full+json",
+    "displayText": "application/vnd.github.v3.full+json",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -76,9 +76,9 @@
     ]
   },
   {
-    "text": "[ application/vnd.github.v3.raw+json ]",
-    "description": "Possible 'consumes' value",
-    "displayText": "[ application/vnd.github.v3.raw+json ]",
+    "text": "application/vnd.github.v3.html+json",
+    "description": "application/vnd.github.v3.html+json",
+    "displayText": "application/vnd.github.v3.html+json",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -95,9 +95,9 @@
     ]
   },
   {
-    "text": "[ application/vnd.github.v3.text+json ]",
-    "description": "Possible 'consumes' value",
-    "displayText": "[ application/vnd.github.v3.text+json ]",
+    "text": "application/vnd.github.v3.patch",
+    "description": "application/vnd.github.v3.patch",
+    "displayText": "application/vnd.github.v3.patch",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -114,9 +114,9 @@
     ]
   },
   {
-    "text": "[ application/vnd.github.v3.html+json ]",
-    "description": "Possible 'consumes' value",
-    "displayText": "[ application/vnd.github.v3.html+json ]",
+    "text": "application/vnd.github.v3.raw+json",
+    "description": "application/vnd.github.v3.raw+json",
+    "displayText": "application/vnd.github.v3.raw+json",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -133,9 +133,9 @@
     ]
   },
   {
-    "text": "[ application/vnd.github.v3.full+json ]",
-    "description": "Possible 'consumes' value",
-    "displayText": "[ application/vnd.github.v3.full+json ]",
+    "text": "application/vnd.github.v3.text+json",
+    "description": "application/vnd.github.v3.text+json",
+    "displayText": "application/vnd.github.v3.text+json",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -152,9 +152,9 @@
     ]
   },
   {
-    "text": "[ appxlication/vnd.github.v3.diff ]",
-    "description": "Possible 'consumes' value",
-    "displayText": "[ appxlication/vnd.github.v3.diff ]",
+    "text": "appxlication/vnd.github.v3.diff",
+    "description": "appxlication/vnd.github.v3.diff",
+    "displayText": "appxlication/vnd.github.v3.diff",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -171,9 +171,9 @@
     ]
   },
   {
-    "text": "[ application/vnd.github.v3.patch ]",
-    "description": "Possible 'consumes' value",
-    "displayText": "[ application/vnd.github.v3.patch ]",
+    "text": "text/plain; charset=utf-8",
+    "description": "text/plain; charset=utf-8",
+    "displayText": "text/plain; charset=utf-8",
     "prefix": "",
     "category": "unknown",
     "range": [

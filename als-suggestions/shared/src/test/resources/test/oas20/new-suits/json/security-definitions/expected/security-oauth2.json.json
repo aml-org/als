@@ -1,46 +1,8 @@
 [
   {
-    "text": "flow",
-    "description": "",
-    "displayText": "flow",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 7
-        },
-        "end": {
-          "line": 5,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "tokenUrl",
-    "description": "",
-    "displayText": "tokenUrl",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 7
-        },
-        "end": {
-          "line": 5,
-          "character": 7
-        }
-      }
-    ]
-  },
-  {
-    "text": "scopes",
-    "description": "",
-    "displayText": "scopes",
+    "text": "authorizationUrl",
+    "description": "authorizationUrl",
+    "displayText": "authorizationUrl",
     "prefix": "",
     "category": "security",
     "range": [
@@ -58,10 +20,10 @@
   },
   {
     "text": "description",
-    "description": "",
+    "description": "description",
     "displayText": "description",
     "prefix": "",
-    "category": "unknown",
+    "category": "docs",
     "range": [
       {
         "start": {
@@ -76,9 +38,47 @@
     ]
   },
   {
-    "text": "authorizationUrl",
-    "description": "",
-    "displayText": "authorizationUrl",
+    "text": "flow",
+    "description": "flow",
+    "displayText": "flow",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "scopes",
+    "description": "scopes",
+    "displayText": "scopes",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 5,
+          "character": 7
+        }
+      }
+    ]
+  },
+  {
+    "text": "tokenUrl",
+    "description": "tokenUrl",
+    "displayText": "tokenUrl",
     "prefix": "",
     "category": "security",
     "range": [

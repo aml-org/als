@@ -8,12 +8,202 @@
     "range": [
       {
         "start": {
-          "line": 10,
-          "character": 16
+          "line": 14,
+          "character": 23
         },
         "end": {
-          "line": 10,
-          "character": 16
+          "line": 14,
+          "character": 23
+        }
+      }
+    ]
+  },
+  {
+    "text": "expected/",
+    "description": "Path suggestion",
+    "displayText": "expected/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 14,
+          "character": 23
+        },
+        "end": {
+          "line": 14,
+          "character": 23
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-declaration-named.json",
+    "description": "Path suggestion",
+    "displayText": "response-declaration-named.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 14,
+          "character": 23
+        },
+        "end": {
+          "line": 14,
+          "character": 23
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-declaration.json",
+    "description": "Path suggestion",
+    "displayText": "response-declaration.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 14,
+          "character": 23
+        },
+        "end": {
+          "line": 14,
+          "character": 23
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-example.json",
+    "description": "Path suggestion",
+    "displayText": "response-example.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 14,
+          "character": 23
+        },
+        "end": {
+          "line": 14,
+          "character": 23
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-examples.json",
+    "description": "Path suggestion",
+    "displayText": "response-examples.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 14,
+          "character": 23
+        },
+        "end": {
+          "line": 14,
+          "character": 23
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-header.json",
+    "description": "Path suggestion",
+    "displayText": "response-header.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 14,
+          "character": 23
+        },
+        "end": {
+          "line": 14,
+          "character": 23
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-headers.json",
+    "description": "Path suggestion",
+    "displayText": "response-headers.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 14,
+          "character": 23
+        },
+        "end": {
+          "line": 14,
+          "character": 23
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-ref.json",
+    "description": "Path suggestion",
+    "displayText": "response-ref.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 14,
+          "character": 23
+        },
+        "end": {
+          "line": 14,
+          "character": 23
+        }
+      }
+    ]
+  },
+  {
+    "text": "response-schema.json",
+    "description": "Path suggestion",
+    "displayText": "response-schema.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 14,
+          "character": 23
+        },
+        "end": {
+          "line": 14,
+          "character": 23
+        }
+      }
+    ]
+  },
+  {
+    "text": "response.json",
+    "description": "Path suggestion",
+    "displayText": "response.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 14,
+          "character": 23
+        },
+        "end": {
+          "line": 14,
+          "character": 23
         }
       }
     ]

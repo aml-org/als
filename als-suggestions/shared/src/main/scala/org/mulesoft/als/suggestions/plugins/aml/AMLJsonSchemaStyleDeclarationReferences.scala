@@ -22,6 +22,7 @@ class AMLJsonSchemaStyleDeclarationReferences(dialect: Dialect,
 
   val mark: Option[ScalarMark] =
     if (yPart.stringValue.isEmpty) yPart.getMark.filter(_ != NonMark).orElse(Some(DoubleQuoteMark))
+    else if (yPart.isJson) yPart.getMark
     else None
 
   def resolve(dp: DeclarationProvider): Seq[RawSuggestion] = {
@@ -33,7 +34,8 @@ class AMLJsonSchemaStyleDeclarationReferences(dialect: Dialect,
 
     val filtered = if (yPart.stringValue.isEmpty) routes else routes.filter(_.startsWith(yPart.stringValue))
     filtered
-      .map(r => mark.fold(r)(m => m.markText(r)))
+      .map(r =>
+        mark.fold(if (yPart.isJson) DoubleQuoteMark.markText(r) else r)(m => if (yPart.isJson) r else m.markText(r)))
       .map(route => RawSuggestion(route, route, s"Reference to $route", Nil, isKey = false, ""))
   }
 
