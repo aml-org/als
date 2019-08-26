@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "text": "name",
+    "description": "name",
+    "displayText": "name",
+    "prefix": "nam",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 8
+        },
+        "end": {
+          "line": 7,
+          "character": 11
+        }
+      }
+    ]
+  }
+]

@@ -1,4 +1,116 @@
-swagger: '2.0'
-paths:
-  /path:
-    $ref: *
+[
+  {
+    "text": "expected/",
+    "description": "Path suggestion",
+    "displayText": "expected/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 15
+        },
+        "end": {
+          "line": 4,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameter-array.json",
+    "description": "Path suggestion",
+    "displayText": "parameter-array.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 15
+        },
+        "end": {
+          "line": 4,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameter-ref.json",
+    "description": "Path suggestion",
+    "displayText": "parameter-ref.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 15
+        },
+        "end": {
+          "line": 4,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "parameter.json",
+    "description": "Path suggestion",
+    "displayText": "parameter.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 15
+        },
+        "end": {
+          "line": 4,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "path.json",
+    "description": "Path suggestion",
+    "displayText": "path.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 15
+        },
+        "end": {
+          "line": 4,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "paths.json",
+    "description": "Path suggestion",
+    "displayText": "paths.json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 15
+        },
+        "end": {
+          "line": 4,
+          "character": 15
+        }
+      }
+    ]
+  }
+]

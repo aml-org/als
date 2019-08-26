@@ -9,9 +9,11 @@
   "paths": {
     "/path": {
       "get": {
-        "200": {
-          "schema": {
-            "$ref": "*"
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "*"
+            }
           }
         }
       }

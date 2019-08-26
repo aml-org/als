@@ -209,6 +209,25 @@
     ]
   },
   {
+    "text": "name: ",
+    "description": "name",
+    "displayText": "name",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
     "text": "pattern: ",
     "description": "pattern",
     "displayText": "pattern",

@@ -51,7 +51,7 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
       _           <- Suggestions.init(InitOptions.AllProfiles)
       suggestions <- Suggestions.suggest(Raml10.name, url, 40, directoryResolver, environment, platform)
     } yield {
-      assert(suggestions.size == 15)
+      assert(suggestions.size == 14)
     }
   }
 }

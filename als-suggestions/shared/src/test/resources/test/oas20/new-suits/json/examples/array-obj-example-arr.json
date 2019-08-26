@@ -4,7 +4,11 @@
     "name": {
       "type": "array",
       "items": {
-        "properties": "p1"
+        "properties": {
+          "p1": {
+            "type": "string"
+          }
+        }
       },
       "example": [
         "*"
