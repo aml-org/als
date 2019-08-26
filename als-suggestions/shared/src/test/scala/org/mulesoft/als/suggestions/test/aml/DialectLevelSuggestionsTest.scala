@@ -4,6 +4,7 @@ import amf.client.remote.Content
 import amf.core.lexer.CharSequenceStream
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.DomainElement
+import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance}
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping}
@@ -49,7 +50,7 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
                                 originalContent: String,
                                 position: Int): Future[Seq[String]] = {
     Suggestions
-      .buildProvider(bu, position, directoryResolver, platform, url, originalContent)
+      .buildProvider(bu, position, directoryResolver, platform, Environment(), url, originalContent)
       .flatMap(_.suggest())
       .map(suggestions =>
         suggestions.map(suggestion => {
