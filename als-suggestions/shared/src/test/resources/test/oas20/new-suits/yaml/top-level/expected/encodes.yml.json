@@ -57,6 +57,25 @@
     ]
   },
   {
+    "text": "externalDocs:\n  ",
+    "description": "externalDocs",
+    "displayText": "externalDocs",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
     "text": "host: ",
     "description": "host",
     "displayText": "host",
