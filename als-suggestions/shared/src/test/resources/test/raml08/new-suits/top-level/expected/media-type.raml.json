@@ -1,0 +1,78 @@
+[
+  {
+    "text": "application/json",
+    "description": "Possible 'mediaType' value",
+    "displayText": "application/json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 11
+        },
+        "end": {
+          "line": 1,
+          "character": 11
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/x-www-form-urlencoded",
+    "description": "Possible 'mediaType' value",
+    "displayText": "application/x-www-form-urlencoded",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 11
+        },
+        "end": {
+          "line": 1,
+          "character": 11
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/xml",
+    "description": "Possible 'mediaType' value",
+    "displayText": "application/xml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 11
+        },
+        "end": {
+          "line": 1,
+          "character": 11
+        }
+      }
+    ]
+  },
+  {
+    "text": "multipart/formdata",
+    "description": "Possible 'mediaType' value",
+    "displayText": "multipart/formdata",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 11
+        },
+        "end": {
+          "line": 1,
+          "character": 11
+        }
+      }
+    ]
+  }
+]

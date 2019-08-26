@@ -1,0 +1,40 @@
+[
+  {
+    "text": "content: ",
+    "description": "Content of documentation section",
+    "displayText": "content",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 4
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "title: ",
+    "description": "title of documentation section",
+    "displayText": "title",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 4
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      }
+    ]
+  }
+]

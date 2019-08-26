@@ -1,0 +1,59 @@
+[
+  {
+    "text": "[ null ]",
+    "description": "Security scheme",
+    "displayText": "null",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 11
+        },
+        "end": {
+          "line": 4,
+          "character": 11
+        }
+      }
+    ]
+  },
+  {
+    "text": "[ oauth2 ]",
+    "description": "Security scheme",
+    "displayText": "oauth2",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 11
+        },
+        "end": {
+          "line": 4,
+          "character": 11
+        }
+      }
+    ]
+  },
+  {
+    "text": "[ obasic ]",
+    "description": "Security scheme",
+    "displayText": "obasic",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 11
+        },
+        "end": {
+          "line": 4,
+          "character": 11
+        }
+      }
+    ]
+  }
+]

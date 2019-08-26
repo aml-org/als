@@ -1,0 +1,211 @@
+[
+  {
+    "text": "default: ",
+    "description": "The default attribute specifies the default value to use for the property if the property is omitted or its value is not specified. This SHOULD NOT be interpreted as a requirement for the client to send the default attribute's value if there is no other value to send. Instead, the default attribute's value is the value the server uses if the client does not send a value.",
+    "displayText": "default",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "description: ",
+    "description": "The description attribute describes the intended use or meaning of the $self. This value MAY be formatted using Markdown.",
+    "displayText": "description",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "displayName: ",
+    "description": "An alternate, human-friendly name for the parameter",
+    "displayText": "displayName",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "enum: ",
+    "description": "(Optional, applicable only for parameters of type string) The enum attribute provides an enumeration of the parameter's valid values. This MUST be an array. If the enum attribute is defined, API clients and servers MUST verify that a parameter's value matches a value in the enum array. If there is no matching value, the clients and servers MUST treat this as an error.",
+    "displayText": "enum",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "example: ",
+    "description": "(Optional) The example attribute shows an example value for the property. This can be used, e.g., by documentation generators to generate sample values for the property.",
+    "displayText": "example",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "maxLength: ",
+    "description": "(Optional, applicable only for parameters of type string) The maxLength attribute specifies the parameter value's maximum number of characters.",
+    "displayText": "maxLength",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "minLength: ",
+    "description": "(Optional, applicable only for parameters of type string) The minLength attribute specifies the parameter value's minimum number of characters.",
+    "displayText": "minLength",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "pattern: ",
+    "description": "(Optional, applicable only for parameters of type string) The pattern attribute is a regular expression that a parameter of type string MUST match. Regular expressions MUST follow the regular expression specification from ECMA 262/Perl 5. The pattern MAY be enclosed in double quotes for readability and clarity.",
+    "displayText": "pattern",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "repeat: ",
+    "description": "The repeat attribute specifies that the parameter can be repeated. If the parameter can be used multiple times, the repeat parameter value MUST be set to 'true'. Otherwise, the default value is 'false' and the parameter may not be repeated.",
+    "displayText": "repeat",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "required: ",
+    "description": "Set to true if parameter is required",
+    "displayText": "required",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "type: ",
+    "description": "The type attribute specifies the primitive type of the parameter's resolved value. API clients MUST return/throw an error if the parameter's resolved value does not match the specified type. If type is not specified, it defaults to string.",
+    "displayText": "type",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      }
+    ]
+  }
+]

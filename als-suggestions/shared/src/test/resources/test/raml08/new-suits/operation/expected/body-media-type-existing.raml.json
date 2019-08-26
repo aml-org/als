@@ -1,0 +1,59 @@
+[
+  {
+    "text": "application/x-www-form-urlencoded:\n      ",
+    "description": "New body",
+    "displayText": "application/x-www-form-urlencoded",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/xml:\n      ",
+    "description": "New body",
+    "displayText": "application/xml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "multipart/form-data:\n      ",
+    "description": "New body",
+    "displayText": "multipart/form-data",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  }
+]

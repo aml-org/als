@@ -1,0 +1,116 @@
+[
+  {
+    "text": "name: ",
+    "description": "Returns name of referenced object",
+    "displayText": "name",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "null",
+    "description": "Security scheme",
+    "displayText": "null",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "oauth2",
+    "description": "Security scheme",
+    "displayText": "oauth2",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "obasic",
+    "description": "Security scheme",
+    "displayText": "obasic",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "securityScheme:\n        ",
+    "description": "Returns AST node of security scheme, this reference refers to, or null.",
+    "displayText": "securityScheme",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "settings:\n        ",
+    "description": "",
+    "displayText": "settings",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  }
+]

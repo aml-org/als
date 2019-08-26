@@ -1,0 +1,78 @@
+[
+  {
+    "text": "[ code ]",
+    "description": "Possible 'authorizationGrants' value",
+    "displayText": "[ code ]",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 29
+        },
+        "end": {
+          "line": 5,
+          "character": 29
+        }
+      }
+    ]
+  },
+  {
+    "text": "[ credentials ]",
+    "description": "Possible 'authorizationGrants' value",
+    "displayText": "[ credentials ]",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 29
+        },
+        "end": {
+          "line": 5,
+          "character": 29
+        }
+      }
+    ]
+  },
+  {
+    "text": "[ owner ]",
+    "description": "Possible 'authorizationGrants' value",
+    "displayText": "[ owner ]",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 29
+        },
+        "end": {
+          "line": 5,
+          "character": 29
+        }
+      }
+    ]
+  },
+  {
+    "text": "[ token ]",
+    "description": "Possible 'authorizationGrants' value",
+    "displayText": "[ token ]",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 29
+        },
+        "end": {
+          "line": 5,
+          "character": 29
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,40 @@
+[
+  {
+    "text": "[ HTTP ]",
+    "description": "Possible 'protocols' value",
+    "displayText": "[ HTTP ]",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  },
+  {
+    "text": "[ HTTPS ]",
+    "description": "Possible 'protocols' value",
+    "displayText": "[ HTTPS ]",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 15
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,2244 @@
+[
+  {
+    "text": "A-IM:\n        ",
+    "description": "New Header",
+    "displayText": "A-IM",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "ALPN:\n        ",
+    "description": "New Header",
+    "displayText": "ALPN",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Accept-CH:\n        ",
+    "description": "New Header",
+    "displayText": "Accept-CH",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Accept-Charset:\n        ",
+    "description": "New Header",
+    "displayText": "Accept-Charset",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Accept-Encoding:\n        ",
+    "description": "New Header",
+    "displayText": "Accept-Encoding",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Accept-Features:\n        ",
+    "description": "New Header",
+    "displayText": "Accept-Features",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Accept-Language:\n        ",
+    "description": "New Header",
+    "displayText": "Accept-Language",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Accept-Patch:\n        ",
+    "description": "New Header",
+    "displayText": "Accept-Patch",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Accept-Post:\n        ",
+    "description": "New Header",
+    "displayText": "Accept-Post",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Accept-Ranges:\n        ",
+    "description": "New Header",
+    "displayText": "Accept-Ranges",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Accept:\n        ",
+    "description": "New Header",
+    "displayText": "Accept",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Access-Control-Allow-Credentials:\n        ",
+    "description": "New Header",
+    "displayText": "Access-Control-Allow-Credentials",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Access-Control-Allow-Headers:\n        ",
+    "description": "New Header",
+    "displayText": "Access-Control-Allow-Headers",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Access-Control-Allow-Methods:\n        ",
+    "description": "New Header",
+    "displayText": "Access-Control-Allow-Methods",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Access-Control-Allow-Origin:\n        ",
+    "description": "New Header",
+    "displayText": "Access-Control-Allow-Origin",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Access-Control-Expose-Headers:\n        ",
+    "description": "New Header",
+    "displayText": "Access-Control-Expose-Headers",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Access-Control-Max-Age:\n        ",
+    "description": "New Header",
+    "displayText": "Access-Control-Max-Age",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Access-Control-Request-Headers:\n        ",
+    "description": "New Header",
+    "displayText": "Access-Control-Request-Headers",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Access-Control-Request-Method:\n        ",
+    "description": "New Header",
+    "displayText": "Access-Control-Request-Method",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Age:\n        ",
+    "description": "New Header",
+    "displayText": "Age",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Allow:\n        ",
+    "description": "New Header",
+    "displayText": "Allow",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Alt-Svc:\n        ",
+    "description": "New Header",
+    "displayText": "Alt-Svc",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Alternates:\n        ",
+    "description": "New Header",
+    "displayText": "Alternates",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Apply-To-Redirect-Ref:\n        ",
+    "description": "New Header",
+    "displayText": "Apply-To-Redirect-Ref",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Authorization:\n        ",
+    "description": "New Header",
+    "displayText": "Authorization",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "CH:\n        ",
+    "description": "New Header",
+    "displayText": "CH",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Cache-Control:\n        ",
+    "description": "New Header",
+    "displayText": "Cache-Control",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Content-Base:\n        ",
+    "description": "New Header",
+    "displayText": "Content-Base",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Content-DPR:\n        ",
+    "description": "New Header",
+    "displayText": "Content-DPR",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Content-Disposition:\n        ",
+    "description": "New Header",
+    "displayText": "Content-Disposition",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Content-Encoding:\n        ",
+    "description": "New Header",
+    "displayText": "Content-Encoding",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Content-Language:\n        ",
+    "description": "New Header",
+    "displayText": "Content-Language",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Content-Length:\n        ",
+    "description": "New Header",
+    "displayText": "Content-Length",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Content-Location:\n        ",
+    "description": "New Header",
+    "displayText": "Content-Location",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Content-Range:\n        ",
+    "description": "New Header",
+    "displayText": "Content-Range",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Content-Security-Policy-Report-Only:\n        ",
+    "description": "New Header",
+    "displayText": "Content-Security-Policy-Report-Only",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Content-Security-Policy:\n        ",
+    "description": "New Header",
+    "displayText": "Content-Security-Policy",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Content-Type:\n        ",
+    "description": "New Header",
+    "displayText": "Content-Type",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Cookie2:\n        ",
+    "description": "New Header",
+    "displayText": "Cookie2",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Cookie:\n        ",
+    "description": "New Header",
+    "displayText": "Cookie",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "DASL:\n        ",
+    "description": "New Header",
+    "displayText": "DASL",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "DAV:\n        ",
+    "description": "New Header",
+    "displayText": "DAV",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "DNT:\n        ",
+    "description": "New Header",
+    "displayText": "DNT",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "DPR:\n        ",
+    "description": "New Header",
+    "displayText": "DPR",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Date:\n        ",
+    "description": "New Header",
+    "displayText": "Date",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Delta-Base:\n        ",
+    "description": "New Header",
+    "displayText": "Delta-Base",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Depth:\n        ",
+    "description": "New Header",
+    "displayText": "Depth",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Destination:\n        ",
+    "description": "New Header",
+    "displayText": "Destination",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "ETag:\n        ",
+    "description": "New Header",
+    "displayText": "ETag",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Encryption-Key:\n        ",
+    "description": "New Header",
+    "displayText": "Encryption-Key",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Encryption:\n        ",
+    "description": "New Header",
+    "displayText": "Encryption",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Expect:\n        ",
+    "description": "New Header",
+    "displayText": "Expect",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Expires:\n        ",
+    "description": "New Header",
+    "displayText": "Expires",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Forwarded:\n        ",
+    "description": "New Header",
+    "displayText": "Forwarded",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "From:\n        ",
+    "description": "New Header",
+    "displayText": "From",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "HTTP2-Settings:\n        ",
+    "description": "New Header",
+    "displayText": "HTTP2-Settings",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Host:\n        ",
+    "description": "New Header",
+    "displayText": "Host",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "IM:\n        ",
+    "description": "New Header",
+    "displayText": "IM",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "If-Match:\n        ",
+    "description": "New Header",
+    "displayText": "If-Match",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "If-Modified-Since:\n        ",
+    "description": "New Header",
+    "displayText": "If-Modified-Since",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "If-None-Match:\n        ",
+    "description": "New Header",
+    "displayText": "If-None-Match",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "If-Range:\n        ",
+    "description": "New Header",
+    "displayText": "If-Range",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "If-Schedule-Tag-Match:\n        ",
+    "description": "New Header",
+    "displayText": "If-Schedule-Tag-Match",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "If-Unmodified-Since:\n        ",
+    "description": "New Header",
+    "displayText": "If-Unmodified-Since",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "If:\n        ",
+    "description": "New Header",
+    "displayText": "If",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Key:\n        ",
+    "description": "New Header",
+    "displayText": "Key",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Last-Event-ID:\n        ",
+    "description": "New Header",
+    "displayText": "Last-Event-ID",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Last-Modified:\n        ",
+    "description": "New Header",
+    "displayText": "Last-Modified",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Link-Template:\n        ",
+    "description": "New Header",
+    "displayText": "Link-Template",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Link:\n        ",
+    "description": "New Header",
+    "displayText": "Link",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Location:\n        ",
+    "description": "New Header",
+    "displayText": "Location",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Lock-Token:\n        ",
+    "description": "New Header",
+    "displayText": "Lock-Token",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "MD:\n        ",
+    "description": "New Header",
+    "displayText": "MD",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Max-Forwards:\n        ",
+    "description": "New Header",
+    "displayText": "Max-Forwards",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Negotiate:\n        ",
+    "description": "New Header",
+    "displayText": "Negotiate",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Nice:\n        ",
+    "description": "New Header",
+    "displayText": "Nice",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Origin:\n        ",
+    "description": "New Header",
+    "displayText": "Origin",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Overwrite:\n        ",
+    "description": "New Header",
+    "displayText": "Overwrite",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "POE-Links:\n        ",
+    "description": "New Header",
+    "displayText": "POE-Links",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "POE:\n        ",
+    "description": "New Header",
+    "displayText": "POE",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Pragma:\n        ",
+    "description": "New Header",
+    "displayText": "Pragma",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Prefer:\n        ",
+    "description": "New Header",
+    "displayText": "Prefer",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Preference-Applied:\n        ",
+    "description": "New Header",
+    "displayText": "Preference-Applied",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Proxy-Authenticate:\n        ",
+    "description": "New Header",
+    "displayText": "Proxy-Authenticate",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Proxy-Authorization:\n        ",
+    "description": "New Header",
+    "displayText": "Proxy-Authorization",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "RW:\n        ",
+    "description": "New Header",
+    "displayText": "RW",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Range:\n        ",
+    "description": "New Header",
+    "displayText": "Range",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Redirect-Ref:\n        ",
+    "description": "New Header",
+    "displayText": "Redirect-Ref",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Referer:\n        ",
+    "description": "New Header",
+    "displayText": "Referer",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Retry-After:\n        ",
+    "description": "New Header",
+    "displayText": "Retry-After",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "SLUG:\n        ",
+    "description": "New Header",
+    "displayText": "SLUG",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Schedule-Reply:\n        ",
+    "description": "New Header",
+    "displayText": "Schedule-Reply",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Schedule-Tag:\n        ",
+    "description": "New Header",
+    "displayText": "Schedule-Tag",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Sec-WebSocket-Accept:\n        ",
+    "description": "New Header",
+    "displayText": "Sec-WebSocket-Accept",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Sec-WebSocket-Extensions:\n        ",
+    "description": "New Header",
+    "displayText": "Sec-WebSocket-Extensions",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Sec-WebSocket-Key:\n        ",
+    "description": "New Header",
+    "displayText": "Sec-WebSocket-Key",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Sec-WebSocket-Protocol:\n        ",
+    "description": "New Header",
+    "displayText": "Sec-WebSocket-Protocol",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Sec-WebSocket-Version:\n        ",
+    "description": "New Header",
+    "displayText": "Sec-WebSocket-Version",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Server:\n        ",
+    "description": "New Header",
+    "displayText": "Server",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Set-Cookie2:\n        ",
+    "description": "New Header",
+    "displayText": "Set-Cookie2",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Set-Cookie:\n        ",
+    "description": "New Header",
+    "displayText": "Set-Cookie",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Status-URI:\n        ",
+    "description": "New Header",
+    "displayText": "Status-URI",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Strict-Transport-Security:\n        ",
+    "description": "New Header",
+    "displayText": "Strict-Transport-Security",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Sunset:\n        ",
+    "description": "New Header",
+    "displayText": "Sunset",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Surrogate-Capability:\n        ",
+    "description": "New Header",
+    "displayText": "Surrogate-Capability",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Surrogate-Control:\n        ",
+    "description": "New Header",
+    "displayText": "Surrogate-Control",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "TCN:\n        ",
+    "description": "New Header",
+    "displayText": "TCN",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "TE:\n        ",
+    "description": "New Header",
+    "displayText": "TE",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Timeout:\n        ",
+    "description": "New Header",
+    "displayText": "Timeout",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Tk:\n        ",
+    "description": "New Header",
+    "displayText": "Tk",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Transfer-Encoding:\n        ",
+    "description": "New Header",
+    "displayText": "Transfer-Encoding",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "User-Agent:\n        ",
+    "description": "New Header",
+    "displayText": "User-Agent",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Variant-Vary:\n        ",
+    "description": "New Header",
+    "displayText": "Variant-Vary",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Vary:\n        ",
+    "description": "New Header",
+    "displayText": "Vary",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Via:\n        ",
+    "description": "New Header",
+    "displayText": "Via",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "WWW-Authenticate:\n        ",
+    "description": "New Header",
+    "displayText": "WWW-Authenticate",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "Warning:\n        ",
+    "description": "New Header",
+    "displayText": "Warning",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "X-Frame-Options:\n        ",
+    "description": "New Header",
+    "displayText": "X-Frame-Options",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      }
+    ]
+  }
+]
