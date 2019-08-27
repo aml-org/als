@@ -229,6 +229,7 @@ lazy val fat = crossProject(JSPlatform, JVMPlatform).settings(
   )
 )
   .dependsOn(suggestions, structure , hl , server)
+  .disablePlugins(SonarPlugin)
   .enablePlugins(AssemblyPlugin)
   .in(file("./als-fat")).settings(settings: _*).jvmSettings(
   	packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
@@ -252,4 +253,4 @@ lazy val fat = crossProject(JSPlatform, JVMPlatform).settings(
   artifactPath in(Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" / "serverProcess.js"
 )
 
-lazy val coreJVM = fat.jvm.in(file("./als-fat/jvm"))
+lazy val coreJVM = fat.jvm.in(file("./als-fat/jvm")).disablePlugins(SonarPlugin)
