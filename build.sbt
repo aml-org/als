@@ -7,7 +7,6 @@ import sbt.Keys.{mainClass, packageOptions}
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 import scala.sys.process.Process
-
 import scala.language.postfixOps
 import scala.sys.process._
 
@@ -71,10 +70,10 @@ lazy val common = crossProject(JSPlatform, JVMPlatform).settings(
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
     scalaJSModuleKind := ModuleKind.CommonJSModule
     //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
-  )
+  ).disablePlugins(SonarPlugin)
 
 lazy val commonJVM = common.jvm.in(file("./als-common/jvm")).sourceDependency(amfJVMRef, amfLibJVM)
-lazy val commonJS = common.js.in(file("./als-common/js")).sourceDependency(amfJSRef, amfLibJS)
+lazy val commonJS = common.js.in(file("./als-common/js")).sourceDependency(amfJSRef, amfLibJS).disablePlugins(SonarPlugin)
 
 lazy val hl = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
@@ -89,10 +88,10 @@ lazy val hl = crossProject(JSPlatform, JVMPlatform).settings(
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
     scalaJSModuleKind := ModuleKind.CommonJSModule
     //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
-  )
+  ).disablePlugins(SonarPlugin)
 
 lazy val hlJVM = hl.jvm.in(file("./als-hl/jvm"))
-lazy val hlJS = hl.js.in(file("./als-hl/js"))
+lazy val hlJS = hl.js.in(file("./als-hl/js")).disablePlugins(SonarPlugin)
 
 //
 lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
@@ -106,10 +105,10 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
     skip in packageJSDependencies := false,
     scalaJSOutputMode := OutputMode.Defaults,
     scalaJSModuleKind := ModuleKind.CommonJSModule
-  )
+  ).disablePlugins(SonarPlugin)
 
 lazy val suggestionsJVM = suggestions.jvm.in(file("./als-suggestions/jvm"))
-lazy val suggestionsJS = suggestions.js.in(file("./als-suggestions/js"))
+lazy val suggestionsJS = suggestions.js.in(file("./als-suggestions/js")).disablePlugins(SonarPlugin)
 
 lazy val structure = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
@@ -124,10 +123,10 @@ lazy val structure = crossProject(JSPlatform, JVMPlatform).settings(
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
     scalaJSModuleKind := ModuleKind.CommonJSModule
     //    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"als-suggestions.js"
-  )
+  ).disablePlugins(SonarPlugin)
 
 lazy val structureJVM = structure.jvm.in(file("./als-structure/jvm"))
-lazy val structureJS = structure.js.in(file("./als-structure/js"))
+lazy val structureJS = structure.js.in(file("./als-structure/js")).disablePlugins(SonarPlugin)
 
 lazy val server = crossProject(JSPlatform, JVMPlatform)
   .settings(name := "als-server")
@@ -135,6 +134,7 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
   .dependsOn(suggestions, structure % "compile->compile;test->test")
   .in(file("./als-server"))
   .settings(settings: _*)
+  .disablePlugins(SonarPlugin)
   .jvmSettings(
     // https://mvnrepository.com/artifact/org.eclipse.lsp4j/org.eclipse.lsp4j
     libraryDependencies += "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.7.2",
@@ -158,7 +158,7 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
 
 
 lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
-lazy val serverJS = server.js.in(file("./als-server/js"))
+lazy val serverJS = server.js.in(file("./als-server/js")).disablePlugins(SonarPlugin)
 
 // ******************** BuildJS ****************************************************************************************
 
@@ -183,15 +183,10 @@ buildSuggestionsJS := {
 }
 
 // ************** SONAR *******************************
-
-enablePlugins(SonarRunnerPlugin)
-
-lazy val sonarUrl = sys.env.getOrElse("SONAR_SERVER_URL", "Not found url.")
 lazy val token = sys.env.getOrElse("SONAR_SERVER_TOKEN", "Not found token.")
 lazy val branch = sys.env.getOrElse("BRANCH_NAME", "devel")
 
 sonarProperties ++= Map(
-  "sonar.host.url" -> sonarUrl,
   "sonar.login" -> token,
   "sonar.projectKey" -> "mulesoft.als",
   "sonar.projectName" -> "ALS",
@@ -202,7 +197,8 @@ sonarProperties ++= Map(
   "sonar.branch.name" -> branch,
 
   "sonar.scala.coverage.reportPaths" -> "als-server/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-structure/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-suggestions/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-hl/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-common/jvm/target/scala-2.12/scoverage-report/scoverage.xml",
-  "sonar.sources" -> "als-server/shared/src/main/scala,als-structure/shared/src/main/scala,als-suggestions/shared/src/main/scala,als-hl/shared/src/main/scala,als-common/shared/src/main/scala"
+  "sonar.sources" -> "als-server/shared/src/main/scala,als-structure/shared/src/main/scala,als-suggestions/shared/src/main/scala,als-hl/shared/src/main/scala,als-common/shared/src/main/scala",
+  "sonar.tests" -> "als-server/shared/src/test/scala,als-structure/shared/src/test/scala,als-suggestions/shared/src/test/scala"
 )
 
 
