@@ -8,15 +8,12 @@ import scala.concurrent.Future
 
 object ASTFactoryRegistry {
 
-    def getFactory(format:Vendor):Option[IASTFactory] = format match {
-        case Raml10 => Some(RAML10ASTFactory.instance)
-        case Raml08 => Some(RAML08ASTFactory.instance)
-        case Oas => Some(OAS20ASTFactory.instance)
-        case Oas20 => Some(OAS20ASTFactory.instance)
-        case _ => None
-    }
+  def getFactory(format: Vendor): Option[IASTFactory] = format match {
+    case Raml08 => Some(RAML08ASTFactory.instance)
+    case _      => None
+  }
 
-    def init():Future[Unit] = {
-        Future.sequence(Seq(RAML10ASTFactory.init() , RAML08ASTFactory.init() , OAS20ASTFactory.init() )).map(x=>{})
-    }
+  def init(): Future[Unit] = {
+    Future.sequence(Seq(RAML08ASTFactory.init())).map(x => {})
+  }
 }

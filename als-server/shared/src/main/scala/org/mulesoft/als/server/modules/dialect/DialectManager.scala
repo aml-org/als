@@ -43,18 +43,8 @@ class DialectManager(astManager: AstManager, baseEnvironment: Environment, platf
 
         val dialectOpts = dialects.map(dialect => {
 
-          val dialectCfg = new ParserConfig(
-            Some(ParserConfig.PARSE),
-            Some(dialect.rootUrl),
-            Some("AML 1.0"),
-            Some("application/yaml"),
-            None,
-            Some("AMF"),
-            Some("application/json+ld")
-          )
-
           val helper = ParserHelper(platform)
-          helper.parse(dialectCfg, EnvironmentPatcher.patch(baseEnvironment, dialect.files.toMap))
+          helper.parse(dialect.rootUrl, EnvironmentPatcher.patch(baseEnvironment, dialect.files.toMap))
         })
         Future.sequence(dialectOpts).map(_ => {})
       })

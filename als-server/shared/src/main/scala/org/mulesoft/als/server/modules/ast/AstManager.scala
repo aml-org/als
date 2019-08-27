@@ -150,23 +150,13 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
 
   def parse(uri: String): Future[BaseUnit] = {
     val amfURI = FileUtils.getDecodedUri(uri, platform)
+
     logger.debugDetail(s"Protocol uri is $amfURI", "ASTManager", "parse")
-
-    val config = new ParserConfig(
-      Some(ParserConfig.PARSE),
-      Some(amfURI),
-      None,
-      Some("application/yaml"),
-      None,
-      Some("AMF Graph"),
-      Some("application/ld+json")
-    )
-
     val startTime = System.currentTimeMillis()
 
     val helper = ParserHelper(platform)
 
-    helper.parse(config, envForValidation(uri)).map { result =>
+    helper.parse(amfURI, envForValidation(uri)).map { result =>
       val endTime = System.currentTimeMillis()
       logger.debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast", "ASTManager", "parse")
       result
@@ -177,15 +167,10 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     val patchedEnvironment =
       EnvironmentPatcher.patch(serverEnvironment, FileUtils.getEncodedUri(uri, platform), content)
 
-    val cfg = new ParserConfig(
-      Some(ParserConfig.PARSE),
-      Some(FileUtils.getDecodedUri(uri, platform))
-    )
-
     val startTime = System.currentTimeMillis()
 
     ParserHelper(platform)
-      .parse(cfg, patchedEnvironment)
+      .parse(FileUtils.getDecodedUri(uri, platform), patchedEnvironment)
       .map { result =>
         val endTime = System.currentTimeMillis()
         logger.debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast",

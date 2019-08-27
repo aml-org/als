@@ -133,8 +133,7 @@ object Suggestions extends SuggestionsHelper {
                                             environment: Environment,
                                             platform: Platform): Future[Seq[Suggestion]] = {
 
-    val config = this.buildParserConfig(language, url)
-    buildProviderAsync(this.amfParse(config, environment, platform),
+    buildProviderAsync(this.amfParse(url, environment, platform),
                        position,
                        directoryResolver,
                        platform,
@@ -236,8 +235,8 @@ object Suggestions extends SuggestionsHelper {
 
 trait SuggestionsHelper {
 
-  def amfParse(config: ParserConfig, environment: Environment, platform: Platform): Future[BaseUnit] =
-    ParserHelper(platform).parse(config, environment)
+  def amfParse(url: String, environment: Environment, platform: Platform): Future[BaseUnit] =
+    ParserHelper(platform).parse(url, environment)
 
   def getMediaType(originalContent: String): Syntax = {
 
