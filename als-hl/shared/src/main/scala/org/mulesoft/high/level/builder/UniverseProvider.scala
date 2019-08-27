@@ -21,22 +21,11 @@ object UniverseProvider {
   def init(initOptions: InitOptions): Future[Unit] = {
 
     val futures: ListBuffer[Future[Unit]] = ListBuffer()
-    if (initOptions.contains(Raml10Profile) && !initialized.contains(Raml10Profile)) {
-      val f = RamlUniverseProvider.raml10Universe().map(universes(Raml10) = _)
-      futures += f
-      initialized.put(Raml10Profile, f)
-    } else futures += initialized(Raml10Profile)
     if (initOptions.contains(Raml08Profile) && !initialized.contains(Raml08Profile)) {
       val f = RamlUniverseProvider.raml08Universe().map(universes(Raml08) = _)
       futures += f
       initialized.put(Raml08Profile, f)
     } else futures += initialized(Raml08Profile)
-    if (initOptions.contains(Oas20Profile) && !initialized.contains(Oas20Profile)) {
-      val f = RamlUniverseProvider.oas20Universe().map(universes(Oas) = _)
-      futures += f
-      initialized.put(Oas20Profile, f)
-    } else futures += initialized(Oas20Profile)
-
     futures += initDialects(initOptions)
     Future.sequence(futures).map(_ => Unit)
   }

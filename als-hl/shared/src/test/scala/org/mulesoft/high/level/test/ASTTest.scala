@@ -31,18 +31,8 @@ trait AstTest extends AsyncFunSuite with PlatformSecrets {
 
   def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] = {
 
-    var cfg = new ParserConfig(
-      Some(ParserConfig.PARSE),
-      Some(path),
-      Some(format),
-      Some("application/yaml"),
-      None,
-      Some("AMF Graph"),
-      Some("application/ld+json")
-    )
-
     val helper = ParserHelper(platform)
-    Core.init().flatMap(_ => helper.parse(cfg, env))
+    Core.init().flatMap(_ => helper.parse(path, env))
   }
 
   def rootPath: String
