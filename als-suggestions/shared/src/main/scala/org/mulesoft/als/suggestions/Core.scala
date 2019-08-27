@@ -1,16 +1,9 @@
 package org.mulesoft.als.suggestions
 
-import amf.plugins.document.vocabularies.AMLPlugin
 import org.mulesoft.als.suggestions.aml.webapi.{OasCompletionPluginRegistry, RamlCompletionPluginRegistry}
 import org.mulesoft.als.suggestions.implementation.SuggestionCategoryRegistry
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
-import org.mulesoft.als.suggestions.plugins.oas.{
-  DefinitionReferenceCompletionPlugin,
-  EmptyFileCompletionPlugin,
-  ParameterReferencePlugin,
-  ResponseReferencePlugin
-}
 import org.mulesoft.als.suggestions.plugins.raml._
 import org.mulesoft.als.suggestions.plugins.{
   BooleanPropertyCompletionPlugin,
@@ -33,25 +26,14 @@ object Core {
         CompletionPluginsRegistry.registerPlugin(StructureCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(KnownKeyPropertyValuesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(KnownPropertyValuesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(TemplateReferencesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(ResponseReferencePlugin())
-        CompletionPluginsRegistry.registerPlugin(ParameterReferencePlugin())
-        CompletionPluginsRegistry.registerPlugin(DefinitionReferenceCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(MasterReferenceCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(TypeReferencesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(SecurityReferencesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(AnnotationReferencesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(FacetsCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(BodyCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(UsesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(IncludeCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(ExampleCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(EmptyRamlFileCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(EmptyFileCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(IncludeTagCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(BooleanPropertyCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(CommonHeadersNamesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(ExampleStructureCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(BaseUriParametersCompletionPlugin())
 
         // **************** AML *************************

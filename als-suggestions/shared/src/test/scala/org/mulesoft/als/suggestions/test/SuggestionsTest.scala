@@ -1,10 +1,9 @@
 package org.mulesoft.als.suggestions.test
 
 import amf.ProfileName
-import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
-import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
+import org.mulesoft.als.suggestions.client.Suggestion
 import org.mulesoft.high.level.CustomDialects
 import org.mulesoft.high.level.amfmanager.ParserHelper
 import org.scalatest.{Assertion, AsyncFunSuite}
@@ -117,22 +116,10 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
   def init(): Future[Unit] = org.mulesoft.als.suggestions.Core.init()
 
   def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] = {
-    val cfg = new ParserConfig(
-      Some(ParserConfig.PARSE),
-      Some(path),
-      Some(format),
-      Some("application/yaml"),
-      None,
-      Some("AMF Graph"),
-      Some("application/ld+json")
-    )
 
     val helper = ParserHelper(platform)
-    helper.parse(cfg, env)
+    helper.parse(path, env)
   }
-
-  def buildParserConfig(language: String, url: String): ParserConfig =
-    Suggestions.buildParserConfig(language, url)
 
   def filePath(path: String): String = {
     var result =

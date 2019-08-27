@@ -105,18 +105,9 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
   }
 
   def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] = {
-    val cfg = new ParserConfig(
-      Some(ParserConfig.PARSE),
-      Some(path),
-      Some(format),
-      Some("application/yaml"),
-      None,
-      Some("AMF Graph"),
-      Some("application/ld+json")
-    )
 
     val helper = ParserHelper(platform)
-    helper.parse(cfg, env)
+    helper.parse(path, env)
   }
 }
 

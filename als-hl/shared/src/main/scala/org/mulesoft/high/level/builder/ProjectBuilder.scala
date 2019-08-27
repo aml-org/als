@@ -3,12 +3,6 @@ package org.mulesoft.high.level.builder
 import amf.core.annotations.{Aliases, SourceVendor}
 import amf.core.model.document._
 import amf.core.remote.{Platform, Vendor}
-import amf.plugins.document.vocabularies.model.document.{
-  DialectInstance,
-  DialectInstanceFragment,
-  DialectInstanceLibrary
-}
-import org.mulesoft.high.level.dialect.DialectProjectBuilder
 import org.mulesoft.high.level.implementation.{ASTUnit, Project}
 import org.mulesoft.high.level.interfaces.IProject
 import org.mulesoft.high.level.typesystem.TypeBuilder
@@ -20,10 +14,7 @@ object ProjectBuilder {
 
   def buildProject(rootUnit: BaseUnit, platform: Platform): IProject = {
     rootUnit match {
-      case di: DialectInstance          => DialectProjectBuilder.getInstance.buildProject(di, platform)
-      case dil: DialectInstanceLibrary  => DialectProjectBuilder.getInstance.buildProject(dil, platform)
-      case dif: DialectInstanceFragment => DialectProjectBuilder.getInstance.buildProject(dif, platform)
-      case _                            => buildProjectInternal(rootUnit, platform)
+      case _ => buildProjectInternal(rootUnit, platform)
     }
   }
 

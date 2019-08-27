@@ -40,7 +40,7 @@ class IncludeCompletionPlugin extends InclusionSuggestion {
         val valueString = Option(valuePart.value).map(_.toString).getOrElse("")
 
         if (tagText != "!include" && !valueString.startsWith("!include")) false
-        else !UsesCompletionPlugin().isApplicable(request)
+        else true
       }
     }
 
