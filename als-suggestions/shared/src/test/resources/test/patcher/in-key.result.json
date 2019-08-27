@@ -1,0 +1,30 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.9-abcd",
+    "title": "Swagger Sample API"
+  },
+  "paths": {
+    "/pets/{id}": {
+      "post": {
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "depreca":"",
+        "security": [
+          {
+            "githubAccessCode": [
+              "user",
+              "gist"
+            ]
+          },
+          {
+            "internalApiKey": [
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
