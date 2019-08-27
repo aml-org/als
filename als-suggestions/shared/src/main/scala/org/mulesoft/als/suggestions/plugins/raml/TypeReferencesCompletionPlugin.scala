@@ -14,7 +14,7 @@ import scala.concurrent.{Future, Promise}
 class TypeReferencesCompletionPlugin extends ICompletionPlugin {
   override def id: String = TypeReferencesCompletionPlugin.ID
 
-  override def languages: Seq[Vendor] = TemplateReferencesCompletionPlugin.supportedLanguages
+  override def languages: Seq[Vendor] = Seq(Raml10)
 
   override def isApplicable(request: ICompletionRequest): Boolean = request.config.astProvider match {
     case Some(astProvider) =>

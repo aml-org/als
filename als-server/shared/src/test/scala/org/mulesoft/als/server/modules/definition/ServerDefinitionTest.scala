@@ -36,7 +36,7 @@ class ServerDefinitionTest extends LanguageServerBaseTest {
       .addRequestModule(referencesModule)
   }
 
-  test("Open declaration test 001") {
+  ignore("Open declaration test 001") {
     withServer { server =>
       var content1 =
         """#%RAML 1.0

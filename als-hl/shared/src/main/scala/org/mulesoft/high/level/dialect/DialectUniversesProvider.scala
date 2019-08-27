@@ -20,30 +20,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 object DialectUniversesProvider {
 
-  private val map: mutable.Map[String, mutable.Map[String, IDialectUniverse]] =
-    mutable.Map()
-
-  def getUniverse(d: Dialect): IDialectUniverse = {
-
-    val name    = d.name().value()
-    val version = d.version().value()
-
-    var m = map.get(name)
-    if (m.isEmpty) {
-      m = Some(mutable.Map[String, IDialectUniverse]())
-      map.put(name, m.get)
-    }
-    var resultOpt = m.get.get(version)
-    if (resultOpt.isEmpty) {
-      val u = DialectUniverseBuilder.buildUniverse(d)
-      m.get.put(version, u)
-      resultOpt = Some(u)
-    }
-    resultOpt.get
-  }
-
   def buildAndLoadDialects(initOptions: InitOptions): Future[Unit] = {
-    map.clear()
     AmfInitializationHandler.init().flatMap { _ =>
       val rl = new ResourceLoader {
         override def fetch(resource: String): Future[Content] =
@@ -79,7 +56,7 @@ object DialectUniversesProvider {
             AMLPlugin.registry.registerDialect(rd, newEnv)
         }
 
-      Future.sequence(dialectsOpts).map(_.foreach(getUniverse))
+      Future.sequence(dialectsOpts).map(_ => Unit)
     }
   }
 
