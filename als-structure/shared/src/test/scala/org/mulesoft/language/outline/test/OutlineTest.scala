@@ -33,7 +33,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  def readDataFromAST(project: IProject, position: Int): T
+  def readDataFromAST(unit: BaseUnit, position: Int): T
 
   def writeDataToString(data: T): String
 
@@ -71,8 +71,6 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
 
   def getActualOutline(url: String): Future[T] = {
 
-    val config = this.buildParserConfig(format, url)
-
     var position = 0;
 
     var contentOpt: Option[String] = None
@@ -90,16 +88,14 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
       })
       .flatMap(env => {
 
-        this.amfParse(config, env)
+        this.amfParse(url)
 
       })
-      .flatMap {
+      .map {
         case amfUnit: BaseUnit =>
-          this
-            .buildHighLevel(amfUnit)
-            .map(project => readDataFromAST(project, position))
+          readDataFromAST(amfUnit, position)
         case _ =>
-          Future.successful(emptyData())
+          emptyData()
       } recoverWith {
       case e: Throwable =>
         println(e)
@@ -108,23 +104,10 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
     }
   }
 
-  def buildParserConfig(language: String, url: String): ParserConfig = {
-
-    new ParserConfig(
-      Some(ParserConfig.PARSE),
-      Some(url),
-      Some(language),
-      Some("application/yaml"),
-      None,
-      Some("AMF Graph"),
-      Some("application/ld+json")
-    )
-  }
-
-  def amfParse(config: ParserConfig, env: Environment = Environment()): Future[BaseUnit] = {
+  def amfParse(url: String, env: Environment = Environment()): Future[BaseUnit] = {
 
     val helper = ParserHelper(this.platform)
-    helper.parse(config, env)
+    helper.parse(url, env)
   }
 
   def buildEnvironment(fileUrl: String, content: String, position: Int, mime: Option[String]): Environment = {
@@ -165,9 +148,6 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
     }
 
   }
-
-  def getDocumentSymbolFromAST(ast: IParseResult, language: String, position: Int): List[DocumentSymbol] =
-    StructureBuilder.listSymbols(ast.amfBaseUnit)
 
 }
 

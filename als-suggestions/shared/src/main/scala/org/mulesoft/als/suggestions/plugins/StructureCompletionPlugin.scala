@@ -9,10 +9,6 @@ import org.mulesoft.als.suggestions.interfaces.{
   LocationKind,
   Syntax
 }
-import org.mulesoft.als.suggestions.plugins.raml.{
-  AnnotationReferencesCompletionPlugin,
-  ExampleStructureCompletionPlugin
-}
 import org.mulesoft.high.level.builder.ProjectBuilder
 import org.mulesoft.high.level.interfaces.{IHighLevelNode, IParseResult}
 import org.mulesoft.positioning.{YamlLocation, YamlPartWithRange}
@@ -36,9 +32,6 @@ class StructureCompletionPlugin extends ICompletionPlugin {
     request.config.astProvider match {
       case Some(astProvider) =>
         if (request.astNode.isEmpty || request.astNode.get == null)
-          false
-        else if (AnnotationReferencesCompletionPlugin().isApplicable(request) ||
-                 ExampleStructureCompletionPlugin().isApplicable(request))
           false
         else if (languages.indexOf(astProvider.language) < 0)
           false
