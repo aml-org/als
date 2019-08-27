@@ -116,10 +116,12 @@ object ContentPatcher {
             case '-' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' => ""
             case 't' | 'f'                                                       => ""
             case '{' | '[' | '"'                                                 => ""
+            case ","                                                             => "\""
             case _                                                               => '"'.toString
           }
           val newEntryValue =
-            if (entryValue.endsWith(","))
+            if (entryValue == ",") ""
+            else if (entryValue.endsWith(",") && entryValue.length > 1)
               entryValue.substring(0, entryValue.length - 2)
             else entryValue
           val postFix =
