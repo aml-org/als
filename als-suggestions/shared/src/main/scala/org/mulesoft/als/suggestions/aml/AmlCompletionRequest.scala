@@ -38,7 +38,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
             case YType.Str =>
               val lines: Iterator[String] = node
                 .as[String]
-                .lines
+                .linesIterator
                 .drop(position.line - node.range.lineFrom)
               if (lines.hasNext)
                 lines
