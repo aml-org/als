@@ -31,8 +31,8 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
   private def forDirectory(dir: SyncFile): Unit = {
     val (subDirs, files) =
       dir.list
-        .filter(_ != "expected")
-        .map(l => Fs.syncFile(dir.path + "/" + l))
+        .filterNot(_ == "expected")
+        .map(l => Fs.syncFile(dir.path + fs.separatorChar + l))
         .partition(_.isDirectory)
     val validFiles = files.filter(f => f.name.endsWith(fileExtension) || f.name.endsWith(fileExtension + ".ignore"))
     if (subDirs.nonEmpty || validFiles.nonEmpty) {
@@ -59,11 +59,10 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
     write[List[SuggestionNode]](data.map(SuggestionNode.sharedToTransport), 2)
 
   private def testSuggestion(content: String, f: SyncFile): Future[Assertion] = {
-
-    val expected = f.parent + "/expected/" + f.name + ".json"
+    val expected = f.parent + platform.fs.separatorChar + "expected" + platform.fs.separatorChar + f.name + ".json"
     for {
       s <- suggestFromFile(content,
-                           "file://" + f.path,
+                           "file://" + f.path.replaceAllLiterally(platform.fs.separatorChar.toString, "/"),
                            Some("application/" + origin.syntax.extension),
                            origin.vendor.toString,
                            None)
