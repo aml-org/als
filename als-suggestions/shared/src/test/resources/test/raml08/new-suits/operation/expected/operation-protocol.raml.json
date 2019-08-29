@@ -1,8 +1,8 @@
 [
   {
-    "text": "[ HTTP ]",
-    "description": "Possible 'protocols' value",
-    "displayText": "[ HTTP ]",
+    "text": "HTTP",
+    "description": "HTTP",
+    "displayText": "HTTP",
     "prefix": "",
     "category": "unknown",
     "range": [
@@ -19,9 +19,9 @@
     ]
   },
   {
-    "text": "[ HTTPS ]",
-    "description": "Possible 'protocols' value",
-    "displayText": "[ HTTPS ]",
+    "text": "HTTPS",
+    "description": "HTTPS",
+    "displayText": "HTTPS",
     "prefix": "",
     "category": "unknown",
     "range": [

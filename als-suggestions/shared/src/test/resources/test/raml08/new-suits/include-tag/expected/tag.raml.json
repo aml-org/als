@@ -1,7 +1,7 @@
 [
   {
-    "text": "!include",
-    "description": "'!include' tag",
+    "text": "!include ",
+    "description": "inclusion tag",
     "displayText": "!include",
     "prefix": "!",
     "category": "unknown",

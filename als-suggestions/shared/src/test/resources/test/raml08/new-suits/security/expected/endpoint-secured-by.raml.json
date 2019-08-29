@@ -1,26 +1,7 @@
 [
   {
-    "text": "[ null ]",
-    "description": "Security scheme",
-    "displayText": "null",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 6,
-          "character": 13
-        },
-        "end": {
-          "line": 6,
-          "character": 13
-        }
-      }
-    ]
-  },
-  {
-    "text": "[ oauth2 ]",
-    "description": "Security scheme",
+    "text": "oauth2",
+    "description": "oauth2",
     "displayText": "oauth2",
     "prefix": "",
     "category": "unknown",
@@ -38,8 +19,8 @@
     ]
   },
   {
-    "text": "[ obasic ]",
-    "description": "Security scheme",
+    "text": "obasic",
+    "description": "obasic",
     "displayText": "obasic",
     "prefix": "",
     "category": "unknown",

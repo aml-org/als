@@ -1,7 +1,7 @@
 [
   {
     "text": "HTTP",
-    "description": "Possible 'protocols' value",
+    "description": "HTTP",
     "displayText": "HTTP",
     "prefix": "",
     "category": "unknown",
@@ -20,7 +20,7 @@
   },
   {
     "text": "HTTPS",
-    "description": "Possible 'protocols' value",
+    "description": "HTTPS",
     "displayText": "HTTPS",
     "prefix": "",
     "category": "unknown",

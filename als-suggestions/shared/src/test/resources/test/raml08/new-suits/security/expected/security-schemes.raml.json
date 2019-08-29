@@ -1,7 +1,7 @@
 [
   {
     "text": "Basic Authentication",
-    "description": "Possible 'type' value",
+    "description": "Basic Authentication",
     "displayText": "Basic Authentication",
     "prefix": "",
     "category": "unknown",
@@ -20,7 +20,7 @@
   },
   {
     "text": "Digest Authentication",
-    "description": "Possible 'type' value",
+    "description": "Digest Authentication",
     "displayText": "Digest Authentication",
     "prefix": "",
     "category": "unknown",
@@ -39,7 +39,7 @@
   },
   {
     "text": "OAuth 1.0",
-    "description": "Possible 'type' value",
+    "description": "OAuth 1.0",
     "displayText": "OAuth 1.0",
     "prefix": "",
     "category": "unknown",
@@ -58,7 +58,7 @@
   },
   {
     "text": "OAuth 2.0",
-    "description": "Possible 'type' value",
+    "description": "OAuth 2.0",
     "displayText": "OAuth 2.0",
     "prefix": "",
     "category": "unknown",
@@ -76,9 +76,9 @@
     ]
   },
   {
-    "text": "x-{other}",
-    "description": "Possible 'type' value",
-    "displayText": "x-{other}",
+    "text": "x-",
+    "description": "x-",
+    "displayText": "x-",
     "prefix": "",
     "category": "unknown",
     "range": [

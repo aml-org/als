@@ -1,6 +1,10 @@
 package org.mulesoft.als.suggestions
 
-import org.mulesoft.als.suggestions.aml.webapi.{OasCompletionPluginRegistry, RamlCompletionPluginRegistry}
+import org.mulesoft.als.suggestions.aml.webapi.{
+  OasCompletionPluginRegistry,
+  Raml08CompletionPluginRegistry,
+  RamlCompletionPluginRegistry
+}
 import org.mulesoft.als.suggestions.implementation.SuggestionCategoryRegistry
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
@@ -24,17 +28,25 @@ object Core {
       .flatMap(_ => SuggestionCategoryRegistry.init())
       .map(_ => {
         CompletionPluginsRegistry.registerPlugin(StructureCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(KnownKeyPropertyValuesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(KnownPropertyValuesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(TypeReferencesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(SecurityReferencesCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(
+          KnownKeyPropertyValuesCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(
+          KnownPropertyValuesCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(
+          TypeReferencesCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(
+          SecurityReferencesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(BodyCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(IncludeCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(EmptyRamlFileCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(
+          EmptyRamlFileCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(IncludeTagCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(BooleanPropertyCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(CommonHeadersNamesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(BaseUriParametersCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(
+          BooleanPropertyCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(
+          CommonHeadersNamesCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(
+          BaseUriParametersCompletionPlugin())
 
         // **************** AML *************************
         // initialize aml plugins option?
@@ -42,6 +54,7 @@ object Core {
         OasCompletionPluginRegistry.init()
         HeaderBaseCompletionPlugins.initAll() // TODO: inside OAS CPR?
         RamlCompletionPluginRegistry.init()
+        Raml08CompletionPluginRegistry.init()
       })
   }
 

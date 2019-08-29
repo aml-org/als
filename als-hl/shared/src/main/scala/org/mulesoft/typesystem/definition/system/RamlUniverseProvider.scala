@@ -2,7 +2,14 @@ package org.mulesoft.typesystem.definition.system
 
 import org.mulesoft.typesystem.nominal_interfaces.IUniverse
 import org.mulesoft.typesystem.nominal_interfaces.extras.DescriptionExtra
-import org.mulesoft.typesystem.nominal_types.{AbstractType, Array, Property, StructuredType, Universe, ValueType}
+import org.mulesoft.typesystem.nominal_types.{
+  AbstractType,
+  Array,
+  Property,
+  StructuredType,
+  Universe,
+  ValueType
+}
 import org.yaml.parser.YamlParser
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -11,7 +18,10 @@ import scala.language.postfixOps
 
 import org.mulesoft.typesystem.json.interfaces.JSONWrapper
 import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
-import org.mulesoft.typesystem.nominal_interfaces.extras.{BuiltInExtra, PropertySyntaxExtra}
+import org.mulesoft.typesystem.nominal_interfaces.extras.{
+  BuiltInExtra,
+  PropertySyntaxExtra
+}
 import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
 import org.yaml.model._
 
@@ -25,11 +35,13 @@ object RamlUniverseProvider {
     }
   }
 
-  private def buildUniverse(vendor: String, version: String, content: String): IUniverse = {
+  private def buildUniverse(vendor: String,
+                            version: String,
+                            content: String): IUniverse = {
 
     var builtins: Universe = new Universe(vendor, None, version)
-    var result: Universe   = new Universe(vendor, Some(builtins), version)
-    var universeModel      = new UniverseModel(result, builtins)
+    var result: Universe = new Universe(vendor, Some(builtins), version)
+    var universeModel = new UniverseModel(result, builtins)
 
     var moduleNodes: ListBuffer[JSONWrapper] = ListBuffer()
     buildYamlDocument(content).foreach(
@@ -59,9 +71,10 @@ object RamlUniverseProvider {
 
                 classNode
                   .propertyValue("extends", ARRAY)
-                  .foreach(_.foreach(_.propertyValue("typeName", STRING).foreach(m
-                    .getClassModel(_)
-                    .foreach(cl.addSuperType))))
+                  .foreach(
+                    _.foreach(_.propertyValue("typeName", STRING).foreach(m
+                      .getClassModel(_)
+                      .foreach(cl.addSuperType))))
 
                 classNode
                   .propertyValue("annotations", ARRAY)
@@ -72,7 +85,10 @@ object RamlUniverseProvider {
                           case Some(args1) =>
                             args1.foreach(_.value(ARRAY) match {
                               case Some(args2) =>
-                                args2.flatMap(_.value(STRING)).foreach(m.getClassModel(_).foreach(cl.addSuperType))
+                                args2
+                                  .flatMap(_.value(STRING))
+                                  .foreach(
+                                    m.getClassModel(_).foreach(cl.addSuperType))
                               case _ =>
                             })
                           case _ =>
@@ -108,9 +124,11 @@ object RamlUniverseProvider {
                           pNode
                             .propertyValue("type", OBJECT)
                             .foreach(tNode => {
-                              var kind                         = tNode.propertyValue("typeKind", NUMBER).getOrElse(0)
+                              var kind = tNode
+                                .propertyValue("typeKind", NUMBER)
+                                .getOrElse(0)
                               var rangeNameOpt: Option[String] = None
-                              var prop: Option[Property]       = None
+                              var prop: Option[Property] = None
                               kind match {
                                 case 1 =>
                                   tNode
@@ -121,19 +139,24 @@ object RamlUniverseProvider {
                                         .foreach(range => {
                                           var arr = new Array(name)
                                           arr.setComponent(range)
-                                          prop = Some(strType.addProperty(name, arr).withMultiValue())
+                                          prop = Some(strType
+                                            .addProperty(name, arr)
+                                            .withMultiValue())
                                         })))
                                 case _ =>
                                   tNode
                                     .propertyValue("typeName", STRING)
                                     .foreach(m
                                       .getClass(_)
-                                      .foreach(r => prop = Some(strType.addProperty(name, r))))
+                                      .foreach(r =>
+                                        prop =
+                                          Some(strType.addProperty(name, r))))
                               }
                               prop.foreach(processPropertyAnnotations(_, pNode))
                               pNode.propertyValue("optional", BOOLEAN) match {
-                                case Some(false) => prop.foreach(_.withRequired(true))
-                                case _           =>
+                                case Some(false) =>
+                                  prop.foreach(_.withRequired(true))
+                                case _ =>
                               }
                             })
                         })))
@@ -150,30 +173,40 @@ object RamlUniverseProvider {
       case Some(arr) =>
         arr.foreach(a =>
           a.propertyValue("name", STRING) match {
-            case Some("MetaModel.embeddedInMaps")  => syntaxExtra.setIsEmbeddedInMaps()
-            case Some("MetaModel.embeddedInArray") => syntaxExtra.setIsEmbeddedInArray()
-            case Some("MetaModel.key")             => syntaxExtra.setIsKey()
-            case Some("MetaModel.value")           => syntaxExtra.setIsValue()
-            case Some("MetaModel.example")         => syntaxExtra.setIsExample()
-            case Some("MetaModel.hideFromUI")      => syntaxExtra.setIsHiddenFromUI()
+            case Some("MetaModel.embeddedInMaps") =>
+              syntaxExtra.setIsEmbeddedInMaps()
+            case Some("MetaModel.embeddedInArray") =>
+              syntaxExtra.setIsEmbeddedInArray()
+            case Some("MetaModel.key")        => syntaxExtra.setIsKey()
+            case Some("MetaModel.value")      => syntaxExtra.setIsValue()
+            case Some("MetaModel.example")    => syntaxExtra.setIsExample()
+            case Some("MetaModel.hideFromUI") => syntaxExtra.setIsHiddenFromUI()
             case Some("MetaModel.oneOf") =>
-              var innerArray: Option[Seq[JSONWrapper]] =
-                a.propertyValue("arguments", ARRAY).flatMap(_.headOption).flatMap(_.value(ARRAY))
+              var innerArray: Option[Seq[JSONWrapper]] = a
+                .propertyValue("arguments", ARRAY)
+                .flatMap(_.headOption)
+                .flatMap(_.value(ARRAY))
               innerArray.foreach(arr => syntaxExtra.setEnum(arr.map(_.value)))
             case Some("MetaModel.oftenKeys") =>
-              var innerArray: Option[Seq[JSONWrapper]] =
-                a.propertyValue("arguments", ARRAY).flatMap(_.headOption).flatMap(_.value(ARRAY))
-              innerArray.foreach(arr => syntaxExtra.setOftenValues(arr.map(_.value)))
+              var innerArray: Option[Seq[JSONWrapper]] = a
+                .propertyValue("arguments", ARRAY)
+                .flatMap(_.headOption)
+                .flatMap(_.value(ARRAY))
+              innerArray.foreach(arr =>
+                syntaxExtra.setOftenValues(arr.map(_.value)))
             case Some("MetaModel.parentPropertiesRestriction") =>
-              var innerArray: Option[Seq[JSONWrapper]] =
-                a.propertyValue("arguments", ARRAY).flatMap(_.headOption).flatMap(_.value(ARRAY))
-              innerArray.foreach(
-                arr =>
-                  syntaxExtra
-                    .setParentPropertiesRestriction(arr.flatMap(_.value(STRING))))
+              var innerArray: Option[Seq[JSONWrapper]] = a
+                .propertyValue("arguments", ARRAY)
+                .flatMap(_.headOption)
+                .flatMap(_.value(ARRAY))
+              innerArray.foreach(arr =>
+                syntaxExtra
+                  .setParentPropertiesRestriction(arr.flatMap(_.value(STRING))))
             case Some("MetaModel.description") =>
-              val textOpt: Option[String] =
-                a.propertyValue("arguments", ARRAY).flatMap(_.headOption).flatMap(_.value(STRING))
+              val textOpt: Option[String] = a
+                .propertyValue("arguments", ARRAY)
+                .flatMap(_.headOption)
+                .flatMap(_.value(STRING))
               textOpt.foreach(text => {
                 prop.putExtra(DescriptionExtra, DescriptionExtra(text))
               })
@@ -189,21 +222,21 @@ object RamlUniverseProvider {
   def addModule(node: JSONWrapper, u: UniverseModel): Unit =
     node
       .propertyValue("name")
-      .foreach(
-        _.value(STRING)
-          .foreach(
-            u.newModule(_, node)
-              .foreach(m => {
-                node
-                  .propertyValue("classes")
-                  .foreach(_.value(ARRAY)
-                    .foreach(_.foreach(registerClassModel(_, m))))
+      .foreach(_.value(STRING)
+        .foreach(u
+          .newModule(_, node)
+          .foreach(m => {
+            node
+              .propertyValue("classes")
+              .foreach(_.value(ARRAY)
+                .foreach(_.foreach(registerClassModel(_, m))))
 
-                node
-                  .propertyValue("imports")
-                  .foreach(iNode =>
-                    iNode.propertyNames.foreach(ns => iNode.propertyValue(ns, STRING).foreach(m.addImport(ns, _))))
-              })))
+            node
+              .propertyValue("imports")
+              .foreach(iNode =>
+                iNode.propertyNames.foreach(ns =>
+                  iNode.propertyValue(ns, STRING).foreach(m.addImport(ns, _))))
+          })))
 
   def registerClassModel(node: JSONWrapper, m: Module): Unit =
     node
@@ -212,15 +245,18 @@ object RamlUniverseProvider {
         _.value(STRING)
           .foreach(name => {
             var aliases: ListBuffer[String] = ListBuffer()
-            var isAvailableToUser           = false
+            var isAvailableToUser = false
             node
               .propertyValue("annotations", ARRAY)
               .foreach(_.foreach(aNode =>
                 aNode.propertyValue("name", STRING) match {
                   case Some("MetaModel.alias") =>
-                    aNode.propertyValue("arguments", ARRAY).foreach(_.foreach(_.value(STRING).foreach(aliases += _)))
-                  case Some("MetaModel.availableToUser") => isAvailableToUser = true
-                  case _                                 =>
+                    aNode
+                      .propertyValue("arguments", ARRAY)
+                      .foreach(_.foreach(_.value(STRING).foreach(aliases += _)))
+                  case Some("MetaModel.availableToUser") =>
+                    isAvailableToUser = true
+                  case _ =>
               }))
             var cl = m.createClassModel(name, isAvailableToUser)
             aliases.foreach(m.registerModelAlias(_, cl))
@@ -228,11 +264,14 @@ object RamlUniverseProvider {
 
   private def buildYamlDocument(content: String): Option[YDocument] = {
     val parser = YamlParser(content).withIncludeTag("!include")
-    val parts  = parser.parse(true)
+    parser.documents().headOption
+    val parts = parser.parse(true)
     parts.find(_.isInstanceOf[YDocument]).asInstanceOf[Option[YDocument]]
   }
 
-  private class Module(val universeModel: UniverseModel, val path: String, val node: JSONWrapper) {
+  private class Module(val universeModel: UniverseModel,
+                       val path: String,
+                       val node: JSONWrapper) {
 
     val imports: scala.collection.mutable.Map[String, String] =
       scala.collection.mutable.Map[String, String]()
@@ -267,7 +306,8 @@ object RamlUniverseProvider {
       classModels.put(name, cl)
     }
 
-    def addImport(namespace: String, path: String): Unit = imports.put(namespace, path)
+    def addImport(namespace: String, path: String): Unit =
+      imports.put(namespace, path)
 
     def createClass(classModel: TypeModel): AbstractType = {
       val name = classModel.name
@@ -279,14 +319,17 @@ object RamlUniverseProvider {
         targetUniverse = universeModel.parentUniverse
       }
       val isValueType = classModel.isAssigNamleForm("ValueType")
-      val result      = if (isValueType) new ValueType(name, targetUniverse) else new StructuredType(name, targetUniverse)
+      val result =
+        if (isValueType) new ValueType(name, targetUniverse)
+        else new StructuredType(name, targetUniverse)
       targetUniverse.register(result)
       classModel.aliases.foreach(registerAlias(_, result))
       classes.put(name, result)
       result
     }
 
-    def createClassModel(name: String, isAvailableToUser: Boolean): TypeModel = {
+    def createClassModel(name: String,
+                         isAvailableToUser: Boolean): TypeModel = {
       if (classModels.contains(name)) {
         throw new Error(s"Class $name is duplicated in $path")
       }
@@ -296,7 +339,8 @@ object RamlUniverseProvider {
     }
 
     def initClassesFromModels(): Unit = {
-      var _classModels = scala.collection.mutable.Map[String, TypeModel]() ++= classModels
+      var _classModels = scala.collection.mutable
+        .Map[String, TypeModel]() ++= classModels
       classModels.values.foreach(_.aliases.foreach(_classModels.remove(_)))
       _classModels.values.foreach(createClass)
     }
@@ -305,14 +349,15 @@ object RamlUniverseProvider {
       var ind = name.indexOf('.')
       if (ind >= 0) {
         var actualName = name.substring(ind + 1)
-        var namespace  = name.substring(0, ind)
+        var namespace = name.substring(0, ind)
         imports.get(namespace) match {
           case Some(iPath) =>
             universeModel.module(iPath) match {
               case Some(m) => m.getClass(actualName)
               case _       => throw new Error(s"Unknown module path: $iPath")
             }
-          case _ => throw new Error(s"Unknown namespace used in $path: $namespace")
+          case _ =>
+            throw new Error(s"Unknown namespace used in $path: $namespace")
         }
       } else {
         classes.get(name) match {
@@ -326,14 +371,15 @@ object RamlUniverseProvider {
       var ind = name.indexOf('.')
       if (ind >= 0) {
         var actualName = name.substring(ind + 1)
-        var namespace  = name.substring(0, ind)
+        var namespace = name.substring(0, ind)
         imports.get(namespace) match {
           case Some(iPath) =>
             universeModel.module(iPath) match {
               case Some(m) => m.getClassModel(actualName)
               case _       => throw new Error(s"Unknown module path: $iPath")
             }
-          case _ => throw new Error(s"Unknown namespace used in $path: $namespace")
+          case _ =>
+            throw new Error(s"Unknown namespace used in $path: $namespace")
         }
       } else {
         classModels.get(name) match {
@@ -344,8 +390,10 @@ object RamlUniverseProvider {
     }
   }
 
-  private class UniverseModel(val universe: Universe, val parentUniverse: Universe) {
-    val modules: scala.collection.mutable.Map[String, Module] = scala.collection.mutable.Map[String, Module]()
+  private class UniverseModel(val universe: Universe,
+                              val parentUniverse: Universe) {
+    val modules: scala.collection.mutable.Map[String, Module] =
+      scala.collection.mutable.Map[String, Module]()
 
     def module(path: String): Option[Module] = modules.get(path)
 
@@ -392,7 +440,8 @@ object RamlUniverseProvider {
 
     def addSuperType(st: TypeModel): Unit = superTypes += st
 
-    def isAssigNamleForm(n: String): Boolean = name == n || superTypes.exists(_.isAssigNamleForm(n))
+    def isAssigNamleForm(n: String): Boolean =
+      name == n || superTypes.exists(_.isAssigNamleForm(n))
   }
 
 }

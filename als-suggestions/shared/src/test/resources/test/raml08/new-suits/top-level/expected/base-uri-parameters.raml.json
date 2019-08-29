@@ -1,10 +1,10 @@
 [
   {
-    "text": "parameter: ",
-    "description": "Base URI parameter",
+    "text": "parameter:\n    ",
+    "description": "parameter",
     "displayText": "parameter",
     "prefix": "",
-    "category": "unknown",
+    "category": "parameters",
     "range": [
       {
         "start": {

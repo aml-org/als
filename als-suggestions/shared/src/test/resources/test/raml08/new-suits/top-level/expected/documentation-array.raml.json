@@ -1,7 +1,7 @@
 [
   {
     "text": "content: ",
-    "description": "Content of documentation section",
+    "description": "content",
     "displayText": "content",
     "prefix": "",
     "category": "docs",
@@ -20,7 +20,7 @@
   },
   {
     "text": "title: ",
-    "description": "title of documentation section",
+    "description": "title",
     "displayText": "title",
     "prefix": "",
     "category": "docs",

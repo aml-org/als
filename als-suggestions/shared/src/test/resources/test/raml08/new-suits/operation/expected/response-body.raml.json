@@ -1,7 +1,7 @@
 [
   {
     "text": "application/json:\n            ",
-    "description": "New body",
+    "description": "application/json",
     "displayText": "application/json",
     "prefix": "",
     "category": "unknown",
@@ -20,86 +20,10 @@
   },
   {
     "text": "application/xml:\n            ",
-    "description": "New body",
+    "description": "application/xml",
     "displayText": "application/xml",
     "prefix": "",
     "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 6,
-          "character": 10
-        },
-        "end": {
-          "line": 6,
-          "character": 10
-        }
-      }
-    ]
-  },
-  {
-    "text": "description: ",
-    "description": "Human readable description of the body",
-    "displayText": "description",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
-        "start": {
-          "line": 6,
-          "character": 10
-        },
-        "end": {
-          "line": 6,
-          "character": 10
-        }
-      }
-    ]
-  },
-  {
-    "text": "example: ",
-    "description": "Documentation generators MUST use body properties' example attributes to generate example invocations.",
-    "displayText": "example",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
-        "start": {
-          "line": 6,
-          "character": 10
-        },
-        "end": {
-          "line": 6,
-          "character": 10
-        }
-      }
-    ]
-  },
-  {
-    "text": "formParameters:\n            ",
-    "description": "Web forms REQUIRE special encoding and custom declaration. If the API's media type is either application/x-www-form-urlencoded or multipart/form-data, the formParameters property MUST specify the name-value pairs that the API is expecting. The formParameters property is a map in which the key is the name of the web form parameter, and the value is itself a map the specifies the web form parameter's attributes.",
-    "displayText": "formParameters",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 6,
-          "character": 10
-        },
-        "end": {
-          "line": 6,
-          "character": 10
-        }
-      }
-    ]
-  },
-  {
-    "text": "schema: ",
-    "description": "The structure of a request or response body MAY be further specified by the schema property under the appropriate media type. The schema key CANNOT be specified if a body's media type is application/x-www-form-urlencoded or multipart/form-data. All parsers of RAML MUST be able to interpret JSON Schema and XML Schema. Schema MAY be declared inline or in an external file. However, if the schema is sufficiently large so as to make it difficult for a person to read the API definition, or the schema is reused across multiple APIs or across multiple miles in the same API, the !include user-defined data type SHOULD be used instead of including the content inline. Alternatively, the value of the schema field MAY be the name of a schema specified in the root-level schemas property, or it MAY be declared in an external file and included by using the by using the RAML !include user-defined data type.",
-    "displayText": "schema",
-    "prefix": "",
-    "category": "schemas",
     "range": [
       {
         "start": {

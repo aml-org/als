@@ -19,7 +19,8 @@ import org.mulesoft.als.suggestions.implementation.{
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.Oas20DialectWrapper
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.Raml10TypesDialect
+import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08.Raml08TypesDialect
+import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.Raml10TypesDialect
 import org.mulesoft.high.level.InitOptions
 import org.mulesoft.high.level.amfmanager.ParserHelper
 import org.mulesoft.high.level.interfaces.IProject
@@ -79,8 +80,13 @@ object Suggestions extends SuggestionsHelper {
                                      platform))
       case _ if isHeader(position, url, originalContent) =>
         if (!url.toLowerCase().endsWith(".raml"))
-          Future(HeaderCompletionProviderBuilder.build(url, originalContent, Position(position, originalContent)))
-        else Future(RamlHeaderCompletionProvider.build(url, originalContent, Position(position, originalContent)))
+          Future(
+            HeaderCompletionProviderBuilder
+              .build(url, originalContent, Position(position, originalContent)))
+        else
+          Future(
+            RamlHeaderCompletionProvider
+              .build(url, originalContent, Position(position, originalContent)))
       case _ =>
         this
           .buildHighLevel(bu, platform)
@@ -100,8 +106,13 @@ object Suggestions extends SuggestionsHelper {
       .recoverWith {
         case _: amf.core.exception.UnsupportedVendorException if isHeader(position, url, originalContent) =>
           if (!url.toLowerCase().endsWith(".raml"))
-            Future(HeaderCompletionProviderBuilder.build(url, originalContent, Position(position, originalContent)))
-          else Future(RamlHeaderCompletionProvider.build(url, originalContent, Position(position, originalContent)))
+            Future(
+              HeaderCompletionProviderBuilder
+                .build(url, originalContent, Position(position, originalContent)))
+          else
+            Future(
+              RamlHeaderCompletionProvider
+                .build(url, originalContent, Position(position, originalContent)))
         case e: Throwable =>
           println(e)
           Future(this.buildCompletionProviderNoAST(originalContent, url, position, directoryResolver, platform))
@@ -118,10 +129,13 @@ object Suggestions extends SuggestionsHelper {
       .contains('\n')
 
   private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
-    case d: DialectInstanceUnit              => WebApiDialectsRegistry.dialectFor(bu)
-    case d if d.sourceVendor.contains(Oas20) => Some(Oas20DialectWrapper.dialect)
+    case d: DialectInstanceUnit => WebApiDialectsRegistry.dialectFor(bu)
+    case d if d.sourceVendor.contains(Oas20) =>
+      Some(Oas20DialectWrapper.dialect)
     case d if d.sourceVendor.contains(Raml10) =>
       Some(Raml10TypesDialect.dialect)
+    case d if d.sourceVendor.contains(Raml08) =>
+      Some(Raml08TypesDialect.dialect)
     case _ => None
   }
 

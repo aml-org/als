@@ -1,29 +1,10 @@
 [
   {
     "text": "baseUriParameters:\n      ",
-    "description": "A resource or a method can override a base URI template's values. This is useful to restrict or change the default or parameter selection in the base URI. The baseUriParameters property MAY be used to override any or all parameters defined at the root level baseUriParameters property, as well as base URI parameters not specified at the root level.",
+    "description": "baseUriParameters",
     "displayText": "baseUriParameters",
     "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "connect:\n      ",
-    "description": "Method that can be called",
-    "displayText": "connect",
-    "prefix": "",
-    "category": "methods",
+    "category": "unknown",
     "range": [
       {
         "start": {
@@ -39,7 +20,7 @@
   },
   {
     "text": "delete:\n      ",
-    "description": "Method that can be called",
+    "description": "delete",
     "displayText": "delete",
     "prefix": "",
     "category": "methods",
@@ -58,7 +39,7 @@
   },
   {
     "text": "description: ",
-    "description": "The description attribute describes the intended use or meaning of the $self. This value MAY be formatted using Markdown.",
+    "description": "description",
     "displayText": "description",
     "prefix": "",
     "category": "docs",
@@ -77,7 +58,7 @@
   },
   {
     "text": "displayName: ",
-    "description": "An alternate, human-friendly name for the resource type",
+    "description": "displayName",
     "displayText": "displayName",
     "prefix": "",
     "category": "docs",
@@ -96,7 +77,7 @@
   },
   {
     "text": "get:\n      ",
-    "description": "Method that can be called",
+    "description": "get",
     "displayText": "get",
     "prefix": "",
     "category": "methods",
@@ -115,7 +96,7 @@
   },
   {
     "text": "head:\n      ",
-    "description": "Method that can be called",
+    "description": "head",
     "displayText": "head",
     "prefix": "",
     "category": "methods",
@@ -134,10 +115,10 @@
   },
   {
     "text": "is:\n      ",
-    "description": "Instantiation of applyed traits",
+    "description": "is",
     "displayText": "is",
     "prefix": "",
-    "category": "unknown",
+    "category": "types and traits",
     "range": [
       {
         "start": {
@@ -153,7 +134,7 @@
   },
   {
     "text": "options:\n      ",
-    "description": "Method that can be called",
+    "description": "options",
     "displayText": "options",
     "prefix": "",
     "category": "methods",
@@ -172,7 +153,7 @@
   },
   {
     "text": "patch:\n      ",
-    "description": "Method that can be called",
+    "description": "patch",
     "displayText": "patch",
     "prefix": "",
     "category": "methods",
@@ -191,7 +172,7 @@
   },
   {
     "text": "post:\n      ",
-    "description": "Method that can be called",
+    "description": "post",
     "displayText": "post",
     "prefix": "",
     "category": "methods",
@@ -210,7 +191,7 @@
   },
   {
     "text": "put:\n      ",
-    "description": "Method that can be called",
+    "description": "put",
     "displayText": "put",
     "prefix": "",
     "category": "methods",
@@ -229,29 +210,10 @@
   },
   {
     "text": "securedBy: ",
-    "description": "securityScheme may also be applied to a resource by using the securedBy key, which is equivalent to applying the securityScheme to all methods that may be declared, explicitly or implicitly, by defining the resourceTypes or traits property for that resource. To indicate that the method may be called without applying any securityScheme, the method may be annotated with the null securityScheme.",
+    "description": "securedBy",
     "displayText": "securedBy",
     "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "trace:\n      ",
-    "description": "Method that can be called",
-    "displayText": "trace",
-    "prefix": "",
-    "category": "methods",
+    "category": "security",
     "range": [
       {
         "start": {
@@ -267,7 +229,7 @@
   },
   {
     "text": "type: ",
-    "description": "Instantiation of applyed resource type",
+    "description": "type",
     "displayText": "type",
     "prefix": "",
     "category": "types and traits",
@@ -286,7 +248,7 @@
   },
   {
     "text": "uriParameters:\n      ",
-    "description": "Uri parameters of this resource",
+    "description": "uriParameters",
     "displayText": "uriParameters",
     "prefix": "",
     "category": "parameters",

@@ -8,12 +8,12 @@ class BodyTests extends RAML08Test {
       Set(
         "application/json:\n        ",
         "application/xml:\n        ",
-        "multipart/form-data:\n        ",
-        "application/x-www-form-urlencoded:\n        ",
-        "formParameters:\n        ",
-        "description: ",
-        "schema: ",
-        "example: "
+//        "multipart/form-data:\n        ",
+//        "application/x-www-form-urlencoded:\n        ",
+//        "formParameters:\n        ",
+//        "description: ",
+//        "schema: ",
+//        "example: "
       )
     )
   }
@@ -21,22 +21,30 @@ class BodyTests extends RAML08Test {
   test("Method with some bodies") {
     this.runSuggestionTest(
       "body/test002.raml",
-      Set("application/json:\n      ", "multipart/form-data:\n      ", "application/x-www-form-urlencoded:\n      "))
+      Set(
+        "application/json:\n        " // ,
+//                               "multipart/form-data:\n      ",
+//                               "application/x-www-form-urlencoded:\n      "
+      )
+    )
   }
 
   test("Response with no bodies") {
     this.runSuggestionTest(
       "body/test003.raml",
-      Set("application/json:\n            ",
-          "application/xml:\n            ",
-          "formParameters:\n            ",
-          "description: ",
-          "schema: ",
-          "example: ")
+      Set(
+        "application/json:\n            ",
+        "application/xml:\n            ",
+//          "formParameters:\n            ",
+//          "description: ",
+//          "schema: ",
+//          "example: "
+      )
     )
   }
 
   test("Response with some bodies") {
-    this.runSuggestionTest("body/test004.raml", Set("application/json:\n          "))
+    this.runSuggestionTest("body/test004.raml",
+                           Set("application/json:\n            "))
   }
 }

@@ -1,7 +1,7 @@
 [
   {
     "text": "code",
-    "description": "Possible 'authorizationGrants' value",
+    "description": "code",
     "displayText": "code",
     "prefix": "",
     "category": "unknown",
@@ -20,7 +20,7 @@
   },
   {
     "text": "credentials",
-    "description": "Possible 'authorizationGrants' value",
+    "description": "credentials",
     "displayText": "credentials",
     "prefix": "",
     "category": "unknown",
@@ -39,7 +39,7 @@
   },
   {
     "text": "owner",
-    "description": "Possible 'authorizationGrants' value",
+    "description": "owner",
     "displayText": "owner",
     "prefix": "",
     "category": "unknown",
@@ -58,7 +58,7 @@
   },
   {
     "text": "token",
-    "description": "Possible 'authorizationGrants' value",
+    "description": "token",
     "displayText": "token",
     "prefix": "",
     "category": "unknown",

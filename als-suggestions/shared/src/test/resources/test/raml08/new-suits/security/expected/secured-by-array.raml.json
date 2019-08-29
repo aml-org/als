@@ -1,45 +1,7 @@
 [
   {
-    "text": "name: ",
-    "description": "Returns name of referenced object",
-    "displayText": "name",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 4
-        },
-        "end": {
-          "line": 5,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "null",
-    "description": "Security scheme",
-    "displayText": "null",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 4
-        },
-        "end": {
-          "line": 5,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "oauth2",
-    "description": "Security scheme",
+    "text": "oauth2:\n    ",
+    "description": "oauth2",
     "displayText": "oauth2",
     "prefix": "",
     "category": "unknown",
@@ -57,47 +19,9 @@
     ]
   },
   {
-    "text": "obasic",
-    "description": "Security scheme",
+    "text": "obasic:\n    ",
+    "description": "obasic",
     "displayText": "obasic",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 4
-        },
-        "end": {
-          "line": 5,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "securityScheme:\n      ",
-    "description": "Returns AST node of security scheme, this reference refers to, or null.",
-    "displayText": "securityScheme",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 4
-        },
-        "end": {
-          "line": 5,
-          "character": 4
-        }
-      }
-    ]
-  },
-  {
-    "text": "settings:\n      ",
-    "description": "",
-    "displayText": "settings",
     "prefix": "",
     "category": "unknown",
     "range": [

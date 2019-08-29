@@ -1,18 +1,32 @@
-package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
+package org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08
 
 import amf.core.metamodel.domain.ShapeModel
 import amf.core.metamodel.domain.extensions.PropertyShapeModel
 import amf.core.vocabulary.Namespace
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import amf.dialects.RAML10Dialect.DialectNodes
-import amf.dialects.RAML10Dialect.DialectNodes.DataTypeNodeId
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
-import amf.plugins.domain.webapi.metamodel.{OperationModel, ParameterModel, RequestModel, ResponseModel}
-import amf.plugins.domain.webapi.metamodel.security.{OAuth1SettingsModel, OAuth2SettingsModel, SecuritySchemeModel}
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.Raml10TypesDialect.{DialectLocation, ShapeNodeId, shapeProperties}
+import amf.dialects.RAML08Dialect.DialectNodes
+import amf.dialects.RAML08Dialect.DialectNodes.DataTypeNodeId
+import amf.plugins.document.vocabularies.model.domain.{
+  NodeMapping,
+  PropertyMapping
+}
+import amf.plugins.domain.webapi.metamodel.security.{
+  OAuth1SettingsModel,
+  OAuth2SettingsModel,
+  SecuritySchemeModel
+}
+import amf.plugins.domain.webapi.metamodel.{
+  OperationModel,
+  ParameterModel,
+  RequestModel,
+  ResponseModel
+}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08.Raml08TypesDialect.{
+  DialectLocation,
+  ShapeNodeId
+}
 
-object SecuritySchemesDialect {
-
+object Raml08SecuritySchemesDialect {
 
   val shapeTypesProperty: PropertyMapping = PropertyMapping()
     .withId(DialectLocation + "#/declarations/ShapeNode/inherits")
@@ -37,11 +51,11 @@ object SecuritySchemesDialect {
     .withLiteralRange(xsdString.iri())
     .withObjectRange(Seq(ShapeNodeId))
 
-  val DescribedBy:NodeMapping = NodeMapping()
+  val DescribedBy: NodeMapping = NodeMapping()
     .withId(DialectLocation + "#/declarations/DescribedBy")
     .withName("DescribedBy")
     .withNodeTypeMapping((Namespace.Security + "DescribedBy").iri())
-    .withPropertiesMapping( Seq(
+    .withPropertiesMapping(Seq(
       PropertyMapping()
         .withId(DialectLocation + "#/declarations/DescribedBy/headers")
         .withName("headers")
@@ -54,7 +68,7 @@ object SecuritySchemesDialect {
         .withId(DialectLocation + "#/declarations/DescribedBy/parameters")
         .withName("queryParameters")
         .withNodePropertyMapping(RequestModel.QueryParameters.value.iri())
-        .withMapTermKeyProperty(ParameterModel.Name.value.iri())
+        .withMapTermKeyProperty(ShapeModel.Name.value.iri())
         .withObjectRange(Seq(
           DataTypeNodeId
         )),
@@ -76,25 +90,31 @@ object SecuritySchemesDialect {
         )),
     ))
 
-  val OAuth1Settings:NodeMapping = NodeMapping()
+  val OAuth1Settings: NodeMapping = NodeMapping()
     .withId(DialectLocation + "#/declarations/OAuth1Settings")
     .withName("OAuth1Settings")
     .withNodeTypeMapping(OAuth1SettingsModel.`type`.head.iri())
-    .withPropertiesMapping( Seq(
+    .withPropertiesMapping(Seq(
       PropertyMapping()
-        .withId(DialectLocation + "#/declarations/OAuth1Settings/requestTokenUri")
+        .withId(
+          DialectLocation + "#/declarations/OAuth1Settings/requestTokenUri")
         .withName("requestTokenUri")
-        .withNodePropertyMapping(OAuth1SettingsModel.RequestTokenUri.value.iri())
+        .withNodePropertyMapping(
+          OAuth1SettingsModel.RequestTokenUri.value.iri())
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
-        .withId(DialectLocation + "#/declarations/OAuth1Settings/authorizationUri")
+        .withId(
+          DialectLocation + "#/declarations/OAuth1Settings/authorizationUri")
         .withName("authorizationUri")
-        .withNodePropertyMapping(OAuth1SettingsModel.AuthorizationUri.value.iri())
+        .withNodePropertyMapping(
+          OAuth1SettingsModel.AuthorizationUri.value.iri())
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
-        .withId(DialectLocation + "#/declarations/OAuth1Settings/tokenCredentialsUri")
+        .withId(
+          DialectLocation + "#/declarations/OAuth1Settings/tokenCredentialsUri")
         .withName("tokenCredentialsUri")
-        .withNodePropertyMapping(OAuth1SettingsModel.TokenCredentialsUri.value.iri())
+        .withNodePropertyMapping(
+          OAuth1SettingsModel.TokenCredentialsUri.value.iri())
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
         .withId(DialectLocation + "#/declarations/OAuth1Settings/signatures")
@@ -104,26 +124,31 @@ object SecuritySchemesDialect {
         .withLiteralRange(xsdString.iri())
     ))
 
-  val OAuth2Settings:NodeMapping = NodeMapping()
+  val OAuth2Settings: NodeMapping = NodeMapping()
     .withId(DialectLocation + "#/declarations/OAuth2Settings")
     .withName("OAuth2Settings")
     .withNodeTypeMapping(OAuth2SettingsModel.`type`.head.iri())
-    .withPropertiesMapping( Seq(
+    .withPropertiesMapping(Seq(
       PropertyMapping()
-        .withId(DialectLocation + "#/declarations/OAuth2Settings/authorizationUri")
+        .withId(
+          DialectLocation + "#/declarations/OAuth2Settings/authorizationUri")
         .withName("authorizationUri")
-        .withNodePropertyMapping(OAuth2SettingsModel.AuthorizationUri.value.iri())
+        .withNodePropertyMapping(
+          OAuth2SettingsModel.AuthorizationUri.value.iri())
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
-        .withId(DialectLocation + "#/declarations/OAuth2Settings/accessTokenUri")
+        .withId(
+          DialectLocation + "#/declarations/OAuth2Settings/accessTokenUri")
         .withName("accessTokenUri")
         .withNodePropertyMapping(OAuth2SettingsModel.AccessTokenUri.value.iri())
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
-        .withId(DialectLocation + "#/declarations/OAuth2Settings/authorizationGrants")
+        .withId(
+          DialectLocation + "#/declarations/OAuth2Settings/authorizationGrants")
         .withName("authorizationGrants")
-        .withNodePropertyMapping(OAuth2SettingsModel.AuthorizationGrants.value.iri())
-        .withEnum(Seq("authorization_code", "password", "client_credentials","implicit"))
+        .withNodePropertyMapping(
+          OAuth2SettingsModel.AuthorizationGrants.value.iri())
+        .withEnum(Seq("code", "token", "owner", "credentials"))
         .withAllowMultiple(true)
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
@@ -138,7 +163,7 @@ object SecuritySchemesDialect {
     .withId(DialectLocation + "#/declarations/SecuritySchemes")
     .withName("ShapeNode")
     .withNodeTypeMapping(SecuritySchemeModel.`type`.head.iri())
-    .withPropertiesMapping( Seq(
+    .withPropertiesMapping(Seq(
       PropertyMapping()
         .withId(DialectLocation + "#/declarations/SecuritySchemes/type")
         .withNodePropertyMapping(SecuritySchemeModel.Type.value.iri())
@@ -149,14 +174,8 @@ object SecuritySchemesDialect {
             "OAuth 2.0",
             "Basic Authentication",
             "Digest Authentication",
-              "Pass Through",
             "x-"
           ))
-        .withLiteralRange(xsdString.iri()),
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/SecuritySchemes/displayName")
-        .withNodePropertyMapping(SecuritySchemeModel.DisplayName.value.iri())
-        .withName("displayName")
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
         .withId(DialectLocation + "#/declarations/SecuritySchemes/description")
@@ -168,8 +187,6 @@ object SecuritySchemesDialect {
         .withNodePropertyMapping((Namespace.Security + "DescribedBy").iri())
         .withName("describedBy")
         .withObjectRange(Seq(DescribedBy.id))
-      )
-    )
-
+    ))
 
 }

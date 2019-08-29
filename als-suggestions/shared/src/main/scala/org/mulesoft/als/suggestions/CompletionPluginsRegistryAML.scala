@@ -41,15 +41,20 @@ class CompletionPluginsRegistryAML {
 
 object CompletionsPluginHandler {
 
-  private val registries: mutable.Map[String, CompletionPluginsRegistryAML] = mutable.Map()
+  private val registries: mutable.Map[String, CompletionPluginsRegistryAML] =
+    mutable.Map()
 
   def pluginSuggestions(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
-    registries.getOrElse(params.actualDialect.id, AMLBaseCompletionPlugins.base).suggests(params)
+    registries
+      .getOrElse(params.actualDialect.id, AMLBaseCompletionPlugins.base)
+      .suggests(params)
 
-  def registerPlugin(plugin: AMLCompletionPlugin, dialect: String): Unit = registries.get(dialect) match {
-    case Some(registry) => registry.registerPlugin(plugin)
-    case _              => registries.put(dialect, new CompletionPluginsRegistryAML().registerPlugin(plugin))
-  }
+  def registerPlugin(plugin: AMLCompletionPlugin, dialect: String): Unit =
+    registries.get(dialect) match {
+      case Some(registry) => registry.registerPlugin(plugin)
+      case _ =>
+        registries.put(dialect, new CompletionPluginsRegistryAML().registerPlugin(plugin))
+    }
 
   def registerPlugins(plugins: Seq[AMLCompletionPlugin], dialect: String): Unit = registries.get(dialect) match {
     case Some(registry) => plugins.foreach(registry.registerPlugin)
