@@ -7,6 +7,7 @@ pipeline {
   environment {
     NEXUS = credentials('exchange-nexus')
     NEXUSIQ = credentials('nexus-iq')
+    ALSP_TOKEN     = credentials('ApiEditorToken')
   }
   stages {
     stage('Test') {
@@ -55,6 +56,16 @@ pipeline {
       steps {
         sh 'sbt publish'
       }
+    }
+    stage('Trigger Dependencies'){
+        when {
+            anyOf{
+                branch 'devel'
+            }
+        }
+        steps {
+            sh 'curl https://jenkins-onprem.build.msap.io/job/Studio/job/ApiEditor-ALS/build?token=$ALSP_TOKEN'
+        }
     }
   }
 }
