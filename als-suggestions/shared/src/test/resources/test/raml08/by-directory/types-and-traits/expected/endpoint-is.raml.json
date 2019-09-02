@@ -1,0 +1,21 @@
+[
+  {
+    "text": "collection",
+    "description": "",
+    "displayText": "collection",
+    "prefix": "",
+    "category": "types and traits",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 9
+        },
+        "end": {
+          "line": 5,
+          "character": 9
+        }
+      }
+    ]
+  }
+]

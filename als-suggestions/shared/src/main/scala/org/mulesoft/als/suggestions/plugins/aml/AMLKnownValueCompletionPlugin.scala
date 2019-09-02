@@ -1,15 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.annotations.LexicalInformation
 import amf.core.metamodel.Field
-import amf.core.model.domain.AmfObject
-import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.patched.{PatchedSuggestion, PatchedSuggestionsForDialect}
-import org.mulesoft.als.common.AmfSonElementFinder._
+
 import scala.concurrent.Future
 
 class AMLKnownValueCompletions(field: Field, classTerm: String, dialect: Dialect, isKey: Boolean, indentation: String) {

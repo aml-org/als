@@ -1,12 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.metamodel.domain.extensions.CustomDomainPropertyModel
 import amf.core.model.domain.Shape
 import amf.core.model.domain.extensions.CustomDomainProperty
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
+import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.Raml10TypesDialect
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

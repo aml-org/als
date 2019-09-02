@@ -1,0 +1,59 @@
+[
+  {
+    "text": "expected/",
+    "description": "File path",
+    "displayText": "expected/",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 22
+        },
+        "end": {
+          "line": 1,
+          "character": 22
+        }
+      }
+    ]
+  },
+  {
+    "text": "first-level-path.raml",
+    "description": "File path",
+    "displayText": "first-level-path.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 22
+        },
+        "end": {
+          "line": 1,
+          "character": 22
+        }
+      }
+    ]
+  },
+  {
+    "text": "tag.raml",
+    "description": "File path",
+    "displayText": "tag.raml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 22
+        },
+        "end": {
+          "line": 1,
+          "character": 22
+        }
+      }
+    ]
+  }
+]

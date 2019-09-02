@@ -1,0 +1,116 @@
+[
+  {
+    "text": "boolean",
+    "description": "boolean",
+    "displayText": "boolean",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 18
+        },
+        "end": {
+          "line": 7,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "date",
+    "description": "date",
+    "displayText": "date",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 18
+        },
+        "end": {
+          "line": 7,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "file",
+    "description": "file",
+    "displayText": "file",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 18
+        },
+        "end": {
+          "line": 7,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "integer",
+    "description": "integer",
+    "displayText": "integer",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 18
+        },
+        "end": {
+          "line": 7,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "number",
+    "description": "number",
+    "displayText": "number",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 18
+        },
+        "end": {
+          "line": 7,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "string",
+    "description": "string",
+    "displayText": "string",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 18
+        },
+        "end": {
+          "line": 7,
+          "character": 18
+        }
+      }
+    ]
+  }
+]

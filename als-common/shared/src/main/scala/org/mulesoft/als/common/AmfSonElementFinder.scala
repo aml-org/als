@@ -1,39 +1,38 @@
 package org.mulesoft.als.common
 
 import amf.core.annotations.{LexicalInformation, SynthesizedField}
-import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
 import amf.core.parser.FieldEntry
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 
-import scala.collection.mutable.{ArrayBuffer, ListBuffer}
+import scala.collection.mutable.ArrayBuffer
 
 object AmfSonElementFinder {
 
   implicit class AlsAmfObject(obj: AmfObject) {
 
-    private def minor(left: FieldEntry, right: FieldEntry): FieldEntry = {
-      right.value.value
-        .position()
-        .orElse(right.value.annotations.find(classOf[LexicalInformation])) match {
-        case Some(LexicalInformation(rightRange)) =>
-          left.value.value
-            .position()
-            .orElse(left.value.annotations.find(classOf[LexicalInformation])) match {
-            case Some(LexicalInformation(leftRange)) =>
-              if (leftRange.contains(rightRange)) right
-              else left
-            case _ => right
-          }
-        case None => left
-      }
-    }
+//    private def minor(left: FieldEntry, right: FieldEntry): FieldEntry = {
+//      right.value.value
+//        .position()
+//        .orElse(right.value.annotations.find(classOf[LexicalInformation])) match {
+//        case Some(LexicalInformation(rightRange)) =>
+//          left.value.value
+//            .position()
+//            .orElse(left.value.annotations.find(classOf[LexicalInformation])) match {
+//            case Some(LexicalInformation(leftRange)) =>
+//              if (leftRange.contains(rightRange)) right
+//              else left
+//            case _ => right
+//          }
+//        case None => left
+//      }
+//    }
 
     private def findMinor(fields: Seq[FieldEntry]): Option[FieldEntry] = {
       fields match {
-        case Nil          => None
-        case head :: Nil  => Some(head)
-        case head :: tail => findMinor(tail)
+        case Nil         => None
+        case head :: Nil => Some(head)
+        case _ :: tail   => findMinor(tail)
       }
     }
 

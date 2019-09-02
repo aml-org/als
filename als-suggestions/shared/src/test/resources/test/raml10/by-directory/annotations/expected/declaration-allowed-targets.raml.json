@@ -321,24 +321,5 @@
         }
       }
     ]
-  },
-  {
-    "text": "allowedTargets: ",
-    "description": "allowedTargets",
-    "displayText": "allowedTargets",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 8
-        },
-        "end": {
-          "line": 4,
-          "character": 8
-        }
-      }
-    ]
   }
 ]

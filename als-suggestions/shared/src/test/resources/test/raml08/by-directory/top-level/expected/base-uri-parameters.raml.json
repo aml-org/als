@@ -1,0 +1,21 @@
+[
+  {
+    "text": "parameter:\n    ",
+    "description": "parameter",
+    "displayText": "parameter",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      }
+    ]
+  }
+]
