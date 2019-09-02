@@ -41,11 +41,7 @@ object LanguageServerFactory extends PlatformSecrets {
                              platform,
                              baseEnvironment,
                              logger)
-    val definitionModule  = new DefinitionModule(hlAstManager, logger, platform)
     val diagnosticManager = new DiagnosticManager(documentManager, astManager, clientNotifier, platform, logger)
-    val referenceModule   = new FindReferencesModule(hlAstManager, platform, logger)
-    val renameModule      = new RenameModule(hlAstManager, logger, platform)
-    val quickFixesModule  = new QuickFixesModule()
     val structureManager  = new StructureManager(documentManager, astManager, logger, platform)
 
     LanguageServerBuilder()
@@ -54,10 +50,6 @@ object LanguageServerFactory extends PlatformSecrets {
       .addInitializable(hlAstManager)
       .addInitializable(diagnosticManager)
       .addRequestModule(completionManager)
-      .addRequestModule(definitionModule)
-      .addRequestModule(referenceModule)
-      .addRequestModule(renameModule)
-      .addRequestModule(quickFixesModule)
       .addRequestModule(structureManager)
       .build()
   }
