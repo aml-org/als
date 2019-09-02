@@ -28,25 +28,17 @@ object Core {
       .flatMap(_ => SuggestionCategoryRegistry.init())
       .map(_ => {
         CompletionPluginsRegistry.registerPlugin(StructureCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(
-          KnownKeyPropertyValuesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(
-          KnownPropertyValuesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(
-          TypeReferencesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(
-          SecurityReferencesCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(KnownKeyPropertyValuesCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(KnownPropertyValuesCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(TypeReferencesCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(SecurityReferencesCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(BodyCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(IncludeCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(
-          EmptyRamlFileCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(EmptyRamlFileCompletionPlugin())
         CompletionPluginsRegistry.registerPlugin(IncludeTagCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(
-          BooleanPropertyCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(
-          CommonHeadersNamesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(
-          BaseUriParametersCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(BooleanPropertyCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(CommonHeadersNamesCompletionPlugin())
+        CompletionPluginsRegistry.registerPlugin(BaseUriParametersCompletionPlugin())
 
         // **************** AML *************************
         // initialize aml plugins option?
