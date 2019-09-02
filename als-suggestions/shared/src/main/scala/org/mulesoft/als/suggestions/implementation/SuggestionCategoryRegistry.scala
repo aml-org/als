@@ -1,7 +1,6 @@
 package org.mulesoft.als.suggestions.implementation
 
 import amf.core.remote.{Raml08, Vendor}
-import org.mulesoft.als.suggestions.resources.Raml08Categories
 import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
 import org.mulesoft.typesystem.nominal_interfaces.ITypeDefinition
 import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
@@ -15,7 +14,8 @@ import scala.language.postfixOps
 
 private class LangageCategories private {
 
-  private val map: mutable.Map[String, ListBuffer[SuggestionCategoryEntry]] = mutable.Map()
+  private val map: mutable.Map[String, ListBuffer[SuggestionCategoryEntry]] =
+    mutable.Map()
 
   def category(text: String, owner: Option[ITypeDefinition], range: Option[ITypeDefinition]): Option[String] = {
     var result = map
@@ -23,10 +23,14 @@ private class LangageCategories private {
       .flatMap(list => {
         var cNameOpt: Option[String] = None
         if (range.isDefined) {
-          cNameOpt = list.find(x => x.is.exists(n => range.exists(_.isAssignableFrom(n)))).map(_.categoryName)
+          cNameOpt = list
+            .find(x => x.is.exists(n => range.exists(_.isAssignableFrom(n))))
+            .map(_.categoryName)
         }
         if (cNameOpt.isEmpty && owner.isDefined) {
-          cNameOpt = list.find(x => x.parentIs.exists(n => owner.exists(_.isAssignableFrom(n)))).map(_.categoryName)
+          cNameOpt = list
+            .find(x => x.parentIs.exists(n => owner.exists(_.isAssignableFrom(n))))
+            .map(_.categoryName)
         }
         cNameOpt
       })
@@ -58,9 +62,6 @@ object SuggestionCategoryRegistry {
 
   def init(): Future[Unit] = {
 
-    var raml08Content = Raml08Categories.value
-
-    map.put(Raml08.toString, new LangageCategories(constructEntries(raml08Content)))
     Future.successful()
   }
 
