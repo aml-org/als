@@ -1,0 +1,59 @@
+[
+  {
+    "text": "requestTokenUri: ",
+    "description": "",
+    "displayText": "requestTokenUri",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "authorizationUri: ",
+    "description": "",
+    "displayText": "authorizationUri",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "tokenCredentialsUri: ",
+    "description": "",
+    "displayText": "tokenCredentialsUri",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 8
+        }
+      }
+    ]
+  }
+]

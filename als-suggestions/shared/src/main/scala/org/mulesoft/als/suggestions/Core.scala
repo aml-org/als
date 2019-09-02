@@ -1,6 +1,10 @@
 package org.mulesoft.als.suggestions
 
-import org.mulesoft.als.suggestions.aml.webapi.{OasCompletionPluginRegistry, RamlCompletionPluginRegistry}
+import org.mulesoft.als.suggestions.aml.webapi.{
+  OasCompletionPluginRegistry,
+  Raml08CompletionPluginRegistry,
+  RamlCompletionPluginRegistry
+}
 import org.mulesoft.als.suggestions.implementation.SuggestionCategoryRegistry
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
@@ -42,6 +46,7 @@ object Core {
         OasCompletionPluginRegistry.init()
         HeaderBaseCompletionPlugins.initAll() // TODO: inside OAS CPR?
         RamlCompletionPluginRegistry.init()
+        Raml08CompletionPluginRegistry.init()
       })
   }
 

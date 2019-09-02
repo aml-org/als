@@ -1,0 +1,78 @@
+[
+  {
+    "text": "code",
+    "description": "code",
+    "displayText": "code",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 29
+        },
+        "end": {
+          "line": 5,
+          "character": 29
+        }
+      }
+    ]
+  },
+  {
+    "text": "credentials",
+    "description": "credentials",
+    "displayText": "credentials",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 29
+        },
+        "end": {
+          "line": 5,
+          "character": 29
+        }
+      }
+    ]
+  },
+  {
+    "text": "owner",
+    "description": "owner",
+    "displayText": "owner",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 29
+        },
+        "end": {
+          "line": 5,
+          "character": 29
+        }
+      }
+    ]
+  },
+  {
+    "text": "token",
+    "description": "token",
+    "displayText": "token",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 29
+        },
+        "end": {
+          "line": 5,
+          "character": 29
+        }
+      }
+    ]
+  }
+]

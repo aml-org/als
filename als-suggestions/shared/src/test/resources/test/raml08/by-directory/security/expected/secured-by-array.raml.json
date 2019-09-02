@@ -1,0 +1,40 @@
+[
+  {
+    "text": "oauth2:\n    ",
+    "description": "oauth2",
+    "displayText": "oauth2",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "obasic:\n    ",
+    "description": "obasic",
+    "displayText": "obasic",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      }
+    ]
+  }
+]

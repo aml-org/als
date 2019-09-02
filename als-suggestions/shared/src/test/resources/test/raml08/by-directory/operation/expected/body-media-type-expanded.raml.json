@@ -1,0 +1,21 @@
+[
+  {
+    "text": "schema: ",
+    "description": "schema",
+    "displayText": "schema",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 8
+        },
+        "end": {
+          "line": 6,
+          "character": 8
+        }
+      }
+    ]
+  }
+]

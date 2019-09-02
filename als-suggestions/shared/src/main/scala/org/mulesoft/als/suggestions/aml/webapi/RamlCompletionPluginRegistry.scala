@@ -2,20 +2,21 @@ package org.mulesoft.als.suggestions.aml.webapi
 
 import amf.dialects.RAML10Dialect
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.raml._
+import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   ObjectExamplePropertiesCompletionPlugin,
   SecuredByCompletionPlugin
 }
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml._
 import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPluginHandler}
 
 object RamlCompletionPluginRegistry {
 
   private val all: Seq[AMLCompletionPlugin] =
     AMLBaseCompletionPlugins.all :+
-      RamlStructureCompletionPlugin :+
-      RamlParamsCompletionPlugin :+
-      RamlTypeFacetsCompletionPlugin :+
+      Raml10StructureCompletionPlugin :+
+      Raml10ParamsCompletionPlugin :+
+      Raml10TypeFacetsCompletionPlugin :+
       RamlTypeDeclarationReferenceCompletionPlugin :+
       RamlCustomFacetsCompletionPlugin :+
       AnnotationReferenceCompletionPlugin :+
@@ -24,13 +25,12 @@ object RamlCompletionPluginRegistry {
       RamlAbstractDefinition :+
       RamlTraitReference :+
       BaseUriParameterCompletionPlugin :+
-      RamlBaseUriParameterFacets :+
+      Raml10BaseUriParameterFacets :+
       RamlPayloadMediaTypeCompletionPlugin :+
       RamlNumberShapeFormatValues :+
       Raml10HeaderCompletionPlugin :+
       SecurityScopesCompletionPlugin :+
       SecuredByCompletionPlugin :+
-      SecuritySchemeStructureCompletionPlugin :+
       SecuritySettingsFacetsCompletionPlugin :+
       ObjectExamplePropertiesCompletionPlugin :+
       ExampleStructure :+
@@ -38,6 +38,7 @@ object RamlCompletionPluginRegistry {
       RamlDeclarationsReferencesCompletionPlugin :+
       AnnotationFacets :+
       NodeShapeDiscriminatorProperty :+
+      Raml10SecuritySchemeStructureCompletionPlugin :+
       UnitUsesFacet
 
   def init(): Unit =

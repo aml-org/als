@@ -19,7 +19,9 @@ object BaseUriParameterCompletionPlugin extends AMLCompletionPlugin {
         case webApi: WebApi if request.yPartBranch.isKeyDescendanceOf("baseUriParameters") =>
           webApi.servers.flatMap(s => {
             val url = s.url.option().getOrElse("")
-            s.variables.flatMap(_.name.option()).filter(n => url.contains(s"{$n}"))
+            s.variables
+              .flatMap(_.name.option())
+              .filter(n => url.contains(s"{$n}"))
           })
         case p: Parameter
             if p.binding.option().contains("path") && request.fieldEntry.exists(_.field == ParameterModel.Name) =>
