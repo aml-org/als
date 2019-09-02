@@ -21,9 +21,7 @@ object Raml10SecuritySchemeStructureCompletionPlugin extends AMLCompletionPlugin
         case s: SecurityScheme if request.fieldEntry.isEmpty && request.yPartBranch.isKey =>
           val suggestions =
             new AMLStructureCompletionsPlugin(Raml10SecuritySchemesDialect.SecurityScheme.propertiesMapping(),
-                                              request.indentation,
-                                              request.yPartBranch,
-                                              request.amfObject)
+                                              request.indentation)
               .resolve(Raml10SecuritySchemesDialect.SecurityScheme.meta.`type`.head
                 .iri())
           if (s.`type`

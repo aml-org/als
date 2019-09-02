@@ -21,9 +21,7 @@ object Raml08SecuritySchemeStructureCompletionPlugin extends AMLCompletionPlugin
         case s: SecurityScheme if request.fieldEntry.isEmpty && request.yPartBranch.isKey =>
           val suggestions =
             new AMLStructureCompletionsPlugin(Raml08SecuritySchemesDialect.SecurityScheme.propertiesMapping(),
-                                              request.indentation,
-                                              request.yPartBranch,
-                                              request.amfObject)
+                                              request.indentation)
               .resolve(Raml08SecuritySchemesDialect.SecurityScheme.meta.`type`.head
                 .iri()) :+
               RawSuggestion("settings", request.indentation, isAKey = true, "security")

@@ -1,27 +1,20 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.metamodel.{Field, Obj}
+import amf.core.metamodel.Field
 import amf.core.metamodel.Type.ArrayLike
 import amf.core.metamodel.domain.DomainElementModel
-import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
-import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
-import org.mulesoft.als.common.AmfSonElementFinder._
-import org.yaml.model.YMapEntry
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class AMLStructureCompletionsPlugin(propertyMapping: Seq[PropertyMapping],
-                                    indentation: String,
-                                    yPartBranch: YPartBranch,
-                                    amfObject: AmfObject) {
+class AMLStructureCompletionsPlugin(propertyMapping: Seq[PropertyMapping], indentation: String) {
 
   private def extractText(mapping: PropertyMapping): (String, String) = {
     val cleanText = mapping.name().value()
@@ -38,26 +31,7 @@ class AMLStructureCompletionsPlugin(propertyMapping: Seq[PropertyMapping],
     else false
   }
 
-  /**
-    *
-    * @param completeMappings Properties that may be contained in this Field
-    * @param amfObject Selected Field
-    * @return Check if amfObject has an AST node which contains a property that I am suggesting (which could mean there is an incomplete object)
-    */
-  private def alreadyWriting(completeMappings: Seq[PropertyMapping], amfObject: AmfObject): Boolean = {
-    val writingProperty: Option[String] = // Drop the "{k:}"
-      yPartBranch.stack.drop(3).headOption match {
-        case Some(ye: YMapEntry) => ye.key.asScalar.map(_.text)
-        case _                   => None
-      }
-    writingProperty.exists(wp => completeMappings.exists(cm => cm.name().value() == wp))
-  }
-
-  private def getSuggestions: Seq[(String, String)] = {
-    if (alreadyWriting(propertyMapping, amfObject))
-      Nil
-    else propertyMapping.map(extractText)
-  }
+  private def getSuggestions: Seq[(String, String)] = propertyMapping.map(extractText)
 
   def resolve(classTerm: String): Seq[RawSuggestion] =
     getSuggestions
@@ -81,11 +55,8 @@ object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
       if (isWritingProperty(params.yPartBranch)) {
         if (!isInFieldValue(params)) {
           val isEncoded = isEncodes(params.amfObject, params.actualDialect) && params.fieldEntry.isEmpty
-          if ((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) {
-            new AMLStructureCompletionsPlugin(params.propertyMapping,
-                                              params.indentation,
-                                              params.yPartBranch,
-                                              params.amfObject)
+          if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && params.fieldEntry.isEmpty) {
+            new AMLStructureCompletionsPlugin(params.propertyMapping, params.indentation)
               .resolve(params.amfObject.meta.`type`.head.iri())
           } else Nil
         } else resolveObjInArray(params)
@@ -115,7 +86,7 @@ object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
           .map(_.propertiesMapping())
           .getOrElse(Nil)
 
-        new AMLStructureCompletionsPlugin(props, params.indentation, params.yPartBranch, params.amfObject)
+        new AMLStructureCompletionsPlugin(props, params.indentation)
           .resolve(meta.`type`.head.iri())
       case _ => Nil
     }

@@ -19,21 +19,7 @@ trait PayloadMediaTypeSeeker {
       case _ => false
     }
 
-  protected def insideFormMediaType(request: AmlCompletionRequest): Boolean =
-    request.branchStack.headOption match {
-      case Some(p: Payload) =>
-        p.schema.fields
-          .filter(f => f._1 != ShapeModel.Name)
-          .fields()
-          .isEmpty && p.mediaType
-          .option()
-          .exists(mt =>
-            Seq("application/x-www-form-urlencoded", "multipart/form-data")
-              .contains(mt))
-      case _ => false
-    }
-
-  protected def isWritingKEYMediaType(request: AmlCompletionRequest) =
+  protected def isWritingKEYMediaType(request: AmlCompletionRequest): Boolean =
     request.yPartBranch.isKey &&
       (request.branchStack.headOption match {
         case Some(p: Payload) =>

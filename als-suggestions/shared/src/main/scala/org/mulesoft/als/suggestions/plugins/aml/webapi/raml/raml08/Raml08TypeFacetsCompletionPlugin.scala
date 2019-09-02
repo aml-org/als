@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08
 
+import amf.core.metamodel.domain.ShapeModel
 import amf.core.model.domain.Shape
 import amf.core.parser.Value
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
@@ -13,7 +14,6 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletio
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.PayloadMediaTypeSeeker
 
 import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
 
 object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin with PayloadMediaTypeSeeker {
   override def id: String = "RamlTypeFacetsCompletionPlugin"
@@ -68,4 +68,18 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
 
   override def propertyShapeNode: Option[NodeMapping] =
     Some(Raml08TypesDialect.PropertyShapeNode)
+
+  private def insideFormMediaType(request: AmlCompletionRequest): Boolean =
+    request.branchStack.headOption match {
+      case Some(p: Payload) =>
+        p.schema.fields
+          .filter(f => f._1 != ShapeModel.Name)
+          .fields()
+          .isEmpty && p.mediaType
+          .option()
+          .exists(mt =>
+            Seq("application/x-www-form-urlencoded", "multipart/form-data")
+              .contains(mt))
+      case _ => false
+    }
 }
