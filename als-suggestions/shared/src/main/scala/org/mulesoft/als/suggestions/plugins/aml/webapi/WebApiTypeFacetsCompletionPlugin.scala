@@ -8,37 +8,22 @@ import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import amf.plugins.document.webapi.annotations.Inferred
 import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
 import amf.plugins.domain.shapes.models.{AnyShape, ScalarShape}
-import amf.plugins.domain.webapi.models.Parameter
-import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.Raml10TypesDialect
 import org.mulesoft.als.suggestions.plugins.aml._
 
 import scala.concurrent.Future
 
-trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin {
+trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingShapeInfo {
+
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(params.amfObject match {
-      case shape: Shape if isWrittingFacet(params.yPartBranch, shape, params.branchStack) =>
+      case shape: Shape if isWritingFacet(params.yPartBranch, shape, params.branchStack) =>
         resolveShape(shape, params.branchStack, params.indentation)
       case _ => Nil
     })
   }
-
-  private def isWrittingFacet(yPartBranch: YPartBranch, shape: Shape, stack: Seq[AmfObject]): Boolean =
-    yPartBranch.isKey && !yPartBranch.isKeyDescendanceOf("required") && !writtingShapeName(shape, yPartBranch) && !writtinParamName(
-      stack,
-      yPartBranch)
-
-  private def writtingShapeName(shape: Shape, yPartBranch: YPartBranch) = shape.name.value() == yPartBranch.stringValue
-
-  private def writtinParamName(stack: Seq[AmfObject], yPartBranch: YPartBranch) =
-    stack.headOption.exists {
-      case p: Parameter => p.name.value() == yPartBranch.stringValue
-      case _            => false
-    }
 
   def resolveShape(shape: Shape, branchStack: Seq[AmfObject], indentation: String): Seq[RawSuggestion] = {
 
@@ -55,33 +40,39 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin {
           .find(_.nodetypeMapping.option().contains(shape.meta.`type`.head.iri()))
     }
 
-    val classSuggestions = node.map(n => n.propertiesRaw(indentation)).getOrElse(Nil)
+    val classSuggestions =
+      node.map(n => n.propertiesRaw(indentation)).getOrElse(Nil)
 
     // corner case, property shape should suggest facets of the range PLUS required
     val finalSuggestions: Iterable[RawSuggestion] = (branchStack.headOption match {
       case Some(_: PropertyShape) =>
-        (propertyShapeNode.map(_.propertiesRaw(indentation)).getOrElse(Nil) ++ classSuggestions).toSet
+        (propertyShapeNode
+          .map(_.propertiesRaw(indentation))
+          .getOrElse(Nil) ++ classSuggestions).toSet
       case _ => classSuggestions
     }) ++ defaults(shape, indentation)
 
     finalSuggestions.toSeq
   }
 
-  private def defaults(s: Shape, indentation: String): Seq[RawSuggestion] = {
+  private def defaultSuggestions(indentation: String): Seq[RawSuggestion] =
+    Seq(RawSuggestion("properties", indentation, isAKey = true, "schemas"),
+        RawSuggestion("items", indentation, isAKey = true, "schemas"))
+
+  protected def defaults(s: Shape, indentation: String): Seq[RawSuggestion] =
     s match {
       case s: ScalarShape =>
         s.fields.getValueAsOption(ScalarShapeModel.DataType) match {
-          case Some(Value(_, ann)) if ann.contains(classOf[Inferred]) && s.isInstanceOf[ScalarShape] =>
-            Seq(RawSuggestion("properties", indentation, isAKey = true, "schemas"),
-                RawSuggestion("items", indentation, isAKey = true, "schemas"))
+          case Some(Value(_, ann))
+              if ann.contains(classOf[Inferred]) && s
+                .isInstanceOf[ScalarShape] =>
+            defaultSuggestions(indentation)
           case _ => Nil
         }
       case a: AnyShape if a.isDefaultEmpty =>
-        Seq(RawSuggestion("properties", indentation, isAKey = true, "schemas"),
-            RawSuggestion("items", indentation, isAKey = true, "schemas"))
+        defaultSuggestions(indentation)
       case _ => Nil
     }
-  }
 
   def stringShapeNode: NodeMapping
   def numberShapeNode: NodeMapping

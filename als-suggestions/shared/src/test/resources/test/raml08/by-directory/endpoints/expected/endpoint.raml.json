@@ -1,0 +1,268 @@
+[
+  {
+    "text": "baseUriParameters:\n    ",
+    "description": "baseUriParameters",
+    "displayText": "baseUriParameters",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "delete:\n    ",
+    "description": "delete",
+    "displayText": "delete",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "description: ",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "displayName: ",
+    "description": "displayName",
+    "displayText": "displayName",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "get:\n    ",
+    "description": "get",
+    "displayText": "get",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "head:\n    ",
+    "description": "head",
+    "displayText": "head",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "is:\n    ",
+    "description": "is",
+    "displayText": "is",
+    "prefix": "",
+    "category": "types and traits",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "options:\n    ",
+    "description": "options",
+    "displayText": "options",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "patch:\n    ",
+    "description": "patch",
+    "displayText": "patch",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "post:\n    ",
+    "description": "post",
+    "displayText": "post",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "put:\n    ",
+    "description": "put",
+    "displayText": "put",
+    "prefix": "",
+    "category": "methods",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "securedBy: ",
+    "description": "securedBy",
+    "displayText": "securedBy",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "type: ",
+    "description": "type",
+    "displayText": "type",
+    "prefix": "",
+    "category": "types and traits",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "uriParameters:\n    ",
+    "description": "uriParameters",
+    "displayText": "uriParameters",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      }
+    ]
+  }
+]

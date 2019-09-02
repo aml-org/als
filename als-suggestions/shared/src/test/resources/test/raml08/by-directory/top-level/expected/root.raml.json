@@ -1,0 +1,230 @@
+[
+  {
+    "text": "baseUri: ",
+    "description": "baseUri",
+    "displayText": "baseUri",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "baseUriParameters:\n  ",
+    "description": "baseUriParameters",
+    "displayText": "baseUriParameters",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "documentation:\n  ",
+    "description": "documentation",
+    "displayText": "documentation",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "mediaType: ",
+    "description": "mediaType",
+    "displayText": "mediaType",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "protocols: ",
+    "description": "protocols",
+    "displayText": "protocols",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "resourceTypes:\n  ",
+    "description": "resourceTypes",
+    "displayText": "resourceTypes",
+    "prefix": "",
+    "category": "types and traits",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "schemas:\n  ",
+    "description": "schemas",
+    "displayText": "schemas",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "securedBy: ",
+    "description": "securedBy",
+    "displayText": "securedBy",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "securitySchemes:\n  ",
+    "description": "securitySchemes",
+    "displayText": "securitySchemes",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "title: ",
+    "description": "title",
+    "displayText": "title",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "traits:\n  ",
+    "description": "traits",
+    "displayText": "traits",
+    "prefix": "",
+    "category": "types and traits",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "version: ",
+    "description": "version",
+    "displayText": "version",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      }
+    ]
+  }
+]

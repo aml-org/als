@@ -1,0 +1,135 @@
+[
+  {
+    "text": "default: ",
+    "description": "default",
+    "displayText": "default",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
+    "text": "description: ",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
+    "text": "displayName: ",
+    "description": "displayName",
+    "displayText": "displayName",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
+    "text": "enum:\n              ",
+    "description": "enum",
+    "displayText": "enum",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
+    "text": "example:\n              ",
+    "description": "example",
+    "displayText": "example",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
+    "text": "repeat: ",
+    "description": "repeat",
+    "displayText": "repeat",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      }
+    ]
+  },
+  {
+    "text": "type:\n              ",
+    "description": "type",
+    "displayText": "type",
+    "prefix": "",
+    "category": "types and traits",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      }
+    ]
+  }
+]

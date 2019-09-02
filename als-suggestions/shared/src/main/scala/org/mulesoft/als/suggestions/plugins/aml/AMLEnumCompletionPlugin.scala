@@ -23,7 +23,7 @@ object AMLEnumCompletionPlugin extends AMLCompletionPlugin {
     val suggestions = propertyMapping match {
       case head :: Nil => suggestMapping(head)
       case Nil         => Nil
-      case list =>
+      case _ =>
         yPartBranch.parentEntry match {
           case Some(entry) =>
             propertyMapping
@@ -36,5 +36,6 @@ object AMLEnumCompletionPlugin extends AMLCompletionPlugin {
     suggestions.map(RawSuggestion(_, isAKey = false))
   }
 
-  private def suggestMapping(pm: PropertyMapping): Seq[String] = pm.enum().flatMap(_.option().map(e => e.toString))
+  private def suggestMapping(pm: PropertyMapping): Seq[String] =
+    pm.enum().flatMap(_.option().map(e => e.toString))
 }

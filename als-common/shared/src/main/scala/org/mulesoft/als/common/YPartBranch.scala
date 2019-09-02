@@ -6,7 +6,7 @@ import org.yaml.model._
 import amf.core.parser._
 import scala.annotation.tailrec
 
-case class YPartBranch(node: YPart, position: Position, private val stack: Seq[YPart]) {
+case class YPartBranch(node: YPart, position: Position, val stack: Seq[YPart]) {
 
   val isJson: Boolean = stack.lastOption
     .collect({ case m: YMap => m })
@@ -69,19 +69,27 @@ case class YPartBranch(node: YPart, position: Position, private val stack: Seq[Y
     case _             => None
   }
 
-  lazy val parentEntry: Option[YMapEntry] = findFirstOf(classOf[YMapEntry], stack)
+  lazy val parentEntry: Option[YMapEntry] =
+    findFirstOf(classOf[YMapEntry], stack)
 
-  def parentEntryIs(key: String): Boolean = parentEntry.exists(e => e.key.asScalar.map(_.text).contains(key))
+  def parentEntryIs(key: String): Boolean =
+    parentEntry.exists(e => e.key.asScalar.map(_.text).contains(key))
 
-  def getAncestor(l: Int): Option[YPart] = if (stack.length < l) None else Some(stack(l))
+  def getAncestor(l: Int): Option[YPart] =
+    if (stack.length < l) None else Some(stack(l))
 
-  def ancestorOf[T <: YPart](clazz: Class[T]): Option[T] = findFirstOf(clazz, stack.tail)
+  def ancestorOf[T <: YPart](clazz: Class[T]): Option[T] =
+    findFirstOf(clazz, stack.tail)
 
   def isKeyDescendanceOf(key: String): Boolean =
-    isKey && ancestorOf(classOf[YMapEntry]).flatMap(_.key.asScalar.map(_.text)).contains(key)
+    isKey && ancestorOf(classOf[YMapEntry])
+      .flatMap(_.key.asScalar.map(_.text))
+      .contains(key)
 
   def isValueDescendanceOf(key: String): Boolean =
-    isValue && ancestorOf(classOf[YMapEntry]).flatMap(_.key.asScalar.map(_.text)).contains(key)
+    isValue && ancestorOf(classOf[YMapEntry])
+      .flatMap(_.key.asScalar.map(_.text))
+      .contains(key)
 
   private def findFirstOf[T <: YPart](clazz: Class[T], l: Seq[YPart]): Option[T] = {
     l match {

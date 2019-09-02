@@ -1,0 +1,59 @@
+[
+  {
+    "text": "body:\n          ",
+    "description": "body",
+    "displayText": "body",
+    "prefix": "",
+    "category": "responses",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "description: ",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "headers:\n          ",
+    "description": "headers",
+    "displayText": "headers",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 8
+        }
+      }
+    ]
+  }
+]
