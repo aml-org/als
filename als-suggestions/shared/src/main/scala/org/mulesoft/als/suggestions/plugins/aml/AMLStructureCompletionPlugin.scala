@@ -1,18 +1,15 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.metamodel.{Field, Obj}
+import amf.core.metamodel.Field
 import amf.core.metamodel.Type.ArrayLike
 import amf.core.metamodel.domain.DomainElementModel
-import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
-import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
-import org.mulesoft.als.common.AmfSonElementFinder._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -55,27 +52,26 @@ object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
-      if (isWrittingProperty(params.yPartBranch)) {
+      if (isWritingProperty(params.yPartBranch)) {
         if (!isInFieldValue(params)) {
           val isEncoded = isEncodes(params.amfObject, params.actualDialect) && params.fieldEntry.isEmpty
-          if ((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) {
+          if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && params.fieldEntry.isEmpty) {
             new AMLStructureCompletionsPlugin(params.propertyMapping, params.indentation)
               .resolve(params.amfObject.meta.`type`.head.iri())
           } else Nil
-        } else {
-          resolveObjInArray(params)
-        }
+        } else resolveObjInArray(params)
       } else Nil
     }
   }
 
-  private def isWrittingProperty(yPartBranch: YPartBranch): Boolean =
+  private def isWritingProperty(yPartBranch: YPartBranch): Boolean =
     yPartBranch.isKey || (yPartBranch.isJson && (yPartBranch.isInArray && yPartBranch.stringValue == "x"))
 
   protected def objInArray(params: AmlCompletionRequest): Option[DomainElementModel] = {
     params.fieldEntry match {
       case Some(FieldEntry(Field(t: ArrayLike, _, _, _), value))
-          if t.element.isInstanceOf[DomainElementModel] && params.yPartBranch.isInArray =>
+          if t.element
+            .isInstanceOf[DomainElementModel] && params.yPartBranch.isInArray =>
         Some(t.element.asInstanceOf[DomainElementModel])
       case _ => None
     }

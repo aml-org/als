@@ -139,6 +139,7 @@ object CategoryRegistry {
 
   private val setCategoriesSchemas: Set[CategoryField] = Set(
     (WebApiModel.`type`.head.iri(), "definitions"),
+    (WebApiModel.`type`.head.iri(), "schemas"),
     (ResponseModel.`type`.head.iri(), "schema"),
     (ParameterModel.`type`.head.iri(), "schema"),
     (PayloadModel.`type`.head.iri(), "schema"),

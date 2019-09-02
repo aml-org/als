@@ -1,0 +1,6 @@
+#%RAML 0.8
+securitySchemes:
+  - oauth2:
+      type: OAuth 1.0
+      settings:
+        *

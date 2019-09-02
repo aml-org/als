@@ -18,7 +18,7 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
-      if (isWrittingSecuredBy(request) && (!request.yPartBranch.isJson || (request.yPartBranch.isJson && request.yPartBranch.isInArray))) {
+      if (isWritingSecuredBy(request) && (!request.yPartBranch.isJson || (request.yPartBranch.isJson && request.yPartBranch.isInArray))) {
         val original = getSecurityNames(request.prefix, request.declarationProvider)
         if (request.yPartBranch.isKey) original.map(r => r.copy(isKey = true, whiteSpacesEnding = request.indentation))
         else original
@@ -26,7 +26,7 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
     }
   }
 
-  private def isWrittingSecuredBy(request: AmlCompletionRequest): Boolean = {
+  private def isWritingSecuredBy(request: AmlCompletionRequest): Boolean = {
     request.amfObject match {
       case p: ParametrizedSecurityScheme =>
         p.name.value() == "k" || (p.name.value() != "k" && !request.yPartBranch.parentEntryIs(p.name.value()))
@@ -36,7 +36,7 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
     }
   }
 
-  private def getSecurityNames(prefix: String, dp: DeclarationProvider) =
+  private def getSecurityNames(prefix: String, dp: DeclarationProvider): Seq[RawSuggestion] =
     new AMLRamlStyleDeclarationsReferences(Seq(SecuritySchemeModel.`type`.head.iri()), prefix, dp, None)
       .resolve()
 }

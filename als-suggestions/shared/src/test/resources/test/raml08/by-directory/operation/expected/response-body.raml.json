@@ -1,0 +1,40 @@
+[
+  {
+    "text": "application/json:\n            ",
+    "description": "application/json",
+    "displayText": "application/json",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "application/xml:\n            ",
+    "description": "application/xml",
+    "displayText": "application/xml",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      }
+    ]
+  }
+]

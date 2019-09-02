@@ -1,0 +1,97 @@
+[
+  {
+    "text": "Basic Authentication",
+    "description": "Basic Authentication",
+    "displayText": "Basic Authentication",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "Digest Authentication",
+    "description": "Digest Authentication",
+    "displayText": "Digest Authentication",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "OAuth 1.0",
+    "description": "OAuth 1.0",
+    "displayText": "OAuth 1.0",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "OAuth 2.0",
+    "description": "OAuth 2.0",
+    "displayText": "OAuth 2.0",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "x-",
+    "description": "x-",
+    "displayText": "x-",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 3,
+          "character": 10
+        },
+        "end": {
+          "line": 3,
+          "character": 10
+        }
+      }
+    ]
+  }
+]

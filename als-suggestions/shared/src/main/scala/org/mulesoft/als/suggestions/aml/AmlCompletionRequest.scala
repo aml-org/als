@@ -13,7 +13,7 @@ import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.Suggestion
-import org.yaml.model.{YDocument, YNode, YType}
+import org.yaml.model.{YDocument, YMapEntry, YNode, YType}
 
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: Position,
@@ -49,8 +49,9 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
               else ""
             case YType.Include =>
               node match {
-                case mr: YNode.MutRef if mr.origTag.tagType == YType.Include => mr.origValue.toString
-                case _                                                       => ""
+                case mr: YNode.MutRef if mr.origTag.tagType == YType.Include =>
+                  mr.origValue.toString
+                case _ => ""
               }
             case _ => ""
           }
@@ -88,20 +89,22 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
       .filter(p => p.mapTermKeyProperty().option().isDefined)
 
   val propertyMapping: List[PropertyMapping] = {
-    val parentMappins = parentTermKey()
+    val parentMappings = parentTermKey()
 
     val mappings = getDialectNode(objectInTree.obj, fieldEntry) match {
       case Some(nm: NodeMapping) =>
-        val terms = parentMappins
+        val terms = parentMappings
           .find(pr => pr.objectRange().exists(or => or.value() == nm.id))
           .map(p => Seq(p.mapTermKeyProperty().option(), p.mapTermValueProperty().option()).flatten)
           .getOrElse(Nil)
 
         (if (terms.nonEmpty)
-           nm.propertiesMapping().filter(p => !p.nodePropertyMapping().option().exists(terms.contains))
+           nm.propertiesMapping()
+             .filter(p => !p.nodePropertyMapping().option().exists(terms.contains))
          else nm.propertiesMapping()).toList
       case _ => Nil
     }
+
     fieldEntry match {
       case Some(e) =>
         if (e.value.value
@@ -148,7 +151,10 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
       .flatMap(text => {
         val pos  = position.moveLine(-1)
         val left = text.substring(0, pos.offset(text))
-        val line = if (left.contains("\n")) left.substring(left.lastIndexOf("\n")).stripPrefix("\n") else left
+        val line =
+          if (left.contains("\n"))
+            left.substring(left.lastIndexOf("\n")).stripPrefix("\n")
+          else left
         val first = line.headOption match {
           case Some(c) if c == ' ' || c == '\t' => Some(c)
           case _                                => None

@@ -21,8 +21,8 @@ trait FileAssertionTest extends PlatformSecrets {
   }
 
   protected def assertDifferences(actual: AsyncFile, golden: String): Future[Assertion] = {
-    val expected = fs.asyncFile(golden.stripPrefix("file://"))
-    expected.read().flatMap(_ => Tests.checkDiff(actual, expected))
+    val expected = fs.asyncFile(golden.stripPrefix("file://")) // TODO: check if this works with encoded URI (f.e. spaces)
+    Tests.checkDiff(actual, expected)
   }
 
   private def endWithLineSeparator(path: String, separator: Char) =

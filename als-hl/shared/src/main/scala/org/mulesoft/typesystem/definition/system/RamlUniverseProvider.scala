@@ -2,7 +2,14 @@ package org.mulesoft.typesystem.definition.system
 
 import org.mulesoft.typesystem.nominal_interfaces.IUniverse
 import org.mulesoft.typesystem.nominal_interfaces.extras.DescriptionExtra
-import org.mulesoft.typesystem.nominal_types.{AbstractType, Array, Property, StructuredType, Universe, ValueType}
+import org.mulesoft.typesystem.nominal_types.{
+  AbstractType,
+  Array,
+  Property,
+  StructuredType,
+  Universe,
+  ValueType
+}
 import org.yaml.parser.YamlParser
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -11,7 +18,10 @@ import scala.language.postfixOps
 
 import org.mulesoft.typesystem.json.interfaces.JSONWrapper
 import org.mulesoft.typesystem.json.interfaces.JSONWrapperKind._
-import org.mulesoft.typesystem.nominal_interfaces.extras.{BuiltInExtra, PropertySyntaxExtra}
+import org.mulesoft.typesystem.nominal_interfaces.extras.{
+  BuiltInExtra,
+  PropertySyntaxExtra
+}
 import org.mulesoft.typesystem.syaml.to.json.YJSONWrapper
 import org.yaml.model._
 
@@ -267,7 +277,8 @@ object RamlUniverseProvider {
       classModels.put(name, cl)
     }
 
-    def addImport(namespace: String, path: String): Unit = imports.put(namespace, path)
+    def addImport(namespace: String, path: String): Unit =
+      imports.put(namespace, path)
 
     def createClass(classModel: TypeModel): AbstractType = {
       val name = classModel.name
@@ -286,7 +297,8 @@ object RamlUniverseProvider {
       result
     }
 
-    def createClassModel(name: String, isAvailableToUser: Boolean): TypeModel = {
+    def createClassModel(name: String,
+                         isAvailableToUser: Boolean): TypeModel = {
       if (classModels.contains(name)) {
         throw new Error(s"Class $name is duplicated in $path")
       }
@@ -296,7 +308,8 @@ object RamlUniverseProvider {
     }
 
     def initClassesFromModels(): Unit = {
-      var _classModels = scala.collection.mutable.Map[String, TypeModel]() ++= classModels
+      var _classModels = scala.collection.mutable
+        .Map[String, TypeModel]() ++= classModels
       classModels.values.foreach(_.aliases.foreach(_classModels.remove(_)))
       _classModels.values.foreach(createClass)
     }
@@ -392,7 +405,8 @@ object RamlUniverseProvider {
 
     def addSuperType(st: TypeModel): Unit = superTypes += st
 
-    def isAssigNamleForm(n: String): Boolean = name == n || superTypes.exists(_.isAssigNamleForm(n))
+    def isAssigNamleForm(n: String): Boolean =
+      name == n || superTypes.exists(_.isAssigNamleForm(n))
   }
 
 }
