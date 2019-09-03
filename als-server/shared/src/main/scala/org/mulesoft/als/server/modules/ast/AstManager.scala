@@ -17,7 +17,7 @@ import org.mulesoft.als.common.{EnvironmentPatcher, FileUtils}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
 import org.mulesoft.als.server.textsync.{ChangedDocument, OpenedDocument, TextDocumentManager}
-import org.mulesoft.high.level.amfmanager.ParserHelper
+import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.Initializable
 
 import scala.collection.mutable

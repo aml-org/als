@@ -10,15 +10,10 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.lsp4j.internal.DefaultJvmDirectoryResolver
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
-import org.mulesoft.als.server.modules.definition.DefinitionModule
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
-import org.mulesoft.als.server.modules.hlast.HlAstManager
-import org.mulesoft.als.server.modules.quickfixes.QuickFixesModule
-import org.mulesoft.als.server.modules.reference.FindReferencesModule
-import org.mulesoft.als.server.modules.rename.RenameModule
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
-import org.mulesoft.high.level.CustomDialects
+import org.mulesoft.amfmanager.CustomDialects
 import org.mulesoft.lsp.server.LanguageServer
 
 object LanguageServerFactory extends PlatformSecrets {
@@ -32,11 +27,10 @@ object LanguageServerFactory extends PlatformSecrets {
       .add(ResourceLoaderAdapter(FileResourceLoader()))
       .add(ResourceLoaderAdapter(HttpResourceLoader()))
 
-    val astManager   = new AstManager(documentManager, baseEnvironment, platform, logger)
-    val hlAstManager = new HlAstManager(documentManager, astManager, platform, logger, dialects)
+    val astManager = new AstManager(documentManager, baseEnvironment, platform, logger)
     val completionManager =
       new SuggestionsManager(documentManager,
-                             hlAstManager,
+                             astManager,
                              DefaultJvmDirectoryResolver,
                              platform,
                              baseEnvironment,
@@ -47,7 +41,6 @@ object LanguageServerFactory extends PlatformSecrets {
     LanguageServerBuilder()
       .withTextDocumentSyncConsumer(documentManager)
       .addInitializable(astManager)
-      .addInitializable(hlAstManager)
       .addInitializable(diagnosticManager)
       .addRequestModule(completionManager)
       .addRequestModule(structureManager)

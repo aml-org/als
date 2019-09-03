@@ -1,12 +1,9 @@
 package org.mulesoft.als.suggestions.implementation
 
-import org.mulesoft.als.suggestions.implementation.LocationKindDetectTool.checkIfInVersionHeader
-import org.mulesoft.als.suggestions.interfaces.LocationKind
-import org.mulesoft.als.suggestions.interfaces.LocationKind._
 import org.mulesoft.als.suggestions.implementation.MultilineStartCheckResult._
-import org.mulesoft.positioning.IPositionsMapper
-import org.mulesoft.positioning.PositionsMapper
-import org.mulesoft.typesystem.json.interfaces.Point
+import org.mulesoft.als.suggestions.interfaces.{LocationKind, Point}
+import org.mulesoft.als.suggestions.interfaces.LocationKind._
+import org.mulesoft.als.suggestions.positioning.{IPositionsMapper, PositionsMapper}
 
 object LocationKindDetectTool {
 

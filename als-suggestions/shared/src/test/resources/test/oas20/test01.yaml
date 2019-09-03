@@ -1,8 +1,0 @@
-swagger: "2.0"
-info:
-  title: Simple API overview12
-  version: v2
-paths:
-  "/":
-    get:
-      operat*

@@ -8,9 +8,7 @@ import amf.plugins.document.vocabularies.AMLPlugin
 import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.common.io.SyncFile
-import org.mulesoft.high.level.builder.UniverseProvider
-import org.mulesoft.high.level.{CustomDialects, InitOptions}
+import org.mulesoft.amfmanager.{CustomDialects, DialectInitializer, InitOptions}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -29,7 +27,7 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
     } yield {
       customDialect.foreach(c => {
         AMLPlugin.registry.remove(c.url)
-        UniverseProvider.removeInitialized(c.name)
+        DialectInitializer.removeInitialized(c.name)
       })
       r
     }

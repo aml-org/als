@@ -2,12 +2,10 @@ package org.mulesoft.als.suggestions.test.core.aml
 
 import amf.core.remote.Aml
 import amf.plugins.document.vocabularies.AMLPlugin
-import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.suggestions.CompletionsPluginHandler
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.test.core.{CoreTest, DummyPlugins}
-import org.mulesoft.high.level.InitOptions
-import org.mulesoft.typesystem.definition.system.{OasCommonMediaTypes, OasResponseCodes}
+import org.mulesoft.amfmanager.InitOptions
 
 import scala.concurrent.Future
 

@@ -1,16 +1,12 @@
 package org.mulesoft.language.outline.test
 
 import amf.client.remote.Content
-import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import common.diff.FileAssertionTest
-import org.mulesoft.high.level.Core
-import org.mulesoft.high.level.amfmanager.ParserHelper
-import org.mulesoft.high.level.interfaces.{IParseResult, IProject}
-import org.mulesoft.language.outline.structure.structureImpl.{ConfigFactory, DocumentSymbol, StructureBuilder}
+import org.mulesoft.amfmanager.{DialectInitializer, InitOptions, ParserHelper}
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -45,7 +41,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
     val fullJsonPath = filePath(jsonPath)
 
     for {
-      _             <- org.mulesoft.high.level.Core.init()
+      _             <- DialectInitializer.init(InitOptions.AllProfiles)
       actualOutline <- this.getActualOutline(fullFilePath)
       tmp           <- writeTemporaryFile(jsonPath)(writeDataToString(actualOutline))
       r             <- assertDifferences(tmp, fullJsonPath)
@@ -119,17 +115,6 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
     })
     var env: Environment = Environment()
     env
-  }
-
-  //  def cacheUnit(fileUrl: String, content: String, position: Int, mime: Option[String]): Unit = {
-  //
-  //    File.unapply(fileUrl).foreach(x=>this.platform.cacheResourceText(
-  //      x, content, mime))
-  //  }
-
-  def buildHighLevel(model: BaseUnit): Future[IProject] = {
-
-    Core.init().flatMap(_ => org.mulesoft.high.level.Core.buildModel(model, platform))
   }
 
   def filePath(path: String): String = {
