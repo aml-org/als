@@ -14,7 +14,8 @@ class BasicCompletionProvider(prefix: String, position: Position, suggestions: (
         _.distinct
           .filter(_.newText startsWith prefix)
           .map(rs => {
-            SuggestionStyler.asSuggestionImpl(s => s.text)(rs.toSuggestion(prefix), position)
+            SuggestionStyler
+              .asSuggestionImpl(s => s.text)(rs.toSuggestion(prefix), position)
           }))
 }
 
