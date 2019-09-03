@@ -5,7 +5,7 @@ import amf.plugins.domain.shapes.metamodel.ExampleModel
 import amf.plugins.domain.webapi.metamodel.{OperationModel, PayloadModel, ResponseModel, WebApiModel}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08.Raml08TypesDialect
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.Raml10TypesDialect
-import org.mulesoft.typesystem.definition.system.{
+import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   OasCommonMediaTypes,
   OasResponseCodes,
   RamlCommonMediaTypes,

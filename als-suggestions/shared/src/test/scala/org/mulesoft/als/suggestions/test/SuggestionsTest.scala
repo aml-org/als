@@ -4,8 +4,7 @@ import amf.ProfileName
 import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
 import org.mulesoft.als.suggestions.client.Suggestion
-import org.mulesoft.high.level.CustomDialects
-import org.mulesoft.high.level.amfmanager.ParserHelper
+import org.mulesoft.amfmanager.{CustomDialects, ParserHelper}
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}

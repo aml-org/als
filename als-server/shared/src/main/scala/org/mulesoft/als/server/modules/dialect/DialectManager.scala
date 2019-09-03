@@ -12,7 +12,7 @@ import org.mulesoft.als.common.EnvironmentPatcher
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.dialect.dialects.AsyncAPI
-import org.mulesoft.high.level.amfmanager.ParserHelper
+import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.Initializable
 
 import scala.concurrent.ExecutionContext.Implicits.global

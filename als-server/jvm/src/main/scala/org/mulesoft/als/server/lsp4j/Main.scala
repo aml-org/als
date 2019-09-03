@@ -7,7 +7,7 @@ import amf.core.lexer.FileStream
 import org.eclipse.lsp4j.launch.LSPLauncher
 import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
-import org.mulesoft.high.level.{CustomDialects, CustomVocabulary}
+import org.mulesoft.amfmanager.{CustomDialects, CustomVocabulary}
 
 object Main {
   case class Options(port: Int,

@@ -10,7 +10,6 @@ import amf.plugins.domain.shapes.models.ScalarShape
 import amf.plugins.domain.webapi.metamodel.templates.ResourceTypeModel
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.high.level.interfaces.IParseResult
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.AmlBuilderFactory
 import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{OasBuilderFactory, RamlBuilderFactory}
@@ -41,24 +40,6 @@ object StructureBuilder {
 }
 
 object KindForResultMatcher {
-
-  def getKind(hlNode: IParseResult): SymbolKind = {
-    hlNode.amfNode match {
-      case domainElement: DomainElement =>
-        domainElement.meta match {
-          case ScalarShapeModel =>
-            kindForScalar(hlNode.amfNode.asInstanceOf[ScalarShape])
-          case NodeShapeModel                    => SymbolKind.Class
-          case ArrayShapeModel                   => SymbolKind.Array
-          case FileShapeModel                    => SymbolKind.File
-          case EndPointModel | ResourceTypeModel => SymbolKind.Function
-          case OperationModel | OperationModel   => SymbolKind.Method
-          case PropertyShapeModel                => SymbolKind.Property
-          case _                                 => SymbolKind.Property
-        }
-      case _ => SymbolKind.Property
-    }
-  }
 
   def getKind(element: AmfElement): SymbolKind = {
     element match {

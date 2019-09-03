@@ -12,8 +12,7 @@ import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.Core
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.high.level.InitOptions
-import org.mulesoft.high.level.amfmanager.ParserHelper
+import org.mulesoft.amfmanager.{InitOptions, ParserHelper}
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}

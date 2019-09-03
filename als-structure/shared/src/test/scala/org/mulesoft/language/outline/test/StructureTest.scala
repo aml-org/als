@@ -1,10 +1,9 @@
 package org.mulesoft.language.outline.test
 
-import org.mulesoft.high.level.interfaces.IProject
-import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureBuilder}
-import upickle.default.write
-import DocumentSymbolNode._
 import amf.core.model.document.BaseUnit
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureBuilder}
+import org.mulesoft.language.outline.test.DocumentSymbolNode._
+import upickle.default.write
 
 abstract class StructureTest extends OutlineTest[List[DocumentSymbol]] {
 
