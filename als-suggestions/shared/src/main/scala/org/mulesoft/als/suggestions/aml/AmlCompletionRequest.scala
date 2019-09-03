@@ -13,7 +13,7 @@ import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.Suggestion
-import org.yaml.model.{YDocument, YMapEntry, YNode, YType}
+import org.yaml.model.{YDocument, YNode, YType}
 
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: Position,

@@ -1,0 +1,40 @@
+[
+  {
+    "text": "param",
+    "description": "param",
+    "displayText": "param",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 10,
+          "character": 21
+        },
+        "end": {
+          "line": 10,
+          "character": 21
+        }
+      }
+    ]
+  },
+  {
+    "text": "userId",
+    "description": "userId",
+    "displayText": "userId",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 10,
+          "character": 21
+        },
+        "end": {
+          "line": 10,
+          "character": 21
+        }
+      }
+    ]
+  }
+]
