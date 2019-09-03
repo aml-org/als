@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.test.aml
 
 import amf.ProfileName
-import org.mulesoft.typesystem.definition.system.{OasCommonMediaTypes, OasResponseCodes}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.{OasCommonMediaTypes, OasResponseCodes}
 
 class EnumTest extends AMLSuggestionsTest {
   override def rootPath: String = "AML/enums"

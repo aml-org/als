@@ -75,30 +75,12 @@ lazy val common = crossProject(JSPlatform, JVMPlatform).settings(
 lazy val commonJVM = common.jvm.in(file("./als-common/jvm")).sourceDependency(amfJVMRef, amfLibJVM)
 lazy val commonJS = common.js.in(file("./als-common/js")).sourceDependency(amfJSRef, amfLibJS).disablePlugins(SonarPlugin)
 
-lazy val hl = crossProject(JSPlatform, JVMPlatform).settings(
-  Seq(
-    name := "als-hl"
-  ))
-  .dependsOn(common)
-  .in(file("./als-hl"))
-  .settings(settings: _*)
-  .jsSettings(
-    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
-    libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
-    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-    scalaJSModuleKind := ModuleKind.CommonJSModule
-    //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
-  ).disablePlugins(SonarPlugin)
-
-lazy val hlJVM = hl.jvm.in(file("./als-hl/jvm"))
-lazy val hlJS = hl.js.in(file("./als-hl/js")).disablePlugins(SonarPlugin)
-
 //
 lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
     name := "als-suggestions"
   ))
-  .dependsOn( common % "compile->compile;test->test",hl)
+  .dependsOn( common % "compile->compile;test->test")
   .in(file("./als-suggestions"))
   .settings(settings: _*)
   .jsSettings(
@@ -114,7 +96,7 @@ lazy val structure = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
     name := "als-structure"
   ))
-  .dependsOn(hl,common % "compile->compile;test->test" )
+  .dependsOn(common % "compile->compile;test->test" )
   .in(file("./als-structure"))
   .settings(settings: _*)
   .jsSettings(
@@ -196,8 +178,8 @@ sonarProperties ++= Map(
 
   "sonar.branch.name" -> branch,
 
-  "sonar.scala.coverage.reportPaths" -> "als-server/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-structure/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-suggestions/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-hl/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-common/jvm/target/scala-2.12/scoverage-report/scoverage.xml",
-  "sonar.sources" -> "als-server/shared/src/main/scala,als-structure/shared/src/main/scala,als-suggestions/shared/src/main/scala,als-hl/shared/src/main/scala,als-common/shared/src/main/scala",
+  "sonar.scala.coverage.reportPaths" -> "als-server/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-structure/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-suggestions/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-common/jvm/target/scala-2.12/scoverage-report/scoverage.xml",
+  "sonar.sources" -> "als-server/shared/src/main/scala,als-structure/shared/src/main/scala,als-suggestions/shared/src/main/scala",
   "sonar.tests" -> "als-server/shared/src/test/scala,als-structure/shared/src/test/scala,als-suggestions/shared/src/test/scala"
 )
 
@@ -206,12 +188,12 @@ sonarProperties ++= Map(
 // run only one?
 addCommandAlias(
   "testJVM",
-  "; serverJVM/test; suggestionsJVM/test; structureJVM/test; hlJVM/test"
+  "; serverJVM/test; suggestionsJVM/test; structureJVM/test"
 )
 
 addCommandAlias(
   "testJS",
-  "; serverJS/test; suggestionsJS/test; structureJVM/test; hlJS/test"
+  "; serverJS/test; suggestionsJS/test; structureJVM/test"
 )
 
 assemblyMergeStrategy in assembly := {
@@ -228,7 +210,7 @@ lazy val fat = crossProject(JSPlatform, JVMPlatform).settings(
     name := "api-language-server"
   )
 )
-  .dependsOn(suggestions, structure , hl , server)
+  .dependsOn(suggestions, structure  , server)
   .disablePlugins(SonarPlugin)
   .enablePlugins(AssemblyPlugin)
   .in(file("./als-fat")).settings(settings: _*).jvmSettings(

@@ -7,8 +7,8 @@ import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.common.LspConverter
-import org.mulesoft.als.server.modules.hlast.HlAstManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.suggestions
 import org.mulesoft.als.suggestions.client.Suggestions
@@ -22,7 +22,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
-                         val hlAstManager: HlAstManager,
+                         val astManager: AstManager,
                          private val directoryResolver: DirectoryResolver,
                          private val platform: Platform,
                          private val environment: Environment,
@@ -107,7 +107,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                                  position: Int,
                                  syntax: Syntax): Future[CompletionProvider] = {
 
-    val eventualUnit: Future[BaseUnit] = hlAstManager.astManager.forceBuildNewAST(uri, text)
+    val eventualUnit: Future[BaseUnit] = astManager.forceBuildNewAST(uri, text)
     Suggestions.buildProviderAsync(eventualUnit,
                                    position,
                                    directoryResolver,

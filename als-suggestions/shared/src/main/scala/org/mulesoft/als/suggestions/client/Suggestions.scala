@@ -3,28 +3,19 @@ package org.mulesoft.als.suggestions.client
 import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote._
-import amf.dialects.{OAS20Dialect, WebApiDialectsRegistry}
+import amf.dialects.WebApiDialectsRegistry
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceUnit}
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher, YPartBranch}
+import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher}
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequestBuilder, CompletionEnvironment}
-import org.mulesoft.als.suggestions.implementation.{
-  CompletionConfig,
-  DummyASTProvider,
-  DummyEditorStateProvider,
-  EmptyASTProvider
-}
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.Oas20DialectWrapper
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08.Raml08TypesDialect
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.Raml10TypesDialect
-import org.mulesoft.high.level.InitOptions
-import org.mulesoft.high.level.amfmanager.ParserHelper
-import org.mulesoft.high.level.interfaces.IProject
-import org.yaml.model.YNode
+import org.mulesoft.amfmanager.{InitOptions, ParserHelper}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -88,9 +79,7 @@ object Suggestions extends SuggestionsHelper {
             RamlHeaderCompletionProvider
               .build(url, originalContent, Position(position, originalContent)))
       case _ =>
-        this
-          .buildHighLevel(bu, platform)
-          .map(this.buildCompletionProvider(_, url, position, originalContent, directoryResolver, platform))
+        Future.failed(new Exception("Cannot find dialect for unit: " + bu.id))
     }
   }
 
@@ -115,7 +104,7 @@ object Suggestions extends SuggestionsHelper {
                 .build(url, originalContent, Position(position, originalContent)))
         case e: Throwable =>
           println(e)
-          Future(this.buildCompletionProviderNoAST(originalContent, url, position, directoryResolver, platform))
+          Future.failed(e)
         case any =>
           println(any)
           Future.failed(new Error("Failed to construct CompletionProvider"))
@@ -167,57 +156,6 @@ object Suggestions extends SuggestionsHelper {
       category = suggestion.category,
       range = suggestion.range
     )
-
-  private def buildHighLevel(model: BaseUnit, platform: Platform): Future[IProject] =
-    org.mulesoft.high.level.Core.buildModel(model, platform)
-
-  private def buildCompletionProvider(project: IProject,
-                                      url: String,
-                                      position: Int,
-                                      originalContent: String,
-                                      directoryResolver: DirectoryResolver,
-                                      platform: Platform): CompletionProviderWebApi = {
-
-    val rootUnit = project.rootASTUnit
-
-    val astProvider = new DummyASTProvider(project, position)
-
-    val baseName = url.substring(url.lastIndexOf('/') + 1)
-
-    val editorStateProvider =
-      new DummyEditorStateProvider(rootUnit.text, url, baseName, position)
-    val completionConfig = new CompletionConfig(directoryResolver, platform)
-      .withAstProvider(astProvider)
-      .withEditorStateProvider(editorStateProvider)
-      .withOriginalContent(originalContent)
-
-    CompletionProviderWebApi().withConfig(completionConfig)
-  }
-
-  private def buildCompletionProviderNoAST(text: String,
-                                           url: String,
-                                           position: Int,
-                                           directoryResolver: DirectoryResolver,
-                                           platform: Platform): CompletionProviderWebApi = {
-
-    val baseName = url.substring(url.lastIndexOf('/') + 1)
-
-    val editorStateProvider =
-      new DummyEditorStateProvider(text, url, baseName, position)
-
-    val trimmed = text.trim
-    val vendor  = if (trimmed.startsWith("#%RAML")) Raml10 else Oas20
-    val syntax  = getMediaType(trimmed)
-
-    val astProvider = new EmptyASTProvider(vendor, syntax)
-
-    val completionConfig = new CompletionConfig(directoryResolver, platform)
-      .withEditorStateProvider(editorStateProvider)
-      .withAstProvider(astProvider)
-      .withOriginalContent(text)
-
-    CompletionProviderWebApi().withConfig(completionConfig)
-  }
 
   private def buildCompletionProviderAST(bu: BaseUnit,
                                          dialect: Dialect,

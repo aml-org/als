@@ -6,12 +6,10 @@ import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.common.LspConverter
-import org.mulesoft.als.server.modules.hlast.HlAstManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
-import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentPositionParams}
+import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentPositionParams, Position => lspPosition}
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
-import org.mulesoft.lsp.common.{Position => lspPosition}
 
 import scala.concurrent.ExecutionContext
 
@@ -26,14 +24,10 @@ class ServerDefinitionTest extends LanguageServerBaseTest {
                           baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val astManager       = new AstManager(documentManager, baseEnvironment, platform, logger)
-    val hlAstManager     = new HlAstManager(documentManager, astManager, platform, logger)
-    val referencesModule = new DefinitionModule(hlAstManager, logger, platform)
+    val astManager = new AstManager(documentManager, baseEnvironment, platform, logger)
 
     builder
       .addInitializable(astManager)
-      .addInitializable(hlAstManager)
-      .addRequestModule(referencesModule)
   }
 
   ignore("Open declaration test 001") {

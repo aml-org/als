@@ -1,9 +1,0 @@
-
-swagger: '2.0'
-title: test
-
-paths:
-  /endpoint:
-    get:
-      produces:
-        - *

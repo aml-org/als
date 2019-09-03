@@ -6,7 +6,7 @@ import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.{DirectoryResolver => InternalResolver}
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
-import org.mulesoft.high.level.InitOptions
+import org.mulesoft.amfmanager.InitOptions
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

@@ -5,17 +5,9 @@ import org.mulesoft.als.suggestions.aml.webapi.{
   Raml08CompletionPluginRegistry,
   RamlCompletionPluginRegistry
 }
-import org.mulesoft.als.suggestions.implementation.SuggestionCategoryRegistry
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
-import org.mulesoft.als.suggestions.plugins.raml._
-import org.mulesoft.als.suggestions.plugins.{
-  BooleanPropertyCompletionPlugin,
-  KnownKeyPropertyValuesCompletionPlugin,
-  KnownPropertyValuesCompletionPlugin,
-  StructureCompletionPlugin
-}
-import org.mulesoft.high.level.InitOptions
+import org.mulesoft.amfmanager.{DialectInitializer, InitOptions}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -23,23 +15,9 @@ import scala.language.postfixOps
 
 object Core {
   def init(initOptions: InitOptions = InitOptions.AllProfiles): Future[Unit] = {
-    org.mulesoft.high.level.Core
+    DialectInitializer
       .init(initOptions)
-      .flatMap(_ => SuggestionCategoryRegistry.init())
       .map(_ => {
-        CompletionPluginsRegistry.registerPlugin(StructureCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(KnownKeyPropertyValuesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(KnownPropertyValuesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(TypeReferencesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(SecurityReferencesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(BodyCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(IncludeCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(EmptyRamlFileCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(IncludeTagCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(BooleanPropertyCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(CommonHeadersNamesCompletionPlugin())
-        CompletionPluginsRegistry.registerPlugin(BaseUriParametersCompletionPlugin())
-
         // **************** AML *************************
         // initialize aml plugins option?
 

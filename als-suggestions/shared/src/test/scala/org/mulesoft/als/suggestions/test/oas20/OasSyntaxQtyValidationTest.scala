@@ -6,8 +6,8 @@ import org.scalatest.FunSuite
 class OasSyntaxQtyValidationTest extends FunSuite {
 
   test("test that yaml has same files than json resources") {
-    val jsonPath = "als-suggestions/shared/src/test/resources/test/oas20/new-suits/json"
-    val yamlPath = "als-suggestions/shared/src/test/resources/test/oas20/new-suits/yaml"
+    val jsonPath = "als-suggestions/shared/src/test/resources/test/oas20/by-directory/json"
+    val yamlPath = "als-suggestions/shared/src/test/resources/test/oas20/by-directory/yaml"
 
     val jsonDir = Fs.syncFile(jsonPath)
     val yamlDir = Fs.syncFile(yamlPath)
