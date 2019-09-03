@@ -6,7 +6,7 @@ import amf.core.unsafe.PlatformSecrets
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.suggestions.client.Suggestions
-import org.mulesoft.high.level.InitOptions
+import org.mulesoft.amfmanager.InitOptions
 import org.scalatest.{AsyncFunSuite, Matchers}
 
 import scala.concurrent.{ExecutionContext, Future}

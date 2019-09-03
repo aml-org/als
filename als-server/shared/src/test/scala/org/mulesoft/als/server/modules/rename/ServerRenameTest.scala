@@ -5,11 +5,10 @@ import amf.internal.environment.Environment
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.{DescendingPositionOrdering, Position}
 import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.als.server.modules.common.LspConverter
 import org.mulesoft.als.server.modules.common.LspConverter.toPosition
-import org.mulesoft.als.server.modules.hlast.HlAstManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.rename.{RenameParams, RenameRequestType}
@@ -27,14 +26,10 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
                           baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val astManager   = new AstManager(documentManager, baseEnvironment, platform, logger)
-    val hlAstManager = new HlAstManager(documentManager, astManager, platform, logger)
-    val renameModule = new RenameModule(hlAstManager, logger, platform)
+    val astManager = new AstManager(documentManager, baseEnvironment, platform, logger)
 
     builder
       .addInitializable(astManager)
-      .addInitializable(hlAstManager)
-      .addRequestModule(renameModule)
   }
 
   def runTest(path: String, newName: String): Future[Assertion] = withServer[Assertion] { server =>
