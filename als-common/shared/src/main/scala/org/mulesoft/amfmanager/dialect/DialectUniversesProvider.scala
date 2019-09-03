@@ -75,5 +75,5 @@ object LoaderForDialects extends ResourceLoader with PlatformSecrets {
   override def accepts(resource: String): Boolean =
     dialectsMap.contains(resource)
 
-  val env = new Environment(Seq(this))
+  val env = Environment(this)
 }
