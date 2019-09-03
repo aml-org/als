@@ -26,7 +26,7 @@ case class FilesEnumeration(directoryResolver: DirectoryResolver,
       .readDir(fullURI)
       .flatMap(withIsDir(_, fullURI))
       .map(s => {
-        s.filter(tuple => tuple._1 != actual && (tuple._2 || supportedMime(tuple._1)))
+        s.filter(tuple => tuple._1 != actual && (tuple._2 || supportedExtension(tuple._1)))
           .map(t => if (t._2) s"${t._1}/" else t._1)
           .map(toRawSuggestion)
       })
@@ -39,12 +39,6 @@ case class FilesEnumeration(directoryResolver: DirectoryResolver,
             .isDirectory(FileUtils.getEncodedUri(s"${FileUtils.getPath(fullUri, platform)}$file", platform))
             .map(isDir => (file, isDir)))
     }
-
-  private def supportedMime(file: String): Boolean =
-    platform
-      .extension(file)
-      .flatMap(platform.mimeFromExtension)
-      .exists(mime => AMFPluginsRegistry.syntaxPluginForMediaType(mime).isDefined)
 
   private def toRawSuggestion(file: String) =
     RawSuggestion(s"$relativePath$file", s"$relativePath$file", "Path suggestion", Nil, isKey = false, "")
