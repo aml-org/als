@@ -64,7 +64,7 @@ pipeline {
             }
         }
         steps {
-            sh 'curl ttps://jenkins-onprem.build.msap.io/generic-webhook-trigger/invoke?token=$ALSP_TOKEN&alsVersion=2.0.0&alsBranch=devel'
+            sh 'curl https://jenkins-onprem.build.msap.io/generic-webhook-trigger/invoke?token=$ALSP_TOKEN'
         }
     }
   }
