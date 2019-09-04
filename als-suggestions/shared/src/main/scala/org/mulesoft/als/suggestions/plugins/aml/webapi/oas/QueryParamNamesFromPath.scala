@@ -1,29 +1,23 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
-import amf.core.model.domain.{AmfObject, Shape}
+import amf.core.model.domain.AmfObject
 import amf.plugins.domain.webapi.models.{EndPoint, Parameter}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object QueryParamNamesFromPath extends AMLCompletionPlugin {
   override def id: String = "QueryParamNamesFromPath"
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
-      val p: Option[Parameter] = request.amfObject match {
-        case _: Shape =>
-          request.branchStack.headOption match {
-            case parameter: Parameter => Some(parameter)
-            case _                    => None
-          }
+      (request.amfObject match {
         case parameter: Parameter => Some(parameter)
         case _                    => None
-      }
-      p.map(
+      }).map(
           parameter =>
             if (parameter.binding
                   .option()
