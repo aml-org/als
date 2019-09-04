@@ -1,6 +1,5 @@
 package org.mulesoft.als.suggestions.client
 
-import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote._
 import amf.dialects.WebApiDialectsRegistry
@@ -92,23 +91,6 @@ object Suggestions extends SuggestionsHelper {
                          originalContent: String): Future[CompletionProvider] = {
     unitFuture
       .flatMap(buildProvider(_, position, directoryResolver, platform, env, url, originalContent))
-      .recoverWith {
-        case _: amf.core.exception.UnsupportedVendorException if isHeader(position, url, originalContent) =>
-          if (!url.toLowerCase().endsWith(".raml"))
-            Future(
-              HeaderCompletionProviderBuilder
-                .build(url, originalContent, Position(position, originalContent)))
-          else
-            Future(
-              RamlHeaderCompletionProvider
-                .build(url, originalContent, Position(position, originalContent)))
-        case e: Throwable =>
-          println(e)
-          Future.failed(e)
-        case any =>
-          println(any)
-          Future.failed(new Error("Failed to construct CompletionProvider"))
-      }
   }
 
   private def isHeader(position: Int, url: String, originalContent: String): Boolean =
@@ -208,11 +190,4 @@ trait SuggestionsHelper {
 
     (patchedContent, envWithOverride)
   }
-
-  def buildParserConfig(language: String, url: String): ParserConfig =
-    new ParserConfig(
-      Some(ParserConfig.PARSE),
-      Some(url),
-      Some(language)
-    )
 }

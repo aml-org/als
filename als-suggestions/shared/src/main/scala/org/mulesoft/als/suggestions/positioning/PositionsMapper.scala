@@ -28,7 +28,8 @@ case class PositionsMapper(override val uri: String) extends IPositionsMapper {
       }
 
   def mapToPosition(line: Int, column: Int): Int =
-    if (line < 0 || line > lineLengthSums.length - 1 || line > lineLengths.length - 1) -1
+    if (line < 0 || line > lineLengthSums.length - 1 || line > lineLengths.length - 1)
+      -1
     else if (column > lineLengths(line)) {
       if (line == lineLengths.length - 1) textLength
       else -1
@@ -82,12 +83,12 @@ case class PositionsMapper(override val uri: String) extends IPositionsMapper {
     }
   }
 
-  // $COVERAGE-OFF$
   override def lineOffset(str: String): Int = {
     var nonWhitespaceIndex = str.indexWhere(!Character.isWhitespace(_))
     if (nonWhitespaceIndex < 0)
       nonWhitespaceIndex = str.length
-    val whiteSpaceLines = str.substring(0, nonWhitespaceIndex).split("\r\n").flatMap(_.split("\n"))
+    val whiteSpaceLines =
+      str.substring(0, nonWhitespaceIndex).split("\r\n").flatMap(_.split("\n"))
     if (whiteSpaceLines.isEmpty) 0
     else whiteSpaceLines.map(_.length).min
   }
@@ -104,7 +105,8 @@ case class PositionsMapper(override val uri: String) extends IPositionsMapper {
     } else {
       val line = lineLengthSums.lastIndexWhere(position >= _)
       if (line < 0) {
-        val errorMessage = s"Character position exceeds text length: $position > ${text.length}. Path: $uri"
+        val errorMessage =
+          s"Character position exceeds text length: $position > ${text.length}. Path: $uri"
         throw new Error(errorMessage)
       }
       val column = if (line == 0) position else position - lineLengthSums(line)
@@ -121,12 +123,10 @@ case class PositionsMapper(override val uri: String) extends IPositionsMapper {
       Option(text.substring(start, end))
     }
 
-  // $COVERAGE-ON$
   override def getText: String = text
 
   override def textLength: Int = text.length
 
-  // $COVERAGE-OFF$
   override def line(lineIndex: Int): Option[String] = {
     if (lineIndex < 0 || lineIndex > lineLengthSums.length - 2)
       None
@@ -140,7 +140,6 @@ case class PositionsMapper(override val uri: String) extends IPositionsMapper {
   override def lineContainingPosition(position: Int): Option[String] =
     line(point(position).line)
 
-  // $COVERAGE-ON$
 }
 
 object PositionsMapper {

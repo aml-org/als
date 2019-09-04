@@ -11,11 +11,13 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
   override def id: String = "KeyPropertyHeaderCompletionPlugin"
 
   private def swaggerHeader(isJson: Boolean, hasBracket: Boolean) = {
-    val text = (if (isJson) jsonFlavour("swagger", "2.0", hasBracket) else yamlFlavour("swagger", "2.0"))._1
+    val text = (if (isJson) jsonFlavour("swagger", "2.0", hasBracket)
+                else yamlFlavour("swagger", "2.0"))._1
     RawSuggestion(text, text, s"Define a OAS 2.0 file", Seq(), isKey = false, "")
   }
 
-  private def yamlFlavour(key: String, value: String) = (s"$key: ${"\"" + value + "\""}", false)
+  private def yamlFlavour(key: String, value: String) =
+    (s"$key: ${"\"" + value + "\""}", false)
 
   private def jsonFlavour(key: String, value: String, hasBracket: Boolean) = {
     if (hasBracket)
@@ -25,12 +27,15 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
   }
 
   private def simpleContent(key: String, value: String) =
-    if (Configuration.snippetsEnabled) s"${"\"" + key + "\""}: ${"\"" + value + "\""},\n"
-    else s"${"\"" + key + "\""}: ${"\"" + value + "\""}"
+//    if (Configuration.snippetsEnabled) s"${"\"" + key + "\""}: ${"\"" + value + "\""},\n"
+//    else
+    s"${"\"" + key + "\""}: ${"\"" + value + "\""}"
 
   private def inBrackets(text: String) =
-    if (Configuration.snippetsEnabled) s"{\n${text.linesIterator.map(l => s"  $l").mkString("\n")}\n  $$0\n}"
-    else s"{\n${text.linesIterator.map(l => s"  $l").mkString("\n")}\n}"
+//    if (Configuration.snippetsEnabled)
+//      s"{\n${text.linesIterator.map(l => s"  $l").mkString("\n")}\n  $$0\n}"
+//    else
+    s"{\n${text.linesIterator.map(l => s"  $l").mkString("\n")}\n}"
 
   private def getSuggestions(isJson: Boolean, hasBracket: Boolean = false): Seq[RawSuggestion] = {
     AMLPlugin.registry
@@ -38,7 +43,8 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
       .filter(_.documents().keyProperty().value())
       .map(d => {
         val (text, isASnippet) =
-          if (isJson) jsonFlavour(d.name().value(), d.version().value(), hasBracket)
+          if (isJson)
+            jsonFlavour(d.name().value(), d.version().value(), hasBracket)
           else yamlFlavour(d.name().value(), d.version().value())
 
         RawSuggestion(text,
