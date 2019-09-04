@@ -7,7 +7,7 @@ pipeline {
   environment {
     NEXUS = credentials('exchange-nexus')
     NEXUSIQ = credentials('nexus-iq')
-    ALSP_TOKEN     = credentials('ApiEditorToken')
+    ALSP_TOKEN     = credentials('NewALSPToken')
   }
   stages {
     stage('Test') {
@@ -64,7 +64,7 @@ pipeline {
             }
         }
         steps {
-            sh 'curl https://jenkins-onprem.build.msap.io/job/Studio/job/ApiEditor-ALS/build?token=$ALSP_TOKEN'
+            sh 'curl ttps://jenkins-onprem.build.msap.io/generic-webhook-trigger/invoke?token=$ALSP_TOKEN&alsVersion=2.0.0&alsBranch=devel'
         }
     }
   }
