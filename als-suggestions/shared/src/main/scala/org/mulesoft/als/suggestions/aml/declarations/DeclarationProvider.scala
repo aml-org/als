@@ -3,9 +3,6 @@ package org.mulesoft.als.suggestions.aml.declarations
 import amf.core.annotations.Aliases
 import amf.core.metamodel.domain.DomainElementModel
 import amf.core.model.document.{BaseUnit, DeclaresModel}
-import amf.core.model.domain.{AmfScalar, DomainElement}
-import amf.core.vocabulary.{Namespace, ValueType}
-import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import org.mulesoft.als.common.ElementNameExtractor._
@@ -27,7 +24,10 @@ class DeclarationProvider(componentId: Option[String] = None) {
       .map(_ + ".")
       .toSet
   def forNodeType(nodeTypeMapping: String, alias: Alias): Set[Name] =
-    libraries.get(alias).map(d => d.forNodeType(nodeTypeMapping)).getOrElse(Set.empty)
+    libraries
+      .get(alias)
+      .map(d => d.forNodeType(nodeTypeMapping))
+      .getOrElse(Set.empty)
 
   type Alias           = String
   type NodeTypeMapping = String
@@ -40,27 +40,29 @@ class DeclarationProvider(componentId: Option[String] = None) {
 
   private var declarableTerms: Seq[String] = Seq.empty
 
-  def putDeclarable(str: String): Unit = declarableTerms = str +: declarableTerms
+  def putDeclarable(str: String): Unit =
+    declarableTerms = str +: declarableTerms
 
-  def put(typeMapping: NodeTypeMapping, elements: Set[Name]): Unit = declarations.get(typeMapping) match {
-    case Some(set) => declarations.update(typeMapping, set ++ elements)
-    case None      => declarations.put(typeMapping, elements)
-  }
+  def put(typeMapping: NodeTypeMapping, elements: Set[Name]): Unit =
+    declarations.get(typeMapping) match {
+      case Some(set) => declarations.update(typeMapping, set ++ elements)
+      case None      => declarations.put(typeMapping, elements)
+    }
 
-  def put(alias: Alias, provider: DeclarationProvider): Unit = libraries.get(alias) match {
-    case Some(_) => libraries.update(alias, provider)
-    case None    => libraries.put(alias, provider)
-  }
+  def put(alias: Alias, provider: DeclarationProvider): Unit =
+    libraries.get(alias) match {
+      case Some(_) => libraries.update(alias, provider)
+      case None    => libraries.put(alias, provider)
+    }
 
-  def isDeclared(nodeTypeMapping: NodeTypeMapping): Boolean =
-    isLocallyDeclared(nodeTypeMapping) || libraries.exists(_._2.isLocallyDeclared(nodeTypeMapping))
-
-  def isLocallyDeclared(nodeTypeMapping: NodeTypeMapping): Boolean = declarations.contains(nodeTypeMapping)
+  def isLocallyDeclared(nodeTypeMapping: NodeTypeMapping): Boolean =
+    declarations.contains(nodeTypeMapping)
 
   def filterLocal(element: Name, mapping: NodeTypeMapping): this.type = {
     declarations.get(mapping) match {
-      case Some(set) => declarations.update(mapping, set.filterNot(_ == element))
-      case None      => // ignore
+      case Some(set) =>
+        declarations.update(mapping, set.filterNot(_ == element))
+      case None => // ignore
     }
     this
   }
@@ -78,9 +80,15 @@ object DeclarationProvider {
     }
 
     bu.annotations.find(classOf[Aliases]).foreach { a =>
-      a.aliases.flatMap(l => bu.references.find(_.location().contains(l._2._1)).map(r => l._1 -> r)).foreach { t =>
-        provider.put(t._1, DeclarationProvider(t._2, None))
-      }
+      a.aliases
+        .flatMap(
+          l =>
+            bu.references
+              .find(_.location().contains(l._2._1))
+              .map(r => l._1 -> r))
+        .foreach { t =>
+          provider.put(t._1, DeclarationProvider(t._2, None))
+        }
     }
 
     provider
@@ -95,7 +103,9 @@ object DeclarationProvider {
           .map(_.declaredNodes().flatMap(_.fields.fields()).map(_.value.toString))
           .getOrElse(Seq())
         val fragEnc: Seq[String] =
-          Option(documents.fragments()).map(_.flatMap(_.fields.fields().map(_.value.toString))).getOrElse(Seq())
+          Option(documents.fragments())
+            .map(_.flatMap(_.fields.fields().map(_.value.toString)))
+            .getOrElse(Seq())
         val rootDec: Seq[String] = Option(documents.root())
           .map(_.declaredNodes().flatMap(_.mappedNode().option()))
           .getOrElse(Seq())
@@ -104,7 +114,8 @@ object DeclarationProvider {
       })
       .getOrElse(Seq())
 
-    val nodes = d.map(_.declares.collect({ case n: NodeMapping => n })).getOrElse(Nil)
+    val nodes =
+      d.map(_.declares.collect({ case n: NodeMapping => n })).getOrElse(Nil)
     declaredIds.foreach { id =>
       nodes.find(_.id == id).foreach { nm =>
         provider.putDeclarable(nm.nodetypeMapping.value())
@@ -115,19 +126,10 @@ object DeclarationProvider {
 
   private def populateDeclares(de: DeclaresModel, provider: DeclarationProvider): Unit =
     de.declares.foreach { d =>
-      d.meta.`type`.filter(_.iri() != DomainElementModel.`type`.head.iri()).foreach { iri =>
-        provider.put(iri.iri(), d.elementIdentifier().toSet)
-      }
+      d.meta.`type`
+        .filter(_.iri() != DomainElementModel.`type`.head.iri())
+        .foreach { iri =>
+          provider.put(iri.iri(), d.elementIdentifier().toSet)
+        }
     }
-
-  private def elementIdentifier(element: DomainElement): Option[String] =
-    element.fields
-      .getValueAsOption(DialectDomainElementModel.DeclarationName)
-      .map(_.value)
-      .orElse(
-        element.fields
-          .fields()
-          .find(fe => fe.field.value.iri() == (Namespace.Schema + "name").iri())
-          .map(_.value.value))
-      .collect({ case s: AmfScalar => s.value.toString })
 }
