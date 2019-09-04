@@ -13,7 +13,7 @@ object PrintLnLogger extends AbstractLogger {
   override def withSettings(settings: LoggerSettings): PrintLnLogger.this.type = this
 }
 
-object MutedLogger extends AbstractLogger {
+class MutedLogger extends AbstractLogger {
 
   override protected val settings: Option[LoggerSettings] = None
 
