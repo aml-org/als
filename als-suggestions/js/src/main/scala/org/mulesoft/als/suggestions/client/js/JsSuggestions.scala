@@ -36,7 +36,7 @@ object JsSuggestions extends PlatformSecrets with EmptyDirectoryResolver {
               loaders: js.Array[ClientResourceLoader] = js.Array(),
               dirResolver: ClientDirectoryResolver = emptyDirectoryResolver): js.Promise[js.Array[Suggestion]] = {
 
-    val environment = new Environment(loaders.map(internalResourceLoader).toSeq)
+    val environment = Environment(loaders.map(internalResourceLoader).toSeq)
 
     Suggestions
       .suggest(language, url, position, DirectoryResolverAdapter.convert(dirResolver), environment, platform)
@@ -59,12 +59,14 @@ object DirectoryResolverAdapter {
   def convert(clientResolver: ClientDirectoryResolver): InternalResolver = {
     new InternalResolver {
 
-      override def exists(path: String): Future[Boolean] = clientResolver.exists(toPath(path)).toFuture
+      override def exists(path: String): Future[Boolean] =
+        clientResolver.exists(toPath(path)).toFuture
 
       override def readDir(path: String): Future[Seq[String]] =
         clientResolver.readDir(toPath(path)).toFuture.map(_.toSeq)
 
-      override def isDirectory(path: String): Future[Boolean] = clientResolver.isDirectory(toPath(path)).toFuture
+      override def isDirectory(path: String): Future[Boolean] =
+        clientResolver.isDirectory(toPath(path)).toFuture
 
     }
   }
