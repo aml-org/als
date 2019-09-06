@@ -4,7 +4,9 @@ import java.net.{ServerSocket, Socket}
 
 import amf.ProfileName
 import amf.core.lexer.FileStream
+import org.eclipse.lsp4j.jsonrpc.Launcher
 import org.eclipse.lsp4j.launch.LSPLauncher
+import org.eclipse.lsp4j.services.LanguageClient
 import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
 import org.mulesoft.amfmanager.{CustomDialects, CustomVocabulary}
@@ -60,10 +62,13 @@ object Main {
         LanguageServerFactory.alsLanguageServer(
           clientConnection,
           logger,
-          options.dialectPath.map(readDialectFile(_, options.dialectName.get, options.vocabularyPath)).toSeq))
+          options.dialectPath
+            .map(readDialectFile(_, options.dialectName.get, options.vocabularyPath))
+            .toSeq))
 
-      val launcher = LSPLauncher.createServerLauncher(server, in, out)
-      val client   = launcher.getRemoteProxy
+      val launcher: Launcher[LanguageClient] =
+        LSPLauncher.createServerLauncher(server, in, out)
+      val client = launcher.getRemoteProxy
       clientConnection.connect(LanguageClientWrapper(client))
       launcher.startListening
       println("ALS started")
