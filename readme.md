@@ -184,7 +184,10 @@ Given a file and position, the Server informs the Client of possible values he m
 ![AD Example](./images/usage-example-ad.gif)
 
 Design Center currently uses Completion as a separated module for it's platform, not going through LSP.
-#### Visual Studio Code example (LSP):
+#### Visual Studio Code completion example (LSP):
 ![VS Code Example](./images/usage-example-vscode.gif)
 
+#### Visual Studio Code document symbol example (LSP):
+![VS Code Example](./images/document-symbol-vscode.gif)
 
+****
