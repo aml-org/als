@@ -101,8 +101,8 @@ Through this channel, the [LSP protocol](https://microsoft.github.io/language-se
 
 # Features and modules
 
-######[Language Server Protocol](https://microsoft.github.io/language-server-protocol/) support is the main ALS goal.  Based on the context described above, a basic set of features where the initial target:
-####[Initialize](https://microsoft.github.io/language-server-protocol/specification#initialize):
+###### [Language Server Protocol](https://microsoft.github.io/language-server-protocol/) support is the main ALS goal.  Based on the context described above, a basic set of features where the initial target:
+#### [Initialize](https://microsoft.github.io/language-server-protocol/specification#initialize):
 It’s the first message sent from the client to the server, with this request, the Client informs the Server which Capabilities it supports. As a response, the Server returns the intersection of the Client Capabilities with it’s own (a set of Capabilities both support).
 + Flow: Client sends request to Server and the Server responds with the Capabilities to be used
 + Triggered by:
@@ -166,7 +166,7 @@ This feature allows the Server to inform of an abstraction of the Model to the C
 + Flow: Client sends a request to the Server, to which the Server responses
 + Triggered by direct request from client:
   + Document Symbol Request
-+Emits:
++ Emits:
   + DocumentSymbol Response
 
 #### [Completion](https://microsoft.github.io/language-server-protocol/specification#textDocument_completion) (a.k.a. Suggestions) 
@@ -178,8 +178,11 @@ Given a file and position, the Server informs the Client of possible values he m
   + Completion Response
 
 # Usage examples
-####[JAVA (LSP4J)](./documentation/java-client-example/client.md) sample code
-####[JS (VS Code)](./documentation/js-client-example/client.md) sample code
+
+#### [JAVA (LSP4J)](./documentation/java-client-example/client.md) sample code
+
+#### [JS (VS Code)](./documentation/js-client-example/client.md) sample code
+
 #### Design Center example:
 ![AD Example](./images/usage-example-ad.gif)
 
