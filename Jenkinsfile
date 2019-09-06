@@ -36,7 +36,7 @@ pipeline {
       when {
         anyOf {
           branch 'master'
-          branch 'release/*'
+          branch 'devel'
         }
       }
       steps {
