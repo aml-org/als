@@ -18,6 +18,13 @@ case class PositionRange(start: Position, end: Position) {
     case pr: PositionRange => pr.start == this.start && pr.end == this.end
     case _                 => false
   }
+
+  def compareTo(other: PositionRange): Int = {
+    if (start < other.start) 0
+    else if (start == other.start)
+      if (end <= other.end) 0 else 1
+    else 1
+  }
 }
 
 object PositionRange {

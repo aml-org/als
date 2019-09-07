@@ -16,8 +16,8 @@ import org.mulesoft.language.outline.structure.structureImpl.{
 class RequestSymbolBuilders(override val element: Request)(override implicit val factory: BuilderFactory)
     extends AmfObjSymbolBuilder[Request] {
   override protected val name: String = "request"
-  override protected val selectionRange: PositionRange = PositionRange(
-    element.annotations.find(classOf[LexicalInformation]).map(_.range).getOrElse(AmfRange.NONE))
+  override protected val selectionRange: Option[PositionRange] =
+    element.annotations.find(classOf[LexicalInformation]).map(_.range).map(PositionRange.apply)
 }
 
 object RequestSymbolBuilders extends ElementSymbolBuilderCompanion {

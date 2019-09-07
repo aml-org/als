@@ -17,8 +17,8 @@ class RamlSecuritySchemesSettingsSymbolBuilder(override val element: Settings)(
     override implicit val factory: BuilderFactory)
     extends AmfObjSymbolBuilder[Settings] {
   override protected val name: String = "settings"
-  override protected val selectionRange: PositionRange = PositionRange(
-    element.annotations.find(classOf[LexicalInformation]).map(_.range).getOrElse(AmfRange.NONE))
+  override protected val selectionRange: Option[PositionRange] =
+    element.annotations.find(classOf[LexicalInformation]).map(_.range).map(PositionRange.apply)
 }
 
 object RamlSecuritySchemesSettingsSymbolBuilder extends ElementSymbolBuilderCompanion {

@@ -135,8 +135,8 @@ class EndPointSymbolBuilder(override val element: EndPoint)(override implicit va
 
   override protected val name: String =
     element.path.value().stripPrefix(element.parent.flatMap(_.path.option()).getOrElse(""))
-  override protected val selectionRange: PositionRange =
-    element.path.annotations().find(classOf[LexicalInformation]).map(l => PositionRange(l.range)).getOrElse(range)
+  override protected val selectionRange: Option[PositionRange] =
+    element.path.annotations().find(classOf[LexicalInformation]).map(l => PositionRange(l.range)).orElse(range)
 
   override def childrens: List[DocumentSymbol] = super.childrens ++ getExtendsChildren
 
