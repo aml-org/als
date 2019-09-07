@@ -32,22 +32,27 @@ trait FatherSymbolBuilder[T <: AmfObject] extends ElementSymbolBuilder[T] {
 trait AmfObjSymbolBuilder[T <: AmfObject] extends FatherSymbolBuilder[T] {
 
   protected val name: String
-  protected val selectionRange: PositionRange
+  protected val selectionRange: Option[PositionRange]
 
-  protected def range: PositionRange =
+  protected def range: Option[PositionRange] =
     element.annotations
       .find(classOf[LexicalInformation])
       .map(l => PositionRange(l.range))
-      .getOrElse(PositionRange(InputRange.Zero))
 
   override def build(): Seq[DocumentSymbol] =
-    Seq(
-      DocumentSymbol(name,
-                     KindForResultMatcher.getKind(element),
-                     deprecated = false,
-                     range,
-                     selectionRange,
-                     childrens))
+    if (name.isEmpty) Nil
+    else
+      range
+        .map { r =>
+          Seq(
+            DocumentSymbol(name,
+                           KindForResultMatcher.getKind(element),
+                           deprecated = false,
+                           r,
+                           selectionRange.getOrElse(r),
+                           childrens))
+        }
+        .getOrElse(childrens)
 
 }
 
@@ -62,7 +67,7 @@ class DomainElementSymbolBuilder(override val element: DomainElement, entryAst: 
     extends AmfObjSymbolBuilder[DomainElement] {
 
   val (name, selectionRange) =
-    (entryAst.key.value.toString, PositionRange(AmfRange(entryAst.key.range)))
+    (entryAst.key.value.toString, Some(PositionRange(AmfRange(entryAst.key.range))))
 }
 
 object DomainElementSymbolBuilder extends ElementSymbolBuilderCompanion {
@@ -101,11 +106,11 @@ object NamedElementSymbolBuilder extends ElementSymbolBuilderCompanion {
 trait NamedElementSymbolBuilderTrait[T <: NamedDomainElement] extends AmfObjSymbolBuilder[T] {
 
   override protected val name: String = element.name.value()
-  override protected val selectionRange: PositionRange = element.name
+  override protected val selectionRange: Option[PositionRange] = element.name
     .annotations()
     .find(classOf[LexicalInformation])
     .map(l => PositionRange(l.range))
-    .getOrElse(range)
+    .orElse(range)
 }
 
 class NamedElementSymbolBuilder(override val element: NamedDomainElement)(override val factory: BuilderFactory)
