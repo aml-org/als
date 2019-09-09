@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10
 
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -21,19 +22,30 @@ object Raml10HeaderCompletionPlugin extends AMLCompletionPlugin {
                                               "DataType",
                                               "Extension")
 
-  override def resolve(
-      params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
+  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future {
       // if I'm here, I'm RAML, verify that I am after the definition
       if (params.position.line <= 1 && params.baseUnit.raw
             .exists(r =>
               r.substring(0, 0 max params.position.column)
                 .startsWith("#%RAML 1.0")))
-        if (params.baseUnit.raw
-              .exists(_.charAt(params.position.column - 1) == ' ')) // check if I already have whitespace
-          headers.map(h => RawSuggestion.apply(h, isAKey = false))
-        else
-          headers.map(h => RawSuggestion.apply(s" $h", isAKey = false))
+//        if (params.baseUnit.raw
+//              .exists(_.charAt(params.position.column - 1) == ' ')) // check if I already have whitespace
+//          headers.map(h => RawSuggestion.apply(h, isAKey = false))
+//        else
+//          headers.map(h => RawSuggestion.apply(s" $h", isAKey = false))
+        headers.map(
+          h =>
+            RawSuggestion.apply(
+              s"#%RAML 1.0 $h",
+              isAKey = false,
+              PositionRange(Position(0, 0),
+                            Position(0, params.baseUnit.raw.map(eolOrEof).getOrElse(params.position.column)))))
       else Seq()
     }
+
+  private def eolOrEof(text: String): Int = {
+    if (text.indexOf('\n') <= 0) text.length
+    else text.indexOf('\n')
+  }
 }
