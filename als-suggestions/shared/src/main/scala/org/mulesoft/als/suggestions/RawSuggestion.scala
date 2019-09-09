@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions
 
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.suggestions.implementation.Suggestion
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.completion.InsertTextFormat
@@ -11,6 +12,7 @@ case class RawSuggestion(newText: String,
                          isKey: Boolean,
                          whiteSpacesEnding: String,
                          category: String = "unknown",
+                         range: Option[PositionRange] = None,
                          isSnippet: Boolean = false) {
 
   implicit def bool2InsertTextFormat(v: Boolean): InsertTextFormat.Value =
@@ -18,7 +20,7 @@ case class RawSuggestion(newText: String,
     else InsertTextFormat.PlainText
 
   def toSuggestion(linePrefix: String): Suggestion =
-    new Suggestion(newText, description, displayText, linePrefix, None)
+    new Suggestion(newText, description, displayText, linePrefix, range)
       .withTrailingWhitespace(whiteSpacesEnding)
       .withInsertTextFormat(isSnippet)
       .withCategory(category)
@@ -37,7 +39,19 @@ object RawSuggestion {
     apply(value, "", isAKey, "unknown")
   }
 
+  def apply(value: String, isAKey: Boolean, range: PositionRange): RawSuggestion = {
+    apply(value, "", isAKey, "unknown", Some(range))
+  }
+
   def apply(value: String, ws: String, isAKey: Boolean, category: String): RawSuggestion = {
     new RawSuggestion(value, value, value, Seq(), isAKey, ws, category)
+  }
+
+  def apply(value: String,
+            ws: String,
+            isAKey: Boolean,
+            category: String,
+            range: Option[PositionRange]): RawSuggestion = {
+    new RawSuggestion(value, value, value, Seq(), isAKey, ws, category, range)
   }
 }
