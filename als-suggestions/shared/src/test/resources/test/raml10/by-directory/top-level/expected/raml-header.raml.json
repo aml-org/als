@@ -1,15 +1,15 @@
 [
   {
-    "text": " AnnotationTypeDeclaration",
-    "description": " AnnotationTypeDeclaration",
-    "displayText": " AnnotationTypeDeclaration",
+    "text": "#%RAML 1.0 AnnotationTypeDeclaration",
+    "description": "#%RAML 1.0 AnnotationTypeDeclaration",
+    "displayText": "#%RAML 1.0 AnnotationTypeDeclaration",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
           "line": 0,
-          "character": 10
+          "character": 0
         },
         "end": {
           "line": 0,
@@ -19,16 +19,16 @@
     ]
   },
   {
-    "text": " DataType",
-    "description": " DataType",
-    "displayText": " DataType",
+    "text": "#%RAML 1.0 DataType",
+    "description": "#%RAML 1.0 DataType",
+    "displayText": "#%RAML 1.0 DataType",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
           "line": 0,
-          "character": 10
+          "character": 0
         },
         "end": {
           "line": 0,
@@ -38,16 +38,16 @@
     ]
   },
   {
-    "text": " DocumentationItem",
-    "description": " DocumentationItem",
-    "displayText": " DocumentationItem",
+    "text": "#%RAML 1.0 DocumentationItem",
+    "description": "#%RAML 1.0 DocumentationItem",
+    "displayText": "#%RAML 1.0 DocumentationItem",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
           "line": 0,
-          "character": 10
+          "character": 0
         },
         "end": {
           "line": 0,
@@ -57,16 +57,16 @@
     ]
   },
   {
-    "text": " Extension",
-    "description": " Extension",
-    "displayText": " Extension",
+    "text": "#%RAML 1.0 Extension",
+    "description": "#%RAML 1.0 Extension",
+    "displayText": "#%RAML 1.0 Extension",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
           "line": 0,
-          "character": 10
+          "character": 0
         },
         "end": {
           "line": 0,
@@ -76,16 +76,16 @@
     ]
   },
   {
-    "text": " Library",
-    "description": " Library",
-    "displayText": " Library",
+    "text": "#%RAML 1.0 Library",
+    "description": "#%RAML 1.0 Library",
+    "displayText": "#%RAML 1.0 Library",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
           "line": 0,
-          "character": 10
+          "character": 0
         },
         "end": {
           "line": 0,
@@ -95,16 +95,16 @@
     ]
   },
   {
-    "text": " NamedExample",
-    "description": " NamedExample",
-    "displayText": " NamedExample",
+    "text": "#%RAML 1.0 NamedExample",
+    "description": "#%RAML 1.0 NamedExample",
+    "displayText": "#%RAML 1.0 NamedExample",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
           "line": 0,
-          "character": 10
+          "character": 0
         },
         "end": {
           "line": 0,
@@ -114,16 +114,16 @@
     ]
   },
   {
-    "text": " Overlay",
-    "description": " Overlay",
-    "displayText": " Overlay",
+    "text": "#%RAML 1.0 Overlay",
+    "description": "#%RAML 1.0 Overlay",
+    "displayText": "#%RAML 1.0 Overlay",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
           "line": 0,
-          "character": 10
+          "character": 0
         },
         "end": {
           "line": 0,
@@ -133,16 +133,16 @@
     ]
   },
   {
-    "text": " ResourceType",
-    "description": " ResourceType",
-    "displayText": " ResourceType",
+    "text": "#%RAML 1.0 ResourceType",
+    "description": "#%RAML 1.0 ResourceType",
+    "displayText": "#%RAML 1.0 ResourceType",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
           "line": 0,
-          "character": 10
+          "character": 0
         },
         "end": {
           "line": 0,
@@ -152,16 +152,16 @@
     ]
   },
   {
-    "text": " SecurityScheme",
-    "description": " SecurityScheme",
-    "displayText": " SecurityScheme",
+    "text": "#%RAML 1.0 SecurityScheme",
+    "description": "#%RAML 1.0 SecurityScheme",
+    "displayText": "#%RAML 1.0 SecurityScheme",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
           "line": 0,
-          "character": 10
+          "character": 0
         },
         "end": {
           "line": 0,
@@ -171,16 +171,16 @@
     ]
   },
   {
-    "text": " Trait",
-    "description": " Trait",
-    "displayText": " Trait",
+    "text": "#%RAML 1.0 Trait",
+    "description": "#%RAML 1.0 Trait",
+    "displayText": "#%RAML 1.0 Trait",
     "prefix": "",
     "category": "unknown",
     "range": [
       {
         "start": {
           "line": 0,
-          "character": 10
+          "character": 0
         },
         "end": {
           "line": 0,
