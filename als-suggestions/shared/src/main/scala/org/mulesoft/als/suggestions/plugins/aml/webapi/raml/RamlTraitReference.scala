@@ -2,6 +2,8 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.model.domain.DomainElement
 import amf.core.model.domain.templates.ParametrizedDeclaration
+import amf.plugins.document.webapi.parser.spec.WebApiDeclarations
+import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorTrait
 import amf.plugins.domain.webapi.metamodel.templates.TraitModel
 import amf.plugins.domain.webapi.models.Operation
 import amf.plugins.domain.webapi.models.templates.ParametrizedTrait
@@ -19,6 +21,7 @@ object RamlTraitReference extends RamlAbstractDeclarationReference {
   override protected def isValue(yPartBranch: YPartBranch): Boolean =
     yPartBranch.isValue || yPartBranch.parent.exists(_.isInstanceOf[YSequence])
 
-  override val elementClass: Class[_ <: DomainElement]                       = classOf[Operation]
-  override val abstractDeclarationClass: Class[_ <: ParametrizedDeclaration] = classOf[ParametrizedTrait]
+  override val elementClass: Class[_ <: DomainElement]                                = classOf[Operation]
+  override val abstractDeclarationClass: Class[_ <: ParametrizedDeclaration]          = classOf[ParametrizedTrait]
+  override val errorDeclarationClass: Class[_ <: WebApiDeclarations.ErrorDeclaration] = classOf[ErrorTrait]
 }
