@@ -1,0 +1,40 @@
+[
+  {
+    "text": "trait1:\n        ",
+    "description": "trait1",
+    "displayText": "trait1",
+    "prefix": "tr",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 14,
+          "character": 8
+        },
+        "end": {
+          "line": 14,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "trait2:\n        ",
+    "description": "trait2",
+    "displayText": "trait2",
+    "prefix": "tr",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 14,
+          "character": 8
+        },
+        "end": {
+          "line": 14,
+          "character": 10
+        }
+      }
+    ]
+  }
+]

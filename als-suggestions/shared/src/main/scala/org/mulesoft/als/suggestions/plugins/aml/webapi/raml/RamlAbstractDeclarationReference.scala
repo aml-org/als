@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.model.domain.DomainElement
 import amf.core.model.domain.templates.ParametrizedDeclaration
+import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorDeclaration
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -15,6 +16,7 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
 
   val elementClass: Class[_ <: DomainElement]
   val abstractDeclarationClass: Class[_ <: ParametrizedDeclaration]
+  val errorDeclarationClass: Class[_ <: ErrorDeclaration]
 
   def entryKey: String
   def iriDeclaration: String
@@ -22,7 +24,8 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(
       if ((elementClass.isInstance(params.amfObject)
-          || abstractDeclarationClass.isInstance(params.amfObject))
+          || abstractDeclarationClass.isInstance(params.amfObject) || errorDeclarationClass.isInstance(
+            params.amfObject))
           && isTypeDef(params.yPartBranch)) {
 
         val brothers = getBrothers(params)
