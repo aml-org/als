@@ -76,7 +76,7 @@
     ]
   },
   {
-    "text": "documentation:\n  ",
+    "text": "documentation:\n  - ",
     "description": "documentation",
     "displayText": "documentation",
     "prefix": "",
@@ -152,7 +152,7 @@
     ]
   },
   {
-    "text": "securedBy: ",
+    "text": "securedBy:\n  - ",
     "description": "securedBy",
     "displayText": "securedBy",
     "prefix": "",

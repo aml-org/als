@@ -10,7 +10,7 @@ class InstanceTests extends AMLSuggestionsTest {
   test("test001") {
     runSuggestionTest(
       "instance/test001.yaml",
-      Set("securitySchemes:\n  ", "schemas:\n  ", "uses:\n  ", "security:\n  ", "servers:\n  ", "simpleMap:\n  "))
+      Set("securitySchemes:\n  ", "schemas:\n  ", "uses:\n  ", "security:\n  - ", "servers:\n  - ", "simpleMap:\n  "))
   }
 
   test("test002") {
@@ -34,8 +34,9 @@ class InstanceTests extends AMLSuggestionsTest {
   }
 
   test("test006") {
-    runSuggestionTest("instance/test006.yaml",
-                      Set("externalDocs:\n        ", "headers:\n        ", "tags:\n        ", "simpleMap:\n        "))
+    runSuggestionTest(
+      "instance/test006.yaml",
+      Set("externalDocs:\n        ", "headers:\n        ", "tags:\n        - ", "simpleMap:\n        "))
   }
 
   test("test007") {
@@ -54,11 +55,11 @@ class InstanceTests extends AMLSuggestionsTest {
         "schemas:\n  ",
         "info:\n  ",
         "externalDocs:\n  ",
-        "servers:\n  ",
+        "servers:\n  - ",
         "baseTopic: ",
         "asyncapi: ",
         "messages:\n  ",
-        "security:\n  ",
+        "security:\n  - ",
         "simpleMap:\n  ",
         "securitySchemes:\n  ",
         "uses:\n  "
@@ -77,9 +78,9 @@ class InstanceTests extends AMLSuggestionsTest {
         "asyncapi: ",
         "baseTopic: ",
         "info:\n  ",
-        "servers:\n  ",
+        "servers:\n  - ",
         "topics:\n  ",
-        "security:\n  ",
+        "security:\n  - ",
         "externalDocs:\n  ",
         "simpleMap:\n  ",
         "components:\n  ",

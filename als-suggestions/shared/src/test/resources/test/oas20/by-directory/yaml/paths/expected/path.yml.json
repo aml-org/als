@@ -95,7 +95,7 @@
     ]
   },
   {
-    "text": "parameters:\n      ",
+    "text": "parameters:\n      - ",
     "description": "parameters",
     "displayText": "parameters",
     "prefix": "",

@@ -9,6 +9,7 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml._
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -31,20 +32,11 @@ class AMLStructureCompletionsPlugin(propertyMapping: Seq[PropertyMapping], inden
     else false
   }
 
-  private def getSuggestions: Seq[(String, String)] = propertyMapping.map(extractText)
+  def resolve(classTerm: String): Seq[RawSuggestion] = {
 
-  def resolve(classTerm: String): Seq[RawSuggestion] =
-    getSuggestions
-      .map(
-        s =>
-          RawSuggestion(if (startsWithLetter(s._1)) s._1
-                        else s""""${s._1}"""",
-                        s._1,
-                        s._1,
-                        Seq(),
-                        isKey = true,
-                        s._2,
-                        CategoryRegistry(classTerm, s._1)))
+    propertyMapping.map(p => p.toRaw(indentation, CategoryRegistry(classTerm, p.name().value())))
+  }
+
 }
 
 object AMLStructureCompletionPlugin extends AMLCompletionPlugin {

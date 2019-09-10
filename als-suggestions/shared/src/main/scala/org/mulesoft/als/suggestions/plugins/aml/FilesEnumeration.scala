@@ -1,11 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.registries.AMFPluginsRegistry
 import amf.core.remote.Platform
 import org.mulesoft.als.common.{DirectoryResolver, FileUtils}
 import org.mulesoft.als.suggestions.RawSuggestion
-import scala.concurrent.ExecutionContext.Implicits.global
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 case class FilesEnumeration(directoryResolver: DirectoryResolver,
@@ -41,6 +40,6 @@ case class FilesEnumeration(directoryResolver: DirectoryResolver,
     }
 
   private def toRawSuggestion(file: String) =
-    RawSuggestion(s"$relativePath$file", s"$relativePath$file", "Path suggestion", Nil, isKey = false, "")
+    RawSuggestion(s"$relativePath$file", s"$relativePath$file", "Path suggestion", Nil, "")
 
 }

@@ -8,15 +8,16 @@ import scala.concurrent.Future
 
 class BasicCompletionProvider(prefix: String, position: Position, suggestions: () => Future[Seq[RawSuggestion]])
     extends CompletionProvider {
-  override def suggest(): Future[Seq[Suggestion]] =
+  override def suggest(): Future[Seq[Suggestion]] = {
+    val styler = DummySuggestionStyle(prefix, position)
     suggestions()
       .map(
         _.distinct
           .filter(_.newText startsWith prefix)
           .map(rs => {
-            SuggestionStyler
-              .asSuggestionImpl(s => s.text)(rs.toSuggestion(prefix), position)
+            styler.rawToStyledSuggestion(rs)
           }))
+  }
 }
 
 trait BasicPrefixExtractor {

@@ -190,7 +190,7 @@
     ]
   },
   {
-    "text": "securedBy: ",
+    "text": "securedBy:\n      - ",
     "description": "securedBy",
     "displayText": "securedBy",
     "prefix": "",
