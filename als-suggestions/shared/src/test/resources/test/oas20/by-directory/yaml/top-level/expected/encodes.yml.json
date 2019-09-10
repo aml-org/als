@@ -19,7 +19,7 @@
     ]
   },
   {
-    "text": "consumes: ",
+    "text": "consumes:\n  - ",
     "description": "consumes",
     "displayText": "consumes",
     "prefix": "",
@@ -152,7 +152,7 @@
     ]
   },
   {
-    "text": "produces: ",
+    "text": "produces:\n  - ",
     "description": "produces",
     "displayText": "produces",
     "prefix": "",
@@ -190,7 +190,7 @@
     ]
   },
   {
-    "text": "schemes: ",
+    "text": "schemes:\n  - ",
     "description": "schemes",
     "displayText": "schemes",
     "prefix": "",
@@ -209,7 +209,7 @@
     ]
   },
   {
-    "text": "security: ",
+    "text": "security:\n  - ",
     "description": "security",
     "displayText": "security",
     "prefix": "",
@@ -247,7 +247,7 @@
     ]
   },
   {
-    "text": "tags:\n  ",
+    "text": "tags:\n  - ",
     "description": "tags",
     "displayText": "tags",
     "prefix": "",

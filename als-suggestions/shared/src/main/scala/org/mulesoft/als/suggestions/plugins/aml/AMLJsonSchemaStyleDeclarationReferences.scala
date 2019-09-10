@@ -36,7 +36,7 @@ class AMLJsonSchemaStyleDeclarationReferences(dialect: Dialect,
     filtered
       .map(r =>
         mark.fold(if (yPart.isJson) DoubleQuoteMark.markText(r) else r)(m => if (yPart.isJson) r else m.markText(r)))
-      .map(route => RawSuggestion(route, route, s"Reference to $route", Nil, isKey = false, ""))
+      .map(route => RawSuggestion(route, route, s"Reference to $route", Nil, ""))
   }
 
   def nameForIri(iri: String): Option[String] = {

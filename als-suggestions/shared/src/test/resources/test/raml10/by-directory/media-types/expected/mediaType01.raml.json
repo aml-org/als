@@ -1,6 +1,6 @@
 [
   {
-    "text": "application/json",
+    "text": "\n  - application/json",
     "description": "application/json",
     "displayText": "application/json",
     "prefix": "app",
@@ -19,7 +19,7 @@
     ]
   },
   {
-    "text": "application/xml",
+    "text": "\n  - application/xml",
     "description": "application/xml",
     "displayText": "application/xml",
     "prefix": "app",

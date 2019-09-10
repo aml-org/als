@@ -209,7 +209,7 @@
     ]
   },
   {
-    "text": "securedBy: ",
+    "text": "securedBy:\n    - ",
     "description": "securedBy",
     "displayText": "securedBy",
     "prefix": "",
@@ -228,7 +228,7 @@
     ]
   },
   {
-    "text": "type: ",
+    "text": "type:\n    ",
     "description": "type",
     "displayText": "type",
     "prefix": "",

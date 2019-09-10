@@ -19,7 +19,7 @@
     ]
   },
   {
-    "text": "authorizationGrants:\n        ",
+    "text": "authorizationGrants:\n        - ",
     "description": "authorizationGrants",
     "displayText": "authorizationGrants",
     "prefix": "",
@@ -57,7 +57,7 @@
     ]
   },
   {
-    "text": "scopes:\n        ",
+    "text": "scopes:\n        - ",
     "description": "scopes",
     "displayText": "scopes",
     "prefix": "",
