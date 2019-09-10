@@ -7,14 +7,14 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object AMLBooleanPropertyValue extends AMLCompletionPlugin {
+object AMLBooleanPropertyValue extends AMLCompletionPlugin with BooleanSuggestions {
   override def id: String = "AMLBooleanPropertyValue"
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
       request.propertyMapping match {
         case head :: Nil if head.literalRange().option().contains(XsdTypes.xsdBoolean.iri()) =>
-          Seq("true", "false").map(RawSuggestion(_, isAKey = false))
+          booleanSuggestions
         case _ => Nil
       }
     }
