@@ -149,21 +149,9 @@ object Suggestions extends SuggestionsHelper {
                                          platform: Platform): CompletionProviderAST = {
 
     val amfPosition = pos.moveLine(1)
-    def styler =
-      (isKey: Boolean) =>
-        SuggestionStyler.adjustedSuggestions(
-          StylerParams(
-            getMediaType(originalContent) == Syntax.YAML,
-            isKey,
-            noColon = false, // just in annotations??
-            originalContent,
-            pos
-          ),
-          _
-      )
     CompletionProviderAST(
       AmlCompletionRequestBuilder
-        .build(bu, amfPosition, dialect, CompletionEnvironment(directoryResolver, platform, env), styler))
+        .build(bu, amfPosition, dialect, CompletionEnvironment(directoryResolver, platform, env), originalContent))
   }
 }
 

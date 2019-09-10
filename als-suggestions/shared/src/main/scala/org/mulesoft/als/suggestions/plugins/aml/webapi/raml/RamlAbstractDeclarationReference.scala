@@ -37,7 +37,7 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
                                                  None).resolve().filter(r => !brothers.contains(r.newText))
 
         if (params.yPartBranch.isKey)
-          suggestions.map(s => s.copy(isKey = true, whiteSpacesEnding = params.indentation))
+          suggestions.map(s => s.copy(options = s.options.copy(isKey = true), whiteSpacesEnding = params.indentation))
         else suggestions
       } else Nil)
 

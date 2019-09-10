@@ -8,7 +8,7 @@ class FragmentTests extends AMLSuggestionsTest {
 
   test("test001") {
     this.runSuggestionTest("fragment/test001.yaml",
-                           Set("externalDocs:\n  ", "uses:\n  ", "description: ", "headers:\n  ", "tags:\n  "))
+                           Set("externalDocs:\n  ", "uses:\n  ", "description: ", "headers:\n  ", "tags:\n  - "))
   }
 
   test("test002") {
@@ -17,10 +17,10 @@ class FragmentTests extends AMLSuggestionsTest {
       Set(
         "pattern: ",
         "maxItems: ",
-        "required: ",
+        "required:\n    - ",
         "items:\n    ",
         "exclusiveMaximum: ",
-        "\"$schema\": ",
+        "$schema: ",
         "type: ",
         "xml:\n    ",
         "key: ",
@@ -64,10 +64,10 @@ class FragmentTests extends AMLSuggestionsTest {
       Set(
         "pattern: ",
         "maxItems: ",
-        "required: ",
+        "required:\n    - ",
         "items:\n    ",
         "exclusiveMaximum: ",
-        "\"$schema\": ",
+        "$schema: ",
         "type: ",
         "xml:\n    ",
         "key: ",

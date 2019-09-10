@@ -95,7 +95,7 @@
     ]
   },
   {
-    "text": "enum:\n            ",
+    "text": "enum:\n            - ",
     "description": "enum",
     "displayText": "enum",
     "prefix": "",

@@ -271,7 +271,6 @@ object AsyncAPIDialect extends DialectConf {
       |        propertyTerm: json-schema.type
       |        range: string
       |        enum: [array, boolean, integer, "null", number, object, string]
-      |        allowMultiple: true
       |      id:
       |        propertyTerm: json-schema.id
       |        range: string
@@ -317,7 +316,6 @@ object AsyncAPIDialect extends DialectConf {
       |      items:
       |        propertyTerm: json-schema.items
       |        range: SchemaObject
-      |        allowMultiple: true
       |      maxItems:
       |        propertyTerm: json-schema.maxItems
       |        range: boolean

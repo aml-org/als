@@ -5,15 +5,19 @@ import org.mulesoft.als.suggestions.implementation.Suggestion
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.completion.InsertTextFormat
 
+case class SuggestionOptions(arrayItem: Boolean = false,
+                             arrayProperty: Boolean = false,
+                             isKey: Boolean = false,
+                             isSnippet: Boolean = false)
+
 case class RawSuggestion(newText: String,
                          displayText: String,
                          description: String,
                          textEdits: Seq[TextEdit],
-                         isKey: Boolean,
                          whiteSpacesEnding: String,
                          category: String = "unknown",
                          range: Option[PositionRange] = None,
-                         isSnippet: Boolean = false) {
+                         options: SuggestionOptions = SuggestionOptions()) {
 
   implicit def bool2InsertTextFormat(v: Boolean): InsertTextFormat.Value =
     if (v) InsertTextFormat.Snippet
@@ -22,7 +26,7 @@ case class RawSuggestion(newText: String,
   def toSuggestion(linePrefix: String): Suggestion =
     new Suggestion(newText, description, displayText, linePrefix, range)
       .withTrailingWhitespace(whiteSpacesEnding)
-      .withInsertTextFormat(isSnippet)
+      .withInsertTextFormat(options.isSnippet)
       .withCategory(category)
 }
 
@@ -44,7 +48,15 @@ object RawSuggestion {
   }
 
   def apply(value: String, ws: String, isAKey: Boolean, category: String): RawSuggestion = {
-    new RawSuggestion(value, value, value, Seq(), isAKey, ws, category)
+    new RawSuggestion(value, value, value, Seq(), ws, category, options = SuggestionOptions(isKey = isAKey))
+  }
+
+  def keyOfArray(text: String, ws: String, category: String): RawSuggestion = {
+    new RawSuggestion(text, text, text, Nil, ws, category, None, SuggestionOptions(arrayProperty = true, isKey = true))
+  }
+
+  def valueInArray(text: String, ws: String, description: String, category: String, isKey: Boolean): RawSuggestion = {
+    new RawSuggestion(text, text, text, Nil, ws, category, None, SuggestionOptions(arrayItem = true, isKey = isKey))
   }
 
   def apply(value: String,
@@ -52,6 +64,6 @@ object RawSuggestion {
             isAKey: Boolean,
             category: String,
             range: Option[PositionRange]): RawSuggestion = {
-    new RawSuggestion(value, value, value, Seq(), isAKey, ws, category, range)
+    new RawSuggestion(value, value, value, Seq(), ws, category, range, SuggestionOptions(isKey = isAKey))
   }
 }

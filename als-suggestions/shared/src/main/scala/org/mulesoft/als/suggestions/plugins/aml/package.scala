@@ -9,7 +9,10 @@ package object aml {
   implicit class PropertyMappingWrapper(p: PropertyMapping) {
     def toRaw(indentation: String, category: String): RawSuggestion = {
       if (p.objectRange().nonEmpty || p.allowMultiple().value())
-        RawSuggestion(p.name().value(), indentation, isAKey = true, category = category)
+        if (p.allowMultiple().value() && p.mapTermKeyProperty().option().isEmpty)
+          RawSuggestion.keyOfArray(p.name().value(), indentation, category)
+        else
+          RawSuggestion(p.name().value(), indentation, isAKey = true, category = category)
       else
         RawSuggestion.forKey(p.name().value(), category = category)
     }

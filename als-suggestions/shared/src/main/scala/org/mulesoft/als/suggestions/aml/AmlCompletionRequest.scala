@@ -5,6 +5,7 @@ import amf.core.model.document.{BaseUnit, Document}
 import amf.core.model.domain.{AmfArray, AmfObject, DomainElement}
 import amf.core.parser.FieldEntry
 import amf.core.remote.Platform
+import amf.dialects.{RAML08Dialect, RAML10Dialect}
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
@@ -12,14 +13,14 @@ import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
-import org.mulesoft.als.suggestions.interfaces.Suggestion
+import org.mulesoft.als.suggestions.{SuggestionStyler, SuggestionStylerBuilder}
 import org.yaml.model.{YDocument, YNode, YType}
 
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: Position,
                            val actualDialect: Dialect,
                            val env: CompletionEnvironment,
-                           val styler: Boolean => Seq[Suggestion] => Seq[Suggestion],
+                           val styler: SuggestionStyler,
                            val yPartBranch: YPartBranch,
                            private val objectInTree: ObjectInTree,
                            val inheritedProvider: Option[DeclarationProvider] = None) {
@@ -28,37 +29,14 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
 
   lazy val amfObject: AmfObject = objectInTree.obj
 
-  val prefix: String = {
-    yPartBranch.node match {
-      case node: YNode =>
-        if (PositionRange(node.tag.range).contains(position.moveLine(-1)))
-          node.tag.text
-        else
-          node.tagType match {
-            case YType.Str =>
-              val lines: Iterator[String] = node
-                .as[String]
-                .linesIterator
-                .drop(position.line - node.range.lineFrom)
-              if (lines.hasNext)
-                lines
-                  .next()
-                  .substring(0, position.column - node.range.columnFrom - {
-                    if (node.asScalar.exists(_.mark.plain)) 0 else 1 // if there is a quotation mark, adjust the range according
-                  })
-              else ""
-            case YType.Include =>
-              node match {
-                case mr: YNode.MutRef if mr.origTag.tagType == YType.Include =>
-                  mr.origValue.toString
-                case _ => ""
-              }
-            case _ => ""
-          }
-      case _ => ""
-    }
-  }
+  def prefix: String = styler.params.prefix
 
+  private val strict = actualDialect.id match {
+    case RAML10Dialect.DialectLocation => false
+    case RAML08Dialect.DialectLocation => false
+    case _                             => true
+
+  }
   lazy val fieldEntry: Option[FieldEntry] = { // todo: maybe this should be a seq and not an option
     objectInTree.obj.fields
       .fields()
@@ -174,7 +152,7 @@ object AmlCompletionRequestBuilder {
             position: Position,
             dialect: Dialect,
             env: CompletionEnvironment,
-            styler: Boolean => Seq[Suggestion] => Seq[Suggestion]): AmlCompletionRequest = {
+            originalContent: String): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
       val ast = baseUnit match {
         case d: Document =>
@@ -185,8 +163,43 @@ object AmlCompletionRequestBuilder {
       NodeBranchBuilder.build(ast.getOrElse(YDocument(IndexedSeq.empty, "")), position)
     }
 
+    val styler = SuggestionStylerBuilder.build(!yPartBranch.isJson,
+                                               prefix(yPartBranch, position),
+                                               originalContent,
+                                               position.moveLine(-1))
     val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
     new AmlCompletionRequest(baseUnit, position, dialect, env, styler, yPartBranch, objectInTree)
+  }
+
+  private def prefix(yPartBranch: YPartBranch, position: Position): String = {
+    yPartBranch.node match {
+      case node: YNode =>
+        if (PositionRange(node.tag.range).contains(position.moveLine(-1)))
+          node.tag.text
+        else
+          node.tagType match {
+            case YType.Str =>
+              val lines: Iterator[String] = node
+                .as[String]
+                .linesIterator
+                .drop(position.line - node.range.lineFrom)
+              if (lines.hasNext)
+                lines
+                  .next()
+                  .substring(0, position.column - node.range.columnFrom - {
+                    if (node.asScalar.exists(_.mark.plain)) 0 else 1 // if there is a quotation mark, adjust the range according
+                  })
+              else ""
+            case YType.Include =>
+              node match {
+                case mr: YNode.MutRef if mr.origTag.tagType == YType.Include =>
+                  mr.origValue.toString
+                case _ => ""
+              }
+            case _ => ""
+          }
+      case _ => ""
+    }
   }
 
   def forElement(element: DomainElement,

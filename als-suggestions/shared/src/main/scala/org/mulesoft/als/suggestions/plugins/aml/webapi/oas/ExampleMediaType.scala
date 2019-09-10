@@ -18,11 +18,14 @@ object ExampleMediaType extends AMLCompletionPlugin {
       case Some(fe)
           if fe.field == ResponseModel.Examples && request.yPartBranch.isKey && request.amfObject
             .isInstanceOf[Response] =>
-        new AMLKnownValueCompletions(ExampleModel.MediaType,
-                                     ExampleModel.`type`.head.iri(),
-                                     request.actualDialect,
-                                     request.yPartBranch.isKey,
-                                     request.indentation).resolve()
+        new AMLKnownValueCompletions(
+          ExampleModel.MediaType,
+          ExampleModel.`type`.head.iri(),
+          request.actualDialect,
+          request.yPartBranch.isKey,
+          request.indentation,
+          request.yPartBranch.isInArray || request.yPartBranch.isArray
+        ).resolve()
       case _ => emptySuggestion
     }
   }
