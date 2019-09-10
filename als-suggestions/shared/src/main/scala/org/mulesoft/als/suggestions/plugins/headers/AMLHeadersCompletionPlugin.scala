@@ -23,7 +23,7 @@ object AMLHeadersCompletionPlugin extends HeaderCompletionPlugin {
     Future.successful(
       if (!params.uri.toLowerCase().endsWith(".json"))
         allHeaders
-          .map(h => RawSuggestion(h, h, s"Define a ${h.substring(1)} file", Seq(), isKey = false, ""))
+          .map(h => RawSuggestion(h, h, s"Define a ${h.substring(1)} file", Seq(), ""))
       else Seq()
     )
 

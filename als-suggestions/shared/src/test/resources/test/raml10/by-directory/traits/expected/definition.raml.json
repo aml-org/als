@@ -76,7 +76,7 @@
     ]
   },
   {
-    "text": "is:\n      ",
+    "text": "is:\n      - ",
     "description": "is",
     "displayText": "is",
     "prefix": "",
@@ -171,7 +171,7 @@
     ]
   },
   {
-    "text": "securedBy: ",
+    "text": "securedBy:\n      - ",
     "description": "securedBy",
     "displayText": "securedBy",
     "prefix": "",

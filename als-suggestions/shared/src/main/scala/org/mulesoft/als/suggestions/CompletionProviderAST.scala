@@ -21,12 +21,9 @@ class CompletionProviderAST(request: AmlCompletionRequest) extends CompletionPro
     CompletionsPluginHandler
       .pluginSuggestions(request)
       .map(suggestions => {
-        val grouped: Map[Boolean, Seq[(Boolean, Suggestion)]] =
-          (suggestions filter brothersAndPrefix(request.prefix))
-            .filterNot(rs => arraySiblings(rs.newText))
-            .map(rawSuggestion => (rawSuggestion.isKey, rawSuggestion.toSuggestion(request.prefix)))
-            .groupBy(_._1)
-        grouped.keys.flatMap(k => request.styler(k)(grouped(k).map(_._2))).toSeq
+        (suggestions filter brothersAndPrefix(request.prefix))
+          .filterNot(rs => arraySiblings(rs.newText))
+          .map(request.styler.rawToStyledSuggestion)
       })
   }
 }

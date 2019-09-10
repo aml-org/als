@@ -1,6 +1,6 @@
 [
   {
-    "text": "application/json",
+    "text": "\n  - application/json",
     "description": "application/json",
     "displayText": "application/json",
     "prefix": "",
@@ -19,7 +19,7 @@
     ]
   },
   {
-    "text": "application/vnd.github+json",
+    "text": "\n  - application/vnd.github+json",
     "description": "application/vnd.github+json",
     "displayText": "application/vnd.github+json",
     "prefix": "",
@@ -38,7 +38,7 @@
     ]
   },
   {
-    "text": "application/vnd.github.v3+json",
+    "text": "\n  - application/vnd.github.v3+json",
     "description": "application/vnd.github.v3+json",
     "displayText": "application/vnd.github.v3+json",
     "prefix": "",
@@ -57,7 +57,7 @@
     ]
   },
   {
-    "text": "application/vnd.github.v3.full+json",
+    "text": "\n  - application/vnd.github.v3.full+json",
     "description": "application/vnd.github.v3.full+json",
     "displayText": "application/vnd.github.v3.full+json",
     "prefix": "",
@@ -76,7 +76,7 @@
     ]
   },
   {
-    "text": "application/vnd.github.v3.html+json",
+    "text": "\n  - application/vnd.github.v3.html+json",
     "description": "application/vnd.github.v3.html+json",
     "displayText": "application/vnd.github.v3.html+json",
     "prefix": "",
@@ -95,7 +95,7 @@
     ]
   },
   {
-    "text": "application/vnd.github.v3.patch",
+    "text": "\n  - application/vnd.github.v3.patch",
     "description": "application/vnd.github.v3.patch",
     "displayText": "application/vnd.github.v3.patch",
     "prefix": "",
@@ -114,7 +114,7 @@
     ]
   },
   {
-    "text": "application/vnd.github.v3.raw+json",
+    "text": "\n  - application/vnd.github.v3.raw+json",
     "description": "application/vnd.github.v3.raw+json",
     "displayText": "application/vnd.github.v3.raw+json",
     "prefix": "",
@@ -133,7 +133,7 @@
     ]
   },
   {
-    "text": "application/vnd.github.v3.text+json",
+    "text": "\n  - application/vnd.github.v3.text+json",
     "description": "application/vnd.github.v3.text+json",
     "displayText": "application/vnd.github.v3.text+json",
     "prefix": "",
@@ -152,7 +152,7 @@
     ]
   },
   {
-    "text": "appxlication/vnd.github.v3.diff",
+    "text": "\n  - appxlication/vnd.github.v3.diff",
     "description": "appxlication/vnd.github.v3.diff",
     "displayText": "appxlication/vnd.github.v3.diff",
     "prefix": "",
@@ -171,7 +171,7 @@
     ]
   },
   {
-    "text": "text/plain; charset=utf-8",
+    "text": "\n  - text/plain; charset=utf-8",
     "description": "text/plain; charset=utf-8",
     "displayText": "text/plain; charset=utf-8",
     "prefix": "",
