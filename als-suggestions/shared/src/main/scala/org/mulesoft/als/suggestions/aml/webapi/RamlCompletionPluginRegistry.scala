@@ -15,6 +15,7 @@ object RamlCompletionPluginRegistry {
   private val all: Seq[AMLCompletionPlugin] =
     AMLBaseCompletionPlugins.all :+
       Raml10StructureCompletionPlugin :+
+      Raml10BooleanPropertyValue :+
       Raml10ParamsCompletionPlugin :+
       Raml10TypeFacetsCompletionPlugin :+
       RamlTypeDeclarationReferenceCompletionPlugin :+
