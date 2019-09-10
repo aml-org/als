@@ -16,6 +16,7 @@ object Raml08CompletionPluginRegistry {
     AMLBaseCompletionPlugins.all :+
       Raml08StructureCompletionPlugin :+
       Raml08ParamsCompletionPlugin :+
+      Raml08BooleanPropertyValue :+
       Raml08TypeFacetsCompletionPlugin :+
       RamlTypeDeclarationReferenceCompletionPlugin :+
       RamlCustomFacetsCompletionPlugin :+
