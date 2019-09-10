@@ -1,0 +1,40 @@
+[
+  {
+    "text": "false",
+    "description": "false",
+    "displayText": "false",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 18
+        },
+        "end": {
+          "line": 7,
+          "character": 18
+        }
+      }
+    ]
+  },
+  {
+    "text": "true",
+    "description": "true",
+    "displayText": "true",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 18
+        },
+        "end": {
+          "line": 7,
+          "character": 18
+        }
+      }
+    ]
+  }
+]
