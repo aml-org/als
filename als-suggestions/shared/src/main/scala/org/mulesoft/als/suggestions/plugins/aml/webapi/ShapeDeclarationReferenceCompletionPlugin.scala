@@ -10,13 +10,13 @@ import org.mulesoft.als.common.ElementNameExtractor._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferences
+import org.mulesoft.als.suggestions.plugins.aml.{AMLRamlStyleDeclarationsReferences, BooleanSuggestions}
 import org.yaml.model.YMapEntry
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait ShapeDeclarationReferenceCompletionPlugin extends AMLCompletionPlugin {
+trait ShapeDeclarationReferenceCompletionPlugin extends AMLCompletionPlugin with BooleanSuggestions {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
@@ -41,12 +41,15 @@ trait ShapeDeclarationReferenceCompletionPlugin extends AMLCompletionPlugin {
             case Some(text)
                 if name.contains(text) || params.amfObject
                   .isInstanceOf[UnresolvedShape] || text == "body" ||
-                  (params.branchStack.headOption.exists(h => h.isInstanceOf[Parameter] || h.isInstanceOf[Payload]) && name
+                  (params.branchStack.headOption.exists(h =>
+                    (h.isInstanceOf[Parameter] || h.isInstanceOf[Payload]) && !isBoolean(h, text)) && name
                     .contains("schema")) =>
               declaredSuggestions ++ typeProperty
                 .enum()
                 .map(v => v.value().toString)
                 .map(RawSuggestion.apply(_, isAKey = false))
+            case Some(text) if params.branchStack.headOption.exists(h => isBoolean(h, text)) =>
+              booleanSuggestions
             case _ => Nil
           }
         case _ => Nil

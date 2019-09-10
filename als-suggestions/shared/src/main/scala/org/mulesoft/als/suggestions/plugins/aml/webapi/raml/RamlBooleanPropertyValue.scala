@@ -11,7 +11,7 @@ import org.mulesoft.als.suggestions.plugins.aml._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait RamlBooleanPropertyValue extends AMLCompletionPlugin {
+trait RamlBooleanPropertyValue extends AMLCompletionPlugin with BooleanSuggestions {
   override def id: String = "RamlBooleanPropertyValue"
 
   protected def propertyShapeNode: Option[NodeMapping]
@@ -21,10 +21,12 @@ trait RamlBooleanPropertyValue extends AMLCompletionPlugin {
       request.branchStack.headOption match {
         case Some(_: PropertyShape) =>
           val maybeMapping: Option[PropertyMapping] = propertyShapeNode
-            .flatMap(_.propertiesMapping().find(pm =>
-              request.yPartBranch.parentEntry.exists(_.key.asScalar.exists(_.text == pm.name().value()))))
+            .flatMap(
+              _.propertiesMapping().find(pm =>
+                request.yPartBranch.isValue &&
+                  request.yPartBranch.parentEntry.exists(_.key.asScalar.exists(_.text == pm.name().value()))))
           if (maybeMapping.exists(_.literalRange().option().contains(XsdTypes.xsdBoolean.iri())))
-            Seq("true", "false").map(RawSuggestion(_, isAKey = false))
+            booleanSuggestions
           else Nil
         case _ => Nil
       }
