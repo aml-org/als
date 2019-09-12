@@ -24,7 +24,7 @@ trait FatherSymbolBuilder[T <: AmfObject] extends ElementSymbolBuilder[T] {
     element.fields
       .fields()
       .filter(f => finalFilters.forall(fn => fn(f)))
-      .flatMap(e => factory.builderFor(e))
+      .flatMap(e => factory.builderFor(e, element.location()))
       .flatMap(_.build())
       .toList
 }
