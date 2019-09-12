@@ -26,9 +26,9 @@ abstract class BaseUnitSymbolBuilder(element: BaseUnit)(override implicit val fa
   private def buildDeclaredSymbols = {
     declaredChildrens.flatMap {
       case (name, builders) =>
-        val childrens = builders.flatMap(_.build())
+        val children = builders.flatMap(_.build())
 
-        childrens.toList match {
+        children.toList match {
           case Nil => None
           case head :: tail =>
             Some(
@@ -37,7 +37,7 @@ abstract class BaseUnitSymbolBuilder(element: BaseUnit)(override implicit val fa
                              false,
                              head.range + tail.lastOption.getOrElse(head).range,
                              head.selectionRange,
-                             childrens.toList))
+                             children.toList))
         }
     }
   }
