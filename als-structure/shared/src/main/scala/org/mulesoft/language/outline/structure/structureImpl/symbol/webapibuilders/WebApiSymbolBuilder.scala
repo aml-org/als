@@ -41,10 +41,18 @@ class WebApiSymbolBuilder(override val element: WebApi)(override implicit val fa
     .getOrElse(Nil)
 
   val versionChildren: Seq[DocumentSymbol] =
-    element.fields.entryJsonld(WebApiModel.Version).flatMap(factory.builderFor).map(_.build()).getOrElse(Nil)
+    element.fields
+      .entryJsonld(WebApiModel.Version)
+      .flatMap(factory.builderFor(_, element.location()))
+      .map(_.build())
+      .getOrElse(Nil)
 
   val endpointsChildren: Seq[DocumentSymbol] =
-    element.fields.entryJsonld(WebApiModel.EndPoints).flatMap(factory.builderFor).map(_.build()).getOrElse(Nil)
+    element.fields
+      .entryJsonld(WebApiModel.EndPoints)
+      .flatMap(factory.builderFor(_, element.location()))
+      .map(_.build())
+      .getOrElse(Nil)
 
   override def build(): Seq[DocumentSymbol] = {
     titleChildren ++ versionChildren ++ super.childrens
