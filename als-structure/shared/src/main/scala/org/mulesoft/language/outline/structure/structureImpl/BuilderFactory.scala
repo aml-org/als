@@ -18,9 +18,9 @@ trait BuilderFactory {
   def builderFor[T <: AmfObject](obj: T): Option[ElementSymbolBuilder[_ <: AmfElement]] =
     builderFor[T](obj.meta.`type`.map(_.iri()), obj)
 
-  def builderFor(e: FieldEntry): Option[ElementSymbolBuilder[_ <: AmfElement]] =
+  def builderFor(e: FieldEntry, location: Option[String]): Option[ElementSymbolBuilder[_ <: AmfElement]] =
     e match {
-      case FieldEntry(f, Value(v, _)) =>
+      case FieldEntry(f, Value(v, _)) if location.forall(l => l == v.location().getOrElse(l)) =>
         builderFor(Seq(f.value.iri()), v)
           .orElse(builderForElement(v))
       case _ => None
