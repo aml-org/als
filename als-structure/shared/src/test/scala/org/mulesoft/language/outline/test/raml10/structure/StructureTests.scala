@@ -117,4 +117,8 @@ class RAML10StructureTests extends RAML10StructureTest {
   test("String union nil range property: string?") {
     this.runTest("optional-string/api.raml", "optional-string/api-outline.json")
   }
+
+  test("Nested files (inlined)") {
+    this.runTest("nested-files/api.raml", "nested-files/api-outline.json")
+  }
 }
