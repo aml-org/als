@@ -313,6 +313,32 @@
                 ]
               },
               {
+                "name": "\"application/json\"",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 30,
+                    "character": 14
+                  },
+                  "end": {
+                    "line": 36,
+                    "character": 15
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 30,
+                    "character": 14
+                  },
+                  "end": {
+                    "line": 30,
+                    "character": 32
+                  }
+                },
+                "children": []
+              },
+              {
                 "name": "\"schema\"",
                 "kind": 7,
                 "deprecated": false,
@@ -364,32 +390,6 @@
                     "children": []
                   }
                 ]
-              },
-              {
-                "name": "\"application/json\"",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 30,
-                    "character": 14
-                  },
-                  "end": {
-                    "line": 36,
-                    "character": 15
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 30,
-                    "character": 14
-                  },
-                  "end": {
-                    "line": 30,
-                    "character": 32
-                  }
-                },
-                "children": []
               }
             ]
           },
