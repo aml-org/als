@@ -6,6 +6,7 @@ import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.common.LspConverter
+import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
@@ -19,7 +20,9 @@ abstract class ServerReferenceTest extends LanguageServerBaseTest {
                           baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val astManager = new AstManager(documentManager, baseEnvironment, platform, logger)
+    val telemetryManager = new TelemetryManager(MockClientNotifier, logger)
+
+    val astManager = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
 
     builder
       .addInitializable(astManager)

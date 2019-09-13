@@ -10,6 +10,7 @@ import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.configuration.InitializeParams
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
+import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync.{
   DidChangeTextDocumentParams,
@@ -30,6 +31,8 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
 
   object MockClientNotifier extends ClientNotifier {
     var promise: Option[Promise[PublishDiagnosticsParams]] = None
+
+    override def notifyTelemetry(params: TelemetryMessage): Unit = {}
 
     def nextCall: Future[PublishDiagnosticsParams] = {
       if (promise.isEmpty)

@@ -5,6 +5,7 @@ import amf.internal.environment.Environment
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.structure.StructureManager
+import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
@@ -23,8 +24,9 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
                           baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val astManager = new AstManager(documentManager, baseEnvironment, platform, logger)
-    val module     = new StructureManager(documentManager, astManager, logger, platform)
+    val telemetryManager = new TelemetryManager(MockClientNotifier, logger)
+    val astManager       = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
+    val module           = new StructureManager(documentManager, astManager, telemetryManager, logger, platform)
 
     builder
       .addInitializable(astManager)

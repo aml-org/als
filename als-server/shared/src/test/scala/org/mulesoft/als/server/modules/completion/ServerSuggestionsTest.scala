@@ -6,6 +6,7 @@ import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.common.LspConverter.toLspPosition
+import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
@@ -24,9 +25,17 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
                           baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val astManager = new AstManager(documentManager, baseEnvironment, platform, logger)
+    val telemetryManager = new TelemetryManager(MockClientNotifier, logger)
+
+    val astManager = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
     val completionManager =
-      new SuggestionsManager(documentManager, astManager, directoryResolver, platform, baseEnvironment, logger)
+      new SuggestionsManager(documentManager,
+                             astManager,
+                             telemetryManager,
+                             directoryResolver,
+                             platform,
+                             baseEnvironment,
+                             logger)
 
     builder
       .addInitializable(astManager)

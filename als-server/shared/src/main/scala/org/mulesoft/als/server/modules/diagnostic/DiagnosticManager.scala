@@ -14,6 +14,7 @@ import org.mulesoft.als.server.modules.common.reconciler.Reconciler
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -22,6 +23,7 @@ import scala.util.{Failure, Success}
 
 class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
                         private val astManager: AstManager,
+                        private val telemetryProvider: TelemetryProvider,
                         private val clientNotifier: ClientNotifier,
                         private val platform: Platform,
                         private val logger: Logger)
@@ -45,14 +47,18 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
   def newASTAvailable(uri: String, version: Int, ast: BaseUnit) {
     logger.debug("Got new AST:\n" + ast.toString, "ValidationManager", "newASTAvailable")
 
+    telemetryProvider.addTimedMessage("Start report", MessageTypes.BEGIN_DIAGNOSTIC)
+
     reconciler.shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, version, ast))).future andThen {
       case Success(reports: Seq[ValidationReport]) =>
+        telemetryProvider.addTimedMessage("Got reports", MessageTypes.GOT_DIAGNOSTICS)
         logger.debug("Number of errors is:\n" + reports.flatMap(_.issues).length,
                      "ValidationManager",
                      "newASTAvailable")
         reports.foreach { r =>
           clientNotifier.notifyDiagnostic(r.publishDiagnosticsParams)
         }
+        telemetryProvider.addTimedMessage("End report", MessageTypes.END_DIAGNOSTIC)
 
       case Failure(exception) =>
         exception.printStackTrace()
@@ -68,7 +74,7 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
       val startTime = System.currentTimeMillis()
 
       this
-        .report(uri, astNode)
+        .report(uri, telemetryProvider, astNode)
         .map(report => {
           val endTime = System.currentTimeMillis()
 
@@ -142,6 +148,12 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
   private def checkProfileName(baseUnit: BaseUnit): String =
     baseUnit.sourceVendor.map(_.name).getOrElse(Aml.toString)
 
-  private def report(uri: String, baseUnit: BaseUnit): Future[AMFValidationReport] =
-    RuntimeValidator(baseUnit, ProfileName(checkProfileName(baseUnit)))
+  private def report(uri: String,
+                     telemetryProvider: TelemetryProvider,
+                     baseUnit: BaseUnit): Future[AMFValidationReport] = {
+    telemetryProvider.addTimedMessage("Start AMF report", MessageTypes.BEGIN_REPORT)
+    val eventualReport = RuntimeValidator(baseUnit, ProfileName(checkProfileName(baseUnit)))
+    eventualReport.foreach(r => telemetryProvider.addTimedMessage("End AMF report", MessageTypes.END_REPORT))
+    eventualReport
+  }
 }
