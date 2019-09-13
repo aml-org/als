@@ -50,6 +50,7 @@ pipeline {
         anyOf {
           branch 'master'
           branch 'devel'
+          branch 'rc/*'
           branch 'fat-jar-publish'
         }
       }
