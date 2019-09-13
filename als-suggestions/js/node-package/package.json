@@ -1,6 +1,6 @@
 {
   "name": "@mulesoft/als-suggestions",
-  "version": "1.2.0-0",
+  "version": "2.1.0-0",
   "description": "Standalone als suggestions",
   "main": "lib/als-suggestions.js",
   "types": "typescript/als-suggestions.d.ts",
