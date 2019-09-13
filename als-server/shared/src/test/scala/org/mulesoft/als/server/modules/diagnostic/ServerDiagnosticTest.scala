@@ -4,6 +4,7 @@ import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.server.modules.ast.AstManager
+import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 
@@ -21,8 +22,10 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
                           baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val astManager        = new AstManager(documentManager, baseEnvironment, platform, logger)
-    val diagnosticManager = new DiagnosticManager(documentManager, astManager, MockClientNotifier, platform, logger)
+    val telemetryManager = new TelemetryManager(MockClientNotifier, logger)
+    val astManager       = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
+    val diagnosticManager =
+      new DiagnosticManager(documentManager, astManager, telemetryManager, MockClientNotifier, platform, logger)
 
     builder
       .addInitializable(astManager)

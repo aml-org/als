@@ -19,6 +19,7 @@ import org.mulesoft.als.server.modules.common.reconciler.Reconciler
 import org.mulesoft.als.server.textsync.{ChangedDocument, OpenedDocument, TextDocumentManager}
 import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.Initializable
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -29,6 +30,7 @@ import scala.concurrent.Future
   */
 class AstManager(private val textDocumentManager: TextDocumentManager,
                  private val baseEnvironment: Environment,
+                 private val telemetryProvider: TelemetryProvider,
                  private val platform: Platform,
                  private val logger: Logger)
     extends Initializable {
@@ -85,7 +87,9 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     val editorOption = textDocumentManager.getTextDocument(uri)
     if (editorOption.isDefined) {
       init()
-        .flatMap(_ => parse(uri))
+        .flatMap(_ => {
+          parse(uri, telemetryProvider)
+        })
     } else {
       Future.failed(new Exception("No editor found for uri " + uri))
     }
@@ -94,15 +98,18 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
   def onNewASTAvailable(listener: AstListener, unsubscribe: Boolean = false): Unit =
     addListener(astListeners, listener, unsubscribe)
 
-  def onOpenDocument(document: OpenedDocument): Unit =
-    parse(document.uri)
-      .foreach(unit => registerNewAST(document.uri, document.version, unit))
+  def onOpenDocument(document: OpenedDocument): Unit = {
+    parse(document.uri, telemetryProvider)
+      .foreach(unit => {
+        registerNewAST(document.uri, document.version, unit)
+      })
+  }
 
   def onChangeDocument(document: ChangedDocument): Unit = {
     logger.debug(s"document ${document.uri} is changed", "ASTManager", "onChangeDocument")
-
+    telemetryProvider.addTimedMessage("change document", MessageTypes.CHANGE_DOCUMENT)
     reconciler
-      .shedule(new DocumentChangedRunnable(document.uri, () => parse(document.uri)))
+      .shedule(new DocumentChangedRunnable(document.uri, () => parse(document.uri, telemetryProvider)))
       .future
       .map(unit => registerNewAST(document.uri, document.version, unit))
       .recover {
@@ -145,10 +152,11 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     * If not, performs immediate asynchronous parsing and returns the results.
     *
     */
-  def forceBuildNewAST(uri: String, text: String): Future[BaseUnit] =
-    parseWithContentSubstitution(uri, text)
+  def forceBuildNewAST(uri: String, text: String, telemetryProvider: TelemetryProvider): Future[BaseUnit] =
+    parseWithContentSubstitution(uri, text, telemetryProvider)
 
-  def parse(uri: String): Future[BaseUnit] = {
+  def parse(uri: String, telemetryProvider: TelemetryProvider): Future[BaseUnit] = {
+    telemetryProvider.addTimedMessage("Begin parsing", MessageTypes.BEGIN_PARSE)
     val amfURI = FileUtils.getDecodedUri(uri, platform)
 
     logger.debugDetail(s"Protocol uri is $amfURI", "ASTManager", "parse")
@@ -159,13 +167,21 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     helper.parse(amfURI, envForValidation(uri)).map { result =>
       val endTime = System.currentTimeMillis()
       logger.debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast", "ASTManager", "parse")
+      telemetryProvider.addTimedMessage("End parsing", MessageTypes.END_PARSE)
       result
     }
   }
 
-  def parseWithContentSubstitution(uri: String, content: String): Future[BaseUnit] = {
+  def parseWithContentSubstitution(uri: String,
+                                   content: String,
+                                   telemetryProvider: TelemetryProvider): Future[BaseUnit] = {
+    telemetryProvider.addTimedMessage("Begin patching", MessageTypes.BEGIN_PATCHING)
+
     val patchedEnvironment =
       EnvironmentPatcher.patch(serverEnvironment, FileUtils.getEncodedUri(uri, platform), content)
+
+    telemetryProvider.addTimedMessage("End patching", MessageTypes.END_PATCHING)
+    telemetryProvider.addTimedMessage("Begin parsing", MessageTypes.BEGIN_PARSE_PATCHED)
 
     val startTime = System.currentTimeMillis()
 
@@ -176,6 +192,7 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
         logger.debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast",
                            "ASTManager",
                            "parseWithContentSubstitution")
+        telemetryProvider.addTimedMessage("End parsing", MessageTypes.END_PARSE_PATCHED)
         result
       }
   }
