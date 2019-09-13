@@ -20,12 +20,14 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolInformation,
   DocumentSymbol => LspDocumentSymbol
 }
+import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class StructureManager(private val textDocumentManager: TextDocumentManager,
                        private val astManager: AstManager,
+                       private val telemetryProvider: TelemetryProvider,
                        private val logger: Logger,
                        private val platform: Platform)
     extends RequestModule[DocumentSymbolClientCapabilities, Unit] {

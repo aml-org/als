@@ -17,12 +17,14 @@ import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.completion._
+import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                          val astManager: AstManager,
+                         private val telemetryProvider: TelemetryProvider,
                          private val directoryResolver: DirectoryResolver,
                          private val platform: Platform,
                          private val environment: Environment,
@@ -107,7 +109,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                                  position: Int,
                                  syntax: Syntax): Future[CompletionProvider] = {
 
-    val eventualUnit: Future[BaseUnit] = astManager.forceBuildNewAST(uri, text)
+    val eventualUnit: Future[BaseUnit] = astManager.forceBuildNewAST(uri, text, telemetryProvider)
     Suggestions.buildProviderAsync(eventualUnit,
                                    position,
                                    directoryResolver,

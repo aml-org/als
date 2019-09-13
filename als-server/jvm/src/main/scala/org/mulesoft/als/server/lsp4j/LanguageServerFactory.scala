@@ -12,6 +12,7 @@ import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
 import org.mulesoft.als.server.modules.structure.StructureManager
+import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.amfmanager.CustomDialects
 import org.mulesoft.lsp.server.LanguageServer
@@ -27,16 +28,19 @@ object LanguageServerFactory extends PlatformSecrets {
       .add(ResourceLoaderAdapter(FileResourceLoader()))
       .add(ResourceLoaderAdapter(HttpResourceLoader()))
 
-    val astManager = new AstManager(documentManager, baseEnvironment, platform, logger)
+    val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
+    val astManager                         = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
     val completionManager =
       new SuggestionsManager(documentManager,
                              astManager,
+                             telemetryManager,
                              DefaultJvmDirectoryResolver,
                              platform,
                              baseEnvironment,
                              logger)
-    val diagnosticManager = new DiagnosticManager(documentManager, astManager, clientNotifier, platform, logger)
-    val structureManager  = new StructureManager(documentManager, astManager, logger, platform)
+    val diagnosticManager =
+      new DiagnosticManager(documentManager, astManager, telemetryManager, clientNotifier, platform, logger)
+    val structureManager = new StructureManager(documentManager, astManager, telemetryManager, logger, platform)
 
     LanguageServerBuilder()
       .withTextDocumentSyncConsumer(documentManager)
@@ -44,6 +48,7 @@ object LanguageServerFactory extends PlatformSecrets {
       .addInitializable(diagnosticManager)
       .addRequestModule(completionManager)
       .addRequestModule(structureManager)
+      .addInitializable(telemetryManager)
       .build()
   }
 }

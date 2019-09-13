@@ -12,6 +12,7 @@ import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
+import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
@@ -126,8 +127,10 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
                           baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val astManager        = new AstManager(documentManager, baseEnvironment, platform, logger)
-    val diagnosticManager = new DiagnosticManager(documentManager, astManager, MockClientNotifier, platform, logger)
+    val telemetryManager = new TelemetryManager(MockClientNotifier, logger)
+    val astManager       = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
+    val diagnosticManager =
+      new DiagnosticManager(documentManager, astManager, telemetryManager, MockClientNotifier, platform, logger)
 
     builder
       .addInitializable(astManager)
