@@ -1,0 +1,14 @@
+#%RAML 0.8
+title: inlined collections
+version: 1
+schemas:
+  - Collection: !include schema.json
+
+/collaborations:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            schema: Collection
+            example: !include collection.json

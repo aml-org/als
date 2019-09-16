@@ -16,6 +16,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
   NamedElementSymbolBuilder
 }
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ramlbuilders.RamlEndPointSymbolBuilder
+import org.yaml.model.YNode.MutRef
 
 import scala.collection.mutable
 
@@ -28,7 +29,15 @@ trait BaseUnitSymbolBuilderCompanion extends ElementSymbolBuilderCompanion {
 
 class WebApiArraySymbolBuilder(element: AmfArray)(override implicit val factory: BuilderFactory)
     extends ElementSymbolBuilder[AmfArray] {
-  override def build(): Seq[DocumentSymbol] = element.values.flatMap(factory.builderForElement).flatMap(_.build())
+  override def build(): Seq[DocumentSymbol] =
+    element.values
+      .flatMap(v => {
+        v match {
+          case e if e.annotations.find(classOf[SourceAST]).exists(_.ast.isInstanceOf[MutRef]) => None
+          case _                                                                              => factory.builderForElement(v)
+        }
+      })
+      .flatMap(_.build())
 }
 
 class WebApiSymbolBuilder(override val element: WebApi)(override implicit val factory: BuilderFactory)

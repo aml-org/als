@@ -15,7 +15,7 @@ abstract class BaseUnitSymbolBuilder(element: BaseUnit)(override implicit val fa
     case _ => Nil
   }
 
-  private val declaredChildrens: Map[String, Seq[ElementSymbolBuilder[_ <: AmfElement]]] = element match {
+  private val declaredChildren: Map[String, Seq[ElementSymbolBuilder[_ <: AmfElement]]] = element match {
     case d: DeclaresModel =>
       val objToElements: Map[String, Seq[DomainElement]] =
         d.declares.groupBy(d => nameFromMeta(d.meta))
@@ -24,7 +24,7 @@ abstract class BaseUnitSymbolBuilder(element: BaseUnit)(override implicit val fa
   }
 
   private def buildDeclaredSymbols = {
-    declaredChildrens.flatMap {
+    declaredChildren.flatMap {
       case (name, builders) =>
         val children = builders.flatMap(_.build())
 
