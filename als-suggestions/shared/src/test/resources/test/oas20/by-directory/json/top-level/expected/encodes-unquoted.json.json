@@ -1,0 +1,287 @@
+[
+  {
+    "text": "\"basePath\":",
+    "description": "basePath",
+    "displayText": "basePath",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"consumes\":",
+    "description": "consumes",
+    "displayText": "consumes",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"definitions\":",
+    "description": "definitions",
+    "displayText": "definitions",
+    "prefix": "",
+    "category": "schemas",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"externalDocs\":",
+    "description": "externalDocs",
+    "displayText": "externalDocs",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"host\":",
+    "description": "host",
+    "displayText": "host",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"info\":",
+    "description": "info",
+    "displayText": "info",
+    "prefix": "",
+    "category": "docs",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"parameters\":",
+    "description": "parameters",
+    "displayText": "parameters",
+    "prefix": "",
+    "category": "parameters",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"paths\":",
+    "description": "paths",
+    "displayText": "paths",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"produces\":",
+    "description": "produces",
+    "displayText": "produces",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"responses\":",
+    "description": "responses",
+    "displayText": "responses",
+    "prefix": "",
+    "category": "responses",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"schemes\":",
+    "description": "schemes",
+    "displayText": "schemes",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"security\":",
+    "description": "security",
+    "displayText": "security",
+    "prefix": "",
+    "category": "security",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"securityDefinitions\":",
+    "description": "securityDefinitions",
+    "displayText": "securityDefinitions",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"swagger\":",
+    "description": "swagger",
+    "displayText": "swagger",
+    "prefix": "",
+    "category": "root",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"tags\":",
+    "description": "tags",
+    "displayText": "tags",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      }
+    ]
+  }
+]

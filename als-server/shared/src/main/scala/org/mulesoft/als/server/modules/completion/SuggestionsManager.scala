@@ -36,7 +36,6 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
   def completionItem(suggestion: Suggestion, position: Position): CompletionItem = {
     val range: PositionRange = suggestion.range
       .getOrElse(PositionRange(position.moveColumn(-suggestion.prefix.length), position))
-
     CompletionItem(
       suggestion.displayText,
       textEdit = Some(TextEdit(LspConverter.toLspRange(range), suggestion.text)),

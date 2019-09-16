@@ -82,7 +82,7 @@ object ContentPatcher {
           newLine += "\"\""
         if (!(hasComplexValueSameLine || hasComplexValueNextLine))
           newLine += ","
-      }
+      } else newLine = newLine + "\n"
     } else if (colonIndex <= off) {
       colonIndex = line.lastIndexOf(":", off)
       var substr               = line.substring(colonIndex + 1).trim
