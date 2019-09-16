@@ -36,8 +36,16 @@ trait AmfObjSymbolBuilder[T <: AmfObject] extends FatherSymbolBuilder[T] {
 
   protected def range: Option[PositionRange] =
     element.annotations
-      .find(classOf[LexicalInformation])
-      .map(l => PositionRange(l.range))
+      .find(classOf[SourceAST])
+      .flatMap(_.ast match {
+        case yme: YMapEntry if yme.key.sourceName.isEmpty => None
+        case yme: YMapEntry if yme.value.sourceName != yme.key.sourceName =>
+          Some(PositionRange(yme.key.range))
+        case y if y.sourceName.isEmpty => None
+        case y                         => Some(PositionRange(y.range))
+      })
+//      .find(classOf[LexicalInformation])
+//      .map(l => PositionRange(l.range))
 
   override def build(): Seq[DocumentSymbol] =
     if (name.isEmpty) Nil
