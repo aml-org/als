@@ -23,11 +23,11 @@ case class RawSuggestion(newText: String,
     if (v) InsertTextFormat.Snippet
     else InsertTextFormat.PlainText
 
-  def toSuggestion(linePrefix: String): Suggestion =
-    new Suggestion(newText, description, displayText, linePrefix, range)
-      .withTrailingWhitespace(whiteSpacesEnding)
-      .withInsertTextFormat(options.isSnippet)
-      .withCategory(category)
+//  def toSuggestion(linePrefix: String): Suggestion =
+//    new Suggestion(newText, description, displayText, linePrefix, range)
+//      .withTrailingWhitespace(whiteSpacesEnding)
+//      .withInsertTextFormat(options.isSnippet)
+//      .withCategory(category)
 }
 
 object RawSuggestion {

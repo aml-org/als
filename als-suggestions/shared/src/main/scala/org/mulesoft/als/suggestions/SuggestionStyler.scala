@@ -46,18 +46,23 @@ object SuggestionStylerBuilder {
   }
 }
 
+case class Styled(text: String, plain: Boolean)
+
 trait SuggestionStyler {
   val params: StylerParams
-  def style(suggestion: RawSuggestion): String
+  def style(suggestion: RawSuggestion): Styled
 
-  def asSuggestionImpl(s: RawSuggestion): SuggestionImpl =
+  def asSuggestionImpl(s: RawSuggestion): SuggestionImpl = {
+    val styled = style(s)
     SuggestionImpl(
-      style(s),
+      styled.text,
       s.description,
       s.displayText,
       params.prefix,
-      s.range.orElse(Option(PositionRange(params.position.moveColumn(-params.prefix.length), params.position)))
+      s.range.orElse(Option(PositionRange(params.position.moveColumn(-params.prefix.length), params.position))),
+      styled.plain
     ).withCategory(s.category)
+  }
 
   def rawToStyledSuggestion(suggestions: RawSuggestion): Suggestion = {
     asSuggestionImpl(suggestions)
@@ -68,22 +73,24 @@ case class DummySuggestionStyle(prefix: String, position: Position) extends Sugg
   override val params: StylerParams =
     StylerParams(prefix, hasQuote = false, hasColon = false, hasLine = false, hasKeyClosingQuote = false, position)
 
-  override def style(suggestion: RawSuggestion): String = suggestion.newText
+  override def style(suggestion: RawSuggestion): Styled = Styled(suggestion.newText, plain = true)
 }
 
 case class YamlSuggestionStyler(override val params: StylerParams) extends SuggestionStyler {
-  override def style(rawSuggestion: RawSuggestion): String = {
+  override def style(rawSuggestion: RawSuggestion): Styled = {
 
-    if (rawSuggestion.options.isKey) keyAdapter(rawSuggestion) + arrayAdapter(rawSuggestion)
-    else if (!rawSuggestion.options.isKey)
-      if (params.prefix == ":" && !(rawSuggestion.newText.startsWith("\n") || rawSuggestion.newText
-            .startsWith("\r\n") || rawSuggestion.newText.startsWith(" ")))
-        s" ${rawSuggestion.newText}"
-      else if (rawSuggestion.newText endsWith ":") s"${rawSuggestion.newText} "
-      else if (rawSuggestion.options.arrayItem)
-        "\n" + whiteSpaceOrSpace(rawSuggestion.whiteSpacesEnding) + "- " + rawSuggestion.newText
+    val text =
+      if (rawSuggestion.options.isKey) keyAdapter(rawSuggestion) + arrayAdapter(rawSuggestion)
+      else if (!rawSuggestion.options.isKey)
+        if (params.prefix == ":" && !(rawSuggestion.newText.startsWith("\n") || rawSuggestion.newText
+              .startsWith("\r\n") || rawSuggestion.newText.startsWith(" ")))
+          s" ${rawSuggestion.newText}"
+        else if (rawSuggestion.newText endsWith ":") s"${rawSuggestion.newText} "
+        else if (rawSuggestion.options.arrayItem)
+          "\n" + whiteSpaceOrSpace(rawSuggestion.whiteSpacesEnding) + "- " + rawSuggestion.newText
+        else rawSuggestion.newText
       else rawSuggestion.newText
-    else rawSuggestion.newText
+    Styled(text, plain = true)
   }
 
   private def whiteSpaceOrSpace(str: String): String = if (str.isEmpty) " " else str
@@ -97,7 +104,7 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends Sugge
 }
 
 case class JsonSuggestionStyler(override val params: StylerParams) extends SuggestionStyler {
-  override def style(suggestion: RawSuggestion): String = {
+  override def style(suggestion: RawSuggestion): Styled = {
     val isJSONObject = (suggestion.newText startsWith "{") && (suggestion.newText endsWith "}")
     var endingQuote  = false
     var postfix      = ""
@@ -115,14 +122,33 @@ case class JsonSuggestionStyler(override val params: StylerParams) extends Sugge
         postfix += "\""
         endingQuote = true
       }
+//      if (!suggestion.newText.startsWith("\"") && !params.hasKeyClosingQuote)
+//        prefix = "\""
+//      if (!params.hasKeyClosingQuote) {
+//        postfix += "\""
+//        if (!params.hasColon)
+//          postfix += ":"
+//        if (!params.hasQuote && !suggestion.options.arrayProperty)
+//          postfix += "\"$1\""
+//        else if( !params.hasQuote && suggestion.options.arrayProperty)
+//          postfix += "[ $1 ]"
+//      } else if (!params.hasQuote && !suggestion.options.arrayProperty) {
+//        postfix += "\"$1\""
+//        endingQuote = true
+//      }else if( !params.hasQuote && suggestion.options.arrayProperty){
+//        postfix += "[ $1 ]"
+//      }
     } else if (!params.hasQuote) {
       postfix += "\""
       endingQuote = true
     }
-    prefix + {
+    val text = prefix + {
       if (!isJSONObject && (!endingQuote || !(suggestion.newText endsWith "\"")))
         suggestion.newText + postfix
       else suggestion.newText
     }
+    if (postfix.contains("$1"))
+      Styled(text, false)
+    else Styled(text, true)
   }
 }

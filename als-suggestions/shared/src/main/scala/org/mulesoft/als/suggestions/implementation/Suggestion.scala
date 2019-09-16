@@ -8,7 +8,8 @@ class Suggestion(_text: String,
                  _description: String,
                  _displayText: String,
                  _prefix: String,
-                 _range: Option[PositionRange])
+                 _range: Option[PositionRange],
+                 _insertTextFormat: InsertTextFormat.Value = InsertTextFormat.PlainText)
     extends SuggestionInterface {
 
   private var categoryOpt: Option[String] = None
@@ -16,8 +17,6 @@ class Suggestion(_text: String,
   private var _trailingWhitespace: String = ""
 
   private var prefixOpt: Option[String] = Option(_prefix)
-
-  private var insertTextFormatInternal: InsertTextFormat.Value = InsertTextFormat.PlainText
 
   override def text: String = _text
 
@@ -31,7 +30,7 @@ class Suggestion(_text: String,
 
   override def trailingWhitespace: String = _trailingWhitespace
 
-  override def insertTextFormat: InsertTextFormat.Value = insertTextFormatInternal
+  override def insertTextFormat: InsertTextFormat.Value = _insertTextFormat
 
   override def range: Option[PositionRange] = _range
 
@@ -50,10 +49,10 @@ class Suggestion(_text: String,
     this
   }
 
-  def withInsertTextFormat(value: InsertTextFormat.Value): Suggestion = {
-    insertTextFormatInternal = value
-    this
-  }
+//  def withInsertTextFormat(value: InsertTextFormat.Value): Suggestion = {
+//    insertTextFormatInternal = value
+//    this
+//  }
 
   override def toString: String = text
 }
@@ -64,21 +63,25 @@ object Suggestion {
             _description: String,
             _displayText: String,
             _prefix: String,
-            _range: Option[PositionRange] = None): Suggestion = {
+            _range: Option[PositionRange] = None,
+            plain: Boolean = true): Suggestion = {
     // Dots and dashes are not considered as part of the word to be replaced
-    val index =
-      _prefix.lastIndexOf(".").max(_prefix.lastIndexOf("/"))
-    if (index > 0 && _text.startsWith(_prefix))
-      if (index == _prefix.length)
-        new Suggestion(_text.substring(index), _description, _displayText.split('.').last, "", _range)
-      else
-        new Suggestion(
-          _text.substring(index + 1),
-          _description,
-          _displayText.substring(index + 1),
-          _prefix.substring(index + 1),
-          _range.collectFirst({ case r: PositionRange => r.copy(start = r.start.moveColumn(index + 1)) })
-        )
-    else new Suggestion(_text, _description, _displayText, _prefix, _range)
+    if (plain) {
+      val index =
+        _prefix.lastIndexOf(".").max(_prefix.lastIndexOf("/"))
+      if (index > 0 && _text.startsWith(_prefix))
+        if (index == _prefix.length)
+          new Suggestion(_text.substring(index), _description, _displayText.split('.').last, "", _range)
+        else
+          new Suggestion(
+            _text.substring(index + 1),
+            _description,
+            _displayText.substring(index + 1),
+            _prefix.substring(index + 1),
+            _range.collectFirst({ case r: PositionRange => r.copy(start = r.start.moveColumn(index + 1)) })
+          )
+      else new Suggestion(_text, _description, _displayText, _prefix, _range)
+    } else new Suggestion(_text, _description, _displayText, _prefix, _range, InsertTextFormat.Snippet)
+
   }
 }

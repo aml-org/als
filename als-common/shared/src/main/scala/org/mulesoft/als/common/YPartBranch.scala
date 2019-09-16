@@ -9,6 +9,7 @@ import scala.annotation.tailrec
 case class YPartBranch(node: YPart, position: Position, val stack: Seq[YPart]) {
 
   val isJson: Boolean = stack.lastOption
+    .orElse(Some(node))
     .collect({ case m: YMap => m })
     .flatMap(_.children.find(_.isInstanceOf[YNonContent]))
     .collectFirst({ case yt: YTokens => yt })
@@ -44,7 +45,7 @@ case class YPartBranch(node: YPart, position: Position, val stack: Seq[YPart]) {
     case _            => None
   }
 
-  val isKey: Boolean = stack.headOption.exists(_.isKey(position))
+  val isKey: Boolean = stack.headOption.exists(_.isKey(position)) || (isJson && node.isInstanceOf[YMap])
 
   lazy val hasIncludeTag: Boolean = node match {
     case mr: YNode.MutRef => mr.origTag.tagType == YType.Include
@@ -79,7 +80,7 @@ case class YPartBranch(node: YPart, position: Position, val stack: Seq[YPart]) {
     if (stack.length < l) None else Some(stack(l))
 
   def ancestorOf[T <: YPart](clazz: Class[T]): Option[T] =
-    findFirstOf(clazz, stack.tail)
+    if (stack.nonEmpty) findFirstOf(clazz, stack.tail) else None
 
   def isKeyDescendanceOf(key: String): Boolean =
     isKey && ancestorOf(classOf[YMapEntry])
