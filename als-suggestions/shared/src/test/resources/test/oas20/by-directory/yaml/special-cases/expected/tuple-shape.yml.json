@@ -1,0 +1,21 @@
+[
+  {
+    "text": "maxItems: ",
+    "description": "maxItems",
+    "displayText": "maxItems",
+    "prefix": "maxIte",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 13,
+          "character": 8
+        },
+        "end": {
+          "line": 13,
+          "character": 14
+        }
+      }
+    ]
+  }
+]
