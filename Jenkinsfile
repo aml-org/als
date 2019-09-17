@@ -52,6 +52,7 @@ pipeline {
           branch 'devel'
           branch 'rc/*'
           branch 'fat-jar-publish'
+          branch 'support/*'
         }
       }
       steps {
