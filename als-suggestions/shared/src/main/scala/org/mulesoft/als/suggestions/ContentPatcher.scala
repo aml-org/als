@@ -77,7 +77,8 @@ object ContentPatcher {
     var newLine    = line
     if (colonIndex < 0) {
       if (lineTrim.startsWith("\"")) {
-        newLine = line.substring(0, off) + "x\" : "
+        if (lineTrim.endsWith("\"") && lineTrim.length > 2) newLine = line.substring(0, off) + "\" : "
+        else newLine = line.substring(0, off) + "x\" : "
         if (!hasComplexValueStart)
           newLine += "\"\""
         if (!(hasComplexValueSameLine || hasComplexValueNextLine))

@@ -1,0 +1,41 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.9-abcd",
+    "title": "Swagger Sample API"
+  },
+  "paths": {
+    "/pets/{id}": {
+      "parameters": [
+        {
+          "type": "array",
+          "exclusiveMaximum": true,
+          "exclusiveMinimum": true,
+          "maximum": 1000,
+          "minimum": 100,
+          "maxIte*"
+          "minItems": 1,
+          "uniqueItems": true,
+          "enum": [
+            222
+          ],
+          "multipleOf": 2,
+          "name": "petId",
+          "in": "path",
+          "example": 222,
+          "items": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of pet to use",
+              "required": true,
+              "type": "number"
+            }
+          ],
+          "description": "ID of pet that needs to be fetched",
+          "required": true
+        }
+      ]
+    }
+  }
+}
