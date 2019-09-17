@@ -51,11 +51,11 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
 
     reconciler.shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, version, ast))).future andThen {
       case Success(reports: Seq[ValidationReport]) =>
-        telemetryProvider.addTimedMessage("Got reports", MessageTypes.GOT_DIAGNOSTICS)
         logger.debug("Number of errors is:\n" + reports.flatMap(_.issues).length,
                      "ValidationManager",
                      "newASTAvailable")
         reports.foreach { r =>
+          telemetryProvider.addTimedMessage("Got reports", MessageTypes.GOT_DIAGNOSTICS)
           clientNotifier.notifyDiagnostic(r.publishDiagnosticsParams)
         }
         telemetryProvider.addTimedMessage("End report", MessageTypes.END_DIAGNOSTIC)

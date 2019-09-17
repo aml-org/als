@@ -57,7 +57,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
       val args: java.util.List[AnyRef] = new util.ArrayList[AnyRef]()
       args.add(DidFocusParams(file, version))
       server.getWorkspaceService.executeCommand(new ExecuteCommandParams("didFocusChange", args))
-      MockClientNotifier.nextCall
+      MockDiagnosticClientNotifier.nextCall
     }
 
     withServer { s =>
@@ -97,18 +97,10 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
        */
       for {
         a <- openFileNotification(s)(libFilePath, libFileContent)
-        b <- {
-          val rootNotif = openFileNotification(s)(mainFilePath, mainContent)
-          MockClientNotifier.nextCall // get the lib notification sent as son of root. Discard it
-          rootNotif
-        }
+        b <- openFileNotification(s)(mainFilePath, mainContent)
         c <- executeCommandFocus(server)(libFilePath, 0)
         d <- changeNotification(s)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
-        e <- {
-          val rootNotif = executeCommandFocus(server)(mainFilePath, 0)
-          MockClientNotifier.nextCall // get the lib notification sent as son of root. Discard it
-          rootNotif
-        }
+        e <- executeCommandFocus(server)(mainFilePath, 0)
       } yield {
         server.shutdown()
         assert(
@@ -127,10 +119,15 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
                           baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val telemetryManager = new TelemetryManager(MockClientNotifier, logger)
+    val telemetryManager = new TelemetryManager(MockDiagnosticClientNotifier, logger)
     val astManager       = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
     val diagnosticManager =
-      new DiagnosticManager(documentManager, astManager, telemetryManager, MockClientNotifier, platform, logger)
+      new DiagnosticManager(documentManager,
+                            astManager,
+                            telemetryManager,
+                            MockDiagnosticClientNotifier,
+                            platform,
+                            logger)
 
     builder
       .addInitializable(astManager)
