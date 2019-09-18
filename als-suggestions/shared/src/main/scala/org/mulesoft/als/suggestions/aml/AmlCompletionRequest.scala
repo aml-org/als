@@ -193,7 +193,12 @@ object AmlCompletionRequestBuilder {
             case YType.Include =>
               node match {
                 case mr: YNode.MutRef if mr.origTag.tagType == YType.Include =>
-                  mr.origValue.toString
+                  mr.origValue.toString.substring(
+                    0,
+                    (0 max (position.column - mr.origValue.range.columnFrom - {
+                      if (node.asScalar.exists(_.mark.plain)) 0 else 1 // if there is a quotation mark, adjust the range according
+                    })) min mr.origValue.toString.length
+                  )
                 case _ => ""
               }
             case _ => ""
