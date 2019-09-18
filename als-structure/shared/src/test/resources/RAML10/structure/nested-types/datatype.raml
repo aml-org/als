@@ -1,0 +1,25 @@
+Location:
+  properties:
+    lat:
+      type: number
+      format: double
+      example: 37.4224764
+    lng:
+      type: number
+      format: double
+      example: -122.0842499
+
+Address:
+  properties:
+    street: string[]
+    city: string
+    postal_code: integer
+    state?: string
+    country: string
+    formatted:
+      type: string
+      description: Formatted address
+      example: P. Sherman 42 Wallaby Way
+
+DayOfWeek:
+  enum: [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]

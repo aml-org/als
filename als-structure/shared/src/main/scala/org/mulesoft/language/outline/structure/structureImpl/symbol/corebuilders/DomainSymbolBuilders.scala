@@ -20,7 +20,7 @@ trait FatherSymbolBuilder[T <: AmfObject] extends ElementSymbolBuilder[T] {
 
   private def finalFilters: Seq[FieldEntry => Boolean] =
     customFieldFilters :+ ((f: FieldEntry) => !ignoreFields.contains(f.field))
-  protected def childrens: List[DocumentSymbol] =
+  protected def children: List[DocumentSymbol] =
     element.fields
       .fields()
       .filter(f => finalFilters.forall(fn => fn(f)))
@@ -58,16 +58,16 @@ trait AmfObjSymbolBuilder[T <: AmfObject] extends FatherSymbolBuilder[T] {
                            deprecated = false,
                            r,
                            selectionRange.getOrElse(r),
-                           childrens))
+                           children))
         }
-        .getOrElse(childrens)
+        .getOrElse(children)
 
 }
 
 class ObjectElementSymbolBuilder(override val element: DomainElement)(override implicit val factory: BuilderFactory)
     extends FatherSymbolBuilder[DomainElement] {
 
-  override def build(): Seq[DocumentSymbol] = childrens
+  override def build(): Seq[DocumentSymbol] = children
 }
 
 class DomainElementSymbolBuilder(override val element: DomainElement, entryAst: YMapEntry)(
