@@ -11,7 +11,7 @@ object MessageTypes extends Enumeration {
 
 trait TelemetryProvider {
 
-  def addTimedMessage(code: String, messageType: MessageTypes, msg: String): Unit
+  def addTimedMessage(code: String, messageType: MessageTypes, msg: String, uri: String): Unit
 
   private def extractNames(className: String): (String, Option[String]) = {
     val pattern = """.*\.(.*)\$\$anonfun\$([^\$]*).*""".r
@@ -24,12 +24,12 @@ trait TelemetryProvider {
     }
   }
 
-  def addTimedMessage(msg: String, messageType: MessageTypes): Unit = {
+  def addTimedMessage(msg: String, messageType: MessageTypes, uri: String): Unit = {
     val element: StackTraceElement = Thread.currentThread().getStackTrace.toList(2)
     extractNames(element.getClassName) match {
-      case (c, Some(m)) => addTimedMessage(s"$c : $m", messageType, msg)
+      case (c, Some(m)) => addTimedMessage(s"$c : $m", messageType, msg, uri)
       case _ =>
-        addTimedMessage(s"${element.getClassName.split('.').last} : ${element.getMethodName}", messageType, msg)
+        addTimedMessage(s"${element.getClassName.split('.').last} : ${element.getMethodName}", messageType, msg, uri)
     }
   }
 }
