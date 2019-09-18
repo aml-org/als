@@ -1,0 +1,54 @@
+[
+  {
+    "name": "title",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 1,
+        "character": 7
+      },
+      "end": {
+        "line": 1,
+        "character": 18
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 1,
+        "character": 7
+      },
+      "end": {
+        "line": 1,
+        "character": 18
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "version",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 9
+      },
+      "end": {
+        "line": 2,
+        "character": 11
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 9
+      },
+      "end": {
+        "line": 2,
+        "character": 11
+      }
+    },
+    "children": []
+  }
+]
