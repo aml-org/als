@@ -10,7 +10,8 @@ import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryMessage}
 
 import scala.concurrent.{ExecutionContext, Future}
-
+// TODO: keep each manager inside each test, instantiated with separated ClientNotifiers, which receive
+//    the expected messages and compare inside.
 class ServerTelemetryTest extends LanguageServerBaseTest {
   override implicit val executionContext = ExecutionContext.Implicits.global
 

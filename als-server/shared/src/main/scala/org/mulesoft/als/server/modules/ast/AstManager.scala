@@ -99,6 +99,7 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     addListener(astListeners, listener, unsubscribe)
 
   def onOpenDocument(document: OpenedDocument): Unit = {
+    telemetryProvider.addTimedMessage("open document", MessageTypes.CHANGE_DOCUMENT, document.uri)
     parse(document.uri, telemetryProvider)
       .foreach(unit => {
         registerNewAST(document.uri, document.version, unit)
@@ -107,7 +108,7 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
 
   def onChangeDocument(document: ChangedDocument): Unit = {
     logger.debug(s"document ${document.uri} is changed", "ASTManager", "onChangeDocument")
-    telemetryProvider.addTimedMessage("change document", MessageTypes.CHANGE_DOCUMENT)
+    telemetryProvider.addTimedMessage("change document", MessageTypes.CHANGE_DOCUMENT, document.uri)
     reconciler
       .shedule(new DocumentChangedRunnable(document.uri, () => parse(document.uri, telemetryProvider)))
       .future
@@ -156,7 +157,7 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     parseWithContentSubstitution(uri, text, telemetryProvider)
 
   def parse(uri: String, telemetryProvider: TelemetryProvider): Future[BaseUnit] = {
-    telemetryProvider.addTimedMessage("Begin parsing", MessageTypes.BEGIN_PARSE)
+    telemetryProvider.addTimedMessage("Begin parsing", MessageTypes.BEGIN_PARSE, uri)
     val amfURI = FileUtils.getDecodedUri(uri, platform)
 
     logger.debugDetail(s"Protocol uri is $amfURI", "ASTManager", "parse")
@@ -167,7 +168,7 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     helper.parse(amfURI, envForValidation(uri)).map { result =>
       val endTime = System.currentTimeMillis()
       logger.debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast", "ASTManager", "parse")
-      telemetryProvider.addTimedMessage("End parsing", MessageTypes.END_PARSE)
+      telemetryProvider.addTimedMessage("End parsing", MessageTypes.END_PARSE, uri)
       result
     }
   }
@@ -175,13 +176,13 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
   def parseWithContentSubstitution(uri: String,
                                    content: String,
                                    telemetryProvider: TelemetryProvider): Future[BaseUnit] = {
-    telemetryProvider.addTimedMessage("Begin patching", MessageTypes.BEGIN_PATCHING)
+    telemetryProvider.addTimedMessage("Begin patching", MessageTypes.BEGIN_PATCHING, uri)
 
     val patchedEnvironment =
       EnvironmentPatcher.patch(serverEnvironment, FileUtils.getEncodedUri(uri, platform), content)
 
-    telemetryProvider.addTimedMessage("End patching", MessageTypes.END_PATCHING)
-    telemetryProvider.addTimedMessage("Begin parsing", MessageTypes.BEGIN_PARSE_PATCHED)
+    telemetryProvider.addTimedMessage("End patching", MessageTypes.END_PATCHING, uri)
+    telemetryProvider.addTimedMessage("Begin parsing", MessageTypes.BEGIN_PARSE_PATCHED, uri)
 
     val startTime = System.currentTimeMillis()
 
@@ -192,7 +193,7 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
         logger.debugDetail(s"It took ${endTime - startTime} milliseconds to build AMF ast",
                            "ASTManager",
                            "parseWithContentSubstitution")
-        telemetryProvider.addTimedMessage("End parsing", MessageTypes.END_PARSE_PATCHED)
+        telemetryProvider.addTimedMessage("End parsing", MessageTypes.END_PARSE_PATCHED, uri)
         result
       }
   }
@@ -206,7 +207,7 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
         platform
           .resolve(resource, serverEnvironment)
           .map(c => {
-            fileDependencies.addDependencie(root, resource)
+            fileDependencies.addDependency(root, resource)
             c
           })
       }
@@ -222,7 +223,7 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
 class FileDependencies() {
   private val map: mutable.Map[String, Set[String]] = mutable.Map()
 
-  def addDependencie(root: String, dependency: String): Unit = {
+  def addDependency(root: String, dependency: String): Unit = {
     if (FileUtils.getWithProtocol(root) != dependency)
       map.get(root) match {
         case Some(set: Set[String]) => map.update(root, set + dependency)

@@ -47,7 +47,7 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
   def newASTAvailable(uri: String, version: Int, ast: BaseUnit) {
     logger.debug("Got new AST:\n" + ast.toString, "ValidationManager", "newASTAvailable")
 
-    telemetryProvider.addTimedMessage("Start report", MessageTypes.BEGIN_DIAGNOSTIC)
+    telemetryProvider.addTimedMessage("Start report", MessageTypes.BEGIN_DIAGNOSTIC, uri)
 
     reconciler.shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, version, ast))).future andThen {
       case Success(reports: Seq[ValidationReport]) =>
@@ -55,10 +55,10 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
                      "ValidationManager",
                      "newASTAvailable")
         reports.foreach { r =>
-          telemetryProvider.addTimedMessage("Got reports", MessageTypes.GOT_DIAGNOSTICS)
+          telemetryProvider.addTimedMessage("Got reports", MessageTypes.GOT_DIAGNOSTICS, uri)
           clientNotifier.notifyDiagnostic(r.publishDiagnosticsParams)
         }
-        telemetryProvider.addTimedMessage("End report", MessageTypes.END_DIAGNOSTIC)
+        telemetryProvider.addTimedMessage("End report", MessageTypes.END_DIAGNOSTIC, uri)
 
       case Failure(exception) =>
         exception.printStackTrace()
@@ -151,9 +151,9 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
   private def report(uri: String,
                      telemetryProvider: TelemetryProvider,
                      baseUnit: BaseUnit): Future[AMFValidationReport] = {
-    telemetryProvider.addTimedMessage("Start AMF report", MessageTypes.BEGIN_REPORT)
+    telemetryProvider.addTimedMessage("Start AMF report", MessageTypes.BEGIN_REPORT, uri)
     val eventualReport = RuntimeValidator(baseUnit, ProfileName(checkProfileName(baseUnit)))
-    eventualReport.foreach(r => telemetryProvider.addTimedMessage("End AMF report", MessageTypes.END_REPORT))
+    eventualReport.foreach(r => telemetryProvider.addTimedMessage("End AMF report", MessageTypes.END_REPORT, uri))
     eventualReport
   }
 }
