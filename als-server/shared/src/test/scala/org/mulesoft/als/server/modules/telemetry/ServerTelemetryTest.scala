@@ -90,7 +90,7 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
         withTelemetry(mockTelemetryClientNotifier)
 
       for {
-        a <- mockWithTelemetry(openWithErrorTelemetryMessages(1).size,
+        a <- mockWithTelemetry((initMessages ++ openWithErrorTelemetryMessages(1)).size,
                                () => openFile(server)(libFilePath, libFileContent))
         b <- mockWithTelemetry(openWithErrorTelemetryMessages(2).size,
                                () => openFile(server)(mainFilePath, mainContent))
@@ -102,7 +102,7 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
       } yield {
         server.shutdown()
         assert(
-          checkMessages(openWithErrorTelemetryMessages(1), a) &&
+          checkMessages(initMessages ++ openWithErrorTelemetryMessages(1), a) &&
             checkMessages(openWithErrorTelemetryMessages(2), b) &&
             checkMessages(openWithErrorTelemetryMessages(1), c) &&
             checkMessages(openWithErrorTelemetryMessages(1), d) &&
@@ -118,13 +118,18 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
       MessageTypes.BEGIN_REPORT,
       MessageTypes.END_REPORT,
       MessageTypes.END_DIAGNOSTIC
-    ) ++ (0 until reportsQty map (_ => MessageTypes.GOT_DIAGNOSTICS))
+    )
   }
 
   private val cleanOpenTelemetryMessages = Seq(
     MessageTypes.CHANGE_DOCUMENT,
     MessageTypes.BEGIN_PARSE,
     MessageTypes.END_PARSE
+  )
+
+  private val initMessages = Seq(
+    MessageTypes.BEGIN_AMF_INIT,
+    MessageTypes.END_AMF_INIT,
   )
 
   private def openWithErrorTelemetryMessages(reportsQty: Int): Seq[MessageTypes.Value] =

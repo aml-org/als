@@ -70,6 +70,7 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
   }
 
   def amfInit(): Future[Unit] = {
+    telemetryProvider.addTimedMessage("Initialize AMF begin", MessageTypes.BEGIN_AMF_INIT, "")
     amf.core.AMF.registerPlugin(AMLPlugin)
     amf.core.AMF.registerPlugin(Raml10Plugin)
     amf.core.AMF.registerPlugin(Raml08Plugin)
@@ -77,7 +78,12 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     amf.core.AMF.registerPlugin(Oas30Plugin)
     amf.core.AMF.registerPlugin(AMFValidatorPlugin)
     amf.core.AMF.registerPlugin(PayloadValidatorPlugin)
-    AMF.init()
+    AMF
+      .init()
+      .map(i => {
+        telemetryProvider.addTimedMessage("Initialize AMF end", MessageTypes.END_AMF_INIT, "")
+        i
+      })
   }
 
   def getCurrentAST(uri: String): Option[BaseUnit] =
