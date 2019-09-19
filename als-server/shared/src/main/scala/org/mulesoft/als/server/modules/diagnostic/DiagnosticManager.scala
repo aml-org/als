@@ -55,7 +55,7 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
                      "ValidationManager",
                      "newASTAvailable")
         reports.foreach { r =>
-          telemetryProvider.addTimedMessage("Got reports", MessageTypes.GOT_DIAGNOSTICS, uri)
+//          telemetryProvider.addTimedMessage("Got reports", MessageTypes.GOT_DIAGNOSTICS, uri)
           clientNotifier.notifyDiagnostic(r.publishDiagnosticsParams)
         }
         telemetryProvider.addTimedMessage("End report", MessageTypes.END_DIAGNOSTIC, uri)
