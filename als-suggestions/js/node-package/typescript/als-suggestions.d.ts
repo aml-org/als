@@ -1,3 +1,5 @@
+import {Range} from "@mulesoft/als-suggestions";
+
 declare module '@mulesoft/als-suggestions' {
 
   /* amf-client-js */
@@ -1932,19 +1934,47 @@ declare module '@mulesoft/als-suggestions' {
   }
 
   /* als-suggestions */
+  export class Position {
+      line: number
+      character: number
+  }
+  export class Range {
+      start: Position
+      end: Position
+  }
 
-  export class Suggestion {
-    text: string
-    prefix: string
-    description: string
-    category?: string
-    displayText?: string
+  export class TextEdit {
+      range: Range
+      newText: string
+  }
+
+  export class Command {
+      title: string
+      command: string
+      arguments?: any[]
+  }
+
+  export class CompletionItem {
+      label: string
+      kind?: number
+      detail?: string
+      documentation?: string
+      deprecated?: boolean
+      preselect?: boolean
+      sortText?: string
+      filterText?: string
+      insertText?: string
+      insertTextFormat?: number
+      textEdit?: TextEdit
+      additionalTextEdits?: TextEdit[]
+      commitCharacters?: string[]
+      command?: Command
   }
 
   export class Suggestions {
     static init(): Promise<void>
 
-    static suggest(language: string, url: string, position: number, loaders?: resource.ResourceLoader[], dirResolver?: ClientDirectoryResolver): Promise<Suggestion[]>
+    static suggest(language: string, url: string, position: number, loaders?: resource.ResourceLoader[], dirResolver?: ClientDirectoryResolver, snippetSupport?: boolean): Promise<CompletionItem[]>
   }
 
   interface ClientDirectoryResolver {

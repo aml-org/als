@@ -5,6 +5,7 @@ import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
 import org.mulesoft.als.suggestions.client.Suggestion
 import org.mulesoft.amfmanager.{CustomDialects, ParserHelper}
+import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -14,21 +15,21 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  def matchCategory(suggestion: Suggestion): Boolean = {
-    suggestion.displayText.toLowerCase() match {
+  def matchCategory(suggestion: CompletionItem): Boolean = {
+    suggestion.label.toLowerCase() match {
       case t if t == "securityschemes" =>
-        suggestion.category.toLowerCase() == "security"
+        suggestion.detail.map(_.toLowerCase()).contains("security")
       case t if t == "baseuri" =>
-        suggestion.category.toLowerCase() == "root"
+        suggestion.detail.map(_.toLowerCase()).contains("root")
       case t if t == "protocols" =>
-        suggestion.category.toLowerCase() == "root"
+        suggestion.detail.map(_.toLowerCase()).contains("root")
       case t if t == "uses" =>
-        suggestion.category.toLowerCase() == "unknown"
+        suggestion.detail.map(_.toLowerCase()).contains("unknown")
       case _ => true
     }
   }
 
-  def assertCategory(path: String, suggestions: Set[Suggestion]): Assertion = {
+  def assertCategory(path: String, suggestions: Set[CompletionItem]): Assertion = {
     if (suggestions.forall(matchCategory))
       succeed
     else fail(s"Difference in categories for $path")
@@ -84,7 +85,7 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
                         customDialect: Option[CustomDialects] = None): Future[Assertion] =
     this
       .suggest(path, label, cut, labels, customDialect)
-      .map(r => assert(path, r.map(_.text).toSet, originalSuggestions))
+      .map(r => assert(path, r.flatMap(_.textEdit.map(_.newText)).toSet, originalSuggestions))
 
   def withDialect(path: String,
                   originalSuggestions: Set[String],
@@ -106,7 +107,7 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
               label: String,
               cutTail: Boolean,
               labels: Array[String],
-              customDialect: Option[CustomDialects] = None): Future[Seq[Suggestion]] = {
+              customDialect: Option[CustomDialects] = None): Future[Seq[CompletionItem]] = {
     super.suggest(filePath(path), format, customDialect)
   }
 
