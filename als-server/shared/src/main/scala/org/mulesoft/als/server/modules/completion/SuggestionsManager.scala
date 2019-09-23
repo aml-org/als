@@ -17,7 +17,7 @@ import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.completion._
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -81,7 +81,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
         val originalText = editor.text
         val offset       = position.offset(originalText)
         val text         = suggestions.Core.prepareText(originalText, offset, syntax)
-
+        telemetryProvider.addTimedMessage("Begin Suggestions", MessageTypes.BEGIN_COMPLETION, uri)
         buildCompletionProviderAST(text, originalText, uri, refinedUri, offset, /* vendor, */ syntax)
           .flatMap(provider => {
             provider
@@ -94,6 +94,8 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                 this.logger.debugDetail(s"It took ${endTime - startTime} milliseconds to complete",
                                         "ASTSuggestionsManager",
                                         "onDocumentCompletion")
+
+                telemetryProvider.addTimedMessage("End Suggestions", MessageTypes.END_COMPLETION, uri)
                 result
               })
           })
