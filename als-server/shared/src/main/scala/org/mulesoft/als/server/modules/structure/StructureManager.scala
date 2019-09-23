@@ -20,7 +20,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolInformation,
   DocumentSymbol => LspDocumentSymbol
 }
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -49,9 +49,8 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
     }
   )
 
-  val onNewASTAvailableListener: AstListener = (uri: String, version: Int, ast: BaseUnit) => {
+  val onNewASTAvailableListener: AstListener = (uri: String, version: Int, ast: BaseUnit) =>
     StructureManager.this.newASTAvailable(uri, version, ast)
-  }
 
   val onDocumentStructureListener: String => Future[Seq[DocumentSymbol]] =
     onDocumentStructure
@@ -64,6 +63,7 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
   def newASTAvailable(uri: String, astVersion: Int, ast: BaseUnit): Unit = {
     logger.debug("Got new AST:\n" + ast.toString, "StructureManager", "newASTAvailable")
 
+    telemetryProvider.addTimedMessage("Begin Structure", MessageTypes.BEGIN_STRUCTURE, uri)
     val editor = textDocumentManager.getTextDocument(uri)
 
     if (editor.isDefined) {
@@ -78,7 +78,6 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
         astVersion,
         struct
       )
-
       // not part oif the protocol, extend it?
 //       this.connection.structureAvailable(structureReport)
     }
@@ -124,6 +123,11 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
     }
   }
 
-  def getStructureFromAST(ast: BaseUnit, position: Int): List[DocumentSymbol] =
-    StructureBuilder.listSymbols(ast)
+  def getStructureFromAST(ast: BaseUnit, position: Int): List[DocumentSymbol] = {
+
+    telemetryProvider.addTimedMessage("Begin Structure", MessageTypes.BEGIN_STRUCTURE, ast.location().getOrElse(""))
+    val symbols = StructureBuilder.listSymbols(ast)
+    telemetryProvider.addTimedMessage("End Structure", MessageTypes.END_STRUCTURE, ast.location().getOrElse(""))
+    symbols
+  }
 }
