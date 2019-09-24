@@ -6,14 +6,14 @@ class StructureTests extends RAMLSuggestionTestServer {
 
   override implicit val executionContext = ExecutionContext.Implicits.global
 
-  ignore("test 01") {
+  test("test 01") {
     runTest("structure/test01.raml", Set("responses:\n      "))
   }
 
   // TODO: tests are failing when "test 01" doesn't run first"
   //  for example: "serverJVM/testOnly *StructureTests* -- -z "test 02"" fails,
   //  while "serverJVM/testOnly *StructureTests* -- -z "test 01"" runs without problems
-  ignore("test 02") {
+  test("test 02") {
     runTest("structure/test02.raml", Set("types:\n  "))
   }
 
@@ -25,7 +25,7 @@ class StructureTests extends RAMLSuggestionTestServer {
     runTest("structure/test04.raml", Set("title: "))
   }
 
-  ignore("test 05") {
+  test("test 05") {
     runTest("structure/test05.raml", Set("traits:\n  "))
   }
 
@@ -33,7 +33,7 @@ class StructureTests extends RAMLSuggestionTestServer {
     runTest("structure/test06.raml", Set("description: "))
   }
 
-  ignore("test 07") {
+  test("test 07") {
     runTest("structure/test07.raml", Set("documentation:\n  - "))
   }
 
@@ -41,7 +41,7 @@ class StructureTests extends RAMLSuggestionTestServer {
     runTest("structure/test08.raml", Set("version: "))
   }
 
-  ignore("test 09") {
+  test("test 09") {
     runTest("structure/test09.raml", Set("baseUri: ", "baseUriParameters:\n  "))
   }
 
@@ -49,7 +49,7 @@ class StructureTests extends RAMLSuggestionTestServer {
     runTest("structure/test10.raml", Set("protocols: "))
   }
 
-  ignore("test with spaces") { // TODO: How to test in JS?
+  test("test with spaces") { // TODO: How to test in JS?
     runTest("structure/with spaces/root test.raml", Set("lib test.raml"))
   }
 
