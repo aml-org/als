@@ -51,7 +51,9 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
       false
     }
 
-  test("diagnostics test 001 - onFocus") {
+
+  //TODO: test again once Telemetry messaging is stable
+  ignore("diagnostics test 001 - onFocus") {
     withServer { server =>
       val mainFilePath = s"file://api.raml"
       val libFilePath  = s"file://lib1.raml"

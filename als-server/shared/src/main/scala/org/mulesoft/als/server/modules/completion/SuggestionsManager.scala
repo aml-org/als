@@ -1,5 +1,7 @@
 package org.mulesoft.als.server.modules.completion
 
+import java.util.UUID
+
 import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
@@ -65,7 +67,8 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
     suggestions.Core.init()
 
   protected def onDocumentCompletion(uri: String, position: Position): Future[Seq[Suggestion]] = {
-    val refinedUri = platform.decodeURI(platform.resolvePath(uri))
+    val refinedUri            = platform.decodeURI(platform.resolvePath(uri))
+    val telemetryUUID: String = UUID.randomUUID().toString
 
     logger.debug(s"Calling for completion for uri $uri and position $position",
                  "SuggestionsManager",
@@ -81,8 +84,8 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
         val originalText = editor.text
         val offset       = position.offset(originalText)
         val text         = suggestions.Core.prepareText(originalText, offset, syntax)
-        telemetryProvider.addTimedMessage("Begin Suggestions", MessageTypes.BEGIN_COMPLETION, uri)
-        buildCompletionProviderAST(text, originalText, uri, refinedUri, offset, /* vendor, */ syntax)
+        telemetryProvider.addTimedMessage("Begin Suggestions", MessageTypes.BEGIN_COMPLETION, uri, telemetryUUID)
+        buildCompletionProviderAST(text, originalText, uri, refinedUri, offset, /* vendor, */ syntax, telemetryUUID)
           .flatMap(provider => {
             provider
               .suggest()
@@ -95,7 +98,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                                         "ASTSuggestionsManager",
                                         "onDocumentCompletion")
 
-                telemetryProvider.addTimedMessage("End Suggestions", MessageTypes.END_COMPLETION, uri)
+                telemetryProvider.addTimedMessage("End Suggestions", MessageTypes.END_COMPLETION, uri, telemetryUUID)
                 result
               })
           })
@@ -108,9 +111,10 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                                  uri: String,
                                  refinedUri: String,
                                  position: Int,
-                                 syntax: Syntax): Future[CompletionProvider] = {
+                                 syntax: Syntax,
+                                 uuid: String): Future[CompletionProvider] = {
 
-    val eventualUnit: Future[BaseUnit] = astManager.forceBuildNewAST(uri, text, telemetryProvider)
+    val eventualUnit: Future[BaseUnit] = astManager.forceBuildNewAST(uri, text, telemetryProvider, uuid)
     Suggestions.buildProviderAsync(eventualUnit,
                                    position,
                                    directoryResolver,
