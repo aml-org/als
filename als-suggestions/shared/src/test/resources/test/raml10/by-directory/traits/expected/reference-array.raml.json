@@ -1,21 +1,20 @@
 [
   {
-    "text": "tr:\n        ",
-    "description": "tr",
-    "displayText": "tr",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 9,
-          "character": 8
-        },
-        "end": {
-          "line": 9,
-          "character": 8
-        }
-      }
-    ]
+    "label": "tr",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "tr",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "tr:\n        ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

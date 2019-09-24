@@ -1,12 +1,19 @@
 [
   {
-    "text": "$ref: ",
-    "description": "reference tag",
-    "displayText": "$ref",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "$ref",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 4
@@ -15,159 +22,155 @@
           "line": 3,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "$ref: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "delete:\n      ",
-    "description": "delete",
-    "displayText": "delete",
-    "prefix": "",
-    "category": "methods",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 4
-        },
-        "end": {
-          "line": 3,
-          "character": 4
-        }
-      }
-    ]
+    "label": "delete",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "delete",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "delete:\n      ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "get:\n      ",
-    "description": "get",
-    "displayText": "get",
-    "prefix": "",
-    "category": "methods",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 4
-        },
-        "end": {
-          "line": 3,
-          "character": 4
-        }
-      }
-    ]
+    "label": "get",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "get",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "get:\n      ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "head:\n      ",
-    "description": "head",
-    "displayText": "head",
-    "prefix": "",
-    "category": "methods",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 4
-        },
-        "end": {
-          "line": 3,
-          "character": 4
-        }
-      }
-    ]
+    "label": "head",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "head",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "head:\n      ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "options:\n      ",
-    "description": "options",
-    "displayText": "options",
-    "prefix": "",
-    "category": "methods",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 4
-        },
-        "end": {
-          "line": 3,
-          "character": 4
-        }
-      }
-    ]
+    "label": "options",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "options",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "options:\n      ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "parameters:\n      - ",
-    "description": "parameters",
-    "displayText": "parameters",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 4
-        },
-        "end": {
-          "line": 3,
-          "character": 4
-        }
-      }
-    ]
+    "label": "parameters",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "parameters",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "parameters:\n      - ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "patch:\n      ",
-    "description": "patch",
-    "displayText": "patch",
-    "prefix": "",
-    "category": "methods",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 4
-        },
-        "end": {
-          "line": 3,
-          "character": 4
-        }
-      }
-    ]
+    "label": "patch",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "patch",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "patch:\n      ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "post:\n      ",
-    "description": "post",
-    "displayText": "post",
-    "prefix": "",
-    "category": "methods",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 4
-        },
-        "end": {
-          "line": 3,
-          "character": 4
-        }
-      }
-    ]
+    "label": "post",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "post",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "post:\n      ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "put:\n      ",
-    "description": "put",
-    "displayText": "put",
-    "prefix": "",
-    "category": "methods",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 4
-        },
-        "end": {
-          "line": 3,
-          "character": 4
-        }
-      }
-    ]
+    "label": "put",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "put",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "put:\n      ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

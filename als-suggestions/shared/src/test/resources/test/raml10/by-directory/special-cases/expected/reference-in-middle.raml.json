@@ -1,40 +1,38 @@
 [
   {
-    "text": "trait1:\n        ",
-    "description": "trait1",
-    "displayText": "trait1",
-    "prefix": "tr",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 14,
-          "character": 8
-        },
-        "end": {
-          "line": 14,
-          "character": 10
-        }
-      }
-    ]
+    "label": "trait1",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "trait1",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "trait1:\n        ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "trait2:\n        ",
-    "description": "trait2",
-    "displayText": "trait2",
-    "prefix": "tr",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 14,
-          "character": 8
-        },
-        "end": {
-          "line": 14,
-          "character": 10
-        }
-      }
-    ]
+    "label": "trait2",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "trait2",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "trait2:\n        ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

@@ -1,31 +1,37 @@
 [
   {
-    "text": "body:\n        ",
-    "description": "body",
-    "displayText": "body",
-    "prefix": "",
-    "category": "body",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
+    "label": "body",
+    "kind": [],
+    "detail": "body",
+    "documentation": "body",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "body:\n        ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "description: ",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -34,17 +40,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "displayName: ",
-    "description": "displayName",
-    "displayText": "displayName",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "displayName",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "displayName",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -53,55 +70,64 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "displayName: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "headers:\n        ",
-    "description": "headers",
-    "displayText": "headers",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
+    "label": "headers",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "headers",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "headers:\n        ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "is:\n        - ",
-    "description": "is",
-    "displayText": "is",
-    "prefix": "",
-    "category": "types and traits",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
+    "label": "is",
+    "kind": [],
+    "detail": "types and traits",
+    "documentation": "is",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "is:\n        - ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "protocols: ",
-    "description": "protocols",
-    "displayText": "protocols",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
+    "label": "protocols",
+    "kind": [],
+    "detail": "root",
+    "documentation": "protocols",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -110,83 +136,83 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "protocols: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "queryParameters:\n        ",
-    "description": "queryParameters",
-    "displayText": "queryParameters",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
+    "label": "queryParameters",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "queryParameters",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "queryParameters:\n        ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "queryString:\n        ",
-    "description": "queryString",
-    "displayText": "queryString",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
+    "label": "queryString",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "queryString",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "queryString:\n        ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "responses:\n        ",
-    "description": "responses",
-    "displayText": "responses",
-    "prefix": "",
-    "category": "responses",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
+    "label": "responses",
+    "kind": [],
+    "detail": "responses",
+    "documentation": "responses",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "responses:\n        ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "securedBy:\n        - ",
-    "description": "securedBy",
-    "displayText": "securedBy",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      }
-    ]
+    "label": "securedBy",
+    "kind": [],
+    "detail": "security",
+    "documentation": "securedBy",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "securedBy:\n        - ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

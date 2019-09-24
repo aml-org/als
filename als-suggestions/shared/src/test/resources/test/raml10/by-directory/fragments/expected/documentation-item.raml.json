@@ -1,12 +1,19 @@
 [
   {
-    "text": "content: ",
-    "description": "content",
-    "displayText": "content",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "content",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "content",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -15,17 +22,28 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "content: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "title: ",
-    "description": "title",
-    "displayText": "title",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "title",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "title",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -34,17 +52,28 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "title: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "usage: ",
-    "description": "usage",
-    "displayText": "usage",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "usage",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "usage",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -53,26 +82,29 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "usage: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "uses:\n  ",
-    "description": "uses",
-    "displayText": "uses",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
+    "label": "uses",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "uses",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "uses:\n  ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

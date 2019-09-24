@@ -1,11 +1,20 @@
-#%RAML 1.0
-title: test
-traits:
-  tr:
-    description: <<param1>>
-    <<param2>>:
-
-/endpoint:
-  get:
-    is:
-      - *
+[
+  {
+    "label": "tr",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "tr",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "tr:\n        param1: $1\n        param2: $2",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

@@ -1,21 +1,20 @@
 [
   {
-    "text": "parameter:\n    ",
-    "description": "parameter",
-    "displayText": "parameter",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 2
-        },
-        "end": {
-          "line": 4,
-          "character": 2
-        }
-      }
-    ]
+    "label": "parameter",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "parameter",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "parameter:\n    ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

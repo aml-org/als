@@ -1,40 +1,38 @@
 [
   {
-    "text": "oauth2:\n      ",
-    "description": "oauth2",
-    "displayText": "oauth2",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 6,
-          "character": 6
-        },
-        "end": {
-          "line": 6,
-          "character": 6
-        }
-      }
-    ]
+    "label": "oauth2",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "oauth2",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "oauth2:\n      ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "obasic:\n      ",
-    "description": "obasic",
-    "displayText": "obasic",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 6,
-          "character": 6
-        },
-        "end": {
-          "line": 6,
-          "character": 6
-        }
-      }
-    ]
+    "label": "obasic",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "obasic",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "obasic:\n      ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

@@ -1,31 +1,37 @@
 [
   {
-    "text": "describedBy:\n        ",
-    "description": "describedBy",
-    "displayText": "describedBy",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 6
-        },
-        "end": {
-          "line": 3,
-          "character": 6
-        }
-      }
-    ]
+    "label": "describedBy",
+    "kind": [],
+    "detail": "security",
+    "documentation": "describedBy",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "describedBy:\n        ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "description: ",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 6
@@ -34,36 +40,46 @@
           "line": 3,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "settings:\n        ",
-    "description": "settings",
-    "displayText": "settings",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
-        "start": {
-          "line": 3,
-          "character": 6
-        },
-        "end": {
-          "line": 3,
-          "character": 6
-        }
-      }
-    ]
+    "label": "settings",
+    "kind": [],
+    "detail": "security",
+    "documentation": "settings",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "settings:\n        ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "type: ",
-    "description": "type",
-    "displayText": "type",
-    "prefix": "",
-    "category": "types and traits",
-    "range": [
-      {
+    "label": "type",
+    "kind": [],
+    "detail": "types and traits",
+    "documentation": "type",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 6
@@ -72,7 +88,11 @@
           "line": 3,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "type: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]
