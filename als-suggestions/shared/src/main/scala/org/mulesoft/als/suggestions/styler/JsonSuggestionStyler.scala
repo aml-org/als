@@ -16,11 +16,11 @@ case class JsonSuggestionStyler(override val params: StylerParams) extends Sugge
         if (!params.hasColon)
           postfix += ":"
         if (params.supportSnippets)
-          if (!params.hasQuote && !suggestion.options.arrayProperty)
+          if (!params.hasQuote && !suggestion.options.arrayProperty && suggestion.sons.isEmpty)
             postfix += "\"$1\""
           else if (!params.hasQuote && suggestion.options.arrayProperty)
             postfix += "[ $1 ]"
-      } else if (!params.hasQuote && !suggestion.options.arrayProperty && params.supportSnippets) {
+      } else if (!params.hasQuote && !suggestion.options.arrayProperty && params.supportSnippets && suggestion.sons.isEmpty) {
         postfix += "\"$1\""
         endingQuote = true
       } else if (!params.hasQuote && suggestion.options.arrayProperty && params.supportSnippets) {
@@ -40,4 +40,5 @@ case class JsonSuggestionStyler(override val params: StylerParams) extends Sugge
     else Styled(text, plain = true)
   }
 
+  override def styleKey(key: String): String = "\"" + key + "\": "
 }

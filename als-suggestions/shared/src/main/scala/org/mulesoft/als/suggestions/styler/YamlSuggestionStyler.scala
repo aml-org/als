@@ -27,4 +27,6 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends Sugge
     else rawSuggestion.newText
 
   private def arrayAdapter(rawSuggestion: RawSuggestion) = if (rawSuggestion.options.arrayProperty) "- " else ""
+
+  override def styleKey(key: String): String = s"$key: "
 }

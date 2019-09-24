@@ -22,15 +22,19 @@ trait SuggestionStyler {
   val params: StylerParams
   def style(suggestion: RawSuggestion): Styled
 
-  def patchPath(builder: CompletionItemBuilder, text: String): Unit = {
+  def styleKey(key: String): String
+
+  def patchPath(builder: CompletionItemBuilder): Unit = {
     val index =
       params.prefix.lastIndexOf(".").max(params.prefix.lastIndexOf("/"))
-    if (index > 0 && text.startsWith(params.prefix))
+    if (index > 0 && builder.getText.startsWith(params.prefix))
       if (index == params.prefix.length)
-        builder.withText(text.substring(index)).withDisplayText(builder.getDisplayText.split('.').last)
+        builder
+          .withText(builder.getText.substring(index))
+          .withDisplayText(builder.getDisplayText.split('.').last)
       else
         builder
-          .withText(text.substring(index + 1))
+          .withText(builder.getText.substring(index + 1))
           .withDisplayText(builder.getDisplayText.substring(index + 1))
           .withPrefix(params.prefix.substring(index + 1))
           .withRange(builder.getRange.copy(start = builder.getRange.start.moveColumn(index + 1)))
@@ -47,9 +51,22 @@ trait SuggestionStyler {
       .withCategory(suggestions.category)
       .withPrefix(params.prefix)
 
-    if (styled.plain) patchPath(builder, styled.text)
-    else builder.withInsertTextFormat(InsertTextFormat.Snippet)
+    patchPath(builder)
+    if (styled.plain || suggestions.sons.nonEmpty) {
+      builder.withInsertTextFormat(InsertTextFormat.Snippet)
+      if (suggestions.sons.nonEmpty)
+        builder.withText(builder.getText + sonsToSnippet(suggestions.sons, suggestions.whiteSpacesEnding))
+    }
 
     builder.build()
+  }
+
+  def sonsToSnippet(sons: Seq[String], indentation: String): String = {
+    val newIden = indentation
+
+    sons.zipWithIndex.map {
+      case (s, i) if i == 0 => { styleKey(s) } + "$" + (i + 1).toString
+      case (s, i)           => { newIden + styleKey(s) } + "$" + (i + 1).toString
+    } mkString
   }
 }
