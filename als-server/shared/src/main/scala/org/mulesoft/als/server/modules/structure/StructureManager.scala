@@ -1,5 +1,7 @@
 package org.mulesoft.als.server.modules.structure
 
+import java.util.UUID
+
 import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
@@ -49,8 +51,8 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
     }
   )
 
-  val onNewASTAvailableListener: AstListener = (uri: String, version: Int, ast: BaseUnit) =>
-    StructureManager.this.newASTAvailable(uri, version, ast)
+  val onNewASTAvailableListener: AstListener = (uri: String, version: Int, ast: BaseUnit, uuid: String) =>
+    StructureManager.this.newASTAvailable(uri, version, ast, uuid)
 
   val onDocumentStructureListener: String => Future[Seq[DocumentSymbol]] =
     onDocumentStructure
@@ -60,10 +62,10 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
     Future.successful()
   }
 
-  def newASTAvailable(uri: String, astVersion: Int, ast: BaseUnit): Unit = {
+  def newASTAvailable(uri: String, astVersion: Int, ast: BaseUnit, telemetryUUID: String): Unit = {
     logger.debug("Got new AST:\n" + ast.toString, "StructureManager", "newASTAvailable")
-
-    telemetryProvider.addTimedMessage("Begin Structure", MessageTypes.BEGIN_STRUCTURE, uri)
+//    val telemetryUUID: String = UUID.randomUUID().toString
+    telemetryProvider.addTimedMessage("Begin Structure", MessageTypes.BEGIN_STRUCTURE, uri, telemetryUUID)
     val editor = textDocumentManager.getTextDocument(uri)
 
     if (editor.isDefined) {
@@ -78,12 +80,14 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
         astVersion,
         struct
       )
+      telemetryProvider.addTimedMessage("End Structure", MessageTypes.END_STRUCTURE, uri, telemetryUUID)
       // not part oif the protocol, extend it?
 //       this.connection.structureAvailable(structureReport)
     }
   }
 
-  def onDocumentStructure(url: String): Future[Seq[DocumentSymbol]] = {
+  def onDocumentStructure(uri: String): Future[Seq[DocumentSymbol]] = {
+    val telemetryUUID: String = UUID.randomUUID().toString
     val emptyDocumentSymbol = List(
       DocumentSymbol("",
                      SymbolKind(21),
@@ -92,42 +96,45 @@ class StructureManager(private val textDocumentManager: TextDocumentManager,
                      PositionRange(Position(0, 0), Position(0, 0)),
                      Nil))
 
-    logger.debug("Asked for structure:\n" + url, "StructureManager", "onDocumentStructure")
+    logger.debug("Asked for structure:\n" + uri, "StructureManager", "onDocumentStructure")
+    telemetryProvider.addTimedMessage("Begin Structure", MessageTypes.BEGIN_STRUCTURE, uri, telemetryUUID)
 
-    val editor = textDocumentManager.getTextDocument(url)
+    val editor = textDocumentManager.getTextDocument(uri)
 
     if (editor.isDefined) {
 
       this.astManager
-        .forceGetCurrentAST(url)
+        .forceGetCurrentAST(uri, telemetryUUID)
         .map(ast => {
           val result = StructureManager.this
             .getStructureFromAST(ast, editor.get.cursorPosition)
 
           logger
-            .debugDetail(s"Got result for url $url of size ${result.size}", "StructureManager", "onDocumentStructure")
+            .debugDetail(s"Got result for url $uri of size ${result.size}", "StructureManager", "onDocumentStructure")
 
+          telemetryProvider.addTimedMessage("End Structure", MessageTypes.END_STRUCTURE, uri, telemetryUUID)
           result
         })
         .recoverWith {
           case t: Throwable =>
             logger
-              .debugDetail(s"Got the following error in $url => ${t.getMessage}",
+              .debugDetail(s"Got the following error in $uri => ${t.getMessage}",
                            "StructureManager",
                            "onDocumentStructure")
+            telemetryProvider.addTimedMessage(s"End Structure: ${t.getMessage}",
+                                              MessageTypes.END_STRUCTURE,
+                                              uri,
+                                              telemetryUUID)
             Future.successful(emptyDocumentSymbol)
         }
 
     } else {
+      telemetryProvider.addTimedMessage("End Structure", MessageTypes.END_STRUCTURE, uri, telemetryUUID)
       Future.successful(emptyDocumentSymbol)
     }
   }
 
   def getStructureFromAST(ast: BaseUnit, position: Int): List[DocumentSymbol] = {
-
-    telemetryProvider.addTimedMessage("Begin Structure", MessageTypes.BEGIN_STRUCTURE, ast.location().getOrElse(""))
-    val symbols = StructureBuilder.listSymbols(ast)
-    telemetryProvider.addTimedMessage("End Structure", MessageTypes.END_STRUCTURE, ast.location().getOrElse(""))
-    symbols
+    StructureBuilder.listSymbols(ast)
   }
 }
