@@ -85,7 +85,8 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
                         customDialect: Option[CustomDialects] = None): Future[Assertion] =
     this
       .suggest(path, label, cut, labels, customDialect)
-      .map(r => assert(path, r.flatMap(_.textEdit.map(_.newText)).toSet, originalSuggestions))
+      .map(r =>
+        assert(path, r.flatMap(s => s.textEdit.map(_.newText).orElse(s.insertText)).toSet, originalSuggestions))
 
   def withDialect(path: String,
                   originalSuggestions: Set[String],

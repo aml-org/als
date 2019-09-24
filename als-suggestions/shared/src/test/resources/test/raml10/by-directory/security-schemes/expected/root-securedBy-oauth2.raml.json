@@ -1,21 +1,20 @@
 [
   {
-    "text": "scopes:\n        ",
-    "description": "scopes",
-    "displayText": "scopes",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
-        "start":{
-          "line": 9,
-          "character": 6
-        },
-        "end": {
-          "line": 9,
-          "character": 6
-        }
-      }
-    ]
+    "label": "scopes",
+    "kind": [],
+    "detail": "security",
+    "documentation": "scopes",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "scopes:\n        ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

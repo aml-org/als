@@ -1,21 +1,20 @@
 [
   {
-    "text": "name:\n        ",
-    "description": "name",
-    "displayText": "name",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 9,
-          "character": 8
-        },
-        "end": {
-          "line": 9,
-          "character": 8
-        }
-      }
-    ]
+    "label": "name",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "name:\n        ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

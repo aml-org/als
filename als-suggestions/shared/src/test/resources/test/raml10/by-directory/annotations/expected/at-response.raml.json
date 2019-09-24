@@ -1,12 +1,19 @@
 [
   {
-    "text": "(myAnnotation): ",
-    "description": "(myAnnotation)",
-    "displayText": "(myAnnotation)",
-    "prefix": "",
-    "category": "annotations",
-    "range": [
-      {
+    "label": "(myAnnotation)",
+    "kind": [],
+    "detail": "annotations",
+    "documentation": "(myAnnotation)",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 8,
           "character": 8
@@ -15,36 +22,46 @@
           "line": 8,
           "character": 8
         }
-      }
-    ]
+      },
+      "newText": "(myAnnotation): "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "body:\n          ",
-    "description": "body",
-    "displayText": "body",
-    "prefix": "",
-    "category": "responses",
-    "range": [
-      {
-        "start": {
-          "line": 8,
-          "character": 8
-        },
-        "end": {
-          "line": 8,
-          "character": 8
-        }
-      }
-    ]
+    "label": "body",
+    "kind": [],
+    "detail": "responses",
+    "documentation": "body",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "body:\n          ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "description: ",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 8,
           "character": 8
@@ -53,26 +70,29 @@
           "line": 8,
           "character": 8
         }
-      }
-    ]
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "headers:\n          ",
-    "description": "headers",
-    "displayText": "headers",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 8,
-          "character": 8
-        },
-        "end": {
-          "line": 8,
-          "character": 8
-        }
-      }
-    ]
+    "label": "headers",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "headers",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "headers:\n          ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

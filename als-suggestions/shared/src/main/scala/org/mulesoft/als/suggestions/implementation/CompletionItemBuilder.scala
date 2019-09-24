@@ -55,13 +55,20 @@ class CompletionItemBuilder(_range: PositionRange) {
   def getText: String         = this.text
 
   def build(): CompletionItem = {
+    val t: (Option[String], String) = if (text.contains("\n")) (Some(text), null) else (None, text)
+
     CompletionItem(
       displayText,
-      textEdit = Some(TextEdit(LspRangeConverter.toLspRange(range), text)),
+      textEdit = textEdit(t._2, range),
+      insertText = t._1,
       detail = Some(category),
       documentation = Some(description),
       insertTextFormat = Some(insertTextFormat)
     )
   }
 
+  private def textEdit(text: String, range: PositionRange): Option[TextEdit] = {
+    if (text == null || text.isEmpty) None
+    else Some(TextEdit(LspRangeConverter.toLspRange(range), text))
+  }
 }

@@ -1,12 +1,19 @@
 [
   {
-    "text": "accessTokenUri: ",
-    "description": "accessTokenUri",
-    "displayText": "accessTokenUri",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "accessTokenUri",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "accessTokenUri",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 6,
           "character": 6
@@ -15,36 +22,46 @@
           "line": 6,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "accessTokenUri: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "authorizationGrants:\n        - ",
-    "description": "authorizationGrants",
-    "displayText": "authorizationGrants",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 6,
-          "character": 6
-        },
-        "end": {
-          "line": 6,
-          "character": 6
-        }
-      }
-    ]
+    "label": "authorizationGrants",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "authorizationGrants",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "authorizationGrants:\n        - ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "authorizationUri: ",
-    "description": "authorizationUri",
-    "displayText": "authorizationUri",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "authorizationUri",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "authorizationUri",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 6,
           "character": 6
@@ -53,26 +70,29 @@
           "line": 6,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "authorizationUri: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "scopes:\n        - ",
-    "description": "scopes",
-    "displayText": "scopes",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 6,
-          "character": 6
-        },
-        "end": {
-          "line": 6,
-          "character": 6
-        }
-      }
-    ]
+    "label": "scopes",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "scopes",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "scopes:\n        - ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

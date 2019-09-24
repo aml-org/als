@@ -1,21 +1,20 @@
 [
   {
-    "text": "rt:\n    ",
-    "description": "rt",
-    "displayText": "rt",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 8,
-          "character": 4
-        },
-        "end": {
-          "line": 8,
-          "character": 4
-        }
-      }
-    ]
+    "label": "rt",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "rt",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "rt:\n      ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

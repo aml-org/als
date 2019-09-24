@@ -1,21 +1,20 @@
 [
   {
-    "text": "uri:\n    ",
-    "description": "uri",
-    "displayText": "uri",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      }
-    ]
+    "label": "uri",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "uri",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "uri:\n      ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

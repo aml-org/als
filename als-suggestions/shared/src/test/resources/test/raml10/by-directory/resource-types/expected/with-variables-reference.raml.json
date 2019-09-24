@@ -1,12 +1,20 @@
-#%RAML 1.0
-title: test
-resourceTypes:
-  rt:
-    description: <<param1>>
-    get:
-      description: <<param2>>
-
-/endpoint:
-  type:
-    rt:
-      *
+[
+  {
+    "label": "rt",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "rt",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "rt:\n      param1: $1\n      param2: $2",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

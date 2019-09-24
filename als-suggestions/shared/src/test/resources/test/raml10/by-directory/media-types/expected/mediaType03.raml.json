@@ -1,40 +1,38 @@
 [
   {
-    "text": "\n  - application/json",
-    "description": "application/json",
-    "displayText": "application/json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 16
-        },
-        "end": {
-          "line": 4,
-          "character": 16
-        }
-      }
-    ]
+    "label": "application/json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/json",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "\n  - application/json",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "\n  - application/xml",
-    "description": "application/xml",
-    "displayText": "application/xml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 4,
-          "character": 16
-        },
-        "end": {
-          "line": 4,
-          "character": 16
-        }
-      }
-    ]
+    "label": "application/xml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/xml",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "\n  - application/xml",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

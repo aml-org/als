@@ -1,21 +1,20 @@
 [
   {
-    "text": "application/xml:\n            ",
-    "description": "application/xml",
-    "displayText": "application/xml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 7,
-          "character": 10
-        },
-        "end": {
-          "line": 7,
-          "character": 10
-        }
-      }
-    ]
+    "label": "application/xml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/xml",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "application/xml:\n            ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

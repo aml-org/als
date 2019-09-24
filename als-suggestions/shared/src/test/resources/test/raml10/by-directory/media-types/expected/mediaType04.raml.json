@@ -1,21 +1,20 @@
 [
   {
-    "text": "json:\n            ",
-    "description": "application/json",
-    "displayText": "json",
-    "prefix": "j",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 9,
-          "character": 22
-        },
-        "end": {
-          "line": 9,
-          "character": 23
-        }
-      }
-    ]
+    "label": "json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/json",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "json:\n            ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]
