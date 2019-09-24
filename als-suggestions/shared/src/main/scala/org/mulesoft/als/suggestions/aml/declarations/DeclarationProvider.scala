@@ -12,6 +12,18 @@ import scala.collection.mutable
 
 class DeclarationProvider(componentId: Option[String] = None) {
 
+  def findElement(newText: String, iriDeclaration: String): Option[DomainElement] = {
+    newText.split(".").toList match {
+      case head :: tail if tail.nonEmpty => findLib(head, tail.head, iriDeclaration)
+      case _ =>
+        declarations.get(iriDeclaration).flatMap(d => d.find(_._1 == newText).map(_._2))
+    }
+  }
+
+  def findLib(libName: String, elementName: String, iriDeclaration: String): Option[DomainElement] = {
+    libraries.get(libName).flatMap(l => l.findElement(elementName, iriDeclaration))
+  }
+
   def isTermDeclarable(term: String): Boolean = declarableTerms.contains(term)
 
   case class DeclaredCandidates(local: Set[Name], alias: Set[Alias]) {

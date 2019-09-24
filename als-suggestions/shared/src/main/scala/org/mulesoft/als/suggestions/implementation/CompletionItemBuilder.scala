@@ -52,6 +52,7 @@ class CompletionItemBuilder(_range: PositionRange) {
 
   def getRange: PositionRange = this.range
   def getDisplayText: String  = this.displayText
+  def getText: String         = this.text
 
   def build(): CompletionItem = {
     CompletionItem(
