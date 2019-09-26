@@ -1,0 +1,17 @@
+{
+  "openapi": "3.0",
+  "/":{
+    "get":{
+      "parameters":{
+        "schema":{
+          "type": "object",
+          "properties":{
+            "name": "string",
+            "age": "integer"
+          },
+          "discriminator": *
+        }
+      }
+    }
+  }
+}

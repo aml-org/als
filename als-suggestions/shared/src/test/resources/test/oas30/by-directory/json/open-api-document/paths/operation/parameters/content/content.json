@@ -1,0 +1,12 @@
+{
+  "openapi": "3.0",
+  "/":{
+    "get":{
+      "parameters":{
+        "content":{
+          *
+        }
+      }
+    }
+  }
+}
