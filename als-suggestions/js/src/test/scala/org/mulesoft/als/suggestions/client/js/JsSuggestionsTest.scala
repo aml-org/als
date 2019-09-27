@@ -113,8 +113,8 @@ class JsSuggestionsTest extends AsyncFunSuite with Matchers {
           .map(suggestions => {
             val seq = suggestions.toSeq
             seq.size should be(2)
-            seq.head.text should be("/fragment 2.raml")
-            seq.last.text should be("/another.raml")
+            seq.head.textEdit.get.newText should be("/fragment 2.raml")
+            seq.last.textEdit.get.newText should be("/another.raml")
           })
       })
   }
@@ -168,8 +168,8 @@ class JsSuggestionsTest extends AsyncFunSuite with Matchers {
           .map(suggestions => {
             val seq = suggestions.toSeq
             seq.size should be(2)
-            seq.head.text should be("fragment 2.raml")
-            seq.last.text should be("another.raml")
+            seq.head.textEdit.get.newText should be("fragment 2.raml")
+            seq.last.textEdit.get.newText should be("another.raml")
           })
       })
   }
