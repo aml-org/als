@@ -55,12 +55,9 @@ class CompletionItemBuilder(_range: PositionRange) {
   def getText: String         = this.text
 
   def build(): CompletionItem = {
-    val t: (Option[String], String) = if (text.contains("\n")) (Some(text), null) else (None, text)
-
     CompletionItem(
       displayText,
-      textEdit = textEdit(t._2, range),
-      insertText = t._1,
+      textEdit = textEdit(text, range),
       detail = Some(category),
       documentation = Some(description),
       insertTextFormat = Some(insertTextFormat)
