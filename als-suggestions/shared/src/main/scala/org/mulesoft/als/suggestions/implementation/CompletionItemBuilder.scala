@@ -3,8 +3,8 @@ package org.mulesoft.als.suggestions.implementation
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.edit.TextEdit
-import org.mulesoft.lsp.feature.completion.{CompletionItem, InsertTextFormat}
 import org.mulesoft.lsp.feature.completion.InsertTextFormat.InsertTextFormat
+import org.mulesoft.lsp.feature.completion.{CompletionItem, InsertTextFormat}
 
 class CompletionItemBuilder(_range: PositionRange) {
   private var text: String         = ""
@@ -54,15 +54,18 @@ class CompletionItemBuilder(_range: PositionRange) {
   def getDisplayText: String  = this.displayText
   def getText: String         = this.text
 
-  def build(): CompletionItem = {
+  def getPriority(insertTextFormat: InsertTextFormat, text: String): Int =
+    insertTextFormat.id * 10 + { if (text.startsWith("(")) 10 else 0 }
+
+  def build(): CompletionItem =
     CompletionItem(
       displayText,
       textEdit = textEdit(text, range),
       detail = Some(category),
       documentation = Some(description),
-      insertTextFormat = Some(insertTextFormat)
+      insertTextFormat = Some(insertTextFormat),
+      sortText = Some(s"${getPriority(insertTextFormat, text)}$displayText")
     )
-  }
 
   private def textEdit(text: String, range: PositionRange): Option[TextEdit] = {
     if (text == null || text.isEmpty) None

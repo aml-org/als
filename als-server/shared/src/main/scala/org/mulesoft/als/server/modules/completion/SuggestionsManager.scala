@@ -87,7 +87,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
         val offset       = position.offset(originalText)
         val text         = suggestions.Core.prepareText(originalText, offset, syntax)
         telemetryProvider.addTimedMessage("Begin Suggestions", MessageTypes.BEGIN_COMPLETION, uri, telemetryUUID)
-        buildCompletionProviderAST(text, originalText, uri, refinedUri, offset, /* vendor, */ syntax, telemetryUUID)
+        buildCompletionProviderAST(text, originalText, uri, refinedUri, offset, syntax, telemetryUUID)
           .flatMap(provider => {
             provider
               .suggest()

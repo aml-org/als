@@ -40,6 +40,9 @@ trait SuggestionStyler {
           .withRange(builder.getRange.copy(start = builder.getRange.start.moveColumn(index + 1)))
   }
 
+  protected def indentIfInArrayItem(arrayItem: Boolean, singleIndent: String): String =
+    if (arrayItem) singleIndent else ""
+
   def rawToStyledSuggestion(suggestions: RawSuggestion): CompletionItem = {
     val builder = new CompletionItemBuilder(
       suggestions.range.getOrElse(PositionRange(params.position.moveColumn(-params.prefix.length), params.position)))
@@ -52,21 +55,29 @@ trait SuggestionStyler {
       .withPrefix(params.prefix)
 
     patchPath(builder)
-    if (styled.plain || suggestions.sons.nonEmpty) {
+    if (!styled.plain || suggestions.sons.nonEmpty) {
       builder.withInsertTextFormat(InsertTextFormat.Snippet)
       if (suggestions.sons.nonEmpty)
-        builder.withText(builder.getText + sonsToSnippet(suggestions.sons, suggestions.whiteSpacesEnding))
+        builder.withText(
+          builder.getText + sonsToSnippet(
+            suggestions.sons,
+            suggestions.whiteSpacesEnding + indentIfInArrayItem(suggestions.options.arrayItem,
+                                                                singleIndentation(suggestions.whiteSpacesEnding))))
     }
 
     builder.build()
   }
 
-  def sonsToSnippet(sons: Seq[String], indentation: String): String = {
-    val newIden = indentation
+  protected def singleIndentation(indentation: String): String = if (indentation.contains("\t")) "\t" else "  "
+  protected def startWithEOL(indentation: String): String      = if (indentation.startsWith("\n")) "" else "\n"
 
-    sons.zipWithIndex.map {
-      case (s, i) if i == 0 => { styleKey(s) } + "$" + (i + 1).toString
-      case (s, i)           => { newIden + styleKey(s) } + "$" + (i + 1).toString
+  def sonsToSnippet(children: Seq[String], indentation: String): String = {
+    val newIndentation = startWithEOL(indentation) + indentation + singleIndentation(indentation)
+
+    children.zipWithIndex.map {
+      case (s, i)
+          if i == 0 => { singleIndentation(indentation) + singleIndentation(indentation) + styleKey(s) } + "$" + (i + 1).toString
+      case (s, i)   => { newIndentation + styleKey(s) } + "$" + (i + 1).toString
     } mkString
   }
 }
