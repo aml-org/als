@@ -4,10 +4,11 @@ import amf.client.remote.Content
 import amf.client.resource.ClientResourceLoader
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
+import org.mulesoft.als.client.lsp.CompletionItem
 import org.mulesoft.als.common.{DirectoryResolver => InternalResolver}
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.amfmanager.InitOptions
-import org.mulesoft.lsp.feature.completion.CompletionItem
+import org.mulesoft.als.client.convert.LspConverters._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -48,7 +49,7 @@ object JsSuggestions extends PlatformSecrets with EmptyDirectoryResolver {
                environment,
                platform,
                snippetSupport)
-      .map(_.toJSArray)
+      .map(_.map(toClientCompletionItem).toJSArray)
       .toJSPromise
   }
 }

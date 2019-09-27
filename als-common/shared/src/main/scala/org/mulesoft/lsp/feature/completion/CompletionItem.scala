@@ -5,8 +5,6 @@ import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.completion.CompletionItemKind.CompletionItemKind
 import org.mulesoft.lsp.feature.completion.InsertTextFormat.InsertTextFormat
 
-import scala.scalajs.js.annotation.{JSExport, JSExportAll, JSExportTopLevel}
-
 /**
   * @param label               The label of this completion item. By default
   *                            also the text that is inserted when selecting
@@ -55,8 +53,6 @@ import scala.scalajs.js.annotation.{JSExport, JSExportAll, JSExportTopLevel}
   *                            additional modifications to the current document should be described with the
   *                            additionalTextEdits-property.
   */
-@JSExportAll
-@JSExportTopLevel(name = "CompletionItem")
 case class CompletionItem(label: String,
                           kind: Option[CompletionItemKind] = None,
                           detail: Option[String] = None,
