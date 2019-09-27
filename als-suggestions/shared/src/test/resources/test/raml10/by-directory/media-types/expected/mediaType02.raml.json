@@ -1,12 +1,19 @@
 [
   {
-    "text": "application/json",
-    "description": "application/json",
-    "displayText": "application/json",
-    "prefix": "app",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "application/json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/json",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 29
@@ -15,7 +22,11 @@
           "line": 4,
           "character": 32
         }
-      }
-    ]
+      },
+      "newText": "application/json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

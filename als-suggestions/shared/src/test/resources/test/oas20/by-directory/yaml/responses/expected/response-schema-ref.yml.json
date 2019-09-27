@@ -1,12 +1,19 @@
 [
   {
-    "text": "\"#/definitions/A\"",
-    "description": "Reference to \"#/definitions/A\"",
-    "displayText": "\"#/definitions/A\"",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "\"#/definitions/A\"",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to \"#/definitions/A\"",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 11,
           "character": 18
@@ -15,17 +22,28 @@
           "line": 11,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "\"#/definitions/A\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "expected/",
-    "description": "Path suggestion",
-    "displayText": "expected/",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "expected/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 11,
           "character": 18
@@ -34,17 +52,28 @@
           "line": 11,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "expected/"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-declaration-named.yml",
-    "description": "Path suggestion",
-    "displayText": "response-declaration-named.yml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-declaration-named.yml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 11,
           "character": 18
@@ -53,17 +82,28 @@
           "line": 11,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "response-declaration-named.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-declaration.yml",
-    "description": "Path suggestion",
-    "displayText": "response-declaration.yml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-declaration.yml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 11,
           "character": 18
@@ -72,17 +112,28 @@
           "line": 11,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "response-declaration.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-example.yml",
-    "description": "Path suggestion",
-    "displayText": "response-example.yml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-example.yml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 11,
           "character": 18
@@ -91,17 +142,28 @@
           "line": 11,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "response-example.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-examples.yml",
-    "description": "Path suggestion",
-    "displayText": "response-examples.yml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-examples.yml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 11,
           "character": 18
@@ -110,17 +172,28 @@
           "line": 11,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "response-examples.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-header.yml",
-    "description": "Path suggestion",
-    "displayText": "response-header.yml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-header.yml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 11,
           "character": 18
@@ -129,17 +202,28 @@
           "line": 11,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "response-header.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-headers.yml",
-    "description": "Path suggestion",
-    "displayText": "response-headers.yml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-headers.yml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 11,
           "character": 18
@@ -148,17 +232,28 @@
           "line": 11,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "response-headers.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-ref.yml",
-    "description": "Path suggestion",
-    "displayText": "response-ref.yml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-ref.yml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 11,
           "character": 18
@@ -167,17 +262,28 @@
           "line": 11,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "response-ref.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-schema.yml",
-    "description": "Path suggestion",
-    "displayText": "response-schema.yml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-schema.yml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 11,
           "character": 18
@@ -186,17 +292,28 @@
           "line": 11,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "response-schema.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response.yml",
-    "description": "Path suggestion",
-    "displayText": "response.yml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response.yml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 11,
           "character": 18
@@ -205,7 +322,11 @@
           "line": 11,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "response.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

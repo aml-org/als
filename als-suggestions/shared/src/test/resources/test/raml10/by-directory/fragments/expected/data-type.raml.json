@@ -98,11 +98,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "enum:\n  - ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      },
+      "newText": "enum:\n  - "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -116,11 +128,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "example:\n  ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      },
+      "newText": "example:\n  "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -134,11 +158,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "examples:\n  ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      },
+      "newText": "examples:\n  "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -152,11 +188,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "facets:\n  ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      },
+      "newText": "facets:\n  "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -170,11 +218,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "items:\n  ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      },
+      "newText": "items:\n  "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -278,11 +338,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "properties:\n  ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      },
+      "newText": "properties:\n  "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -296,11 +368,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "type:\n  ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      },
+      "newText": "type:\n  "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -344,11 +428,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "uses:\n  ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      },
+      "newText": "uses:\n  "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -362,11 +458,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "xml:\n  ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      },
+      "newText": "xml:\n  "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

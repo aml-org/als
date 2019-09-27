@@ -8,11 +8,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "\n        - application/json",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 16
+        },
+        "end": {
+          "line": 4,
+          "character": 16
+        }
+      },
+      "newText": "\n        - application/json"
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -26,11 +38,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "\n        - application/vnd.github+json",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 16
+        },
+        "end": {
+          "line": 4,
+          "character": 16
+        }
+      },
+      "newText": "\n        - application/vnd.github+json"
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -44,11 +68,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "\n        - application/vnd.github.v3+json",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 16
+        },
+        "end": {
+          "line": 4,
+          "character": 16
+        }
+      },
+      "newText": "\n        - application/vnd.github.v3+json"
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -62,11 +98,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "\n        - application/vnd.github.v3.full+json",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 16
+        },
+        "end": {
+          "line": 4,
+          "character": 16
+        }
+      },
+      "newText": "\n        - application/vnd.github.v3.full+json"
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -80,11 +128,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "\n        - application/vnd.github.v3.html+json",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 16
+        },
+        "end": {
+          "line": 4,
+          "character": 16
+        }
+      },
+      "newText": "\n        - application/vnd.github.v3.html+json"
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -98,11 +158,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "\n        - application/vnd.github.v3.patch",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 16
+        },
+        "end": {
+          "line": 4,
+          "character": 16
+        }
+      },
+      "newText": "\n        - application/vnd.github.v3.patch"
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -116,11 +188,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "\n        - application/vnd.github.v3.raw+json",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 16
+        },
+        "end": {
+          "line": 4,
+          "character": 16
+        }
+      },
+      "newText": "\n        - application/vnd.github.v3.raw+json"
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -134,11 +218,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "\n        - application/vnd.github.v3.text+json",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 16
+        },
+        "end": {
+          "line": 4,
+          "character": 16
+        }
+      },
+      "newText": "\n        - application/vnd.github.v3.text+json"
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -152,11 +248,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "\n        - appxlication/vnd.github.v3.diff",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 16
+        },
+        "end": {
+          "line": 4,
+          "character": 16
+        }
+      },
+      "newText": "\n        - appxlication/vnd.github.v3.diff"
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -170,11 +278,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "\n        - text/plain; charset=utf-8",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 16
+        },
+        "end": {
+          "line": 4,
+          "character": 16
+        }
+      },
+      "newText": "\n        - text/plain; charset=utf-8"
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

@@ -188,11 +188,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "externalDocs:\n              ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "externalDocs:\n              "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -206,11 +218,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "items:\n              ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "items:\n              "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -224,11 +248,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "properties:\n              ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "properties:\n              "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -362,11 +398,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "xml:\n              ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "xml:\n              "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

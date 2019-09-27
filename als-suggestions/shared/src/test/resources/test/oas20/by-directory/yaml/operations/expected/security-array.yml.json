@@ -8,11 +8,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "internalApiKey:\n          ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 10
+        },
+        "end": {
+          "line": 10,
+          "character": 10
+        }
+      },
+      "newText": "internalApiKey:\n          "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

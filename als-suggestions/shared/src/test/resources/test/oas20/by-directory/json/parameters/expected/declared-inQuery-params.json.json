@@ -1,12 +1,19 @@
 [
   {
-    "text": "param",
-    "description": "param",
-    "displayText": "param",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "param",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "param",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 10,
           "character": 21
@@ -15,17 +22,28 @@
           "line": 10,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "param"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "userId",
-    "description": "userId",
-    "displayText": "userId",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "userId",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "userId",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 10,
           "character": 21
@@ -34,7 +52,11 @@
           "line": 10,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "userId"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

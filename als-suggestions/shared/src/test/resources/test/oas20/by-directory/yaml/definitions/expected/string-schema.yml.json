@@ -158,11 +158,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "externalDocs:\n      ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "externalDocs:\n      "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -386,11 +398,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "xml:\n      ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "xml:\n      "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

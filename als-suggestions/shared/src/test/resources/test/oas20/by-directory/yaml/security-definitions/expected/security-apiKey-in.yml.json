@@ -1,12 +1,19 @@
 [
   {
-    "text": "header",
-    "description": "header",
-    "displayText": "header",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "header",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "header",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 8
@@ -15,17 +22,28 @@
           "line": 4,
           "character": 8
         }
-      }
-    ]
+      },
+      "newText": "header"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "query",
-    "description": "query",
-    "displayText": "query",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "query",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "query",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 8
@@ -34,7 +52,11 @@
           "line": 4,
           "character": 8
         }
-      }
-    ]
+      },
+      "newText": "query"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]
