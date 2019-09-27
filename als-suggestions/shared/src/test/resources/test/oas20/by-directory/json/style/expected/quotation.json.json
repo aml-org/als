@@ -1,0 +1,135 @@
+[
+  {
+    "text": "\"array\"",
+    "description": "array",
+    "displayText": "array",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 22
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"boolean\"",
+    "description": "boolean",
+    "displayText": "boolean",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 22
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"file\"",
+    "description": "file",
+    "displayText": "file",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 22
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"integer\"",
+    "description": "integer",
+    "displayText": "integer",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 22
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"number\"",
+    "description": "number",
+    "displayText": "number",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 22
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"object\"",
+    "description": "object",
+    "displayText": "object",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 22
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      }
+    ]
+  },
+  {
+    "text": "\"string\"",
+    "description": "string",
+    "displayText": "string",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 12,
+          "character": 22
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      }
+    ]
+  }
+]

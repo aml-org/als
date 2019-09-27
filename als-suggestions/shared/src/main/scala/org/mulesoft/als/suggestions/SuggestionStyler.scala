@@ -9,16 +9,23 @@ case class StylerParams(prefix: String,
                         hasColon: Boolean,
                         hasLine: Boolean,
                         hasKeyClosingQuote: Boolean,
+                        hasOpeningQuote: Boolean,
                         position: Position)
 object StylerParams {
+
+  private def hasOpeningQuote(lineOpt: String, position: Position) = {
+    val prev = lineOpt.substring(0, position.column)
+    prev.substring(0 max prev.indexOf(':') + 1).trim.startsWith("\"")
+  }
+
   def apply(prefix: String, originalContent: String, position: Position): StylerParams = {
 
     var hasQuote           = false
     var hasColon           = false
     var hasLine            = false
     var hasKeyClosingQuote = false
+    val lines              = originalContent.linesIterator drop position.line
 
-    val lines = originalContent.linesIterator drop position.line
     val lineOpt =
       if (lines hasNext) lines next
       else ""
@@ -33,7 +40,7 @@ object StylerParams {
     else
       hasKeyClosingQuote = hasQuote
 
-    StylerParams(prefix, hasQuote, hasColon, hasLine, hasKeyClosingQuote, position)
+    StylerParams(prefix, hasQuote, hasColon, hasLine, hasKeyClosingQuote, hasOpeningQuote(lineOpt, position), position)
   }
 }
 
@@ -71,7 +78,13 @@ trait SuggestionStyler {
 
 case class DummySuggestionStyle(prefix: String, position: Position) extends SuggestionStyler {
   override val params: StylerParams =
-    StylerParams(prefix, hasQuote = false, hasColon = false, hasLine = false, hasKeyClosingQuote = false, position)
+    StylerParams(prefix,
+                 hasQuote = false,
+                 hasColon = false,
+                 hasLine = false,
+                 hasKeyClosingQuote = false,
+                 hasOpeningQuote = false,
+                 position)
 
   override def style(suggestion: RawSuggestion): Styled = Styled(suggestion.newText, plain = true)
 }
@@ -110,7 +123,7 @@ case class JsonSuggestionStyler(override val params: StylerParams) extends Sugge
     var postfix      = ""
     var prefix       = ""
     if (suggestion.options.isKey) {
-      if (!suggestion.newText.startsWith("\"") && !params.hasKeyClosingQuote)
+      if (!params.hasOpeningQuote)
         prefix = "\""
       if (!params.hasKeyClosingQuote) {
         postfix += "\""
@@ -139,6 +152,8 @@ case class JsonSuggestionStyler(override val params: StylerParams) extends Sugge
 //        postfix += "[ $1 ]"
 //      }
     } else if (!params.hasQuote) {
+      if (!params.hasOpeningQuote)
+        prefix = "\""
       postfix += "\""
       endingQuote = true
     }
