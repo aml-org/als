@@ -38,11 +38,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "body:\n          ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 8
+        },
+        "end": {
+          "line": 8,
+          "character": 8
+        }
+      },
+      "newText": "body:\n          "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -86,11 +98,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "headers:\n          ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 8
+        },
+        "end": {
+          "line": 8,
+          "character": 8
+        }
+      },
+      "newText": "headers:\n          "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

@@ -8,11 +8,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "name:\n    ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 4
+        },
+        "end": {
+          "line": 7,
+          "character": 4
+        }
+      },
+      "newText": "name:\n    "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

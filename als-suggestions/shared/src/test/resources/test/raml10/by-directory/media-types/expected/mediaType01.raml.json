@@ -8,11 +8,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "\n  - application/json",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 11
+        },
+        "end": {
+          "line": 4,
+          "character": 14
+        }
+      },
+      "newText": "\n  - application/json"
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -26,11 +38,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "\n  - application/xml",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 11
+        },
+        "end": {
+          "line": 4,
+          "character": 14
+        }
+      },
+      "newText": "\n  - application/xml"
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

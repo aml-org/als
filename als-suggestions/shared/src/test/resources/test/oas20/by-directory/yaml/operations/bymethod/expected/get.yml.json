@@ -8,11 +8,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "consumes:\n        - ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "consumes:\n        - "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -86,11 +98,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "externalDocs:\n        ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "externalDocs:\n        "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -134,11 +158,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "parameters:\n        - ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "parameters:\n        - "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -152,11 +188,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "produces:\n        - ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "produces:\n        - "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -170,11 +218,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "responses:\n        ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "responses:\n        "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -188,11 +248,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "schemes:\n        - ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "schemes:\n        - "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -206,11 +278,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "security:\n        - ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "security:\n        - "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -254,11 +338,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "tags:\n        - ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "tags:\n        - "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

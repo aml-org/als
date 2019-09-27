@@ -8,11 +8,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "headers:\n        ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      },
+      "newText": "headers:\n        "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -26,11 +38,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "queryParameters:\n        ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      },
+      "newText": "queryParameters:\n        "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -44,11 +68,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "queryString:\n        ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      },
+      "newText": "queryString:\n        "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -62,11 +98,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "responses:\n        ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      },
+      "newText": "responses:\n        "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

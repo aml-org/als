@@ -8,11 +8,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "json:\n            ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 22
+        },
+        "end": {
+          "line": 9,
+          "character": 23
+        }
+      },
+      "newText": "json:\n            "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

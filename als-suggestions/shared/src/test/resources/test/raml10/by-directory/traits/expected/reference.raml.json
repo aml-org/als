@@ -1,12 +1,19 @@
 [
   {
-    "text": "tr",
-    "description": "tr",
-    "displayText": "tr",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "tr",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "tr",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 8,
           "character": 8
@@ -15,7 +22,11 @@
           "line": 8,
           "character": 8
         }
-      }
-    ]
+      },
+      "newText": "tr"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

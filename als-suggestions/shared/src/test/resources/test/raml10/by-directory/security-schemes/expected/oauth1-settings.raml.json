@@ -1,12 +1,19 @@
 [
   {
-    "text": "authorizationUri: ",
-    "description": "authorizationUri",
-    "displayText": "authorizationUri",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "authorizationUri",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "authorizationUri",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 6,
           "character": 6
@@ -15,17 +22,28 @@
           "line": 6,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "authorizationUri: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "requestTokenUri: ",
-    "description": "requestTokenUri",
-    "displayText": "requestTokenUri",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "requestTokenUri",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "requestTokenUri",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 6,
           "character": 6
@@ -34,17 +52,28 @@
           "line": 6,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "requestTokenUri: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "signatures: ",
-    "description": "signatures",
-    "displayText": "signatures",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "signatures",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "signatures",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 6,
           "character": 6
@@ -53,17 +82,28 @@
           "line": 6,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "signatures: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "tokenCredentialsUri: ",
-    "description": "tokenCredentialsUri",
-    "displayText": "tokenCredentialsUri",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "tokenCredentialsUri",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "tokenCredentialsUri",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 6,
           "character": 6
@@ -72,7 +112,11 @@
           "line": 6,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "tokenCredentialsUri: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

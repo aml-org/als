@@ -38,11 +38,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "delete:\n      ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "delete:\n      "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -56,11 +68,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "get:\n      ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "get:\n      "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -74,11 +98,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "head:\n      ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "head:\n      "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -92,11 +128,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "options:\n      ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "options:\n      "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -110,11 +158,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "parameters:\n      - ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "parameters:\n      - "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -128,11 +188,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "patch:\n      ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "patch:\n      "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -146,11 +218,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "post:\n      ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "post:\n      "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -164,11 +248,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "put:\n      ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "put:\n      "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

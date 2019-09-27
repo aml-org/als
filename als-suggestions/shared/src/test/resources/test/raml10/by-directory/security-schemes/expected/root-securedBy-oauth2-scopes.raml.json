@@ -1,12 +1,19 @@
 [
   {
-    "text": "SCO1",
-    "description": "SCO1",
-    "displayText": "SCO1",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "SCO1",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "SCO1",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 10,
           "character": 16
@@ -15,17 +22,28 @@
           "line": 10,
           "character": 16
         }
-      }
-    ]
+      },
+      "newText": "SCO1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "SCO2",
-    "description": "SCO2",
-    "displayText": "SCO2",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "SCO2",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "SCO2",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 10,
           "character": 16
@@ -34,7 +52,11 @@
           "line": 10,
           "character": 16
         }
-      }
-    ]
+      },
+      "newText": "SCO2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

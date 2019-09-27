@@ -1,12 +1,19 @@
 [
   {
-    "text": "definitions/",
-    "description": "jsonschema.json#/definitions/",
-    "displayText": "definitions/",
-    "prefix": "definitions",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "definitions/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "jsonschema.json#/definitions/",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 27
@@ -15,7 +22,11 @@
           "line": 3,
           "character": 38
         }
-      }
-    ]
+      },
+      "newText": "definitions/"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

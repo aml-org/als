@@ -22,12 +22,6 @@ case class RawSuggestion(newText: String,
   implicit def bool2InsertTextFormat(v: Boolean): InsertTextFormat.Value =
     if (v) InsertTextFormat.Snippet
     else InsertTextFormat.PlainText
-
-  def toSuggestion(linePrefix: String): Suggestion =
-    new Suggestion(newText, description, displayText, linePrefix, range)
-      .withTrailingWhitespace(whiteSpacesEnding)
-      .withInsertTextFormat(options.isSnippet)
-      .withCategory(category)
 }
 
 object RawSuggestion {

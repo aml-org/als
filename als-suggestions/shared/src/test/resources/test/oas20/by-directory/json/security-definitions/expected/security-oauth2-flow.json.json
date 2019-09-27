@@ -1,12 +1,19 @@
 [
   {
-    "text": "accessCode",
-    "description": "accessCode",
-    "displayText": "accessCode",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "accessCode",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "accessCode",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 15
@@ -15,17 +22,28 @@
           "line": 5,
           "character": 15
         }
-      }
-    ]
+      },
+      "newText": "accessCode"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "application",
-    "description": "application",
-    "displayText": "application",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "application",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 15
@@ -34,17 +52,28 @@
           "line": 5,
           "character": 15
         }
-      }
-    ]
+      },
+      "newText": "application"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "implicit",
-    "description": "implicit",
-    "displayText": "implicit",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "implicit",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "implicit",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 15
@@ -53,17 +82,28 @@
           "line": 5,
           "character": 15
         }
-      }
-    ]
+      },
+      "newText": "implicit"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "password",
-    "description": "password",
-    "displayText": "password",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "password",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "password",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 15
@@ -72,7 +112,11 @@
           "line": 5,
           "character": 15
         }
-      }
-    ]
+      },
+      "newText": "password"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

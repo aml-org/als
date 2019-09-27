@@ -68,11 +68,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "examples:\n      ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "examples:\n      "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -86,11 +98,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "headers:\n      ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "headers:\n      "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -104,11 +128,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "schema:\n      ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "schema:\n      "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

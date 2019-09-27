@@ -38,11 +38,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "externalDocs:\n    ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 4
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      },
+      "newText": "externalDocs:\n    "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

@@ -8,11 +8,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "describedBy:\n      ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      },
+      "newText": "describedBy:\n      "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -86,11 +98,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "settings:\n      ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      },
+      "newText": "settings:\n      "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

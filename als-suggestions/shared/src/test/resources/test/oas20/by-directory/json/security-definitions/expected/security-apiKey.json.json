@@ -1,12 +1,19 @@
 [
   {
-    "text": "description",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 7
@@ -15,17 +22,28 @@
           "line": 5,
           "character": 7
         }
-      }
-    ]
+      },
+      "newText": "description"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "in",
-    "description": "in",
-    "displayText": "in",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
+    "label": "in",
+    "kind": [],
+    "detail": "security",
+    "documentation": "in",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 7
@@ -34,17 +52,28 @@
           "line": 5,
           "character": 7
         }
-      }
-    ]
+      },
+      "newText": "in"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "name",
-    "description": "name",
-    "displayText": "name",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
+    "label": "name",
+    "kind": [],
+    "detail": "security",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 7
@@ -53,7 +82,11 @@
           "line": 5,
           "character": 7
         }
-      }
-    ]
+      },
+      "newText": "name"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

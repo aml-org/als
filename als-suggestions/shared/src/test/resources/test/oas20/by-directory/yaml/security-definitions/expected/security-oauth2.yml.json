@@ -98,11 +98,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "scopes:\n      ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "scopes:\n      "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

@@ -8,11 +8,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "application/json:\n              ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "application/json:\n              "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -26,11 +38,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "application/vnd.github+json:\n              ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "application/vnd.github+json:\n              "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -44,11 +68,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "application/vnd.github.v3+json:\n              ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "application/vnd.github.v3+json:\n              "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -62,11 +98,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "application/vnd.github.v3.full+json:\n              ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "application/vnd.github.v3.full+json:\n              "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -80,11 +128,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "application/vnd.github.v3.html+json:\n              ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "application/vnd.github.v3.html+json:\n              "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -98,11 +158,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "application/vnd.github.v3.patch:\n              ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "application/vnd.github.v3.patch:\n              "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -116,11 +188,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "application/vnd.github.v3.raw+json:\n              ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "application/vnd.github.v3.raw+json:\n              "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -134,11 +218,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "application/vnd.github.v3.text+json:\n              ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "application/vnd.github.v3.text+json:\n              "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -152,11 +248,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "appxlication/vnd.github.v3.diff:\n              ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "appxlication/vnd.github.v3.diff:\n              "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
@@ -170,11 +278,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "text/plain; charset=utf-8:\n              ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "text/plain; charset=utf-8:\n              "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

@@ -1,12 +1,19 @@
 [
   {
-    "text": "description",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 10,
           "character": 11
@@ -15,17 +22,28 @@
           "line": 10,
           "character": 11
         }
-      }
-    ]
+      },
+      "newText": "description"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "name",
-    "description": "name",
-    "displayText": "name",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
+    "label": "name",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 10,
           "character": 11
@@ -34,17 +52,28 @@
           "line": 10,
           "character": 11
         }
-      }
-    ]
+      },
+      "newText": "name"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "required",
-    "description": "required",
-    "displayText": "required",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
+    "label": "required",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "required",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 10,
           "character": 11
@@ -53,17 +82,28 @@
           "line": 10,
           "character": 11
         }
-      }
-    ]
+      },
+      "newText": "required"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "schema",
-    "description": "schema",
-    "displayText": "schema",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
+    "label": "schema",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "schema",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 10,
           "character": 11
@@ -72,7 +112,11 @@
           "line": 10,
           "character": 11
         }
-      }
-    ]
+      },
+      "newText": "schema"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

@@ -1,12 +1,19 @@
 [
   {
-    "text": "schema: ",
-    "description": "schema",
-    "displayText": "schema",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
+    "label": "schema",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "schema",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 12
@@ -15,7 +22,11 @@
           "line": 7,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "schema: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

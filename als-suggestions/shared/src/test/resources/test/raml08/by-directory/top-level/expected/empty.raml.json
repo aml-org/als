@@ -1,12 +1,19 @@
 [
   {
-    "text": "#%RAML 1.0",
-    "description": "#%RAML 1.0",
-    "displayText": "#%RAML 1.0",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "#%RAML 1.0",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "#%RAML 1.0",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 0,
           "character": 0
@@ -15,7 +22,11 @@
           "line": 0,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "#%RAML 1.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

@@ -98,11 +98,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "schema:\n          ",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 8
+        },
+        "end": {
+          "line": 7,
+          "character": 8
+        }
+      },
+      "newText": "schema:\n          "
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null

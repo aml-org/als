@@ -8,11 +8,23 @@
     "preselect": [],
     "sortText": null,
     "filterText": null,
-    "insertText": "rt:\n      param1: $1\n      param2: $2",
+    "insertText": null,
     "insertTextFormat": [
       2
     ],
-    "textEdit": null,
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 4
+        },
+        "end": {
+          "line": 10,
+          "character": 4
+        }
+      },
+      "newText": "rt:\n      param1: $1\n      param2: $2"
+    },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
