@@ -6,17 +6,23 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends Sugge
   override def style(rawSuggestion: RawSuggestion): Styled = {
 
     val text =
-      if (rawSuggestion.options.isKey) keyAdapter(rawSuggestion) + arrayAdapter(rawSuggestion)
-      else if (!rawSuggestion.options.isKey)
-        if (params.prefix == ":" && !(rawSuggestion.newText.startsWith("\n") || rawSuggestion.newText
-              .startsWith("\r\n") || rawSuggestion.newText.startsWith(" ")))
-          s" ${rawSuggestion.newText}"
-        else if (rawSuggestion.newText endsWith ":") s"${rawSuggestion.newText} "
-        else if (rawSuggestion.options.arrayItem)
-          "\n" + whiteSpaceOrSpace(rawSuggestion.whiteSpacesEnding) + "- " + rawSuggestion.newText
-        else rawSuggestion.newText
+      if (rawSuggestion.options.isKey)
+        arrayItemPrefixIfNecessary(rawSuggestion) + keyAdapter(rawSuggestion) + arrayAdapter(rawSuggestion)
+      else if (params.prefix == ":" && !(rawSuggestion.newText.startsWith("\n") || rawSuggestion.newText
+                 .startsWith("\r\n") || rawSuggestion.newText.startsWith(" ")))
+        s" ${rawSuggestion.newText}"
+      else if (rawSuggestion.newText endsWith ":") s"${rawSuggestion.newText} "
+      else if (rawSuggestion.options.arrayItem)
+        arrayItemPrefix(rawSuggestion) + rawSuggestion.newText
       else rawSuggestion.newText
     Styled(text, plain = true)
+  }
+
+  private def arrayItemPrefixIfNecessary(rawSuggestion: RawSuggestion) =
+    if (rawSuggestion.options.arrayItem) arrayItemPrefix(rawSuggestion) else ""
+
+  private def arrayItemPrefix(rawSuggestion: RawSuggestion) = {
+    startWithEOL(rawSuggestion.whiteSpacesEnding) + whiteSpaceOrSpace(rawSuggestion.whiteSpacesEnding) + "- "
   }
 
   private def whiteSpaceOrSpace(str: String): String = if (str.isEmpty) " " else str

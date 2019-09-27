@@ -16,6 +16,8 @@ object RamlTraitReference extends RamlAbstractDeclarationReference {
 
   override def entryKey: String = "is"
 
+  override def isArray(yPartBranch: YPartBranch) = !yPartBranch.isInArray
+
   override def iriDeclaration: String = TraitModel.`type`.head.iri()
 
   override protected def isValue(yPartBranch: YPartBranch): Boolean =

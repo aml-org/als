@@ -17,16 +17,15 @@ class CompletionProviderAST(request: AmlCompletionRequest) extends CompletionPro
   private def arraySiblings(value: String): Boolean =
     request.yPartBranch.arraySiblings.contains(value)
 
-  override def suggest(): Future[Seq[CompletionItem]] = {
-
+  override def suggest(): Future[Seq[CompletionItem]] =
     CompletionsPluginHandler
       .pluginSuggestions(request)
       .map(suggestions => {
-        (suggestions filter brothersAndPrefix(request.prefix))
+        suggestions
+          .filter(brothersAndPrefix(request.prefix))
           .filterNot(rs => arraySiblings(rs.newText))
           .map(request.styler.rawToStyledSuggestion)
       })
-  }
 }
 
 object CompletionProviderAST {

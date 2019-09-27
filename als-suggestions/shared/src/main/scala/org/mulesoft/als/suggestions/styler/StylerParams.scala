@@ -7,6 +7,7 @@ case class StylerParams(prefix: String,
                         hasColon: Boolean,
                         hasLine: Boolean,
                         hasKeyClosingQuote: Boolean,
+                        hasOpeningQuote: Boolean,
                         position: Position,
                         supportSnippets: Boolean) {}
 
@@ -36,6 +37,17 @@ object StylerParams {
     else
       hasKeyClosingQuote = hasQuote
 
-    StylerParams(prefix, hasQuote, hasColon, hasLine, hasKeyClosingQuote, position, supportSnippets)
+    StylerParams(prefix,
+                 hasQuote,
+                 hasColon,
+                 hasLine,
+                 hasKeyClosingQuote,
+                 hasOpeningQuote(lineOpt, position),
+                 position,
+                 supportSnippets)
+  }
+  private def hasOpeningQuote(lineOpt: String, position: Position) = {
+    val prev = lineOpt.substring(0, position.column)
+    prev.substring(0 max prev.indexOf(':') + 1).trim.startsWith("\"")
   }
 }
