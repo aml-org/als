@@ -1,6 +1,6 @@
 {
   "name": "als-server-js",
-  "version": "1.0.0",
+  "version": "2.0.2",
   "description": "ALS Server Library",
   "main": "als-server.js",
   "author": "als team",
