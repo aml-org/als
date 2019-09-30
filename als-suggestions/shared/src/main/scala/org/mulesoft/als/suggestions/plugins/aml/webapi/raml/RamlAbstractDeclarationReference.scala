@@ -40,25 +40,26 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
 
         if (params.yPartBranch.isKey)
           suggestions.map(s => s.copy(options = s.options.copy(isKey = true), whiteSpacesEnding = params.indentation))
-        else suggestions
-        suggestions.map {
-          s =>
-            val maybeElement: Option[DomainElement] = params.declarationProvider.findElement(s.newText, iriDeclaration)
-            val vars = maybeElement
-              .collect({ case p: AbstractDeclaration => p })
-              .map(_.variables.flatMap(_.option()))
-              .getOrElse(Nil)
-            if (params.yPartBranch.isKey)
-              s.copy(options = s.options.copy(isKey = true, arrayItem = isArray(params.yPartBranch)),
-                     whiteSpacesEnding = params.indentation,
-                     sons = vars)
-            else
-              s.copy(
-                sons = vars,
-                options = s.options.copy(arrayItem = isArray(params.yPartBranch), isKey = vars.nonEmpty),
-                whiteSpacesEnding = getIndentationIfParent(params, vars.nonEmpty)
-              )
-        }
+        else
+          suggestions.map {
+            s =>
+              val maybeElement: Option[DomainElement] =
+                params.declarationProvider.findElement(s.newText, iriDeclaration)
+              val vars = maybeElement
+                .collect({ case p: AbstractDeclaration => p })
+                .map(_.variables.flatMap(_.option()))
+                .getOrElse(Nil)
+              if (params.yPartBranch.isKey)
+                s.copy(options = s.options.copy(isKey = true, arrayItem = isArray(params.yPartBranch)),
+                       whiteSpacesEnding = params.indentation,
+                       sons = vars)
+              else
+                s.copy(
+                  sons = vars,
+                  options = s.options.copy(arrayItem = isArray(params.yPartBranch), isKey = vars.nonEmpty),
+                  whiteSpacesEnding = getIndentationIfParent(params, vars.nonEmpty)
+                )
+          }
       } else Nil)
 
   }
