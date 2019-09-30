@@ -1,12 +1,19 @@
 [
   {
-    "text": "name",
-    "description": "name",
-    "displayText": "name",
-    "prefix": "nam",
-    "category": "docs",
-    "range": [
-      {
+    "label": "name",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 8
@@ -15,7 +22,11 @@
           "line": 7,
           "character": 11
         }
-      }
-    ]
+      },
+      "newText": "name"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

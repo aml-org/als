@@ -1,12 +1,19 @@
 [
   {
-    "text": "aliased-complete-ref.raml",
-    "description": "Path suggestion",
-    "displayText": "aliased-complete-ref.raml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "aliased-complete-ref.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 12
@@ -15,17 +22,28 @@
           "line": 3,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "aliased-complete-ref.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "aliased-ref.raml",
-    "description": "Path suggestion",
-    "displayText": "aliased-ref.raml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "aliased-ref.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 12
@@ -34,17 +52,28 @@
           "line": 3,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "aliased-ref.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "expected/",
-    "description": "Path suggestion",
-    "displayText": "expected/",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "expected/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 12
@@ -53,17 +82,28 @@
           "line": 3,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "expected/"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "library-root.raml",
-    "description": "Path suggestion",
-    "displayText": "library-root.raml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "library-root.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 12
@@ -72,17 +112,28 @@
           "line": 3,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "library-root.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "library.raml",
-    "description": "Path suggestion",
-    "displayText": "library.raml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "library.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 12
@@ -91,17 +142,28 @@
           "line": 3,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "library.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "uses-alias.raml",
-    "description": "Path suggestion",
-    "displayText": "uses-alias.raml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "uses-alias.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 12
@@ -110,17 +172,28 @@
           "line": 3,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "uses-alias.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "uses.raml",
-    "description": "Path suggestion",
-    "displayText": "uses.raml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "uses.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 12
@@ -129,7 +202,11 @@
           "line": 3,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "uses.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

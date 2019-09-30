@@ -1,12 +1,19 @@
 [
   {
-    "text": "Basic Authentication",
-    "description": "Basic Authentication",
-    "displayText": "Basic Authentication",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Basic Authentication",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Basic Authentication",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 10
@@ -15,17 +22,28 @@
           "line": 3,
           "character": 10
         }
-      }
-    ]
+      },
+      "newText": "Basic Authentication"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Digest Authentication",
-    "description": "Digest Authentication",
-    "displayText": "Digest Authentication",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Digest Authentication",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Digest Authentication",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 10
@@ -34,17 +52,28 @@
           "line": 3,
           "character": 10
         }
-      }
-    ]
+      },
+      "newText": "Digest Authentication"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "OAuth 1.0",
-    "description": "OAuth 1.0",
-    "displayText": "OAuth 1.0",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "OAuth 1.0",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "OAuth 1.0",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 10
@@ -53,17 +82,28 @@
           "line": 3,
           "character": 10
         }
-      }
-    ]
+      },
+      "newText": "OAuth 1.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "OAuth 2.0",
-    "description": "OAuth 2.0",
-    "displayText": "OAuth 2.0",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "OAuth 2.0",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "OAuth 2.0",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 10
@@ -72,17 +112,28 @@
           "line": 3,
           "character": 10
         }
-      }
-    ]
+      },
+      "newText": "OAuth 2.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "x-",
-    "description": "x-",
-    "displayText": "x-",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "x-",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "x-",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 10
@@ -91,7 +142,11 @@
           "line": 3,
           "character": 10
         }
-      }
-    ]
+      },
+      "newText": "x-"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

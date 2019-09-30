@@ -40,7 +40,8 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
       result <- suggest("visit01.yaml")
     } yield {
       AMLPlugin.registry.remove(p)
-      assert(result.length == 1 && result.forall(_.description == "dummy description"))
+      println(result)
+      assert(result.length == 1 && result.forall(_.documentation.getOrElse("") == "dummy description"))
     }
   }
 }

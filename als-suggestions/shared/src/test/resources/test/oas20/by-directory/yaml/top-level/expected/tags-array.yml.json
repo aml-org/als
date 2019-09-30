@@ -1,12 +1,19 @@
 [
   {
-    "text": "description: ",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 2,
           "character": 4
@@ -15,17 +22,28 @@
           "line": 2,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "externalDocs:\n    ",
-    "description": "externalDocs",
-    "displayText": "externalDocs",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "externalDocs",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "externalDocs",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 2,
           "character": 4
@@ -34,17 +52,28 @@
           "line": 2,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "externalDocs:\n    "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "name: ",
-    "description": "name",
-    "displayText": "name",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "name",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 2,
           "character": 4
@@ -53,7 +82,11 @@
           "line": 2,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "name: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

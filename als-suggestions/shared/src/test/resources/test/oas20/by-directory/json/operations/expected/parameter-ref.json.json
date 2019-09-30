@@ -1,12 +1,19 @@
 [
   {
-    "text": "#/parameters/named",
-    "description": "Reference to #/parameters/named",
-    "displayText": "#/parameters/named",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "#/parameters/named",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/parameters/named",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -15,17 +22,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "#/parameters/named"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "bymethod/",
-    "description": "Path suggestion",
-    "displayText": "bymethod/",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "bymethod/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -34,17 +52,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "bymethod/"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "consumes-array.json",
-    "description": "Path suggestion",
-    "displayText": "consumes-array.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "consumes-array.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -53,17 +82,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "consumes-array.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "consumes.json",
-    "description": "Path suggestion",
-    "displayText": "consumes.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "consumes.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -72,17 +112,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "consumes.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "expected/",
-    "description": "Path suggestion",
-    "displayText": "expected/",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "expected/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -91,17 +142,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "expected/"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "external-docs.json",
-    "description": "Path suggestion",
-    "displayText": "external-docs.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "external-docs.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -110,17 +172,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "external-docs.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "parameter-array.json",
-    "description": "Path suggestion",
-    "displayText": "parameter-array.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "parameter-array.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -129,17 +202,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "parameter-array.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "parameter.json",
-    "description": "Path suggestion",
-    "displayText": "parameter.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "parameter.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -148,17 +232,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "parameter.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "produces-array.json",
-    "description": "Path suggestion",
-    "displayText": "produces-array.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "produces-array.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -167,17 +262,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "produces-array.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "produces.json",
-    "description": "Path suggestion",
-    "displayText": "produces.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "produces.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -186,17 +292,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "produces.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "reponses.json",
-    "description": "Path suggestion",
-    "displayText": "reponses.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "reponses.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -205,17 +322,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "reponses.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "schemes-array.json",
-    "description": "Path suggestion",
-    "displayText": "schemes-array.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "schemes-array.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -224,17 +352,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "schemes-array.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "schemes.json",
-    "description": "Path suggestion",
-    "displayText": "schemes.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "schemes.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -243,17 +382,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "schemes.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "security-array-named.json",
-    "description": "Path suggestion",
-    "displayText": "security-array-named.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "security-array-named.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -262,17 +412,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "security-array-named.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "security-array.json",
-    "description": "Path suggestion",
-    "displayText": "security-array.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "security-array.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -281,17 +442,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "security-array.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "security.json",
-    "description": "Path suggestion",
-    "displayText": "security.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "security.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -300,17 +472,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "security.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "tags-array.json",
-    "description": "Path suggestion",
-    "displayText": "tags-array.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "tags-array.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -319,17 +502,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "tags-array.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "tags.json",
-    "description": "Path suggestion",
-    "displayText": "tags.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "tags.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -338,7 +532,11 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "tags.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

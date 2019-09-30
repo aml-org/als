@@ -1,12 +1,19 @@
 [
   {
-    "text": "authorizationUrl: ",
-    "description": "authorizationUrl",
-    "displayText": "authorizationUrl",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
+    "label": "authorizationUrl",
+    "kind": [],
+    "detail": "security",
+    "documentation": "authorizationUrl",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -15,17 +22,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "authorizationUrl: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "description: ",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -34,17 +52,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "flow: ",
-    "description": "flow",
-    "displayText": "flow",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
+    "label": "flow",
+    "kind": [],
+    "detail": "security",
+    "documentation": "flow",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -53,17 +82,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "flow: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "scopes:\n      ",
-    "description": "scopes",
-    "displayText": "scopes",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
+    "label": "scopes",
+    "kind": [],
+    "detail": "security",
+    "documentation": "scopes",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -72,17 +112,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "scopes:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "tokenUrl: ",
-    "description": "tokenUrl",
-    "displayText": "tokenUrl",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
+    "label": "tokenUrl",
+    "kind": [],
+    "detail": "security",
+    "documentation": "tokenUrl",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -91,7 +142,11 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "tokenUrl: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

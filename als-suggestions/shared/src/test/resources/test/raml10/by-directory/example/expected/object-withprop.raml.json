@@ -1,12 +1,19 @@
 [
   {
-    "text": "p2: ",
-    "description": "p2",
-    "displayText": "p2",
-    "prefix": "",
-    "category": "example",
-    "range": [
-      {
+    "label": "p2",
+    "kind": [],
+    "detail": "example",
+    "documentation": "p2",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 9,
           "character": 6
@@ -15,7 +22,11 @@
           "line": 9,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "p2: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

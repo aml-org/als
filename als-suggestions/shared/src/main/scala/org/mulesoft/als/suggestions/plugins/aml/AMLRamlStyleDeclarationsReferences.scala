@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.annotations.SourceAST
 import amf.core.metamodel.domain.DomainElementModel
-import amf.core.model.domain.AmfObject
+import amf.core.model.domain.{AmfObject, DomainElement}
 import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.Dialect

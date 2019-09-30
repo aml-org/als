@@ -1,12 +1,19 @@
 [
   {
-    "text": "parameter:\n    ",
-    "description": "parameter",
-    "displayText": "parameter",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
+    "label": "parameter",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "parameter",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 2
@@ -15,7 +22,11 @@
           "line": 3,
           "character": 2
         }
-      }
-    ]
+      },
+      "newText": "parameter:\n    "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]
