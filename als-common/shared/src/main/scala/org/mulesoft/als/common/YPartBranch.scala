@@ -80,7 +80,7 @@ case class YPartBranch(node: YPart, position: Position, val stack: Seq[YPart]) {
     if (stack.length < l) None else Some(stack(l))
 
   def ancestorOf[T <: YPart](clazz: Class[T]): Option[T] =
-    findFirstOf(clazz, stack.tail)
+    if (stack.nonEmpty) findFirstOf(clazz, stack.tail) else None
 
   def isKeyDescendanceOf(key: String): Boolean =
     isKey && ancestorOf(classOf[YMapEntry])

@@ -10,8 +10,6 @@ import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.modules.common.LspConverter
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.suggestions
 import org.mulesoft.als.suggestions.client.Suggestions
@@ -21,7 +19,6 @@ import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
