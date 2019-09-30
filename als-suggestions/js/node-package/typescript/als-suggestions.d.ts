@@ -1,5 +1,3 @@
-import {Range} from "@mulesoft/als-suggestions";
-
 declare module '@mulesoft/als-suggestions' {
 
   /* amf-client-js */
@@ -1669,7 +1667,7 @@ declare module '@mulesoft/als-suggestions' {
         constructor(value: string, dataType: string)
 
         value: string
-        dataType: string
+        dataType: StrField
 
         toString(): string
 

@@ -6,11 +6,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10annotation.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10api.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -66,11 +66,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10data-type.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -96,11 +96,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10documentation-item.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -126,11 +126,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10expected/",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -156,11 +156,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10extension-extends.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -186,11 +186,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10extension.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -216,11 +216,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10include-annotation.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -246,11 +246,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10include-data-type.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -276,11 +276,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10include-named-example.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -306,11 +306,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10include-security-scheme.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -336,11 +336,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10include-trait.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -366,11 +366,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10named-example.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -396,11 +396,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10overlay-extends.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -426,11 +426,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10overlay.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -456,11 +456,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10resource-type.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -486,11 +486,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10security-scheme.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -516,11 +516,11 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10trait.raml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

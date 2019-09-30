@@ -6,11 +6,11 @@
     "documentation": "rt2",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10rt2",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

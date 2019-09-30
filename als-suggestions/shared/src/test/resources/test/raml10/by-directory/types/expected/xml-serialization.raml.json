@@ -6,11 +6,11 @@
     "documentation": "attribute",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10attribute",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "name",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10name",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -66,11 +66,11 @@
     "documentation": "namespace",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10namespace",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -96,11 +96,11 @@
     "documentation": "prefix",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10prefix",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -126,11 +126,11 @@
     "documentation": "wrapped",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10wrapped",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

@@ -6,11 +6,11 @@
     "documentation": "jsonschema.json#/definitions/Adef/",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10Adef/",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

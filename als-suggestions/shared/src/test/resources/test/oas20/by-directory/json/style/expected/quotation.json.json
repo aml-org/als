@@ -1,0 +1,212 @@
+[
+  {
+    "label": "array",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "array",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10array",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 12,
+          "character": 22
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      },
+      "newText": "\"array\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "boolean",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "boolean",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10boolean",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 12,
+          "character": 22
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      },
+      "newText": "\"boolean\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "file",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10file",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 12,
+          "character": 22
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      },
+      "newText": "\"file\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "integer",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "integer",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10integer",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 12,
+          "character": 22
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      },
+      "newText": "\"integer\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "number",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "number",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10number",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 12,
+          "character": 22
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      },
+      "newText": "\"number\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "object",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "object",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10object",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 12,
+          "character": 22
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      },
+      "newText": "\"object\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "string",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "string",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10string",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 12,
+          "character": 22
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      },
+      "newText": "\"string\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

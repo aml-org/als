@@ -6,11 +6,11 @@
     "documentation": "Reference to #/definitions/a",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10definitions/a",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

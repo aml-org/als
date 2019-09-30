@@ -6,11 +6,11 @@
     "documentation": "formParameters",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10formParameters",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "schema",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10schema",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

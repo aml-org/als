@@ -1,16 +1,14 @@
 package org.mulesoft.als.suggestions.test.core
 
 import amf.client.remote.Content
-import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
-import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.Core
-import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
+import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.amfmanager.{InitOptions, ParserHelper}
 import org.mulesoft.lsp.feature.completion.CompletionItem

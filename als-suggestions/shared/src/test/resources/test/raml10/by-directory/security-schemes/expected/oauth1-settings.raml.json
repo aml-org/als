@@ -6,11 +6,11 @@
     "documentation": "authorizationUri",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10authorizationUri",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "requestTokenUri",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10requestTokenUri",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -66,11 +66,11 @@
     "documentation": "signatures",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10signatures",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -96,11 +96,11 @@
     "documentation": "tokenCredentialsUri",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10tokenCredentialsUri",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

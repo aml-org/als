@@ -8,11 +8,11 @@ trait ParametersSymbolBuilder extends ElementSymbolBuilder[AmfArray] {
   val element: AmfArray
   protected val name: String
   val ranges = RangesSplitter(element.annotations)
-  val childrens: Seq[DocumentSymbol] =
+  val children: Seq[DocumentSymbol] =
     element.values.flatMap(e => factory.builderForElement(e).map(_.build()).getOrElse(Nil))
 
   override def build(): Seq[DocumentSymbol] =
-    Seq(DocumentSymbol(name, SymbolKind.Array, false, ranges.range, ranges.selectionRange, childrens.toList))
+    Seq(DocumentSymbol(name, SymbolKind.Array, false, ranges.range, ranges.selectionRange, children.toList))
 }
 
 class HeadersSymbolBuilder(override val element: AmfArray)(override implicit val factory: BuilderFactory)

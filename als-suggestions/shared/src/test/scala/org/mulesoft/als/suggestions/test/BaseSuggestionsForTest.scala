@@ -6,7 +6,7 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
 import org.mulesoft.als.common.PlatformDirectoryResolver
-import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
+import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.amfmanager.{CustomDialects, DialectInitializer, InitOptions}
 import org.mulesoft.lsp.feature.completion.CompletionItem

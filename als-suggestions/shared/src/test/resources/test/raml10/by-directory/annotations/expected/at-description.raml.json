@@ -6,11 +6,11 @@
     "documentation": "(myAnnotation)",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "20(myAnnotation)",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "value",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10value",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

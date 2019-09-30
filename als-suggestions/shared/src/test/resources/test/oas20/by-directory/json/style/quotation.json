@@ -1,0 +1,20 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title":""
+  },
+  "paths": {
+    "/wildcards": {
+      "post": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": *
+            }
+          }
+        }
+      }
+    }
+  }
+}

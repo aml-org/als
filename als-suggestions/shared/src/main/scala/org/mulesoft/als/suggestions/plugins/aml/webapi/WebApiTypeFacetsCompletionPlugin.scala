@@ -36,8 +36,8 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
           case _                      => Some(stringShapeNode)
         }
       case _ =>
-        declarations
-          .find(_.nodetypeMapping.option().contains(shape.meta.`type`.head.iri()))
+        val s = findMoreSpecific(shape.meta.`type`.map(_.iri()), declarations)
+        s
     }
 
     val classSuggestions =
@@ -53,6 +53,15 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
     }) ++ defaults(shape, indentation)
 
     finalSuggestions.toSeq
+  }
+
+  private def findMoreSpecific(iris: List[String], declarations: Seq[NodeMapping]): Option[NodeMapping] = {
+    iris match {
+      case Nil => None
+      case head :: tail =>
+        declarations.find(_.nodetypeMapping.option().contains(head)).orElse(findMoreSpecific(tail, declarations))
+      case _ => None
+    }
   }
 
   private def defaultSuggestions(indentation: String): Seq[RawSuggestion] =
