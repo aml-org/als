@@ -60,13 +60,15 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
   private def testSuggestion(content: String, f: SyncFile): Future[Assertion] = {
     val expected = f.parent + platform.fs.separatorChar + "expected" + platform.fs.separatorChar + f.name + ".json"
     for {
-      s <- suggestFromFile(content,
-                           "file://" + f.path.replaceAllLiterally(platform.fs.separatorChar.toString, "/"),
-                           Some("application/" + origin.syntax.extension),
-                           origin.vendor.toString,
-                           None)
+      s <- suggestFromFile(
+        content,
+        "file://" + f.path.replaceAllLiterally(platform.fs.separatorChar.toString, "/"),
+        Some("application/" + origin.syntax.extension),
+        origin.vendor.toString,
+        None
+      )
       tmp <- writeTemporaryFile(expected)(
-        writeDataToString(s.sortWith((s1, s2) => s1.text.compareTo(s2.text) < 0).toList))
+        writeDataToString(s.sortWith((s1, s2) => s1.label.compareTo(s2.label) < 0).toList))
       r <- assertDifferences(tmp, expected)
     } yield r
   }

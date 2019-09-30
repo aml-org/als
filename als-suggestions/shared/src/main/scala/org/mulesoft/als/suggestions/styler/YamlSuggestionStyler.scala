@@ -27,9 +27,19 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends Sugge
 
   private def whiteSpaceOrSpace(str: String): String = if (str.isEmpty) " " else str
 
+  /**
+    * in case there are children, they each will calculate their own indentation
+    * @param whiteSpacesEnding
+    * @param children
+    * @return
+    */
+  private def whiteSpaceOrSpaceIfSingleParent(whiteSpacesEnding: String, children: Seq[String]): String =
+    if (children.isEmpty) whiteSpaceOrSpace(whiteSpacesEnding)
+    else ""
+
   private def keyAdapter(rawSuggestion: RawSuggestion) =
     if (!params.hasLine || !params.hasColon)
-      s"${rawSuggestion.newText}:${whiteSpaceOrSpace(rawSuggestion.whiteSpacesEnding)}"
+      s"${rawSuggestion.newText}:${whiteSpaceOrSpaceIfSingleParent(rawSuggestion.whiteSpacesEnding, rawSuggestion.sons)}"
     else rawSuggestion.newText
 
   private def arrayAdapter(rawSuggestion: RawSuggestion) = if (rawSuggestion.options.arrayProperty) "- " else ""
