@@ -1,12 +1,19 @@
 [
   {
-    "text": "basePath: ",
-    "description": "basePath",
-    "displayText": "basePath",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
+    "label": "basePath",
+    "kind": [],
+    "detail": "root",
+    "documentation": "basePath",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -15,74 +22,82 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "basePath: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "consumes:\n  - ",
-    "description": "consumes",
-    "displayText": "consumes",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
+    "label": "consumes",
+    "kind": [],
+    "detail": "root",
+    "documentation": "consumes",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "consumes:\n  - ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "definitions:\n  ",
-    "description": "definitions",
-    "displayText": "definitions",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
+    "label": "definitions",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "definitions",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "definitions:\n  ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "externalDocs:\n  ",
-    "description": "externalDocs",
-    "displayText": "externalDocs",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
+    "label": "externalDocs",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "externalDocs",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "externalDocs:\n  ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "host: ",
-    "description": "host",
-    "displayText": "host",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
+    "label": "host",
+    "kind": [],
+    "detail": "root",
+    "documentation": "host",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -91,178 +106,173 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "host: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "info:\n  ",
-    "description": "info",
-    "displayText": "info",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
+    "label": "info",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "info",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "info:\n  ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "parameters:\n  ",
-    "description": "parameters",
-    "displayText": "parameters",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
+    "label": "parameters",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "parameters",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "parameters:\n  ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "paths:\n  ",
-    "description": "paths",
-    "displayText": "paths",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
+    "label": "paths",
+    "kind": [],
+    "detail": "root",
+    "documentation": "paths",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "paths:\n  ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "produces:\n  - ",
-    "description": "produces",
-    "displayText": "produces",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
+    "label": "produces",
+    "kind": [],
+    "detail": "root",
+    "documentation": "produces",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "produces:\n  - ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "responses:\n  ",
-    "description": "responses",
-    "displayText": "responses",
-    "prefix": "",
-    "category": "responses",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
+    "label": "responses",
+    "kind": [],
+    "detail": "responses",
+    "documentation": "responses",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "responses:\n  ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "schemes:\n  - ",
-    "description": "schemes",
-    "displayText": "schemes",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
+    "label": "schemes",
+    "kind": [],
+    "detail": "root",
+    "documentation": "schemes",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "schemes:\n  - ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "security:\n  - ",
-    "description": "security",
-    "displayText": "security",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
+    "label": "security",
+    "kind": [],
+    "detail": "security",
+    "documentation": "security",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "security:\n  - ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "securityDefinitions:\n  ",
-    "description": "securityDefinitions",
-    "displayText": "securityDefinitions",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
+    "label": "securityDefinitions",
+    "kind": [],
+    "detail": "root",
+    "documentation": "securityDefinitions",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "securityDefinitions:\n  ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "tags:\n  - ",
-    "description": "tags",
-    "displayText": "tags",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      }
-    ]
+    "label": "tags",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "tags",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": "tags:\n  - ",
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": null,
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

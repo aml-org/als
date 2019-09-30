@@ -75,9 +75,7 @@ trait SuggestionStyler {
     val newIndentation = startWithEOL(indentation) + indentation + singleIndentation(indentation)
 
     children.zipWithIndex.map {
-      case (s, i)
-          if i == 0 => { singleIndentation(indentation) + singleIndentation(indentation) + styleKey(s) } + "$" + (i + 1).toString
-      case (s, i)   => { newIndentation + styleKey(s) } + "$" + (i + 1).toString
+      case (s, i) => { newIndentation + styleKey(s) } + "$" + (i + 1).toString
     } mkString
   }
 }

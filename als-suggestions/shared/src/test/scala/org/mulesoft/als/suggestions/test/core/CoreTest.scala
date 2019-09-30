@@ -11,7 +11,7 @@ import org.mulesoft.als.suggestions.Core
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.amfmanager.{InitOptions, ParserHelper}
-import org.mulesoft.lsp.feature.completion.CompletionItem\
+import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
