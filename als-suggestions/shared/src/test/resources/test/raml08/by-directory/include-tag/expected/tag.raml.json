@@ -1,12 +1,19 @@
 [
   {
-    "text": "!include ",
-    "description": "inclusion tag",
-    "displayText": "!include",
-    "prefix": "!",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "!include",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "inclusion tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 13
@@ -15,7 +22,11 @@
           "line": 1,
           "character": 14
         }
-      }
-    ]
+      },
+      "newText": "!include "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

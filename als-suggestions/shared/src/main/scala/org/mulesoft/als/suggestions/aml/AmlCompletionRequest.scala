@@ -13,7 +13,7 @@ import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
-import org.mulesoft.als.suggestions.{SuggestionStyler, SuggestionStylerBuilder}
+import org.mulesoft.als.suggestions.styler.{SuggestionStyler, SuggestionStylerBuilder}
 import org.yaml.model.{YDocument, YNode, YType}
 
 class AmlCompletionRequest(val baseUnit: BaseUnit,
@@ -152,7 +152,8 @@ object AmlCompletionRequestBuilder {
             position: Position,
             dialect: Dialect,
             env: CompletionEnvironment,
-            originalContent: String): AmlCompletionRequest = {
+            originalContent: String,
+            snippetSupport: Boolean): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
       val ast = baseUnit match {
         case d: Document =>
@@ -166,7 +167,8 @@ object AmlCompletionRequestBuilder {
     val styler = SuggestionStylerBuilder.build(!yPartBranch.isJson,
                                                prefix(yPartBranch, position),
                                                originalContent,
-                                               position.moveLine(-1))
+                                               position.moveLine(-1),
+                                               snippetSupport)
     val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
     new AmlCompletionRequest(baseUnit, position, dialect, env, styler, yPartBranch, objectInTree)
   }

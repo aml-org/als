@@ -1,12 +1,19 @@
 [
   {
-    "text": "security:\n    ",
-    "description": "security",
-    "displayText": "security",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "security",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "security",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 4
@@ -15,7 +22,11 @@
           "line": 5,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "security:\n    "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

@@ -1,12 +1,19 @@
 [
   {
-    "text": "int32",
-    "description": "int32",
-    "displayText": "int32",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "int32",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "int32",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 12
@@ -15,17 +22,28 @@
           "line": 4,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "int32"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "int64",
-    "description": "int64",
-    "displayText": "int64",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "int64",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "int64",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 12
@@ -34,7 +52,11 @@
           "line": 4,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "int64"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

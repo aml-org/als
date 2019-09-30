@@ -1,12 +1,19 @@
 [
   {
-    "text": "description: ",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 8,
           "character": 6
@@ -15,17 +22,28 @@
           "line": 8,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "displayName: ",
-    "description": "displayName",
-    "displayText": "displayName",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "displayName",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "displayName",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 8,
           "character": 6
@@ -34,17 +52,28 @@
           "line": 8,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "displayName: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "strict: ",
-    "description": "strict",
-    "displayText": "strict",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "strict",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "strict",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 8,
           "character": 6
@@ -53,7 +82,11 @@
           "line": 8,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "strict: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

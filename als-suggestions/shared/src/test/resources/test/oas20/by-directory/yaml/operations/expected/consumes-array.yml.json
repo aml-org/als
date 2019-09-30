@@ -1,12 +1,19 @@
 [
   {
-    "text": "application/json",
-    "description": "application/json",
-    "displayText": "application/json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "application/json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/json",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 18
@@ -15,17 +22,28 @@
           "line": 4,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "application/json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "application/vnd.github+json",
-    "description": "application/vnd.github+json",
-    "displayText": "application/vnd.github+json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "application/vnd.github+json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/vnd.github+json",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 18
@@ -34,17 +52,28 @@
           "line": 4,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "application/vnd.github+json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "application/vnd.github.v3+json",
-    "description": "application/vnd.github.v3+json",
-    "displayText": "application/vnd.github.v3+json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "application/vnd.github.v3+json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/vnd.github.v3+json",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 18
@@ -53,17 +82,28 @@
           "line": 4,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "application/vnd.github.v3+json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "application/vnd.github.v3.full+json",
-    "description": "application/vnd.github.v3.full+json",
-    "displayText": "application/vnd.github.v3.full+json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "application/vnd.github.v3.full+json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/vnd.github.v3.full+json",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 18
@@ -72,17 +112,28 @@
           "line": 4,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "application/vnd.github.v3.full+json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "application/vnd.github.v3.html+json",
-    "description": "application/vnd.github.v3.html+json",
-    "displayText": "application/vnd.github.v3.html+json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "application/vnd.github.v3.html+json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/vnd.github.v3.html+json",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 18
@@ -91,17 +142,28 @@
           "line": 4,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "application/vnd.github.v3.html+json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "application/vnd.github.v3.patch",
-    "description": "application/vnd.github.v3.patch",
-    "displayText": "application/vnd.github.v3.patch",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "application/vnd.github.v3.patch",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/vnd.github.v3.patch",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 18
@@ -110,17 +172,28 @@
           "line": 4,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "application/vnd.github.v3.patch"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "application/vnd.github.v3.raw+json",
-    "description": "application/vnd.github.v3.raw+json",
-    "displayText": "application/vnd.github.v3.raw+json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "application/vnd.github.v3.raw+json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/vnd.github.v3.raw+json",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 18
@@ -129,17 +202,28 @@
           "line": 4,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "application/vnd.github.v3.raw+json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "application/vnd.github.v3.text+json",
-    "description": "application/vnd.github.v3.text+json",
-    "displayText": "application/vnd.github.v3.text+json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "application/vnd.github.v3.text+json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/vnd.github.v3.text+json",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 18
@@ -148,17 +232,28 @@
           "line": 4,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "application/vnd.github.v3.text+json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "appxlication/vnd.github.v3.diff",
-    "description": "appxlication/vnd.github.v3.diff",
-    "displayText": "appxlication/vnd.github.v3.diff",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "appxlication/vnd.github.v3.diff",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "appxlication/vnd.github.v3.diff",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 18
@@ -167,17 +262,28 @@
           "line": 4,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "appxlication/vnd.github.v3.diff"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "text/plain; charset=utf-8",
-    "description": "text/plain; charset=utf-8",
-    "displayText": "text/plain; charset=utf-8",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "text/plain; charset=utf-8",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "text/plain; charset=utf-8",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 18
@@ -186,7 +292,11 @@
           "line": 4,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "text/plain; charset=utf-8"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

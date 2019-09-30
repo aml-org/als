@@ -1,12 +1,19 @@
 [
   {
-    "text": "anotherUri:\n        ",
-    "description": "anotherUri",
-    "displayText": "anotherUri",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
+    "label": "anotherUri",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "anotherUri",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -15,17 +22,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "anotherUri:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "uri:\n        ",
-    "description": "uri",
-    "displayText": "uri",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
+    "label": "uri",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "uri",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -34,7 +52,11 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "uri:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

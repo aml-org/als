@@ -1,0 +1,32 @@
+[
+  {
+    "label": "tr",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "tr",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 8
+        },
+        "end": {
+          "line": 10,
+          "character": 8
+        }
+      },
+      "newText": "tr:\n        param1: $1\n        param2: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

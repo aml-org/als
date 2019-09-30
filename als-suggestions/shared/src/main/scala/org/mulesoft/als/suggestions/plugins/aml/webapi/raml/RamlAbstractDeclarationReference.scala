@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.model.domain.DomainElement
-import amf.core.model.domain.templates.ParametrizedDeclaration
+import amf.core.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration}
 import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorDeclaration
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -36,9 +36,17 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
                                                  params.declarationProvider,
                                                  None).resolve().filter(r => !brothers.contains(r.newText))
 
-        if (params.yPartBranch.isKey)
-          suggestions.map(s => s.copy(options = s.options.copy(isKey = true), whiteSpacesEnding = params.indentation))
-        else suggestions
+        suggestions.map {
+          s =>
+            val maybeElement: Option[DomainElement] = params.declarationProvider.findElement(s.newText, iriDeclaration)
+            val vars = maybeElement
+              .collect({ case p: AbstractDeclaration => p })
+              .map(_.variables.flatMap(_.option()))
+              .getOrElse(Nil)
+            if (params.yPartBranch.isKey)
+              s.copy(options = s.options.copy(isKey = true), whiteSpacesEnding = params.indentation, sons = vars)
+            else s.copy(sons = vars.toSeq)
+        }
       } else Nil)
 
   }

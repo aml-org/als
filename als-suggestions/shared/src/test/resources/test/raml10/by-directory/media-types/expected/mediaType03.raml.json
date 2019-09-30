@@ -1,12 +1,19 @@
 [
   {
-    "text": "\n  - application/json",
-    "description": "application/json",
-    "displayText": "application/json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "application/json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/json",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 16
@@ -15,17 +22,28 @@
           "line": 4,
           "character": 16
         }
-      }
-    ]
+      },
+      "newText": "\n  - application/json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "\n  - application/xml",
-    "description": "application/xml",
-    "displayText": "application/xml",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "application/xml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/xml",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 16
@@ -34,7 +52,11 @@
           "line": 4,
           "character": 16
         }
-      }
-    ]
+      },
+      "newText": "\n  - application/xml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

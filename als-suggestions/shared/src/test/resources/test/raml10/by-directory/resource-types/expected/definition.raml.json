@@ -1,12 +1,19 @@
 [
   {
-    "text": "delete:\n      ",
-    "description": "delete",
-    "displayText": "delete",
-    "prefix": "",
-    "category": "methods",
-    "range": [
-      {
+    "label": "delete",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "delete",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -15,17 +22,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "delete:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "description: ",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -34,17 +52,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "displayName: ",
-    "description": "displayName",
-    "displayText": "displayName",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "displayName",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "displayName",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -53,17 +82,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "displayName: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "get:\n      ",
-    "description": "get",
-    "displayText": "get",
-    "prefix": "",
-    "category": "methods",
-    "range": [
-      {
+    "label": "get",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "get",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -72,17 +112,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "get:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "head:\n      ",
-    "description": "head",
-    "displayText": "head",
-    "prefix": "",
-    "category": "methods",
-    "range": [
-      {
+    "label": "head",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "head",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -91,17 +142,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "head:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "is:\n      ",
-    "description": "is",
-    "displayText": "is",
-    "prefix": "",
-    "category": "types and traits",
-    "range": [
-      {
+    "label": "is",
+    "kind": [],
+    "detail": "types and traits",
+    "documentation": "is",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -110,17 +172,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "is:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "options:\n      ",
-    "description": "options",
-    "displayText": "options",
-    "prefix": "",
-    "category": "methods",
-    "range": [
-      {
+    "label": "options",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "options",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -129,17 +202,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "options:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "patch:\n      ",
-    "description": "patch",
-    "displayText": "patch",
-    "prefix": "",
-    "category": "methods",
-    "range": [
-      {
+    "label": "patch",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "patch",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -148,17 +232,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "patch:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "post:\n      ",
-    "description": "post",
-    "displayText": "post",
-    "prefix": "",
-    "category": "methods",
-    "range": [
-      {
+    "label": "post",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "post",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -167,17 +262,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "post:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "put:\n      ",
-    "description": "put",
-    "displayText": "put",
-    "prefix": "",
-    "category": "methods",
-    "range": [
-      {
+    "label": "put",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "put",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -186,17 +292,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "put:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "securedBy:\n      - ",
-    "description": "securedBy",
-    "displayText": "securedBy",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
+    "label": "securedBy",
+    "kind": [],
+    "detail": "security",
+    "documentation": "securedBy",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -205,17 +322,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "securedBy:\n      - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "type:\n      ",
-    "description": "type",
-    "displayText": "type",
-    "prefix": "",
-    "category": "types and traits",
-    "range": [
-      {
+    "label": "type",
+    "kind": [],
+    "detail": "types and traits",
+    "documentation": "type",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -224,17 +352,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "type:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "uriParameters:\n      ",
-    "description": "uriParameters",
-    "displayText": "uriParameters",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
+    "label": "uriParameters",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "uriParameters",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -243,17 +382,28 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "uriParameters:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "usage: ",
-    "description": "usage",
-    "displayText": "usage",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "usage",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "usage",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 4
@@ -262,7 +412,11 @@
           "line": 4,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "usage: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

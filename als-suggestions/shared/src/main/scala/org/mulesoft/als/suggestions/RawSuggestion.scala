@@ -1,7 +1,6 @@
 package org.mulesoft.als.suggestions
 
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.als.suggestions.implementation.Suggestion
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.completion.InsertTextFormat
 
@@ -17,17 +16,12 @@ case class RawSuggestion(newText: String,
                          whiteSpacesEnding: String,
                          category: String = "unknown",
                          range: Option[PositionRange] = None,
-                         options: SuggestionOptions = SuggestionOptions()) {
+                         options: SuggestionOptions = SuggestionOptions(),
+                         sons: Seq[String] = Nil) {
 
   implicit def bool2InsertTextFormat(v: Boolean): InsertTextFormat.Value =
     if (v) InsertTextFormat.Snippet
     else InsertTextFormat.PlainText
-
-  def toSuggestion(linePrefix: String): Suggestion =
-    new Suggestion(newText, description, displayText, linePrefix, range)
-      .withTrailingWhitespace(whiteSpacesEnding)
-      .withInsertTextFormat(options.isSnippet)
-      .withCategory(category)
 }
 
 object RawSuggestion {

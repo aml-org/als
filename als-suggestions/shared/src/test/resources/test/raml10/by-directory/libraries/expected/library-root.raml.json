@@ -1,12 +1,19 @@
 [
   {
-    "text": "annotationTypes:\n  ",
-    "description": "annotationTypes",
-    "displayText": "annotationTypes",
-    "prefix": "",
-    "category": "types and traits",
-    "range": [
-      {
+    "label": "annotationTypes",
+    "kind": [],
+    "detail": "types and traits",
+    "documentation": "annotationTypes",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 2,
           "character": 0
@@ -15,17 +22,28 @@
           "line": 2,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "annotationTypes:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "resourceTypes:\n  ",
-    "description": "resourceTypes",
-    "displayText": "resourceTypes",
-    "prefix": "",
-    "category": "types and traits",
-    "range": [
-      {
+    "label": "resourceTypes",
+    "kind": [],
+    "detail": "types and traits",
+    "documentation": "resourceTypes",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 2,
           "character": 0
@@ -34,17 +52,28 @@
           "line": 2,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "resourceTypes:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "securitySchemes:\n  ",
-    "description": "securitySchemes",
-    "displayText": "securitySchemes",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
+    "label": "securitySchemes",
+    "kind": [],
+    "detail": "security",
+    "documentation": "securitySchemes",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 2,
           "character": 0
@@ -53,17 +82,28 @@
           "line": 2,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "securitySchemes:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "traits:\n  ",
-    "description": "traits",
-    "displayText": "traits",
-    "prefix": "",
-    "category": "types and traits",
-    "range": [
-      {
+    "label": "traits",
+    "kind": [],
+    "detail": "types and traits",
+    "documentation": "traits",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 2,
           "character": 0
@@ -72,17 +112,28 @@
           "line": 2,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "traits:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "types:\n  ",
-    "description": "types",
-    "displayText": "types",
-    "prefix": "",
-    "category": "types and traits",
-    "range": [
-      {
+    "label": "types",
+    "kind": [],
+    "detail": "types and traits",
+    "documentation": "types",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 2,
           "character": 0
@@ -91,17 +142,28 @@
           "line": 2,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "types:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "usage: ",
-    "description": "usage",
-    "displayText": "usage",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "usage",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "usage",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 2,
           "character": 0
@@ -110,17 +172,28 @@
           "line": 2,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "usage: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "uses:\n  ",
-    "description": "uses",
-    "displayText": "uses",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "uses",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "uses",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 2,
           "character": 0
@@ -129,7 +202,11 @@
           "line": 2,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "uses:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

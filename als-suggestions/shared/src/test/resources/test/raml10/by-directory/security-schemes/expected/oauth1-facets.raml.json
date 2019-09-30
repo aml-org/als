@@ -1,12 +1,19 @@
 [
   {
-    "text": "describedBy:\n      ",
-    "description": "describedBy",
-    "displayText": "describedBy",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
+    "label": "describedBy",
+    "kind": [],
+    "detail": "security",
+    "documentation": "describedBy",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 4
@@ -15,17 +22,28 @@
           "line": 5,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "describedBy:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "description: ",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 4
@@ -34,17 +52,28 @@
           "line": 5,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "displayName: ",
-    "description": "displayName",
-    "displayText": "displayName",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "displayName",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "displayName",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 4
@@ -53,17 +82,28 @@
           "line": 5,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "displayName: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "settings:\n      ",
-    "description": "settings",
-    "displayText": "settings",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
+    "label": "settings",
+    "kind": [],
+    "detail": "security",
+    "documentation": "settings",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 4
@@ -72,7 +112,11 @@
           "line": 5,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "settings:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]
