@@ -1,12 +1,19 @@
 [
   {
-    "text": "#/definitions/a",
-    "description": "Reference to #/definitions/a",
-    "displayText": "#/definitions/a",
-    "prefix": "#",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "#/definitions/a",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/definitions/a",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 11
@@ -15,7 +22,11 @@
           "line": 5,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "#/definitions/a"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

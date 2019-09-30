@@ -5,7 +5,8 @@ import amf.internal.environment.Environment
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.modules.common.LspConverter.toLspPosition
+import org.mulesoft.als.server.modules.telemetry.TelemetryManager
+import org.mulesoft.lsp.convert.LspRangeConverter.toLspPosition
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}

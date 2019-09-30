@@ -1,12 +1,19 @@
 [
   {
-    "text": "http",
-    "description": "http",
-    "displayText": "http",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "http",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "http",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 20
@@ -15,17 +22,28 @@
           "line": 5,
           "character": 20
         }
-      }
-    ]
+      },
+      "newText": "http"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "https",
-    "description": "https",
-    "displayText": "https",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "https",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "https",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 20
@@ -34,17 +52,28 @@
           "line": 5,
           "character": 20
         }
-      }
-    ]
+      },
+      "newText": "https"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "ws",
-    "description": "ws",
-    "displayText": "ws",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "ws",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "ws",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 20
@@ -53,17 +82,28 @@
           "line": 5,
           "character": 20
         }
-      }
-    ]
+      },
+      "newText": "ws"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "wss",
-    "description": "wss",
-    "displayText": "wss",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "wss",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "wss",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 20
@@ -72,7 +112,11 @@
           "line": 5,
           "character": 20
         }
-      }
-    ]
+      },
+      "newText": "wss"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

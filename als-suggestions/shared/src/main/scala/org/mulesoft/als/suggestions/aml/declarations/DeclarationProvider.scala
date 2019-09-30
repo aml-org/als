@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.aml.declarations
 import amf.core.annotations.Aliases
 import amf.core.metamodel.domain.DomainElementModel
 import amf.core.model.document.{BaseUnit, DeclaresModel}
+import amf.core.model.domain.DomainElement
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import org.mulesoft.als.common.ElementNameExtractor._

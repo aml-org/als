@@ -1,12 +1,19 @@
 [
   {
-    "text": "basePath: ",
-    "description": "basePath",
-    "displayText": "basePath",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
+    "label": "basePath",
+    "kind": [],
+    "detail": "root",
+    "documentation": "basePath",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -15,17 +22,28 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "basePath: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "consumes:\n  - ",
-    "description": "consumes",
-    "displayText": "consumes",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
+    "label": "consumes",
+    "kind": [],
+    "detail": "root",
+    "documentation": "consumes",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -34,17 +52,28 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "consumes:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "definitions:\n  ",
-    "description": "definitions",
-    "displayText": "definitions",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
+    "label": "definitions",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "definitions",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -53,17 +82,28 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "definitions:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "externalDocs:\n  ",
-    "description": "externalDocs",
-    "displayText": "externalDocs",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "externalDocs",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "externalDocs",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -72,17 +112,28 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "externalDocs:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "host: ",
-    "description": "host",
-    "displayText": "host",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
+    "label": "host",
+    "kind": [],
+    "detail": "root",
+    "documentation": "host",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -91,17 +142,28 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "host: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "info:\n  ",
-    "description": "info",
-    "displayText": "info",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "info",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "info",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -110,17 +172,28 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "info:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "parameters:\n  ",
-    "description": "parameters",
-    "displayText": "parameters",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
+    "label": "parameters",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "parameters",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -129,17 +202,28 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "parameters:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "paths:\n  ",
-    "description": "paths",
-    "displayText": "paths",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
+    "label": "paths",
+    "kind": [],
+    "detail": "root",
+    "documentation": "paths",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -148,17 +232,28 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "paths:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "produces:\n  - ",
-    "description": "produces",
-    "displayText": "produces",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
+    "label": "produces",
+    "kind": [],
+    "detail": "root",
+    "documentation": "produces",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -167,17 +262,28 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "produces:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "responses:\n  ",
-    "description": "responses",
-    "displayText": "responses",
-    "prefix": "",
-    "category": "responses",
-    "range": [
-      {
+    "label": "responses",
+    "kind": [],
+    "detail": "responses",
+    "documentation": "responses",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -186,17 +292,28 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "responses:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "schemes:\n  - ",
-    "description": "schemes",
-    "displayText": "schemes",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
+    "label": "schemes",
+    "kind": [],
+    "detail": "root",
+    "documentation": "schemes",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -205,17 +322,28 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "schemes:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "security:\n  - ",
-    "description": "security",
-    "displayText": "security",
-    "prefix": "",
-    "category": "security",
-    "range": [
-      {
+    "label": "security",
+    "kind": [],
+    "detail": "security",
+    "documentation": "security",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -224,17 +352,28 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "security:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "securityDefinitions:\n  ",
-    "description": "securityDefinitions",
-    "displayText": "securityDefinitions",
-    "prefix": "",
-    "category": "root",
-    "range": [
-      {
+    "label": "securityDefinitions",
+    "kind": [],
+    "detail": "root",
+    "documentation": "securityDefinitions",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -243,17 +382,28 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "securityDefinitions:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "tags:\n  - ",
-    "description": "tags",
-    "displayText": "tags",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "tags",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "tags",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 0
@@ -262,7 +412,11 @@
           "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "tags:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

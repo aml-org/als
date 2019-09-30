@@ -1,12 +1,19 @@
 [
   {
-    "text": "email",
-    "description": "email",
-    "displayText": "email",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "email",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "email",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 7
@@ -15,17 +22,28 @@
           "line": 4,
           "character": 7
         }
-      }
-    ]
+      },
+      "newText": "email"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "name",
-    "description": "name",
-    "displayText": "name",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "name",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 7
@@ -34,17 +52,28 @@
           "line": 4,
           "character": 7
         }
-      }
-    ]
+      },
+      "newText": "name"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "url",
-    "description": "url",
-    "displayText": "url",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "url",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "url",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 7
@@ -53,7 +82,11 @@
           "line": 4,
           "character": 7
         }
-      }
-    ]
+      },
+      "newText": "url"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

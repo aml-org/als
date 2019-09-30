@@ -3,8 +3,7 @@ package org.mulesoft.als.suggestions.client.js
 import amf.client.remote.Content
 import amf.client.resource.{ClientResourceLoader, ResourceLoader}
 import amf.core.remote.Vendor
-import org.mulesoft.als.common.{DirectoryResolver => InternalDirectoryResolver}
-import org.scalatest.{Assertions, AsyncFunSuite, Matchers}
+import org.scalatest.{AsyncFunSuite, Matchers}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.scalajs.js
@@ -113,8 +112,8 @@ class JsSuggestionsTest extends AsyncFunSuite with Matchers {
           .map(suggestions => {
             val seq = suggestions.toSeq
             seq.size should be(2)
-            seq.head.text should be("/fragment 2.raml")
-            seq.last.text should be("/another.raml")
+            seq.head.textEdit.get.newText should be("/fragment 2.raml")
+            seq.last.textEdit.get.newText should be("/another.raml")
           })
       })
   }
@@ -168,8 +167,8 @@ class JsSuggestionsTest extends AsyncFunSuite with Matchers {
           .map(suggestions => {
             val seq = suggestions.toSeq
             seq.size should be(2)
-            seq.head.text should be("fragment 2.raml")
-            seq.last.text should be("another.raml")
+            seq.head.textEdit.get.newText should be("fragment 2.raml")
+            seq.last.textEdit.get.newText should be("another.raml")
           })
       })
   }

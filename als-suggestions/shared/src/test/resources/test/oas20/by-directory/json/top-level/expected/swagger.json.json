@@ -1,12 +1,19 @@
 [
   {
-    "text": "\"swagger\": \"2.0\"",
-    "description": "Define a OAS 2.0 file",
-    "displayText": "\"swagger\": \"2.0\"",
-    "prefix": "\"swagger\": \"",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "\"swagger\": \"2.0\"",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a OAS 2.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 1,
           "character": 2
@@ -15,7 +22,11 @@
           "line": 1,
           "character": 14
         }
-      }
-    ]
+      },
+      "newText": "\"swagger\": \"2.0\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

@@ -1,12 +1,19 @@
 [
   {
-    "text": "body:\n          ",
-    "description": "body",
-    "displayText": "body",
-    "prefix": "",
-    "category": "responses",
-    "range": [
-      {
+    "label": "body",
+    "kind": [],
+    "detail": "responses",
+    "documentation": "body",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 6,
           "character": 8
@@ -15,17 +22,28 @@
           "line": 6,
           "character": 8
         }
-      }
-    ]
+      },
+      "newText": "body:\n          "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "description: ",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 6,
           "character": 8
@@ -34,17 +52,28 @@
           "line": 6,
           "character": 8
         }
-      }
-    ]
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "headers:\n          ",
-    "description": "headers",
-    "displayText": "headers",
-    "prefix": "",
-    "category": "parameters",
-    "range": [
-      {
+    "label": "headers",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "headers",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 6,
           "character": 8
@@ -53,7 +82,11 @@
           "line": 6,
           "character": 8
         }
-      }
-    ]
+      },
+      "newText": "headers:\n          "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

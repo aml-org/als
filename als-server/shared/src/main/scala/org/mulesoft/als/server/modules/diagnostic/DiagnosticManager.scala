@@ -1,7 +1,5 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import java.util.UUID
-
 import amf.ProfileName
 import amf.core.model.document.BaseUnit
 import amf.core.remote.{Aml, Platform}

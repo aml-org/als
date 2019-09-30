@@ -1,12 +1,19 @@
 [
   {
-    "text": "A",
-    "description": "A",
-    "displayText": "A",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "A",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "A",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 5
@@ -15,17 +22,28 @@
           "line": 4,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "A"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "any",
-    "description": "any",
-    "displayText": "any",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "any",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "any",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 5
@@ -34,17 +52,28 @@
           "line": 4,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "any"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "array",
-    "description": "array",
-    "displayText": "array",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "array",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "array",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 5
@@ -53,17 +82,28 @@
           "line": 4,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "array"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "boolean",
-    "description": "boolean",
-    "displayText": "boolean",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "boolean",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "boolean",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 5
@@ -72,17 +112,28 @@
           "line": 4,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "boolean"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "date-only",
-    "description": "date-only",
-    "displayText": "date-only",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "date-only",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "date-only",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 5
@@ -91,17 +142,28 @@
           "line": 4,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "date-only"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "datetime",
-    "description": "datetime",
-    "displayText": "datetime",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "datetime",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "datetime",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 5
@@ -110,17 +172,28 @@
           "line": 4,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "datetime"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "datetime-only",
-    "description": "datetime-only",
-    "displayText": "datetime-only",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "datetime-only",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "datetime-only",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 5
@@ -129,17 +202,28 @@
           "line": 4,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "datetime-only"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "file",
-    "description": "file",
-    "displayText": "file",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "file",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 5
@@ -148,17 +232,28 @@
           "line": 4,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "file"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "integer",
-    "description": "integer",
-    "displayText": "integer",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "integer",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "integer",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 5
@@ -167,17 +262,28 @@
           "line": 4,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "integer"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "nil",
-    "description": "nil",
-    "displayText": "nil",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "nil",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "nil",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 5
@@ -186,17 +292,28 @@
           "line": 4,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "nil"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "number",
-    "description": "number",
-    "displayText": "number",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "number",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "number",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 5
@@ -205,17 +322,28 @@
           "line": 4,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "number"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "object",
-    "description": "object",
-    "displayText": "object",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "object",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "object",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 5
@@ -224,17 +352,28 @@
           "line": 4,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "object"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "string",
-    "description": "string",
-    "displayText": "string",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "string",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "string",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 5
@@ -243,17 +382,28 @@
           "line": 4,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "string"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "time-only",
-    "description": "time-only",
-    "displayText": "time-only",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "time-only",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "time-only",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 5
@@ -262,7 +412,11 @@
           "line": 4,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "time-only"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

@@ -53,7 +53,6 @@ import org.mulesoft.lsp.feature.completion.InsertTextFormat.InsertTextFormat
   *                            additional modifications to the current document should be described with the
   *                            additionalTextEdits-property.
   */
-
 case class CompletionItem(label: String,
                           kind: Option[CompletionItemKind] = None,
                           detail: Option[String] = None,

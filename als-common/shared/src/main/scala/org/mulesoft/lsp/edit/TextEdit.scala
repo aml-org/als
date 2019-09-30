@@ -2,6 +2,8 @@ package org.mulesoft.lsp.edit
 
 import org.mulesoft.lsp.common.Range
 
+import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
+
 /**
   * A textual edit applicable to a text document.
   *
@@ -11,4 +13,6 @@ import org.mulesoft.lsp.common.Range
   *                empty string.
   */
 
+@JSExportAll
+@JSExportTopLevel("TextEditorg.mulesoft.als.client.lsp.Command")
 case class TextEdit(range: Range, newText: String)

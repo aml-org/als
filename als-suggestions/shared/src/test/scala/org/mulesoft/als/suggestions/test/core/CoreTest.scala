@@ -13,6 +13,7 @@ import org.mulesoft.als.suggestions.Core
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.amfmanager.{InitOptions, ParserHelper}
+import org.mulesoft.lsp.feature.completion.CompletionItem\
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -30,7 +31,7 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
   def suggest(path: String,
               label: String = "*",
               cutTail: Boolean = false,
-              labels: Array[String] = Array("*")): Future[Seq[Suggestion]] = {
+              labels: Array[String] = Array("*")): Future[Seq[CompletionItem]] = {
 
     val url = filePath(path)
     for {
@@ -42,8 +43,14 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
         (this.buildEnvironment(url, markerInfo.originalContent, content.mime), markerInfo.position)
       }
 
-      suggestions <- Suggestions.suggest(format, url, position, directoryResolver, env, platform)
-    } yield suggestions.map(suggestion => suggestion)
+      suggestions <- Suggestions.suggest(format,
+                                         url,
+                                         position,
+                                         directoryResolver,
+                                         env,
+                                         platform,
+                                         snippetsSupport = true)
+    } yield suggestions
   }
 
   def filePath(path: String): String =
@@ -97,9 +104,9 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
       .flatMap(_ =>
         suggest(path).map(suggestions => {
           AMLPlugin.registry.remove(p)
-          assert(suggestions.map(_.displayText).size == originalSuggestions.size)
-          assert(suggestions.map(_.displayText).forall(s => originalSuggestions.contains(s)))
-          assert(originalSuggestions.forall(s => suggestions.map(_.displayText).contains(s)))
+          assert(suggestions.map(_.label).size == originalSuggestions.size)
+          assert(suggestions.map(_.label).forall(s => originalSuggestions.contains(s)))
+          assert(originalSuggestions.forall(s => suggestions.map(_.label).contains(s)))
         }))
   }
 

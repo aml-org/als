@@ -1,12 +1,11 @@
 package org.mulesoft.als.suggestions.test
 
 import amf.core.remote.Hint
-import amf.core.unsafe.PlatformSecrets
 import common.diff.FileAssertionTest
-import org.mulesoft.als.suggestions.client.Suggestion
-import org.mulesoft.als.suggestions.test.SuggestionNode._
+import org.mulesoft.als.suggestions.test.CompletionItemNode._
 import org.mulesoft.common.io.{Fs, SyncFile}
-import org.scalatest.{Assertion, AsyncFreeSpec, AsyncFunSuite}
+import org.mulesoft.lsp.feature.completion.CompletionItem
+import org.scalatest.{Assertion, AsyncFreeSpec}
 import upickle.default.write
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -55,8 +54,8 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
     }
   }
 
-  def writeDataToString(data: List[Suggestion]): String =
-    write[List[SuggestionNode]](data.map(SuggestionNode.sharedToTransport), 2)
+  def writeDataToString(data: List[CompletionItem]): String =
+    write[List[CompletionItemNode]](data.map(CompletionItemNode.sharedToTransport), 2)
 
   private def testSuggestion(content: String, f: SyncFile): Future[Assertion] = {
     val expected = f.parent + platform.fs.separatorChar + "expected" + platform.fs.separatorChar + f.name + ".json"

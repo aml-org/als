@@ -29,21 +29,4 @@ class ContentPatcherTest extends AsyncFunSuite with FileAssertionTest {
     } yield r
   }
 
-  test("Test in json 2 key patch") {
-    val url      = basePath + "/in-key2.json"
-    val expected = basePath + "/in-key2.result.json"
-    for {
-      c <- platform.resolve(url)
-      patched <- Future {
-
-        val content    = c.stream.toString
-        val offset     = content.indexOf("*")
-        val rawContent = content.substring(0, offset) + content.substring(offset + 1)
-        org.mulesoft.als.suggestions.Core.prepareText(rawContent, offset, Syntax.JSON)
-      }
-      tmp <- writeTemporaryFile(expected)(patched)
-      r   <- assertDifferences(tmp, expected)
-    } yield r
-  }
-
 }

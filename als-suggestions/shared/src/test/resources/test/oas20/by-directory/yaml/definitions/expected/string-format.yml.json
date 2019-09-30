@@ -1,12 +1,19 @@
 [
   {
-    "text": "binary",
-    "description": "binary",
-    "displayText": "binary",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "binary",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "binary",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 12
@@ -15,17 +22,28 @@
           "line": 4,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "binary"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "byte",
-    "description": "byte",
-    "displayText": "byte",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "byte",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "byte",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 12
@@ -34,17 +52,28 @@
           "line": 4,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "byte"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "date",
-    "description": "date",
-    "displayText": "date",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "date",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "date",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 12
@@ -53,17 +82,28 @@
           "line": 4,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "date"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "date-time",
-    "description": "date-time",
-    "displayText": "date-time",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "date-time",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "date-time",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 12
@@ -72,17 +112,28 @@
           "line": 4,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "date-time"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "password",
-    "description": "password",
-    "displayText": "password",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "password",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "password",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 12
@@ -91,7 +142,11 @@
           "line": 4,
           "character": 12
         }
-      }
-    ]
+      },
+      "newText": "password"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

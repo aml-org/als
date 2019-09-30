@@ -1,12 +1,19 @@
 [
   {
-    "text": "contact",
-    "description": "contact",
-    "displayText": "contact",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "contact",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "contact",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 5
@@ -15,17 +22,28 @@
           "line": 3,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "contact"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "description",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 5
@@ -34,17 +52,28 @@
           "line": 3,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "description"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "license",
-    "description": "license",
-    "displayText": "license",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "license",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "license",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 5
@@ -53,17 +82,28 @@
           "line": 3,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "license"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "termsOfService",
-    "description": "termsOfService",
-    "displayText": "termsOfService",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "termsOfService",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "termsOfService",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 5
@@ -72,17 +112,28 @@
           "line": 3,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "termsOfService"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "title",
-    "description": "title",
-    "displayText": "title",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "title",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "title",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 5
@@ -91,17 +142,28 @@
           "line": 3,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "title"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "version",
-    "description": "version",
-    "displayText": "version",
-    "prefix": "",
-    "category": "docs",
-    "range": [
-      {
+    "label": "version",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "version",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 3,
           "character": 5
@@ -110,7 +172,11 @@
           "line": 3,
           "character": 5
         }
-      }
-    ]
+      },
+      "newText": "version"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

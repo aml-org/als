@@ -15,6 +15,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.Oas20DialectWrapper
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08.Raml08TypesDialect
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.Raml10TypesDialect
 import org.mulesoft.amfmanager.{InitOptions, ParserHelper}
+import org.mulesoft.lsp.feature.completion.CompletionItem
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -28,7 +29,8 @@ object Suggestions extends SuggestionsHelper {
               position: Int,
               directoryResolver: DirectoryResolver,
               environment: Environment,
-              platform: Platform): Future[Seq[Suggestion]] = {
+              platform: Platform,
+              snippetsSupport: Boolean): Future[Seq[CompletionItem]] = {
 
     platform
       .resolve(url, environment)
@@ -46,7 +48,8 @@ object Suggestions extends SuggestionsHelper {
                                         position,
                                         directoryResolver,
                                         patchedEnv,
-                                        platform)
+                                        platform,
+                                        snippetsSupport)
       }
   }
 
@@ -56,7 +59,8 @@ object Suggestions extends SuggestionsHelper {
                     platform: Platform,
                     env: Environment,
                     url: String,
-                    originalContent: String): Future[CompletionProvider] = {
+                    originalContent: String,
+                    snippetSupport: Boolean): Future[CompletionProvider] = {
     dialectFor(bu) match {
       case Some(d) =>
         Future(
@@ -67,7 +71,8 @@ object Suggestions extends SuggestionsHelper {
                                      originalContent,
                                      directoryResolver,
                                      env,
-                                     platform))
+                                     platform,
+                                     snippetSupport))
       case _ if isHeader(position, url, originalContent) =>
         if (!url.toLowerCase().endsWith(".raml"))
           Future(
@@ -88,9 +93,10 @@ object Suggestions extends SuggestionsHelper {
                          platform: Platform,
                          env: Environment,
                          url: String,
-                         originalContent: String): Future[CompletionProvider] = {
+                         originalContent: String,
+                         snippetSupport: Boolean): Future[CompletionProvider] = {
     unitFuture
-      .flatMap(buildProvider(_, position, directoryResolver, platform, env, url, originalContent))
+      .flatMap(buildProvider(_, position, directoryResolver, platform, env, url, originalContent, snippetSupport))
   }
 
   private def isHeader(position: Int, url: String, originalContent: String): Boolean =
@@ -116,7 +122,8 @@ object Suggestions extends SuggestionsHelper {
                                             position: Int,
                                             directoryResolver: DirectoryResolver,
                                             environment: Environment,
-                                            platform: Platform): Future[Seq[Suggestion]] = {
+                                            platform: Platform,
+                                            snippetsSupport: Boolean): Future[Seq[CompletionItem]] = {
 
     buildProviderAsync(this.amfParse(url, environment, platform),
                        position,
@@ -124,20 +131,10 @@ object Suggestions extends SuggestionsHelper {
                        platform,
                        environment,
                        url,
-                       originalContent)
+                       originalContent,
+                       snippetsSupport)
       .flatMap(_.suggest())
-      .map(suggestions => suggestions map toClientSuggestion)
   }
-
-  private def toClientSuggestion(suggestion: interfaces.Suggestion) =
-    new Suggestion(
-      text = suggestion.text,
-      description = suggestion.description,
-      displayText = suggestion.displayText,
-      prefix = suggestion.prefix,
-      category = suggestion.category,
-      range = suggestion.range
-    )
 
   private def buildCompletionProviderAST(bu: BaseUnit,
                                          dialect: Dialect,
@@ -146,12 +143,18 @@ object Suggestions extends SuggestionsHelper {
                                          originalContent: String,
                                          directoryResolver: DirectoryResolver,
                                          env: Environment,
-                                         platform: Platform): CompletionProviderAST = {
+                                         platform: Platform,
+                                         snippetSupport: Boolean): CompletionProviderAST = {
 
     val amfPosition = pos.moveLine(1)
     CompletionProviderAST(
       AmlCompletionRequestBuilder
-        .build(bu, amfPosition, dialect, CompletionEnvironment(directoryResolver, platform, env), originalContent))
+        .build(bu,
+               amfPosition,
+               dialect,
+               CompletionEnvironment(directoryResolver, platform, env),
+               originalContent,
+               snippetSupport))
   }
 }
 
