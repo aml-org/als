@@ -1,12 +1,19 @@
 [
   {
-    "text": "#/responses/Found",
-    "description": "Reference to #/responses/Found",
-    "displayText": "#/responses/Found",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "#/responses/Found",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/responses/Found",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -15,17 +22,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "#/responses/Found"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "expected/",
-    "description": "Path suggestion",
-    "displayText": "expected/",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "expected/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -34,17 +52,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "expected/"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-declaration-named.json",
-    "description": "Path suggestion",
-    "displayText": "response-declaration-named.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-declaration-named.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -53,17 +82,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "response-declaration-named.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-declaration.json",
-    "description": "Path suggestion",
-    "displayText": "response-declaration.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-declaration.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -72,17 +112,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "response-declaration.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-example.json",
-    "description": "Path suggestion",
-    "displayText": "response-example.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-example.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -91,17 +142,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "response-example.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-examples.json",
-    "description": "Path suggestion",
-    "displayText": "response-examples.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-examples.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -110,17 +172,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "response-examples.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-header.json",
-    "description": "Path suggestion",
-    "displayText": "response-header.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-header.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -129,17 +202,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "response-header.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-headers.json",
-    "description": "Path suggestion",
-    "displayText": "response-headers.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-headers.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -148,17 +232,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "response-headers.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-schema-ref.json",
-    "description": "Path suggestion",
-    "displayText": "response-schema-ref.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-schema-ref.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -167,17 +262,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "response-schema-ref.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response-schema.json",
-    "description": "Path suggestion",
-    "displayText": "response-schema.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response-schema.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -186,17 +292,28 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "response-schema.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "response.json",
-    "description": "Path suggestion",
-    "displayText": "response.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "response.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 12,
           "character": 21
@@ -205,7 +322,11 @@
           "line": 12,
           "character": 21
         }
-      }
-    ]
+      },
+      "newText": "response.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

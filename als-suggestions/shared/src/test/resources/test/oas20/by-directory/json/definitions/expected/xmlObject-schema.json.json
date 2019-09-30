@@ -1,12 +1,19 @@
 [
   {
-    "text": "attribute",
-    "description": "attribute",
-    "displayText": "attribute",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
+    "label": "attribute",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "attribute",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 8,
           "character": 13
@@ -15,17 +22,28 @@
           "line": 8,
           "character": 13
         }
-      }
-    ]
+      },
+      "newText": "attribute"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "name",
-    "description": "name",
-    "displayText": "name",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
+    "label": "name",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 8,
           "character": 13
@@ -34,17 +52,28 @@
           "line": 8,
           "character": 13
         }
-      }
-    ]
+      },
+      "newText": "name"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "namespace",
-    "description": "namespace",
-    "displayText": "namespace",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
+    "label": "namespace",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "namespace",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 8,
           "character": 13
@@ -53,17 +82,28 @@
           "line": 8,
           "character": 13
         }
-      }
-    ]
+      },
+      "newText": "namespace"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "prefix",
-    "description": "prefix",
-    "displayText": "prefix",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
+    "label": "prefix",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "prefix",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 8,
           "character": 13
@@ -72,17 +112,28 @@
           "line": 8,
           "character": 13
         }
-      }
-    ]
+      },
+      "newText": "prefix"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "wrapped",
-    "description": "wrapped",
-    "displayText": "wrapped",
-    "prefix": "",
-    "category": "schemas",
-    "range": [
-      {
+    "label": "wrapped",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "wrapped",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 8,
           "character": 13
@@ -91,7 +142,11 @@
           "line": 8,
           "character": 13
         }
-      }
-    ]
+      },
+      "newText": "wrapped"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

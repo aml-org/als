@@ -5,13 +5,12 @@ import amf.internal.environment.Environment
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.{DescendingPositionOrdering, Position}
 import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.modules.common.LspConverter
-import org.mulesoft.als.server.modules.common.LspConverter.toPosition
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.lsp.common.TextDocumentIdentifier
+import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.rename.{RenameParams, RenameRequestType}
 import org.scalatest.Assertion
 
@@ -55,7 +54,7 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
         openFile(server)(filePath, markerInfo.rawContent)
         val handler = server.resolveHandler(RenameRequestType).value
 
-        handler(RenameParams(TextDocumentIdentifier(filePath), LspConverter.toLspPosition(position), newName))
+        handler(RenameParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(position), newName))
           .map(workspaceEdit => {
             closeFile(server)(filePath)
 
@@ -63,11 +62,11 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
 
             var newText = content.get
             edits
-              .sortBy(edit => toPosition(edit.range.start))(DescendingPositionOrdering)
+              .sortBy(edit => LspRangeConverter.toPosition(edit.range.start))(DescendingPositionOrdering)
               .foreach(edit =>
-                newText = newText.substring(0, toPosition(edit.range.start).offset(newText)) +
+                newText = newText.substring(0, LspRangeConverter.toPosition(edit.range.start).offset(newText)) +
                   edit.newText +
-                  newText.substring(toPosition(edit.range.end).offset(newText)))
+                  newText.substring(LspRangeConverter.toPosition(edit.range.end).offset(newText)))
             val result = renamedContent.contains(newText.trim)
 
             if (result) succeed

@@ -1,12 +1,19 @@
 [
   {
-    "text": "(myAnnotation): ",
-    "description": "(myAnnotation)",
-    "displayText": "(myAnnotation)",
-    "prefix": "",
-    "category": "annotations",
-    "range": [
-      {
+    "label": "(myAnnotation)",
+    "kind": [],
+    "detail": "annotations",
+    "documentation": "(myAnnotation)",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 2
@@ -15,17 +22,28 @@
           "line": 5,
           "character": 2
         }
-      }
-    ]
+      },
+      "newText": "(myAnnotation): "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "value: ",
-    "description": "value",
-    "displayText": "value",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "value",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "value",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 2
@@ -34,7 +52,11 @@
           "line": 5,
           "character": 2
         }
-      }
-    ]
+      },
+      "newText": "value: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

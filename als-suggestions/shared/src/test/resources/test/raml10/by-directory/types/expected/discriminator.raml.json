@@ -1,12 +1,19 @@
 [
   {
-    "text": "one",
-    "description": "one",
-    "displayText": "one",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "one",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "one",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 6,
           "character": 19
@@ -15,17 +22,28 @@
           "line": 6,
           "character": 19
         }
-      }
-    ]
+      },
+      "newText": "one"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "two",
-    "description": "two",
-    "displayText": "two",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "two",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "two",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 6,
           "character": 19
@@ -34,7 +52,11 @@
           "line": 6,
           "character": 19
         }
-      }
-    ]
+      },
+      "newText": "two"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

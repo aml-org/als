@@ -48,8 +48,14 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
 
   test("Custom Resource Loader test") {
     for {
-      _           <- Suggestions.init(InitOptions.AllProfiles)
-      suggestions <- Suggestions.suggest(Raml10.name, url, 40, directoryResolver, environment, platform)
+      _ <- Suggestions.init(InitOptions.AllProfiles)
+      suggestions <- Suggestions.suggest(Raml10.name,
+                                         url,
+                                         40,
+                                         directoryResolver,
+                                         environment,
+                                         platform,
+                                         snippetsSupport = true)
     } yield {
       assert(suggestions.size == 14)
     }

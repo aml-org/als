@@ -9,7 +9,7 @@ import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.client.{Suggestion, Suggestions}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.amfmanager.{CustomDialects, DialectInitializer, InitOptions}
-
+import org.mulesoft.lsp.feature.completion.CompletionItem
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -17,7 +17,7 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
 
   protected val directoryResolver = new PlatformDirectoryResolver(platform)
 
-  def suggest(url: String, format: String, customDialect: Option[CustomDialects]): Future[Seq[Suggestion]] = {
+  def suggest(url: String, format: String, customDialect: Option[CustomDialects]): Future[Seq[CompletionItem]] = {
 
     var position = 0
     for {
@@ -37,7 +37,7 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
                       url: String,
                       mime: Option[String],
                       format: String,
-                      customDialect: Option[CustomDialects]): Future[Seq[Suggestion]] = {
+                      customDialect: Option[CustomDialects]): Future[Seq[CompletionItem]] = {
 
     var position = 0
     for {
@@ -51,8 +51,14 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
         this.buildEnvironment(url, markerInfo.originalContent, mime)
       }
 
-      suggestions <- Suggestions.suggest(format, url, position, directoryResolver, env, platform)
-    } yield suggestions.map(suggestion => suggestion)
+      suggestions <- Suggestions.suggest(format,
+                                         url,
+                                         position,
+                                         directoryResolver,
+                                         env,
+                                         platform,
+                                         snippetsSupport = true)
+    } yield suggestions
   }
 
   def buildEnvironment(fileUrl: String, content: String, mime: Option[String]): Environment = {

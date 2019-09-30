@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions
 
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces._
+import org.mulesoft.lsp.feature.completion.CompletionItem
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -16,7 +17,7 @@ class CompletionProviderAST(request: AmlCompletionRequest) extends CompletionPro
   private def arraySiblings(value: String): Boolean =
     request.yPartBranch.arraySiblings.contains(value)
 
-  override def suggest(): Future[Seq[Suggestion]] = {
+  override def suggest(): Future[Seq[CompletionItem]] = {
 
     CompletionsPluginHandler
       .pluginSuggestions(request)

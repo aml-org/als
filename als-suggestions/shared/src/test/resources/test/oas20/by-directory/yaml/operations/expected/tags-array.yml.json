@@ -1,12 +1,19 @@
 [
   {
-    "text": "myTag",
-    "description": "myTag",
-    "displayText": "myTag",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "myTag",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "myTag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 14
@@ -15,7 +22,11 @@
           "line": 7,
           "character": 14
         }
-      }
-    ]
+      },
+      "newText": "myTag"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

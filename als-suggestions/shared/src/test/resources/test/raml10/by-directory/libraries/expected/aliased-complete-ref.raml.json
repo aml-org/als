@@ -1,12 +1,19 @@
 [
   {
-    "text": "A",
-    "description": "alias.A",
-    "displayText": "A",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "A",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "alias.A",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 6,
           "character": 11
@@ -15,7 +22,11 @@
           "line": 6,
           "character": 11
         }
-      }
-    ]
+      },
+      "newText": "A"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

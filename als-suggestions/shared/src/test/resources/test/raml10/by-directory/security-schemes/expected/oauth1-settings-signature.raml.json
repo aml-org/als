@@ -1,12 +1,19 @@
 [
   {
-    "text": "HMAC-SHA1",
-    "description": "HMAC-SHA1",
-    "displayText": "HMAC-SHA1",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "HMAC-SHA1",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "HMAC-SHA1",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 6,
           "character": 18
@@ -15,17 +22,28 @@
           "line": 6,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "HMAC-SHA1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "PLAINTEXT",
-    "description": "PLAINTEXT",
-    "displayText": "PLAINTEXT",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "PLAINTEXT",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "PLAINTEXT",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 6,
           "character": 18
@@ -34,17 +52,28 @@
           "line": 6,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "PLAINTEXT"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "RSA-SHA1",
-    "description": "RSA-SHA1",
-    "displayText": "RSA-SHA1",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "RSA-SHA1",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "RSA-SHA1",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 6,
           "character": 18
@@ -53,7 +82,11 @@
           "line": 6,
           "character": 18
         }
-      }
-    ]
+      },
+      "newText": "RSA-SHA1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

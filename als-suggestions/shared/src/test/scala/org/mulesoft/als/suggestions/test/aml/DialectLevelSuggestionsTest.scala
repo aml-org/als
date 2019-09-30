@@ -50,11 +50,18 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
                                 originalContent: String,
                                 position: Int): Future[Seq[String]] = {
     Suggestions
-      .buildProvider(bu, position, directoryResolver, platform, Environment(), url, originalContent)
+      .buildProvider(bu,
+                     position,
+                     directoryResolver,
+                     platform,
+                     Environment(),
+                     url,
+                     originalContent,
+                     snippetSupport = true)
       .flatMap(_.suggest())
       .map(suggestions =>
-        suggestions.map(suggestion => {
-          suggestion.text
+        suggestions.flatMap(suggestion => {
+          suggestion.textEdit.map(_.newText)
         }))
   }
 

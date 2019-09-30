@@ -5,11 +5,11 @@ import amf.internal.environment.Environment
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.modules.common.LspConverter
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentPositionParams, Position => lspPosition}
+import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
 
 import scala.concurrent.ExecutionContext
@@ -45,7 +45,7 @@ class ServerDefinitionTest extends LanguageServerBaseTest {
           |      p1: MyType
           |""".stripMargin
       val ind           = content1.indexOf("p1: MyType") + "p1: My".length
-      val usagePosition = LspConverter.toLspPosition(Position(ind, content1))
+      val usagePosition = LspRangeConverter.toLspPosition(Position(ind, content1))
 
       val url = "file:///findDeclarationTest001.raml"
 

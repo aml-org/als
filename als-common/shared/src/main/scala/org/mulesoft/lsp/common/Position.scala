@@ -1,5 +1,7 @@
 package org.mulesoft.lsp.common
 
+import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
+
 /**
   * Position in a text document expressed as zero-based line and zero-based character offset. A position
   * is between two characters like an ‘insert’ cursor in a editor. Special values like for example -1 to
@@ -14,4 +16,6 @@ package org.mulesoft.lsp.common
   *                  line length
   */
 
+@JSExportAll
+@JSExportTopLevel("Position")
 case class Position(line: Int, character: Int)

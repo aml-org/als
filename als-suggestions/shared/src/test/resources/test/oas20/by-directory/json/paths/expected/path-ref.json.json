@@ -1,12 +1,19 @@
 [
   {
-    "text": "expected/",
-    "description": "Path suggestion",
-    "displayText": "expected/",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "expected/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 15
@@ -15,17 +22,28 @@
           "line": 4,
           "character": 15
         }
-      }
-    ]
+      },
+      "newText": "expected/"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "parameter-array.json",
-    "description": "Path suggestion",
-    "displayText": "parameter-array.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "parameter-array.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 15
@@ -34,17 +52,28 @@
           "line": 4,
           "character": 15
         }
-      }
-    ]
+      },
+      "newText": "parameter-array.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "parameter-ref.json",
-    "description": "Path suggestion",
-    "displayText": "parameter-ref.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "parameter-ref.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 15
@@ -53,17 +82,28 @@
           "line": 4,
           "character": 15
         }
-      }
-    ]
+      },
+      "newText": "parameter-ref.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "parameter.json",
-    "description": "Path suggestion",
-    "displayText": "parameter.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "parameter.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 15
@@ -72,17 +112,28 @@
           "line": 4,
           "character": 15
         }
-      }
-    ]
+      },
+      "newText": "parameter.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "path.json",
-    "description": "Path suggestion",
-    "displayText": "path.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "path.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 15
@@ -91,17 +142,28 @@
           "line": 4,
           "character": 15
         }
-      }
-    ]
+      },
+      "newText": "path.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "paths.json",
-    "description": "Path suggestion",
-    "displayText": "paths.json",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "paths.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": null,
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 4,
           "character": 15
@@ -110,7 +172,11 @@
           "line": 4,
           "character": 15
         }
-      }
-    ]
+      },
+      "newText": "paths.json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]
