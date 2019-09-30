@@ -6,11 +6,11 @@
     "documentation": "#%RAML 1.0 AnnotationTypeDeclaration",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10#%RAML 1.0 AnnotationTypeDeclaration",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "#%RAML 1.0 DataType",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10#%RAML 1.0 DataType",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -66,11 +66,11 @@
     "documentation": "#%RAML 1.0 DocumentationItem",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10#%RAML 1.0 DocumentationItem",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -96,11 +96,11 @@
     "documentation": "#%RAML 1.0 Extension",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10#%RAML 1.0 Extension",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -126,11 +126,11 @@
     "documentation": "#%RAML 1.0 Library",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10#%RAML 1.0 Library",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -156,11 +156,11 @@
     "documentation": "#%RAML 1.0 NamedExample",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10#%RAML 1.0 NamedExample",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -186,11 +186,11 @@
     "documentation": "#%RAML 1.0 Overlay",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10#%RAML 1.0 Overlay",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -216,11 +216,11 @@
     "documentation": "#%RAML 1.0 ResourceType",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10#%RAML 1.0 ResourceType",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -246,11 +246,11 @@
     "documentation": "#%RAML 1.0 SecurityScheme",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10#%RAML 1.0 SecurityScheme",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -276,11 +276,11 @@
     "documentation": "#%RAML 1.0 Trait",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10#%RAML 1.0 Trait",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

@@ -6,11 +6,11 @@
     "documentation": "email",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10email",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "name",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10name",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -66,11 +66,11 @@
     "documentation": "url",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10url",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

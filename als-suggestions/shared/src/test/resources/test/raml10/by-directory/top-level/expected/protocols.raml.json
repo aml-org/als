@@ -6,11 +6,11 @@
     "documentation": "HTTP",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10HTTP",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "HTTPS",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10HTTPS",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

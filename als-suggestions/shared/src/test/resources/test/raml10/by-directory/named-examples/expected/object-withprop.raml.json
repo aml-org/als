@@ -6,11 +6,11 @@
     "documentation": "p2",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10p2",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

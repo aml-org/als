@@ -6,11 +6,11 @@
     "documentation": "tr2",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10tr2",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -23,7 +23,7 @@
           "character": 8
         }
       },
-      "newText": "tr2"
+      "newText": "\n - tr2"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

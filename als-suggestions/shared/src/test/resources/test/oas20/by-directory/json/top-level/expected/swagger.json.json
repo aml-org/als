@@ -6,11 +6,11 @@
     "documentation": "Define a OAS 2.0 file",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10\"swagger\": \"2.0\"",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
