@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "properties": {
+    "total_count": {
+      "type": "integer"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "a1": {
+            "type": "string"
+          },
+          "a2": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

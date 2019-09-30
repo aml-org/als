@@ -3,8 +3,7 @@ package org.mulesoft.als.suggestions.client.js
 import amf.client.remote.Content
 import amf.client.resource.{ClientResourceLoader, ResourceLoader}
 import amf.core.remote.Vendor
-import org.mulesoft.als.common.{DirectoryResolver => InternalDirectoryResolver}
-import org.scalatest.{Assertions, AsyncFunSuite, Matchers}
+import org.scalatest.{AsyncFunSuite, Matchers}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.scalajs.js

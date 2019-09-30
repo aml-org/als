@@ -6,11 +6,11 @@
     "documentation": "param1",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10param1",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "param2",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10param2",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

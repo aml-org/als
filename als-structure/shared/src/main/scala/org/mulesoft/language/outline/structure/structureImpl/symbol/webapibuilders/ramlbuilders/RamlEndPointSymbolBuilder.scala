@@ -8,8 +8,8 @@ case class RamlEndPointSymbolBuilder(actual: EndPoint, all: Seq[EndPoint])(
     override implicit val factory: BuilderFactory)
     extends EndPointSymbolBuilder(actual)(factory) {
 
-  override def childrens: List[DocumentSymbol] =
-    super.childrens ++ all
+  override def children: List[DocumentSymbol] =
+    super.children ++ all
       .collect({ case e: EndPoint if e.parent.contains(actual) => RamlEndPointSymbolBuilder(e, all)(factory) })
       .flatMap(_.build())
 }

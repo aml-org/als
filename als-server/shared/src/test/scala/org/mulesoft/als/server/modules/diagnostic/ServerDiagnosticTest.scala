@@ -22,10 +22,15 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
                           baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val telemetryManager = new TelemetryManager(MockClientNotifier, logger)
+    val telemetryManager = new TelemetryManager(MockDiagnosticClientNotifier, logger)
     val astManager       = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
     val diagnosticManager =
-      new DiagnosticManager(documentManager, astManager, telemetryManager, MockClientNotifier, platform, logger)
+      new DiagnosticManager(documentManager,
+                            astManager,
+                            telemetryManager,
+                            MockDiagnosticClientNotifier,
+                            platform,
+                            logger)
 
     builder
       .addInitializable(astManager)
@@ -69,18 +74,10 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
        */
       for {
         a <- openFileNotification(server)(libFilePath, libFileContent)
-        b <- {
-          val rootNotif = openFileNotification(server)(mainFilePath, mainContent)
-          MockClientNotifier.nextCall // get the lib notification sent as son of root. Discard it
-          rootNotif
-        }
+        b <- openFileNotification(server)(mainFilePath, mainContent)
         c <- focusNotification(server)(libFilePath, 0)
         d <- changeNotification(server)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
-        e <- {
-          val rootNotif = focusNotification(server)(mainFilePath, 0)
-          MockClientNotifier.nextCall // get the lib notification sent as son of root. Discard it
-          rootNotif
-        }
+        e <- focusNotification(server)(mainFilePath, 0)
       } yield {
         server.shutdown()
         assert(

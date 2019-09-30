@@ -6,11 +6,11 @@
     "documentation": "#%RAML 1.0",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10#%RAML 1.0",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

@@ -14,7 +14,7 @@ class StructureTests extends RAML08StructureTest {
     this.runTest("test005/api.raml", "test005/api-outline.json")
   }
 
-  ignore("test 028") { // TODO: ALS-832
+  test("test 028") {
     this.runTest("test028/api.raml", "test028/api-outline.json")
   }
 
@@ -28,6 +28,10 @@ class StructureTests extends RAML08StructureTest {
 
   test("test 031") {
     this.runTest("test031/api.raml", "test031/api-outline.json")
+  }
+
+  test("inlined arrays") {
+    this.runTest("inlined-array/api.raml", "inlined-array/api-outline.json")
   }
 
 }

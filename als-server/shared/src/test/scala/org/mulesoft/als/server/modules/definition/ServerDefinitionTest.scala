@@ -25,7 +25,7 @@ class ServerDefinitionTest extends LanguageServerBaseTest {
                           baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val telemetryManager = new TelemetryManager(MockClientNotifier, logger)
+    val telemetryManager = new TelemetryManager(MockDiagnosticClientNotifier, logger)
 
     val astManager = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
 

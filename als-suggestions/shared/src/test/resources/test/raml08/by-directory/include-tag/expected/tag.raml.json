@@ -6,11 +6,11 @@
     "documentation": "inclusion tag",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10!include",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

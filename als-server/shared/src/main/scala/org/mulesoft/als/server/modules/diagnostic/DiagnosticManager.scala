@@ -35,8 +35,8 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
 
   private val reconciler: Reconciler = new Reconciler(logger, 1000)
 
-  val onNewASTAvailableListener: AstListener = (uri: String, version: Int, ast: BaseUnit) => {
-    newASTAvailable(uri, version, ast)
+  val onNewASTAvailableListener: AstListener = (uri: String, version: Int, ast: BaseUnit, uuid: String) => {
+    newASTAvailable(uri, version, ast, uuid)
   }
 
   override def initialize(): Future[Unit] = {
@@ -44,37 +44,49 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
     Future.successful()
   }
 
-  def newASTAvailable(uri: String, version: Int, ast: BaseUnit) {
+  def newASTAvailable(uri: String, version: Int, ast: BaseUnit, telemetryUUID: String) {
     logger.debug("Got new AST:\n" + ast.toString, "ValidationManager", "newASTAvailable")
 
-    telemetryProvider.addTimedMessage("Start report", MessageTypes.BEGIN_DIAGNOSTIC)
+    telemetryProvider.addTimedMessage("Start report", MessageTypes.BEGIN_DIAGNOSTIC, uri, telemetryUUID)
 
-    reconciler.shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, version, ast))).future andThen {
+    reconciler
+      .shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, version, ast, telemetryUUID)))
+      .future andThen {
       case Success(reports: Seq[ValidationReport]) =>
-        telemetryProvider.addTimedMessage("Got reports", MessageTypes.GOT_DIAGNOSTICS)
         logger.debug("Number of errors is:\n" + reports.flatMap(_.issues).length,
                      "ValidationManager",
                      "newASTAvailable")
         reports.foreach { r =>
+          telemetryProvider.addTimedMessage(s"Got reports: ${r.publishDiagnosticsParams.uri}",
+                                            MessageTypes.GOT_DIAGNOSTICS,
+                                            uri,
+                                            telemetryUUID)
           clientNotifier.notifyDiagnostic(r.publishDiagnosticsParams)
         }
-        telemetryProvider.addTimedMessage("End report", MessageTypes.END_DIAGNOSTIC)
+        telemetryProvider.addTimedMessage("End report", MessageTypes.END_DIAGNOSTIC, uri, telemetryUUID)
 
       case Failure(exception) =>
         exception.printStackTrace()
+        telemetryProvider.addTimedMessage(s"End report: ${exception.toString}",
+                                          MessageTypes.END_DIAGNOSTIC,
+                                          uri,
+                                          telemetryUUID)
         logger.error("Error on validation: " + exception.toString, "ValidationManager", "newASTAvailable")
         clientNotifier.notifyDiagnostic(ValidationReport(uri, 0, Set.empty).publishDiagnosticsParams)
     }
   }
 
-  private def gatherValidationErrors(uri: String, docVersion: Int, astNode: BaseUnit): Future[Seq[ValidationReport]] = {
+  private def gatherValidationErrors(uri: String,
+                                     docVersion: Int,
+                                     astNode: BaseUnit,
+                                     uuid: String): Future[Seq[ValidationReport]] = {
     val editorOption = textDocumentManager.getTextDocument(uri)
 
     if (editorOption.isDefined) {
       val startTime = System.currentTimeMillis()
 
       this
-        .report(uri, telemetryProvider, astNode)
+        .report(uri, telemetryProvider, astNode, uuid)
         .map(report => {
           val endTime = System.currentTimeMillis()
 
@@ -150,10 +162,12 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
 
   private def report(uri: String,
                      telemetryProvider: TelemetryProvider,
-                     baseUnit: BaseUnit): Future[AMFValidationReport] = {
-    telemetryProvider.addTimedMessage("Start AMF report", MessageTypes.BEGIN_REPORT)
+                     baseUnit: BaseUnit,
+                     uuid: String): Future[AMFValidationReport] = {
+    telemetryProvider.addTimedMessage("Start AMF report", MessageTypes.BEGIN_REPORT, uri, uuid)
     val eventualReport = RuntimeValidator(baseUnit, ProfileName(checkProfileName(baseUnit)))
-    eventualReport.foreach(r => telemetryProvider.addTimedMessage("End AMF report", MessageTypes.END_REPORT))
+    eventualReport.foreach(r =>
+      telemetryProvider.addTimedMessage("End AMF report", MessageTypes.END_REPORT, uri, uuid))
     eventualReport
   }
 }

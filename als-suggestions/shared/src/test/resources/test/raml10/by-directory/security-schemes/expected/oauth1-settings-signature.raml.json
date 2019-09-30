@@ -6,11 +6,11 @@
     "documentation": "HMAC-SHA1",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10HMAC-SHA1",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "PLAINTEXT",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10PLAINTEXT",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -66,11 +66,11 @@
     "documentation": "RSA-SHA1",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10RSA-SHA1",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

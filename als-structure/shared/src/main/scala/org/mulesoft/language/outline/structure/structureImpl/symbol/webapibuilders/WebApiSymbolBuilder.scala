@@ -5,7 +5,7 @@ import amf.core.metamodel.Field
 import amf.core.metamodel.document.BaseUnitModel
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.templates.ParametrizedDeclaration
-import amf.core.model.domain.{AmfArray, AmfElement, AmfScalar, NamedDomainElement}
+import amf.core.model.domain.{AmfArray, AmfElement, AmfScalar}
 import amf.plugins.domain.shapes.models.CreativeWork
 import amf.plugins.domain.webapi.metamodel.WebApiModel
 import amf.plugins.domain.webapi.models.{EndPoint, WebApi}
@@ -16,8 +16,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
   NamedElementSymbolBuilder
 }
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ramlbuilders.RamlEndPointSymbolBuilder
-
-import scala.collection.mutable
+import org.yaml.model.YNode.MutRef
 
 trait BaseUnitSymbolBuilderCompanion extends ElementSymbolBuilderCompanion {
 
@@ -28,7 +27,15 @@ trait BaseUnitSymbolBuilderCompanion extends ElementSymbolBuilderCompanion {
 
 class WebApiArraySymbolBuilder(element: AmfArray)(override implicit val factory: BuilderFactory)
     extends ElementSymbolBuilder[AmfArray] {
-  override def build(): Seq[DocumentSymbol] = element.values.flatMap(factory.builderForElement).flatMap(_.build())
+  override def build(): Seq[DocumentSymbol] =
+    element.values
+      .flatMap(v => {
+        v match {
+          case e if e.annotations.find(classOf[SourceAST]).exists(_.ast.isInstanceOf[MutRef]) => None
+          case _                                                                              => factory.builderForElement(v)
+        }
+      })
+      .flatMap(_.build())
 }
 
 class WebApiSymbolBuilder(override val element: WebApi)(override implicit val factory: BuilderFactory)
@@ -55,7 +62,7 @@ class WebApiSymbolBuilder(override val element: WebApi)(override implicit val fa
       .getOrElse(Nil)
 
   override def build(): Seq[DocumentSymbol] = {
-    titleChildren ++ versionChildren ++ super.childrens
+    titleChildren ++ versionChildren ++ super.children
   }
 }
 
@@ -128,8 +135,7 @@ class EndPointListBuilder(element: AmfArray)(override implicit val factory: Buil
 
   override def build(): Seq[DocumentSymbol] = {
 
-    val collector: mutable.Map[EndPoint, Seq[EndPoint]] = mutable.Map()
-    val endpoints                                       = element.values.collect({ case e: EndPoint => e })
+    val endpoints = element.values.collect({ case e: EndPoint => e })
     endpoints
       .collect({
         case e: EndPoint if e.parent.isEmpty => RamlEndPointSymbolBuilder(e, endpoints)(factory)
@@ -146,7 +152,7 @@ class EndPointSymbolBuilder(override val element: EndPoint)(override implicit va
   override protected val selectionRange: Option[PositionRange] =
     element.path.annotations().find(classOf[LexicalInformation]).map(l => PositionRange(l.range)).orElse(range)
 
-  override def childrens: List[DocumentSymbol] = super.childrens ++ getExtendsChildren
+  override def children: List[DocumentSymbol] = super.children ++ getExtendsChildren
 
   private def getExtendsChildren = {
     element.extend.headOption match {
@@ -169,7 +175,7 @@ class EndPointSymbolBuilder(override val element: EndPoint)(override implicit va
 class CreativeWorkListSymbolBuilder(element: AmfArray)(override implicit val factory: BuilderFactory)
     extends ElementSymbolBuilder[AmfArray] {
 
-  private val childrens = element.values.zipWithIndex
+  private val children = element.values.zipWithIndex
     .map({
       case (e: CreativeWork, index) =>
         val range = PositionRange(
@@ -178,8 +184,8 @@ class CreativeWorkListSymbolBuilder(element: AmfArray)(override implicit val fac
     })
     .toList
   override def build(): Seq[DocumentSymbol] = {
-    val newRange = childrens.head.range + childrens.last.range
-    Seq(DocumentSymbol("documentations", SymbolKind.Array, false, newRange, newRange, childrens))
+    val newRange = children.head.range + children.last.range
+    Seq(DocumentSymbol("documentations", SymbolKind.Array, false, newRange, newRange, children))
   }
 }
 

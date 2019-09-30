@@ -3,7 +3,6 @@ package org.mulesoft.als.suggestions.test
 import amf.ProfileName
 import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
-import org.mulesoft.als.suggestions.client.Suggestion
 import org.mulesoft.amfmanager.{CustomDialects, ParserHelper}
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{Assertion, AsyncFunSuite}

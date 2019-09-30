@@ -6,11 +6,11 @@
     "documentation": "A",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10A",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "any",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10any",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -66,11 +66,11 @@
     "documentation": "array",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10array",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -96,11 +96,11 @@
     "documentation": "boolean",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10boolean",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -126,11 +126,11 @@
     "documentation": "date-only",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10date-only",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -156,11 +156,11 @@
     "documentation": "datetime",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10datetime",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -186,11 +186,11 @@
     "documentation": "datetime-only",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10datetime-only",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -216,11 +216,11 @@
     "documentation": "file",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10file",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -246,11 +246,11 @@
     "documentation": "integer",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10integer",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -276,11 +276,11 @@
     "documentation": "nil",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10nil",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -306,11 +306,11 @@
     "documentation": "number",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10number",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -336,11 +336,11 @@
     "documentation": "object",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10object",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -366,11 +366,11 @@
     "documentation": "string",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10string",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -396,11 +396,11 @@
     "documentation": "time-only",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10time-only",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

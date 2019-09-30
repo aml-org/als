@@ -6,11 +6,11 @@
     "documentation": "apiKey",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10apiKey",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "basic",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10basic",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -66,11 +66,11 @@
     "documentation": "oauth2",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10oauth2",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

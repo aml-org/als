@@ -7,14 +7,12 @@ case class JsonSuggestionStyler(override val params: StylerParams) extends Sugge
     val isJSONObject = (suggestion.newText startsWith "{") && (suggestion.newText endsWith "}")
     var endingQuote  = false
     var postfix      = ""
-    var prefix       = ""
+    val prefix       = if (!params.hasOpeningQuote) "\"" else ""
     if (suggestion.options.isKey) {
-      if (!suggestion.newText.startsWith("\"") && !params.hasKeyClosingQuote)
-        prefix = "\""
       if (!params.hasKeyClosingQuote) {
         postfix += "\""
         if (!params.hasColon)
-          postfix += ":"
+          postfix += ": "
         if (params.supportSnippets)
           if (!params.hasQuote && !suggestion.options.arrayProperty && suggestion.sons.isEmpty)
             postfix += "\"$1\""

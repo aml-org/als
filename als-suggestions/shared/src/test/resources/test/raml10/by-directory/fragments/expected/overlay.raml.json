@@ -6,11 +6,11 @@
     "documentation": "annotationTypes",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10annotationTypes",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "baseUri",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10baseUri",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -66,11 +66,11 @@
     "documentation": "baseUriParameters",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10baseUriParameters",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -96,11 +96,11 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10description",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -126,11 +126,11 @@
     "documentation": "documentation",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10documentation",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -156,11 +156,11 @@
     "documentation": "extends",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10extends",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -186,11 +186,11 @@
     "documentation": "mediaType",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10mediaType",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -216,11 +216,11 @@
     "documentation": "protocols",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10protocols",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -246,11 +246,11 @@
     "documentation": "resourceTypes",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10resourceTypes",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -276,11 +276,11 @@
     "documentation": "securedBy",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10securedBy",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -306,11 +306,11 @@
     "documentation": "securitySchemes",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10securitySchemes",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -336,11 +336,11 @@
     "documentation": "title",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10title",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -366,11 +366,11 @@
     "documentation": "traits",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10traits",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -396,11 +396,11 @@
     "documentation": "types",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10types",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -426,11 +426,11 @@
     "documentation": "uses",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10uses",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -456,11 +456,11 @@
     "documentation": "version",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10version",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

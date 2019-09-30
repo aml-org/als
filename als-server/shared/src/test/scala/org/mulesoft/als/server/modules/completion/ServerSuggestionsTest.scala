@@ -5,12 +5,12 @@ import amf.internal.environment.Environment
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.lsp.convert.LspRangeConverter.toLspPosition
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.lsp.common.TextDocumentIdentifier
+import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.completion.{CompletionItem, CompletionParams, CompletionRequestType}
 import org.mulesoft.lsp.server.LanguageServer
 import org.scalatest.{Assertion, EitherValues}
@@ -25,7 +25,7 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
                           baseEnvironment: Environment,
                           builder: LanguageServerBuilder): LanguageServerBuilder = {
 
-    val telemetryManager = new TelemetryManager(MockClientNotifier, logger)
+    val telemetryManager = new TelemetryManager(MockDiagnosticClientNotifier, logger)
 
     val astManager = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
     val completionManager =
@@ -74,7 +74,8 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
 
     val completionHandler = server.resolveHandler(CompletionRequestType).value
 
-    completionHandler(CompletionParams(TextDocumentIdentifier(filePath), toLspPosition(markerInfo.position)))
+    completionHandler(
+      CompletionParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(markerInfo.position)))
       .map(completions => {
         closeFile(server)(filePath)
 

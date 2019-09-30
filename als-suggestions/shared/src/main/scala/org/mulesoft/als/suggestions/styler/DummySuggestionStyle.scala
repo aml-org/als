@@ -10,6 +10,7 @@ case class DummySuggestionStyle(prefix: String, position: Position) extends Sugg
                  hasColon = false,
                  hasLine = false,
                  hasKeyClosingQuote = false,
+                 hasOpeningQuote = false,
                  position = position,
                  supportSnippets = true)
 

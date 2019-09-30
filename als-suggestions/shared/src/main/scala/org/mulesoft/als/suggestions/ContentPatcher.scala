@@ -77,12 +77,13 @@ object ContentPatcher {
     var newLine    = line
     if (colonIndex < 0) {
       if (lineTrim.startsWith("\"")) {
-        newLine = line.substring(0, off) + "x\" : "
+        if (lineTrim.endsWith("\"") && lineTrim.length > 2) newLine = line.substring(0, off) + "\" : "
+        else newLine = line.substring(0, off) + "x\" : "
         if (!hasComplexValueStart)
           newLine += "\"\""
         if (!(hasComplexValueSameLine || hasComplexValueNextLine))
           newLine += ","
-      }
+      } else newLine = newLine + "\n"
     } else if (colonIndex <= off) {
       colonIndex = line.lastIndexOf(":", off)
       var substr               = line.substring(colonIndex + 1).trim
