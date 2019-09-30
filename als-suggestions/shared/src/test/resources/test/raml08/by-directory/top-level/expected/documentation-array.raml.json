@@ -6,11 +6,11 @@
     "documentation": "content",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10content",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "title",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10title",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

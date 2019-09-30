@@ -6,11 +6,11 @@
     "documentation": "annotationTypes",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10annotationTypes",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "resourceTypes",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10resourceTypes",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -66,11 +66,11 @@
     "documentation": "securitySchemes",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10securitySchemes",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -96,11 +96,11 @@
     "documentation": "traits",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10traits",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -126,11 +126,11 @@
     "documentation": "types",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10types",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -156,11 +156,11 @@
     "documentation": "usage",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10usage",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -186,11 +186,11 @@
     "documentation": "uses",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10uses",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

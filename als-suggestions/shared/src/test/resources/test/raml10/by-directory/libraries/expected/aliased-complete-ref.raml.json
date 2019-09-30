@@ -6,11 +6,11 @@
     "documentation": "alias.A",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10A",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

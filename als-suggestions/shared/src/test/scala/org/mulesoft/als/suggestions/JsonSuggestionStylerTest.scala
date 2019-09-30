@@ -39,7 +39,7 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
     val styled = styler.style(RawSuggestion("swagger", isAKey = true))
 
     assert(!styled.plain)
-    assert(styled.text == "\"swagger\":\"$1\"")
+    assert(styled.text == "\"swagger\": \"$1\"")
   }
 
   test("should close quotes if key and only open quotes") {
@@ -54,7 +54,7 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
     val styled = styler.style(RawSuggestion("swagger", isAKey = true))
 
     assert(!styled.plain)
-    assert(styled.text == "swagger\":\"$1\"")
+    assert(styled.text == "swagger\": \"$1\"")
   }
 
 }

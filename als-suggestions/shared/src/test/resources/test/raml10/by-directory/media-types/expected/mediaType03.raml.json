@@ -6,11 +6,11 @@
     "documentation": "application/json",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10application/json",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "application/xml",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10application/xml",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

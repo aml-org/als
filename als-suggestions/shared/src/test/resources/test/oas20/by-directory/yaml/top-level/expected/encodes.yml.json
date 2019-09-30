@@ -6,11 +6,11 @@
     "documentation": "basePath",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10basePath",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "consumes",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10consumes",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -66,11 +66,11 @@
     "documentation": "definitions",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10definitions",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -96,11 +96,11 @@
     "documentation": "externalDocs",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10externalDocs",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -126,11 +126,11 @@
     "documentation": "host",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10host",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -156,11 +156,11 @@
     "documentation": "info",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10info",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -186,11 +186,11 @@
     "documentation": "parameters",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10parameters",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -216,11 +216,11 @@
     "documentation": "paths",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10paths",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -246,11 +246,11 @@
     "documentation": "produces",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10produces",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -276,11 +276,11 @@
     "documentation": "responses",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10responses",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -306,11 +306,11 @@
     "documentation": "schemes",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10schemes",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -336,11 +336,11 @@
     "documentation": "security",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10security",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -366,11 +366,11 @@
     "documentation": "securityDefinitions",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10securityDefinitions",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -396,11 +396,11 @@
     "documentation": "tags",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10tags",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

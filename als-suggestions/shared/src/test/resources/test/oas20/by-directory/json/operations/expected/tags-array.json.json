@@ -6,11 +6,11 @@
     "documentation": "myTag",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10myTag",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {

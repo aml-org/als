@@ -6,11 +6,11 @@
     "documentation": "anotherUri",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10anotherUri",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -36,11 +36,11 @@
     "documentation": "uri",
     "deprecated": [],
     "preselect": [],
-    "sortText": null,
+    "sortText": "10uri",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
