@@ -16,7 +16,7 @@ case class FilesEnumeration(directoryResolver: DirectoryResolver,
   def filesIn(fullPath: String): Future[Seq[RawSuggestion]] = {
     directoryResolver.isDirectory(fullPath).flatMap { isDir =>
       if (isDir) listDirectory(fullPath)
-      else Future(Nil)
+      else Future.successful(Nil)
     }
   }
 
