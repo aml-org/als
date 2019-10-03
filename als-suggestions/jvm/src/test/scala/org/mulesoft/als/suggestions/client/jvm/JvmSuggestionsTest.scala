@@ -8,6 +8,7 @@ import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.amfmanager.InitOptions
 import org.scalatest.{AsyncFunSuite, Matchers}
+import amf.internal.environment.Environment
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -40,8 +41,6 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
 
     override def isDirectory(path: String): Future[Boolean] = Future { false }
   }
-
-  import amf.internal.environment.Environment
 
   val environment
     : Environment = Environment().add(fileLoader) // .add(new ResourceLoaderAdapter(new FileResourceLoader()))
