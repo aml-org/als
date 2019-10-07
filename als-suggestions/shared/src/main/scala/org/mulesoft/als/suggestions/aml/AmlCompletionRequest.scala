@@ -185,13 +185,14 @@ object AmlCompletionRequestBuilder {
                 .as[String]
                 .linesIterator
                 .drop(position.line - node.range.lineFrom)
-              if (lines.hasNext)
-                lines
-                  .next()
-                  .substring(0, position.column - node.range.columnFrom - {
-                    if (node.asScalar.exists(_.mark.plain)) 0 else 1 // if there is a quotation mark, adjust the range according
-                  })
-              else ""
+              if (lines.hasNext) {
+                val next = lines.next()
+                val diff = position.column - node.range.columnFrom - {
+                  if (node.asScalar.exists(_.mark.plain)) 0 else 1
+                } // if there is a quotation mark, adjust the range according
+
+                next.substring(0, diff)
+              } else ""
             case YType.Include =>
               node match {
                 case mr: YNode.MutRef if mr.origTag.tagType == YType.Include =>
