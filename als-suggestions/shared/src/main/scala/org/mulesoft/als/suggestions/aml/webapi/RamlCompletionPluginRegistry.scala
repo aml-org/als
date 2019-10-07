@@ -40,7 +40,8 @@ object RamlCompletionPluginRegistry {
       AnnotationFacets :+
       NodeShapeDiscriminatorProperty :+
       Raml10SecuritySchemeStructureCompletionPlugin :+
-      UnitUsesFacet
+      UnitUsesFacet :+
+      DefaultVariablesAbstractDefinition
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, RAML10Dialect().id)

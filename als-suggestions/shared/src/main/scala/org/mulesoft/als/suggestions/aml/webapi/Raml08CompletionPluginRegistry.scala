@@ -37,7 +37,8 @@ object Raml08CompletionPluginRegistry {
       NodeShapeDiscriminatorProperty :+
       SecuredByCompletionPlugin :+
       Raml08SecuritySchemeStructureCompletionPlugin :+
-      UnitUsesFacet
+      UnitUsesFacet :+
+      DefaultVariablesAbstractDefinition
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, RAML08Dialect().id)

@@ -1,0 +1,182 @@
+[
+  {
+    "label": "!lowercamelcase",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "!lowercamelcase",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10!lowercamelcase",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 17
+        },
+        "end": {
+          "line": 4,
+          "character": 43
+        }
+      },
+      "newText": "description for <<param | !lowercamelcase>>"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "!lowercase",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "!lowercase",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10!lowercase",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 17
+        },
+        "end": {
+          "line": 4,
+          "character": 43
+        }
+      },
+      "newText": "description for <<param | !lowercase>>"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "!pluralize",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "!pluralize",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10!pluralize",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 17
+        },
+        "end": {
+          "line": 4,
+          "character": 43
+        }
+      },
+      "newText": "description for <<param | !pluralize>>"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "!singularize",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "!singularize",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10!singularize",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 17
+        },
+        "end": {
+          "line": 4,
+          "character": 43
+        }
+      },
+      "newText": "description for <<param | !singularize>>"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "!uppercamelcase",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "!uppercamelcase",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10!uppercamelcase",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 17
+        },
+        "end": {
+          "line": 4,
+          "character": 43
+        }
+      },
+      "newText": "description for <<param | !uppercamelcase>>"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "!uppercase",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "!uppercase",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10!uppercase",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 17
+        },
+        "end": {
+          "line": 4,
+          "character": 43
+        }
+      },
+      "newText": "description for <<param | !uppercase>>"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
