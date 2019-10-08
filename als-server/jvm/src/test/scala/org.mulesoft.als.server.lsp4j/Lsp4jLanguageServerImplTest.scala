@@ -6,6 +6,7 @@ import java.util
 import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
+import amf.plugins.document.vocabularies.AMLPlugin
 import org.eclipse.lsp4j.{ExecuteCommandParams, InitializeParams}
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.server.client.ClientConnection
@@ -16,7 +17,7 @@ import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
-import org.mulesoft.lsp.textsync.DidFocusParams
+import org.mulesoft.lsp.textsync.{DidFocusParams, IndexDialectParams}
 
 import scala.compat.java8.FutureConverters._
 import scala.concurrent.Future
@@ -109,6 +110,64 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
             c.diagnostics.isEmpty && c.uri == libFilePath &&
             d.diagnostics.isEmpty && d.uri == libFilePath &&
             e.diagnostics.isEmpty && e.uri == mainFilePath)
+      }
+    }
+  }
+
+  test("Lsp4j LanguageServerImpl Command - Index Dialect") {
+    def executeCommandIndexDialect(server: LanguageServerImpl)(file: String, content: String): Future[Unit] = {
+      val args: java.util.List[AnyRef] = new util.ArrayList[AnyRef]()
+      args.add(IndexDialectParams(file, Some(content)))
+      server.getWorkspaceService
+        .executeCommand(new ExecuteCommandParams(Commands.INDEX_DIALECT, args))
+        .toScala
+        .map(_ => {
+          Thread.sleep(100)
+          Unit
+        })
+
+    }
+
+    withServer { s =>
+      val server       = new LanguageServerImpl(s)
+      val mainFilePath = s"file://api.raml"
+
+      val mainContent =
+        """#%Dialect 1.0
+          |
+          |dialect: Test
+          |version: 0.1
+          |
+          |external:
+          |  runtime: http://mulesoft.com/vocabularies/runtime#
+          |  schema-org: http://schema.org/
+          |
+          |documents:
+          |  root:
+          |    encodes: DeploymentNode
+          |
+          |
+          |nodeMappings:
+          |
+          |  DeploymentNode:
+          |    classTerm: runtime.Deployment
+          |    mapping:
+          |      connections:
+          |        propertyTerm: runtime.connections
+          |        range: link
+          |        allowMultiple: true
+          |        mandatory: true
+        """.stripMargin
+
+      /*
+        open lib -> open main -> focus lib -> fix lib -> focus main
+       */
+      for {
+        _ <- executeCommandIndexDialect(server)(mainFilePath, mainContent)
+      } yield {
+        server.shutdown()
+        assert(AMLPlugin.registry.findDialectForHeader("%Test0.1").isDefined)
+
       }
     }
   }
