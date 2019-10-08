@@ -1,0 +1,4 @@
+#%RAMLStyle1.0
+
+#having the reference tag, there should be a path
+rc: !include /*

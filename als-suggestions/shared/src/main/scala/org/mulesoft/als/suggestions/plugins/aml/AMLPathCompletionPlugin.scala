@@ -43,9 +43,10 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
                        prefix: String): Future[Seq[RawSuggestion]] = {
     val fullPath     = FileUtils.getPath(actualLocation, env.platform)
     val baseDir      = extractPath(fullPath) // root path for file
-    val relativePath = extractPath(prefix).stripPrefix("/") // already written part of the path
-    val fullURI      = FileUtils.getEncodedUri(s"$baseDir$relativePath", env.platform)
-    val actual       = fullPath.stripPrefix(baseDir)
+    val relativePath = extractPath(prefix)
+    val fullURI =
+      FileUtils.getEncodedUri(s"${baseDir.stripSuffix("/")}/${relativePath.stripPrefix("/")}", env.platform)
+    val actual = fullPath.stripPrefix(baseDir)
 
     if (!prefix.startsWith("#"))
       if (fullURI.contains("#") && !fullURI.startsWith("#"))
@@ -54,6 +55,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
     else emptySuggestion
 
   }
+
 }
 
 trait PathCompletion {
