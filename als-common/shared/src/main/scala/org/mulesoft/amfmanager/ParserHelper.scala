@@ -2,6 +2,7 @@ package org.mulesoft.amfmanager
 
 import amf.ProfileNames
 import amf.client.commands.CommandHelper
+import amf.client.remote.Content
 import amf.core.annotations.SourceVendor
 import amf.core.client.ParserConfig
 import amf.core.model.document.{BaseUnit, EncodesModel}
@@ -10,6 +11,8 @@ import amf.core.remote._
 import amf.core.services.{RuntimeCompiler, RuntimeValidator}
 import amf.core.validation.AMFValidationReport
 import amf.internal.environment.Environment
+import amf.internal.resource.ResourceLoader
+import amf.plugins.document.vocabularies.AMLPlugin
 
 import scala.concurrent.Future
 
@@ -43,6 +46,24 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
       _     <- AmfInitializationHandler.init()
       model <- parseInput(url, env)
     } yield model
+  }
+
+  def indexDialect(url: String, content: Option[String]): Future[Unit] = {
+    val env = content.fold(Environment())(c => {
+      Environment().add(new ResourceLoader {
+
+        /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
+        override def fetch(resource: String): Future[Content] = Future(new Content(c, resource))
+
+        /** Accepts specified resource. */
+        override def accepts(resource: String): Boolean = resource == url
+      })
+    })
+
+    for {
+      _     <- AmfInitializationHandler.init()
+      model <- AMLPlugin.registry.registerDialect(url, env)
+    } yield { Unit }
   }
 
   def printModel(model: BaseUnit, config: ParserConfig): Future[Unit] = {

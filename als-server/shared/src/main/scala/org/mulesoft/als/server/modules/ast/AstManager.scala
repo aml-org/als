@@ -58,6 +58,7 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
         textDocumentManager.onOpenedDocument(this.onOpenDocument)
         textDocumentManager.onChangeDocument(this.onChangeDocument)
         textDocumentManager.onClosedDocument(this.onCloseDocument)
+        textDocumentManager.onIndexDialect(this.onIndexDialect)
       })
 
   def init(): Future[Unit] = {
@@ -112,6 +113,18 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     parse(document.uri, telemetryProvider, telemetryUUID)
       .foreach(unit => {
         registerNewAST(document.uri, document.version, unit, telemetryUUID)
+      })
+  }
+
+  def onIndexDialect(uri: String, content: Option[String]): Unit = {
+    val telemetryUUID: String = UUID.randomUUID().toString
+    logger.debug(s"Dialect $uri is called to index", "ASTManager", "indexDialect")
+    telemetryProvider.addTimedMessage("dialect indexed", MessageTypes.INDEX_DIALECT, uri, telemetryUUID)
+
+    ParserHelper(platform)
+      .indexDialect(uri, content)
+      .foreach(_ => {
+        logger.debug(s"Dialect $uri has been indexed", "ASTManager", "indexDialect")
       })
   }
 
