@@ -1,0 +1,32 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "parameters": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "int"
+                  }
+                }
+              },
+              "encoding": {
+                *
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
