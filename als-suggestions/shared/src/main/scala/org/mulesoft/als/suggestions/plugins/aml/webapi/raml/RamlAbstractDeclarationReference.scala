@@ -14,54 +14,55 @@ import scala.concurrent.Future
 
 trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
 
-  val elementClass: Class[_ <: DomainElement]
-  val abstractDeclarationClass: Class[_ <: ParametrizedDeclaration]
-  val errorDeclarationClass: Class[_ <: ErrorDeclaration]
+  protected val elementClass: Class[_ <: DomainElement]
+  protected val abstractDeclarationClass: Class[_ <: ParametrizedDeclaration]
+  protected val errorDeclarationClass: Class[_ <: ErrorDeclaration]
 
-  def entryKey: String
-  def iriDeclaration: String
+  protected def entryKey: String
+
+  protected def iriDeclaration: String
 
   protected def isArray(yPartBranch: YPartBranch) = false
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(
       if ((elementClass.isInstance(params.amfObject)
-          || abstractDeclarationClass.isInstance(params.amfObject) || errorDeclarationClass.isInstance(
-            params.amfObject))
+          || abstractDeclarationClass.isInstance(params.amfObject)
+          || errorDeclarationClass.isInstance(params.amfObject))
           && isTypeDef(params.yPartBranch)) {
 
-        val brothers = getBrothers(params)
+        val siblings = getSiblings(params)
 
         val suggestions =
           new AMLRamlStyleDeclarationsReferences(Seq(iriDeclaration),
                                                  stringValue(params.yPartBranch),
                                                  params.declarationProvider,
-                                                 None).resolve().filter(r => !brothers.contains(r.newText))
-
-        if (params.yPartBranch.isKey)
-          suggestions.map(s => s.copy(options = s.options.copy(isKey = true), whiteSpacesEnding = params.indentation))
-        else
-          suggestions.map {
-            s =>
-              val maybeElement: Option[DomainElement] =
-                params.declarationProvider.findElement(s.newText, iriDeclaration)
-              val vars = maybeElement
-                .collect({ case p: AbstractDeclaration => p })
-                .map(_.variables.flatMap(_.option()))
-                .getOrElse(Nil)
-              if (params.yPartBranch.isKey)
-                s.copy(options = s.options.copy(isKey = true, arrayItem = isArray(params.yPartBranch)),
-                       whiteSpacesEnding = params.indentation,
-                       sons = vars)
-              else
-                s.copy(
-                  sons = vars,
-                  options = s.options.copy(arrayItem = isArray(params.yPartBranch), isKey = vars.nonEmpty),
-                  whiteSpacesEnding = getIndentationIfParent(params, vars.nonEmpty)
-                )
-          }
+                                                 None).resolve().filter(r => !siblings.contains(r.newText))
+        suggestions.map { s =>
+          val vars = extractChildren(params, s)
+          if (params.yPartBranch.isKey)
+            s.copy(options = s.options.copy(isKey = true, arrayItem = isArray(params.yPartBranch)),
+                   whiteSpacesEnding = params.indentation,
+                   sons = vars)
+          else
+            s.copy(
+              sons = vars,
+              options = s.options.copy(arrayItem = isArray(params.yPartBranch), isKey = vars.nonEmpty),
+              whiteSpacesEnding = getIndentationIfParent(params, vars.nonEmpty)
+            )
+        }
       } else Nil)
 
+  }
+
+  private def extractChildren(params: AmlCompletionRequest, s: RawSuggestion) = {
+    val maybeElement: Option[DomainElement] =
+      params.declarationProvider.findElement(s.newText, iriDeclaration)
+    val vars = maybeElement
+      .collect({ case p: AbstractDeclaration => p })
+      .map(_.variables.flatMap(_.option()))
+      .getOrElse(Nil)
+    vars
   }
 
   private def getIndentationIfParent(params: AmlCompletionRequest, hasChildren: Boolean) = {
@@ -70,7 +71,7 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
     else ""
   }
 
-  private def getBrothers(params: AmlCompletionRequest): Seq[String] = {
+  private def getSiblings(params: AmlCompletionRequest): Seq[String] = {
     val element =
       if (elementClass.isInstance(params.amfObject))
         Some(params.amfObject.asInstanceOf[DomainElement])
@@ -90,16 +91,16 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
 
   /**
     * /endpoint:
-    *   type: * || type: res*
-    *case type 1 is object enpoint other cases are parametrized declaration parser
+    * type: * || type: res*
+    * case type 1 is object endpoint other cases are parametrized declaration parser
     */
   private def isValueInType(yPartBranch: YPartBranch) =
     isValue(yPartBranch) && yPartBranch.parentEntryIs(entryKey)
 
   /**
     * /endpoint:
-    *   type:
-    *     res*
+    * type:
+    * res*
     */
   private def isKeyInTypeMap(yPartBranch: YPartBranch): Boolean =
     yPartBranch.isKey && yPartBranch
