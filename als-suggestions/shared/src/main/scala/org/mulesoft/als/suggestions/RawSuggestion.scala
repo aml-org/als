@@ -4,10 +4,24 @@ import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.completion.InsertTextFormat
 
-case class SuggestionOptions(arrayItem: Boolean = false,
-                             arrayProperty: Boolean = false,
-                             isKey: Boolean = false,
-                             isSnippet: Boolean = false)
+case class SuggestionOptions(rangeKing: RangeKind, isKey: Boolean = false) {
+
+  def scalarProperty: Boolean = rangeKing.isInstanceOf[ScalarRange]
+
+  def isArray: Boolean = rangeKing == ArrayRange
+
+  def isObject: Boolean = rangeKing == ObjectRange
+}
+
+trait RangeKind
+
+object ObjectRange extends RangeKind
+object ArrayRange  extends RangeKind
+trait ScalarRange  extends RangeKind
+
+object StringScalarRange extends ScalarRange
+object NumberScalarRange extends ScalarRange
+object BoolScalarRange   extends ScalarRange
 
 case class RawSuggestion(newText: String,
                          displayText: String,
@@ -17,7 +31,7 @@ case class RawSuggestion(newText: String,
                          category: String = "unknown",
                          range: Option[PositionRange] = None,
                          options: SuggestionOptions = SuggestionOptions(),
-                         sons: Seq[String] = Nil) {
+                         sons: Seq[RawSuggestion] = Nil) {
 
   implicit def bool2InsertTextFormat(v: Boolean): InsertTextFormat.Value =
     if (v) InsertTextFormat.Snippet
