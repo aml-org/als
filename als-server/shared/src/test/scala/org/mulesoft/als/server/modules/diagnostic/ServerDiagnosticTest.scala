@@ -73,19 +73,23 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
         open lib -> open main -> focus lib -> fix lib -> focus main
        */
       for {
-        a <- openFileNotification(server)(libFilePath, libFileContent)
-        b <- openFileNotification(server)(mainFilePath, mainContent)
-        c <- focusNotification(server)(libFilePath, 0)
-        d <- changeNotification(server)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
-        e <- focusNotification(server)(mainFilePath, 0)
+        a  <- openFileNotification(server)(libFilePath, libFileContent)
+        b  <- openFileNotification(server)(mainFilePath, mainContent)
+        b2 <- MockDiagnosticClientNotifier.nextCall
+        c  <- focusNotification(server)(libFilePath, 0)
+        d  <- changeNotification(server)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
+        e  <- focusNotification(server)(mainFilePath, 0)
+        e2 <- MockDiagnosticClientNotifier.nextCall
       } yield {
         server.shutdown()
-        assert(
-          a.diagnostics.isEmpty && a.uri == libFilePath &&
-            b.diagnostics.length == 1 && b.uri == mainFilePath && // todo: search coinciding message between JS and JVM
-            c.diagnostics.isEmpty && c.uri == libFilePath &&
-            d.diagnostics.isEmpty && d.uri == libFilePath &&
-            e.diagnostics.isEmpty && e.uri == mainFilePath)
+        assert(a.diagnostics.isEmpty && a.uri == libFilePath)
+        assert(b.diagnostics.length == 1 && b.uri == mainFilePath)
+        assert(b2.diagnostics.isEmpty && b2.uri == libFilePath)
+        assert(c.diagnostics.isEmpty && c.uri == libFilePath)
+        assert(d.diagnostics.isEmpty && d.uri == libFilePath)
+        assert(e2.diagnostics.isEmpty && e2.uri == libFilePath)
+        assert(e.diagnostics.isEmpty && e.uri == mainFilePath)
+        assert(MockDiagnosticClientNotifier.promises.isEmpty)
       }
     }
   }
