@@ -8,6 +8,7 @@ import org.mulesoft.als.server.LanguageServerBuilder
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.lsp4j.internal.DefaultJvmDirectoryResolver
+import org.mulesoft.als.server.modules.actions.GoToDefinitionManager
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
@@ -40,7 +41,10 @@ object LanguageServerFactory extends PlatformSecrets {
                              logger)
     val diagnosticManager =
       new DiagnosticManager(documentManager, astManager, telemetryManager, clientNotifier, platform, logger)
+
     val structureManager = new StructureManager(documentManager, astManager, telemetryManager, logger, platform)
+
+    val definitionManager = new GoToDefinitionManager(astManager, telemetryManager, logger, platform)
 
     LanguageServerBuilder()
       .withTextDocumentSyncConsumer(documentManager)
@@ -48,6 +52,7 @@ object LanguageServerFactory extends PlatformSecrets {
       .addInitializable(diagnosticManager)
       .addRequestModule(completionManager)
       .addRequestModule(structureManager)
+      .addRequestModule(definitionManager)
       .addInitializable(telemetryManager)
       .build()
   }

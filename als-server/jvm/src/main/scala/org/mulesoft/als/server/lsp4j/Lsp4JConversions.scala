@@ -104,10 +104,13 @@ object Lsp4JConversions {
     new lsp4j.Range(lsp4JPosition(range.start), range.end)
 
   implicit def lsp4JLocation(location: Location): lsp4j.Location =
-    new lsp4j.Location(s"file://${location.uri}", location.range)
+    new lsp4j.Location(location.uri, location.range)
 
   implicit def lsp4JLocationLink(locationLink: LocationLink): lsp4j.LocationLink =
-    new lsp4j.LocationLink(s"file://${locationLink.targetUri}", locationLink.targetRange, locationLink.targetSelectionRange, locationLink.originSelectionRange.map(lsp4JRange).orNull)
+    new lsp4j.LocationLink(locationLink.targetUri,
+                           locationLink.targetRange,
+                           locationLink.targetSelectionRange,
+                           locationLink.originSelectionRange.map(lsp4JRange).orNull)
 
   implicit def lsp4JLocations(locations: Seq[Location]): util.List[lsp4j.Location] =
     javaList(locations, lsp4JLocation)
@@ -154,7 +157,7 @@ object Lsp4JConversions {
     : JEither[util.List[lsp4j.CompletionItem], lsp4j.CompletionList] =
     jEither(either, lsp4JCompletionItems, lsp4JCompletionList)
 
-  implicit def lsp4JLocationsEither(either: Either[Seq[_ <:Location], Seq[_ <:LocationLink]])
+  implicit def lsp4JLocationsEither(either: Either[Seq[_ <: Location], Seq[_ <: LocationLink]])
     : JEither[util.List[_ <: lsp4j.Location], util.List[_ <: lsp4j.LocationLink]] =
     jEither(either, lsp4JLocations, lsp4JLocationLinks)
 
