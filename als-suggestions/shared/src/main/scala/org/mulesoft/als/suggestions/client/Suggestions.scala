@@ -146,7 +146,7 @@ object Suggestions extends SuggestionsHelper {
                                          platform: Platform,
                                          snippetSupport: Boolean): CompletionProviderAST = {
 
-    val amfPosition = pos.moveLine(1)
+    val amfPosition = pos.asOneBased
     CompletionProviderAST(
       AmlCompletionRequestBuilder
         .build(bu,

@@ -9,9 +9,9 @@ object LspRangeConverter {
 
   def toPosition(position: LspPosition): Position = Position(position.line, position.character)
 
-  def toLspPosition(position: Position): LspPosition = LspPosition(position.line, position.column)
+  def toLspPosition(position: Position): LspPosition = LspPosition(position.asZeroBased.line, position.column)
 
   def toLspRange(position: PositionRange): LspRange =
-    LspRange(toLspPosition(position.start), toLspPosition(position.end))
+    LspRange(toLspPosition(position.start.asZeroBased), toLspPosition(position.end.asZeroBased))
 
 }

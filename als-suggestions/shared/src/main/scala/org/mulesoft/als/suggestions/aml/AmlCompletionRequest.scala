@@ -127,7 +127,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
   lazy val indentation: String =
     (if (yPartBranch.isKey) "\n" else "") + baseUnit.raw
       .flatMap(text => {
-        val pos  = position.moveLine(-1)
+        val pos  = position.asZeroBased
         val left = text.substring(0, pos.offset(text))
         val line =
           if (left.contains("\n"))
@@ -167,7 +167,7 @@ object AmlCompletionRequestBuilder {
     val styler = SuggestionStylerBuilder.build(!yPartBranch.isJson,
                                                prefix(yPartBranch, position),
                                                originalContent,
-                                               position.moveLine(-1),
+                                               position.asZeroBased,
                                                snippetSupport)
     val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
     new AmlCompletionRequest(baseUnit, position, dialect, env, styler, yPartBranch, objectInTree)
@@ -176,7 +176,7 @@ object AmlCompletionRequestBuilder {
   private def prefix(yPartBranch: YPartBranch, position: Position): String = {
     yPartBranch.node match {
       case node: YNode =>
-        if (PositionRange(node.tag.range).contains(position.moveLine(-1)))
+        if (PositionRange(node.tag.range).contains(position.asZeroBased))
           node.tag.text
         else
           node.tagType match {

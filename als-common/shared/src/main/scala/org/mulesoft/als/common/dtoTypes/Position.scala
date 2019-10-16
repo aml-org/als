@@ -10,7 +10,7 @@ import scala.annotation.tailrec
   *               represented as a string, the `character` value represents the gap between the
   *               `character` and `character + 1`.
   */
-case class Position(line: Int, column: Int) {
+case class Position(line: Int, column: Int, zeroBased: Boolean = true) {
   def offset(text: String): Int = {
     def innerOffset(lines: List[String], currentLine: Int, currentOffset: Int): Int = lines match {
       case Nil => currentOffset
@@ -44,6 +44,18 @@ case class Position(line: Int, column: Int) {
   def moveColumn(value: Int): Position = copy(column = column + value)
 
   def moveLine(value: Int): Position = copy(line = line + value)
+
+  /**
+    *
+    * @return Position with line index starting at Zero
+    */
+  def asZeroBased: Position = if (zeroBased) this else Position(line - 1, column)
+
+  /**
+    *
+    * @return Position with line index starting at One
+    */
+  def asOneBased: Position = if (!zeroBased) this else Position(line + 1, column, false)
 
   override def toString: String = s"($line,$column)"
 

@@ -110,10 +110,27 @@ lazy val structure = crossProject(JSPlatform, JVMPlatform).settings(
 lazy val structureJVM = structure.jvm.in(file("./als-structure/jvm"))
 lazy val structureJS = structure.js.in(file("./als-structure/js")).disablePlugins(SonarPlugin)
 
+lazy val actions = crossProject(JSPlatform, JVMPlatform)
+  .settings(name := "als-actions")
+  .settings(libraryDependencies += "org.wvlet.airframe" %% "airframe" % "19.3.7")
+  .dependsOn(common % "compile->compile;test->test" )
+  .in(file("./als-actions"))
+  .settings(settings: _*)
+  .jsSettings(
+    skip in packageJSDependencies := false,
+    scalaJSOutputMode := OutputMode.Defaults,
+    scalaJSModuleKind := ModuleKind.CommonJSModule
+  ).disablePlugins(SonarPlugin)
+
+
+
+lazy val actionsJVM = server.jvm.in(file("./als-actions/jvm"))
+lazy val actionsJS = server.js.in(file("./als-actions/js")).disablePlugins(SonarPlugin)
+
 lazy val server = crossProject(JSPlatform, JVMPlatform)
   .settings(name := "als-server")
   .settings(libraryDependencies += "org.wvlet.airframe" %% "airframe" % "19.3.7")
-  .dependsOn(suggestions, structure % "compile->compile;test->test")
+  .dependsOn(actions, suggestions, structure % "compile->compile;test->test")
   .in(file("./als-server"))
   .settings(settings: _*)
   .disablePlugins(SonarPlugin)
