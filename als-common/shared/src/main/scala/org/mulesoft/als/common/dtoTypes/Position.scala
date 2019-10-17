@@ -55,7 +55,7 @@ case class Position(line: Int, column: Int, zeroBased: Boolean = true) {
     *
     * @return Position with line index starting at One
     */
-  def asOneBased: Position = if (!zeroBased) this else Position(line + 1, column, false)
+  def asOneBased: Position = if (!zeroBased) this else Position(line + 1, column, zeroBased = false)
 
   override def toString: String = s"($line,$column)"
 
@@ -63,6 +63,8 @@ case class Position(line: Int, column: Int, zeroBased: Boolean = true) {
     case p: Position => p.column == column && p.line == line
     case _           => false
   }
+
+  override def hashCode(): Int = super.hashCode()
 }
 
 object Position {
@@ -70,6 +72,7 @@ object Position {
     Position(position.line - 1, position.column)
 
   def apply(offset: Int, text: String): Position = {
+    @scala.annotation.tailrec
     def toPosition(count: Int, line: Int, lines: List[String]): Position =
       lines match {
         case Nil => Position(line, 0)
@@ -102,6 +105,7 @@ private object TextHelper {
       result.last.append(head)
       if (isBreakLine(head)) result :+ new StringBuilder else result
     }
+
     @tailrec def innerFn(result: List[StringBuilder], rest: List[Char]): List[StringBuilder] = rest match {
       case Nil          => result
       case head :: Nil  => addToResult(result, head)

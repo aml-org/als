@@ -1,4 +1,4 @@
-package org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10
+package org.mulesoft.amfmanager.dialect.webapi.raml.raml10
 
 import amf.core.metamodel.domain.ShapeModel
 import amf.core.metamodel.domain.extensions.PropertyShapeModel
@@ -6,22 +6,11 @@ import amf.core.vocabulary.Namespace
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
 import amf.dialects.RAML10Dialect.DialectNodes
 import amf.dialects.RAML10Dialect.DialectNodes.DataTypeNodeId
-import amf.plugins.document.vocabularies.model.domain.{
-  NodeMapping,
-  PropertyMapping
-}
-import amf.plugins.domain.webapi.metamodel.security.{
-  OAuth1SettingsModel,
-  OAuth2SettingsModel,
-  SecuritySchemeModel
-}
-import amf.plugins.domain.webapi.metamodel.{
-  OperationModel,
-  ParameterModel,
-  RequestModel,
-  ResponseModel
-}
+import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import amf.plugins.domain.webapi.metamodel.security.{OAuth1SettingsModel, OAuth2SettingsModel, SecuritySchemeModel}
+import amf.plugins.domain.webapi.metamodel.{OperationModel, ParameterModel, RequestModel, ResponseModel}
 import Raml10TypesDialect.{DialectLocation, ShapeNodeId}
+
 
 object Raml10SecuritySchemesDialect {
 

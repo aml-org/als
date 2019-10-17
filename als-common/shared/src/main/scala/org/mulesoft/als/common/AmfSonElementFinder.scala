@@ -28,6 +28,7 @@ object AmfSonElementFinder {
 //      }
 //    }
 
+    @scala.annotation.tailrec
     private def findMinor(fields: Seq[FieldEntry]): Option[FieldEntry] = {
       fields match {
         case Nil         => None
@@ -123,6 +124,7 @@ object AmfSonElementFinder {
       }
     }
 
+    @scala.annotation.tailrec
     private def findMinor(elements: List[AmfElement]): Option[AmfElement] = {
       elements match {
         case Nil         => None

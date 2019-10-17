@@ -3,27 +3,16 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.client.plugins.AMFSyntaxPlugin
 import amf.core.registries.AMFPluginsRegistry
 import amf.core.remote.Platform
-import amf.plugins.document.vocabularies.ReferenceStyles
-import amf.plugins.document.vocabularies.model.document.Dialect
-import org.mulesoft.als.common.{FileUtils, YPartBranch}
+import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequest, CompletionEnvironment}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.amfmanager.dialect.DialectKnowledge
 
 import scala.concurrent.Future
 
-object AMLPathCompletionPlugin extends AMLCompletionPlugin {
+object AMLPathCompletionPlugin extends AMLCompletionPlugin with DialectKnowledge {
   override def id = "AMLPathCompletionPlugin"
-
-  private def isStyleValue(style: String, yPartBranch: YPartBranch, dialect: Dialect): Boolean =
-    Option(dialect.documents()).forall(d => d.referenceStyle().is(style) || d.referenceStyle().isNullOrEmpty)
-
-  private def isRamlInclusion(yPartBranch: YPartBranch, dialect: Dialect): Boolean =
-    yPartBranch.hasIncludeTag && isStyleValue(ReferenceStyles.RAML, yPartBranch, dialect)
-
-  private def isJsonInclusion(yPartBranch: YPartBranch, dialect: Dialect): Boolean =
-    yPartBranch.isValue && isStyleValue(ReferenceStyles.JSONSCHEMA, yPartBranch, dialect) &&
-      yPartBranch.parentEntry.exists(p => p.key.asScalar.exists(_.text == "$ref"))
 
   // exclude file name
   def extractPath(parts: String): String =

@@ -92,6 +92,7 @@ case class YPartBranch(node: YPart, position: Position, val stack: Seq[YPart]) {
       .flatMap(_.key.asScalar.map(_.text))
       .contains(key)
 
+  @scala.annotation.tailrec
   private def findFirstOf[T <: YPart](clazz: Class[T], l: Seq[YPart]): Option[T] = {
     l match {
       case head :: _ if clazz.isInstance(head) => Some(head.asInstanceOf[T])
