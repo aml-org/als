@@ -2,25 +2,22 @@ package org.mulesoft.als.suggestions.client
 
 import amf.core.model.document.BaseUnit
 import amf.core.remote._
-import amf.dialects.WebApiDialectsRegistry
 import amf.internal.environment.Environment
-import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceUnit}
+import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher}
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequestBuilder, CompletionEnvironment}
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.Oas20DialectWrapper
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08.Raml08TypesDialect
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.Raml10TypesDialect
+import org.mulesoft.amfmanager.dialect.DialectKnowledge
 import org.mulesoft.amfmanager.{InitOptions, ParserHelper}
 import org.mulesoft.lsp.feature.completion.CompletionItem
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object Suggestions extends SuggestionsHelper {
+object Suggestions extends SuggestionsHelper with DialectKnowledge {
   def init(options: InitOptions = InitOptions.WebApiProfiles): Future[Unit] =
     Core.init(options)
 
@@ -104,17 +101,6 @@ object Suggestions extends SuggestionsHelper {
       .substring(0, position)
       .replaceAll("^\\{?\\s+", "")
       .contains('\n')
-
-  private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
-    case d: DialectInstanceUnit => WebApiDialectsRegistry.dialectFor(bu)
-    case d if d.sourceVendor.contains(Oas20) =>
-      Some(Oas20DialectWrapper.dialect)
-    case d if d.sourceVendor.contains(Raml10) =>
-      Some(Raml10TypesDialect.dialect)
-    case d if d.sourceVendor.contains(Raml08) =>
-      Some(Raml08TypesDialect.dialect)
-    case _ => None
-  }
 
   private def suggestWithPatchedEnvironment(language: String,
                                             url: String,

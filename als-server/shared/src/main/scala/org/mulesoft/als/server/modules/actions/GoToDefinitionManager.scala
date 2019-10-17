@@ -8,12 +8,12 @@ import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.AstManager
+import org.mulesoft.amfmanager.dialect.DialectKnowledge
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.common.{Location, LocationLink, TextDocumentPositionParams}
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.definition.{DefinitionClientCapabilities, DefinitionConfigType, DefinitionRequestType}
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
-
 import org.mulesoft.lsp.convert.LspRangeConverter
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -39,9 +39,8 @@ class GoToDefinitionManager(val astManager: AstManager,
     }
   )
 
-  override def applyConfig(config: Option[DefinitionClientCapabilities]): Unit = {
+  override def applyConfig(config: Option[DefinitionClientCapabilities]): Unit =
     conf = config
-  }
 
   val onGoToDefinition: (String, Position) => Future[Either[Seq[Location], Seq[LocationLink]]] = goToDefinition
 
