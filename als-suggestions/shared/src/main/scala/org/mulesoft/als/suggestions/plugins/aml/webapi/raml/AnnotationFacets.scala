@@ -18,7 +18,7 @@ object AnnotationFacets extends AMLCompletionPlugin {
     Future {
       request.branchStack.headOption match {
         case Some(c: CustomDomainProperty) if isWrittingFacet(request) =>
-          Raml10TypesDialect.AnnotationType.propertiesRaw(request.indentation)
+          Raml10TypesDialect.AnnotationType.propertiesRaw()
         case _ => Nil
       }
     }

@@ -24,7 +24,7 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
         .option()
         .map(_.split('/').last) match {
         case Some(keyDeclarations) if isSonOf(keyDeclarations, params.yPartBranch) =>
-          buildDeclaredKeys(params.actualDialect, params.indentation)
+          buildDeclaredKeys(params.actualDialect)
         case _ => Seq()
       }
     } else Seq()
@@ -38,13 +38,13 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
       .option()
       .exists(i => amfObject.meta.`type`.exists(_.iri() == i))
 
-  private def buildDeclaredKeys(dialect: Dialect, indentation: String) = {
+  private def buildDeclaredKeys(dialect: Dialect) = {
     dialect
       .documents()
       .root()
       .declaredNodes()
       .flatMap(node => node.name().option())
-      .map(RawSuggestion(_, indentation, isAKey = true, "unknown"))
+      .map(RawSuggestion.forObject(_, "unknown"))
   }
 
   private def isSonOf(keyDeclaration: String, yPartBranch: YPartBranch) = {

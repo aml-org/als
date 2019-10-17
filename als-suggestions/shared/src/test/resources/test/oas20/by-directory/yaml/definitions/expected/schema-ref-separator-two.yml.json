@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 25
+          "character": 11
         },
         "end": {
           "line": 5,
           "character": 25
         }
       },
-      "newText": "a"
+      "newText": "\"#/definitions/a\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

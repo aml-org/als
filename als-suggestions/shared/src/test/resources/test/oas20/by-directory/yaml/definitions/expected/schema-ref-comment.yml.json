@@ -23,7 +23,7 @@
           "character": 12
         }
       },
-      "newText": "#/definitions/a"
+      "newText": "\"#/definitions/a\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

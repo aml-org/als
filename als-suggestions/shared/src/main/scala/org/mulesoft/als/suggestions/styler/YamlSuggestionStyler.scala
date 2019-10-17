@@ -1,40 +1,35 @@
 package org.mulesoft.als.suggestions.styler
 
-import org.mulesoft.als.suggestions.{BoolScalarRange, NumberScalarRange, RawSuggestion, SuggestionOptions}
+import org.mulesoft.als.suggestions._
+import org.mulesoft.als.suggestions.implementation.CompletionItemBuilder
 import org.yaml.model._
 import org.yaml.render.YamlRender
 
 case class YamlSuggestionStyler(override val params: StylerParams) extends SuggestionStyler {
+  val stringIden = " " * params.indentation
   override def style(raw: RawSuggestion): Styled = {
 
-    val prefix =
-      if (!raw.options.isKey && (raw.options.isArray || raw.options.isObject)) // never will suggest object in value as is not key. Suggestions should be empty
-        "\n  "
-      else ""
-    val astBuilder = new AstRawBuilder(raw, false)
-    val text       = prefix + YamlRender.render(astBuilder.ast)
+    if (raw.options.rangeKing == PlainText) Styled(raw.newText, plain = true)
+    else {
 
-    Styled(text, plain = astBuilder.asSnippet)
+      val prefix =
+        if (!raw.options.isKey && (raw.options.isArray || raw.options.isObject)) // never will suggest object in value as is not key. Suggestions should be empty
+          "\n"
+        else ""
+      val astBuilder = new AstRawBuilder(raw, false)
+      val text       = fixPrefix(prefix, fixEmptyMap(YamlRender.render(astBuilder.ast, params.indentation)))
+
+      Styled(text, plain = !astBuilder.asSnippet)
+    }
   }
 
-//  private def arrayItemPrefixIfNecessary(rawSuggestion: RawSuggestion) =
-//    if (rawSuggestion.options.arrayItem) arrayItemPrefix(rawSuggestion) else ""
+  private def fixEmptyMap(rendered: String): String =
+    if (rendered.endsWith("{}")) rendered.stripSuffix(" {}") + "\n  " + stringIden else rendered
 
-  private def arrayItemPrefix(rawSuggestion: RawSuggestion) = {
-    startWithEOL(rawSuggestion.whiteSpacesEnding) + whiteSpaceOrSpace(rawSuggestion.whiteSpacesEnding) + "- "
+  private def fixPrefix(prefix: String, text: String) = {
+    if (prefix.isEmpty && text.startsWith(stringIden)) text.stripPrefix(stringIden)
+    else prefix + text
   }
-
-  private def whiteSpaceOrSpace(str: String): String = if (str.isEmpty) " " else str
-
-  /**
-    * in case there are children, they each will calculate their own indentation
-    * @param whiteSpacesEnding
-    * @param children
-    * @return
-    */
-  private def whiteSpaceOrSpaceIfSingleParent(whiteSpacesEnding: String, children: Seq[String]): String =
-    if (children.isEmpty) whiteSpaceOrSpace(whiteSpacesEnding)
-    else ""
 
 //  private def keyAdapter(rawSuggestion: RawSuggestion) =
 //    if (!params.hasLine || !params.hasColon)
@@ -54,6 +49,7 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends Sugge
     def ast: YNode = {
       if (raw.options.isKey) YNode(YMap(IndexedSeq(emitKey()), ""))
       else {
+
         value(raw.newText, raw.options)
       }
     }
@@ -66,7 +62,8 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends Sugge
           else value("", raw.options)
         }
 
-      YMapEntry(raw.newText, node)
+      val keyTag = if (raw.options.keyRange == NumberScalarRange) YType.Int else YType.Str
+      YMapEntry(YNode(YScalar(raw.newText), keyTag), node)
     }
 
     def valueObject(index: Integer): YNode = {
@@ -84,8 +81,10 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends Sugge
 
     def value(text: String, options: SuggestionOptions): YNode = {
       val node: YNode =
-        if (options.isObject) YMap.empty
-        else plainValue(text, options)
+        if (options.isObject) {
+          if (text.isEmpty) YMap.empty
+          else YMap(IndexedSeq(YMapEntry(raw.newText, "")), "")
+        } else plainValue(text, options)
 
       if (options.isArray) YNode(YSequence(node))
       else node
@@ -95,6 +94,7 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends Sugge
       val yType =
         if (options.rangeKing == NumberScalarRange) YType.Int
         else if (options.rangeKing == BoolScalarRange) YType.Bool
+        else if (text.isEmpty) YType.Empty
         else YType.Str
 
       YNode(YScalar(text), yType)

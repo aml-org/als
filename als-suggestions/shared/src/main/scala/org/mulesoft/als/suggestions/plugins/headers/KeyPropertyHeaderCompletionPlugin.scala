@@ -13,7 +13,7 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
   private def swaggerHeader(isJson: Boolean, hasBracket: Boolean) = {
     val text = (if (isJson) jsonFlavour("swagger", "2.0", hasBracket)
                 else yamlFlavour("swagger", "2.0"))._1
-    RawSuggestion(text, text, s"Define a OAS 2.0 file", Seq(), "", sons = Nil)
+    RawSuggestion(text, text, s"Define a OAS 2.0 file", Seq(), sons = Nil)
   }
 
   private def yamlFlavour(key: String, value: String) =
@@ -47,7 +47,7 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
             jsonFlavour(d.name().value(), d.version().value(), hasBracket)
           else yamlFlavour(d.name().value(), d.version().value())
 
-        new RawSuggestion(text, text, s"Define a ${d.nameAndVersion()} file", Seq(), "", sons = Nil)
+        new RawSuggestion(text, text, s"Define a ${d.nameAndVersion()} file", Seq(), sons = Nil)
       })
       .toSeq :+ swaggerHeader(isJson, hasBracket) // TODO: remove when OAS is added as a Dialect
   }

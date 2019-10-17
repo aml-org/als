@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 9,
-          "character": 22
+          "character": 10
         },
         "end": {
           "line": 9,
           "character": 22
         }
       },
-      "newText": "json:\n            "
+      "newText": "application/json:\n            "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 9,
-          "character": 22
+          "character": 10
         },
         "end": {
           "line": 9,
           "character": 22
         }
       },
-      "newText": "xml:\n            "
+      "newText": "application/xml:\n            "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

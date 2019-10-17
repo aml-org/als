@@ -10,8 +10,10 @@ object SuggestionStylerBuilder {
             prefix: String,
             originalContent: String,
             position: Position,
-            snippetsSupport: Boolean = true): SuggestionStyler = {
-    val params = StylerParams.apply(prefix: String, originalContent: String, position: Position, snippetsSupport)
+            snippetsSupport: Boolean = true,
+            indentation: Int = 0): SuggestionStyler = {
+    val params =
+      StylerParams.apply(prefix: String, originalContent: String, position: Position, snippetsSupport, indentation)
 
     if (isYAML) YamlSuggestionStyler(params)
     else JsonSuggestionStyler(params)
@@ -27,21 +29,27 @@ trait SuggestionStyler {
   def patchPath(builder: CompletionItemBuilder): Unit = {
     val index =
       params.prefix.lastIndexOf(".").max(params.prefix.lastIndexOf("/"))
-    if (index > 0 && builder.getText.startsWith(params.prefix))
+    if (index > 0 && builder.getDisplayText.startsWith(params.prefix))
       if (index == params.prefix.length)
         builder
-          .withText(builder.getText.substring(index))
           .withDisplayText(builder.getDisplayText.split('.').last)
       else
         builder
-          .withText(builder.getText.substring(index + 1))
           .withDisplayText(builder.getDisplayText.substring(index + 1))
-          .withPrefix(params.prefix.substring(index + 1))
-          .withRange(builder.getRange.copy(start = builder.getRange.start.moveColumn(index + 1)))
   }
 
   protected def indentIfInArrayItem(arrayItem: Boolean, singleIndent: String): String =
     if (arrayItem) singleIndent else ""
+
+  def pathPrefix(displayText: String): String = {
+    val index =
+      params.prefix.lastIndexOf(".").max(params.prefix.lastIndexOf("/"))
+    if (index > 0 && displayText.startsWith(params.prefix))
+      if (index == params.prefix.length) displayText.split('.').last
+      else
+        displayText.substring(index + 1)
+    else displayText
+  }
 
   def rawToStyledSuggestion(suggestions: RawSuggestion): CompletionItem = {
     val builder = new CompletionItemBuilder(
@@ -58,24 +66,15 @@ trait SuggestionStyler {
     if (!styled.plain || suggestions.sons.nonEmpty) {
       builder.withInsertTextFormat(InsertTextFormat.Snippet)
       if (suggestions.sons.nonEmpty)
-        builder.withText(
-          builder.getText + sonsToSnippet(
-            suggestions.sons,
-            suggestions.whiteSpacesEnding + indentIfInArrayItem(suggestions.options.arrayItem,
-                                                                singleIndentation(suggestions.whiteSpacesEnding))))
+        builder.withText(builder.getText + sonsToSnippet(suggestions.sons.map(_.newText)))
     }
 
     builder.build()
   }
 
-  protected def singleIndentation(indentation: String): String = if (indentation.contains("\t")) "\t" else "  "
-  protected def startWithEOL(indentation: String): String      = if (indentation.startsWith("\n")) "" else "\n"
-
-  def sonsToSnippet(children: Seq[String], indentation: String): String = {
-    val newIndentation = startWithEOL(indentation) + indentation + singleIndentation(indentation)
-
+  def sonsToSnippet(children: Seq[String]): String = {
     children.zipWithIndex.map {
-      case (s, i) => { newIndentation + styleKey(s) } + "$" + (i + 1).toString
+      case (s, i) => { styleKey(s) } + "$" + (i + 1).toString
     } mkString
   }
 }

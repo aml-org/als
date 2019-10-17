@@ -23,7 +23,7 @@
           "character": 6
         }
       },
-      "newText": "scopes:\n        "
+      "newText": "scopes:\n          - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

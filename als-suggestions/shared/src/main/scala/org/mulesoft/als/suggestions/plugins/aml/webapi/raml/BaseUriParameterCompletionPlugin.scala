@@ -31,7 +31,7 @@ object BaseUriParameterCompletionPlugin extends AMLCompletionPlugin {
           }
         case _ => Nil
       }
-      params.map(p => RawSuggestion(p, request.indentation, isAKey = true, "parameters"))
+      params.map(p => RawSuggestion.forObject(p, "parameters"))
     }
   }
 
