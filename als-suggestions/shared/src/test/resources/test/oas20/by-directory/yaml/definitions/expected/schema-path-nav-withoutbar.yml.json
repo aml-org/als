@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 3,
-          "character": 27
+          "character": 10
         },
         "end": {
           "line": 3,
           "character": 38
         }
       },
-      "newText": "definitions/"
+      "newText": "jsonschema.json#/definitions/"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

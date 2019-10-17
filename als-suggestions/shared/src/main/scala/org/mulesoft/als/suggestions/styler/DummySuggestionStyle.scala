@@ -12,7 +12,8 @@ case class DummySuggestionStyle(prefix: String, position: Position) extends Sugg
                  hasKeyClosingQuote = false,
                  hasOpeningQuote = false,
                  position = position,
-                 supportSnippets = true)
+                 supportSnippets = true,
+                 0)
 
   override def style(suggestion: RawSuggestion): Styled = Styled(suggestion.newText, plain = true)
 

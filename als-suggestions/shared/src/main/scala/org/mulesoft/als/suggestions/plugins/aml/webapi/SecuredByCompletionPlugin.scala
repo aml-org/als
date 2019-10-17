@@ -4,7 +4,7 @@ import amf.plugins.domain.webapi.metamodel.{OperationModel, WebApiModel}
 import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
 import amf.plugins.domain.webapi.models.{Operation, WebApi}
 import amf.plugins.domain.webapi.models.security.ParametrizedSecurityScheme
-import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.{ObjectRange, RawSuggestion}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -21,7 +21,7 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
       if (isWritingSecuredBy(request) && (!request.yPartBranch.isJson || (request.yPartBranch.isJson && request.yPartBranch.isInArray))) {
         val original = getSecurityNames(request.prefix, request.declarationProvider)
         if (request.yPartBranch.isKey)
-          original.map(r => r.copy(options = r.options.copy(isKey = true), whiteSpacesEnding = request.indentation))
+          original.map(r => r.copy(options = r.options.copy(isKey = true, rangeKing = ObjectRange)))
         else original
       } else Nil
     }

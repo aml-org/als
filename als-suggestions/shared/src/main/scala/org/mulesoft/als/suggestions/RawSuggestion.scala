@@ -4,7 +4,9 @@ import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.completion.InsertTextFormat
 
-case class SuggestionOptions(rangeKing: RangeKind, isKey: Boolean = false) {
+case class SuggestionOptions(rangeKing: RangeKind = StringScalarRange,
+                             isKey: Boolean = false,
+                             keyRange: ScalarRange = StringScalarRange) {
 
   def scalarProperty: Boolean = rangeKing.isInstanceOf[ScalarRange]
 
@@ -22,12 +24,12 @@ trait ScalarRange  extends RangeKind
 object StringScalarRange extends ScalarRange
 object NumberScalarRange extends ScalarRange
 object BoolScalarRange   extends ScalarRange
+object PlainText         extends RangeKind
 
 case class RawSuggestion(newText: String,
                          displayText: String,
                          description: String,
                          textEdits: Seq[TextEdit],
-                         whiteSpacesEnding: String,
                          category: String = "unknown",
                          range: Option[PositionRange] = None,
                          options: SuggestionOptions = SuggestionOptions(),
@@ -39,32 +41,63 @@ case class RawSuggestion(newText: String,
 }
 
 object RawSuggestion {
+  def arrayProp(text: String, category: String): RawSuggestion =
+    RawSuggestion(text, text, text, Nil, category, options = SuggestionOptions(rangeKing = ArrayRange, isKey = true))
+
+  def plain(text: String, description: String): RawSuggestion =
+    RawSuggestion(text, text, description, Nil, options = SuggestionOptions(rangeKing = PlainText))
+
+  def plain(text: String, range: PositionRange): RawSuggestion =
+    RawSuggestion(text, text, text, Nil, range = Some(range), options = SuggestionOptions(rangeKing = PlainText))
+
+  def forBool(value: String, category: String = "unknown"): RawSuggestion = {
+    apply(value, value, value, Nil, category = category, options = SuggestionOptions(rangeKing = BoolScalarRange))
+  }
+
+  def forBoolKey(value: String, category: String = "unknown"): RawSuggestion = {
+    apply(value,
+          value,
+          value,
+          Nil,
+          category = category,
+          options = SuggestionOptions(rangeKing = BoolScalarRange, isKey = true))
+  }
+
   def forKey(value: String): RawSuggestion = {
-    apply(value, "", isAKey = true, "unknown")
+    apply(value, isAKey = true, "unknown")
   }
 
   def forKey(value: String, category: String): RawSuggestion = {
-    apply(value, "", isAKey = true, category = category)
+    apply(value, isAKey = true, category = category)
   }
 
   def apply(value: String, isAKey: Boolean): RawSuggestion = {
-    apply(value, "", isAKey, "unknown")
+    apply(value, isAKey, "unknown")
   }
 
   def apply(value: String, isAKey: Boolean, range: PositionRange): RawSuggestion = {
     apply(value, "", isAKey, "unknown", Some(range))
   }
 
-  def apply(value: String, ws: String, isAKey: Boolean, category: String): RawSuggestion = {
-    new RawSuggestion(value, value, value, Seq(), ws, category, options = SuggestionOptions(isKey = isAKey))
+  def apply(value: String, isAKey: Boolean, category: String): RawSuggestion = {
+    new RawSuggestion(value, value, value, Seq(), category, options = SuggestionOptions(isKey = isAKey))
   }
 
-  def keyOfArray(text: String, ws: String, category: String): RawSuggestion = {
-    new RawSuggestion(text, text, text, Nil, ws, category, None, SuggestionOptions(arrayProperty = true, isKey = true))
+  def forObject(value: String, category: String): RawSuggestion = {
+    new RawSuggestion(value,
+                      value,
+                      value,
+                      Seq(),
+                      category,
+                      options = SuggestionOptions(isKey = true, rangeKing = ObjectRange))
   }
 
-  def valueInArray(text: String, ws: String, description: String, category: String, isKey: Boolean): RawSuggestion = {
-    new RawSuggestion(text, text, text, Nil, ws, category, None, SuggestionOptions(arrayItem = true, isKey = isKey))
+  def keyOfArray(text: String, category: String): RawSuggestion = {
+    new RawSuggestion(text, text, text, Nil, category, None, SuggestionOptions(ArrayRange, isKey = true))
+  }
+
+  def valueInArray(text: String, description: String, category: String, isKey: Boolean): RawSuggestion = {
+    new RawSuggestion(text, text, text, Nil, category, None, SuggestionOptions(ArrayRange, isKey = isKey))
   }
 
   def apply(value: String,
@@ -72,6 +105,6 @@ object RawSuggestion {
             isAKey: Boolean,
             category: String,
             range: Option[PositionRange]): RawSuggestion = {
-    new RawSuggestion(value, value, value, Seq(), ws, category, range, SuggestionOptions(isKey = isAKey))
+    new RawSuggestion(value, value, value, Seq(), category, range, SuggestionOptions(isKey = isAKey))
   }
 }

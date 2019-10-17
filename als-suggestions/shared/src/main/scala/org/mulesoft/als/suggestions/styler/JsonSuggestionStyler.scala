@@ -14,14 +14,14 @@ case class JsonSuggestionStyler(override val params: StylerParams) extends Sugge
         if (!params.hasColon)
           postfix += ": "
         if (params.supportSnippets)
-          if (!params.hasQuote && !suggestion.options.arrayProperty && suggestion.sons.isEmpty)
+          if (!params.hasQuote && !(!suggestion.options.isKey && suggestion.options.isArray) && suggestion.sons.isEmpty)
             postfix += "\"$1\""
-          else if (!params.hasQuote && suggestion.options.arrayProperty)
+          else if (!params.hasQuote && (!suggestion.options.isKey && suggestion.options.isArray))
             postfix += "[ $1 ]"
-      } else if (!params.hasQuote && !suggestion.options.arrayProperty && params.supportSnippets && suggestion.sons.isEmpty) {
+      } else if (!params.hasQuote && !(!suggestion.options.isKey && suggestion.options.isArray) && params.supportSnippets && suggestion.sons.isEmpty) {
         postfix += "\"$1\""
         endingQuote = true
-      } else if (!params.hasQuote && suggestion.options.arrayProperty && params.supportSnippets) {
+      } else if (!params.hasQuote && (!suggestion.options.isKey && suggestion.options.isArray) && params.supportSnippets) {
         postfix += "[ $1 ]"
       }
     } else if (!params.hasQuote) {

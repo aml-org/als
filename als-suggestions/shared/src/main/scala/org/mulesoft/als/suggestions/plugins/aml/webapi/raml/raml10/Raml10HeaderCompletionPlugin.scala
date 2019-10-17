@@ -36,9 +36,8 @@ object Raml10HeaderCompletionPlugin extends AMLCompletionPlugin {
 //          headers.map(h => RawSuggestion.apply(s" $h", isAKey = false))
         headers.map(
           h =>
-            RawSuggestion.apply(
+            RawSuggestion.plain(
               s"#%RAML 1.0 $h",
-              isAKey = false,
               PositionRange(Position(0, 0),
                             Position(0, params.baseUnit.raw.map(eolOrEof).getOrElse(params.position.column)))))
       else Seq()

@@ -9,13 +9,15 @@ case class StylerParams(prefix: String,
                         hasKeyClosingQuote: Boolean,
                         hasOpeningQuote: Boolean,
                         position: Position,
-                        supportSnippets: Boolean) {}
+                        supportSnippets: Boolean,
+                        indentation: Int) {}
 
 object StylerParams {
   def apply(prefix: String,
             originalContent: String,
             position: Position,
-            supportSnippets: Boolean = true): StylerParams = {
+            supportSnippets: Boolean = true,
+            indentation: Int = 0): StylerParams = {
 
     var hasQuote           = false
     var hasColon           = false
@@ -44,7 +46,8 @@ object StylerParams {
                  hasKeyClosingQuote,
                  hasOpeningQuote(lineOpt, position),
                  position,
-                 supportSnippets)
+                 supportSnippets,
+                 indentation)
   }
   private def hasOpeningQuote(lineOpt: String, position: Position) = {
     val prev = lineOpt.substring(0, position.column)

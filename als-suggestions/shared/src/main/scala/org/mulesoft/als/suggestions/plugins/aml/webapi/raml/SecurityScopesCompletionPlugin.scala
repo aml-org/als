@@ -25,7 +25,6 @@ object SecurityScopesCompletionPlugin extends AMLCompletionPlugin {
             .map(
               t =>
                 RawSuggestion(t,
-                              request.indentation,
                               isAKey = false,
                               category = CategoryRegistry(OAuth2SettingsModel.`type`.head.iri(),
                                                           OAuth2SettingsModel.Scopes.value.iri())))

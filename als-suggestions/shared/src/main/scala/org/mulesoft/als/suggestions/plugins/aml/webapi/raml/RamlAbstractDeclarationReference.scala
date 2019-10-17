@@ -4,7 +4,7 @@ import amf.core.model.domain.DomainElement
 import amf.core.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration}
 import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorDeclaration
 import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.{ArrayRange, ObjectRange, RawSuggestion, StringScalarRange}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferences
@@ -41,14 +41,18 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
         suggestions.map { s =>
           val vars = extractChildren(params, s)
           if (params.yPartBranch.isKey)
-            s.copy(options = s.options.copy(isKey = true, arrayItem = isArray(params.yPartBranch)),
-                   whiteSpacesEnding = params.indentation,
-                   sons = vars)
+            s.copy(options = s.options.copy(isKey = true,
+              rangeKing =
+                if (isArray(params.yPartBranch)) ArrayRange else ObjectRange),
+              sons = vars)
           else
             s.copy(
               sons = vars,
-              options = s.options.copy(arrayItem = isArray(params.yPartBranch), isKey = vars.nonEmpty),
-              whiteSpacesEnding = getIndentationIfParent(params, vars.nonEmpty)
+              options = s.options.copy(isKey = vars.nonEmpty,
+                rangeKing =
+                  if (isArray(params.yPartBranch)) ArrayRange
+                  else if (vars.nonEmpty) ObjectRange
+                  else StringScalarRange)
             )
         }
       } else Nil)
@@ -63,12 +67,6 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
       .map(_.variables.flatMap(_.option()))
       .getOrElse(Nil)
     vars
-  }
-
-  private def getIndentationIfParent(params: AmlCompletionRequest, hasChildren: Boolean) = {
-    if (hasChildren)
-      s"\n${params.indentation}"
-    else ""
   }
 
   private def getSiblings(params: AmlCompletionRequest): Seq[String] = {

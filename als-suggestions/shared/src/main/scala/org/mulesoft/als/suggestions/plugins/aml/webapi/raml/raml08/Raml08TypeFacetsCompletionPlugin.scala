@@ -28,35 +28,34 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
           if isWritingFacet(params.yPartBranch, shape, params.branchStack) &&
             !isWritingKEYMediaType(params) &&
             !insideMediaType(params) =>
-        resolveShape(shape, params.branchStack, params.indentation)
+        resolveShape(shape, params.branchStack)
       case shape: Shape
           if isWritingFacet(params.yPartBranch, shape, params.branchStack) &&
             !isWritingKEYMediaType(params) => {
         if (insideFormMediaType(params))
-          Seq(RawSuggestion("formParameters", params.indentation, isAKey = true, "schemas"))
+          Seq(RawSuggestion.forObject("formParameters", "schemas"))
         else Seq()
-      } :+ RawSuggestion("schema", "", isAKey = true, "schemas")
+      } :+ RawSuggestion("schema", isAKey = true, "schemas")
       case p: Payload
           if formMediaTypes
             .contains(p.mediaType.value()) =>
-        Seq(RawSuggestion("formParameters", params.indentation, isAKey = true, "schemas"),
-            RawSuggestion("schema", "", isAKey = true, "schemas"))
+        Seq(RawSuggestion.forObject("formParameters", "schemas"), RawSuggestion("schema", isAKey = true, "schemas"))
       case _ => Nil
     })
   }
 
-  override def defaults(s: Shape, indentation: String): Seq[RawSuggestion] =
+  override def defaults(s: Shape): Seq[RawSuggestion] =
     s match {
       case s: ScalarShape =>
         s.fields.getValueAsOption(ScalarShapeModel.DataType) match {
           case Some(Value(_, ann))
               if ann.contains(classOf[Inferred]) && s
                 .isInstanceOf[ScalarShape] =>
-            Seq(RawSuggestion("repeat", " ", isAKey = true, "schemas"))
+            Seq(RawSuggestion.forBoolKey("repeat", "schemas"))
           case _ => Nil
         }
       case a: AnyShape if a.isDefaultEmpty =>
-        Seq(RawSuggestion("repeat", " ", isAKey = true, "schemas"))
+        Seq(RawSuggestion.forBoolKey("repeat", "schemas"))
       case _ => Nil
     }
 

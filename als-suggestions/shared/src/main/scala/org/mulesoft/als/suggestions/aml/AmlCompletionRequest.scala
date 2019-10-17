@@ -124,9 +124,12 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
   lazy val declarationProvider: DeclarationProvider = {
     inheritedProvider.getOrElse(DeclarationProvider(baseUnit, Some(actualDialect)))
   }
+}
 
-  lazy val indentation: String =
-    (if (yPartBranch.isKey) "\n" else "") + baseUnit.raw
+object AmlCompletionRequestBuilder {
+
+  private def indentation(bu: BaseUnit, position: Position): Int =
+    bu.raw
       .flatMap(text => {
         val pos  = position
         val left = text.substring(0, pos.offset(text))
@@ -139,15 +142,11 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
           case _                                => None
         }
         first.map(f => {
-          val spaces = line.substring(0, line.takeWhile(_ == f).length)
-          if (f == '\t') s"$spaces\t"
-          else s"$spaces  "
+          line.substring(0, line.takeWhile(_ == f).length)
         })
       })
-      .getOrElse("  ")
-}
-
-object AmlCompletionRequestBuilder {
+      .getOrElse("")
+      .length
 
   def build(baseUnit: BaseUnit,
             position: AmfPosition,
@@ -169,7 +168,8 @@ object AmlCompletionRequestBuilder {
                                                prefix(yPartBranch, DtoPosition(position)),
                                                originalContent,
                                                DtoPosition(position),
-                                               snippetSupport)
+                                               snippetSupport,
+      indentation(baseUnit, position))
     val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
     new AmlCompletionRequest(baseUnit, DtoPosition(position), dialect, env, styler, yPartBranch, objectInTree)
   }

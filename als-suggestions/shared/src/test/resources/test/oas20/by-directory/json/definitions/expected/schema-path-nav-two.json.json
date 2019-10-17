@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 44
+          "character": 15
         },
         "end": {
           "line": 4,
           "character": 44
         }
       },
-      "newText": "Adef/"
+      "newText": "jsonschema.json#/definitions/Adef/"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
