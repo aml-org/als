@@ -47,7 +47,7 @@ class GoToDefinitionManager(val astManager: AstManager,
   def goToDefinition(str: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] =
     astManager
       .forceGetCurrentAST(str, UUID.randomUUID().toString)
-      .map(bu => Left(Actions.getDefinition(bu, position.asOneBased, platform)))
+      .map(bu => Right(Actions.getDefinition(bu, position.asOneBased, platform)))
 
   override def initialize(): Future[Unit] = Future.successful()
 

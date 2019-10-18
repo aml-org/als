@@ -9,10 +9,8 @@ import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
-import org.mulesoft.als.suggestions.Core
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.amfmanager.{DialectInitializer, InitOptions}
-import org.mulesoft.lsp.common.{Location, TextDocumentIdentifier, TextDocumentPositionParams}
+import org.mulesoft.lsp.common.{LocationLink, TextDocumentIdentifier, TextDocumentPositionParams}
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
 import org.mulesoft.lsp.server.LanguageServer
@@ -43,22 +41,25 @@ trait ServerDefinitionTest extends LanguageServerBaseTest {
       .addRequestModule(definitionsManager)
   }
 
-  def runTest(path: String, expectedDefinitions: Set[Location]): Future[Assertion] = withServer[Assertion] { server =>
-    val resolved = filePath(platform.encodeURI(path))
-    for {
-      content <- this.platform.resolve(resolved)
-      definitions <- {
-        val fileContentsStr = content.stream.toString
-        val markerInfo      = this.findMarker(fileContentsStr)
+  def runTest(path: String, expectedDefinitions: Set[LocationLink]): Future[Assertion] = withServer[Assertion] {
+    server =>
+      val resolved = filePath(platform.encodeURI(path))
+      for {
+        content <- this.platform.resolve(resolved)
+        definitions <- {
+          val fileContentsStr = content.stream.toString
+          val markerInfo      = this.findMarker(fileContentsStr)
 
-        getServerDefinition(resolved, server, markerInfo)
+          getServerDefinition(resolved, server, markerInfo)
+        }
+      } yield {
+        assert(definitions.toSet == expectedDefinitions)
       }
-    } yield {
-      assert(definitions.toSet == expectedDefinitions)
-    }
   }
 
-  def getServerDefinition(filePath: String, server: LanguageServer, markerInfo: MarkerInfo): Future[Seq[Location]] = {
+  def getServerDefinition(filePath: String,
+                          server: LanguageServer,
+                          markerInfo: MarkerInfo): Future[Seq[LocationLink]] = {
 
     openFile(server)(filePath, markerInfo.rawContent)
 
@@ -70,7 +71,7 @@ trait ServerDefinitionTest extends LanguageServerBaseTest {
       .map(definitions => {
         closeFile(server)(filePath)
 
-        definitions.left.getOrElse(Nil)
+        definitions.right.getOrElse(Nil)
       })
   }
 

@@ -4,7 +4,7 @@ import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
 import org.mulesoft.als.actions.definition.files.FindDefinitionFile
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.lsp.common.Location
+import org.mulesoft.lsp.common.LocationLink
 
 /**
   * Cases in which to return a Location:
@@ -14,6 +14,6 @@ import org.mulesoft.lsp.common.Location
   * *  [X] if clicked on a URI it will also return this as location
   */
 trait FindDefinition extends FindDefinitionFile {
-  def getDefinition(bu: BaseUnit, position: Position, platform: Platform): Seq[Location] =
+  def getDefinition(bu: BaseUnit, position: Position, platform: Platform): Seq[LocationLink] =
     getDefinitionFile(bu, position, platform)
 }

@@ -3,15 +3,14 @@ package org.mulesoft.als.actions.definition.files
 import java.net.{URI, URISyntaxException}
 
 import amf.core.annotations.SourceAST
-import amf.core.metamodel.Field
 import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.document.{BaseUnit, Document}
 import amf.core.remote.Platform
+import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.als.common.{FileUtils, NodeBranchBuilder, ObjectInTree, ObjectInTreeBuilder, YPartBranch}
 import org.mulesoft.amfmanager.dialect.DialectKnowledge
 import org.mulesoft.lexer.SourceLocation
-import org.mulesoft.lsp.common.Location
+import org.mulesoft.lsp.common.LocationLink
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.yaml.model.YNode.MutRef
 import org.yaml.model.{YDocument, YMapEntry, YNode, YScalar}
@@ -28,7 +27,7 @@ trait FindDefinitionFile extends DialectKnowledge {
     * @param position
     * @return
     */
-  private def extractPath(raw: Option[String], position: Position): Seq[Location] = {
+  private def extractPath(raw: Option[String], position: Position): Seq[LocationLink] = {
     // TODO: Extract with regex? (position?)
     Nil
     //    raw.flatMap(content => {
@@ -60,7 +59,7 @@ trait FindDefinitionFile extends DialectKnowledge {
         }
         .getOrElse("")
     } catch {
-      case e: URISyntaxException =>
+      case _: URISyntaxException =>
         ""
     }
 
@@ -75,7 +74,7 @@ trait FindDefinitionFile extends DialectKnowledge {
                               platform)
   }
 
-  def getDefinitionFile(bu: BaseUnit, position: Position, platform: Platform): Seq[Location] = {
+  def getDefinitionFile(bu: BaseUnit, position: Position, platform: Platform): Seq[LocationLink] = {
     val yPartBranch: YPartBranch = {
       val ast = bu match {
         case d: Document =>
@@ -87,34 +86,46 @@ trait FindDefinitionFile extends DialectKnowledge {
     }
 
     yPartBranch.node match {
-      case alias: YNode.Alias => Seq(locationToLsp(alias.target.location, platform))
+      case alias: YNode.Alias => Seq(locationToLsp(alias.location, alias.target.location, platform))
       case mutRef: MutRef if mutRef.target.isDefined =>
         mutRef.target
-          .map(target => locationToLsp(target.location, platform))
+          .map(target => locationToLsp(mutRef.location, target.location, platform))
           .toSeq
       case y: YNode if appliesReference(bu, yPartBranch) =>
         y.value match {
           case scalar: YScalar if scalar.value.toString.startsWith("#") =>
-            checkBaseUnitForRef(ObjectInTreeBuilder.fromUnit(bu, position), platform)
-          case scalar: YScalar =>
+            checkBaseUnitForRef(yPartBranch, ObjectInTreeBuilder.fromUnit(bu, position), platform)
+          case scalar: YScalar => // TODO => DocumentLink
             Seq(
-              Location(valueToUri(scalar.location.sourceName, scalar.value.toString, platform),
-                       LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0)))))
+              LocationLink(
+                valueToUri(scalar.location.sourceName, scalar.value.toString, platform),
+                LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0))),
+                LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0))),
+                Some(sourceLocationToRange(scalar.location))
+              ))
           case _ => extractPath(bu.raw, position)
         }
       case _ => extractPath(bu.raw, position)
     }
   }
 
-  private def locationToLsp(location: SourceLocation, platform: Platform): Location = {
-    Location(
-      location.sourceName,
-      LspRangeConverter.toLspRange(
-        PositionRange(
-          Position(location.lineFrom, location.columnFrom, zeroBased = location.isZero).asZeroBased,
-          Position(location.lineTo, location.columnTo, zeroBased = location.isZero).asZeroBased
-        ))
+  private def locationToLsp(sourceLocation: SourceLocation,
+                            targetLocation: SourceLocation,
+                            platform: Platform): LocationLink = {
+    LocationLink(
+      targetLocation.sourceName,
+      sourceLocationToRange(targetLocation),
+      sourceLocationToRange(targetLocation),
+      Some(sourceLocationToRange(sourceLocation))
     )
+  }
+
+  private def sourceLocationToRange(targetLocation: SourceLocation) = {
+    LspRangeConverter.toLspRange(
+      PositionRange(
+        Position(targetLocation.lineFrom, targetLocation.columnFrom, zeroBased = targetLocation.isZero).asZeroBased,
+        Position(targetLocation.lineTo, targetLocation.columnTo, zeroBased = targetLocation.isZero).asZeroBased
+      ))
   }
 
   protected def isInUsesRef(yPartBranch: YPartBranch): Boolean = {
@@ -140,11 +151,16 @@ trait FindDefinitionFile extends DialectKnowledge {
     }
   }
 
-  private def checkBaseUnitForRef(objectInTree: ObjectInTree, platform: Platform): Seq[Location] =
+  private def checkBaseUnitForRef(yPartBranch: YPartBranch,
+                                  objectInTree: ObjectInTree,
+                                  platform: Platform): Seq[LocationLink] =
     objectInTree.obj.fields
       .entry(LinkableElementModel.Target)
-      .flatMap(fe =>
-        fe.value.value.annotations.find(classOf[SourceAST]).map(sast => locationToLsp(sast.ast.location, platform)))
+      .flatMap(
+        fe =>
+          fe.value.value.annotations
+            .find(classOf[SourceAST])
+            .map(sast => locationToLsp(yPartBranch.node.location, sast.ast.location, platform)))
       .toSeq
 
   private def appliesReference(bu: BaseUnit, yPartBranch: YPartBranch): Boolean =
