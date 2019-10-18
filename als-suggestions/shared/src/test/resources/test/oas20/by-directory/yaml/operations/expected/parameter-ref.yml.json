@@ -1,12 +1,12 @@
 [
   {
-    "label": "#/parameters/named",
+    "label": "\"#/parameters/named\"",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Reference to #/parameters/named",
+    "documentation": "Reference to \"#/parameters/named\"",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#/parameters/named",
+    "sortText": "10\"#/parameters/named\"",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
@@ -23,7 +23,7 @@
           "character": 16
         }
       },
-      "newText": "#/parameters/named"
+      "newText": "\"#/parameters/named\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
