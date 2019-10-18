@@ -9,7 +9,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.common.ElementNameExtractor._
 import org.mulesoft.als.common.YPartBranch
-import org.yaml.model.{DoubleQuoteMark, ScalarMark}
+import org.yaml.model.{DoubleQuoteMark, NoMark, ScalarMark}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -21,7 +21,7 @@ class AMLJsonSchemaStyleDeclarationReferences(dialect: Dialect,
                                               iriToPath: Map[String, String]) {
 
   val mark: Option[ScalarMark] =
-    if (yPart.stringValue.isEmpty) yPart.getMark.orElse(Some(DoubleQuoteMark))
+    if (yPart.stringValue.isEmpty) yPart.getMark.filter(_ != NoMark).orElse(Some(DoubleQuoteMark))
     else if (yPart.isJson) yPart.getMark
     else None
 

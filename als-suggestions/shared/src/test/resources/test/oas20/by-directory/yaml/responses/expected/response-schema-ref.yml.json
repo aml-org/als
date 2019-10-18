@@ -1,12 +1,12 @@
 [
   {
-    "label": "#/definitions/A",
+    "label": "\"#/definitions/A\"",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Reference to #/definitions/A",
+    "documentation": "Reference to \"#/definitions/A\"",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#/definitions/A",
+    "sortText": "10\"#/definitions/A\"",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
@@ -23,7 +23,7 @@
           "character": 18
         }
       },
-      "newText": "#/definitions/A"
+      "newText": "\"#/definitions/A\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

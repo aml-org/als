@@ -1,12 +1,12 @@
 [
   {
-    "label": "#/responses/Found",
+    "label": "\"#/responses/Found\"",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Reference to #/responses/Found",
+    "documentation": "Reference to \"#/responses/Found\"",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#/responses/Found",
+    "sortText": "10\"#/responses/Found\"",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
@@ -23,7 +23,7 @@
           "character": 16
         }
       },
-      "newText": "#/responses/Found"
+      "newText": "\"#/responses/Found\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
