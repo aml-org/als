@@ -1,0 +1,11 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "https://{test0}.oas-test:{test1}/{test2}",
+      "variables": {
+        *
+      }
+    }
+  ]
+}

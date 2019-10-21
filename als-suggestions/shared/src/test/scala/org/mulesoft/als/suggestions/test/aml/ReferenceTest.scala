@@ -117,4 +117,22 @@ class ReferenceTest extends AMLSuggestionsTest {
       ProfileName("JSONStyle 1.0")
     )
   }
+
+  test("RamlStyle absolute path suggestion - starting with slash only") {
+    withDialect(
+      "instances/absolute-to-root/raml-style-absolute-empty-path.yaml",
+      Set("/reference.yml", "/raml-style-empty-path.yaml"),
+      "dialects/ramlStyleDialect.yaml",
+      ProfileName("RAMLStyle 1.0")
+    )
+  }
+
+  test("RamlStyle relative empty path suggestion - without slash") {
+    withDialect(
+      "instances/absolute-to-root/raml-style-empty-path.yaml",
+      Set("reference.yml", "raml-style-absolute-empty-path.yaml"),
+      "dialects/ramlStyleDialect.yaml",
+      ProfileName("RAMLStyle 1.0")
+    )
+  }
 }

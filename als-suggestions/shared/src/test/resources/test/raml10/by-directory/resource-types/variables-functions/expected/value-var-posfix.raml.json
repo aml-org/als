@@ -1,0 +1,92 @@
+[
+  {
+    "label": "methodName",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "methodName",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10methodName",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 17
+        },
+        "end": {
+          "line": 4,
+          "character": 35
+        }
+      },
+      "newText": "description for <<methodName>> endpoint"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "resourcePath",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "resourcePath",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10resourcePath",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 17
+        },
+        "end": {
+          "line": 4,
+          "character": 35
+        }
+      },
+      "newText": "description for <<resourcePath>> endpoint"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "resourcePathName",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "resourcePathName",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10resourcePathName",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 17
+        },
+        "end": {
+          "line": 4,
+          "character": 35
+        }
+      },
+      "newText": "description for <<resourcePathName>> endpoint"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

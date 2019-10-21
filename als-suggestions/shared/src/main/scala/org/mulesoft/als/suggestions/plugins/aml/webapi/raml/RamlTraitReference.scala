@@ -14,16 +14,16 @@ object RamlTraitReference extends RamlAbstractDeclarationReference {
 
   override def id: String = "RamlTraitReference"
 
-  override def entryKey: String = "is"
+  override protected def entryKey: String = "is"
 
-  override def isArray(yPartBranch: YPartBranch) = !yPartBranch.isInArray
+  override protected def isArray(yPartBranch: YPartBranch): Boolean = !yPartBranch.isInArray
 
-  override def iriDeclaration: String = TraitModel.`type`.head.iri()
+  override protected def iriDeclaration: String = TraitModel.`type`.head.iri()
 
   override protected def isValue(yPartBranch: YPartBranch): Boolean =
     yPartBranch.isValue || yPartBranch.parent.exists(_.isInstanceOf[YSequence])
 
-  override val elementClass: Class[_ <: DomainElement]                                = classOf[Operation]
-  override val abstractDeclarationClass: Class[_ <: ParametrizedDeclaration]          = classOf[ParametrizedTrait]
-  override val errorDeclarationClass: Class[_ <: WebApiDeclarations.ErrorDeclaration] = classOf[ErrorTrait]
+  override protected val elementClass: Class[_ <: DomainElement]                                = classOf[Operation]
+  override protected val abstractDeclarationClass: Class[_ <: ParametrizedDeclaration]          = classOf[ParametrizedTrait]
+  override protected val errorDeclarationClass: Class[_ <: WebApiDeclarations.ErrorDeclaration] = classOf[ErrorTrait]
 }

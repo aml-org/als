@@ -64,7 +64,11 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
 
   var documentChangeExecutor: Option[IDocumentChangeExecutor] = None
 
+  var dialectIndexListener: Option[(String, Option[String]) => Unit] = None
+
   override def initialize(): Future[Unit] = Future.successful()
+
+  def onIndexDialect(listener: (String, Option[String]) => Unit): Unit = dialectIndexListener = Some(listener)
 
   def onChangeDocument(listener: ChangedDocument => Unit, unsubscribe: Boolean = false): Unit =
     if (unsubscribe) documentChangeListeners.remove(listener)
@@ -202,4 +206,7 @@ class TextDocumentManager(private val platform: Platform, private val logger: Lo
         td =>
           documentChangeListeners
             .foreach(listener => listener(ChangedDocument(params.uri, params.version, Option(td.text), None))))
+
+  override def indexDialect(params: IndexDialectParams): Unit =
+    dialectIndexListener.foreach(f => f(params.uri, params.content))
 }

@@ -1,0 +1,17 @@
+{
+  "openapi": "3.0.0",
+  "components": {
+    "securitySchemes": {
+      "test": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "scopes": {
+              *
+            }
+          }
+        }
+      }
+    }
+  }
+}
