@@ -53,7 +53,7 @@ class DefinitionFilesTest extends ServerDefinitionTest {
     )
   }
 
-  test("oas-ref") {
+  ignore("oas-ref") {
     runTest(
       "files/oas-ref/api.yaml",
       Set(
@@ -67,7 +67,7 @@ class DefinitionFilesTest extends ServerDefinitionTest {
     )
   }
 
-  test("protocol-ref") {
+  ignore("protocol-ref") {
     runTest(
       "files/protocol-ref/api.raml",
       Set(

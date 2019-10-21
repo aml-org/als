@@ -1,9 +1,12 @@
 package org.mulesoft.als.common
 
+import amf.core.annotations.SourceAST
+import amf.core.model.document.{BaseUnit, Document}
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.dtoTypes.Position
 import org.yaml.model._
 import amf.core.parser._
+
 import scala.annotation.tailrec
 
 case class YPartBranch(node: YPart, position: Position, val stack: Seq[YPart]) {
@@ -146,6 +149,20 @@ object NodeBranchBuilder {
   def build(ast: YPart, position: Position): YPartBranch = {
     val actual :: stack = getStack(ast, position, Seq())
     YPartBranch(actual, position, stack)
+  }
+
+  def build(bu: BaseUnit, position: Position): YPartBranch = {
+    val ast: Option[YPart] = astFromBaseUnit(bu)
+    build(ast.getOrElse(YDocument(IndexedSeq.empty, bu.location().getOrElse(""))), position)
+  }
+
+  def astFromBaseUnit(bu: BaseUnit) = {
+    val ast = bu match {
+      case d: Document =>
+        d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)
+      case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
+    }
+    ast
   }
 
   @tailrec
