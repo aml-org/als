@@ -1,0 +1,212 @@
+[
+  {
+    "label": "$ref",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "$ref: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "operationRef",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "operationRef: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "operationId",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "operationId: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "parameters",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "parameters: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "requestBody",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "requestBody: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "description",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "server",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "server: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

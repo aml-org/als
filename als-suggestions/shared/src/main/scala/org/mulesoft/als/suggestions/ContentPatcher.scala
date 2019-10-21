@@ -37,7 +37,7 @@ object ContentPatcher {
         } else text
       }
       case _ =>
-        if (offset == text.length) text + "\n"
+        if (offset == text.length) text + " " + "\n"
         else text
     }
     result

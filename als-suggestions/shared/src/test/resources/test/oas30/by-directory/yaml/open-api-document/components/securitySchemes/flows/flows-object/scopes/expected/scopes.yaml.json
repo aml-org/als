@@ -1,0 +1,62 @@
+[
+  {
+    "label": "write",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "write:"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "read",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "read:"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

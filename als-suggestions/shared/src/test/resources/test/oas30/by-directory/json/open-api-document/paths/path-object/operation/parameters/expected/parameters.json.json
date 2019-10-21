@@ -1,0 +1,212 @@
+[
+  {
+    "label": "$ref",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "- $ref: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "description",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "- description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "name",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "- name: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "required",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "- required: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "in",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "- in: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "deprecated",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "- deprecated: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "allowEmptyValue",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "- allowEmptyValue: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

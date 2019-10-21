@@ -1,0 +1,332 @@
+[
+  {
+    "label": "$ref",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "$ref: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "description",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "deprecated",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "deprecated: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "allowEmptyValue",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "allowEmptyValue: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "style",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "style: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "explode",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "explode: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "allowReserved",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "allowReserved: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schema",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "schema: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "example",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "example: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "examples",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "examples: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "content",
+    "kind": [],
+    "detail": "",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "",
+    "filterText": null,
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": x,
+          "character": x
+        },
+        "end": {
+          "line": x,
+          "character": x
+        }
+      },
+      "newText": "content: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

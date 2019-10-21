@@ -6,11 +6,11 @@
     "documentation": "rt",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10rt",
+    "sortText": "20rt",
     "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -23,7 +23,7 @@
           "character": 4
         }
       },
-      "newText": "rt:\n      "
+      "newText": "rt:\n        param1: $1\n        param2: $2"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
