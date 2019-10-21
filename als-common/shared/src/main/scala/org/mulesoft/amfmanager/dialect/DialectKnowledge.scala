@@ -9,6 +9,7 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.amfmanager.dialect.webapi.oas.Oas20DialectWrapper
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
+import org.yaml.model.{YMapEntry, YNode, YPart, YType}
 
 trait DialectKnowledge {
   def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
@@ -34,4 +35,31 @@ trait DialectKnowledge {
 
   def isInclusion(yPartBranch: YPartBranch, dialect: Dialect): Boolean =
     isRamlInclusion(yPartBranch, dialect) || isJsonInclusion(yPartBranch, dialect)
+
+  protected def appliesReference(bu: BaseUnit, yPartBranch: YPartBranch): Boolean =
+    dialectFor(bu).exists(dialect => isInclusion(yPartBranch, dialect)) || isInUsesRef(yPartBranch)
+
+  protected def isInUsesRef(yPartBranch: YPartBranch): Boolean = {
+    yPartBranch.isValue && {
+      val stack = yPartBranch.stack.iterator
+      stack.hasNext && {
+        stack.next match {
+          case _: YMapEntry =>
+            stack.drop(2)
+            stack.hasNext && {
+              stack.next match {
+                case entry: YMapEntry =>
+                  entry.key.value.toString == "uses" && {
+                    stack.drop(3)
+                    !stack.hasNext
+                  }
+                case _ => false
+              }
+            }
+          case _ => false
+        }
+      }
+    }
+  }
+
 }

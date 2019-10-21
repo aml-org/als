@@ -1,21 +1,18 @@
 package org.mulesoft.als.actions.definition.files
 
-import java.net.{URI, URISyntaxException}
-
 import amf.core.annotations.SourceAST
 import amf.core.metamodel.domain.LinkableElementModel
-import amf.core.model.document.{BaseUnit, Document}
+import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
 import org.mulesoft.als.common._
-import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.amfmanager.dialect.DialectKnowledge
 import org.mulesoft.lexer.SourceLocation
 import org.mulesoft.lsp.common.LocationLink
-import org.mulesoft.lsp.convert.LspRangeConverter
 import org.yaml.model.YNode.MutRef
-import org.yaml.model.{YDocument, YMapEntry, YNode, YScalar}
+import org.yaml.model.{YNode, YScalar}
 
-trait FindDefinitionFile extends DialectKnowledge {
+trait FindDefinitionFile extends DialectKnowledge with ActionTools {
 
   /**
     * Proof of concept.
@@ -44,46 +41,8 @@ trait FindDefinitionFile extends DialectKnowledge {
     //      .getOrElse(Nil)
   }
 
-  /**
-    *
-    * @param relative
-    * @return scheme of URI, except file:// (relative paths) which return empty
-    */
-  protected def extractProtocol(relative: String): String =
-    try {
-      val uri = new URI(relative)
-      Option(uri.getScheme)
-        .map {
-          case "file" if !uri.getPath.startsWith("/") => ""
-          case a                                      => a
-        }
-        .getOrElse("")
-    } catch {
-      case _: URISyntaxException =>
-        ""
-    }
-
-  private def valueToUri(root: String, relative: String, platform: Platform): String = {
-    if (relative.startsWith("#"))
-      root // TODO: where to seek position
-    else if (!extractProtocol(relative).isEmpty)
-      relative
-    else
-      FileUtils.getEncodedUri(FileUtils.getPath(root.substring(0, root.lastIndexOf('/')), platform) + "/" +
-                                FileUtils.getPath(relative, platform).stripPrefix("/"),
-                              platform)
-  }
-
   def getDefinitionFile(bu: BaseUnit, position: Position, platform: Platform): Seq[LocationLink] = {
-    val yPartBranch: YPartBranch = {
-      val ast = bu match {
-        case d: Document =>
-          d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)
-        case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
-      }
-
-      NodeBranchBuilder.build(ast.getOrElse(YDocument(IndexedSeq.empty, bu.location().getOrElse(""))), position)
-    }
+    val yPartBranch: YPartBranch = NodeBranchBuilder.build(bu, position)
 
     yPartBranch.node match {
       case alias: YNode.Alias => Seq(locationToLsp(alias.location, alias.target.location, platform))
@@ -95,14 +54,14 @@ trait FindDefinitionFile extends DialectKnowledge {
         y.value match {
           case scalar: YScalar if scalar.value.toString.startsWith("#") =>
             checkBaseUnitForRef(yPartBranch, ObjectInTreeBuilder.fromUnit(bu, position), platform)
-          case scalar: YScalar => // TODO => DocumentLink
-            Seq(
-              LocationLink(
-                valueToUri(scalar.location.sourceName, scalar.value.toString, platform),
-                LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0))),
-                LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0))),
-                Some(sourceLocationToRange(scalar.location))
-              ))
+          //          case scalar: YScalar => // moved to DocumentLink
+          //            Seq(
+          //              LocationLink(
+          //                valueToUri(scalar.location.sourceName, scalar.value.toString, platform),
+          //                LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0))),
+          //                LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0))),
+          //                Some(sourceLocationToRange(scalar.location))
+          //              ))
           case _ => extractPath(bu.raw, position)
         }
       case _ => extractPath(bu.raw, position)
@@ -120,37 +79,6 @@ trait FindDefinitionFile extends DialectKnowledge {
     )
   }
 
-  private def sourceLocationToRange(targetLocation: SourceLocation) = {
-    LspRangeConverter.toLspRange(
-      PositionRange(
-        Position(targetLocation.lineFrom, targetLocation.columnFrom, zeroBased = targetLocation.isZero).asZeroBased,
-        Position(targetLocation.lineTo, targetLocation.columnTo, zeroBased = targetLocation.isZero).asZeroBased
-      ))
-  }
-
-  protected def isInUsesRef(yPartBranch: YPartBranch): Boolean = {
-    yPartBranch.isValue && {
-      val stack = yPartBranch.stack.iterator
-      stack.hasNext && {
-        stack.next match {
-          case _: YMapEntry =>
-            stack.drop(2)
-            stack.hasNext && {
-              stack.next match {
-                case entry: YMapEntry =>
-                  entry.key.value.toString == "uses" && {
-                    stack.drop(3)
-                    !stack.hasNext
-                  }
-                case _ => false
-              }
-            }
-          case _ => false
-        }
-      }
-    }
-  }
-
   private def checkBaseUnitForRef(yPartBranch: YPartBranch,
                                   objectInTree: ObjectInTree,
                                   platform: Platform): Seq[LocationLink] =
@@ -162,7 +90,4 @@ trait FindDefinitionFile extends DialectKnowledge {
             .find(classOf[SourceAST])
             .map(sast => locationToLsp(yPartBranch.node.location, sast.ast.location, platform)))
       .toSeq
-
-  private def appliesReference(bu: BaseUnit, yPartBranch: YPartBranch): Boolean =
-    dialectFor(bu).exists(dialect => isInclusion(yPartBranch, dialect)) || isInUsesRef(yPartBranch)
 }
