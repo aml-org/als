@@ -156,7 +156,7 @@ object NodeBranchBuilder {
     build(ast.getOrElse(YDocument(IndexedSeq.empty, bu.location().getOrElse(""))), position)
   }
 
-  def astFromBaseUnit(bu: BaseUnit) = {
+  def astFromBaseUnit(bu: BaseUnit): Option[YPart] = {
     val ast = bu match {
       case d: Document =>
         d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)

@@ -36,11 +36,13 @@ trait FindLinks extends DialectKnowledge with ActionTools {
     ast.map(seekLinks).getOrElse(Nil)
   }
 
-  private def extractUsesLinks(yPart: YPart, platform: Platform): Seq[DocumentLink] =
+  private def isRoot(map: YMap) = map.entries.forall(_.key.location.columnFrom == 0)
+
+  protected def extractUsesLinks(yPart: YPart, platform: Platform): Seq[DocumentLink] =
     yPart match {
-      case map: YMap if map.range.columnFrom == 0 =>
+      case map: YMap if isRoot(map) =>
         map.entries
-          .find(p => p.key.value.toString == "uses")
+          .find(p => p.key.asScalar.map(_.text).getOrElse("") == "uses")
           .map(uses => {
             uses.value.value match {
               case m: YMap =>
@@ -57,16 +59,21 @@ trait FindLinks extends DialectKnowledge with ActionTools {
 
   private def nodeToLink(n: YNode, platform: Platform) =
     DocumentLink(sourceLocationToRange(n.value.location),
-                 valueToUri(n.location.sourceName, n.value.toString, platform))
+                 valueToUri(n.location.sourceName, n.asScalar.map(_.text).getOrElse(""), platform))
 
-  private def extractJsonRefs(yPart: YPart, platform: Platform): Seq[DocumentLink] =
+  protected def extractJsonRefs(yPart: YPart, platform: Platform): Seq[DocumentLink] =
     yPart match {
-      case entry: YMapEntry if entry.key.value.toString.toLowerCase == "$ref" =>
+      case entry: YMapEntry if appliesRef(entry) =>
         Seq(entryToLink(entry, platform))
       case _ => Nil
     }
 
-  private def extractRamlIncludes(yPart: YPart, platform: Platform): Seq[DocumentLink] =
+  private def appliesRef(entry: YMapEntry): Boolean = {
+    entry.key.asScalar.map(_.text).getOrElse("").toLowerCase == "$ref" &&
+    !entry.value.asScalar.map(_.text).getOrElse("").startsWith("#")
+  }
+
+  protected def extractRamlIncludes(yPart: YPart, platform: Platform): Seq[DocumentLink] =
     yPart match {
       case node: YNode if node.tagType == YType.Include => Seq(nodeToLink(node, platform))
       case _                                            => Nil
