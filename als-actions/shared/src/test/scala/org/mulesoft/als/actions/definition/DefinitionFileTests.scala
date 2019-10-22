@@ -4,7 +4,6 @@ import org.mulesoft.als.actions.definition.files.FindDefinitionFile
 import org.mulesoft.als.common.NodeBranchBuilder
 import org.mulesoft.als.common.dtoTypes.Position
 import org.scalatest.{FlatSpec, Matchers}
-import org.yaml.model.YDocument
 import org.yaml.parser.YamlParser
 
 class DefinitionFileTests extends FlatSpec with Matchers with FindDefinitionFile {
@@ -35,6 +34,4 @@ class DefinitionFileTests extends FlatSpec with Matchers with FindDefinitionFile
     val yPartBranchOK = NodeBranchBuilder.build(YamlParser(textOK, "file").parse(false).head, Position(2, 9))
     isInUsesRef(yPartBranchOK) should be(true)
   }
-
-  // TODO: test full workflow with a parsed BaseUnit
 }
