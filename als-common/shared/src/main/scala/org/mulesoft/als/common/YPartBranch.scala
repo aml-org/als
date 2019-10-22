@@ -8,6 +8,11 @@ import scala.annotation.tailrec
 
 case class YPartBranch(node: YPart, position: Position, val stack: Seq[YPart]) {
 
+  lazy val isMultiline: Boolean = node match {
+    case n: YNode if n.asScalar.isDefined => n.asScalar.exists(_.mark == MultilineMark)
+    case _                                => false
+  }
+
   val isJson: Boolean = stack.lastOption
     .orElse(Some(node))
     .collect({ case m: YMap => m })
