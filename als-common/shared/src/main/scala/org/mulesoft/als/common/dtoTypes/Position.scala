@@ -10,7 +10,7 @@ import scala.annotation.tailrec
   *               represented as a string, the `character` value represents the gap between the
   *               `character` and `character + 1`.
   */
-case class Position(line: Int, column: Int, zeroBased: Boolean = true) {
+case class Position(line: Int, column: Int) {
   def offset(text: String): Int = {
     def innerOffset(lines: List[String], currentLine: Int, currentOffset: Int): Int = lines match {
       case Nil => currentOffset
@@ -45,18 +45,6 @@ case class Position(line: Int, column: Int, zeroBased: Boolean = true) {
 
   def moveLine(value: Int): Position = copy(line = line + value)
 
-  /**
-    *
-    * @return Position with line index starting at Zero
-    */
-  def asZeroBased: Position = if (zeroBased) this else Position(line - 1, column)
-
-  /**
-    *
-    * @return Position with line index starting at One
-    */
-  def asOneBased: Position = if (!zeroBased) this else Position(line + 1, column, zeroBased = false)
-
   override def toString: String = s"($line,$column)"
 
   override def equals(obj: Any): Boolean = obj match {
@@ -65,11 +53,14 @@ case class Position(line: Int, column: Int, zeroBased: Boolean = true) {
   }
 
   override def hashCode(): Int = super.hashCode()
+
+  lazy val toAmfPosition = AmfPosition(line + 1, column)
 }
 
 object Position {
   def apply(position: AmfPosition): Position =
-    Position(position.line - 1, position.column)
+    if (position.isZero) Position0
+    else Position(position.line - 1, position.column)
 
   def apply(offset: Int, text: String): Position = {
     @scala.annotation.tailrec

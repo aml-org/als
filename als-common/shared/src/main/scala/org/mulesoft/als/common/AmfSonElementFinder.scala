@@ -4,6 +4,7 @@ import amf.core.annotations.{LexicalInformation, SynthesizedField}
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
 import amf.core.parser.FieldEntry
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import amf.core.parser.{Position => AmfPosition}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -37,7 +38,7 @@ object AmfSonElementFinder {
       }
     }
 
-    private def positionFinderFN(amfPosition: Position)(): FieldEntry => Boolean = (f: FieldEntry) => {
+    private def positionFinderFN(amfPosition: AmfPosition)(): FieldEntry => Boolean = (f: FieldEntry) => {
       f.value.value match {
         case arr: AmfArray =>
           arr
@@ -65,10 +66,11 @@ object AmfSonElementFinder {
       }
     }
 
-    def findSon(amfPosition: Position, filterFns: Seq[FieldEntry => Boolean]): AmfObject =
+    def findSon(amfPosition: AmfPosition, filterFns: Seq[FieldEntry => Boolean]): AmfObject =
       findSonWithStack(amfPosition, filterFns)._1
 
-    def findSonWithStack(amfPosition: Position, filterFns: Seq[FieldEntry => Boolean]): (AmfObject, Seq[AmfObject]) = {
+    def findSonWithStack(amfPosition: AmfPosition,
+                         filterFns: Seq[FieldEntry => Boolean]): (AmfObject, Seq[AmfObject]) = {
       val posFilter = positionFinderFN(amfPosition)
       def innerNode(amfObject: AmfObject): Option[FieldEntry] =
         amfObject.fields
@@ -135,7 +137,7 @@ object AmfSonElementFinder {
       }
     }
 
-    def findSon(amfPosition: Position, filterFns: Seq[FieldEntry => Boolean]): Option[AmfElement] = {
+    def findSon(amfPosition: AmfPosition, filterFns: Seq[FieldEntry => Boolean]): Option[AmfElement] = {
       val sons: Seq[AmfElement] = array.values.filter(v =>
         v.position() match {
           case Some(p) => p.contains(amfPosition)
@@ -147,7 +149,7 @@ object AmfSonElementFinder {
 
   implicit class AlsAmfElement(element: AmfElement) {
 
-    def findSon(position: Position, filterFns: Seq[FieldEntry => Boolean]): Option[AmfElement] = { // todo: recursive with cycle control?
+    def findSon(position: AmfPosition, filterFns: Seq[FieldEntry => Boolean]): Option[AmfElement] = { // todo: recursive with cycle control?
       element match {
         case obj: AmfObject  => Some(obj.findSon(position, filterFns))
         case array: AmfArray => array.findSon(position, filterFns)
@@ -158,21 +160,20 @@ object AmfSonElementFinder {
 
   implicit class AlsLexicalInformation(li: LexicalInformation) {
 
-    def contains(pos: Position): Boolean =
+    def contains(pos: AmfPosition): Boolean =
       Range(li.range.start.line, li.range.end.line + 1)
         .contains(pos.line) && !isLastLine(pos)
 
-    def isLastLine(pos: Position): Boolean =
+    def isLastLine(pos: AmfPosition): Boolean =
       li.range.end.column == 0 && pos.line == li.range.end.line
 
-    def containsCompletely(pos: Position): Boolean =
-      PositionRange(Position(li.range.start.line, li.range.start.column),
-                    Position(li.range.end.line, li.range.end.column))
-        .contains(pos) && !isLastLine(pos)
+    def containsCompletely(pos: AmfPosition): Boolean =
+      PositionRange(Position(li.range.start), Position(li.range.end))
+        .contains(Position(pos)) && !isLastLine(pos)
   }
 
   private def arrayContainsPosition(amfArray: AmfArray,
-                                    amfPosition: Position,
+                                    amfPosition: AmfPosition,
                                     fieldLi: Option[LexicalInformation]): Boolean =
     amfArray.values.exists(_.position() match {
       case Some(p) =>

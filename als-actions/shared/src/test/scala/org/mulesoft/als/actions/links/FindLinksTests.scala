@@ -30,8 +30,8 @@ class FindLinksTests extends FlatSpec with Matchers with FindLinks with Platform
       extractUsesLinks,
       Seq(
         PositionRange(
-          Position(1, 8).asZeroBased,
-          Position(1, 12).asZeroBased
+          Position(1, 8),
+          Position(1, 12)
         ))
     )
   }
@@ -50,8 +50,8 @@ class FindLinksTests extends FlatSpec with Matchers with FindLinks with Platform
                 extractRamlIncludes,
                 Seq(
                   PositionRange(
-                    Position(0, 15).asZeroBased,
-                    Position(0, 19).asZeroBased
+                    Position(0, 15),
+                    Position(0, 19)
                   )))
   }
 
@@ -60,8 +60,8 @@ class FindLinksTests extends FlatSpec with Matchers with FindLinks with Platform
                 extractJsonRefs,
                 Seq(
                   PositionRange(
-                    Position(0, 6).asZeroBased,
-                    Position(0, 10).asZeroBased
+                    Position(0, 6),
+                    Position(0, 10)
                   )))
   }
 }

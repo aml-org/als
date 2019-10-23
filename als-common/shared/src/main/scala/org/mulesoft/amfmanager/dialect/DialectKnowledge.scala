@@ -9,7 +9,7 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.amfmanager.dialect.webapi.oas.Oas20DialectWrapper
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
-import org.yaml.model.{YMapEntry, YNode, YPart, YType}
+import org.yaml.model.YMapEntry
 
 trait DialectKnowledge {
   def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {

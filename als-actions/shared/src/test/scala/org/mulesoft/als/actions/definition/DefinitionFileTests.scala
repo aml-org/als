@@ -28,10 +28,12 @@ class DefinitionFileTests extends FlatSpec with Matchers with FindDefinitionFile
         |    lib: test.yaml
         |""".stripMargin
 
-    val yPartBranchWrong = NodeBranchBuilder.build(YamlParser(textWrong, "file").parse(false).head, Position(3, 11))
+    val yPartBranchWrong =
+      NodeBranchBuilder.build(YamlParser(textWrong, "file").parse(false).head, Position(3, 11).toAmfPosition)
     isInUsesRef(yPartBranchWrong) should be(false)
 
-    val yPartBranchOK = NodeBranchBuilder.build(YamlParser(textOK, "file").parse(false).head, Position(2, 9))
+    val yPartBranchOK =
+      NodeBranchBuilder.build(YamlParser(textOK, "file").parse(false).head, Position(2, 9).toAmfPosition)
     isInUsesRef(yPartBranchOK) should be(true)
   }
 }

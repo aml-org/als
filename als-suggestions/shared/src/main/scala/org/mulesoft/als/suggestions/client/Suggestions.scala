@@ -4,7 +4,7 @@ import amf.core.model.document.BaseUnit
 import amf.core.remote._
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
-import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
 import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher}
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequestBuilder, CompletionEnvironment}
@@ -13,6 +13,7 @@ import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
 import org.mulesoft.amfmanager.dialect.DialectKnowledge
 import org.mulesoft.amfmanager.{InitOptions, ParserHelper}
 import org.mulesoft.lsp.feature.completion.CompletionItem
+import amf.core.parser.{Position => AmfPosition}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -64,7 +65,7 @@ object Suggestions extends SuggestionsHelper with DialectKnowledge {
           buildCompletionProviderAST(bu,
                                      d,
                                      bu.id,
-                                     Position(position, originalContent),
+                                     DtoPosition(position, originalContent),
                                      originalContent,
                                      directoryResolver,
                                      env,
@@ -74,11 +75,11 @@ object Suggestions extends SuggestionsHelper with DialectKnowledge {
         if (!url.toLowerCase().endsWith(".raml"))
           Future(
             HeaderCompletionProviderBuilder
-              .build(url, originalContent, Position(position, originalContent)))
+              .build(url, originalContent, DtoPosition(position, originalContent)))
         else
           Future(
             RamlHeaderCompletionProvider
-              .build(url, originalContent, Position(position, originalContent)))
+              .build(url, originalContent, DtoPosition(position, originalContent)))
       case _ =>
         Future.failed(new Exception("Cannot find dialect for unit: " + bu.id))
     }
@@ -125,14 +126,14 @@ object Suggestions extends SuggestionsHelper with DialectKnowledge {
   private def buildCompletionProviderAST(bu: BaseUnit,
                                          dialect: Dialect,
                                          url: String,
-                                         pos: Position,
+                                         pos: DtoPosition,
                                          originalContent: String,
                                          directoryResolver: DirectoryResolver,
                                          env: Environment,
                                          platform: Platform,
                                          snippetSupport: Boolean): CompletionProviderAST = {
 
-    val amfPosition = pos.asOneBased
+    val amfPosition: AmfPosition = pos.toAmfPosition
     CompletionProviderAST(
       AmlCompletionRequestBuilder
         .build(bu,
