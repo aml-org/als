@@ -23,44 +23,19 @@ trait FindDefinitionFile extends DialectKnowledge with ActionTools {
     * @param position
     * @return
     */
-  private def extractPath(raw: Option[String], position: Position): Seq[LocationLink] = {
+  private def extractPath(raw: Option[String], position: Position): Seq[LocationLink] =
     // TODO: Extract with regex? (position?)
     Nil
-    //    raw.flatMap(content => {
-    //      val offset = position.offset(content)
-    //      val left = content.substring(0, offset)
-    //      val right = content.substring(offset)
-    //      val leftWord = left.indexOf("\n") max left.indexOf(" ") max 0
-    //      val rWord = right.indexOf("\n") min right.indexOf(" ")
-    //      val rightWord = if (rWord < 0) right.length else rWord
-    //      val sub = content.substring(leftWord, leftWord + rightWord)
-    //      if (!extractProtocol(sub).isEmpty) Some(sub)
-    //      else None
-    //    }).map(path => Seq(Location(path, LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0))))))
-    //      .getOrElse(Nil)
-  }
 
   def getDefinitionFile(bu: BaseUnit, position: Position, platform: Platform): Seq[LocationLink] = {
     val yPartBranch: YPartBranch = NodeBranchBuilder.build(bu, position.toAmfPosition)
 
     yPartBranch.node match {
       case alias: YNode.Alias => Seq(locationToLsp(alias.location, alias.target.location, platform))
-//      case mutRef: MutRef if mutRef.target.isDefined => // moved to DocumentLink
-//        mutRef.target
-//          .map(target => locationToLsp(mutRef.location, target.location, platform))
-//          .toSeq
       case y: YNode if appliesReference(bu, yPartBranch) =>
         y.value match {
           case scalar: YScalar if scalar.value.toString.startsWith("#") =>
             checkBaseUnitForRef(yPartBranch, ObjectInTreeBuilder.fromUnit(bu, position.toAmfPosition), platform)
-          //          case scalar: YScalar => // moved to DocumentLink
-          //            Seq(
-          //              LocationLink(
-          //                valueToUri(scalar.location.sourceName, scalar.value.toString, platform),
-          //                LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0))),
-          //                LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0))),
-          //                Some(sourceLocationToRange(scalar.location))
-          //              ))
           case _ => extractPath(bu.raw, position)
         }
       case _ => extractPath(bu.raw, position)

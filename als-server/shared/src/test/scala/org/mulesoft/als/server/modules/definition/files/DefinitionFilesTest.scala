@@ -16,12 +16,6 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       "files/common-ref/api.raml",
       Set(
         // DocumentLink in charge
-//        LocationLink(
-//          "file://als-server/shared/src/test/resources/actions/definition/files/common-ref/included%20directory/fragment.txt",
-//          LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0))),
-//          LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0))),
-//          Some(LspRangeConverter.toLspRange(PositionRange(Position(1, 7), Position(1, 48))))
-//        )
       )
     )
   }
@@ -59,11 +53,6 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       "files/oas-ref/api.yaml",
       Set(
         // DocumentLink in charge
-//        LocationLink(
-//          "file://als-server/shared/src/test/resources/actions/definition/files/oas-ref/reference/reference.yaml",
-//          LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0))),
-//          LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0))),
-//          Some(LspRangeConverter.toLspRange(PositionRange(Position(2, 8), Position(2, 32))))
 //        )
       )
     )
@@ -74,11 +63,6 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       "files/protocol-ref/api.raml",
       Set(
         // DocumentLink in charge
-//        LocationLink(
-//          "http://localhost:8080/test",
-//          LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0))),
-//          LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(0, 0))),
-//          Some(LspRangeConverter.toLspRange(PositionRange(Position(1, 16), Position(1, 42))))
 //        )
       )
     )
