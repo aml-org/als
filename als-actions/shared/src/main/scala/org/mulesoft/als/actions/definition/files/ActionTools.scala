@@ -2,32 +2,33 @@ package org.mulesoft.als.actions.definition.files
 
 import java.net.{URI, URISyntaxException}
 
-import amf.core.remote.Platform
-import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.lexer.SourceLocation
-import org.mulesoft.lsp.common
+import amf.core.remote.Platform
+import org.mulesoft.als.common.FileUtils
+import org.mulesoft.lsp.common.Range
+
+import amf.core.parser.{Position => AmfPosition}
 import org.mulesoft.lsp.convert.LspRangeConverter
 
 trait ActionTools {
-  protected def sourceLocationToRange(targetLocation: SourceLocation): common.Range = {
+  protected def sourceLocationToRange(targetLocation: SourceLocation): Range = {
     LspRangeConverter.toLspRange(
       PositionRange(
-        Position(targetLocation.lineFrom, targetLocation.columnFrom, zeroBased = targetLocation.isZero).asZeroBased,
-        Position(targetLocation.lineTo, targetLocation.columnTo, zeroBased = targetLocation.isZero).asZeroBased
+        Position(AmfPosition(targetLocation.lineFrom, targetLocation.columnFrom)),
+        Position(AmfPosition(targetLocation.lineTo, targetLocation.columnTo))
       ))
   }
 
-  protected def valueToUri(root: String, relative: String, platform: Platform): String = {
+  protected def valueToUri(root: String, relative: String, platform: Platform): String =
     if (relative.startsWith("#"))
-      root // TODO: where to seek position
+      root
     else if (!extractProtocol(relative).isEmpty)
       relative
     else
       FileUtils.getEncodedUri(FileUtils.getPath(root.substring(0, root.lastIndexOf('/')), platform) + "/" +
                                 FileUtils.getPath(relative, platform).stripPrefix("/"),
                               platform)
-  }
 
   /**
     *

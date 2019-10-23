@@ -40,7 +40,7 @@ class DocumentLinksManager(val astManager: AstManager,
 
   def documentLinks(str: String): Future[Seq[DocumentLink]] =
     astManager
-      .forceGetCurrentAST(str, UUID.randomUUID().toString)
+      .getCurrentAST(str, UUID.randomUUID().toString)
       .map(bu => Actions.getLinks(bu, platform))
 
   override def initialize(): Future[Unit] = Future.successful()
