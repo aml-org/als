@@ -205,12 +205,12 @@ sonarProperties ++= Map(
 // run only one?
 addCommandAlias(
   "testJVM",
-  "; serverJVM/test; suggestionsJVM/test; structureJVM/test"
+  "; serverJVM/test; suggestionsJVM/test; structureJVM/test; commonJVM/test; actionsJVM/test"
 )
 
 addCommandAlias(
   "testJS",
-  "; serverJS/test; suggestionsJS/test; structureJVM/test"
+  "; serverJS/test; suggestionsJS/test; structureJS/test; commonJS/test; actionsJS/test"
 )
 
 assemblyMergeStrategy in assembly := {
