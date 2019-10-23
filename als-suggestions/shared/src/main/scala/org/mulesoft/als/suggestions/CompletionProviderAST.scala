@@ -18,16 +18,14 @@ class CompletionProviderAST(request: AmlCompletionRequest) extends CompletionPro
     request.yPartBranch.arraySiblings.contains(value)
 
   override def suggest(): Future[Seq[CompletionItem]] =
-    if (request.yPartBranch.isMultiline) Future.successful(Nil)
-    else
-      CompletionsPluginHandler
-        .pluginSuggestions(request)
-        .map(suggestions => {
-          suggestions
-            .filter(brothersAndPrefix(request.prefix))
-            .filterNot(rs => arraySiblings(rs.newText))
-            .map(request.styler.rawToStyledSuggestion)
-        })
+    CompletionsPluginHandler
+      .pluginSuggestions(request)
+      .map(suggestions => {
+        suggestions
+          .filter(brothersAndPrefix(request.prefix))
+          .filterNot(rs => arraySiblings(rs.newText))
+          .map(request.styler.rawToStyledSuggestion)
+      })
 }
 
 object CompletionProviderAST {
