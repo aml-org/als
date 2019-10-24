@@ -2,6 +2,7 @@ package org.mulesoft.lsp.configuration
 
 import org.mulesoft.lsp.feature.codeactions.CodeActionOptions
 import org.mulesoft.lsp.feature.completion.CompletionOptions
+import org.mulesoft.lsp.feature.link.DocumentLinkOptions
 import org.mulesoft.lsp.feature.rename.RenameOptions
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync.TextDocumentSyncOptions
@@ -26,6 +27,7 @@ case class ServerCapabilities(textDocumentSync: Option[Either[TextDocumentSyncKi
                               documentSymbolProvider: Boolean = false,
                               renameProvider: Option[RenameOptions] = None,
                               codeActionProvider: Option[CodeActionOptions] = None,
+                              documentLinkProvider: Option[DocumentLinkOptions] = None,
                               experimental: Option[AnyRef] = None)
 
 object ServerCapabilities {

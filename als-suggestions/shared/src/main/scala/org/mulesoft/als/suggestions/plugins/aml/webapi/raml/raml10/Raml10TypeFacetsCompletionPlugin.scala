@@ -2,9 +2,9 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10
 
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
+import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
 
-object Raml10TypeFacetsCompletionPlugin
-    extends WebApiTypeFacetsCompletionPlugin {
+object Raml10TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin {
   override def id: String = "RamlTypeFacetsCompletionPlugin"
 
   override def stringShapeNode: NodeMapping = Raml10TypesDialect.StringShapeNode

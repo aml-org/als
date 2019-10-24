@@ -3,14 +3,14 @@ package org.mulesoft.als.suggestions.plugins.aml.patched
 import amf.dialects.OAS20Dialect
 import amf.plugins.domain.shapes.metamodel.ExampleModel
 import amf.plugins.domain.webapi.metamodel.{OperationModel, PayloadModel, ResponseModel, WebApiModel}
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08.Raml08TypesDialect
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.Raml10TypesDialect
 import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   OasCommonMediaTypes,
   OasResponseCodes,
   RamlCommonMediaTypes,
   RamlResponseCodes
 }
+import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
+import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
 
 case class PatchedSuggestion(text: String, description: Option[String] = None)
 

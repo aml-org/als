@@ -12,6 +12,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.PayloadMediaTypeSeeker
+import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
 
 import scala.concurrent.Future
 

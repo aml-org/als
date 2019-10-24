@@ -19,6 +19,8 @@ case class PositionRange(start: Position, end: Position) {
     case _                 => false
   }
 
+  override def hashCode(): Int = super.hashCode()
+
   def compareTo(other: PositionRange): Int = {
     if (start < other.start) 0
     else if (start == other.start)

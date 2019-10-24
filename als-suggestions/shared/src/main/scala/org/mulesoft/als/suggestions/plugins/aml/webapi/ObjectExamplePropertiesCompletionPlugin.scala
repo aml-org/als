@@ -9,10 +9,10 @@ import amf.plugins.domain.shapes.resolution.stages.elements.ShapeTransformationP
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.Oas20DialectWrapper
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.LocalIgnoreErrorHandler
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.mulesoft.amfmanager.dialect.webapi.oas.Oas20DialectWrapper
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 case class ObjectExamplePropertiesCompletionPlugin(objectNode: ObjectNode, dialect: Dialect, branch: Seq[AmfObject]) {
