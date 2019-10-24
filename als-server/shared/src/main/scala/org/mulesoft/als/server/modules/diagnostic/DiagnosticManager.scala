@@ -66,12 +66,11 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
         telemetryProvider.addTimedMessage("End report", MessageTypes.END_DIAGNOSTIC, uri, telemetryUUID)
 
       case Failure(exception) =>
-        exception.printStackTrace()
-        telemetryProvider.addTimedMessage(s"End report: ${exception.toString}",
+        telemetryProvider.addTimedMessage(s"End report: ${exception.getMessage}",
                                           MessageTypes.END_DIAGNOSTIC,
                                           uri,
                                           telemetryUUID)
-        logger.error("Error on validation: " + exception.toString, "ValidationManager", "newASTAvailable")
+        logger.warning("Error on validation: " + exception.toString, "ValidationManager", "newASTAvailable")
         clientNotifier.notifyDiagnostic(ValidationReport(uri, 0, Set.empty).publishDiagnosticsParams)
     }
   }
