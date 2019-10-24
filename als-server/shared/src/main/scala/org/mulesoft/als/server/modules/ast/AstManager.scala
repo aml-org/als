@@ -89,8 +89,11 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
       })
   }
 
-  def getCurrentAST(uri: String): Option[BaseUnit] =
-    None // this.currentASTs.get(uri)
+  def getCurrentAST(uri: String, uuid: String): Future[BaseUnit] =
+    this.getCurrentAST(uri).map(Future.successful).getOrElse(forceGetCurrentAST(uri, uuid))
+
+  private def getCurrentAST(uri: String): Option[BaseUnit] =
+    this.currentASTs.get(uri)
 
   def forceGetCurrentAST(uri: String, uuid: String): Future[BaseUnit] = {
     val editorOption = textDocumentManager.getTextDocument(uri)

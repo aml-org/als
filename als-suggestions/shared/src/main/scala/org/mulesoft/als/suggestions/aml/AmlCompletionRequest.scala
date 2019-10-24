@@ -11,13 +11,14 @@ import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common._
-import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition, PositionRange}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.styler.{SuggestionStyler, SuggestionStylerBuilder}
 import org.yaml.model.{YDocument, YNode, YType}
+import amf.core.parser.{Position => AmfPosition}
 
 class AmlCompletionRequest(val baseUnit: BaseUnit,
-                           val position: Position,
+                           val position: DtoPosition,
                            val actualDialect: Dialect,
                            val env: CompletionEnvironment,
                            val styler: SuggestionStyler,
@@ -45,12 +46,12 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
           case _: AmfArray =>
             f.value.annotations
               .find(classOf[LexicalInformation])
-              .exists(_.containsCompletely(position))
+              .exists(_.containsCompletely(position.toAmfPosition))
           case v =>
             v.position()
-              .exists(_.contains(position)) && (f.value.annotations
+              .exists(_.contains(position.toAmfPosition)) && (f.value.annotations
               .find(classOf[LexicalInformation])
-              .forall(_.containsCompletely(position)) && !f.value.value.annotations
+              .forall(_.containsCompletely(position.toAmfPosition)) && !f.value.value.annotations
               .contains(classOf[SynthesizedField]))
       })
       .toList
@@ -87,7 +88,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
       case Some(e) =>
         if (e.value.value
               .position()
-              .exists(li => li.contains(position))) {
+              .exists(li => li.contains(position.toAmfPosition))) {
           val maybeMappings = mappings
             .find(
               pm =>
@@ -127,7 +128,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
   lazy val indentation: String =
     (if (yPartBranch.isKey) "\n" else "") + baseUnit.raw
       .flatMap(text => {
-        val pos  = position.moveLine(-1)
+        val pos  = position
         val left = text.substring(0, pos.offset(text))
         val line =
           if (left.contains("\n"))
@@ -149,7 +150,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
 object AmlCompletionRequestBuilder {
 
   def build(baseUnit: BaseUnit,
-            position: Position,
+            position: AmfPosition,
             dialect: Dialect,
             env: CompletionEnvironment,
             originalContent: String,
@@ -165,18 +166,18 @@ object AmlCompletionRequestBuilder {
     }
 
     val styler = SuggestionStylerBuilder.build(!yPartBranch.isJson,
-                                               prefix(yPartBranch, position),
+                                               prefix(yPartBranch, DtoPosition(position)),
                                                originalContent,
-                                               position.moveLine(-1),
+                                               DtoPosition(position),
                                                snippetSupport)
     val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
-    new AmlCompletionRequest(baseUnit, position, dialect, env, styler, yPartBranch, objectInTree)
+    new AmlCompletionRequest(baseUnit, DtoPosition(position), dialect, env, styler, yPartBranch, objectInTree)
   }
 
-  private def prefix(yPartBranch: YPartBranch, position: Position): String = {
+  private def prefix(yPartBranch: YPartBranch, position: DtoPosition): String = {
     yPartBranch.node match {
       case node: YNode =>
-        if (PositionRange(node.tag.range).contains(position.moveLine(-1)))
+        if (PositionRange(node.tag.range).contains(position))
           node.tag.text
         else
           node.tagType match {
@@ -216,7 +217,7 @@ object AmlCompletionRequestBuilder {
 
     val objectInTree = ObjectInTreeBuilder.fromSubTree(
       element,
-      parent.position,
+      parent.position.toAmfPosition,
       parent.branchStack.splitAt(parent.branchStack.indexOf(element))._2)
     new AmlCompletionRequest(
       parent.baseUnit,

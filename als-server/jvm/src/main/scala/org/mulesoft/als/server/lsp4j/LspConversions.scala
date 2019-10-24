@@ -33,6 +33,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolKind,
   SymbolKindClientCapabilities
 }
+import org.mulesoft.lsp.feature.link.{DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
@@ -123,7 +124,9 @@ object LspConversions {
       Option(capabilities.getReferences).map(referenceClientCapabilities),
       Option(capabilities.getDocumentSymbol).map(documentSymbolClientCapabilities),
       Option(capabilities.getDefinition).map(definitionClientCapabilities),
-      Option(capabilities.getRename).map(renameClientCapabilities)
+      Option(capabilities.getRename).map(renameClientCapabilities),
+      Option(capabilities.getCodeAction).flatMap(_ => None), // TODO: CodeAction
+      Option(capabilities.getDocumentLink).map(documentLinkClientCapabilities)
     )
 
   implicit def workspaceClientCapabilities(
@@ -206,6 +209,7 @@ object LspConversions {
         booleanOrFalse(result.getDocumentSymbolProvider),
         Option(result.getRenameProvider).flatMap(eitherRenameOptions),
         Option(result.getCodeActionProvider).flatMap(eitherCodeActionProviderOptions),
+        Option(result.getDocumentLinkProvider),
         Option(result.getExperimental)
       )
 
@@ -291,4 +295,14 @@ object LspConversions {
 
   implicit def documentSymbolParams(params: lsp4j.DocumentSymbolParams): DocumentSymbolParams =
     DocumentSymbolParams(params.getTextDocument)
+
+  implicit def documentLinkParams(params: lsp4j.DocumentLinkParams): DocumentLinkParams =
+    DocumentLinkParams(params.getTextDocument)
+
+  implicit def documentLinkClientCapabilities(
+      capabilities: lsp4j.DocumentLinkCapabilities): DocumentLinkClientCapabilities =
+    DocumentLinkClientCapabilities(Option(capabilities.getDynamicRegistration), None)
+
+  implicit def documentLinkOptions(options: lsp4j.DocumentLinkOptions): DocumentLinkOptions =
+    DocumentLinkOptions(Option(options.getResolveProvider))
 }

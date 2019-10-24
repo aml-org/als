@@ -11,6 +11,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
+import org.mulesoft.amfmanager.dialect.webapi.oas.Oas20DialectWrapper
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

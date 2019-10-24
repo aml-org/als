@@ -2,25 +2,23 @@ package org.mulesoft.als.suggestions.client
 
 import amf.core.model.document.BaseUnit
 import amf.core.remote._
-import amf.dialects.WebApiDialectsRegistry
 import amf.internal.environment.Environment
-import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceUnit}
-import org.mulesoft.als.common.dtoTypes.Position
+import amf.plugins.document.vocabularies.model.document.Dialect
+import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
 import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher}
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequestBuilder, CompletionEnvironment}
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.Oas20DialectWrapper
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08.Raml08TypesDialect
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.Raml10TypesDialect
+import org.mulesoft.amfmanager.dialect.DialectKnowledge
 import org.mulesoft.amfmanager.{InitOptions, ParserHelper}
 import org.mulesoft.lsp.feature.completion.CompletionItem
+import amf.core.parser.{Position => AmfPosition}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object Suggestions extends SuggestionsHelper {
+object Suggestions extends SuggestionsHelper with DialectKnowledge {
   def init(options: InitOptions = InitOptions.WebApiProfiles): Future[Unit] =
     Core.init(options)
 
@@ -67,7 +65,7 @@ object Suggestions extends SuggestionsHelper {
           buildCompletionProviderAST(bu,
                                      d,
                                      bu.id,
-                                     Position(position, originalContent),
+                                     DtoPosition(position, originalContent),
                                      originalContent,
                                      directoryResolver,
                                      env,
@@ -77,11 +75,11 @@ object Suggestions extends SuggestionsHelper {
         if (!url.toLowerCase().endsWith(".raml"))
           Future(
             HeaderCompletionProviderBuilder
-              .build(url, originalContent, Position(position, originalContent)))
+              .build(url, originalContent, DtoPosition(position, originalContent)))
         else
           Future(
             RamlHeaderCompletionProvider
-              .build(url, originalContent, Position(position, originalContent)))
+              .build(url, originalContent, DtoPosition(position, originalContent)))
       case _ =>
         Future.failed(new Exception("Cannot find dialect for unit: " + bu.id))
     }
@@ -104,17 +102,6 @@ object Suggestions extends SuggestionsHelper {
       .substring(0, position)
       .replaceAll("^\\{?\\s+", "")
       .contains('\n')
-
-  private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
-    case d: DialectInstanceUnit => WebApiDialectsRegistry.dialectFor(bu)
-    case d if d.sourceVendor.contains(Oas20) =>
-      Some(Oas20DialectWrapper.dialect)
-    case d if d.sourceVendor.contains(Raml10) =>
-      Some(Raml10TypesDialect.dialect)
-    case d if d.sourceVendor.contains(Raml08) =>
-      Some(Raml08TypesDialect.dialect)
-    case _ => None
-  }
 
   private def suggestWithPatchedEnvironment(language: String,
                                             url: String,
@@ -139,14 +126,14 @@ object Suggestions extends SuggestionsHelper {
   private def buildCompletionProviderAST(bu: BaseUnit,
                                          dialect: Dialect,
                                          url: String,
-                                         pos: Position,
+                                         pos: DtoPosition,
                                          originalContent: String,
                                          directoryResolver: DirectoryResolver,
                                          env: Environment,
                                          platform: Platform,
                                          snippetSupport: Boolean): CompletionProviderAST = {
 
-    val amfPosition = pos.moveLine(1)
+    val amfPosition: AmfPosition = pos.toAmfPosition
     CompletionProviderAST(
       AmlCompletionRequestBuilder
         .build(bu,

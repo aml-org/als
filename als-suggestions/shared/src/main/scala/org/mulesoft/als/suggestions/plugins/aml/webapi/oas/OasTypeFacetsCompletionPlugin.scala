@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
+import org.mulesoft.amfmanager.dialect.webapi.oas.Oas20DialectWrapper
 
 object OasTypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin {
   override def stringShapeNode: NodeMapping = Oas20DialectWrapper.JsonSchemas.StringSchemaObject

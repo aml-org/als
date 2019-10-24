@@ -25,7 +25,7 @@ object Raml10HeaderCompletionPlugin extends AMLCompletionPlugin {
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future {
       // if I'm here, I'm RAML, verify that I am after the definition
-      if (params.position.line <= 1 && params.baseUnit.raw
+      if (params.position.line == 0 && params.baseUnit.raw
             .exists(r =>
               r.substring(0, 0 max params.position.column)
                 .startsWith("#%RAML 1.0")))
