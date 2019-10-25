@@ -10,7 +10,7 @@ import amf.core.parser._
 
 import scala.annotation.tailrec
 
-case class YPartBranch(node: YPart, position: AmfPosition, val stack: Seq[YPart]) {
+case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart]) {
 
   lazy val isMultiline: Boolean = node match {
     case n: YNode if n.asScalar.isDefined => n.asScalar.exists(_.mark == MultilineMark)

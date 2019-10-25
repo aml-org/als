@@ -129,7 +129,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
 
 object AmlCompletionRequestBuilder {
 
-  private def indentation(bu: BaseUnit, position: Position): Int =
+  private def indentation(bu: BaseUnit, position: DtoPosition): Int =
     bu.raw
       .flatMap(text => {
         val pos  = position
@@ -165,13 +165,14 @@ object AmlCompletionRequestBuilder {
       NodeBranchBuilder.build(ast.getOrElse(YDocument(IndexedSeq.empty, "")), position)
     }
 
+    val dtoPosition = DtoPosition(position)
     val styler = SuggestionStylerBuilder.build(!yPartBranch.isJson,
-                                               prefix(yPartBranch, DtoPosition(position)),
+                                               prefix(yPartBranch, dtoPosition),
                                                patchedContent,
-                                                DtoPosition(position),
+                                               dtoPosition,
                                                yPartBranch,
                                                snippetSupport,
-      indentation(baseUnit, position))
+                                               indentation(baseUnit, dtoPosition))
     val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
     new AmlCompletionRequest(baseUnit, DtoPosition(position), dialect, env, styler, yPartBranch, objectInTree)
   }

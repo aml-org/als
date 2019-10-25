@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions.client
 
 import amf.core.model.document.BaseUnit
+import amf.core.parser.{Position => AmfPosition}
 import amf.core.remote._
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
@@ -11,13 +12,9 @@ import org.mulesoft.als.suggestions.aml.{AmlCompletionRequestBuilder, Completion
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
 import org.mulesoft.als.suggestions.patcher.PatchedContent
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.Oas20DialectWrapper
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08.Raml08TypesDialect
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.Raml10TypesDialect
 import org.mulesoft.amfmanager.dialect.DialectKnowledge
 import org.mulesoft.amfmanager.{InitOptions, ParserHelper}
 import org.mulesoft.lsp.feature.completion.CompletionItem
-import amf.core.parser.{Position => AmfPosition}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -69,7 +66,7 @@ object Suggestions extends SuggestionsHelper with DialectKnowledge {
           buildCompletionProviderAST(bu,
                                      d,
                                      bu.id,
-            DtoPosition(position, patchedContent.original),
+                                     DtoPosition(position, patchedContent.original),
                                      patchedContent,
                                      directoryResolver,
                                      env,

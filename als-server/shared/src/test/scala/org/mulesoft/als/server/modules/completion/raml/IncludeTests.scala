@@ -12,9 +12,8 @@ class IncludeTests extends RAMLSuggestionTestServer {
   }
 
   test("test02") {
-    runTest(
-      "includes/testGroup01/test02.raml",
-      Set("fragments/testFragment.raml", "fragments/test Fragment.raml", "fragments/testFragment2.raml") TSortTest)
+    runTest("includes/testGroup01/test02.raml",
+            Set("fragments/testFragment.raml", "fragments/test Fragment.raml", "fragments/testFragment2.raml"))
   }
 
   test("test03") {
@@ -39,10 +38,10 @@ class IncludeTests extends RAMLSuggestionTestServer {
   }
 
   test("test with % 1") {
-    runTest("includes/testGroup%5A/test%25.raml", Set("test%25 B.raml", "with space/test%A5 lib.raml"))
+    runTest("includes/testGroup%5A/test%25.raml", Set("test%25 B.raml", "with space/"))
   }
 
   test("test with % 2") {
-    runTest("includes/testGroup%5A/test%25 B.raml", Set("test%A5 lib.raml"))
+    runTest("includes/testGroup%5A/test%25 B.raml", Set("with space/test%A5 lib.raml"))
   }
 }
