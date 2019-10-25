@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10http",
-    "filterText": null,
+    "filterText": "\"http\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 6,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 6,
-          "character": 11
+          "character": 13
         }
       },
-      "newText": "http"
+      "newText": "\"http\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10https",
-    "filterText": null,
+    "filterText": "\"https\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 6,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 6,
-          "character": 11
+          "character": 13
         }
       },
-      "newText": "https"
+      "newText": "\"https\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10ws",
-    "filterText": null,
+    "filterText": "\"ws\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -76,14 +76,14 @@
       "range": {
         "start": {
           "line": 6,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 6,
-          "character": 11
+          "character": 13
         }
       },
-      "newText": "ws"
+      "newText": "\"ws\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10wss",
-    "filterText": null,
+    "filterText": "\"wss\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -106,14 +106,14 @@
       "range": {
         "start": {
           "line": 6,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 6,
-          "character": 11
+          "character": 13
         }
       },
-      "newText": "wss"
+      "newText": "\"wss\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -6,17 +6,29 @@ import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.completion.InsertTextFormat.InsertTextFormat
 import org.mulesoft.lsp.feature.completion.{CompletionItem, InsertTextFormat}
 
-class CompletionItemBuilder(_range: PositionRange) {
-  private var text: String         = ""
-  private var description: String  = ""
-  private var displayText: String  = ""
-  private var prefix: String       = ""
-  private var range: PositionRange = _range
-  private var insertTextFormat     = InsertTextFormat.PlainText
-  private var category: String     = ""
+class CompletionItemBuilder(r: PositionRange) {
+  private var text: String               = ""
+  private var description: String        = ""
+  private var displayText: String        = ""
+  private var prefix: String             = ""
+  private var range: PositionRange       = r
+  private var insertTextFormat           = InsertTextFormat.PlainText
+  private var category: String           = ""
+  private var template                   = false
+  private var filterText: Option[String] = None
 
   def withText(text: String): this.type = {
     this.text = text
+    this
+  }
+
+  def withFilterText(filterText: String): this.type = {
+    this.filterText = Some(filterText)
+    this
+  }
+
+  def withTemplate(): this.type = {
+    template = true
     this
   }
 
@@ -55,7 +67,7 @@ class CompletionItemBuilder(_range: PositionRange) {
   def getText: String         = this.text
 
   def getPriority(insertTextFormat: InsertTextFormat, text: String): Int =
-    insertTextFormat.id * 10 + { if (text.startsWith("(")) 10 else 0 }
+    (if (template) 20 else 10) + { if (text.startsWith("(")) 10 else 0 }
 
   def build(): CompletionItem =
     CompletionItem(
@@ -64,7 +76,8 @@ class CompletionItemBuilder(_range: PositionRange) {
       detail = Some(category),
       documentation = Some(description),
       insertTextFormat = Some(insertTextFormat),
-      sortText = Some(s"${getPriority(insertTextFormat, text)}$displayText")
+      sortText = Some(s"${getPriority(insertTextFormat, text)}$displayText"),
+      filterText = filterText.orElse(Some(text))
     )
 
   private def textEdit(text: String, range: PositionRange): Option[TextEdit] = {

@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#%RAML 1.0 AnnotationTypeDeclaration",
-    "filterText": null,
+    "filterText": "#%RAML 1.0 AnnotationTypeDeclaration",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#%RAML 1.0 DataType",
-    "filterText": null,
+    "filterText": "#%RAML 1.0 DataType",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#%RAML 1.0 DocumentationItem",
-    "filterText": null,
+    "filterText": "#%RAML 1.0 DocumentationItem",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#%RAML 1.0 Extension",
-    "filterText": null,
+    "filterText": "#%RAML 1.0 Extension",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#%RAML 1.0 Library",
-    "filterText": null,
+    "filterText": "#%RAML 1.0 Library",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#%RAML 1.0 NamedExample",
-    "filterText": null,
+    "filterText": "#%RAML 1.0 NamedExample",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#%RAML 1.0 Overlay",
-    "filterText": null,
+    "filterText": "#%RAML 1.0 Overlay",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#%RAML 1.0 ResourceType",
-    "filterText": null,
+    "filterText": "#%RAML 1.0 ResourceType",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#%RAML 1.0 SecurityScheme",
-    "filterText": null,
+    "filterText": "#%RAML 1.0 SecurityScheme",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#%RAML 1.0 Trait",
-    "filterText": null,
+    "filterText": "#%RAML 1.0 Trait",
     "insertText": null,
     "insertTextFormat": [
       1

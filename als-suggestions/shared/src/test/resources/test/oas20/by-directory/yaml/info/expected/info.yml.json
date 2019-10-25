@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10contact",
-    "filterText": null,
+    "filterText": "contact:\n    ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10description",
-    "filterText": null,
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10license",
-    "filterText": null,
+    "filterText": "license:\n    ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10termsOfService",
-    "filterText": null,
+    "filterText": "termsOfService: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10title",
-    "filterText": null,
+    "filterText": "title: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10version",
-    "filterText": null,
+    "filterText": "version: ",
     "insertText": null,
     "insertTextFormat": [
       1

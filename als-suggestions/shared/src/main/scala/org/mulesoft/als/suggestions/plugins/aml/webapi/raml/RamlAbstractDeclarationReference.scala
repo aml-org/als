@@ -42,14 +42,14 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
           val vars = extractChildren(params, s)
           if (params.yPartBranch.isKey)
             s.copy(options = s.options.copy(isKey = true,
-              rangeKing =
+              rangeKind =
                 if (isArray(params.yPartBranch)) ArrayRange else ObjectRange),
-              sons = vars)
+              children = vars)
           else
             s.copy(
-              sons = vars,
+              children = vars,
               options = s.options.copy(isKey = vars.nonEmpty,
-                rangeKing =
+                rangeKind =
                   if (isArray(params.yPartBranch)) ArrayRange
                   else if (vars.nonEmpty) ObjectRange
                   else StringScalarRange)

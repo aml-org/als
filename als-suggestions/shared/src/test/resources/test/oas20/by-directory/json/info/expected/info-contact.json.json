@@ -7,23 +7,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10email",
-    "filterText": null,
+    "filterText": "\"email\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 4,
-          "character": 7
+          "character": 6
         },
         "end": {
           "line": 4,
-          "character": 7
+          "character": 14
         }
       },
-      "newText": "email"
+      "newText": "\"email\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,23 +37,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10name",
-    "filterText": null,
+    "filterText": "\"name\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 4,
-          "character": 7
+          "character": 6
         },
         "end": {
           "line": 4,
-          "character": 7
+          "character": 14
         }
       },
-      "newText": "name"
+      "newText": "\"name\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,23 +67,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10url",
-    "filterText": null,
+    "filterText": "\"url\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 4,
-          "character": 7
+          "character": 6
         },
         "end": {
           "line": 4,
-          "character": 7
+          "character": 14
         }
       },
-      "newText": "url"
+      "newText": "\"url\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

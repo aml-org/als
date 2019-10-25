@@ -29,11 +29,6 @@ object Raml10HeaderCompletionPlugin extends AMLCompletionPlugin {
             .exists(r =>
               r.substring(0, 0 max params.position.column)
                 .startsWith("#%RAML 1.0")))
-//        if (params.baseUnit.raw
-//              .exists(_.charAt(params.position.column - 1) == ' ')) // check if I already have whitespace
-//          headers.map(h => RawSuggestion.apply(h, isAKey = false))
-//        else
-//          headers.map(h => RawSuggestion.apply(s" $h", isAKey = false))
         headers.map(
           h =>
             RawSuggestion.plain(

@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10a",
-    "filterText": null,
+    "filterText": "\"#/definitions/a\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 29
+          "character": 30
         }
       },
-      "newText": "#/definitions/a"
+      "newText": "\"#/definitions/a\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

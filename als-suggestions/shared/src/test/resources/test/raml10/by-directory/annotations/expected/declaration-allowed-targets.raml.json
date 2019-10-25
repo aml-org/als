@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10API",
-    "filterText": null,
+    "filterText": "API",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10AnnotationType",
-    "filterText": null,
+    "filterText": "AnnotationType",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10DocumentationItem",
-    "filterText": null,
+    "filterText": "DocumentationItem",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10Example",
-    "filterText": null,
+    "filterText": "Example",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10Extension",
-    "filterText": null,
+    "filterText": "Extension",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10Library",
-    "filterText": null,
+    "filterText": "Library",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10Method",
-    "filterText": null,
+    "filterText": "Method",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10Overlay",
-    "filterText": null,
+    "filterText": "Overlay",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10RequestBody",
-    "filterText": null,
+    "filterText": "RequestBody",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10Resource",
-    "filterText": null,
+    "filterText": "Resource",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10ResourceType",
-    "filterText": null,
+    "filterText": "ResourceType",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10Response",
-    "filterText": null,
+    "filterText": "Response",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10ResponseBody",
-    "filterText": null,
+    "filterText": "ResponseBody",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -397,7 +397,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10SecurityScheme",
-    "filterText": null,
+    "filterText": "SecurityScheme",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -427,7 +427,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10SecuritySchemeSettings",
-    "filterText": null,
+    "filterText": "SecuritySchemeSettings",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -457,7 +457,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10Trait",
-    "filterText": null,
+    "filterText": "Trait",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -487,7 +487,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10TypeDeclaration",
-    "filterText": null,
+    "filterText": "TypeDeclaration",
     "insertText": null,
     "insertTextFormat": [
       1

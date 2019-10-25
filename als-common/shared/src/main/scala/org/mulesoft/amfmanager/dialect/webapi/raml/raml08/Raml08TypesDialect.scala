@@ -32,7 +32,6 @@ object Raml08TypesDialect {
         "date"
       ))
     .withLiteralRange(xsdString.iri())
-    .withObjectRange(Seq(ShapeNodeId))
 
   val schemasProperties: Seq[PropertyMapping] = Seq(shapeTypesProperty)
 

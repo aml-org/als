@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.plugins.document.vocabularies.ReferenceStyles
 import org.mulesoft.als.common.ElementNameExtractor._
 import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.als.suggestions.{PlainText, RawSuggestion, SuggestionOptions}
+import org.mulesoft.als.suggestions.{PlainText, RawSuggestion, SuggestionStructure}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 
@@ -14,9 +14,13 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLRefTagCompletionPlugin"
 
   private val includeSuggestion = Seq(
-    RawSuggestion("!include ", "!include", "inclusion tag", Seq(), options = SuggestionOptions(rangeKing = PlainText)))
+    RawSuggestion("!include ",
+                  "!include",
+                  "inclusion tag",
+                  Seq(),
+                  options = SuggestionStructure(rangeKind = PlainText)))
   private val refSuggestion = Seq(
-    RawSuggestion("$ref", "$ref", "reference tag", Seq(), options = SuggestionOptions(isKey = true)))
+    RawSuggestion("$ref", "$ref", "reference tag", Seq(), options = SuggestionStructure(isKey = true)))
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future {

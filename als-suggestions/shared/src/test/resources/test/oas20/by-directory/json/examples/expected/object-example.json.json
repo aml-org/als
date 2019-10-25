@@ -7,23 +7,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10p1",
-    "filterText": null,
+    "filterText": "\"p1\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 11,
-          "character": 9
+          "character": 8
         },
         "end": {
           "line": 11,
-          "character": 9
+          "character": 16
         }
       },
-      "newText": "p1"
+      "newText": "\"p1\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

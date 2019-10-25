@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10internalApiKey",
-    "filterText": null,
+    "filterText": "internalApiKey:\n          ",
     "insertText": null,
     "insertTextFormat": [
       1

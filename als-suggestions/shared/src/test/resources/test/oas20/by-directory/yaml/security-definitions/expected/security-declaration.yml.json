@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10description",
-    "filterText": null,
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10type",
-    "filterText": null,
+    "filterText": "type: ",
     "insertText": null,
     "insertTextFormat": [
       1

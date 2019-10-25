@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10anotherPro",
-    "filterText": null,
+    "filterText": "anotherPro",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10name",
-    "filterText": null,
+    "filterText": "name",
     "insertText": null,
     "insertTextFormat": [
       1

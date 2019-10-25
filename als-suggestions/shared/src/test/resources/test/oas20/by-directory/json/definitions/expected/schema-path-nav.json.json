@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10definitions/",
-    "filterText": null,
+    "filterText": "\"jsonschema.json#/definitions/\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 4,
-          "character": 32
+          "character": 33
         }
       },
-      "newText": "jsonschema.json#/definitions/"
+      "newText": "\"jsonschema.json#/definitions/\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

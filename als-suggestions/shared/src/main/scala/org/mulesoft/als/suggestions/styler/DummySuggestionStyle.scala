@@ -1,21 +1,22 @@
 package org.mulesoft.als.suggestions.styler
 
+import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.patcher.PatchedContent
+import org.mulesoft.als.suggestions.styler.astbuilder.{AstRawBuilder, DummyAstRawBuilder}
+import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
+import org.yaml.model.YMap
 
-case class DummySuggestionStyle(prefix: String, position: Position) extends SuggestionStyler {
+case class DummySuggestionStyle(prefix: String, position: Position) extends SuggestionRender {
   override val params: StylerParams =
     StylerParams(prefix,
-                 hasQuote = false,
-                 hasColon = false,
-                 hasLine = false,
-                 hasKeyClosingQuote = false,
-                 hasOpeningQuote = false,
-                 position = position,
+                 PatchedContent("", "", Nil),
+                 position,
+                 YPartBranch(YMap.empty, position, Nil),
                  supportSnippets = true,
                  0)
 
-  override def style(suggestion: RawSuggestion): Styled = Styled(suggestion.newText, plain = true)
+  override protected def render(options: SuggestionStructure, builder: AstRawBuilder): String = builder.ast.toString
 
-  override def styleKey(key: String): String = "key: "
+  override def astBuilder: RawSuggestion => AstRawBuilder = (raw: RawSuggestion) => new DummyAstRawBuilder(raw)
 }

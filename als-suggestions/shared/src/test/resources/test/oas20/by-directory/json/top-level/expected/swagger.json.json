@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10\"swagger\": \"2.0\"",
-    "filterText": null,
+    "filterText": "\"swagger\": \"2.0\"",
     "insertText": null,
     "insertTextFormat": [
       1

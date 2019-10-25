@@ -8,7 +8,6 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-
 object AMLEnumCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLEnumCompletionPlugin"
 
@@ -20,7 +19,7 @@ object AMLEnumCompletionPlugin extends AMLCompletionPlugin {
     }
 
   def getSuggestions(propertyMapping: List[PropertyMapping], yPartBranch: YPartBranch): Seq[RawSuggestion] = {
-    val suggestions = propertyMapping match {
+    propertyMapping match {
       case head :: Nil => suggestMapping(head)
       case Nil         => Nil
       case _ =>
@@ -33,9 +32,15 @@ object AMLEnumCompletionPlugin extends AMLCompletionPlugin {
           case None => Nil
         }
     }
-    suggestions.map(RawSuggestion(_, isAKey = false))
   }
 
-  private def suggestMapping(pm: PropertyMapping): Seq[String] =
-    pm.enum().flatMap(_.option().map(e => e.toString))
+  private def suggestMapping(pm: PropertyMapping): Seq[RawSuggestion] =
+    pm.enum()
+      .flatMap(_.option().map(e => {
+        val raw = pm.toRaw("unknown")
+        raw.copy(newText = e.toString,
+                 displayText = e.toString,
+                 description = e.toString,
+                 options = raw.options.copy(isKey = false))
+      }))
 }

@@ -7,23 +7,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10description",
-    "filterText": null,
+    "filterText": "\"description\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 10,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 10,
-          "character": 11
+          "character": 18
         }
       },
-      "newText": "description"
+      "newText": "\"description\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,23 +37,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10name",
-    "filterText": null,
+    "filterText": "\"name\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 10,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 10,
-          "character": 11
+          "character": 18
         }
       },
-      "newText": "name"
+      "newText": "\"name\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,23 +67,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10required",
-    "filterText": null,
+    "filterText": "\"required\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 10,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 10,
-          "character": 11
+          "character": 18
         }
       },
-      "newText": "required"
+      "newText": "\"required\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,23 +97,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10schema",
-    "filterText": null,
+    "filterText": "\"schema\": {\n            \"$1\"\n          }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 10,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 10,
-          "character": 11
+          "character": 18
         }
       },
-      "newText": "schema"
+      "newText": "\"schema\": {\n            \"$1\"\n          }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10definitions/a",
-    "filterText": null,
+    "filterText": "\"#/definitions/a\"",
     "insertText": null,
     "insertTextFormat": [
       1
