@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#/definitions/A",
-    "filterText": null,
+    "filterText": "\"#/definitions/A\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 14,
-          "character": 23
+          "character": 22
         },
         "end": {
           "line": 14,
-          "character": 23
+          "character": 24
         }
       },
-      "newText": "#/definitions/A"
+      "newText": "\"#/definitions/A\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10expected/",
-    "filterText": null,
+    "filterText": "\"expected/\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 14,
-          "character": 23
+          "character": 22
         },
         "end": {
           "line": 14,
-          "character": 23
+          "character": 24
         }
       },
-      "newText": "expected/"
+      "newText": "\"expected/\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-declaration-named.json",
-    "filterText": null,
+    "filterText": "\"response-declaration-named.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -76,14 +76,14 @@
       "range": {
         "start": {
           "line": 14,
-          "character": 23
+          "character": 22
         },
         "end": {
           "line": 14,
-          "character": 23
+          "character": 24
         }
       },
-      "newText": "response-declaration-named.json"
+      "newText": "\"response-declaration-named.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-declaration.json",
-    "filterText": null,
+    "filterText": "\"response-declaration.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -106,14 +106,14 @@
       "range": {
         "start": {
           "line": 14,
-          "character": 23
+          "character": 22
         },
         "end": {
           "line": 14,
-          "character": 23
+          "character": 24
         }
       },
-      "newText": "response-declaration.json"
+      "newText": "\"response-declaration.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-example.json",
-    "filterText": null,
+    "filterText": "\"response-example.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -136,14 +136,14 @@
       "range": {
         "start": {
           "line": 14,
-          "character": 23
+          "character": 22
         },
         "end": {
           "line": 14,
-          "character": 23
+          "character": 24
         }
       },
-      "newText": "response-example.json"
+      "newText": "\"response-example.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-examples.json",
-    "filterText": null,
+    "filterText": "\"response-examples.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -166,14 +166,14 @@
       "range": {
         "start": {
           "line": 14,
-          "character": 23
+          "character": 22
         },
         "end": {
           "line": 14,
-          "character": 23
+          "character": 24
         }
       },
-      "newText": "response-examples.json"
+      "newText": "\"response-examples.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-header.json",
-    "filterText": null,
+    "filterText": "\"response-header.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -196,14 +196,14 @@
       "range": {
         "start": {
           "line": 14,
-          "character": 23
+          "character": 22
         },
         "end": {
           "line": 14,
-          "character": 23
+          "character": 24
         }
       },
-      "newText": "response-header.json"
+      "newText": "\"response-header.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-headers.json",
-    "filterText": null,
+    "filterText": "\"response-headers.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -226,14 +226,14 @@
       "range": {
         "start": {
           "line": 14,
-          "character": 23
+          "character": 22
         },
         "end": {
           "line": 14,
-          "character": 23
+          "character": 24
         }
       },
-      "newText": "response-headers.json"
+      "newText": "\"response-headers.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-ref.json",
-    "filterText": null,
+    "filterText": "\"response-ref.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -256,14 +256,14 @@
       "range": {
         "start": {
           "line": 14,
-          "character": 23
+          "character": 22
         },
         "end": {
           "line": 14,
-          "character": 23
+          "character": 24
         }
       },
-      "newText": "response-ref.json"
+      "newText": "\"response-ref.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-schema.json",
-    "filterText": null,
+    "filterText": "\"response-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -286,14 +286,14 @@
       "range": {
         "start": {
           "line": 14,
-          "character": 23
+          "character": 22
         },
         "end": {
           "line": 14,
-          "character": 23
+          "character": 24
         }
       },
-      "newText": "response-schema.json"
+      "newText": "\"response-schema.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response.json",
-    "filterText": null,
+    "filterText": "\"response.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -316,14 +316,14 @@
       "range": {
         "start": {
           "line": 14,
-          "character": 23
+          "character": 22
         },
         "end": {
           "line": 14,
-          "character": 23
+          "character": 24
         }
       },
-      "newText": "response.json"
+      "newText": "\"response.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

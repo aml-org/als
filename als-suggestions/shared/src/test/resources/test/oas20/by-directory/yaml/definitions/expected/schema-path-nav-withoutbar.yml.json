@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10definitions/",
-    "filterText": null,
+    "filterText": "jsonschema.json#/definitions/",
     "insertText": null,
     "insertTextFormat": [
       1

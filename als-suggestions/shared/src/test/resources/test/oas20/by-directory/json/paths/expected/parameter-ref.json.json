@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#/parameters/named",
-    "filterText": null,
+    "filterText": "\"#/parameters/named\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 11,
-          "character": 19
+          "character": 18
         },
         "end": {
           "line": 11,
-          "character": 19
+          "character": 20
         }
       },
-      "newText": "#/parameters/named"
+      "newText": "\"#/parameters/named\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10expected/",
-    "filterText": null,
+    "filterText": "\"expected/\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 11,
-          "character": 19
+          "character": 18
         },
         "end": {
           "line": 11,
-          "character": 19
+          "character": 20
         }
       },
-      "newText": "expected/"
+      "newText": "\"expected/\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10parameter-array.json",
-    "filterText": null,
+    "filterText": "\"parameter-array.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -76,14 +76,14 @@
       "range": {
         "start": {
           "line": 11,
-          "character": 19
+          "character": 18
         },
         "end": {
           "line": 11,
-          "character": 19
+          "character": 20
         }
       },
-      "newText": "parameter-array.json"
+      "newText": "\"parameter-array.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10parameter.json",
-    "filterText": null,
+    "filterText": "\"parameter.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -106,14 +106,14 @@
       "range": {
         "start": {
           "line": 11,
-          "character": 19
+          "character": 18
         },
         "end": {
           "line": 11,
-          "character": 19
+          "character": 20
         }
       },
-      "newText": "parameter.json"
+      "newText": "\"parameter.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10path-ref.json",
-    "filterText": null,
+    "filterText": "\"path-ref.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -136,14 +136,14 @@
       "range": {
         "start": {
           "line": 11,
-          "character": 19
+          "character": 18
         },
         "end": {
           "line": 11,
-          "character": 19
+          "character": 20
         }
       },
-      "newText": "path-ref.json"
+      "newText": "\"path-ref.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10path.json",
-    "filterText": null,
+    "filterText": "\"path.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -166,14 +166,14 @@
       "range": {
         "start": {
           "line": 11,
-          "character": 19
+          "character": 18
         },
         "end": {
           "line": 11,
-          "character": 19
+          "character": 20
         }
       },
-      "newText": "path.json"
+      "newText": "\"path.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10paths.json",
-    "filterText": null,
+    "filterText": "\"paths.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -196,14 +196,14 @@
       "range": {
         "start": {
           "line": 11,
-          "character": 19
+          "character": 18
         },
         "end": {
           "line": 11,
-          "character": 19
+          "character": 20
         }
       },
-      "newText": "paths.json"
+      "newText": "\"paths.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

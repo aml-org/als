@@ -7,6 +7,7 @@ import org.mulesoft.als.suggestions.aml.webapi.{
 }
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.interfaces.Syntax._
+import org.mulesoft.als.suggestions.patcher.{JsonContentPatcher, PatchedContent, YamlContentPatcher}
 import org.mulesoft.amfmanager.{DialectInitializer, InitOptions}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -28,12 +29,12 @@ object Core {
       })
   }
 
-  def prepareText(text: String, offset: Int, syntax: Syntax): String =
+  def prepareText(text: String, offset: Int, syntax: Syntax): PatchedContent =
     if (text.trim.startsWith("{"))
-      ContentPatcher.prepareJsonContent(text, offset)
+      JsonContentPatcher.prepareJsonContent(text, offset)
     else
       syntax match {
-        case YAML => ContentPatcher.prepareYamlContent(text, offset)
+        case YAML => YamlContentPatcher.prepareYamlContent(text, offset)
         case _    => throw new Error(s"Syntax not supported: $syntax")
       }
 }

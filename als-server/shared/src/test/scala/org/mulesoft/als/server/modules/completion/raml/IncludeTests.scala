@@ -7,15 +7,18 @@ class IncludeTests extends RAMLSuggestionTestServer {
   override implicit val executionContext = ExecutionContext.Implicits.global
 
   test("test01") {
-    runTest("includes/testGroup01/test01.raml", Set("test Fragment.raml", "testFragment.raml", "testFragment2.raml"))
+    runTest("includes/testGroup01/test01.raml",
+            Set("fragments/test Fragment.raml", "fragments/testFragment.raml", "fragments/testFragment2.raml"))
   }
 
   test("test02") {
-    runTest("includes/testGroup01/test02.raml", Set("testFragment.raml", "test Fragment.raml", "testFragment2.raml"))
+    runTest(
+      "includes/testGroup01/test02.raml",
+      Set("fragments/testFragment.raml", "fragments/test Fragment.raml", "fragments/testFragment2.raml") TSortTest)
   }
 
   test("test03") {
-    runTest("includes/testGroup01/test03.raml", Set("raml"))
+    runTest("includes/testGroup01/test03.raml", Set("fragments/testFragment.raml"))
   }
 
   test("test04") {
@@ -23,7 +26,8 @@ class IncludeTests extends RAMLSuggestionTestServer {
   }
 
   test("test05") {
-    runTest("includes/testGroup01/test 05.raml", Set("test Fragment.raml", "testFragment.raml", "testFragment2.raml"))
+    runTest("includes/testGroup01/test 05.raml",
+            Set("fragments/test Fragment.raml", "fragments/testFragment.raml", "fragments/testFragment2.raml"))
   }
 
   test("test06") {
@@ -31,11 +35,11 @@ class IncludeTests extends RAMLSuggestionTestServer {
   }
 
   test("test07") {
-    runTest("includes/testGroup02/test02.raml", Set("raml"))
+    runTest("includes/testGroup02/test02.raml", Set("testFragment.raml"))
   }
 
   test("test with % 1") {
-    runTest("includes/testGroup%5A/test%25.raml", Set("test%25 B.raml", "with space/"))
+    runTest("includes/testGroup%5A/test%25.raml", Set("test%25 B.raml", "with space/test%A5 lib.raml"))
   }
 
   test("test with % 2") {

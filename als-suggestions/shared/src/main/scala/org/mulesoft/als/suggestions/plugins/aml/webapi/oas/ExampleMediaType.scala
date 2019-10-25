@@ -26,7 +26,7 @@ object ExampleMediaType extends AMLCompletionPlugin {
           request.yPartBranch.isInArray || request.yPartBranch.isArray
         ).resolve()
           .map(_.map(s => {
-            s.copy(options = s.options.copy(rangeKing = ObjectRange))
+            s.copy(options = s.options.copy(rangeKind = ObjectRange))
           }))
       case _ => emptySuggestion
     }

@@ -13,7 +13,8 @@ import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition, PositionRange}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
-import org.mulesoft.als.suggestions.styler.{SuggestionStyler, SuggestionStylerBuilder}
+import org.mulesoft.als.suggestions.patcher.PatchedContent
+import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
 import org.yaml.model.{YDocument, YNode, YType}
 import amf.core.parser.{Position => AmfPosition}
 
@@ -21,7 +22,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: DtoPosition,
                            val actualDialect: Dialect,
                            val env: CompletionEnvironment,
-                           val styler: SuggestionStyler,
+                           val styler: SuggestionRender,
                            val yPartBranch: YPartBranch,
                            private val objectInTree: ObjectInTree,
                            val inheritedProvider: Option[DeclarationProvider] = None) {
@@ -36,8 +37,8 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
     case RAML10Dialect.DialectLocation => false
     case RAML08Dialect.DialectLocation => false
     case _                             => true
-
   }
+
   lazy val fieldEntry: Option[FieldEntry] = { // todo: maybe this should be a seq and not an option
     objectInTree.obj.fields
       .fields()
@@ -152,7 +153,7 @@ object AmlCompletionRequestBuilder {
             position: AmfPosition,
             dialect: Dialect,
             env: CompletionEnvironment,
-            originalContent: String,
+            patchedContent: PatchedContent,
             snippetSupport: Boolean): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
       val ast = baseUnit match {
@@ -166,8 +167,9 @@ object AmlCompletionRequestBuilder {
 
     val styler = SuggestionStylerBuilder.build(!yPartBranch.isJson,
                                                prefix(yPartBranch, DtoPosition(position)),
-                                               originalContent,
-                                               DtoPosition(position),
+                                               patchedContent,
+                                                DtoPosition(position),
+                                               yPartBranch,
                                                snippetSupport,
       indentation(baseUnit, position))
     val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)

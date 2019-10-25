@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10http",
-    "filterText": null,
+    "filterText": "http",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10https",
-    "filterText": null,
+    "filterText": "https",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10ws",
-    "filterText": null,
+    "filterText": "ws",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10wss",
-    "filterText": null,
+    "filterText": "wss",
     "insertText": null,
     "insertTextFormat": [
       1

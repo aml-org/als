@@ -24,13 +24,15 @@ class AMLKnownValueCompletions(field: Field, classTerm: String, dialect: Dialect
           if (field.`type`.isInstanceOf[ArrayLike] && !inArray)
             RawSuggestion.valueInArray(s.text, s.description.getOrElse(s.text), "unknown", isKey)
           else
-            RawSuggestion(s.text,
-                          s.text,
-                          s.description.getOrElse(s.text),
-                          Seq(),
-                          "unknown",
-                          None,
-                          SuggestionOptions(rangeKing = fieldRange(s), isKey = isKey && !inArray, keyRange(s.text))))
+            RawSuggestion(
+              s.text,
+              s.text,
+              s.description.getOrElse(s.text),
+              Seq(),
+              "unknown",
+              None,
+              SuggestionStructure(rangeKind = fieldRange(s), isKey = isKey && !inArray, keyRange(s.text))
+          ))
     })
 
   def keyRange(input: String): ScalarRange = {

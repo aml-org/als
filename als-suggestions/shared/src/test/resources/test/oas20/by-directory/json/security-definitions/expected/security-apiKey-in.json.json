@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10header",
-    "filterText": null,
+    "filterText": "\"header\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 13
+          "character": 12
         },
         "end": {
           "line": 5,
-          "character": 13
+          "character": 14
         }
       },
-      "newText": "header"
+      "newText": "\"header\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10query",
-    "filterText": null,
+    "filterText": "\"query\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 13
+          "character": 12
         },
         "end": {
           "line": 5,
-          "character": 13
+          "character": 14
         }
       },
-      "newText": "query"
+      "newText": "\"query\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

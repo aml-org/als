@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#/parameters/named",
-    "filterText": null,
+    "filterText": "\"#/parameters/named\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "#/parameters/named"
+      "newText": "\"#/parameters/named\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10bymethod/",
-    "filterText": null,
+    "filterText": "\"bymethod/\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "bymethod/"
+      "newText": "\"bymethod/\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10consumes-array.json",
-    "filterText": null,
+    "filterText": "\"consumes-array.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -76,14 +76,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "consumes-array.json"
+      "newText": "\"consumes-array.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10consumes.json",
-    "filterText": null,
+    "filterText": "\"consumes.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -106,14 +106,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "consumes.json"
+      "newText": "\"consumes.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10expected/",
-    "filterText": null,
+    "filterText": "\"expected/\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -136,14 +136,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "expected/"
+      "newText": "\"expected/\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10external-docs.json",
-    "filterText": null,
+    "filterText": "\"external-docs.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -166,14 +166,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "external-docs.json"
+      "newText": "\"external-docs.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10parameter-array.json",
-    "filterText": null,
+    "filterText": "\"parameter-array.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -196,14 +196,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "parameter-array.json"
+      "newText": "\"parameter-array.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10parameter.json",
-    "filterText": null,
+    "filterText": "\"parameter.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -226,14 +226,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "parameter.json"
+      "newText": "\"parameter.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10produces-array.json",
-    "filterText": null,
+    "filterText": "\"produces-array.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -256,14 +256,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "produces-array.json"
+      "newText": "\"produces-array.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10produces.json",
-    "filterText": null,
+    "filterText": "\"produces.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -286,14 +286,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "produces.json"
+      "newText": "\"produces.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10reponses.json",
-    "filterText": null,
+    "filterText": "\"reponses.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -316,14 +316,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "reponses.json"
+      "newText": "\"reponses.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10schemes-array.json",
-    "filterText": null,
+    "filterText": "\"schemes-array.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -346,14 +346,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "schemes-array.json"
+      "newText": "\"schemes-array.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10schemes.json",
-    "filterText": null,
+    "filterText": "\"schemes.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -376,14 +376,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "schemes.json"
+      "newText": "\"schemes.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -397,7 +397,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10security-array-named.json",
-    "filterText": null,
+    "filterText": "\"security-array-named.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -406,14 +406,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "security-array-named.json"
+      "newText": "\"security-array-named.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -427,7 +427,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10security-array.json",
-    "filterText": null,
+    "filterText": "\"security-array.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -436,14 +436,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "security-array.json"
+      "newText": "\"security-array.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -457,7 +457,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10security.json",
-    "filterText": null,
+    "filterText": "\"security.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -466,14 +466,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "security.json"
+      "newText": "\"security.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -487,7 +487,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10tags-array.json",
-    "filterText": null,
+    "filterText": "\"tags-array.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -496,14 +496,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "tags-array.json"
+      "newText": "\"tags-array.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -517,7 +517,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10tags.json",
-    "filterText": null,
+    "filterText": "\"tags.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -526,14 +526,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 12,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "tags.json"
+      "newText": "\"tags.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

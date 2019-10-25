@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "20rt",
-    "filterText": null,
+    "filterText": "rt:\n      ",
     "insertText": null,
     "insertTextFormat": [
       2

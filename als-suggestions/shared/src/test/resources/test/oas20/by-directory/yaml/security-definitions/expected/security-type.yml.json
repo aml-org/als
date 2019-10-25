@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10apiKey",
-    "filterText": null,
+    "filterText": "apiKey",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10basic",
-    "filterText": null,
+    "filterText": "basic",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10oauth2",
-    "filterText": null,
+    "filterText": "oauth2",
     "insertText": null,
     "insertTextFormat": [
       1

@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10application/json",
-    "filterText": null,
+    "filterText": "application/json",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10application/xml",
-    "filterText": null,
+    "filterText": "application/xml",
     "insertText": null,
     "insertTextFormat": [
       1

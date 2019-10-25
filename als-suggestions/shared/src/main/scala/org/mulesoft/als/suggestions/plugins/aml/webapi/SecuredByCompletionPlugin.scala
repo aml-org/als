@@ -21,7 +21,7 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
       if (isWritingSecuredBy(request) && (!request.yPartBranch.isJson || (request.yPartBranch.isJson && request.yPartBranch.isInArray))) {
         val original = getSecurityNames(request.prefix, request.declarationProvider)
         if (request.yPartBranch.isKey)
-          original.map(r => r.copy(options = r.options.copy(isKey = true, rangeKing = ObjectRange)))
+          original.map(r => r.copy(options = r.options.copy(isKey = true, rangeKind = ObjectRange)))
         else original
       } else Nil
     }

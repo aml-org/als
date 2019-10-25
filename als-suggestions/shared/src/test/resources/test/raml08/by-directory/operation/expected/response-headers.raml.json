@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10default",
-    "filterText": null,
+    "filterText": "default: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10description",
-    "filterText": null,
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10displayName",
-    "filterText": null,
+    "filterText": "displayName: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10enum",
-    "filterText": null,
+    "filterText": "enum:\n              - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10example",
-    "filterText": null,
+    "filterText": "example:\n              ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10maxLength",
-    "filterText": null,
+    "filterText": "maxLength: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10minLength",
-    "filterText": null,
+    "filterText": "minLength: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10pattern",
-    "filterText": null,
+    "filterText": "pattern: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10repeat",
-    "filterText": null,
+    "filterText": "repeat: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10type",
-    "filterText": null,
+    "filterText": "type: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -293,7 +293,7 @@
           "character": 12
         }
       },
-      "newText": "type:\n              "
+      "newText": "type: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#/parameters/named",
-    "filterText": null,
+    "filterText": "\"#/parameters/named\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10expected/",
-    "filterText": null,
+    "filterText": "expected/",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10parameter-array.yml",
-    "filterText": null,
+    "filterText": "parameter-array.yml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10parameter.yml",
-    "filterText": null,
+    "filterText": "parameter.yml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10path-def.ext.yaml",
-    "filterText": null,
+    "filterText": "path-def.ext.yaml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10path-ref.yml",
-    "filterText": null,
+    "filterText": "path-ref.yml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10path.yml",
-    "filterText": null,
+    "filterText": "path.yml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10paths.yml",
-    "filterText": null,
+    "filterText": "paths.yml",
     "insertText": null,
     "insertTextFormat": [
       1

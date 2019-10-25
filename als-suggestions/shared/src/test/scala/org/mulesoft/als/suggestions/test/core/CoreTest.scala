@@ -10,6 +10,7 @@ import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.Core
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
+import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.amfmanager.{InitOptions, ParserHelper}
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{Assertion, AsyncFunSuite}
@@ -38,7 +39,7 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
         val fileContentsStr = content.stream.toString
         val markerInfo      = this.findMarker(fileContentsStr)
 
-        (this.buildEnvironment(url, markerInfo.originalContent, content.mime), markerInfo.position)
+        (this.buildEnvironment(url, markerInfo.patchedContent.original, content.mime), markerInfo.position)
       }
 
       suggestions <- Suggestions.suggest(format,
@@ -71,13 +72,13 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
     }
 
     if (position < 0) {
-      new MarkerInfo(str1, str1.length, str1)
+      new MarkerInfo(PatchedContent(str1, str, Nil), str1.length)
     } else {
       val rawContent = str1.replace(label, "")
 
       val preparedContent =
         Core.prepareText(rawContent, position, YAML)
-      new MarkerInfo(preparedContent, position, rawContent)
+      new MarkerInfo(preparedContent, position)
     }
   }
 
@@ -115,4 +116,4 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
   }
 }
 
-class MarkerInfo(val content: String, val position: Int, val originalContent: String) {}
+class MarkerInfo(val patchedContent: PatchedContent, val position: Int) {}

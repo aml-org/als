@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10Adef/",
-    "filterText": null,
+    "filterText": "\"jsonschema.json#/definitions/Adef/\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 4,
-          "character": 44
+          "character": 45
         }
       },
-      "newText": "jsonschema.json#/definitions/Adef/"
+      "newText": "\"jsonschema.json#/definitions/Adef/\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
