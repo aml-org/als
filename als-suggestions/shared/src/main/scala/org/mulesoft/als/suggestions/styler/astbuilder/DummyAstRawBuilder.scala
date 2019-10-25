@@ -6,7 +6,7 @@ import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.yaml.model._
 
 class DummyAstRawBuilder(val raw: RawSuggestion)
-    extends AstRawBuilder(raw, false, YPartBranch(YMap.empty, Position(0, 0), Nil)) {
+    extends AstRawBuilder(raw, false, YPartBranch(YMap.empty, Position(0, 0).toAmfPosition, Nil)) {
 
   override protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder =
     (raw: RawSuggestion, _: Boolean) => new DummyAstRawBuilder(raw)

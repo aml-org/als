@@ -12,7 +12,7 @@ case class DummySuggestionStyle(prefix: String, position: Position) extends Sugg
     StylerParams(prefix,
                  PatchedContent("", "", Nil),
                  position,
-                 YPartBranch(YMap.empty, position, Nil),
+                 YPartBranch(YMap.empty, position.toAmfPosition, Nil),
                  supportSnippets = true,
                  0)
 

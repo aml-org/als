@@ -55,8 +55,9 @@ trait SuggestionRender {
     if (styled.plain) {
       builder.withInsertTextFormat(InsertTextFormat.PlainText)
     } else builder.withInsertTextFormat(InsertTextFormat.Snippet)
-    builder.withText(styled.text)
+    if (suggestions.children.nonEmpty) builder.withTemplate()
 
+    builder.withText(styled.text)
   }
 
   def rawToStyledSuggestion(suggestions: RawSuggestion): CompletionItem = {

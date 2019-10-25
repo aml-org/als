@@ -10,6 +10,7 @@ import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
+import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkParams, DocumentLinkRequestType}
 import org.mulesoft.lsp.server.LanguageServer
@@ -58,7 +59,7 @@ trait FindLinksTest extends LanguageServerBaseTest {
 
   def getServerLinks(filePath: String, server: LanguageServer, markerInfo: MarkerInfo): Future[Seq[DocumentLink]] = {
 
-    openFile(server)(filePath, markerInfo.rawContent)
+    openFile(server)(filePath, markerInfo.patchedContent.original)
 
     val linksHandler = server.resolveHandler(DocumentLinkRequestType).value
 
@@ -74,14 +75,14 @@ trait FindLinksTest extends LanguageServerBaseTest {
     val offset = str.indexOf(label)
 
     if (offset < 0)
-      new MarkerInfo(str, Position(str.length, str), str)
+      new MarkerInfo(PatchedContent(str, str, Nil), Position(str.length, str))
     else {
       val rawContent = str.substring(0, offset) + str.substring(offset + label.length)
       val preparedContent =
         org.mulesoft.als.suggestions.Core.prepareText(rawContent, offset, YAML)
-      new MarkerInfo(preparedContent, Position(offset, str), rawContent)
+      new MarkerInfo(preparedContent, Position(offset, str))
     }
   }
 }
 
-class MarkerInfo(val content: String, val position: Position, val rawContent: String) {}
+class MarkerInfo(val patchedContent: PatchedContent, val position: Position) {}

@@ -66,7 +66,7 @@ class CompletionItemBuilder(r: PositionRange) {
   def getDisplayText: String  = this.displayText
   def getText: String         = this.text
 
-  def getPriority(insertTextFormat: InsertTextFormat, text: String): Int =
+  def getPriority(text: String): Int =
     (if (template) 20 else 10) + { if (text.startsWith("(")) 10 else 0 }
 
   def build(): CompletionItem =
@@ -76,7 +76,7 @@ class CompletionItemBuilder(r: PositionRange) {
       detail = Some(category),
       documentation = Some(description),
       insertTextFormat = Some(insertTextFormat),
-      sortText = Some(s"${getPriority(insertTextFormat, text)}$displayText"),
+      sortText = Some(s"${getPriority(text)}$displayText"),
       filterText = filterText.orElse(Some(text))
     )
 

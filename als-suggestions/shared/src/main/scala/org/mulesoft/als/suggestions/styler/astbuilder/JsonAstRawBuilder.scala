@@ -9,7 +9,7 @@ class JsonAstRawBuilder(val raw: RawSuggestion, val isSnippet: Boolean, val yPar
     extends AstRawBuilder(raw, isSnippet, yPartBranch) {
   override protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder =
     (raw: RawSuggestion, isSnippet: Boolean) =>
-      new JsonAstRawBuilder(raw, isSnippet, YPartBranch(YMap.empty, Position(0, 0), Nil))
+      new JsonAstRawBuilder(raw, isSnippet, YPartBranch(YMap.empty, Position(0, 0).toAmfPosition, Nil))
 
   override def ast: YPart = {
     if (raw.options.isKey) emitRootKey
