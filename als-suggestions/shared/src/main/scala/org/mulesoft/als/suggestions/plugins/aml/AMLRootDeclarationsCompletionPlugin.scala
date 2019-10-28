@@ -47,7 +47,7 @@ class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) {
   def resolve(classTerm: String): Future[Seq[RawSuggestion]] =
     Future {
       (getSuggestions ++ usesSuggestion())
-        .map(s => RawSuggestion(s._1, s._2, isAKey = true, CategoryRegistry(classTerm, s._1)))
+        .map(s => RawSuggestion.forObject(s._1, CategoryRegistry(classTerm, s._1)))
     }
 }
 

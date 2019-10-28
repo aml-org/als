@@ -12,7 +12,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.{
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
 
-case class PatchedSuggestion(text: String, description: Option[String] = None)
+case class PatchedSuggestion(text: String, description: Option[String] = None, isObj: Boolean = false)
 
 case class FieldForClass(classTerm: String, propertyTerm: String)
 
@@ -33,9 +33,9 @@ object PatchedSuggestionsForDialect {
       FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
         Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.StatusCode.value.iri()) ->
-        Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_))),
+        Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_, isObj = true))),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.Name.value.iri()) ->
-        Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_)))
+        Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_, isObj = true)))
     )
 
   private val raml10Classes: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
@@ -47,7 +47,7 @@ object PatchedSuggestionsForDialect {
       FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
         Map("KnownValues" -> RamlCommonMediaTypes.all.map(PatchedSuggestion(_))),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.StatusCode.value.iri()) ->
-        Map("KnownValues" -> RamlResponseCodes.all.map(PatchedSuggestion(_)))
+        Map("KnownValues" -> RamlResponseCodes.all.map(PatchedSuggestion(_, isObj = true)))
     )
 
   private val classesByDialect: Map[String, Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]]] =

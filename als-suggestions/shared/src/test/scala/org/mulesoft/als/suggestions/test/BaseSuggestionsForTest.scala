@@ -8,6 +8,7 @@ import amf.plugins.document.vocabularies.AMLPlugin
 import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
+import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.amfmanager.{CustomDialects, DialectInitializer, InitOptions}
 import org.mulesoft.lsp.feature.completion.CompletionItem
 
@@ -49,7 +50,7 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
 
         position = markerInfo.position
 
-        this.buildEnvironment(url, markerInfo.originalContent, mime)
+        this.buildEnvironment(url, markerInfo.patchedContent.original, mime)
       }
 
       suggestions <- Suggestions.suggest(format,
@@ -89,17 +90,17 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
     }
 
     if (position < 0)
-      new MarkerInfo(str1, str1.length, str1)
+      new MarkerInfo(PatchedContent(str1, str1, Nil), str1.length)
     else {
       val rawContent = str1.replace(label, "")
 
       val preparedContent =
         org.mulesoft.als.suggestions.Core
           .prepareText(rawContent, position, YAML)
-      new MarkerInfo(preparedContent, position, rawContent)
+      new MarkerInfo(preparedContent, position)
     }
 
   }
 }
 
-class MarkerInfo(val content: String, val position: Int, val originalContent: String) {}
+class MarkerInfo(val patchedContent: PatchedContent, val position: Int) {}

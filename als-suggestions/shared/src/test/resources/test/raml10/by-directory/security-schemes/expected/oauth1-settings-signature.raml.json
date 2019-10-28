@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10HMAC-SHA1",
-    "filterText": null,
+    "filterText": "HMAC-SHA1",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10PLAINTEXT",
-    "filterText": null,
+    "filterText": "PLAINTEXT",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10RSA-SHA1",
-    "filterText": null,
+    "filterText": "RSA-SHA1",
     "insertText": null,
     "insertTextFormat": [
       1

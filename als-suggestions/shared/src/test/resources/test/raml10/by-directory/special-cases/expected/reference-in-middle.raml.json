@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10trait1",
-    "filterText": null,
+    "filterText": "trait1:\n        ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10trait2",
-    "filterText": null,
+    "filterText": "trait2:\n        ",
     "insertText": null,
     "insertTextFormat": [
       1

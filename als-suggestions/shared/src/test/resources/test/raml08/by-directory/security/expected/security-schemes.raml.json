@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10Basic Authentication",
-    "filterText": null,
+    "filterText": "Basic Authentication",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10Digest Authentication",
-    "filterText": null,
+    "filterText": "Digest Authentication",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10OAuth 1.0",
-    "filterText": null,
+    "filterText": "OAuth 1.0",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10OAuth 2.0",
-    "filterText": null,
+    "filterText": "OAuth 2.0",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10x-",
-    "filterText": null,
+    "filterText": "x-",
     "insertText": null,
     "insertTextFormat": [
       1

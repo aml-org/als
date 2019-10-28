@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10consumes",
-    "filterText": null,
+    "filterText": "consumes:\n        - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10deprecated",
-    "filterText": null,
+    "filterText": "deprecated: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10description",
-    "filterText": null,
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10externalDocs",
-    "filterText": null,
+    "filterText": "externalDocs:\n        ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10operationId",
-    "filterText": null,
+    "filterText": "operationId: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10parameters",
-    "filterText": null,
+    "filterText": "parameters:\n        - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10produces",
-    "filterText": null,
+    "filterText": "produces:\n        - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10responses",
-    "filterText": null,
+    "filterText": "responses:\n        ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10schemes",
-    "filterText": null,
+    "filterText": "schemes:\n        - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10security",
-    "filterText": null,
+    "filterText": "security:\n        - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10summary",
-    "filterText": null,
+    "filterText": "summary: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10tags",
-    "filterText": null,
+    "filterText": "tags:\n        - ",
     "insertText": null,
     "insertTextFormat": [
       1

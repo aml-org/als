@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10schema",
-    "filterText": null,
+    "filterText": "schema: ",
     "insertText": null,
     "insertTextFormat": [
       1

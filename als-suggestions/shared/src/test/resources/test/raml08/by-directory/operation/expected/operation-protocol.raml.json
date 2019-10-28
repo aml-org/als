@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10HTTP",
-    "filterText": null,
+    "filterText": "HTTP",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10HTTPS",
-    "filterText": null,
+    "filterText": "HTTPS",
     "insertText": null,
     "insertTextFormat": [
       1

@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "20(myAnnotation)",
-    "filterText": null,
+    "filterText": "(myAnnotation): ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10body",
-    "filterText": null,
+    "filterText": "body:\n          ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10description",
-    "filterText": null,
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10headers",
-    "filterText": null,
+    "filterText": "headers:\n          ",
     "insertText": null,
     "insertTextFormat": [
       1

@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10formParameters",
-    "filterText": null,
+    "filterText": "formParameters:\n              ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10schema",
-    "filterText": null,
+    "filterText": "schema: ",
     "insertText": null,
     "insertTextFormat": [
       1

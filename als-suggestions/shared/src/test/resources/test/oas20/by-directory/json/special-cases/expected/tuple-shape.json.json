@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10maxItems",
-    "filterText": null,
+    "filterText": "maxItems",
     "insertText": null,
     "insertTextFormat": [
       1

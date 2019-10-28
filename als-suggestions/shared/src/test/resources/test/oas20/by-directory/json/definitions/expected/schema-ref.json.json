@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#/definitions/a",
-    "filterText": null,
+    "filterText": "\"#/definitions/a\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "#/definitions/a"
+      "newText": "\"#/definitions/a\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10array-schema.json",
-    "filterText": null,
+    "filterText": "\"array-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "array-schema.json"
+      "newText": "\"array-schema.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10boolean-format.json",
-    "filterText": null,
+    "filterText": "\"boolean-format.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -76,14 +76,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "boolean-format.json"
+      "newText": "\"boolean-format.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10definition.json",
-    "filterText": null,
+    "filterText": "\"definition.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -106,14 +106,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "definition.json"
+      "newText": "\"definition.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10definitios.json",
-    "filterText": null,
+    "filterText": "\"definitios.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -136,14 +136,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "definitios.json"
+      "newText": "\"definitios.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10expected/",
-    "filterText": null,
+    "filterText": "\"expected/\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -166,14 +166,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "expected/"
+      "newText": "\"expected/\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10externalDocs-schema.json",
-    "filterText": null,
+    "filterText": "\"externalDocs-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -196,14 +196,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "externalDocs-schema.json"
+      "newText": "\"externalDocs-schema.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10integer-format.json",
-    "filterText": null,
+    "filterText": "\"integer-format.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -226,14 +226,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "integer-format.json"
+      "newText": "\"integer-format.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10items-schema.json",
-    "filterText": null,
+    "filterText": "\"items-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -256,14 +256,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "items-schema.json"
+      "newText": "\"items-schema.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10jsonschema.json",
-    "filterText": null,
+    "filterText": "\"jsonschema.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -286,14 +286,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "jsonschema.json"
+      "newText": "\"jsonschema.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10number-format.json",
-    "filterText": null,
+    "filterText": "\"number-format.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -316,14 +316,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "number-format.json"
+      "newText": "\"number-format.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10number-schema.json",
-    "filterText": null,
+    "filterText": "\"number-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -346,14 +346,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "number-schema.json"
+      "newText": "\"number-schema.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10object-schema.json",
-    "filterText": null,
+    "filterText": "\"object-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -376,14 +376,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "object-schema.json"
+      "newText": "\"object-schema.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -397,7 +397,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10properties-schema.json",
-    "filterText": null,
+    "filterText": "\"properties-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -406,14 +406,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "properties-schema.json"
+      "newText": "\"properties-schema.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -427,7 +427,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10property-schema.json",
-    "filterText": null,
+    "filterText": "\"property-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -436,14 +436,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "property-schema.json"
+      "newText": "\"property-schema.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -457,7 +457,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10required-properties-name-existing.json",
-    "filterText": null,
+    "filterText": "\"required-properties-name-existing.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -466,14 +466,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "required-properties-name-existing.json"
+      "newText": "\"required-properties-name-existing.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -487,7 +487,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10required-properties-name.json",
-    "filterText": null,
+    "filterText": "\"required-properties-name.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -496,14 +496,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "required-properties-name.json"
+      "newText": "\"required-properties-name.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -517,7 +517,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10schema-path-nav-two.json",
-    "filterText": null,
+    "filterText": "\"schema-path-nav-two.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -526,14 +526,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "schema-path-nav-two.json"
+      "newText": "\"schema-path-nav-two.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -547,7 +547,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10schema-path-nav-withoutbar.json",
-    "filterText": null,
+    "filterText": "\"schema-path-nav-withoutbar.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -556,14 +556,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "schema-path-nav-withoutbar.json"
+      "newText": "\"schema-path-nav-withoutbar.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -577,7 +577,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10schema-path-nav.json",
-    "filterText": null,
+    "filterText": "\"schema-path-nav.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -586,14 +586,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "schema-path-nav.json"
+      "newText": "\"schema-path-nav.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -607,7 +607,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10schema-ref-comment.json",
-    "filterText": null,
+    "filterText": "\"schema-ref-comment.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -616,14 +616,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "schema-ref-comment.json"
+      "newText": "\"schema-ref-comment.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -637,7 +637,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10schema-ref-separator-two.json",
-    "filterText": null,
+    "filterText": "\"schema-ref-separator-two.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -646,14 +646,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "schema-ref-separator-two.json"
+      "newText": "\"schema-ref-separator-two.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -667,7 +667,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10schema-ref-separator.json",
-    "filterText": null,
+    "filterText": "\"schema-ref-separator.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -676,14 +676,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "schema-ref-separator.json"
+      "newText": "\"schema-ref-separator.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -697,7 +697,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10string-format.json",
-    "filterText": null,
+    "filterText": "\"string-format.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -706,14 +706,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "string-format.json"
+      "newText": "\"string-format.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -727,7 +727,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10string-schema.json",
-    "filterText": null,
+    "filterText": "\"string-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -736,14 +736,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "string-schema.json"
+      "newText": "\"string-schema.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -757,7 +757,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10types-schema.json",
-    "filterText": null,
+    "filterText": "\"types-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -766,14 +766,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "types-schema.json"
+      "newText": "\"types-schema.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -787,7 +787,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10xmlObject-schema.json",
-    "filterText": null,
+    "filterText": "\"xmlObject-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -796,14 +796,14 @@
       "range": {
         "start": {
           "line": 7,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "xmlObject-schema.json"
+      "newText": "\"xmlObject-schema.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

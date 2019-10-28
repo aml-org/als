@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10accessCode",
-    "filterText": null,
+    "filterText": "accessCode",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10application",
-    "filterText": null,
+    "filterText": "application",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10implicit",
-    "filterText": null,
+    "filterText": "implicit",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10password",
-    "filterText": null,
+    "filterText": "password",
     "insertText": null,
     "insertTextFormat": [
       1

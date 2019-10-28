@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10http",
-    "filterText": null,
+    "filterText": "[\n          \"http\"\n        ]",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 20
+          "character": 19
         },
         "end": {
           "line": 5,
-          "character": 20
+          "character": 21
         }
       },
-      "newText": "http"
+      "newText": "[\n          \"http\"\n        ]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10https",
-    "filterText": null,
+    "filterText": "[\n          \"https\"\n        ]",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 20
+          "character": 19
         },
         "end": {
           "line": 5,
-          "character": 20
+          "character": 21
         }
       },
-      "newText": "https"
+      "newText": "[\n          \"https\"\n        ]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10ws",
-    "filterText": null,
+    "filterText": "[\n          \"ws\"\n        ]",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -76,14 +76,14 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 20
+          "character": 19
         },
         "end": {
           "line": 5,
-          "character": 20
+          "character": 21
         }
       },
-      "newText": "ws"
+      "newText": "[\n          \"ws\"\n        ]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10wss",
-    "filterText": null,
+    "filterText": "[\n          \"wss\"\n        ]",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -106,14 +106,14 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 20
+          "character": 19
         },
         "end": {
           "line": 5,
-          "character": 20
+          "character": 21
         }
       },
-      "newText": "wss"
+      "newText": "[\n          \"wss\"\n        ]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

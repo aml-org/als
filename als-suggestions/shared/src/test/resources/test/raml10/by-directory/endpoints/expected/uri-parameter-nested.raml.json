@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10anotherUri",
-    "filterText": null,
+    "filterText": "anotherUri:\n        ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10uri",
-    "filterText": null,
+    "filterText": "uri:\n        ",
     "insertText": null,
     "insertTextFormat": [
       1

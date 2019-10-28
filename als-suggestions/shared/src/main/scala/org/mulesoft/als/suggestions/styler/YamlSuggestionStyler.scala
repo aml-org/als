@@ -1,48 +1,36 @@
 package org.mulesoft.als.suggestions.styler
 
-import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions._
+import org.mulesoft.als.suggestions.styler.astbuilder.{AstRawBuilder, YamlAstRawBuilder}
+import org.yaml.model._
+import org.yaml.render.YamlRender
 
-case class YamlSuggestionStyler(override val params: StylerParams) extends SuggestionStyler {
-  override def style(rawSuggestion: RawSuggestion): Styled = {
+case class YamlSuggestionStyler(override val params: StylerParams) extends SuggestionRender {
 
-    val text =
-      if (rawSuggestion.options.isKey)
-        arrayItemPrefixIfNecessary(rawSuggestion) + keyAdapter(rawSuggestion) + arrayAdapter(rawSuggestion)
-      else if (params.prefix == ":" && !(rawSuggestion.newText.startsWith("\n") || rawSuggestion.newText
-                 .startsWith("\r\n") || rawSuggestion.newText.startsWith(" ")))
-        s" ${rawSuggestion.newText}"
-      else if (rawSuggestion.newText endsWith ":") s"${rawSuggestion.newText} "
-      else if (rawSuggestion.options.arrayItem)
-        arrayItemPrefix(rawSuggestion) + rawSuggestion.newText
-      else rawSuggestion.newText
-    Styled(text, plain = true)
+  private def fixEmptyMap(rendered: String): String =
+    if (rendered.endsWith("{}"))
+      rendered.stripSuffix(" {}") + "\n  " + stringIden
+    else rendered
+
+  private def fixPrefix(prefix: String, text: String) = {
+    if (prefix.isEmpty && text.startsWith(stringIden))
+      text.stripPrefix(stringIden)
+    else prefix + text
   }
 
-  private def arrayItemPrefixIfNecessary(rawSuggestion: RawSuggestion) =
-    if (rawSuggestion.options.arrayItem) arrayItemPrefix(rawSuggestion) else ""
-
-  private def arrayItemPrefix(rawSuggestion: RawSuggestion) = {
-    startWithEOL(rawSuggestion.whiteSpacesEnding) + whiteSpaceOrSpace(rawSuggestion.whiteSpacesEnding) + "- "
+  override protected def render(options: SuggestionStructure, builder: AstRawBuilder): String = {
+    val prefix =
+      if (!options.isKey && ((options.isArray && !params.yPartBranch.isInArray) || options.isObject)) // never will suggest object in value as is not key. Suggestions should be empty
+        "\n"
+      else ""
+    val ast = builder.ast
+    val indentation = ast match {
+      case n: YNode if n.value.isInstanceOf[YSequence] => params.indentation + 2
+      case _                                           => params.indentation
+    }
+    fixPrefix(prefix, fixEmptyMap(YamlRender.render(ast, indentation)))
   }
 
-  private def whiteSpaceOrSpace(str: String): String = if (str.isEmpty) " " else str
-
-  /**
-    * in case there are children, they each will calculate their own indentation
-    * @param whiteSpacesEnding
-    * @param children
-    * @return
-    */
-  private def whiteSpaceOrSpaceIfSingleParent(whiteSpacesEnding: String, children: Seq[String]): String =
-    if (children.isEmpty) whiteSpaceOrSpace(whiteSpacesEnding)
-    else ""
-
-  private def keyAdapter(rawSuggestion: RawSuggestion) =
-    if (!params.hasLine || !params.hasColon)
-      s"${rawSuggestion.newText}:${whiteSpaceOrSpaceIfSingleParent(rawSuggestion.whiteSpacesEnding, rawSuggestion.sons)}"
-    else rawSuggestion.newText
-
-  private def arrayAdapter(rawSuggestion: RawSuggestion) = if (rawSuggestion.options.arrayProperty) "- " else ""
-
-  override def styleKey(key: String): String = s"$key: "
+  override def astBuilder: RawSuggestion => AstRawBuilder =
+    (raw: RawSuggestion) => new YamlAstRawBuilder(raw, false, params.yPartBranch)
 }
