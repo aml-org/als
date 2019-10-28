@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10param",
-    "filterText": null,
+    "filterText": "\"param\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 10,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 10,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "param"
+      "newText": "\"param\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10userId",
-    "filterText": null,
+    "filterText": "\"userId\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 10,
-          "character": 21
+          "character": 20
         },
         "end": {
           "line": 10,
-          "character": 21
+          "character": 22
         }
       },
-      "newText": "userId"
+      "newText": "\"userId\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

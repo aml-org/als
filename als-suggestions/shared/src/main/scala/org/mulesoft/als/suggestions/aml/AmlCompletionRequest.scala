@@ -13,7 +13,8 @@ import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition, PositionRange}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
-import org.mulesoft.als.suggestions.styler.{SuggestionStyler, SuggestionStylerBuilder}
+import org.mulesoft.als.suggestions.patcher.PatchedContent
+import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
 import org.yaml.model.{YDocument, YNode, YType}
 import amf.core.parser.{Position => AmfPosition}
 
@@ -21,7 +22,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: DtoPosition,
                            val actualDialect: Dialect,
                            val env: CompletionEnvironment,
-                           val styler: SuggestionStyler,
+                           val styler: SuggestionRender,
                            val yPartBranch: YPartBranch,
                            private val objectInTree: ObjectInTree,
                            val inheritedProvider: Option[DeclarationProvider] = None) {
@@ -36,8 +37,8 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
     case RAML10Dialect.DialectLocation => false
     case RAML08Dialect.DialectLocation => false
     case _                             => true
-
   }
+
   lazy val fieldEntry: Option[FieldEntry] = { // todo: maybe this should be a seq and not an option
     objectInTree.obj.fields
       .fields()
@@ -124,9 +125,12 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
   lazy val declarationProvider: DeclarationProvider = {
     inheritedProvider.getOrElse(DeclarationProvider(baseUnit, Some(actualDialect)))
   }
+}
 
-  lazy val indentation: String =
-    (if (yPartBranch.isKey) "\n" else "") + baseUnit.raw
+object AmlCompletionRequestBuilder {
+
+  private def indentation(bu: BaseUnit, position: DtoPosition): Int =
+    bu.raw
       .flatMap(text => {
         val pos  = position
         val left = text.substring(0, pos.offset(text))
@@ -139,21 +143,17 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
           case _                                => None
         }
         first.map(f => {
-          val spaces = line.substring(0, line.takeWhile(_ == f).length)
-          if (f == '\t') s"$spaces\t"
-          else s"$spaces  "
+          line.substring(0, line.takeWhile(_ == f).length)
         })
       })
-      .getOrElse("  ")
-}
-
-object AmlCompletionRequestBuilder {
+      .getOrElse("")
+      .length
 
   def build(baseUnit: BaseUnit,
             position: AmfPosition,
             dialect: Dialect,
             env: CompletionEnvironment,
-            originalContent: String,
+            patchedContent: PatchedContent,
             snippetSupport: Boolean): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
       val ast = baseUnit match {
@@ -165,11 +165,14 @@ object AmlCompletionRequestBuilder {
       NodeBranchBuilder.build(ast.getOrElse(YDocument(IndexedSeq.empty, "")), position)
     }
 
+    val dtoPosition = DtoPosition(position)
     val styler = SuggestionStylerBuilder.build(!yPartBranch.isJson,
-                                               prefix(yPartBranch, DtoPosition(position)),
-                                               originalContent,
-                                               DtoPosition(position),
-                                               snippetSupport)
+                                               prefix(yPartBranch, dtoPosition),
+                                               patchedContent,
+                                               dtoPosition,
+                                               yPartBranch,
+                                               snippetSupport,
+                                               indentation(baseUnit, dtoPosition))
     val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
     new AmlCompletionRequest(baseUnit, DtoPosition(position), dialect, env, styler, yPartBranch, objectInTree)
   }

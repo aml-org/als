@@ -3,10 +3,11 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 import amf.core.model.domain.{AmfObject, ObjectNode, ScalarNode}
 import amf.core.model.domain.templates.AbstractDeclaration
 import amf.core.parser.FieldEntry
-import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionOptions}
+import org.mulesoft.als.suggestions.{RawSuggestion, StringScalarRange, SuggestionStructure}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import amf.core.utils._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -16,8 +17,14 @@ object DefaultVariablesAbstractDefinition extends AMLCompletionPlugin {
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
       if (request.branchStack.exists(_.isInstanceOf[AbstractDeclaration])) {
-        valSuggestions(request.amfObject, request.fieldEntry, request.position.column).map(s =>
-          RawSuggestion(s._1, s._2, s._2, Nil, "", options = SuggestionOptions(isKey = request.yPartBranch.isKey)))
+        valSuggestions(request.amfObject, request.fieldEntry, request.position.column).map(
+          s =>
+            RawSuggestion(s._1,
+                          s._2,
+                          s._2,
+                          Nil,
+                          options =
+                            SuggestionStructure(rangeKind = StringScalarRange, isKey = request.yPartBranch.isKey)))
       } else Nil
     }
   }

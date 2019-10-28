@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#%RAML 1.0",
-    "filterText": null,
+    "filterText": "#%RAML 1.0",
     "insertText": null,
     "insertTextFormat": [
       1

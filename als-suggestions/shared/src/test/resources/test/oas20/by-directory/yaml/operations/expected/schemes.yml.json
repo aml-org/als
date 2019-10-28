@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10http",
-    "filterText": null,
+    "filterText": "\n      - http",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 15
         }
       },
-      "newText": "http"
+      "newText": "\n      - http"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10https",
-    "filterText": null,
+    "filterText": "\n      - https",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 15
         }
       },
-      "newText": "https"
+      "newText": "\n      - https"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10ws",
-    "filterText": null,
+    "filterText": "\n      - ws",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 15
         }
       },
-      "newText": "ws"
+      "newText": "\n      - ws"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10wss",
-    "filterText": null,
+    "filterText": "\n      - wss",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 15
         }
       },
-      "newText": "wss"
+      "newText": "\n      - wss"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

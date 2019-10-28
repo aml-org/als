@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10code",
-    "filterText": null,
+    "filterText": "code",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10credentials",
-    "filterText": null,
+    "filterText": "credentials",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10owner",
-    "filterText": null,
+    "filterText": "owner",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10token",
-    "filterText": null,
+    "filterText": "token",
     "insertText": null,
     "insertTextFormat": [
       1

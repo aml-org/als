@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10binary",
-    "filterText": null,
+    "filterText": "binary",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10byte",
-    "filterText": null,
+    "filterText": "byte",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10date",
-    "filterText": null,
+    "filterText": "date",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10date-time",
-    "filterText": null,
+    "filterText": "date-time",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10password",
-    "filterText": null,
+    "filterText": "password",
     "insertText": null,
     "insertTextFormat": [
       1

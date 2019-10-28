@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#/definitions/a",
-    "filterText": null,
+    "filterText": "\"#/definitions/a\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 12
         }
       },
-      "newText": "#/definitions/a"
+      "newText": "\"#/definitions/a\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

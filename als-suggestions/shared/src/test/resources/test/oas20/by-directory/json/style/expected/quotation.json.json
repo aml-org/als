@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10array",
-    "filterText": null,
+    "filterText": "\"array\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 12,
-          "character": 22
+          "character": 24
         }
       },
       "newText": "\"array\""
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10boolean",
-    "filterText": null,
+    "filterText": "\"boolean\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 12,
-          "character": 22
+          "character": 24
         }
       },
       "newText": "\"boolean\""
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10file",
-    "filterText": null,
+    "filterText": "\"file\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 12,
-          "character": 22
+          "character": 24
         }
       },
       "newText": "\"file\""
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10integer",
-    "filterText": null,
+    "filterText": "\"integer\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 12,
-          "character": 22
+          "character": 24
         }
       },
       "newText": "\"integer\""
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10number",
-    "filterText": null,
+    "filterText": "\"number\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 12,
-          "character": 22
+          "character": 24
         }
       },
       "newText": "\"number\""
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10object",
-    "filterText": null,
+    "filterText": "\"object\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 12,
-          "character": 22
+          "character": 24
         }
       },
       "newText": "\"object\""
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10string",
-    "filterText": null,
+    "filterText": "\"string\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 12,
-          "character": 22
+          "character": 24
         }
       },
       "newText": "\"string\""

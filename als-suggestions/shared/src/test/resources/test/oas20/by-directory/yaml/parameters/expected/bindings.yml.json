@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10body",
-    "filterText": null,
+    "filterText": "body",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10formData",
-    "filterText": null,
+    "filterText": "formData",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10header",
-    "filterText": null,
+    "filterText": "header",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10path",
-    "filterText": null,
+    "filterText": "path",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10query",
-    "filterText": null,
+    "filterText": "query",
     "insertText": null,
     "insertTextFormat": [
       1

@@ -18,14 +18,13 @@ object Raml08SecuritySchemeStructureCompletionPlugin extends AMLCompletionPlugin
     Future {
       request.amfObject match {
         case s: SecurityScheme if request.yPartBranch.isKeyDescendanceOf("describedBy") =>
-          Raml08SecuritySchemesDialect.DescribedBy.propertiesRaw(request.indentation)
+          Raml08SecuritySchemesDialect.DescribedBy.propertiesRaw()
         case s: SecurityScheme if request.fieldEntry.isEmpty && request.yPartBranch.isKey =>
           val suggestions =
-            new AMLStructureCompletionsPlugin(Raml08SecuritySchemesDialect.SecurityScheme.propertiesMapping(),
-                                              request.indentation)
+            new AMLStructureCompletionsPlugin(Raml08SecuritySchemesDialect.SecurityScheme.propertiesMapping())
               .resolve(Raml08SecuritySchemesDialect.SecurityScheme.meta.`type`.head
                 .iri()) :+
-              RawSuggestion("settings", request.indentation, isAKey = true, "security")
+              RawSuggestion.forObject("settings", "security")
           suggestions
         case _ => Nil
       }

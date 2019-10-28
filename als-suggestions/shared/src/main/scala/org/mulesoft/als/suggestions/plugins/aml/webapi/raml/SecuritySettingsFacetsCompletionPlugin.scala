@@ -19,11 +19,11 @@ object SecuritySettingsFacetsCompletionPlugin extends AMLCompletionPlugin {
         request.branchStack.exists(_.isInstanceOf[ParametrizedSecurityScheme])
       request.branchStack.headOption match {
         case Some(_: OAuth1Settings) if !fromReference =>
-          Raml10SecuritySchemesDialect.OAuth1Settings.propertiesRaw(request.indentation)
+          Raml10SecuritySchemesDialect.OAuth1Settings.propertiesRaw()
         case Some(_: OAuth2Settings) if fromReference =>
-          Seq(RawSuggestion("scopes", request.indentation, isAKey = true, "security"))
+          Seq(RawSuggestion.arrayProp("scopes", "security"))
         case Some(_: OAuth2Settings) =>
-          Raml10SecuritySchemesDialect.OAuth2Settings.propertiesRaw(request.indentation)
+          Raml10SecuritySchemesDialect.OAuth2Settings.propertiesRaw()
         case _ => Nil
       }
     }

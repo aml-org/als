@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10apiKey",
-    "filterText": null,
+    "filterText": "\"apiKey\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 4,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "apiKey"
+      "newText": "\"apiKey\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10basic",
-    "filterText": null,
+    "filterText": "\"basic\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 4,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "basic"
+      "newText": "\"basic\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10oauth2",
-    "filterText": null,
+    "filterText": "\"oauth2\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -76,14 +76,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 4,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "oauth2"
+      "newText": "\"oauth2\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10methodName",
-    "filterText": null,
+    "filterText": "<<methodName>>: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10resourcePath",
-    "filterText": null,
+    "filterText": "<<resourcePath>>: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10resourcePathName",
-    "filterText": null,
+    "filterText": "<<resourcePathName>>: ",
     "insertText": null,
     "insertTextFormat": [
       1

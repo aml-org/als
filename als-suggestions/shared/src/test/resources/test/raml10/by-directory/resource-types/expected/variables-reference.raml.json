@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10param1",
-    "filterText": null,
+    "filterText": "param1: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10param2",
-    "filterText": null,
+    "filterText": "param2: ",
     "insertText": null,
     "insertTextFormat": [
       1

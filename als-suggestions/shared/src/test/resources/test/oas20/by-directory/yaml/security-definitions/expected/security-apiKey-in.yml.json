@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10header",
-    "filterText": null,
+    "filterText": "header",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10query",
-    "filterText": null,
+    "filterText": "query",
     "insertText": null,
     "insertTextFormat": [
       1

@@ -18,7 +18,7 @@ class StructureTests extends RAMLSuggestionTestServer {
   }
 
   test("test 03") {
-    runTest("structure/test03.raml", Set("resourceTypes"))
+    runTest("structure/test03.raml", Set("resourceTypes:\n  "))
   }
 
   test("test 04") {

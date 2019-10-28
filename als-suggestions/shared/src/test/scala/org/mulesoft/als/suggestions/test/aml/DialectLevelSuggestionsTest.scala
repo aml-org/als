@@ -9,6 +9,7 @@ import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance}
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping}
 import org.mulesoft.als.suggestions.client.Suggestions
+import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.test.SuggestionsTest
 import org.scalatest.exceptions.TestFailedException
 
@@ -25,7 +26,7 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
   protected case class PositionResult(position: Int,
                                       dialectClass: Option[String],
                                       level: Int,
-                                      markerOriginalContent: String)
+                                      patchedContent: PatchedContent)
 
   private def getPropertiesByPath(d: Dialect, nodeName: String): Seq[PropertyMapping] = {
     val de: Option[DomainElement] = d.declares.find(de => de.id endsWith s"/$nodeName")
@@ -47,7 +48,7 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
 
   private def suggestFromParsed(bu: BaseUnit,
                                 url: String,
-                                originalContent: String,
+                                patchedContent: PatchedContent,
                                 position: Int): Future[Seq[String]] = {
     Suggestions
       .buildProvider(bu,
@@ -56,7 +57,7 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
                      platform,
                      Environment(),
                      url,
-                     originalContent,
+                     patchedContent,
                      snippetSupport = true)
       .flatMap(_.suggest())
       .map(suggestions =>
@@ -96,7 +97,7 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
   protected def assertCases(bu: BaseUnit, cases: Seq[PositionResult], content: Content): Future[Seq[Result]] = {
 
     Future.sequence(cases.map { c =>
-      suggestFromParsed(bu, content.url, c.markerOriginalContent, c.position)
+      suggestFromParsed(bu, content.url, c.patchedContent, c.position)
         .map { suggested =>
           try {
             val (s, m) = assert(suggested.toSet, getGoldenDialect(c.dialectClass, c.level, bu))
@@ -119,8 +120,8 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
     var partialContent = content
     val results = cases.map { c =>
       val info = this.findMarker(partialContent, c.label)
-      partialContent = info.content
-      PositionResult(info.position, c.dialectClass, c.level, info.originalContent)
+      partialContent = info.patchedContent.content
+      PositionResult(info.position, c.dialectClass, c.level, info.patchedContent)
     }
     (partialContent, results)
   }

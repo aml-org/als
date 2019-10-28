@@ -4,7 +4,7 @@ import amf.core.model.domain.DomainElement
 import amf.core.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration}
 import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorDeclaration
 import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.{ArrayRange, ObjectRange, RawSuggestion, StringScalarRange}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferences
@@ -38,37 +38,36 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
                                                  stringValue(params.yPartBranch),
                                                  params.declarationProvider,
                                                  None).resolve().filter(r => !siblings.contains(r.newText))
-        suggestions.map { s =>
-          val vars = extractChildren(params, s)
-          if (params.yPartBranch.isKey)
-            s.copy(options = s.options.copy(isKey = true, arrayItem = isArray(params.yPartBranch)),
-                   whiteSpacesEnding = params.indentation,
-                   sons = vars)
-          else
-            s.copy(
-              sons = vars,
-              options = s.options.copy(arrayItem = isArray(params.yPartBranch), isKey = vars.nonEmpty),
-              whiteSpacesEnding = getIndentationIfParent(params, vars.nonEmpty)
-            )
+        suggestions.map {
+          s =>
+            val vars = extractChildren(params, s)
+            if (params.yPartBranch.isKey)
+              s.copy(options = s.options.copy(isKey = true,
+                                              rangeKind =
+                                                if (isArray(params.yPartBranch)) ArrayRange else ObjectRange),
+                     children = vars)
+            else
+              s.copy(
+                children = vars,
+                options = s.options.copy(isKey = vars.nonEmpty,
+                                         rangeKind =
+                                           if (isArray(params.yPartBranch)) ArrayRange
+                                           else if (vars.nonEmpty) ObjectRange
+                                           else StringScalarRange)
+              )
         }
       } else Nil)
 
   }
 
-  private def extractChildren(params: AmlCompletionRequest, s: RawSuggestion) = {
+  private def extractChildren(params: AmlCompletionRequest, s: RawSuggestion): Seq[RawSuggestion] = {
     val maybeElement: Option[DomainElement] =
       params.declarationProvider.findElement(s.newText, iriDeclaration)
     val vars = maybeElement
       .collect({ case p: AbstractDeclaration => p })
       .map(_.variables.flatMap(_.option()))
       .getOrElse(Nil)
-    vars
-  }
-
-  private def getIndentationIfParent(params: AmlCompletionRequest, hasChildren: Boolean) = {
-    if (hasChildren)
-      s"\n${params.indentation}"
-    else ""
+    vars.map(RawSuggestion.forKey)
   }
 
   private def getSiblings(params: AmlCompletionRequest): Seq[String] = {

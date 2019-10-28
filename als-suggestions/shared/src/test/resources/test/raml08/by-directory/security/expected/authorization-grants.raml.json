@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10code",
-    "filterText": null,
+    "filterText": "\n        - code",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 29
         }
       },
-      "newText": "code"
+      "newText": "\n        - code"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10credentials",
-    "filterText": null,
+    "filterText": "\n        - credentials",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 29
         }
       },
-      "newText": "credentials"
+      "newText": "\n        - credentials"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10owner",
-    "filterText": null,
+    "filterText": "\n        - owner",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 29
         }
       },
-      "newText": "owner"
+      "newText": "\n        - owner"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10token",
-    "filterText": null,
+    "filterText": "\n        - token",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 29
         }
       },
-      "newText": "token"
+      "newText": "\n        - token"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

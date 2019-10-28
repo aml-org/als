@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10methodName",
-    "filterText": null,
+    "filterText": "description for <<methodName>> endpoint",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10resourcePath",
-    "filterText": null,
+    "filterText": "description for <<resourcePath>> endpoint",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10resourcePathName",
-    "filterText": null,
+    "filterText": "description for <<resourcePathName>> endpoint",
     "insertText": null,
     "insertTextFormat": [
       1

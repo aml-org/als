@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10internalApiKey",
-    "filterText": null,
+    "filterText": "\"internalApiKey\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 13,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 13,
-          "character": 11
+          "character": 13
         }
       },
-      "newText": "internalApiKey"
+      "newText": "\"internalApiKey\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

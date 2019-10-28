@@ -37,7 +37,6 @@ object Raml10TypesDialect {
         "any"
       ))
     .withLiteralRange(xsdString.iri())
-    .withObjectRange(Seq(ShapeNodeId))
   val shapeProperties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/ShapeNode/in")
@@ -129,8 +128,7 @@ object Raml10TypesDialect {
         .withName("maxProperties")
         withLiteralRange xsdInteger.iri(),
       PropertyMapping()
-        .withId(
-          DialectLocation + "#/declarations/NodeShapeNode/additionalProperties")
+        .withId(DialectLocation + "#/declarations/NodeShapeNode/additionalProperties")
         .withNodePropertyMapping(NodeShapeModel.Closed.value.iri())
         .withName("additionalProperties")
         withLiteralRange xsdBoolean.iri(),
@@ -140,8 +138,7 @@ object Raml10TypesDialect {
         .withName("discriminator")
         withLiteralRange xsdString.iri(),
       PropertyMapping()
-        .withId(
-          DialectLocation + "#/declarations/NodeShapeNode/discriminatorValue")
+        .withId(DialectLocation + "#/declarations/NodeShapeNode/discriminatorValue")
         .withNodePropertyMapping(NodeShapeModel.DiscriminatorValue.value.iri())
         .withName("discriminatorValue")
         withLiteralRange xsdString.iri(),
@@ -286,8 +283,7 @@ object Raml10TypesDialect {
     .withPropertiesMapping(
       Seq(
         PropertyMapping()
-          .withId(
-            DialectLocation + "#/declarations/AnnotationType/allowedTargets")
+          .withId(DialectLocation + "#/declarations/AnnotationType/allowedTargets")
           .withNodePropertyMapping(CustomDomainPropertyModel.Domain.value.iri())
           .withName("allowedTargets")
           .withAllowMultiple(true)

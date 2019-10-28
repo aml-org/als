@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10aliased-complete-ref.raml",
-    "filterText": null,
+    "filterText": "aliased-complete-ref.raml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10aliased-ref.raml",
-    "filterText": null,
+    "filterText": "aliased-ref.raml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10expected/",
-    "filterText": null,
+    "filterText": "expected/",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10library-root.raml",
-    "filterText": null,
+    "filterText": "library-root.raml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10library.raml",
-    "filterText": null,
+    "filterText": "library.raml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10uses-alias.raml",
-    "filterText": null,
+    "filterText": "uses-alias.raml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10uses.raml",
-    "filterText": null,
+    "filterText": "uses.raml",
     "insertText": null,
     "insertTextFormat": [
       1
