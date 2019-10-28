@@ -11,7 +11,7 @@ import org.mulesoft.amfmanager.dialect.DialectKnowledge
 
 import scala.concurrent.Future
 
-object AMLPathCompletionPlugin extends AMLCompletionPlugin with DialectKnowledge {
+object AMLPathCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLPathCompletionPlugin"
 
   // exclude file name
@@ -22,8 +22,9 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin with DialectKnowledge
 
   // TODO: When project is implemented, baseDir should depend on '/' prefix (to define if root is main file or current one)
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
-    if (isRamlInclusion(params.yPartBranch, params.actualDialect) || isJsonInclusion(params.yPartBranch,
-                                                                                     params.actualDialect)) {
+    if (DialectKnowledge.isRamlInclusion(params.yPartBranch, params.actualDialect) || DialectKnowledge.isJsonInclusion(
+          params.yPartBranch,
+          params.actualDialect)) {
       resolveInclusion(params.baseUnit.location().getOrElse(""), params.env, params.prefix)
     } else emptySuggestion
 
@@ -49,6 +50,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin with DialectKnowledge
 
 trait PathCompletion {
   val platform: Platform
+
   def supportedExtension(file: String): Boolean =
     platform
       .extension(file)

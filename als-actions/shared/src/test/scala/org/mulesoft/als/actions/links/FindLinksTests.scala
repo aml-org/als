@@ -8,8 +8,9 @@ import org.mulesoft.lsp.feature.link.DocumentLink
 import org.scalatest.{Assertion, FlatSpec, Matchers}
 import org.yaml.model.YPart
 import org.yaml.parser.YamlParser
+import org.mulesoft.als.actions.links.FindLinks._
 
-class FindLinksTests extends FlatSpec with Matchers with FindLinks with PlatformSecrets {
+class FindLinksTests extends FlatSpec with Matchers with PlatformSecrets {
   behavior of "FindLinks"
 
   private def runLinkTest(text: String,
@@ -27,7 +28,7 @@ class FindLinksTests extends FlatSpec with Matchers with FindLinks with Platform
       """uses:
         |  name: link
         |""".stripMargin,
-      extractUsesLinks,
+      FindLinks.extractUsesLinks,
       Seq(
         PositionRange(
           Position(1, 8),
@@ -41,13 +42,13 @@ class FindLinksTests extends FlatSpec with Matchers with FindLinks with Platform
         |  uses:
         |    name: link
         |""".stripMargin,
-                extractUsesLinks,
+                FindLinks.extractUsesLinks,
                 Nil)
   }
 
   it should "extractRamlIncludes should find a link" in {
     runLinkTest("node: !include link",
-                extractRamlIncludes,
+                FindLinks.extractRamlIncludes,
                 Seq(
                   PositionRange(
                     Position(0, 15),
@@ -57,7 +58,7 @@ class FindLinksTests extends FlatSpec with Matchers with FindLinks with Platform
 
   it should "extractJsonRefs should find a link" in {
     runLinkTest("$ref: link",
-                extractJsonRefs,
+                FindLinks.extractJsonRefs,
                 Seq(
                   PositionRange(
                     Position(0, 6),

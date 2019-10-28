@@ -4,6 +4,7 @@ import amf.core.annotations.SourceAST
 import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
+import org.mulesoft.als.actions.common.ActionTools
 import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.amfmanager.dialect.DialectKnowledge
@@ -11,7 +12,7 @@ import org.mulesoft.lexer.SourceLocation
 import org.mulesoft.lsp.common.LocationLink
 import org.yaml.model.{YNode, YScalar}
 
-trait FindDefinitionFile extends DialectKnowledge with ActionTools {
+trait FindDefinitionFile {
 
   /**
     * Proof of concept.
@@ -32,7 +33,7 @@ trait FindDefinitionFile extends DialectKnowledge with ActionTools {
 
     yPartBranch.node match {
       case alias: YNode.Alias => Seq(locationToLsp(alias.location, alias.target.location, platform))
-      case y: YNode if appliesReference(bu, yPartBranch) =>
+      case y: YNode if DialectKnowledge.appliesReference(bu, yPartBranch) =>
         y.value match {
           case scalar: YScalar if scalar.value.toString.startsWith("#") =>
             checkBaseUnitForRef(yPartBranch, ObjectInTreeBuilder.fromUnit(bu, position.toAmfPosition), platform)
@@ -47,9 +48,9 @@ trait FindDefinitionFile extends DialectKnowledge with ActionTools {
                             platform: Platform): LocationLink = {
     LocationLink(
       targetLocation.sourceName,
-      sourceLocationToRange(targetLocation),
-      sourceLocationToRange(targetLocation),
-      Some(sourceLocationToRange(sourceLocation))
+      ActionTools.sourceLocationToRange(targetLocation),
+      ActionTools.sourceLocationToRange(targetLocation),
+      Some(ActionTools.sourceLocationToRange(sourceLocation))
     )
   }
 

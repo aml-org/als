@@ -3,7 +3,7 @@ package org.mulesoft.als.server.modules.actions
 import java.util.UUID
 
 import amf.core.remote.Platform
-import org.mulesoft.als.actions.Actions
+import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
@@ -46,7 +46,7 @@ class GoToDefinitionManager(val astManager: AstManager,
   def goToDefinition(str: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] =
     astManager
       .getCurrentAST(str, UUID.randomUUID().toString)
-      .map(bu => Right(Actions.getDefinition(bu, position, platform)))
+      .map(bu => Right(FindDefinition.getDefinition(bu, position, platform)))
 
   override def initialize(): Future[Unit] = Future.successful()
 
