@@ -3,26 +3,30 @@ package org.mulesoft.als.actions.links
 import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
 import amf.plugins.document.vocabularies.ReferenceStyles
-import org.mulesoft.als.actions.definition.files.ActionTools
+import org.mulesoft.als.actions.common.ActionTools
 import org.mulesoft.als.common.NodeBranchBuilder
 import org.mulesoft.amfmanager.dialect.DialectKnowledge
 import org.mulesoft.lsp.feature.link.DocumentLink
 import org.yaml.model._
 
-trait FindLinks extends DialectKnowledge with ActionTools {
+object FindLinks {
 
   def getLinks(bu: BaseUnit, platform: Platform): Seq[DocumentLink] = {
     lazy val ast = NodeBranchBuilder.astFromBaseUnit(bu)
 
-    lazy val hasRamlIncludes = dialectFor(bu).exists(dialect => {
-      Option(dialect.documents()).forall(d =>
-        d.referenceStyle().is(ReferenceStyles.RAML) || d.referenceStyle().isNullOrEmpty)
-    })
+    lazy val hasRamlIncludes = DialectKnowledge
+      .dialectFor(bu)
+      .exists(dialect => {
+        Option(dialect.documents()).forall(d =>
+          d.referenceStyle().is(ReferenceStyles.RAML) || d.referenceStyle().isNullOrEmpty)
+      })
 
-    lazy val hasJsonIncludes = dialectFor(bu).exists(dialect => {
-      Option(dialect.documents()).forall(d =>
-        d.referenceStyle().is(ReferenceStyles.JSONSCHEMA) || d.referenceStyle().isNullOrEmpty)
-    })
+    lazy val hasJsonIncludes = DialectKnowledge
+      .dialectFor(bu)
+      .exists(dialect => {
+        Option(dialect.documents()).forall(d =>
+          d.referenceStyle().is(ReferenceStyles.JSONSCHEMA) || d.referenceStyle().isNullOrEmpty)
+      })
 
     def getLink(part: YPart): Seq[DocumentLink] =
       extractUsesLinks(part, platform) ++ {
@@ -38,7 +42,7 @@ trait FindLinks extends DialectKnowledge with ActionTools {
 
   private def isRoot(map: YMap) = map.entries.forall(_.key.location.columnFrom == 0)
 
-  protected def extractUsesLinks(yPart: YPart, platform: Platform): Seq[DocumentLink] =
+  def extractUsesLinks(yPart: YPart, platform: Platform): Seq[DocumentLink] =
     yPart match {
       case map: YMap if isRoot(map) =>
         map.entries
@@ -58,10 +62,10 @@ trait FindLinks extends DialectKnowledge with ActionTools {
     nodeToLink(e.value, platform)
 
   private def nodeToLink(n: YNode, platform: Platform) =
-    DocumentLink(sourceLocationToRange(n.value.location),
-                 valueToUri(n.location.sourceName, n.asScalar.map(_.text).getOrElse(""), platform))
+    DocumentLink(ActionTools.sourceLocationToRange(n.value.location),
+                 ActionTools.valueToUri(n.location.sourceName, n.asScalar.map(_.text).getOrElse(""), platform))
 
-  protected def extractJsonRefs(yPart: YPart, platform: Platform): Seq[DocumentLink] =
+  def extractJsonRefs(yPart: YPart, platform: Platform): Seq[DocumentLink] =
     yPart match {
       case entry: YMapEntry if appliesRef(entry) =>
         Seq(entryToLink(entry, platform))
@@ -73,7 +77,7 @@ trait FindLinks extends DialectKnowledge with ActionTools {
     !entry.value.asScalar.map(_.text).getOrElse("").startsWith("#")
   }
 
-  protected def extractRamlIncludes(yPart: YPart, platform: Platform): Seq[DocumentLink] =
+  def extractRamlIncludes(yPart: YPart, platform: Platform): Seq[DocumentLink] =
     yPart match {
       case node: YNode if node.tagType == YType.Include => Seq(nodeToLink(node, platform))
       case _                                            => Nil

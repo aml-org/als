@@ -3,7 +3,7 @@ package org.mulesoft.als.server.modules.actions
 import java.util.UUID
 
 import amf.core.remote.Platform
-import org.mulesoft.als.actions.Actions
+import org.mulesoft.als.actions.links.FindLinks
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.AstManager
@@ -41,7 +41,7 @@ class DocumentLinksManager(val astManager: AstManager,
   def documentLinks(str: String): Future[Seq[DocumentLink]] =
     astManager
       .getCurrentAST(str, UUID.randomUUID().toString)
-      .map(bu => Actions.getLinks(bu, platform))
+      .map(bu => FindLinks.getLinks(bu, platform))
 
   override def initialize(): Future[Unit] = Future.successful()
 

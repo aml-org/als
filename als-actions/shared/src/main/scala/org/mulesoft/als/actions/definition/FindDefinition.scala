@@ -13,7 +13,7 @@ import org.mulesoft.lsp.common.LocationLink
   * * references will be returned as location (!include or $ref)
   * *  [X] if clicked on a URI it will also return this as location
   */
-trait FindDefinition extends FindDefinitionFile {
+object FindDefinition extends FindDefinitionFile {
   def getDefinition(bu: BaseUnit, position: Position, platform: Platform): Seq[LocationLink] =
     getDefinitionFile(bu, position, platform)
 }

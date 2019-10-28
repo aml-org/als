@@ -10,7 +10,7 @@ import org.mulesoft.amfmanager.dialect.webapi.oas.Oas20DialectWrapper
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
 
-trait DialectKnowledge {
+object DialectKnowledge {
   def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
     case _: DialectInstanceUnit => WebApiDialectsRegistry.dialectFor(bu)
     case d if d.sourceVendor.contains(Oas20) && !OAS20Dialect().id.isEmpty =>
@@ -35,7 +35,7 @@ trait DialectKnowledge {
   def isInclusion(yPartBranch: YPartBranch, dialect: Dialect): Boolean =
     isRamlInclusion(yPartBranch, dialect) || isJsonInclusion(yPartBranch, dialect)
 
-  protected def appliesReference(bu: BaseUnit, yPartBranch: YPartBranch): Boolean =
+  def appliesReference(bu: BaseUnit, yPartBranch: YPartBranch): Boolean =
     dialectFor(bu).exists(dialect => isInclusion(yPartBranch, dialect))
 
 }

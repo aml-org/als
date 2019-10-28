@@ -18,7 +18,7 @@ import amf.core.parser.{Position => AmfPosition}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object Suggestions extends SuggestionsHelper with DialectKnowledge {
+object Suggestions extends SuggestionsHelper {
   def init(options: InitOptions = InitOptions.WebApiProfiles): Future[Unit] =
     Core.init(options)
 
@@ -59,7 +59,7 @@ object Suggestions extends SuggestionsHelper with DialectKnowledge {
                     url: String,
                     originalContent: String,
                     snippetSupport: Boolean): Future[CompletionProvider] = {
-    dialectFor(bu) match {
+    DialectKnowledge.dialectFor(bu) match {
       case Some(d) =>
         Future(
           buildCompletionProviderAST(bu,
