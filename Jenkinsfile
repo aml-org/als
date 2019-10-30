@@ -5,110 +5,111 @@ def color = '#FF8C00'
 def headerFlavour = "WARNING"
 
 pipeline {
-  agent {
-    dockerfile true
-  }
-  environment {
-    NEXUS = credentials('exchange-nexus')
-    NEXUSIQ = credentials('nexus-iq')
-    ALSP_TOKEN     = credentials('NewALSPToken')
-  }
-  stages {
-    stage('Test') {
-      steps {
-        wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
+    agent {
+        dockerfile true
+    }
+    environment {
+        NEXUS = credentials('exchange-nexus')
+        NEXUSIQ = credentials('nexus-iq')
+        ALSP_TOKEN = credentials('NewALSPToken')
+    }
+    stages {
+        stage('Test') {
+            steps {
+                wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                     script {
                         try {
-          sh 'sbt -mem 4096 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 clean coverage test coverageReport'
+                            sh 'sbt -mem 4096 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 clean coverage test coverageReport'
                         } catch (e) {
                             failedStage = failedStage + " TEST "
                             unstable "Failed tests"
                         }
                     }
+                }
+            }
         }
-      }
-    }
-    stage('Coverage') {
-      when {
-        anyOf {
-          branch 'master'
-          branch 'devel'
-        }
-      }
-      steps {
-        wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
-          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'sonarqube-official', passwordVariable: 'SONAR_SERVER_TOKEN', usernameVariable: 'SONAR_SERVER_URL']]) {
+        stage('Coverage') {
+            when {
+                anyOf {
+                    branch 'master'
+                    branch 'devel'
+                }
+            }
+            steps {
+                wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'sonarqube-official', passwordVariable: 'SONAR_SERVER_TOKEN', usernameVariable: 'SONAR_SERVER_URL']]) {
                         script {
                             try {
                                 if (failedStage.isEmpty()) {
-            sh 'sbt -Dsonar.host.url=${SONAR_SERVER_URL} sonarScan'
-          }
+                                    sh 'sbt -Dsonar.host.url=${SONAR_SERVER_URL} sonarScan'
+                                }
                             } catch (e) {
                                 failedStage = failedStage + " COVERAGE "
                                 unstable "Failed coverage"
                             }
                         }
                     }
+                }
+            }
         }
-      }
-    }
-    stage('nexusIq'){
-      when {
-        anyOf {
-          branch 'master'
-          branch 'devel'
-        }
-      }
-      steps {
-        wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
+        stage('nexusIq') {
+            when {
+                anyOf {
+                    branch 'master'
+                    branch 'devel'
+                }
+            }
+            steps {
+                wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                     script {
                         try {
                             if (failedStage.isEmpty()) {
-            sh './gradlew nexusIq'
-        }
+                                sh './gradlew nexusIq'
+                            }
                         } catch (e) {
                             failedStage = failedStage + " NEXUSIQ "
                             unstable "Failed Nexus IQ"
                         }
                     }
                 }
-      }
-    }
-    stage('Publish') {
-      when {
-        anyOf {
-          branch 'master'
-          branch 'devel'
-          branch 'rc/*'
-          branch 'fat-jar-publish'
-          branch 'support/*'
+            }
         }
-      }
-      steps {
+        stage('Publish') {
+            when {
+                anyOf {
+                    branch 'master'
+                    branch 'devel'
+                    branch 'rc/*'
+                    branch 'fat-jar-publish'
+                    branch 'support/*'
+                }
+            }
+            steps {
                 script {
                     try {
                         if (failedStage.isEmpty()) {
-        sh 'sbt publish'
-      }
+                            sh 'sbt publish'
+                        }
                     } catch (e) {
                         failedStage = failedStage + " PUBLISH "
                         unstable "Failed publication"
                     }
                 }
             }
-    }
-    stage('Trigger Dependencies'){
-        when {
-            anyOf{
-                branch 'devel'
-            }
         }
-        steps {
+        stage('Trigger Dependencies') {
+            when {
+                anyOf {
+                    branch 'devel'
+                }
+            }
+            steps {
                 script {
                     try {
                         if (failedStage.isEmpty()) {
-            sh 'curl https://jenkins-onprem.build.msap.io/generic-webhook-trigger/invoke?token=$ALSP_TOKEN'
-        }
+                            sh 'curl https://jenkins-onprem.build.msap.io/generic-webhook-trigger/invoke?token=$ALSP_TOKEN'
+                            build job: 'ALS/als-client/devel', wait: false
+                        }
                     } catch (e) {
                         failedStage = failedStage + " DEPENDENCIES "
                         unstable "Failed dependencies"
@@ -134,6 +135,6 @@ pipeline {
                     }
                 }
             }
+        }
     }
-  }
 }
