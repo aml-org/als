@@ -108,7 +108,7 @@ pipeline {
                     try {
                         if (failedStage.isEmpty()) {
                             sh 'curl https://jenkins-onprem.build.msap.io/generic-webhook-trigger/invoke?token=$ALSP_TOKEN'
-                            build job: 'ALS/als-client/devel', wait: false
+                            build job: 'ALS/als-client/master', wait: false
                         }
                     } catch (e) {
                         failedStage = failedStage + " DEPENDENCIES "
