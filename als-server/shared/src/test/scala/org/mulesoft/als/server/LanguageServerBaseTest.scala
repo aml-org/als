@@ -6,7 +6,8 @@ import amf.internal.environment.Environment
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
-import org.mulesoft.als.server.textsync.TextDocumentManager
+import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.configuration.InitializeParams
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
@@ -105,21 +106,10 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
     MockDiagnosticClientNotifier.nextCall
   }
 
-  def addModules(documentManager: TextDocumentManager,
-                 platform: Platform,
-                 directoryResolver: DirectoryResolver,
-                 baseEnvironment: Environment,
-                 builder: LanguageServerBuilder): LanguageServerBuilder
+  def buildServer(): LanguageServer
 
   def withServer[R](fn: LanguageServer => Future[R]): Future[R] = {
-    val documentManager = new TextDocumentManager(platform, logger)
-    val builder = LanguageServerBuilder()
-      .withTextDocumentSyncConsumer(documentManager)
-
-    val directoryResolver = new PlatformDirectoryResolver(platform)
-    val baseEnvironment   = Environment().add(new PlatformFileLoader(platform))
-    val server            = addModules(documentManager, platform, directoryResolver, baseEnvironment, builder).build()
-
+    val server = buildServer()
     server
       .initialize(initializeParams)
       .flatMap(_ => {

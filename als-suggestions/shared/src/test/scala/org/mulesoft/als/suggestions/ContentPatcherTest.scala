@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions
 
 import common.diff.{FileAssertionTest, ListAssertions}
 import org.mulesoft.als.suggestions.interfaces.Syntax
-import org.mulesoft.als.suggestions.patcher.{ColonToken, CommaToken, QuoteToken}
+import org.mulesoft.als.suggestions.patcher.{ColonToken, CommaToken, ContentPatcher, QuoteToken}
 import org.scalatest.AsyncFunSuite
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -23,7 +23,7 @@ class ContentPatcherTest extends AsyncFunSuite with FileAssertionTest with ListA
         val content    = c.stream.toString
         val offset     = content.indexOf("*")
         val rawContent = content.substring(0, offset) + content.substring(offset + 1)
-        org.mulesoft.als.suggestions.Core.prepareText(rawContent, offset, Syntax.JSON)
+        ContentPatcher(rawContent, offset, Syntax.JSON).prepareContent()
       }
       tmp <- writeTemporaryFile(expected)(patched.content) // todo: unify code
       r   <- assertDifferences(tmp, expected)
@@ -45,7 +45,7 @@ class ContentPatcherTest extends AsyncFunSuite with FileAssertionTest with ListA
         val content    = c.stream.toString
         val offset     = content.indexOf("*")
         val rawContent = content.substring(0, offset) + content.substring(offset + 1)
-        org.mulesoft.als.suggestions.Core.prepareText(rawContent, offset, Syntax.JSON)
+        ContentPatcher(rawContent, offset, Syntax.JSON).prepareContent()
       }
       tmp <- writeTemporaryFile(expected)(patched.content)
       r   <- assertDifferences(tmp, expected)

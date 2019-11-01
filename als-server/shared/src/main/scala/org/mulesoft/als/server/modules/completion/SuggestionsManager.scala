@@ -2,19 +2,17 @@ package org.mulesoft.als.server.modules.completion
 
 import java.util.UUID
 
-import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
-import amf.internal.environment.Environment
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.textsync.TextDocumentManager
+import org.mulesoft.als.server.modules.ast.{AstManager, EditorEnvironment}
+import org.mulesoft.als.server.textsync.TextDocument
 import org.mulesoft.als.suggestions
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
-import org.mulesoft.als.suggestions.patcher.PatchedContent
+import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.RequestHandler
@@ -24,12 +22,10 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
-                         val astManager: AstManager,
+class SuggestionsManager(val editorEnvironment: EditorEnvironment,
                          private val telemetryProvider: TelemetryProvider,
                          private val directoryResolver: DirectoryResolver,
                          private val platform: Platform,
-                         private val environment: Environment,
                          private val logger: Logger)
     extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
 
@@ -61,8 +57,6 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
     CompletionOptions(None, Some(Set('[')))
   }
 
-  val onDocumentCompletionListener: (String, Position) => Future[Seq[CompletionItem]] = onDocumentCompletion
-
   override def initialize(): Future[Unit] =
     suggestions.Core.init()
 
@@ -74,18 +68,22 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                  "SuggestionsManager",
                  "onDocumentCompletion")
 
-    textDocumentManager
-      .getTextDocument(uri)
-      .map(editor => {
-        val syntax = if (editor.syntax == "YAML") Syntax.YAML else Syntax.JSON
-
-        val startTime = System.currentTimeMillis()
-
-        val originalText   = editor.text
-        val offset         = position.offset(originalText)
-        val patchedContent = suggestions.Core.prepareText(originalText, offset, syntax)
+    editorEnvironment.memoryFiles.get(uri) match {
+      case Some(textDocument) =>
+        val startTime    = System.currentTimeMillis()
+        val syntax       = Syntax(textDocument.syntax)
+        val originalText = textDocument.text
+        val offset       = position.offset(originalText)
+        val patchedContent         = ContentPatcher(originalText, offset, syntax).prepareContent()
         telemetryProvider.addTimedMessage("Begin Suggestions", MessageTypes.BEGIN_COMPLETION, uri, telemetryUUID)
-        buildCompletionProviderAST(patchedContent, uri, refinedUri, offset, syntax, telemetryUUID)
+        buildCompletionProviderAST(new TextDocument(uri, textDocument.version, patchedContent.content, syntax.toString, logger),
+                                   originalText,
+                                   uri,
+                                   refinedUri,
+                                   offset,
+                                   syntax,
+                        patchedContent,
+                                   telemetryUUID)
           .flatMap(provider => {
             provider
               .suggest()
@@ -102,24 +100,30 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                 result
               })
           })
-      })
-      .getOrElse(Future.successful(Seq.empty[CompletionItem]))
+      case _ => Future.successful(Seq.empty)
+
+    }
+
   }
 
-  def buildCompletionProviderAST(patchedContent: PatchedContent,
+  def buildCompletionProviderAST(text: TextDocument,
+                                 unmodifiedContent: String,
                                  uri: String,
                                  refinedUri: String,
                                  position: Int,
                                  syntax: Syntax,
+                                 patchedContent: PatchedContent,
                                  uuid: String): Future[CompletionProvider] = {
 
-    val eventualUnit: Future[BaseUnit] = astManager.forceBuildNewAST(uri, patchedContent, telemetryProvider, uuid)
+    val patchedEnvironment = editorEnvironment.forPatched(uri, text)
+    val eventualUnit =
+      new AstManager(patchedEnvironment.environment, telemetryProvider, platform, logger).forceGetCurrentAST(uri, uuid)
 
     Suggestions.buildProviderAsync(eventualUnit,
                                    position,
                                    directoryResolver,
                                    platform,
-                                   environment,
+                                   patchedEnvironment.environment,
                                    uri,
                                    patchedContent,
                                    snippetSupport)

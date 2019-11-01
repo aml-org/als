@@ -11,12 +11,14 @@ import org.eclipse.lsp4j.{ExecuteCommandParams, InitializeParams}
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
+import org.mulesoft.als.server.modules.ManagersFactory
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
+import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync.{DidFocusParams, IndexDialectParams}
 
 import scala.compat.java8.FutureConverters._
@@ -172,25 +174,14 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     }
   }
 
-  override def addModules(documentManager: TextDocumentManager,
-                          platform: Platform,
-                          directoryResolver: DirectoryResolver,
-                          baseEnvironment: Environment,
-                          builder: LanguageServerBuilder): LanguageServerBuilder = {
+  override def buildServer(): LanguageServer = {
 
-    val telemetryManager = new TelemetryManager(MockDiagnosticClientNotifier, logger)
-    val astManager       = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
-    val diagnosticManager =
-      new DiagnosticManager(documentManager,
-                            astManager,
-                            telemetryManager,
-                            MockDiagnosticClientNotifier,
-                            platform,
-                            logger)
+    val managers = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
 
-    builder
-      .addInitializable(astManager)
-      .addInitializableModule(diagnosticManager)
+    new LanguageServerBuilder(managers.documentManager)
+      .addInitializable(managers.astManager)
+      .addInitializableModule(managers.diagnosticManager)
+      .build()
   }
 
   override def rootPath: String = ""
