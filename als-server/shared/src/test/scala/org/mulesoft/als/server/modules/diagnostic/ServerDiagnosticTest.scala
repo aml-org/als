@@ -1,12 +1,8 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.core.remote.Platform
-import amf.internal.environment.Environment
-import org.mulesoft.als.common.DirectoryResolver
-import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.modules.telemetry.TelemetryManager
-import org.mulesoft.als.server.textsync.TextDocumentManager
+import org.mulesoft.als.server.modules.ManagersFactory
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
+import org.mulesoft.lsp.server.LanguageServer
 
 import scala.concurrent.ExecutionContext
 
@@ -16,25 +12,13 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
   override def rootPath: String = ""
 
-  override def addModules(documentManager: TextDocumentManager,
-                          platform: Platform,
-                          directoryResolver: DirectoryResolver,
-                          baseEnvironment: Environment,
-                          builder: LanguageServerBuilder): LanguageServerBuilder = {
+  override def buildServer(): LanguageServer = {
 
-    val telemetryManager = new TelemetryManager(MockDiagnosticClientNotifier, logger)
-    val astManager       = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
-    val diagnosticManager =
-      new DiagnosticManager(documentManager,
-                            astManager,
-                            telemetryManager,
-                            MockDiagnosticClientNotifier,
-                            platform,
-                            logger)
-
-    builder
-      .addInitializable(astManager)
-      .addInitializableModule(diagnosticManager)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
+    new LanguageServerBuilder(factory.documentManager)
+      .addInitializable(factory.astManager)
+      .addInitializableModule(factory.diagnosticManager)
+      .build()
   }
 
   test("diagnostics test 001 - onFocus") {

@@ -1,31 +1,22 @@
 package org.mulesoft.als.server.modules.reference
 
-import amf.core.remote.Platform
-import amf.internal.environment.Environment
-import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.modules.telemetry.TelemetryManager
-import org.mulesoft.als.server.textsync.TextDocumentManager
+import org.mulesoft.als.server.modules.ManagersFactory
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.reference.{ReferenceContext, ReferenceParams, ReferenceRequestType}
+import org.mulesoft.lsp.server.LanguageServer
 
 abstract class ServerReferenceTest extends LanguageServerBaseTest {
 
-  override def addModules(documentManager: TextDocumentManager,
-                          platform: Platform,
-                          directoryResolver: DirectoryResolver,
-                          baseEnvironment: Environment,
-                          builder: LanguageServerBuilder): LanguageServerBuilder = {
+  override def buildServer(): LanguageServer = {
 
-    val telemetryManager = new TelemetryManager(MockDiagnosticClientNotifier, logger)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
 
-    val astManager = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
-
-    builder
-      .addInitializable(astManager)
+    new LanguageServerBuilder(factory.documentManager)
+      .addInitializable(factory.astManager)
+      .build()
   }
 
   test("Find references test 001") {

@@ -28,13 +28,4 @@ object Core {
         Raml08CompletionPluginRegistry.init()
       })
   }
-
-  def prepareText(text: String, offset: Int, syntax: Syntax): PatchedContent =
-    if (text.trim.startsWith("{"))
-      JsonContentPatcher.prepareJsonContent(text, offset)
-    else
-      syntax match {
-        case YAML => YamlContentPatcher.prepareYamlContent(text, offset)
-        case _    => throw new Error(s"Syntax not supported: $syntax")
-      }
 }
