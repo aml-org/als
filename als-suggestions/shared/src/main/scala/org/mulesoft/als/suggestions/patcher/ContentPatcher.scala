@@ -1,9 +1,24 @@
 package org.mulesoft.als.suggestions.patcher
 
-abstract class PatchToken(token: String)
+import org.mulesoft.als.suggestions.interfaces.Syntax
+import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 
-object ColonToken extends PatchToken(":")
-object QuoteToken extends PatchToken("\"")
-object CommaToken extends PatchToken(",")
 
-case class PatchedContent(content: String, original: String, addedTokens: List[PatchToken])
+trait ContentPatcher {
+
+  val textRaw: String
+  val offsetRaw: Int
+  def prepareContent(): PatchedContent
+}
+
+object ContentPatcher {
+
+  def apply(text: String, offset: Int, syntax: Syntax): ContentPatcher =
+    if (text.trim.startsWith("{"))
+      new JsonContentPatcher(text, offset)
+    else
+      syntax match {
+        case YAML => new YamlContentPatcher(text, offset)
+        case _    => throw new Error(s"Syntax not supported: $syntax")
+      }
+}

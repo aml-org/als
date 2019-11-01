@@ -1,18 +1,15 @@
 package org.mulesoft.als.server.modules.rename
 
-import amf.core.remote.Platform
-import amf.internal.environment.Environment
-import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.{DescendingPositionOrdering, Position}
-import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.modules.telemetry.TelemetryManager
-import org.mulesoft.als.server.textsync.TextDocumentManager
+import org.mulesoft.als.server.modules.ManagersFactory
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
+import org.mulesoft.als.suggestions.patcher.ContentPatcher
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.rename.{RenameParams, RenameRequestType}
+import org.mulesoft.lsp.server.LanguageServer
 import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -21,16 +18,11 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
 
   override implicit val executionContext = ExecutionContext.Implicits.global
 
-  override def addModules(documentManager: TextDocumentManager,
-                          platform: Platform,
-                          directoryResolver: DirectoryResolver,
-                          baseEnvironment: Environment,
-                          builder: LanguageServerBuilder): LanguageServerBuilder = {
-    val telemetryManager = new TelemetryManager(MockDiagnosticClientNotifier, logger)
-    val astManager       = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
-
-    builder
-      .addInitializable(astManager)
+  override def buildServer(): LanguageServer = {
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
+    new LanguageServerBuilder(factory.documentManager)
+      .addInitializable(factory.documentManager)
+      .build()
   }
 
   def runTest(path: String, newName: String): Future[Assertion] = withServer[Assertion] { server =>
@@ -83,9 +75,8 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
     if (offset < 0) {
       new MarkerInfo(PatchedContent(str, str, Nil), Position(str.length, str))
     } else {
-      val rawContent = str.substring(0, offset) + str.substring(offset + 1)
-      val preparedContent =
-        org.mulesoft.als.suggestions.Core.prepareText(rawContent, offset, YAML)
+      val rawContent      = str.substring(0, offset) + str.substring(offset + 1)
+      val preparedContent = ContentPatcher(rawContent, offset, YAML).prepareContent()
       new MarkerInfo(preparedContent, Position(offset, str))
     }
 

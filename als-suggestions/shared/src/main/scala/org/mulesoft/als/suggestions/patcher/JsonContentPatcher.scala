@@ -3,22 +3,17 @@ package org.mulesoft.als.suggestions.patcher
 import scala.collection.mutable.ListBuffer
 
 
-object JsonContentPatcher {
-
-  def prepareJsonContent(textRaw: String, offsetRaw: Int): PatchedContent = {
-    val patcher = new JsonContentPatcher()
-    val content = patcher.patch(textRaw, offsetRaw)
-    PatchedContent(content,textRaw,patcher.listTokens())
-  }
-
-
-}
-class JsonContentPatcher() {
+class JsonContentPatcher(override val textRaw:String, override val offsetRaw:Int) extends ContentPatcher {
   private val tokens:ListBuffer[PatchToken] = ListBuffer()
 
   def listTokens(): List[PatchToken] = tokens.toList
 
-  def patch(textRaw:String, offsetRaw:Int): String = {
+  override def prepareContent(): PatchedContent = {
+    val content = patch()
+    PatchedContent(content,textRaw,listTokens())
+  }
+
+  def patch(): String = {
     val EOL       = textRaw.find(_ == '\r').map(_ => "\r\n").getOrElse("\n")
     val text      = textRaw.replace(EOL, "\n")
     val offset    = offsetRaw - textRaw.substring(0, offsetRaw).count(_ == '\r')

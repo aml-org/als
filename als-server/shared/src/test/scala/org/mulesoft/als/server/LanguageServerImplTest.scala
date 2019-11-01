@@ -2,7 +2,7 @@ package org.mulesoft.als.server
 
 import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.als.server.logger.EmptyLogger
-import org.mulesoft.als.server.textsync.TextDocumentManager
+import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer, TextDocumentManager}
 import org.mulesoft.lsp.common.TextDocumentItem
 import org.mulesoft.lsp.configuration.InitializeParams
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
@@ -16,11 +16,10 @@ class LanguageServerImplTest extends AsyncFlatSpec with Matchers with PlatformSe
 
   behavior of "LanguageServerImpl"
   it should "open file" in {
-    val documentManager = new TextDocumentManager(platform, EmptyLogger)
+    val editorFiles     = TextDocumentContainer(platform)
+    val documentManager = new TextDocumentManager(editorFiles, List.empty, EmptyLogger)
 
-    val server = LanguageServerBuilder()
-      .withTextDocumentSyncConsumer(documentManager)
-      .build()
+    val server = new LanguageServerBuilder(documentManager).build()
 
     server
       .initialize(InitializeParams.default)
@@ -32,8 +31,9 @@ class LanguageServerImplTest extends AsyncFlatSpec with Matchers with PlatformSe
             TextDocumentItem("file://api.raml", "raml", 0, "#%RAML 1.0")
           ))
 
-        val document = documentManager.getTextDocument("file://api.raml").value
-
+        val documentOption: Option[TextDocument] = editorFiles.get("file://api.raml")
+        documentOption.isDefined should be(true)
+        val document = documentOption.get
         document.text should be("#%RAML 1.0")
         document.version should be(0)
       })

@@ -1,13 +1,11 @@
 package org.mulesoft.als.server.modules.actions
 
-import java.util.UUID
-
 import amf.core.remote.Platform
 import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.ast.AstManager
+import org.mulesoft.als.server.modules.ast.UnitsRepository
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.common.{Location, LocationLink, TextDocumentPositionParams}
 import org.mulesoft.lsp.convert.LspRangeConverter
@@ -18,7 +16,7 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class GoToDefinitionManager(val astManager: AstManager,
+class GoToDefinitionManager(val unitsRepository: UnitsRepository,
                             private val telemetryProvider: TelemetryProvider,
                             private val logger: Logger,
                             private val platform: Platform)
@@ -43,10 +41,15 @@ class GoToDefinitionManager(val astManager: AstManager,
 
   val onGoToDefinition: (String, Position) => Future[Either[Seq[Location], Seq[LocationLink]]] = goToDefinition
 
-  def goToDefinition(str: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] =
-    astManager
-      .getCurrentAST(str, UUID.randomUUID().toString)
-      .map(bu => Right(FindDefinition.getDefinition(bu, position, platform)))
+  def goToDefinition(str: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] = {
+    unitsRepository
+      .findGlobal(str)
+      .map({
+        case Some(bu) => FindDefinition.getDefinition(bu, position, platform)
+        case _        => Nil
+      })
+      .map(Right(_))
+  }
 
   override def initialize(): Future[Unit] = Future.successful()
 

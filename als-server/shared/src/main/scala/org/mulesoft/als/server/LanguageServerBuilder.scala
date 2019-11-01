@@ -6,17 +6,10 @@ import org.mulesoft.lsp.{Initializable, InitializableModule}
 
 import scala.collection.mutable
 
-class LanguageServerBuilder {
+class LanguageServerBuilder(private val textDocumentSyncConsumer: TextDocumentSyncConsumer) {
   private val initializableModules = mutable.ListBuffer[InitializableModule[_, _]]()
   private val requestModules       = mutable.ListBuffer[RequestModule[_, _]]()
   private val initializables       = mutable.ListBuffer[Initializable]()
-
-  private var maybeTextSyncConsumer: Option[TextDocumentSyncConsumer] = None
-
-  def withTextDocumentSyncConsumer(consumer: TextDocumentSyncConsumer): this.type = {
-    maybeTextSyncConsumer = Some(consumer)
-    this
-  }
 
   def addInitializableModule[C, S](module: InitializableModule[C, S]): this.type = {
     initializableModules += module
@@ -34,7 +27,6 @@ class LanguageServerBuilder {
   }
 
   def build(): LanguageServer = {
-    val textDocumentSyncConsumer = this.maybeTextSyncConsumer.get
 
     val configMap = (requestModules ++ initializableModules :+ textDocumentSyncConsumer)
       .foldLeft(ConfigMap.empty)((result, value) => result.put(value.`type`, value))
@@ -49,8 +41,4 @@ class LanguageServerBuilder {
                            new LanguageServerInitializer(configMap, allInitializables),
                            handlerMap)
   }
-}
-
-object LanguageServerBuilder {
-  def apply(): LanguageServerBuilder = new LanguageServerBuilder()
 }
