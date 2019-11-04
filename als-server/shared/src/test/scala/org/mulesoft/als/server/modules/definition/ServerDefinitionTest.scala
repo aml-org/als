@@ -22,7 +22,7 @@ trait ServerDefinitionTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = false)
     new LanguageServerBuilder(factory.documentManager)
       .addInitializable(factory.astManager)
       .addRequestModule(factory.definitionManager)
