@@ -112,12 +112,12 @@ case class UnitsRepository(private val workspaces: mutable.Map[String, Future[Wo
           case Right(ws) => ws.getDependency(uri)
           case Left(bu)  => Some(bu)
         }
-      case _ => Future.successful(None)
+      case _ =>
+        findUnit(uri).flatMap {
+          case None   => Future.sequence(orphanUnits.get(uri).toIterable).map(_.headOption)
+          case option => Future.successful(option)
+        }
     }
-//    findUnit(uri).flatMap {
-//      case None   => Future.sequence(orphanUnits.get(uri).toIterable).map(_.headOption)
-//      case option => Future.successful(option)
-//    }
   }
 
   def add(rootUri: String, wsFuture: Future[Workspace]): Unit = {
