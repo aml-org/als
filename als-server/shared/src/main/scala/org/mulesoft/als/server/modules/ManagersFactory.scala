@@ -15,7 +15,8 @@ import org.mulesoft.als.server.textsync.TextDocumentManager
 case class ManagersFactory(clientNotifier: ClientNotifier,
                            platform: Platform,
                            logger: Logger,
-                           dr: Option[DirectoryResolver] = None) {
+                           dr: Option[DirectoryResolver] = None,
+                           withDiagnostics: Boolean = true) {
 
   private val directoryResolver          = dr.getOrElse(new PlatformDirectoryResolver(platform))
   private val editorEnvironment          = EditorEnvironment(platform)
@@ -23,9 +24,9 @@ case class ManagersFactory(clientNotifier: ClientNotifier,
   val astManager                         = new AstManager(editorEnvironment.environment, telemetryManager, platform, logger)
   lazy val diagnosticManager             = new DiagnosticManager(editorEnvironment, telemetryManager, clientNotifier, logger)
 
-  private val projectManager = new ProjectManager(editorEnvironment.unitsRepositories,
-                                                  astManager,
-                                                  scala.collection.immutable.List(diagnosticManager))
+  private val projectDependencies = if (withDiagnostics) List(diagnosticManager) else Nil
+
+  private val projectManager = new ProjectManager(editorEnvironment.unitsRepositories, astManager, projectDependencies)
 
   lazy val documentManager = new TextDocumentManager(editorEnvironment.memoryFiles, List(projectManager), logger)
 

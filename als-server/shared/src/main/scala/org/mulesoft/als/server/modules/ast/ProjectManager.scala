@@ -24,31 +24,49 @@ class ProjectManager(val unitsRepository: UnitsRepository,
 
   override def onFocus(uri: String): Unit = {
     val uuid = UUID.randomUUID().toString
-    unitsRepository.get(uri).foreach {
-      case None =>
-        val eventualUnit: Future[BaseUnit] = astManager.forceGetCurrentAST(uri, uuid)
-        unitsRepository.addUnit(uri, eventualUnit)
-        eventualUnit.foreach(notify(_, uuid))
-      case _ => // ignore
+    val fn = () => {
+      unitsRepository.get(uri).flatMap {
+        case None =>
+          val eventualUnit: Future[BaseUnit] = astManager.forceGetCurrentAST(uri, uuid)
+          unitsRepository.addUnit(uri, eventualUnit)
+          eventualUnit.foreach(notify(_, uuid))
+          unitsRepository.processing.remove(uri)
+          eventualUnit.map(Left(_))
+        case Some(other) => // ignore
+          unitsRepository.processing.remove(uri)
+          Future.successful(Right(other))
+
+      }
     }
+    unitsRepository.processing.update(uri, fn)
+    fn()
   }
 
   override def trigger(uri: String): Unit = changeFile(uri)
 
   def changeFile(uri: String): Unit = {
     val uuid = UUID.randomUUID().toString
-    val eventualUnit = unitsRepository.get(uri).flatMap {
-      case Some(ws) => // when is open file from worskpace there is nothing to do
-        val workspaceFuture = astManager.forceGetCurrentAST(ws.mainFileUri, uuid).map(Workspace)
-        unitsRepository.add(uri, workspaceFuture)
-        workspaceFuture.map(_.mainFile)
-      case _ =>
-        val eventualUnit = astManager.forceGetCurrentAST(uri, uuid)
-        unitsRepository.addUnit(uri, eventualUnit)
-        eventualUnit
+    val fn = () => {
+      val eventualUnit = unitsRepository.get(uri).flatMap {
+        case Some(ws) => // when is open file from workspace there is nothing to do
+          val workspaceFuture = astManager.forceGetCurrentAST(ws.mainFileUri, uuid).map(Workspace)
+          unitsRepository.add(uri, workspaceFuture)
+          workspaceFuture.map(_.mainFile).foreach(e => notify(e, uuid))
+          workspaceFuture.map(ws => Right(ws))
+        case _ =>
+          val eventualUnit = astManager.forceGetCurrentAST(uri, uuid)
+          unitsRepository.addUnit(uri, eventualUnit)
+          eventualUnit.foreach(e => notify(e, uuid))
+          eventualUnit.map(e => Left(e))
 
+      }
+      eventualUnit.map(a => {
+        unitsRepository.processing.remove(uri)
+        a
+      })
     }
-    eventualUnit.foreach(e => notify(e, uuid))
+    unitsRepository.processing.update(uri, fn)
+    fn()
   }
 
   def openMF(uri: String): Future[Workspace] = {
@@ -63,6 +81,7 @@ case class EditorEnvironment(memoryFiles: TextDocumentContainer,
 
   val environment: Environment = Environment()
     .add(new ResourceLoader {
+
       /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
       override def fetch(resource: String): Future[Content] =
         Future { new Content(memoryFiles.getContent(resource), resource) }
@@ -80,15 +99,25 @@ case class EditorEnvironment(memoryFiles: TextDocumentContainer,
 case class UnitsRepository(private val workspaces: mutable.Map[String, Future[Workspace]] = mutable.Map(),
                            orphanUnits: mutable.Map[String, Future[BaseUnit]] = mutable.Map()) {
 
+  val processing: mutable.Map[String, () => Future[Either[BaseUnit, Workspace]]] = mutable.Map.empty
+
   def get(uri: String): Future[Option[Workspace]] = Future.find(workspaces.values.toList)(w => w.contains(uri))
 
   def findUnit(uri: String): Future[Option[BaseUnit]] = get(uri).map(w => w.flatMap(_.getDependency(uri)))
 
   def findGlobal(uri: String): Future[Option[BaseUnit]] = {
-    findUnit(uri).flatMap {
-      case None   => Future.sequence(orphanUnits.get(uri).toIterable).map(_.headOption)
-      case option => Future.successful(option)
+    processing.get(uri) match {
+      case Some(fn) =>
+        fn().map {
+          case Right(ws) => ws.getDependency(uri)
+          case Left(bu)  => Some(bu)
+        }
+      case _ => Future.successful(None)
     }
+//    findUnit(uri).flatMap {
+//      case None   => Future.sequence(orphanUnits.get(uri).toIterable).map(_.headOption)
+//      case option => Future.successful(option)
+//    }
   }
 
   def add(rootUri: String, wsFuture: Future[Workspace]): Unit = {
