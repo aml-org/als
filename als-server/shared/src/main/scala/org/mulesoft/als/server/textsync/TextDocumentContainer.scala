@@ -15,12 +15,14 @@ case class TextDocumentContainer(platform: Platform,
   }
 
   def +(tuple: (String, TextDocument)): TextDocumentContainer = {
-    uriToEditor.put(FileUtils.getPath(tuple._1, platform), tuple._2)
+//    uriToEditor.put(FileUtils.getPath(tuple._1, platform), tuple._2)
+    uriToEditor.put(tuple._1, tuple._2)
     this
   }
 
   def get(uri: String): Option[TextDocument] =
-    uriToEditor.get(FileUtils.getPath(uri, platform))
+//    uriToEditor.get(FileUtils.getPath(uri, platform))
+    uriToEditor.get(uri)
 
   def getContent(uri: String): String = get(uri).map(_.text).getOrElse("")
 
@@ -29,7 +31,8 @@ case class TextDocumentContainer(platform: Platform,
   def uris: Set[String] = uriToEditor.keys.toSet
 
   def remove(uri: String): Unit = {
-    val path = FileUtils.getPath(uri, platform)
+//    val path = FileUtils.getPath(uri, platform)
+    val path = uri
     if (uriToEditor.contains(path))
       uriToEditor.remove(path)
   }
