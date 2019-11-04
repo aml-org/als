@@ -70,21 +70,22 @@ class SuggestionsManager(val editorEnvironment: EditorEnvironment,
 
     editorEnvironment.memoryFiles.get(uri) match {
       case Some(textDocument) =>
-        val startTime    = System.currentTimeMillis()
-        val syntax       = Syntax(textDocument.syntax)
-        val originalText = textDocument.text
-        val offset       = position.offset(originalText)
-        val patchedContent         = ContentPatcher(originalText, offset, syntax).prepareContent()
+        val startTime      = System.currentTimeMillis()
+        val syntax         = Syntax(textDocument.syntax)
+        val originalText   = textDocument.text
+        val offset         = position.offset(originalText)
+        val patchedContent = ContentPatcher(originalText, offset, syntax).prepareContent()
         telemetryProvider.addTimedMessage("Begin Suggestions", MessageTypes.BEGIN_COMPLETION, uri, telemetryUUID)
-        buildCompletionProviderAST(new TextDocument(uri, textDocument.version, patchedContent.content, syntax.toString, logger),
-                                   originalText,
-                                   uri,
-                                   refinedUri,
-                                   offset,
-                                   syntax,
-                        patchedContent,
-                                   telemetryUUID)
-          .flatMap(provider => {
+        buildCompletionProviderAST(
+          new TextDocument(uri, textDocument.version, patchedContent.content, syntax.toString, logger),
+          originalText,
+          uri,
+          refinedUri,
+          offset,
+          syntax,
+          patchedContent,
+          telemetryUUID
+        ).flatMap(provider => {
             provider
               .suggest()
               .map(result => {
