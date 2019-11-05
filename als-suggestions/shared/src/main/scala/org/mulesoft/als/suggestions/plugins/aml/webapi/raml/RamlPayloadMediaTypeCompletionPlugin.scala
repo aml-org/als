@@ -20,7 +20,7 @@ object RamlPayloadMediaTypeCompletionPlugin extends AMLCompletionPlugin with Pay
           .getKnownValues(request.actualDialect.id, PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri())
           .map(p =>
             RawSuggestion
-              .forObject(p.text, CategoryRegistry(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri())))
+              .forObject(p.text, CategoryRegistry(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.name)))
       } else Nil
     }
   }
