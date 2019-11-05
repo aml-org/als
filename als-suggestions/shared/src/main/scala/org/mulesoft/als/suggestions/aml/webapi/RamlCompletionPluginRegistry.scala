@@ -41,7 +41,8 @@ object RamlCompletionPluginRegistry {
       NodeShapeDiscriminatorProperty :+
       Raml10SecuritySchemeStructureCompletionPlugin :+
       UnitUsesFacet :+
-      DefaultVariablesAbstractDefinition
+      DefaultVariablesAbstractDefinition :+
+      OperationRequest
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, RAML10Dialect().id)
