@@ -1,13 +1,8 @@
 package org.mulesoft.als.server
 
-import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
-import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
-import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.configuration.InitializeParams
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
