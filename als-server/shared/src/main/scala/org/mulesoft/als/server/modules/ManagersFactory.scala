@@ -9,10 +9,13 @@ import org.mulesoft.als.server.modules.completion.SuggestionsManager
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
+import org.mulesoft.als.server.textsync.TextDocumentManager
+import org.mulesoft.als.server.workspace.WorkspaceRootHandler
 import org.mulesoft.als.server.modules.workspace.WorkspaceManager
 import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
 
 case class ManagersFactory(clientNotifier: ClientNotifier,
+                           workspaceRootHandler: WorkspaceRootHandler,
                            platform: Platform,
                            logger: Logger,
                            dr: Option[DirectoryResolver] = None,

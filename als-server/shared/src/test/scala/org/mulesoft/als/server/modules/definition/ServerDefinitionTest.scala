@@ -2,6 +2,7 @@ package org.mulesoft.als.server.modules.definition
 
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.workspace.WorkspaceRootHandler
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.als.suggestions.Core
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
@@ -22,8 +23,12 @@ trait ServerDefinitionTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = false)
-    new LanguageServerBuilder(factory.documentManager)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier,
+                                  new WorkspaceRootHandler(platform),
+                                  platform,
+                                  logger,
+                                  withDiagnostics = false)
+    new LanguageServerBuilder(factory.documentManager, platform)
       .addInitializable(factory.astManager)
       .addRequestModule(factory.definitionManager)
       .build()

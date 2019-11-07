@@ -16,6 +16,7 @@ import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
+import org.mulesoft.als.server.workspace.WorkspaceRootHandler
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.server.LanguageServer
@@ -55,7 +56,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     server.initialize(null).toScala.map(_ => succeed)
   }
 
-  test("Lsp4j LanguageServerImpl Command - Did Focus: Command should be notify DidFocus") {
+  test("Lsp4j LanguageServerImpl Command - Did Focus: Command should notify DidFocus") {
     def executeCommandFocus(server: LanguageServerImpl)(file: String, version: Int): Future[PublishDiagnosticsParams] = {
       val args: java.util.List[AnyRef] = new util.ArrayList[AnyRef]()
       args.add(DidFocusParams(file, version))
@@ -176,9 +177,9 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
   override def buildServer(): LanguageServer = {
 
-    val managers = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
+    val managers = ManagersFactory(MockDiagnosticClientNotifier, new WorkspaceRootHandler(platform), platform, logger)
 
-    new LanguageServerBuilder(managers.documentManager)
+    new LanguageServerBuilder(managers.documentManager, platform)
       .addInitializable(managers.astManager)
       .addInitializableModule(managers.diagnosticManager)
       .build()
