@@ -2,6 +2,7 @@ package org.mulesoft.als.server.modules.links
 
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.workspace.WorkspaceRootHandler
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.ContentPatcher
@@ -21,8 +22,8 @@ trait FindLinksTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val managers = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
-    new LanguageServerBuilder(managers.documentManager)
+    val managers = ManagersFactory(MockDiagnosticClientNotifier, new WorkspaceRootHandler(platform), platform, logger)
+    new LanguageServerBuilder(managers.documentManager, platform)
       .addInitializable(managers.astManager)
       .addRequestModule(managers.documentLinksManager)
       .build()

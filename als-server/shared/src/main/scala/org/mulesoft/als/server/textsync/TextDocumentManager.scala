@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.textsync
 
 import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.server.modules.ast.TextListener
 import org.mulesoft.als.server.modules.ast.{CHANGE_FILE, FOCUS_FILE, OPEN_FILE, TextListener}
 import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
@@ -104,7 +105,7 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
     uriToEditor
       .get(params.uri)
       .foreach(
-        td =>
+        _ =>
           dependencies
             .foreach(_.notify(params.uri, FOCUS_FILE)))
 

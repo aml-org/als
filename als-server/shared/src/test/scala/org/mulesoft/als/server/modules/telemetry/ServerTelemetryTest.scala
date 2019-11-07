@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.telemetry
 
 import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.workspace.WorkspaceRootHandler
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryMessage}
 import org.mulesoft.lsp.server.LanguageServer
@@ -17,9 +18,9 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(mockTelemetryClientNotifier,platform, logger)
+    val factory = ManagersFactory(mockTelemetryClientNotifier, new WorkspaceRootHandler(platform), platform, logger)
 
-    new LanguageServerBuilder(factory.documentManager)
+    new LanguageServerBuilder(factory.documentManager, platform)
       .addInitializableModule(factory.diagnosticManager)
       .build()
   }

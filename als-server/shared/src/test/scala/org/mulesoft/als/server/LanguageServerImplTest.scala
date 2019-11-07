@@ -19,7 +19,7 @@ class LanguageServerImplTest extends AsyncFlatSpec with Matchers with PlatformSe
     val editorFiles     = TextDocumentContainer(platform)
     val documentManager = new TextDocumentManager(editorFiles, List.empty, EmptyLogger)
 
-    val server = new LanguageServerBuilder(documentManager).build()
+    val server = new LanguageServerBuilder(documentManager, platform).build()
 
     server
       .initialize(InitializeParams.default)

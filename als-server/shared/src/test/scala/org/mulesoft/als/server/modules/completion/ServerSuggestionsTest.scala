@@ -2,6 +2,7 @@ package org.mulesoft.als.server.modules.completion
 
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.workspace.WorkspaceRootHandler
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.ContentPatcher
@@ -18,8 +19,8 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
-    new LanguageServerBuilder(factory.documentManager)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, new WorkspaceRootHandler(platform), platform, logger)
+    new LanguageServerBuilder(factory.documentManager, platform)
       .addInitializable(factory.astManager)
       .addRequestModule(factory.completionManager)
       .build()

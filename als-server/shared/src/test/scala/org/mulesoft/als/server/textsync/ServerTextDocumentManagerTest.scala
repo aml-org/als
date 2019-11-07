@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.textsync
 
 import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.workspace.WorkspaceRootHandler
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
@@ -16,8 +17,8 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
-    new LanguageServerBuilder(factory.documentManager)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, new WorkspaceRootHandler(platform), platform, logger)
+    new LanguageServerBuilder(factory.documentManager, platform)
       .addRequestModule(factory.structureManager)
       .build()
   }
