@@ -28,4 +28,14 @@ class ConfigurationFilesTests extends FlatSpec with Matchers with PlatformSecret
     manager.removeRootDir(okRoot)
     manager.getMainFiles should be(Set.empty)
   }
+
+  it should "provide the configFile for which the mainFile was taken" in {
+    val manager = new WorkspaceRootHandler(platform)
+    manager.addRootDir(okRoot)
+    manager.getMainFiles should be(Set("api.raml"))
+    manager.getUsedConfigFiles should be(Set(s"$okRoot/exchange.json"))
+    manager.removeRootDir(okRoot)
+    manager.getMainFiles should be(Set.empty)
+    manager.getUsedConfigFiles should be(Set.empty)
+  }
 }

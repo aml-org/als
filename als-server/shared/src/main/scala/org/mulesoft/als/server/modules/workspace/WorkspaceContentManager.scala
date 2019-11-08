@@ -7,13 +7,14 @@ import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import org.mulesoft.als.server.modules.ast.{BaseUnitListener, CHANGE_FILE, NotificationKind}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
+import org.mulesoft.als.server.workspace.extract.ConfigFileMain
 import org.mulesoft.amfmanager.ParserHelper
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class WorkspaceContentManager(val folder: String,
-                              mainFile: Option[String],
+                              configMainFile: Option[ConfigFileMain],
                               environmentProvider: EnvironmentProvider,
                               dependencies: List[BaseUnitListener]) {
 
@@ -30,16 +31,15 @@ class WorkspaceContentManager(val folder: String,
     if (canProcess) process()
   }
 
-  def initialize(): Unit = {
-    mainFile.foreach(mf => processMFChanges(mf, environmentProvider.environmentSnapshot(), pending))
-  }
+  def initialize(): Unit =
+    configMainFile.foreach(cmf => processMFChanges(cmf.mainFile, environmentProvider.environmentSnapshot(), pending))
 
   def process(): Unit = {
     val environment          = environmentProvider.environmentSnapshot()
     val (treeUnis, isolated) = pending.partition(u => repository.inTree(u._1)) // what if a new file is added between the partition and the override down
     val changedTreeUnits     = treeUnis.filter(_._2 == CHANGE_FILE)
 
-    if (changedTreeUnits.nonEmpty) processMFChanges(mainFile.get, environment, pending)
+    if (changedTreeUnits.nonEmpty) processMFChanges(configMainFile.get.mainFile, environment, pending)
     else if (isolated.nonEmpty) processIsolated(isolated.head._1, environment)
     else goIdle()
   }
@@ -93,13 +93,17 @@ class WorkspaceContentManager(val folder: String,
   private def toCompilableUnit(parsedUnit: ParsedUnit): CompilableUnit =
     CompilableUnit(parsedUnit.bu.id,
                    parsedUnit.bu,
-                   if (parsedUnit.inTree) mainFile else None,
+                   if (parsedUnit.inTree) configMainFile else None,
                    this,
                    dirty = pending.exists(_._1 == parsedUnit.bu.id))
 
 }
 
-case class CompilableUnit(uri: String, unit: BaseUnit, mainFile: Option[String], ws: WorkspaceContentManager, dirty: Boolean)
+case class CompilableUnit(uri: String,
+                          unit: BaseUnit,
+                          mainFile: Option[String],
+                          ws: WorkspaceContentManager,
+                          dirty: Boolean)
 
 object CompilableUnit {
   def apply(bu: BaseUnit, workspace: WorkspaceContentManager): CompilableUnit =
