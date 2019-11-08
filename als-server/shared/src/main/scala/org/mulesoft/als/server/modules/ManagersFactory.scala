@@ -9,10 +9,9 @@ import org.mulesoft.als.server.modules.completion.SuggestionsManager
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
-import org.mulesoft.als.server.textsync.TextDocumentManager
-import org.mulesoft.als.server.workspace.WorkspaceRootHandler
-import org.mulesoft.als.server.modules.workspace.WorkspaceManager
 import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
+import org.mulesoft.als.server.workspace.WorkspaceContentCollection
+import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 
 case class ManagersFactory(clientNotifier: ClientNotifier,
                            workspaceRootHandler: WorkspaceRootHandler,
@@ -31,8 +30,8 @@ case class ManagersFactory(clientNotifier: ClientNotifier,
   private val projectDependencies = if (withDiagnostics) List(diagnosticManager) else Nil
   private val container           = TextDocumentContainer(platform)
 
-  private val workspaceManager = new WorkspaceManager(container, projectDependencies)
-  lazy val documentManager     = new TextDocumentManager(container, List(workspaceManager), logger)
+  val workspaceManager     = new WorkspaceContentCollection(container, projectDependencies)
+  lazy val documentManager = new TextDocumentManager(container, List(workspaceManager), logger)
 
   lazy val completionManager =
     new SuggestionsManager(workspaceManager, telemetryManager, directoryResolver, platform, logger)

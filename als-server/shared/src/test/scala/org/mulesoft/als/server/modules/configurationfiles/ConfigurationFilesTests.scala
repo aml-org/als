@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.configurationfiles
 
 import amf.core.unsafe.PlatformSecrets
-import org.mulesoft.als.server.workspace.{WorkspaceRootHandler}
+import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 import org.scalatest.{FlatSpec, Matchers}
 
 class ConfigurationFilesTests extends FlatSpec with Matchers with PlatformSecrets {

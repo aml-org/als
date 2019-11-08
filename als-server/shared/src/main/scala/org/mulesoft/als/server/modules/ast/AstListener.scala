@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.ast
 
 import amf.core.model.document.BaseUnit
+import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer}
 
 /**
   * AST listener
@@ -27,6 +28,8 @@ abstract class AstNotifier[T](val dependencies: List[AstListener[T]]) {
 trait TextListener {
 
   def notify(uri: String, kind: NotificationKind)
+
+//  def withTextDocumentContainer(textDocumentContainer: TextDocumentContainer): Unit
 }
 
 sealed case class NotificationKind(kind: String)

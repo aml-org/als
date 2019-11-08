@@ -4,15 +4,16 @@ import amf.core.remote.Platform
 import org.mulesoft.als.actions.links.FindLinks
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.workspace.WorkspaceManager
+import org.mulesoft.als.server.workspace.WorkspaceContentCollection
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DocumentLinksManager(val workspaceManager: WorkspaceManager,
+class DocumentLinksManager(val workspaceManager: WorkspaceContentCollection,
                            private val telemetryProvider: TelemetryProvider,
                            private val logger: Logger,
                            private val platform: Platform)

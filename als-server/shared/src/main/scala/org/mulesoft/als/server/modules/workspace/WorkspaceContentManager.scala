@@ -12,11 +12,10 @@ import org.mulesoft.amfmanager.ParserHelper
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class Workspace(val folder: String,
-                mainFile: Option[String],
-                platform: Platform,
-                environmentProvider: EnvironmentProvider,
-                dependencies: List[BaseUnitListener]) {
+class WorkspaceContentManager(val folder: String,
+                              mainFile: Option[String],
+                              environmentProvider: EnvironmentProvider,
+                              dependencies: List[BaseUnitListener]) {
 
   private var state: WorkspaceState                    = IDLE
   private var pending: Set[(String, NotificationKind)] = synchronized(Set.empty)
@@ -100,16 +99,9 @@ class Workspace(val folder: String,
 
 }
 
-object MainFileReader {
-
-  def read(folder: String): String = {
-    ""
-  }
-}
-
-case class CompilableUnit(uri: String, unit: BaseUnit, mainFile: Option[String], ws: Workspace, dirty: Boolean)
+case class CompilableUnit(uri: String, unit: BaseUnit, mainFile: Option[String], ws: WorkspaceContentManager, dirty: Boolean)
 
 object CompilableUnit {
-  def apply(bu: BaseUnit, workspace: Workspace): CompilableUnit =
+  def apply(bu: BaseUnit, workspace: WorkspaceContentManager): CompilableUnit =
     new CompilableUnit(bu.id, bu, None, workspace, false) // todo compute dirty?
 }
