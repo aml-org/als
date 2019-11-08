@@ -4,16 +4,15 @@ import amf.core.remote.Platform
 import org.mulesoft.als.actions.links.FindLinks
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.ast.{EditorEnvironment, UnitsRepository}
+import org.mulesoft.als.server.modules.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DocumentLinksManager(val unitsRepository: UnitsRepository,
+class DocumentLinksManager(val workspaceManager: WorkspaceManager,
                            private val telemetryProvider: TelemetryProvider,
                            private val logger: Logger,
                            private val platform: Platform)
@@ -37,12 +36,9 @@ class DocumentLinksManager(val unitsRepository: UnitsRepository,
   val onDocumentLinks: String => Future[Seq[DocumentLink]] = documentLinks
 
   def documentLinks(str: String): Future[Seq[DocumentLink]] =
-    unitsRepository
-      .findGlobal(str)
-      .map({
-        case Some(bu) => FindLinks.getLinks(bu, platform)
-        case _        => Nil
-      })
+    workspaceManager
+      .getUnit(str)
+      .map(bu => { FindLinks.getLinks(bu.unit, platform) })
 
   override def initialize(): Future[Unit] = Future.successful()
 

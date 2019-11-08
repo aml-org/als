@@ -20,8 +20,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
-class DiagnosticManager(val editorEnvironment: EditorEnvironment,
-                        private val telemetryProvider: TelemetryProvider,
+class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                         private val clientNotifier: ClientNotifier,
                         private val logger: Logger)
     extends BaseUnitListener

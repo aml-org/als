@@ -1,12 +1,17 @@
 package org.mulesoft.als.server.textsync
 
+import amf.client.remote.Content
 import amf.core.remote.Platform
-import org.mulesoft.als.common.FileUtils
+import amf.internal.environment.Environment
+import amf.internal.resource.ResourceLoader
 
 import scala.collection.mutable
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 case class TextDocumentContainer(platform: Platform,
-                                 private val uriToEditor: mutable.Map[String, TextDocument] = mutable.Map()) {
+                                 private val uriToEditor: mutable.Map[String, TextDocument] = mutable.Map())
+    extends EnvironmentProvider {
 
   def patchUri(uri: String, patchedContent: TextDocument): TextDocumentContainer = {
     val copiedMap = uriToEditor.clone()
@@ -38,4 +43,21 @@ case class TextDocumentContainer(platform: Platform,
   }
 
   def versionOf(uri: String): Option[Int] = get(uri).map(_.version)
+
+  override def environmentSnapshot(): Environment =
+    Environment()
+      .add(new ResourceLoader {
+
+        /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
+        override def fetch(resource: String): Future[Content] =
+          Future { new Content(getContent(resource), resource) }
+
+        /** Accepts specified resource. */
+        override def accepts(resource: String): Boolean = exists(resource)
+      })
+
+}
+
+trait EnvironmentProvider {
+  def environmentSnapshot(): Environment
 }
