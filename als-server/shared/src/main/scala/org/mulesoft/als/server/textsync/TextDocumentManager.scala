@@ -1,11 +1,8 @@
 package org.mulesoft.als.server.textsync
 
-import java.util.UUID
-
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.ast.TextListener
+import org.mulesoft.als.server.modules.ast.{CHANGE_FILE, FOCUS_FILE, OPEN_FILE, TextListener}
 import org.mulesoft.amfmanager.ParserHelper
-import org.mulesoft.lsp.feature.telemetry.MessageTypes
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
 
@@ -34,38 +31,6 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
 
   override def initialize(): Future[Unit] = Future.successful()
 
-//  def getTextDocument(uri: String): Option[TextDocument] = {
-//    logger.debugDetail(s"Asked for uri $uri, while having following editors registered: " +
-//                         this.uriToEditor.uris.mkString(","),
-//                       "EditorManager",
-//                       "getTextDocument")
-//
-//    val directResult = uriToEditor.get(uri)
-//
-//    if (directResult.isDefined)
-//      directResult
-//    else if (uri.startsWith("file://") || uri.startsWith("FILE://")) {
-//
-//      var found: Option[TextDocument] = None
-//
-//      if (uri.startsWith("file:///") || uri.startsWith("FILE:///")) {
-//        val path: String = uri.substring("file:///".length).replace("%5C", "\\")
-//        val result       = this.uriToEditor.get(path)
-//        if (result.isDefined)
-//          found = result
-//      }
-//
-//      if (found.isEmpty) {
-//        val path: String = uri.substring("file://".length).replace("%5C", "\\")
-//        val result       = this.uriToEditor.get(path)
-//        if (result.isDefined)
-//          found = result
-//      }
-//
-//      found
-//    } else None
-//  }
-
   def onOpenDocument(document: OpenedDocument): Unit = {
 
     logger.debug("Document is opened", "EditorManager", "onOpenDocument")
@@ -75,7 +40,7 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
     this.uriToEditor + (document.uri,
     new TextDocument(document.uri, document.version, document.text, /* language, */ syntax, logger))
 
-    this.dependencies.foreach(_.trigger(document.uri))
+    this.dependencies.foreach(_.notify(document.uri, OPEN_FILE))
   }
 
   def documentWasChanged(document: ChangedDocument) {
@@ -111,7 +76,7 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
     uriToEditor + (document.uri,
     new TextDocument(document.uri, document.version, document.text.get, /* language, */ syntax, logger))
 
-    dependencies.foreach(_.trigger(document.uri))
+    dependencies.foreach(_.notify(document.uri, CHANGE_FILE))
   }
 
   def onCloseDocument(uri: String): Unit = uriToEditor.remove(uri)
@@ -141,8 +106,8 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
       .foreach(
         td =>
           dependencies
-            .foreach(_.onFocus(params.uri)))
+            .foreach(_.notify(params.uri, FOCUS_FILE)))
 
-  override def indexDialect(params: IndexDialectParams): Unit =
-    dependencies.foreach(_.indexDialect(params.uri, params.content))
+  override def indexDialect(params: IndexDialectParams): Unit = ParserHelper(platform).parse()
+  dependencies.foreach(_.indexDialect(params.uri, params.content))
 }

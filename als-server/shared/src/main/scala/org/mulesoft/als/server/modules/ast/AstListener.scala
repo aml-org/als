@@ -25,8 +25,11 @@ abstract class AstNotifier[T](val dependencies: List[AstListener[T]]) {
 }
 
 trait TextListener {
-  def indexDialect(uri: String, content: Option[String]): Unit
 
-  def onFocus(uri: String): Unit
-  def trigger(uri: String)
+  def notify(uri: String, kind: NotificationKind)
 }
+
+sealed case class NotificationKind(kind: String)
+object OPEN_FILE   extends NotificationKind("OPEN_FILE")
+object FOCUS_FILE  extends NotificationKind("FOCUS_FILE")
+object CHANGE_FILE extends NotificationKind("CHANGE_FILE")

@@ -5,8 +5,8 @@ import java.util.UUID
 import amf.core.model.document.BaseUnit
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.ast.UnitsRepository
 import org.mulesoft.als.server.modules.common.LspConverter
+import org.mulesoft.als.server.modules.workspace.WorkspaceManager
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureBuilder}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.RequestHandler
@@ -23,7 +23,7 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class StructureManager(val unitsRepository: UnitsRepository,
+class StructureManager(val workspaceManager: WorkspaceManager,
                        private val telemetryProvider: TelemetryProvider,
                        private val logger: Logger)
     extends RequestModule[DocumentSymbolClientCapabilities, Unit] {
@@ -57,17 +57,20 @@ class StructureManager(val unitsRepository: UnitsRepository,
 
     logger.debug("Asked for structure:\n" + uri, "StructureManager", "onDocumentStructure")
     telemetryProvider.addTimedMessage("Begin Structure", MessageTypes.BEGIN_STRUCTURE, uri, telemetryUUID)
-    val results = unitsRepository.findGlobal(uri).map {
-      case Some(ast) =>
-        val r = getStructureFromAST(ast, telemetryUUID) // todo: if isn't resolved yet map future
+    val results = workspaceManager
+      .getUnit(uri)
+      .map(cu => {
+        val r = getStructureFromAST(cu.unit, telemetryUUID) // todo: if isn't resolved yet map future
         logger
           .debugDetail(s"Got result for url $uri of size ${r.size}", "StructureManager", "onDocumentStructure")
         r
-      case _ =>
-        logger
-          .debugDetail(s"Got results empty $uri", "StructureManager", "onDocumentStructure")
-        List.empty
-    }
+      })
+      .recoverWith({
+        case e: Exception =>
+          logger
+            .debugDetail(s"Got error for $uri message: ${e.getMessage}", "StructureManager", "onDocumentStructure")
+          Future.successful(List.empty)
+      })
 
     telemetryProvider.addTimedMessage("End Structure", MessageTypes.END_STRUCTURE, uri, telemetryUUID)
     results
