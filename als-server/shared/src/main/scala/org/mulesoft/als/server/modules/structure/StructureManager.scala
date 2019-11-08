@@ -6,7 +6,7 @@ import amf.core.model.document.BaseUnit
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.LspConverter
-import org.mulesoft.als.server.modules.workspace.WorkspaceManager
+import org.mulesoft.als.server.workspace.WorkspaceContentCollection
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureBuilder}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.RequestHandler
@@ -23,7 +23,7 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class StructureManager(val workspaceManager: WorkspaceManager,
+class StructureManager(val workspaceManager: WorkspaceContentCollection,
                        private val telemetryProvider: TelemetryProvider,
                        private val logger: Logger)
     extends RequestModule[DocumentSymbolClientCapabilities, Unit] {

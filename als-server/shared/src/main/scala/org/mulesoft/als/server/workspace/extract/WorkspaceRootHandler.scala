@@ -1,4 +1,4 @@
-package org.mulesoft.als.server.workspace
+package org.mulesoft.als.server.workspace.extract
 
 import amf.core.remote.Platform
 import org.mulesoft.als.common.FileUtils
@@ -14,6 +14,15 @@ class WorkspaceRootHandler(platform: Platform) {
   private val configFileNames: Map[String, MainFileExtractable] =
     Map("exchange.json" -> new ExtractFromJsonRoot("main"))
 
+
+  def extractMainFile(dir:String):Option[String] = {
+    val mains = configFileNames.flatMap { k =>
+      val path         = FileUtils.getPath(s"$dir/${k._1}", platform)
+      val file         = platform.fs.syncFile(path)
+      k._2.extractMainFile(file.read())
+    }
+    mains.headOption
+  }
   /**
     * @key: root directory
     * @value: mainFile (if config found)

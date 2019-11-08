@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.telemetry
 
 import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.workspace.WorkspaceRootHandler
+import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryMessage}
 import org.mulesoft.lsp.server.LanguageServer

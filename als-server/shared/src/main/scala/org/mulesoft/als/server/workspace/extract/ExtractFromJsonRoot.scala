@@ -1,4 +1,4 @@
-package org.mulesoft.als.server.workspace
+package org.mulesoft.als.server.workspace.extract
 
 import org.yaml.model.{YDocument, YMap}
 import org.yaml.parser.JsonParser

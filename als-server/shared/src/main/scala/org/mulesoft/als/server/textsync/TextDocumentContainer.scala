@@ -60,4 +60,5 @@ case class TextDocumentContainer(platform: Platform,
 
 trait EnvironmentProvider {
   def environmentSnapshot(): Environment
+  val platform: Platform
 }

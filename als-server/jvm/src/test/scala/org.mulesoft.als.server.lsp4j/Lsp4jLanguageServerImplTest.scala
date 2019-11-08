@@ -16,7 +16,7 @@ import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
-import org.mulesoft.als.server.workspace.WorkspaceRootHandler
+import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.server.LanguageServer

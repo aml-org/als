@@ -2,7 +2,7 @@ package org.mulesoft.als.server.modules.reference
 
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.workspace.WorkspaceRootHandler
+import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.convert.LspRangeConverter
