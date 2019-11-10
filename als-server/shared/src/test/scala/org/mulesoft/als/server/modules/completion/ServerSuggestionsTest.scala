@@ -19,9 +19,8 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, new WorkspaceRootHandler(platform), platform, logger)
-    new LanguageServerBuilder(factory.documentManager, platform)
-      .addInitializable(factory.astManager)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
       .addRequestModule(factory.completionManager)
       .build()
   }

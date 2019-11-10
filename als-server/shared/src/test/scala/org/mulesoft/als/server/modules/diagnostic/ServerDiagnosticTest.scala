@@ -15,9 +15,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, new WorkspaceRootHandler(platform), platform, logger)
-    new LanguageServerBuilder(factory.documentManager, platform)
-      .addInitializable(factory.astManager)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
       .addInitializableModule(factory.diagnosticManager)
       .build()
   }

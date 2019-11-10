@@ -3,20 +3,12 @@ package org.mulesoft.als.server.lsp4j
 import java.io._
 import java.util
 
-import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
 import org.eclipse.lsp4j.{ExecuteCommandParams, InitializeParams}
-import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
-import org.mulesoft.als.server.modules.telemetry.TelemetryManager
-import org.mulesoft.als.server.textsync.TextDocumentManager
-import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.server.LanguageServer
@@ -177,10 +169,9 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
   override def buildServer(): LanguageServer = {
 
-    val managers = ManagersFactory(MockDiagnosticClientNotifier, new WorkspaceRootHandler(platform), platform, logger)
+    val managers = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
 
-    new LanguageServerBuilder(managers.documentManager, platform)
-      .addInitializable(managers.astManager)
+    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, platform)
       .addInitializableModule(managers.diagnosticManager)
       .build()
   }

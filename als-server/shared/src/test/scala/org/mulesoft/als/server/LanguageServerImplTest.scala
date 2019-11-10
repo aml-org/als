@@ -3,6 +3,7 @@ package org.mulesoft.als.server
 import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.als.server.logger.EmptyLogger
 import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer, TextDocumentManager}
+import org.mulesoft.als.server.workspace.WorkspaceContentCollection
 import org.mulesoft.lsp.common.TextDocumentItem
 import org.mulesoft.lsp.configuration.InitializeParams
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
@@ -18,8 +19,8 @@ class LanguageServerImplTest extends AsyncFlatSpec with Matchers with PlatformSe
   it should "open file" in {
     val editorFiles     = TextDocumentContainer(platform)
     val documentManager = new TextDocumentManager(editorFiles, List.empty, EmptyLogger)
-
-    val server = new LanguageServerBuilder(documentManager, platform).build()
+    val ws              = new WorkspaceContentCollection(editorFiles, Nil, EmptyLogger)
+    val server          = new LanguageServerBuilder(documentManager, ws, platform).build()
 
     server
       .initialize(InitializeParams.default)

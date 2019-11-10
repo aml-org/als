@@ -20,8 +20,8 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
   override implicit val executionContext = ExecutionContext.Implicits.global
 
   override def buildServer(): LanguageServer = {
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, new WorkspaceRootHandler(platform), platform, logger)
-    new LanguageServerBuilder(factory.documentManager, platform)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
       .addInitializable(factory.documentManager)
       .build()
   }

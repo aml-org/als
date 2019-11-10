@@ -7,12 +7,12 @@ import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.ast.{AstManager, EditorEnvironment}
-import org.mulesoft.als.server.textsync.TextDocument
+import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer}
 import org.mulesoft.als.suggestions
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
+import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.RequestHandler
@@ -22,7 +22,7 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class SuggestionsManager(val editorEnvironment: EditorEnvironment,
+class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                          private val telemetryProvider: TelemetryProvider,
                          private val directoryResolver: DirectoryResolver,
                          private val platform: Platform,
@@ -68,7 +68,7 @@ class SuggestionsManager(val editorEnvironment: EditorEnvironment,
                  "SuggestionsManager",
                  "onDocumentCompletion")
 
-    editorEnvironment.memoryFiles.get(uri) match {
+    editorEnvironment.get(uri) match {
       case Some(textDocument) =>
         val startTime      = System.currentTimeMillis()
         val syntax         = Syntax(textDocument.syntax)
@@ -86,21 +86,21 @@ class SuggestionsManager(val editorEnvironment: EditorEnvironment,
           patchedContent,
           telemetryUUID
         ).flatMap(provider => {
-            provider
-              .suggest()
-              .map(result => {
-                this.logger.debug(s"Got ${result.length} proposals", "SuggestionsManager", "onDocumentCompletion")
+          provider
+            .suggest()
+            .map(result => {
+              this.logger.debug(s"Got ${result.length} proposals", "SuggestionsManager", "onDocumentCompletion")
 
-                val endTime = System.currentTimeMillis()
+              val endTime = System.currentTimeMillis()
 
-                this.logger.debugDetail(s"It took ${endTime - startTime} milliseconds to complete",
-                                        "ASTSuggestionsManager",
-                                        "onDocumentCompletion")
+              this.logger.debugDetail(s"It took ${endTime - startTime} milliseconds to complete",
+                                      "ASTSuggestionsManager",
+                                      "onDocumentCompletion")
 
-                telemetryProvider.addTimedMessage("End Suggestions", MessageTypes.END_COMPLETION, uri, telemetryUUID)
-                result
-              })
-          })
+              telemetryProvider.addTimedMessage("End Suggestions", MessageTypes.END_COMPLETION, uri, telemetryUUID)
+              result
+            })
+        })
       case _ => Future.successful(Seq.empty)
 
     }
@@ -116,9 +116,8 @@ class SuggestionsManager(val editorEnvironment: EditorEnvironment,
                                  patchedContent: PatchedContent,
                                  uuid: String): Future[CompletionProvider] = {
 
-    val patchedEnvironment = editorEnvironment.forPatched(uri, text)
-    val eventualUnit =
-      new AstManager(patchedEnvironment.environment, telemetryProvider, platform, logger).forceGetCurrentAST(uri, uuid)
+    val patchedEnvironment = editorEnvironment.patchUri(uri, text)
+    val eventualUnit       = ParserHelper(platform).parse(uri, patchedEnvironment.environment) // todo pass others workspace bu as cache
 
     Suggestions.buildProviderAsync(eventualUnit,
                                    position,
