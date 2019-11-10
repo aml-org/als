@@ -14,7 +14,18 @@ class Repository() {
   private val prossessing: mutable.Map[String, Promise[ParsedUnit]] = mutable.Map.empty
 
   def getUnit(uri: String): Future[ParsedUnit] =
-    units.get(uri).map(Future.successful).getOrElse(prossessing.getOrElse(uri, Promise[ParsedUnit]()).future)
+    units
+      .get(uri)
+      .map(Future.successful)
+      .getOrElse({
+        prossessing
+          .getOrElse(uri, {
+            val promisedUnit = Promise[ParsedUnit]()
+            prossessing.put(uri, promisedUnit)
+            promisedUnit
+          })
+          .future
+      })
 
   def inTree(uri: String): Boolean = units.get(uri).exists(_.inTree)
 

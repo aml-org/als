@@ -15,9 +15,7 @@ trait WorkspaceService {
     *
     * Registration Options: ExecuteCommandRegistrationOptions
     */
-  def executeCommand(params: ExecuteCommandParams): Future[Any] = {
-    Future.failed(throw new UnsupportedOperationException())
-  }
+  def executeCommand(params: ExecuteCommandParams): Future[AnyRef]
 
   /**
     * The workspace symbol request is sent from the client to the server to

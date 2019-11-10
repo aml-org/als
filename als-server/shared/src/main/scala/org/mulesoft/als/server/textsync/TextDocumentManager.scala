@@ -110,7 +110,4 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
         _ =>
           dependencies
             .foreach(_.notify(params.uri, FOCUS_FILE)))
-
-  override def indexDialect(params: IndexDialectParams): Unit = ParserHelper(platform).parse()
-  dependencies.foreach(_.indexDialect(params.uri, params.content))
 }

@@ -22,9 +22,8 @@ trait FindLinksTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val managers = ManagersFactory(MockDiagnosticClientNotifier, new WorkspaceRootHandler(platform), platform, logger)
-    new LanguageServerBuilder(managers.documentManager, platform)
-      .addInitializable(managers.astManager)
+    val managers = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
+    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, platform)
       .addRequestModule(managers.documentLinksManager)
       .build()
   }

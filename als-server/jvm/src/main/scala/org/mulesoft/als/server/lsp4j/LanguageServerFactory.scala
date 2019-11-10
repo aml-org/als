@@ -19,8 +19,8 @@ object LanguageServerFactory extends PlatformSecrets {
     val builders = ManagersFactory(clientNotifier, platform, logger)
 
     new LanguageServerBuilder(builders.documentManager, builders.workspaceManager, platform)
-      .addInitializable(builders.astManager)
       .addInitializable(builders.diagnosticManager)
+      .addInitializable(builders.workspaceManager)
       .addRequestModule(builders.completionManager)
       .addRequestModule(builders.structureManager)
       .addRequestModule(builders.definitionManager)

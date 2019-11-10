@@ -44,16 +44,28 @@ case class TextDocumentContainer(platform: Platform,
 
   def versionOf(uri: String): Option[Int] = get(uri).map(_.version)
 
+  val environment: Environment = Environment()
+    .add(new ResourceLoader {
+
+      /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
+      override def fetch(resource: String): Future[Content] =
+        Future { new Content(getContent(resource), resource) }
+
+      /** Accepts specified resource. */
+      override def accepts(resource: String): Boolean = exists(resource)
+    })
+
   override def environmentSnapshot(): Environment =
     Environment()
       .add(new ResourceLoader {
+        private val current: Map[String, String] = uriToEditor.map(t => t._1 -> t._2.text).toMap
 
         /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
         override def fetch(resource: String): Future[Content] =
-          Future { new Content(getContent(resource), resource) }
+          Future { new Content(current(resource), resource) }
 
         /** Accepts specified resource. */
-        override def accepts(resource: String): Boolean = exists(resource)
+        override def accepts(resource: String): Boolean = current.contains(resource)
       })
 
 }

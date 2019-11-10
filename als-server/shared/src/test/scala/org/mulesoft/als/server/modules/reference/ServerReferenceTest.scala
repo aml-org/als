@@ -13,10 +13,9 @@ abstract class ServerReferenceTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, new WorkspaceRootHandler(platform), platform, logger)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
 
-    new LanguageServerBuilder(factory.documentManager, platform)
-      .addInitializable(factory.astManager)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
       .build()
   }
 

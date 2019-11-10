@@ -3,7 +3,7 @@ package org.mulesoft.als.server.custom
 import com.google.gson.JsonElement
 import org.mulesoft.lsp.textsync.IndexDialectParams
 
-object IndexDialectCommandExecutor extends CommandExecutor[IndexDialectParams] {
+object IndexDialectCommandParamDeserializer extends CommandParamDeserializer[IndexDialectParams] {
 
   override def matcher: AnyRef => Option[IndexDialectParams] = {
     case dpf: IndexDialectParams => Some(dpf)

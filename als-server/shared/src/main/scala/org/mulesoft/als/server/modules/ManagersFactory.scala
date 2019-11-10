@@ -14,12 +14,12 @@ import org.mulesoft.als.server.workspace.WorkspaceContentCollection
 import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 
 case class ManagersFactory(clientNotifier: ClientNotifier,
-                           workspaceRootHandler: WorkspaceRootHandler,
                            platform: Platform,
                            logger: Logger,
                            dr: Option[DirectoryResolver] = None,
                            withDiagnostics: Boolean = true) {
 
+  private val workspaceRootHandler       = new WorkspaceRootHandler(platform)
   private val directoryResolver          = dr.getOrElse(new PlatformDirectoryResolver(platform))
   val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
   // todo initialize amf
@@ -30,11 +30,11 @@ case class ManagersFactory(clientNotifier: ClientNotifier,
   private val projectDependencies = if (withDiagnostics) List(diagnosticManager) else Nil
   private val container           = TextDocumentContainer(platform)
 
-  val workspaceManager     = new WorkspaceContentCollection(container, projectDependencies)
+  val workspaceManager     = new WorkspaceContentCollection(container, projectDependencies, logger)
   lazy val documentManager = new TextDocumentManager(container, List(workspaceManager), logger)
 
   lazy val completionManager =
-    new SuggestionsManager(workspaceManager, telemetryManager, directoryResolver, platform, logger)
+    new SuggestionsManager(container, telemetryManager, directoryResolver, platform, logger) // todo: we will need to pass workspace manager if we want to reuse the realted parsed bu
 
   lazy val structureManager = new StructureManager(workspaceManager, telemetryManager, logger)
 
