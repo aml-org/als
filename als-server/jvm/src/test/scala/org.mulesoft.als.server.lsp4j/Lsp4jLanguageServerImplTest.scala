@@ -9,6 +9,7 @@ import org.eclipse.lsp4j.{ExecuteCommandParams, InitializeParams}
 import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.server.LanguageServer

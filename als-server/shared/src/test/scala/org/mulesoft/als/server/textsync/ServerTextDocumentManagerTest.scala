@@ -17,7 +17,7 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = false)
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
       .addRequestModule(factory.structureManager)
       .build()
