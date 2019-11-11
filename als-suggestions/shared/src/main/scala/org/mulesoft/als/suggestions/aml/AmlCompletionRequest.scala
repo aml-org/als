@@ -4,14 +4,14 @@ import amf.core.annotations.{LexicalInformation, SourceAST, SynthesizedField}
 import amf.core.model.document.{BaseUnit, Document}
 import amf.core.model.domain.{AmfArray, AmfObject, DomainElement}
 import amf.core.parser.FieldEntry
-import amf.core.remote.Platform
+import amf.core.remote.{FileMediaType, Mimes, Platform}
 import amf.dialects.{RAML08Dialect, RAML10Dialect}
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common._
-import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition, PositionRange}
+import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
@@ -162,7 +162,7 @@ object AmlCompletionRequestBuilder {
         case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
       }
 
-      NodeBranchBuilder.build(ast.getOrElse(YDocument(IndexedSeq.empty, "")), position)
+      NodeBranchBuilder.build(ast.getOrElse(YDocument(IndexedSeq.empty, "")), position, YamlUtils.isJson(baseUnit))
     }
 
     val dtoPosition = DtoPosition(position)

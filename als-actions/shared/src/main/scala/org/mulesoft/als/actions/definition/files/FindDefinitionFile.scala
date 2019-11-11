@@ -29,7 +29,7 @@ trait FindDefinitionFile {
     Nil
 
   def getDefinitionFile(bu: BaseUnit, position: Position, platform: Platform): Seq[LocationLink] = {
-    val yPartBranch: YPartBranch = NodeBranchBuilder.build(bu, position.toAmfPosition)
+    val yPartBranch: YPartBranch = NodeBranchBuilder.build(bu, position.toAmfPosition, YamlUtils.isJson(bu))
 
     yPartBranch.node match {
       case alias: YNode.Alias => Seq(locationToLsp(alias.location, alias.target.location, platform))
