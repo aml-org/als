@@ -22,8 +22,7 @@ package object aml {
 
     def propertiesRaw(category: Option[String] = None): Seq[RawSuggestion] =
       nodeMapping.propertiesMapping().map { p =>
-        val c = category.getOrElse(
-          CategoryRegistry(nodeMapping.meta.`type`.headOption.map(_.iri()).getOrElse(""), p.name().value()))
+        val c = category.getOrElse(CategoryRegistry(nodeMapping.nodetypeMapping.value(), p.name().value()))
         p.toRaw(c)
       }
   }
