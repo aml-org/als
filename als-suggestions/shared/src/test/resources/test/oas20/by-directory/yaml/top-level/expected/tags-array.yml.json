@@ -32,7 +32,7 @@
   {
     "label": "externalDocs",
     "kind": [],
-    "detail": "unknown",
+    "detail": "docs",
     "documentation": "externalDocs",
     "deprecated": [],
     "preselect": [],
