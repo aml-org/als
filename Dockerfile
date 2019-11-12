@@ -2,9 +2,8 @@ FROM ubuntu:16.04
 
 ARG USER_HOME_DIR="/root"
 
-ENV SCALA_VERSION 2.12.2
-ENV SBT_VERSION 0.13.16
-ENV DEBIAN_FRONTEND noninteractive
+ENV SCALA_VERSION 2.12.10
+ENV SBT_VERSION 1.3.3
 
 # Update the repository sources list and install dependencies
 RUN apt-get update
