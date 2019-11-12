@@ -46,7 +46,7 @@ class StructureTests extends RAMLSuggestionTestServer {
   }
 
   test("test 10") {
-    runTest("structure/test10.raml", Set("protocols: "))
+    runTest("structure/test10.raml", Set("protocols:\n  - "))
   }
 
   test("test with spaces") { // TODO: How to test in JS?
