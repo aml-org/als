@@ -8,9 +8,6 @@ ARG USER_HOME_DIR="/root"
 ENV SCALA_VERSION 2.12.10
 ENV SBT_VERSION 1.3.3
 
-# Copy the CPC binary from the core-paas-client docker image.
-FROM artifacts.msap.io/mulesoft/core-paas-client:v7.3.0 as cpc-base
-
 
 # Update the repository sources list and install dependencies
 RUN apt-get update
