@@ -39,7 +39,6 @@ ENV SBT_VERSION 1.3.3
 # Copy the CPC binary from the core-paas-client docker image.
 FROM artifacts.msap.io/mulesoft/core-paas-client:v7.3.0 as cpc-base
 
-FROM base as runtime
 
 # Update the repository sources list and install dependencies
 RUN apt-get update
