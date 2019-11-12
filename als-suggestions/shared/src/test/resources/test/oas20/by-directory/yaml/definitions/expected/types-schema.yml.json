@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10array",
-    "filterText": null,
+    "filterText": "array",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10boolean",
-    "filterText": null,
+    "filterText": "boolean",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10file",
-    "filterText": null,
+    "filterText": "file",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10integer",
-    "filterText": null,
+    "filterText": "integer",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10number",
-    "filterText": null,
+    "filterText": "number",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10object",
-    "filterText": null,
+    "filterText": "object",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10string",
-    "filterText": null,
+    "filterText": "string",
     "insertText": null,
     "insertTextFormat": [
       1

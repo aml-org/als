@@ -1,21 +1,18 @@
 package org.mulesoft.als.server.custom
 
-import java.lang.reflect.Type
+import scala.reflect.ClassTag
 import java.util
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.completedFuture
 
 import com.google.gson.{Gson, JsonElement}
-import com.google.gson.reflect.TypeToken
 
 trait CommandExecutor[P] {
 
   def matcher: AnyRef => Option[P]
 
-  def parseJson(json: JsonElement): Option[P] = {
-    val t: Type = new TypeToken[P]() {}.getType()
-    Option(new Gson().fromJson(json, t))
-  }
+  def parseJson(json: JsonElement)(implicit ctag: ClassTag[P]): Option[P] =
+    Option(new Gson().fromJson(json, ctag.runtimeClass.asInstanceOf[Class[P]]))
 
   def apply(args: util.List[AnyRef], callback: P => Unit): CompletableFuture[AnyRef] = {
     def parseParamsDidFocus(getArguments: util.List[AnyRef]): Option[P] = {

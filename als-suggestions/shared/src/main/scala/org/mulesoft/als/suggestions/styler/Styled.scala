@@ -1,3 +1,5 @@
 package org.mulesoft.als.suggestions.styler
 
-case class Styled(text: String, plain: Boolean)
+import org.mulesoft.als.common.dtoTypes.PositionRange
+
+case class Styled(text: String, plain: Boolean, replacementRange: PositionRange)

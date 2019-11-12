@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10int32",
-    "filterText": null,
+    "filterText": "int32",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10int64",
-    "filterText": null,
+    "filterText": "int64",
     "insertText": null,
     "insertTextFormat": [
       1

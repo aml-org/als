@@ -12,7 +12,10 @@ class DeclarationWithLibraryReferenceTest extends AMLSuggestionsTest {
 
   test("test with aliased ref") {
 
-    withDialect("aliased.yaml", Set("libType1", "libType2"), "dialect-lib.yaml", ProfileName("References 1.0"))
+    withDialect("aliased.yaml",
+                Set("defs.libType1", "defs.libType2"),
+                "dialect-lib.yaml",
+                ProfileName("References 1.0"))
   }
 
   test("test with invalid aliased") {

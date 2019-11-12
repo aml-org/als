@@ -4,20 +4,26 @@ import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.server.modules.actions.GoToDefinitionManager
 import org.mulesoft.als.server.modules.ast.AstManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
-import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentPositionParams, Position => lspPosition}
+import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
+import org.mulesoft.als.suggestions.patcher.PatchedContent
+import org.mulesoft.lsp.common.{LocationLink, TextDocumentIdentifier, TextDocumentPositionParams}
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
+import org.mulesoft.lsp.server.LanguageServer
+import org.scalatest.Assertion
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
-class ServerDefinitionTest extends LanguageServerBaseTest {
+trait ServerDefinitionTest extends LanguageServerBaseTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
-  override def rootPath: String                            = ""
+
+  override def rootPath: String = "actions/definition"
 
   override def addModules(documentManager: TextDocumentManager,
                           platform: Platform,
@@ -29,43 +35,59 @@ class ServerDefinitionTest extends LanguageServerBaseTest {
 
     val astManager = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
 
+    val definitionsManager = new GoToDefinitionManager(astManager, telemetryManager, logger, platform)
+
     builder
       .addInitializable(astManager)
+      .addRequestModule(definitionsManager)
   }
 
-  ignore("Open declaration test 001") {
-    withServer { server =>
-      var content1 =
-        """#%RAML 1.0
-          |title: test
-          |types:
-          |  MyType:
-          |  MyType2:
-          |    properties:
-          |      p1: MyType
-          |""".stripMargin
-      val ind           = content1.indexOf("p1: MyType") + "p1: My".length
-      val usagePosition = LspRangeConverter.toLspPosition(Position(ind, content1))
+  def runTest(path: String, expectedDefinitions: Set[LocationLink]): Future[Assertion] = withServer[Assertion] {
+    server =>
+      val resolved = filePath(platform.encodeURI(path))
+      for {
+        content <- this.platform.resolve(resolved)
+        definitions <- {
+          val fileContentsStr = content.stream.toString
+          val markerInfo      = this.findMarker(fileContentsStr)
 
-      val url = "file:///findDeclarationTest001.raml"
-
-      openFile(server)(url, content1)
-
-      val handler = server.resolveHandler(DefinitionRequestType).value
-
-      handler(new TextDocumentPositionParams() {
-        override val textDocument: TextDocumentIdentifier = TextDocumentIdentifier(url)
-        override val position: lspPosition                = usagePosition
-      }).map(declarations => {
-        closeFile(server)(url)
-
-        if (declarations.isLeft) {
-          succeed
-        } else {
-          fail("No references have been found")
+          getServerDefinition(resolved, server, markerInfo)
         }
-      })
+      } yield {
+        assert(definitions.toSet == expectedDefinitions)
+      }
+  }
 
+  def getServerDefinition(filePath: String,
+                          server: LanguageServer,
+                          markerInfo: MarkerInfo): Future[Seq[LocationLink]] = {
+
+    openFile(server)(filePath, markerInfo.patchedContent.original)
+
+    val definitionHandler = server.resolveHandler(DefinitionRequestType).value
+
+    definitionHandler(
+      TextDocumentPositionParams(TextDocumentIdentifier(filePath),
+                                 LspRangeConverter.toLspPosition(markerInfo.position)))
+      .map(definitions => {
+        closeFile(server)(filePath)
+
+        definitions.right.getOrElse(Nil)
+      })
+  }
+
+  def findMarker(str: String, label: String = "[*]", cut: Boolean = true): MarkerInfo = {
+    val offset = str.indexOf(label)
+
+    if (offset < 0)
+      new MarkerInfo(PatchedContent(str, str, Nil), Position(str.length, str))
+    else {
+      val rawContent = str.substring(0, offset) + str.substring(offset + label.length)
+      val preparedContent =
+        org.mulesoft.als.suggestions.Core.prepareText(rawContent, offset, YAML)
+      new MarkerInfo(preparedContent, Position(offset, str))
     }
   }
 }
+
+class MarkerInfo(val patchedContent: PatchedContent, val position: Position) {}

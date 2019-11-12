@@ -66,19 +66,18 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
         telemetryProvider.addTimedMessage("End report", MessageTypes.END_DIAGNOSTIC, uri, telemetryUUID)
 
       case Failure(exception) =>
-        exception.printStackTrace()
-        telemetryProvider.addTimedMessage(s"End report: ${exception.toString}",
+        telemetryProvider.addTimedMessage(s"End report: ${exception.getMessage}",
                                           MessageTypes.END_DIAGNOSTIC,
                                           uri,
                                           telemetryUUID)
-        logger.error("Error on validation: " + exception.toString, "ValidationManager", "newASTAvailable")
+        logger.warning("Error on validation: " + exception.toString, "ValidationManager", "newASTAvailable")
         clientNotifier.notifyDiagnostic(ValidationReport(uri, 0, Set.empty).publishDiagnosticsParams)
     }
   }
 
   private def gatherValidationErrors(uri: String,
                                      docVersion: Int,
-                                     astNode: BaseUnit,
+                                     baseUnit: BaseUnit,
                                      uuid: String): Future[Seq[ValidationReport]] = {
     val editorOption = textDocumentManager.getTextDocument(uri)
 
@@ -86,7 +85,7 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
       val startTime = System.currentTimeMillis()
 
       this
-        .report(uri, telemetryProvider, astNode, uuid)
+        .report(uri, telemetryProvider, baseUnit, uuid)
         .map(report => {
           val endTime = System.currentTimeMillis()
 
@@ -94,37 +93,40 @@ class DiagnosticManager(private val textDocumentManager: TextDocumentManager,
                                   "ValidationManager",
                                   "gatherValidationErrors")
 
-          buildIssueResults(uri, docVersion, report)
+          buildIssueResults(uri, docVersion, report, baseUnit)
         })
     } else {
       Future.failed(new Exception("Cant find the editor for uri " + uri))
     }
   }
 
-  def buildIssueResults(root: String, docVersion: Int, report: AMFValidationReport): Seq[ValidationReport] = {
+  private def extractLocations(baseUnit: BaseUnit): Set[String] = {
+    baseUnit.location().toSet ++ baseUnit.references.flatMap(extractLocations)
+  }
+
+  def buildIssueResults(root: String,
+                        docVersion: Int,
+                        report: AMFValidationReport,
+                        baseUnit: BaseUnit): Seq[ValidationReport] = {
     val located: Map[String, Seq[AMFValidationResult]] = report.results.groupBy(_.location.getOrElse(root))
 
-    val (rootReport, sonsAmfReport) = located.partition(_._1 == root)
-
     val collectedFirstErrors: ListBuffer[(String, ValidationIssue)] = ListBuffer[(String, ValidationIssue)]()
-    val sonsReports = astManager.fileDependencies
-      .dependenciesFor(root)
-      .map { son =>
-        sonsAmfReport.get(son) match {
+    val dependencyNames: Set[String] = astManager.fileDependencies
+      .dependenciesFor(root) ++ extractLocations(baseUnit)
+    val dependenciesReports = dependencyNames
+      .map { dependency =>
+        located.get(dependency) match {
           case Some(results) if results.nonEmpty =>
             val r      = results.map(amfValidationResultToIssue).toSet
-            val report = ValidationReport(son, textDocumentManager.versionOf(son), r)
-            collectedFirstErrors ++= r.collectFirst({ case v if v.`type` == ValidationSeverity.Error => (son, v) })
+            val report = ValidationReport(dependency, textDocumentManager.versionOf(dependency), r)
+            collectedFirstErrors ++= r.collectFirst({
+              case v if v.`type` == ValidationSeverity.Error => (dependency, v)
+            })
             report
-          case _ => ValidationReport(son, textDocumentManager.versionOf(son), Set.empty)
+          case _ => ValidationReport(dependency, textDocumentManager.versionOf(dependency), Set.empty)
         }
       }
-
-    val rootIssues = rootReport.get(root).map(rr => rr.map(amfValidationResultToIssue).toSet).getOrElse(Nil)
-    val finalRoot =
-      ValidationReport(root, docVersion, (buildTopFiveIssues(root, collectedFirstErrors.toList) ++ rootIssues).toSet)
-
-    Seq(finalRoot) ++ sonsReports
+    dependenciesReports.toSeq.sortBy(_.publishDiagnosticsParams.uri)
   }
 
   private def buildTopFiveIssues(root: String,

@@ -14,6 +14,7 @@ import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.als.suggestions
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
+import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.RequestHandler
@@ -80,11 +81,11 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
 
         val startTime = System.currentTimeMillis()
 
-        val originalText = editor.text
-        val offset       = position.offset(originalText)
-        val text         = suggestions.Core.prepareText(originalText, offset, syntax)
+        val originalText   = editor.text
+        val offset         = position.offset(originalText)
+        val patchedContent = suggestions.Core.prepareText(originalText, offset, syntax)
         telemetryProvider.addTimedMessage("Begin Suggestions", MessageTypes.BEGIN_COMPLETION, uri, telemetryUUID)
-        buildCompletionProviderAST(text, originalText, uri, refinedUri, offset, syntax, telemetryUUID)
+        buildCompletionProviderAST(patchedContent, uri, refinedUri, offset, syntax, telemetryUUID)
           .flatMap(provider => {
             provider
               .suggest()
@@ -105,15 +106,14 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
       .getOrElse(Future.successful(Seq.empty[CompletionItem]))
   }
 
-  def buildCompletionProviderAST(text: String,
-                                 unmodifiedContent: String,
+  def buildCompletionProviderAST(patchedContent: PatchedContent,
                                  uri: String,
                                  refinedUri: String,
                                  position: Int,
                                  syntax: Syntax,
                                  uuid: String): Future[CompletionProvider] = {
 
-    val eventualUnit: Future[BaseUnit] = astManager.forceBuildNewAST(uri, text, telemetryProvider, uuid)
+    val eventualUnit: Future[BaseUnit] = astManager.forceBuildNewAST(uri, patchedContent, telemetryProvider, uuid)
 
     Suggestions.buildProviderAsync(eventualUnit,
                                    position,
@@ -121,7 +121,7 @@ class SuggestionsManager(private val textDocumentManager: TextDocumentManager,
                                    platform,
                                    environment,
                                    uri,
-                                   unmodifiedContent,
+                                   patchedContent,
                                    snippetSupport)
   }
 }

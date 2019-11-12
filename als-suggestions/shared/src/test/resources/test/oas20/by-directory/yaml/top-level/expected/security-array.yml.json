@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10security",
-    "filterText": null,
+    "filterText": "security:\n    ",
     "insertText": null,
     "insertTextFormat": [
       1

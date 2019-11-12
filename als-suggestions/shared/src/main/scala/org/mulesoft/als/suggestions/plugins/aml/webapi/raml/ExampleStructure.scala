@@ -17,7 +17,7 @@ object ExampleStructure extends AMLCompletionPlugin {
     Future {
       request.amfObject match {
         case o: ObjectNode if request.branchStack.headOption.exists(_.isInstanceOf[Example]) && withoutProperties(o) =>
-          RAML10Dialect.DialectNodes.ExampleNode.propertiesRaw(request.indentation)
+          RAML10Dialect.DialectNodes.ExampleNode.propertiesRaw()
         // ugly hack. How i can know that the only property that exists is from the k: added in the patch?
         case _ => Nil
       }

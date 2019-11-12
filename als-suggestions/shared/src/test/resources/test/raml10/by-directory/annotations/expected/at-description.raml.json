@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "20(myAnnotation)",
-    "filterText": null,
+    "filterText": "(myAnnotation): ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10value",
-    "filterText": null,
+    "filterText": "value: ",
     "insertText": null,
     "insertTextFormat": [
       1

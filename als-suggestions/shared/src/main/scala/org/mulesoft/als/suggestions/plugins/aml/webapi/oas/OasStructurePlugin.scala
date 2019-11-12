@@ -21,10 +21,9 @@ object OasStructurePlugin extends AMLCompletionPlugin {
       case _: EndPoint if isInParameter(request.yPartBranch) => emptySuggestion
       case _: Request if isInParameter(request.yPartBranch)  => emptySuggestion
       case _: Request if request.fieldEntry.isEmpty && !definingParam(request.yPartBranch) =>
-        Future { OAS20Dialect.DialectNodes.OperationObject.propertiesRaw(request.indentation) }
-      case _: WebApi if request.yPartBranch.isKeyDescendanceOf("info") =>
-        infoSuggestions(request.indentation)
-      case _ => AMLStructureCompletionPlugin.resolve(request)
+        Future { OAS20Dialect.DialectNodes.OperationObject.propertiesRaw() }
+      case _: WebApi if request.yPartBranch.isKeyDescendanceOf("info") => infoSuggestions()
+      case _                                                           => AMLStructureCompletionPlugin.resolve(request)
     }
   }
 
@@ -32,8 +31,8 @@ object OasStructurePlugin extends AMLCompletionPlugin {
     yPartBranch.isKeyDescendanceOf("parameters") || (yPartBranch.isJson && yPartBranch.isInArray && yPartBranch
       .parentEntryIs("parameters"))
 
-  def infoSuggestions(indentation: String) =
-    Future(OAS20Dialect.DialectNodes.InfoObject.propertiesRaw(indentation, Some("docs")))
+  def infoSuggestions() =
+    Future(OAS20Dialect.DialectNodes.InfoObject.propertiesRaw(Some("docs")))
 
   def definingParam(yPart: YPartBranch): Boolean = yPart.isKeyDescendanceOf("parameters")
 }

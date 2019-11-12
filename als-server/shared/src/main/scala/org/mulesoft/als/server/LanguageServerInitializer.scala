@@ -6,6 +6,7 @@ import org.mulesoft.lsp.feature.codeactions.CodeActionConfigType
 import org.mulesoft.lsp.feature.completion.CompletionConfigType
 import org.mulesoft.lsp.feature.definition.DefinitionConfigType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolConfigType
+import org.mulesoft.lsp.feature.link.DocumentLinkConfigType
 import org.mulesoft.lsp.feature.reference.ReferenceConfigType
 import org.mulesoft.lsp.feature.rename.RenameConfigType
 import org.mulesoft.lsp.textsync.TextDocumentSyncConfigType
@@ -25,7 +26,8 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(ReferenceConfigType, textDocument.flatMap(_.references)).isDefined,
       applyConfig(DocumentSymbolConfigType, textDocument.flatMap(_.documentSymbol)).isDefined,
       applyConfig(RenameConfigType, textDocument.flatMap(_.rename)),
-      applyConfig(CodeActionConfigType, textDocument.flatMap(_.codeActionCapabilities))
+      applyConfig(CodeActionConfigType, textDocument.flatMap(_.codeActionCapabilities)),
+      applyConfig(DocumentLinkConfigType, textDocument.flatMap(_.documentLink))
     )
   }
 

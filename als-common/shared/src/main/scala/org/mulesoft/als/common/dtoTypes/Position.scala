@@ -51,13 +51,19 @@ case class Position(line: Int, column: Int) {
     case p: Position => p.column == column && p.line == line
     case _           => false
   }
+
+  override def hashCode(): Int = super.hashCode()
+
+  lazy val toAmfPosition = AmfPosition(line + 1, column)
 }
 
 object Position {
   def apply(position: AmfPosition): Position =
-    Position(position.line - 1, position.column)
+    if (position.isZero) Position0
+    else Position(position.line - 1, position.column)
 
   def apply(offset: Int, text: String): Position = {
+    @scala.annotation.tailrec
     def toPosition(count: Int, line: Int, lines: List[String]): Position =
       lines match {
         case Nil => Position(line, 0)
@@ -90,6 +96,7 @@ private object TextHelper {
       result.last.append(head)
       if (isBreakLine(head)) result :+ new StringBuilder else result
     }
+
     @tailrec def innerFn(result: List[StringBuilder], rest: List[Char]): List[StringBuilder] = rest match {
       case Nil          => result
       case head :: Nil  => addToResult(result, head)

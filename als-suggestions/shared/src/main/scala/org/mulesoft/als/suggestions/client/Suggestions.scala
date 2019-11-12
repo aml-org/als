@@ -1,19 +1,18 @@
 package org.mulesoft.als.suggestions.client
 
 import amf.core.model.document.BaseUnit
+import amf.core.parser.{Position => AmfPosition}
 import amf.core.remote._
-import amf.dialects.WebApiDialectsRegistry
 import amf.internal.environment.Environment
-import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceUnit}
-import org.mulesoft.als.common.dtoTypes.Position
+import amf.plugins.document.vocabularies.model.document.Dialect
+import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
 import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher}
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequestBuilder, CompletionEnvironment}
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.Oas20DialectWrapper
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08.Raml08TypesDialect
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.Raml10TypesDialect
+import org.mulesoft.als.suggestions.patcher.PatchedContent
+import org.mulesoft.amfmanager.dialect.DialectKnowledge
 import org.mulesoft.amfmanager.{InitOptions, ParserHelper}
 import org.mulesoft.lsp.feature.completion.CompletionItem
 
@@ -36,15 +35,15 @@ object Suggestions extends SuggestionsHelper {
       .resolve(url, environment)
       .map(content => {
         val originalContent = content.stream.toString
-        val (_, patchedEnv) =
+        val (patched, patchedEnv) =
           patchContentInEnvironment(environment, url, originalContent, position)
-        (originalContent, patchedEnv)
+        (patched, patchedEnv)
       })
       .flatMap {
-        case (originalContent, patchedEnv) =>
+        case (patchedContent, patchedEnv) =>
           suggestWithPatchedEnvironment(language,
                                         url,
-                                        originalContent,
+                                        patchedContent,
                                         position,
                                         directoryResolver,
                                         patchedEnv,
@@ -59,29 +58,29 @@ object Suggestions extends SuggestionsHelper {
                     platform: Platform,
                     env: Environment,
                     url: String,
-                    originalContent: String,
+                    patchedContent: PatchedContent,
                     snippetSupport: Boolean): Future[CompletionProvider] = {
-    dialectFor(bu) match {
+    DialectKnowledge.dialectFor(bu) match {
       case Some(d) =>
         Future(
           buildCompletionProviderAST(bu,
                                      d,
                                      bu.id,
-                                     Position(position, originalContent),
-                                     originalContent,
+                                     DtoPosition(position, patchedContent.original),
+                                     patchedContent,
                                      directoryResolver,
                                      env,
                                      platform,
                                      snippetSupport))
-      case _ if isHeader(position, url, originalContent) =>
+      case _ if isHeader(position, url, patchedContent.original) =>
         if (!url.toLowerCase().endsWith(".raml"))
           Future(
             HeaderCompletionProviderBuilder
-              .build(url, originalContent, Position(position, originalContent)))
+              .build(url, patchedContent.original, DtoPosition(position, patchedContent.original)))
         else
           Future(
             RamlHeaderCompletionProvider
-              .build(url, originalContent, Position(position, originalContent)))
+              .build(url, patchedContent.original, DtoPosition(position, patchedContent.original)))
       case _ =>
         Future.failed(new Exception("Cannot find dialect for unit: " + bu.id))
     }
@@ -93,10 +92,10 @@ object Suggestions extends SuggestionsHelper {
                          platform: Platform,
                          env: Environment,
                          url: String,
-                         originalContent: String,
+                         patchedContent: PatchedContent,
                          snippetSupport: Boolean): Future[CompletionProvider] = {
     unitFuture
-      .flatMap(buildProvider(_, position, directoryResolver, platform, env, url, originalContent, snippetSupport))
+      .flatMap(buildProvider(_, position, directoryResolver, platform, env, url, patchedContent, snippetSupport))
   }
 
   private def isHeader(position: Int, url: String, originalContent: String): Boolean =
@@ -105,20 +104,9 @@ object Suggestions extends SuggestionsHelper {
       .replaceAll("^\\{?\\s+", "")
       .contains('\n')
 
-  private def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
-    case d: DialectInstanceUnit => WebApiDialectsRegistry.dialectFor(bu)
-    case d if d.sourceVendor.contains(Oas20) =>
-      Some(Oas20DialectWrapper.dialect)
-    case d if d.sourceVendor.contains(Raml10) =>
-      Some(Raml10TypesDialect.dialect)
-    case d if d.sourceVendor.contains(Raml08) =>
-      Some(Raml08TypesDialect.dialect)
-    case _ => None
-  }
-
   private def suggestWithPatchedEnvironment(language: String,
                                             url: String,
-                                            originalContent: String,
+                                            patchedContent: PatchedContent,
                                             position: Int,
                                             directoryResolver: DirectoryResolver,
                                             environment: Environment,
@@ -131,7 +119,7 @@ object Suggestions extends SuggestionsHelper {
                        platform,
                        environment,
                        url,
-                       originalContent,
+                       patchedContent,
                        snippetsSupport)
       .flatMap(_.suggest())
   }
@@ -139,21 +127,21 @@ object Suggestions extends SuggestionsHelper {
   private def buildCompletionProviderAST(bu: BaseUnit,
                                          dialect: Dialect,
                                          url: String,
-                                         pos: Position,
-                                         originalContent: String,
+                                         pos: DtoPosition,
+                                         patchedContent: PatchedContent,
                                          directoryResolver: DirectoryResolver,
                                          env: Environment,
                                          platform: Platform,
                                          snippetSupport: Boolean): CompletionProviderAST = {
 
-    val amfPosition = pos.moveLine(1)
+    val amfPosition: AmfPosition = pos.toAmfPosition
     CompletionProviderAST(
       AmlCompletionRequestBuilder
         .build(bu,
                amfPosition,
                dialect,
                CompletionEnvironment(directoryResolver, platform, env),
-               originalContent,
+               patchedContent,
                snippetSupport))
   }
 }
@@ -173,11 +161,11 @@ trait SuggestionsHelper {
   def patchContentInEnvironment(environment: Environment,
                                 fileUrl: String,
                                 fileContentsStr: String,
-                                position: Int): (String, Environment) = {
+                                position: Int): (PatchedContent, Environment) = {
 
     val patchedContent = Core.prepareText(fileContentsStr, position, YAML)
     val envWithOverride =
-      EnvironmentPatcher.patch(environment, fileUrl, patchedContent)
+      EnvironmentPatcher.patch(environment, fileUrl, patchedContent.content)
 
     (patchedContent, envWithOverride)
   }

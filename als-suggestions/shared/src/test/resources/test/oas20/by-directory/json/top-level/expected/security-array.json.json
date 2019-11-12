@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10security",
-    "filterText": null,
+    "filterText": "\"security\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 8,
-          "character": 5
+          "character": 4
         },
         "end": {
           "line": 8,
-          "character": 5
+          "character": 7
         }
       },
-      "newText": "security"
+      "newText": "\"security\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

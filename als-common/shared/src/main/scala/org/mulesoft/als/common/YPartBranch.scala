@@ -1,12 +1,21 @@
 package org.mulesoft.als.common
 
+import amf.core.annotations.SourceAST
+import amf.core.model.document.{BaseUnit, Document}
 import org.mulesoft.als.common.YamlWrapper._
-import org.mulesoft.als.common.dtoTypes.Position
 import org.yaml.model._
+import org.mulesoft.als.common.dtoTypes.Position
+import amf.core.parser.{Position => AmfPosition}
 import amf.core.parser._
+
 import scala.annotation.tailrec
 
-case class YPartBranch(node: YPart, position: Position, val stack: Seq[YPart]) {
+case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart]) {
+
+  lazy val isMultiline: Boolean = node match {
+    case n: YNode if n.asScalar.isDefined => n.asScalar.exists(_.mark == MultilineMark)
+    case _                                => false
+  }
 
   val isJson: Boolean = stack.lastOption
     .orElse(Some(node))
@@ -92,6 +101,7 @@ case class YPartBranch(node: YPart, position: Position, val stack: Seq[YPart]) {
       .flatMap(_.key.asScalar.map(_.text))
       .contains(key)
 
+  @scala.annotation.tailrec
   private def findFirstOf[T <: YPart](clazz: Class[T], l: Seq[YPart]): Option[T] = {
     l match {
       case head :: _ if clazz.isInstance(head) => Some(head.asInstanceOf[T])
@@ -99,6 +109,7 @@ case class YPartBranch(node: YPart, position: Position, val stack: Seq[YPart]) {
       case _ :: tail                           => findFirstOf(clazz, tail)
     }
   }
+
   // content patch will add a { k: }, I need to get up the k node, the k: entry, and the {k: } map
   private def getSequence: Option[YSequence] = {
     val offset = if (isKey) 4 else if (isArray) 0 else 1
@@ -142,13 +153,27 @@ case class YPartBranch(node: YPart, position: Position, val stack: Seq[YPart]) {
 
 object NodeBranchBuilder {
 
-  def build(ast: YPart, position: Position): YPartBranch = {
+  def build(ast: YPart, position: AmfPosition): YPartBranch = {
     val actual :: stack = getStack(ast, position, Seq())
     YPartBranch(actual, position, stack)
   }
 
+  def build(bu: BaseUnit, position: AmfPosition): YPartBranch = {
+    val ast: Option[YPart] = astFromBaseUnit(bu)
+    build(ast.getOrElse(YDocument(IndexedSeq.empty, bu.location().getOrElse(""))), position)
+  }
+
+  def astFromBaseUnit(bu: BaseUnit): Option[YPart] = {
+    val ast = bu match {
+      case d: Document =>
+        d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)
+      case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
+    }
+    ast
+  }
+
   @tailrec
-  private def getStack(s: YPart, amfPosition: Position, parents: Seq[YPart]): Seq[YPart] =
+  private def getStack(s: YPart, amfPosition: AmfPosition, parents: Seq[YPart]): Seq[YPart] =
     childWithPosition(s, amfPosition) match {
       case Some(c) =>
         getStack(c, amfPosition, s +: parents)
@@ -159,15 +184,15 @@ object NodeBranchBuilder {
       case _ => s +: parents
     }
 
-  private def childWithPosition(ast: YPart, amfPosition: Position): Option[YPart] =
+  private def childWithPosition(ast: YPart, amfPosition: AmfPosition): Option[YPart] =
     ast.children
       .filterNot(_.isInstanceOf[YNonContent])
       .filter {
         case entry: YMapEntry =>
-          entry.range.toPositionRange.contains(amfPosition)
-        case map: YMap      => map.range.toPositionRange.contains(amfPosition)
-        case node: YNode    => node.range.toPositionRange.contains(amfPosition)
-        case seq: YSequence => seq.range.toPositionRange.contains(amfPosition)
+          entry.range.toPositionRange.contains(Position(amfPosition))
+        case map: YMap      => map.range.toPositionRange.contains(Position(amfPosition))
+        case node: YNode    => node.range.toPositionRange.contains(Position(amfPosition))
+        case seq: YSequence => seq.range.toPositionRange.contains(Position(amfPosition))
         case _              => false
       }
       .lastOption

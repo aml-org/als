@@ -5,7 +5,6 @@ import java.util.UUID
 
 import amf.client.remote.Content
 import amf.core.AMF
-import amf.core.client.ParserConfig
 import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
@@ -18,6 +17,7 @@ import org.mulesoft.als.common.{EnvironmentPatcher, FileUtils}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
 import org.mulesoft.als.server.textsync.{ChangedDocument, OpenedDocument, TextDocumentManager}
+import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.Initializable
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
@@ -89,8 +89,11 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
       })
   }
 
-  def getCurrentAST(uri: String): Option[BaseUnit] =
-    None // this.currentASTs.get(uri)
+  def getCurrentAST(uri: String, uuid: String): Future[BaseUnit] =
+    this.getCurrentAST(uri).map(Future.successful).getOrElse(forceGetCurrentAST(uri, uuid))
+
+  private def getCurrentAST(uri: String): Option[BaseUnit] =
+    this.currentASTs.get(uri)
 
   def forceGetCurrentAST(uri: String, uuid: String): Future[BaseUnit] = {
     val editorOption = textDocumentManager.getTextDocument(uri)
@@ -177,10 +180,10 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
     *
     */
   def forceBuildNewAST(uri: String,
-                       text: String,
+                       patchedContent: PatchedContent,
                        telemetryProvider: TelemetryProvider,
                        uuid: String): Future[BaseUnit] =
-    parseWithContentSubstitution(uri, text, telemetryProvider, uuid)
+    parseWithContentSubstitution(uri, patchedContent, telemetryProvider, uuid)
 
   def parse(uri: String, telemetryProvider: TelemetryProvider, uuid: String): Future[BaseUnit] = {
     telemetryProvider.addTimedMessage("Begin parsing", MessageTypes.BEGIN_PARSE, uri, uuid)
@@ -200,13 +203,13 @@ class AstManager(private val textDocumentManager: TextDocumentManager,
   }
 
   def parseWithContentSubstitution(uri: String,
-                                   content: String,
+                                   patchedContent: PatchedContent,
                                    telemetryProvider: TelemetryProvider,
                                    uuid: String): Future[BaseUnit] = {
     telemetryProvider.addTimedMessage("Begin patching", MessageTypes.BEGIN_PATCHING, uri, uuid)
 
     val patchedEnvironment =
-      EnvironmentPatcher.patch(serverEnvironment, FileUtils.getEncodedUri(uri, platform), content)
+      EnvironmentPatcher.patch(serverEnvironment, FileUtils.getEncodedUri(uri, platform), patchedContent.content)
 
     telemetryProvider.addTimedMessage("End patching", MessageTypes.END_PATCHING, uri, uuid)
     telemetryProvider.addTimedMessage("Begin parsing", MessageTypes.BEGIN_PARSE_PATCHED, uri, uuid)

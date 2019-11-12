@@ -9,7 +9,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.common.ElementNameExtractor._
 import org.mulesoft.als.common.YPartBranch
-import org.yaml.model.{DoubleQuoteMark, ScalarMark}
+import org.yaml.model.{DoubleQuoteMark, NoMark, ScalarMark}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -20,11 +20,6 @@ class AMLJsonSchemaStyleDeclarationReferences(dialect: Dialect,
                                               yPart: YPartBranch,
                                               iriToPath: Map[String, String]) {
 
-  val mark: Option[ScalarMark] =
-    if (yPart.stringValue.isEmpty) yPart.getMark.orElse(Some(DoubleQuoteMark))
-    else if (yPart.isJson) yPart.getMark
-    else None
-
   def resolve(dp: DeclarationProvider): Seq[RawSuggestion] = {
     val routes = ranges.flatMap { id =>
       dp.forNodeType(id).filter(n => !actualName.contains(n)).map { name =>
@@ -34,9 +29,7 @@ class AMLJsonSchemaStyleDeclarationReferences(dialect: Dialect,
 
     val filtered = if (yPart.stringValue.isEmpty) routes else routes.filter(_.startsWith(yPart.stringValue))
     filtered
-      .map(r =>
-        mark.fold(if (yPart.isJson) DoubleQuoteMark.markText(r) else r)(m => if (yPart.isJson) r else m.markText(r)))
-      .map(route => RawSuggestion(route, route, s"Reference to $route", Nil, ""))
+      .map(route => RawSuggestion(route, route, s"Reference to $route", Nil))
   }
 
   def nameForIri(iri: String): Option[String] = {

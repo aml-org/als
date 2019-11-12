@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10accessTokenUri",
-    "filterText": null,
+    "filterText": "accessTokenUri: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10authorizationGrants",
-    "filterText": null,
+    "filterText": "authorizationGrants:\n        - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10authorizationUri",
-    "filterText": null,
+    "filterText": "authorizationUri: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10scopes",
-    "filterText": null,
+    "filterText": "scopes:\n        - ",
     "insertText": null,
     "insertTextFormat": [
       1

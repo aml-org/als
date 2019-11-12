@@ -29,6 +29,7 @@ import org.mulesoft.lsp.feature.completion.InsertTextFormat.InsertTextFormat
 import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticRelatedInformation, PublishDiagnosticsParams}
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbol, SymbolInformation}
+import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.rename.RenameOptions
 import org.mulesoft.lsp.textsync.{SaveOptions, TextDocumentSyncKind, TextDocumentSyncOptions}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
@@ -104,10 +105,13 @@ object Lsp4JConversions {
     new lsp4j.Range(lsp4JPosition(range.start), range.end)
 
   implicit def lsp4JLocation(location: Location): lsp4j.Location =
-    new lsp4j.Location(s"file://${location.uri}", location.range)
+    new lsp4j.Location(location.uri, location.range)
 
   implicit def lsp4JLocationLink(locationLink: LocationLink): lsp4j.LocationLink =
-    new lsp4j.LocationLink(s"file://${locationLink.targetUri}", locationLink.targetRange, locationLink.targetSelectionRange, locationLink.originSelectionRange.map(lsp4JRange).orNull)
+    new lsp4j.LocationLink(locationLink.targetUri,
+                           locationLink.targetRange,
+                           locationLink.targetSelectionRange,
+                           locationLink.originSelectionRange.map(lsp4JRange).orNull)
 
   implicit def lsp4JLocations(locations: Seq[Location]): util.List[lsp4j.Location] =
     javaList(locations, lsp4JLocation)
@@ -154,7 +158,7 @@ object Lsp4JConversions {
     : JEither[util.List[lsp4j.CompletionItem], lsp4j.CompletionList] =
     jEither(either, lsp4JCompletionItems, lsp4JCompletionList)
 
-  implicit def lsp4JLocationsEither(either: Either[Seq[_ <:Location], Seq[_ <:LocationLink]])
+  implicit def lsp4JLocationsEither(either: Either[Seq[_ <: Location], Seq[_ <: LocationLink]])
     : JEither[util.List[_ <: lsp4j.Location], util.List[_ <: lsp4j.LocationLink]] =
     jEither(either, lsp4JLocations, lsp4JLocationLinks)
 
@@ -199,6 +203,12 @@ object Lsp4JConversions {
 
   implicit def lsp4JCodeActionResult(result: Seq[CodeAction]): util.List[JEither[lsp4j.Command, lsp4j.CodeAction]] =
     javaList(result, (action: CodeAction) => JEither.forRight(lsp4JCodeAction(action)))
+
+  implicit def lsp4JDocumentLinkRequestResult(result: Seq[DocumentLink]): util.List[lsp4j.DocumentLink] =
+    javaList(result, (link: DocumentLink) => lsp4JDocumentLink(link))
+
+  implicit def lsp4JDocumentLink(documentLink: DocumentLink): lsp4j.DocumentLink =
+    new lsp4j.DocumentLink(documentLink.range, documentLink.target, documentLink.data)
 
   implicit def lsp4JDocumentSymbolsResult(result: Either[Seq[SymbolInformation], Seq[DocumentSymbol]])
     : util.List[JEither[lsp4j.SymbolInformation, lsp4j.DocumentSymbol]] =
@@ -279,10 +289,10 @@ object Lsp4JConversions {
     result.setTextDocumentSync(
       capabilities.textDocumentSync
         .map(jEither(_, lsp4JTextDocumentSyncKind, lsp4JTextDocumentSyncOptions))
-//        .map(v => {
-//          println(v)
-//          v
-//        })
+        //        .map(v => {
+        //          println(v)
+        //          v
+        //        })
         .orNull)
     result.setCompletionProvider(
       capabilities.completionProvider
@@ -293,6 +303,8 @@ object Lsp4JConversions {
     result.setDocumentSymbolProvider(capabilities.documentSymbolProvider)
     result.setRenameProvider(capabilities.renameProvider)
     result.setCodeActionProvider(capabilities.codeActionProvider)
+
+    capabilities.documentLinkProvider.foreach(dlp => result.setDocumentLinkProvider(dlp))
 
     result.setExperimental(capabilities.experimental)
     result.setExecuteCommandProvider(new ExecuteCommandOptions(Lists.newArrayList("didFocusChange")))
@@ -326,5 +338,11 @@ object Lsp4JConversions {
 
   implicit def lsp4JPublishDiagnosticsParams(params: PublishDiagnosticsParams): lsp4j.PublishDiagnosticsParams =
     new lsp4j.PublishDiagnosticsParams(params.uri, javaList(params.diagnostics, lsp4JDiagnostic))
+
+  implicit def lsp4JDocumentLinkParams(params: DocumentLinkParams): lsp4j.DocumentLinkParams =
+    new lsp4j.DocumentLinkParams(new lsp4j.TextDocumentIdentifier(params.textDocument.uri))
+
+  implicit def lsp4JDocumentLinkOptions(options: DocumentLinkOptions): lsp4j.DocumentLinkOptions =
+    new lsp4j.DocumentLinkOptions(options.resolveProvider)
 
 }

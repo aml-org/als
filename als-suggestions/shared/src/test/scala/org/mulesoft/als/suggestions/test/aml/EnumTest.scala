@@ -7,10 +7,12 @@ class EnumTest extends AMLSuggestionsTest {
   override def rootPath: String = "AML/enums"
 
   test("AllowMultiple Enum - Single Value") {
-    withDialect("instances/testArraysInstance02.yaml",
-                Set("First", "Second", "Third", "Fourth"),
-                "dialects/testArraysDialect.yaml",
-                ProfileName("Test Array 1.0"))
+    withDialect(
+      "instances/testArraysInstance02.yaml",
+      Set("\n  - First", "\n  - Second", "\n  - Third", "\n  - Fourth"),
+      "dialects/testArraysDialect.yaml",
+      ProfileName("Test Array 1.0")
+    )
   }
   test("AllowMultiple Enum - Multiple Value") {
     withDialect("instances/testArraysInstance01.yaml",
@@ -20,13 +22,13 @@ class EnumTest extends AMLSuggestionsTest {
   }
   test("AllowMultiple Enum - Single Value w/prefix") {
     withDialect("instances/testArraysInstance03.yaml",
-                Set("First", "Fourth"),
+                Set("\n  - First", "\n  - Fourth"),
                 "dialects/testArraysDialect.yaml",
                 ProfileName("Test Array 1.0"))
   }
   test("AllowMultiple Enum - Multiple Value w/prefix") {
     withDialect("instances/testArraysInstance04.yaml",
-                Set("Fourth"),
+                Set("Fourth"), // todo: is logic?
                 "dialects/testArraysDialect.yaml",
                 ProfileName("Test Array 1.0"))
   }

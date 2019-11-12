@@ -5,7 +5,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.Raml10SecuritySchemesDialect
+import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10SecuritySchemesDialect
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -19,11 +19,11 @@ object SecuritySettingsFacetsCompletionPlugin extends AMLCompletionPlugin {
         request.branchStack.exists(_.isInstanceOf[ParametrizedSecurityScheme])
       request.branchStack.headOption match {
         case Some(_: OAuth1Settings) if !fromReference =>
-          Raml10SecuritySchemesDialect.OAuth1Settings.propertiesRaw(request.indentation)
+          Raml10SecuritySchemesDialect.OAuth1Settings.propertiesRaw()
         case Some(_: OAuth2Settings) if fromReference =>
-          Seq(RawSuggestion("scopes", request.indentation, isAKey = true, "security"))
+          Seq(RawSuggestion.arrayProp("scopes", "security"))
         case Some(_: OAuth2Settings) =>
-          Raml10SecuritySchemesDialect.OAuth2Settings.propertiesRaw(request.indentation)
+          Raml10SecuritySchemesDialect.OAuth2Settings.propertiesRaw()
         case _ => Nil
       }
     }

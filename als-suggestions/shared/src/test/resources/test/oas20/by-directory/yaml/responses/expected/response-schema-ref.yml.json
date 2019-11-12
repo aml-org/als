@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10#/definitions/A",
-    "filterText": null,
+    "filterText": "\"#/definitions/A\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 18
         }
       },
-      "newText": "#/definitions/A"
+      "newText": "\"#/definitions/A\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10expected/",
-    "filterText": null,
+    "filterText": "expected/",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-declaration-named.yml",
-    "filterText": null,
+    "filterText": "response-declaration-named.yml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-declaration.yml",
-    "filterText": null,
+    "filterText": "response-declaration.yml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-example.yml",
-    "filterText": null,
+    "filterText": "response-example.yml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-examples.yml",
-    "filterText": null,
+    "filterText": "response-examples.yml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-header.yml",
-    "filterText": null,
+    "filterText": "response-header.yml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-headers.yml",
-    "filterText": null,
+    "filterText": "response-headers.yml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-ref.yml",
-    "filterText": null,
+    "filterText": "response-ref.yml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response-schema.yml",
-    "filterText": null,
+    "filterText": "response-schema.yml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10response.yml",
-    "filterText": null,
+    "filterText": "response.yml",
     "insertText": null,
     "insertTextFormat": [
       1

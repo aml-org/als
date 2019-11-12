@@ -40,6 +40,6 @@ case class FilesEnumeration(directoryResolver: DirectoryResolver,
     }
 
   private def toRawSuggestion(file: String) =
-    RawSuggestion(s"$relativePath$file", s"$relativePath$file", "Path suggestion", Nil, "")
+    RawSuggestion(s"$relativePath$file", s"$relativePath$file", "Path suggestion", Nil)
 
 }
