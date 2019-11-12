@@ -1,10 +1,13 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
+
+# hadolint ignore=DL3002
+USER root
 
 ARG USER_HOME_DIR="/root"
 
-ENV SCALA_VERSION 2.12.2
-ENV SBT_VERSION 0.13.16
-ENV DEBIAN_FRONTEND noninteractive
+ENV SCALA_VERSION 2.12.10
+ENV SBT_VERSION 1.3.3
+
 
 # Update the repository sources list and install dependencies
 RUN apt-get update
@@ -12,7 +15,6 @@ RUN apt-get update
 RUN apt-get install -y software-properties-common unzip htop rsync openssh-client jq git
 
 # install Java
-USER root
 RUN mkdir -p /usr/share/man/man1 && \
     apt-get update -y && \
     apt-get install -y openjdk-8-jdk
