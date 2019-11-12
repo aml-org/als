@@ -19,7 +19,6 @@ case class ManagersFactory(clientNotifier: ClientNotifier,
                            dr: Option[DirectoryResolver] = None,
                            withDiagnostics: Boolean = true) {
 
-  private val workspaceRootHandler       = new WorkspaceRootHandler(platform)
   private val directoryResolver          = dr.getOrElse(new PlatformDirectoryResolver(platform))
   val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
   // todo initialize amf
@@ -28,7 +27,7 @@ case class ManagersFactory(clientNotifier: ClientNotifier,
   lazy val diagnosticManager = new DiagnosticManager(telemetryManager, clientNotifier, logger)
 
   private val projectDependencies = if (withDiagnostics) List(diagnosticManager) else Nil
-  private val container           = TextDocumentContainer(platform)
+  val container                   = TextDocumentContainer(platform)
 
   val workspaceManager     = new WorkspaceContentCollection(container, projectDependencies, logger)
   lazy val documentManager = new TextDocumentManager(container, List(workspaceManager), logger)

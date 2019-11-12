@@ -11,8 +11,6 @@ trait AstListener[T] {
   /**
     * Called on new AST available
     *
-    * @param uri     - document uri
-    * @param version - document version
     * @param ast     - AST
     * @param uuid    - telemetry UUID
     */

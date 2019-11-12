@@ -1,5 +1,7 @@
 package org.mulesoft.als.server.modules.actions
 
+import java.util.UUID
+
 import amf.core.remote.Platform
 import org.mulesoft.als.actions.links.FindLinks
 import org.mulesoft.als.server.RequestModule
@@ -38,8 +40,10 @@ class DocumentLinksManager(val workspaceManager: WorkspaceContentCollection,
 
   def documentLinks(str: String): Future[Seq[DocumentLink]] =
     workspaceManager
-      .getUnit(str)
-      .map(bu => { FindLinks.getLinks(bu.unit, platform) })
+      .getUnit(str, UUID.randomUUID().toString)
+      .map(bu => {
+        FindLinks.getLinks(bu.unit, platform)
+      })
 
   override def initialize(): Future[Unit] = Future.successful()
 

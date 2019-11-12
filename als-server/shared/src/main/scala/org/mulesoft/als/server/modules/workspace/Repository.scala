@@ -11,17 +11,17 @@ class Repository() {
 
   private val units: mutable.Map[String, ParsedUnit] = mutable.Map.empty
 
-  private val prossessing: mutable.Map[String, Promise[ParsedUnit]] = mutable.Map.empty
+  private val processing: mutable.Map[String, Promise[ParsedUnit]] = mutable.Map.empty
 
   def getUnit(uri: String): Future[ParsedUnit] =
     units
       .get(uri)
       .map(Future.successful)
       .getOrElse({
-        prossessing
+        processing
           .getOrElse(uri, {
             val promisedUnit = Promise[ParsedUnit]()
-            prossessing.put(uri, promisedUnit)
+            processing.put(uri, promisedUnit)
             promisedUnit
           })
           .future
@@ -36,10 +36,10 @@ class Repository() {
   }
 
   private def updateProssessing(u: ParsedUnit): Unit = {
-    prossessing.get(u.bu.id).foreach { p =>
+    processing.get(u.bu.id).foreach { p =>
       p.success(u)
     }
-    prossessing.remove(u.bu.id)
+    processing.remove(u.bu.id)
   }
 
 }

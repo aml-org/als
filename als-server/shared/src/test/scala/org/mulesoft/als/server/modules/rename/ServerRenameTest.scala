@@ -2,11 +2,9 @@ package org.mulesoft.als.server.modules.rename
 
 import org.mulesoft.als.common.dtoTypes.{DescendingPositionOrdering, Position}
 import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.als.suggestions.patcher.ContentPatcher
-import org.mulesoft.als.suggestions.patcher.PatchedContent
+import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.rename.{RenameParams, RenameRequestType}
@@ -20,7 +18,7 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
   override implicit val executionContext = ExecutionContext.Implicits.global
 
   override def buildServer(): LanguageServer = {
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = false)
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
       .addInitializable(factory.documentManager)
       .build()

@@ -3,7 +3,7 @@ package org.mulesoft.als.server.modules.completion
 import java.util.UUID
 
 import amf.core.remote.Platform
-import org.mulesoft.als.common.DirectoryResolver
+import org.mulesoft.als.common.{DirectoryResolver, FileUtils}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
@@ -115,9 +115,9 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                  syntax: Syntax,
                                  patchedContent: PatchedContent,
                                  uuid: String): Future[CompletionProvider] = {
-
-    val patchedEnvironment = editorEnvironment.patchUri(uri, text)
-    val eventualUnit       = ParserHelper(platform).parse(uri, patchedEnvironment.environment) // todo pass others workspace bu as cache
+    val amfRefinedUri      = FileUtils.getDecodedUri(uri, platform)
+    val patchedEnvironment = editorEnvironment.patchUri(amfRefinedUri, text)
+    val eventualUnit       = ParserHelper(platform).parse(amfRefinedUri, patchedEnvironment.environment) // todo pass other workspace bu's as cache
 
     Suggestions.buildProviderAsync(eventualUnit,
                                    position,

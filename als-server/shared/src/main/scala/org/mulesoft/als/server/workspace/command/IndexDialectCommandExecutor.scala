@@ -9,8 +9,8 @@ import org.yaml.model.YMap
 
 class IndexDialectCommandExecutor(val logger: Logger, platform: Platform) extends CommandExecutor[IndexDialectParams] {
   override protected def buildParamFromMap(ast: YMap): Option[IndexDialectParams] = {
-    val content: Option[String] = ast.key("content").map(e => e.value.toString)
-    ast.key("uri").map(_.value.value.toString) match {
+    val content: Option[String] = ast.key("content").map(e => e.value.asScalar.map(_.text).getOrElse(e.value.toString))
+    ast.key("uri").map(e => e.value.asScalar.map(_.text).getOrElse(e.value.toString)) match {
       case Some(uri) => Some(IndexDialectParams(uri, content))
       case _         => None
     }

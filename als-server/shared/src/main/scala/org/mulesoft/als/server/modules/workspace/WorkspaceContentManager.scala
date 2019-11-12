@@ -4,7 +4,7 @@ import java.util.UUID
 
 import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
-import org.mulesoft.als.server.modules.ast.{BaseUnitListener, CHANGE_FILE, NotificationKind}
+import org.mulesoft.als.server.modules.ast.{BaseUnitListener, CHANGE_FILE, FOCUS_FILE, NotificationKind}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.extract.ConfigFileMain
 import org.mulesoft.amfmanager.ParserHelper
@@ -42,33 +42,34 @@ class WorkspaceContentManager(val folder: String,
 
   def process(): Unit = {
     val (actual, environment) = snapshot()
-    val (treeUnis, isolated)  = actual.partition(u => repository.inTree(u._1)) // what if a new file is added between the partition and the override down
-    val changedTreeUnits      = treeUnis.filter(_._2 == CHANGE_FILE)
+
+    val uuid = UUID.randomUUID().toString
+
+    val (treeUnits, isolated) = actual.partition(u => repository.inTree(u._1)) // what if a new file is added between the partition and the override down
+    val changedTreeUnits      = treeUnits.filter(_._2 == CHANGE_FILE)
 
     if (changedTreeUnits.nonEmpty) processMFChanges(configMainFile.get.mainFile, environment, actual)
-    else if (isolated.nonEmpty) processIsolated(isolated.head._1, environment)
+    else if (isolated.nonEmpty) processIsolated(isolated.head._1, environment, uuid)
     else goIdle()
   }
 
-  def getOrBuildUnit(uri: String): Future[CompilableUnit] = repository.getUnit(uri).map(toCompilableUnit)
+  def getOrBuildUnit(uri: String, uuid: String): Future[CompilableUnit] = repository.getUnit(uri).map(toCompilableUnit)
 
   private def goIdle(): Unit = state = Idle
 
-  private def enqueue(files: Set[(String, NotificationKind)]): Unit = {
+  private def enqueue(files: Set[(String, NotificationKind)]): Unit =
     pending = pending ++ files
-  }
 
-  private def dequeue(files: Set[String]): Unit = {
+  private def dequeue(files: Set[String]): Unit =
     pending = pending.filter(p => !files.contains(p._1))
-  }
 
-  private def processIsolated(file: String, environment: Environment) = {
+  private def processIsolated(file: String, environment: Environment, uuid: String) = {
     state = ProssessingFile(file)
     dequeue(Set(file))
     parse(file, environment).map { bu =>
       repository.update(file, bu, inTree = false)
       dependencies.foreach { d =>
-        d.onNewAst(bu, UUID.randomUUID().toString)
+        d.onNewAst(bu, uuid)
       }
       process()
     }

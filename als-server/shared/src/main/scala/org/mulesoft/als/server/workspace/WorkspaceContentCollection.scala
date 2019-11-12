@@ -28,11 +28,10 @@ class WorkspaceContentCollection(environmentProvider: EnvironmentProvider,
 
   private val rootHandler                                     = new WorkspaceRootHandler(environmentProvider.platform)
   private val workspaces: ListBuffer[WorkspaceContentManager] = ListBuffer()
-//  private var documentContainer:TextDocumentContainer = DefaultEnvironmentProvider
+  //  private var documentContainer:TextDocumentContainer = DefaultEnvironmentProvider
 
-  def getWorkspace(uri: String): WorkspaceContentManager = {
+  def getWorkspace(uri: String): WorkspaceContentManager =
     workspaces.find(ws => uri.startsWith(ws.folder)).getOrElse(defaultWorkspace)
-  }
 
   def initializeWS(folder: String): Unit = {
     val mainOption = rootHandler.extractMainFile(folder)
@@ -41,26 +40,20 @@ class WorkspaceContentCollection(environmentProvider: EnvironmentProvider,
     workspace.initialize()
   }
 
-  def getUnit(uri: String): Future[CompilableUnit] = {
-    getWorkspace(uri).getOrBuildUnit(uri)
-  }
+  def getUnit(uri: String, uuid: String): Future[CompilableUnit] =
+    getWorkspace(uri).getOrBuildUnit(uri, uuid)
 
   override def notify(uri: String, kind: NotificationKind): Unit = getWorkspace(uri).changedFile(uri, kind)
 
-//  override def withTextDocumentContainer(textDocumentContainer: TextDocumentContainer): Unit = {
-//    documentContainer = Some(textDocumentContainer)
-//  }
-
-  override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] = {
+  override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] =
     Future {
       commandExecutors.get(params.command) match {
         case Some(exe) => exe.runCommand(params)
         case _ =>
-          logger.error(s"Not any command found to ran ${params.command}", getClass.getCanonicalName, "executeCommand")
+          logger.error(s"Command [${params.command}] not recognized", getClass.getCanonicalName, "executeCommand")
       }
       Unit
     }
-  }
 
   private val commandExecutors: Map[String, CommandExecutor[_]] = Map(
     Commands.DID_FOCUS_CHANGE_COMMAND -> new DidFocusCommandExecutor(logger, this),
@@ -71,6 +64,7 @@ class WorkspaceContentCollection(environmentProvider: EnvironmentProvider,
 
   override def initialize(): Future[Unit] = AmfInitializationHandler.init()
 }
+
 //object DefaultEnvironmentProvider extends EnvironmentProvider with PlatformSecrets {
 //
 //  private val environment                         = Environment()

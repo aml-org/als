@@ -11,7 +11,9 @@ class DidFocusCommandExecutor(val logger: Logger, wsc: WorkspaceContentCollectio
     extends CommandExecutor[DidFocusParams] {
   override protected def buildParamFromMap(m: YMap): Option[DidFocusParams] = {
     val version: Int = m.key("version").flatMap(e => e.value.toOption[Int]).getOrElse(1)
-    m.key("uri").map(_.value.value.toString) match {
+    m.key("uri").map { n =>
+      n.value.asScalar.map(_.text).getOrElse(n.value.toString)
+    } match {
       case Some(uri) => Some(DidFocusParams(uri, version))
       case _         => None
     }
