@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10anotherPro",
-    "filterText": null,
+    "filterText": "\"anotherPro\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 20,
-          "character": 9
+          "character": 8
         },
         "end": {
           "line": 20,
-          "character": 9
+          "character": 11
         }
       },
-      "newText": "anotherPro"
+      "newText": "\"anotherPro\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10name",
-    "filterText": null,
+    "filterText": "\"name\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 20,
-          "character": 9
+          "character": 8
         },
         "end": {
           "line": 20,
-          "character": 9
+          "character": 11
         }
       },
-      "newText": "name"
+      "newText": "\"name\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

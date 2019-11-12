@@ -15,7 +15,7 @@ object ElementNameExtractor {
         .orElse(
           element.fields
             .fields()
-            .find(fe => fe.field.value.iri() == (Namespace.Schema + "name").iri())
+            .find(fe => fe.field.value.iri() == (Namespace.Core + "name").iri())
             .map(_.value.value))
         .collect({ case s: AmfScalar => s.value.toString })
         .orElse(

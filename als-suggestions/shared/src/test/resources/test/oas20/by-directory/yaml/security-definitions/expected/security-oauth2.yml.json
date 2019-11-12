@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10authorizationUrl",
-    "filterText": null,
+    "filterText": "authorizationUrl: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10description",
-    "filterText": null,
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10flow",
-    "filterText": null,
+    "filterText": "flow: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10scopes",
-    "filterText": null,
+    "filterText": "scopes:\n      ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10tokenUrl",
-    "filterText": null,
+    "filterText": "tokenUrl: ",
     "insertText": null,
     "insertTextFormat": [
       1

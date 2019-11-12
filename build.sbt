@@ -49,14 +49,13 @@ val settings = Common.settings ++ Common.publish ++ Seq(
   credentials ++= Common.credentials(),
 
   libraryDependencies ++= Seq(
-    "org.mule.common" %%% "scala-common" % deps("common"),
-    "org.mule.syaml" %%% "syaml" % deps("syaml"),
     "com.chuusai" %% "shapeless" % "2.3.3",
     "org.scala-js" %% "scalajs-stubs" % scalaJSVersion % "provided",
     
     "org.scalatest" %%% "scalatest" % "3.0.5" % Test,
     "org.scalamock" %%% "scalamock" % "4.1.0" % Test,
-    "com.lihaoyi" %%% "upickle" % "0.5.1" % Test
+    "com.lihaoyi" %%% "upickle" % "0.5.1" % Test,
+    "com.github.google.guava" % "guava" % "28.1"
   )
 )
 
@@ -110,10 +109,27 @@ lazy val structure = crossProject(JSPlatform, JVMPlatform).settings(
 lazy val structureJVM = structure.jvm.in(file("./als-structure/jvm"))
 lazy val structureJS = structure.js.in(file("./als-structure/js")).disablePlugins(SonarPlugin)
 
+lazy val actions = crossProject(JSPlatform, JVMPlatform)
+  .settings(name := "als-actions")
+  .settings(libraryDependencies += "org.wvlet.airframe" %% "airframe" % "19.3.7")
+  .dependsOn(common % "compile->compile;test->test" )
+  .in(file("./als-actions"))
+  .settings(settings: _*)
+  .jsSettings(
+    skip in packageJSDependencies := false,
+    scalaJSOutputMode := OutputMode.Defaults,
+    scalaJSModuleKind := ModuleKind.CommonJSModule
+  ).disablePlugins(SonarPlugin)
+
+
+
+lazy val actionsJVM = server.jvm.in(file("./als-actions/jvm"))
+lazy val actionsJS = server.js.in(file("./als-actions/js")).disablePlugins(SonarPlugin)
+
 lazy val server = crossProject(JSPlatform, JVMPlatform)
   .settings(name := "als-server")
   .settings(libraryDependencies += "org.wvlet.airframe" %% "airframe" % "19.3.7")
-  .dependsOn(suggestions, structure % "compile->compile;test->test")
+  .dependsOn(actions, suggestions, structure % "compile->compile;test->test")
   .in(file("./als-server"))
   .settings(settings: _*)
   .disablePlugins(SonarPlugin)
@@ -188,12 +204,12 @@ sonarProperties ++= Map(
 // run only one?
 addCommandAlias(
   "testJVM",
-  "; serverJVM/test; suggestionsJVM/test; structureJVM/test"
+  "; serverJVM/test; suggestionsJVM/test; structureJVM/test; commonJVM/test; actionsJVM/test"
 )
 
 addCommandAlias(
   "testJS",
-  "; serverJS/test; suggestionsJS/test; structureJVM/test"
+  "; serverJS/test; suggestionsJS/test; structureJS/test; commonJS/test; actionsJS/test"
 )
 
 assemblyMergeStrategy in assembly := {

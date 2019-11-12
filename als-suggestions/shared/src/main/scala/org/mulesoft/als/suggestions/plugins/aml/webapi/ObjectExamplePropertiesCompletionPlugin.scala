@@ -9,26 +9,26 @@ import amf.plugins.domain.shapes.resolution.stages.elements.ShapeTransformationP
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.Oas20DialectWrapper
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.LocalIgnoreErrorHandler
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.mulesoft.amfmanager.dialect.webapi.oas.Oas20DialectWrapper
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 case class ObjectExamplePropertiesCompletionPlugin(objectNode: ObjectNode, dialect: Dialect, branch: Seq[AmfObject]) {
 
   private val profile = if (dialect.id == Oas20DialectWrapper.dialect.id) ProfileNames.OAS20 else ProfileNames.RAML
 
-  def suggest(indentation: String): Seq[RawSuggestion] = {
+  def suggest(): Seq[RawSuggestion] = {
     val definitionNode =
       findAndResolveFirst().flatMap(shapeForObj(_, (e: Example) => branch.contains(e)))
-    definitionNode.map(_.properties.map(propToRaw(_, indentation))).getOrElse(Nil)
+    definitionNode.map(_.properties.map(propToRaw)).getOrElse(Nil)
   }
 
-  private def propToRaw(propertyShape: PropertyShape, indentation: String) = {
+  private def propToRaw(propertyShape: PropertyShape) = {
     propertyShape.range match {
       case _: NodeShape | _: ArrayShape =>
-        RawSuggestion(propertyShape.name.value(), indentation, isAKey = true, "example")
+        RawSuggestion(propertyShape.name.value(), isAKey = true, "example")
       case _ =>
         RawSuggestion.forKey(propertyShape.name.value(), "example")
     }
@@ -67,8 +67,7 @@ object ObjectExamplePropertiesCompletionPlugin extends AMLCompletionPlugin {
     Future {
       request.amfObject match {
         case o: ObjectNode if request.branchStack.exists(_.isInstanceOf[Shape]) && request.yPartBranch.isKey =>
-          new ObjectExamplePropertiesCompletionPlugin(o, request.actualDialect, request.branchStack)
-            .suggest(request.indentation)
+          new ObjectExamplePropertiesCompletionPlugin(o, request.actualDialect, request.branchStack).suggest()
         case s: ScalarNode
             if request.yPartBranch.isJson && request.yPartBranch.stringValue == "x" && request.branchStack.headOption
               .exists(_.isInstanceOf[ArrayNode]) =>
@@ -76,8 +75,7 @@ object ObjectExamplePropertiesCompletionPlugin extends AMLCompletionPlugin {
           request.branchStack.headOption.collect({ case a: ArrayNode => a }).foreach { a =>
             a.withMembers(Seq(o))
           }
-          new ObjectExamplePropertiesCompletionPlugin(o, request.actualDialect, request.branchStack)
-            .suggest(request.indentation)
+          new ObjectExamplePropertiesCompletionPlugin(o, request.actualDialect, request.branchStack).suggest()
         case _ => Nil
       }
     }

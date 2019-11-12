@@ -23,7 +23,7 @@ abstract class RamlParamsCompletionPlugin(typeFacetsCompletionPlugin: WebApiType
     if (params.yPartBranch.isKey) {
       params.amfObject match {
         case param: Parameter if isNotName(params) =>
-          computeParam(param, params.branchStack, params.indentation, typeFacetsCompletionPlugin)
+          computeParam(param, params.branchStack, typeFacetsCompletionPlugin)
         case _: Shape if params.branchStack.headOption.exists(_.isInstanceOf[Parameter]) =>
           withOthers
         case _ => Nil
@@ -33,9 +33,8 @@ abstract class RamlParamsCompletionPlugin(typeFacetsCompletionPlugin: WebApiType
 
   def computeParam(param: Parameter,
                    branchStack: Seq[AmfObject],
-                   indentation: String,
                    typeFacetsCompletionPlugin: WebApiTypeFacetsCompletionPlugin): Seq[RawSuggestion] = {
-    typeFacetsCompletionPlugin.resolveShape(param.schema, branchStack, indentation) ++ withOthers
+    typeFacetsCompletionPlugin.resolveShape(param.schema, branchStack) ++ withOthers
   }
 
   private def isNotName(params: AmlCompletionRequest): Boolean = {

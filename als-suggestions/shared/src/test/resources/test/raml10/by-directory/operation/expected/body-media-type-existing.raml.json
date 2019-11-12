@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10application/xml",
-    "filterText": null,
+    "filterText": "application/xml:\n        ",
     "insertText": null,
     "insertTextFormat": [
       1

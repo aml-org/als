@@ -20,12 +20,12 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(params.amfObject match {
       case shape: Shape if isWritingFacet(params.yPartBranch, shape, params.branchStack) =>
-        resolveShape(shape, params.branchStack, params.indentation)
+        resolveShape(shape, params.branchStack)
       case _ => Nil
     })
   }
 
-  def resolveShape(shape: Shape, branchStack: Seq[AmfObject], indentation: String): Seq[RawSuggestion] = {
+  def resolveShape(shape: Shape, branchStack: Seq[AmfObject]): Seq[RawSuggestion] = {
 
     val node = shape match {
       case scalar: ScalarShape =>
@@ -41,16 +41,16 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
     }
 
     val classSuggestions =
-      node.map(n => n.propertiesRaw(indentation)).getOrElse(Nil)
+      node.map(n => n.propertiesRaw()).getOrElse(Nil)
 
     // corner case, property shape should suggest facets of the range PLUS required
     val finalSuggestions: Iterable[RawSuggestion] = (branchStack.headOption match {
       case Some(_: PropertyShape) =>
         (propertyShapeNode
-          .map(_.propertiesRaw(indentation))
+          .map(_.propertiesRaw())
           .getOrElse(Nil) ++ classSuggestions).toSet
       case _ => classSuggestions
-    }) ++ defaults(shape, indentation)
+    }) ++ defaults(shape)
 
     finalSuggestions.toSeq
   }
@@ -64,23 +64,21 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
     }
   }
 
-  private def defaultSuggestions(indentation: String): Seq[RawSuggestion] =
-    Seq(RawSuggestion("properties", indentation, isAKey = true, "schemas"),
-        RawSuggestion("items", indentation, isAKey = true, "schemas"))
+  private def defaultSuggestions: Seq[RawSuggestion] =
+    Seq(RawSuggestion.forObject("properties", "schemas"), RawSuggestion.forObject("items", "schemas"))
 
-  protected def defaults(s: Shape, indentation: String): Seq[RawSuggestion] =
+  protected def defaults(s: Shape): Seq[RawSuggestion] =
     s match {
       case s: ScalarShape =>
         s.fields.getValueAsOption(ScalarShapeModel.DataType) match {
           case Some(Value(_, ann))
               if ann.contains(classOf[Inferred]) && s
                 .isInstanceOf[ScalarShape] =>
-            defaultSuggestions(indentation)
+            defaultSuggestions
           case _ => Nil
         }
-      case a: AnyShape if a.isDefaultEmpty =>
-        defaultSuggestions(indentation)
-      case _ => Nil
+      case a: AnyShape if a.isDefaultEmpty => defaultSuggestions
+      case _                               => Nil
     }
 
   def stringShapeNode: NodeMapping

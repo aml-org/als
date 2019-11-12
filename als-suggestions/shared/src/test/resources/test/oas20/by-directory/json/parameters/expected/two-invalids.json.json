@@ -7,23 +7,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10name",
-    "filterText": null,
+    "filterText": "\"name\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 9,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 9,
-          "character": 14
+          "character": 21
         }
       },
-      "newText": "name"
+      "newText": "\"name\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

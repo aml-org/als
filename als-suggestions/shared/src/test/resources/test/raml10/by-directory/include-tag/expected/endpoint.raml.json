@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10!include",
-    "filterText": null,
+    "filterText": "!include ",
     "insertText": null,
     "insertTextFormat": [
       1

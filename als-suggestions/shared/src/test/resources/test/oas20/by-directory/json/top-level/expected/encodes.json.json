@@ -7,23 +7,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10basePath",
-    "filterText": null,
+    "filterText": "\"basePath\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 2,
-          "character": 3
+          "character": 2
         },
         "end": {
           "line": 2,
-          "character": 3
+          "character": 10
         }
       },
-      "newText": "basePath"
+      "newText": "\"basePath\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,23 +37,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10consumes",
-    "filterText": null,
+    "filterText": "\"consumes\": [\n    \"$1\"\n  ]",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 2,
-          "character": 3
+          "character": 2
         },
         "end": {
           "line": 2,
-          "character": 3
+          "character": 10
         }
       },
-      "newText": "consumes"
+      "newText": "\"consumes\": [\n    \"$1\"\n  ]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,23 +67,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10definitions",
-    "filterText": null,
+    "filterText": "\"definitions\": {\n    \"$1\"\n  }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 2,
-          "character": 3
+          "character": 2
         },
         "end": {
           "line": 2,
-          "character": 3
+          "character": 10
         }
       },
-      "newText": "definitions"
+      "newText": "\"definitions\": {\n    \"$1\"\n  }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,23 +97,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10externalDocs",
-    "filterText": null,
+    "filterText": "\"externalDocs\": {\n    \"$1\"\n  }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 2,
-          "character": 3
+          "character": 2
         },
         "end": {
           "line": 2,
-          "character": 3
+          "character": 10
         }
       },
-      "newText": "externalDocs"
+      "newText": "\"externalDocs\": {\n    \"$1\"\n  }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,23 +127,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10host",
-    "filterText": null,
+    "filterText": "\"host\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 2,
-          "character": 3
+          "character": 2
         },
         "end": {
           "line": 2,
-          "character": 3
+          "character": 10
         }
       },
-      "newText": "host"
+      "newText": "\"host\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,23 +157,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10info",
-    "filterText": null,
+    "filterText": "\"info\": {\n    \"$1\"\n  }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 2,
-          "character": 3
+          "character": 2
         },
         "end": {
           "line": 2,
-          "character": 3
+          "character": 10
         }
       },
-      "newText": "info"
+      "newText": "\"info\": {\n    \"$1\"\n  }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,23 +187,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10parameters",
-    "filterText": null,
+    "filterText": "\"parameters\": {\n    \"$1\"\n  }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 2,
-          "character": 3
+          "character": 2
         },
         "end": {
           "line": 2,
-          "character": 3
+          "character": 10
         }
       },
-      "newText": "parameters"
+      "newText": "\"parameters\": {\n    \"$1\"\n  }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -217,23 +217,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10paths",
-    "filterText": null,
+    "filterText": "\"paths\": {\n    \"$1\"\n  }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 2,
-          "character": 3
+          "character": 2
         },
         "end": {
           "line": 2,
-          "character": 3
+          "character": 10
         }
       },
-      "newText": "paths"
+      "newText": "\"paths\": {\n    \"$1\"\n  }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,23 +247,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10produces",
-    "filterText": null,
+    "filterText": "\"produces\": [\n    \"$1\"\n  ]",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 2,
-          "character": 3
+          "character": 2
         },
         "end": {
           "line": 2,
-          "character": 3
+          "character": 10
         }
       },
-      "newText": "produces"
+      "newText": "\"produces\": [\n    \"$1\"\n  ]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,23 +277,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10responses",
-    "filterText": null,
+    "filterText": "\"responses\": {\n    \"$1\"\n  }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 2,
-          "character": 3
+          "character": 2
         },
         "end": {
           "line": 2,
-          "character": 3
+          "character": 10
         }
       },
-      "newText": "responses"
+      "newText": "\"responses\": {\n    \"$1\"\n  }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,23 +307,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10schemes",
-    "filterText": null,
+    "filterText": "\"schemes\": [\n    \"$1\"\n  ]",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 2,
-          "character": 3
+          "character": 2
         },
         "end": {
           "line": 2,
-          "character": 3
+          "character": 10
         }
       },
-      "newText": "schemes"
+      "newText": "\"schemes\": [\n    \"$1\"\n  ]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,23 +337,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10security",
-    "filterText": null,
+    "filterText": "\"security\": [\n    \"$1\"\n  ]",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 2,
-          "character": 3
+          "character": 2
         },
         "end": {
           "line": 2,
-          "character": 3
+          "character": 10
         }
       },
-      "newText": "security"
+      "newText": "\"security\": [\n    \"$1\"\n  ]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,23 +367,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10securityDefinitions",
-    "filterText": null,
+    "filterText": "\"securityDefinitions\": {\n    \"$1\"\n  }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 2,
-          "character": 3
+          "character": 2
         },
         "end": {
           "line": 2,
-          "character": 3
+          "character": 10
         }
       },
-      "newText": "securityDefinitions"
+      "newText": "\"securityDefinitions\": {\n    \"$1\"\n  }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -397,23 +397,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10tags",
-    "filterText": null,
+    "filterText": "\"tags\": [\n    \"$1\"\n  ]",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 2,
-          "character": 3
+          "character": 2
         },
         "end": {
           "line": 2,
-          "character": 3
+          "character": 10
         }
       },
-      "newText": "tags"
+      "newText": "\"tags\": [\n    \"$1\"\n  ]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

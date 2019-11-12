@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10int32",
-    "filterText": null,
+    "filterText": "\"int32\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 17
+          "character": 16
         },
         "end": {
           "line": 5,
-          "character": 17
+          "character": 18
         }
       },
-      "newText": "int32"
+      "newText": "\"int32\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10int64",
-    "filterText": null,
+    "filterText": "\"int64\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 17
+          "character": 16
         },
         "end": {
           "line": 5,
-          "character": 17
+          "character": 18
         }
       },
-      "newText": "int64"
+      "newText": "\"int64\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

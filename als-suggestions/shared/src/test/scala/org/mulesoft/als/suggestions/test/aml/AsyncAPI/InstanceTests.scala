@@ -25,12 +25,12 @@ class InstanceTests extends AMLSuggestionsTest {
   test("test004") {
     runSuggestionTest(
       "instance/test004.yaml",
-      Set("number", "string", "null", "object", "array", "boolean", "integer")
+      Set("number", "string", "\"null\"", "object", "array", "boolean", "integer")
     )
   }
 
   test("test005") {
-    runSuggestionTest("instance/test005.yaml", Set("boolean", "null", "string", "array", "number", "integer"))
+    runSuggestionTest("instance/test005.yaml", Set("boolean", "\"null\"", "string", "array", "number", "integer"))
   }
 
   test("test006") {
@@ -44,7 +44,7 @@ class InstanceTests extends AMLSuggestionsTest {
   }
 
   test("test008") {
-    runSuggestionTest("instance/test008.yaml", Set("null", "string", "array", "object", "number", "integer"))
+    runSuggestionTest("instance/test008.yaml", Set("\"null\"", "string", "array", "object", "number", "integer"))
   }
 
   test("test root level suggestions") {
@@ -68,7 +68,7 @@ class InstanceTests extends AMLSuggestionsTest {
   }
 
   test("empty file test") {
-    runSuggestionTest("instance/empty.yaml", Set("6"))
+    runSuggestionTest("instance/empty.yaml", Set("#%Library / AsyncAPI 0.6"))
   }
 
   test("test suggestions with component key") {

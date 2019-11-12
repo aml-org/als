@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10accessCode",
-    "filterText": null,
+    "filterText": "\"accessCode\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 5,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "accessCode"
+      "newText": "\"accessCode\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10application",
-    "filterText": null,
+    "filterText": "\"application\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 5,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "application"
+      "newText": "\"application\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10implicit",
-    "filterText": null,
+    "filterText": "\"implicit\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -76,14 +76,14 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 5,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "implicit"
+      "newText": "\"implicit\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10password",
-    "filterText": null,
+    "filterText": "\"password\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -106,14 +106,14 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 5,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "password"
+      "newText": "\"password\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

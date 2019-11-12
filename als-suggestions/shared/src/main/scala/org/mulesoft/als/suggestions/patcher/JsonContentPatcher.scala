@@ -1,49 +1,24 @@
-package org.mulesoft.als.suggestions
+package org.mulesoft.als.suggestions.patcher
 
-import org.mulesoft.als.suggestions.implementation.LocationKindDetectTool
-import org.mulesoft.als.suggestions.interfaces.LocationKind.{
-  ANNOTATION_COMPLETION,
-  KEY_COMPLETION,
-  SEQUENCE_KEY_COPLETION
-}
+import scala.collection.mutable.ListBuffer
 
-object ContentPatcher {
 
-  def prepareYamlContent(text: String, offset: Int): String = {
-    val completionKind =
-      LocationKindDetectTool.determineCompletionKind(text, offset)
-    val result = completionKind match {
-      case KEY_COMPLETION | ANNOTATION_COMPLETION | SEQUENCE_KEY_COPLETION => {
-        val newLineIndex = text.indexOf("\n", offset)
-        val rightPart =
-          if (newLineIndex < 0) text.substring(offset)
-          else text.substring(offset, newLineIndex)
-        val colonIndex = rightPart.indexOf(":")
-        val leftPart   = text.substring(0, offset)
-        val leftOfSentence =
-          leftPart.substring(0 max leftPart.lastIndexOf('\n'), offset)
-        if (colonIndex < 0)
-          text.substring(0, offset) + "k: " + text.substring(offset)
-        else if (colonIndex == 0) {
-          val rightPart = text.substring(offset)
-          val rightOfSentence =
-            rightPart.substring(0, rightPart.length min (0 max rightPart.indexOf('\n')))
+object JsonContentPatcher {
 
-          val openBrackets = { leftOfSentence + rightOfSentence }
-            .count(_ == '[') - {
-            leftOfSentence + rightOfSentence
-          }.count(_ == '[')
-          text + "k" + " ]" * openBrackets + rightPart
-        } else text
-      }
-      case _ =>
-        if (offset == text.length) text + " " + "\n"
-        else text
-    }
-    result
+  def prepareJsonContent(textRaw: String, offsetRaw: Int): PatchedContent = {
+    val patcher = new JsonContentPatcher()
+    val content = patcher.patch(textRaw, offsetRaw)
+    PatchedContent(content,textRaw,patcher.listTokens())
   }
 
-  def prepareJsonContent(textRaw: String, offsetRaw: Int): String = {
+
+}
+class JsonContentPatcher() {
+  private val tokens:ListBuffer[PatchToken] = ListBuffer()
+
+  def listTokens(): List[PatchToken] = tokens.toList
+
+  def patch(textRaw:String, offsetRaw:Int): String = {
     val EOL       = textRaw.find(_ == '\r').map(_ => "\r\n").getOrElse("\n")
     val text      = textRaw.replace(EOL, "\n")
     val offset    = offsetRaw - textRaw.substring(0, offsetRaw).count(_ == '\r')
@@ -77,12 +52,12 @@ object ContentPatcher {
     var newLine    = line
     if (colonIndex < 0) {
       if (lineTrim.startsWith("\"")) {
-        if (lineTrim.endsWith("\"") && lineTrim.length > 2) newLine = line.substring(0, off) + "\" : "
-        else newLine = line.substring(0, off) + "x\" : "
+        if (lineTrim.endsWith("\"") && lineTrim.length > 2) newLine = addColon(line.substring(0, off)+"\"")
+        else newLine = addColon(addQuote(line.substring(0, off) + "x"))
         if (!hasComplexValueStart)
-          newLine += "\"\""
+          newLine = addQuote(addQuote(newLine))
         if (!(hasComplexValueSameLine || hasComplexValueNextLine))
-          newLine += ","
+          newLine = addComma(newLine)
       } else newLine = newLine + "\n"
     } else if (colonIndex <= off) {
       colonIndex = line.lastIndexOf(":", off)
@@ -94,11 +69,11 @@ object ContentPatcher {
         substr = substr.substring(1)
       var hasOpenValueQuote = substr.startsWith("\"")
       if (!hasOpenValueQuote && !(hasOpenCurlyBracket || hasOpenSquareBracket)) {
-        newLine += "\""
+        newLine = addQuote(newLine)
         hasOpenValueQuote = true
       }
       if (hasOpenValueQuote)
-        newLine += "\""
+        newLine = addQuote(newLine)
       if (hasComplexValueSameLine)
         newLine += lineTrim.charAt(lineTrim.length - 1)
       if (lineTrim.endsWith(","))
@@ -108,7 +83,7 @@ object ContentPatcher {
         val openQuoteInd = line.indexOf("\"", colonIndex)
         if (off > openQuoteInd)
           if (!lineTrim.endsWith("\""))
-            newLine += "\""
+            newLine = addQuote(newLine)
       }
       newLine.split(':').toList match {
         case head :: tail if tail.nonEmpty =>
@@ -117,8 +92,8 @@ object ContentPatcher {
             case '-' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' => ""
             case 't' | 'f'                                                       => ""
             case '{' | '[' | '"'                                                 => ""
-            case ","                                                             => "\""
-            case _                                                               => '"'.toString
+            case ","                                                             => addQuote("")
+            case _                                                               => addQuote("")
           }
           val newEntryValue =
             if (entryValue == ",") ""
@@ -126,18 +101,35 @@ object ContentPatcher {
               entryValue.substring(0, entryValue.length - 2)
             else entryValue
           val postFix =
-            if (prefix.nonEmpty && !entryValue.trim.endsWith("\"")) "\","
-            else ","
+            if (prefix.nonEmpty && !entryValue.trim.endsWith("\"")) addQuote("") else ""
+
+          val postFixFinal = if(lineTrim.endsWith(",")) postFix + "," else addComma(postFix)
           needComa = false
-          newLine = head + ":" + prefix + newEntryValue + postFix
+          newLine = head + ":" + prefix + newEntryValue + postFixFinal
         case head :: Nil if needComa =>
-          newLine += "\"\","
+          newLine = addComma(addQuote(addQuote(newLine)))
           needComa = false
       }
       if (needComa)
-        newLine += ","
+        newLine = addComma(newLine)
     }
     val result = text.substring(0, lineStart) + newLine + text.substring(lineEnd)
     result.replace("\n", EOL)
+  }
+
+
+  def addColon(line:String):String = {
+    tokens += ColonToken
+    line + " : "
+  }
+
+  def addQuote(line:String):String= {
+    tokens += QuoteToken
+    line + "\""
+  }
+
+  def addComma(line:String):String = {
+    tokens += CommaToken
+    line + ","
   }
 }

@@ -15,27 +15,10 @@ import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class AMLStructureCompletionsPlugin(propertyMapping: Seq[PropertyMapping], indentation: String) {
+class AMLStructureCompletionsPlugin(propertyMapping: Seq[PropertyMapping]) {
 
-  private def extractText(mapping: PropertyMapping): (String, String) = {
-    val cleanText = mapping.name().value()
-    val whiteSpaces =
-      if (mapping.literalRange().isNullOrEmpty) indentation
-      else ""
-    (cleanText, whiteSpaces)
-  }
-
-  private def startsWithLetter(string: String) = { // TODO: move to single object responsible for presentation
-    val validSet: Set[Char] =
-      (('a' to 'z') ++ ('A' to 'Z') ++ "\"" ++ "\'").toSet
-    if (string.headOption.exists(validSet.contains)) true
-    else false
-  }
-
-  def resolve(classTerm: String): Seq[RawSuggestion] = {
-
-    propertyMapping.map(p => p.toRaw(indentation, CategoryRegistry(classTerm, p.name().value())))
-  }
+  def resolve(classTerm: String): Seq[RawSuggestion] =
+    propertyMapping.map(p => p.toRaw(CategoryRegistry(classTerm, p.name().value())))
 
 }
 
@@ -48,7 +31,7 @@ object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
         if (!isInFieldValue(params)) {
           val isEncoded = isEncodes(params.amfObject, params.actualDialect) && params.fieldEntry.isEmpty
           if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && params.fieldEntry.isEmpty) {
-            new AMLStructureCompletionsPlugin(params.propertyMapping, params.indentation)
+            new AMLStructureCompletionsPlugin(params.propertyMapping)
               .resolve(params.amfObject.meta.`type`.head.iri())
           } else Nil
         } else resolveObjInArray(params)
@@ -78,8 +61,7 @@ object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
           .map(_.propertiesMapping())
           .getOrElse(Nil)
 
-        new AMLStructureCompletionsPlugin(props, params.indentation)
-          .resolve(meta.`type`.head.iri())
+        new AMLStructureCompletionsPlugin(props).resolve(meta.`type`.head.iri())
       case _ => Nil
     }
   }

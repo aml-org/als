@@ -38,7 +38,8 @@ object Raml08CompletionPluginRegistry {
       SecuredByCompletionPlugin :+
       Raml08SecuritySchemeStructureCompletionPlugin :+
       UnitUsesFacet :+
-      DefaultVariablesAbstractDefinition
+      DefaultVariablesAbstractDefinition :+
+      OperationRequest
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, RAML08Dialect().id)

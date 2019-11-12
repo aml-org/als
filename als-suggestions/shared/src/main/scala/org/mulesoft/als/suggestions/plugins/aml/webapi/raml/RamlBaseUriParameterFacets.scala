@@ -23,10 +23,10 @@ abstract class RamlBaseUriParameterFacets(typeFacetsCompletionPlugin: WebApiType
       request.amfObject match {
         case w: WebApi =>
           w.servers
-            .flatMap(_.variables.find(_.position().exists(l => l.contains(request.position))))
+            .flatMap(_.variables.find(_.position().exists(l => l.contains(request.position.toAmfPosition))))
             .headOption match {
             case Some(p) if !isWritingParamName(request.yPartBranch) =>
-              Raml10ParamsCompletionPlugin.computeParam(p, Nil, request.indentation, typeFacetsCompletionPlugin)
+              Raml10ParamsCompletionPlugin.computeParam(p, Nil, typeFacetsCompletionPlugin)
             case _ => Nil
           }
         case _ => Nil

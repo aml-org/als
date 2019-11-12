@@ -1,16 +1,21 @@
 package org.mulesoft.als.suggestions
 
+import amf.core.parser.{Position => AmfPosition}
 import common.diff.FileAssertionTest
+import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.suggestions.interfaces.Syntax
+import org.mulesoft.als.suggestions.patcher.{ColonToken, PatchedContent, QuoteToken}
 import org.mulesoft.als.suggestions.styler.{JsonSuggestionStyler, StylerParams}
 import org.scalatest.AsyncFunSuite
+import org.yaml.model.YNode
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
+
+  val dummyYPart = YPartBranch(YNode.Null, AmfPosition(0, 0), Nil)
 
   test("should not have quotes if key and inside quotes") {
     val content =
@@ -19,12 +24,20 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
         |}
         |""".stripMargin
 
-    val styler = JsonSuggestionStyler(StylerParams("sw", content, Position(1, 5)))
+    val patchedContent =
+      """{
+        |  "sw" : ""
+        |}
+        |""".stripMargin
+    val styler = JsonSuggestionStyler(
+      StylerParams("sw",
+                   PatchedContent(content, patchedContent, List(ColonToken, QuoteToken, QuoteToken)),
+                   Position(1, 5),
+                   dummyYPart))
 
     val styled = styler.style(RawSuggestion("swagger", isAKey = true))
 
-    assert(styled.plain)
-    assert(styled.text == "swagger")
+    assert(styled.text == "\"swagger\": \"$1\"")
   }
 
   test("should have quotes if key and not inside quotes") {
@@ -34,7 +47,17 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
         |}
         |""".stripMargin
 
-    val styler = JsonSuggestionStyler(StylerParams("", content, Position(1, 2)))
+    val patchedContent =
+      """{
+        |  "x" : "" ,
+        |}
+        |""".stripMargin
+    val styler = JsonSuggestionStyler(
+      StylerParams(
+        "",
+        PatchedContent(content, patchedContent, List(QuoteToken, QuoteToken, ColonToken, QuoteToken, QuoteToken)),
+        Position(1, 2),
+        dummyYPart))
 
     val styled = styler.style(RawSuggestion("swagger", isAKey = true))
 
@@ -49,12 +72,21 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
         |}
         |""".stripMargin
 
-    val styler = JsonSuggestionStyler(StylerParams("", content, Position(1, 3)))
+    val patched =
+      """{
+        |  "x" : ""
+        |}
+        |""".stripMargin
+    val styler = JsonSuggestionStyler(
+      StylerParams("",
+                   PatchedContent(content, content, List(QuoteToken, ColonToken, QuoteToken, QuoteToken)),
+                   Position(1, 3),
+                   dummyYPart))
 
     val styled = styler.style(RawSuggestion("swagger", isAKey = true))
 
     assert(!styled.plain)
-    assert(styled.text == "swagger\": \"$1\"")
+    assert(styled.text == "\"swagger\": \"$1\"")
   }
 
 }

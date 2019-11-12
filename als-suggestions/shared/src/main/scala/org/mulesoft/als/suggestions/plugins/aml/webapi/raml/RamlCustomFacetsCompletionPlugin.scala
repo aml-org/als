@@ -14,30 +14,27 @@ object RamlCustomFacetsCompletionPlugin extends AMLCompletionPlugin {
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(params.amfObject match {
       case s: Shape if params.yPartBranch.isKey && params.fieldEntry.isEmpty =>
-        CustomFacetFinder(params.indentation)
-          .getCustomFacets(s, Nil)
+        customFacets(s, Nil)
       case _ => Nil
     })
   }
 
-  private case class CustomFacetFinder(identation: String) {
-    def getCustomFacets(s: Shape, traversed: Seq[String]): Seq[RawSuggestion] = {
-      if (traversed.contains(s.id)) Nil
-      else {
-        val local = s.customShapePropertyDefinitions.flatMap(c => {
-          if (c.range.isInstanceOf[NodeShape])
-            c.name
-              .option()
-              .map(RawSuggestion.apply(_, identation, isAKey = true, "unknown"))
-          else c.name.option().map(RawSuggestion.forKey)
-        })
+  private def customFacets(s: Shape, traversed: Seq[String]): Seq[RawSuggestion] = {
+    if (traversed.contains(s.id)) Nil
+    else {
+      val local = s.customShapePropertyDefinitions.flatMap(c => {
+        if (c.range.isInstanceOf[NodeShape])
+          c.name
+            .option()
+            .map(RawSuggestion.apply(_, isAKey = true, "unknown"))
+        else c.name.option().map(RawSuggestion.forKey)
+      })
 
-        val inherited = s.linkTarget match {
-          case Some(target: Shape) => getCustomFacets(target, s.id +: traversed)
-          case _                   => s.inherits.flatMap(getCustomFacets(_, s.id +: traversed))
-        }
-        local ++ inherited
+      val inherited = s.linkTarget match {
+        case Some(target: Shape) => customFacets(target, s.id +: traversed)
+        case _                   => s.inherits.flatMap(customFacets(_, s.id +: traversed))
       }
+      local ++ inherited
     }
   }
 }

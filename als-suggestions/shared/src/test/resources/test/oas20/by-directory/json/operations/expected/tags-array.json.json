@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10myTag",
-    "filterText": null,
+    "filterText": "\"myTag\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 12,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 12,
-          "character": 11
+          "character": 13
         }
       },
-      "newText": "myTag"
+      "newText": "\"myTag\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

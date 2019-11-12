@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10array",
-    "filterText": null,
+    "filterText": "\"array\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 4,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "array"
+      "newText": "\"array\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10boolean",
-    "filterText": null,
+    "filterText": "\"boolean\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 4,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "boolean"
+      "newText": "\"boolean\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10file",
-    "filterText": null,
+    "filterText": "\"file\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -76,14 +76,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 4,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "file"
+      "newText": "\"file\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10integer",
-    "filterText": null,
+    "filterText": "\"integer\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -106,14 +106,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 4,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "integer"
+      "newText": "\"integer\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10number",
-    "filterText": null,
+    "filterText": "\"number\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -136,14 +136,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 4,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "number"
+      "newText": "\"number\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10object",
-    "filterText": null,
+    "filterText": "\"object\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -166,14 +166,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 4,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "object"
+      "newText": "\"object\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10string",
-    "filterText": null,
+    "filterText": "\"string\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -196,14 +196,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 15
+          "character": 14
         },
         "end": {
           "line": 4,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "string"
+      "newText": "\"string\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

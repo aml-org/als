@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10description",
-    "filterText": null,
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10displayName",
-    "filterText": null,
+    "filterText": "displayName: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10strict",
-    "filterText": null,
+    "filterText": "strict: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10value",
-    "filterText": null,
+    "filterText": "value: ",
     "insertText": null,
     "insertTextFormat": [
       1
