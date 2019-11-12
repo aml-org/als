@@ -79,7 +79,8 @@ class WorkspaceContentManager(val folder: String,
                                environment: Environment,
                                previouslyPending: Set[(String, NotificationKind)]): Future[Unit] = {
     state = ProssessinProject
-    parse(mainFile, environment).map { u =>
+    //TODO: Check files with encoding (AMF expects decoded uri)
+    parse(s"$folder/$mainFile", environment).map { u =>
       val newTree = plainRef(u).map(u => {
         repository.update(u.id, u, inTree = true)
         u.id
