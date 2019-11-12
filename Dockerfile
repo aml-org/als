@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM artifacts.msap.io/mulesoft/core-paas-base-image-ubuntu:v3.0.200 as base
 
 ARG USER_HOME_DIR="/root"
 
