@@ -2,24 +2,23 @@ package org.mulesoft.als.server.modules.reference
 
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.reference.{ReferenceContext, ReferenceParams, ReferenceRequestType}
 import org.mulesoft.lsp.server.LanguageServer
 
-abstract class ServerReferenceTest extends LanguageServerBaseTest {
+class ServerReferenceTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = false)
 
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
       .build()
   }
 
-  test("Find references test 001") {
+  ignore("Find references test 001") {
     withServer { server =>
       val content1 =
         """#%RAML 1.0
@@ -50,4 +49,6 @@ abstract class ServerReferenceTest extends LanguageServerBaseTest {
         })
     }
   }
+
+  override def rootPath: String = "actions/references"
 }

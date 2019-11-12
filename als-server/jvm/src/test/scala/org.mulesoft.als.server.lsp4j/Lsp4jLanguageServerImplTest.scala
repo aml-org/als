@@ -5,6 +5,7 @@ import java.util
 
 import amf.core.unsafe.PlatformSecrets
 import amf.plugins.document.vocabularies.AMLPlugin
+import com.google.gson.{Gson, GsonBuilder}
 import org.eclipse.lsp4j.{ExecuteCommandParams, InitializeParams}
 import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
@@ -30,7 +31,8 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     val logger: Logger   = EmptyLogger
     val clientConnection = ClientConnection(logger)
 
-    val server = new LanguageServerImpl(LanguageServerFactory.alsLanguageServer(clientConnection, logger))
+    val server = new LanguageServerImpl(
+      LanguageServerFactory.alsLanguageServer(clientConnection, logger, withDiagnostics = false))
 
     server.initialize(new InitializeParams()).toScala.map(_ => succeed)
   }
@@ -44,81 +46,24 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     val logger: Logger   = EmptyLogger
     val clientConnection = ClientConnection(logger)
 
-    val server = new LanguageServerImpl(LanguageServerFactory.alsLanguageServer(clientConnection, logger))
+    val server = new LanguageServerImpl(
+      LanguageServerFactory.alsLanguageServer(clientConnection, logger, withDiagnostics = false))
 
     server.initialize(null).toScala.map(_ => succeed)
   }
 
-  test("Lsp4j LanguageServerImpl Command - Did Focus: Command should notify DidFocus") {
-    def executeCommandFocus(server: LanguageServerImpl)(file: String, version: Int): Future[PublishDiagnosticsParams] = {
-      val args: java.util.List[AnyRef] = new util.ArrayList[AnyRef]()
-      args.add(DidFocusParams(file, version))
-      server.getWorkspaceService.executeCommand(new ExecuteCommandParams("didFocusChange", args))
-      MockDiagnosticClientNotifier.nextCall
-    }
-
-    withServer { s =>
-      val server       = new LanguageServerImpl(s)
-      val mainFilePath = s"file://api.raml"
-      val libFilePath  = s"file://lib1.raml"
-
-      val mainContent =
-        """#%RAML 1.0
-          |
-          |title: test API
-          |uses:
-          |  lib1: lib1.raml
-          |
-          |/resource:
-          |  post:
-          |    responses:
-          |      200:
-          |        body:
-          |          application/json:
-          |            type: lib1.TestType
-          |            example:
-          |              {"a":"1"}
-        """.stripMargin
-
-      val libFileContent =
-        """#%RAML 1.0 Library
-          |
-          |types:
-          |  TestType:
-          |    properties:
-          |      b: string
-        """.stripMargin
-
-      /*
-        open lib -> open main -> focus lib -> fix lib -> focus main
-       */
-      for {
-        a <- openFileNotification(s)(libFilePath, libFileContent)
-        b <- openFileNotification(s)(mainFilePath, mainContent)
-        c <- executeCommandFocus(server)(libFilePath, 0)
-        d <- changeNotification(s)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
-        e <- executeCommandFocus(server)(mainFilePath, 0)
-      } yield {
-        server.shutdown()
-        assert(
-          a.diagnostics.isEmpty && a.uri == libFilePath &&
-            b.diagnostics.length == 1 && b.uri == mainFilePath && // todo: search coinciding message between JS and JVM
-            c.diagnostics.isEmpty && c.uri == libFilePath &&
-            d.diagnostics.isEmpty && d.uri == libFilePath &&
-            e.diagnostics.isEmpty && e.uri == mainFilePath)
-      }
-    }
-  }
-
   test("Lsp4j LanguageServerImpl Command - Index Dialect") {
+    def wrapJson(file: String, content: String, gson: Gson): String =
+      s"""{"uri": "${file}", "content": ${gson.toJson(content)}}"""
+
     def executeCommandIndexDialect(server: LanguageServerImpl)(file: String, content: String): Future[Unit] = {
       val args: java.util.List[AnyRef] = new util.ArrayList[AnyRef]()
-      args.add(IndexDialectParams(file, Some(content)))
+      args.add(wrapJson(file, content, new GsonBuilder().create()))
       server.getWorkspaceService
         .executeCommand(new ExecuteCommandParams(Commands.INDEX_DIALECT, args))
         .toScala
         .map(_ => {
-          Thread.sleep(100)
+          Thread.sleep(1000)
           Unit
         })
 
@@ -170,7 +115,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
   override def buildServer(): LanguageServer = {
 
-    val managers = ManagersFactory(MockDiagnosticClientNotifier, platform, logger)
+    val managers = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = false)
 
     new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, platform)
       .addInitializableModule(managers.diagnosticManager)

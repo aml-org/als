@@ -19,7 +19,8 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
   val logger: Logger = EmptyLogger
 
   protected val initializeParams: InitializeParams = InitializeParams.default
-  private def sync(fn: () => Any): Any             = synchronized(fn())
+
+  private def sync(fn: () => Any): Any = synchronized(fn())
 
   object MockDiagnosticClientNotifier extends ClientNotifier {
     val promises: mutable.Queue[Promise[PublishDiagnosticsParams]] = mutable.Queue.empty
@@ -85,21 +86,18 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
     telemetryNotifications(mockTelemetryClientNotifier)(qty - 1, Nil)
   }
 
-  def openFileNotification(server: LanguageServer)(file: String, content: String): Future[PublishDiagnosticsParams] = {
+  def openFileNotification(server: LanguageServer)(file: String, content: String): Future[Unit] = Future.successful {
     openFile(server)(file, content)
-    MockDiagnosticClientNotifier.nextCall
   }
 
-  def focusNotification(server: LanguageServer)(file: String, version: Int): Future[PublishDiagnosticsParams] = {
+  def focusNotification(server: LanguageServer)(file: String, version: Int): Future[Unit] = Future.successful {
     onFocus(server)(file, version)
-    MockDiagnosticClientNotifier.nextCall
   }
 
-  def changeNotification(
-      server: LanguageServer)(file: String, content: String, version: Int): Future[PublishDiagnosticsParams] = {
-    changeFile(server)(file, content, version)
-    MockDiagnosticClientNotifier.nextCall
-  }
+  def changeNotification(server: LanguageServer)(file: String, content: String, version: Int): Future[Unit] =
+    Future.successful {
+      changeFile(server)(file, content, version)
+    }
 
   def buildServer(): LanguageServer
 

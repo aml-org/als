@@ -1,5 +1,7 @@
 package org.mulesoft.als.server.modules.actions
 
+import java.util.UUID
+
 import amf.core.remote.Platform
 import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.common.dtoTypes.Position
@@ -43,7 +45,7 @@ class GoToDefinitionManager(val unitsRepository: WorkspaceContentCollection,
 
   def goToDefinition(str: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] = {
     unitsRepository
-      .getUnit(str)
+      .getUnit(str, UUID.randomUUID().toString)
       .map(cu => {
         FindDefinition.getDefinition(cu.unit, position, platform)
       })

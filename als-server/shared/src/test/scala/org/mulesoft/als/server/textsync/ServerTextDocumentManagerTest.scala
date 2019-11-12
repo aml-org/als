@@ -23,7 +23,7 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
       .build()
   }
 
-  test("change document test 001") {
+  ignore("change document test 001") {
     withServer { server =>
       val content1 = "#%RAML 1.0\ntitle: test\n"
       val content2 = "#%RAML 1.0\ntitle: test\ntypes:\n  MyType: number\n"
@@ -44,7 +44,7 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
     }
   }
 
-  test("change document test 002") {
+  ignore("change document test 002") {
     withServer { server =>
       val content1 = "#%RAML 1.0\ntitle: test\n"
       val content2 = "#%RAML 1.0\ntitle: test\n"
@@ -67,7 +67,7 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
     }
   }
 
-  test("change document with uri spaces test 003") {
+  ignore("change document with uri spaces test 003") {
     withServer { server =>
       val content1 = "#%RAML 1.0\ntitle: test\n"
       val content2 = "#%RAML 1.0\ntitle: test\nsome invalid string\ntypes:\n  MyType: number\n"

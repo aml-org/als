@@ -18,7 +18,7 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(mockTelemetryClientNotifier, platform, logger)
+    val factory = ManagersFactory(mockTelemetryClientNotifier, platform, logger, withDiagnostics = true)
 
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager,platform)
       .addInitializableModule(factory.diagnosticManager)
