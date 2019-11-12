@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Update the repository sources list and install dependencies
 RUN apt-get update
 
-RUN apt-get install -y software-properties-common unzip htop rsync openssh-client jq
+RUN apt-get install -y software-properties-common unzip htop rsync openssh-client jq git
 
 # install Java
 USER root
