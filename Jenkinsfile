@@ -14,6 +14,9 @@ pipeline {
         ALSP_TOKEN = credentials('NewALSPToken')
     }
     stages {
+        stage('Clean') {
+            sh "git clean -fdx"
+        }
         stage('Test') {
             steps {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
