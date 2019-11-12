@@ -1,4 +1,4 @@
-FROM artifacts.msap.io/mulesoft/core-paas-base-image-ubuntu:v3.0.200 as base
+FROM ubuntu:18.04
 
 # hadolint ignore=DL3002
 USER root
