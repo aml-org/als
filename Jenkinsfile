@@ -15,7 +15,9 @@ pipeline {
     }
     stages {
         stage('Clean') {
-            sh "git clean -fdx"
+            steps {
+                sh "git clean -fdx"
+            }
         }
         stage('Test') {
             steps {
