@@ -7,7 +7,7 @@ import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.workspace.WorkspaceContentCollection
+import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.common.{Location, LocationLink, TextDocumentPositionParams}
 import org.mulesoft.lsp.convert.LspRangeConverter
@@ -18,7 +18,7 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class GoToDefinitionManager(val unitsRepository: WorkspaceContentCollection,
+class GoToDefinitionManager(val unitsRepository: WorkspaceManager,
                             private val telemetryProvider: TelemetryProvider,
                             private val logger: Logger,
                             private val platform: Platform)
