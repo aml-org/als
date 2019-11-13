@@ -19,14 +19,14 @@ import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class WorkspaceContentCollection(environmentProvider: EnvironmentProvider,
-                                 dependencies: List[BaseUnitListener],
-                                 logger: Logger)
-    extends TextListener
+class WorkspaceManager(environmentProvider: EnvironmentProvider,
+                       dependencies: List[BaseUnitListener],
+                       logger: Logger)
+  extends TextListener
     with WorkspaceService
     with Initializable {
 
-  private val rootHandler                                     = new WorkspaceRootHandler(environmentProvider.platform)
+  private val rootHandler = new WorkspaceRootHandler(environmentProvider.platform)
   private val workspaces: ListBuffer[WorkspaceContentManager] = ListBuffer()
   //  private var documentContainer:TextDocumentContainer = DefaultEnvironmentProvider
 
@@ -35,7 +35,7 @@ class WorkspaceContentCollection(environmentProvider: EnvironmentProvider,
 
   def initializeWS(folder: String): Unit = {
     val mainOption = rootHandler.extractMainFile(folder)
-    val workspace  = new WorkspaceContentManager(folder, mainOption, environmentProvider, dependencies)
+    val workspace = new WorkspaceContentManager(folder, mainOption, environmentProvider, dependencies)
     workspaces += workspace
     workspace.initialize()
   }
@@ -57,7 +57,7 @@ class WorkspaceContentCollection(environmentProvider: EnvironmentProvider,
 
   private val commandExecutors: Map[String, CommandExecutor[_]] = Map(
     Commands.DID_FOCUS_CHANGE_COMMAND -> new DidFocusCommandExecutor(logger, this),
-    Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, environmentProvider.platform)
+    Commands.INDEX_DIALECT -> new IndexDialectCommandExecutor(logger, environmentProvider.platform)
   )
 
   val defaultWorkspace = new WorkspaceContentManager("", None, environmentProvider, dependencies)
