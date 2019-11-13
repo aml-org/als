@@ -92,7 +92,7 @@
   {
     "label": "scopes",
     "kind": [],
-    "detail": "unknown",
+    "detail": "security",
     "documentation": "scopes",
     "deprecated": [],
     "preselect": [],
