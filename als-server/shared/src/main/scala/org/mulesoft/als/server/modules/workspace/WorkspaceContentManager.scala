@@ -86,17 +86,23 @@ class WorkspaceContentManager(val folder: String,
                                previouslyPending: Set[(String, NotificationKind)]): Future[Unit] = {
     state = ProssessinProject
     //TODO: Check files with encoding (AMF expects decoded uri)
-    parse(s"$folder/$mainFile", environment).map { u =>
-      val newTree = plainRef(u).map(u => {
-        repository.update(u.id, u, inTree = true)
-        u.id
-      })
-      dependencies.foreach { d =>
-        d.onNewAst(u, UUID.randomUUID().toString)
+    parse(s"$folder/$mainFile", environment)
+      .map { u =>
+        val newTree = plainRef(u).map(u => {
+          repository.update(u.id, u, inTree = true)
+          u.id
+        })
+        dependencies.foreach { d =>
+          d.onNewAst(u, UUID.randomUUID().toString)
+        }
+        enqueue(previouslyPending.filter(t => !newTree.contains(t._1)))
+        process()
       }
-      enqueue(previouslyPending.filter(t => !newTree.contains(t._1)))
-      process()
-    }
+      .recover {
+        case e: Throwable =>
+          repository.treeUnits().foreach(tu => repository.fail(tu.bu.id, e))
+          process()
+      }
   }
 
   private def parse(uri: String, environment: Environment): Future[BaseUnit] =
