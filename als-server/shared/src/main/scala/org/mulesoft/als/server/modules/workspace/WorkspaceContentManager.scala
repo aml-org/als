@@ -66,13 +66,19 @@ class WorkspaceContentManager(val folder: String,
   private def processIsolated(file: String, environment: Environment, uuid: String) = {
     state = ProssessingFile(file)
     dequeue(Set(file))
-    parse(file, environment).map { bu =>
-      repository.update(file, bu, inTree = false)
-      dependencies.foreach { d =>
-        d.onNewAst(bu, uuid)
+    parse(file, environment)
+      .map { bu =>
+        repository.update(file, bu, inTree = false)
+        dependencies.foreach { d =>
+          d.onNewAst(bu, uuid)
+        }
+        process()
       }
-      process()
-    }
+      .recover {
+        case e: Throwable =>
+          repository.fail(file, e)
+          process()
+      }
   }
 
   private def processMFChanges(mainFile: String,

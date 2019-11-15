@@ -35,6 +35,13 @@ class Repository() {
     updateProssessing(unit)
   }
 
+  def fail(uri: String, e: Throwable): Unit = {
+    processing.get(uri).foreach { p =>
+      p.failure(e)
+    }
+    processing.remove(uri)
+  }
+
   private def updateProssessing(u: ParsedUnit): Unit = {
     processing.get(u.bu.id).foreach { p =>
       p.success(u)
