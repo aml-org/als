@@ -29,6 +29,8 @@ class Repository() {
 
   def inTree(uri: String): Boolean = units.get(uri).exists(_.inTree)
 
+  def treeUnits(): Iterable[ParsedUnit] = units.values.filter(_.inTree)
+
   def update(uri: String, u: BaseUnit, inTree: Boolean): Unit = {
     val unit = ParsedUnit(u, inTree)
     units.update(uri, unit)
