@@ -153,7 +153,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                      baseUnit: BaseUnit,
                      uuid: String): Future[AMFValidationReport] = {
     telemetryProvider.addTimedMessage("Start AMF report", MessageTypes.BEGIN_REPORT, uri, uuid)
-    val eventualReport = RuntimeValidator(baseUnit, ProfileName(checkProfileName(baseUnit)))
+    val eventualReport = RuntimeValidator(baseUnit.cloneUnit(), ProfileName(checkProfileName(baseUnit)))
     eventualReport.foreach(r =>
       telemetryProvider.addTimedMessage("End AMF report", MessageTypes.END_REPORT, uri, uuid))
     eventualReport
