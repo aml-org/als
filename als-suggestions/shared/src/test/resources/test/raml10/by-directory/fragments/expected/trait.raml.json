@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10protocols",
-    "filterText": "protocols:\n      - ",
+    "filterText": "protocols:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -203,7 +203,7 @@
           "character": 0
         }
       },
-      "newText": "protocols:\n      - "
+      "newText": "protocols:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
