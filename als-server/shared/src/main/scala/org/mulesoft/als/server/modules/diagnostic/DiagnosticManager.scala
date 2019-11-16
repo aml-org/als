@@ -158,4 +158,10 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
       telemetryProvider.addTimedMessage("End AMF report", MessageTypes.END_REPORT, uri, uuid))
     eventualReport
   }
+
+  override def onRemoveFile(uri: String): Unit = {
+    clientNotifier.notifyDiagnostic(AlsPublishDiagnosticsParams(uri, Nil))
+
+  }
+
 }

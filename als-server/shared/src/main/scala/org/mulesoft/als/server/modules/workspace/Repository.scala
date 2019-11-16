@@ -18,14 +18,18 @@ class Repository() {
       .get(uri)
       .map(Future.successful)
       .getOrElse({
-        processing
-          .getOrElse(uri, {
-            val promisedUnit = Promise[ParsedUnit]()
-            processing.put(uri, promisedUnit)
-            promisedUnit
-          })
-          .future
+        getNext(uri)
       })
+
+  def getNext(uri: String): Future[ParsedUnit] = {
+    processing
+      .getOrElse(uri, {
+        val promisedUnit = Promise[ParsedUnit]()
+        processing.put(uri, promisedUnit)
+        promisedUnit
+      })
+      .future
+  }
 
   def inTree(uri: String): Boolean = units.get(uri).exists(_.inTree)
 

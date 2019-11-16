@@ -1,9 +1,7 @@
 package org.mulesoft.als.server.textsync
 
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.ast.TextListener
-import org.mulesoft.als.server.modules.ast.{CHANGE_FILE, FOCUS_FILE, OPEN_FILE, TextListener}
-import org.mulesoft.amfmanager.ParserHelper
+import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
 
@@ -82,7 +80,10 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
     dependencies.foreach(_.notify(document.uri, CHANGE_FILE))
   }
 
-  def onCloseDocument(uri: String): Unit = uriToEditor.remove(uri)
+  def onCloseDocument(uri: String): Unit = {
+    uriToEditor.remove(uri)
+    dependencies.foreach(_.notify(uri, CLOSE_FILE))
+  }
 
   def onChangePosition(uri: String, position: Int): Unit = uriToEditor.get(uri).foreach(_.setCursorPosition(position))
 

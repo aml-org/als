@@ -62,7 +62,9 @@ case class TextDocumentContainer(platform: Platform,
 
         /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
         override def fetch(resource: String): Future[Content] =
-          Future { new Content(current(resource), resource) }
+          Future {
+            new Content(current(resource), resource)
+          }
 
         /** Accepts specified resource. */
         override def accepts(resource: String): Boolean = current.contains(resource)
