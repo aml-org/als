@@ -58,7 +58,7 @@ class StructureManager(val workspaceManager: WorkspaceManager,
     logger.debug("Asked for structure:\n" + uri, "StructureManager", "onDocumentStructure")
     telemetryProvider.addTimedMessage("Begin Structure", MessageTypes.BEGIN_STRUCTURE, uri, telemetryUUID)
     val results = workspaceManager
-      .getUnit(uri, telemetryUUID)
+      .getLast(uri, telemetryUUID)
       .map(cu => {
         val r = getStructureFromAST(cu.unit, telemetryUUID) // todo: if isn't resolved yet map future
         logger

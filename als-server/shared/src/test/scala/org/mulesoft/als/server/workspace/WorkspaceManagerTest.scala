@@ -29,7 +29,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   override def buildServer(): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform).build()
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
+      .addRequestModule(factory.structureManager)
+      .build()
 
   override def rootPath: String = "workspace"
 

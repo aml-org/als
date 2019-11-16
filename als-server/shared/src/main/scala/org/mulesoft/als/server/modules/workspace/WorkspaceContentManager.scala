@@ -4,7 +4,8 @@ import java.util.UUID
 
 import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
-import org.mulesoft.als.server.modules.ast.{BaseUnitListener, CHANGE_FILE, FOCUS_FILE, NotificationKind}
+import org.mulesoft.als.common.FileUtils
+import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.extract.ConfigFileMain
 import org.mulesoft.amfmanager.ParserHelper
@@ -46,14 +47,16 @@ class WorkspaceContentManager(val folder: String,
     val uuid = UUID.randomUUID().toString
 
     val (treeUnits, isolated) = actual.partition(u => repository.inTree(u._1)) // what if a new file is added between the partition and the override down
-    val changedTreeUnits      = treeUnits.filter(_._2 == CHANGE_FILE)
+    val changedTreeUnits      = treeUnits.filter(tu => tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE)
 
     if (changedTreeUnits.nonEmpty) processMFChanges(configMainFile.get.mainFile, environment, actual)
-    else if (isolated.nonEmpty) processIsolated(isolated.head._1, environment, uuid)
+    else if (isolated.nonEmpty) processIsolatedChanges(isolated, environment, uuid)
     else goIdle()
   }
 
   def getOrBuildUnit(uri: String, uuid: String): Future[CompilableUnit] = repository.getUnit(uri).map(toCompilableUnit)
+
+  def getNext(uri: String, uuid: String): Future[CompilableUnit] = repository.getNext(uri).map(toCompilableUnit)
 
   private def goIdle(): Unit = state = Idle
 
@@ -62,6 +65,14 @@ class WorkspaceContentManager(val folder: String,
 
   private def dequeue(files: Set[String]): Unit =
     pending = pending.filter(p => !files.contains(p._1))
+
+  private def processIsolatedChanges(files: Set[(String, NotificationKind)], environment: Environment, uuid: String) = {
+    val (closedFiles, changedFiles) = files.partition(_._2 == CLOSE_FILE)
+    cleanFiles(closedFiles)
+
+    if (changedFiles.nonEmpty) processIsolated(files.head._1, environment, uuid)
+    else process()
+  }
 
   private def processIsolated(file: String, environment: Environment, uuid: String) = {
     state = ProssessingFile(file)
@@ -80,6 +91,9 @@ class WorkspaceContentManager(val folder: String,
           process()
       }
   }
+
+  private def cleanFiles(closedFiles: Set[(String, NotificationKind)]): Unit =
+    closedFiles.foreach(cf => dependencies.foreach(_.onRemoveFile(cf._1)))
 
   private def processMFChanges(mainFile: String,
                                environment: Environment,
@@ -106,7 +120,8 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def parse(uri: String, environment: Environment): Future[BaseUnit] =
-    new ParserHelper(environmentProvider.platform).parse(uri, environment)
+    new ParserHelper(environmentProvider.platform)
+      .parse(FileUtils.getDecodedUri(uri, environmentProvider.platform), environment)
 
   private def plainRef(bu: BaseUnit): Set[BaseUnit] = (bu +: bu.references.flatMap(plainRef)).toSet
 

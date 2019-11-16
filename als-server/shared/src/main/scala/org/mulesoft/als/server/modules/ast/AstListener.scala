@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.ast
 
 import amf.core.model.document.BaseUnit
-import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer}
 
 /**
   * AST listener
@@ -15,6 +14,8 @@ trait AstListener[T] {
     * @param uuid    - telemetry UUID
     */
   def onNewAst(ast: T, uuid: String): Unit
+
+  def onRemoveFile(uri: String): Unit
 }
 
 trait BaseUnitListener extends AstListener[BaseUnit]
@@ -34,3 +35,4 @@ sealed case class NotificationKind(kind: String)
 object OPEN_FILE   extends NotificationKind("OPEN_FILE")
 object FOCUS_FILE  extends NotificationKind("FOCUS_FILE")
 object CHANGE_FILE extends NotificationKind("CHANGE_FILE")
+object CLOSE_FILE  extends NotificationKind("CLOSE_FILE")
