@@ -2,15 +2,14 @@ package org.mulesoft.als.suggestions.patcher
 
 import scala.collection.mutable.ListBuffer
 
-
-class JsonContentPatcher(override val textRaw:String, override val offsetRaw:Int) extends ContentPatcher {
-  private val tokens:ListBuffer[PatchToken] = ListBuffer()
+class JsonContentPatcher(override val textRaw: String, override val offsetRaw: Int) extends ContentPatcher {
+  private val tokens: ListBuffer[PatchToken] = ListBuffer()
 
   def listTokens(): List[PatchToken] = tokens.toList
 
   override def prepareContent(): PatchedContent = {
     val content = patch()
-    PatchedContent(content,textRaw,listTokens())
+    PatchedContent(content, textRaw, listTokens())
   }
 
   def patch(): String = {
@@ -47,7 +46,7 @@ class JsonContentPatcher(override val textRaw:String, override val offsetRaw:Int
     var newLine    = line
     if (colonIndex < 0) {
       if (lineTrim.startsWith("\"")) {
-        if (lineTrim.endsWith("\"") && lineTrim.length > 2) newLine = addColon(line.substring(0, off)+"\"")
+        if (lineTrim.endsWith("\"") && lineTrim.length > 2) newLine = addColon(line.substring(0, off) + "\"")
         else newLine = addColon(addQuote(line.substring(0, off) + "x"))
         if (!hasComplexValueStart)
           newLine = addQuote(addQuote(newLine))
@@ -98,7 +97,7 @@ class JsonContentPatcher(override val textRaw:String, override val offsetRaw:Int
           val postFix =
             if (prefix.nonEmpty && !entryValue.trim.endsWith("\"")) addQuote("") else ""
 
-          val postFixFinal = if(lineTrim.endsWith(",")) postFix + "," else addComma(postFix)
+          val postFixFinal = if (lineTrim.endsWith(",")) postFix + "," else addComma(postFix)
           needComa = false
           newLine = head + ":" + prefix + newEntryValue + postFixFinal
         case head :: Nil if needComa =>
@@ -112,18 +111,17 @@ class JsonContentPatcher(override val textRaw:String, override val offsetRaw:Int
     result.replace("\n", EOL)
   }
 
-
-  def addColon(line:String):String = {
+  def addColon(line: String): String = {
     tokens += ColonToken
-    line + " : "
+    line + ": "
   }
 
-  def addQuote(line:String):String= {
+  def addQuote(line: String): String = {
     tokens += QuoteToken
     line + "\""
   }
 
-  def addComma(line:String):String = {
+  def addComma(line: String): String = {
     tokens += CommaToken
     line + ","
   }

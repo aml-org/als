@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 4,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"$ref\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 4,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"description\": \"$1\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 4,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"examples\": {\n        \"$1\"\n      }"
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 4,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"headers\": {\n        \"$1\"\n      }"
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 4,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"schema\": {\n        \"$1\"\n      }"
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 4,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"statusCode\": \"$1\""
