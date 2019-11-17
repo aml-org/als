@@ -38,7 +38,7 @@ class Repository() {
   def update(uri: String, u: BaseUnit, inTree: Boolean): Unit = {
     val unit = ParsedUnit(u, inTree)
     units.update(uri, unit)
-    updateProssessing(unit)
+    updateProcessing(unit)
   }
 
   def fail(uri: String, e: Throwable): Unit = {
@@ -48,11 +48,18 @@ class Repository() {
     processing.remove(uri)
   }
 
-  private def updateProssessing(u: ParsedUnit): Unit = {
+  private def updateProcessing(u: ParsedUnit): Unit = {
     processing.get(u.bu.id).foreach { p =>
       p.success(u)
     }
     processing.remove(u.bu.id)
   }
 
+  def finishedProcessing(): Unit =
+    processing.keySet.foreach { k =>
+      units.get(k) match {
+        case Some(p) => updateProcessing(p)
+        case _       => fail(k, new Exception(s"No compilable unit: $k"))
+      }
+    }
 }

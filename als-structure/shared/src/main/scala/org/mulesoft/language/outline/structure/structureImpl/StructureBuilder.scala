@@ -22,9 +22,8 @@ class StructureBuilder(unit: BaseUnit) {
     case _             => AmlBuilderFactory
   }
 
-  def listSymbols(): List[DocumentSymbol] = {
+  def listSymbols(): List[DocumentSymbol] =
     builderFactory.builderFor(unit).map(_.build().toList).getOrElse(Nil)
-  }
 
   def fullRange(ranges: Seq[PositionRange]): PositionRange = {
     val sortedStart = ranges.sortWith((a, b) => a.start < b.start)

@@ -22,8 +22,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
         a <- MockDiagnosticClientNotifier.nextCall
         b <- MockDiagnosticClientNotifier.nextCall
+        c <- MockDiagnosticClientNotifier.nextCall
       } yield {
-        assert(a.uri != b.uri)
+        val allDiagnostics = Seq(a, b, c)
+        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
       }
     }
   }

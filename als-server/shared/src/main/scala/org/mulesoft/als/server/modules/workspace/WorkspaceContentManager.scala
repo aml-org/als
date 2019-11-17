@@ -9,6 +9,7 @@ import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.extract.ConfigFileMain
 import org.mulesoft.amfmanager.ParserHelper
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -16,6 +17,7 @@ import scala.concurrent.Future
 class WorkspaceContentManager(val folder: String,
                               configMainFile: Option[ConfigFileMain],
                               environmentProvider: EnvironmentProvider,
+                              telemetryProvider: TelemetryProvider,
                               dependencies: List[BaseUnitListener]) {
 
   private var state: WorkspaceState                    = Idle
@@ -58,7 +60,10 @@ class WorkspaceContentManager(val folder: String,
 
   def getNext(uri: String, uuid: String): Future[CompilableUnit] = repository.getNext(uri).map(toCompilableUnit)
 
-  private def goIdle(): Unit = state = Idle
+  private def goIdle(): Unit = {
+    state = Idle
+    repository.finishedProcessing()
+  }
 
   private def enqueue(files: Set[(String, NotificationKind)]): Unit =
     pending = pending ++ files
@@ -77,7 +82,7 @@ class WorkspaceContentManager(val folder: String,
   private def processIsolated(file: String, environment: Environment, uuid: String) = {
     state = ProssessingFile(file)
     dequeue(Set(file))
-    parse(file, environment)
+    parse(file, environment, uuid)
       .map { bu =>
         repository.update(file, bu, inTree = false)
         dependencies.foreach { d =>
@@ -99,15 +104,16 @@ class WorkspaceContentManager(val folder: String,
                                environment: Environment,
                                previouslyPending: Set[(String, NotificationKind)]): Future[Unit] = {
     state = ProssessinProject
-    //TODO: Check files with encoding (AMF expects decoded uri)
-    parse(s"$folder/$mainFile", environment)
+    // TODO: Check files with encoding (AMF expects decoded uri)
+    val uuid = UUID.randomUUID().toString
+    parse(s"$folder/$mainFile", environment, uuid)
       .map { u =>
         val newTree = plainRef(u).map(u => {
           repository.update(u.id, u, inTree = true)
           u.id
         })
         dependencies.foreach { d =>
-          d.onNewAst(u, UUID.randomUUID().toString)
+          d.onNewAst(u, uuid)
         }
         enqueue(previouslyPending.filter(t => !newTree.contains(t._1)))
         process()
@@ -119,9 +125,12 @@ class WorkspaceContentManager(val folder: String,
       }
   }
 
-  private def parse(uri: String, environment: Environment): Future[BaseUnit] =
-    new ParserHelper(environmentProvider.platform)
-      .parse(FileUtils.getDecodedUri(uri, environmentProvider.platform), environment)
+  private def parse(uri: String, environment: Environment, uuid: String): Future[BaseUnit] = {
+    telemetryProvider.addTimedMessage("Start AMF Parse", MessageTypes.BEGIN_PARSE, uri, uuid)
+    val eventualUnit = new ParserHelper(environmentProvider.platform).parse(uri, environment)
+    eventualUnit.foreach(_ => telemetryProvider.addTimedMessage("End AMF Parse", MessageTypes.END_PARSE, uri, uuid))
+    eventualUnit
+  }
 
   private def plainRef(bu: BaseUnit): Set[BaseUnit] = (bu +: bu.references.flatMap(plainRef)).toSet
 
