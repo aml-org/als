@@ -18,7 +18,9 @@ class WorkspaceRootHandler(platform: Platform) {
     val mains = configFileNames.flatMap { k =>
       val path = FileUtils.getPath(s"$dir/${k._1}", platform)
       val file = platform.fs.syncFile(path)
-      k._2.extractMainFile(file.read()).map(mf => ConfigFileMain(FileUtils.getEncodedUri(file.path, platform), mf))
+      if (file.exists)
+        k._2.extractMainFile(file.read()).map(mf => ConfigFileMain(FileUtils.getEncodedUri(file.path, platform), mf))
+      else None
     }
     mains.headOption
   }
