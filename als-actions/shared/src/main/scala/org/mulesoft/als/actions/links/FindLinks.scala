@@ -6,7 +6,9 @@ import amf.plugins.document.vocabularies.ReferenceStyles
 import org.mulesoft.als.actions.common.ActionTools
 import org.mulesoft.als.common.NodeBranchBuilder
 import org.mulesoft.amfmanager.dialect.DialectKnowledge
+import org.mulesoft.lexer.SourceLocation
 import org.mulesoft.lsp.feature.link.DocumentLink
+import org.yaml.model.YNode.MutRef
 import org.yaml.model._
 
 object FindLinks {
@@ -29,11 +31,11 @@ object FindLinks {
       })
 
     def getLink(part: YPart): Seq[DocumentLink] =
-      extractUsesLinks(part, platform) ++ {
+      extractUsesLinks(part, platform) ++ extractMutRefs(part, platform) ++ {
         if (hasJsonIncludes) extractJsonRefs(part, platform) else Nil
       } ++ {
         if (hasRamlIncludes) extractRamlIncludes(part, platform) else Nil
-      }
+      }.distinct
 
     def seekLinks(ast: YPart): Seq[DocumentLink] = ast.foreach(getLink)
 
@@ -65,6 +67,9 @@ object FindLinks {
     DocumentLink(ActionTools.sourceLocationToRange(n.value.location),
                  ActionTools.valueToUri(n.location.sourceName, n.asScalar.map(_.text).getOrElse(""), platform))
 
+  private def nodeToLink(sourceLocation: SourceLocation, targetUri: String, platform: Platform) =
+    DocumentLink(ActionTools.sourceLocationToRange(sourceLocation), targetUri)
+
   def extractJsonRefs(yPart: YPart, platform: Platform): Seq[DocumentLink] =
     yPart match {
       case entry: YMapEntry if appliesRef(entry) =>
@@ -81,6 +86,13 @@ object FindLinks {
     yPart match {
       case node: YNode if node.tagType == YType.Include => Seq(nodeToLink(node, platform))
       case _                                            => Nil
+    }
+
+  def extractMutRefs(yPart: YPart, platform: Platform): Seq[DocumentLink] =
+    yPart match {
+      case node: MutRef if !node.target.exists(_.sourceName == node.sourceName) =>
+        node.target.map(target => Seq(nodeToLink(node.origValue.location, target.sourceName, platform))).getOrElse(Nil)
+      case _ => Nil
     }
 
   implicit class ASTAddons(ast: YPart) {
