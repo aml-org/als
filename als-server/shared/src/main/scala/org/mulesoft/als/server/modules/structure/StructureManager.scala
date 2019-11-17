@@ -72,7 +72,8 @@ class StructureManager(val workspaceManager: WorkspaceManager,
           Future.successful(List.empty)
       })
 
-    telemetryProvider.addTimedMessage("End Structure", MessageTypes.END_STRUCTURE, uri, telemetryUUID)
+    results.foreach(_ =>
+      telemetryProvider.addTimedMessage("End Structure", MessageTypes.END_STRUCTURE, uri, telemetryUUID))
     results
   }
 
