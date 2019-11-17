@@ -6,6 +6,8 @@ import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync.TextDocumentSyncConsumer
 import org.mulesoft.lsp.workspace.WorkspaceService
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 import scala.concurrent.Future
 
 class LanguageServerImpl(val textDocumentSyncConsumer: TextDocumentSyncConsumer,
@@ -14,11 +16,11 @@ class LanguageServerImpl(val textDocumentSyncConsumer: TextDocumentSyncConsumer,
                          private val requestHandlerMap: RequestMap)
     extends LanguageServer {
 
-  override def initialize(params: InitializeParams): Future[InitializeResult] = {
-
-    params.rootUri.orElse(params.rootPath).foreach(root => workspaceService.initializeWS(root))
-    languageServerInitializer.initialize(params)
-  }
+  override def initialize(params: InitializeParams): Future[InitializeResult] =
+    languageServerInitializer.initialize(params).map { p =>
+      params.rootUri.orElse(params.rootPath).foreach(root => workspaceService.initializeWS(root))
+      p
+    }
 
   override def initialized(): Unit = {}
 
