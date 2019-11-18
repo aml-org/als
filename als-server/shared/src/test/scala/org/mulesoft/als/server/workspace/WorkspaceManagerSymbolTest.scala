@@ -26,10 +26,11 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
       _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
       _ <- {
         Future.successful {
-          val source  = Source.fromFile(FileUtils.getPath(url, platform))
-          val content = source.getLines().mkString("\n")
-          source.close()
-          server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(TextDocumentItem(url, "RAML", 0, content)))
+          platform.resolve(url).map { c =>
+            server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
+              TextDocumentItem(url, "RAML", 0, c.stream.toString))) // why clean empty lines was necessary?
+          }
+
         }
       }
       s <- {
