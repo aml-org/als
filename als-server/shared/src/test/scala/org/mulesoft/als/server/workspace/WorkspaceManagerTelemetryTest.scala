@@ -38,13 +38,13 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
         _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(main)))
         _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
         _ <- {
-          Future.successful {
-            val source  = Source.fromFile(FileUtils.getPath(independent, platform))
-            val content = source.getLines().mkString("\n")
-            source.close()
-            server.textDocumentSyncConsumer.didOpen(
-              DidOpenTextDocumentParams(TextDocumentItem(independent, "RAML", 0, content)))
-          }
+          platform
+            .resolve(independent)
+            .map(c => {
+              val content = c.stream.toString
+              server.textDocumentSyncConsumer.didOpen(
+                DidOpenTextDocumentParams(TextDocumentItem(independent, "RAML", 0, content)))
+            })
         }
         _            <- handler(DocumentSymbolParams(TextDocumentIdentifier(independent)))
         _            <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
