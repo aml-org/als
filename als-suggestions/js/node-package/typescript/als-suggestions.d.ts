@@ -250,6 +250,8 @@ declare module '@mulesoft/als-suggestions' {
 
         withLoaders(loaders: resource.ResourceLoader[]): Environment
 
+        withClientResolver(clientResolver: remote.ClientReferenceResolver): Environment
+
         static empty(): Environment
 
         static apply(loader: resource.ResourceLoader): Environment
@@ -264,6 +266,18 @@ declare module '@mulesoft/als-suggestions' {
         constructor(stream: string, url: string)
 
         constructor(stream: string, url: string, mime: string)
+      }
+
+      export interface ClientReferenceResolver {
+        fetch(url: string): Promise<CachedReference>
+      }
+
+      export class CachedReference {
+        constructor(url: String, content: model.document.BaseUnit, resolved: Boolean)
+
+        url: string
+        content: model.document.BaseUnit
+        resolved: boolean
       }
     }
 
@@ -1666,7 +1680,7 @@ declare module '@mulesoft/als-suggestions' {
 
         constructor(value: string, dataType: string)
 
-        value: string
+        value: StrField
         dataType: StrField
 
         toString(): string
@@ -1933,40 +1947,41 @@ declare module '@mulesoft/als-suggestions' {
 
   /* als-suggestions */
   export class Position {
-      line: number
-      character: number
+    line: number
+    character: number
   }
+
   export class Range {
-      start: Position
-      end: Position
+    start: Position
+    end: Position
   }
 
   export class TextEdit {
-      range: Range
-      newText: string
+    range: Range
+    newText: string
   }
 
   export class Command {
-      title: string
-      command: string
-      arguments?: any[]
+    title: string
+    command: string
+    arguments?: any[]
   }
 
   export class CompletionItem {
-      label: string
-      kind?: number
-      detail?: string
-      documentation?: string
-      deprecated?: boolean
-      preselect?: boolean
-      sortText?: string
-      filterText?: string
-      insertText?: string
-      insertTextFormat?: number
-      textEdit?: TextEdit
-      additionalTextEdits?: TextEdit[]
-      commitCharacters?: string[]
-      command?: Command
+    label: string
+    kind?: number
+    detail?: string
+    documentation?: string
+    deprecated?: boolean
+    preselect?: boolean
+    sortText?: string
+    filterText?: string
+    insertText?: string
+    insertTextFormat?: number
+    textEdit?: TextEdit
+    additionalTextEdits?: TextEdit[]
+    commitCharacters?: string[]
+    command?: Command
   }
 
   export class Suggestions {
