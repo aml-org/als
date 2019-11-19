@@ -6,7 +6,7 @@
     "documentation": "false",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10false",
+    "sortText": "11false",
     "filterText": "false",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "true",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10true",
+    "sortText": "11true",
     "filterText": "true",
     "insertText": null,
     "insertTextFormat": [
