@@ -13,6 +13,8 @@ class Repository() {
 
   private val processing: mutable.Map[String, Promise[ParsedUnit]] = mutable.Map.empty
 
+  def hasPending: Boolean = processing.nonEmpty
+
   def getUnit(uri: String): Future[ParsedUnit] =
     units
       .get(uri)
@@ -38,7 +40,7 @@ class Repository() {
   def update(uri: String, u: BaseUnit, inTree: Boolean): Unit = {
     val unit = ParsedUnit(u, inTree)
     units.update(uri, unit)
-    updateProcessing(unit)
+    updateProcessing(unit, processing)
   }
 
   def fail(uri: String, e: Throwable): Unit = {
@@ -48,18 +50,25 @@ class Repository() {
     processing.remove(uri)
   }
 
-  private def updateProcessing(u: ParsedUnit): Unit = {
+  private def updateProcessing(u: ParsedUnit, processing: mutable.Map[String, Promise[ParsedUnit]]): Unit = {
     processing.get(u.bu.id).foreach { p =>
       p.success(u)
     }
     processing.remove(u.bu.id)
   }
 
-  def finishedProcessing(): Unit =
-    processing.foreach { k =>
+  def finishedProcessing(): Unit = {
+    // this block should be atomic!!
+    val snapshot = processing.clone()
+    processing.clear()
+    //
+    snapshot.foreach { k =>
       units.get(k._1) match {
-        case Some(p) => updateProcessing(p)
+        case Some(p) => updateProcessing(p, snapshot)
         case _       => fail(k._1, new Exception(s"No compilable unit: $k"))
       }
     }
+    //    println(s"snapshot: ${snapshot.size}")
+    //    println(s"processing: ${processing.size}")
+  }
 }
