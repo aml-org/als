@@ -390,7 +390,7 @@ declare module '@mulesoft/als-suggestions' {
 
       nonNull: boolean
 
-      toString: string
+      toString(): string
 
       abstract remove(): void
     }
