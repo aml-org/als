@@ -6,7 +6,7 @@
     "documentation": "usage",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10usage",
+    "sortText": "11usage",
     "filterText": "usage: ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "uses",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10uses",
+    "sortText": "11uses",
     "filterText": "uses:\n  ",
     "insertText": null,
     "insertTextFormat": [

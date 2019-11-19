@@ -6,7 +6,7 @@
     "documentation": "Reference to #/definitions/a",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#/definitions/a",
+    "sortText": "11#/definitions/a",
     "filterText": "\"#/definitions/a\"",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10array-schema.json",
+    "sortText": "11array-schema.json",
     "filterText": "\"array-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10boolean-format.json",
+    "sortText": "11boolean-format.json",
     "filterText": "\"boolean-format.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10definition.json",
+    "sortText": "11definition.json",
     "filterText": "\"definition.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10definitios.json",
+    "sortText": "11definitios.json",
     "filterText": "\"definitios.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10expected/",
+    "sortText": "11expected/",
     "filterText": "\"expected/\"",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10externalDocs-schema.json",
+    "sortText": "11externalDocs-schema.json",
     "filterText": "\"externalDocs-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10integer-format.json",
+    "sortText": "11integer-format.json",
     "filterText": "\"integer-format.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10items-schema.json",
+    "sortText": "11items-schema.json",
     "filterText": "\"items-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -276,7 +276,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10jsonschema.json",
+    "sortText": "11jsonschema.json",
     "filterText": "\"jsonschema.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -306,7 +306,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10number-format.json",
+    "sortText": "11number-format.json",
     "filterText": "\"number-format.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -336,7 +336,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10number-schema.json",
+    "sortText": "11number-schema.json",
     "filterText": "\"number-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -366,7 +366,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10object-schema.json",
+    "sortText": "11object-schema.json",
     "filterText": "\"object-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -396,7 +396,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10properties-schema.json",
+    "sortText": "11properties-schema.json",
     "filterText": "\"properties-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -426,7 +426,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10property-schema.json",
+    "sortText": "11property-schema.json",
     "filterText": "\"property-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -456,7 +456,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10required-properties-name-existing.json",
+    "sortText": "11required-properties-name-existing.json",
     "filterText": "\"required-properties-name-existing.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -486,7 +486,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10required-properties-name.json",
+    "sortText": "11required-properties-name.json",
     "filterText": "\"required-properties-name.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -516,7 +516,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schema-path-nav-two.json",
+    "sortText": "11schema-path-nav-two.json",
     "filterText": "\"schema-path-nav-two.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -546,7 +546,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schema-path-nav-withoutbar.json",
+    "sortText": "11schema-path-nav-withoutbar.json",
     "filterText": "\"schema-path-nav-withoutbar.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -576,7 +576,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schema-path-nav.json",
+    "sortText": "11schema-path-nav.json",
     "filterText": "\"schema-path-nav.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -606,7 +606,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schema-ref-comment.json",
+    "sortText": "11schema-ref-comment.json",
     "filterText": "\"schema-ref-comment.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -636,7 +636,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schema-ref-separator-two.json",
+    "sortText": "11schema-ref-separator-two.json",
     "filterText": "\"schema-ref-separator-two.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -666,7 +666,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schema-ref-separator.json",
+    "sortText": "11schema-ref-separator.json",
     "filterText": "\"schema-ref-separator.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -696,7 +696,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10string-format.json",
+    "sortText": "11string-format.json",
     "filterText": "\"string-format.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -726,7 +726,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10string-schema.json",
+    "sortText": "11string-schema.json",
     "filterText": "\"string-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -756,7 +756,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10types-schema.json",
+    "sortText": "11types-schema.json",
     "filterText": "\"types-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -786,7 +786,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10xmlObject-schema.json",
+    "sortText": "11xmlObject-schema.json",
     "filterText": "\"xmlObject-schema.json\"",
     "insertText": null,
     "insertTextFormat": [

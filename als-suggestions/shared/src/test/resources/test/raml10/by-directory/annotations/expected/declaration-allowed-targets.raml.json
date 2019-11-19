@@ -6,7 +6,7 @@
     "documentation": "API",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10API",
+    "sortText": "11API",
     "filterText": "API",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "AnnotationType",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10AnnotationType",
+    "sortText": "11AnnotationType",
     "filterText": "AnnotationType",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "DocumentationItem",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10DocumentationItem",
+    "sortText": "11DocumentationItem",
     "filterText": "DocumentationItem",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "Example",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10Example",
+    "sortText": "11Example",
     "filterText": "Example",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "Extension",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10Extension",
+    "sortText": "11Extension",
     "filterText": "Extension",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "Library",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10Library",
+    "sortText": "11Library",
     "filterText": "Library",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "Method",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10Method",
+    "sortText": "11Method",
     "filterText": "Method",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "Overlay",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10Overlay",
+    "sortText": "11Overlay",
     "filterText": "Overlay",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "RequestBody",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10RequestBody",
+    "sortText": "11RequestBody",
     "filterText": "RequestBody",
     "insertText": null,
     "insertTextFormat": [
@@ -276,7 +276,7 @@
     "documentation": "Resource",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10Resource",
+    "sortText": "11Resource",
     "filterText": "Resource",
     "insertText": null,
     "insertTextFormat": [
@@ -306,7 +306,7 @@
     "documentation": "ResourceType",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10ResourceType",
+    "sortText": "11ResourceType",
     "filterText": "ResourceType",
     "insertText": null,
     "insertTextFormat": [
@@ -336,7 +336,7 @@
     "documentation": "Response",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10Response",
+    "sortText": "11Response",
     "filterText": "Response",
     "insertText": null,
     "insertTextFormat": [
@@ -366,7 +366,7 @@
     "documentation": "ResponseBody",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10ResponseBody",
+    "sortText": "11ResponseBody",
     "filterText": "ResponseBody",
     "insertText": null,
     "insertTextFormat": [
@@ -396,7 +396,7 @@
     "documentation": "SecurityScheme",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10SecurityScheme",
+    "sortText": "11SecurityScheme",
     "filterText": "SecurityScheme",
     "insertText": null,
     "insertTextFormat": [
@@ -426,7 +426,7 @@
     "documentation": "SecuritySchemeSettings",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10SecuritySchemeSettings",
+    "sortText": "11SecuritySchemeSettings",
     "filterText": "SecuritySchemeSettings",
     "insertText": null,
     "insertTextFormat": [
@@ -456,7 +456,7 @@
     "documentation": "Trait",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10Trait",
+    "sortText": "11Trait",
     "filterText": "Trait",
     "insertText": null,
     "insertTextFormat": [
@@ -486,7 +486,7 @@
     "documentation": "TypeDeclaration",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10TypeDeclaration",
+    "sortText": "11TypeDeclaration",
     "filterText": "TypeDeclaration",
     "insertText": null,
     "insertTextFormat": [
