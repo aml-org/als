@@ -43,7 +43,23 @@ class WorkspaceContentManager(val folder: String,
     (actual, environment)
   }
 
-  def process(): Unit = {
+  def stateChanger(state: WorkspaceState): Unit = synchronized {
+    state match {
+      case ProcessingProject =>
+        this.state = ProcessingProject
+      case ProcessingFile(url) =>
+        this.state = ProcessingFile(url)
+      case Idle =>
+        this.state = Idle
+        repository.finishedProcessing()
+        if (repository.hasPending) {
+          println(s"repository has pending after 'finishedProcessing()'")
+          process()
+        }
+    }
+  }
+
+  def process(): Unit = synchronized {
     val (actual, environment) = snapshot()
 
     val uuid = UUID.randomUUID().toString
@@ -56,14 +72,18 @@ class WorkspaceContentManager(val folder: String,
     else goIdle()
   }
 
-  def getOrBuildUnit(uri: String, uuid: String): Future[CompilableUnit] = repository.getUnit(uri).map(toCompilableUnit)
-
-  def getNext(uri: String, uuid: String): Future[CompilableUnit] = repository.getNext(uri).map(toCompilableUnit)
-
-  private def goIdle(): Unit = {
-    state = Idle
-    repository.finishedProcessing()
+  def getOrBuildUnit(uri: String, uuid: String): Future[CompilableUnit] = {
+    repository.getUnit(uri).map(toCompilableUnit)
   }
+
+  def getNext(uri: String, uuid: String): Future[CompilableUnit] = {
+    if (canProcess) repository.getUnit(uri)
+    else {
+      repository.getNext(uri)
+    }
+  }.map(toCompilableUnit)
+
+  private def goIdle(): Unit = stateChanger(Idle)
 
   private def enqueue(files: Set[(String, NotificationKind)]): Unit =
     pending = pending ++ files
@@ -80,7 +100,7 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def processIsolated(file: String, environment: Environment, uuid: String) = {
-    state = ProssessingFile(file)
+    stateChanger(ProcessingFile(file))
     dequeue(Set(file))
     parse(file, environment, uuid)
       .map { bu =>
@@ -103,8 +123,7 @@ class WorkspaceContentManager(val folder: String,
   private def processMFChanges(mainFile: String,
                                environment: Environment,
                                previouslyPending: Set[(String, NotificationKind)]): Future[Unit] = {
-    state = ProssessinProject
-    // TODO: Check files with encoding (AMF expects decoded uri)
+    stateChanger(ProcessingProject)
     val uuid = UUID.randomUUID().toString
     parse(s"$folder/$mainFile", environment, uuid)
       .map { u =>
@@ -144,10 +163,10 @@ class WorkspaceContentManager(val folder: String,
 
   private def isDirty(uri: String) = {
     state match {
-      case Idle                      => false
-      case ProssessinProject         => true
-      case ProssessingFile(fileName) => uri == fileName
-      case _                         => false
+      case Idle                     => false
+      case ProcessingProject        => true
+      case ProcessingFile(fileName) => uri == fileName
+      case _                        => false
     }
   }
 
