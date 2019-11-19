@@ -6,7 +6,7 @@
     "documentation": "reference tag",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10$ref",
+    "sortText": "20$ref",
     "filterText": "$ref: ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "examples",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10examples",
+    "sortText": "20examples",
     "filterText": "examples:\n            ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "headers",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10headers",
+    "sortText": "20headers",
     "filterText": "headers:\n            ",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "schema",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schema",
+    "sortText": "20schema",
     "filterText": "schema:\n            ",
     "insertText": null,
     "insertTextFormat": [

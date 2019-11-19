@@ -6,7 +6,7 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10description",
+    "sortText": "20description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "externalDocs",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10externalDocs",
+    "sortText": "20externalDocs",
     "filterText": "\"externalDocs\": {\n      \"$1\"\n    }",
     "insertText": null,
     "insertTextFormat": [

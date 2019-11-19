@@ -6,7 +6,7 @@
     "documentation": "binary",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10binary",
+    "sortText": "20binary",
     "filterText": "binary",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "byte",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10byte",
+    "sortText": "20byte",
     "filterText": "byte",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "date",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10date",
+    "sortText": "20date",
     "filterText": "date",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "date-time",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10date-time",
+    "sortText": "20date-time",
     "filterText": "date-time",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "password",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10password",
+    "sortText": "20password",
     "filterText": "password",
     "insertText": null,
     "insertTextFormat": [

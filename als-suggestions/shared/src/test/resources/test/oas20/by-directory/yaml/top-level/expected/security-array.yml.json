@@ -6,7 +6,7 @@
     "documentation": "security",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10security",
+    "sortText": "20security",
     "filterText": "security:\n    ",
     "insertText": null,
     "insertTextFormat": [

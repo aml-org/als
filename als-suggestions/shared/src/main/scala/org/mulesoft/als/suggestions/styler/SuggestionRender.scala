@@ -67,6 +67,7 @@ trait SuggestionRender {
       .withDisplayText(suggestions.displayText)
       .withCategory(suggestions.category)
       .withPrefix(params.prefix)
+      .withMandatory(suggestions.options.mandatory)
 
     patchPath(builder)
 

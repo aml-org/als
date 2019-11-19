@@ -6,7 +6,7 @@
     "documentation": "authorizationUrl",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10authorizationUrl",
+    "sortText": "20authorizationUrl",
     "filterText": "authorizationUrl: ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10description",
+    "sortText": "20description",
     "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "scopes",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10scopes",
+    "sortText": "20scopes",
     "filterText": "scopes:\n      ",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "tokenUrl",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10tokenUrl",
+    "sortText": "20tokenUrl",
     "filterText": "tokenUrl: ",
     "insertText": null,
     "insertTextFormat": [

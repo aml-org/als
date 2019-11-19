@@ -6,7 +6,7 @@
     "documentation": "trait1",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10trait1",
+    "sortText": "20trait1",
     "filterText": "trait1:\n        ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "trait2",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10trait2",
+    "sortText": "20trait2",
     "filterText": "trait2:\n        ",
     "insertText": null,
     "insertTextFormat": [

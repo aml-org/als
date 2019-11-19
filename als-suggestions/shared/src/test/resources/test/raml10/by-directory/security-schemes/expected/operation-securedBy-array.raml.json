@@ -6,7 +6,7 @@
     "documentation": "name",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10name",
+    "sortText": "20name",
     "filterText": "name:\n        ",
     "insertText": null,
     "insertTextFormat": [

@@ -6,7 +6,7 @@
     "documentation": "jsonschema.json#/definitions/",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10definitions/",
+    "sortText": "20definitions/",
     "filterText": "jsonschema.json#/definitions/",
     "insertText": null,
     "insertTextFormat": [

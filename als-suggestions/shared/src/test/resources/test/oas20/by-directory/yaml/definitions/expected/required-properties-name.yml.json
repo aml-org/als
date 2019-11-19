@@ -6,7 +6,7 @@
     "documentation": "anotherPro",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10anotherPro",
+    "sortText": "20anotherPro",
     "filterText": "anotherPro",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "name",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10name",
+    "sortText": "20name",
     "filterText": "name",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "tag",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10tag",
+    "sortText": "20tag",
     "filterText": "tag",
     "insertText": null,
     "insertTextFormat": [

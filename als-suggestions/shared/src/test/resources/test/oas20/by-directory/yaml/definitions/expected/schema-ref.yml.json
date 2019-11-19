@@ -6,7 +6,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10array-schema.yml",
+    "sortText": "20array-schema.yml",
     "filterText": "array-schema.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10boolean-format.yml",
+    "sortText": "20boolean-format.yml",
     "filterText": "boolean-format.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10definition.yml",
+    "sortText": "20definition.yml",
     "filterText": "definition.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10definitios.yml",
+    "sortText": "20definitios.yml",
     "filterText": "definitios.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10expected/",
+    "sortText": "20expected/",
     "filterText": "expected/",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10externalDocs-schema.yml",
+    "sortText": "20externalDocs-schema.yml",
     "filterText": "externalDocs-schema.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10integer-format.yml",
+    "sortText": "20integer-format.yml",
     "filterText": "integer-format.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10items-schema.yml",
+    "sortText": "20items-schema.yml",
     "filterText": "items-schema.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10jsonschema.json",
+    "sortText": "20jsonschema.json",
     "filterText": "jsonschema.json",
     "insertText": null,
     "insertTextFormat": [
@@ -276,7 +276,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10number-format.yml",
+    "sortText": "20number-format.yml",
     "filterText": "number-format.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -306,7 +306,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10number-schema.yml",
+    "sortText": "20number-schema.yml",
     "filterText": "number-schema.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -336,7 +336,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10object-schema.yml",
+    "sortText": "20object-schema.yml",
     "filterText": "object-schema.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -366,7 +366,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10properties-schema.yml",
+    "sortText": "20properties-schema.yml",
     "filterText": "properties-schema.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -396,7 +396,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10property-schema.yml",
+    "sortText": "20property-schema.yml",
     "filterText": "property-schema.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -426,7 +426,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10required-properties-name-existing.yml",
+    "sortText": "20required-properties-name-existing.yml",
     "filterText": "required-properties-name-existing.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -456,7 +456,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10required-properties-name.yml",
+    "sortText": "20required-properties-name.yml",
     "filterText": "required-properties-name.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -486,7 +486,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schema-path-nav-two.yml",
+    "sortText": "20schema-path-nav-two.yml",
     "filterText": "schema-path-nav-two.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -516,7 +516,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schema-path-nav-withoutbar.yml",
+    "sortText": "20schema-path-nav-withoutbar.yml",
     "filterText": "schema-path-nav-withoutbar.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -546,7 +546,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schema-path-nav.yml",
+    "sortText": "20schema-path-nav.yml",
     "filterText": "schema-path-nav.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -576,7 +576,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schema-ref-comment.yml",
+    "sortText": "20schema-ref-comment.yml",
     "filterText": "schema-ref-comment.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -606,7 +606,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schema-ref-separator-two.yml",
+    "sortText": "20schema-ref-separator-two.yml",
     "filterText": "schema-ref-separator-two.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -636,7 +636,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schema-ref-separator.yml",
+    "sortText": "20schema-ref-separator.yml",
     "filterText": "schema-ref-separator.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -666,7 +666,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10string-format.yml",
+    "sortText": "20string-format.yml",
     "filterText": "string-format.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -696,7 +696,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10string-schema.yml",
+    "sortText": "20string-schema.yml",
     "filterText": "string-schema.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -726,7 +726,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10types-schema.yml",
+    "sortText": "20types-schema.yml",
     "filterText": "types-schema.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -756,7 +756,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10xmlObject-schema.yml",
+    "sortText": "20xmlObject-schema.yml",
     "filterText": "xmlObject-schema.yml",
     "insertText": null,
     "insertTextFormat": [

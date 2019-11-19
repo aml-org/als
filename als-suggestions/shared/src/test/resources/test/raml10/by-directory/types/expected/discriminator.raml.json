@@ -6,7 +6,7 @@
     "documentation": "one",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10one",
+    "sortText": "20one",
     "filterText": "one",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "two",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10two",
+    "sortText": "20two",
     "filterText": "two",
     "insertText": null,
     "insertTextFormat": [

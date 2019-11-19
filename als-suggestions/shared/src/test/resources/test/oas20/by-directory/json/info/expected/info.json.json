@@ -6,7 +6,7 @@
     "documentation": "contact",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10contact",
+    "sortText": "20contact",
     "filterText": "\"contact\": {\n      \"$1\"\n    }",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10description",
+    "sortText": "20description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "license",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10license",
+    "sortText": "20license",
     "filterText": "\"license\": {\n      \"$1\"\n    }",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "termsOfService",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10termsOfService",
+    "sortText": "20termsOfService",
     "filterText": "\"termsOfService\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "title",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10title",
+    "sortText": "20title",
     "filterText": "\"title\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "version",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10version",
+    "sortText": "20version",
     "filterText": "\"version\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [

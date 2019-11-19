@@ -2,7 +2,8 @@ package org.mulesoft.als.suggestions
 
 case class SuggestionStructure(rangeKind: RangeKind = StringScalarRange,
                                isKey: Boolean = false,
-                               keyRange: ScalarRange = StringScalarRange) {
+                               keyRange: ScalarRange = StringScalarRange,
+                               mandatory: Boolean = false) {
 
   def scalarProperty: Boolean = rangeKind.isInstanceOf[ScalarRange]
 

@@ -6,7 +6,7 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10description",
+    "sortText": "20description",
     "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [

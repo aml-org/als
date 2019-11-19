@@ -6,7 +6,7 @@
     "documentation": "inclusion tag",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10!include",
+    "sortText": "20!include",
     "filterText": "!include ",
     "insertText": null,
     "insertTextFormat": [

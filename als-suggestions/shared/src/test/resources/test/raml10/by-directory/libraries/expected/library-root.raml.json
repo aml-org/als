@@ -6,7 +6,7 @@
     "documentation": "annotationTypes",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10annotationTypes",
+    "sortText": "20annotationTypes",
     "filterText": "annotationTypes:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "resourceTypes",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10resourceTypes",
+    "sortText": "20resourceTypes",
     "filterText": "resourceTypes:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "securitySchemes",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10securitySchemes",
+    "sortText": "20securitySchemes",
     "filterText": "securitySchemes:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "traits",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10traits",
+    "sortText": "20traits",
     "filterText": "traits:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "types",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10types",
+    "sortText": "20types",
     "filterText": "types:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "usage",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10usage",
+    "sortText": "20usage",
     "filterText": "usage: ",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "uses",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10uses",
+    "sortText": "20uses",
     "filterText": "uses:\n  ",
     "insertText": null,
     "insertTextFormat": [

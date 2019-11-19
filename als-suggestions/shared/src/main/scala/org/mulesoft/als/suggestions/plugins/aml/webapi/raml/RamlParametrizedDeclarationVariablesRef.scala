@@ -15,7 +15,8 @@ object RamlParametrizedDeclarationVariablesRef extends AMLCompletionPlugin {
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(
       if (params.amfObject.isInstanceOf[VariableValue] && params.yPartBranch.isKey) {
-        getVariablesFromParent(params.branchStack.headOption).map(RawSuggestion.forKey(_, "parameters"))
+        getVariablesFromParent(params.branchStack.headOption)
+          .map(RawSuggestion.forKey(_, "parameters", mandatory = false))
       } else Nil
     )
 

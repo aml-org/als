@@ -6,7 +6,7 @@
     "documentation": "rt",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20rt",
+    "sortText": "30rt",
     "filterText": "rt:\n      param1: $1\n      param2: $2",
     "insertText": null,
     "insertTextFormat": [

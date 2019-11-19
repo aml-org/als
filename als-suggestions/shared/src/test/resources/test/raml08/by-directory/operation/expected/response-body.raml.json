@@ -6,7 +6,7 @@
     "documentation": "application/json",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10application/json",
+    "sortText": "20application/json",
     "filterText": "application/json:\n            ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "application/xml",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10application/xml",
+    "sortText": "20application/xml",
     "filterText": "application/xml:\n            ",
     "insertText": null,
     "insertTextFormat": [

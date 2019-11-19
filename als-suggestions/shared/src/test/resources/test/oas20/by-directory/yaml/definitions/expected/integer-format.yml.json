@@ -6,7 +6,7 @@
     "documentation": "int32",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10int32",
+    "sortText": "20int32",
     "filterText": "int32",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "int64",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10int64",
+    "sortText": "20int64",
     "filterText": "int64",
     "insertText": null,
     "insertTextFormat": [

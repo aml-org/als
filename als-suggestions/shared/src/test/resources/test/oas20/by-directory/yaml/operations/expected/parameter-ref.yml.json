@@ -6,7 +6,7 @@
     "documentation": "Reference to #/parameters/named",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#/parameters/named",
+    "sortText": "20#/parameters/named",
     "filterText": "\"#/parameters/named\"",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10bymethod/",
+    "sortText": "20bymethod/",
     "filterText": "bymethod/",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10consumes-array.yml",
+    "sortText": "20consumes-array.yml",
     "filterText": "consumes-array.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10consumes.yml",
+    "sortText": "20consumes.yml",
     "filterText": "consumes.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10expected/",
+    "sortText": "20expected/",
     "filterText": "expected/",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10external-docs.yml",
+    "sortText": "20external-docs.yml",
     "filterText": "external-docs.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10parameter-array.yml",
+    "sortText": "20parameter-array.yml",
     "filterText": "parameter-array.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10parameter.yml",
+    "sortText": "20parameter.yml",
     "filterText": "parameter.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10produces-array.yml",
+    "sortText": "20produces-array.yml",
     "filterText": "produces-array.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -276,7 +276,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10produces.yml",
+    "sortText": "20produces.yml",
     "filterText": "produces.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -306,7 +306,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10reponses.yml",
+    "sortText": "20reponses.yml",
     "filterText": "reponses.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -336,7 +336,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schemes-array.yml",
+    "sortText": "20schemes-array.yml",
     "filterText": "schemes-array.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -366,7 +366,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schemes.yml",
+    "sortText": "20schemes.yml",
     "filterText": "schemes.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -396,7 +396,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10security-array-named.yml",
+    "sortText": "20security-array-named.yml",
     "filterText": "security-array-named.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -426,7 +426,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10security-array.yml",
+    "sortText": "20security-array.yml",
     "filterText": "security-array.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -456,7 +456,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10security.yml",
+    "sortText": "20security.yml",
     "filterText": "security.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -486,7 +486,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10tags-array.yml",
+    "sortText": "20tags-array.yml",
     "filterText": "tags-array.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -516,7 +516,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10tags.yml",
+    "sortText": "20tags.yml",
     "filterText": "tags.yml",
     "insertText": null,
     "insertTextFormat": [

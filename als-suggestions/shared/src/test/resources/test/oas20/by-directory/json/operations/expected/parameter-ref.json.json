@@ -6,7 +6,7 @@
     "documentation": "Reference to #/parameters/named",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#/parameters/named",
+    "sortText": "20#/parameters/named",
     "filterText": "\"#/parameters/named\"",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10bymethod/",
+    "sortText": "20bymethod/",
     "filterText": "\"bymethod/\"",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10consumes-array.json",
+    "sortText": "20consumes-array.json",
     "filterText": "\"consumes-array.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10consumes.json",
+    "sortText": "20consumes.json",
     "filterText": "\"consumes.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10expected/",
+    "sortText": "20expected/",
     "filterText": "\"expected/\"",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10external-docs.json",
+    "sortText": "20external-docs.json",
     "filterText": "\"external-docs.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10parameter-array.json",
+    "sortText": "20parameter-array.json",
     "filterText": "\"parameter-array.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10parameter.json",
+    "sortText": "20parameter.json",
     "filterText": "\"parameter.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10produces-array.json",
+    "sortText": "20produces-array.json",
     "filterText": "\"produces-array.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -276,7 +276,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10produces.json",
+    "sortText": "20produces.json",
     "filterText": "\"produces.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -306,7 +306,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10reponses.json",
+    "sortText": "20reponses.json",
     "filterText": "\"reponses.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -336,7 +336,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schemes-array.json",
+    "sortText": "20schemes-array.json",
     "filterText": "\"schemes-array.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -366,7 +366,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schemes.json",
+    "sortText": "20schemes.json",
     "filterText": "\"schemes.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -396,7 +396,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10security-array-named.json",
+    "sortText": "20security-array-named.json",
     "filterText": "\"security-array-named.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -426,7 +426,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10security-array.json",
+    "sortText": "20security-array.json",
     "filterText": "\"security-array.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -456,7 +456,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10security.json",
+    "sortText": "20security.json",
     "filterText": "\"security.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -486,7 +486,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10tags-array.json",
+    "sortText": "20tags-array.json",
     "filterText": "\"tags-array.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -516,7 +516,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10tags.json",
+    "sortText": "20tags.json",
     "filterText": "\"tags.json\"",
     "insertText": null,
     "insertTextFormat": [

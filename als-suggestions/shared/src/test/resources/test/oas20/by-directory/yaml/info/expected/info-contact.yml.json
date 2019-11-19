@@ -6,7 +6,7 @@
     "documentation": "email",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10email",
+    "sortText": "20email",
     "filterText": "email: ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "name",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10name",
+    "sortText": "20name",
     "filterText": "name: ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "url",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10url",
+    "sortText": "20url",
     "filterText": "url: ",
     "insertText": null,
     "insertTextFormat": [

@@ -6,7 +6,7 @@
     "documentation": "default",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10default",
+    "sortText": "20default",
     "filterText": "default: ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10description",
+    "sortText": "20description",
     "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "displayName",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10displayName",
+    "sortText": "20displayName",
     "filterText": "displayName: ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "enum",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10enum",
+    "sortText": "20enum",
     "filterText": "enum: ",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "example",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10example",
+    "sortText": "20example",
     "filterText": "example:\n              ",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "repeat",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10repeat",
+    "sortText": "20repeat",
     "filterText": "repeat: ",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "type",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10type",
+    "sortText": "20type",
     "filterText": "type: ",
     "insertText": null,
     "insertTextFormat": [

@@ -6,7 +6,7 @@
     "documentation": "#%RAML 1.0 AnnotationTypeDeclaration",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#%RAML 1.0 AnnotationTypeDeclaration",
+    "sortText": "20#%RAML 1.0 AnnotationTypeDeclaration",
     "filterText": "#%RAML 1.0 AnnotationTypeDeclaration",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "#%RAML 1.0 DataType",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#%RAML 1.0 DataType",
+    "sortText": "20#%RAML 1.0 DataType",
     "filterText": "#%RAML 1.0 DataType",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "#%RAML 1.0 DocumentationItem",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#%RAML 1.0 DocumentationItem",
+    "sortText": "20#%RAML 1.0 DocumentationItem",
     "filterText": "#%RAML 1.0 DocumentationItem",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "#%RAML 1.0 Extension",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#%RAML 1.0 Extension",
+    "sortText": "20#%RAML 1.0 Extension",
     "filterText": "#%RAML 1.0 Extension",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "#%RAML 1.0 Library",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#%RAML 1.0 Library",
+    "sortText": "20#%RAML 1.0 Library",
     "filterText": "#%RAML 1.0 Library",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "#%RAML 1.0 NamedExample",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#%RAML 1.0 NamedExample",
+    "sortText": "20#%RAML 1.0 NamedExample",
     "filterText": "#%RAML 1.0 NamedExample",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "#%RAML 1.0 Overlay",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#%RAML 1.0 Overlay",
+    "sortText": "20#%RAML 1.0 Overlay",
     "filterText": "#%RAML 1.0 Overlay",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "#%RAML 1.0 ResourceType",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#%RAML 1.0 ResourceType",
+    "sortText": "20#%RAML 1.0 ResourceType",
     "filterText": "#%RAML 1.0 ResourceType",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "#%RAML 1.0 SecurityScheme",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#%RAML 1.0 SecurityScheme",
+    "sortText": "20#%RAML 1.0 SecurityScheme",
     "filterText": "#%RAML 1.0 SecurityScheme",
     "insertText": null,
     "insertTextFormat": [
@@ -276,7 +276,7 @@
     "documentation": "#%RAML 1.0 Trait",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#%RAML 1.0 Trait",
+    "sortText": "20#%RAML 1.0 Trait",
     "filterText": "#%RAML 1.0 Trait",
     "insertText": null,
     "insertTextFormat": [

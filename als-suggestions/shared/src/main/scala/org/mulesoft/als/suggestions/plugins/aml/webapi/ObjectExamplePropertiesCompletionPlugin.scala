@@ -28,9 +28,9 @@ case class ObjectExamplePropertiesCompletionPlugin(objectNode: ObjectNode, diale
   private def propToRaw(propertyShape: PropertyShape) = {
     propertyShape.range match {
       case _: NodeShape | _: ArrayShape =>
-        RawSuggestion(propertyShape.name.value(), isAKey = true, "example")
+        RawSuggestion(propertyShape.name.value(), isAKey = true, "example", mandatory = false)
       case _ =>
-        RawSuggestion.forKey(propertyShape.name.value(), "example")
+        RawSuggestion.forKey(propertyShape.name.value(), "example", mandatory = false)
     }
   }
 

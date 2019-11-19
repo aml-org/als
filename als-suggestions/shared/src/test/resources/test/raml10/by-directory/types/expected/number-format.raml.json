@@ -6,7 +6,7 @@
     "documentation": "double",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10double",
+    "sortText": "20double",
     "filterText": "double",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "float",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10float",
+    "sortText": "20float",
     "filterText": "float",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "int",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10int",
+    "sortText": "20int",
     "filterText": "int",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "int16",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10int16",
+    "sortText": "20int16",
     "filterText": "int16",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "int32",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10int32",
+    "sortText": "20int32",
     "filterText": "int32",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "int64",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10int64",
+    "sortText": "20int64",
     "filterText": "int64",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "int8",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10int8",
+    "sortText": "20int8",
     "filterText": "int8",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "long",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10long",
+    "sortText": "20long",
     "filterText": "long",
     "insertText": null,
     "insertTextFormat": [

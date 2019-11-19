@@ -6,7 +6,7 @@
     "documentation": "basePath",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10basePath",
+    "sortText": "20basePath",
     "filterText": "basePath: ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "consumes",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10consumes",
+    "sortText": "20consumes",
     "filterText": "consumes:\n  - ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "definitions",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10definitions",
+    "sortText": "20definitions",
     "filterText": "definitions:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "externalDocs",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10externalDocs",
+    "sortText": "20externalDocs",
     "filterText": "externalDocs:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "host",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10host",
+    "sortText": "20host",
     "filterText": "host: ",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "parameters",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10parameters",
+    "sortText": "20parameters",
     "filterText": "parameters:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "produces",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10produces",
+    "sortText": "20produces",
     "filterText": "produces:\n  - ",
     "insertText": null,
     "insertTextFormat": [
@@ -276,7 +276,7 @@
     "documentation": "responses",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10responses",
+    "sortText": "20responses",
     "filterText": "responses:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -306,7 +306,7 @@
     "documentation": "schemes",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schemes",
+    "sortText": "20schemes",
     "filterText": "schemes:\n  - ",
     "insertText": null,
     "insertTextFormat": [
@@ -336,7 +336,7 @@
     "documentation": "security",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10security",
+    "sortText": "20security",
     "filterText": "security:\n  - ",
     "insertText": null,
     "insertTextFormat": [
@@ -366,7 +366,7 @@
     "documentation": "securityDefinitions",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10securityDefinitions",
+    "sortText": "20securityDefinitions",
     "filterText": "securityDefinitions:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -396,7 +396,7 @@
     "documentation": "tags",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10tags",
+    "sortText": "20tags",
     "filterText": "tags:\n  - ",
     "insertText": null,
     "insertTextFormat": [

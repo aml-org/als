@@ -6,7 +6,7 @@
     "documentation": "attribute",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10attribute",
+    "sortText": "20attribute",
     "filterText": "attribute: ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "name",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10name",
+    "sortText": "20name",
     "filterText": "name: ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "namespace",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10namespace",
+    "sortText": "20namespace",
     "filterText": "namespace: ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "prefix",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10prefix",
+    "sortText": "20prefix",
     "filterText": "prefix: ",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "wrapped",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10wrapped",
+    "sortText": "20wrapped",
     "filterText": "wrapped: ",
     "insertText": null,
     "insertTextFormat": [

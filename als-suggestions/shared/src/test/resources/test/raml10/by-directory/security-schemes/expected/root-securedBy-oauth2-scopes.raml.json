@@ -6,7 +6,7 @@
     "documentation": "SCO1",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10SCO1",
+    "sortText": "20SCO1",
     "filterText": "SCO1",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "SCO2",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10SCO2",
+    "sortText": "20SCO2",
     "filterText": "SCO2",
     "insertText": null,
     "insertTextFormat": [

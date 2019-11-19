@@ -6,7 +6,7 @@
     "documentation": "body",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10body",
+    "sortText": "20body",
     "filterText": "body:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10description",
+    "sortText": "20description",
     "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "displayName",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10displayName",
+    "sortText": "20displayName",
     "filterText": "displayName: ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "headers",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10headers",
+    "sortText": "20headers",
     "filterText": "headers:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "is",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10is",
+    "sortText": "20is",
     "filterText": "is:\n  - ",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "methodName",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10methodName",
+    "sortText": "20methodName",
     "filterText": "methodName: ",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "protocols",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10protocols",
+    "sortText": "20protocols",
     "filterText": "protocols:\n  - ",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "queryParameters",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10queryParameters",
+    "sortText": "20queryParameters",
     "filterText": "queryParameters:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "queryString",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10queryString",
+    "sortText": "20queryString",
     "filterText": "queryString:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -276,7 +276,7 @@
     "documentation": "resourcePath",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10resourcePath",
+    "sortText": "20resourcePath",
     "filterText": "resourcePath: ",
     "insertText": null,
     "insertTextFormat": [
@@ -306,7 +306,7 @@
     "documentation": "resourcePathName",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10resourcePathName",
+    "sortText": "20resourcePathName",
     "filterText": "resourcePathName: ",
     "insertText": null,
     "insertTextFormat": [
@@ -336,7 +336,7 @@
     "documentation": "responses",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10responses",
+    "sortText": "20responses",
     "filterText": "responses:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -366,7 +366,7 @@
     "documentation": "securedBy",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10securedBy",
+    "sortText": "20securedBy",
     "filterText": "securedBy:\n  - ",
     "insertText": null,
     "insertTextFormat": [
@@ -396,7 +396,7 @@
     "documentation": "usage",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10usage",
+    "sortText": "20usage",
     "filterText": "usage: ",
     "insertText": null,
     "insertTextFormat": [
@@ -426,7 +426,7 @@
     "documentation": "uses",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10uses",
+    "sortText": "20uses",
     "filterText": "uses:\n  ",
     "insertText": null,
     "insertTextFormat": [

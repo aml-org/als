@@ -6,7 +6,7 @@
     "documentation": "describedBy",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10describedBy",
+    "sortText": "20describedBy",
     "filterText": "describedBy:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10description",
+    "sortText": "20description",
     "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "displayName",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10displayName",
+    "sortText": "20displayName",
     "filterText": "displayName: ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "type",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10type",
+    "sortText": "20type",
     "filterText": "type: ",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "usage",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10usage",
+    "sortText": "20usage",
     "filterText": "usage: ",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "uses",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10uses",
+    "sortText": "20uses",
     "filterText": "uses:\n  ",
     "insertText": null,
     "insertTextFormat": [
