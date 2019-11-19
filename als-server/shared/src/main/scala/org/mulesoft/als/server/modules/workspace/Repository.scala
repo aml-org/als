@@ -56,10 +56,10 @@ class Repository() {
   }
 
   def finishedProcessing(): Unit =
-    processing.keySet.foreach { k =>
-      units.get(k) match {
+    processing.foreach { k =>
+      units.get(k._1) match {
         case Some(p) => updateProcessing(p)
-        case _       => fail(k, new Exception(s"No compilable unit: $k"))
+        case _       => fail(k._1, new Exception(s"No compilable unit: $k"))
       }
     }
 }
