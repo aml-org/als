@@ -6,7 +6,7 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20description",
+    "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "displayName",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20displayName",
+    "sortText": "11displayName",
     "filterText": "displayName: ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "headers",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20headers",
+    "sortText": "11headers",
     "filterText": "headers:\n      ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "is",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20is",
+    "sortText": "11is",
     "filterText": "is:\n      - ",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "protocols",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20protocols",
+    "sortText": "11protocols",
     "filterText": "protocols:\n      - ",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "queryParameters",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20queryParameters",
+    "sortText": "11queryParameters",
     "filterText": "queryParameters:\n      ",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "queryString",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20queryString",
+    "sortText": "11queryString",
     "filterText": "queryString:\n      ",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "responses",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20responses",
+    "sortText": "11responses",
     "filterText": "responses:\n      ",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "securedBy",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20securedBy",
+    "sortText": "11securedBy",
     "filterText": "securedBy:\n      - ",
     "insertText": null,
     "insertTextFormat": [

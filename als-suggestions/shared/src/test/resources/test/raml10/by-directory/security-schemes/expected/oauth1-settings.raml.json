@@ -6,7 +6,7 @@
     "documentation": "authorizationUri",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20authorizationUri",
+    "sortText": "11authorizationUri",
     "filterText": "authorizationUri: ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "requestTokenUri",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20requestTokenUri",
+    "sortText": "11requestTokenUri",
     "filterText": "requestTokenUri: ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "signatures",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20signatures",
+    "sortText": "11signatures",
     "filterText": "signatures: ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "tokenCredentialsUri",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20tokenCredentialsUri",
+    "sortText": "11tokenCredentialsUri",
     "filterText": "tokenCredentialsUri: ",
     "insertText": null,
     "insertTextFormat": [

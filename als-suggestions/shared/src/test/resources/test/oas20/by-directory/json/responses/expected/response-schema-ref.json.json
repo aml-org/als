@@ -6,7 +6,7 @@
     "documentation": "Reference to #/definitions/A",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20#/definitions/A",
+    "sortText": "11#/definitions/A",
     "filterText": "\"#/definitions/A\"",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20expected/",
+    "sortText": "11expected/",
     "filterText": "\"expected/\"",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20response-declaration-named.json",
+    "sortText": "11response-declaration-named.json",
     "filterText": "\"response-declaration-named.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20response-declaration.json",
+    "sortText": "11response-declaration.json",
     "filterText": "\"response-declaration.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20response-example.json",
+    "sortText": "11response-example.json",
     "filterText": "\"response-example.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20response-examples.json",
+    "sortText": "11response-examples.json",
     "filterText": "\"response-examples.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20response-header.json",
+    "sortText": "11response-header.json",
     "filterText": "\"response-header.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20response-headers.json",
+    "sortText": "11response-headers.json",
     "filterText": "\"response-headers.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20response-ref.json",
+    "sortText": "11response-ref.json",
     "filterText": "\"response-ref.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -276,7 +276,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20response-schema.json",
+    "sortText": "11response-schema.json",
     "filterText": "\"response-schema.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -306,7 +306,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20response.json",
+    "sortText": "11response.json",
     "filterText": "\"response.json\"",
     "insertText": null,
     "insertTextFormat": [

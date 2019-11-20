@@ -6,7 +6,7 @@
     "documentation": "param1",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20param1",
+    "sortText": "10param1",
     "filterText": "param1: ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "param2",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20param2",
+    "sortText": "10param2",
     "filterText": "param2: ",
     "insertText": null,
     "insertTextFormat": [

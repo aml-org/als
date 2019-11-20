@@ -6,7 +6,7 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20description",
+    "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "displayName",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20displayName",
+    "sortText": "11displayName",
     "filterText": "displayName: ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "strict",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20strict",
+    "sortText": "11strict",
     "filterText": "strict: ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "value",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20value",
+    "sortText": "11value",
     "filterText": "value: ",
     "insertText": null,
     "insertTextFormat": [

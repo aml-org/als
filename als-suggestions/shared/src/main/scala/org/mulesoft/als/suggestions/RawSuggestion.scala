@@ -59,7 +59,7 @@ object RawSuggestion {
                       value,
                       Seq(),
                       category,
-                      options = SuggestionStructure(isKey = isAKey, mandatory = mandatory))
+                      options = SuggestionStructure(isKey = isAKey, isMandatory = mandatory))
   }
 
   def forObject(value: String, category: String, mandatory: Boolean = false): RawSuggestion = {
@@ -68,7 +68,7 @@ object RawSuggestion {
                       value,
                       Seq(),
                       category,
-                      options = SuggestionStructure(isKey = true, rangeKind = ObjectRange, mandatory = mandatory))
+                      options = SuggestionStructure(isKey = true, rangeKind = ObjectRange, isMandatory = mandatory))
   }
 
   def keyOfArray(text: String, category: String): RawSuggestion = {

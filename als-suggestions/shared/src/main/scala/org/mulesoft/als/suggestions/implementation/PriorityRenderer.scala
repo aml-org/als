@@ -2,7 +2,13 @@ package org.mulesoft.als.suggestions.implementation
 
 object PriorityRenderer {
 
-  def sortValue(mandatory: Boolean = false, isTemplate: Boolean, isAnnotation: Boolean): Int =
-    (if (isTemplate) 30 else if (mandatory) 10 else 20) + { if (isAnnotation) 10 else 0 }
+  def sortValue(isMandatory: Boolean = false,
+                isTemplate: Boolean,
+                isAnnotation: Boolean,
+                isTopLevel: Boolean = false): Int =
+    if (isTopLevel) 0
+    else {
+      (if (isTemplate) 20 else 10) + { if (isAnnotation) 10 else 0 } + { if (isMandatory) 0 else 1 }
+    }
 
 }

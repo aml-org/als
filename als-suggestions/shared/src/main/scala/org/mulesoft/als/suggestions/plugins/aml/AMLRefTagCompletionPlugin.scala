@@ -20,7 +20,11 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
                   Seq(),
                   options = SuggestionStructure(rangeKind = PlainText)))
   private val refSuggestion = Seq(
-    RawSuggestion("$ref", "$ref", "reference tag", Seq(), options = SuggestionStructure(isKey = true)))
+    RawSuggestion("$ref",
+                  "$ref",
+                  "reference tag",
+                  Seq(),
+                  options = SuggestionStructure(isKey = true, isTopLevel = true)))
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future {

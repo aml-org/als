@@ -6,7 +6,7 @@
     "documentation": "(myAnnotation)",
     "deprecated": [],
     "preselect": [],
-    "sortText": "30(myAnnotation)",
+    "sortText": "21(myAnnotation)",
     "filterText": "(myAnnotation): ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "body",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20body",
+    "sortText": "11body",
     "filterText": "body:\n          ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20description",
+    "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "headers",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20headers",
+    "sortText": "11headers",
     "filterText": "headers:\n          ",
     "insertText": null,
     "insertTextFormat": [

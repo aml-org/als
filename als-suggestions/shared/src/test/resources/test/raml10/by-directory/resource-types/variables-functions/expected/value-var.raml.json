@@ -6,7 +6,7 @@
     "documentation": "methodName",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20methodName",
+    "sortText": "11methodName",
     "filterText": "description for <<methodName>>",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "resourcePath",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20resourcePath",
+    "sortText": "11resourcePath",
     "filterText": "description for <<resourcePath>>",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "resourcePathName",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20resourcePathName",
+    "sortText": "11resourcePathName",
     "filterText": "description for <<resourcePathName>>",
     "insertText": null,
     "insertTextFormat": [

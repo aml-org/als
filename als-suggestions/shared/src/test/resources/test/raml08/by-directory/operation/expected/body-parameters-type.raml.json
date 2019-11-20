@@ -6,7 +6,7 @@
     "documentation": "boolean",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20boolean",
+    "sortText": "11boolean",
     "filterText": "boolean",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "date",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20date",
+    "sortText": "11date",
     "filterText": "date",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "file",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20file",
+    "sortText": "11file",
     "filterText": "file",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "integer",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20integer",
+    "sortText": "11integer",
     "filterText": "integer",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "number",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20number",
+    "sortText": "11number",
     "filterText": "number",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "string",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20string",
+    "sortText": "11string",
     "filterText": "string",
     "insertText": null,
     "insertTextFormat": [

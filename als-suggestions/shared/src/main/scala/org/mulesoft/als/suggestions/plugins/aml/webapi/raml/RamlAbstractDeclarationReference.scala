@@ -67,7 +67,7 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
       .collect({ case p: AbstractDeclaration => p })
       .map(_.variables.flatMap(_.option()))
       .getOrElse(Nil)
-    vars.map(RawSuggestion.forKey(_, mandatory = false))
+    vars.map(RawSuggestion.forKey(_, mandatory = true))
   }
 
   private def getSiblings(params: AmlCompletionRequest): Seq[String] = {

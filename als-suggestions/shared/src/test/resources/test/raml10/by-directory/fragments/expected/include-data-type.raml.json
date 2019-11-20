@@ -6,7 +6,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20annotation.raml",
+    "sortText": "11annotation.raml",
     "filterText": "annotation.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20api.raml",
+    "sortText": "11api.raml",
     "filterText": "api.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20data-type.raml",
+    "sortText": "11data-type.raml",
     "filterText": "data-type.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20documentation-item.raml",
+    "sortText": "11documentation-item.raml",
     "filterText": "documentation-item.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20expected/",
+    "sortText": "11expected/",
     "filterText": "expected/",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20extension-extends.raml",
+    "sortText": "11extension-extends.raml",
     "filterText": "extension-extends.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20extension.raml",
+    "sortText": "11extension.raml",
     "filterText": "extension.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20include-annotation.raml",
+    "sortText": "11include-annotation.raml",
     "filterText": "include-annotation.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20include-named-example.raml",
+    "sortText": "11include-named-example.raml",
     "filterText": "include-named-example.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -276,7 +276,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20include-resource-type.raml",
+    "sortText": "11include-resource-type.raml",
     "filterText": "include-resource-type.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -306,7 +306,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20include-security-scheme.raml",
+    "sortText": "11include-security-scheme.raml",
     "filterText": "include-security-scheme.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -336,7 +336,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20include-trait.raml",
+    "sortText": "11include-trait.raml",
     "filterText": "include-trait.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -366,7 +366,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20named-example.raml",
+    "sortText": "11named-example.raml",
     "filterText": "named-example.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -396,7 +396,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20overlay-extends.raml",
+    "sortText": "11overlay-extends.raml",
     "filterText": "overlay-extends.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -426,7 +426,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20overlay.raml",
+    "sortText": "11overlay.raml",
     "filterText": "overlay.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -456,7 +456,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20resource-type.raml",
+    "sortText": "11resource-type.raml",
     "filterText": "resource-type.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -486,7 +486,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20security-scheme.raml",
+    "sortText": "11security-scheme.raml",
     "filterText": "security-scheme.raml",
     "insertText": null,
     "insertTextFormat": [
@@ -516,7 +516,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20trait.raml",
+    "sortText": "11trait.raml",
     "filterText": "trait.raml",
     "insertText": null,
     "insertTextFormat": [

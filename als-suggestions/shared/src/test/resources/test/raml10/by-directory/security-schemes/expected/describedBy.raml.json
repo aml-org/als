@@ -6,7 +6,7 @@
     "documentation": "headers",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20headers",
+    "sortText": "11headers",
     "filterText": "headers:\n        ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "queryParameters",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20queryParameters",
+    "sortText": "11queryParameters",
     "filterText": "queryParameters:\n        ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "queryString",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20queryString",
+    "sortText": "11queryString",
     "filterText": "queryString:\n        ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "responses",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20responses",
+    "sortText": "11responses",
     "filterText": "responses:\n        ",
     "insertText": null,
     "insertTextFormat": [

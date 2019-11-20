@@ -6,7 +6,7 @@
     "documentation": "Define a OAS 2.0 file",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20swagger: \"2.0\"",
+    "sortText": "11swagger: \"2.0\"",
     "filterText": "swagger: \"2.0\"",
     "insertText": null,
     "insertTextFormat": [

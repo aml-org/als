@@ -6,7 +6,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20expected/",
+    "sortText": "11expected/",
     "filterText": "\"expected/\"",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20parameter-array.json",
+    "sortText": "11parameter-array.json",
     "filterText": "\"parameter-array.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20parameter-ref.json",
+    "sortText": "11parameter-ref.json",
     "filterText": "\"parameter-ref.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20parameter.json",
+    "sortText": "11parameter.json",
     "filterText": "\"parameter.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20path.json",
+    "sortText": "11path.json",
     "filterText": "\"path.json\"",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20paths.json",
+    "sortText": "11paths.json",
     "filterText": "\"paths.json\"",
     "insertText": null,
     "insertTextFormat": [

@@ -6,7 +6,7 @@
     "documentation": "(myAnnotation)",
     "deprecated": [],
     "preselect": [],
-    "sortText": "30(myAnnotation)",
+    "sortText": "21(myAnnotation)",
     "filterText": "(myAnnotation): ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "value",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20value",
+    "sortText": "11value",
     "filterText": "value: ",
     "insertText": null,
     "insertTextFormat": [

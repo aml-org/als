@@ -6,7 +6,7 @@
     "documentation": "(myAnnotation)",
     "deprecated": [],
     "preselect": [],
-    "sortText": "30(myAnnotation)",
+    "sortText": "21(myAnnotation)",
     "filterText": "(myAnnotation): ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "delete",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20delete",
+    "sortText": "11delete",
     "filterText": "delete:\n    ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20description",
+    "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "displayName",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20displayName",
+    "sortText": "11displayName",
     "filterText": "displayName: ",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "get",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20get",
+    "sortText": "11get",
     "filterText": "get:\n    ",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "head",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20head",
+    "sortText": "11head",
     "filterText": "head:\n    ",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "is",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20is",
+    "sortText": "11is",
     "filterText": "is:\n    ",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "options",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20options",
+    "sortText": "11options",
     "filterText": "options:\n    ",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "patch",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20patch",
+    "sortText": "11patch",
     "filterText": "patch:\n    ",
     "insertText": null,
     "insertTextFormat": [
@@ -276,7 +276,7 @@
     "documentation": "post",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20post",
+    "sortText": "11post",
     "filterText": "post:\n    ",
     "insertText": null,
     "insertTextFormat": [
@@ -306,7 +306,7 @@
     "documentation": "put",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20put",
+    "sortText": "11put",
     "filterText": "put:\n    ",
     "insertText": null,
     "insertTextFormat": [
@@ -336,7 +336,7 @@
     "documentation": "securedBy",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20securedBy",
+    "sortText": "11securedBy",
     "filterText": "securedBy:\n    - ",
     "insertText": null,
     "insertTextFormat": [
@@ -366,7 +366,7 @@
     "documentation": "type",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20type",
+    "sortText": "11type",
     "filterText": "type:\n    ",
     "insertText": null,
     "insertTextFormat": [
@@ -396,7 +396,7 @@
     "documentation": "uriParameters",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20uriParameters",
+    "sortText": "11uriParameters",
     "filterText": "uriParameters:\n    ",
     "insertText": null,
     "insertTextFormat": [

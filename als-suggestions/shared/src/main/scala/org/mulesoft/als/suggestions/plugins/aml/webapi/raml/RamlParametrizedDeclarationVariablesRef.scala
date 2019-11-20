@@ -16,7 +16,7 @@ object RamlParametrizedDeclarationVariablesRef extends AMLCompletionPlugin {
     Future.successful(
       if (params.amfObject.isInstanceOf[VariableValue] && params.yPartBranch.isKey) {
         getVariablesFromParent(params.branchStack.headOption)
-          .map(RawSuggestion.forKey(_, "parameters", mandatory = false))
+          .map(RawSuggestion.forKey(_, "parameters", mandatory = true))
       } else Nil
     )
 

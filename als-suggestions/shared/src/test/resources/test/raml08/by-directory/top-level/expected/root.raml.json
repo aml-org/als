@@ -6,7 +6,7 @@
     "documentation": "baseUri",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20baseUri",
+    "sortText": "11baseUri",
     "filterText": "baseUri: ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "baseUriParameters",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20baseUriParameters",
+    "sortText": "11baseUriParameters",
     "filterText": "baseUriParameters:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "documentation",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20documentation",
+    "sortText": "11documentation",
     "filterText": "documentation:\n  - ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "mediaType",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20mediaType",
+    "sortText": "11mediaType",
     "filterText": "mediaType: ",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "protocols",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20protocols",
+    "sortText": "11protocols",
     "filterText": "protocols:\n  - ",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "resourceTypes",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20resourceTypes",
+    "sortText": "11resourceTypes",
     "filterText": "resourceTypes:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "schemas",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20schemas",
+    "sortText": "11schemas",
     "filterText": "schemas:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "securedBy",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20securedBy",
+    "sortText": "11securedBy",
     "filterText": "securedBy:\n  - ",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "securitySchemes",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20securitySchemes",
+    "sortText": "11securitySchemes",
     "filterText": "securitySchemes:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -306,7 +306,7 @@
     "documentation": "traits",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20traits",
+    "sortText": "11traits",
     "filterText": "traits:\n  ",
     "insertText": null,
     "insertTextFormat": [
@@ -336,7 +336,7 @@
     "documentation": "version",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20version",
+    "sortText": "11version",
     "filterText": "version: ",
     "insertText": null,
     "insertTextFormat": [

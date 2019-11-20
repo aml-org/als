@@ -6,7 +6,7 @@
     "documentation": "HMAC-SHA1",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20HMAC-SHA1",
+    "sortText": "11HMAC-SHA1",
     "filterText": "HMAC-SHA1",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "PLAINTEXT",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20PLAINTEXT",
+    "sortText": "11PLAINTEXT",
     "filterText": "PLAINTEXT",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "RSA-SHA1",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20RSA-SHA1",
+    "sortText": "11RSA-SHA1",
     "filterText": "RSA-SHA1",
     "insertText": null,
     "insertTextFormat": [

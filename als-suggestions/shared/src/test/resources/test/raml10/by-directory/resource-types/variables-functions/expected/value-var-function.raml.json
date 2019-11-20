@@ -6,7 +6,7 @@
     "documentation": "!lowercamelcase",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20!lowercamelcase",
+    "sortText": "11!lowercamelcase",
     "filterText": "description for <<param | !lowercamelcase>>",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "!lowercase",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20!lowercase",
+    "sortText": "11!lowercase",
     "filterText": "description for <<param | !lowercase>>",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "!pluralize",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20!pluralize",
+    "sortText": "11!pluralize",
     "filterText": "description for <<param | !pluralize>>",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "!singularize",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20!singularize",
+    "sortText": "11!singularize",
     "filterText": "description for <<param | !singularize>>",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "!uppercamelcase",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20!uppercamelcase",
+    "sortText": "11!uppercamelcase",
     "filterText": "description for <<param | !uppercamelcase>>",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "!uppercase",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20!uppercase",
+    "sortText": "11!uppercase",
     "filterText": "description for <<param | !uppercase>>",
     "insertText": null,
     "insertTextFormat": [
