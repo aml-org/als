@@ -6,6 +6,7 @@ import amf.core.model.document.BaseUnit
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.LspConverter
+import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureBuilder}
 import org.mulesoft.lsp.ConfigType
@@ -58,7 +59,8 @@ class StructureManager(val workspaceManager: WorkspaceManager,
     logger.debug("Asked for structure:\n" + uri, "StructureManager", "onDocumentStructure")
     telemetryProvider.addTimedMessage("Begin Structure", MessageTypes.BEGIN_STRUCTURE, uri, telemetryUUID)
     val results = workspaceManager
-      .getLast(uri, telemetryUUID)
+      .getUnit(uri, telemetryUUID)
+      .flatMap(_.getLast)
       .map(cu => {
         val r = getStructureFromAST(cu.unit, telemetryUUID) // todo: if isn't resolved yet map future
         logger

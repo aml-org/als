@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.workspace
 
-import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.modules.ManagersFactory
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem}
@@ -10,8 +9,7 @@ import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.scalatest.Assertion
 
-import scala.concurrent.{ExecutionContext, Future}
-import scala.io.Source
+import scala.concurrent.ExecutionContext
 
 class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
 
@@ -25,12 +23,9 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
     for {
       _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
       _ <- {
-        Future.successful {
-          platform.resolve(url).map { c =>
-            server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
-              TextDocumentItem(url, "RAML", 0, c.stream.toString))) // why clean empty lines was necessary?
-          }
-
+        platform.resolve(url).map { c =>
+          server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
+            TextDocumentItem(url, "RAML", 0, c.stream.toString))) // why clean empty lines was necessary?
         }
       }
       s <- {
