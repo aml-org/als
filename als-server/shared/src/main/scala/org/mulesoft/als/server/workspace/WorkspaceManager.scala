@@ -44,17 +44,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   }
 
   def getUnit(uri: String, uuid: String): Future[CompilableUnit] =
-    getWorkspace(uri).getOrBuildUnit(uri, uuid)
-
-  def getNext(uri: String, uuid: String): Future[CompilableUnit] =
-    getWorkspace(uri).getNext(uri, uuid)
-
-  def getLast(uri: String, uuid: String): Future[CompilableUnit] = {
-    val manager = getWorkspace(uri)
-    manager
-      .getOrBuildUnit(uri, uuid)
-      .flatMap(cu => if (cu.dirty) manager.getNext(uri, uuid) else Future.successful(cu))
-  }
+    getWorkspace(uri).getCompilableUnit(uri) // todo
 
   override def notify(uri: String, kind: NotificationKind): Unit = getWorkspace(uri).changedFile(uri, kind)
 
