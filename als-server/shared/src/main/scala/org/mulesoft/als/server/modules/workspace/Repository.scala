@@ -15,23 +15,7 @@ class Repository() {
 
   def hasPending: Boolean = processing.nonEmpty
 
-  def getUnit(uri: String): Future[ParsedUnit] =
-    units
-      .get(uri)
-      .map(Future.successful)
-      .getOrElse({
-        getNext(uri)
-      })
-
-  def getNext(uri: String): Future[ParsedUnit] = {
-    processing
-      .getOrElse(uri, {
-        val promisedUnit = Promise[ParsedUnit]()
-        processing.put(uri, promisedUnit)
-        promisedUnit
-      })
-      .future
-  }
+  def getParsed(uri: String): Option[ParsedUnit] = units.get(uri)
 
   def inTree(uri: String): Boolean = units.get(uri).exists(_.inTree)
 
@@ -40,35 +24,5 @@ class Repository() {
   def update(uri: String, u: BaseUnit, inTree: Boolean): Unit = {
     val unit = ParsedUnit(u, inTree)
     units.update(uri, unit)
-    updateProcessing(unit, processing)
-  }
-
-  def fail(uri: String, e: Throwable): Unit = {
-    processing.get(uri).foreach { p =>
-      p.failure(e)
-    }
-    processing.remove(uri)
-  }
-
-  private def updateProcessing(u: ParsedUnit, processing: mutable.Map[String, Promise[ParsedUnit]]): Unit = {
-    processing.get(u.bu.id).foreach { p =>
-      p.success(u)
-    }
-    processing.remove(u.bu.id)
-  }
-
-  def finishedProcessing(): Unit = {
-    // this block should be atomic!!
-    val snapshot = processing.clone()
-    processing.clear()
-    //
-    snapshot.foreach { k =>
-      units.get(k._1) match {
-        case Some(p) => updateProcessing(p, snapshot)
-        case _       => fail(k._1, new Exception(s"No compilable unit: $k"))
-      }
-    }
-    //    println(s"snapshot: ${snapshot.size}")
-    //    println(s"processing: ${processing.size}")
   }
 }

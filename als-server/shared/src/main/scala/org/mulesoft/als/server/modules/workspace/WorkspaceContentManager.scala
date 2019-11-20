@@ -20,127 +20,105 @@ class WorkspaceContentManager(val folder: String,
                               telemetryProvider: TelemetryProvider,
                               dependencies: List[BaseUnitListener]) {
 
-  private var state: WorkspaceState                    = Idle
-  private var pending: Set[(String, NotificationKind)] = synchronized(Set.empty)
-  private val repository                               = new Repository()
+  private var state: WorkspaceState    = Idle
+  private val stagingArea: StagingArea = new StagingArea(environmentProvider)
+  private val repository               = new Repository()
+  private var current: Future[Unit]    = Future.unit
 
   def canProcess: Boolean = state == Idle
 
   def dirty: Boolean = !canProcess
 
   def changedFile(uri: String, kind: NotificationKind): Unit = synchronized {
-    enqueue(Set((uri, kind)))
-    if (canProcess) process()
+    stagingArea.enqueue(Set((uri, kind)))
+    if (canProcess) current = process()
   }
 
-  def initialize(): Unit =
-    configMainFile.foreach(cmf => processMFChanges(cmf.mainFile, environmentProvider.environmentSnapshot(), pending))
-
-  private def snapshot(): (Set[(String, NotificationKind)], Environment) = synchronized {
-    val environment                             = environmentProvider.environmentSnapshot()
-    val actual: Set[(String, NotificationKind)] = pending
-    pending = Set.empty
-    (actual, environment)
+  def initialize(): Unit = {
+    val snapshot = stagingArea.snapshot()
+    configMainFile.foreach(cmf => {
+      val f = processMFChanges(cmf.mainFile, snapshot)
+      current = f
+      f.map(_ => current = process())
+    })
   }
 
-  def stateChanger(state: WorkspaceState): Unit = synchronized {
-    state match {
-      case ProcessingProject =>
-        this.state = ProcessingProject
-      case ProcessingFile(url) =>
-        this.state = ProcessingFile(url)
-      case Idle =>
-        this.state = Idle
-        repository.finishedProcessing()
-        if (repository.hasPending) {
-          println(s"repository has pending after 'finishedProcessing()'")
-          process()
-        }
+  def process(): Future[Unit] = {
+    if (stagingArea.isPending()) {
+      val snapshot: Snapshot = stagingArea.snapshot()
+
+      val (treeUnits, isolated) = snapshot.files.partition(u => repository.inTree(u._1)) // what if a new file is added between the partition and the override down
+      val changedTreeUnits      = treeUnits.filter(tu => tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE)
+
+      val f =
+        if (changedTreeUnits.nonEmpty) processMFChanges(configMainFile.get.mainFile, snapshot)
+        else processIsolatedChanges(isolated, snapshot.environment)
+
+      f.map { u =>
+        current = process()
+        u
+      }
+    } else
+      goIdle()
+  }
+
+  def getCompilableUnit(uri: String): Future[CompilableUnit] = {
+    repository.getParsed(uri) match {
+      case Some(pu) => Future.successful(buildCU(pu, getNext(uri)))
+      case _ =>
+        getNext(uri)
+          .orElse(repository.getParsed(uri).map(pu => Future.successful(buildCU(pu, None))))
+          .getOrElse(Future.failed(throw new Exception("failed unit")))
     }
   }
 
-  def process(): Unit = synchronized {
-    val (actual, environment) = snapshot()
+  private def buildCU(pu: ParsedUnit, next: Option[Future[CompilableUnit]]) =
+    CompilableUnit(pu.bu.id, pu.bu, if (pu.inTree) configMainFile.map(_.mainFile) else None, next)
 
-    val uuid = UUID.randomUUID().toString
-
-    val (treeUnits, isolated) = actual.partition(u => repository.inTree(u._1)) // what if a new file is added between the partition and the override down
-    val changedTreeUnits      = treeUnits.filter(tu => tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE)
-
-    if (changedTreeUnits.nonEmpty) processMFChanges(configMainFile.get.mainFile, environment, actual)
-    else if (isolated.nonEmpty) processIsolatedChanges(isolated, environment, uuid)
-    else goIdle()
-  }
-
-  def getOrBuildUnit(uri: String, uuid: String): Future[CompilableUnit] = {
-    repository.getUnit(uri).map(toCompilableUnit)
-  }
-
-  def getNext(uri: String, uuid: String): Future[CompilableUnit] = {
-    if (canProcess) repository.getUnit(uri)
-    else {
-      repository.getNext(uri)
+  private def getNext(uri: String): Option[Future[CompilableUnit]] = {
+    current match {
+      case Future.unit => None
+      case _           => Some(current.flatMap(_ => getCompilableUnit(uri)))
     }
-  }.map(toCompilableUnit)
+  }
 
-  private def goIdle(): Unit = stateChanger(Idle)
+  private def goIdle(): Future[Unit] = {
+    state = Idle
+    Future.unit
+  }
 
-  private def enqueue(files: Set[(String, NotificationKind)]): Unit =
-    pending = pending ++ files
-
-  private def dequeue(files: Set[String]): Unit =
-    pending = pending.filter(p => !files.contains(p._1))
-
-  private def processIsolatedChanges(files: Set[(String, NotificationKind)], environment: Environment, uuid: String) = {
+  private def processIsolatedChanges(files: Set[(String, NotificationKind)], environment: Environment): Future[Unit] = {
     val (closedFiles, changedFiles) = files.partition(_._2 == CLOSE_FILE)
     cleanFiles(closedFiles)
 
-    if (changedFiles.nonEmpty) processIsolated(files.head._1, environment, uuid)
-    else process()
+    if (changedFiles.nonEmpty) processIsolated(files.head._1, environment, UUID.randomUUID().toString)
+    else Future.successful(Unit)
   }
 
-  private def processIsolated(file: String, environment: Environment, uuid: String) = {
-    stateChanger(ProcessingFile(file))
-    dequeue(Set(file))
+  private def processIsolated(file: String, environment: Environment, uuid: String): Future[Unit] = {
+    state = ProcessingFile(file)
+    stagingArea.dequeue(Set(file))
     parse(file, environment, uuid)
       .map { bu =>
         repository.update(file, bu, inTree = false)
-        dependencies.foreach { d =>
-          d.onNewAst(bu, uuid)
-        }
-        process()
-      }
-      .recover {
-        case e: Throwable =>
-          repository.fail(file, e)
-          process()
+        dependencies.foreach(_.onNewAst(bu, uuid))
       }
   }
 
   private def cleanFiles(closedFiles: Set[(String, NotificationKind)]): Unit =
     closedFiles.foreach(cf => dependencies.foreach(_.onRemoveFile(cf._1)))
 
-  private def processMFChanges(mainFile: String,
-                               environment: Environment,
-                               previouslyPending: Set[(String, NotificationKind)]): Future[Unit] = {
-    stateChanger(ProcessingProject)
+  private def processMFChanges(mainFile: String, snapshot: Snapshot): Future[Unit] = {
+    state = ProcessingProject
     val uuid = UUID.randomUUID().toString
-    parse(s"$folder/$mainFile", environment, uuid)
+    parse(s"$folder/$mainFile", snapshot.environment, uuid)
       .map { u =>
         val newTree = plainRef(u).map(u => {
           repository.update(u.id, u, inTree = true)
           u.id
         })
-        dependencies.foreach { d =>
-          d.onNewAst(u, uuid)
-        }
-        enqueue(previouslyPending.filter(t => !newTree.contains(t._1)))
-        process()
-      }
-      .recover {
-        case e: Throwable =>
-          repository.treeUnits().foreach(tu => repository.fail(tu.bu.id, e))
-          process()
+        dependencies.foreach(_.onNewAst(u, uuid))
+        stagingArea.enqueue(snapshot.files.filter(t => !newTree.contains(t._1)))
       }
   }
 
@@ -154,13 +132,6 @@ class WorkspaceContentManager(val folder: String,
 
   private def plainRef(bu: BaseUnit): Set[BaseUnit] = (bu +: bu.references.flatMap(plainRef)).toSet
 
-  private def toCompilableUnit(parsedUnit: ParsedUnit): CompilableUnit =
-    CompilableUnit(parsedUnit.bu.id,
-                   parsedUnit.bu,
-                   if (parsedUnit.inTree) configMainFile.map(_.mainFile) else None,
-                   this,
-                   dirty = isDirty(parsedUnit.bu.id))
-
   private def isDirty(uri: String) = {
     state match {
       case Idle                     => false
@@ -172,13 +143,12 @@ class WorkspaceContentManager(val folder: String,
 
 }
 
-case class CompilableUnit(uri: String,
-                          unit: BaseUnit,
-                          mainFile: Option[String],
-                          ws: WorkspaceContentManager,
-                          dirty: Boolean)
+case class CompilableUnit(uri: String, unit: BaseUnit, mainFile: Option[String], next: Option[Future[CompilableUnit]]) {
 
-object CompilableUnit {
-  def apply(bu: BaseUnit, workspace: WorkspaceContentManager): CompilableUnit =
-    new CompilableUnit(bu.id, bu, None, workspace, false) // todo compute dirty?
+  def getLast: Future[CompilableUnit] = {
+    next match {
+      case Some(f) => f.flatMap(cu => cu.getLast)
+      case _       => Future.successful(this)
+    }
+  }
 }
