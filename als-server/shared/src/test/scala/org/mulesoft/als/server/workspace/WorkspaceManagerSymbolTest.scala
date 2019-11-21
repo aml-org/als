@@ -45,6 +45,7 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
     }
   }
 
+  // TODO: Why is this not returning structure??
   ignore("Workspace Manager check Symbol - dependency") {
     withServer[Assertion] { server =>
       testStructureForFile(server, s"${filePath("ws1")}/sub/type.raml")
