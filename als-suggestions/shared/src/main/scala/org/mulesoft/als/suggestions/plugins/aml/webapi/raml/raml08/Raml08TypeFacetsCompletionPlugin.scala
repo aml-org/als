@@ -35,11 +35,12 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
         if (insideFormMediaType(params))
           Seq(RawSuggestion.forObject("formParameters", "schemas"))
         else Seq()
-      } :+ RawSuggestion("schema", isAKey = true, "schemas")
+      } :+ RawSuggestion("schema", isAKey = true, "schemas", mandatory = false)
       case p: Payload
           if formMediaTypes
             .contains(p.mediaType.value()) =>
-        Seq(RawSuggestion.forObject("formParameters", "schemas"), RawSuggestion("schema", isAKey = true, "schemas"))
+        Seq(RawSuggestion.forObject("formParameters", "schemas"),
+            RawSuggestion("schema", isAKey = true, "schemas", mandatory = false))
       case _ => Nil
     })
   }

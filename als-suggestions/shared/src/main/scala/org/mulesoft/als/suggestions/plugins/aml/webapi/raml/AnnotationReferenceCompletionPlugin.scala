@@ -23,9 +23,9 @@ object AnnotationReferenceCompletionPlugin extends AMLCompletionPlugin {
         val annSuggestions = params.declarationProvider
           .forNodeType(CustomDomainPropertyModel.`type`.head.iri())
           .filter(n => !annName.contains(n))
-          .map(an => RawSuggestion.forKey(s"($an)", "annotations"))
+          .map(an => RawSuggestion.forKey(s"($an)", "annotations", mandatory = false))
           .toSeq
-        if (isScalar(params)) RawSuggestion.forKey("value", "unknown") +: annSuggestions
+        if (isScalar(params)) RawSuggestion.forKey("value", "unknown", mandatory = false) +: annSuggestions
         else annSuggestions
       } else Nil
     )

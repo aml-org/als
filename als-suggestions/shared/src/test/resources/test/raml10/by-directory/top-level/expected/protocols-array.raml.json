@@ -6,7 +6,7 @@
     "documentation": "HTTP",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10HTTP",
+    "sortText": "11HTTP",
     "filterText": "HTTP",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "HTTPS",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10HTTPS",
+    "sortText": "11HTTPS",
     "filterText": "HTTPS",
     "insertText": null,
     "insertTextFormat": [

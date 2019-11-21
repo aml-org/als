@@ -6,7 +6,7 @@
     "documentation": "application/json",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10application/json",
+    "sortText": "11application/json",
     "filterText": "\n        - application/json",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "application/vnd.github+json",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10application/vnd.github+json",
+    "sortText": "11application/vnd.github+json",
     "filterText": "\n        - application/vnd.github+json",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "application/vnd.github.v3+json",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10application/vnd.github.v3+json",
+    "sortText": "11application/vnd.github.v3+json",
     "filterText": "\n        - application/vnd.github.v3+json",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "application/vnd.github.v3.full+json",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10application/vnd.github.v3.full+json",
+    "sortText": "11application/vnd.github.v3.full+json",
     "filterText": "\n        - application/vnd.github.v3.full+json",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "application/vnd.github.v3.html+json",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10application/vnd.github.v3.html+json",
+    "sortText": "11application/vnd.github.v3.html+json",
     "filterText": "\n        - application/vnd.github.v3.html+json",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "application/vnd.github.v3.patch",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10application/vnd.github.v3.patch",
+    "sortText": "11application/vnd.github.v3.patch",
     "filterText": "\n        - application/vnd.github.v3.patch",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "application/vnd.github.v3.raw+json",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10application/vnd.github.v3.raw+json",
+    "sortText": "11application/vnd.github.v3.raw+json",
     "filterText": "\n        - application/vnd.github.v3.raw+json",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "application/vnd.github.v3.text+json",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10application/vnd.github.v3.text+json",
+    "sortText": "11application/vnd.github.v3.text+json",
     "filterText": "\n        - application/vnd.github.v3.text+json",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "appxlication/vnd.github.v3.diff",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10appxlication/vnd.github.v3.diff",
+    "sortText": "11appxlication/vnd.github.v3.diff",
     "filterText": "\n        - appxlication/vnd.github.v3.diff",
     "insertText": null,
     "insertTextFormat": [
@@ -276,7 +276,7 @@
     "documentation": "text/plain; charset=utf-8",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10text/plain; charset=utf-8",
+    "sortText": "11text/plain; charset=utf-8",
     "filterText": "\n        - text/plain; charset=utf-8",
     "insertText": null,
     "insertTextFormat": [
