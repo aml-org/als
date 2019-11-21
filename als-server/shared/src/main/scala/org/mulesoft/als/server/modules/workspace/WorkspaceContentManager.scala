@@ -99,7 +99,7 @@ class WorkspaceContentManager(val folder: String,
     stagingArea.dequeue(Set(file))
     parse(file, environment, uuid)
       .map { bu =>
-        repository.update(file, bu, inTree = false)
+        repository.update(bu)
         dependencies.foreach(_.onNewAst(bu, uuid))
       }
   }
@@ -112,12 +112,9 @@ class WorkspaceContentManager(val folder: String,
     val uuid = UUID.randomUUID().toString
     parse(s"$folder/$mainFile", snapshot.environment, uuid)
       .map { u =>
-        val newTree = plainRef(u).map(u => {
-          repository.update(u.id, u, inTree = true)
-          u.id
-        })
+        repository.newTree(plainRef(u))
         dependencies.foreach(_.onNewAst(u, uuid))
-        stagingArea.enqueue(snapshot.files.filter(t => !newTree.contains(t._1)))
+        stagingArea.enqueue(snapshot.files.filter(t => !repository.inTree(t._1)))
       }
   }
 
