@@ -38,7 +38,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   def initializeWS(folder: String): Unit = {
     val mainOption = rootHandler.extractMainFile(folder)
     val workspace =
-      new WorkspaceContentManager(folder, mainOption, environmentProvider, telemetryProvider, dependencies)
+      new WorkspaceContentManager(folder, mainOption, environmentProvider, telemetryProvider, logger, dependencies)
     workspaces += workspace
     workspace.initialize()
   }
@@ -63,7 +63,8 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, environmentProvider.platform)
   )
 
-  val defaultWorkspace = new WorkspaceContentManager("", None, environmentProvider, telemetryProvider, dependencies)
+  val defaultWorkspace =
+    new WorkspaceContentManager("", None, environmentProvider, telemetryProvider, logger, dependencies)
 
   override def initialize(): Future[Unit] = AmfInitializationHandler.init()
 }
