@@ -6,7 +6,7 @@
     "documentation": "formParameters",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10formParameters",
+    "sortText": "11formParameters",
     "filterText": "formParameters:\n              ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "schema",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schema",
+    "sortText": "11schema",
     "filterText": "schema: ",
     "insertText": null,
     "insertTextFormat": [

@@ -5,4 +5,4 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.RamlParamsCompletion
 
 object Raml10ParamsCompletionPlugin
     extends RamlParamsCompletionPlugin(Raml10TypeFacetsCompletionPlugin,
-                                       Seq(RawSuggestion.forKey("required", "parameters")))
+                                       Seq(RawSuggestion.forKey("required", "parameters", mandatory = false)))

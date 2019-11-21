@@ -6,7 +6,7 @@
     "documentation": "consumes",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10consumes",
+    "sortText": "11consumes",
     "filterText": "\"consumes\": [\n          \"$1\"\n        ]",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "deprecated",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10deprecated",
+    "sortText": "11deprecated",
     "filterText": "\"deprecated\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10description",
+    "sortText": "11description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "externalDocs",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10externalDocs",
+    "sortText": "11externalDocs",
     "filterText": "\"externalDocs\": {\n          \"$1\"\n        }",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "operationId",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10operationId",
+    "sortText": "11operationId",
     "filterText": "\"operationId\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "parameters",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10parameters",
+    "sortText": "11parameters",
     "filterText": "\"parameters\": [\n          \"$1\"\n        ]",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "produces",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10produces",
+    "sortText": "11produces",
     "filterText": "\"produces\": [\n          \"$1\"\n        ]",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "schemes",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schemes",
+    "sortText": "11schemes",
     "filterText": "\"schemes\": [\n          \"$1\"\n        ]",
     "insertText": null,
     "insertTextFormat": [
@@ -276,7 +276,7 @@
     "documentation": "security",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10security",
+    "sortText": "11security",
     "filterText": "\"security\": [\n          \"$1\"\n        ]",
     "insertText": null,
     "insertTextFormat": [
@@ -306,7 +306,7 @@
     "documentation": "summary",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10summary",
+    "sortText": "11summary",
     "filterText": "\"summary\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -336,7 +336,7 @@
     "documentation": "tags",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10tags",
+    "sortText": "11tags",
     "filterText": "\"tags\": [\n          \"$1\"\n        ]",
     "insertText": null,
     "insertTextFormat": [

@@ -27,7 +27,8 @@ object SecurityScopesCompletionPlugin extends AMLCompletionPlugin {
                 RawSuggestion(t,
                               isAKey = false,
                               category = CategoryRegistry(OAuth2SettingsModel.`type`.head.iri(),
-                                                          OAuth2SettingsModel.Scopes.value.iri())))
+                                                          OAuth2SettingsModel.Scopes.value.iri()),
+                              mandatory = false))
         case _ => Nil
 
       }

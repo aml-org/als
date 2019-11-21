@@ -6,7 +6,7 @@
     "documentation": "param",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10param",
+    "sortText": "11param",
     "filterText": "\"param\"",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "userId",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10userId",
+    "sortText": "11userId",
     "filterText": "\"userId\"",
     "insertText": null,
     "insertTextFormat": [

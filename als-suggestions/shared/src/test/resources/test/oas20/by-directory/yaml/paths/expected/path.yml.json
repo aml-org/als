@@ -6,7 +6,7 @@
     "documentation": "reference tag",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10$ref",
+    "sortText": "0$ref",
     "filterText": "$ref: ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "delete",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10delete",
+    "sortText": "11delete",
     "filterText": "delete:\n      ",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "get",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10get",
+    "sortText": "11get",
     "filterText": "get:\n      ",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "head",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10head",
+    "sortText": "11head",
     "filterText": "head:\n      ",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "options",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10options",
+    "sortText": "11options",
     "filterText": "options:\n      ",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "parameters",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10parameters",
+    "sortText": "11parameters",
     "filterText": "parameters:\n      - ",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "patch",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10patch",
+    "sortText": "11patch",
     "filterText": "patch:\n      ",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "post",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10post",
+    "sortText": "11post",
     "filterText": "post:\n      ",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "put",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10put",
+    "sortText": "11put",
     "filterText": "put:\n      ",
     "insertText": null,
     "insertTextFormat": [

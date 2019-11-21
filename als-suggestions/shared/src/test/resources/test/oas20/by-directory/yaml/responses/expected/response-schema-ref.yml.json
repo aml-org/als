@@ -6,7 +6,7 @@
     "documentation": "Reference to #/definitions/A",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10#/definitions/A",
+    "sortText": "11#/definitions/A",
     "filterText": "\"#/definitions/A\"",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10expected/",
+    "sortText": "11expected/",
     "filterText": "expected/",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10response-declaration-named.yml",
+    "sortText": "11response-declaration-named.yml",
     "filterText": "response-declaration-named.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10response-declaration.yml",
+    "sortText": "11response-declaration.yml",
     "filterText": "response-declaration.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10response-example.yml",
+    "sortText": "11response-example.yml",
     "filterText": "response-example.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10response-examples.yml",
+    "sortText": "11response-examples.yml",
     "filterText": "response-examples.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10response-header.yml",
+    "sortText": "11response-header.yml",
     "filterText": "response-header.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10response-headers.yml",
+    "sortText": "11response-headers.yml",
     "filterText": "response-headers.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10response-ref.yml",
+    "sortText": "11response-ref.yml",
     "filterText": "response-ref.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -276,7 +276,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10response-schema.yml",
+    "sortText": "11response-schema.yml",
     "filterText": "response-schema.yml",
     "insertText": null,
     "insertTextFormat": [
@@ -306,7 +306,7 @@
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10response.yml",
+    "sortText": "11response.yml",
     "filterText": "response.yml",
     "insertText": null,
     "insertTextFormat": [

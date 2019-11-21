@@ -27,7 +27,7 @@ object WebApiExtensionsPropertyCompletionPlugin extends AMLCompletionPlugin {
                                  isKey: Boolean,
                                  env: CompletionEnvironment,
                                  prefix: String): Future[Seq[RawSuggestion]] = {
-    if (isKey) Future { Seq(RawSuggestion.forKey("extends")) } else
+    if (isKey) Future { Seq(RawSuggestion.forKey("extends", mandatory = true)) } else
       AMLPathCompletionPlugin.resolveInclusion(e.location().getOrElse(""), env, prefix)
   }
 }

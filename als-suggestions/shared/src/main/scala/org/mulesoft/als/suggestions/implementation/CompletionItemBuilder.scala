@@ -16,6 +16,8 @@ class CompletionItemBuilder(r: PositionRange) {
   private var category: String           = ""
   private var template                   = false
   private var filterText: Option[String] = None
+  private var mandatory: Boolean         = false
+  private var isTopLevel: Boolean        = false
 
   def withText(text: String): this.type = {
     this.text = text
@@ -62,12 +64,25 @@ class CompletionItemBuilder(r: PositionRange) {
     this
   }
 
+  def withMandatory(mandatory: Boolean): this.type = {
+    this.mandatory = mandatory
+    this
+  }
+
+  def withIsTopLevel(isTopLevel: Boolean): this.type = {
+    this.isTopLevel = isTopLevel
+    this
+  }
+
   def getRange: PositionRange = this.range
   def getDisplayText: String  = this.displayText
   def getText: String         = this.text
 
   def getPriority(text: String): Int =
-    (if (template) 20 else 10) + { if (text.startsWith("(")) 10 else 0 }
+    PriorityRenderer.sortValue(isMandatory = mandatory,
+                               isTemplate = template,
+                               isAnnotation = text.startsWith("("),
+                               isTopLevel = isTopLevel)
 
   def build(): CompletionItem =
     CompletionItem(

@@ -6,7 +6,7 @@
     "documentation": "contact",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10contact",
+    "sortText": "11contact",
     "filterText": "\"contact\": {\n      \"$1\"\n    }",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10description",
+    "sortText": "11description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "license",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10license",
+    "sortText": "11license",
     "filterText": "\"license\": {\n      \"$1\"\n    }",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "termsOfService",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10termsOfService",
+    "sortText": "11termsOfService",
     "filterText": "\"termsOfService\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
