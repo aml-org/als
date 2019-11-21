@@ -5,15 +5,15 @@ import amf.core.model.document.BaseUnit
 import scala.collection.mutable
 import scala.concurrent.{Future, Promise}
 
-case class ParsedUnit(bu: BaseUnit, inTree: Boolean)
+case class ParsedUnit(bu: BaseUnit, inTree: Boolean) {
+  def toCU(next: Option[Future[CompilableUnit]], mf: Option[String]): CompilableUnit = {
+    CompilableUnit(bu.id, bu, if (inTree) mf else None, next)
+  }
+}
 
 class Repository() {
 
   private val units: mutable.Map[String, ParsedUnit] = mutable.Map.empty
-
-  private val processing: mutable.Map[String, Promise[ParsedUnit]] = mutable.Map.empty
-
-  def hasPending: Boolean = processing.nonEmpty
 
   def getParsed(uri: String): Option[ParsedUnit] = units.get(uri)
 

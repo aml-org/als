@@ -6,7 +6,7 @@ import org.mulesoft.als.server.textsync.EnvironmentProvider
 
 class StagingArea(environmentProvider: EnvironmentProvider) {
 
-  def isPending(): Boolean = pending.nonEmpty
+  def isPending: Boolean = pending.nonEmpty
 
   private var pending: Set[(String, NotificationKind)] = Set.empty
 
