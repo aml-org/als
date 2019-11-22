@@ -1,7 +1,11 @@
 package org.mulesoft.als.server.workspace.extract
 
+import amf.internal.environment.Environment
 import amf.core.remote.Platform
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.ConfigFile
 import org.mulesoft.als.common.FileUtils
+import org.mulesoft.als.server.workspace.extract
+import sun.misc.ObjectInputFilter.Config
 
 import scala.collection.mutable
 
@@ -19,7 +23,9 @@ class WorkspaceRootHandler(platform: Platform) {
       val path = FileUtils.getPath(s"$dir/${k._1}", platform)
       val file = platform.fs.syncFile(path)
       if (file.exists)
-        k._2.extractMainFile(file.read()).map(mf => ConfigFileMain(FileUtils.getEncodedUri(file.path, platform), mf))
+        k._2
+          .extractMainFile(file.read().toString)
+          .map(mf => ConfigFileMain(FileUtils.getEncodedUri(file.path, platform), mf, k._2))
       else None
     }
     mains.headOption
@@ -39,8 +45,8 @@ class WorkspaceRootHandler(platform: Platform) {
       if (file.exists)
         configFileNames
           .get(head)
-          .flatMap(_.extractMainFile(file.read()))
-          .map(mainFile => ConfigFileMain(FileUtils.getEncodedUri(file.path, platform), mainFile))
+          .flatMap(extractor => extractor.extractMainFile(file.read().toString).map((_, extractor)))
+          .map(mainFile => ConfigFileMain(FileUtils.getEncodedUri(file.path, platform), mainFile._1, mainFile._2))
           .orElse(checkDirForConfigFile(fileNames, uri))
       else
         checkDirForConfigFile(fileNames, uri)
@@ -60,13 +66,13 @@ class WorkspaceRootHandler(platform: Platform) {
 
   def getMainFiles: Set[String] =
     rootDirs.values.flatMap {
-      case Some(ConfigFileMain(_, mf)) => Some(mf)
-      case _                           => None
+      case Some(ConfigFileMain(_, mf, _)) => Some(mf)
+      case _                              => None
     }.toSet
 
   def getUsedConfigFiles: Set[String] =
     rootDirs.values.flatMap {
-      case Some(ConfigFileMain(cf, _)) => Some(cf)
-      case _                           => None
+      case Some(ConfigFileMain(cf, _, _)) => Some(cf)
+      case _                              => None
     }.toSet
 }

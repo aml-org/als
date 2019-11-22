@@ -23,7 +23,7 @@ class WorkspaceContentManager(val folder: String,
                               dependencies: List[BaseUnitListener]) {
 
   private var state: WorkspaceState    = Idle
-  private val mainFile                 = configMainFile.map(_.mainFile)
+  private var mainFile                 = configMainFile.map(_.mainFile)
   private val stagingArea: StagingArea = new StagingArea(environmentProvider)
   private val repository               = new Repository()
   private var current: Future[Unit]    = Future.unit
@@ -63,13 +63,38 @@ class WorkspaceContentManager(val folder: String,
     else goIdle()
   }
 
-  private def processSnapshot(): Future[Unit] = {
-    val snapshot: Snapshot    = stagingArea.snapshot()
-    val (treeUnits, isolated) = snapshot.files.partition(u => repository.inTree(u._1)) // what if a new file is added between the partition and the override down
-    val changedTreeUnits      = treeUnits.filter(tu => tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE)
+  private def changeMainFile(snapshot: Snapshot): Future[Unit] = {
+    state = ProcessingProject
+    environmentProvider.platform.resolve(configMainFile.get.configFileUri, snapshot.environment).flatMap { content =>
+      val fileContent = content.stream.toString
+      val maybeString = configMainFile.flatMap(_.extractor.extractMainFile(fileContent))
+      stagingArea.enqueue(snapshot.files.filterNot(_._1 == configMainFile.get.configFileUri))
+      maybeString match {
+        case Some(mf) if mainFile.exists(_ != mf) =>
+          repository.cleanTree()
+          mainFile = maybeString // todo: When dependencies are added, check for changes
+          processMFChanges(mf, snapshot)
+        case _ => Future.unit
+      }
+    }
+  }
 
-    if (changedTreeUnits.nonEmpty) processMFChanges(configMainFile.get.mainFile, snapshot)
-    else processIsolatedChanges(isolated, snapshot.environment)
+  def configChanged(snapshot: Snapshot): Boolean =
+    snapshot.files
+      .exists(f =>
+        configMainFile.exists(cmf => cmf.configFileUri == f._1 && Set(CHANGE_FILE, CLOSE_FILE).contains(f._2)))
+
+  private def processSnapshot(): Future[Unit] = {
+    val snapshot: Snapshot = stagingArea.snapshot()
+    if (configChanged(snapshot))
+      changeMainFile(snapshot)
+    else {
+      val (treeUnits, isolated) = snapshot.files.partition(u => repository.inTree(u._1)) // what if a new file is added between the partition and the override down
+      val changedTreeUnits      = treeUnits.filter(tu => tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE)
+
+      if (changedTreeUnits.nonEmpty) processMFChanges(configMainFile.get.mainFile, snapshot)
+      else processIsolatedChanges(isolated, snapshot.environment)
+    }
   }
 
   private def fail(uri: String) = throw UnitNotFoundException(uri)

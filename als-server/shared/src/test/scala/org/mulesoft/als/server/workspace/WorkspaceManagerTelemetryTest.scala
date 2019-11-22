@@ -48,7 +48,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
         _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(independent)))
         _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
         _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(main)))
-        allTelemetry <- Future.sequence {
+        allTelemetry <- Future.sequence { // TODO: Check for consistency
           notifier.promises.map(p => p.future)
         }
       } yield {
@@ -79,7 +79,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
           .resolve(subdir)
           .map(c => openFile(server)(subdir, c.stream.toString)) // open subdir file (SHOULD reparse subdir)
         s2 <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
-        allTelemetry <- Future.sequence {
+        allTelemetry <- Future.sequence { // TODO: Check for consistency
           notifier.promises.map(p => p.future)
         }
       } yield {
