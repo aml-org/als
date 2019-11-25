@@ -35,7 +35,7 @@ trait FindDefinitionFile {
       case alias: YNode.Alias => Seq(locationToLsp(alias.location, alias.target.location, platform))
       case y: YNode if DialectKnowledge.appliesReference(bu, yPartBranch) =>
         y.value match {
-          case scalar: YScalar if scalar.value.toString.startsWith("#") =>
+          case scalar: YScalar if scalar.text.startsWith("#") =>
             checkBaseUnitForRef(yPartBranch, ObjectInTreeBuilder.fromUnit(bu, position.toAmfPosition), platform)
           case _ => extractPath(bu.raw, position)
         }

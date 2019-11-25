@@ -13,13 +13,17 @@ import org.mulesoft.als.server.workspace.command.{
 import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 import org.mulesoft.amfmanager.AmfInitializationHandler
 import org.mulesoft.lsp.Initializable
+import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{ExecuteCommandParams, WorkspaceService}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class WorkspaceManager(environmentProvider: EnvironmentProvider, dependencies: List[BaseUnitListener], logger: Logger)
+class WorkspaceManager(environmentProvider: EnvironmentProvider,
+                       telemetryProvider: TelemetryProvider,
+                       dependencies: List[BaseUnitListener],
+                       logger: Logger)
     extends TextListener
     with WorkspaceService
     with Initializable {
@@ -33,23 +37,14 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider, dependencies: L
 
   def initializeWS(folder: String): Unit = {
     val mainOption = rootHandler.extractMainFile(folder)
-    val workspace  = new WorkspaceContentManager(folder, mainOption, environmentProvider, dependencies)
+    val workspace =
+      new WorkspaceContentManager(folder, mainOption, environmentProvider, telemetryProvider, logger, dependencies)
     workspaces += workspace
     workspace.initialize()
   }
 
   def getUnit(uri: String, uuid: String): Future[CompilableUnit] =
-    getWorkspace(uri).getOrBuildUnit(uri, uuid)
-
-  def getNext(uri: String, uuid: String): Future[CompilableUnit] =
-    getWorkspace(uri).getNext(uri, uuid)
-
-  def getLast(uri: String, uuid: String): Future[CompilableUnit] = {
-    val manager = getWorkspace(uri)
-    manager
-      .getOrBuildUnit(uri, uuid)
-      .flatMap(cu => if (cu.dirty) manager.getNext(uri, uuid) else Future.successful(cu))
-  }
+    getWorkspace(uri).getCompilableUnit(uri) // todo
 
   override def notify(uri: String, kind: NotificationKind): Unit = getWorkspace(uri).changedFile(uri, kind)
 
@@ -68,7 +63,8 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider, dependencies: L
     Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, environmentProvider.platform)
   )
 
-  val defaultWorkspace = new WorkspaceContentManager("", None, environmentProvider, dependencies)
+  val defaultWorkspace =
+    new WorkspaceContentManager("", None, environmentProvider, telemetryProvider, logger, dependencies)
 
   override def initialize(): Future[Unit] = AmfInitializationHandler.init()
 }

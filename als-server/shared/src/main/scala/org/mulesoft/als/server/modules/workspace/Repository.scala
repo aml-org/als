@@ -3,56 +3,38 @@ package org.mulesoft.als.server.modules.workspace
 import amf.core.model.document.BaseUnit
 
 import scala.collection.mutable
-import scala.concurrent.{Future, Promise}
+import scala.concurrent.Future
 
-case class ParsedUnit(bu: BaseUnit, inTree: Boolean)
+case class ParsedUnit(bu: BaseUnit, inTree: Boolean) {
+  def toCU(next: Option[Future[CompilableUnit]], mf: Option[String]): CompilableUnit = {
+    CompilableUnit(bu.id, bu, if (inTree) mf else None, next)
+  }
+}
 
 class Repository() {
 
   private val units: mutable.Map[String, ParsedUnit] = mutable.Map.empty
 
-  private val processing: mutable.Map[String, Promise[ParsedUnit]] = mutable.Map.empty
+  def getParsed(uri: String): Option[ParsedUnit] = units.get(uri)
 
-  def getUnit(uri: String): Future[ParsedUnit] =
-    units
-      .get(uri)
-      .map(Future.successful)
-      .getOrElse({
-        getNext(uri)
-      })
-
-  def getNext(uri: String): Future[ParsedUnit] = {
-    processing
-      .getOrElse(uri, {
-        val promisedUnit = Promise[ParsedUnit]()
-        processing.put(uri, promisedUnit)
-        promisedUnit
-      })
-      .future
-  }
-
-  def inTree(uri: String): Boolean = units.get(uri).exists(_.inTree)
+  def inTree(uri: String): Boolean = treeKeys.contains(uri)
 
   def treeUnits(): Iterable[ParsedUnit] = units.values.filter(_.inTree)
 
-  def update(uri: String, u: BaseUnit, inTree: Boolean): Unit = {
-    val unit = ParsedUnit(u, inTree)
-    units.update(uri, unit)
-    updateProssessing(unit)
+  def treeKeys: collection.Set[String] = units.filter(_._2.inTree).keySet
+
+  def update(u: BaseUnit): Unit = {
+    if (treeKeys.contains(u.id)) throw new Exception("Cannot update an unit from the tree")
+    val unit = ParsedUnit(u, inTree = false)
+    units.update(u.id, unit)
   }
 
-  def fail(uri: String, e: Throwable): Unit = {
-    processing.get(uri).foreach { p =>
-      p.failure(e)
+  def newTree(u: Set[BaseUnit]): Unit = synchronized {
+    cleanTree()
+    u.map(ParsedUnit(_, inTree = true)).foreach { p =>
+      units.update(p.bu.id, p)
     }
-    processing.remove(uri)
   }
 
-  private def updateProssessing(u: ParsedUnit): Unit = {
-    processing.get(u.bu.id).foreach { p =>
-      p.success(u)
-    }
-    processing.remove(u.bu.id)
-  }
-
+  def cleanTree(): Unit = treeKeys.foreach(units.remove)
 }
