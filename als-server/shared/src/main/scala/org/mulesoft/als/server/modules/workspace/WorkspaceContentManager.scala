@@ -35,7 +35,7 @@ class WorkspaceContentManager(val folder: String,
   def canProcess: Boolean = state == Idle && current == Future.unit // ??
 
   def changedFile(uri: String, kind: NotificationKind): Unit = synchronized {
-    stagingArea.enqueue(Set((uri, kind)))
+    stagingArea.enqueue(uri, kind)
     if (canProcess) current = process()
   }
 
@@ -86,7 +86,7 @@ class WorkspaceContentManager(val folder: String,
     Future.unit
   }
 
-  private def processIsolatedChanges(files: Set[(String, NotificationKind)], environment: Environment): Future[Unit] = {
+  private def processIsolatedChanges(files: List[(String, NotificationKind)], environment: Environment): Future[Unit] = {
     val (closedFiles, changedFiles) = files.partition(_._2 == CLOSE_FILE)
     cleanFiles(closedFiles)
 
@@ -104,7 +104,7 @@ class WorkspaceContentManager(val folder: String,
       }
   }
 
-  private def cleanFiles(closedFiles: Set[(String, NotificationKind)]): Unit =
+  private def cleanFiles(closedFiles: List[(String, NotificationKind)]): Unit =
     closedFiles.foreach(cf => dependencies.foreach(_.onRemoveFile(cf._1)))
 
   private def processMFChanges(mainFile: String, snapshot: Snapshot): Future[Unit] = {
