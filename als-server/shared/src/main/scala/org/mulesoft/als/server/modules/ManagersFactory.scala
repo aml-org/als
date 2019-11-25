@@ -22,14 +22,14 @@ case class ManagersFactory(clientNotifier: ClientNotifier,
   private val directoryResolver          = dr.getOrElse(new PlatformDirectoryResolver(platform))
   val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
   // todo initialize amf
-//  val astManager                         = new AstManager(editorEnvironment.environment, telemetryManager, platform, logger)
+  //  val astManager                         = new AstManager(editorEnvironment.environment, telemetryManager, platform, logger)
 
   lazy val diagnosticManager = new DiagnosticManager(telemetryManager, clientNotifier, logger)
 
   private val projectDependencies = if (withDiagnostics) List(diagnosticManager) else Nil
   val container                   = TextDocumentContainer(platform)
 
-  val workspaceManager     = new WorkspaceManager(container, projectDependencies, logger)
+  val workspaceManager     = new WorkspaceManager(container, telemetryManager, projectDependencies, logger)
   lazy val documentManager = new TextDocumentManager(container, List(workspaceManager), logger)
 
   lazy val completionManager =
