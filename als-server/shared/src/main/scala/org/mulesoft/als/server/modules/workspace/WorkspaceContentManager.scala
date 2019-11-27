@@ -111,10 +111,11 @@ class WorkspaceContentManager(val folder: String,
     state = ProcessingProject
     val uuid = UUID.randomUUID().toString
     parse(s"$folder/$mainFile", snapshot.environment, uuid)
-      .map { u =>
-        repository.newTree(u)
-        dependencies.foreach(_.onNewAst(u, uuid))
-        stagingArea.enqueue(snapshot.files.filter(t => !repository.inTree(t._1)))
+      .flatMap { u =>
+        repository.newTree(u).map { _ =>
+          dependencies.foreach(_.onNewAst(u, uuid))
+          stagingArea.enqueue(snapshot.files.filter(t => !repository.inTree(t._1)))
+        }
       }
   }
 

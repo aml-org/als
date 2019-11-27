@@ -37,39 +37,45 @@ class Repository(cachables: Set[String], logger: Logger) {
 
   def cleanTree(): Unit = treeKeys.foreach(units.remove)
 
-  def newTree(main: BaseUnit): Unit = synchronized {
+  def newTree(main: BaseUnit): Future[Unit] = synchronized {
     cleanTree()
     indexUnit(main)
   }
 
-  private def indexUnit(unit: BaseUnit): Unit = indexParsedUnit(ParsedUnit(unit, inTree = true))
+  private def indexUnit(unit: BaseUnit): Future[Unit] = indexParsedUnit(ParsedUnit(unit, inTree = true))
 
-  private def indexParsedUnit(pu: ParsedUnit): Unit = {
-    checkCache(pu)
+  private def indexParsedUnit(pu: ParsedUnit): Future[Unit] = {
+    val cachedF = checkCache(pu)
 
-    if (!units.contains(pu.bu.id)) { // stop: recursion
+    val sons = if (!units.contains(pu.bu.id)) { // stop: recursion
       units.put(pu.bu.id, pu)
-      pu.bu.references.foreach(indexUnit)
-    }
+      pu.bu.references.map(indexUnit)
+    } else Nil
+    Future.sequence(cachedF +: sons).map(_ => Unit)
   }
 
-  private def checkCache(p: ParsedUnit): Unit = if (cache.isEmpty && cachables.contains(p.bu.id)) cache(p)
+  private def checkCache(p: ParsedUnit): Future[Unit] =
+    if (cache.isEmpty && cachables.contains(p.bu.id)) cache(p) else Future.unit
 
-  private def cache(p: ParsedUnit): Unit = {
-    try {
-      val resolved = ParserHelper.resolve(p.bu.cloneUnit())
-      val f = ParserHelper
+  private def cache(p: ParsedUnit): Future[Unit] = {
+    val eventualUnit: Future[Unit] = Future({
+      ParserHelper.resolve(p.bu.cloneUnit())
+    }).flatMap(resolved => {
+      ParserHelper
         .reportResolved(resolved)
         .map(r => {
           if (r.conforms) cache.put(p.bu.id, ParsedUnit(resolved, inTree = true))
+          Unit
         })
-      Await.result(f, 2000 millis)
-    } catch {
-      case e: Throwable => // ignore
-        logger.error(s"Error while resolving cachable unit: ${p.bu.id}. Message ${e.getMessage}",
-                     "Respotivory",
-                     "Cache unit")
-    }
+    })
+    eventualUnit
+      .recoverWith {
+        case e: Throwable => // ignore
+          logger.error(s"Error while resolving cachable unit: ${p.bu.id}. Message ${e.getMessage}",
+                       "Respotivory",
+                       "Cache unit")
+          Future.successful(Unit)
+      }
   }
 
   def resolverCache: ReferenceResolver = { url: String =>
