@@ -31,7 +31,7 @@ class ExchangeConfigReaderTest extends FlatSpec with PlatformSecrets with ListAs
       maybeConf.isDefined should be(true)
       val config = maybeConf.get
       config.mainFile should be(testCase.main)
-      assert(config.cachables.toList, testCase.dependencies)
+      assert(config.cachables.toList.sorted, testCase.dependencies)
     }
   }
 
