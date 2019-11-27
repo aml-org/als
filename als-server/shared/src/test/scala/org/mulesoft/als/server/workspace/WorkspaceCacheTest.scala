@@ -199,6 +199,62 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers {
       counter should be(2)
     }
   }
+
+  test("test invalid dependency ") {
+    val cachable =
+      """#%RAML 1.0 Library
+        |types:
+        |  A: unresolved
+      """.stripMargin
+
+    val api =
+      """#%RAML 1.0
+        |title: test
+        |uses:
+        |  lib: cachable.raml
+        |types:
+        |  B: lib.A
+      """.stripMargin
+    var counter: Int = 0
+    val rl: ResourceLoader = new ResourceLoader {
+
+      /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
+      override def fetch(resource: String): Future[Content] = {
+        val content = if (resource == "file://folder/cachable.raml") {
+          counter = counter + 1
+          cachable
+        } else if (resource == "file://folder/api.raml") api
+        else throw new ResourceNotFound("Not found: " + resource)
+
+        Future.successful(new Content(content, resource))
+      }
+
+      /** Accepts specified resource. */
+      override def accepts(resource: String): Boolean =
+        resource == "file://folder/cachable.raml" || resource == "file://folder/api.raml"
+    }
+
+    val env = new EnvironmentProvider with PlatformSecrets {
+
+      override def environmentSnapshot(): Environment = Environment(rl)
+
+    }
+
+    val ws =
+      new WorkspaceContentManager("folder",
+                                  Some(WorkspaceConf("exchange.json", "api.raml", Set("file://folder/cachable.raml"))),
+                                  env,
+                                  DummyTelemetryProvider,
+                                  EmptyLogger,
+                                  Nil)
+
+    ws.initialize()
+    ws.changedFile("file://folder/api.raml", CHANGE_FILE)
+
+    ws.getCompilableUnit("file://folder/api.raml").flatMap(l => l.getLast).map { _ =>
+      counter should be(2)
+    }
+  }
   object DummyTelemetryProvider extends TelemetryManager(DummyClientNotifier, EmptyLogger)
 
   object DummyClientNotifier extends ClientNotifier {

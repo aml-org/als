@@ -79,6 +79,9 @@ object ParserHelper {
 
   def report(model: BaseUnit): Future[AMFValidationReport] = RuntimeValidator(model, profile(model))
 
+  def reportResolved(model: BaseUnit): Future[AMFValidationReport] =
+    RuntimeValidator(model, profile(model), resolved = true)
+
   private def vendor(model: BaseUnit): Option[Vendor] = {
     val ann = model match {
       case d: EncodesModel => d.encodes.annotations.find(classOf[SourceVendor])
@@ -103,7 +106,7 @@ object ParserHelper {
   def resolve(model: BaseUnit): BaseUnit = {
     RuntimeResolver.resolve(vendor(model).getOrElse(Amf).name,
                             model,
-                            ResolutionPipeline.EDITING_PIPELINE,
+                            ResolutionPipeline.CACHE_PIPELINE,
                             UnhandledErrorHandler)
   }
 }
