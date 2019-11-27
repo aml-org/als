@@ -11,31 +11,14 @@ class ConfigurationFilesTests extends FlatSpec with Matchers with PlatformSecret
 
   it should "add a mainApi given a directory with exchange.json" in {
     val manager = new WorkspaceRootHandler(platform)
-    manager.addRootDir(s"$okRoot/")
-    manager.getMainFiles should be(Set("api.raml"))
+    val conf    = manager.extractMainFile(s"$okRoot/")
+    conf.isDefined should be(true)
+    conf.get.mainFile should be("api.raml")
   }
 
   it should "Directory without exchange.json should not add any mainFile" in {
     val manager = new WorkspaceRootHandler(platform)
-    manager.addRootDir(s"file://als-server/shared/src/test/resources/")
-    manager.getMainFiles should be(Set.empty)
-  }
-
-  it should "add and remove the directory should result in no mainFile" in {
-    val manager = new WorkspaceRootHandler(platform)
-    manager.addRootDir(okRoot)
-    manager.getMainFiles should be(Set("api.raml"))
-    manager.removeRootDir(okRoot)
-    manager.getMainFiles should be(Set.empty)
-  }
-
-  it should "provide the configFile for which the mainFile was taken" in {
-    val manager = new WorkspaceRootHandler(platform)
-    manager.addRootDir(okRoot)
-    manager.getMainFiles should be(Set("api.raml"))
-    manager.getUsedConfigFiles should be(Set(s"$okRoot/exchange.json"))
-    manager.removeRootDir(okRoot)
-    manager.getMainFiles should be(Set.empty)
-    manager.getUsedConfigFiles should be(Set.empty)
+    val conf    = manager.extractMainFile(s"file://als-server/shared/src/test/resources/")
+    conf.isEmpty should be(true)
   }
 }

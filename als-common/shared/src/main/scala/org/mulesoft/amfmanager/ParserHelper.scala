@@ -1,14 +1,16 @@
 package org.mulesoft.amfmanager
 
-import amf.ProfileNames
+import amf.client.AMF
+import amf.{ProfileName, ProfileNames}
 import amf.client.commands.CommandHelper
 import amf.client.remote.Content
 import amf.core.annotations.SourceVendor
 import amf.core.client.ParserConfig
 import amf.core.model.document.{BaseUnit, EncodesModel}
-import amf.core.parser.UnspecifiedReference
+import amf.core.parser.{UnhandledErrorHandler, UnspecifiedReference}
 import amf.core.remote._
-import amf.core.services.{RuntimeCompiler, RuntimeValidator}
+import amf.core.resolution.pipelines.ResolutionPipeline
+import amf.core.services.{RuntimeCompiler, RuntimeResolver, RuntimeValidator}
 import amf.core.validation.AMFValidationReport
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
@@ -37,7 +39,7 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
   def parseResult(url: String): Future[ParseResult] = {
     for {
       unit   <- parse(url)
-      report <- report(unit)
+      report <- ParserHelper.report(unit)
     } yield ParseResult(unit, report)
   }
 
@@ -70,12 +72,23 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
     generateOutput(config, model)
   }
 
-  def report(model: BaseUnit): Future[AMFValidationReport] = {
+}
+
+object ParserHelper {
+  def apply(platform: Platform) = new ParserHelper(platform)
+
+  def report(model: BaseUnit): Future[AMFValidationReport] = RuntimeValidator(model, profile(model))
+
+  private def vendor(model: BaseUnit): Option[Vendor] = {
     val ann = model match {
       case d: EncodesModel => d.encodes.annotations.find(classOf[SourceVendor])
       case _               => model.annotations.find(classOf[SourceVendor])
     }
-    val pn = ann.map(_.vendor) match {
+    ann.map(_.vendor)
+  }
+
+  private def profile(model: BaseUnit): ProfileName = {
+    vendor(model) match {
       case Some(Raml10) => ProfileNames.RAML10
       case Some(Raml08) => ProfileNames.RAML08
       case Some(Raml)   => ProfileNames.RAML
@@ -85,10 +98,12 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
       case Some(Aml)    => ProfileNames.AML
       case _            => ProfileNames.AMF
     }
-    RuntimeValidator(model, pn)
   }
-}
 
-object ParserHelper {
-  def apply(platform: Platform) = new ParserHelper(platform)
+  def resolve(model: BaseUnit): BaseUnit = {
+    RuntimeResolver.resolve(vendor(model).getOrElse(Amf).name,
+                            model,
+                            ResolutionPipeline.EDITING_PIPELINE,
+                            UnhandledErrorHandler)
+  }
 }

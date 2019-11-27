@@ -11,7 +11,6 @@ import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 
 case class ManagersFactory(clientNotifier: ClientNotifier,
                            platform: Platform,
