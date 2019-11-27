@@ -47,10 +47,15 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def next(f: Future[Unit]): Future[Unit] = {
-    f.map { u =>
-      current = process()
-      u
-    }
+    f.recoverWith({
+        case e =>
+          logger.error(e.getMessage, "WorkspaceContentManager", "Processing request")
+          Future.successful(Unit)
+      })
+      .map { u =>
+        current = process()
+        u
+      }
   }
 
   private def process(): Future[Unit] = {
