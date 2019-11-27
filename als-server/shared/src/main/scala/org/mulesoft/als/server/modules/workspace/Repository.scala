@@ -7,7 +7,9 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.amfmanager.ParserHelper
 
 import scala.collection.mutable
-import scala.concurrent.Future
+import scala.concurrent.{Await, Future}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
 
 case class ParsedUnit(bu: BaseUnit, inTree: Boolean) {
   def toCU(next: Option[Future[CompilableUnit]], mf: Option[String]): CompilableUnit = {
@@ -43,7 +45,7 @@ class Repository(cachables: Set[String], logger: Logger) {
   private def indexUnit(unit: BaseUnit): Unit = indexParsedUnit(ParsedUnit(unit, inTree = true))
 
   private def indexParsedUnit(pu: ParsedUnit): Unit = {
-    checkCach(pu)
+    checkCache(pu)
 
     if (!units.contains(pu.bu.id)) { // stop: recursion
       units.put(pu.bu.id, pu)
@@ -51,12 +53,17 @@ class Repository(cachables: Set[String], logger: Logger) {
     }
   }
 
-  private def checkCach(p: ParsedUnit): Unit = if (cache.isEmpty && cachables.contains(p.bu.id)) cache(p)
+  private def checkCache(p: ParsedUnit): Unit = if (cache.isEmpty && cachables.contains(p.bu.id)) cache(p)
 
   private def cache(p: ParsedUnit): Unit = {
     try {
-      ParserHelper.resolve(p.bu.cloneUnit())
-      cache.put(p.bu.id, p)
+      val resolved = ParserHelper.resolve(p.bu.cloneUnit())
+      val f = ParserHelper
+        .reportResolved(resolved)
+        .map(r => {
+          if (r.conforms) cache.put(p.bu.id, ParsedUnit(resolved, inTree = true))
+        })
+      Await.result(f, 1000 millis)
     } catch {
       case e: Throwable => // ignore
         logger.error(s"Error while resolving cachable unit: ${p.bu.id}. Message ${e.getMessage}",
