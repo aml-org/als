@@ -43,7 +43,9 @@ object ExchangeConfigReader extends ConfigReader {
   private def findDependencies(subDirs: Array[SyncFile], platform: Platform): Set[String] = {
     if (subDirs.nonEmpty) {
       val (dependencies, others) = subDirs.partition(_.list.contains(configFileName))
-      val mains                  = dependencies.flatMap(d => new ExtractFromJsonRoot(d.read()).getMain.map(m => d.path + "/" + m))
+      val mains = dependencies.flatMap(d =>
+        new ExtractFromJsonRoot(platform.fs.syncFile(d.path + "/" + configFileName).read()).getMain.map(m =>
+          d.path + "/" + m))
       mains.toSet ++ findDependencies(
         others.flatMap(o => o.list.map(so => platform.fs.syncFile(o.path + "/" + so))).filter(_.isDirectory),
         platform)
