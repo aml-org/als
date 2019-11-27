@@ -63,7 +63,7 @@ class Repository(cachables: Set[String], logger: Logger) {
         .map(r => {
           if (r.conforms) cache.put(p.bu.id, ParsedUnit(resolved, inTree = true))
         })
-      Await.result(f, 1000 millis)
+      Await.result(f, 2000 millis)
     } catch {
       case e: Throwable => // ignore
         logger.error(s"Error while resolving cachable unit: ${p.bu.id}. Message ${e.getMessage}",
