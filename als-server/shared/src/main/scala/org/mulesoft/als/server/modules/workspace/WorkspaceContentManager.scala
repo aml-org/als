@@ -8,7 +8,7 @@ import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
-import org.mulesoft.als.server.workspace.extract.ConfigFileMain
+import org.mulesoft.als.server.workspace.extract.WorkspaceConf
 import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
@@ -16,7 +16,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class WorkspaceContentManager(val folder: String,
-                              configMainFile: Option[ConfigFileMain],
+                              configMainFile: Option[WorkspaceConf],
                               environmentProvider: EnvironmentProvider,
                               telemetryProvider: TelemetryProvider,
                               logger: Logger,
@@ -25,7 +25,7 @@ class WorkspaceContentManager(val folder: String,
   private var state: WorkspaceState    = Idle
   private val mainFile                 = configMainFile.map(_.mainFile)
   private val stagingArea: StagingArea = new StagingArea(environmentProvider)
-  private val repository               = new Repository()
+  private val repository               = new Repository(configMainFile.map(_.cachables).getOrElse(Nil).toSet, logger)
   private var current: Future[Unit]    = Future.unit
 
   def initialize(): Unit = {
@@ -47,15 +47,10 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def next(f: Future[Unit]): Future[Unit] = {
-    f.recoverWith({
-        case e =>
-          logger.error(e.getMessage, "WorkspaceContentManager", "Processing request")
-          Future.successful(Unit)
-      })
-      .map { u =>
-        current = process()
-        u
-      }
+    f.map { u =>
+      current = process()
+      u
+    }
   }
 
   private def process(): Future[Unit] = {
@@ -112,7 +107,7 @@ class WorkspaceContentManager(val folder: String,
     val uuid = UUID.randomUUID().toString
     parse(s"$folder/$mainFile", snapshot.environment, uuid)
       .map { u =>
-        repository.newTree(plainRef(u))
+        repository.newTree(u)
         dependencies.foreach(_.onNewAst(u, uuid))
         stagingArea.enqueue(snapshot.files.filter(t => !repository.inTree(t._1)))
       }
@@ -121,11 +116,9 @@ class WorkspaceContentManager(val folder: String,
   private def parse(uri: String, environment: Environment, uuid: String): Future[BaseUnit] = {
     telemetryProvider.addTimedMessage("Start AMF Parse", MessageTypes.BEGIN_PARSE, uri, uuid)
     val eventualUnit = new ParserHelper(environmentProvider.platform)
-      .parse(FileUtils.getDecodedUri(uri, environmentProvider.platform), environment)
+      .parse(FileUtils.getDecodedUri(uri, environmentProvider.platform),
+             environment.withResolver(repository.resolverCache))
     eventualUnit.foreach(_ => telemetryProvider.addTimedMessage("End AMF Parse", MessageTypes.END_PARSE, uri, uuid))
     eventualUnit
   }
-
-  private def plainRef(bu: BaseUnit): Set[BaseUnit] = (bu +: bu.references.flatMap(plainRef)).toSet
-
 }
