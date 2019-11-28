@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.core.metamodel.Field
 import amf.core.metamodel.Type.{ArrayLike, Scalar}
 import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.domain.webapi.metamodel.{OperationModel, RequestModel, ResponseModel}
+import amf.plugins.domain.webapi.metamodel.ResponseModel
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -11,7 +11,11 @@ import org.mulesoft.als.suggestions.plugins.aml.patched.{PatchedSuggestion, Patc
 
 import scala.concurrent.Future
 
-class AMLKnownValueCompletions(field: Field, classTerm: String, dialect: Dialect, isKey: Boolean, inArray: Boolean) {
+sealed class AMLKnownValueCompletions(field: Field,
+                                      classTerm: String,
+                                      dialect: Dialect,
+                                      isKey: Boolean,
+                                      inArray: Boolean) {
 
   private def getSuggestions: Seq[PatchedSuggestion] =
     PatchedSuggestionsForDialect
@@ -54,22 +58,28 @@ class AMLKnownValueCompletions(field: Field, classTerm: String, dialect: Dialect
 
 }
 
-object AMLKnownValueCompletionPlugin extends AMLCompletionPlugin {
-  override def id = "AMLKnownValueCompletionPlugin"
+trait AbstractKnownValueCompletionPlugin extends AMLCompletionPlugin {
+  override final def id = "KnownValueCompletionPlugin"
 
-  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
+  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     params.fieldEntry match {
       case Some(fe)
           if params.yPartBranch.isKey || params.propertyMapping
             .exists(_.nodePropertyMapping().value() == fe.field.value.iri()) =>
-        new AMLKnownValueCompletions(
-          fe.field,
-          params.amfObject.meta.`type`.head.iri(),
-          params.actualDialect,
-          params.yPartBranch.isKey,
-          params.yPartBranch.isArray || params.yPartBranch.isInArray
-        ).resolve()
+        innerResolver(params, fe.field, params.amfObject.meta.`type`.head.iri())
       case _ => emptySuggestion
     }
-  }
+
+  protected final def innerResolver(params: AmlCompletionRequest,
+                                    field: Field,
+                                    classTerm: String): Future[Seq[RawSuggestion]] =
+    new AMLKnownValueCompletions(
+      field,
+      classTerm,
+      params.actualDialect,
+      params.yPartBranch.isKey,
+      params.yPartBranch.isArray || params.yPartBranch.isInArray
+    ).resolve()
 }
+
+object AMLKnownValueCompletionPlugin extends AbstractKnownValueCompletionPlugin
