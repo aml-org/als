@@ -1,12 +1,19 @@
 [
   {
-    "text": "A-IM:\n        ",
-    "description": "New Header",
-    "displayText": "A-IM",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "A-IM",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "A-IM",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11A-IM",
+    "filterText": "A-IM: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -15,17 +22,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "A-IM: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "ALPN:\n        ",
-    "description": "New Header",
-    "displayText": "ALPN",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "ALPN",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "ALPN",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11ALPN",
+    "filterText": "ALPN: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -34,17 +52,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "ALPN: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Accept-CH:\n        ",
-    "description": "New Header",
-    "displayText": "Accept-CH",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Accept",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Accept",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Accept",
+    "filterText": "Accept: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -53,17 +82,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Accept: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Accept-Charset:\n        ",
-    "description": "New Header",
-    "displayText": "Accept-Charset",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Accept-CH",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Accept-CH",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Accept-CH",
+    "filterText": "Accept-CH: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -72,17 +112,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Accept-CH: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Accept-Encoding:\n        ",
-    "description": "New Header",
-    "displayText": "Accept-Encoding",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Accept-Charset",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Accept-Charset",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Accept-Charset",
+    "filterText": "Accept-Charset: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -91,17 +142,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Accept-Charset: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Accept-Features:\n        ",
-    "description": "New Header",
-    "displayText": "Accept-Features",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Accept-Encoding",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Accept-Encoding",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Accept-Encoding",
+    "filterText": "Accept-Encoding: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -110,17 +172,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Accept-Encoding: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Accept-Language:\n        ",
-    "description": "New Header",
-    "displayText": "Accept-Language",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Accept-Features",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Accept-Features",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Accept-Features",
+    "filterText": "Accept-Features: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -129,17 +202,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Accept-Features: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Accept-Patch:\n        ",
-    "description": "New Header",
-    "displayText": "Accept-Patch",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Accept-Language",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Accept-Language",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Accept-Language",
+    "filterText": "Accept-Language: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -148,17 +232,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Accept-Language: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Accept-Post:\n        ",
-    "description": "New Header",
-    "displayText": "Accept-Post",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Accept-Patch",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Accept-Patch",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Accept-Patch",
+    "filterText": "Accept-Patch: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -167,17 +262,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Accept-Patch: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Accept-Ranges:\n        ",
-    "description": "New Header",
-    "displayText": "Accept-Ranges",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Accept-Post",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Accept-Post",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Accept-Post",
+    "filterText": "Accept-Post: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -186,17 +292,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Accept-Post: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Accept:\n        ",
-    "description": "New Header",
-    "displayText": "Accept",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Accept-Ranges",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Accept-Ranges",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Accept-Ranges",
+    "filterText": "Accept-Ranges: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -205,17 +322,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Accept-Ranges: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Access-Control-Allow-Credentials:\n        ",
-    "description": "New Header",
-    "displayText": "Access-Control-Allow-Credentials",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Access-Control-Allow-Credentials",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Access-Control-Allow-Credentials",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Access-Control-Allow-Credentials",
+    "filterText": "Access-Control-Allow-Credentials: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -224,17 +352,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Access-Control-Allow-Credentials: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Access-Control-Allow-Headers:\n        ",
-    "description": "New Header",
-    "displayText": "Access-Control-Allow-Headers",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Access-Control-Allow-Headers",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Access-Control-Allow-Headers",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Access-Control-Allow-Headers",
+    "filterText": "Access-Control-Allow-Headers: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -243,17 +382,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Access-Control-Allow-Headers: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Access-Control-Allow-Methods:\n        ",
-    "description": "New Header",
-    "displayText": "Access-Control-Allow-Methods",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Access-Control-Allow-Methods",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Access-Control-Allow-Methods",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Access-Control-Allow-Methods",
+    "filterText": "Access-Control-Allow-Methods: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -262,17 +412,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Access-Control-Allow-Methods: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Access-Control-Allow-Origin:\n        ",
-    "description": "New Header",
-    "displayText": "Access-Control-Allow-Origin",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Access-Control-Allow-Origin",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Access-Control-Allow-Origin",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Access-Control-Allow-Origin",
+    "filterText": "Access-Control-Allow-Origin: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -281,17 +442,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Access-Control-Allow-Origin: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Access-Control-Expose-Headers:\n        ",
-    "description": "New Header",
-    "displayText": "Access-Control-Expose-Headers",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Access-Control-Expose-Headers",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Access-Control-Expose-Headers",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Access-Control-Expose-Headers",
+    "filterText": "Access-Control-Expose-Headers: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -300,17 +472,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Access-Control-Expose-Headers: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Access-Control-Max-Age:\n        ",
-    "description": "New Header",
-    "displayText": "Access-Control-Max-Age",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Access-Control-Max-Age",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Access-Control-Max-Age",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Access-Control-Max-Age",
+    "filterText": "Access-Control-Max-Age: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -319,17 +502,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Access-Control-Max-Age: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Access-Control-Request-Headers:\n        ",
-    "description": "New Header",
-    "displayText": "Access-Control-Request-Headers",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Access-Control-Request-Headers",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Access-Control-Request-Headers",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Access-Control-Request-Headers",
+    "filterText": "Access-Control-Request-Headers: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -338,17 +532,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Access-Control-Request-Headers: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Access-Control-Request-Method:\n        ",
-    "description": "New Header",
-    "displayText": "Access-Control-Request-Method",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Access-Control-Request-Method",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Access-Control-Request-Method",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Access-Control-Request-Method",
+    "filterText": "Access-Control-Request-Method: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -357,17 +562,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Access-Control-Request-Method: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Age:\n        ",
-    "description": "New Header",
-    "displayText": "Age",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Age",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Age",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Age",
+    "filterText": "Age: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -376,17 +592,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Age: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Allow:\n        ",
-    "description": "New Header",
-    "displayText": "Allow",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Allow",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Allow",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Allow",
+    "filterText": "Allow: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -395,17 +622,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Allow: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Alt-Svc:\n        ",
-    "description": "New Header",
-    "displayText": "Alt-Svc",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Alt-Svc",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Alt-Svc",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Alt-Svc",
+    "filterText": "Alt-Svc: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -414,17 +652,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Alt-Svc: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Alternates:\n        ",
-    "description": "New Header",
-    "displayText": "Alternates",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Alternates",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Alternates",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Alternates",
+    "filterText": "Alternates: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -433,17 +682,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Alternates: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Apply-To-Redirect-Ref:\n        ",
-    "description": "New Header",
-    "displayText": "Apply-To-Redirect-Ref",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Apply-To-Redirect-Ref",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Apply-To-Redirect-Ref",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Apply-To-Redirect-Ref",
+    "filterText": "Apply-To-Redirect-Ref: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -452,17 +712,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Apply-To-Redirect-Ref: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Authorization:\n        ",
-    "description": "New Header",
-    "displayText": "Authorization",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Authorization",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Authorization",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Authorization",
+    "filterText": "Authorization: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -471,17 +742,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Authorization: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "CH:\n        ",
-    "description": "New Header",
-    "displayText": "CH",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "CH",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "CH",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11CH",
+    "filterText": "CH: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -490,17 +772,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "CH: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Cache-Control:\n        ",
-    "description": "New Header",
-    "displayText": "Cache-Control",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Cache-Control",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Cache-Control",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Cache-Control",
+    "filterText": "Cache-Control: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -509,17 +802,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Cache-Control: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Content-Base:\n        ",
-    "description": "New Header",
-    "displayText": "Content-Base",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Content-Base",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Content-Base",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Content-Base",
+    "filterText": "Content-Base: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -528,17 +832,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Content-Base: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Content-DPR:\n        ",
-    "description": "New Header",
-    "displayText": "Content-DPR",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Content-DPR",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Content-DPR",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Content-DPR",
+    "filterText": "Content-DPR: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -547,17 +862,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Content-DPR: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Content-Disposition:\n        ",
-    "description": "New Header",
-    "displayText": "Content-Disposition",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Content-Disposition",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Content-Disposition",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Content-Disposition",
+    "filterText": "Content-Disposition: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -566,17 +892,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Content-Disposition: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Content-Encoding:\n        ",
-    "description": "New Header",
-    "displayText": "Content-Encoding",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Content-Encoding",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Content-Encoding",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Content-Encoding",
+    "filterText": "Content-Encoding: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -585,17 +922,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Content-Encoding: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Content-Language:\n        ",
-    "description": "New Header",
-    "displayText": "Content-Language",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Content-Language",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Content-Language",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Content-Language",
+    "filterText": "Content-Language: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -604,17 +952,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Content-Language: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Content-Length:\n        ",
-    "description": "New Header",
-    "displayText": "Content-Length",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Content-Length",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Content-Length",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Content-Length",
+    "filterText": "Content-Length: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -623,17 +982,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Content-Length: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Content-Location:\n        ",
-    "description": "New Header",
-    "displayText": "Content-Location",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Content-Location",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Content-Location",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Content-Location",
+    "filterText": "Content-Location: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -642,17 +1012,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Content-Location: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Content-Range:\n        ",
-    "description": "New Header",
-    "displayText": "Content-Range",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Content-Range",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Content-Range",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Content-Range",
+    "filterText": "Content-Range: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -661,17 +1042,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Content-Range: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Content-Security-Policy-Report-Only:\n        ",
-    "description": "New Header",
-    "displayText": "Content-Security-Policy-Report-Only",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Content-Security-Policy",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Content-Security-Policy",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Content-Security-Policy",
+    "filterText": "Content-Security-Policy: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -680,17 +1072,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Content-Security-Policy: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Content-Security-Policy:\n        ",
-    "description": "New Header",
-    "displayText": "Content-Security-Policy",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Content-Security-Policy-Report-Only",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Content-Security-Policy-Report-Only",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Content-Security-Policy-Report-Only",
+    "filterText": "Content-Security-Policy-Report-Only: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -699,17 +1102,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Content-Security-Policy-Report-Only: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Content-Type:\n        ",
-    "description": "New Header",
-    "displayText": "Content-Type",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Content-Type",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Content-Type",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Content-Type",
+    "filterText": "Content-Type: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -718,17 +1132,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Content-Type: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Cookie2:\n        ",
-    "description": "New Header",
-    "displayText": "Cookie2",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Cookie",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Cookie",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Cookie",
+    "filterText": "Cookie: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -737,17 +1162,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Cookie: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Cookie:\n        ",
-    "description": "New Header",
-    "displayText": "Cookie",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Cookie2",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Cookie2",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Cookie2",
+    "filterText": "Cookie2: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -756,17 +1192,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Cookie2: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "DASL:\n        ",
-    "description": "New Header",
-    "displayText": "DASL",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "DASL",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "DASL",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11DASL",
+    "filterText": "DASL: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -775,17 +1222,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "DASL: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "DAV:\n        ",
-    "description": "New Header",
-    "displayText": "DAV",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "DAV",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "DAV",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11DAV",
+    "filterText": "DAV: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -794,17 +1252,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "DAV: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "DNT:\n        ",
-    "description": "New Header",
-    "displayText": "DNT",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "DNT",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "DNT",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11DNT",
+    "filterText": "DNT: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -813,17 +1282,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "DNT: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "DPR:\n        ",
-    "description": "New Header",
-    "displayText": "DPR",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "DPR",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "DPR",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11DPR",
+    "filterText": "DPR: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -832,17 +1312,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "DPR: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Date:\n        ",
-    "description": "New Header",
-    "displayText": "Date",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Date",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Date",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Date",
+    "filterText": "Date: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -851,17 +1342,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Date: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Delta-Base:\n        ",
-    "description": "New Header",
-    "displayText": "Delta-Base",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Delta-Base",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Delta-Base",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Delta-Base",
+    "filterText": "Delta-Base: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -870,17 +1372,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Delta-Base: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Depth:\n        ",
-    "description": "New Header",
-    "displayText": "Depth",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Depth",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Depth",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Depth",
+    "filterText": "Depth: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -889,17 +1402,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Depth: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Destination:\n        ",
-    "description": "New Header",
-    "displayText": "Destination",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Destination",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Destination",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Destination",
+    "filterText": "Destination: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -908,17 +1432,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Destination: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "ETag:\n        ",
-    "description": "New Header",
-    "displayText": "ETag",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "ETag",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "ETag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11ETag",
+    "filterText": "ETag: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -927,17 +1462,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "ETag: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Encryption-Key:\n        ",
-    "description": "New Header",
-    "displayText": "Encryption-Key",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Encryption",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Encryption",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Encryption",
+    "filterText": "Encryption: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -946,17 +1492,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Encryption: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Encryption:\n        ",
-    "description": "New Header",
-    "displayText": "Encryption",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Encryption-Key",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Encryption-Key",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Encryption-Key",
+    "filterText": "Encryption-Key: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -965,17 +1522,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Encryption-Key: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Expect:\n        ",
-    "description": "New Header",
-    "displayText": "Expect",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Expect",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Expect",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Expect",
+    "filterText": "Expect: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -984,17 +1552,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Expect: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Expires:\n        ",
-    "description": "New Header",
-    "displayText": "Expires",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Expires",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Expires",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Expires",
+    "filterText": "Expires: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1003,17 +1582,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Expires: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Forwarded:\n        ",
-    "description": "New Header",
-    "displayText": "Forwarded",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Forwarded",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Forwarded",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Forwarded",
+    "filterText": "Forwarded: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1022,17 +1612,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Forwarded: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "From:\n        ",
-    "description": "New Header",
-    "displayText": "From",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "From",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "From",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11From",
+    "filterText": "From: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1041,17 +1642,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "From: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "HTTP2-Settings:\n        ",
-    "description": "New Header",
-    "displayText": "HTTP2-Settings",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "HTTP2-Settings",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "HTTP2-Settings",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11HTTP2-Settings",
+    "filterText": "HTTP2-Settings: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1060,17 +1672,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "HTTP2-Settings: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Host:\n        ",
-    "description": "New Header",
-    "displayText": "Host",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Host",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Host",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Host",
+    "filterText": "Host: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1079,17 +1702,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Host: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "IM:\n        ",
-    "description": "New Header",
-    "displayText": "IM",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "IM",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "IM",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11IM",
+    "filterText": "IM: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1098,17 +1732,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "IM: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "If-Match:\n        ",
-    "description": "New Header",
-    "displayText": "If-Match",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "If",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "If",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11If",
+    "filterText": "If: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1117,17 +1762,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "If: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "If-Modified-Since:\n        ",
-    "description": "New Header",
-    "displayText": "If-Modified-Since",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "If-Match",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "If-Match",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11If-Match",
+    "filterText": "If-Match: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1136,17 +1792,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "If-Match: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "If-None-Match:\n        ",
-    "description": "New Header",
-    "displayText": "If-None-Match",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "If-Modified-Since",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "If-Modified-Since",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11If-Modified-Since",
+    "filterText": "If-Modified-Since: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1155,17 +1822,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "If-Modified-Since: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "If-Range:\n        ",
-    "description": "New Header",
-    "displayText": "If-Range",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "If-None-Match",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "If-None-Match",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11If-None-Match",
+    "filterText": "If-None-Match: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1174,17 +1852,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "If-None-Match: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "If-Schedule-Tag-Match:\n        ",
-    "description": "New Header",
-    "displayText": "If-Schedule-Tag-Match",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "If-Range",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "If-Range",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11If-Range",
+    "filterText": "If-Range: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1193,17 +1882,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "If-Range: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "If-Unmodified-Since:\n        ",
-    "description": "New Header",
-    "displayText": "If-Unmodified-Since",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "If-Schedule-Tag-Match",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "If-Schedule-Tag-Match",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11If-Schedule-Tag-Match",
+    "filterText": "If-Schedule-Tag-Match: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1212,17 +1912,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "If-Schedule-Tag-Match: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "If:\n        ",
-    "description": "New Header",
-    "displayText": "If",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "If-Unmodified-Since",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "If-Unmodified-Since",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11If-Unmodified-Since",
+    "filterText": "If-Unmodified-Since: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1231,17 +1942,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "If-Unmodified-Since: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Key:\n        ",
-    "description": "New Header",
-    "displayText": "Key",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Key",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Key",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Key",
+    "filterText": "Key: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1250,17 +1972,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Key: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Last-Event-ID:\n        ",
-    "description": "New Header",
-    "displayText": "Last-Event-ID",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Last-Event-ID",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Last-Event-ID",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Last-Event-ID",
+    "filterText": "Last-Event-ID: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1269,17 +2002,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Last-Event-ID: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Last-Modified:\n        ",
-    "description": "New Header",
-    "displayText": "Last-Modified",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Last-Modified",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Last-Modified",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Last-Modified",
+    "filterText": "Last-Modified: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1288,17 +2032,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Last-Modified: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Link-Template:\n        ",
-    "description": "New Header",
-    "displayText": "Link-Template",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Link",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Link",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Link",
+    "filterText": "Link: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1307,17 +2062,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Link: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Link:\n        ",
-    "description": "New Header",
-    "displayText": "Link",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Link-Template",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Link-Template",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Link-Template",
+    "filterText": "Link-Template: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1326,17 +2092,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Link-Template: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Location:\n        ",
-    "description": "New Header",
-    "displayText": "Location",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Location",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Location",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Location",
+    "filterText": "Location: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1345,17 +2122,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Location: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Lock-Token:\n        ",
-    "description": "New Header",
-    "displayText": "Lock-Token",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Lock-Token",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Lock-Token",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Lock-Token",
+    "filterText": "Lock-Token: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1364,17 +2152,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Lock-Token: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "MD:\n        ",
-    "description": "New Header",
-    "displayText": "MD",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "MD",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "MD",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11MD",
+    "filterText": "MD: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1383,17 +2182,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "MD: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Max-Forwards:\n        ",
-    "description": "New Header",
-    "displayText": "Max-Forwards",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Max-Forwards",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Max-Forwards",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Max-Forwards",
+    "filterText": "Max-Forwards: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1402,17 +2212,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Max-Forwards: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Negotiate:\n        ",
-    "description": "New Header",
-    "displayText": "Negotiate",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Negotiate",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Negotiate",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Negotiate",
+    "filterText": "Negotiate: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1421,17 +2242,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Negotiate: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Nice:\n        ",
-    "description": "New Header",
-    "displayText": "Nice",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Nice",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Nice",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Nice",
+    "filterText": "Nice: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1440,17 +2272,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Nice: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Origin:\n        ",
-    "description": "New Header",
-    "displayText": "Origin",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Origin",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Origin",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Origin",
+    "filterText": "Origin: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1459,17 +2302,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Origin: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Overwrite:\n        ",
-    "description": "New Header",
-    "displayText": "Overwrite",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Overwrite",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Overwrite",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Overwrite",
+    "filterText": "Overwrite: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1478,17 +2332,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Overwrite: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "POE-Links:\n        ",
-    "description": "New Header",
-    "displayText": "POE-Links",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "POE",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "POE",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11POE",
+    "filterText": "POE: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1497,17 +2362,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "POE: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "POE:\n        ",
-    "description": "New Header",
-    "displayText": "POE",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "POE-Links",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "POE-Links",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11POE-Links",
+    "filterText": "POE-Links: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1516,17 +2392,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "POE-Links: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Pragma:\n        ",
-    "description": "New Header",
-    "displayText": "Pragma",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Pragma",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Pragma",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Pragma",
+    "filterText": "Pragma: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1535,17 +2422,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Pragma: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Prefer:\n        ",
-    "description": "New Header",
-    "displayText": "Prefer",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Prefer",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Prefer",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Prefer",
+    "filterText": "Prefer: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1554,17 +2452,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Prefer: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Preference-Applied:\n        ",
-    "description": "New Header",
-    "displayText": "Preference-Applied",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Preference-Applied",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Preference-Applied",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Preference-Applied",
+    "filterText": "Preference-Applied: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1573,17 +2482,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Preference-Applied: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Proxy-Authenticate:\n        ",
-    "description": "New Header",
-    "displayText": "Proxy-Authenticate",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Proxy-Authenticate",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Proxy-Authenticate",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Proxy-Authenticate",
+    "filterText": "Proxy-Authenticate: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1592,17 +2512,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Proxy-Authenticate: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Proxy-Authorization:\n        ",
-    "description": "New Header",
-    "displayText": "Proxy-Authorization",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Proxy-Authorization",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Proxy-Authorization",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Proxy-Authorization",
+    "filterText": "Proxy-Authorization: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1611,17 +2542,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Proxy-Authorization: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "RW:\n        ",
-    "description": "New Header",
-    "displayText": "RW",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "RW",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "RW",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11RW",
+    "filterText": "RW: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1630,17 +2572,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "RW: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Range:\n        ",
-    "description": "New Header",
-    "displayText": "Range",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Range",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Range",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Range",
+    "filterText": "Range: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1649,17 +2602,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Range: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Redirect-Ref:\n        ",
-    "description": "New Header",
-    "displayText": "Redirect-Ref",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Redirect-Ref",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Redirect-Ref",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Redirect-Ref",
+    "filterText": "Redirect-Ref: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1668,17 +2632,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Redirect-Ref: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Referer:\n        ",
-    "description": "New Header",
-    "displayText": "Referer",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Referer",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Referer",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Referer",
+    "filterText": "Referer: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1687,17 +2662,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Referer: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Retry-After:\n        ",
-    "description": "New Header",
-    "displayText": "Retry-After",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Retry-After",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Retry-After",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Retry-After",
+    "filterText": "Retry-After: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1706,17 +2692,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Retry-After: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "SLUG:\n        ",
-    "description": "New Header",
-    "displayText": "SLUG",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "SLUG",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "SLUG",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11SLUG",
+    "filterText": "SLUG: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1725,17 +2722,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "SLUG: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Schedule-Reply:\n        ",
-    "description": "New Header",
-    "displayText": "Schedule-Reply",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Schedule-Reply",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Schedule-Reply",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Schedule-Reply",
+    "filterText": "Schedule-Reply: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1744,17 +2752,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Schedule-Reply: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Schedule-Tag:\n        ",
-    "description": "New Header",
-    "displayText": "Schedule-Tag",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Schedule-Tag",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Schedule-Tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Schedule-Tag",
+    "filterText": "Schedule-Tag: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1763,17 +2782,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Schedule-Tag: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Sec-WebSocket-Accept:\n        ",
-    "description": "New Header",
-    "displayText": "Sec-WebSocket-Accept",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Sec-WebSocket-Accept",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Sec-WebSocket-Accept",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Sec-WebSocket-Accept",
+    "filterText": "Sec-WebSocket-Accept: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1782,17 +2812,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Sec-WebSocket-Accept: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Sec-WebSocket-Extensions:\n        ",
-    "description": "New Header",
-    "displayText": "Sec-WebSocket-Extensions",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Sec-WebSocket-Extensions",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Sec-WebSocket-Extensions",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Sec-WebSocket-Extensions",
+    "filterText": "Sec-WebSocket-Extensions: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1801,17 +2842,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Sec-WebSocket-Extensions: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Sec-WebSocket-Key:\n        ",
-    "description": "New Header",
-    "displayText": "Sec-WebSocket-Key",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Sec-WebSocket-Key",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Sec-WebSocket-Key",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Sec-WebSocket-Key",
+    "filterText": "Sec-WebSocket-Key: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1820,17 +2872,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Sec-WebSocket-Key: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Sec-WebSocket-Protocol:\n        ",
-    "description": "New Header",
-    "displayText": "Sec-WebSocket-Protocol",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Sec-WebSocket-Protocol",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Sec-WebSocket-Protocol",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Sec-WebSocket-Protocol",
+    "filterText": "Sec-WebSocket-Protocol: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1839,17 +2902,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Sec-WebSocket-Protocol: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Sec-WebSocket-Version:\n        ",
-    "description": "New Header",
-    "displayText": "Sec-WebSocket-Version",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Sec-WebSocket-Version",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Sec-WebSocket-Version",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Sec-WebSocket-Version",
+    "filterText": "Sec-WebSocket-Version: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1858,17 +2932,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Sec-WebSocket-Version: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Server:\n        ",
-    "description": "New Header",
-    "displayText": "Server",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Server",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Server",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Server",
+    "filterText": "Server: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1877,17 +2962,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Server: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Set-Cookie2:\n        ",
-    "description": "New Header",
-    "displayText": "Set-Cookie2",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Set-Cookie",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Set-Cookie",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Set-Cookie",
+    "filterText": "Set-Cookie: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1896,17 +2992,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Set-Cookie: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Set-Cookie:\n        ",
-    "description": "New Header",
-    "displayText": "Set-Cookie",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Set-Cookie2",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Set-Cookie2",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Set-Cookie2",
+    "filterText": "Set-Cookie2: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1915,17 +3022,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Set-Cookie2: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Status-URI:\n        ",
-    "description": "New Header",
-    "displayText": "Status-URI",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Status-URI",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Status-URI",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Status-URI",
+    "filterText": "Status-URI: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1934,17 +3052,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Status-URI: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Strict-Transport-Security:\n        ",
-    "description": "New Header",
-    "displayText": "Strict-Transport-Security",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Strict-Transport-Security",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Strict-Transport-Security",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Strict-Transport-Security",
+    "filterText": "Strict-Transport-Security: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1953,17 +3082,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Strict-Transport-Security: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Sunset:\n        ",
-    "description": "New Header",
-    "displayText": "Sunset",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Sunset",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Sunset",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Sunset",
+    "filterText": "Sunset: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1972,17 +3112,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Sunset: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Surrogate-Capability:\n        ",
-    "description": "New Header",
-    "displayText": "Surrogate-Capability",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Surrogate-Capability",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Surrogate-Capability",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Surrogate-Capability",
+    "filterText": "Surrogate-Capability: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -1991,17 +3142,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Surrogate-Capability: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Surrogate-Control:\n        ",
-    "description": "New Header",
-    "displayText": "Surrogate-Control",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Surrogate-Control",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Surrogate-Control",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Surrogate-Control",
+    "filterText": "Surrogate-Control: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -2010,17 +3172,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Surrogate-Control: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "TCN:\n        ",
-    "description": "New Header",
-    "displayText": "TCN",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "TCN",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "TCN",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11TCN",
+    "filterText": "TCN: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -2029,17 +3202,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "TCN: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "TE:\n        ",
-    "description": "New Header",
-    "displayText": "TE",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "TE",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "TE",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11TE",
+    "filterText": "TE: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -2048,17 +3232,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "TE: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Timeout:\n        ",
-    "description": "New Header",
-    "displayText": "Timeout",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Timeout",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Timeout",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Timeout",
+    "filterText": "Timeout: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -2067,17 +3262,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Timeout: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Tk:\n        ",
-    "description": "New Header",
-    "displayText": "Tk",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Tk",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Tk",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Tk",
+    "filterText": "Tk: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -2086,17 +3292,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Tk: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Transfer-Encoding:\n        ",
-    "description": "New Header",
-    "displayText": "Transfer-Encoding",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Transfer-Encoding",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Transfer-Encoding",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Transfer-Encoding",
+    "filterText": "Transfer-Encoding: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -2105,17 +3322,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Transfer-Encoding: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "User-Agent:\n        ",
-    "description": "New Header",
-    "displayText": "User-Agent",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "User-Agent",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "User-Agent",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11User-Agent",
+    "filterText": "User-Agent: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -2124,17 +3352,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "User-Agent: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Variant-Vary:\n        ",
-    "description": "New Header",
-    "displayText": "Variant-Vary",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Variant-Vary",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Variant-Vary",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Variant-Vary",
+    "filterText": "Variant-Vary: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -2143,17 +3382,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Variant-Vary: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Vary:\n        ",
-    "description": "New Header",
-    "displayText": "Vary",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Vary",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Vary",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Vary",
+    "filterText": "Vary: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -2162,17 +3412,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Vary: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Via:\n        ",
-    "description": "New Header",
-    "displayText": "Via",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Via",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Via",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Via",
+    "filterText": "Via: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -2181,17 +3442,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Via: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "WWW-Authenticate:\n        ",
-    "description": "New Header",
-    "displayText": "WWW-Authenticate",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "WWW-Authenticate",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "WWW-Authenticate",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11WWW-Authenticate",
+    "filterText": "WWW-Authenticate: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -2200,17 +3472,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "WWW-Authenticate: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "Warning:\n        ",
-    "description": "New Header",
-    "displayText": "Warning",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "Warning",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Warning",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Warning",
+    "filterText": "Warning: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -2219,17 +3502,28 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "Warning: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "X-Frame-Options:\n        ",
-    "description": "New Header",
-    "displayText": "X-Frame-Options",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "X-Frame-Options",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "X-Frame-Options",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11X-Frame-Options",
+    "filterText": "X-Frame-Options: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 5,
           "character": 6
@@ -2238,7 +3532,11 @@
           "line": 5,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "X-Frame-Options: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]
