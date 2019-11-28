@@ -120,11 +120,19 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def parse(uri: String, environment: Environment, uuid: String): Future[BaseUnit] = {
-    telemetryProvider.addTimedMessage("Start AMF Parse", MessageTypes.BEGIN_PARSE, uri, uuid)
+    telemetryProvider.addTimedMessage("Start AMF Parse",
+                                      "WorkspaceContentManager",
+                                      "parse",
+                                      MessageTypes.BEGIN_PARSE,
+                                      uri,
+                                      uuid)
     val eventualUnit = new ParserHelper(environmentProvider.platform)
       .parse(FileUtils.getDecodedUri(uri, environmentProvider.platform),
              environment.withResolver(repository.resolverCache))
-    eventualUnit.foreach(_ => telemetryProvider.addTimedMessage("End AMF Parse", MessageTypes.END_PARSE, uri, uuid))
+    eventualUnit.foreach(
+      _ =>
+        telemetryProvider
+          .addTimedMessage("End AMF Parse", "WorkspaceContentManager", "parse", MessageTypes.END_PARSE, uri, uuid))
     eventualUnit
   }
 }

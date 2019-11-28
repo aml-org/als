@@ -24,16 +24,11 @@ trait TelemetryProvider {
     }
   }
 
-  def addTimedMessage(msg: String, messageType: MessageTypes, uri: String, uuid: String): Unit = {
-    val element: StackTraceElement = Thread.currentThread().getStackTrace.toList(2)
-    extractNames(element.getClassName) match {
-      case (c, Some(m)) => addTimedMessage(s"$c : $m", messageType, msg, uri, uuid)
-      case _ =>
-        addTimedMessage(s"${element.getClassName.split('.').last} : ${element.getMethodName}",
-                        messageType,
-                        msg,
-                        uri,
-                        uuid)
-    }
-  }
+  def addTimedMessage(msg: String,
+                      className: String,
+                      methodName: String,
+                      messageType: MessageTypes,
+                      uri: String,
+                      uuid: String): Unit =
+    addTimedMessage(s"$className : $methodName", messageType, msg, uri, uuid)
 }
