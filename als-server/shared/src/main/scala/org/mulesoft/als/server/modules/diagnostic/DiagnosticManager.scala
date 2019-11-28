@@ -39,13 +39,18 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
   /**
     * Called on new AST available
     *
-    * @param ast     - AST
-    * @param uuid    - telemetry UUID
+    * @param ast  - AST
+    * @param uuid - telemetry UUID
     */
   override def onNewAst(ast: BaseUnit, uuid: String): Unit = {
     logger.debug("Got new AST:\n" + ast.toString, "ValidationManager", "newASTAvailable")
     val uri = ast.id
-    telemetryProvider.addTimedMessage("Start report", MessageTypes.BEGIN_DIAGNOSTIC, uri, uuid)
+    telemetryProvider.addTimedMessage("Start report",
+                                      "DiagnosticManager",
+                                      "onNewAst",
+                                      MessageTypes.BEGIN_DIAGNOSTIC,
+                                      uri,
+                                      uuid)
 
     reconciler
       .shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, ast, uuid)))
@@ -56,15 +61,24 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                      "newASTAvailable")
         reports.foreach { r =>
           telemetryProvider.addTimedMessage(s"Got reports: ${r.publishDiagnosticsParams.uri}",
+                                            "DiagnosticManager",
+                                            "onNewAst",
                                             MessageTypes.GOT_DIAGNOSTICS,
                                             uri,
                                             uuid)
           clientNotifier.notifyDiagnostic(r.publishDiagnosticsParams)
         }
-        telemetryProvider.addTimedMessage("End report", MessageTypes.END_DIAGNOSTIC, uri, uuid)
+        telemetryProvider.addTimedMessage("End report",
+                                          "DiagnosticManager",
+                                          "onNewAst",
+                                          MessageTypes.END_DIAGNOSTIC,
+                                          uri,
+                                          uuid)
 
       case Failure(exception) =>
         telemetryProvider.addTimedMessage(s"End report: ${exception.getMessage}",
+                                          "DiagnosticManager",
+                                          "onNewAst",
                                           MessageTypes.END_DIAGNOSTIC,
                                           uri,
                                           uuid)
@@ -152,10 +166,17 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                      telemetryProvider: TelemetryProvider,
                      baseUnit: BaseUnit,
                      uuid: String): Future[AMFValidationReport] = {
-    telemetryProvider.addTimedMessage("Start AMF report", MessageTypes.BEGIN_REPORT, uri, uuid)
+    telemetryProvider.addTimedMessage("Start AMF report",
+                                      "DiagnosticManager",
+                                      "report",
+                                      MessageTypes.BEGIN_REPORT,
+                                      uri,
+                                      uuid)
     val eventualReport = RuntimeValidator(baseUnit.cloneUnit(), ProfileName(checkProfileName(baseUnit)))
-    eventualReport.foreach(r =>
-      telemetryProvider.addTimedMessage("End AMF report", MessageTypes.END_REPORT, uri, uuid))
+    eventualReport.foreach(
+      r =>
+        telemetryProvider
+          .addTimedMessage("End AMF report", "DiagnosticManager", "report", MessageTypes.END_REPORT, uri, uuid))
     eventualReport
   }
 

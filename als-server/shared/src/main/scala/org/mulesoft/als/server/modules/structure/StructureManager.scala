@@ -57,7 +57,12 @@ class StructureManager(val workspaceManager: WorkspaceManager,
     val telemetryUUID: String = UUID.randomUUID().toString
 
     logger.debug("Asked for structure:\n" + uri, "StructureManager", "onDocumentStructure")
-    telemetryProvider.addTimedMessage("Begin Structure", MessageTypes.BEGIN_STRUCTURE, uri, telemetryUUID)
+    telemetryProvider.addTimedMessage("Begin Structure",
+                                      "StructureManager",
+                                      "onDocumentStructure",
+                                      MessageTypes.BEGIN_STRUCTURE,
+                                      uri,
+                                      telemetryUUID)
     val results = workspaceManager
       .getUnit(uri, telemetryUUID)
       .flatMap(_.getLast)
@@ -74,8 +79,14 @@ class StructureManager(val workspaceManager: WorkspaceManager,
           Future.successful(List.empty)
       })
 
-    results.foreach(_ =>
-      telemetryProvider.addTimedMessage("End Structure", MessageTypes.END_STRUCTURE, uri, telemetryUUID))
+    results.foreach(
+      _ =>
+        telemetryProvider.addTimedMessage("End Structure",
+                                          "StructureManager",
+                                          "onDocumentStructure",
+                                          MessageTypes.END_STRUCTURE,
+                                          uri,
+                                          telemetryUUID))
     results
   }
 

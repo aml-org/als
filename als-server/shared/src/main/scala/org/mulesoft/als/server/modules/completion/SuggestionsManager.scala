@@ -70,12 +70,29 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
 
     editorEnvironment.get(uri) match {
       case Some(textDocument) =>
-        val startTime      = System.currentTimeMillis()
-        val syntax         = Syntax(textDocument.syntax)
-        val originalText   = textDocument.text
-        val offset         = position.offset(originalText)
+        val startTime    = System.currentTimeMillis()
+        val syntax       = Syntax(textDocument.syntax)
+        val originalText = textDocument.text
+        val offset       = position.offset(originalText)
+        telemetryProvider.addTimedMessage("Begin Suggestions",
+                                          "SuggestionsManager",
+                                          "onDocumentCompletion",
+                                          MessageTypes.BEGIN_COMPLETION,
+                                          uri,
+                                          telemetryUUID)
+        telemetryProvider.addTimedMessage("Begin Patching Suggestions",
+                                          "SuggestionsManager",
+                                          "onDocumentCompletion",
+                                          MessageTypes.BEGIN_PATCHING,
+                                          uri,
+                                          telemetryUUID)
         val patchedContent = ContentPatcher(originalText, offset, syntax).prepareContent()
-        telemetryProvider.addTimedMessage("Begin Suggestions", MessageTypes.BEGIN_COMPLETION, uri, telemetryUUID)
+        telemetryProvider.addTimedMessage("Begin Patching Suggestions",
+                                          "SuggestionsManager",
+                                          "onDocumentCompletion",
+                                          MessageTypes.BEGIN_PATCHING,
+                                          uri,
+                                          telemetryUUID)
         buildCompletionProviderAST(
           new TextDocument(uri, textDocument.version, patchedContent.content, syntax.toString, logger),
           originalText,
@@ -97,7 +114,12 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                       "ASTSuggestionsManager",
                                       "onDocumentCompletion")
 
-              telemetryProvider.addTimedMessage("End Suggestions", MessageTypes.END_COMPLETION, uri, telemetryUUID)
+              telemetryProvider.addTimedMessage("End Suggestions",
+                                                "SuggestionsManager",
+                                                "onDocumentCompletion",
+                                                MessageTypes.END_COMPLETION,
+                                                uri,
+                                                telemetryUUID)
               result
             })
         })
@@ -115,9 +137,24 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                  syntax: Syntax,
                                  patchedContent: PatchedContent,
                                  uuid: String): Future[CompletionProvider] = {
-    val amfRefinedUri      = FileUtils.getDecodedUri(uri, platform)
+    val amfRefinedUri = FileUtils.getDecodedUri(uri, platform)
+    telemetryProvider.addTimedMessage("Start parsing for completion",
+                                      "SuggestionsManager",
+                                      "buildCompletionProviderAST",
+                                      MessageTypes.BEGIN_PARSE_PATCHED,
+                                      uri,
+                                      uuid)
     val patchedEnvironment = editorEnvironment.patchUri(amfRefinedUri, text)
     val eventualUnit       = ParserHelper(platform).parse(amfRefinedUri, patchedEnvironment.environment) // todo pass other workspace bu's as cache
+
+    eventualUnit.foreach { _ =>
+      telemetryProvider.addTimedMessage("End parsing for completion",
+                                        "SuggestionsManager",
+                                        "buildCompletionProviderAST",
+                                        MessageTypes.END_PARSE_PATCHED,
+                                        uri,
+                                        uuid)
+    }
 
     Suggestions.buildProviderAsync(eventualUnit,
                                    position,
