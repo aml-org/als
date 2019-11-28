@@ -87,10 +87,10 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                           uri,
                                           telemetryUUID)
         val patchedContent = ContentPatcher(originalText, offset, syntax).prepareContent()
-        telemetryProvider.addTimedMessage("Begin Patching Suggestions",
+        telemetryProvider.addTimedMessage("End Patching Suggestions",
                                           "SuggestionsManager",
                                           "onDocumentCompletion",
-                                          MessageTypes.BEGIN_PATCHING,
+                                          MessageTypes.END_PATCHING,
                                           uri,
                                           telemetryUUID)
         buildCompletionProviderAST(
