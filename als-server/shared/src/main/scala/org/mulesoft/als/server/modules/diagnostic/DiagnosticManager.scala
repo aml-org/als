@@ -5,16 +5,18 @@ import amf.core.model.document.BaseUnit
 import amf.core.remote.Aml
 import amf.core.services.RuntimeValidator
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
-import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, PositionRange}
+import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, Position, PositionRange}
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
+import org.mulesoft.als.server.modules.workspace.ReferenceOrigin
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
+import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -39,10 +41,12 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
   /**
     * Called on new AST available
     *
-    * @param ast  - AST
-    * @param uuid - telemetry UUID
+    * @param tuple - (AST, References)
+    * @param uuid  - telemetry UUID
     */
-  override def onNewAst(ast: BaseUnit, uuid: String): Unit = {
+  override def onNewAst(tuple: (BaseUnit, Map[String, Set[ReferenceOrigin]]), uuid: String): Unit = {
+    val ast        = tuple._1
+    val references = tuple._2
     logger.debug("Got new AST:\n" + ast.toString, "ValidationManager", "newASTAvailable")
     val uri = ast.id
     telemetryProvider.addTimedMessage("Start report",
@@ -53,7 +57,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                                       uuid)
 
     reconciler
-      .shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, ast, uuid)))
+      .shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, ast, references, uuid)))
       .future andThen {
       case Success(reports: Seq[ValidationReport]) =>
         logger.debug("Number of errors is:\n" + reports.flatMap(_.issues).length,
@@ -87,7 +91,10 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     }
   }
 
-  private def gatherValidationErrors(uri: String, baseUnit: BaseUnit, uuid: String): Future[Seq[ValidationReport]] = {
+  private def gatherValidationErrors(uri: String,
+                                     baseUnit: BaseUnit,
+                                     references: Map[String, Set[ReferenceOrigin]],
+                                     uuid: String): Future[Seq[ValidationReport]] = {
     val clonedUnit = baseUnit //.clone()
     val startTime  = System.currentTimeMillis()
 
@@ -100,7 +107,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                                 "ValidationManager",
                                 "gatherValidationErrors")
 
-        buildIssueResults(uri, report, baseUnit)
+        buildIssueResults(uri, report, baseUnit, references)
       })
   }
 
@@ -108,25 +115,76 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     baseUnit.location().toSet ++ baseUnit.references.flatMap(extractLocations)
   }
 
-  def buildIssueResults(root: String, report: AMFValidationReport, baseUnit: BaseUnit): Seq[ValidationReport] = {
+  def buildIssueResults(root: String,
+                        report: AMFValidationReport,
+                        baseUnit: BaseUnit,
+                        references: Map[String, Set[ReferenceOrigin]]): Seq[ValidationReport] = {
     val located: Map[String, Seq[AMFValidationResult]] = report.results.groupBy(_.location.getOrElse(root))
 
     val collectedFirstErrors: ListBuffer[(String, ValidationIssue)] = ListBuffer[(String, ValidationIssue)]()
     val dependencyNames: Set[String]                                = extractLocations(baseUnit)
-    val dependenciesReports = dependencyNames
-      .map { dependency =>
+
+    val withExternalDependency: Map[Boolean, Set[String]] = dependencyNames.groupBy(n => isExternal(n, references))
+
+    val mapReport: mutable.Map[String, mutable.Set[ValidationIssue]] = mutable.Map()
+
+    //todo: if syntax error ignore "external" (validationId: "http://a.ml/vocabularies/amf/core#syaml-error"
+    withExternalDependency
+      .getOrElse(false, Nil)
+      .foreach { dependency =>
         located.get(dependency) match {
           case Some(results) if results.nonEmpty =>
-            val r      = results.map(amfValidationResultToIssue).toSet
-            val report = ValidationReport(dependency, r)
+            val r = results.map(amfValidationResultToIssue(_, references)).toSet
             collectedFirstErrors ++= r.collectFirst({
               case v if v.`type` == ValidationSeverity.Error => (dependency, v)
             })
-            report
-          case _ => ValidationReport(dependency, Set.empty)
+            //              report
+
+            if (mapReport.get(dependency).isEmpty)
+              mapReport.update(dependency, mutable.Set.empty)
+            r.foreach(mapReport(dependency).add)
+          case _ => // ValidationReport(dependency, Set.empty)
         }
       }
-    dependenciesReports.toSeq.sortBy(_.publishDiagnosticsParams.uri)
+    withExternalDependency
+      .getOrElse(true, Nil)
+      .foreach { dependency =>
+        located.get(dependency) match {
+          case Some(results) if results.nonEmpty =>
+            val r = results
+              .map(r => {
+                val stack       = amfValidationExternalResultToIssue(r, references)
+                val messageText = r.message
+                ValidationIssue(
+                  "PROPERTY_UNUSED",
+                  ValidationSeverity(r.level),
+                  stack.headOption.map(_.filePath).getOrElse(""),
+                  messageText,
+                  stack.headOption.map(_.range).getOrElse(PositionRange(Position(0, 0), Position(0, 0))),
+                  stack.tail
+                )
+              })
+              .toSet
+            collectedFirstErrors ++= r.collectFirst({
+              case v if v.`type` == ValidationSeverity.Error => (dependency, v)
+            })
+            //              report
+            r.foreach(vi => {
+              if (mapReport.get(vi.filePath).isEmpty)
+                mapReport.update(vi.filePath, mutable.Set.empty)
+              mapReport(vi.filePath).add(vi)
+            })
+          case _ => // ValidationReport(dependency, Set.empty)
+        }
+      }
+
+    dependencyNames
+      .map { name =>
+        ValidationReport(name, mapReport.get(name).map(_.toSet).getOrElse(Set.empty))
+      }
+      //    dependenciesReports
+      .toSeq
+      .sortBy(_.publishDiagnosticsParams.uri)
   }
 
   private def buildTopFiveIssues(root: String,
@@ -148,13 +206,39 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     } else None
   }
 
-  def amfValidationResultToIssue(validationResult: AMFValidationResult): ValidationIssue = {
+  def amfValidationExternalResultToIssue(validationResult: AMFValidationResult,
+                                         references: Map[String, Set[ReferenceOrigin]]): List[ValidationIssue] = {
+    (extractStackTrace(validationResult, references).reverse :+
+      ValidationIssue(
+        "PROPERTY_UNUSED",
+        ValidationSeverity(validationResult.level),
+        validationResult.location.getOrElse(""),
+        s"at ${validationResult.location.getOrElse("")} ${validationResult.position
+          .map(li => PositionRange(li.range))
+          .getOrElse(PositionRange(Position(0, 0), Position(0, 0)))}",
+        validationResult.position
+          .map(li => PositionRange(li.range))
+          .getOrElse(PositionRange(Position(0, 0), Position(0, 0))),
+        Nil
+      ))
+
+  }
+
+  def amfValidationResultToIssue(validationResult: AMFValidationResult,
+                                 references: Map[String, Set[ReferenceOrigin]]): ValidationIssue = {
     val messageText = validationResult.message
     val range = validationResult.position
       .map(position => PositionRange(position.range))
       .getOrElse(EmptyPositionRange)
 
-    ValidationIssue("PROPERTY_UNUSED", ValidationSeverity(validationResult.level), "", messageText, range, List())
+    ValidationIssue(
+      "PROPERTY_UNUSED",
+      ValidationSeverity(validationResult.level),
+      validationResult.location.getOrElse(""),
+      messageText,
+      range,
+      extractStackTrace(validationResult, references)
+    )
   }
 
   // check if DialectInstance <- nameAndVersion ?
@@ -180,9 +264,37 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     eventualReport
   }
 
-  override def onRemoveFile(uri: String): Unit = {
+  override def onRemoveFile(uri: String): Unit =
     clientNotifier.notifyDiagnostic(AlsPublishDiagnosticsParams(uri, Nil))
 
+  private def extractStackTrace(amfValidationResult: AMFValidationResult,
+                                references: Map[String, Set[ReferenceOrigin]]): List[ValidationIssue] = {
+    def inner(uri: String, stack: List[ReferenceOrigin] = Nil): List[ReferenceOrigin] =
+      references
+        .get(uri)
+        .map(_.toList.flatMap(ro => {
+          if (stack.contains(ro)) // new
+            stack
+          else // already there
+            ro +: inner(ro.locationOrigin, stack)
+        }))
+        .getOrElse(stack)
+
+    def buildIssues(value: List[ReferenceOrigin]): List[ValidationIssue] = {
+      value.map(
+        ro =>
+          ValidationIssue("PROPERTY_UNUSED",
+                          ValidationSeverity.Error,
+                          ro.locationOrigin,
+                          s"at ${ro.locationOrigin} ${ro.range}",
+                          ro.range,
+                          Nil))
+    }
+
+    val value: List[ReferenceOrigin] = amfValidationResult.location.map(location => inner(location)).getOrElse(Nil)
+    buildIssues(value)
   }
 
+  private def isExternal(location: String, references: Map[String, Set[ReferenceOrigin]]): Boolean =
+    references.get(location).exists(ros => ros.forall(ro => ro.isExternal))
 }

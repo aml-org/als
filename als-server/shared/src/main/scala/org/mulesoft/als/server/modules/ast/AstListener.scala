@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.ast
 
 import amf.core.model.document.BaseUnit
+import org.mulesoft.als.server.modules.workspace.ReferenceOrigin
 
 /**
   * AST listener
@@ -18,7 +19,7 @@ trait AstListener[T] {
   def onRemoveFile(uri: String): Unit
 }
 
-trait BaseUnitListener extends AstListener[BaseUnit]
+trait BaseUnitListener extends AstListener[(BaseUnit, Map[String, Set[ReferenceOrigin]])]
 
 abstract class AstNotifier[T](val dependencies: List[AstListener[T]]) {
   protected def notify(bu: T, uuid: String): Unit = dependencies.foreach(_.onNewAst(bu, uuid))

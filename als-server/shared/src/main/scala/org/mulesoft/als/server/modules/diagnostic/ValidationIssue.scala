@@ -29,7 +29,7 @@ case class ValidationIssue(code: String,
     Some(ValidationSeverity.toDiagnosticSeverity(`type`)),
     None,
     Some(filePath),
-    trace.flatMap(_.trace).map(_.diagnosticRelatedInformation)
+    trace.map(_.diagnosticRelatedInformation)
   )
 
   lazy val diagnosticRelatedInformation: DiagnosticRelatedInformation =

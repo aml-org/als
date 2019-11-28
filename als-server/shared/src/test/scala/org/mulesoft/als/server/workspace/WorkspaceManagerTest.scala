@@ -2,6 +2,7 @@ package org.mulesoft.als.server.workspace
 
 import org.mulesoft.als.server.modules.ManagersFactory
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
+import org.mulesoft.lsp.common.{Position, Range}
 import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
 import org.mulesoft.lsp.server.LanguageServer
 import org.scalatest.Assertion
@@ -26,6 +27,94 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       } yield {
         val allDiagnostics = Seq(a, b, c)
         assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
+      }
+    }
+  }
+
+  test("Workspace Manager check validation Stack - Error on external fragment with indirection") {
+    withServer[Assertion] { server =>
+      val rootFolder = s"${filePath("ws-error-stack-1")}"
+      for {
+        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
+        a <- MockDiagnosticClientNotifier.nextCall
+        b <- MockDiagnosticClientNotifier.nextCall
+        c <- MockDiagnosticClientNotifier.nextCall
+      } yield {
+        val allDiagnostics = Seq(a, b, c)
+        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
+        val main   = allDiagnostics.find(_.uri == s"$rootFolder/api.raml")
+        val others = allDiagnostics.filterNot(pd => main.exists(_.uri == pd.uri))
+        assert(main.isDefined)
+        others.size should be(2)
+
+        main match {
+          case Some(m) =>
+            m.diagnostics.size should be(1)
+            m.diagnostics.head.range should be(Range(Position(3, 5), Position(3, 28)))
+            m.diagnostics.head.relatedInformation.size should be(2)
+            m.diagnostics.head.relatedInformation.head.location.uri should be(s"$rootFolder/external1.yaml")
+            m.diagnostics.head.relatedInformation.head.location.range should be(Range(Position(2, 5), Position(2, 28)))
+            m.diagnostics.head.relatedInformation.tail.head.location.uri should be(s"$rootFolder/external2.yaml")
+            m.diagnostics.head.relatedInformation.tail.head.location.range should be(
+              Range(Position(2, 0), Position(2, 9)))
+          case _ => fail("No Main detected")
+        }
+      }
+    }
+  }
+
+  test("Workspace Manager check validation Stack - Error on library") {
+    withServer[Assertion] { server =>
+      val rootFolder = s"${filePath("ws-error-stack-2")}"
+      for {
+        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
+        a <- MockDiagnosticClientNotifier.nextCall
+        b <- MockDiagnosticClientNotifier.nextCall
+      } yield {
+        val allDiagnostics = Seq(a, b)
+        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
+        val library = allDiagnostics.find(_.uri == s"$rootFolder/library.raml")
+        val others  = allDiagnostics.filterNot(pd => library.exists(_.uri == pd.uri))
+        assert(library.isDefined)
+        others.size should be(1)
+
+        library match {
+          case Some(m) =>
+            m.diagnostics.size should be(1)
+            m.diagnostics.head.range should be(Range(Position(3, 0), Position(3, 6)))
+            m.diagnostics.head.relatedInformation.size should be(1)
+            m.diagnostics.head.relatedInformation.head.location.uri should be(s"$rootFolder/api.raml")
+            m.diagnostics.head.relatedInformation.head.location.range should be(Range(Position(4, 7), Position(4, 19)))
+          case _ => fail("No Main detected")
+        }
+      }
+    }
+  }
+
+  test("Workspace Manager check validation Stack - Error on typed fragment") {
+    withServer[Assertion] { server =>
+      val rootFolder = s"${filePath("ws-error-stack-3")}"
+      for {
+        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
+        a <- MockDiagnosticClientNotifier.nextCall
+        b <- MockDiagnosticClientNotifier.nextCall
+      } yield {
+        val allDiagnostics = Seq(a, b)
+        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
+        val library = allDiagnostics.find(_.uri == s"$rootFolder/external.raml")
+        val others  = allDiagnostics.filterNot(pd => library.exists(_.uri == pd.uri))
+        assert(library.isDefined)
+        others.size should be(1)
+
+        library match {
+          case Some(m) =>
+            m.diagnostics.size should be(1)
+            m.diagnostics.head.range should be(Range(Position(2, 0), Position(2, 7)))
+            m.diagnostics.head.relatedInformation.size should be(1)
+            m.diagnostics.head.relatedInformation.head.location.uri should be(s"$rootFolder/api.raml")
+            m.diagnostics.head.relatedInformation.head.location.range should be(Range(Position(4, 5), Position(4, 27)))
+          case _ => fail("No Main detected")
+        }
       }
     }
   }
