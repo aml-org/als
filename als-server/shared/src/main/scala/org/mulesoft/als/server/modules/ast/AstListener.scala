@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.ast
 
 import amf.core.model.document.BaseUnit
-import org.mulesoft.als.server.modules.workspace.ReferenceStack
+import org.mulesoft.als.server.modules.workspace.{DiagnosticsBundle, ReferenceStack}
 
 /**
   * AST listener
@@ -19,7 +19,7 @@ trait AstListener[T] {
   def onRemoveFile(uri: String): Unit
 }
 
-trait BaseUnitListener extends AstListener[(BaseUnit, Map[String, (Boolean, Set[ReferenceStack])])]
+trait BaseUnitListener extends AstListener[(BaseUnit, Map[String, DiagnosticsBundle])]
 
 abstract class AstNotifier[T](val dependencies: List[AstListener[T]]) {
   protected def notify(bu: T, uuid: String): Unit = dependencies.foreach(_.onNewAst(bu, uuid))

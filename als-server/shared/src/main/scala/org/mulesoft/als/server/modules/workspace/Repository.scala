@@ -4,6 +4,7 @@ import amf.client.resource.ResourceNotFound
 import amf.core.annotations.ReferenceTargets
 import amf.core.model.document.{BaseUnit, ExternalFragment}
 import amf.internal.reference.{CachedReference, ReferenceResolver}
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.amfmanager.ParserHelper
 
@@ -16,40 +17,24 @@ case class ParsedUnit(bu: BaseUnit, inTree: Boolean) {
     CompilableUnit(bu.id, bu, if (inTree) mf else None, next)
 }
 
-case class ReferenceStack(stack: Seq[ReferenceTargets])
+case class ReferenceOrigins(originUri: String, originRange: PositionRange)
+
+case class ReferenceStack(stack: Seq[ReferenceOrigins]) {
+  def through(reference: ReferenceOrigins) = ReferenceStack(reference +: stack)
+}
+
+case class DiagnosticsBundle(isExternal: Boolean, references: Set[ReferenceStack]) {
+  def and(stack: ReferenceStack): DiagnosticsBundle = DiagnosticsBundle(isExternal, references + stack)
+}
 
 class Repository(cachables: Set[String], logger: Logger) {
   private val cache: mutable.Map[String, ParsedUnit] = mutable.Map.empty
 
-  /**
-    * Contains all tree units with the corresponding stack
-    */
-  private val unitsWithStack: mutable.Set[(ParsedUnit, ReferenceStack)] = mutable.Set()
+  private val units: mutable.Map[String, ParsedUnit] = mutable.Map.empty
 
-  /**
-    * contains all units not refered by the Project
-    */
-  private val isolatedUnits: mutable.Map[String, ParsedUnit] = mutable.Map.empty
+  private val innerRefs: mutable.Map[String, DiagnosticsBundle] = mutable.Map.empty
 
-  // todo: difference between units and cache?
-  private def units: Map[String, ParsedUnit] =
-    isolatedUnits.toMap ++ mappedUnits.map(t => t._1 -> t._2._1)
-
-  /**
-    *
-    * @return a map indexed by BU id, containing each ParsedUnit and the corresponding Stack
-    */
-  private def mappedUnits: Map[String, (ParsedUnit, Seq[ReferenceStack])] =
-    unitsWithStack.groupBy(_._1.bu.id).map(v => v._1 -> (v._2.head._1, v._2.map(_._2).toSeq))
-
-  /**
-    *
-    * Map key = URI, Boolean = isExternal, Set = All stacks leading to this URI
-    */
-  def references: Map[String, (Boolean, Set[ReferenceStack])] =
-    unitsWithStack
-      .groupBy(_._1.bu.id)
-      .map(v => v._1 -> (units.get(v._1).forall(_.bu.isInstanceOf[ExternalFragment]), v._2.map(_._2).toSet))
+  def references: Map[String, DiagnosticsBundle] = innerRefs.toMap
 
   def getParsed(uri: String): Option[ParsedUnit] = units.get(uri)
 
@@ -57,34 +42,48 @@ class Repository(cachables: Set[String], logger: Logger) {
 
   def treeUnits(): Iterable[ParsedUnit] = units.values.filter(_.inTree)
 
-  def treeKeys: collection.Set[String] = units.filter(_._2.inTree).keySet
+  def treeKeys: collection.Set[String] = innerRefs.keySet
 
   def update(u: BaseUnit): Unit = {
     if (treeKeys.contains(u.id)) throw new Exception("Cannot update an unit from the tree")
     val unit = ParsedUnit(u, inTree = false)
-    isolatedUnits.update(u.id, unit)
+    units.update(u.id, unit)
   }
 
-  def cleanTree(): Unit = unitsWithStack.clear()
-
-  //    treeKeys.foreach(isolatedUnits.remove)
+  def cleanTree(): Unit = {
+    treeKeys.foreach { k =>
+      units.remove(k)
+    }
+    innerRefs.clear()
+  }
 
   def newTree(main: BaseUnit): Future[Unit] = synchronized {
     cleanTree()
-    indexUnit(main, Nil)
+    indexUnit(main, ReferenceStack(Nil))
   }
 
-  private def indexUnit(unit: BaseUnit, stack: Seq[ReferenceTargets]): Future[Unit] =
-    indexParsedUnit(ParsedUnit(unit, inTree = true), stack: Seq[ReferenceTargets])
+  private def indexUnit(unit: BaseUnit, stack: ReferenceStack): Future[Unit] =
+    indexParsedUnit(ParsedUnit(unit, inTree = true), stack)
 
-  private def indexParsedUnit(pu: ParsedUnit, stack: Seq[ReferenceTargets]): Future[Unit] = {
+  private def indexParsedUnit(pu: ParsedUnit, stack: ReferenceStack): Future[Unit] = {
+    def isRecursive(stack: ReferenceStack, unit: ParsedUnit): Boolean =
+      stack.stack.exists(_.originUri == unit.bu.id)
+
     val cachedF = checkCache(pu)
 
-    val unitWithStack = (pu, ReferenceStack(stack))
-    val refs = if (unitsWithStack.add(unitWithStack)) { // stop: recursion
+    val refs = if (!isRecursive(stack, pu)) { // stop: recursion
+      units.put(pu.bu.id, pu)
+      innerRefs.get(pu.bu.id) match {
+        case Some(db) => innerRefs.update(pu.bu.id, db.and(stack))
+        case _        => innerRefs.put(pu.bu.id, DiagnosticsBundle(pu.bu.isInstanceOf[ExternalFragment], Set(stack)))
+      }
       pu.bu.annotations
         .collect[ReferenceTargets] { case rt: ReferenceTargets => rt }
-        .map(rt => indexUnit(pu.bu.references.find(_.id == rt.targetLocation).get, rt +: stack))
+        .map(rt =>
+          indexUnit(
+            pu.bu.references.find(_.id == rt.targetLocation).get,
+            stack.through(ReferenceOrigins(pu.bu.location().getOrElse(pu.bu.id), PositionRange(rt.originRange)))
+        ))
     } else Nil
 
     Future.sequence(cachedF +: refs).map(_ => Unit)

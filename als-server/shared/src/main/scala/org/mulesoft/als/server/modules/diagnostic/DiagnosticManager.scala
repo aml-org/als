@@ -12,7 +12,7 @@ import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
-import org.mulesoft.als.server.modules.workspace.ReferenceStack
+import org.mulesoft.als.server.modules.workspace.{DiagnosticsBundle, ReferenceStack}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.common.Location
 import org.mulesoft.lsp.convert.LspRangeConverter
@@ -49,7 +49,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     * @param tuple - (AST, References)
     * @param uuid  - telemetry UUID
     */
-  override def onNewAst(tuple: (BaseUnit, Map[String, (Boolean, Set[ReferenceStack])]), uuid: String): Unit = {
+  override def onNewAst(tuple: (BaseUnit, Map[String, DiagnosticsBundle]), uuid: String): Unit = {
     val ast        = tuple._1
     val references = tuple._2
     logger.debug("Got new AST:\n" + ast.toString, "ValidationManager", "newASTAvailable")
@@ -98,7 +98,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
 
   private def gatherValidationErrors(uri: String,
                                      baseUnit: BaseUnit,
-                                     references: Map[String, (Boolean, Set[ReferenceStack])],
+                                     references: Map[String, DiagnosticsBundle],
                                      uuid: String): Future[Seq[ValidationReport]] = {
     val clonedUnit = baseUnit //.clone()
     val startTime  = System.currentTimeMillis()
@@ -119,7 +119,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
   def buildIssueResults(root: String,
                         report: AMFValidationReport,
                         baseUnit: BaseUnit,
-                        references: Map[String, (Boolean, Set[ReferenceStack])]): Seq[ValidationReport] = {
+                        references: Map[String, DiagnosticsBundle]): Seq[ValidationReport] = {
     val issuesWithStack: Seq[ValidationIssue] = buildIssues(report, references)
 
     extractAllReferences(baseUnit)
@@ -134,50 +134,48 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
   }
 
   private def buildIssues(report: AMFValidationReport,
-                          references: Map[String, (Boolean, Set[ReferenceStack])]): Seq[ValidationIssue] = {
+                          references: Map[String, DiagnosticsBundle]): Seq[ValidationIssue] = {
     report.results.flatMap { r =>
       references.get(r.location.getOrElse("")) match {
         case Some(t)
-            if !t._1 && t._2.nonEmpty => // Has stack, ain't ExternalFragment todo: check if it's a syntax error?
-          t._2.map { stackContainer =>
+            if !t.isExternal && t.references.nonEmpty => // Has stack, ain't ExternalFragment todo: check if it's a syntax error?
+          t.references.map { stackContainer =>
             buildIssue(
               r,
               stackContainer.stack
                 .map(
                   s =>
-                    DiagnosticRelatedInformation(Location(s.originLocation,
-                                                          LspRangeConverter.toLspRange(PositionRange(s.originRange))),
-                                                 s"at ${s.originLocation}"))
+                    DiagnosticRelatedInformation(Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
+                                                 s"at ${s.originUri} ${s.originRange}"))
             )
           }
-        case Some(t) if t._2.nonEmpty =>
+        case Some(t) if t.references.nonEmpty =>
           // invert order of stack, put root as last element of the trace
+          val range = LspRangeConverter.toLspRange(
+            r.position
+              .map(position => PositionRange(position.range))
+              .getOrElse(PositionRange(Position(0, 0), Position(0, 0))))
           val rootAsRelatedInfo: DiagnosticRelatedInformation = DiagnosticRelatedInformation(
             Location(
               r.location.getOrElse(""),
-              LspRangeConverter.toLspRange(
-                r.position
-                  .map(position => PositionRange(position.range))
-                  .getOrElse(PositionRange(Position(0, 0), Position(0, 0))))
+              range
             ),
-            s"from ${r.location.getOrElse("")}"
+            s"from ${r.location.getOrElse("")} ${range}"
           )
 
-          t._2.map { stackContainer =>
-            val newHead: ReferenceTargets = stackContainer.stack.last
+          t.references.map { stackContainer =>
+            val newHead = stackContainer.stack.last
 
             buildIssue(
-              newHead.originLocation,
-              PositionRange(newHead.originRange),
+              newHead.originUri,
+              newHead.originRange,
               r.message,
               r.level,
               stackContainer.stack.reverse
                 .drop(1)
-                .map(
-                  s =>
-                    DiagnosticRelatedInformation(Location(s.originLocation,
-                                                          LspRangeConverter.toLspRange(PositionRange(s.originRange))),
-                                                 s"from ${s.originLocation}")) :+
+                .map(s =>
+                  DiagnosticRelatedInformation(Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
+                                               s"from ${s.originUri}")) :+
                 rootAsRelatedInfo
             )
           }
