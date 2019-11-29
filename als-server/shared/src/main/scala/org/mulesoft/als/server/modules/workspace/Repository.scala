@@ -40,7 +40,7 @@ class Repository(cachables: Set[String], logger: Logger) {
 
   def inTree(uri: String): Boolean = treeKeys.contains(uri)
 
-  def treeUnits(): Iterable[ParsedUnit] = units.values.filter(_.inTree)
+  def treeUnits(): Iterable[ParsedUnit] = units.filterKeys(innerRefs.keySet).values
 
   def treeKeys: collection.Set[String] = innerRefs.keySet
 
