@@ -4,47 +4,52 @@ import amf.client.resource.ResourceNotFound
 import amf.core.annotations.ReferenceTargets
 import amf.core.model.document.{BaseUnit, ExternalFragment}
 import amf.internal.reference.{CachedReference, ReferenceResolver}
-import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.amfmanager.ParserHelper
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
+import scala.concurrent.Future
 
 case class ParsedUnit(bu: BaseUnit, inTree: Boolean) {
   def toCU(next: Option[Future[CompilableUnit]], mf: Option[String]): CompilableUnit =
     CompilableUnit(bu.id, bu, if (inTree) mf else None, next)
 }
 
-case class ReferenceOrigin(locationTarget: String, locationOrigin: String, range: PositionRange, isExternal: Boolean)
+case class ReferenceStack(stack: Seq[ReferenceTargets])
 
 class Repository(cachables: Set[String], logger: Logger) {
-
-  private val units: mutable.Map[String, ParsedUnit] = mutable.Map.empty
-
   private val cache: mutable.Map[String, ParsedUnit] = mutable.Map.empty
 
-  private var references: Map[String, Set[ReferenceOrigin]] = Map()
+  /**
+    * Contains all tree units with the corresponding stack
+    */
+  private val unitsWithStack: mutable.Set[(ParsedUnit, ReferenceStack)] = mutable.Set()
 
-  def getReferences: Map[String, Set[ReferenceOrigin]] = references
+  /**
+    * contains all units not refered by the Project
+    */
+  private val isolatedUnits: mutable.Map[String, ParsedUnit] = mutable.Map.empty
 
-  private def referenceMap(): Map[String, Set[ReferenceOrigin]] =
-    treeUnits()
-      .flatMap(
-        pu =>
-          pu.bu.annotations
-            .collect[ReferenceTargets] { case rt: ReferenceTargets => rt }
-            .map(
-              rt =>
-                ReferenceOrigin(rt.targetLocation,
-                                pu.bu.location().getOrElse(pu.bu.id),
-                                PositionRange(rt.originRange),
-                                units(rt.targetLocation).bu.isInstanceOf[ExternalFragment])))
-      //          pu.bu.meta == ExternalFragmentModel)))
-      .groupBy(o => o.locationTarget)
-      .mapValues(v => v.toSet)
+  // todo: difference between units and cache?
+  private def units: Map[String, ParsedUnit] =
+    isolatedUnits.toMap ++ mappedUnits.map(t => t._1 -> t._2._1)
+
+  /**
+    *
+    * @return a map indexed by BU id, containing each ParsedUnit and the corresponding Stack
+    */
+  private def mappedUnits: Map[String, (ParsedUnit, Seq[ReferenceStack])] =
+    unitsWithStack.groupBy(_._1.bu.id).map(v => v._1 -> (v._2.head._1, v._2.map(_._2).toSeq))
+
+  /**
+    *
+    * Map key = URI, Boolean = isExternal, Set = All stacks leading to this URI
+    */
+  def references: Map[String, (Boolean, Set[ReferenceStack])] =
+    unitsWithStack
+      .groupBy(_._1.bu.id)
+      .map(v => v._1 -> (units.get(v._1).forall(_.bu.isInstanceOf[ExternalFragment]), v._2.map(_._2).toSet))
 
   def getParsed(uri: String): Option[ParsedUnit] = units.get(uri)
 
@@ -57,26 +62,31 @@ class Repository(cachables: Set[String], logger: Logger) {
   def update(u: BaseUnit): Unit = {
     if (treeKeys.contains(u.id)) throw new Exception("Cannot update an unit from the tree")
     val unit = ParsedUnit(u, inTree = false)
-    units.update(u.id, unit)
+    isolatedUnits.update(u.id, unit)
   }
 
-  def cleanTree(): Unit = treeKeys.foreach(units.remove)
+  def cleanTree(): Unit = unitsWithStack.clear()
+
+  //    treeKeys.foreach(isolatedUnits.remove)
 
   def newTree(main: BaseUnit): Future[Unit] = synchronized {
     cleanTree()
-    indexUnit(main)
-      .map(_ => references = referenceMap())
+    indexUnit(main, Nil)
   }
 
-  private def indexUnit(unit: BaseUnit): Future[Unit] = indexParsedUnit(ParsedUnit(unit, inTree = true))
+  private def indexUnit(unit: BaseUnit, stack: Seq[ReferenceTargets]): Future[Unit] =
+    indexParsedUnit(ParsedUnit(unit, inTree = true), stack: Seq[ReferenceTargets])
 
-  private def indexParsedUnit(pu: ParsedUnit): Future[Unit] = {
+  private def indexParsedUnit(pu: ParsedUnit, stack: Seq[ReferenceTargets]): Future[Unit] = {
     val cachedF = checkCache(pu)
 
-    val refs = if (!units.contains(pu.bu.id)) { // stop: recursion
-      units.put(pu.bu.id, pu)
-      pu.bu.references.map(indexUnit)
+    val unitWithStack = (pu, ReferenceStack(stack))
+    val refs = if (unitsWithStack.add(unitWithStack)) { // stop: recursion
+      pu.bu.annotations
+        .collect[ReferenceTargets] { case rt: ReferenceTargets => rt }
+        .map(rt => indexUnit(pu.bu.references.find(_.id == rt.targetLocation).get, rt +: stack))
     } else Nil
+
     Future.sequence(cachedF +: refs).map(_ => Unit)
   }
 
@@ -84,21 +94,21 @@ class Repository(cachables: Set[String], logger: Logger) {
     if (cache.isEmpty && cachables.contains(p.bu.id)) cache(p) else Future.unit
 
   private def cache(p: ParsedUnit): Future[Unit] = {
-    val eventualUnit: Future[Unit] = Future({
+    val eventualUnit: Future[Unit] = Future {
       ParserHelper.resolve(p.bu.cloneUnit())
-    }).flatMap(resolved => {
-      ParserHelper
-        .reportResolved(resolved)
-        .map(r => {
-          if (r.conforms) cache.put(p.bu.id, ParsedUnit(resolved, inTree = true))
-          Unit
-        })
-    })
+    }.flatMap(
+      resolved =>
+        ParserHelper
+          .reportResolved(resolved)
+          .map(r => {
+            if (r.conforms) cache.put(p.bu.id, ParsedUnit(resolved, inTree = true))
+            Unit
+          }))
     eventualUnit
       .recoverWith {
         case e: Throwable => // ignore
           logger.error(s"Error while resolving cachable unit: ${p.bu.id}. Message ${e.getMessage}",
-                       "Respotivory",
+                       "Repository",
                        "Cache unit")
           Future.successful(Unit)
       }

@@ -113,7 +113,7 @@ class WorkspaceContentManager(val folder: String,
     parse(s"$folder/$mainFile", snapshot.environment, uuid)
       .flatMap { u =>
         repository.newTree(u).map { _ =>
-          dependencies.foreach(_.onNewAst((u, repository.getReferences), uuid))
+          dependencies.foreach(_.onNewAst((u, repository.references), uuid))
           stagingArea.enqueue(snapshot.files.filter(t => !repository.inTree(t._1)))
         }
       }

@@ -14,7 +14,7 @@ import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticRelatedInforma
   * @param filePath      Document uri. Legacy: to be renamed to uri.
   * @param text          Issue human-readable text.
   * @param range         Range producing the issue.
-  * @param trace         Subsequent validation issues
+  * @param trace         Stacktrace
   *
   */
 case class ValidationIssue(code: String,
@@ -22,18 +22,15 @@ case class ValidationIssue(code: String,
                            filePath: String,
                            text: String,
                            range: PositionRange,
-                           trace: Seq[ValidationIssue]) {
+                           trace: Seq[DiagnosticRelatedInformation]) {
   lazy val diagnostic: Diagnostic = Diagnostic(
     toLspRange(range),
     text,
     Some(ValidationSeverity.toDiagnosticSeverity(`type`)),
     None,
     Some(filePath),
-    trace.map(_.diagnosticRelatedInformation)
+    trace
   )
-
-  lazy val diagnosticRelatedInformation: DiagnosticRelatedInformation =
-    DiagnosticRelatedInformation(Location(filePath, toLspRange(range)), text)
 
   override def equals(obj: Any): Boolean = {
     obj match {
