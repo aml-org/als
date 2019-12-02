@@ -1,21 +1,28 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.ProfileName
+import amf.core.annotations.{LexicalInformation, ReferenceTargets}
 import amf.core.model.document.BaseUnit
 import amf.core.remote.Aml
 import amf.core.services.RuntimeValidator
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
-import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, PositionRange}
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
+import org.mulesoft.als.server.modules.workspace.{DiagnosticsBundle, ReferenceStack}
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
+import org.mulesoft.lsp.common.Location
+import org.mulesoft.lsp.convert.LspRangeConverter
+import org.mulesoft.lsp.feature.diagnostic.{
+  DiagnosticClientCapabilities,
+  DiagnosticConfigType,
+  DiagnosticRelatedInformation
+}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
-import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -39,10 +46,12 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
   /**
     * Called on new AST available
     *
-    * @param ast  - AST
-    * @param uuid - telemetry UUID
+    * @param tuple - (AST, References)
+    * @param uuid  - telemetry UUID
     */
-  override def onNewAst(ast: BaseUnit, uuid: String): Unit = {
+  override def onNewAst(tuple: (BaseUnit, Map[String, DiagnosticsBundle]), uuid: String): Unit = {
+    val ast        = tuple._1
+    val references = tuple._2
     logger.debug("Got new AST:\n" + ast.toString, "ValidationManager", "newASTAvailable")
     val uri = ast.id
     telemetryProvider.addTimedMessage("Start report",
@@ -53,7 +62,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                                       uuid)
 
     reconciler
-      .shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, ast, uuid)))
+      .shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, ast, references, uuid)))
       .future andThen {
       case Success(reports: Seq[ValidationReport]) =>
         logger.debug("Number of errors is:\n" + reports.flatMap(_.issues).length,
@@ -87,7 +96,10 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     }
   }
 
-  private def gatherValidationErrors(uri: String, baseUnit: BaseUnit, uuid: String): Future[Seq[ValidationReport]] = {
+  private def gatherValidationErrors(uri: String,
+                                     baseUnit: BaseUnit,
+                                     references: Map[String, DiagnosticsBundle],
+                                     uuid: String): Future[Seq[ValidationReport]] = {
     val clonedUnit = baseUnit //.clone()
     val startTime  = System.currentTimeMillis()
 
@@ -100,61 +112,77 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                                 "ValidationManager",
                                 "gatherValidationErrors")
 
-        buildIssueResults(uri, report, baseUnit)
+        buildIssueResults(uri, report, baseUnit, references)
       })
   }
 
-  private def extractLocations(baseUnit: BaseUnit): Set[String] = {
-    baseUnit.location().toSet ++ baseUnit.references.flatMap(extractLocations)
-  }
+  def buildIssueResults(root: String,
+                        report: AMFValidationReport,
+                        baseUnit: BaseUnit,
+                        references: Map[String, DiagnosticsBundle]): Seq[ValidationReport] = {
+    val issuesWithStack: Seq[ValidationIssue] = buildIssues(report, references)
 
-  def buildIssueResults(root: String, report: AMFValidationReport, baseUnit: BaseUnit): Seq[ValidationReport] = {
-    val located: Map[String, Seq[AMFValidationResult]] = report.results.groupBy(_.location.getOrElse(root))
-
-    val collectedFirstErrors: ListBuffer[(String, ValidationIssue)] = ListBuffer[(String, ValidationIssue)]()
-    val dependencyNames: Set[String]                                = extractLocations(baseUnit)
-    val dependenciesReports = dependencyNames
+    extractAllReferences(baseUnit)
       .map { dependency =>
-        located.get(dependency) match {
-          case Some(results) if results.nonEmpty =>
-            val r      = results.map(amfValidationResultToIssue).toSet
-            val report = ValidationReport(dependency, r)
-            collectedFirstErrors ++= r.collectFirst({
-              case v if v.`type` == ValidationSeverity.Error => (dependency, v)
-            })
-            report
-          case _ => ValidationReport(dependency, Set.empty)
-        }
+        ValidationReport(
+          dependency,
+          issuesWithStack.filter(_.filePath == dependency).toSet
+        )
       }
-    dependenciesReports.toSeq.sortBy(_.publishDiagnosticsParams.uri)
+      .toSeq
+      .sortBy(_.publishDiagnosticsParams.uri)
   }
 
-  private def buildTopFiveIssues(root: String,
-                                 collectedFirstErrors: List[(String, ValidationIssue)]): Option[ValidationIssue] = {
-    val messageBuilder: ListBuffer[String] = new ListBuffer[String]
-    if (collectedFirstErrors.nonEmpty) {
-      messageBuilder += "Dependency errors found:"
-      collectedFirstErrors.take(5).foreach { vi =>
-        messageBuilder += s"\t${vi._1} at: ${vi._2.range.toString}"
+  private def buildIssues(report: AMFValidationReport,
+                          references: Map[String, DiagnosticsBundle]): Seq[ValidationIssue] = {
+    report.results.flatMap { r =>
+      references.get(r.location.getOrElse("")) match {
+        case Some(t)
+            if !t.isExternal && t.references.nonEmpty => // Has stack, ain't ExternalFragment todo: check if it's a syntax error?
+          t.references.map { stackContainer =>
+            buildIssue(
+              r,
+              stackContainer.stack
+                .map(
+                  s =>
+                    DiagnosticRelatedInformation(Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
+                                                 s"at ${s.originUri} ${s.originRange}"))
+            )
+          }
+        case Some(t) if t.references.nonEmpty =>
+          // invert order of stack, put root as last element of the trace
+          val range = LspRangeConverter.toLspRange(
+            r.position
+              .map(position => PositionRange(position.range))
+              .getOrElse(PositionRange(Position(0, 0), Position(0, 0))))
+          val rootAsRelatedInfo: DiagnosticRelatedInformation = DiagnosticRelatedInformation(
+            Location(
+              r.location.getOrElse(""),
+              range
+            ),
+            s"from ${r.location.getOrElse("")} ${range}"
+          )
+
+          t.references.map { stackContainer =>
+            val newHead = stackContainer.stack.last
+
+            buildIssue(
+              newHead.originUri,
+              newHead.originRange,
+              r.message,
+              r.level,
+              stackContainer.stack.reverse
+                .drop(1)
+                .map(s =>
+                  DiagnosticRelatedInformation(Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
+                                               s"from ${s.originUri}")) :+
+                rootAsRelatedInfo
+            )
+          }
+        case _ =>
+          Seq(buildIssue(r, Nil))
       }
-      if (collectedFirstErrors.length > 5) messageBuilder += "and more..."
-      Some(
-        ValidationIssue("PROPERTY_UNUSED",
-                        ValidationSeverity.Error,
-                        "",
-                        messageBuilder.mkString("\n"),
-                        EmptyPositionRange,
-                        Nil))
-    } else None
-  }
-
-  def amfValidationResultToIssue(validationResult: AMFValidationResult): ValidationIssue = {
-    val messageText = validationResult.message
-    val range = validationResult.position
-      .map(position => PositionRange(position.range))
-      .getOrElse(EmptyPositionRange)
-
-    ValidationIssue("PROPERTY_UNUSED", ValidationSeverity(validationResult.level), "", messageText, range, List())
+    }
   }
 
   // check if DialectInstance <- nameAndVersion ?
@@ -180,9 +208,30 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     eventualReport
   }
 
-  override def onRemoveFile(uri: String): Unit = {
+  override def onRemoveFile(uri: String): Unit =
     clientNotifier.notifyDiagnostic(AlsPublishDiagnosticsParams(uri, Nil))
 
+  // todo: include old tree references
+  private def extractAllReferences(baseUnit: BaseUnit): Set[String] =
+    baseUnit.location().toSet ++ baseUnit.references.flatMap(extractAllReferences)
+
+  private def buildIssue(r: AMFValidationResult, stack: Seq[DiagnosticRelatedInformation]): ValidationIssue = {
+    ValidationIssue("PROPERTY_UNUSED",
+                    ValidationSeverity(r.level),
+                    r.location.getOrElse(""),
+                    r.message,
+                    lexicalToPosition(r.position),
+                    stack)
   }
 
+  private def buildIssue(path: String,
+                         range: PositionRange,
+                         message: String,
+                         level: String,
+                         stack: Seq[DiagnosticRelatedInformation]): ValidationIssue = {
+    ValidationIssue("PROPERTY_UNUSED", ValidationSeverity(level), path, message, range, stack)
+  }
+
+  private def lexicalToPosition(maybeLi: Option[LexicalInformation]): PositionRange =
+    maybeLi.map(position => PositionRange(position.range)).getOrElse(PositionRange(Position(0, 0), Position(0, 0)))
 }
