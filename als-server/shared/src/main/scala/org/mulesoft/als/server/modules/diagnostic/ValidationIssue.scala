@@ -28,7 +28,7 @@ case class ValidationIssue(code: String,
     text,
     Some(ValidationSeverity.toDiagnosticSeverity(`type`)),
     None,
-    Some(filePath),
+    None,
     trace
   )
 
