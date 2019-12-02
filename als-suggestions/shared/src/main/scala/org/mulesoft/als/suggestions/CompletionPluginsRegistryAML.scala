@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions
 
+import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
@@ -21,7 +22,10 @@ class CompletionPluginsRegistryAML {
 
   def cleanPlugins(): Unit = pluginsSet.clear()
 
-  def suggests(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
+  def suggests(params: AmlCompletionRequest, ignore: Set[AMLCompletionPlugin]): Future[Seq[RawSuggestion]] =
+    suggest(params, pluginsSet.toSet.diff(ignore))
+
+  private def suggest(params: AmlCompletionRequest, pluginsSet: Set[AMLCompletionPlugin]): Future[Seq[RawSuggestion]] = {
     val seq: Seq[Future[Seq[RawSuggestion]]] = pluginsSet
       .map(
         p => p.resolve(params)
@@ -44,10 +48,14 @@ object CompletionsPluginHandler {
   private val registries: mutable.Map[String, CompletionPluginsRegistryAML] =
     mutable.Map()
 
-  def pluginSuggestions(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
+  def pluginSuggestions(params: AmlCompletionRequest,
+                        ignore: Set[AMLCompletionPlugin] = Set.empty): Future[Seq[RawSuggestion]] =
+    getRegistryForDialect(params.actualDialect)
+      .suggests(params, ignore)
+
+  private def getRegistryForDialect(dialect: Dialect) =
     registries
-      .getOrElse(params.actualDialect.id, AMLBaseCompletionPlugins.base)
-      .suggests(params)
+      .getOrElse(dialect.id, AMLBaseCompletionPlugins.base)
 
   def registerPlugin(plugin: AMLCompletionPlugin, dialect: String): Unit =
     registries.get(dialect) match {
