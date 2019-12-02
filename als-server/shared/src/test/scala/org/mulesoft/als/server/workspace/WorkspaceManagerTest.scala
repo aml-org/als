@@ -119,6 +119,55 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
+  test("Workspace Manager check validation Stack - Error on External with two stacks") {
+    withServer[Assertion] { server =>
+      val rootFolder = s"${filePath("ws-error-stack-4")}"
+      for {
+        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
+        a <- MockDiagnosticClientNotifier.nextCall
+        b <- MockDiagnosticClientNotifier.nextCall
+        c <- MockDiagnosticClientNotifier.nextCall
+        d <- MockDiagnosticClientNotifier.nextCall
+      } yield {
+        val allDiagnostics = Seq(a, b, c, d)
+        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
+        val root   = allDiagnostics.find(_.uri == s"$rootFolder/api.raml")
+        val others = allDiagnostics.filterNot(pd => root.exists(_.uri == pd.uri))
+        assert(root.isDefined)
+        others.size should be(3)
+        assert(others.forall(p => p.diagnostics.isEmpty))
+
+        root match {
+          case Some(m) =>
+            m.diagnostics.size should be(2)
+
+            m.diagnostics.exists { d =>
+              d.range == Range(Position(7, 5), Position(7, 27)) &&
+              d.relatedInformation.size == 2 &&
+              d.relatedInformation.head.location.uri == s"$rootFolder/external.yaml" &&
+              d.relatedInformation.head.location.range == Range(Position(1, 12), Position(1, 36)) &&
+              d.relatedInformation.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
+              d.relatedInformation.tail.head.location.range == Range(Position(2, 0), Position(2, 6))
+            } should be(true)
+
+            m.diagnostics.exists { d =>
+              d.range == Range(Position(4, 7), Position(4, 19))
+              d.relatedInformation.size == 3
+              d.relatedInformation.head.location.uri == s"$rootFolder/library.raml" &&
+              d.relatedInformation.head.location.range == Range(Position(3, 5), Position(3, 27)) &&
+              d.relatedInformation.tail.head.location.uri == s"$rootFolder/external.yaml" &&
+              d.relatedInformation.tail.head.location.range == Range(Position(1, 12), Position(1, 36)) &&
+              d.relatedInformation.tail.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
+              d.relatedInformation.tail.tail.head.location.range == Range(Position(2, 0), Position(2, 6))
+            } should be(true)
+
+            succeed
+          case _ => fail("No Main detected")
+        }
+      }
+    }
+  }
+
   override def buildServer(): LanguageServer =
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
       .addRequestModule(factory.structureManager)
