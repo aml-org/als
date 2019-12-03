@@ -12,8 +12,8 @@ class FindLinksBaseTest extends FindLinksTest {
       "files/simple-include/simple.raml",
       Set(
         DocumentLink(
-          LspRangeConverter.toLspRange(PositionRange(Position(1, 16), Position(1, 32))),
-          "file://als-server/shared/src/test/resources/actions/links/files/simple-include/title%20file.raml",
+          LspRangeConverter.toLspRange(PositionRange(Position(1, 7), Position(1, 32))),
+          "file://als-server/shared/src/test/resources/actions/links/files/simple-include/title%20file.yaml",
           None
         )
       )
