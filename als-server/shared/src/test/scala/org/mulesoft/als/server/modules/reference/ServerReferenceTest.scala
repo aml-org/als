@@ -1,12 +1,14 @@
 package org.mulesoft.als.server.modules.reference
 
-import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.server.modules.ManagersFactory
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
+import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.reference.{ReferenceContext, ReferenceParams, ReferenceRequestType}
 import org.mulesoft.lsp.server.LanguageServer
+import org.scalatest.Assertion
 
 class ServerReferenceTest extends LanguageServerBaseTest {
 
@@ -15,40 +17,29 @@ class ServerReferenceTest extends LanguageServerBaseTest {
     val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = false)
 
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
+      .addRequestModule(factory.referenceManager)
       .build()
   }
 
-  ignore("Find references test 001") {
-    withServer { server =>
-      val content1 =
-        """#%RAML 1.0
-          |title: test
-          |types:
-          |  MyType:
-          |  MyType2:
-          |    properties:
-          |      p1: MyType
-          |""".stripMargin
-      val ind      = content1.indexOf("MyType:") + 2
-      val position = LspRangeConverter.toLspPosition(Position(ind, content1))
-
-      val url = "file:///findReferencesTest001.raml"
-
-      openFile(server)(url, content1)
-
-      val handler = server.resolveHandler(ReferenceRequestType).value
-      handler(ReferenceParams(TextDocumentIdentifier(url), position, ReferenceContext(false)))
-        .map(references => {
-          closeFile(server)(url)
-
-          if (references.nonEmpty) {
-            succeed
-          } else {
-            fail("No references have been found")
-          }
-        })
+  test("Find references test 001") {
+    withServer[Assertion] { server =>
+      val uri = s"${filePath("ws2")}"
+      for {
+        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(uri)))
+        references <- {
+          val handler = server.resolveHandler(ReferenceRequestType).value
+          handler(
+            ReferenceParams(TextDocumentIdentifier(s"$uri/fragment.raml"),
+                            org.mulesoft.lsp.common.Position(1, 1),
+                            ReferenceContext(false)))
+        }
+      } yield {
+        references.size should be(1)
+        references.head.uri should be(s"$uri/api.raml")
+        references.head.range should be(LspRangeConverter.toLspRange(PositionRange(Position(4, 5), Position(4, 27))))
+      }
     }
   }
 
-  override def rootPath: String = "actions/references"
+  override def rootPath: String = "workspace"
 }

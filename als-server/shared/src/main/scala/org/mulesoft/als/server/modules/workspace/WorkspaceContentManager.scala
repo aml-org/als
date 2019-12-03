@@ -41,7 +41,7 @@ class WorkspaceContentManager(val folder: String,
 
   def getCompilableUnit(uri: String): Future[CompilableUnit] = {
     repository.getParsed(uri) match {
-      case Some(pu) => Future.successful(pu.toCU(getNext(uri), mainFile))
+      case Some(pu) => Future.successful(pu.toCU(getNext(uri), mainFile, repository.getReferenceStack(uri)))
       case _        => getNext(uri).getOrElse(fail(uri))
     }
   }
