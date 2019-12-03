@@ -46,7 +46,7 @@ class FindLinksBaseTest extends FindLinksTest {
     )
   }
 
-  test("simple-uri") {
+  ignore("simple-uri") {
     runTest(
       "files/simple-uri/simple.raml",
       Set(
