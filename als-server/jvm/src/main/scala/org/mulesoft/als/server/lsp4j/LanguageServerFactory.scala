@@ -15,7 +15,7 @@ object LanguageServerFactory extends PlatformSecrets {
                         dialects: Seq[CustomDialects] = Seq(),
                         withDiagnostics: Boolean = true): LanguageServer = {
 
-    // todo: uri toeditor enviroment
+    // todo: uri to editor environment
     val builders = ManagersFactory(clientNotifier, platform, logger, withDiagnostics = withDiagnostics)
 
     new LanguageServerBuilder(builders.documentManager, builders.workspaceManager, platform)
@@ -24,6 +24,7 @@ object LanguageServerFactory extends PlatformSecrets {
       .addRequestModule(builders.completionManager)
       .addRequestModule(builders.structureManager)
       .addRequestModule(builders.definitionManager)
+      .addRequestModule(builders.referenceManager)
       .addRequestModule(builders.documentLinksManager)
       .addInitializable(builders.telemetryManager)
       .build()

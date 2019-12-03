@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.ast
 
 import amf.core.model.document.BaseUnit
-import org.mulesoft.als.server.modules.workspace.{DiagnosticsBundle, ReferenceStack}
+import org.mulesoft.als.server.modules.workspace.{DiagnosticsBundle}
 
 /**
   * AST listener

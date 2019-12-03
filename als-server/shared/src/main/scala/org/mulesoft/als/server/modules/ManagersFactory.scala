@@ -4,7 +4,7 @@ import amf.core.remote.Platform
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.actions.{DocumentLinksManager, GoToDefinitionManager}
+import org.mulesoft.als.server.modules.actions.{DocumentLinksManager, FindReferenceManager, GoToDefinitionManager}
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
 import org.mulesoft.als.server.modules.structure.StructureManager
@@ -38,6 +38,8 @@ case class ManagersFactory(clientNotifier: ClientNotifier,
 
   lazy val definitionManager =
     new GoToDefinitionManager(workspaceManager, telemetryManager, logger, platform)
+  lazy val referenceManager =
+    new FindReferenceManager(workspaceManager, telemetryManager, logger)
   lazy val documentLinksManager =
     new DocumentLinksManager(workspaceManager, telemetryManager, logger, platform)
 }

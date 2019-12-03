@@ -12,7 +12,7 @@ import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
-import org.mulesoft.als.server.modules.workspace.{DiagnosticsBundle, ReferenceStack}
+import org.mulesoft.als.server.modules.workspace.{DiagnosticsBundle}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.common.Location
 import org.mulesoft.lsp.convert.LspRangeConverter

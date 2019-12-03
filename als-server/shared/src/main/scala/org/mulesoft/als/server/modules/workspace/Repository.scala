@@ -4,7 +4,7 @@ import amf.client.resource.ResourceNotFound
 import amf.core.annotations.ReferenceTargets
 import amf.core.model.document.{BaseUnit, ExternalFragment}
 import amf.internal.reference.{CachedReference, ReferenceResolver}
-import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.als.common.dtoTypes.{PositionRange, ReferenceOrigins, ReferenceStack}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.amfmanager.ParserHelper
 
@@ -13,14 +13,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 case class ParsedUnit(bu: BaseUnit, inTree: Boolean) {
-  def toCU(next: Option[Future[CompilableUnit]], mf: Option[String]): CompilableUnit =
-    CompilableUnit(bu.id, bu, if (inTree) mf else None, next)
-}
-
-case class ReferenceOrigins(originUri: String, originRange: PositionRange)
-
-case class ReferenceStack(stack: Seq[ReferenceOrigins]) {
-  def through(reference: ReferenceOrigins) = ReferenceStack(reference +: stack)
+  def toCU(next: Option[Future[CompilableUnit]], mf: Option[String], stack: Seq[ReferenceStack]): CompilableUnit =
+    CompilableUnit(bu.id, bu, if (inTree) mf else None, next, stack)
 }
 
 case class DiagnosticsBundle(isExternal: Boolean, references: Set[ReferenceStack]) {
@@ -88,6 +82,9 @@ class Repository(cachables: Set[String], logger: Logger) {
 
     Future.sequence(cachedF +: refs).map(_ => Unit)
   }
+
+  def getReferenceStack(uri: String): Seq[ReferenceStack] =
+    references.get(uri).map(db => db.references.toSeq).getOrElse(Nil)
 
   private def checkCache(p: ParsedUnit): Future[Unit] =
     if (cache.isEmpty && cachables.contains(p.bu.id)) cache(p) else Future.unit

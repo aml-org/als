@@ -1,9 +1,12 @@
 package org.mulesoft.als.server.modules.actions
 
+import java.util.UUID
+
+import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
+import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.common.Location
 import org.mulesoft.lsp.feature.RequestHandler
@@ -15,9 +18,10 @@ import org.mulesoft.lsp.feature.reference.{
 }
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class FindReferenceManager(val workspaceContentManager: WorkspaceContentManager,
+class FindReferenceManager(val workspaceManager: WorkspaceManager,
                            private val telemetryProvider: TelemetryProvider,
                            private val logger: Logger)
     extends RequestModule[ReferenceClientCapabilities, Unit] {
@@ -43,7 +47,12 @@ class FindReferenceManager(val workspaceContentManager: WorkspaceContentManager,
   val onFindReference: (String, Position) => Future[Seq[Location]] = findReference
 
   def findReference(str: String, position: Position): Future[Seq[Location]] =
-    ??? // Future.successful(actionsManager.actions.map(_.getReferences).getOrElse(Nil))
+    workspaceManager
+      .getUnit(str, UUID.randomUUID().toString)
+      .flatMap(_.getLast)
+      .map(bu => {
+        FindReferences.getReferences(bu.unit, bu.stack)
+      })
 
   override def initialize(): Future[Unit] =
     Future.successful()

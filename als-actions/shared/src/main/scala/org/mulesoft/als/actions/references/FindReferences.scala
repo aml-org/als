@@ -1,7 +1,17 @@
 package org.mulesoft.als.actions.references
 
+import amf.core.model.document.BaseUnit
+import org.mulesoft.als.common.dtoTypes.{ReferenceOrigins, ReferenceStack}
 import org.mulesoft.lsp.common.Location
+import org.mulesoft.lsp.convert.LspRangeConverter
 
 object FindReferences {
-  def getReferences: Seq[Location] = ???
+  def getReferences(bu: BaseUnit, references: Seq[ReferenceStack]): Seq[Location] =
+    references
+      .flatMap(
+        _.stack.headOption
+          .map(referenceOriginToLocation))
+
+  private def referenceOriginToLocation(ro: ReferenceOrigins) =
+    Location(ro.originUri, LspRangeConverter.toLspRange(ro.originRange))
 }
