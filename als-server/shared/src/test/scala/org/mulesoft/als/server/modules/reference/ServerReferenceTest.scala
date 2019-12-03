@@ -10,7 +10,11 @@ import org.mulesoft.lsp.feature.reference.{ReferenceContext, ReferenceParams, Re
 import org.mulesoft.lsp.server.LanguageServer
 import org.scalatest.Assertion
 
+import scala.concurrent.ExecutionContext
+
 class ServerReferenceTest extends LanguageServerBaseTest {
+
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   override def buildServer(): LanguageServer = {
 
