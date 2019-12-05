@@ -22,6 +22,17 @@ case class DiagnosticsBundle(isExternal: Boolean, references: Set[ReferenceStack
 }
 
 class Repository(cachables: Set[String], logger: Logger) {
+  var innerCachables: Set[String] = cachables
+
+  /**
+    * replaces cachable list and removes cached units which are not on the new list
+    * @param newCachables
+    */
+  def setCachables(newCachables: Set[String]) = {
+    { innerCachables -- newCachables }.foreach(cache.remove)
+    innerCachables = newCachables
+  }
+
   private val cache: mutable.Map[String, ParsedUnit] = mutable.Map.empty
 
   private val units: mutable.Map[String, ParsedUnit] = mutable.Map.empty
@@ -87,7 +98,7 @@ class Repository(cachables: Set[String], logger: Logger) {
     references.get(uri).map(db => db.references.toSeq).getOrElse(Nil)
 
   private def checkCache(p: ParsedUnit): Future[Unit] =
-    if (cache.isEmpty && cachables.contains(p.bu.id)) cache(p) else Future.unit
+    if (cache.isEmpty && innerCachables.contains(p.bu.id)) cache(p) else Future.unit
 
   private def cache(p: ParsedUnit): Future[Unit] = {
     val eventualUnit: Future[Unit] = Future {

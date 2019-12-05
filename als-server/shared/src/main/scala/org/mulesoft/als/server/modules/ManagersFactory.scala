@@ -28,7 +28,7 @@ case class ManagersFactory(clientNotifier: ClientNotifier,
   private val projectDependencies = if (withDiagnostics) List(diagnosticManager) else Nil
   val container                   = TextDocumentContainer(platform)
 
-  val workspaceManager     = new WorkspaceManager(container, telemetryManager, projectDependencies, logger)
+  val workspaceManager     = new WorkspaceManager(container, telemetryManager, projectDependencies, logger, platform)
   lazy val documentManager = new TextDocumentManager(container, List(workspaceManager), logger)
 
   lazy val completionManager =

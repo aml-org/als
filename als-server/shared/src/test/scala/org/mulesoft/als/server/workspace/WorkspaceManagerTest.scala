@@ -7,7 +7,7 @@ import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
 import org.mulesoft.lsp.server.LanguageServer
 import org.scalatest.Assertion
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 class WorkspaceManagerTest extends LanguageServerBaseTest {
 
@@ -164,6 +164,41 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
             succeed
           case _ => fail("No Main detected")
         }
+      }
+    }
+  }
+
+  test("Workspace Manager check change in Config File - Should notify validations of new tree") {
+    withServer[Assertion] { server =>
+      val root           = s"${filePath("ws4")}"
+      val changedConfig  = """{"main": "api2.raml"}"""
+      val originalConfig = """{"main": "api.raml"}"""
+
+      for {
+        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+        // api.raml, fragment.raml
+        a <- MockDiagnosticClientNotifier.nextCall
+        b <- MockDiagnosticClientNotifier.nextCall
+        _ <- changeNotification(server)(s"$root/exchange.json", changedConfig, 2)
+        // api2.raml
+        c <- MockDiagnosticClientNotifier.nextCall
+        _ <- changeNotification(server)(s"$root/exchange.json", originalConfig, 3)
+        // api.raml, fragment.raml
+        d <- MockDiagnosticClientNotifier.nextCall
+        e <- MockDiagnosticClientNotifier.nextCall
+
+      } yield {
+        val first = Seq(a, b)
+        assert(first.exists(_.uri == s"$root/api.raml"))
+        assert(first.exists(_.uri == s"$root/fragment.raml"))
+
+        c.uri should be(s"$root/api2.raml")
+        c.diagnostics.isEmpty should be(false)
+
+        val last = Seq(d, e)
+        assert(last.exists(_.uri == s"$root/api.raml"))
+        assert(last.exists(_.uri == s"$root/fragment.raml"))
+
       }
     }
   }
