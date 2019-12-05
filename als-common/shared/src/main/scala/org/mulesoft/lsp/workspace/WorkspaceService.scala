@@ -48,6 +48,6 @@ trait WorkspaceService {
     */
   def didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams) {}
 
-  def initializeWS(folder: String)
+  def initializeWS(folder: String): Future[Unit]
 
 }
