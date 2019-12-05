@@ -1,6 +1,10 @@
 package org.mulesoft.als.server.workspace.extract
 
 import amf.core.remote.Platform
+import amf.internal.environment.Environment
+
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class WorkspaceRootHandler(platform: Platform) {
 
@@ -11,10 +15,13 @@ class WorkspaceRootHandler(platform: Platform) {
   private val readers: List[ConfigReader] =
     List(ExchangeConfigReader)
 
-  def extractMainFile(dir: String): Option[WorkspaceConf] = {
-    val mains = readers.flatMap { r =>
-      r.readRoot(dir, platform)
-    }
-    mains.headOption
+  def extractConfiguration(dir: String): Future[Option[WorkspaceConf]] = {
+    Future
+      .find {
+        readers.map {
+          _.readRoot(dir, platform)
+        }
+      }(cf => cf.isDefined)
+      .map(_.flatten)
   }
 }

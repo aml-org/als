@@ -17,9 +17,11 @@ class LanguageServerImpl(val textDocumentSyncConsumer: TextDocumentSyncConsumer,
     extends LanguageServer {
 
   override def initialize(params: InitializeParams): Future[InitializeResult] =
-    languageServerInitializer.initialize(params).map { p =>
-      params.rootUri.orElse(params.rootPath).foreach(root => workspaceService.initializeWS(root))
-      p
+    languageServerInitializer.initialize(params).flatMap { p =>
+      params.rootUri.orElse(params.rootPath) match {
+        case Some(root) => workspaceService.initializeWS(root).map(_ => p)
+        case _          => Future.successful(p)
+      }
     }
 
   override def initialized(): Unit = {}

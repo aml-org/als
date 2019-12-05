@@ -39,3 +39,5 @@ object FOCUS_FILE extends NotificationKind("FOCUS_FILE")
 object CHANGE_FILE extends NotificationKind("CHANGE_FILE")
 
 object CLOSE_FILE extends NotificationKind("CLOSE_FILE")
+
+object CHANGE_CONFIG extends NotificationKind("CHANGE_CONFIG")
