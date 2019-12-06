@@ -4,5 +4,4 @@ paths:
     get:
       callbacks:
         name:
-          '{$request.query.callbackUrl}/data':
-            *
+          '{$*

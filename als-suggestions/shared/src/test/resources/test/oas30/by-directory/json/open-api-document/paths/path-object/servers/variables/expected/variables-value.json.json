@@ -1,13 +1,13 @@
 [
   {
-    "label": "email",
+    "label": "enum",
     "kind": [],
-    "detail": "docs",
-    "documentation": "email",
+    "detail": "",
+    "documentation": "",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11email",
-    "filterText": "email: ",
+    "sortText": "",
+    "filterText": null,
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,29 +15,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
-          "character": 4
+          "line": x,
+          "character": x
         },
         "end": {
-          "line": 3,
-          "character": 4
+          "line": x,
+          "character": x
         }
       },
-      "newText": "email: "
+      "newText": "enum:\n        - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "name",
+    "label": "description",
     "kind": [],
-    "detail": "docs",
-    "documentation": "name",
+    "detail": "",
+    "documentation": "",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11name",
-    "filterText": "name: ",
+    "sortText": "",
+    "filterText": null,
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,29 +45,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
-          "character": 4
+          "line": x,
+          "character": x
         },
         "end": {
-          "line": 3,
-          "character": 4
+          "line": x,
+          "character": x
         }
       },
-      "newText": "name: "
+      "newText": "description: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "url",
+    "label": "variables",
     "kind": [],
-    "detail": "docs",
-    "documentation": "url",
+    "detail": "",
+    "documentation": "",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11url",
-    "filterText": "url: ",
+    "sortText": "",
+    "filterText": null,
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,15 +75,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
-          "character": 4
+          "line": x,
+          "character": x
         },
         "end": {
-          "line": 3,
-          "character": 4
+          "line": x,
+          "character": x
         }
       },
-      "newText": "url: "
+      "newText": "variables:\n        - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

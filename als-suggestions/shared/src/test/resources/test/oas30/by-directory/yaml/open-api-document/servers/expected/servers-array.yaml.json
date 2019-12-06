@@ -23,7 +23,7 @@
           "character": x
         }
       },
-      "newText": "url: "
+      "newText": "- url: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -53,7 +53,7 @@
           "character": x
         }
       },
-      "newText": "description: "
+      "newText": "- description: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -83,7 +83,7 @@
           "character": x
         }
       },
-      "newText": "variables:\n    "
+      "newText": "- variables:\n    "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -113,7 +113,7 @@
           "character": x
         }
       },
-      "newText": "variables:\n      $1:\n        default: $1"
+      "newText": "- variables:\n      $1:\n        default: $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
