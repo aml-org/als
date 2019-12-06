@@ -7,13 +7,13 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.{BaseUnitListener, CHANGE_CONFIG, NotificationKind, TextListener}
 import org.mulesoft.als.server.modules.workspace.{CompilableUnit, WorkspaceContentManager}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
-import org.mulesoft.als.server.workspace.command.{
-  CommandExecutor,
-  Commands,
-  DidFocusCommandExecutor,
-  IndexDialectCommandExecutor
+import org.mulesoft.als.server.workspace.command._
+import org.mulesoft.als.server.workspace.extract.{
+  ConfigReader,
+  DefaultWorkspaceConfigurationProvider,
+  ReaderWorkspaceConfigurationProvider,
+  WorkspaceRootHandler
 }
-import org.mulesoft.als.server.workspace.extract.{WorkspaceConf, WorkspaceRootHandler}
 import org.mulesoft.amfmanager.AmfInitializationHandler
 import org.mulesoft.lsp.Initializable
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
@@ -41,32 +41,32 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
   def initializeWS(folder: String): Future[Unit] = rootHandler.extractConfiguration(folder).map { mainOption =>
     val workspace =
-      new WorkspaceContentManager(folder,
-                                  mainOption,
-                                  environmentProvider,
-                                  telemetryProvider,
-                                  logger,
-                                  dependencies,
-                                  platform)
+      new WorkspaceContentManager(folder, environmentProvider, telemetryProvider, logger, dependencies, platform)
+    workspace.setConfigMainFile(mainOption)
+    mainOption.foreach(conf =>
+      contentManagerConfiguration(workspace, conf.mainFile, conf.cachables, mainOption.flatMap(_.configReader)))
+
     workspaces += workspace
-    workspace.initialize()
   }
 
   def getUnit(uri: String, uuid: String): Future[CompilableUnit] =
-    getWorkspace(uri).getCompilableUnit(uri) // todo
+    getWorkspace(uri).getCompilableUnit(uri)
 
   override def notify(uri: String, kind: NotificationKind): Unit = {
     val manager: WorkspaceContentManager = getWorkspace(uri)
     if (manager.configFile.map(FileUtils.getEncodedUri(_, platform)).contains(uri)) {
-      manager.changeConfigurationProvider((platform: Platform, environment: Environment) => {
-        manager.workspaceConfiguration match {
-          case Some(conf) =>
-            conf.configReader.readRoot(manager.folder, platform, environment)
-          case _ => Future.successful(None)
-        }
-      })
+      manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
       manager.changedFile(uri, CHANGE_CONFIG)
     } else manager.changedFile(uri, kind)
+  }
+
+  def contentManagerConfiguration(manager: WorkspaceContentManager,
+                                  mainUri: String,
+                                  dependencies: Set[String],
+                                  reader: Option[ConfigReader]): Unit = {
+    manager
+      .withConfiguration(DefaultWorkspaceConfigurationProvider(manager, mainUri, dependencies, reader))
+      .changedFile(mainUri, CHANGE_CONFIG)
   }
 
   override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] =
@@ -74,22 +74,19 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
       commandExecutors.get(params.command) match {
         case Some(exe) => exe.runCommand(params)
         case _ =>
-          logger.error(s"Command [${params.command}] not recognized", getClass.getCanonicalName, "executeCommand")
+          logger.error(s"Command [${params.command}] not recognized", "WorkspaceManager", "executeCommand")
       }
       Unit
     }
 
   private val commandExecutors: Map[String, CommandExecutor[_]] = Map(
     Commands.DID_FOCUS_CHANGE_COMMAND -> new DidFocusCommandExecutor(logger, this),
+    Commands.DID_CHANGE_CONFIGURATION -> new DidChangeConfigurationCommandExecutor(logger, this),
     Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, environmentProvider.platform)
   )
 
   val defaultWorkspace =
-    new WorkspaceContentManager("", None, environmentProvider, telemetryProvider, logger, dependencies, platform)
+    new WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, dependencies, platform)
 
   override def initialize(): Future[Unit] = AmfInitializationHandler.init()
-}
-
-trait WorkspaceConfigurationProvider {
-  def obtainConfiguration(platform: Platform, environment: Environment): Future[Option[WorkspaceConf]]
 }

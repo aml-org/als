@@ -32,24 +32,21 @@ object ExchangeConfigReader extends ConfigReader {
 
   override protected def buildConfig(content: String,
                                      path: String,
-                                     platform: Platform): Option[Future[WorkspaceConf]] = {
-    val root = new ExtractFromJsonRoot(content)
-    root.getMain.map { m =>
+                                     platform: Platform): Option[Future[WorkspaceConf]] =
+    new ExtractFromJsonRoot(content).getMain.map { m =>
       getSubList(platform.fs.syncFile(path), platform).map { dependencies =>
-        WorkspaceConf(s"$path/$configFileName", m, dependencies, this)
+        WorkspaceConf(path, m, dependencies, Some(this))
       }
     }
-  }
 
-  private def getSubList(dir: SyncFile, platform: Platform): Future[Set[String]] = {
+  private def getSubList(dir: SyncFile, platform: Platform): Future[Set[String]] =
     if (dir.list != null)
       findDependencies(dir.list.map(l => platform.fs.syncFile(dir.path + "/" + l)).filter(_.isDirectory), platform)
     else Future.successful(Set.empty)
-  }
 
   private def findDependencies(subDirs: Array[SyncFile],
                                platform: Platform,
-                               environment: Environment = Environment()): Future[Set[String]] = {
+                               environment: Environment = Environment()): Future[Set[String]] =
     if (subDirs.nonEmpty) {
       val (dependencies, others) = subDirs.partition(_.list.contains(configFileName))
       val mains: Future[Seq[String]] =
@@ -69,5 +66,4 @@ object ExchangeConfigReader extends ConfigReader {
             platform,
             environment).map(_ ++ innerMains.toSet))
     } else Future.successful(Set.empty)
-  }
 }

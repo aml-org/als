@@ -1,13 +1,15 @@
 package org.mulesoft.als.server.workspace
 
 import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.{Position, Range}
 import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
 import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.Assertion
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 class WorkspaceManagerTest extends LanguageServerBaseTest {
 
@@ -168,7 +170,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Workspace Manager check change in Config File - Should notify validations of new tree") {
+  test("Workspace Manager check change in Config [changing exchange.json] - Should notify validations of new tree") {
     withServer[Assertion] { server =>
       val root           = s"${filePath("ws4")}"
       val changedConfig  = """{"main": "api2.raml"}"""
@@ -198,6 +200,46 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         val last = Seq(d, e)
         assert(last.exists(_.uri == s"$root/api.raml"))
         assert(last.exists(_.uri == s"$root/fragment.raml"))
+
+      }
+    }
+  }
+
+  test("Workspace Manager check change in Config [using Command] - Should notify validations of new tree") {
+    withServer[Assertion] { server =>
+      val root        = s"${filePath("ws4")}"
+      val apiRoot     = s"$root/api.raml"
+      val api2Root    = s"$root/api2.raml"
+      val apiFragment = s"$root/fragment.raml"
+
+      for {
+        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+        // api.raml, fragment.raml
+        a <- MockDiagnosticClientNotifier.nextCall
+        b <- MockDiagnosticClientNotifier.nextCall
+        _ <- server.workspaceService.executeCommand(
+          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
+                               List(s"""{"mainUri": "$api2Root", "dependencies": []}""")))
+        // api2.raml
+        c <- MockDiagnosticClientNotifier.nextCall
+        _ <- server.workspaceService.executeCommand(
+          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
+                               List(s"""{"mainUri": "$apiRoot", "dependencies": []}""")))
+        // api.raml, fragment.raml
+        d <- MockDiagnosticClientNotifier.nextCall
+        e <- MockDiagnosticClientNotifier.nextCall
+
+      } yield {
+        val first = Seq(a, b)
+        assert(first.exists(_.uri == apiRoot))
+        assert(first.exists(_.uri == apiFragment))
+
+        c.uri should be(api2Root)
+        c.diagnostics.isEmpty should be(false)
+
+        val last = Seq(d, e)
+        assert(last.exists(_.uri == apiRoot))
+        assert(last.exists(_.uri == apiFragment))
 
       }
     }

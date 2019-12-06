@@ -9,8 +9,7 @@ import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
-import org.mulesoft.als.server.workspace.WorkspaceConfigurationProvider
-import org.mulesoft.als.server.workspace.extract.WorkspaceConf
+import org.mulesoft.als.server.workspace.extract.{WorkspaceConf, WorkspaceConfigurationProvider}
 import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
@@ -18,29 +17,35 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class WorkspaceContentManager(val folder: String,
-                              configMainFile: Option[WorkspaceConf],
                               environmentProvider: EnvironmentProvider,
                               telemetryProvider: TelemetryProvider,
                               logger: Logger,
                               dependencies: List[BaseUnitListener],
                               platform: Platform) {
 
-  private var state: WorkspaceState = Idle
-  private var innerConfigMainFile   = configMainFile
+  private var state: WorkspaceState                 = Idle
+  private var configMainFile: Option[WorkspaceConf] = None
 
-  def mainFile: Option[String] = innerConfigMainFile.map(_.mainFile)
+  def workspaceConfiguration: Option[WorkspaceConf] = configMainFile
 
-  def configFile: Option[String] = innerConfigMainFile.map(_.configFileUri)
+  def setConfigMainFile(workspaceConf: Option[WorkspaceConf]): Unit = {
+    repository.cleanTree()
+    repository.setCachables(workspaceConf.map(_.cachables).getOrElse(Set.empty))
+    configMainFile = workspaceConf
+  }
 
-  def workspaceConfiguration: Option[WorkspaceConf] = innerConfigMainFile
+  def mainFile: Option[String] = configMainFile.map(_.mainFile)
+
+  def configFile: Option[String] =
+    configMainFile.flatMap(ic => ic.configReader.map(cr => s"${ic.rootFolder}/${cr.configFileName}"))
 
   private val stagingArea: StagingArea                                               = new StagingArea(environmentProvider)
-  private val repository                                                             = new Repository(innerConfigMainFile.map(_.cachables).getOrElse(Nil).toSet, logger)
+  private val repository                                                             = new Repository(logger)
   private var current: Future[Unit]                                                  = Future.unit
   private var workspaceConfigurationProvider: Option[WorkspaceConfigurationProvider] = None
 
-  def initialize(): Unit =
-    innerConfigMainFile.foreach(cmf => current = next(processMFChanges(cmf.mainFile, stagingArea.snapshot())))
+  //  def initialize(): Unit =
+  //    configMainFile.foreach(cmf => current = next(processMFChanges(cmf.mainFile, stagingArea.snapshot())))
 
   def canProcess: Boolean = state == Idle && current == Future.unit
 
@@ -73,8 +78,10 @@ class WorkspaceContentManager(val folder: String,
     else goIdle()
   }
 
-  def changeConfigurationProvider(confProvider: WorkspaceConfigurationProvider): Unit =
+  def withConfiguration(confProvider: WorkspaceConfigurationProvider): WorkspaceContentManager = {
     workspaceConfigurationProvider = Some(confProvider)
+    this
+  }
 
   private def processSnapshot(): Future[Unit] = {
     val snapshot: Snapshot    = stagingArea.snapshot()
@@ -82,7 +89,7 @@ class WorkspaceContentManager(val folder: String,
     val changedTreeUnits      = treeUnits.filter(tu => tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE)
 
     if (hasChangedConfigFile(snapshot)) processChangeConfigChanges(snapshot)
-    else if (changedTreeUnits.nonEmpty) processMFChanges(innerConfigMainFile.get.mainFile, snapshot)
+    else if (changedTreeUnits.nonEmpty) processMFChanges(configMainFile.get.mainFile, snapshot)
     else processIsolatedChanges(isolated, snapshot.environment)
   }
 
@@ -135,7 +142,7 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def processChangeConfig(maybeConfig: Option[WorkspaceConf]): Future[Unit] = {
-    innerConfigMainFile = maybeConfig
+    configMainFile = maybeConfig
     maybeConfig match {
       case Some(conf) =>
         repository.setCachables(conf.cachables)
