@@ -2,6 +2,9 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
 import amf.core.model.domain.Shape
 import amf.dialects.OAS20Dialect
+import amf.dialects.oas.nodes.AMLInfoObject
+import amf.plugins.document.vocabularies.model.domain.NodeMapping
+import amf.plugins.domain.webapi.metamodel.OperationModel
 import amf.plugins.domain.webapi.models.{EndPoint, Parameter, Request, WebApi}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -21,7 +24,13 @@ object OasStructurePlugin extends AMLCompletionPlugin {
       case _: EndPoint if isInParameter(request.yPartBranch) => emptySuggestion
       case _: Request if isInParameter(request.yPartBranch)  => emptySuggestion
       case _: Request if request.fieldEntry.isEmpty && !definingParam(request.yPartBranch) =>
-        Future { OAS20Dialect.DialectNodes.OperationObject.propertiesRaw() }
+        Future {
+          request.actualDialect.declares
+            .collect({ case n: NodeMapping => n })
+            .find(_.nodetypeMapping.option().contains(OperationModel.`type`.head.iri()))
+            .map(_.propertiesRaw())
+            .getOrElse(Nil)
+        }
       case _: WebApi if request.yPartBranch.isKeyDescendanceOf("info") => infoSuggestions()
       case _                                                           => AMLStructureCompletionPlugin.resolve(request)
     }
@@ -32,7 +41,7 @@ object OasStructurePlugin extends AMLCompletionPlugin {
       .parentEntryIs("parameters"))
 
   def infoSuggestions() =
-    Future(OAS20Dialect.DialectNodes.InfoObject.propertiesRaw(Some("docs")))
+    Future(AMLInfoObject.Obj.propertiesRaw(Some("docs")))
 
   def definingParam(yPart: YPartBranch): Boolean = yPart.isKeyDescendanceOf("parameters")
 }

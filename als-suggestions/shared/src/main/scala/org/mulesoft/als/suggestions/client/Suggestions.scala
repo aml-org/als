@@ -11,12 +11,10 @@ import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequestBuilder, CompletionEnvironment}
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
-import org.mulesoft.als.suggestions.patcher.PatchedContent
+import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.amfmanager.dialect.DialectKnowledge
 import org.mulesoft.amfmanager.{InitOptions, ParserHelper}
 import org.mulesoft.lsp.feature.completion.CompletionItem
-import amf.core.parser.{Position => AmfPosition}
-import org.mulesoft.als.suggestions.patcher.ContentPatcher
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
