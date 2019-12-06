@@ -1,1 +1,422 @@
-[]
+[
+  {
+    "label": "$ref",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0$ref",
+    "filterText": "\"$ref\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 21
+        }
+      },
+      "newText": "\"$ref\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "delete",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "delete",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11delete",
+    "filterText": "\"delete\": {\n                \"$1\"\n              }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 21
+        }
+      },
+      "newText": "\"delete\": {\n                \"$1\"\n              }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11description",
+    "filterText": "\"description\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 21
+        }
+      },
+      "newText": "\"description\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "get",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "get",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11get",
+    "filterText": "\"get\": {\n                \"$1\"\n              }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 21
+        }
+      },
+      "newText": "\"get\": {\n                \"$1\"\n              }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "head",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "head",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11head",
+    "filterText": "\"head\": {\n                \"$1\"\n              }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 21
+        }
+      },
+      "newText": "\"head\": {\n                \"$1\"\n              }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "name",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10name",
+    "filterText": "\"name\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 21
+        }
+      },
+      "newText": "\"name\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "options",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "options",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11options",
+    "filterText": "\"options\": {\n                \"$1\"\n              }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 21
+        }
+      },
+      "newText": "\"options\": {\n                \"$1\"\n              }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "parameters",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "parameters",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11parameters",
+    "filterText": "\"parameters\": [\n                \"$1\"\n              ]",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 21
+        }
+      },
+      "newText": "\"parameters\": [\n                \"$1\"\n              ]"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "patch",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "patch",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11patch",
+    "filterText": "\"patch\": {\n                \"$1\"\n              }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 21
+        }
+      },
+      "newText": "\"patch\": {\n                \"$1\"\n              }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "post",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "post",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11post",
+    "filterText": "\"post\": {\n                \"$1\"\n              }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 21
+        }
+      },
+      "newText": "\"post\": {\n                \"$1\"\n              }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "put",
+    "kind": [],
+    "detail": "methods",
+    "documentation": "put",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11put",
+    "filterText": "\"put\": {\n                \"$1\"\n              }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 21
+        }
+      },
+      "newText": "\"put\": {\n                \"$1\"\n              }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "servers",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "servers",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11servers",
+    "filterText": "\"servers\": [\n                \"$1\"\n              ]",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 21
+        }
+      },
+      "newText": "\"servers\": [\n                \"$1\"\n              ]"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "summary",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "summary",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11summary",
+    "filterText": "\"summary\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 21
+        }
+      },
+      "newText": "\"summary\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "trace",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "trace",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11trace",
+    "filterText": "\"trace\": {\n                \"$1\"\n              }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 21
+        }
+      },
+      "newText": "\"trace\": {\n                \"$1\"\n              }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

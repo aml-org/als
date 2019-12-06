@@ -2,28 +2,28 @@
   {
     "label": "name",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "name",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10name",
+    "filterText": "\"name\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 6
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 13
         }
       },
-      "newText": "name: "
+      "newText": "\"name\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -32,28 +32,28 @@
   {
     "label": "url",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "url",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11url",
+    "filterText": "\"url\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 6
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 13
         }
       },
-      "newText": "url: "
+      "newText": "\"url\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

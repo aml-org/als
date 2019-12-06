@@ -1,29 +1,29 @@
 [
   {
-    "label": "security",
+    "label": "internalApiKey",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "internalApiKey",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11internalApiKey",
+    "filterText": "\"internalApiKey\"",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 15,
+          "character": 10
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 15,
+          "character": 13
         }
       },
-      "newText": "- $1:\n        - $2"
+      "newText": "\"internalApiKey\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
