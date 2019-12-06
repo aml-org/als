@@ -2,28 +2,28 @@
   {
     "label": "security",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "security",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11security",
+    "filterText": "\"security\"",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 10,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 10,
+          "character": 7
         }
       },
-      "newText": "- $1:\n      - $2"
+      "newText": "\"security\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

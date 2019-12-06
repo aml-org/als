@@ -1,29 +1,29 @@
 [
   {
-    "label": "title",
+    "label": "contact",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "contact",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11contact",
+    "filterText": "\"contact\": {\n      \"$1\"\n    }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "title: "
+      "newText": "\"contact\": {\n      \"$1\"\n    }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -32,28 +32,58 @@
   {
     "label": "description",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11description",
+    "filterText": "\"description\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "description: "
+      "newText": "\"description\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "license",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "license",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11license",
+    "filterText": "\"license\": {\n      \"$1\"\n    }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 11
+        }
+      },
+      "newText": "\"license\": {\n      \"$1\"\n    }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -62,88 +92,58 @@
   {
     "label": "termsOfService",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "termsOfService",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11termsOfService",
+    "filterText": "\"termsOfService\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "termsOfService: "
+      "newText": "\"termsOfService\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "contact",
+    "label": "title",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "title",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10title",
+    "filterText": "\"title\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "contact:\n    "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "license",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "license:\n    "
+      "newText": "\"title\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -152,42 +152,12 @@
   {
     "label": "version",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "version",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "version: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "license",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10version",
+    "filterText": "\"version\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -195,15 +165,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "license:\n    name: $1"
+      "newText": "\"version\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

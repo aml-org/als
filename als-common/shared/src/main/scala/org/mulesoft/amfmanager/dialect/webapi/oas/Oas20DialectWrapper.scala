@@ -1,11 +1,11 @@
 package org.mulesoft.amfmanager.dialect.webapi.oas
 
-import amf.core.metamodel.domain.{DataNodeModel, ShapeModel}
 import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.vocabulary.Namespace.XsdTypes.{xsdAnyType, xsdBoolean, xsdDouble, xsdInteger, xsdString}
+import amf.core.metamodel.domain.{DataNodeModel, ShapeModel}
+import amf.core.vocabulary.Namespace.XsdTypes._
 import amf.dialects.OAS20Dialect
-import amf.dialects.OAS20Dialect.DialectNodes.{ExternalDocumentationObject, XMLObject, commonParamProps}
-import amf.dialects.OAS20Dialect.{DialectLocation, SchemaObjectId}
+import amf.dialects.OAS20Dialect.{DialectLocation, ImplicitField}
+import amf.dialects.oas.nodes.{AMLExternalDocumentationObject, Oas20SchemaObject, XmlObject}
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, ArrayShapeModel, NodeShapeModel, ScalarShapeModel}
@@ -22,7 +22,7 @@ object Oas20DialectWrapper {
 
     val d = OAS20Dialect()
     d.withDeclares(
-      d.declares.filter(p => !(p.id == SchemaObjectId )) ++ Seq(
+      d.declares.filter(p => !(p.id == Oas20SchemaObject.id )) ++ Seq(
         JsonSchemas.SchemaObject,
         JsonSchemas.AnySchemaObject,
         JsonSchemas.ArraySchemaObject,
@@ -33,116 +33,45 @@ object Oas20DialectWrapper {
       ))
   }
 
-  val commonDataShapesProperties: Seq[PropertyMapping] = {
-    Seq(
-      PropertyMapping()
-        .withId(DialectLocation + s"#/declarations/Schema/default")
-        .withName("default")
-        .withNodePropertyMapping(ShapeModel.Default.value.iri())
-        .withLiteralRange(xsdAnyType.iri()),
-      PropertyMapping()
-        .withId(DialectLocation + s"#/declarations/Schema/enum")
-        .withName("enum")
-        .withNodePropertyMapping(ShapeModel.Values.value.iri())
-        .withLiteralRange(xsdAnyType.iri()),
-      PropertyMapping()
-        .withId(DialectLocation + s"#/declarations/Schema/allOf")
-        .withName("allOf")
-        .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
-        .withLiteralRange(xsdAnyType.iri()),
-    )
-  }
-
-  val paramBiding = PropertyMapping()
-    .withId(DialectLocation + "#/declarations/ParameterObject/binding")
-    .withName("in")
-    .withMinCount(1)
-    .withEnum(
-      Seq(
-        "query",
-        "header",
-        "path",
-        "formData",
-        "body"
-      ))
-    .withNodePropertyMapping(ParameterModel.Binding.value.iri())
-    .withLiteralRange(xsdString.iri())
-  val paramName = PropertyMapping()
-    .withId(DialectLocation + "#/declarations/ParameterObject/name")
-    .withName("name")
-    .withMinCount(1)
-    .withNodePropertyMapping(ParameterModel.Name.value.iri())
-    .withLiteralRange(xsdString.iri())
-
-  val basicParamsProps: Seq[PropertyMapping] = Seq(paramBiding, paramName)
-
-
-  val HeaderCommonObject = NodeMapping()
-    .withId("#/declarations/HeaderCommonObject")
-    .withName("HeaderCommonObject")
-    .withNodeTypeMapping("http://HeaderCommonObject/#mapping")
-    .withPropertiesMapping(commonParamProps ++ Seq(
-
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ParameterObject/type")
-        .withName("type")
-        .withMinCount(1)
-        .withNodePropertyMapping(
-          DialectLocation + "#/declarations/ParameterObject/type")
-        .withEnum(
-          Seq(
-            "string",
-            "number",
-            "integer",
-            "boolean",
-            "array",
-            "file",
-          ))
-        .withLiteralRange(xsdString.iri())
-    ))
-
-  val HeaderObject = NodeMapping()
-    .withId("#/declarations/HeaderObject")
-    .withName("HeaderObject")
-    .withNodeTypeMapping("http://HeaderObject/#mapping")
-    .withPropertiesMapping(
-      commonParamProps ++ Seq(
-        PropertyMapping()
-          .withId(DialectLocation + "#/declarations/ParameterObject/type")
-          .withName("type")
-          .withMinCount(1)
-          .withNodePropertyMapping(
-            DialectLocation + "#/declarations/ParameterObject/type")
-          .withEnum(
-            Seq(
-              "string",
-              "number",
-              "integer",
-              "boolean",
-              "array",
-              "file",
-            ))
-          .withLiteralRange(xsdString.iri())
-      ))
-
-  val ParameterObject = NodeMapping()
-    .withId("#/declarations/ParameterObject")
-    .withName("ParameterObject")
-    .withNodeTypeMapping(ParameterModel.`type`.head.iri())
-    .withPropertiesMapping(commonParamProps ++ Seq(
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ParameterObject/required")
-        .withName("required")
-        .withMinCount(1)
-        .withNodePropertyMapping(ParameterModel.Required.value.iri())
-        .withLiteralRange(xsdBoolean.iri()),
-      paramBiding
-    ))
 
   // shapes schema
   object JsonSchemas {
-    val common: Seq[PropertyMapping] = commonDataShapesProperties ++ Seq(
-      OAS20Dialect.shapesPropertyMapping) ++ Seq(
+    val shapesPropertyMapping: PropertyMapping = PropertyMapping()
+      .withId(DialectLocation + "#/declarations/ParameterObject/Shape/type")
+      .withName("type")
+      .withMinCount(1)
+      .withEnum(Seq(
+        "string",
+        "number",
+        "integer",
+        "boolean",
+        "array",
+        "object",
+        "file"
+      ))
+      .withNodePropertyMapping(ImplicitField)
+      .withLiteralRange(xsdString.iri())
+    val commonDataShapesProperties: Seq[PropertyMapping] = {
+      Seq(
+        PropertyMapping()
+          .withId(DialectLocation + s"#/declarations/Schema/default")
+          .withName("default")
+          .withNodePropertyMapping(ShapeModel.Default.value.iri())
+          .withLiteralRange(xsdAnyType.iri()),
+        PropertyMapping()
+          .withId(DialectLocation + s"#/declarations/Schema/enum")
+          .withName("enum")
+          .withNodePropertyMapping(ShapeModel.Values.value.iri())
+          .withLiteralRange(xsdAnyType.iri()),
+        PropertyMapping()
+          .withId(DialectLocation + s"#/declarations/Schema/allOf")
+          .withName("allOf")
+          .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
+          .withLiteralRange(xsdAnyType.iri()),
+      )
+    }
+
+    val common: Seq[PropertyMapping] = commonDataShapesProperties ++ Seq(shapesPropertyMapping,
       PropertyMapping()
         .withId(DialectLocation + "#/declarations/ParameterObject/description")
         .withName("description")
@@ -169,14 +98,14 @@ object Oas20DialectWrapper {
         .withName("xml")
         .withNodePropertyMapping(AnyShapeModel.XMLSerialization.value.iri())
         .withObjectRange(Seq(
-          XMLObject.id
+          XmlObject.id
         )),
       PropertyMapping()
         .withId(DialectLocation + "#/declarations/SchemaObject/externalDocs")
         .withName("externalDocs")
         .withNodePropertyMapping(AnyShapeModel.Documentation.value.iri())
         .withObjectRange(Seq(
-          ExternalDocumentationObject.id
+          AMLExternalDocumentationObject.id
         )),
       PropertyMapping()
         .withId(DialectLocation + "#/declarations/SchemaObject/example")
@@ -186,7 +115,7 @@ object Oas20DialectWrapper {
     )
 
     val SchemaObject = NodeMapping()
-      .withId(SchemaObjectId)
+      .withId(Oas20SchemaObject.id)
       .withName("SchemaObject")
       .withNodeTypeMapping(ShapeModel.`type`.head.iri())
       .withPropertiesMapping(common)
@@ -310,7 +239,7 @@ object Oas20DialectWrapper {
           .withName("items")
           .withNodePropertyMapping(ArrayShapeModel.Items.value.iri())
           .withObjectRange(Seq(
-            SchemaObjectId
+            Oas20SchemaObject.id
           )),
         PropertyMapping()
           .withId(DialectLocation + s"#/declarations/Schema/collectionFormat")
@@ -363,7 +292,7 @@ object Oas20DialectWrapper {
           .withName("properties")
           .withNodePropertyMapping(NodeShapeModel.Properties.value.iri())
           .withMapTermKeyProperty(PropertyShapeModel.Name.value.iri())
-          .withObjectRange(Seq(SchemaObjectId)),
+          .withObjectRange(Seq(Oas20SchemaObject.id)),
         PropertyMapping()
           .withId(
             DialectLocation + s"#/declarations/Schema/additionalProperties")

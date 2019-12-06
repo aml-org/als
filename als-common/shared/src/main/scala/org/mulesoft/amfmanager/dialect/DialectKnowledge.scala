@@ -1,8 +1,8 @@
 package org.mulesoft.amfmanager.dialect
 
 import amf.core.model.document.BaseUnit
-import amf.core.remote.{Oas20, Raml08, Raml10}
-import amf.dialects.{OAS20Dialect, RAML08Dialect, RAML10Dialect, WebApiDialectsRegistry}
+import amf.core.remote.{Oas20, Oas30, Raml08, Raml10}
+import amf.dialects._
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceUnit}
 import org.mulesoft.als.common.YPartBranch
@@ -15,6 +15,8 @@ object DialectKnowledge {
     case _: DialectInstanceUnit => WebApiDialectsRegistry.dialectFor(bu)
     case d if d.sourceVendor.contains(Oas20) && !OAS20Dialect().id.isEmpty =>
       Some(Oas20DialectWrapper.dialect)
+    case d if d.sourceVendor.contains(Oas30) && !OAS30Dialect().id.isEmpty =>
+      Some(OAS30Dialect.dialect)
     case d if d.sourceVendor.contains(Raml10) && !RAML10Dialect().id.isEmpty =>
       Some(Raml10TypesDialect.dialect)
     case d if d.sourceVendor.contains(Raml08) && !RAML08Dialect().id.isEmpty =>
