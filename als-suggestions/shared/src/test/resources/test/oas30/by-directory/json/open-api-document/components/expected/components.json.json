@@ -1,89 +1,29 @@
 [
   {
-    "label": "schemas",
+    "label": "callbacks",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "callbacks",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11callbacks",
+    "filterText": "\"callbacks\": {\n      \"$1\"\n    }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "schemas:\n    "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "responses",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "responses:\n    "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "parameters",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "parameters:\n    "
+      "newText": "\"callbacks\": {\n      \"$1\"\n    }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -92,58 +32,28 @@
   {
     "label": "examples",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "examples",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11examples",
+    "filterText": "\"examples\": {\n      \"$1\"\n    }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "examples:\n    "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "requestBodies",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "requestBodies:\n    "
+      "newText": "\"examples\": {\n      \"$1\"\n    }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -152,58 +62,28 @@
   {
     "label": "headers",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "headers",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11headers",
+    "filterText": "\"headers\": {\n      \"$1\"\n    }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "headers:\n    "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "securitySchemes",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "securitySchemes:\n    "
+      "newText": "\"headers\": {\n      \"$1\"\n    }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -212,58 +92,178 @@
   {
     "label": "links",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "links",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11links",
+    "filterText": "\"links\": {\n      \"$1\"\n    }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "links:\n    "
+      "newText": "\"links\": {\n      \"$1\"\n    }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "callbacks",
+    "label": "parameters",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "parameters",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11parameters",
+    "filterText": "\"parameters\": {\n      \"$1\"\n    }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "callbacks:\n    "
+      "newText": "\"parameters\": {\n      \"$1\"\n    }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "requestBodies",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "requestBodies",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11requestBodies",
+    "filterText": "\"requestBodies\": {\n      \"$1\"\n    }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 11
+        }
+      },
+      "newText": "\"requestBodies\": {\n      \"$1\"\n    }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "responses",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "responses",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11responses",
+    "filterText": "\"responses\": {\n      \"$1\"\n    }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 11
+        }
+      },
+      "newText": "\"responses\": {\n      \"$1\"\n    }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schemas",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "schemas",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11schemas",
+    "filterText": "\"schemas\": {\n      \"$1\"\n    }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 11
+        }
+      },
+      "newText": "\"schemas\": {\n      \"$1\"\n    }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "securitySchemes",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "securitySchemes",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11securitySchemes",
+    "filterText": "\"securitySchemes\": {\n      \"$1\"\n    }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 11
+        }
+      },
+      "newText": "\"securitySchemes\": {\n      \"$1\"\n    }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

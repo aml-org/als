@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.model.domain.AmfObject
 import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.plugins.document.vocabularies.model.domain.{NodeMappable, NodeMapping}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -36,7 +37,8 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
       .root()
       .encoded()
       .option()
-      .exists(i => amfObject.meta.`type`.exists(_.iri() == i))
+      .flatMap(id => dialect.declares.collectFirst({ case n: NodeMapping if id == n.id => n }))
+      .exists(i => amfObject.meta.`type`.exists(_.iri() == i.nodetypeMapping.value()))
 
   private def buildDeclaredKeys(dialect: Dialect) = {
     dialect

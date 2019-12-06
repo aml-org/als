@@ -1,13 +1,13 @@
 [
   {
-    "label": "info",
+    "label": "components",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "components",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11components",
+    "filterText": "\"components\": {\n    \"$1\"\n  }",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -15,15 +15,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 2
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 9
         }
       },
-      "newText": "info:\n  version: $1\n  title: $2\n"
+      "newText": "\"components\": {\n    \"$1\"\n  }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "externalDocs",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "externalDocs",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11externalDocs",
+    "filterText": "\"externalDocs\": {\n    \"$1\"\n  }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 9
+        }
+      },
+      "newText": "\"externalDocs\": {\n    \"$1\"\n  }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -32,148 +62,148 @@
   {
     "label": "info",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "info",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10info",
+    "filterText": "\"info\": {\n    \"$1\"\n  }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 2
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 9
         }
       },
-      "newText": "info:\n  "
+      "newText": "\"info\": {\n    \"$1\"\n  }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "host",
+    "label": "paths",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "root",
+    "documentation": "paths",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10paths",
+    "filterText": "\"paths\": {\n    \"$1\"\n  }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 2
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 9
         }
       },
-      "newText": "host: "
+      "newText": "\"paths\": {\n    \"$1\"\n  }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "basePath",
+    "label": "security",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "security",
+    "documentation": "security",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11security",
+    "filterText": "\"security\": [\n    \"$1\"\n  ]",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 2
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 9
         }
       },
-      "newText": "basePath"
+      "newText": "\"security\": [\n    \"$1\"\n  ]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "schemes",
+    "label": "servers",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "servers",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11servers",
+    "filterText": "\"servers\": [\n    \"$1\"\n  ]",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 2
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 9
         }
       },
-      "newText": "schemes: "
+      "newText": "\"servers\": [\n    \"$1\"\n  ]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "produces",
+    "label": "tags",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "tags",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11tags",
+    "filterText": "\"tags\": [\n    \"$1\"\n  ]",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 2
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 9
         }
       },
-      "newText": "produces: "
+      "newText": "\"tags\": [\n    \"$1\"\n  ]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

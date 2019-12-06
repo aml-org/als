@@ -2,12 +2,12 @@
   {
     "label": "$ref",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "reference tag",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "0$ref",
+    "filterText": "$ref: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,12 +15,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 6
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 6
         }
       },
       "newText": "$ref: "
@@ -30,134 +30,14 @@
     "command": null
   },
   {
-    "label": "operationRef",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "operationRef: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "operationId",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "operationId: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "parameters",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "parameters: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "requestBody",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "requestBody: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "description",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11description",
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -165,12 +45,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 6
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 6
         }
       },
       "newText": "description: "
@@ -180,14 +60,14 @@
     "command": null
   },
   {
-    "label": "server",
+    "label": "operationId",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "operationId",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11operationId",
+    "filterText": "operationId: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -195,15 +75,135 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 6
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 6
         }
       },
-      "newText": "server: "
+      "newText": "operationId: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "operationRef",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "operationRef",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11operationRef",
+    "filterText": "operationRef: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "operationRef: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "parameters",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "parameters",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11parameters",
+    "filterText": "parameters:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "parameters:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "requestBody",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "requestBody",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11requestBody",
+    "filterText": "requestBody: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "requestBody: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "server",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "server",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11server",
+    "filterText": "server:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "server:\n        "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -1,10 +1,19 @@
 {
   "openapi": "3.0.0",
+  "components": {
+    "securitySchemes": {
+      "internalApiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "api_key"
+      }
+    }
+  },
   "paths": {
     "/": {
       "get": {
         "security": [
-          *
+          "*"
         ]
       }
     }

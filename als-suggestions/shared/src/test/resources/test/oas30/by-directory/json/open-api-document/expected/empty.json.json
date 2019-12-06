@@ -1,6 +1,6 @@
 [
   {
-    "label": "swagger: 3",
+    "label": "swagger: 3.0.0",
     "kind": [],
     "detail": "",
     "documentation": "",
@@ -30,7 +30,7 @@
     "command": null
   },
   {
-    "label": "swagger: 3",
+    "label": "swagger: 2.0",
     "kind": [],
     "detail": "",
     "documentation": "",
@@ -53,7 +53,7 @@
           "character": x
         }
       },
-      "newText": "swagger: '3.0.$1'\ninfo:\n  version: $1\n  title: $2\npaths:\n  /$3:\n    "
+      "newText": "swagger: '2.0'"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

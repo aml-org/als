@@ -1,3 +1,7 @@
 openapi: 3.0.0
+components:
+  securitySchemes:
+    aScheme:
+      type: oauth2
 security:
   *

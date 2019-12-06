@@ -1,6 +1,13 @@
 {
   "openapi": "3.0.0",
-  "security": {
-    *
-  }
+  "components": {
+    "securitySchemes": {
+      "security": {
+        "type": "oauth2"
+      }
+    }
+  },
+  "security": [
+    "*"
+  ]
 }

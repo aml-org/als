@@ -1,0 +1,152 @@
+[
+  {
+    "label": "$ref",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0$ref",
+    "filterText": "$ref: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      },
+      "newText": "$ref: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "content",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "content",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11content",
+    "filterText": "content:\n            ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      },
+      "newText": "content:\n            "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10description",
+    "filterText": "description: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "headers",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "headers",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11headers",
+    "filterText": "headers:\n            ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      },
+      "newText": "headers:\n            "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "links",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "links",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11links",
+    "filterText": "links:\n            ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      },
+      "newText": "links:\n            "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

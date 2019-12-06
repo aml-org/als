@@ -1,269 +1,29 @@
 [
   {
-    "label": "tags",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "tags:\n        - "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "description",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "description: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "summary",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "summary: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "externalDocs",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "externalDocs:\n        "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "operationId",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "operationId: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "parameters",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "parameters:\n          - "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "requestBody",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "requestBody:\n        "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "responses",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "responses:\n        "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "callbacks",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "callbacks",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11callbacks",
+    "filterText": "\"callbacks\": {\n          \"$1\"\n        }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 5,
+          "character": 15
         }
       },
-      "newText": "callbacks:\n        "
+      "newText": "\"callbacks\": {\n          \"$1\"\n        }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -272,28 +32,208 @@
   {
     "label": "deprecated",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "deprecated",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11deprecated",
+    "filterText": "\"deprecated\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 5,
+          "character": 15
         }
       },
-      "newText": "deprecated: "
+      "newText": "\"deprecated\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11description",
+    "filterText": "\"description\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 15
+        }
+      },
+      "newText": "\"description\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "externalDocs",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "externalDocs",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11externalDocs",
+    "filterText": "\"externalDocs\": {\n          \"$1\"\n        }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 15
+        }
+      },
+      "newText": "\"externalDocs\": {\n          \"$1\"\n        }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "operationId",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "operationId",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11operationId",
+    "filterText": "\"operationId\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 15
+        }
+      },
+      "newText": "\"operationId\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "parameters",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "parameters",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11parameters",
+    "filterText": "\"parameters\": [\n          \"$1\"\n        ]",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 15
+        }
+      },
+      "newText": "\"parameters\": [\n          \"$1\"\n        ]"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "requestBody",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "requestBody",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11requestBody",
+    "filterText": "\"requestBody\": {\n          \"$1\"\n        }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 15
+        }
+      },
+      "newText": "\"requestBody\": {\n          \"$1\"\n        }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "responses",
+    "kind": [],
+    "detail": "responses",
+    "documentation": "responses",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10responses",
+    "filterText": "\"responses\": {\n          \"$1\"\n        }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 15
+        }
+      },
+      "newText": "\"responses\": {\n          \"$1\"\n        }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -302,28 +242,28 @@
   {
     "label": "security",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "security",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11security",
+    "filterText": "\"security\": [\n          \"$1\"\n        ]",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 5,
+          "character": 15
         }
       },
-      "newText": "security:\n          - "
+      "newText": "\"security\": [\n          \"$1\"\n        ]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -332,28 +272,88 @@
   {
     "label": "servers",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "servers",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11servers",
+    "filterText": "\"servers\": [\n          \"$1\"\n        ]",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 5,
+          "character": 15
         }
       },
-      "newText": "servers:\n          - "
+      "newText": "\"servers\": [\n          \"$1\"\n        ]"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "summary",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "summary",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11summary",
+    "filterText": "\"summary\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 15
+        }
+      },
+      "newText": "\"summary\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "tags",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "tags",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11tags",
+    "filterText": "\"tags\": [\n          \"$1\"\n        ]",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 15
+        }
+      },
+      "newText": "\"tags\": [\n          \"$1\"\n        ]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
