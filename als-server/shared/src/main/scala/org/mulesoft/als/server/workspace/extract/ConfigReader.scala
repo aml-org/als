@@ -29,7 +29,7 @@ trait ConfigReader {
       }
     } catch {
       case _: UnsupportedUrlScheme => Future.successful(None)
-      case e                       => Future.failed(e)
+      case e: Exception            => Future.failed(e)
     }
   }
 

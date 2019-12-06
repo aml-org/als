@@ -13,7 +13,7 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
                           private val logger: Logger)
     extends TextDocumentSyncConsumer {
 
-//  dependencies.foreach(d => d.withTextDocumentContainer(uriToEditor))
+  //  dependencies.foreach(d => d.withTextDocumentContainer(uriToEditor))
 
   override val `type`: TextDocumentSyncConfigType.type =
     TextDocumentSyncConfigType

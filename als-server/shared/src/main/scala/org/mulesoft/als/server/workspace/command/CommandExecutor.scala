@@ -24,7 +24,7 @@ trait CommandExecutor[P] {
       case Some(parsedParam) => runCommand(parsedParam)
       case _ =>
         logger.error(s"Cannot build params for focus: ${params.arguments.toString()}",
-                     getClass.getCanonicalName,
+                     "org.mulesoft.als.server.workspace.command.CommandExecutor",
                      "executeCommand")
     }
 

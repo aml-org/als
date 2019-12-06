@@ -39,7 +39,7 @@ import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
 import org.mulesoft.lsp.feature.reference.ReferenceRequestType
 import org.mulesoft.lsp.feature.rename.RenameRequestType
 import org.mulesoft.lsp.server.LanguageServer
-import org.mulesoft.lsp.textsync.DidFocusParams
+import org.mulesoft.lsp.textsync.{DidChangeConfigurationNotificationParams, DidFocusParams}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 

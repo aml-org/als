@@ -1,10 +1,9 @@
 package org.mulesoft.als.server.workspace.extract
 
 import amf.core.remote.Platform
-import amf.internal.environment.Environment
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class WorkspaceRootHandler(platform: Platform) {
 

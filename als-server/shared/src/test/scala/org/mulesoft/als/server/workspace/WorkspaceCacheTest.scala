@@ -2,7 +2,6 @@ package org.mulesoft.als.server.workspace
 
 import amf.client.remote.Content
 import amf.client.resource.ResourceNotFound
-import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
@@ -12,7 +11,7 @@ import org.mulesoft.als.server.modules.ast.{CHANGE_CONFIG, CHANGE_FILE}
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
 import org.mulesoft.als.server.textsync.EnvironmentProvider
-import org.mulesoft.als.server.workspace.extract.{ConfigReader, WorkspaceConf}
+import org.mulesoft.als.server.workspace.extract.DefaultWorkspaceConfigurationProvider
 import org.mulesoft.amfmanager.AmfInitializationHandler
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
@@ -24,7 +23,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
   override implicit val executionContext = ExecutionContext.Implicits.global
 
-  private val configFileName = "exchange.json"
+  private val rootUri = ""
 
   private val mainApiName = "api.raml"
 
@@ -71,19 +70,18 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
 
     val ws =
-      new WorkspaceContentManager("folder",
-                                  Some(dummyConfigurationWorkspace(configFileName, mainApiName, cacheUris, None)),
-                                  env,
-                                  DummyTelemetryProvider,
-                                  EmptyLogger,
-                                  Nil,
-                                  platform)
+      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil, platform)
     AmfInitializationHandler.init()
-    ws.initialize()
-    ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
-
-    ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
+    ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
+      .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
+    ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).flatMap { _ =>
       counter should be(1)
+
+      ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
+
+      ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
+        counter should be(1)
+      }
     }
   }
 
@@ -137,19 +135,19 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
 
     val ws =
-      new WorkspaceContentManager("folder",
-                                  Some(dummyConfigurationWorkspace(configFileName, mainApiName, cacheUris, None)),
-                                  env,
-                                  DummyTelemetryProvider,
-                                  EmptyLogger,
-                                  Nil,
-                                  platform)
+      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil, platform)
 
-    ws.initialize()
-    ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
+    ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
+      .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
 
-    ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
+    ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).flatMap { _ =>
       counter should be(1)
+
+      ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
+
+      ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
+        counter should be(1)
+      }
     }
   }
 
@@ -171,7 +169,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     var counter: Int = 0
     val rl: ResourceLoader = new ResourceLoader {
 
-      /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
+      /** Fetch specified resource and return associated content. Resource should have been previously accepted. */
       override def fetch(resource: String): Future[Content] = {
         val content = if (resource == "file://folder/cachable.raml") {
           counter = counter + 1
@@ -194,19 +192,19 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
 
     val ws =
-      new WorkspaceContentManager("folder",
-                                  Some(dummyConfigurationWorkspace(configFileName, mainApiName, Set.empty, None)),
-                                  env,
-                                  DummyTelemetryProvider,
-                                  EmptyLogger,
-                                  Nil,
-                                  platform)
+      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil, platform)
 
-    ws.initialize()
-    ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
+    ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, Set.empty, None))
+      .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
 
-    ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
-      counter should be(2)
+    ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).flatMap { _ =>
+      counter should be(1)
+
+      ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
+
+      ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
+        counter should be(2)
+      }
     }
   }
 
@@ -251,19 +249,16 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
 
     val ws =
-      new WorkspaceContentManager("folder",
-                                  Some(dummyConfigurationWorkspace(configFileName, mainApiName, cacheUris, None)),
-                                  env,
-                                  DummyTelemetryProvider,
-                                  EmptyLogger,
-                                  Nil,
-                                  platform)
+      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil, platform)
+    ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
+      .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
+    ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).flatMap { _ =>
+      counter should be(1)
+      ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
 
-    ws.initialize()
-    ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
-
-    ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
-      counter should be(2)
+      ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
+        counter should be(2)
+      }
     }
   }
 
@@ -308,18 +303,17 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
 
     val ws =
-      new WorkspaceContentManager("folder",
-                                  Some(dummyConfigurationWorkspace(configFileName, mainApiName, cacheUris, None)),
-                                  env,
-                                  DummyTelemetryProvider,
-                                  EmptyLogger,
-                                  Nil,
-                                  platform)
+      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil, platform)
     AmfInitializationHandler.init()
-    ws.initialize()
-    ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
 
     for {
+      _ <- Future.successful {
+        ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
+          .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
+        ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
+          counter should be(1)
+        }
+      }
       _ <- { // first reparse
         ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
         ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
@@ -328,13 +322,14 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       }
       _ <- { // remove caché
         counter = 0
-        ws.changeConfigurationProvider(dummyConfig(configFileName, mainApiName, Set.empty))
-        ws.changedFile("file://folder/" + configFileName, CHANGE_CONFIG)
+        ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, Set.empty, None))
+          .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
+
         ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
           counter should be(1)
         }
       }
-      _ <- { //reparse without cache
+      _ <- { // reparse without cache
         ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
         ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
           counter should be(2)
@@ -342,8 +337,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       }
       _ <- { // with cache
         counter = 0
-        ws.changeConfigurationProvider(dummyConfig(configFileName, mainApiName, cacheUris))
-        ws.changedFile("file://folder/" + configFileName, CHANGE_CONFIG)
+        ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
+          .changedFile("file://folder/" + rootUri, CHANGE_CONFIG)
         ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
         ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
           counter should be(1)
@@ -353,36 +348,6 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       succeed
     }
   }
-
-  private def dummyConfig(confFileName: String,
-                          mainApiName: String,
-                          cacheUris: Set[String]): WorkspaceConfigurationProvider =
-    new WorkspaceConfigurationProvider {
-      override def obtainConfiguration(platform: Platform, environment: Environment): Future[Option[WorkspaceConf]] =
-        Future.successful {
-          Some(
-            dummyConfigurationWorkspace(confFileName,
-                                        mainApiName,
-                                        cacheUris,
-                                        Some(dummyConfigurationWorkspace(confFileName, mainApiName, cacheUris, None))))
-        }
-    }
-
-  private def dummyConfigurationWorkspace(confFileName: String,
-                                          mainApiName: String,
-                                          cacheUris: Set[String],
-                                          dummyWorkspaceConfig: Option[WorkspaceConf]) =
-    WorkspaceConf(
-      confFileName,
-      mainApiName,
-      cacheUris,
-      new ConfigReader {
-        override val configFileName: String = confFileName
-
-        protected def buildConfig(content: String, path: String, platform: Platform): Option[Future[WorkspaceConf]] =
-          dummyWorkspaceConfig.map(Future.successful)
-      }
-    )
 
   object DummyTelemetryProvider extends TelemetryManager(DummyClientNotifier, EmptyLogger)
 
