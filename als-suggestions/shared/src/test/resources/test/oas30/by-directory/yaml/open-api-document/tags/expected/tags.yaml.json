@@ -1,43 +1,13 @@
 [
   {
-    "label": "name",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "- name: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "description",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11description",
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 4
         }
       },
-      "newText": "- description: "
+      "newText": "description: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -62,12 +32,12 @@
   {
     "label": "externalDocs",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "externalDocs",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11externalDocs",
+    "filterText": "externalDocs:\n    ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,45 +45,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 4
         }
       },
-      "newText": "- externalDocs:\n    "
+      "newText": "externalDocs:\n    "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "externalDocs",
+    "label": "name",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "name",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10name",
+    "filterText": "name: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 2,
+          "character": 4
         }
       },
-      "newText": "- externalDocs:\n      url: $1"
+      "newText": "name: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

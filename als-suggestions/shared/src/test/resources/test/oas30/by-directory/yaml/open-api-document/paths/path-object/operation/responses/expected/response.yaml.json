@@ -1,149 +1,149 @@
 [
   {
-    "label": "$url",
+    "label": "$ref",
     "kind": [],
     "detail": "unknown",
-    "documentation": "url",
+    "documentation": "reference tag",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11url",
-    "filterText": "\"$url\"",
+    "sortText": "0$ref",
+    "filterText": "$ref: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 6,
+          "character": 10
         },
         "end": {
-          "line": 4,
-          "character": 13
+          "line": 6,
+          "character": 10
         }
       },
-      "newText": "\"$url\""
+      "newText": "$ref: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "$method",
+    "label": "content",
     "kind": [],
     "detail": "unknown",
-    "documentation": "method",
+    "documentation": "content",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11method",
-    "filterText": "\"$method\"",
+    "sortText": "11content",
+    "filterText": "content:\n            ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 6,
+          "character": 10
         },
         "end": {
-          "line": 4,
-          "character": 13
+          "line": 6,
+          "character": 10
         }
       },
-      "newText": "\"$method\""
+      "newText": "content:\n            "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "$statusCode",
+    "label": "description",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "method",
+    "detail": "docs",
+    "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11statusCode",
-    "filterText": "\"$statusCode\"",
+    "sortText": "10description",
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 6,
+          "character": 10
         },
         "end": {
-          "line": 4,
-          "character": 13
+          "line": 6,
+          "character": 10
         }
       },
-      "newText": "\"$statusCode\""
+      "newText": "description: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "$request.",
+    "label": "headers",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "method",
+    "detail": "parameters",
+    "documentation": "headers",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11request.",
-    "filterText": "\"$request.\"",
+    "sortText": "11headers",
+    "filterText": "headers:\n            ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 6,
+          "character": 10
         },
         "end": {
-          "line": 4,
-          "character": 13
+          "line": 6,
+          "character": 10
         }
       },
-      "newText": "\"$request.\""
+      "newText": "headers:\n            "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "$response.",
+    "label": "links",
     "kind": [],
     "detail": "unknown",
-    "documentation": "method",
+    "documentation": "links",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11response.",
-    "filterText": "\"$response.\"",
+    "sortText": "11links",
+    "filterText": "links:\n            ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 6,
+          "character": 10
         },
         "end": {
-          "line": 4,
-          "character": 13
+          "line": 6,
+          "character": 10
         }
       },
-      "newText": "\"$response.\""
+      "newText": "links:\n            "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -1,13 +1,13 @@
 [
   {
-    "label": "name",
+    "label": "false",
     "kind": [],
-    "detail": "docs",
-    "documentation": "name",
+    "detail": "unknown",
+    "documentation": "false",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10name",
-    "filterText": "name: ",
+    "sortText": "11false",
+    "filterText": "false",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,29 +15,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
-          "character": 4
+          "line": 4,
+          "character": 18
         },
         "end": {
-          "line": 3,
-          "character": 4
+          "line": 4,
+          "character": 18
         }
       },
-      "newText": "name: "
+      "newText": "false"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "url",
+    "label": "true",
     "kind": [],
-    "detail": "docs",
-    "documentation": "url",
+    "detail": "unknown",
+    "documentation": "true",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11url",
-    "filterText": "url: ",
+    "sortText": "11true",
+    "filterText": "true",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,15 +45,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
-          "character": 4
+          "line": 4,
+          "character": 18
         },
         "end": {
-          "line": 3,
-          "character": 4
+          "line": 4,
+          "character": 18
         }
       },
-      "newText": "url: "
+      "newText": "true"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -1,29 +1,29 @@
 [
   {
-    "label": "aScheme",
+    "label": "variable",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "aScheme",
+    "detail": "",
+    "documentation": "",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11aScheme",
-    "filterText": "aScheme:\n    ",
+    "sortText": "",
+    "filterText": null,
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 4
+          "line": x,
+          "character": x
         },
         "end": {
-          "line": 6,
-          "character": 4
+          "line": x,
+          "character": x
         }
       },
-      "newText": "aScheme:\n    "
+      "newText": "$1:\n          default: $2"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
