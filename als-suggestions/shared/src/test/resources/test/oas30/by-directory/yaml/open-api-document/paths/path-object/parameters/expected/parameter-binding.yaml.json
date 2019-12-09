@@ -1,0 +1,122 @@
+[
+  {
+    "label": "cookie",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "cookie",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10cookie",
+    "filterText": "cookie",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 12
+        },
+        "end": {
+          "line": 4,
+          "character": 12
+        }
+      },
+      "newText": "cookie"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "header",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "header",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10header",
+    "filterText": "header",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 12
+        },
+        "end": {
+          "line": 4,
+          "character": 12
+        }
+      },
+      "newText": "header"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "path",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "path",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10path",
+    "filterText": "path",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 12
+        },
+        "end": {
+          "line": 4,
+          "character": 12
+        }
+      },
+      "newText": "path"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "query",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "query",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10query",
+    "filterText": "query",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 12
+        },
+        "end": {
+          "line": 4,
+          "character": 12
+        }
+      },
+      "newText": "query"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

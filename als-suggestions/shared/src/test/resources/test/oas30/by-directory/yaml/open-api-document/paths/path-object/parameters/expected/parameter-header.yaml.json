@@ -1,35 +1,5 @@
 [
   {
-    "label": "$ref",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "0$ref",
-    "filterText": "\"$ref\"",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 6,
-          "character": 10
-        },
-        "end": {
-          "line": 6,
-          "character": 17
-        }
-      },
-      "newText": "\"$ref\""
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "allowEmptyValue",
     "kind": [],
     "detail": "unknown",
@@ -37,23 +7,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11allowEmptyValue",
-    "filterText": "\"allowEmptyValue\": \"$1\"",
+    "filterText": "allowEmptyValue: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": 6,
-          "character": 17
+          "line": 5,
+          "character": 8
         }
       },
-      "newText": "\"allowEmptyValue\": \"$1\""
+      "newText": "allowEmptyValue: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,23 +37,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11allowReserved",
-    "filterText": "\"allowReserved\": \"$1\"",
+    "filterText": "allowReserved: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": 6,
-          "character": 17
+          "line": 5,
+          "character": 8
         }
       },
-      "newText": "\"allowReserved\": \"$1\""
+      "newText": "allowReserved: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,23 +67,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11content",
-    "filterText": "\"content\": {\n            \"$1\"\n          }",
+    "filterText": "content:\n          ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": 6,
-          "character": 17
+          "line": 5,
+          "character": 8
         }
       },
-      "newText": "\"content\": {\n            \"$1\"\n          }"
+      "newText": "content:\n          "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,23 +97,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11deprecated",
-    "filterText": "\"deprecated\": \"$1\"",
+    "filterText": "deprecated: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": 6,
-          "character": 17
+          "line": 5,
+          "character": 8
         }
       },
-      "newText": "\"deprecated\": \"$1\""
+      "newText": "deprecated: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,23 +127,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10description",
-    "filterText": "\"description\": \"$1\"",
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": 6,
-          "character": 17
+          "line": 5,
+          "character": 8
         }
       },
-      "newText": "\"description\": \"$1\""
+      "newText": "description: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,23 +157,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11example",
-    "filterText": "\"example\": \"$1\"",
+    "filterText": "example: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": 6,
-          "character": 17
+          "line": 5,
+          "character": 8
         }
       },
-      "newText": "\"example\": \"$1\""
+      "newText": "example: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -217,23 +187,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11examples",
-    "filterText": "\"examples\": {\n            \"$1\"\n          }",
+    "filterText": "examples:\n          ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": 6,
-          "character": 17
+          "line": 5,
+          "character": 8
         }
       },
-      "newText": "\"examples\": {\n            \"$1\"\n          }"
+      "newText": "examples:\n          "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,53 +217,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11explode",
-    "filterText": "\"explode\": \"$1\"",
+    "filterText": "explode: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": 6,
-          "character": 17
+          "line": 5,
+          "character": 8
         }
       },
-      "newText": "\"explode\": \"$1\""
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "in",
-    "kind": [],
-    "detail": "parameters",
-    "documentation": "in",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "10in",
-    "filterText": "\"in\": \"$1\"",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 6,
-          "character": 10
-        },
-        "end": {
-          "line": 6,
-          "character": 17
-        }
-      },
-      "newText": "\"in\": \"$1\""
+      "newText": "explode: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,23 +247,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10name",
-    "filterText": "\"name\": \"$1\"",
+    "filterText": "name: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": 6,
-          "character": 17
+          "line": 5,
+          "character": 8
         }
       },
-      "newText": "\"name\": \"$1\""
+      "newText": "name: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,23 +277,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10required",
-    "filterText": "\"required\": \"$1\"",
+    "filterText": "required: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": 6,
-          "character": 17
+          "line": 5,
+          "character": 8
         }
       },
-      "newText": "\"required\": \"$1\""
+      "newText": "required: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,23 +307,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11schema",
-    "filterText": "\"schema\": {\n            \"$1\"\n          }",
+    "filterText": "schema:\n          ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": 6,
-          "character": 17
+          "line": 5,
+          "character": 8
         }
       },
-      "newText": "\"schema\": {\n            \"$1\"\n          }"
+      "newText": "schema:\n          "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -397,23 +337,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11style",
-    "filterText": "\"style\": \"$1\"",
+    "filterText": "style: ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 10
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": 6,
-          "character": 17
+          "line": 5,
+          "character": 8
         }
       },
-      "newText": "\"style\": \"$1\""
+      "newText": "style: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

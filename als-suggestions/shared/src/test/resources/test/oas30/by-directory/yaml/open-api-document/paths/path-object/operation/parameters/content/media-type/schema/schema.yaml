@@ -1,0 +1,9 @@
+openapi: 3.0.0
+paths:
+  /path:
+    get:
+      parameters:
+        - content:
+            'application/json':
+              schema:
+                *
