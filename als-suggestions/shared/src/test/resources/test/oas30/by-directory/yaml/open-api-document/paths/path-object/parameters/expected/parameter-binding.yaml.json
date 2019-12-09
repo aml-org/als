@@ -1,13 +1,13 @@
 [
   {
-    "label": "$ref",
+    "label": "cookie",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "cookie",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10cookie",
+    "filterText": "cookie",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,29 +15,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         }
       },
-      "newText": "$ref: "
+      "newText": "cookie"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "description",
+    "label": "header",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "header",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10header",
+    "filterText": "header",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,29 +45,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         }
       },
-      "newText": "- description: "
+      "newText": "header"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "summary",
+    "label": "path",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "path",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10path",
+    "filterText": "path",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,29 +75,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         }
       },
-      "newText": "value:\n        "
+      "newText": "path"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "externalValue",
+    "label": "query",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "query",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10query",
+    "filterText": "query",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -105,15 +105,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         }
       },
-      "newText": "externalValue: "
+      "newText": "query"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

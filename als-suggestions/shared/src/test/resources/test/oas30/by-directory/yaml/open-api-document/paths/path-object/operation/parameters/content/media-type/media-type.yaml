@@ -3,7 +3,6 @@ paths:
   /path:
     get:
       parameters:
-        content:
-          'application/json':
-            schema:
+        - content:
+            'application/json':
               *

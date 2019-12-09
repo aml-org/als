@@ -1,18 +1,21 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
+import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
-import org.mulesoft.amfmanager.dialect.webapi.oas.Oas20DialectWrapper
+import org.mulesoft.amfmanager.dialect.webapi.oas.{JsonSchemaForOasWrapper, Oas20DialectWrapper}
 
-object OasTypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin {
-  override def stringShapeNode: NodeMapping = Oas20DialectWrapper.JsonSchemas.StringSchemaObject
+trait OasTypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin {
+  def jsonSchameObj: JsonSchemaForOasWrapper
+  def dialect: Dialect
 
-  override def numberShapeNode: NodeMapping = Oas20DialectWrapper.JsonSchemas.NumberSchemaObject
+  override def stringShapeNode: NodeMapping = jsonSchameObj.StringSchemaObject
 
-  override def integerShapeNode: NodeMapping = Oas20DialectWrapper.JsonSchemas.IntegerSchemaObject
+  override def numberShapeNode: NodeMapping = jsonSchameObj.NumberSchemaObject
 
-  override def declarations: Seq[NodeMapping] =
-    Oas20DialectWrapper.dialect.declares.collect({ case n: NodeMapping => n })
+  override def integerShapeNode: NodeMapping = jsonSchameObj.IntegerSchemaObject
+
+  override def declarations: Seq[NodeMapping] = dialect.declares.collect({ case n: NodeMapping => n })
 
   override def propertyShapeNode: Option[NodeMapping] = None
 

@@ -19,7 +19,7 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
                   "inclusion tag",
                   Seq(),
                   options = SuggestionStructure(rangeKind = PlainText)))
-  private val refSuggestion = Seq(
+  val refSuggestion = Seq(
     RawSuggestion("$ref",
                   "$ref",
                   "reference tag",
