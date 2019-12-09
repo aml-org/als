@@ -26,7 +26,7 @@ object Oas20ParameterStructure extends AMLCompletionPlugin {
         request.amfObject match {
           case p: Parameter if p.binding.option().contains("header") && comesFromHeader(request.yPartBranch) =>
             if (p.name.value() != request.yPartBranch.stringValue)
-              OasTypeFacetsCompletionPlugin.resolveShape(Option(p.schema).getOrElse(ScalarShape()), Nil)
+              Oas20TypeFacetsCompletionPlugin.resolveShape(Option(p.schema).getOrElse(ScalarShape()), Nil)
             else Nil
           case p: Parameter if request.fieldEntry.isEmpty => parameterSuggestions(request, p)
           case ep: EndPoint if request.fieldEntry.exists(_.field == EndPointModel.Parameters) =>
@@ -44,7 +44,7 @@ object Oas20ParameterStructure extends AMLCompletionPlugin {
   }
 
   private def suggestions(request: AmlCompletionRequest, withName: Boolean, schema: Option[Shape]) = {
-    val common = OasTypeFacetsCompletionPlugin.resolveShape(schema.getOrElse(ScalarShape()), Nil)
+    val common = Oas20TypeFacetsCompletionPlugin.resolveShape(schema.getOrElse(ScalarShape()), Nil)
 
     val particular =
       if (withName) Seq(onlyBinding) else Seq(onlyBinding, nameSuggestion)

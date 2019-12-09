@@ -1,6 +1,6 @@
 package org.mulesoft.als.common
 
-import amf.core.annotations.{LexicalInformation, SynthesizedField}
+import amf.core.annotations.{LexicalInformation, SynthesizedField, VirtualObject}
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
 import amf.core.parser.FieldEntry
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
@@ -61,7 +61,9 @@ object AmfSonElementFinder {
                 .find(classOf[LexicalInformation])
                 .forall(_.containsCompletely(amfPosition))
 
-            case _ => f.value.annotations.contains(classOf[SynthesizedField])
+            case _ =>
+              f.value.annotations.contains(classOf[SynthesizedField]) || f.value.value.annotations
+                .contains(classOf[VirtualObject])
           }
       }
     }

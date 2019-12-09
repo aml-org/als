@@ -1,13 +1,13 @@
 [
   {
-    "label": "contentType",
+    "label": "$ref",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "reference tag",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "0$ref",
+    "filterText": "$ref: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,29 +15,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 9,
+          "character": 20
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 9,
+          "character": 20
         }
       },
-      "newText": "contentType: "
+      "newText": "$ref: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "headers",
+    "label": "description",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11description",
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,29 +45,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 9,
+          "character": 20
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 9,
+          "character": 20
         }
       },
-      "newText": "headers:\n        "
+      "newText": "description: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "style",
+    "label": "externalValue",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "externalValue",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11externalValue",
+    "filterText": "externalValue: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,29 +75,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 9,
+          "character": 20
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 9,
+          "character": 20
         }
       },
-      "newText": "style: "
+      "newText": "externalValue: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "explode",
+    "label": "mediaType",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "mediaType",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11mediaType",
+    "filterText": "mediaType: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -105,29 +105,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 9,
+          "character": 20
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 9,
+          "character": 20
         }
       },
-      "newText": "explode: "
+      "newText": "mediaType: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "allowReserved",
+    "label": "value",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "value",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11value",
+    "filterText": "value: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -135,15 +135,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 9,
+          "character": 20
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 9,
+          "character": 20
         }
       },
-      "newText": "allowReserved: "
+      "newText": "value: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

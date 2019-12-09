@@ -3,6 +3,5 @@ paths:
   /path:
     get:
       parameters:
-        content:
-          'application/json':
+        - content:
             *

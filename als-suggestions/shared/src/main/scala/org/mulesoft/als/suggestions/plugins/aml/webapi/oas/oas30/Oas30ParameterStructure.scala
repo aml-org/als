@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
-import amf.core.annotations.LexicalInformation
+import amf.core.annotations.{LexicalInformation, SynthesizedField}
 import amf.core.model.StrField
-import amf.core.parser.{Value, Position => AmfPosition}
+import amf.core.parser.Value
 import amf.dialects.oas.nodes.{Oas30AMLHeaderObject, Oas30ParamObject}
 import amf.plugins.domain.webapi.metamodel.OperationModel
 import amf.plugins.domain.webapi.models.{Operation, Parameter}
@@ -16,6 +16,7 @@ import org.mulesoft.als.suggestions.plugins.aml._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+
 object Oas30ParameterStructure extends AMLCompletionPlugin {
   override def id: String = "ParameterStructure"
 
@@ -23,25 +24,16 @@ object Oas30ParameterStructure extends AMLCompletionPlugin {
     Future {
       request.amfObject match {
         case p: Parameter if isWrittinFacet(p, request.yPartBranch) => plainParam(p.binding)
-        case r: Operation                                           => requestSuggestion(r, request.position)
         case _                                                      => Nil
       }
     }
   }
 
-  private def requestSuggestion(op: Operation, position: Position): Seq[RawSuggestion] =
-    operationParam(position.toAmfPosition, op).map(_.binding).map(plainParam).getOrElse(Nil)
+  def plainParam(binding: StrField): Seq[RawSuggestion] =
+    if (synthesizedHeader(binding)) headerProps else paramProps
 
-  private def composeParams(op: Operation): Seq[Parameter] =
-    Option(op.request)
-      .map(r => r.cookieParameters ++ r.queryParameters ++ r.uriParameters ++ r.headers)
-      .getOrElse(Nil)
-
-  private def operationParam(amfPosition: AmfPosition, op: Operation): Option[Parameter] =
-    composeParams(op).find(_.position().exists(_.contains(amfPosition)))
-
-  private def plainParam(binding: StrField): Seq[RawSuggestion] =
-    if (binding.option().contains("header")) headerProps else paramProps
+  private def synthesizedHeader(binding: StrField): Boolean =
+    binding.option().contains("header") && binding.annotations().contains(classOf[SynthesizedField])
 
   private lazy val paramProps = Oas30ParamObject.Obj.propertiesRaw()
 

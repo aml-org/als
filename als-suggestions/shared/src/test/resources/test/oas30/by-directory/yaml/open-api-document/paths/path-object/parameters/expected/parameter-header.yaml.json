@@ -1,35 +1,5 @@
 [
   {
-    "label": "$ref",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "0$ref",
-    "filterText": "$ref: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 10
-        },
-        "end": {
-          "line": 5,
-          "character": 10
-        }
-      },
-      "newText": "$ref: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "allowEmptyValue",
     "kind": [],
     "detail": "unknown",
@@ -46,11 +16,11 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 10
+          "character": 8
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 8
         }
       },
       "newText": "allowEmptyValue: "
@@ -76,11 +46,11 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 10
+          "character": 8
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 8
         }
       },
       "newText": "allowReserved: "
@@ -106,11 +76,11 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 10
+          "character": 8
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 8
         }
       },
       "newText": "content:\n          "
@@ -136,11 +106,11 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 10
+          "character": 8
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 8
         }
       },
       "newText": "deprecated: "
@@ -166,11 +136,11 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 10
+          "character": 8
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 8
         }
       },
       "newText": "description: "
@@ -196,11 +166,11 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 10
+          "character": 8
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 8
         }
       },
       "newText": "example: "
@@ -226,11 +196,11 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 10
+          "character": 8
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 8
         }
       },
       "newText": "examples:\n          "
@@ -256,44 +226,14 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 10
+          "character": 8
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 8
         }
       },
       "newText": "explode: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "in",
-    "kind": [],
-    "detail": "parameters",
-    "documentation": "in",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "10in",
-    "filterText": "in: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 10
-        },
-        "end": {
-          "line": 5,
-          "character": 10
-        }
-      },
-      "newText": "in: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -316,11 +256,11 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 10
+          "character": 8
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 8
         }
       },
       "newText": "name: "
@@ -346,11 +286,11 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 10
+          "character": 8
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 8
         }
       },
       "newText": "required: "
@@ -376,11 +316,11 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 10
+          "character": 8
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 8
         }
       },
       "newText": "schema:\n          "
@@ -406,11 +346,11 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 10
+          "character": 8
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 8
         }
       },
       "newText": "style: "
