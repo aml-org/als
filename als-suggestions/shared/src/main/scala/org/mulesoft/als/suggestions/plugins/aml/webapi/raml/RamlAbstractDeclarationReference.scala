@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.model.domain.DomainElement
 import amf.core.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration}
-import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorDeclaration
+import amf.core.annotations.ErrorDeclaration
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{ArrayRange, ObjectRange, RawSuggestion, StringScalarRange}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
