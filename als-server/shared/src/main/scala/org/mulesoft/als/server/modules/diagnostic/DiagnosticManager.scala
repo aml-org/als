@@ -53,7 +53,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     val ast        = tuple._1
     val references = tuple._2
     logger.debug("Got new AST:\n" + ast.toString, "ValidationManager", "newASTAvailable")
-    val uri = ast.id
+    val uri = ast.location().getOrElse(ast.id)
     telemetryProvider.addTimedMessage("Start report",
                                       "DiagnosticManager",
                                       "onNewAst",
