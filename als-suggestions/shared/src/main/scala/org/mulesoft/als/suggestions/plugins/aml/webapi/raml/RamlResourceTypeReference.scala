@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.model.domain.DomainElement
 import amf.core.model.domain.templates.ParametrizedDeclaration
-import amf.plugins.document.webapi.parser.spec.WebApiDeclarations
+import amf.core.annotations.ErrorDeclaration
 import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorResourceType
 import amf.plugins.domain.webapi.metamodel.templates.ResourceTypeModel
 import amf.plugins.domain.webapi.models.EndPoint
@@ -19,7 +19,7 @@ object RamlResourceTypeReference extends RamlAbstractDeclarationReference {
 
   override protected def isValue(yPartBranch: YPartBranch): Boolean = yPartBranch.isValue
 
-  override val elementClass: Class[_ <: DomainElement]                                = classOf[EndPoint]
-  override val abstractDeclarationClass: Class[_ <: ParametrizedDeclaration]          = classOf[ParametrizedResourceType]
-  override val errorDeclarationClass: Class[_ <: WebApiDeclarations.ErrorDeclaration] = classOf[ErrorResourceType]
+  override val elementClass: Class[_ <: DomainElement]                       = classOf[EndPoint]
+  override val abstractDeclarationClass: Class[_ <: ParametrizedDeclaration] = classOf[ParametrizedResourceType]
+  override val errorDeclarationClass: Class[_ <: ErrorDeclaration]           = classOf[ErrorResourceType]
 }
