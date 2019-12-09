@@ -1,13 +1,13 @@
 [
   {
-    "label": "schema",
+    "label": "cookie",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "cookie",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10cookie",
+    "filterText": "\"cookie\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,29 +15,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 6,
+          "character": 16
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 6,
+          "character": 18
         }
       },
-      "newText": "schema:\n        "
+      "newText": "\"cookie\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "example",
+    "label": "header",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "header",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10header",
+    "filterText": "\"header\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,29 +45,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 6,
+          "character": 16
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 6,
+          "character": 18
         }
       },
-      "newText": "example:\n        "
+      "newText": "\"header\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "examples",
+    "label": "path",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "path",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10path",
+    "filterText": "\"path\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,29 +75,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 6,
+          "character": 16
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 6,
+          "character": 18
         }
       },
-      "newText": "examples:\n        "
+      "newText": "\"path\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "encoding",
+    "label": "query",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "query",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10query",
+    "filterText": "\"query\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -105,15 +105,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 6,
+          "character": 16
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 6,
+          "character": 18
         }
       },
-      "newText": "encoding:\n        "
+      "newText": "\"query\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

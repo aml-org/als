@@ -1,35 +1,5 @@
 [
   {
-    "label": "$ref",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "0$ref",
-    "filterText": "\"$ref\"",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 6,
-          "character": 10
-        },
-        "end": {
-          "line": 6,
-          "character": 17
-        }
-      },
-      "newText": "\"$ref\""
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "allowEmptyValue",
     "kind": [],
     "detail": "unknown",
@@ -45,11 +15,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
+          "line": 7,
           "character": 10
         },
         "end": {
-          "line": 6,
+          "line": 7,
           "character": 17
         }
       },
@@ -75,11 +45,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
+          "line": 7,
           "character": 10
         },
         "end": {
-          "line": 6,
+          "line": 7,
           "character": 17
         }
       },
@@ -105,11 +75,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
+          "line": 7,
           "character": 10
         },
         "end": {
-          "line": 6,
+          "line": 7,
           "character": 17
         }
       },
@@ -135,11 +105,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
+          "line": 7,
           "character": 10
         },
         "end": {
-          "line": 6,
+          "line": 7,
           "character": 17
         }
       },
@@ -165,11 +135,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
+          "line": 7,
           "character": 10
         },
         "end": {
-          "line": 6,
+          "line": 7,
           "character": 17
         }
       },
@@ -195,11 +165,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
+          "line": 7,
           "character": 10
         },
         "end": {
-          "line": 6,
+          "line": 7,
           "character": 17
         }
       },
@@ -225,11 +195,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
+          "line": 7,
           "character": 10
         },
         "end": {
-          "line": 6,
+          "line": 7,
           "character": 17
         }
       },
@@ -255,45 +225,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
+          "line": 7,
           "character": 10
         },
         "end": {
-          "line": 6,
+          "line": 7,
           "character": 17
         }
       },
       "newText": "\"explode\": \"$1\""
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "in",
-    "kind": [],
-    "detail": "parameters",
-    "documentation": "in",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "10in",
-    "filterText": "\"in\": \"$1\"",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 6,
-          "character": 10
-        },
-        "end": {
-          "line": 6,
-          "character": 17
-        }
-      },
-      "newText": "\"in\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -315,11 +255,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
+          "line": 7,
           "character": 10
         },
         "end": {
-          "line": 6,
+          "line": 7,
           "character": 17
         }
       },
@@ -345,11 +285,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
+          "line": 7,
           "character": 10
         },
         "end": {
-          "line": 6,
+          "line": 7,
           "character": 17
         }
       },
@@ -375,11 +315,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
+          "line": 7,
           "character": 10
         },
         "end": {
-          "line": 6,
+          "line": 7,
           "character": 17
         }
       },
@@ -405,11 +345,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
+          "line": 7,
           "character": 10
         },
         "end": {
-          "line": 6,
+          "line": 7,
           "character": 17
         }
       },
