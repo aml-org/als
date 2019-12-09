@@ -31,6 +31,19 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
+  test("Workspace Manager search by location rather than uri (workspace)") {
+    withServer[Assertion] { server =>
+      for {
+        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws3")}")))
+        a <- MockDiagnosticClientNotifier.nextCall
+        b <- MockDiagnosticClientNotifier.nextCall
+      } yield {
+        val allDiagnostics = Seq(a, b)
+        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
+      }
+    }
+  }
+
   test("Workspace Manager check validation Stack - Error on external fragment with indirection") {
     withServer[Assertion] { server =>
       val rootFolder = s"${filePath("ws-error-stack-1")}"
