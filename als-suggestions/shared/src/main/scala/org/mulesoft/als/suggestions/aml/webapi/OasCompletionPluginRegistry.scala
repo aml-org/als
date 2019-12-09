@@ -3,8 +3,16 @@ package org.mulesoft.als.suggestions.aml.webapi
 import amf.dialects.{OAS20Dialect, OAS30Dialect}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas._
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.Oas20ParameterStructure
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30.Oas30ParameterStructure
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.{
+  Oas20ParameterStructure,
+  Oas20StructurePlugin,
+  Oas20TypeFacetsCompletionPlugin
+}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30.{
+  EncodingPropertyName,
+  Oas30ParameterStructure,
+  Oas30TypeFacetsCompletionPlugin
+}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   ObjectExamplePropertiesCompletionPlugin,
   SecuredByCompletionPlugin,
@@ -18,7 +26,6 @@ trait OasBaseCompletionRegistry {
     SecuredByCompletionPlugin :+
     ExampleMediaType :+
     OasStructurePlugin :+
-    OasTypeFacetsCompletionPlugin :+
     ParameterReferenceCompletionPlugin :+
     OASRefTag :+
     OperationTags :+
@@ -26,12 +33,11 @@ trait OasBaseCompletionRegistry {
     OasNumberShapeFormatValues :+
     QueryParamNamesFromPath :+
     WebApiKnownValueCompletionPlugin
-
 }
 
 object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
 
-  private val all = common :+ Oas20ParameterStructure
+  private val all = common :+ Oas20ParameterStructure :+ Oas20StructurePlugin :+ Oas20TypeFacetsCompletionPlugin
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, OAS20Dialect().id)
@@ -39,7 +45,7 @@ object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
 
 object Oas30CompletionPluginRegistry extends OasBaseCompletionRegistry {
 
-  private val all = common :+ Oas30ParameterStructure
+  private val all = common :+ Oas30ParameterStructure :+ EncodingPropertyName :+ Oas30TypeFacetsCompletionPlugin
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, OAS30Dialect().id)

@@ -1,0 +1,152 @@
+[
+  {
+    "label": "$ref",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0$ref",
+    "filterText": "$ref: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 20
+        },
+        "end": {
+          "line": 9,
+          "character": 20
+        }
+      },
+      "newText": "$ref: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11description",
+    "filterText": "description: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 20
+        },
+        "end": {
+          "line": 9,
+          "character": 20
+        }
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "externalValue",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "externalValue",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11externalValue",
+    "filterText": "externalValue: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 20
+        },
+        "end": {
+          "line": 9,
+          "character": 20
+        }
+      },
+      "newText": "externalValue: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "mediaType",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "mediaType",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11mediaType",
+    "filterText": "mediaType: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 20
+        },
+        "end": {
+          "line": 9,
+          "character": 20
+        }
+      },
+      "newText": "mediaType: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "value",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "value",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11value",
+    "filterText": "value: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 20
+        },
+        "end": {
+          "line": 9,
+          "character": 20
+        }
+      },
+      "newText": "value: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

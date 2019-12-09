@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.patched
 
-import amf.dialects.OAS20Dialect
+import amf.dialects.{OAS20Dialect, OAS30Dialect}
 import amf.plugins.domain.shapes.metamodel.ExampleModel
 import amf.plugins.domain.webapi.metamodel.{OperationModel, ParameterModel, PayloadModel, ResponseModel, WebApiModel}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.{
@@ -58,9 +58,12 @@ object PatchedSuggestionsForDialect {
     ) ++ webApiClasses
 
   private val classesByDialect: Map[String, Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]]] =
-    Map(Raml10TypesDialect.dialect.id -> ramlClasses,
-        Raml08TypesDialect.dialect.id -> ramlClasses,
-        OAS20Dialect.dialect.id       -> oas20Classes)
+    Map(
+      Raml10TypesDialect.dialect.id -> ramlClasses,
+      Raml08TypesDialect.dialect.id -> ramlClasses,
+      OAS20Dialect.dialect.id       -> oas20Classes,
+      OAS30Dialect.dialect.id       -> oas20Classes
+    )
 
   def getKnownValues(dialect: String, classTerm: String, propertyTerm: String): Seq[PatchedSuggestion] =
     getPatchedValues(dialect, classTerm, propertyTerm, Some("KnownValues"))

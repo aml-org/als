@@ -1,0 +1,62 @@
+[
+  {
+    "label": "age",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "age",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11age",
+    "filterText": "age: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 17,
+          "character": 18
+        },
+        "end": {
+          "line": 17,
+          "character": 18
+        }
+      },
+      "newText": "age: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "name",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11name",
+    "filterText": "name: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 17,
+          "character": 18
+        },
+        "end": {
+          "line": 17,
+          "character": 18
+        }
+      },
+      "newText": "name: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
