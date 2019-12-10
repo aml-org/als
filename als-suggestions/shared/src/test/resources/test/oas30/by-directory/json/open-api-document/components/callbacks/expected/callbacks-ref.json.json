@@ -15,12 +15,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 11,
-          "character": 16
+          "line": 16,
+          "character": 20
         },
         "end": {
-          "line": 11,
-          "character": 16
+          "line": 16,
+          "character": 22
         }
       },
       "newText": "\"#/components/callbacks/test\""
@@ -30,14 +30,14 @@
     "command": null
   },
   {
-    "label": "callbacks.yaml",
+    "label": "callbacks.json",
     "kind": [],
     "detail": "unknown",
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11callbacks.yaml",
-    "filterText": "callbacks.yaml",
+    "sortText": "11callbacks.json",
+    "filterText": "\"callbacks.json\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,15 +45,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 11,
-          "character": 16
+          "line": 16,
+          "character": 20
         },
         "end": {
-          "line": 11,
-          "character": 16
+          "line": 16,
+          "character": 22
         }
       },
-      "newText": "callbacks.yaml"
+      "newText": "\"callbacks.json\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11expected/",
-    "filterText": "expected/",
+    "filterText": "\"expected/\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,15 +75,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 11,
-          "character": 16
+          "line": 16,
+          "character": 20
         },
         "end": {
-          "line": 11,
-          "character": 16
+          "line": 16,
+          "character": 22
         }
       },
-      "newText": "expected/"
+      "newText": "\"expected/\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
