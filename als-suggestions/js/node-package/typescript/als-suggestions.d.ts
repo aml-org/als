@@ -1,3 +1,5 @@
+import {client, parse} from "@mulesoft/als-suggestions";
+
 declare module '@mulesoft/als-suggestions' {
 
   /* amf-client-js */
@@ -125,7 +127,19 @@ declare module '@mulesoft/als-suggestions' {
     constructor(env: client.environment.Environment)
   }
 
+  export class Oas30Parser extends parse.Parser {
+      constructor()
+      constructor(env: client.environment.Environment)
+  }
+
+  export class Oas30YamlParser extends parse.Parser {
+      constructor()
+      constructor(env: client.environment.Environment)
+  }
+
   export class Oas20Renderer extends render.Renderer {}
+
+  export class Oas30Renderer extends render.Renderer {}
 
   export class Oas20Resolver extends resolve.Resolver {}
 
