@@ -2,5 +2,5 @@ openapi: 3.0.0
 components:
   callbacks:
     test:
-    $request.body#/url:
-            *
+      $request.body#/url:
+        *
