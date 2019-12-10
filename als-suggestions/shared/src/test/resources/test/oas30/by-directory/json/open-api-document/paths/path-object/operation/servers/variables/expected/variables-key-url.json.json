@@ -1,89 +1,89 @@
 [
   {
-    "label": "default",
+    "label": "basePath",
     "kind": [],
     "detail": "parameters",
-    "documentation": "default",
+    "documentation": "basePath",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11default",
-    "filterText": "default: ",
+    "sortText": "11basePath",
+    "filterText": "\"basePath\": {\n                \"$1\"\n              }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
+          "line": 9,
           "character": 14
         },
         "end": {
-          "line": 7,
-          "character": 14
+          "line": 9,
+          "character": 21
         }
       },
-      "newText": "default: "
+      "newText": "\"basePath\": {\n                \"$1\"\n              }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "description",
+    "label": "port",
     "kind": [],
-    "detail": "docs",
-    "documentation": "description",
+    "detail": "parameters",
+    "documentation": "port",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11description",
-    "filterText": "description: ",
+    "sortText": "11port",
+    "filterText": "\"port\": {\n                \"$1\"\n              }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
+          "line": 9,
           "character": 14
         },
         "end": {
-          "line": 7,
-          "character": 14
+          "line": 9,
+          "character": 21
         }
       },
-      "newText": "description: "
+      "newText": "\"port\": {\n                \"$1\"\n              }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "enum",
+    "label": "username",
     "kind": [],
     "detail": "parameters",
-    "documentation": "enum",
+    "documentation": "username",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11enum",
-    "filterText": "enum:\n                - ",
+    "sortText": "11username",
+    "filterText": "\"username\": {\n                \"$1\"\n              }",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
+          "line": 9,
           "character": 14
         },
         "end": {
-          "line": 7,
-          "character": 14
+          "line": 9,
+          "character": 21
         }
       },
-      "newText": "enum:\n                - "
+      "newText": "\"username\": {\n                \"$1\"\n              }"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

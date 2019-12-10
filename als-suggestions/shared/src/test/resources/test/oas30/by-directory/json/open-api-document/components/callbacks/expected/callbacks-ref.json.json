@@ -1,73 +1,13 @@
 [
   {
-    "label": "description",
-    "kind": [],
-    "detail": "docs",
-    "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11description",
-    "filterText": "description: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 10
-        },
-        "end": {
-          "line": 5,
-          "character": 10
-        }
-      },
-      "newText": "description: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "url",
-    "kind": [],
-    "detail": "docs",
-    "documentation": "url",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "10url",
-    "filterText": "url: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 10
-        },
-        "end": {
-          "line": 5,
-          "character": 10
-        }
-      },
-      "newText": "url: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "variables",
+    "label": "#/components/callbacks/test",
     "kind": [],
     "detail": "unknown",
-    "documentation": "variables",
+    "documentation": "Reference to #/components/callbacks/test",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11variables",
-    "filterText": "variables:\n          ",
+    "sortText": "11#/components/callbacks/test",
+    "filterText": "\"#/components/callbacks/test\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,15 +15,75 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 10
+          "line": 16,
+          "character": 20
         },
         "end": {
-          "line": 5,
-          "character": 10
+          "line": 16,
+          "character": 22
         }
       },
-      "newText": "variables:\n          "
+      "newText": "\"#/components/callbacks/test\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "callbacks.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11callbacks.json",
+    "filterText": "\"callbacks.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 16,
+          "character": 20
+        },
+        "end": {
+          "line": 16,
+          "character": 22
+        }
+      },
+      "newText": "\"callbacks.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "expected/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11expected/",
+    "filterText": "\"expected/\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 16,
+          "character": 20
+        },
+        "end": {
+          "line": 16,
+          "character": 22
+        }
+      },
+      "newText": "\"expected/\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -1,13 +1,13 @@
 [
   {
-    "label": "enum",
+    "label": "#/components/callbacks/test",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "Reference to #/components/callbacks/test",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11#/components/callbacks/test",
+    "filterText": "\"#/components/callbacks/test\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,29 +15,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 11,
+          "character": 16
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 11,
+          "character": 16
         }
       },
-      "newText": "enum:\n          - "
+      "newText": "\"#/components/callbacks/test\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "default",
+    "label": "callbacks.yaml",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11callbacks.yaml",
+    "filterText": "callbacks.yaml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,29 +45,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 11,
+          "character": 16
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 11,
+          "character": 16
         }
       },
-      "newText": "default: "
+      "newText": "callbacks.yaml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "description",
+    "label": "expected/",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11expected/",
+    "filterText": "expected/",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,15 +75,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 11,
+          "character": 16
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 11,
+          "character": 16
         }
       },
-      "newText": "description:"
+      "newText": "expected/"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

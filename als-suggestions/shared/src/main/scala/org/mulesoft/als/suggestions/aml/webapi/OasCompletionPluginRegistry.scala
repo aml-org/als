@@ -8,11 +8,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.{
   Oas20StructurePlugin,
   Oas20TypeFacetsCompletionPlugin
 }
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30.{
-  EncodingPropertyName,
-  Oas30ParameterStructure,
-  Oas30TypeFacetsCompletionPlugin
-}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   ObjectExamplePropertiesCompletionPlugin,
   SecuredByCompletionPlugin,
@@ -45,7 +41,7 @@ object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
 
 object Oas30CompletionPluginRegistry extends OasBaseCompletionRegistry {
 
-  private val all = common :+ Oas30ParameterStructure :+ EncodingPropertyName :+ Oas30TypeFacetsCompletionPlugin
+  private val all = common :+ Oas30ParameterStructure :+ EncodingPropertyName :+ Oas30TypeFacetsCompletionPlugin :+ OasUrlTemplateParam :+ OAS30RefTag
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, OAS30Dialect().id)

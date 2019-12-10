@@ -1,44 +1,24 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.annotations.SynthesizedField
-import amf.plugins.domain.webapi.metamodel.ParameterModel
-import amf.plugins.domain.webapi.models.{EndPoint, Parameter, WebApi}
+import amf.plugins.domain.webapi.models.WebApi
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.UrlTemplateParam
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object BaseUriParameterCompletionPlugin extends AMLCompletionPlugin {
-
-  override def id: String = "BaseUriParameterCompletionPlugin"
+object BaseUriParameterCompletionPlugin extends UrlTemplateParam {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    Future.successful {
-      val params = request.amfObject match {
-        case webApi: WebApi if request.yPartBranch.isKeyDescendanceOf("baseUriParameters") =>
-          webApi.servers.flatMap(s => {
-            val url = s.url.option().getOrElse("")
-            s.variables
-              .flatMap(_.name.option())
-              .filter(n => url.contains(s"{$n}"))
-          })
-        case p: Parameter
-            if p.binding.option().contains("path") && request.fieldEntry.exists(_.field == ParameterModel.Name) =>
-          request.branchStack.headOption match {
-            case Some(e: EndPoint) => endpointParams(e)
-            case _                 => Nil
-          }
-        case _ => Nil
-      }
-      params.map(p => RawSuggestion.forObject(p, "parameters"))
+    request.amfObject match {
+      case webApi: WebApi if request.yPartBranch.isKeyDescendanceOf("baseUriParameters") =>
+        resolveWebApi(webApi)
+      case _ => super.resolve(request)
     }
   }
 
-  private def endpointParams(e: EndPoint): Seq[String] = {
-    e.parameters
-      .filter(p => p.binding.option().contains("path") && p.annotations.contains(classOf[SynthesizedField]))
-      .flatMap(_.name.option())
-      .filter(n => e.path.option().getOrElse("").contains(s"{$n}"))
+  private def resolveWebApi(webApi: WebApi) = Future {
+    webApi.servers.flatMap(serverParams).map(toRaw)
   }
 }
