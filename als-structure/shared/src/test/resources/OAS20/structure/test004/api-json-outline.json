@@ -52,7 +52,7 @@
     "children": []
   },
   {
-    "name": "\"githubAccessCode\"",
+    "name": "githubAccessCode",
     "kind": 7,
     "deprecated": false,
     "range": {
@@ -78,7 +78,7 @@
     "children": []
   },
   {
-    "name": "\"internalApiKey\"",
+    "name": "internalApiKey",
     "kind": 7,
     "deprecated": false,
     "range": {
@@ -181,7 +181,7 @@
         },
         "children": [
           {
-            "name": "\"user\"",
+            "name": "user",
             "kind": 7,
             "deprecated": false,
             "range": {
@@ -207,7 +207,7 @@
             "children": []
           },
           {
-            "name": "\"user:email\"",
+            "name": "user:email",
             "kind": 7,
             "deprecated": false,
             "range": {
