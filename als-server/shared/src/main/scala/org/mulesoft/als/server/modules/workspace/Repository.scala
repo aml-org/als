@@ -21,7 +21,19 @@ case class DiagnosticsBundle(isExternal: Boolean, references: Set[ReferenceStack
   def and(stack: ReferenceStack): DiagnosticsBundle = DiagnosticsBundle(isExternal, references + stack)
 }
 
-class Repository(cachables: Set[String], logger: Logger) {
+class Repository(logger: Logger) {
+  var cachables: Set[String] = Set.empty
+
+  /**
+    * replaces cachable list and removes cached units which are not on the new list
+    * @param newCachables
+    */
+  def setCachables(newCachables: Set[String]) = {
+    // { innerCachables -- newCachables }.foreach(cache.remove)
+    cache.clear()
+    cachables = newCachables
+  }
+
   private val cache: mutable.Map[String, ParsedUnit] = mutable.Map.empty
 
   private val units: mutable.Map[String, ParsedUnit] = mutable.Map.empty
