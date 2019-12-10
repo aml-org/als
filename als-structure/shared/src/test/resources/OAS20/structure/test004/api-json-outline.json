@@ -52,30 +52,83 @@
     "children": []
   },
   {
+    "name": "githubAccessCode",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 24,
+        "character": 6
+      },
+      "end": {
+        "line": 27,
+        "character": 7
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 24,
+        "character": 6
+      },
+      "end": {
+        "line": 24,
+        "character": 24
+      }
+    },
+    "children": []
+  },
+  {
     "name": "internalApiKey",
     "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
-        "line": 16,
-        "character": 4
+        "line": 30,
+        "character": 6
       },
       "end": {
-        "line": 20,
-        "character": 5
+        "line": 32,
+        "character": 7
       }
     },
     "selectionRange": {
       "start": {
-        "line": 16,
-        "character": 4
+        "line": 30,
+        "character": 6
       },
       "end": {
-        "line": 16,
-        "character": 20
+        "line": 30,
+        "character": 22
       }
     },
-    "children": []
+    "children": [
+      {
+        "name": "internalApiKey",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 16,
+            "character": 4
+          },
+          "end": {
+            "line": 20,
+            "character": 5
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 16,
+            "character": 4
+          },
+          "end": {
+            "line": 16,
+            "character": 20
+          }
+        },
+        "children": []
+      }
+    ]
   },
   {
     "name": "securityDefinitions",
@@ -128,7 +181,7 @@
         },
         "children": [
           {
-            "name": "\"user\"",
+            "name": "user",
             "kind": 7,
             "deprecated": false,
             "range": {
@@ -154,7 +207,7 @@
             "children": []
           },
           {
-            "name": "\"user:email\"",
+            "name": "user:email",
             "kind": 7,
             "deprecated": false,
             "range": {

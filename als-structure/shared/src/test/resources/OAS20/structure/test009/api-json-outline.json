@@ -77,7 +77,7 @@
     },
     "children": [
       {
-        "name": "\"post\"",
+        "name": "post",
         "kind": 6,
         "deprecated": false,
         "range": {

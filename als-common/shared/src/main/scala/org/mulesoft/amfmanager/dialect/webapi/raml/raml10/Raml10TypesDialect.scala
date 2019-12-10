@@ -8,7 +8,12 @@ import amf.dialects.RAML10Dialect
 import amf.dialects.RAML10Dialect.DialectNodes
 import amf.dialects.RAML10Dialect.DialectNodes.ExampleNode
 import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping, PublicNodeMapping}
+import amf.plugins.document.vocabularies.model.domain.{
+  DocumentMapping,
+  NodeMapping,
+  PropertyMapping,
+  PublicNodeMapping
+}
 import amf.plugins.domain.shapes.metamodel._
 
 object Raml10TypesDialect {
@@ -326,6 +331,7 @@ object Raml10TypesDialect {
           Raml10SecuritySchemesDialect.SecurityScheme,
           Raml10SecuritySchemesDialect.OAuth1Settings,
           Raml10SecuritySchemesDialect.OAuth2Settings,
+          Raml10SecuritySchemesDialect.OAuth2Flows,
           AnnotationType
         ))
 

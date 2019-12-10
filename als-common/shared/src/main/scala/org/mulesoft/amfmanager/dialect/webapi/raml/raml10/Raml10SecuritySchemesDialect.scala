@@ -7,7 +7,7 @@ import amf.core.vocabulary.Namespace.XsdTypes.xsdString
 import amf.dialects.RAML10Dialect.DialectNodes
 import amf.dialects.RAML10Dialect.DialectNodes.DataTypeNodeId
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
-import amf.plugins.domain.webapi.metamodel.security.{OAuth1SettingsModel, OAuth2SettingsModel, SecuritySchemeModel}
+import amf.plugins.domain.webapi.metamodel.security.{OAuth1SettingsModel, OAuth2FlowModel, OAuth2SettingsModel, SecuritySchemeModel}
 import amf.plugins.domain.webapi.metamodel.{OperationModel, ParameterModel, RequestModel, ResponseModel}
 import Raml10TypesDialect.{DialectLocation, ShapeNodeId}
 
@@ -117,33 +117,40 @@ object Raml10SecuritySchemesDialect {
     .withPropertiesMapping(Seq(
       PropertyMapping()
         .withId(
-          DialectLocation + "#/declarations/OAuth2Settings/authorizationUri")
-        .withName("authorizationUri")
-        .withNodePropertyMapping(
-          OAuth2SettingsModel.AuthorizationUri.value.iri())
-        .withLiteralRange(xsdString.iri()),
-      PropertyMapping()
-        .withId(
-          DialectLocation + "#/declarations/OAuth2Settings/accessTokenUri")
-        .withName("accessTokenUri")
-        .withNodePropertyMapping(OAuth2SettingsModel.AccessTokenUri.value.iri())
-        .withLiteralRange(xsdString.iri()),
-      PropertyMapping()
-        .withId(
           DialectLocation + "#/declarations/OAuth2Settings/authorizationGrants")
         .withName("authorizationGrants")
         .withNodePropertyMapping(
           OAuth2SettingsModel.AuthorizationGrants.value.iri())
         .withEnum(Seq("authorization_code",
-                      "password",
-                      "client_credentials",
-                      "implicit"))
+          "password",
+          "client_credentials",
+          "implicit"))
         .withAllowMultiple(true)
+        .withLiteralRange(xsdString.iri()),
+    ))
+
+  val OAuth2Flows: NodeMapping = NodeMapping()
+    .withId(DialectLocation + "#/declarations/OAuth2Settings")
+    .withName("OAuth2Settings")
+    .withNodeTypeMapping(OAuth2FlowModel.`type`.head.iri())
+    .withPropertiesMapping(Seq(
+      PropertyMapping()
+        .withId(
+          DialectLocation + "#/declarations/OAuth2Settings/authorizationUri")
+        .withName("authorizationUri")
+        .withNodePropertyMapping(
+          OAuth2FlowModel.AuthorizationUri.value.iri())
+        .withLiteralRange(xsdString.iri()),
+      PropertyMapping()
+        .withId(
+          DialectLocation + "#/declarations/OAuth2Settings/accessTokenUri")
+        .withName("accessTokenUri")
+        .withNodePropertyMapping(OAuth2FlowModel.AccessTokenUri.value.iri())
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
         .withId(DialectLocation + "#/declarations/OAuth2Settings/scopes")
         .withName("scopes")
-        .withNodePropertyMapping(OAuth2SettingsModel.Scopes.value.iri())
+        .withNodePropertyMapping(OAuth2FlowModel.Scopes.value.iri())
         .withAllowMultiple(true)
         .withLiteralRange(xsdString.iri())
     ))
