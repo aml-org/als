@@ -1,27 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.categories
 
-import amf.plugins.domain.shapes.metamodel.{
-  AnyShapeModel,
-  CreativeWorkModel,
-  ExampleModel,
-  XMLSerializerModel
-}
-import amf.plugins.domain.webapi.metamodel.{
-  EndPointModel,
-  LicenseModel,
-  OperationModel,
-  OrganizationModel,
-  ParameterModel,
-  PayloadModel,
-  ResponseModel,
-  TagModel,
-  WebApiModel
-}
-import amf.plugins.domain.webapi.metamodel.security.{
-  ApiKeySettingsModel,
-  OAuth2SettingsModel,
-  SecuritySchemeModel
-}
+import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, CreativeWorkModel, ExampleModel, XMLSerializerModel}
+import amf.plugins.domain.webapi.metamodel.{EndPointModel, LicenseModel, OperationModel, OrganizationModel, ParameterModel, PayloadModel, ResponseModel, TagModel, WebApiModel}
+import amf.plugins.domain.webapi.metamodel.security.{ApiKeySettingsModel, OAuth2FlowModel, OAuth2SettingsModel, SecuritySchemeModel}
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
 
 case class CategoryIndex(classTerm: String, property: String)
@@ -134,10 +115,10 @@ object CategoryRegistry {
     (None, "securitySchemes"),
     (None, "describedBy"),
     (Some(WebApiModel.`type`.head.iri()), "security"),
-    (Some(OAuth2SettingsModel.`type`.head.iri()), "flow"),
-    (Some(OAuth2SettingsModel.`type`.head.iri()), "tokenUrl"),
-    (Some(OAuth2SettingsModel.`type`.head.iri()), "scopes"),
-    (Some(OAuth2SettingsModel.`type`.head.iri()), "authorizationUrl"),
+    (None, "flow"),
+    (None, "tokenUrl"),
+    (None, "scopes"),
+    (None, "authorizationUrl"),
     (Some(SecuritySchemeModel.`type`.head.iri()), "type"),
     (Some(ApiKeySettingsModel.`type`.head.iri()), "in"),
     (Some(ApiKeySettingsModel.`type`.head.iri()), "name"),
