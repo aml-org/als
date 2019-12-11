@@ -12,7 +12,7 @@ import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
-import org.mulesoft.als.server.modules.workspace.{DiagnosticsBundle}
+import org.mulesoft.als.server.modules.workspace.DiagnosticsBundle
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.common.Location
 import org.mulesoft.lsp.convert.LspRangeConverter
@@ -23,6 +23,7 @@ import org.mulesoft.lsp.feature.diagnostic.{
 }
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
+import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -212,8 +213,18 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     clientNotifier.notifyDiagnostic(AlsPublishDiagnosticsParams(uri, Nil))
 
   // todo: include old tree references
-  private def extractAllReferences(baseUnit: BaseUnit): Set[String] =
-    baseUnit.location().toSet ++ baseUnit.references.flatMap(extractAllReferences)
+  private def extractAllReferences(baseUnit: BaseUnit): Set[String] = {
+    val set: mutable.Set[String] = mutable.Set.empty
+
+    def innerRefs(refs: Seq[BaseUnit]): Unit = {
+      refs.foreach { bu =>
+        if (set.add(bu.location().getOrElse(bu.id))) innerRefs(bu.references)
+      }
+    }
+
+    innerRefs(baseUnit.references)
+    set.toSet + baseUnit.location().getOrElse(baseUnit.id)
+  }
 
   private def buildIssue(r: AMFValidationResult, stack: Seq[DiagnosticRelatedInformation]): ValidationIssue = {
     ValidationIssue("PROPERTY_UNUSED",

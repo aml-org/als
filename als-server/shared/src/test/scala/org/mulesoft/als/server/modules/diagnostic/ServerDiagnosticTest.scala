@@ -1,9 +1,8 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
-import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 
 import scala.concurrent.ExecutionContext
 
@@ -15,8 +14,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = true)
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = true)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
       .addInitializableModule(factory.diagnosticManager)
       .build()
   }

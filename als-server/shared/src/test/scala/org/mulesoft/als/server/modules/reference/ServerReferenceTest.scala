@@ -7,7 +7,7 @@ import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.reference.{ReferenceContext, ReferenceParams, ReferenceRequestType}
-import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 import org.scalatest.Assertion
 
 import scala.concurrent.ExecutionContext
@@ -18,9 +18,9 @@ class ServerReferenceTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = false)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = false)
 
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
       .addRequestModule(factory.referenceManager)
       .build()
   }

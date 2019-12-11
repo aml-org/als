@@ -4,14 +4,17 @@ import amf.client.remote.Content
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
+import org.mulesoft.lsp.server.LanguageServerSystemConf
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class TextDocumentContainer(platform: Platform,
+case class TextDocumentContainer(configuration: LanguageServerSystemConf,
                                  private val uriToEditor: mutable.Map[String, TextDocument] = mutable.Map())
     extends EnvironmentProvider {
+
+  override val platform: Platform = configuration.platform
 
   def patchUri(uri: String, patchedContent: TextDocument): TextDocumentContainer = {
     val copiedMap = uriToEditor.clone()
@@ -56,7 +59,7 @@ case class TextDocumentContainer(platform: Platform,
     })
 
   override def environmentSnapshot(): Environment =
-    Environment()
+    configuration.environment
       .add(new ResourceLoader {
         private val current: Map[String, String] = uriToEditor.map(t => t._1 -> t._2.text).toMap
 
