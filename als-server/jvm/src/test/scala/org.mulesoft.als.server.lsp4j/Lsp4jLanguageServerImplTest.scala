@@ -19,7 +19,7 @@ import org.mulesoft.als.server.workspace.command.{CommandExecutor, Commands, Did
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
-import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
 import org.mulesoft.lsp.workspace
 import org.mulesoft.lsp.workspace.{ExecuteCommandParams => SharedExecuteParams}
@@ -146,7 +146,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
       override def environmentSnapshot(): Environment = ???
 
       override val platform: Platform = p
-    }, new DummyTelemetryProvider(), Nil, EmptyLogger, platform) {
+    }, new DummyTelemetryProvider(), Nil, EmptyLogger, DefaultServerSystemConf) {
 
       private val commandExecutors: Map[String, CommandExecutor[_]] = Map(
         Commands.DID_CHANGE_CONFIGURATION -> new TestDidChangeConfigurationCommandExecutor(this),
@@ -170,9 +170,9 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
   override def buildServer(): LanguageServer = {
 
-    val managers = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = false)
+    val managers = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = false)
 
-    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, platform)
+    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, DefaultServerSystemConf)
       .addInitializableModule(managers.diagnosticManager)
       .build()
   }
