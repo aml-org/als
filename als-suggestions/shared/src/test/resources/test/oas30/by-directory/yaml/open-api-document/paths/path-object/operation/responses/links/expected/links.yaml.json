@@ -1,0 +1,212 @@
+[
+  {
+    "label": "$ref",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0$ref",
+    "filterText": "$ref: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 14
+        }
+      },
+      "newText": "$ref: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11description",
+    "filterText": "description: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 14
+        }
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "operationId",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "operationId",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11operationId",
+    "filterText": "operationId: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 14
+        }
+      },
+      "newText": "operationId: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "operationRef",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "operationRef",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11operationRef",
+    "filterText": "operationRef: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 14
+        }
+      },
+      "newText": "operationRef: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "parameters",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "parameters",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11parameters",
+    "filterText": "parameters:\n                ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 14
+        }
+      },
+      "newText": "parameters:\n                "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "requestBody",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "requestBody",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11requestBody",
+    "filterText": "requestBody: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 14
+        }
+      },
+      "newText": "requestBody: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "server",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "server",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11server",
+    "filterText": "server:\n                ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 14
+        },
+        "end": {
+          "line": 8,
+          "character": 14
+        }
+      },
+      "newText": "server:\n                "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

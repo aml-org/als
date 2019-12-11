@@ -1,0 +1,122 @@
+[
+  {
+    "label": "body",
+    "kind": [],
+    "detail": "RuntimeExpression",
+    "documentation": "$response.body",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11body",
+    "filterText": "\"$response.body\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 19,
+          "character": 23
+        },
+        "end": {
+          "line": 19,
+          "character": 35
+        }
+      },
+      "newText": "\"$response.body\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "header.",
+    "kind": [],
+    "detail": "RuntimeExpression",
+    "documentation": "$response.header.",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11header.",
+    "filterText": "\"$response.header.\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 19,
+          "character": 23
+        },
+        "end": {
+          "line": 19,
+          "character": 35
+        }
+      },
+      "newText": "\"$response.header.\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "path.",
+    "kind": [],
+    "detail": "RuntimeExpression",
+    "documentation": "$response.path.",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11path.",
+    "filterText": "\"$response.path.\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 19,
+          "character": 23
+        },
+        "end": {
+          "line": 19,
+          "character": 35
+        }
+      },
+      "newText": "\"$response.path.\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "query.",
+    "kind": [],
+    "detail": "RuntimeExpression",
+    "documentation": "$response.query.",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11query.",
+    "filterText": "\"$response.query.\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 19,
+          "character": 23
+        },
+        "end": {
+          "line": 19,
+          "character": 35
+        }
+      },
+      "newText": "\"$response.query.\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

@@ -29,12 +29,7 @@ case class ManagersFactory(clientNotifier: ClientNotifier,
   lazy val documentManager = new TextDocumentManager(container, List(workspaceManager), logger)
 
   lazy val completionManager =
-    new SuggestionsManager(container,
-                           workspaceManager,
-                           telemetryManager,
-                           configuration.directoryResolver,
-                           configuration,
-                           logger)
+    new SuggestionsManager(container, workspaceManager, telemetryManager, configuration, logger)
 
   lazy val structureManager = new StructureManager(workspaceManager, telemetryManager, logger)
 
