@@ -3,7 +3,6 @@ package org.mulesoft.als.server.modules.workspace
 import java.util.UUID
 
 import amf.core.model.document.BaseUnit
-import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
@@ -12,6 +11,7 @@ import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.extract.{WorkspaceConf, WorkspaceConfigurationProvider}
 import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
+import org.mulesoft.lsp.server.LanguageServerSystemConf
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -21,7 +21,7 @@ class WorkspaceContentManager(val folder: String,
                               telemetryProvider: TelemetryProvider,
                               logger: Logger,
                               dependencies: List[BaseUnitListener],
-                              platform: Platform) {
+                              configuration: LanguageServerSystemConf) {
 
   private var state: WorkspaceState                 = Idle
   private var configMainFile: Option[WorkspaceConf] = None
