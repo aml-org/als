@@ -14,11 +14,8 @@ import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServerSystemCon
 
 case class ManagersFactory(clientNotifier: ClientNotifier,
                            logger: Logger,
-                           dr: Option[DirectoryResolver] = None,
                            configuration: LanguageServerSystemConf = DefaultServerSystemConf,
                            withDiagnostics: Boolean = true) {
-
-  private val directoryResolver          = dr.getOrElse(new PlatformDirectoryResolver(configuration.platform))
   val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
   // todo initialize amf
   //  val astManager                         = new AstManager(editorEnvironment.environment, telemetryManager, platform, logger)
@@ -32,7 +29,12 @@ case class ManagersFactory(clientNotifier: ClientNotifier,
   lazy val documentManager = new TextDocumentManager(container, List(workspaceManager), logger)
 
   lazy val completionManager =
-    new SuggestionsManager(container, workspaceManager, telemetryManager, directoryResolver, configuration, logger)
+    new SuggestionsManager(container,
+                           workspaceManager,
+                           telemetryManager,
+                           configuration.directoryResolver,
+                           configuration,
+                           logger)
 
   lazy val structureManager = new StructureManager(workspaceManager, telemetryManager, logger)
 
