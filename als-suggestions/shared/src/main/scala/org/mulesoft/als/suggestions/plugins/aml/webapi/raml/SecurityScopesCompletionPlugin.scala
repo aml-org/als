@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.model.domain.{AmfArray, AmfObject}
 import amf.core.parser.{FieldEntry, Value}
-import amf.plugins.domain.webapi.metamodel.security.OAuth2SettingsModel
+import amf.plugins.domain.webapi.metamodel.security.{OAuth2FlowModel, OAuth2SettingsModel}
 import amf.plugins.domain.webapi.models.security.{OAuth2Settings, ParametrizedSecurityScheme, Scope}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -18,7 +18,7 @@ object SecurityScopesCompletionPlugin extends AMLCompletionPlugin {
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future {
       request.fieldEntry match {
-        case Some(FieldEntry(OAuth2SettingsModel.Scopes, Value(array: AmfArray, _))) =>
+        case Some(FieldEntry(OAuth2FlowModel.Scopes, Value(array: AmfArray, _))) =>
           val scopes = array.values.collect({ case s: Scope => s.name.option() }).flatten
           getParametrizedScopes(request.branchStack)
             .filter(s => !scopes.contains(s))
@@ -26,18 +26,19 @@ object SecurityScopesCompletionPlugin extends AMLCompletionPlugin {
               t =>
                 RawSuggestion(t,
                               isAKey = false,
-                              category = CategoryRegistry(OAuth2SettingsModel.`type`.head.iri(),
-                                                          OAuth2SettingsModel.Scopes.value.iri())))
+                              category = CategoryRegistry(OAuth2FlowModel.`type`.head.iri(),
+                                                          OAuth2FlowModel.Scopes.value.iri()),
+                              mandatory = false))
         case _ => Nil
 
       }
     }
 
   private def getParametrizedScopes(branchStack: Seq[AmfObject]): Seq[String] = {
-    branchStack.headOption match {
+    branchStack.collectFirst({ case p: ParametrizedSecurityScheme => p }) match {
       case Some(p: ParametrizedSecurityScheme) =>
         p.scheme.settings match {
-          case s2: OAuth2Settings => s2.scopes.flatMap(_.name.option())
+          case s2: OAuth2Settings => s2.flows.head.scopes.flatMap(_.name.option())
           case _                  => Nil
         }
       case _ => Nil

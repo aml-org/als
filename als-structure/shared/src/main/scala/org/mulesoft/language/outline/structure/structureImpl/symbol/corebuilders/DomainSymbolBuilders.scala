@@ -75,7 +75,8 @@ class DomainElementSymbolBuilder(override val element: DomainElement, entryAst: 
     extends AmfObjSymbolBuilder[DomainElement] {
 
   val (name, selectionRange) =
-    (entryAst.key.value.toString, Some(PositionRange(AmfRange(entryAst.key.range))))
+    (entryAst.key.asScalar.map(_.text).getOrElse(entryAst.key.value.toString),
+     Some(PositionRange(AmfRange(entryAst.key.range))))
 }
 
 object DomainElementSymbolBuilder extends ElementSymbolBuilderCompanion {

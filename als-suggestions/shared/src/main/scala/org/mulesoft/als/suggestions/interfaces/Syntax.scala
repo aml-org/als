@@ -1,14 +1,18 @@
 package org.mulesoft.als.suggestions.interfaces
 
-sealed class Syntax private (label:String) {
-    override def toString:String = label
+sealed class Syntax private (label: String) {
+  override def toString: String = label
 }
 
 object Syntax {
 
-    private def apply(name:String):Syntax = new Syntax(name)
+  def apply(name: String): Syntax = {
+    if (name == YAML.toString) YAML
+    else if (name == JSON.toString) JSON
+    else new Syntax(name)
+  }
 
-    val YAML = Syntax("YAML")
+  val YAML = new Syntax("YAML")
 
-    val JSON = Syntax("JSON")
+  val JSON = new Syntax("JSON")
 }

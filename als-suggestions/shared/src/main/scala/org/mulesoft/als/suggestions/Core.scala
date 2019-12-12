@@ -1,13 +1,11 @@
 package org.mulesoft.als.suggestions
 
 import org.mulesoft.als.suggestions.aml.webapi.{
-  OasCompletionPluginRegistry,
+  Oas20CompletionPluginRegistry,
+  Oas30CompletionPluginRegistry,
   Raml08CompletionPluginRegistry,
   RamlCompletionPluginRegistry
 }
-import org.mulesoft.als.suggestions.interfaces.Syntax
-import org.mulesoft.als.suggestions.interfaces.Syntax._
-import org.mulesoft.als.suggestions.patcher.{JsonContentPatcher, PatchedContent, YamlContentPatcher}
 import org.mulesoft.amfmanager.{DialectInitializer, InitOptions}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -21,20 +19,11 @@ object Core {
       .map(_ => {
         // **************** AML *************************
         // initialize aml plugins option?
-
-        OasCompletionPluginRegistry.init()
+        Oas30CompletionPluginRegistry.init()
+        Oas20CompletionPluginRegistry.init()
         HeaderBaseCompletionPlugins.initAll() // TODO: inside OAS CPR?
         RamlCompletionPluginRegistry.init()
         Raml08CompletionPluginRegistry.init()
       })
   }
-
-  def prepareText(text: String, offset: Int, syntax: Syntax): PatchedContent =
-    if (text.trim.startsWith("{"))
-      JsonContentPatcher.prepareJsonContent(text, offset)
-    else
-      syntax match {
-        case YAML => YamlContentPatcher.prepareYamlContent(text, offset)
-        case _    => throw new Error(s"Syntax not supported: $syntax")
-      }
 }

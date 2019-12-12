@@ -6,7 +6,7 @@
     "documentation": "oauth2",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10oauth2",
+    "sortText": "11oauth2",
     "filterText": "oauth2:\n    ",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "obasic",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10obasic",
+    "sortText": "11obasic",
     "filterText": "obasic:\n    ",
     "insertText": null,
     "insertTextFormat": [

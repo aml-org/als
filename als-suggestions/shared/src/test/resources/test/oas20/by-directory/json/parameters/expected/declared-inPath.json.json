@@ -6,7 +6,7 @@
     "documentation": "allOf",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10allOf",
+    "sortText": "11allOf",
     "filterText": "\"allOf\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"allOf\": \"$1\""
@@ -36,7 +36,7 @@
     "documentation": "default",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10default",
+    "sortText": "11default",
     "filterText": "\"default\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"default\": \"$1\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"description\": \"$1\""
@@ -96,7 +96,7 @@
     "documentation": "enum",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10enum",
+    "sortText": "11enum",
     "filterText": "\"enum\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"enum\": \"$1\""
@@ -126,7 +126,7 @@
     "documentation": "example",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10example",
+    "sortText": "11example",
     "filterText": "\"example\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"example\": \"$1\""
@@ -156,7 +156,7 @@
     "documentation": "externalDocs",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10externalDocs",
+    "sortText": "11externalDocs",
     "filterText": "\"externalDocs\": {\n        \"$1\"\n      }",
     "insertText": null,
     "insertTextFormat": [
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"externalDocs\": {\n        \"$1\"\n      }"
@@ -186,7 +186,7 @@
     "documentation": "format",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10format",
+    "sortText": "11format",
     "filterText": "\"format\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"format\": \"$1\""
@@ -216,7 +216,7 @@
     "documentation": "maxLength",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10maxLength",
+    "sortText": "11maxLength",
     "filterText": "\"maxLength\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -230,7 +230,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"maxLength\": \"$1\""
@@ -246,7 +246,7 @@
     "documentation": "minLength",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10minLength",
+    "sortText": "11minLength",
     "filterText": "\"minLength\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -260,7 +260,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"minLength\": \"$1\""
@@ -276,7 +276,7 @@
     "documentation": "pattern",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10pattern",
+    "sortText": "11pattern",
     "filterText": "\"pattern\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -290,7 +290,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"pattern\": \"$1\""
@@ -306,7 +306,7 @@
     "documentation": "readOnly",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10readOnly",
+    "sortText": "11readOnly",
     "filterText": "\"readOnly\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -320,7 +320,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"readOnly\": \"$1\""
@@ -336,7 +336,7 @@
     "documentation": "required",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10required",
+    "sortText": "11required",
     "filterText": "\"required\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -350,7 +350,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"required\": \"$1\""
@@ -366,7 +366,7 @@
     "documentation": "title",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10title",
+    "sortText": "11title",
     "filterText": "\"title\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -380,7 +380,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"title\": \"$1\""
@@ -410,7 +410,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"type\": \"$1\""
@@ -426,7 +426,7 @@
     "documentation": "xml",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10xml",
+    "sortText": "11xml",
     "filterText": "\"xml\": {\n        \"$1\"\n      }",
     "insertText": null,
     "insertTextFormat": [
@@ -440,7 +440,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"xml\": {\n        \"$1\"\n      }"

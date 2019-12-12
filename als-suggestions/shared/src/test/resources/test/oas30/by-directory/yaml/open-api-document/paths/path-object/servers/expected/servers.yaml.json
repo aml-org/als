@@ -1,43 +1,13 @@
 [
   {
-    "label": "url",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "url: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "description",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11description",
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,12 +15,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 8
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 8
         }
       },
       "newText": "description: "
@@ -60,14 +30,14 @@
     "command": null
   },
   {
-    "label": "variables",
+    "label": "url",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "url",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10url",
+    "filterText": "url: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,15 +45,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 8
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 8
         }
       },
-      "newText": "variables:\n        - "
+      "newText": "url: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -92,28 +62,28 @@
   {
     "label": "variables",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "variables",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11variables",
+    "filterText": "variables:\n        ",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 8
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 8
         }
       },
-      "newText": "variables:\n        $1:\n          default: $2"
+      "newText": "variables:\n        "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

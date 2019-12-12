@@ -6,7 +6,7 @@
     "documentation": "email",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10email",
+    "sortText": "11email",
     "filterText": "\"email\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 4,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"email\": \"$1\""
@@ -36,7 +36,7 @@
     "documentation": "name",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10name",
+    "sortText": "11name",
     "filterText": "\"name\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 4,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"name\": \"$1\""
@@ -66,7 +66,7 @@
     "documentation": "url",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10url",
+    "sortText": "11url",
     "filterText": "\"url\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 4,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"url\": \"$1\""

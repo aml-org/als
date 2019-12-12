@@ -1,0 +1,2 @@
+type: object
+properties: !include external-2.yaml

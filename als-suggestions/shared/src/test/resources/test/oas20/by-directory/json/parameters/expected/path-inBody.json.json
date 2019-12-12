@@ -6,7 +6,7 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10description",
+    "sortText": "11description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 10,
-          "character": 18
+          "character": 17
         }
       },
       "newText": "\"description\": \"$1\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 10,
-          "character": 18
+          "character": 17
         }
       },
       "newText": "\"name\": \"$1\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 10,
-          "character": 18
+          "character": 17
         }
       },
       "newText": "\"required\": \"$1\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 10,
-          "character": 18
+          "character": 17
         }
       },
       "newText": "\"schema\": {\n            \"$1\"\n          }"

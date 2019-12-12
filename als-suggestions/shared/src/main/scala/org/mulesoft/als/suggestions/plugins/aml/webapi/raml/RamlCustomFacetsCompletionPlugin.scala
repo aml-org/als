@@ -26,8 +26,8 @@ object RamlCustomFacetsCompletionPlugin extends AMLCompletionPlugin {
         if (c.range.isInstanceOf[NodeShape])
           c.name
             .option()
-            .map(RawSuggestion.apply(_, isAKey = true, "unknown"))
-        else c.name.option().map(RawSuggestion.forKey)
+            .map(RawSuggestion.apply(_, isAKey = true, "unknown", mandatory = c.minCount.value() > 0))
+        else c.name.option().map(RawSuggestion.forKey(_, mandatory = false))
       })
 
       val inherited = s.linkTarget match {

@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.aml
 import amf.core.annotations.{LexicalInformation, SourceAST, SynthesizedField}
 import amf.core.model.document.{BaseUnit, Document}
 import amf.core.model.domain.{AmfArray, AmfObject, DomainElement}
-import amf.core.parser.FieldEntry
+import amf.core.parser.{FieldEntry, Position => AmfPosition}
 import amf.core.remote.Platform
 import amf.dialects.{RAML08Dialect, RAML10Dialect}
 import amf.internal.environment.Environment
@@ -11,12 +11,11 @@ import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common._
-import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition, PositionRange}
+import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
 import org.yaml.model.{YDocument, YNode, YType}
-import amf.core.parser.{Position => AmfPosition}
 
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: DtoPosition,
@@ -60,29 +59,11 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
       .lastOption
   }
 
-  private def parentTermKey(): Seq[PropertyMapping] =
-    objectInTree.stack.headOption
-      .flatMap(getDialectNode(_, None))
-      .collectFirst({ case n: NodeMapping => n })
-      .map(_.propertiesMapping())
-      .getOrElse(Nil)
-      .filter(p => p.mapTermKeyProperty().option().isDefined)
-
   val propertyMapping: List[PropertyMapping] = {
-    val parentMappings = parentTermKey()
 
-    val mappings = getDialectNode(objectInTree.obj, fieldEntry) match {
-      case Some(nm: NodeMapping) =>
-        val terms = parentMappings
-          .find(pr => pr.objectRange().exists(or => or.value() == nm.id))
-          .map(p => Seq(p.mapTermKeyProperty().option(), p.mapTermValueProperty().option()).flatten)
-          .getOrElse(Nil)
-
-        (if (terms.nonEmpty)
-           nm.propertiesMapping()
-             .filter(p => !p.nodePropertyMapping().option().exists(terms.contains))
-         else nm.propertiesMapping()).toList
-      case _ => Nil
+    val mappings: List[PropertyMapping] = DialectNodeFinder.find(objectInTree.obj, fieldEntry, actualDialect) match {
+      case Some(nm: NodeMapping) => PropertyMappingFilter(objectInTree, actualDialect, nm).filter().toList
+      case _                     => Nil
     }
 
     fieldEntry match {
@@ -103,24 +84,6 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
       case _ => mappings
     }
   }
-
-  private def getDialectNode(amfObject: AmfObject, fieldEntry: Option[FieldEntry]): Option[DomainElement] =
-    amfObject.meta.`type`.flatMap { v =>
-      actualDialect.declares.find {
-        case s: NodeMapping =>
-          s.nodetypeMapping.value() == v.iri() &&
-            fieldEntry.forall(f => {
-              s.propertiesMapping()
-                .find(
-                  pm =>
-                    pm.fields
-                      .fields()
-                      .exists(_.value.toString == f.field.value.iri()))
-                .exists(_.mapTermKeyProperty().isNullOrEmpty)
-            })
-        case _ => false
-      }
-    }.headOption
 
   lazy val declarationProvider: DeclarationProvider = {
     inheritedProvider.getOrElse(DeclarationProvider(baseUnit, Some(actualDialect)))
@@ -162,7 +125,7 @@ object AmlCompletionRequestBuilder {
         case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
       }
 
-      NodeBranchBuilder.build(ast.getOrElse(YDocument(IndexedSeq.empty, "")), position)
+      NodeBranchBuilder.build(ast.getOrElse(YDocument(IndexedSeq.empty, "")), position, YamlUtils.isJson(baseUnit))
     }
 
     val dtoPosition = DtoPosition(position)

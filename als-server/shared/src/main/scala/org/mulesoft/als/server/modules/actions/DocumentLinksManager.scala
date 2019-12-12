@@ -6,7 +6,7 @@ import amf.core.remote.Platform
 import org.mulesoft.als.actions.links.FindLinks
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.ast.AstManager
+import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.link._
@@ -15,7 +15,7 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DocumentLinksManager(val astManager: AstManager,
+class DocumentLinksManager(val workspaceManager: WorkspaceManager,
                            private val telemetryProvider: TelemetryProvider,
                            private val logger: Logger,
                            private val platform: Platform)
@@ -39,9 +39,12 @@ class DocumentLinksManager(val astManager: AstManager,
   val onDocumentLinks: String => Future[Seq[DocumentLink]] = documentLinks
 
   def documentLinks(str: String): Future[Seq[DocumentLink]] =
-    astManager
-      .getCurrentAST(str, UUID.randomUUID().toString)
-      .map(bu => FindLinks.getLinks(bu, platform))
+    workspaceManager
+      .getUnit(str, UUID.randomUUID().toString)
+      .flatMap(_.getLast)
+      .map(bu => {
+        FindLinks.getLinks(bu.unit, platform)
+      })
 
   override def initialize(): Future[Unit] = Future.successful()
 

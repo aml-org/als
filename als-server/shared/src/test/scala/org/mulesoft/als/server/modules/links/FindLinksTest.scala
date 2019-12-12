@@ -1,16 +1,10 @@
 package org.mulesoft.als.server.modules.links
 
-import amf.core.remote.Platform
-import amf.internal.environment.Environment
-import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.server.modules.actions.DocumentLinksManager
-import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.modules.telemetry.TelemetryManager
-import org.mulesoft.als.server.textsync.TextDocumentManager
+import org.mulesoft.als.server.modules.ManagersFactory
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.als.suggestions.patcher.PatchedContent
+import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkParams, DocumentLinkRequestType}
 import org.mulesoft.lsp.server.LanguageServer
@@ -24,21 +18,12 @@ trait FindLinksTest extends LanguageServerBaseTest {
 
   override def rootPath: String = "actions/links"
 
-  override def addModules(documentManager: TextDocumentManager,
-                          platform: Platform,
-                          directoryResolver: DirectoryResolver,
-                          baseEnvironment: Environment,
-                          builder: LanguageServerBuilder): LanguageServerBuilder = {
+  override def buildServer(): LanguageServer = {
 
-    val telemetryManager = new TelemetryManager(MockDiagnosticClientNotifier, logger)
-
-    val astManager = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
-
-    val documentLinksManager = new DocumentLinksManager(astManager, telemetryManager, logger, platform)
-
-    builder
-      .addInitializable(astManager)
-      .addRequestModule(documentLinksManager)
+    val managers = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = false)
+    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, platform)
+      .addRequestModule(managers.documentLinksManager)
+      .build()
   }
 
   def runTest(path: String, expectedDefinitions: Set[DocumentLink]): Future[Assertion] = withServer[Assertion] {
@@ -77,9 +62,8 @@ trait FindLinksTest extends LanguageServerBaseTest {
     if (offset < 0)
       new MarkerInfo(PatchedContent(str, str, Nil), Position(str.length, str))
     else {
-      val rawContent = str.substring(0, offset) + str.substring(offset + label.length)
-      val preparedContent =
-        org.mulesoft.als.suggestions.Core.prepareText(rawContent, offset, YAML)
+      val rawContent      = str.substring(0, offset) + str.substring(offset + label.length)
+      val preparedContent = ContentPatcher(rawContent, offset, YAML).prepareContent()
       new MarkerInfo(preparedContent, Position(offset, str))
     }
   }

@@ -6,7 +6,7 @@
         "callbacks": {
           "name": {
             "{$request.query.callbackUrl}/data": {
-              *
+              "*"
             }
           }
         }

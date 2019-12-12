@@ -10,7 +10,7 @@ import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.Core
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.als.suggestions.patcher.PatchedContent
+import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.amfmanager.{InitOptions, ParserHelper}
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{Assertion, AsyncFunSuite}
@@ -75,9 +75,8 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
       new MarkerInfo(PatchedContent(str1, str, Nil), str1.length)
     } else {
       val rawContent = str1.replace(label, "")
-
       val preparedContent =
-        Core.prepareText(rawContent, position, YAML)
+        ContentPatcher(rawContent, position, YAML).prepareContent()
       new MarkerInfo(preparedContent, position)
     }
   }

@@ -1,9 +1,7 @@
 package org.mulesoft.lsp.convert
 
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.lsp.common.{Location => LspLocation, Position => LspPosition, Range => LspRange}
-import org.mulesoft.lsp.edit.{WorkspaceEdit, TextEdit => LspTextEdit}
-import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbol => LspDocumentSymbol, SymbolKind => LspSymbolKind}
+import org.mulesoft.lsp.common.{Position => LspPosition, Range => LspRange}
 
 object LspRangeConverter {
 

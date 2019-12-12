@@ -6,7 +6,7 @@
     "documentation": "authorization_code",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10authorization_code",
+    "sortText": "11authorization_code",
     "filterText": "authorization_code",
     "insertText": null,
     "insertTextFormat": [
@@ -36,7 +36,7 @@
     "documentation": "client_credentials",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10client_credentials",
+    "sortText": "11client_credentials",
     "filterText": "client_credentials",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "implicit",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10implicit",
+    "sortText": "11implicit",
     "filterText": "implicit",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "password",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10password",
+    "sortText": "11password",
     "filterText": "password",
     "insertText": null,
     "insertTextFormat": [

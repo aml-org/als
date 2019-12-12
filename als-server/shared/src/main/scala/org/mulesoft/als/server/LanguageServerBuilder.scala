@@ -1,22 +1,20 @@
 package org.mulesoft.als.server
 
+import amf.core.remote.Platform
+import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync.TextDocumentSyncConsumer
+import org.mulesoft.lsp.workspace.WorkspaceService
 import org.mulesoft.lsp.{Initializable, InitializableModule}
 
 import scala.collection.mutable
 
-class LanguageServerBuilder {
+class LanguageServerBuilder(private val textDocumentSyncConsumer: TextDocumentSyncConsumer,
+                            private val workspaceManager: WorkspaceService,
+                            private val platform: Platform) {
   private val initializableModules = mutable.ListBuffer[InitializableModule[_, _]]()
   private val requestModules       = mutable.ListBuffer[RequestModule[_, _]]()
   private val initializables       = mutable.ListBuffer[Initializable]()
-
-  private var maybeTextSyncConsumer: Option[TextDocumentSyncConsumer] = None
-
-  def withTextDocumentSyncConsumer(consumer: TextDocumentSyncConsumer): this.type = {
-    maybeTextSyncConsumer = Some(consumer)
-    this
-  }
 
   def addInitializableModule[C, S](module: InitializableModule[C, S]): this.type = {
     initializableModules += module
@@ -34,7 +32,6 @@ class LanguageServerBuilder {
   }
 
   def build(): LanguageServer = {
-    val textDocumentSyncConsumer = this.maybeTextSyncConsumer.get
 
     val configMap = (requestModules ++ initializableModules :+ textDocumentSyncConsumer)
       .foldLeft(ConfigMap.empty)((result, value) => result.put(value.`type`, value))
@@ -46,11 +43,8 @@ class LanguageServerBuilder {
     val allInitializables = initializables ++ requestModules ++ initializableModules :+ textDocumentSyncConsumer
 
     new LanguageServerImpl(textDocumentSyncConsumer,
+                           workspaceManager,
                            new LanguageServerInitializer(configMap, allInitializables),
                            handlerMap)
   }
-}
-
-object LanguageServerBuilder {
-  def apply(): LanguageServerBuilder = new LanguageServerBuilder()
 }

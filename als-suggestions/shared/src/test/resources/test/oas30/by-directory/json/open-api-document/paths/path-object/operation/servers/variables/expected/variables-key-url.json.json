@@ -1,0 +1,92 @@
+[
+  {
+    "label": "basePath",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "basePath",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11basePath",
+    "filterText": "\"basePath\": {\n                \"$1\"\n              }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 14
+        },
+        "end": {
+          "line": 9,
+          "character": 21
+        }
+      },
+      "newText": "\"basePath\": {\n                \"$1\"\n              }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "port",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "port",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11port",
+    "filterText": "\"port\": {\n                \"$1\"\n              }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 14
+        },
+        "end": {
+          "line": 9,
+          "character": 21
+        }
+      },
+      "newText": "\"port\": {\n                \"$1\"\n              }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "username",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "username",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11username",
+    "filterText": "\"username\": {\n                \"$1\"\n              }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 14
+        },
+        "end": {
+          "line": 9,
+          "character": 21
+        }
+      },
+      "newText": "\"username\": {\n                \"$1\"\n              }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

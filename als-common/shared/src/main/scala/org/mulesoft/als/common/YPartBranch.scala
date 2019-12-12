@@ -10,20 +10,12 @@ import amf.core.parser._
 
 import scala.annotation.tailrec
 
-case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart]) {
+case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], isJson: Boolean) {
 
   lazy val isMultiline: Boolean = node match {
     case n: YNode if n.asScalar.isDefined => n.asScalar.exists(_.mark == MultilineMark)
     case _                                => false
   }
-
-  val isJson: Boolean = stack.lastOption
-    .orElse(Some(node))
-    .collect({ case m: YMap => m })
-    .flatMap(_.children.find(_.isInstanceOf[YNonContent]))
-    .collectFirst({ case yt: YTokens => yt })
-    .flatMap(_.tokens.headOption)
-    .exists(_.text == "{")
 
   val isEmptyNode: Boolean = node match {
     case n: YNode => n.tagType == YType.Null
@@ -153,14 +145,14 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart]) {
 
 object NodeBranchBuilder {
 
-  def build(ast: YPart, position: AmfPosition): YPartBranch = {
+  def build(ast: YPart, position: AmfPosition, isJson: Boolean): YPartBranch = {
     val actual :: stack = getStack(ast, position, Seq())
-    YPartBranch(actual, position, stack)
+    YPartBranch(actual, position, stack, isJson)
   }
 
-  def build(bu: BaseUnit, position: AmfPosition): YPartBranch = {
+  def build(bu: BaseUnit, position: AmfPosition, isJson: Boolean): YPartBranch = {
     val ast: Option[YPart] = astFromBaseUnit(bu)
-    build(ast.getOrElse(YDocument(IndexedSeq.empty, bu.location().getOrElse(""))), position)
+    build(ast.getOrElse(YDocument(IndexedSeq.empty, bu.location().getOrElse(""))), position, isJson)
   }
 
   def astFromBaseUnit(bu: BaseUnit): Option[YPart] = {

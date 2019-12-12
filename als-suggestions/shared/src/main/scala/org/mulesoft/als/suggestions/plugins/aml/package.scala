@@ -12,9 +12,9 @@ package object aml {
         if (p.allowMultiple().value() && p.mapTermKeyProperty().option().isEmpty)
           RawSuggestion.keyOfArray(p.name().value(), category)
         else
-          RawSuggestion.forObject(p.name().value(), category = category)
+          RawSuggestion.forObject(p.name().value(), category = category, p.minCount().value() > 0)
       else
-        RawSuggestion.forKey(p.name().value(), category = category)
+        RawSuggestion.forKey(p.name().value(), category = category, p.minCount().value() > 0)
     }
   }
 
@@ -22,8 +22,7 @@ package object aml {
 
     def propertiesRaw(category: Option[String] = None): Seq[RawSuggestion] =
       nodeMapping.propertiesMapping().map { p =>
-        val c = category.getOrElse(
-          CategoryRegistry(nodeMapping.meta.`type`.headOption.map(_.iri()).getOrElse(""), p.name().value()))
+        val c = category.getOrElse(CategoryRegistry(nodeMapping.nodetypeMapping.value(), p.name().value()))
         p.toRaw(c)
       }
   }

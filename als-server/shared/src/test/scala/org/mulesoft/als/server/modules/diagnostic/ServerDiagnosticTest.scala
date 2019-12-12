@@ -1,12 +1,9 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.core.remote.Platform
-import amf.internal.environment.Environment
-import org.mulesoft.als.common.DirectoryResolver
-import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.modules.telemetry.TelemetryManager
-import org.mulesoft.als.server.textsync.TextDocumentManager
+import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
+import org.mulesoft.lsp.server.LanguageServer
 
 import scala.concurrent.ExecutionContext
 
@@ -16,25 +13,12 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
   override def rootPath: String = ""
 
-  override def addModules(documentManager: TextDocumentManager,
-                          platform: Platform,
-                          directoryResolver: DirectoryResolver,
-                          baseEnvironment: Environment,
-                          builder: LanguageServerBuilder): LanguageServerBuilder = {
+  override def buildServer(): LanguageServer = {
 
-    val telemetryManager = new TelemetryManager(MockDiagnosticClientNotifier, logger)
-    val astManager       = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
-    val diagnosticManager =
-      new DiagnosticManager(documentManager,
-                            astManager,
-                            telemetryManager,
-                            MockDiagnosticClientNotifier,
-                            platform,
-                            logger)
-
-    builder
-      .addInitializable(astManager)
-      .addInitializableModule(diagnosticManager)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = true)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
+      .addInitializableModule(factory.diagnosticManager)
+      .build()
   }
 
   test("diagnostics test 001 - onFocus") {
@@ -73,22 +57,27 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
         open lib -> open main -> focus lib -> fix lib -> focus main
        */
       for {
-        a  <- openFileNotification(server)(libFilePath, libFileContent)
-        b  <- openFileNotification(server)(mainFilePath, mainContent)
-        b2 <- MockDiagnosticClientNotifier.nextCall
-        c  <- focusNotification(server)(libFilePath, 0)
-        d  <- changeNotification(server)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
-        e  <- focusNotification(server)(mainFilePath, 0)
-        e2 <- MockDiagnosticClientNotifier.nextCall
+        _       <- openFileNotification(server)(libFilePath, libFileContent)
+        oLib1   <- MockDiagnosticClientNotifier.nextCall
+        _       <- openFileNotification(server)(mainFilePath, mainContent)
+        oMain11 <- MockDiagnosticClientNotifier.nextCall
+        oMain12 <- MockDiagnosticClientNotifier.nextCall
+        _       <- focusNotification(server)(libFilePath, 0)
+        oLib2   <- MockDiagnosticClientNotifier.nextCall
+        _       <- changeNotification(server)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
+        oLib3   <- MockDiagnosticClientNotifier.nextCall
+        _       <- focusNotification(server)(mainFilePath, 0)
+        oMain21 <- MockDiagnosticClientNotifier.nextCall
+        oMain22 <- MockDiagnosticClientNotifier.nextCall
       } yield {
         server.shutdown()
-        assert(a.diagnostics.isEmpty && a.uri == libFilePath)
-        assert(b.diagnostics.length == 1 && b.uri == mainFilePath)
-        assert(b2.diagnostics.isEmpty && b2.uri == libFilePath)
-        assert(c.diagnostics.isEmpty && c.uri == libFilePath)
-        assert(d.diagnostics.isEmpty && d.uri == libFilePath)
-        assert(e2.diagnostics.isEmpty && e2.uri == libFilePath)
-        assert(e.diagnostics.isEmpty && e.uri == mainFilePath)
+        assert(oLib1.diagnostics.isEmpty && oLib1.uri == libFilePath)
+        assert(oMain11.diagnostics.length == 1 && oMain11.uri == mainFilePath)
+        assert(oLib1 == oMain12)
+        assert(oLib2 == oLib1)
+        assert(oLib3 == oLib2)
+        assert(oMain22 == oLib1)
+        assert(oMain21.diagnostics.isEmpty && oMain21.uri == mainFilePath)
         assert(MockDiagnosticClientNotifier.promises.isEmpty)
       }
     }

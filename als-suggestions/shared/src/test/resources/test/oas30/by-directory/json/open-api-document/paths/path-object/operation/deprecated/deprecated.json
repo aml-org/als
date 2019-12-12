@@ -3,7 +3,7 @@
   "paths": {
     "/": {
       "get": {
-        "deprecated": *
+        "deprecated": "*"
       }
     }
   }

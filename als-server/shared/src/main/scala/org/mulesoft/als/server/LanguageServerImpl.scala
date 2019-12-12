@@ -4,16 +4,25 @@ import org.mulesoft.lsp.configuration.{InitializeParams, InitializeResult}
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync.TextDocumentSyncConsumer
+import org.mulesoft.lsp.workspace.WorkspaceService
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.concurrent.Future
 
 class LanguageServerImpl(val textDocumentSyncConsumer: TextDocumentSyncConsumer,
+                         val workspaceService: WorkspaceService,
                          private val languageServerInitializer: LanguageServerInitializer,
                          private val requestHandlerMap: RequestMap)
-  extends LanguageServer {
+    extends LanguageServer {
 
   override def initialize(params: InitializeParams): Future[InitializeResult] =
-    languageServerInitializer.initialize(params)
+    languageServerInitializer.initialize(params).flatMap { p =>
+      params.rootUri.orElse(params.rootPath) match {
+        case Some(root) => workspaceService.initializeWS(root).map(_ => p)
+        case _          => Future.successful(p)
+      }
+    }
 
   override def initialized(): Unit = {}
 
@@ -23,4 +32,5 @@ class LanguageServerImpl(val textDocumentSyncConsumer: TextDocumentSyncConsumer,
 
   override def resolveHandler[P, R](requestType: RequestType[P, R]): Option[RequestHandler[P, R]] =
     requestHandlerMap(requestType)
+
 }

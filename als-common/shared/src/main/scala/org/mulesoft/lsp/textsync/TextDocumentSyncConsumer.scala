@@ -36,6 +36,4 @@ trait TextDocumentSyncConsumer
   def didClose(params: DidCloseTextDocumentParams): Unit
 
   def didFocus(params: DidFocusParams): Unit
-
-  def indexDialect(params: IndexDialectParams): Unit
 }

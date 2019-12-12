@@ -1,9 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
 import amf.core.model.domain.Shape
-import amf.dialects.OAS20Dialect
-import amf.plugins.domain.webapi.models.{EndPoint, Parameter, Request, WebApi}
-import org.mulesoft.als.common.YPartBranch
+import amf.dialects.oas.nodes.AMLInfoObject
+import amf.plugins.domain.webapi.models.{Operation, Parameter, Tag, WebApi}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -17,22 +16,14 @@ object OasStructurePlugin extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     request.amfObject match {
-      case _: Parameter | _: Shape                           => emptySuggestion
-      case _: EndPoint if isInParameter(request.yPartBranch) => emptySuggestion
-      case _: Request if isInParameter(request.yPartBranch)  => emptySuggestion
-      case _: Request if request.fieldEntry.isEmpty && !definingParam(request.yPartBranch) =>
-        Future { OAS20Dialect.DialectNodes.OperationObject.propertiesRaw() }
-      case _: WebApi if request.yPartBranch.isKeyDescendanceOf("info") => infoSuggestions()
-      case _                                                           => AMLStructureCompletionPlugin.resolve(request)
+      case _: Parameter | _: Shape                                                    => emptySuggestion
+      case _: Tag if request.branchStack.headOption.exists(_.isInstanceOf[Operation]) => emptySuggestion
+      case _: WebApi if request.yPartBranch.isKeyDescendanceOf("info")                => infoSuggestions()
+      case _ =>
+        AMLStructureCompletionPlugin.resolve(request)
     }
   }
 
-  def isInParameter(yPartBranch: YPartBranch): Boolean =
-    yPartBranch.isKeyDescendanceOf("parameters") || (yPartBranch.isJson && yPartBranch.isInArray && yPartBranch
-      .parentEntryIs("parameters"))
-
   def infoSuggestions() =
-    Future(OAS20Dialect.DialectNodes.InfoObject.propertiesRaw(Some("docs")))
-
-  def definingParam(yPart: YPartBranch): Boolean = yPart.isKeyDescendanceOf("parameters")
+    Future(AMLInfoObject.Obj.propertiesRaw(Some("docs")))
 }

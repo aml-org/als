@@ -149,7 +149,7 @@ object Tests {
 
     a.read(encoding).zip(e.read(encoding)).map {
       case (actual, expected) =>
-        val diffs = Diff.ignoreAllSpace
+        val diffs = Diff.caseSensitive
           .diff(replaceEOL(actual.toString), replaceEOL(expected.toString))
         if (diffs.nonEmpty) {
           if (goldenOverride) {

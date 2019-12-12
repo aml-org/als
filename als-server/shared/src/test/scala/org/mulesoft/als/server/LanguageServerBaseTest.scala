@@ -1,12 +1,8 @@
 package org.mulesoft.als.server
 
-import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
-import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
-import org.mulesoft.als.server.textsync.TextDocumentManager
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.configuration.InitializeParams
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
@@ -23,7 +19,8 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
   val logger: Logger = EmptyLogger
 
   protected val initializeParams: InitializeParams = InitializeParams.default
-  private def sync(fn: () => Any): Any             = synchronized(fn())
+
+  private def sync(fn: () => Any): Any = synchronized(fn())
 
   object MockDiagnosticClientNotifier extends ClientNotifier {
     val promises: mutable.Queue[Promise[PublishDiagnosticsParams]] = mutable.Queue.empty
@@ -89,37 +86,23 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
     telemetryNotifications(mockTelemetryClientNotifier)(qty - 1, Nil)
   }
 
-  def openFileNotification(server: LanguageServer)(file: String, content: String): Future[PublishDiagnosticsParams] = {
+  def openFileNotification(server: LanguageServer)(file: String, content: String): Future[Unit] = Future.successful {
     openFile(server)(file, content)
-    MockDiagnosticClientNotifier.nextCall
   }
 
-  def focusNotification(server: LanguageServer)(file: String, version: Int): Future[PublishDiagnosticsParams] = {
+  def focusNotification(server: LanguageServer)(file: String, version: Int): Future[Unit] = Future.successful {
     onFocus(server)(file, version)
-    MockDiagnosticClientNotifier.nextCall
   }
 
-  def changeNotification(
-      server: LanguageServer)(file: String, content: String, version: Int): Future[PublishDiagnosticsParams] = {
-    changeFile(server)(file, content, version)
-    MockDiagnosticClientNotifier.nextCall
-  }
+  def changeNotification(server: LanguageServer)(file: String, content: String, version: Int): Future[Unit] =
+    Future.successful {
+      changeFile(server)(file, content, version)
+    }
 
-  def addModules(documentManager: TextDocumentManager,
-                 platform: Platform,
-                 directoryResolver: DirectoryResolver,
-                 baseEnvironment: Environment,
-                 builder: LanguageServerBuilder): LanguageServerBuilder
+  def buildServer(): LanguageServer
 
   def withServer[R](fn: LanguageServer => Future[R]): Future[R] = {
-    val documentManager = new TextDocumentManager(platform, logger)
-    val builder = LanguageServerBuilder()
-      .withTextDocumentSyncConsumer(documentManager)
-
-    val directoryResolver = new PlatformDirectoryResolver(platform)
-    val baseEnvironment   = Environment().add(new PlatformFileLoader(platform))
-    val server            = addModules(documentManager, platform, directoryResolver, baseEnvironment, builder).build()
-
+    val server = buildServer()
     server
       .initialize(initializeParams)
       .flatMap(_ => {

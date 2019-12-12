@@ -1,0 +1,152 @@
+[
+  {
+    "label": "allowReserved",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "allowReserved",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11allowReserved",
+    "filterText": "allowReserved: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 18
+        },
+        "end": {
+          "line": 18,
+          "character": 18
+        }
+      },
+      "newText": "allowReserved: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "contentType",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "contentType",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11contentType",
+    "filterText": "contentType: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 18
+        },
+        "end": {
+          "line": 18,
+          "character": 18
+        }
+      },
+      "newText": "contentType: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "explode",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "explode",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11explode",
+    "filterText": "explode: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 18
+        },
+        "end": {
+          "line": 18,
+          "character": 18
+        }
+      },
+      "newText": "explode: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "headers",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "headers",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11headers",
+    "filterText": "headers:\n                    ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 18
+        },
+        "end": {
+          "line": 18,
+          "character": 18
+        }
+      },
+      "newText": "headers:\n                    "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "style",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "style",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11style",
+    "filterText": "style: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 18
+        },
+        "end": {
+          "line": 18,
+          "character": 18
+        }
+      },
+      "newText": "style: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
