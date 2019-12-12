@@ -1,0 +1,23 @@
+{
+  "openapi": "3.0.0",
+  "components": {
+    "schemas": {
+      "test": {
+        "type": "string"
+      }
+    }
+  },
+  "paths": {
+    "/p": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "*"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

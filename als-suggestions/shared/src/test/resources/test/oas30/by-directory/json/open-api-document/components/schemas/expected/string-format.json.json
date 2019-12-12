@@ -1,0 +1,152 @@
+[
+  {
+    "label": "binary",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "binary",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11binary",
+    "filterText": "\"binary\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 18
+        },
+        "end": {
+          "line": 6,
+          "character": 20
+        }
+      },
+      "newText": "\"binary\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "byte",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "byte",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11byte",
+    "filterText": "\"byte\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 18
+        },
+        "end": {
+          "line": 6,
+          "character": 20
+        }
+      },
+      "newText": "\"byte\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "date",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "date",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11date",
+    "filterText": "\"date\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 18
+        },
+        "end": {
+          "line": 6,
+          "character": 20
+        }
+      },
+      "newText": "\"date\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "date-time",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "date-time",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11date-time",
+    "filterText": "\"date-time\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 18
+        },
+        "end": {
+          "line": 6,
+          "character": 20
+        }
+      },
+      "newText": "\"date-time\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "password",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "password",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11password",
+    "filterText": "\"password\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 18
+        },
+        "end": {
+          "line": 6,
+          "character": 20
+        }
+      },
+      "newText": "\"password\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

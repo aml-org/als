@@ -1,0 +1,812 @@
+[
+  {
+    "label": "#/components/schemas/test",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/components/schemas/test",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#/components/schemas/test",
+    "filterText": "\"#/components/schemas/test\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"#/components/schemas/test\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "array-schema.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11array-schema.json",
+    "filterText": "\"array-schema.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"array-schema.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "boolean-format.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11boolean-format.json",
+    "filterText": "\"boolean-format.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"boolean-format.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "discriminator/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11discriminator/",
+    "filterText": "\"discriminator/\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"discriminator/\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "expected/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11expected/",
+    "filterText": "\"expected/\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"expected/\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "external-docs-schema.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11external-docs-schema.json",
+    "filterText": "\"external-docs-schema.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"external-docs-schema.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "integer-format.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11integer-format.json",
+    "filterText": "\"integer-format.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"integer-format.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "items-schema.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11items-schema.json",
+    "filterText": "\"items-schema.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"items-schema.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "jsonschema.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11jsonschema.json",
+    "filterText": "\"jsonschema.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"jsonschema.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "number-format.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11number-format.json",
+    "filterText": "\"number-format.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"number-format.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "number-schema.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11number-schema.json",
+    "filterText": "\"number-schema.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"number-schema.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "object-schema.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11object-schema.json",
+    "filterText": "\"object-schema.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"object-schema.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "properties-schema.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11properties-schema.json",
+    "filterText": "\"properties-schema.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"properties-schema.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "property-schema.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11property-schema.json",
+    "filterText": "\"property-schema.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"property-schema.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "required-properties-name-existing.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11required-properties-name-existing.json",
+    "filterText": "\"required-properties-name-existing.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"required-properties-name-existing.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "required-properties-name.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11required-properties-name.json",
+    "filterText": "\"required-properties-name.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"required-properties-name.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schema-path-nav-two.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11schema-path-nav-two.json",
+    "filterText": "\"schema-path-nav-two.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"schema-path-nav-two.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schema-path-nav-withoutbar.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11schema-path-nav-withoutbar.json",
+    "filterText": "\"schema-path-nav-withoutbar.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"schema-path-nav-withoutbar.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schema-path-nav.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11schema-path-nav.json",
+    "filterText": "\"schema-path-nav.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"schema-path-nav.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schema-ref-comment.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11schema-ref-comment.json",
+    "filterText": "\"schema-ref-comment.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"schema-ref-comment.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schema-ref-separator-two.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11schema-ref-separator-two.json",
+    "filterText": "\"schema-ref-separator-two.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"schema-ref-separator-two.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schema-ref-separator.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11schema-ref-separator.json",
+    "filterText": "\"schema-ref-separator.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"schema-ref-separator.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schemas.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11schemas.json",
+    "filterText": "\"schemas.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"schemas.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "string-format.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11string-format.json",
+    "filterText": "\"string-format.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"string-format.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "string-schema.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11string-schema.json",
+    "filterText": "\"string-schema.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"string-schema.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "types-schema.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11types-schema.json",
+    "filterText": "\"types-schema.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"types-schema.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "xml-object-schema.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11xml-object-schema.json",
+    "filterText": "\"xml-object-schema.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"xml-object-schema.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
