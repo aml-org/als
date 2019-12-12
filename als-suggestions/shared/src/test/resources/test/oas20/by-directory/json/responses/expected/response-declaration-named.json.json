@@ -148,35 +148,5 @@
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
-  },
-  {
-    "label": "statusCode",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "statusCode",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "10statusCode",
-    "filterText": "\"statusCode\": \"$1\"",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 6
-        },
-        "end": {
-          "line": 4,
-          "character": 13
-        }
-      },
-      "newText": "\"statusCode\": \"$1\""
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
   }
 ]
