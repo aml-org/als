@@ -34,7 +34,7 @@ object AMLEnumCompletionPlugin extends AMLCompletionPlugin {
     }
   }
 
-  private def suggestMapping(pm: PropertyMapping): Seq[RawSuggestion] =
+  def suggestMapping(pm: PropertyMapping): Seq[RawSuggestion] =
     pm.enum()
       .flatMap(_.option().map(e => {
         val raw = pm.toRaw("unknown")

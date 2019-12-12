@@ -2,12 +2,12 @@
   {
     "label": "apiKey",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "apiKey",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10apiKey",
+    "filterText": "apiKey",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,12 +15,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         }
       },
       "newText": "apiKey"
@@ -32,12 +32,12 @@
   {
     "label": "http",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "http",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10http",
+    "filterText": "http",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,12 +45,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         }
       },
       "newText": "http"
@@ -62,12 +62,12 @@
   {
     "label": "oauth2",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "oauth2",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10oauth2",
+    "filterText": "oauth2",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,12 +75,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         }
       },
       "newText": "oauth2"
@@ -92,12 +92,12 @@
   {
     "label": "openIdConnect",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "openIdConnect",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10openIdConnect",
+    "filterText": "openIdConnect",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -105,12 +105,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 4,
+          "character": 12
         }
       },
       "newText": "openIdConnect"

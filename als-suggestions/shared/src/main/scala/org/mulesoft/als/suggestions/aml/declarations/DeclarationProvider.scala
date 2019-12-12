@@ -37,15 +37,18 @@ class DeclarationProvider(componentId: Option[String] = None) {
       .map(_ + ".")
       .toSet
 
+  def filterLocalByType(nodeTypeMapping: String): Set[DomainElement] =
+    declarations.getOrElse(nodeTypeMapping, Set.empty).map(_._2)
+
   def forNodeType(nodeTypeMapping: String, alias: Alias): Set[Name] =
     libraries
       .get(alias)
       .map(d => d.forNodeType(nodeTypeMapping))
       .getOrElse(Set.empty)
 
-  type Alias = String
+  type Alias           = String
   type NodeTypeMapping = String
-  type Name = String
+  type Name            = String
   private val declarations: mutable.Map[NodeTypeMapping, Set[(Name, DomainElement)]] =
     mutable.Map.empty
 
@@ -67,7 +70,7 @@ class DeclarationProvider(componentId: Option[String] = None) {
   def put(alias: Alias, provider: DeclarationProvider): Unit =
     libraries.get(alias) match {
       case Some(_) => libraries.update(alias, provider)
-      case None => libraries.put(alias, provider)
+      case None    => libraries.put(alias, provider)
     }
 
   def isLocallyDeclared(nodeTypeMapping: NodeTypeMapping): Boolean =
@@ -91,7 +94,7 @@ object DeclarationProvider {
 
     bu match {
       case de: DeclaresModel => populateDeclares(de, provider)
-      case _ => // ignore
+      case _                 => // ignore
     }
 
     bu.annotations.find(classOf[Aliases]).foreach { a =>

@@ -1,0 +1,62 @@
+[
+  {
+    "label": "anotherPro",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "anotherPro",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11anotherPro",
+    "filterText": "anotherPro",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 11,
+          "character": 23
+        },
+        "end": {
+          "line": 11,
+          "character": 23
+        }
+      },
+      "newText": "anotherPro"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "name",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11name",
+    "filterText": "name",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 11,
+          "character": 23
+        },
+        "end": {
+          "line": 11,
+          "character": 23
+        }
+      },
+      "newText": "name"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

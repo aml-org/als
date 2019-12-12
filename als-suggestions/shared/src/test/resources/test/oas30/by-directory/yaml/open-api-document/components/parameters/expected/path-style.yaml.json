@@ -1,0 +1,92 @@
+[
+  {
+    "label": "label",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "label",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10label",
+    "filterText": "label",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 13
+        },
+        "end": {
+          "line": 5,
+          "character": 13
+        }
+      },
+      "newText": "label"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "matrix",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "matrix",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10matrix",
+    "filterText": "matrix",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 13
+        },
+        "end": {
+          "line": 5,
+          "character": 13
+        }
+      },
+      "newText": "matrix"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "simple",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "simple",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10simple",
+    "filterText": "simple",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 13
+        },
+        "end": {
+          "line": 5,
+          "character": 13
+        }
+      },
+      "newText": "simple"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

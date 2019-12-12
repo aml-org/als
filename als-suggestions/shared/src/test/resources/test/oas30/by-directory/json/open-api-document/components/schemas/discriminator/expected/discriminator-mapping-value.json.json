@@ -1,0 +1,62 @@
+[
+  {
+    "label": "#/components/schemas/Cat",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "#/components/schemas/Cat",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#/components/schemas/Cat",
+    "filterText": "\"#/components/schemas/Cat\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 42,
+          "character": 19
+        },
+        "end": {
+          "line": 42,
+          "character": 21
+        }
+      },
+      "newText": "\"#/components/schemas/Cat\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#/components/schemas/Dog",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "#/components/schemas/Dog",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#/components/schemas/Dog",
+    "filterText": "\"#/components/schemas/Dog\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 42,
+          "character": 19
+        },
+        "end": {
+          "line": 42,
+          "character": 21
+        }
+      },
+      "newText": "\"#/components/schemas/Dog\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
