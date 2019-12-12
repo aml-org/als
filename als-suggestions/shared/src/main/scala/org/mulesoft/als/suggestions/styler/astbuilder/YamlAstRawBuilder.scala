@@ -15,7 +15,7 @@ class YamlAstRawBuilder(val raw: RawSuggestion, val isSnippet: Boolean, val yPar
 
   override protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder =
     (raw: RawSuggestion, isSnippet: Boolean) =>
-      new YamlAstRawBuilder(raw, isSnippet, YPartBranch(YMap.empty, Position(0, 0).toAmfPosition, Nil))
+      new YamlAstRawBuilder(raw, isSnippet, YPartBranch(YMap.empty, Position(0, 0).toAmfPosition, Nil, isJson = false))
 
   override def emitEntryValue(options: SuggestionStructure): YNode = value("", options)
 

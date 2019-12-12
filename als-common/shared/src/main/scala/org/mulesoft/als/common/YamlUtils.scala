@@ -1,5 +1,7 @@
 package org.mulesoft.als.common
 
+import amf.core.model.document.BaseUnit
+import amf.core.remote.FileMediaType
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.lexer.InputRange
 import org.yaml.model.{YMap, YMapEntry, YNode, YNonContent, YPart}
@@ -67,5 +69,12 @@ object YamlUtils {
         getParent(c, child, Some(s))
       case None =>
         parent
+    }
+
+  def isJson(baseUnit: BaseUnit) =
+    FileMediaType
+      .extension(baseUnit.location().getOrElse(baseUnit.id)) match {
+      case Some("json") => true
+      case _            => false
     }
 }

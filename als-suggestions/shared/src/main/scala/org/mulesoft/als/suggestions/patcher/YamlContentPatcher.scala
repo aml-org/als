@@ -7,39 +7,39 @@ import org.mulesoft.als.suggestions.interfaces.LocationKind.{
   SEQUENCE_KEY_COPLETION
 }
 
-object YamlContentPatcher {
+class YamlContentPatcher(override val textRaw: String, override val offsetRaw: Int) extends ContentPatcher {
 
-  def prepareYamlContent(text: String, offset: Int): PatchedContent = {
+  override def prepareContent(): PatchedContent = {
     val completionKind =
-      LocationKindDetectTool.determineCompletionKind(text, offset)
+      LocationKindDetectTool.determineCompletionKind(textRaw, offsetRaw)
     val result = completionKind match {
       case KEY_COMPLETION | ANNOTATION_COMPLETION | SEQUENCE_KEY_COPLETION =>
-        val newLineIndex = text.indexOf("\n", offset)
+        val newLineIndex = textRaw.indexOf("\n", offsetRaw)
         val rightPart =
-          if (newLineIndex < 0) text.substring(offset)
-          else text.substring(offset, newLineIndex)
+          if (newLineIndex < 0) textRaw.substring(offsetRaw)
+          else textRaw.substring(offsetRaw, newLineIndex)
         val colonIndex = rightPart.indexOf(":")
-        val leftPart   = text.substring(0, offset)
+        val leftPart   = textRaw.substring(0, offsetRaw)
         val leftOfSentence =
-          leftPart.substring(0 max leftPart.lastIndexOf('\n'), offset)
+          leftPart.substring(0 max leftPart.lastIndexOf('\n'), offsetRaw)
         if (colonIndex < 0)
-          text.substring(0, offset) + "k: " + text.substring(offset)
+          textRaw.substring(0, offsetRaw) + "k: " + textRaw.substring(offsetRaw)
         else if (colonIndex == 0) {
-          val rightPart = text.substring(offset)
+          val rightPart = textRaw.substring(offsetRaw)
           val rightOfSentence =
             rightPart.substring(0, rightPart.length min (0 max rightPart.indexOf('\n')))
 
-          val openBrackets = {
-            leftOfSentence + rightOfSentence
-          }.count(_ == '[') - {
+          val openBrackets = { leftOfSentence + rightOfSentence }
+            .count(_ == '[') - {
             leftOfSentence + rightOfSentence
           }.count(_ == '[')
-          text + "k" + " ]" * openBrackets + rightPart
-        } else text
+          textRaw + "k" + " ]" * openBrackets + rightPart
+        } else textRaw
       case _ =>
-        if (offset == text.length) text + " " + "\n"
-        else text
+        if (offsetRaw == textRaw.length) textRaw + " " + "\n"
+        else textRaw
     }
-    PatchedContent(result, text, Nil) // add same logic that for json?
+
+    PatchedContent(result, textRaw, Nil) // add same logic that for json?
   }
 }

@@ -2,23 +2,17 @@ package org.mulesoft.als.suggestions.patcher
 
 import scala.collection.mutable.ListBuffer
 
-
-object JsonContentPatcher {
-
-  def prepareJsonContent(textRaw: String, offsetRaw: Int): PatchedContent = {
-    val patcher = new JsonContentPatcher()
-    val content = patcher.patch(textRaw, offsetRaw)
-    PatchedContent(content,textRaw,patcher.listTokens())
-  }
-
-
-}
-class JsonContentPatcher() {
-  private val tokens:ListBuffer[PatchToken] = ListBuffer()
+class JsonContentPatcher(override val textRaw: String, override val offsetRaw: Int) extends ContentPatcher {
+  private val tokens: ListBuffer[PatchToken] = ListBuffer()
 
   def listTokens(): List[PatchToken] = tokens.toList
 
-  def patch(textRaw:String, offsetRaw:Int): String = {
+  override def prepareContent(): PatchedContent = {
+    val content = patch()
+    PatchedContent(content, textRaw, listTokens())
+  }
+
+  def patch(): String = {
     val EOL       = textRaw.find(_ == '\r').map(_ => "\r\n").getOrElse("\n")
     val text      = textRaw.replace(EOL, "\n")
     val offset    = offsetRaw - textRaw.substring(0, offsetRaw).count(_ == '\r')
@@ -52,7 +46,7 @@ class JsonContentPatcher() {
     var newLine    = line
     if (colonIndex < 0) {
       if (lineTrim.startsWith("\"")) {
-        if (lineTrim.endsWith("\"") && lineTrim.length > 2) newLine = addColon(line.substring(0, off)+"\"")
+        if (lineTrim.endsWith("\"") && lineTrim.length > 2) newLine = addColon(line.substring(0, off) + "\"")
         else newLine = addColon(addQuote(line.substring(0, off) + "x"))
         if (!hasComplexValueStart)
           newLine = addQuote(addQuote(newLine))
@@ -103,7 +97,7 @@ class JsonContentPatcher() {
           val postFix =
             if (prefix.nonEmpty && !entryValue.trim.endsWith("\"")) addQuote("") else ""
 
-          val postFixFinal = if(lineTrim.endsWith(",")) postFix + "," else addComma(postFix)
+          val postFixFinal = if (lineTrim.endsWith(",")) postFix + "," else addComma(postFix)
           needComa = false
           newLine = head + ":" + prefix + newEntryValue + postFixFinal
         case head :: Nil if needComa =>
@@ -117,18 +111,17 @@ class JsonContentPatcher() {
     result.replace("\n", EOL)
   }
 
-
-  def addColon(line:String):String = {
+  def addColon(line: String): String = {
     tokens += ColonToken
-    line + " : "
+    line + ": "
   }
 
-  def addQuote(line:String):String= {
+  def addQuote(line: String): String = {
     tokens += QuoteToken
     line + "\""
   }
 
-  def addComma(line:String):String = {
+  def addComma(line: String): String = {
     tokens += CommaToken
     line + ","
   }

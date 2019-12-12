@@ -77,7 +77,8 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
             }
           case _ => fail(s"Cannot find dialect for ${d.definedBy().value()}")
         }
-      case other => fail(s"Dialect Instance expected but ${other.meta.getClass.getName} found")
+      case other =>
+        fail(s"Dialect Instance expected but ${other.id} found")
     }
   }
 

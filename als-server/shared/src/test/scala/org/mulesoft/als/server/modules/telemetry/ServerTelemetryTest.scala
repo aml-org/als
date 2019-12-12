@@ -1,13 +1,10 @@
 package org.mulesoft.als.server.modules.telemetry
 
-import amf.core.remote.Platform
-import amf.internal.environment.Environment
-import org.mulesoft.als.common.DirectoryResolver
-import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
-import org.mulesoft.als.server.textsync.TextDocumentManager
+import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryMessage}
+import org.mulesoft.lsp.server.LanguageServer
 
 import scala.concurrent.{ExecutionContext, Future}
 // TODO: keep each manager inside each test, instantiated with separated ClientNotifiers, which receive
@@ -19,26 +16,13 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
 
   private val mockTelemetryClientNotifier = new MockTelemetryClientNotifier
 
-  override def addModules(documentManager: TextDocumentManager,
-                          platform: Platform,
-                          directoryResolver: DirectoryResolver,
-                          baseEnvironment: Environment,
-                          builder: LanguageServerBuilder): LanguageServerBuilder = {
+  override def buildServer(): LanguageServer = {
 
-    val telemetryManager = new TelemetryManager(mockTelemetryClientNotifier, logger)
-    val astManager       = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
-    val diagnosticManager =
-      new DiagnosticManager(documentManager,
-                            astManager,
-                            telemetryManager,
-                            mockTelemetryClientNotifier,
-                            platform,
-                            logger)
+    val factory = ManagersFactory(mockTelemetryClientNotifier, platform, logger, withDiagnostics = true)
 
-    builder
-      .addInitializable(astManager)
-      .addInitializableModule(diagnosticManager)
-      .addInitializableModule(telemetryManager)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager,platform)
+      .addInitializableModule(factory.diagnosticManager)
+      .build()
   }
 
   def checkMessages(telemetryMessages: Seq[MessageTypes.Value], msgs: Seq[TelemetryMessage]): Boolean =

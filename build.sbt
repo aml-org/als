@@ -230,17 +230,17 @@ lazy val fat = crossProject(JSPlatform, JVMPlatform).settings(
   .disablePlugins(SonarPlugin)
   .enablePlugins(AssemblyPlugin)
   .in(file("./als-fat")).settings(settings: _*).jvmSettings(
-  	packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
-      aggregate in assembly := true,
-    publishArtifact in (Compile, packageBin) := false,
-    addArtifact(Artifact("api-language-server", ""), assembly),
-    assemblyMergeStrategy in assembly := {
-      case x if x.toString.contains("commons/logging") => MergeStrategy.discard
-      case x if x.toString.endsWith("JS_DEPENDENCIES") => MergeStrategy.discard
-      case PathList(ps@_*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
-      case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
-      case x => MergeStrategy.first
-    },
+  packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
+  aggregate in assembly := true,
+  publishArtifact in (Compile, packageBin) := false,
+  addArtifact(Artifact("api-language-server", ""), assembly),
+  assemblyMergeStrategy in assembly := {
+    case x if x.toString.contains("commons/logging") => MergeStrategy.discard
+    case x if x.toString.endsWith("JS_DEPENDENCIES") => MergeStrategy.discard
+    case PathList(ps@_*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
+    case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
+    case x => MergeStrategy.first
+  },
 ).jsSettings(
   libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
   libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",

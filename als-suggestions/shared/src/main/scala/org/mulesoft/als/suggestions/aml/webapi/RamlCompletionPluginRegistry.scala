@@ -6,7 +6,8 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.raml._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   ObjectExamplePropertiesCompletionPlugin,
-  SecuredByCompletionPlugin
+  SecuredByCompletionPlugin,
+  WebApiKnownValueCompletionPlugin
 }
 import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPluginHandler}
 
@@ -42,7 +43,8 @@ object RamlCompletionPluginRegistry {
       Raml10SecuritySchemeStructureCompletionPlugin :+
       UnitUsesFacet :+
       DefaultVariablesAbstractDefinition :+
-      OperationRequest
+      OperationRequest :+
+      WebApiKnownValueCompletionPlugin
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, RAML10Dialect().id)

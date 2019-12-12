@@ -6,7 +6,7 @@
     "documentation": "reference tag",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10$ref",
+    "sortText": "0$ref",
     "filterText": "\"$ref\"",
     "insertText": null,
     "insertTextFormat": [
@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 4,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"$ref\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 4,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"description\": \"$1\""
@@ -66,7 +66,7 @@
     "documentation": "examples",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10examples",
+    "sortText": "11examples",
     "filterText": "\"examples\": {\n        \"$1\"\n      }",
     "insertText": null,
     "insertTextFormat": [
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 4,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"examples\": {\n        \"$1\"\n      }"
@@ -96,7 +96,7 @@
     "documentation": "headers",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10headers",
+    "sortText": "11headers",
     "filterText": "\"headers\": {\n        \"$1\"\n      }",
     "insertText": null,
     "insertTextFormat": [
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 4,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"headers\": {\n        \"$1\"\n      }"
@@ -126,7 +126,7 @@
     "documentation": "schema",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10schema",
+    "sortText": "11schema",
     "filterText": "\"schema\": {\n        \"$1\"\n      }",
     "insertText": null,
     "insertTextFormat": [
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 4,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"schema\": {\n        \"$1\"\n      }"
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 4,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"statusCode\": \"$1\""

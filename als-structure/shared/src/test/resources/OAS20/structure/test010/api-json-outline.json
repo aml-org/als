@@ -77,7 +77,7 @@
     },
     "children": [
       {
-        "name": "\"post\"",
+        "name": "post",
         "kind": 6,
         "deprecated": false,
         "range": {
@@ -313,7 +313,7 @@
                 ]
               },
               {
-                "name": "\"application/json\"",
+                "name": "application/json",
                 "kind": 7,
                 "deprecated": false,
                 "range": {
@@ -339,7 +339,7 @@
                 "children": []
               },
               {
-                "name": "\"schema\"",
+                "name": "schema",
                 "kind": 7,
                 "deprecated": false,
                 "range": {
@@ -419,7 +419,7 @@
             },
             "children": [
               {
-                "name": "\"schema\"",
+                "name": "schema",
                 "kind": 7,
                 "deprecated": false,
                 "range": {

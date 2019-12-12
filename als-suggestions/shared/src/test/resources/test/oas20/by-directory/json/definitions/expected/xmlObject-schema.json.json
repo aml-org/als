@@ -6,7 +6,7 @@
     "documentation": "attribute",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10attribute",
+    "sortText": "11attribute",
     "filterText": "\"attribute\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 8,
-          "character": 20
+          "character": 19
         }
       },
       "newText": "\"attribute\": \"$1\""
@@ -36,7 +36,7 @@
     "documentation": "name",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10name",
+    "sortText": "11name",
     "filterText": "\"name\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 8,
-          "character": 20
+          "character": 19
         }
       },
       "newText": "\"name\": \"$1\""
@@ -66,7 +66,7 @@
     "documentation": "namespace",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10namespace",
+    "sortText": "11namespace",
     "filterText": "\"namespace\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 8,
-          "character": 20
+          "character": 19
         }
       },
       "newText": "\"namespace\": \"$1\""
@@ -96,7 +96,7 @@
     "documentation": "prefix",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10prefix",
+    "sortText": "11prefix",
     "filterText": "\"prefix\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 8,
-          "character": 20
+          "character": 19
         }
       },
       "newText": "\"prefix\": \"$1\""
@@ -126,7 +126,7 @@
     "documentation": "wrapped",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10wrapped",
+    "sortText": "11wrapped",
     "filterText": "\"wrapped\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 8,
-          "character": 20
+          "character": 19
         }
       },
       "newText": "\"wrapped\": \"$1\""

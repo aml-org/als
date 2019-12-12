@@ -7,17 +7,22 @@ import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
+import com.google.gson.{Gson, GsonBuilder}
 import org.eclipse.lsp4j.{ExecuteCommandParams, InitializeParams}
-import org.mulesoft.als.common.DirectoryResolver
-import org.mulesoft.als.server.client.ClientConnection
+import org.mulesoft.als.server.client.{ClientConnection, ClientNotifier}
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
-import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
+import org.mulesoft.als.server.modules.ManagersFactory
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
-import org.mulesoft.als.server.textsync.TextDocumentManager
+import org.mulesoft.als.server.textsync.EnvironmentProvider
+import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.als.server.workspace.command.{CommandExecutor, Commands, DidChangeConfigurationCommandExecutor}
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
-import org.mulesoft.lsp.textsync.{DidFocusParams, IndexDialectParams}
+import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
+import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
+import org.mulesoft.lsp.workspace
+import org.mulesoft.lsp.workspace.{ExecuteCommandParams => SharedExecuteParams}
 
 import scala.compat.java8.FutureConverters._
 import scala.concurrent.Future
@@ -27,102 +32,46 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
   test("Lsp4j LanguageServerImpl: initialize correctly") {
 
     val myString = "#%RAML 1.0\ntitle:test"
-    val in       = new ByteArrayInputStream(myString.getBytes())
-    val baos     = new ByteArrayOutputStream()
-    val out      = new ObjectOutputStream(baos)
+    val in = new ByteArrayInputStream(myString.getBytes())
+    val baos = new ByteArrayOutputStream()
+    val out = new ObjectOutputStream(baos)
 
-    val logger: Logger   = EmptyLogger
+    val logger: Logger = EmptyLogger
     val clientConnection = ClientConnection(logger)
 
-    val server = new LanguageServerImpl(LanguageServerFactory.alsLanguageServer(clientConnection, logger))
+    val server = new LanguageServerImpl(
+      LanguageServerFactory.alsLanguageServer(clientConnection, logger, withDiagnostics = false))
 
     server.initialize(new InitializeParams()).toScala.map(_ => succeed)
   }
 
   test("Lsp4j LanguageServerImpl with null params: initialize should not fail") {
     val myString = "#%RAML 1.0\ntitle:test"
-    val in       = new ByteArrayInputStream(myString.getBytes())
-    val baos     = new ByteArrayOutputStream()
-    val out      = new ObjectOutputStream(baos)
+    val in = new ByteArrayInputStream(myString.getBytes())
+    val baos = new ByteArrayOutputStream()
+    val out = new ObjectOutputStream(baos)
 
-    val logger: Logger   = EmptyLogger
+    val logger: Logger = EmptyLogger
     val clientConnection = ClientConnection(logger)
 
-    val server = new LanguageServerImpl(LanguageServerFactory.alsLanguageServer(clientConnection, logger))
+    val server = new LanguageServerImpl(
+      LanguageServerFactory.alsLanguageServer(clientConnection, logger, withDiagnostics = false))
 
     server.initialize(null).toScala.map(_ => succeed)
   }
 
-  test("Lsp4j LanguageServerImpl Command - Did Focus: Command should be notify DidFocus") {
-    def executeCommandFocus(server: LanguageServerImpl)(file: String, version: Int): Future[PublishDiagnosticsParams] = {
-      val args: java.util.List[AnyRef] = new util.ArrayList[AnyRef]()
-      args.add(DidFocusParams(file, version))
-      server.getWorkspaceService.executeCommand(new ExecuteCommandParams("didFocusChange", args))
-      MockDiagnosticClientNotifier.nextCall
-    }
-
-    withServer { s =>
-      val server       = new LanguageServerImpl(s)
-      val mainFilePath = s"file://api.raml"
-      val libFilePath  = s"file://lib1.raml"
-
-      val mainContent =
-        """#%RAML 1.0
-          |
-          |title: test API
-          |uses:
-          |  lib1: lib1.raml
-          |
-          |/resource:
-          |  post:
-          |    responses:
-          |      200:
-          |        body:
-          |          application/json:
-          |            type: lib1.TestType
-          |            example:
-          |              {"a":"1"}
-        """.stripMargin
-
-      val libFileContent =
-        """#%RAML 1.0 Library
-          |
-          |types:
-          |  TestType:
-          |    properties:
-          |      b: string
-        """.stripMargin
-
-      /*
-        open lib -> open main -> focus lib -> fix lib -> focus main
-       */
-      for {
-        a <- openFileNotification(s)(libFilePath, libFileContent)
-        b <- openFileNotification(s)(mainFilePath, mainContent)
-        c <- executeCommandFocus(server)(libFilePath, 0)
-        d <- changeNotification(s)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
-        e <- executeCommandFocus(server)(mainFilePath, 0)
-      } yield {
-        server.shutdown()
-        assert(
-          a.diagnostics.isEmpty && a.uri == libFilePath &&
-            b.diagnostics.length == 1 && b.uri == mainFilePath && // todo: search coinciding message between JS and JVM
-            c.diagnostics.isEmpty && c.uri == libFilePath &&
-            d.diagnostics.isEmpty && d.uri == libFilePath &&
-            e.diagnostics.isEmpty && e.uri == mainFilePath)
-      }
-    }
-  }
-
   test("Lsp4j LanguageServerImpl Command - Index Dialect") {
+    def wrapJson(file: String, content: String, gson: Gson): String =
+      s"""{"uri": "${file}", "content": ${gson.toJson(content)}}"""
+
     def executeCommandIndexDialect(server: LanguageServerImpl)(file: String, content: String): Future[Unit] = {
       val args: java.util.List[AnyRef] = new util.ArrayList[AnyRef]()
-      args.add(IndexDialectParams(file, Some(content)))
+      args.add(wrapJson(file, content, new GsonBuilder().create()))
       server.getWorkspaceService
         .executeCommand(new ExecuteCommandParams(Commands.INDEX_DIALECT, args))
         .toScala
         .map(_ => {
-          Thread.sleep(100)
+          Thread.sleep(1000)
           Unit
         })
 
@@ -172,25 +121,60 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     }
   }
 
-  override def addModules(documentManager: TextDocumentManager,
-                          platform: Platform,
-                          directoryResolver: DirectoryResolver,
-                          baseEnvironment: Environment,
-                          builder: LanguageServerBuilder): LanguageServerBuilder = {
+  test("Lsp4j LanguageServerImpl Command - Change configuration Params Serialization") {
 
-    val telemetryManager = new TelemetryManager(MockDiagnosticClientNotifier, logger)
-    val astManager       = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
-    val diagnosticManager =
-      new DiagnosticManager(documentManager,
-                            astManager,
-                            telemetryManager,
-                            MockDiagnosticClientNotifier,
-                            platform,
-                            logger)
+    var parsedOK = false
 
-    builder
-      .addInitializable(astManager)
-      .addInitializableModule(diagnosticManager)
+    class TestDidChangeConfigurationCommandExecutor(wsc: WorkspaceManager) extends DidChangeConfigurationCommandExecutor(EmptyLogger, wsc) {
+      override protected def runCommand(param: DidChangeConfigurationNotificationParams): Unit =
+        parsedOK = true // If it reaches this command, it was parsed correctly
+    }
+
+    def wrapJson(mainUri: String, dependecies: Array[String], gson: Gson): String =
+      s"""{"mainUri": "${mainUri}", "dependencies": ${gson.toJson(dependecies)}}"""
+
+    class DummyTelemetryProvider extends TelemetryManager(new DummyClientNotifier(), EmptyLogger)
+
+    class DummyClientNotifier extends ClientNotifier {
+      override def notifyDiagnostic(params: PublishDiagnosticsParams): Unit = {}
+
+      override def notifyTelemetry(params: TelemetryMessage): Unit = {}
+    }
+
+    val p = platform
+    class TestWorkspaceManager extends WorkspaceManager(new EnvironmentProvider {
+      override def environmentSnapshot(): Environment = ???
+
+      override val platform: Platform = p
+    }, new DummyTelemetryProvider(), Nil, EmptyLogger, platform) {
+
+      private val commandExecutors: Map[String, CommandExecutor[_]] = Map(
+        Commands.DID_CHANGE_CONFIGURATION -> new TestDidChangeConfigurationCommandExecutor(this),
+      )
+      override def executeCommand(params: SharedExecuteParams): Future[AnyRef] = Future {
+        commandExecutors.get(params.command) match {
+          case Some(exe) => exe.runCommand(params)
+          case _ =>
+            logger.error(s"Command [${params.command}] not recognized", "WorkspaceManager", "executeCommand")
+        }
+        Unit
+      }
+    }
+    val args = List(wrapJson("file://uri.raml", Array("dep1", "dep2"), new GsonBuilder().create()))
+
+    val ws = new TestWorkspaceManager()
+    ws.executeCommand(SharedExecuteParams(Commands.DID_CHANGE_CONFIGURATION, args))
+      .map(_ =>assert(parsedOK))
+
+  }
+
+  override def buildServer(): LanguageServer = {
+
+    val managers = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = false)
+
+    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, platform)
+      .addInitializableModule(managers.diagnosticManager)
+      .build()
   }
 
   override def rootPath: String = ""

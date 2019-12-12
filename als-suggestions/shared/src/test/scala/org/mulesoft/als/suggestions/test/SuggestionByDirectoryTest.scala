@@ -24,10 +24,10 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
   def fileExtension: String
 
   s"Suggestions test for vendor ${origin.vendor.toString} by directory" - {
-    forDirectory(dir)
+    forDirectory(dir, "")
   }
 
-  private def forDirectory(dir: SyncFile): Unit = {
+  private def forDirectory(dir: SyncFile, parent: String): Unit = {
     val (subDirs, files) =
       dir.list
         .filterNot(_ == "expected")
@@ -36,14 +36,14 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
     val validFiles = files.filter(f => f.name.endsWith(fileExtension) || f.name.endsWith(fileExtension + ".ignore"))
     if (subDirs.nonEmpty || validFiles.nonEmpty) {
       s"in directory: ${dir.name}" - {
-        subDirs.foreach(forDirectory)
+        subDirs.foreach(forDirectory(_, parent + dir.name + "/"))
         validFiles.foreach { f =>
           val content = f.read()
           if (content.toString.contains("*")) {
             if (f.name.endsWith(".ignore")) s"Golden: ${f.name}" ignore {
               Future.successful(succeed)
             } else {
-              s"Suggest over ${f.name}" in {
+              s"Suggest over ${f.name} at dir $parent${dir.name}" in {
                 testSuggestion(content.toString, f)
               }
             }

@@ -11,13 +11,14 @@ import scala.concurrent.Future
 object AMLHeadersCompletionPlugin extends HeaderCompletionPlugin {
   override def id: String = "AMLHeadersCompletionPlugin"
 
-  lazy val allHeaders: Seq[String] = AMLPlugin.registry
-    .allDialects()
-    .filterNot(d => Configuration.internalDialects.contains(d.id))
-    .filterNot(_.documents().keyProperty().value())
-    .flatMap(computeHeaders)
-    .toSeq
-    .distinct
+  def allHeaders: Seq[String] =
+    AMLPlugin.registry
+      .allDialects()
+      .filterNot(d => Configuration.internalDialects.contains(d.id))
+      .filterNot(_.documents().keyProperty().value())
+      .flatMap(computeHeaders)
+      .toSeq
+      .distinct
 
   override def resolve(params: HeaderCompletionParams): Future[Seq[RawSuggestion]] =
     Future.successful(

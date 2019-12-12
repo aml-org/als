@@ -1,0 +1,92 @@
+[
+  {
+    "label": "basePath",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "basePath",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11basePath",
+    "filterText": "basePath:\n              ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      },
+      "newText": "basePath:\n              "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "port",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "port",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11port",
+    "filterText": "port:\n              ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      },
+      "newText": "port:\n              "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "username",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "username",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11username",
+    "filterText": "username:\n              ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      },
+      "newText": "username:\n              "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

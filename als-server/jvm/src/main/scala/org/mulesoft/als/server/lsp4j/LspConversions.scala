@@ -38,6 +38,7 @@ import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, Referenc
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
+import org.mulesoft.lsp.workspace.ExecuteCommandParams
 
 import scala.collection.JavaConverters._
 import scala.language.implicitConversions

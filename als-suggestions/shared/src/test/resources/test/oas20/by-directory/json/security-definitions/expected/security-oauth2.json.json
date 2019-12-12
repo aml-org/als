@@ -6,7 +6,7 @@
     "documentation": "authorizationUrl",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10authorizationUrl",
+    "sortText": "11authorizationUrl",
     "filterText": "\"authorizationUrl\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"authorizationUrl\": \"$1\""
@@ -36,7 +36,7 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10description",
+    "sortText": "11description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"description\": \"$1\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"flow\": \"$1\""
@@ -96,7 +96,7 @@
     "documentation": "scopes",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10scopes",
+    "sortText": "11scopes",
     "filterText": "\"scopes\": {\n        \"$1\"\n      }",
     "insertText": null,
     "insertTextFormat": [
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"scopes\": {\n        \"$1\"\n      }"
@@ -126,7 +126,7 @@
     "documentation": "tokenUrl",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10tokenUrl",
+    "sortText": "11tokenUrl",
     "filterText": "\"tokenUrl\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 5,
-          "character": 14
+          "character": 13
         }
       },
       "newText": "\"tokenUrl\": \"$1\""

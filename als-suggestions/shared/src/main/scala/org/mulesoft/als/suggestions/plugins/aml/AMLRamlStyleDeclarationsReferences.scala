@@ -1,13 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.annotations.SourceAST
+import amf.core.annotations.ErrorDeclaration
 import amf.core.metamodel.domain.DomainElementModel
 import amf.core.model.domain.{AmfObject, DomainElement}
 import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorDeclaration
 import org.mulesoft.als.common.ElementNameExtractor._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest

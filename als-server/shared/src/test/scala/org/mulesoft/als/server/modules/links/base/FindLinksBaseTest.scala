@@ -4,6 +4,7 @@ import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.server.modules.links.FindLinksTest
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.link.DocumentLink
+import org.scalatest.Assertion
 
 class FindLinksBaseTest extends FindLinksTest {
 
@@ -12,8 +13,8 @@ class FindLinksBaseTest extends FindLinksTest {
       "files/simple-include/simple.raml",
       Set(
         DocumentLink(
-          LspRangeConverter.toLspRange(PositionRange(Position(1, 16), Position(1, 32))),
-          "file://als-server/shared/src/test/resources/actions/links/files/simple-include/title%20file.raml",
+          LspRangeConverter.toLspRange(PositionRange(Position(1, 7), Position(1, 32))),
+          "file://als-server/shared/src/test/resources/actions/links/files/simple-include/title%20file.yaml",
           None
         )
       )
@@ -50,9 +51,11 @@ class FindLinksBaseTest extends FindLinksTest {
     runTest(
       "files/simple-uri/simple.raml",
       Set(
-        DocumentLink(LspRangeConverter.toLspRange(PositionRange(Position(1, 16), Position(1, 52))),
-                     "http://localhost:8080/test/title.txt",
-                     None)
+        DocumentLink(
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(3, 90))),
+          "file://als-server/shared/src/test/resources/actions/links/files/simple-uri/lib.raml",
+          None
+        )
       )
     )
   }

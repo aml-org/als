@@ -27,7 +27,7 @@ import org.eclipse.lsp4j.{
   TextDocumentPositionParams,
   WorkspaceEdit
 }
-import org.mulesoft.als.server.custom.CustomTextDocumentService
+import org.mulesoft.als.server.custom.{CustomEvents, CustomTextDocumentService}
 import org.mulesoft.als.server.lsp4j.Lsp4JConversions._
 import org.mulesoft.als.server.lsp4j.LspConversions._
 import org.mulesoft.lsp.feature.codeactions.CodeActionRequestType
@@ -39,11 +39,11 @@ import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
 import org.mulesoft.lsp.feature.reference.ReferenceRequestType
 import org.mulesoft.lsp.feature.rename.RenameRequestType
 import org.mulesoft.lsp.server.LanguageServer
-import org.mulesoft.lsp.textsync.DidFocusParams
+import org.mulesoft.lsp.textsync.{DidChangeConfigurationNotificationParams, DidFocusParams}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomTextDocumentService {
+class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomTextDocumentService with CustomEvents {
 
   private val textDocumentSyncConsumer = inner.textDocumentSyncConsumer
 
@@ -90,4 +90,5 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
 
   override def documentLink(params: DocumentLinkParams): CompletableFuture[util.List[DocumentLink]] =
     javaFuture(resolveHandler(DocumentLinkRequestType)(params), lsp4JDocumentLinkRequestResult)
+
 }

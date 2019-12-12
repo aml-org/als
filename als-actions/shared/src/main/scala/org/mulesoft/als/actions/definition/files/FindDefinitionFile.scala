@@ -29,13 +29,13 @@ trait FindDefinitionFile {
     Nil
 
   def getDefinitionFile(bu: BaseUnit, position: Position, platform: Platform): Seq[LocationLink] = {
-    val yPartBranch: YPartBranch = NodeBranchBuilder.build(bu, position.toAmfPosition)
+    val yPartBranch: YPartBranch = NodeBranchBuilder.build(bu, position.toAmfPosition, YamlUtils.isJson(bu))
 
     yPartBranch.node match {
       case alias: YNode.Alias => Seq(locationToLsp(alias.location, alias.target.location, platform))
       case y: YNode if DialectKnowledge.appliesReference(bu, yPartBranch) =>
         y.value match {
-          case scalar: YScalar if scalar.value.toString.startsWith("#") =>
+          case scalar: YScalar if scalar.text.startsWith("#") =>
             checkBaseUnitForRef(yPartBranch, ObjectInTreeBuilder.fromUnit(bu, position.toAmfPosition), platform)
           case _ => extractPath(bu.raw, position)
         }

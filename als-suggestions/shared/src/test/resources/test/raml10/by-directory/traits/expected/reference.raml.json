@@ -6,8 +6,8 @@
     "documentation": "tr",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10tr",
-    "filterText": "\n    - tr",
+    "sortText": "11tr",
+    "filterText": "\n      - tr",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 8
         }
       },
-      "newText": "\n    - tr"
+      "newText": "\n      - tr"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

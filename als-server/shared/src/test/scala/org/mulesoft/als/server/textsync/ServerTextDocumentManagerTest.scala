@@ -1,14 +1,10 @@
 package org.mulesoft.als.server.textsync
 
-import amf.core.remote.Platform
-import amf.internal.environment.Environment
-import org.mulesoft.als.common.DirectoryResolver
-import org.mulesoft.als.server.modules.ast.AstManager
-import org.mulesoft.als.server.modules.structure.StructureManager
-import org.mulesoft.als.server.modules.telemetry.TelemetryManager
+import org.mulesoft.als.server.modules.ManagersFactory
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
+import org.mulesoft.lsp.server.LanguageServer
 
 import scala.concurrent.ExecutionContext
 
@@ -18,19 +14,12 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
   override def rootPath: String = ""
 
-  override def addModules(documentManager: TextDocumentManager,
-                          platform: Platform,
-                          directoryResolver: DirectoryResolver,
-                          baseEnvironment: Environment,
-                          builder: LanguageServerBuilder): LanguageServerBuilder = {
+  override def buildServer(): LanguageServer = {
 
-    val telemetryManager = new TelemetryManager(MockDiagnosticClientNotifier, logger)
-    val astManager       = new AstManager(documentManager, baseEnvironment, telemetryManager, platform, logger)
-    val module           = new StructureManager(documentManager, astManager, telemetryManager, logger, platform)
-
-    builder
-      .addInitializable(astManager)
-      .addRequestModule(module)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = false)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
+      .addRequestModule(factory.structureManager)
+      .build()
   }
 
   test("change document test 001") {
@@ -77,6 +66,7 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
     }
   }
 
+  // todo: encoded URIs not working correctly
   test("change document with uri spaces test 003") {
     withServer { server =>
       val content1 = "#%RAML 1.0\ntitle: test\n"

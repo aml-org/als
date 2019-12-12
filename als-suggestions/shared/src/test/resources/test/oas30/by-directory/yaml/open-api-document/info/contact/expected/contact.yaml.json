@@ -1,13 +1,13 @@
 [
   {
-    "label": "name",
+    "label": "email",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "email",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11email",
+    "filterText": "email: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,12 +15,42 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "email: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "name",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11name",
+    "filterText": "name: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
         }
       },
       "newText": "name: "
@@ -32,12 +62,12 @@
   {
     "label": "url",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "docs",
+    "documentation": "url",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11url",
+    "filterText": "url: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,45 +75,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 4
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 3,
+          "character": 4
         }
       },
       "newText": "url: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "email",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "email: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -1,3 +1,5 @@
+import {client, parse} from "@mulesoft/als-suggestions";
+
 declare module '@mulesoft/als-suggestions' {
 
   /* amf-client-js */
@@ -125,7 +127,19 @@ declare module '@mulesoft/als-suggestions' {
     constructor(env: client.environment.Environment)
   }
 
+  export class Oas30Parser extends parse.Parser {
+      constructor()
+      constructor(env: client.environment.Environment)
+  }
+
+  export class Oas30YamlParser extends parse.Parser {
+      constructor()
+      constructor(env: client.environment.Environment)
+  }
+
   export class Oas20Renderer extends render.Renderer {}
+
+  export class Oas30Renderer extends render.Renderer {}
 
   export class Oas20Resolver extends resolve.Resolver {}
 
@@ -390,7 +404,7 @@ declare module '@mulesoft/als-suggestions' {
 
       nonNull: boolean
 
-      toString: string
+      toString(): string
 
       abstract remove(): void
     }
@@ -743,6 +757,9 @@ declare module '@mulesoft/als-suggestions' {
         description: StrField
         defaultValue: DataNode
         defaultValueStr: StrField
+        readOnly: BoolField
+        writeOnly: BoolField
+        deprecated: BoolField
 
         values: DataNode[]
         location: string
@@ -753,6 +770,12 @@ declare module '@mulesoft/als-suggestions' {
         not: Shape
 
         withName(name: string): this
+
+        withReadOnly(readOnly: boolean): this
+
+        withWriteOnly(writeOnly: boolean): this
+
+        withDeprecated(deprecated: boolean): this
 
         withDisplayName(name: string): this
 
@@ -795,9 +818,6 @@ declare module '@mulesoft/als-suggestions' {
         range: Shape
         minCount: IntField
         maxCount: IntField
-        readOnly: BoolField
-        writeOnly: BoolField
-        deprecated: BoolField
         patternName: StrField
 
         withPath(path: string): this
@@ -807,12 +827,6 @@ declare module '@mulesoft/als-suggestions' {
         withMinCount(min: number): this
 
         withMaxCount(max: number): this
-
-        withReadOnly(readOnly: boolean): this
-
-        withWriteOnly(writeOnly: boolean): this
-
-        withDeprecated(deprecated: boolean): this
 
         withPatternName(pattern: string): this
       }
@@ -1007,7 +1021,7 @@ declare module '@mulesoft/als-suggestions' {
         parameters: Parameter[]
         payloads: Payload[]
         servers: Server[]
-        security: ParametrizedSecurityScheme[]
+        security: SecurityRequirement[]
 
         relativePath: string
 
@@ -1027,7 +1041,7 @@ declare module '@mulesoft/als-suggestions' {
 
         withServers(servers: Server[]): this
 
-        withSecurity(security: ParametrizedSecurityScheme[]): this
+        withSecurity(security: SecurityRequirement[]): this
 
         withOperation(method: string): Operation
 
@@ -1036,6 +1050,15 @@ declare module '@mulesoft/als-suggestions' {
         withPayload(name: string): Payload
 
         withServer(url: string): Server
+      }
+
+      export class SecurityRequirement extends DomainElement {
+        name: StrField
+        schemes: ParametrizedSecurityScheme[]
+
+        withName(name: string): this
+        withSchemes(schemes: ParametrizedSecurityScheme[]): this
+        withScheme(): ParametrizedSecurityScheme
       }
 
       export class ParametrizedSecurityScheme extends DomainElement {
@@ -1370,9 +1393,17 @@ declare module '@mulesoft/als-suggestions' {
       }
 
       export class OAuth2Settings extends Settings {
+        authorizationGrants: StrField[]
+        flows: OAuth2Flow[]
+
+        withAuthorizationGrants(grants: string[]): this
+
+        withFlows(flows: OAuth2Flow[]): this
+      }
+
+      export class OAuth2Flow extends Settings {
         authorizationUri: StrField
         accessTokenUri: StrField
-        authorizationGrants: StrField[]
         flow: StrField
         refreshUri: StrField
         scopes: Scope[]
@@ -1380,8 +1411,6 @@ declare module '@mulesoft/als-suggestions' {
         withAuthorizationUri(uri: string): this
 
         withAccessTokenUri(token: string): this
-
-        withAuthorizationGrants(grants: string[]): this
 
         withFlow(flow: string): this
 
@@ -1448,8 +1477,9 @@ declare module '@mulesoft/als-suggestions' {
         accepts: StrField[]
         contentType: StrField[]
         request: Request
+        requests: Request[]
         responses: Response[]
-        security: ParametrizedSecurityScheme[]
+        security: SecurityRequirement[]
         callbacks: Callback[]
         servers: Server[]
 
@@ -1471,11 +1501,13 @@ declare module '@mulesoft/als-suggestions' {
 
         withContentType(contentType: string[]): this
 
+        withRequests(requests: Request[]): this
+
         withRequest(request: Request): this
 
         withResponses(responses: Response[]): this
 
-        withSecurity(security: ParametrizedSecurityScheme[]): this
+        withSecurity(security: SecurityRequirement[]): this
 
         withCallbacks(callbacks: Callback[]): this
 
@@ -1708,7 +1740,7 @@ declare module '@mulesoft/als-suggestions' {
         license: License
         documentations: CreativeWork[]
         servers: Server[]
-        security: ParametrizedSecurityScheme[]
+        security: SecurityRequirement[]
 
         withName(name: string): this
 
@@ -1734,7 +1766,7 @@ declare module '@mulesoft/als-suggestions' {
 
         withServers(servers: Server[]): this
 
-        withSecurity(security: ParametrizedSecurityScheme[]): this
+        withSecurity(security: SecurityRequirement[]): this
 
         withDocumentationTitle(title: string): CreativeWork
 
@@ -1999,4 +2031,3 @@ declare module '@mulesoft/als-suggestions' {
   }
 
 }
-

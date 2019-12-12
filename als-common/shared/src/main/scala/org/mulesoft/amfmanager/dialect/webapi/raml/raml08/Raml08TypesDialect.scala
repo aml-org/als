@@ -228,7 +228,8 @@ object Raml08TypesDialect {
           ScalarShapeNode,
           Raml08SecuritySchemesDialect.SecurityScheme,
           Raml08SecuritySchemesDialect.OAuth1Settings,
-          Raml08SecuritySchemesDialect.OAuth2Settings
+          Raml08SecuritySchemesDialect.OAuth2Settings,
+          Raml08SecuritySchemesDialect.OAuth2Flows
         ))
 
     val declaredNodes = Seq(
