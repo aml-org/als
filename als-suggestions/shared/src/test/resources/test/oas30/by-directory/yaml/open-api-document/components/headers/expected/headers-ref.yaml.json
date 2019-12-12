@@ -1,0 +1,92 @@
+[
+  {
+    "label": "#/components/headers/test",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/components/headers/test",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#/components/headers/test",
+    "filterText": "\"#/components/headers/test\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 16,
+          "character": 26
+        },
+        "end": {
+          "line": 16,
+          "character": 26
+        }
+      },
+      "newText": "\"#/components/headers/test\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "expected/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11expected/",
+    "filterText": "expected/",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 16,
+          "character": 26
+        },
+        "end": {
+          "line": 16,
+          "character": 26
+        }
+      },
+      "newText": "expected/"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "headers.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11headers.yaml",
+    "filterText": "headers.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 16,
+          "character": 26
+        },
+        "end": {
+          "line": 16,
+          "character": 26
+        }
+      },
+      "newText": "headers.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

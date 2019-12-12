@@ -1,0 +1,152 @@
+[
+  {
+    "label": "attribute",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "attribute",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11attribute",
+    "filterText": "attribute: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "attribute: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "name",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11name",
+    "filterText": "name: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "name: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "namespace",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "namespace",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11namespace",
+    "filterText": "namespace: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "namespace: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "prefix",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "prefix",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11prefix",
+    "filterText": "prefix: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "prefix: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "wrapped",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "wrapped",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11wrapped",
+    "filterText": "wrapped: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "wrapped: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

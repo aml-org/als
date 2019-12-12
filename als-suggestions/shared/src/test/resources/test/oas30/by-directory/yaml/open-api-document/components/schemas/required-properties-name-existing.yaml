@@ -1,0 +1,12 @@
+openapi: 3.0.0
+components:
+  schemas:
+    Pet:
+      properties:
+        name:
+          type: string
+        tag:
+          type: string
+        anotherPro:
+          type: string
+      required: [ tag, * ]

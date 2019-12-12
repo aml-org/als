@@ -1,0 +1,62 @@
+[
+  {
+    "label": "mapping",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "mapping",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11mapping",
+    "filterText": "mapping: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 24,
+          "character": 8
+        },
+        "end": {
+          "line": 24,
+          "character": 8
+        }
+      },
+      "newText": "mapping: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "propertyName",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "propertyName",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11propertyName",
+    "filterText": "propertyName: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 24,
+          "character": 8
+        },
+        "end": {
+          "line": 24,
+          "character": 8
+        }
+      },
+      "newText": "propertyName: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

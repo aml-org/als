@@ -1,0 +1,212 @@
+[
+  {
+    "label": "deepObject",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "deepObject",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10deepObject",
+    "filterText": "\"deepObject\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 17
+        },
+        "end": {
+          "line": 5,
+          "character": 19
+        }
+      },
+      "newText": "\"deepObject\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "form",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "form",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10form",
+    "filterText": "\"form\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 17
+        },
+        "end": {
+          "line": 5,
+          "character": 19
+        }
+      },
+      "newText": "\"form\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "label",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "label",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10label",
+    "filterText": "\"label\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 17
+        },
+        "end": {
+          "line": 5,
+          "character": 19
+        }
+      },
+      "newText": "\"label\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "matrix",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "matrix",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10matrix",
+    "filterText": "\"matrix\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 17
+        },
+        "end": {
+          "line": 5,
+          "character": 19
+        }
+      },
+      "newText": "\"matrix\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "pipeDelimited",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "pipeDelimited",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10pipeDelimited",
+    "filterText": "\"pipeDelimited\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 17
+        },
+        "end": {
+          "line": 5,
+          "character": 19
+        }
+      },
+      "newText": "\"pipeDelimited\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "simple",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "simple",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10simple",
+    "filterText": "\"simple\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 17
+        },
+        "end": {
+          "line": 5,
+          "character": 19
+        }
+      },
+      "newText": "\"simple\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "spaceDelimited",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "spaceDelimited",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10spaceDelimited",
+    "filterText": "\"spaceDelimited\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 17
+        },
+        "end": {
+          "line": 5,
+          "character": 19
+        }
+      },
+      "newText": "\"spaceDelimited\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

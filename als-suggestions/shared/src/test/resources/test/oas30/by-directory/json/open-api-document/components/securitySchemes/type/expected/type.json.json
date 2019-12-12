@@ -1,0 +1,122 @@
+[
+  {
+    "label": "apiKey",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "apiKey",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10apiKey",
+    "filterText": "\"apiKey\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 16
+        },
+        "end": {
+          "line": 5,
+          "character": 18
+        }
+      },
+      "newText": "\"apiKey\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "http",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "http",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10http",
+    "filterText": "\"http\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 16
+        },
+        "end": {
+          "line": 5,
+          "character": 18
+        }
+      },
+      "newText": "\"http\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "oauth2",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "oauth2",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10oauth2",
+    "filterText": "\"oauth2\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 16
+        },
+        "end": {
+          "line": 5,
+          "character": 18
+        }
+      },
+      "newText": "\"oauth2\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "openIdConnect",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "openIdConnect",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10openIdConnect",
+    "filterText": "\"openIdConnect\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 16
+        },
+        "end": {
+          "line": 5,
+          "character": 18
+        }
+      },
+      "newText": "\"openIdConnect\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

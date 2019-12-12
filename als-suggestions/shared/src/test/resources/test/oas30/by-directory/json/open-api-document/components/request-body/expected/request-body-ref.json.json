@@ -1,0 +1,92 @@
+[
+  {
+    "label": "#/components/requestBodies/test",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/components/requestBodies/test",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#/components/requestBodies/test",
+    "filterText": "\"#/components/requestBodies/test\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 18
+        },
+        "end": {
+          "line": 18,
+          "character": 20
+        }
+      },
+      "newText": "\"#/components/requestBodies/test\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "expected/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11expected/",
+    "filterText": "\"expected/\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 18
+        },
+        "end": {
+          "line": 18,
+          "character": 20
+        }
+      },
+      "newText": "\"expected/\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "request-body.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11request-body.json",
+    "filterText": "\"request-body.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 18
+        },
+        "end": {
+          "line": 18,
+          "character": 20
+        }
+      },
+      "newText": "\"request-body.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
