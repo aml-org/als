@@ -1,9 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.categories
 
-import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, CreativeWorkModel, ExampleModel, XMLSerializerModel}
-import amf.plugins.domain.webapi.metamodel.{EndPointModel, LicenseModel, OperationModel, OrganizationModel, ParameterModel, PayloadModel, ResponseModel, TagModel, WebApiModel}
-import amf.plugins.domain.webapi.metamodel.security.{ApiKeySettingsModel, OAuth2FlowModel, OAuth2SettingsModel, SecuritySchemeModel}
-import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
+import amf.plugins.domain.shapes.metamodel.{CreativeWorkModel, XMLSerializerModel}
+import amf.plugins.domain.webapi.metamodel.security.{ApiKeySettingsModel, SecuritySchemeModel}
+import amf.plugins.domain.webapi.metamodel._
 
 case class CategoryIndex(classTerm: String, property: String)
 

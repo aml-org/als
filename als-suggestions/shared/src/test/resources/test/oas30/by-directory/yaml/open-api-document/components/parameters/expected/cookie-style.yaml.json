@@ -1,0 +1,32 @@
+[
+  {
+    "label": "form",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "form",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10form",
+    "filterText": "form",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 13
+        },
+        "end": {
+          "line": 5,
+          "character": 13
+        }
+      },
+      "newText": "form"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

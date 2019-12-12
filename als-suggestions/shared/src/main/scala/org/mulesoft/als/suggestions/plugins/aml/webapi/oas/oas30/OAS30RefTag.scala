@@ -11,7 +11,7 @@ object OAS30RefTag extends AMLCompletionPlugin {
   override def id: String = "AMLRefTagCompletionPlugin"
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    if (VariableValueParam.applies(request)) emptySuggestion
+    if (Oas30ExceptionPlugins.applyAny(request)) emptySuggestion
     else OASRefTag.resolve(request)
   }
 }

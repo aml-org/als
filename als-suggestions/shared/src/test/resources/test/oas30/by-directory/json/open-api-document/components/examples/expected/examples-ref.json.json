@@ -1,0 +1,92 @@
+[
+  {
+    "label": "#/components/examples/test",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/components/examples/test",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#/components/examples/test",
+    "filterText": "\"#/components/examples/test\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 16,
+          "character": 24
+        },
+        "end": {
+          "line": 16,
+          "character": 26
+        }
+      },
+      "newText": "\"#/components/examples/test\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "examples.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11examples.json",
+    "filterText": "\"examples.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 16,
+          "character": 24
+        },
+        "end": {
+          "line": 16,
+          "character": 26
+        }
+      },
+      "newText": "\"examples.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "expected/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11expected/",
+    "filterText": "\"expected/\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 16,
+          "character": 24
+        },
+        "end": {
+          "line": 16,
+          "character": 26
+        }
+      },
+      "newText": "\"expected/\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

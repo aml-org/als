@@ -1,0 +1,24 @@
+openapi: 3.0.0
+components:
+  schemas:
+    Cat:
+      properties:
+        legs:
+          type: integer
+        name:
+          type: string
+        pet-type:
+          type: string
+    Dog:
+      properties:
+        legs:
+          type: integer
+        nickname:
+          type: string
+        pet-type:
+          type: string
+    test:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      *

@@ -1,0 +1,13 @@
+openapi: 3.0.0
+components:
+  examples:
+    test:
+      prop: a
+
+paths:
+  /p:
+    get:
+      parameters:
+        - examples:
+            name:
+              $ref: *

@@ -1,0 +1,32 @@
+[
+  {
+    "label": "components/schemas/a",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/components/schemas/a",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11components/schemas/a",
+    "filterText": "\"#/components/schemas/a\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 20
+        }
+      },
+      "newText": "\"#/components/schemas/a\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
