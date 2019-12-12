@@ -4,6 +4,7 @@ import amf.client.remote.Content
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
+import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server.LanguageServerBuilder
 import org.mulesoft.als.server.modules.ManagersFactory
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer, LanguageServerSystemConf}
@@ -93,6 +94,8 @@ class IncludeCacheTests extends RAMLSuggestionTestServer {
 
   case class DummyLanguageServerSystemConf(rl: ResourceLoader) extends LanguageServerSystemConf with PlatformSecrets {
     override def environment: Environment = Environment().add(rl)
+
+    override def directoryResolver: DirectoryResolver = new PlatformDirectoryResolver(platform)
   }
 
 }
