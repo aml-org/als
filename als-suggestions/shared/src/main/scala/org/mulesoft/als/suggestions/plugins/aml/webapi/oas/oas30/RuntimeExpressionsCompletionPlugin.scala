@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
-import amf.plugins.domain.webapi.models.Request
+import amf.plugins.domain.webapi.models.{Callback, Request, TemplatedLink}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -20,11 +20,22 @@ object RuntimeExpressionsCompletionPlugin extends AMLCompletionPlugin {
   private def isApplicable(request: AmlCompletionRequest): Boolean =
     !(DialectKnowledge.isRamlInclusion(request.yPartBranch, request.actualDialect) ||
       DialectKnowledge.isJsonInclusion(request.yPartBranch, request.actualDialect)) &&
-      request.amfObject.isInstanceOf[Request] && request.yPartBranch.isValue
+      isRequest(request) ||
+      isLink(request) ||
+      isCallback(request)
+
+  private def isRequest(request: AmlCompletionRequest) =
+    request.amfObject.isInstanceOf[Request] && request.yPartBranch.isValue
+
+  private def isLink(request: AmlCompletionRequest) =
+    request.amfObject.isInstanceOf[TemplatedLink] && request.yPartBranch.isValue
+
+  private def isCallback(request: AmlCompletionRequest) =
+    request.branchStack.headOption.exists(_.isInstanceOf[Callback]) && request.yPartBranch.isKey
 
   // TODO: add navigation for fragments? Known values for tokens?
   private def extractExpression(v: String): Seq[RawSuggestion] = {
-    val parser = OASRuntimeExpressionParser(v)
+    val parser = OASRuntimeExpressionParser(v.stripPrefix("{"))
     (parser.completeStack.filterNot(_.isInstanceOf[InvalidExpressionToken]).lastOption match {
       case Some(other) => other.possibleApplications
       case None        => parser.possibleApplications

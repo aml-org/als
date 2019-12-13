@@ -1,35 +1,5 @@
 [
   {
-    "label": "#/components/links/test",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Reference to #/components/links/test",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11#/components/links/test",
-    "filterText": "\"#/components/links/test\"",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 13,
-          "character": 20
-        },
-        "end": {
-          "line": 13,
-          "character": 20
-        }
-      },
-      "newText": "\"#/components/links/test\""
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "$method",
     "kind": [],
     "detail": "RuntimeExpression",
@@ -45,12 +15,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 13,
-          "character": 20
+          "line": 22,
+          "character": 28
         },
         "end": {
-          "line": 13,
-          "character": 20
+          "line": 22,
+          "character": 28
         }
       },
       "newText": "$method"
@@ -75,12 +45,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 13,
-          "character": 20
+          "line": 22,
+          "character": 28
         },
         "end": {
-          "line": 13,
-          "character": 20
+          "line": 22,
+          "character": 28
         }
       },
       "newText": "$request."
@@ -105,12 +75,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 13,
-          "character": 20
+          "line": 22,
+          "character": 28
         },
         "end": {
-          "line": 13,
-          "character": 20
+          "line": 22,
+          "character": 28
         }
       },
       "newText": "$response."
@@ -135,12 +105,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 13,
-          "character": 20
+          "line": 22,
+          "character": 28
         },
         "end": {
-          "line": 13,
-          "character": 20
+          "line": 22,
+          "character": 28
         }
       },
       "newText": "$statusCode"
@@ -165,75 +135,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 13,
-          "character": 20
+          "line": 22,
+          "character": 28
         },
         "end": {
-          "line": 13,
-          "character": 20
+          "line": 22,
+          "character": 28
         }
       },
       "newText": "$url"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "expected/",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11expected/",
-    "filterText": "expected/",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 13,
-          "character": 20
-        },
-        "end": {
-          "line": 13,
-          "character": 20
-        }
-      },
-      "newText": "expected/"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "links.yaml",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11links.yaml",
-    "filterText": "links.yaml",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 13,
-          "character": 20
-        },
-        "end": {
-          "line": 13,
-          "character": 20
-        }
-      },
-      "newText": "links.yaml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
