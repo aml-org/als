@@ -1,11 +1,11 @@
 package org.mulesoft.language.outline.test.aml
 
-import org.mulesoft.language.outline.test.StructureTest
+import org.mulesoft.language.outline.test.BaseStructureTest
 import org.scalatest.compatible.Assertion
 
 import scala.concurrent.Future
 
-class DialectStructureTest extends StructureTest with DialectTest {
+class DialectStructureTest extends BaseStructureTest with DialectTest {
 
   def runTest(path: String, dialectPath: String, jsonPath: String): Future[Assertion] = {
 

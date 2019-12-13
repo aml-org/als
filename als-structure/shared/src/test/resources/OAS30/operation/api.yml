@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  title: Sample Pet Store App
+  version: 1.0.1
+
+paths:
+  /endpoint1:
+    summary: aa
+    description: an endpoint
+    get:
+      tags: ["a"]
+      summary: summary
+      description: an operation
+      operationId: opId
+      parameters:
+        - name: param1
+          in: query
+        - name: param2
+          in: header
+      requestBody:
+      responses:
+        200:
+      callbacks:
+        callback:
+      security:
+      servers:
+        - url: https://development.gigantic-server.com/v1
+          description: Development server
+        - url: https://staging.gigantic-server.com/v1
+          description: Staging server
+        - url: https://api.gigantic-server.com/v1
+          description: Production server
