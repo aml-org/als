@@ -1,0 +1,9 @@
+openapi: 3.0.0
+components:
+  schemas:
+    name:
+      type: array
+      items:
+        properties:
+          p1
+      example: *
