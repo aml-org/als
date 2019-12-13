@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.modules
 
-import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.actions.{DocumentLinksManager, FindReferenceManager, GoToDefinitionManager}

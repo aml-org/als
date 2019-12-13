@@ -30,6 +30,36 @@
     "command": null
   },
   {
+    "label": "body#",
+    "kind": [],
+    "detail": "RuntimeExpression",
+    "documentation": "$response.body#",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11body#",
+    "filterText": "\"$response.body#\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 19,
+          "character": 23
+        },
+        "end": {
+          "line": 19,
+          "character": 35
+        }
+      },
+      "newText": "\"$response.body#\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "header.",
     "kind": [],
     "detail": "RuntimeExpression",

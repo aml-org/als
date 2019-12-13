@@ -1,36 +1,38 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
+import amf.plugins.domain.webapi.models.Request
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import amf.plugins.domain.webapi.models.Request
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30.runtimeexpressions.{
-  ExpressionToken,
-  InvalidToken,
-  RuntimeExpressionParser,
-  RuntimeExpressionValues
+  InvalidExpressionToken,
+  OASRuntimeExpressionParser
 }
+import org.mulesoft.amfmanager.dialect.DialectKnowledge
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object RuntimeExpressionsCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "RuntimeExpressionsCompletionPlugin"
 
   // TODO: LinkObject, Callbacks
   private def isApplicable(request: AmlCompletionRequest): Boolean =
-    request.amfObject.isInstanceOf[Request] && request.yPartBranch.isValue
+    !(DialectKnowledge.isRamlInclusion(request.yPartBranch, request.actualDialect) ||
+      DialectKnowledge.isJsonInclusion(request.yPartBranch, request.actualDialect)) &&
+      request.amfObject.isInstanceOf[Request] && request.yPartBranch.isValue
 
   // TODO: add navigation for fragments? Known values for tokens?
   private def extractExpression(v: String): Seq[RawSuggestion] = {
-    (RuntimeExpressionParser(v).tokens.filterNot(_.isInstanceOf[InvalidToken]).lastOption match {
-      case None                     => RuntimeExpressionValues.expressions
-      case Some(_: ExpressionToken) => RuntimeExpressionValues.sources
-      case _                        => Nil
+    val parser = OASRuntimeExpressionParser(v)
+    (parser.completeStack.filterNot(_.isInstanceOf[InvalidExpressionToken]).lastOption match {
+      case Some(other) => other.possibleApplications
+      case None        => parser.possibleApplications
     }).map { s =>
-        val pre = if (v.contains(".")) v.substring(0, v.lastIndexOf('.') + 1) else ""
-        RawSuggestion(s"$pre$s", isAKey = false, "RuntimeExpression", mandatory = false)
-      }
+      val pre = v.stripSuffix(
+        parser.completeStack.collectFirst { case i: InvalidExpressionToken => i }.map(_.value).getOrElse(""))
+      RawSuggestion(s"$pre$s", isAKey = false, "RuntimeExpression", mandatory = false)
+    }
   }
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = Future {
