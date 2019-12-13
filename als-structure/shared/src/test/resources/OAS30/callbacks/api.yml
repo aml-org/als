@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  title: Sample Pet Store App
+  version: 1.0.1
+
+paths:
+  /endpoint1:
+    summary: aa
+    description: an endpoint
+    get:
+      callbacks:
+        callback:
+          'http://notificationServer.com?transactionId={$request.body#/id}&email={$request.body#/email}':
+            post:
+              requestBody:
+                description: Callback payload
+                content:
+                  'application/json':
+                    schema:
+                      type: strin
+              responses:
+                '200':
+                  description: webhook successfully processed and no retries will be performed
