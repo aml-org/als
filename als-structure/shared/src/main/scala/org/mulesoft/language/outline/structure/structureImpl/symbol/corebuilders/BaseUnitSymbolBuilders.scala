@@ -25,7 +25,7 @@ abstract class BaseUnitSymbolBuilder(element: BaseUnit)(override implicit val fa
     case _ => Map()
   }
 
-  private def buildDeclaredSymbols = {
+  protected def buildDeclaredSymbols = {
     declaredChildren.flatMap {
       case (name, builders) =>
         val children = builders.flatMap(_.build())

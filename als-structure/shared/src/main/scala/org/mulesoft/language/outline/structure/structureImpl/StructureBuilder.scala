@@ -4,7 +4,7 @@ import amf.client.model.DataTypes
 import amf.core.metamodel.domain.extensions.PropertyShapeModel
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
-import amf.core.remote.{Oas, Raml}
+import amf.core.remote.{Oas, Oas30, Raml}
 import amf.plugins.domain.shapes.metamodel.{ArrayShapeModel, FileShapeModel, NodeShapeModel, ScalarShapeModel}
 import amf.plugins.domain.shapes.models.ScalarShape
 import amf.plugins.domain.webapi.metamodel.templates.ResourceTypeModel
@@ -12,13 +12,18 @@ import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.AmlBuilderFactory
-import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{OasBuilderFactory, RamlBuilderFactory}
+import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{
+  Oas20BuilderFactory,
+  Oas30BuilderFactory,
+  RamlBuilderFactory
+}
 
 class StructureBuilder(unit: BaseUnit) {
 
   private val builderFactory: BuilderFactory = unit.sourceVendor match {
     case Some(_: Raml) => RamlBuilderFactory
-    case Some(_: Oas)  => OasBuilderFactory
+    case Some(Oas30)   => Oas30BuilderFactory
+    case Some(_: Oas)  => Oas20BuilderFactory
     case _             => AmlBuilderFactory
   }
 

@@ -5,7 +5,7 @@ import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, St
 import org.mulesoft.language.outline.test.DocumentSymbolNode._
 import upickle.default.write
 
-abstract class StructureTest extends OutlineTest[List[DocumentSymbol]] {
+abstract class BaseStructureTest extends OutlineTest[List[DocumentSymbol]] {
 
   override def readDataFromAST(unit: BaseUnit, position: Int): List[DocumentSymbol] =
     StructureBuilder.listSymbols(unit)
