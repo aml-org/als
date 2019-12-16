@@ -35,14 +35,16 @@ object RuntimeExpressionsCompletionPlugin extends AMLCompletionPlugin {
 
   // TODO: add navigation for fragments? Known values for tokens?
   private def extractExpression(v: String): Seq[RawSuggestion] = {
-    val parser = OASRuntimeExpressionParser(v.stripPrefix("{"))
+    val nonExpressionPrefix = if (v.contains("{")) v.substring(0, v.lastIndexOf("{") + 1) else ""
+    val parser              = OASRuntimeExpressionParser(v.stripPrefix(nonExpressionPrefix))
     (parser.completeStack.filterNot(_.isInstanceOf[InvalidExpressionToken]).lastOption match {
       case Some(other) => other.possibleApplications
       case None        => parser.possibleApplications
     }).map { s =>
       val pre = v.stripSuffix(
         parser.completeStack.collectFirst { case i: InvalidExpressionToken => i }.map(_.value).getOrElse(""))
-      RawSuggestion(s"$pre$s", isAKey = false, "RuntimeExpression", mandatory = false)
+      val displayText = pre.concat(s).stripPrefix(nonExpressionPrefix)
+      RawSuggestion(s"$pre$s", displayText, isAKey = false, "RuntimeExpression", mandatory = false)
     }
   }
 

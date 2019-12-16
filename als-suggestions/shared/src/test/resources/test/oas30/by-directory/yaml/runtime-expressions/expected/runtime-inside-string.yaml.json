@@ -3,11 +3,11 @@
     "label": "$method",
     "kind": [],
     "detail": "RuntimeExpression",
-    "documentation": "{$method",
+    "documentation": "http://notificationServer.com?transactionId={$method",
     "deprecated": [],
     "preselect": [],
     "sortText": "11$method",
-    "filterText": "\"{$method\"",
+    "filterText": "http://notificationServer.com?transactionId={$method",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 23,
+          "line": 12,
           "character": 11
         },
         "end": {
-          "line": 23,
-          "character": 12
+          "line": 12,
+          "character": 56
         }
       },
-      "newText": "\"{$method\""
+      "newText": "http://notificationServer.com?transactionId={$method"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -33,11 +33,11 @@
     "label": "$request.",
     "kind": [],
     "detail": "RuntimeExpression",
-    "documentation": "{$request.",
+    "documentation": "http://notificationServer.com?transactionId={$request.",
     "deprecated": [],
     "preselect": [],
     "sortText": "11$request.",
-    "filterText": "\"{$request.\"",
+    "filterText": "http://notificationServer.com?transactionId={$request.",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,15 +45,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 23,
+          "line": 12,
           "character": 11
         },
         "end": {
-          "line": 23,
-          "character": 12
+          "line": 12,
+          "character": 56
         }
       },
-      "newText": "\"{$request.\""
+      "newText": "http://notificationServer.com?transactionId={$request."
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -63,11 +63,11 @@
     "label": "$response.",
     "kind": [],
     "detail": "RuntimeExpression",
-    "documentation": "{$response.",
+    "documentation": "http://notificationServer.com?transactionId={$response.",
     "deprecated": [],
     "preselect": [],
     "sortText": "11$response.",
-    "filterText": "\"{$response.\"",
+    "filterText": "http://notificationServer.com?transactionId={$response.",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,15 +75,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 23,
+          "line": 12,
           "character": 11
         },
         "end": {
-          "line": 23,
-          "character": 12
+          "line": 12,
+          "character": 56
         }
       },
-      "newText": "\"{$response.\""
+      "newText": "http://notificationServer.com?transactionId={$response."
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -93,11 +93,11 @@
     "label": "$statusCode",
     "kind": [],
     "detail": "RuntimeExpression",
-    "documentation": "{$statusCode",
+    "documentation": "http://notificationServer.com?transactionId={$statusCode",
     "deprecated": [],
     "preselect": [],
     "sortText": "11$statusCode",
-    "filterText": "\"{$statusCode\"",
+    "filterText": "http://notificationServer.com?transactionId={$statusCode",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -105,15 +105,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 23,
+          "line": 12,
           "character": 11
         },
         "end": {
-          "line": 23,
-          "character": 12
+          "line": 12,
+          "character": 56
         }
       },
-      "newText": "\"{$statusCode\""
+      "newText": "http://notificationServer.com?transactionId={$statusCode"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -123,11 +123,11 @@
     "label": "$url",
     "kind": [],
     "detail": "RuntimeExpression",
-    "documentation": "{$url",
+    "documentation": "http://notificationServer.com?transactionId={$url",
     "deprecated": [],
     "preselect": [],
     "sortText": "11$url",
-    "filterText": "\"{$url\"",
+    "filterText": "http://notificationServer.com?transactionId={$url",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -135,15 +135,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 23,
+          "line": 12,
           "character": 11
         },
         "end": {
-          "line": 23,
-          "character": 12
+          "line": 12,
+          "character": 56
         }
       },
-      "newText": "\"{$url\""
+      "newText": "http://notificationServer.com?transactionId={$url"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
