@@ -2,12 +2,15 @@ package org.mulesoft.language.outline.structure.structureImpl.factory.webapi
 
 import amf.core.model.domain.AmfArray
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.oasbuilders.OasBaseUnitSymbolBuilder
+import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders._
+import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.oasbuilders.{
+  Oas20BaseUnitSymbolBuilder,
+  Oas30BaseUnitSymbolBuilder
+}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ramlbuilders.{
   RamlBaseUnitSymbolBuilder,
   RamlSecuritySchemesSettingsSymbolBuilder
 }
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders._
 import org.mulesoft.language.outline.structure.structureImpl.{
   BuilderFactory,
   CompanionList,
@@ -43,8 +46,14 @@ object RamlBuilderFactory extends AmfBuilderFactory {
     RamlBaseUnitSymbolBuilder
 }
 
-object OasBuilderFactory extends AmfBuilderFactory {
+object Oas20BuilderFactory extends AmfBuilderFactory {
 
   override def baseUnitBuilder: ElementSymbolBuilderCompanion =
-    OasBaseUnitSymbolBuilder
+    Oas20BaseUnitSymbolBuilder
+}
+
+object Oas30BuilderFactory extends AmfBuilderFactory {
+
+  override def baseUnitBuilder: ElementSymbolBuilderCompanion =
+    Oas30BaseUnitSymbolBuilder
 }

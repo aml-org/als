@@ -1,0 +1,20 @@
+openapi: 3.0.0
+info:
+  title: Sample Pet Store App
+  version: 1.0.1
+
+paths:
+  /endpoint1:
+    summary: aa
+    description: an endpoint
+    get:
+      parameters:
+        - name: param1
+          in: query
+        - name: param2
+          in: header
+      requestBody:
+        description: a request
+        content:
+          application/json:
+        required: false
