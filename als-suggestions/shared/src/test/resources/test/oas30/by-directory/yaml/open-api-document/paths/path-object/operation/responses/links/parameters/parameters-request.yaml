@@ -11,9 +11,5 @@ paths:
               properties:
                 userId:
                   type: string
-      responses:
-        '201':
-          links:
-            GetUserByUserId:
-              parameters:
-                userId: *
+      parameters:
+        - *

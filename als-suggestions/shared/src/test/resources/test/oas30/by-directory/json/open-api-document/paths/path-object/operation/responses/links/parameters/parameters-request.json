@@ -17,17 +17,11 @@
             }
           }
         },
-        "responses": {
-          "201": {
-            "links": {
-              "GetUserByUserId": {
-                "parameters": {
-                  "userId": "*"
-                }
-              }
-            }
+        "parameters": [
+          {
+            "*"
           }
-        }
+        ]
       }
     }
   }

@@ -15,12 +15,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 25
+          "line": 18,
+          "character": 24
         },
         "end": {
-          "line": 15,
-          "character": 25
+          "line": 18,
+          "character": 24
         }
       },
       "newText": "$method"
@@ -45,12 +45,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 25
+          "line": 18,
+          "character": 24
         },
         "end": {
-          "line": 15,
-          "character": 25
+          "line": 18,
+          "character": 24
         }
       },
       "newText": "$request."
@@ -75,12 +75,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 25
+          "line": 18,
+          "character": 24
         },
         "end": {
-          "line": 15,
-          "character": 25
+          "line": 18,
+          "character": 24
         }
       },
       "newText": "$response."
@@ -105,12 +105,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 25
+          "line": 18,
+          "character": 24
         },
         "end": {
-          "line": 15,
-          "character": 25
+          "line": 18,
+          "character": 24
         }
       },
       "newText": "$statusCode"
@@ -135,12 +135,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 25
+          "line": 18,
+          "character": 24
         },
         "end": {
-          "line": 15,
-          "character": 25
+          "line": 18,
+          "character": 24
         }
       },
       "newText": "$url"
