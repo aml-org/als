@@ -5,7 +5,6 @@ import amf.core.model.document.BaseUnit
 import amf.internal.reference.{CachedReference, ReferenceResolver}
 import org.mulesoft.amfmanager.BaseUnitImplicits._
 
-import scala.collection.mutable
 import scala.concurrent.Future
 
 case class CompletionReferenceResolver(unit: BaseUnit) extends ReferenceResolver {

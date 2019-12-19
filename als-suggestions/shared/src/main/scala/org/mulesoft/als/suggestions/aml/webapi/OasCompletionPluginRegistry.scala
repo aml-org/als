@@ -41,7 +41,7 @@ object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
 
 object Oas30CompletionPluginRegistry extends OasBaseCompletionRegistry {
 
-  private val all = common :+ Oas30ParameterStructure :+ EncodingPropertyName :+ Oas30TypeFacetsCompletionPlugin :+ OasUrlTemplateParam :+ OAS30RefTag :+ RefToParameters :+ DiscriminatorFacet :+ VariableValueParam :+ DiscriminatorObject :+ DiscriminatorMappingValue :+ FlowNames :+ OAS30EnumCompletionPlugin
+  private val all = common :+ Oas30ParameterStructure :+ EncodingPropertyName :+ Oas30TypeFacetsCompletionPlugin :+ OasUrlTemplateParam :+ OAS30RefTag :+ RefToParameters :+ DiscriminatorFacet :+ VariableValueParam :+ DiscriminatorObject :+ DiscriminatorMappingValue :+ FlowNames :+ OAS30EnumCompletionPlugin :+ RuntimeExpressionsCompletionPlugin
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, OAS30Dialect().id)

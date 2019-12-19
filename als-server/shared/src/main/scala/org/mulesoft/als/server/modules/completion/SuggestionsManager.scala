@@ -2,8 +2,8 @@ package org.mulesoft.als.server.modules.completion
 
 import java.util.UUID
 
+import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.common.{DirectoryResolver, FileUtils}
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer}
@@ -26,7 +26,6 @@ import scala.concurrent.Future
 class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                          val workspaceManager: WorkspaceManager,
                          private val telemetryProvider: TelemetryProvider,
-                         private val directoryResolver: DirectoryResolver,
                          private val configuration: LanguageServerSystemConf,
                          private val logger: Logger)
     extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
@@ -170,7 +169,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
 
     Suggestions.buildProviderAsync(eventualUnit,
                                    position,
-                                   directoryResolver,
+                                   configuration.directoryResolver,
                                    configuration.platform,
                                    patchedEnvironment.environment,
                                    uri,

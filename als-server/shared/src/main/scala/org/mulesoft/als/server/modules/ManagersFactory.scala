@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.modules
 
-import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.actions.{DocumentLinksManager, FindReferenceManager, GoToDefinitionManager}
@@ -29,12 +28,7 @@ case class ManagersFactory(clientNotifier: ClientNotifier,
   lazy val documentManager = new TextDocumentManager(container, List(workspaceManager), logger)
 
   lazy val completionManager =
-    new SuggestionsManager(container,
-                           workspaceManager,
-                           telemetryManager,
-                           configuration.directoryResolver,
-                           configuration,
-                           logger)
+    new SuggestionsManager(container, workspaceManager, telemetryManager, configuration, logger)
 
   lazy val structureManager = new StructureManager(workspaceManager, telemetryManager, logger)
 
