@@ -24,7 +24,6 @@ object RuntimeExpressionsCompletionPlugin extends AMLCompletionPlugin {
 
   protected def parserObject(value: String): RuntimeExpressionParser = OASRuntimeExpressionParser(value)
 
-  // TODO: LinkObject, Callbacks
   private def isApplicable(request: AmlCompletionRequest): Boolean =
     !(DialectKnowledge.isRamlInclusion(request.yPartBranch, request.actualDialect) ||
       DialectKnowledge.isJsonInclusion(request.yPartBranch, request.actualDialect)) &&

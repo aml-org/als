@@ -272,130 +272,25 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 23,
+        "line": 4,
         "character": 2
       },
       "end": {
-        "line": 32,
+        "line": 33,
         "character": 0
       }
     },
     "selectionRange": {
       "start": {
-        "line": 23,
+        "line": 4,
         "character": 2
       },
       "end": {
-        "line": 23,
-        "character": 7
+        "line": 4,
+        "character": 5
       }
     },
     "children": [
-      {
-        "name": "Admin",
-        "kind": 5,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 23,
-            "character": 2
-          },
-          "end": {
-            "line": 28,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 23,
-            "character": 2
-          },
-          "end": {
-            "line": 23,
-            "character": 7
-          }
-        },
-        "children": [
-          {
-            "name": "inherits",
-            "kind": 18,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 24,
-                "character": 10
-              },
-              "end": {
-                "line": 24,
-                "character": 16
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 24,
-                "character": 10
-              },
-              "end": {
-                "line": 24,
-                "character": 16
-              }
-            },
-            "children": []
-          },
-          {
-            "name": "clearanceLevel",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 26,
-                "character": 6
-              },
-              "end": {
-                "line": 28,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 26,
-                "character": 6
-              },
-              "end": {
-                "line": 28,
-                "character": 0
-              }
-            },
-            "children": []
-          }
-        ]
-      },
-      {
-        "name": "Alertable",
-        "kind": 7,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 32,
-            "character": 2
-          },
-          "end": {
-            "line": 33,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 32,
-            "character": 2
-          },
-          "end": {
-            "line": 32,
-            "character": 11
-          }
-        },
-        "children": []
-      },
       {
         "name": "Org",
         "kind": 5,
@@ -474,32 +369,6 @@
             "children": []
           }
         ]
-      },
-      {
-        "name": "Phone",
-        "kind": 15,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 15,
-            "character": 2
-          },
-          "end": {
-            "line": 18,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 15,
-            "character": 2
-          },
-          "end": {
-            "line": 15,
-            "character": 7
-          }
-        },
-        "children": []
       },
       {
         "name": "Person",
@@ -605,6 +474,32 @@
             "children": []
           }
         ]
+      },
+      {
+        "name": "Phone",
+        "kind": 15,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 15,
+            "character": 2
+          },
+          "end": {
+            "line": 18,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 15,
+            "character": 2
+          },
+          "end": {
+            "line": 15,
+            "character": 7
+          }
+        },
+        "children": []
       },
       {
         "name": "Manager",
@@ -739,6 +634,85 @@
         ]
       },
       {
+        "name": "Admin",
+        "kind": 5,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 23,
+            "character": 2
+          },
+          "end": {
+            "line": 28,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 23,
+            "character": 2
+          },
+          "end": {
+            "line": 23,
+            "character": 7
+          }
+        },
+        "children": [
+          {
+            "name": "inherits",
+            "kind": 18,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 24,
+                "character": 10
+              },
+              "end": {
+                "line": 24,
+                "character": 16
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 24,
+                "character": 10
+              },
+              "end": {
+                "line": 24,
+                "character": 16
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "clearanceLevel",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 26,
+                "character": 6
+              },
+              "end": {
+                "line": 28,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 26,
+                "character": 6
+              },
+              "end": {
+                "line": 28,
+                "character": 0
+              }
+            },
+            "children": []
+          }
+        ]
+      },
+      {
         "name": "AlertableAdmin",
         "kind": 5,
         "deprecated": false,
@@ -816,6 +790,32 @@
             "children": []
           }
         ]
+      },
+      {
+        "name": "Alertable",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 32,
+            "character": 2
+          },
+          "end": {
+            "line": 33,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 32,
+            "character": 2
+          },
+          "end": {
+            "line": 32,
+            "character": 11
+          }
+        },
+        "children": []
       }
     ]
   }

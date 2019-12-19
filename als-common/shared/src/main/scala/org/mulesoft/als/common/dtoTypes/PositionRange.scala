@@ -10,7 +10,7 @@ case class PositionRange(start: Position, end: Position) {
     if (start > other.end || other.start > end) None
     else Some(PositionRange(Position.max(start, other.start), Position.min(end, other.end)))
 
-  def +(right: PositionRange) = PositionRange(start, right.end)
+  def +(right: PositionRange) = PositionRange(start min right.start, end max right.end)
 
   override def toString: String = s"[$start-$end]"
 

@@ -11,6 +11,7 @@ import scala.annotation.tailrec
   *               `character` and `character + 1`.
   */
 case class Position(line: Int, column: Int) {
+
   def offset(text: String): Int = {
     def innerOffset(lines: List[String], currentLine: Int, currentOffset: Int): Int = lines match {
       case Nil => currentOffset
@@ -25,6 +26,10 @@ case class Position(line: Int, column: Int) {
     if (line < 0 || column < 0) -1
     else innerOffset(TextHelper.linesWithSeparators(text), 0, 0)
   }
+
+  def max(other: Position): Position = if (this <= other) other else this
+
+  def min(other: Position): Position = if (this > other) other else this
 
   def <(other: Position): Boolean =
     (line < other.line) || (line == other.line && column < other.column)
