@@ -56,6 +56,7 @@ val settings = Common.settings ++ Common.publish ++ Seq(
     "org.scalamock" %%% "scalamock" % "4.1.0" % Test,
     "com.lihaoyi" %%% "upickle" % "0.5.1" % Test,
     "com.github.google.guava" % "guava" % "28.1"
+
   )
 )
 
