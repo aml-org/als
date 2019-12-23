@@ -1,9 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.annotations.LexicalInformation
-import amf.core.parser.ErrorHandler
+import amf.core.errorhandling.ErrorHandler
 
 object LocalIgnoreErrorHandler extends ErrorHandler {
+
   override def reportConstraint(id: String,
                                 node: String,
                                 property: Option[String],
