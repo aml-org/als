@@ -1,17 +1,15 @@
 package org.mulesoft.als.client.lsp.command
 
-import org.mulesoft.lsp
+import org.mulesoft.lsp.command.Command
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
-import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 
-@JSExportAll
-@JSExportTopLevel("Command")
-class ClientCommand(private val internal: lsp.command.Command) {
-  def title: String = internal.title
+@js.native
+class ClientCommand() extends js.Object {
+  def title: String = js.native
 
-  def command: String = internal.command
+  def command: String = js.native
 
-  def arguments: js.UndefOr[js.Array[Any]] = internal.arguments.map(_.toJSArray).orUndefined
+  def arguments: js.UndefOr[js.Array[Any]] = js.native
 }
