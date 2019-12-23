@@ -1,40 +1,36 @@
 package org.mulesoft.als.client.lsp.edit
 
-sealed trait ResourceOperation
-
-import org.mulesoft.lsp.edit.{CreateFile, DeleteFileOptions, NewFileOptions, RenameFile}
-import org.mulesoft.als.client.convert.LspConverters._
+sealed trait ClientResourceOperation
 
 import scala.scalajs.js
-import scala.scalajs.js.JSConverters._
-import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 
-@JSExportAll
-@JSExportTopLevel(name = "NewFileOptions")
-class ClientNewFileOptions(private val internal: NewFileOptions) {
-  def overwrite: js.UndefOr[Boolean]      = internal.overwrite.orUndefined
-  def ignoreIfExists: js.UndefOr[Boolean] = internal.ignoreIfExists.orUndefined
+@js.native
+trait ClientNewFileOptions extends js.Object {
+  def overwrite: js.UndefOr[Boolean]      = js.native
+  def ignoreIfExists: js.UndefOr[Boolean] = js.native
 }
 
-@JSExportAll
-@JSExportTopLevel(name = "CreateFile")
-class ClientCreateFile(private val internal: CreateFile) {
-  def uri: String                               = internal.uri
-  def options: js.UndefOr[ClientNewFileOptions] = internal.options.map(toClientNewFileOptions).orUndefined
+@js.native
+trait ClientCreateFile extends js.Object {
+  def uri: String                               = js.native
+  def options: js.UndefOr[ClientNewFileOptions] = js.native
 }
 
-@JSExportAll
-@JSExportTopLevel(name = "RenameFile")
-class ClientRenameFile(private val internal: RenameFile) {
-  def oldUri: String                            = internal.oldUri
-  def newUri: String                            = internal.newUri
-  def options: js.UndefOr[ClientNewFileOptions] = internal.options.map(toClientNewFileOptions).orUndefined
+@js.native
+trait ClientRenameFile extends js.Object {
+  def oldUri: String                            = js.native
+  def newUri: String                            = js.native
+  def options: js.UndefOr[ClientNewFileOptions] = js.native
 }
 
-@JSExportAll
-@JSExportTopLevel(name = "DeleteFileOptions")
-case class ClientDeleteFileOptions(recursive: Option[Boolean], ignoreIfNotExists: Option[Boolean])
+@js.native
+trait ClientDeleteFileOptions extends js.Object {
+  def recursive: js.UndefOr[Boolean]         = js.native
+  def ignoreIfNotExists: js.UndefOr[Boolean] = js.native
+}
 
-@JSExportAll
-@JSExportTopLevel(name = "DeleteFile")
-case class ClientDeleteFile(uri: String, options: Option[DeleteFileOptions]) extends ResourceOperation
+@js.native
+trait ClientDeleteFile extends js.Object {
+  def uri: String                                  = js.native
+  def options: js.UndefOr[ClientDeleteFileOptions] = js.native
+}

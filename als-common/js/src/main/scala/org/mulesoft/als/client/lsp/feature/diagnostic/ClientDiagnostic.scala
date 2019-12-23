@@ -7,13 +7,12 @@ import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 
-@JSExportAll
-@JSExportTopLevel(name = "Diagnostic")
-class ClientDiagnostic(private val internal: Diagnostic) {
-  def range: Range                                               = internal.range
-  def message: String                                            = internal.message
-  def severity: js.UndefOr[Int]                                  = internal.severity.map(_.id).orUndefined
-  def code: js.UndefOr[String]                                   = internal.code.orUndefined
-  def source: js.UndefOr[String]                                 = internal.source.orUndefined
-  def relatedInformation: js.Array[DiagnosticRelatedInformation] = internal.relatedInformation.toJSArray
+@js.native
+trait ClientDiagnostic extends js.Object {
+  def range: Range                                               = js.native
+  def message: String                                            = js.native
+  def severity: js.UndefOr[Int]                                  = js.native
+  def code: js.UndefOr[String]                                   = js.native
+  def source: js.UndefOr[String]                                 = js.native
+  def relatedInformation: js.Array[DiagnosticRelatedInformation] = js.native
 }
