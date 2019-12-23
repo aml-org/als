@@ -1,38 +1,36 @@
 package org.mulesoft.amfmanager
 
-import amf.client.AMF
-import amf.{ProfileName, ProfileNames}
 import amf.client.commands.CommandHelper
+import amf.client.parse.DefaultParserErrorHandler
 import amf.client.remote.Content
 import amf.core.annotations.SourceVendor
 import amf.core.client.ParserConfig
+import amf.core.errorhandling.UnhandledErrorHandler
 import amf.core.model.document.{BaseUnit, EncodesModel}
-import amf.core.parser.{UnhandledErrorHandler, UnspecifiedReference}
+import amf.core.parser.UnspecifiedReference
 import amf.core.remote._
 import amf.core.resolution.pipelines.ResolutionPipeline
 import amf.core.services.{RuntimeCompiler, RuntimeResolver, RuntimeValidator}
 import amf.core.validation.AMFValidationReport
+import amf.core.{AMFCompilerRunCount, CompilerContextBuilder}
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
+import amf.{ProfileName, ProfileNames}
 
 import scala.concurrent.Future
 
 class ParserHelper(val platform: Platform) extends CommandHelper {
 
-  private def parseInput(url: String, env: Environment): Future[BaseUnit] = {
-
+  private def parseInput(url: String, env: Environment, plat: Option[Platform]): Future[BaseUnit] = {
+    val eh        = new DefaultParserErrorHandler(AMFCompilerRunCount.nextRun())
     val inputFile = ensureUrl(url)
 
-    RuntimeCompiler(
-      inputFile,
+    RuntimeCompiler.forContext(
+      new CompilerContextBuilder(inputFile, plat.getOrElse(platform), eh).withEnvironment(env).build(),
       None,
       None,
-      Context(platform),
-      UnspecifiedReference,
-      Cache(),
-      None,
-      env
+      UnspecifiedReference
     )
   }
 
@@ -46,7 +44,7 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
   def parse(url: String, env: Environment = Environment()): Future[BaseUnit] = {
     for {
       _     <- AmfInitializationHandler.init()
-      model <- parseInput(url, env)
+      model <- parseInput(url, env, None)
     } yield model
   }
 

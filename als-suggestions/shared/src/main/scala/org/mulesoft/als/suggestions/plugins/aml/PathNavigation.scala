@@ -1,13 +1,14 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
+import amf.client.parse.DefaultParserErrorHandler
 import amf.core.client.ParsingOptions
 import amf.core.parser.{ParserContext, SyamlParsedDocument}
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.yaml.model.{YMap, YNode, YSequence, YType}
-import scala.concurrent.ExecutionContext.Implicits.global
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 case class PathNavigation(fullUrl: String, platform: Platform, env: Environment, prefix: String)
@@ -65,7 +66,7 @@ case class PathNavigation(fullUrl: String, platform: Platform, env: Environment,
       mime.flatMap(pluginForMime) match {
         case Some(plugin) =>
           plugin
-            .parse(mime.get, c.stream, ParserContext(), ParsingOptions())
+            .parse(mime.get, c.stream, ParserContext(eh = DefaultParserErrorHandler()), ParsingOptions())
             .collect({ case s: SyamlParsedDocument => s.document.node })
         case _ => None
       }
