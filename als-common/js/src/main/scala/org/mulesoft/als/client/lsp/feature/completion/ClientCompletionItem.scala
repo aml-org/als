@@ -1,42 +1,37 @@
 package org.mulesoft.als.client.lsp.feature.completion
 
-import org.mulesoft.als.client.convert.LspConverters._
 import org.mulesoft.als.client.lsp.command.ClientCommand
-import org.mulesoft.lsp
 import org.mulesoft.lsp.edit.TextEdit
 
 import scala.scalajs.js
-import scala.scalajs.js.JSConverters._
-import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 
-@JSExportAll
-@JSExportTopLevel(name = "CompletionItem")
-class ClientCompletionItem(private val internal: lsp.feature.completion.CompletionItem) {
-  def label: String = internal.label
+@js.native
+trait ClientCompletionItem extends js.Object {
+  def label: String = js.native
 
-  def kind: js.UndefOr[Int] = internal.kind.map(_.id).orUndefined
+  def kind: js.UndefOr[Int] = js.native
 
-  def detail: js.UndefOr[String] = internal.detail.orUndefined
+  def detail: js.UndefOr[String] = js.native
 
-  def documentation: js.UndefOr[String] = internal.documentation.orUndefined
+  def documentation: js.UndefOr[String] = js.native
 
-  def deprecated: js.UndefOr[Boolean] = internal.deprecated.orUndefined
+  def deprecated: js.UndefOr[Boolean] = js.native
 
-  def preselect: js.UndefOr[Boolean] = internal.preselect.orUndefined
+  def preselect: js.UndefOr[Boolean] = js.native
 
-  def sortText: js.UndefOr[String] = internal.sortText.orUndefined
+  def sortText: js.UndefOr[String] = js.native
 
-  def filterText: js.UndefOr[String] = internal.filterText.orUndefined
+  def filterText: js.UndefOr[String] = js.native
 
-  def insertText: js.UndefOr[String] = internal.insertText.orUndefined
+  def insertText: js.UndefOr[String] = js.native
 
-  def insertTextFormat: js.UndefOr[Int] = internal.insertTextFormat.map(_.id).orUndefined
+  def insertTextFormat: js.UndefOr[Int] = js.native
 
-  def textEdit: js.UndefOr[TextEdit] = internal.textEdit.orUndefined
+  def textEdit: js.UndefOr[TextEdit] = js.native
 
-  def additionalTextEdits: js.UndefOr[js.Array[TextEdit]] = internal.additionalTextEdits.map(_.toJSArray).orUndefined
+  def additionalTextEdits: js.UndefOr[js.Array[TextEdit]] = js.native
 
-  def commitCharacters: js.UndefOr[js.Array[Char]] = internal.commitCharacters.map(_.toJSArray).orUndefined
+  def commitCharacters: js.UndefOr[js.Array[Char]] = js.native
 
-  def command: js.UndefOr[ClientCommand] = internal.command.map(toClientCommand).orUndefined
+  def command: js.UndefOr[ClientCommand] = js.native
 }
