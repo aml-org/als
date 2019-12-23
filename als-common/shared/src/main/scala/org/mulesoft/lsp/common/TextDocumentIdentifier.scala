@@ -1,23 +1,25 @@
 package org.mulesoft.lsp.common
 
+import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
+
 /**
   * Text documents are identified using a URI. On the protocol level, URIs are passed as strings.
   */
-
 sealed trait DocumentIdentifier {
+
   /**
     * The text document's URI.
     */
   val uri: String
 }
 
-
 /**
   * Most simple Text Document Identifier
   *
   * @param uri     The text document's URI.
   */
-
+@JSExportAll
+@JSExportTopLevel("TextDocumentIdentifier")
 case class TextDocumentIdentifier(uri: String) extends DocumentIdentifier
 
 /**
@@ -33,5 +35,4 @@ case class TextDocumentIdentifier(uri: String) extends DocumentIdentifier
   *                The version number of a document will increase after each change, including
   *                undo/redo. The number doesn't need to be consecutive.
   */
-
 case class VersionedTextDocumentIdentifier(uri: String, version: Option[Int]) extends DocumentIdentifier
