@@ -8,6 +8,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import amf.core.utils._
 
+import scala.collection.immutable.WrappedString
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -41,9 +42,7 @@ object DefaultVariablesAbstractDefinition extends AMLCompletionPlugin {
 
   private def buildFromString(value: Option[String], column: Int) = {
     value match {
-      case None                 => commonNames.map(c => (c, c))
-      case Some(t) if t.isEmpty => commonNames.map(c => (c, c))
-      case Some(t) if t.contains("<<") =>
+      case Some(t) if t.contains("<") =>
         val (pre, content, pos) = partitionVar(t)
         val sugg = if (content.contains('|') && content.indexOf('|') < column) { // suggesting function
           val funcPrefix = content.split('|').last
@@ -64,9 +63,10 @@ object DefaultVariablesAbstractDefinition extends AMLCompletionPlugin {
   }
 
   private def partitionVar(value: String): (String, String, String) = {
-    val (pre, tempContent) = value.split("<<").toList match {
+    val (pre, tempContent) = value.split("<").toList match {
+      case "" :: tail   => ("<<", tail.tail.head)
       case head :: Nil  => (head + "<<", "")
-      case head :: tail => (head + "<<", tail.head)
+      case head :: tail => (head + "<<", tail.last)
       case _            => ("<<", "")
     }
     val (content, pos) = if (tempContent.contains(">>")) {
