@@ -5,7 +5,7 @@ import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.{Position, Range}
 import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
-import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.Assertion
 
@@ -15,7 +15,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
 
   override implicit val executionContext = ExecutionContext.Implicits.global
 
-  private val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = true)
+  private val factory = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = true)
 
   private val editorFiles = factory.container
 
@@ -28,6 +28,19 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         c <- MockDiagnosticClientNotifier.nextCall
       } yield {
         val allDiagnostics = Seq(a, b, c)
+        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
+      }
+    }
+  }
+
+  test("Workspace Manager search by location rather than uri (workspace)") {
+    withServer[Assertion] { server =>
+      for {
+        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws3")}")))
+        a <- MockDiagnosticClientNotifier.nextCall
+        b <- MockDiagnosticClientNotifier.nextCall
+      } yield {
+        val allDiagnostics = Seq(a, b)
         assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
       }
     }
@@ -246,7 +259,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   override def buildServer(): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
       .addRequestModule(factory.structureManager)
       .build()
 

@@ -1,0 +1,12 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "test"
+  },
+  "servers": [],
+  "paths": null,
+  "components": null,
+  "security": [],
+  "tags": [],
+  "externalDocs": null
+}

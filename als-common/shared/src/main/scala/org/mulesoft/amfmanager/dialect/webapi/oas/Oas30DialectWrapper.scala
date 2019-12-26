@@ -65,13 +65,13 @@ object Oas30DialectWrapper {
 
     override def arraySpecProperties: Seq[PropertyMapping] = Nil
 
-    override def specNodeProperties: Seq[PropertyMapping] = Seq(
-      PropertyMapping()
-        .withId(DialectLocation + s"#/declarations/Schema/discriminator")
-        .withName("discriminator")
-        .withNodePropertyMapping(NodeShapeModel.Discriminator.value.iri())
-        .withObjectRange(Seq(AMLDiscriminatorObject.id))
-        .withMapTermKeyProperty(NodeShapeModel.Discriminator.value.iri())
-    )
+    override def specNodeProperties: Seq[PropertyMapping] = Nil
+
+    val discriminatorProperty: PropertyMapping = PropertyMapping()
+      .withId(DialectLocation + s"#/declarations/Schema/discriminator")
+      .withName("discriminator")
+      .withNodePropertyMapping(NodeShapeModel.Discriminator.value.iri())
+      .withObjectRange(Seq(AMLDiscriminatorObject.id))
+      .withMapTermKeyProperty(NodeShapeModel.Discriminator.value.iri())
   }
 }

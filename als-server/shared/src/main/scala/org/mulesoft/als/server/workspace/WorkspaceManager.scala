@@ -17,6 +17,7 @@ import org.mulesoft.als.server.workspace.extract.{
 import org.mulesoft.amfmanager.AmfInitializationHandler
 import org.mulesoft.lsp.Initializable
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.lsp.server.LanguageServerSystemConf
 import org.mulesoft.lsp.workspace.{ExecuteCommandParams, WorkspaceService}
 
 import scala.collection.mutable.ListBuffer
@@ -27,7 +28,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
                        telemetryProvider: TelemetryProvider,
                        dependencies: List[BaseUnitListener],
                        logger: Logger,
-                       platform: Platform)
+                       configuration: LanguageServerSystemConf)
     extends TextListener
     with WorkspaceService
     with Initializable {
@@ -41,7 +42,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
   def initializeWS(folder: String): Future[Unit] = rootHandler.extractConfiguration(folder).map { mainOption =>
     val workspace =
-      new WorkspaceContentManager(folder, environmentProvider, telemetryProvider, logger, dependencies, platform)
+      new WorkspaceContentManager(folder, environmentProvider, telemetryProvider, logger, dependencies, configuration)
     workspace.setConfigMainFile(mainOption)
     mainOption.foreach(conf =>
       contentManagerConfiguration(workspace, conf.mainFile, conf.cachables, mainOption.flatMap(_.configReader)))
@@ -54,7 +55,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
   override def notify(uri: String, kind: NotificationKind): Unit = {
     val manager: WorkspaceContentManager = getWorkspace(uri)
-    if (manager.configFile.map(FileUtils.getEncodedUri(_, platform)).contains(uri)) {
+    if (manager.configFile.map(FileUtils.getEncodedUri(_, configuration.platform)).contains(uri)) {
       manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
       manager.changedFile(uri, CHANGE_CONFIG)
     } else manager.changedFile(uri, kind)
@@ -86,7 +87,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   )
 
   val defaultWorkspace =
-    new WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, dependencies, platform)
+    new WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, dependencies, configuration)
 
   override def initialize(): Future[Unit] = AmfInitializationHandler.init()
 }

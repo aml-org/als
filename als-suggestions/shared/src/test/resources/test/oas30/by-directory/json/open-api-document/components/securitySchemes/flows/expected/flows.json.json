@@ -1,59 +1,29 @@
 [
   {
-    "label": "implicit",
+    "label": "authorizationCode",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "security",
+    "documentation": "authorizationCode",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10authorizationCode",
+    "filterText": "\"authorizationCode\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 7,
+          "character": 12
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 7,
+          "character": 19
         }
       },
-      "newText": "implicit:\n      "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "password",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "password:\n      "
+      "newText": "\"authorizationCode\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -62,58 +32,88 @@
   {
     "label": "clientCredentials",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "security",
+    "documentation": "clientCredentials",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10clientCredentials",
+    "filterText": "\"clientCredentials\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 7,
+          "character": 12
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 7,
+          "character": 19
         }
       },
-      "newText": "clientCredentials:\n      "
+      "newText": "\"clientCredentials\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "authorizationCode",
+    "label": "implicit",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "security",
+    "documentation": "implicit",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "10implicit",
+    "filterText": "\"implicit\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 7,
+          "character": 12
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 7,
+          "character": 19
         }
       },
-      "newText": "authorizationCode:\n      "
+      "newText": "\"implicit\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "password",
+    "kind": [],
+    "detail": "security",
+    "documentation": "password",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10password",
+    "filterText": "\"password\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 19
+        }
+      },
+      "newText": "\"password\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

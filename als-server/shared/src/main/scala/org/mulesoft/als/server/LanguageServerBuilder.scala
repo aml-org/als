@@ -1,8 +1,6 @@
 package org.mulesoft.als.server
 
-import amf.core.remote.Platform
-import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
-import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.lsp.server.{LanguageServer, LanguageServerSystemConf}
 import org.mulesoft.lsp.textsync.TextDocumentSyncConsumer
 import org.mulesoft.lsp.workspace.WorkspaceService
 import org.mulesoft.lsp.{Initializable, InitializableModule}
@@ -11,7 +9,7 @@ import scala.collection.mutable
 
 class LanguageServerBuilder(private val textDocumentSyncConsumer: TextDocumentSyncConsumer,
                             private val workspaceManager: WorkspaceService,
-                            private val platform: Platform) {
+                            private val systemConfiguration: LanguageServerSystemConf) {
   private val initializableModules = mutable.ListBuffer[InitializableModule[_, _]]()
   private val requestModules       = mutable.ListBuffer[RequestModule[_, _]]()
   private val initializables       = mutable.ListBuffer[Initializable]()
@@ -45,6 +43,7 @@ class LanguageServerBuilder(private val textDocumentSyncConsumer: TextDocumentSy
     new LanguageServerImpl(textDocumentSyncConsumer,
                            workspaceManager,
                            new LanguageServerInitializer(configMap, allInitializables),
-                           handlerMap)
+                           handlerMap,
+                           systemConfiguration)
   }
 }

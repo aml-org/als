@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: Sample Pet Store App
+  version: 1.0.1
+
+paths:
+  /endpoint1:
+    summary: aa
+    description: an endpoint
+    get:
+      responses:
+        200:
+          description: a response
+          headers:
+            header:
+              description: a header
+              schema:
+                type: string
+          content:
+            name:
+          links:
+            link:
+        202:
+          description: another response
+          headers:
+            header:
+              description: a header
+              schema:
+                type: string
+          content:
+            name:
+          links:
+            link:

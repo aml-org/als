@@ -27,10 +27,7 @@ class AMLJsonSchemaStyleDeclarationReferences(dialect: Dialect,
         nameForIri(id).fold(s"#/$name")(n => s"#/$declarationsPath$n/$name")
       }
     }
-
-    val filtered = if (yPart.stringValue.isEmpty) routes else routes.filter(_.startsWith(yPart.stringValue))
-    filtered
-      .map(route => RawSuggestion(route, route, s"Reference to $route", Nil))
+    AMLJsonSchemaStyleDeclarationReferences.resolveRoutes(routes, yPart)
   }
 
   def nameForIri(iri: String): Option[String] = {
@@ -84,4 +81,10 @@ object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences 
   }
 
   private def isLocal(yPart: YPartBranch) = yPart.stringValue.isEmpty || yPart.stringValue.startsWith("#")
+
+  def resolveRoutes(routes: Seq[String], yPart: YPartBranch): Seq[RawSuggestion] = {
+    val filtered = if (yPart.stringValue.isEmpty) routes else routes.filter(_.startsWith(yPart.stringValue))
+    filtered
+      .map(route => RawSuggestion(route, route, s"Reference to $route", Nil))
+  }
 }

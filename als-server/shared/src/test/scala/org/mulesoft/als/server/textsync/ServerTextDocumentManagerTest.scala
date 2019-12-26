@@ -4,7 +4,7 @@ import org.mulesoft.als.server.modules.ManagersFactory
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
-import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 
 import scala.concurrent.ExecutionContext
 
@@ -16,8 +16,8 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = false)
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = false)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
       .addRequestModule(factory.structureManager)
       .build()
   }

@@ -1,0 +1,35 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Sample Pet Store App",
+    "version": "1.0.1"
+  },
+  "paths": {
+    "/endpoint1": {
+      "summary": "aa",
+      "description": "an endpoint",
+      "get": {
+        "requestBody": {
+          "description": "a request",
+          "content": {
+            "application/json": {
+              "encoding": {
+                "name": {
+                  "contentType": "application/json",
+                  "headers": {
+                    "header": {
+                      "description": "a header"
+                    }
+                  },
+                  "style": "plain",
+                  "explode": false,
+                  "allowReserved": false
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.ProfileName
-import amf.core.annotations.{LexicalInformation, ReferenceTargets}
+import amf.core.annotations.LexicalInformation
 import amf.core.model.document.BaseUnit
 import amf.core.remote.Aml
 import amf.core.services.RuntimeValidator
@@ -12,7 +12,8 @@ import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
-import org.mulesoft.als.server.modules.workspace.{DiagnosticsBundle}
+import org.mulesoft.als.server.modules.workspace.DiagnosticsBundle
+import org.mulesoft.amfmanager.BaseUnitImplicits._
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.common.Location
 import org.mulesoft.lsp.convert.LspRangeConverter
@@ -53,7 +54,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     val ast        = tuple._1
     val references = tuple._2
     logger.debug("Got new AST:\n" + ast.toString, "ValidationManager", "newASTAvailable")
-    val uri = ast.id
+    val uri = ast.location().getOrElse(ast.id)
     telemetryProvider.addTimedMessage("Start report",
                                       "DiagnosticManager",
                                       "onNewAst",
@@ -213,7 +214,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
 
   // todo: include old tree references
   private def extractAllReferences(baseUnit: BaseUnit): Set[String] =
-    baseUnit.location().toSet ++ baseUnit.references.flatMap(extractAllReferences)
+    baseUnit.flatRefs.map(bu => bu.location().getOrElse(bu.id)).toSet + baseUnit.location().getOrElse(baseUnit.id)
 
   private def buildIssue(r: AMFValidationResult, stack: Seq[DiagnosticRelatedInformation]): ValidationIssue = {
     ValidationIssue("PROPERTY_UNUSED",

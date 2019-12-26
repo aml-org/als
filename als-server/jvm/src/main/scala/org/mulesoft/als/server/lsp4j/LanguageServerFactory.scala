@@ -6,19 +6,21 @@ import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ManagersFactory
 import org.mulesoft.amfmanager.CustomDialects
-import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer, LanguageServerSystemConf}
 
 object LanguageServerFactory extends PlatformSecrets {
 
   def alsLanguageServer(clientNotifier: ClientNotifier,
                         logger: Logger,
                         dialects: Seq[CustomDialects] = Seq(),
+                        systemConfiguration: LanguageServerSystemConf = DefaultServerSystemConf,
                         withDiagnostics: Boolean = true): LanguageServer = {
 
     // todo: uri to editor environment
-    val builders = ManagersFactory(clientNotifier, platform, logger, withDiagnostics = withDiagnostics)
+    val builders =
+      ManagersFactory(clientNotifier, logger, withDiagnostics = withDiagnostics, configuration = systemConfiguration)
 
-    new LanguageServerBuilder(builders.documentManager, builders.workspaceManager, platform)
+    new LanguageServerBuilder(builders.documentManager, builders.workspaceManager, systemConfiguration)
       .addInitializable(builders.diagnosticManager)
       .addInitializable(builders.workspaceManager)
       .addRequestModule(builders.completionManager)
