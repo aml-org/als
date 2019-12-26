@@ -7,4 +7,4 @@ import org.mulesoft.lsp.common.TextDocumentIdentifier
   *
   * @param textDocument The text document.
   */
-case class DocumentSymbolParams(textDocument: TextDocumentIdentifier)
+//case class DocumentSymbolParams(textDocument: TextDocumentIdentifier)
