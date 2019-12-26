@@ -1,0 +1,32 @@
+[
+  {
+    "label": "p1",
+    "kind": [],
+    "detail": "example",
+    "documentation": "p1",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11p1",
+    "filterText": "\"p1\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 10
+        },
+        "end": {
+          "line": 14,
+          "character": 13
+        }
+      },
+      "newText": "\"p1\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

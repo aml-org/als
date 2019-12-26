@@ -1,0 +1,106 @@
+[
+  {
+    "name": "title",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 13
+      },
+      "end": {
+        "line": 3,
+        "character": 35
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 13
+      },
+      "end": {
+        "line": 3,
+        "character": 35
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "version",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 4,
+        "character": 15
+      },
+      "end": {
+        "line": 4,
+        "character": 22
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 4,
+        "character": 15
+      },
+      "end": {
+        "line": 4,
+        "character": 22
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "/endpoint1",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 7,
+        "character": 4
+      },
+      "end": {
+        "line": 7,
+        "character": 22
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 7,
+        "character": 4
+      },
+      "end": {
+        "line": 7,
+        "character": 16
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "/endpoint2",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 8,
+        "character": 4
+      },
+      "end": {
+        "line": 8,
+        "character": 22
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 8,
+        "character": 4
+      },
+      "end": {
+        "line": 8,
+        "character": 16
+      }
+    },
+    "children": []
+  }
+]

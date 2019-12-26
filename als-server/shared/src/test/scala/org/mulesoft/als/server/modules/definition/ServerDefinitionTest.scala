@@ -8,7 +8,7 @@ import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.lsp.common.{LocationLink, TextDocumentIdentifier, TextDocumentPositionParams}
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
-import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -21,8 +21,8 @@ trait ServerDefinitionTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, platform, logger, withDiagnostics = false)
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = false)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
       .addRequestModule(factory.definitionManager)
       .build()
   }

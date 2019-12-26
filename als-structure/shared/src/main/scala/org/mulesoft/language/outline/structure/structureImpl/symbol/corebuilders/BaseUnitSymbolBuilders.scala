@@ -9,7 +9,7 @@ abstract class BaseUnitSymbolBuilder(element: BaseUnit)(override implicit val fa
     extends ElementSymbolBuilder[BaseUnit] {
   protected def nameFromMeta(obj: Obj): String
 
-  private val endodedChildren = element match {
+  private val encodedChildren = element match {
     case e: EncodesModel =>
       factory.builderFor(e.encodes).map(_.build()).getOrElse(Nil)
     case _ => Nil
@@ -25,10 +25,10 @@ abstract class BaseUnitSymbolBuilder(element: BaseUnit)(override implicit val fa
     case _ => Map()
   }
 
-  private def buildDeclaredSymbols = {
+  protected def buildDeclaredSymbols = {
     declaredChildren.flatMap {
       case (name, builders) =>
-        val children = builders.flatMap(_.build())
+        val children = builders.flatMap(_.build()).sortWith((ds1, ds2) => ds1.range.start < ds2.range.start)
 
         children.toList match {
           case Nil => None
@@ -36,7 +36,7 @@ abstract class BaseUnitSymbolBuilder(element: BaseUnit)(override implicit val fa
             Some(
               DocumentSymbol(name,
                              head.kind,
-                             false,
+                             deprecated = false,
                              head.range + tail.lastOption.getOrElse(head).range,
                              head.selectionRange,
                              children.toList))
@@ -45,5 +45,5 @@ abstract class BaseUnitSymbolBuilder(element: BaseUnit)(override implicit val fa
   }
 
   override def build(): Seq[DocumentSymbol] =
-    endodedChildren ++ buildDeclaredSymbols
+    encodedChildren ++ buildDeclaredSymbols
 }

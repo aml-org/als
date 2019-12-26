@@ -1,0 +1,34 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/users": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "links": {
+              "GetUserByUserId": {
+                "parameters": {
+                  "userId": "*"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

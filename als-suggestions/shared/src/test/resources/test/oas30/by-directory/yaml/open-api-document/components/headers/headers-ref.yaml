@@ -1,0 +1,17 @@
+openapi: 3.0.0
+components:
+  headers:
+    test:
+      description: a header
+
+paths:
+  /p:
+    get:
+      requestBody:
+        content:
+          name:
+            encoding:
+              name:
+                headers:
+                  name:
+                    $ref: *

@@ -2,12 +2,12 @@ package org.mulesoft.als.server.modules.completion
 
 import java.util.UUID
 
-import amf.core.remote.Platform
-import org.mulesoft.als.common.{DirectoryResolver, FileUtils}
+import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer}
+import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.suggestions
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
@@ -18,14 +18,15 @@ import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
+import org.mulesoft.lsp.server.LanguageServerSystemConf
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
+                         val workspaceManager: WorkspaceManager,
                          private val telemetryProvider: TelemetryProvider,
-                         private val directoryResolver: DirectoryResolver,
-                         private val platform: Platform,
+                         private val configuration: LanguageServerSystemConf,
                          private val logger: Logger)
     extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
 
@@ -61,7 +62,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
     suggestions.Core.init()
 
   protected def onDocumentCompletion(uri: String, position: Position): Future[Seq[CompletionItem]] = {
-    val refinedUri            = platform.decodeURI(platform.resolvePath(uri))
+    val refinedUri            = configuration.platform.decodeURI(configuration.platform.resolvePath(uri))
     val telemetryUUID: String = UUID.randomUUID().toString
 
     logger.debug(s"Calling for completion for uri $uri and position $position",
@@ -137,15 +138,25 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                  syntax: Syntax,
                                  patchedContent: PatchedContent,
                                  uuid: String): Future[CompletionProvider] = {
-    val amfRefinedUri = FileUtils.getDecodedUri(uri, platform)
+    val amfRefinedUri = FileUtils.getDecodedUri(uri, configuration.platform)
     telemetryProvider.addTimedMessage("Start parsing for completion",
                                       "SuggestionsManager",
                                       "buildCompletionProviderAST",
                                       MessageTypes.BEGIN_PARSE_PATCHED,
                                       uri,
                                       uuid)
-    val patchedEnvironment = editorEnvironment.patchUri(amfRefinedUri, text)
-    val eventualUnit       = ParserHelper(platform).parse(amfRefinedUri, patchedEnvironment.environment) // todo pass other workspace bu's as cache
+    val patchedEnvironment: TextDocumentContainer = editorEnvironment.patchUri(amfRefinedUri, text)
+
+    val eventualUnit =
+      workspaceManager.getUnit(uri, uuid).flatMap { bu =>
+        ParserHelper(configuration.platform)
+          .parse(
+            amfRefinedUri,
+            patchedEnvironment.environment
+              .withResolver(CompletionReferenceResolver(bu.unit))
+              .withLoaders(patchedEnvironment.environment.loaders ++ configuration.environment.loaders)
+          )
+      }
 
     eventualUnit.foreach { _ =>
       telemetryProvider.addTimedMessage("End parsing for completion",
@@ -158,8 +169,8 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
 
     Suggestions.buildProviderAsync(eventualUnit,
                                    position,
-                                   directoryResolver,
-                                   platform,
+                                   configuration.directoryResolver,
+                                   configuration.platform,
                                    patchedEnvironment.environment,
                                    uri,
                                    patchedContent,

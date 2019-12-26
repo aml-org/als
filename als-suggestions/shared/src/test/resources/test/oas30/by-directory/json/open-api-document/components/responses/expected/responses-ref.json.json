@@ -1,0 +1,92 @@
+[
+  {
+    "label": "#/components/responses/test",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/components/responses/test",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#/components/responses/test",
+    "filterText": "\"#/components/responses/test\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 20
+        },
+        "end": {
+          "line": 14,
+          "character": 22
+        }
+      },
+      "newText": "\"#/components/responses/test\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "expected/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11expected/",
+    "filterText": "\"expected/\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 20
+        },
+        "end": {
+          "line": 14,
+          "character": 22
+        }
+      },
+      "newText": "\"expected/\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "responses.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11responses.json",
+    "filterText": "\"responses.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 20
+        },
+        "end": {
+          "line": 14,
+          "character": 22
+        }
+      },
+      "newText": "\"responses.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "openapi": "3.0.0",
+  "components": {
+    "links": {
+      "test": {
+        "description": "a link"
+      }
+    }
+  },
+  "paths": {
+    "/p": {
+      "get": {
+        "responses": {
+          "200": {
+            "links": {
+              "name": {
+                "$ref": "*"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

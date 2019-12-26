@@ -1,15 +1,13 @@
 package org.mulesoft.amfmanager.dialect.webapi.oas
 
-import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.metamodel.domain.{DataNodeModel, ShapeModel}
 import amf.core.vocabulary.Namespace.XsdTypes._
 import amf.dialects.OAS20Dialect
-import amf.dialects.OAS20Dialect.{DialectLocation, ImplicitField}
-import amf.dialects.oas.nodes.{AMLExternalDocumentationObject, Oas20SchemaObject, XmlObject}
+import amf.dialects.OAS20Dialect.DialectLocation
+import amf.dialects.oas.nodes.Oas20SchemaObject
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
-import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, ArrayShapeModel, NodeShapeModel, ScalarShapeModel}
-import amf.plugins.domain.webapi.metamodel.{ParameterModel, PayloadModel}
+import amf.plugins.domain.shapes.metamodel.{ArrayShapeModel, NodeShapeModel}
+import amf.plugins.domain.webapi.metamodel.PayloadModel
 
 object Oas20DialectWrapper {
 
@@ -29,7 +27,7 @@ object Oas20DialectWrapper {
         JsonSchemas.IntegerSchemaObject,
         JsonSchemas.NodeShapeObject,
         JsonSchemas.NumberSchemaObject,
-        JsonSchemas.StringSchemaObject
+        JsonSchemas.StringSchemaObject,
       ))
   }
   // shapes schema

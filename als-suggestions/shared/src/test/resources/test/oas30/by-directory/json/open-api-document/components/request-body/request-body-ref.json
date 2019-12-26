@@ -1,0 +1,24 @@
+{
+  "openapi": "3.0.0",
+  "components": {
+    "requestBodies": {
+      "test": {
+        "description": "a description"
+      }
+    }
+  },
+  "paths": {
+    "/p": {
+      "get": {
+        "parameters": [
+          {
+            "description": "a parameter"
+          }
+        ],
+        "requestBody": {
+          "$ref": "*"
+        }
+      }
+    }
+  }
+}

@@ -7,7 +7,7 @@ import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes
-import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.scalatest.Assertion
 
@@ -18,7 +18,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
   override implicit val executionContext = ExecutionContext.Implicits.global
 
   private val notifier = new MockTelemetryClientNotifier()
-  private val factory  = ManagersFactory(notifier, platform, logger, withDiagnostics = false)
+  private val factory  = ManagersFactory(notifier, logger, withDiagnostics = false)
 
   private val editorFiles = factory.container
 
@@ -92,7 +92,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
   }
 
   override def buildServer(): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, platform)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
       .addRequestModule(factory.structureManager)
       .build()
 

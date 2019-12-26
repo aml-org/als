@@ -62,6 +62,15 @@ object RawSuggestion {
                       options = SuggestionStructure(isKey = isAKey, isMandatory = mandatory))
   }
 
+  def apply(value: String, displayText: String, isAKey: Boolean, category: String, mandatory: Boolean): RawSuggestion = {
+    new RawSuggestion(value,
+                      displayText,
+                      value,
+                      Seq(),
+                      category,
+                      options = SuggestionStructure(isKey = isAKey, isMandatory = mandatory))
+  }
+
   def forObject(value: String, category: String, mandatory: Boolean = false): RawSuggestion = {
     new RawSuggestion(value,
                       value,

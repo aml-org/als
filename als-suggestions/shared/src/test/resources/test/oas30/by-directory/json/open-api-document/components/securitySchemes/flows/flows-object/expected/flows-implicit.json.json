@@ -1,0 +1,122 @@
+[
+  {
+    "label": "authorizationUrl",
+    "kind": [],
+    "detail": "security",
+    "documentation": "authorizationUrl",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11authorizationUrl",
+    "filterText": "\"authorizationUrl\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 19
+        }
+      },
+      "newText": "\"authorizationUrl\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "refreshUrl",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "refreshUrl",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11refreshUrl",
+    "filterText": "\"refreshUrl\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 19
+        }
+      },
+      "newText": "\"refreshUrl\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "scopes",
+    "kind": [],
+    "detail": "security",
+    "documentation": "scopes",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11scopes",
+    "filterText": "\"scopes\": {\n              \"$1\"\n            }",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 19
+        }
+      },
+      "newText": "\"scopes\": {\n              \"$1\"\n            }"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "tokenUrl",
+    "kind": [],
+    "detail": "security",
+    "documentation": "tokenUrl",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11tokenUrl",
+    "filterText": "\"tokenUrl\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 19
+        }
+      },
+      "newText": "\"tokenUrl\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
