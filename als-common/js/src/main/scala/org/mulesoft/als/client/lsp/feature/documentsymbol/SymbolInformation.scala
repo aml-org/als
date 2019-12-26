@@ -24,8 +24,8 @@ import org.mulesoft.lsp.feature.documentsymbol.SymbolKind.SymbolKind
   *                      symbols.
   * @param deprecated    Indicates if this symbol is deprecated.
   */
-case class SymbolInformation(name: String,
-                             kind: SymbolKind,
-                             location: Location,
-                             containerName: Option[String],
-                             deprecated: Option[Boolean])
+//case class SymbolInformation(name: String,
+//                             kind: SymbolKind,
+//                             location: Location,
+//                             containerName: Option[String],
+//                             deprecated: Option[Boolean])
