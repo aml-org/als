@@ -180,36 +180,6 @@
     "command": null
   },
   {
-    "label": "methodName",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "methodName",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11methodName",
-    "filterText": "methodName: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      },
-      "newText": "methodName: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "options",
     "kind": [],
     "detail": "methods",
@@ -324,66 +294,6 @@
         }
       },
       "newText": "put:\n      "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "resourcePath",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "resourcePath",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11resourcePath",
-    "filterText": "resourcePath: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      },
-      "newText": "resourcePath: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "resourcePathName",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "resourcePathName",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11resourcePathName",
-    "filterText": "resourcePathName: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      },
-      "newText": "resourcePathName: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
