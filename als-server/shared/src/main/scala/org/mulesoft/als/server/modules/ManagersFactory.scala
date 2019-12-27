@@ -4,7 +4,7 @@ import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.actions.{DocumentLinksManager, FindReferenceManager, GoToDefinitionManager}
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
-import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
+import org.mulesoft.als.server.modules.diagnostic.{ALL_TOGETHER, DiagnosticManager, DiagnosticNotificationsKind}
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
@@ -14,15 +14,17 @@ import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServerSystemCon
 case class ManagersFactory(clientNotifier: ClientNotifier,
                            logger: Logger,
                            configuration: LanguageServerSystemConf = DefaultServerSystemConf,
-                           withDiagnostics: Boolean = true) {
+                           withDiagnostics: Boolean = true,
+                           notificationKind: Option[DiagnosticNotificationsKind] = None) {
   val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
   // todo initialize amf
   //  val astManager                         = new AstManager(editorEnvironment.environment, telemetryManager, platform, logger)
 
-  lazy val diagnosticManager = new DiagnosticManager(telemetryManager, clientNotifier, logger)
+  lazy val diagnosticManager =
+    new DiagnosticManager(telemetryManager, clientNotifier, logger, notificationKind.getOrElse(ALL_TOGETHER))
 
-  private val projectDependencies = if (withDiagnostics) List(diagnosticManager) else Nil
-  val container                   = TextDocumentContainer(configuration)
+  private val projectDependencies      = if (withDiagnostics) List(diagnosticManager) else Nil
+  val container: TextDocumentContainer = TextDocumentContainer(configuration)
 
   val workspaceManager     = new WorkspaceManager(container, telemetryManager, projectDependencies, logger, configuration)
   lazy val documentManager = new TextDocumentManager(container, List(workspaceManager), logger)
