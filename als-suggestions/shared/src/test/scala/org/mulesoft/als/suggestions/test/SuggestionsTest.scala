@@ -118,7 +118,7 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
   def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] = {
 
     val helper = ParserHelper(platform)
-    helper.parse(path, env)
+    helper.parse(path, env).map(_.baseUnit)
   }
 
   def filePath(path: String): String = {

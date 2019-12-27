@@ -2,14 +2,13 @@ package org.mulesoft.als.server.modules.workspace
 
 import java.util.UUID
 
-import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.extract.{WorkspaceConf, WorkspaceConfigurationProvider}
-import org.mulesoft.amfmanager.ParserHelper
+import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.mulesoft.lsp.server.LanguageServerSystemConf
 
@@ -43,9 +42,6 @@ class WorkspaceContentManager(val folder: String,
   private val repository                                                             = new Repository(logger)
   private var current: Future[Unit]                                                  = Future.unit
   private var workspaceConfigurationProvider: Option[WorkspaceConfigurationProvider] = None
-
-  //  def initialize(): Unit =
-  //    configMainFile.foreach(cmf => current = next(processMFChanges(cmf.mainFile, stagingArea.snapshot())))
 
   def canProcess: Boolean = state == Idle && current == Future.unit
 
@@ -122,7 +118,7 @@ class WorkspaceContentManager(val folder: String,
     stagingArea.dequeue(Set(file))
     parse(file, environment, uuid)
       .map { bu =>
-        repository.update(bu)
+        repository.update(bu.baseUnit)
         dependencies.foreach(_.onNewAst((bu, Map()), uuid))
       }
   }
@@ -166,7 +162,7 @@ class WorkspaceContentManager(val folder: String,
       }
   }
 
-  private def parse(uri: String, environment: Environment, uuid: String): Future[BaseUnit] = {
+  private def parse(uri: String, environment: Environment, uuid: String): Future[AmfParseResult] = {
     telemetryProvider.addTimedMessage("Start AMF Parse",
                                       "WorkspaceContentManager",
                                       "parse",
