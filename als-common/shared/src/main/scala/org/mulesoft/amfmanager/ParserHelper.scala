@@ -3,45 +3,52 @@ package org.mulesoft.amfmanager
 import amf.client.commands.CommandHelper
 import amf.client.parse.DefaultParserErrorHandler
 import amf.client.remote.Content
+import amf.core.CompilerContextBuilder
 import amf.core.annotations.SourceVendor
 import amf.core.client.ParserConfig
-import amf.core.errorhandling.UnhandledErrorHandler
+import amf.core.errorhandling.{ErrorCollector, UnhandledErrorHandler}
 import amf.core.model.document.{BaseUnit, EncodesModel}
 import amf.core.parser.UnspecifiedReference
 import amf.core.remote._
 import amf.core.resolution.pipelines.ResolutionPipeline
 import amf.core.services.{RuntimeCompiler, RuntimeResolver, RuntimeValidator}
-import amf.core.validation.AMFValidationReport
-import amf.core.{AMFCompilerRunCount, CompilerContextBuilder}
+import amf.core.validation.{AMFValidationReport, AMFValidationResult}
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.{ProfileName, ProfileNames}
+import org.mulesoft.amfmanager.BaseUnitImplicits._
 
 import scala.concurrent.Future
 
+class AmfParseResult(val baseUnit: BaseUnit, val eh: ErrorCollector) {
+
+  val location: String = baseUnit.location().getOrElse(baseUnit.id)
+
+  def groupedErrors: Map[String, List[AMFValidationResult]] = eh.getErrors.groupBy(e => e.location.getOrElse(location))
+
+  lazy val tree: Set[String] = baseUnit.flatRefs
+    .map(bu => bu.location().getOrElse(bu.id))
+    .toSet + baseUnit.location().getOrElse(baseUnit.id)
+}
+
 class ParserHelper(val platform: Platform) extends CommandHelper {
 
-  private def parseInput(url: String, env: Environment, plat: Option[Platform]): Future[BaseUnit] = {
-    val eh        = new DefaultParserErrorHandler(AMFCompilerRunCount.nextRun())
+  private def parseInput(url: String, env: Environment, plat: Option[Platform]): Future[AmfParseResult] = {
+    val eh        = DefaultParserErrorHandler()
     val inputFile = ensureUrl(url)
 
-    RuntimeCompiler.forContext(
-      new CompilerContextBuilder(inputFile, plat.getOrElse(platform), eh).withEnvironment(env).build(),
-      None,
-      None,
-      UnspecifiedReference
-    )
+    RuntimeCompiler
+      .forContext(
+        new CompilerContextBuilder(inputFile, plat.getOrElse(platform), eh).withEnvironment(env).build(),
+        None,
+        None,
+        UnspecifiedReference
+      )
+      .map(m => new AmfParseResult(m, eh))
   }
 
-  def parseResult(url: String): Future[ParseResult] = {
-    for {
-      unit   <- parse(url)
-      report <- ParserHelper.report(unit)
-    } yield ParseResult(unit, report)
-  }
-
-  def parse(url: String, env: Environment = Environment()): Future[BaseUnit] = {
+  def parse(url: String, env: Environment = Environment()): Future[AmfParseResult] = {
     for {
       _     <- AmfInitializationHandler.init()
       model <- parseInput(url, env, None)
