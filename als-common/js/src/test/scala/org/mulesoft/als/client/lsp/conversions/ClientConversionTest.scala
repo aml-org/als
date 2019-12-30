@@ -13,6 +13,11 @@ import org.mulesoft.als.client.lsp.common.{
   ClientTextDocumentPositionParams,
   ClientVersionedTextDocumentIdentifier
 }
+import org.mulesoft.als.client.lsp.configuration.{
+  ClientInitializeParams,
+  ClientInitializeResult,
+  ClientServerCapabilities
+}
 import org.mulesoft.als.client.lsp.feature.completion.{ClientCompletionContext, ClientCompletionItem}
 import org.mulesoft.als.client.lsp.feature.diagnostic.{
   ClientDiagnostic,
@@ -36,6 +41,9 @@ import org.mulesoft.lsp.common.{
 }
 import org.mulesoft.lsp.configuration.{
   ClientCapabilities,
+  InitializeParams,
+  InitializeResult,
+  ServerCapabilities,
   StaticRegistrationOptions,
   TextDocumentClientCapabilities,
   WorkspaceClientCapabilities,
@@ -46,6 +54,7 @@ import org.mulesoft.lsp.feature.completion.{
   CompletionContext,
   CompletionItem,
   CompletionItemKind,
+  CompletionOptions,
   CompletionTriggerKind,
   InsertTextFormat
 }
@@ -60,6 +69,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolKind,
   SymbolKindClientCapabilities
 }
+import org.mulesoft.lsp.textsync.TextDocumentSyncKind
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.scalajs.js.JSON
@@ -204,8 +214,8 @@ class ClientConversionTest extends FlatSpec with Matchers {
     sro should be(sro2)
   }
 
+  val wf = WorkspaceFolder(Some("uri"), Some("name"))
   it should "transform WorkspaceFolder" in {
-    val wf  = WorkspaceFolder(Some("uri"), Some("name"))
     val wf1 = wf.toClient
     val wf2 = wf1.toShared
 
@@ -214,6 +224,49 @@ class ClientConversionTest extends FlatSpec with Matchers {
     JSON.stringify(wf1) should be(stringified)
 
     wf should be(wf2)
+  }
+
+  it should "transform InitializeParams" in {
+    val ip: InitializeParams        = InitializeParams(None, None, Some("uri"), None, Some(Seq(wf)), None, None)
+    val ip1: ClientInitializeParams = ip.toClient
+    val ip2: InitializeParams       = ip1.toShared
+
+    val stringified =
+      "{\"capabilities\":{},\"trace\":0,\"rootUri\":\"uri\",\"workspaceFolders\":[{\"uri\":\"uri\",\"name\":\"name\"}]}"
+
+    JSON.stringify(ip1) should be(stringified)
+
+    ip.capabilities should be(ip2.capabilities)
+    ip.initializationOptions should be(ip2.initializationOptions)
+    ip.rootUri should be(ip2.rootUri)
+    ip.trace should be(ip2.trace)
+    ip.workspaceFolders should be(ip2.workspaceFolders)
+  }
+
+  val sc: ServerCapabilities = ServerCapabilities(Some(Left(TextDocumentSyncKind(1))), Some(CompletionOptions()))
+  it should "transform ServerCapabilities" in {
+    val sc1: ClientServerCapabilities = sc.toClient
+    val sc2: ServerCapabilities       = sc1.toShared
+
+    val stringified =
+      "{\"textDocumentSync\":1,\"completionProvider\":{},\"definitionProvider\":false,\"referencesProvider\":false,\"documentSymbolProvider\":false}"
+
+    JSON.stringify(sc1) should be(stringified)
+
+    sc should be(sc2)
+  }
+
+  it should "transform InitializeResult" in {
+    val ir: InitializeResult        = InitializeResult(sc)
+    val ir1: ClientInitializeResult = ir.toClient
+    val ir2: InitializeResult       = ir1.toShared
+
+    val stringified =
+      "{\"capabilities\":{\"textDocumentSync\":1,\"completionProvider\":{},\"definitionProvider\":false,\"referencesProvider\":false,\"documentSymbolProvider\":false}}"
+
+    JSON.stringify(ir1) should be(stringified)
+
+    ir should be(ir2)
   }
 
   // end of Configuration
