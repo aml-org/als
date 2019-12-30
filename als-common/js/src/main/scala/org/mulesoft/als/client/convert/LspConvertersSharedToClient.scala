@@ -13,6 +13,9 @@ import org.mulesoft.als.client.lsp.common.{
 }
 import org.mulesoft.als.client.lsp.configuration.{
   ClientClientCapabilities,
+  ClientInitializeParams,
+  ClientInitializeResult,
+  ClientServerCapabilities,
   ClientStaticRegistrationOptions,
   ClientTextDocumentClientCapabilities,
   ClientWorkspaceClientCapabilities,
@@ -60,6 +63,9 @@ import org.mulesoft.lsp.common.{
 }
 import org.mulesoft.lsp.configuration.{
   ClientCapabilities,
+  InitializeParams,
+  InitializeResult,
+  ServerCapabilities,
   StaticRegistrationOptions,
   TextDocumentClientCapabilities,
   WorkspaceClientCapabilities,
@@ -265,5 +271,20 @@ object LspConvertersSharedToClient {
   implicit class ClientCompletionParamsConverter(v: CompletionParams) {
     def toClient: ClientCompletionParams =
       ClientCompletionParams(v)
+  }
+
+  implicit class ClientInitializeParamsConverter(v: InitializeParams) {
+    def toClient: ClientInitializeParams =
+      ClientInitializeParams(v)
+  }
+
+  implicit class ClientServerCapabilitiesConverter(v: ServerCapabilities) {
+    def toClient: ClientServerCapabilities =
+      ClientServerCapabilities(v)
+  }
+
+  implicit class ClientInitializeResultConverter(v: InitializeResult) {
+    def toClient: ClientInitializeResult =
+      ClientInitializeResult(v)
   }
 }
