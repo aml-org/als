@@ -4,6 +4,9 @@ import org.mulesoft.als.client.lsp.command.ClientCommand
 import org.mulesoft.als.client.lsp.common._
 import org.mulesoft.als.client.lsp.configuration.{
   ClientClientCapabilities,
+  ClientInitializeParams,
+  ClientInitializeResult,
+  ClientServerCapabilities,
   ClientStaticRegistrationOptions,
   ClientTextDocumentClientCapabilities,
   ClientWorkspaceClientCapabilities,
@@ -51,8 +54,12 @@ import org.mulesoft.lsp.common.{
 }
 import org.mulesoft.lsp.configuration.{
   ClientCapabilities,
+  InitializeParams,
+  InitializeResult,
+  ServerCapabilities,
   StaticRegistrationOptions,
   TextDocumentClientCapabilities,
+  TraceKind,
   WorkspaceClientCapabilities,
   WorkspaceFolder
 }
@@ -90,6 +97,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolKind,
   SymbolKindClientCapabilities
 }
+import org.mulesoft.lsp.textsync.TextDocumentSyncKind
 
 import scala.language.implicitConversions
 
@@ -303,6 +311,39 @@ object LspConvertersClientToShared {
   implicit class CompletionParamsConverter(v: ClientCompletionParams) {
     def toShared: CompletionParams =
       CompletionParams(v.textDocument.toShared, v.position.toShared, v.context.toOption.map(_.toShared))
+  }
+
+  implicit class InitializeParamsConverter(v: ClientInitializeParams) {
+    def toShared: InitializeParams =
+      InitializeParams(
+        Some(v.capabilities.toShared),
+        Some(TraceKind(v.trace)),
+        v.rootUri.toOption,
+        v.processId.toOption,
+        v.workspaceFolders.toOption.map(a => a.map(_.toShared).toSeq),
+        v.rootPath.toOption,
+        v.initializationOptions.toOption
+      )
+  }
+
+  implicit class ServerCapabilitiesConverter(v: ClientServerCapabilities) {
+    def toShared: ServerCapabilities =
+      ServerCapabilities(
+        v.textDocumentSync.toOption.map(tdsk => Left(TextDocumentSyncKind(tdsk))),
+        v.completionProvider.toOption.map(_.toShared),
+        v.definitionProvider,
+        v.referencesProvider,
+        v.documentSymbolProvider,
+        None,
+        None,
+        None,
+        v.experimental.toOption
+      )
+  }
+
+  implicit class InitializeResultConverter(v: ClientInitializeResult) {
+    def toShared: InitializeResult =
+      InitializeResult(v.capabilities.toShared)
   }
 
 }
