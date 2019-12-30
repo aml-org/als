@@ -1,6 +1,14 @@
 package org.mulesoft.als.client.lsp.feature.completion
 
+import org.mulesoft.lsp.feature.completion.{
+  CompletionClientCapabilities,
+  CompletionItemClientCapabilities,
+  CompletionItemKindClientCapabilities
+}
+
 import scala.scalajs.js
+import scala.scalajs.js.JSConverters._
+import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 
 @js.native
 trait ClientCompletionClientCapabilities extends js.Object {
@@ -15,6 +23,18 @@ trait ClientCompletionClientCapabilities extends js.Object {
   def contextSupport: js.UndefOr[Boolean] = js.native
 }
 
+object ClientCompletionClientCapabilities {
+  def apply(internal: CompletionClientCapabilities): ClientCompletionClientCapabilities =
+    js.Dynamic
+      .literal(
+        dynamicRegistration = internal.dynamicRegistration.orUndefined,
+        completionItem = internal.completionItem.map(_.toClient).orUndefined,
+        completionItemKind = internal.completionItemKind.map(_.toClient).orUndefined,
+        contextSupport = internal.contextSupport.orUndefined
+      )
+      .asInstanceOf[ClientCompletionClientCapabilities]
+}
+
 @js.native
 trait ClientCompletionItemClientCapabilities extends js.Object {
   def snippetSupport: js.UndefOr[Boolean] = js.native
@@ -26,7 +46,28 @@ trait ClientCompletionItemClientCapabilities extends js.Object {
   def preselectSupport: js.UndefOr[Boolean] = js.native
 }
 
+object ClientCompletionItemClientCapabilities {
+  def apply(internal: CompletionItemClientCapabilities): ClientCompletionItemClientCapabilities =
+    js.Dynamic
+      .literal(
+        snippetSupport = internal.snippetSupport.orUndefined,
+        commitCharactersSupport = internal.commitCharactersSupport.orUndefined,
+        deprecatedSupport = internal.deprecatedSupport.orUndefined,
+        preselectSupport = internal.preselectSupport.orUndefined
+      )
+      .asInstanceOf[ClientCompletionItemClientCapabilities]
+}
+
 @js.native
 trait ClientCompletionItemKindClientCapabilities extends js.Object {
   def valueSet: js.Array[Int] = js.native
+}
+
+object ClientCompletionItemKindClientCapabilities {
+  def apply(internal: CompletionItemKindClientCapabilities): ClientCompletionItemKindClientCapabilities =
+    js.Dynamic
+      .literal(
+        valueSet = internal.valueSet.map(_.id).toJSArray
+      )
+      .asInstanceOf[ClientCompletionItemKindClientCapabilities]
 }
