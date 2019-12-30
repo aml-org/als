@@ -167,13 +167,15 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                         uuid)
     }
 
-    Suggestions.buildProviderAsync(eventualUnit,
-                                   position,
-                                   configuration.directoryResolver,
-                                   configuration.platform,
-                                   patchedEnvironment.environment,
-                                   uri,
-                                   patchedContent,
-                                   snippetSupport)
+    Suggestions.buildProviderAsync(
+      eventualUnit.map(_.baseUnit),
+      position,
+      configuration.directoryResolver,
+      configuration.platform,
+      patchedEnvironment.environment,
+      uri,
+      patchedContent,
+      snippetSupport
+    )
   }
 }

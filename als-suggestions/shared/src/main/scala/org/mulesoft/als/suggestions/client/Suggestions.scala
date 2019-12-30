@@ -149,7 +149,7 @@ object Suggestions extends SuggestionsHelper {
 trait SuggestionsHelper {
 
   def amfParse(url: String, environment: Environment, platform: Platform): Future[BaseUnit] =
-    ParserHelper(platform).parse(url, environment)
+    ParserHelper(platform).parse(url, environment).map(_.baseUnit)
 
   def getMediaType(originalContent: String): Syntax = {
 

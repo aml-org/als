@@ -5,7 +5,7 @@ import amf.core.model.document.BaseUnit
 import scala.collection.mutable
 
 object BaseUnitImplicits {
-  class BaseUnitImp(bu: BaseUnit) {
+  implicit class BaseUnitImp(bu: BaseUnit) {
     def flatRefs: Seq[BaseUnit] = {
       val set: mutable.Set[BaseUnit] = mutable.Set.empty
 
@@ -17,9 +17,8 @@ object BaseUnitImplicits {
       innerRefs(bu.references)
       set.toSeq
     }
-  }
 
-  implicit def implicits(bu: BaseUnit) =
-    new BaseUnitImp(bu)
+    def identifier: String = bu.location().getOrElse(bu.id)
+  }
 
 }
