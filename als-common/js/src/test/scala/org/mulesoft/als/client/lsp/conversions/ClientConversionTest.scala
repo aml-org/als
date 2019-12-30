@@ -4,6 +4,7 @@ import org.mulesoft.als.client.convert.LspConvertersClientToShared._
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.client.lsp.command.ClientCommand
 import org.mulesoft.als.client.lsp.common.{
+  ClientLocation,
   ClientLocationLink,
   ClientPosition,
   ClientRange,
@@ -12,12 +13,19 @@ import org.mulesoft.als.client.lsp.common.{
   ClientTextDocumentPositionParams,
   ClientVersionedTextDocumentIdentifier
 }
+import org.mulesoft.als.client.lsp.feature.completion.{ClientCompletionContext, ClientCompletionItem}
+import org.mulesoft.als.client.lsp.feature.diagnostic.{
+  ClientDiagnostic,
+  ClientDiagnosticClientCapabilities,
+  ClientDiagnosticRelatedInformation
+}
 import org.mulesoft.als.client.lsp.feature.documentsymbol.{
   ClientDocumentSymbolClientCapabilities,
   ClientSymbolKindClientCapabilities
 }
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
+  Location,
   LocationLink,
   Position,
   Range,
@@ -25,6 +33,27 @@ import org.mulesoft.lsp.common.{
   TextDocumentItem,
   TextDocumentPositionParams,
   VersionedTextDocumentIdentifier
+}
+import org.mulesoft.lsp.configuration.{
+  ClientCapabilities,
+  StaticRegistrationOptions,
+  TextDocumentClientCapabilities,
+  WorkspaceClientCapabilities,
+  WorkspaceFolder
+}
+import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
+import org.mulesoft.lsp.feature.completion.{
+  CompletionContext,
+  CompletionItem,
+  CompletionItemKind,
+  CompletionTriggerKind,
+  InsertTextFormat
+}
+import org.mulesoft.lsp.feature.diagnostic.{
+  Diagnostic,
+  DiagnosticClientCapabilities,
+  DiagnosticRelatedInformation,
+  DiagnosticSeverity
 }
 import org.mulesoft.lsp.feature.documentsymbol.{
   DocumentSymbolClientCapabilities,
@@ -56,7 +85,7 @@ class ClientConversionTest extends FlatSpec with Matchers {
     val r1: ClientRange = r.toClient
     val r2: Range       = r1.toShared
 
-    JSON.stringify(r1) should be(rStringified) // check with json parser?
+    JSON.stringify(r1) should be(rStringified)
 
     r should be(r2)
   }
@@ -68,7 +97,7 @@ class ClientConversionTest extends FlatSpec with Matchers {
     val ll1: ClientLocationLink = ll.toClient
     val ll2: LocationLink       = ll1.toShared
 
-    JSON.stringify(ll1) should be(llStringified) // check with json parser?
+    JSON.stringify(ll1) should be(llStringified)
 
     ll should be(ll2)
   }
@@ -80,18 +109,18 @@ class ClientConversionTest extends FlatSpec with Matchers {
     val tdi1: ClientTextDocumentIdentifier = tdi.toClient
     val tdi2: TextDocumentIdentifier       = tdi1.toShared
 
-    JSON.stringify(tdi1) should be(tdiStringified) // check with json parser?
+    JSON.stringify(tdi1) should be(tdiStringified)
 
     tdi should be(tdi2)
   }
 
+  val vtdi: VersionedTextDocumentIdentifier = VersionedTextDocumentIdentifier("uri", Some(1))
   it should "transform VersionedTextDocumentIdentifier" in {
     val vtdiStringified                              = "{\"uri\":\"uri\",\"version\":1}"
-    val vtdi: VersionedTextDocumentIdentifier        = VersionedTextDocumentIdentifier("uri", Some(1))
     val vtdi1: ClientVersionedTextDocumentIdentifier = vtdi.toClient
     val vtdi2: VersionedTextDocumentIdentifier       = vtdi1.toShared
 
-    JSON.stringify(vtdi1) should be(vtdiStringified) // check with json parser?
+    JSON.stringify(vtdi1) should be(vtdiStringified)
 
     vtdi should be(vtdi2)
   }
@@ -102,7 +131,7 @@ class ClientConversionTest extends FlatSpec with Matchers {
     val tdi1: ClientTextDocumentItem = tdi.toClient
     val tdi2: TextDocumentItem       = tdi1.toShared
 
-    JSON.stringify(tdi1) should be(tdiStringified) // check with json parser?
+    JSON.stringify(tdi1) should be(tdiStringified)
     tdi should be(tdi2)
   }
 
@@ -112,9 +141,20 @@ class ClientConversionTest extends FlatSpec with Matchers {
     val tdpp1: ClientTextDocumentPositionParams = tdpp.toClient
     val tdpp2: TextDocumentPositionParams       = tdpp1.toShared
 
-    JSON.stringify(tdpp1) should be(tdiStringified) // check with json parser?
+    JSON.stringify(tdpp1) should be(tdiStringified)
     tdpp.position should be(tdpp2.position)
     tdpp.textDocument should be(tdpp2.textDocument)
+  }
+
+  val l: Location = Location("uri", r)
+  it should "transform Location" in {
+    val lStringified =
+      "{\"uri\":\"uri\",\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}}}"
+    val l1: ClientLocation = l.toClient
+    val l2: Location       = l1.toShared
+
+    JSON.stringify(l1) should be(lStringified)
+    l should be(l2)
   }
 
   // end common
@@ -131,12 +171,95 @@ class ClientConversionTest extends FlatSpec with Matchers {
     val c1: ClientCommand = c.toClient
     val c2: Command       = c1.toShared
 
-    JSON.stringify(c1) should be(stringified) // check with json parser?
+    JSON.stringify(c1) should be(stringified)
 
     c should be(c2)
   }
 
   // end command
+
+  behavior of "Configuration transformations"
+
+  it should "transform ClientCapabilities" in {
+    val cc  = ClientCapabilities(Some(WorkspaceClientCapabilities()), Some(TextDocumentClientCapabilities()), None)
+    val cc1 = cc.toClient
+    val cc2 = cc1.toShared
+
+    val stringified = "{\"workspace\":{},\"textDocument\":{}}" // todo: test with textDocument parameters when ready
+
+    JSON.stringify(cc1) should be(stringified)
+
+    cc should be(cc2)
+  }
+
+  it should "transform StaticRegistrationOptions" in {
+    val sro  = StaticRegistrationOptions(Some("id"))
+    val sro1 = sro.toClient
+    val sro2 = sro1.toShared
+
+    val stringified = "{\"id\":\"id\"}"
+
+    JSON.stringify(sro1) should be(stringified)
+
+    sro should be(sro2)
+  }
+
+  it should "transform WorkspaceFolder" in {
+    val wf  = WorkspaceFolder(Some("uri"), Some("name"))
+    val wf1 = wf.toClient
+    val wf2 = wf1.toShared
+
+    val stringified = "{\"uri\":\"uri\",\"name\":\"name\"}"
+
+    JSON.stringify(wf1) should be(stringified)
+
+    wf should be(wf2)
+  }
+
+  // end of Configuration
+
+  behavior of "Edit transformations"
+  val te = TextEdit(r, "text")
+
+  it should "transform TextEdit" in {
+    val te1 = te.toClient
+    val te2 = te1.toShared
+
+    val stringified =
+      "{\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"newText\":\"text\"}"
+
+    JSON.stringify(te1) should be(stringified)
+
+    te should be(te2)
+  }
+
+  val tde = TextDocumentEdit(vtdi, Seq(te))
+  it should "transform TextDocumentEdit" in {
+    val tde1 = tde.toClient
+    val tde2 = tde1.toShared
+
+    val stringified =
+      "{\"textDocument\":{\"uri\":\"uri\",\"version\":1},\"edits\":[{\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"newText\":\"text\"}]}"
+
+    JSON.stringify(tde1) should be(stringified)
+
+    tde should be(tde2)
+  }
+
+  it should "transform WorkspaceEdit" in {
+    val we  = WorkspaceEdit(Map("uri" -> Seq(te)), Seq(Left(tde)))
+    val we1 = we.toClient
+    val we2 = we1.toShared
+
+    val stringified =
+      "{\"changes\":{\"uri\":[{\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"newText\":\"text\"}]},\"documentChanges\":[{\"textDocument\":{\"uri\":\"uri\",\"version\":1},\"edits\":[{\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"newText\":\"text\"}]}]}"
+
+    JSON.stringify(we1) should be(stringified)
+
+    we should be(we2)
+  }
+
+  //end of edit
 
   behavior of "DocumentSymbol transformations"
   val s: SymbolKindClientCapabilities = SymbolKindClientCapabilities(Set(SymbolKind.File))
@@ -147,7 +270,7 @@ class ClientConversionTest extends FlatSpec with Matchers {
 
     val stringified = "{\"valueSet\":[1]}"
 
-    JSON.stringify(s1) should be(stringified) // check with json parser?
+    JSON.stringify(s1) should be(stringified)
 
     s should be(s2)
   }
@@ -160,9 +283,91 @@ class ClientConversionTest extends FlatSpec with Matchers {
 
     val stringified = "{\"symbolKind\":{\"valueSet\":[1]},\"hierarchicalDocumentSymbolSupport\":true}"
 
-    JSON.stringify(ds1) should be(stringified) // check with json parser?
+    JSON.stringify(ds1) should be(stringified)
     ds should be(ds2)
   }
 
-  // end document symbol
+  // end document symbols
+
+  behavior of "Diagnostics transformations"
+
+  it should "transform DiagnosticClientCapabilities" in {
+    val dcc: DiagnosticClientCapabilities        = DiagnosticClientCapabilities(Some(true))
+    val dcc1: ClientDiagnosticClientCapabilities = dcc.toClient
+    val dcc2: DiagnosticClientCapabilities       = dcc1.toShared
+
+    val stringified = "{\"relatedInformation\":true}"
+
+    JSON.stringify(dcc1) should be(stringified)
+
+    dcc should be(dcc2)
+  }
+
+  val dri: DiagnosticRelatedInformation = DiagnosticRelatedInformation(l, "message")
+  it should "transform DiagnosticRelatedInformation" in {
+    val dri1: ClientDiagnosticRelatedInformation = dri.toClient
+    val dri2: DiagnosticRelatedInformation       = dri1.toShared
+
+    val stringified =
+      "{\"location\":{\"uri\":\"uri\",\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}}},\"message\":\"message\"}"
+
+    JSON.stringify(dri1) should be(stringified)
+
+    dri should be(dri2)
+  }
+
+  it should "transform Diagnostic" in {
+    val d: Diagnostic        = Diagnostic(r, "message", Some(DiagnosticSeverity(1)), None, None, Seq(dri))
+    val d1: ClientDiagnostic = d.toClient
+    val d2: Diagnostic       = d1.toShared
+
+    val stringified =
+      "{\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"message\":\"message\",\"severity\":1,\"relatedInformation\":[{\"location\":{\"uri\":\"uri\",\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}}},\"message\":\"message\"}]}"
+
+    JSON.stringify(d1) should be(stringified)
+
+    d should be(d2)
+  }
+
+  // end of diagnostics
+
+  behavior of "Completion transformations"
+
+  it should "transform CompletionContext" in {
+    val cc: CompletionContext        = CompletionContext(CompletionTriggerKind(1), Some('/'))
+    val cc1: ClientCompletionContext = cc.toClient
+    val cc2: CompletionContext       = cc1.toShared
+
+    val stringified = "{\"triggerKind\":1,\"triggerCharacter\":\"/\"}"
+
+    JSON.stringify(cc1) should be(stringified)
+
+    cc should be(cc2)
+  }
+
+  it should "transform CompletionItem" in {
+    val cc: CompletionItem = CompletionItem("label",
+                                            Some(CompletionItemKind(1)),
+                                            None,
+                                            None,
+                                            None,
+                                            None,
+                                            None,
+                                            None,
+                                            None,
+                                            Some(InsertTextFormat(1)),
+                                            Some(te),
+                                            Some(Seq(te)),
+                                            Some(Seq('/')),
+                                            None)
+    val cc1: ClientCompletionItem = cc.toClient
+    val cc2: CompletionItem       = cc1.toShared
+
+    val stringified =
+      "{\"label\":\"label\",\"kind\":1,\"insertTextFormat\":1,\"textEdit\":{\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"newText\":\"text\"},\"additionalTextEdits\":[{\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"newText\":\"text\"}],\"commitCharacters\":[\"/\"]}"
+
+    JSON.stringify(cc1) should be(stringified)
+
+    cc should be(cc2)
+  }
 }
