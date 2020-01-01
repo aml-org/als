@@ -31,6 +31,15 @@ import org.mulesoft.als.client.lsp.edit.{
   ClientTextEdit,
   ClientWorkspaceEdit
 }
+import org.mulesoft.als.client.lsp.feature.codeactions.{
+  ClientCodeAction,
+  ClientCodeActionCapabilities,
+  ClientCodeActionContext,
+  ClientCodeActionKindCapabilities,
+  ClientCodeActionLiteralSupportCapabilities,
+  ClientCodeActionOptions,
+  ClientCodeActionParams
+}
 import org.mulesoft.als.client.lsp.feature.completion.{
   ClientCompletionClientCapabilities,
   ClientCompletionContext,
@@ -41,13 +50,17 @@ import org.mulesoft.als.client.lsp.feature.completion.{
   ClientCompletionOptions,
   ClientCompletionParams
 }
+import org.mulesoft.als.client.lsp.feature.definition.ClientDefinitionClientCapabilities
 import org.mulesoft.als.client.lsp.feature.diagnostic.{
   ClientDiagnostic,
   ClientDiagnosticClientCapabilities,
   ClientDiagnosticRelatedInformation
 }
 import org.mulesoft.als.client.lsp.feature.documentsymbol.{
+  ClientDocumentSymbol,
   ClientDocumentSymbolClientCapabilities,
+  ClientDocumentSymbolParams,
+  ClientSymbolInformation,
   ClientSymbolKindClientCapabilities
 }
 import org.mulesoft.lsp.command.Command
@@ -81,6 +94,16 @@ import org.mulesoft.lsp.edit.{
   TextEdit,
   WorkspaceEdit
 }
+import org.mulesoft.lsp.feature.codeactions.{
+  CodeAction,
+  CodeActionCapabilities,
+  CodeActionContext,
+  CodeActionKind,
+  CodeActionKindCapabilities,
+  CodeActionLiteralSupportCapabilities,
+  CodeActionOptions,
+  CodeActionParams
+}
 import org.mulesoft.lsp.feature.completion.{
   CompletionClientCapabilities,
   CompletionContext,
@@ -91,8 +114,15 @@ import org.mulesoft.lsp.feature.completion.{
   CompletionOptions,
   CompletionParams
 }
+import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
 import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticClientCapabilities, DiagnosticRelatedInformation}
-import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolClientCapabilities, SymbolKindClientCapabilities}
+import org.mulesoft.lsp.feature.documentsymbol.{
+  DocumentSymbol,
+  DocumentSymbolClientCapabilities,
+  DocumentSymbolParams,
+  SymbolInformation,
+  SymbolKindClientCapabilities
+}
 
 import scala.language.implicitConversions
 
@@ -286,5 +316,60 @@ object LspConvertersSharedToClient {
   implicit class ClientInitializeResultConverter(v: InitializeResult) {
     def toClient: ClientInitializeResult =
       ClientInitializeResult(v)
+  }
+
+  implicit class ClientCodeActionConverter(v: CodeAction) {
+    def toClient: ClientCodeAction =
+      ClientCodeAction(v)
+  }
+
+  implicit class ClientCodeActionCapabilitiesConverter(v: CodeActionCapabilities) {
+    def toClient: ClientCodeActionCapabilities =
+      ClientCodeActionCapabilities(v)
+  }
+
+  implicit class ClientCodeActionContextConverter(v: CodeActionContext) {
+    def toClient: ClientCodeActionContext =
+      ClientCodeActionContext(v)
+  }
+
+  implicit class ClientCodeActionKindCapabilitiesConverter(v: CodeActionKindCapabilities) {
+    def toClient: ClientCodeActionKindCapabilities =
+      ClientCodeActionKindCapabilities(v)
+  }
+
+  implicit class ClientCodeActionLiteralSupportCapabilitiesConverter(v: CodeActionLiteralSupportCapabilities) {
+    def toClient: ClientCodeActionLiteralSupportCapabilities =
+      ClientCodeActionLiteralSupportCapabilities(v)
+  }
+
+  implicit class ClientCodeActionOptionsConverter(v: CodeActionOptions) {
+    def toClient: ClientCodeActionOptions =
+      ClientCodeActionOptions(v)
+  }
+
+  implicit class ClientCodeActionParamsConverter(v: CodeActionParams) {
+    def toClient: ClientCodeActionParams =
+      ClientCodeActionParams(v)
+  }
+
+  implicit class ClientDefinitionClientCapabilitiesConverter(v: DefinitionClientCapabilities) {
+    def toClient: ClientDefinitionClientCapabilities =
+      ClientDefinitionClientCapabilities(v)
+  }
+
+  implicit class ClientDocumentSymbolConverter(v: DocumentSymbol) {
+    def toClient: ClientDocumentSymbol =
+      ClientDocumentSymbol(v)
+  }
+
+  implicit class ClientDocumentSymbolParamsConverter(v: DocumentSymbolParams) {
+    def toClient: ClientDocumentSymbolParams =
+      ClientDocumentSymbolParams(v)
+  }
+
+  implicit class ClientSymbolInformationConverter(v: SymbolInformation) {
+    def toClient: ClientSymbolInformation =
+      ClientSymbolInformation(v)
   }
 }
