@@ -1,8 +1,8 @@
 package org.mulesoft.als.client.lsp.feature.documentsymbol
 
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolClientCapabilities, SymbolKindClientCapabilities}
-import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import scala.scalajs.js
+import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import js.JSConverters._
 
 @js.native

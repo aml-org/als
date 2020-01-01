@@ -22,6 +22,15 @@ import org.mulesoft.als.client.lsp.edit.{
   ClientTextEdit,
   ClientWorkspaceEdit
 }
+import org.mulesoft.als.client.lsp.feature.codeactions.{
+  ClientCodeAction,
+  ClientCodeActionCapabilities,
+  ClientCodeActionContext,
+  ClientCodeActionKindCapabilities,
+  ClientCodeActionLiteralSupportCapabilities,
+  ClientCodeActionOptions,
+  ClientCodeActionParams
+}
 import org.mulesoft.als.client.lsp.feature.completion.{
   ClientCompletionClientCapabilities,
   ClientCompletionContext,
@@ -32,13 +41,17 @@ import org.mulesoft.als.client.lsp.feature.completion.{
   ClientCompletionOptions,
   ClientCompletionParams
 }
+import org.mulesoft.als.client.lsp.feature.definition.ClientDefinitionClientCapabilities
 import org.mulesoft.als.client.lsp.feature.diagnostic.{
   ClientDiagnostic,
   ClientDiagnosticClientCapabilities,
   ClientDiagnosticRelatedInformation
 }
 import org.mulesoft.als.client.lsp.feature.documentsymbol.{
+  ClientDocumentSymbol,
   ClientDocumentSymbolClientCapabilities,
+  ClientDocumentSymbolParams,
+  ClientSymbolInformation,
   ClientSymbolKindClientCapabilities
 }
 import org.mulesoft.lsp.command.Command
@@ -73,6 +86,16 @@ import org.mulesoft.lsp.edit.{
   TextEdit,
   WorkspaceEdit
 }
+import org.mulesoft.lsp.feature.codeactions.{
+  CodeAction,
+  CodeActionCapabilities,
+  CodeActionContext,
+  CodeActionKind,
+  CodeActionKindCapabilities,
+  CodeActionLiteralSupportCapabilities,
+  CodeActionOptions,
+  CodeActionParams
+}
 import org.mulesoft.lsp.feature.completion.{
   CompletionClientCapabilities,
   CompletionContext,
@@ -86,6 +109,7 @@ import org.mulesoft.lsp.feature.completion.{
   CompletionTriggerKind,
   InsertTextFormat
 }
+import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
 import org.mulesoft.lsp.feature.diagnostic.{
   Diagnostic,
   DiagnosticClientCapabilities,
@@ -93,7 +117,10 @@ import org.mulesoft.lsp.feature.diagnostic.{
   DiagnosticSeverity
 }
 import org.mulesoft.lsp.feature.documentsymbol.{
+  DocumentSymbol,
   DocumentSymbolClientCapabilities,
+  DocumentSymbolParams,
+  SymbolInformation,
   SymbolKind,
   SymbolKindClientCapabilities
 }
@@ -346,4 +373,75 @@ object LspConvertersClientToShared {
       InitializeResult(v.capabilities.toShared)
   }
 
+  implicit class CodeActionConverter(v: ClientCodeAction) {
+    def toShared: CodeAction =
+      CodeAction(
+        v.title,
+        v.kind.toOption.map(k => CodeActionKind(k)),
+        v.diagnostics.toOption.map(a => a.map(_.toShared).toSeq),
+        v.edit.toOption.map(_.toShared),
+        v.command.toOption.map(_.toShared)
+      )
+  }
+
+  implicit class CodeActionCapabilitiesConverter(v: ClientCodeActionCapabilities) {
+    def toShared: CodeActionCapabilities =
+      CodeActionCapabilities(v.dynamicRegistration.toOption, v.codeActionLiteralSupport.toShared)
+  }
+
+  implicit class CodeActionContextConverter(v: ClientCodeActionContext) {
+    def toShared: CodeActionContext =
+      CodeActionContext(v.diagnostics.map(_.toShared).toSeq,
+                        v.only.toOption.map(a => a.map(k => CodeActionKind(k)).toSeq))
+  }
+
+  implicit class CodeActionKindCapabilitiesConverter(v: ClientCodeActionKindCapabilities) {
+    def toShared: CodeActionKindCapabilities =
+      CodeActionKindCapabilities(v.valueSet.toList)
+  }
+
+  implicit class CodeActionLiteralSupportCapabilitiesConverter(v: ClientCodeActionLiteralSupportCapabilities) {
+    def toShared: CodeActionLiteralSupportCapabilities =
+      CodeActionLiteralSupportCapabilities(v.codeActionKind.toShared)
+  }
+
+  implicit class CodeActionOptionsConverter(v: ClientCodeActionOptions) {
+    def toShared: CodeActionOptions =
+      CodeActionOptions(v.codeActionKinds.toOption.map(_.toSeq))
+  }
+
+  implicit class CodeActionParamsConverter(v: ClientCodeActionParams) {
+    def toShared: CodeActionParams =
+      CodeActionParams(v.textDocument.toShared, v.range.toShared, v.context.toShared)
+  }
+
+  implicit class DefinitionClientCapabilitiesConverter(v: ClientDefinitionClientCapabilities) {
+    def toShared: DefinitionClientCapabilities =
+      DefinitionClientCapabilities(v.dynamicRegistration.toOption, v.linkSupport.toOption)
+  }
+
+  implicit class DocumentSymbolConverter(v: ClientDocumentSymbol) {
+    def toShared: DocumentSymbol =
+      DocumentSymbol(v.name,
+                     SymbolKind(v.kind),
+                     v.range.toShared,
+                     v.selectionRange.toShared,
+                     v.children.map(_.toShared).toSeq,
+                     v.detail.toOption,
+                     v.deprecated.toOption)
+  }
+
+  implicit class DocumentSymbolParamsConverter(v: ClientDocumentSymbolParams) {
+    def toShared: DocumentSymbolParams =
+      DocumentSymbolParams(v.textDocument.toShared)
+  }
+
+  implicit class SymbolInformationConverter(v: ClientSymbolInformation) {
+    def toShared: SymbolInformation =
+      SymbolInformation(v.name,
+                        SymbolKind(v.kind),
+                        v.location.toShared,
+                        v.containerName.toOption,
+                        v.deprecated.toOption)
+  }
 }
