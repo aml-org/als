@@ -25,7 +25,10 @@ import org.mulesoft.als.client.lsp.feature.diagnostic.{
   ClientDiagnosticRelatedInformation
 }
 import org.mulesoft.als.client.lsp.feature.documentsymbol.{
+  ClientDocumentSymbol,
   ClientDocumentSymbolClientCapabilities,
+  ClientDocumentSymbolParams,
+  ClientSymbolInformation,
   ClientSymbolKindClientCapabilities
 }
 import org.mulesoft.lsp.command.Command
@@ -65,7 +68,10 @@ import org.mulesoft.lsp.feature.diagnostic.{
   DiagnosticSeverity
 }
 import org.mulesoft.lsp.feature.documentsymbol.{
+  DocumentSymbol,
   DocumentSymbolClientCapabilities,
+  DocumentSymbolParams,
+  SymbolInformation,
   SymbolKind,
   SymbolKindClientCapabilities
 }
@@ -335,6 +341,50 @@ class ClientConversionTest extends FlatSpec with Matchers {
     val ds2: DocumentSymbolClientCapabilities       = ds1.toShared
 
     val stringified = "{\"symbolKind\":{\"valueSet\":[1]},\"hierarchicalDocumentSymbolSupport\":true}"
+
+    JSON.stringify(ds1) should be(stringified)
+    ds should be(ds2)
+  }
+
+  it should "transform DocumentSymbol" in {
+    val ds: DocumentSymbol =
+      DocumentSymbol("name",
+                     SymbolKind(1),
+                     r,
+                     r,
+                     Seq(DocumentSymbol("name", SymbolKind(2), r, r)),
+                     Some("detail"),
+                     Some(false))
+    val ds1: ClientDocumentSymbol = ds.toClient
+    val ds2: DocumentSymbol       = ds1.toShared
+
+    val stringified =
+      "{\"name\":\"name\",\"kind\":1,\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"selectionRange\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"children\":[{\"name\":\"name\",\"kind\":2,\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"selectionRange\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"children\":[]}],\"detail\":\"detail\",\"deprecated\":false}"
+
+    JSON.stringify(ds1) should be(stringified)
+    ds should be(ds2)
+  }
+
+  it should "transform DocumentSymbolParams" in {
+    val ds: DocumentSymbolParams =
+      DocumentSymbolParams(tdi)
+    val ds1: ClientDocumentSymbolParams = ds.toClient
+    val ds2: DocumentSymbolParams       = ds1.toShared
+
+    val stringified = "{\"textDocument\":{\"uri\":\"uri\"}}"
+
+    JSON.stringify(ds1) should be(stringified)
+    ds should be(ds2)
+  }
+
+  it should "transform SymbolInformation" in {
+    val ds: SymbolInformation =
+      SymbolInformation("name", SymbolKind(1), l, Some("cn"), Some(true))
+    val ds1: ClientSymbolInformation = ds.toClient
+    val ds2: SymbolInformation       = ds1.toShared
+
+    val stringified =
+      "{\"name\":\"name\",\"kind\":1,\"location\":{\"uri\":\"uri\",\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}}},\"containerName\":\"cn\",\"deprecated\":true}"
 
     JSON.stringify(ds1) should be(stringified)
     ds should be(ds2)
