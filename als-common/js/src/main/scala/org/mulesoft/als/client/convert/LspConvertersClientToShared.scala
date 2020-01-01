@@ -54,6 +54,12 @@ import org.mulesoft.als.client.lsp.feature.documentsymbol.{
   ClientSymbolInformation,
   ClientSymbolKindClientCapabilities
 }
+import org.mulesoft.als.client.lsp.feature.link.{
+  ClientDocumentLink,
+  ClientDocumentLinkClientCapabilities,
+  ClientDocumentLinkOptions,
+  ClientDocumentLinkParams
+}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -123,6 +129,12 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolInformation,
   SymbolKind,
   SymbolKindClientCapabilities
+}
+import org.mulesoft.lsp.feature.link.{
+  DocumentLink,
+  DocumentLinkClientCapabilities,
+  DocumentLinkOptions,
+  DocumentLinkParams
 }
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind
 
@@ -443,5 +455,25 @@ object LspConvertersClientToShared {
                         v.location.toShared,
                         v.containerName.toOption,
                         v.deprecated.toOption)
+  }
+
+  implicit class DocumentLinkConverter(v: ClientDocumentLink) {
+    def toShared: DocumentLink =
+      DocumentLink(v.range.toShared, v.target, v.data.toOption)
+  }
+
+  implicit class DocumentLinkClientCapabilitiesConverter(v: ClientDocumentLinkClientCapabilities) {
+    def toShared: DocumentLinkClientCapabilities =
+      DocumentLinkClientCapabilities(v.dynamicRegistration.toOption, v.tooltipSupport.toOption)
+  }
+
+  implicit class DocumentLinkOptionsConverter(v: ClientDocumentLinkOptions) {
+    def toShared: DocumentLinkOptions =
+      DocumentLinkOptions(v.resolveProvider.toOption)
+  }
+
+  implicit class DocumentLinkParamsConverter(v: ClientDocumentLinkParams) {
+    def toShared: DocumentLinkParams =
+      DocumentLinkParams(v.textDocument.toShared)
   }
 }
