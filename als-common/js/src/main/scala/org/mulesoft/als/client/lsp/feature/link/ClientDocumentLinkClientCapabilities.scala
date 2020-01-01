@@ -1,0 +1,21 @@
+package org.mulesoft.als.client.lsp.feature.link
+
+import org.mulesoft.lsp.feature.link.DocumentLinkClientCapabilities
+
+import scala.scalajs.js
+import scala.scalajs.js.UndefOr
+import js.JSConverters._
+
+@js.native
+trait ClientDocumentLinkClientCapabilities extends js.Object {
+  def dynamicRegistration: UndefOr[Boolean] = js.native
+  def tooltipSupport: UndefOr[Boolean]      = js.native
+}
+
+object ClientDocumentLinkClientCapabilities {
+  def apply(internal: DocumentLinkClientCapabilities): ClientDocumentLinkClientCapabilities =
+    js.Dynamic
+      .literal(dynamicRegistration = internal.dynamicRegistration.orUndefined,
+               tooltipSupport = internal.tooltipSupport.orUndefined)
+      .asInstanceOf[ClientDocumentLinkClientCapabilities]
+}
