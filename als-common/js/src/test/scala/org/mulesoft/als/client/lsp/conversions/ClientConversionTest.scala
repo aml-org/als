@@ -31,6 +31,12 @@ import org.mulesoft.als.client.lsp.feature.documentsymbol.{
   ClientSymbolInformation,
   ClientSymbolKindClientCapabilities
 }
+import org.mulesoft.als.client.lsp.feature.link.{
+  ClientDocumentLink,
+  ClientDocumentLinkClientCapabilities,
+  ClientDocumentLinkOptions,
+  ClientDocumentLinkParams
+}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -74,6 +80,12 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolInformation,
   SymbolKind,
   SymbolKindClientCapabilities
+}
+import org.mulesoft.lsp.feature.link.{
+  DocumentLink,
+  DocumentLinkClientCapabilities,
+  DocumentLinkOptions,
+  DocumentLinkParams
 }
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind
 import org.scalatest.{FlatSpec, Matchers}
@@ -473,4 +485,57 @@ class ClientConversionTest extends FlatSpec with Matchers {
 
     cc should be(cc2)
   }
+
+  behavior of "DocumentLink transformations"
+
+  it should "transform DocumentLink" in {
+    val dl: DocumentLink        = DocumentLink(r, "target", None)
+    val dl1: ClientDocumentLink = dl.toClient
+    val dl2: DocumentLink       = dl1.toShared
+
+    val stringified =
+      "{\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"target\":\"target\"}"
+
+    JSON.stringify(dl1) should be(stringified)
+
+    dl should be(dl2)
+  }
+
+  it should "transform DocumentLinkClientCapabilities" in {
+    val dl: DocumentLinkClientCapabilities        = DocumentLinkClientCapabilities(Some(true), Some(false))
+    val dl1: ClientDocumentLinkClientCapabilities = dl.toClient
+    val dl2: DocumentLinkClientCapabilities       = dl1.toShared
+
+    val stringified = "{\"dynamicRegistration\":true,\"tooltipSupport\":false}"
+
+    JSON.stringify(dl1) should be(stringified)
+
+    dl should be(dl2)
+  }
+
+  it should "transform DocumentLinkOptions" in {
+    val dl: DocumentLinkOptions        = DocumentLinkOptions(Some(true))
+    val dl1: ClientDocumentLinkOptions = dl.toClient
+    val dl2: DocumentLinkOptions       = dl1.toShared
+
+    val stringified = "{\"resolveProvider\":true}"
+
+    JSON.stringify(dl1) should be(stringified)
+
+    dl should be(dl2)
+  }
+
+  it should "transform DocumentLinkParams" in {
+    val dl: DocumentLinkParams        = DocumentLinkParams(tdi)
+    val dl1: ClientDocumentLinkParams = dl.toClient
+    val dl2: DocumentLinkParams       = dl1.toShared
+
+    val stringified = "{\"textDocument\":{\"uri\":\"uri\"}}"
+
+    JSON.stringify(dl1) should be(stringified)
+
+    dl should be(dl2)
+  }
+
+  // end of documentLink
 }
