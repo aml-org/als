@@ -70,6 +70,7 @@ import org.mulesoft.als.client.lsp.feature.rename.{
   ClientRenameOptions,
   ClientRenameParams
 }
+import org.mulesoft.als.client.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -148,6 +149,7 @@ import org.mulesoft.lsp.feature.link.{
 }
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
+import org.mulesoft.lsp.feature.telemetry.{TelemetryClientCapabilities, TelemetryMessage}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind
 
 import scala.language.implicitConversions
@@ -516,5 +518,15 @@ object LspConvertersClientToShared {
   implicit class RenameParamsConverter(v: ClientRenameParams) {
     def toShared: RenameParams =
       RenameParams(v.textDocument.toShared, v.position.toShared, v.newName)
+  }
+
+  implicit class TelemetryMessageConverter(v: ClientTelemetryMessage) {
+    def toShared: TelemetryMessage =
+      TelemetryMessage(v.event, v.messageType, v.message, v.uri, v.time.toLong, v.uuid)
+  }
+
+  implicit class TelemetryClientCapabilitiesConverter(v: ClientTelemetryClientCapabilities) {
+    def toShared: TelemetryClientCapabilities =
+      TelemetryClientCapabilities(v.relatedInformation.toOption)
   }
 }

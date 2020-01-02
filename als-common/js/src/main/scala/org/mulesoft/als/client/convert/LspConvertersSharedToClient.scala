@@ -79,6 +79,7 @@ import org.mulesoft.als.client.lsp.feature.rename.{
   ClientRenameOptions,
   ClientRenameParams
 }
+import org.mulesoft.als.client.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -147,6 +148,7 @@ import org.mulesoft.lsp.feature.link.{
 }
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
+import org.mulesoft.lsp.feature.telemetry.{TelemetryClientCapabilities, TelemetryMessage}
 
 import scala.language.implicitConversions
 
@@ -445,5 +447,15 @@ object LspConvertersSharedToClient {
   implicit class ClientRenameParamsConverter(v: RenameParams) {
     def toClient: ClientRenameParams =
       ClientRenameParams(v)
+  }
+
+  implicit class ClientTelemetryMessageConverter(v: TelemetryMessage) {
+    def toClient: ClientTelemetryMessage =
+      ClientTelemetryMessage(v)
+  }
+
+  implicit class ClientTelemetryClientCapabilitiesConverter(v: TelemetryClientCapabilities) {
+    def toClient: ClientTelemetryClientCapabilities =
+      ClientTelemetryClientCapabilities(v)
   }
 }

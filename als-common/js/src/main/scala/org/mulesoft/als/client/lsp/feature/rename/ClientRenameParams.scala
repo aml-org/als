@@ -1,14 +1,10 @@
 package org.mulesoft.als.client.lsp.feature.rename
 
-import org.mulesoft.lsp.common.{Position, TextDocumentIdentifier}
-
-import scala.scalajs.js
-import scala.scalajs.js.UndefOr
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.client.lsp.common.{ClientPosition, ClientTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.rename.RenameParams
 
-import js.JSConverters._
+import scala.scalajs.js
 
 @js.native
 trait ClientRenameParams extends js.Object {
