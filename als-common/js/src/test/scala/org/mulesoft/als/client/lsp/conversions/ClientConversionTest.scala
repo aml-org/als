@@ -60,6 +60,15 @@ import org.mulesoft.als.client.lsp.textsync.{
   ClientTextDocumentContentChangeEvent,
   ClientTextDocumentSyncOptions
 }
+import org.mulesoft.als.client.lsp.workspace.{
+  ClientDidChangeConfigurationParams,
+  ClientDidChangeWatchedFilesParams,
+  ClientDidChangeWorkspaceFoldersParams,
+  ClientExecuteCommandParams,
+  ClientFileEvent,
+  ClientWorkspaceFoldersChangeEvent,
+  ClientWorkspaceSymbolParams
+}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -125,6 +134,16 @@ import org.mulesoft.lsp.textsync.{
   TextDocumentContentChangeEvent,
   TextDocumentSyncKind,
   TextDocumentSyncOptions
+}
+import org.mulesoft.lsp.workspace.{
+  DidChangeConfigurationParams,
+  DidChangeWatchedFilesParams,
+  DidChangeWorkspaceFoldersParams,
+  ExecuteCommandParams,
+  FileChangeType,
+  FileEvent,
+  WorkspaceFoldersChangeEvent,
+  WorkspaceSymbolParams
 }
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -819,4 +838,94 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   // end of textsync
+
+  behavior of "Workspace transformations"
+  val wfce: WorkspaceFoldersChangeEvent = WorkspaceFoldersChangeEvent(List(wf), List(wf))
+  val fe: FileEvent                     = FileEvent("uri", FileChangeType(1))
+
+  it should "transform DidChangeConfigurationParams" in {
+    val w: DidChangeConfigurationParams        = DidChangeConfigurationParams(fe.toClient) // todo: check how this should work (similar to ClientCommand?)
+    val w1: ClientDidChangeConfigurationParams = w.toClient
+    val w2                                     = w1.toShared
+
+    val stringified = "{\"settings\":{\"uri\":\"uri\",\"type\":1}}"
+
+    JSON.stringify(w1) should be(stringified)
+
+    w should be(w2)
+  }
+
+  it should "transform DidChangeWatchedFilesParams" in {
+    val w: DidChangeWatchedFilesParams        = DidChangeWatchedFilesParams(List(fe))
+    val w1: ClientDidChangeWatchedFilesParams = w.toClient
+    val w2: DidChangeWatchedFilesParams       = w1.toShared
+
+    val stringified = "{\"changes\":[{\"uri\":\"uri\",\"type\":1}]}"
+
+    JSON.stringify(w1) should be(stringified)
+
+    w should be(w2)
+  }
+
+  it should "transform DidChangeWorkspaceFoldersParams" in {
+    val w: DidChangeWorkspaceFoldersParams        = DidChangeWorkspaceFoldersParams(wfce)
+    val w1: ClientDidChangeWorkspaceFoldersParams = w.toClient
+    val w2: DidChangeWorkspaceFoldersParams       = w1.toShared
+
+    val stringified =
+      "{\"event\":{\"added\":[{\"uri\":\"uri\",\"name\":\"name\"}],\"deleted\":[{\"uri\":\"uri\",\"name\":\"name\"}]}}"
+
+    JSON.stringify(w1) should be(stringified)
+
+    w should be(w2)
+  }
+
+  it should "transform ExecuteCommandParams" in {
+    val w: ExecuteCommandParams        = ExecuteCommandParams("command", List("arguments"))
+    val w1: ClientExecuteCommandParams = w.toClient
+    val w2: ExecuteCommandParams       = w1.toShared
+
+    val stringified = "{\"command\":\"command\",\"arguments\":[\"arguments\"]}"
+
+    JSON.stringify(w1) should be(stringified)
+
+    w should be(w2)
+  }
+
+  it should "transform FileEvent" in {
+    val w1: ClientFileEvent = fe.toClient
+    val w2: FileEvent       = w1.toShared
+
+    val stringified = "{\"uri\":\"uri\",\"type\":1}"
+
+    JSON.stringify(w1) should be(stringified)
+
+    fe should be(w2)
+  }
+
+  it should "transform WorkspaceFoldersChangeEvent" in {
+    val w1: ClientWorkspaceFoldersChangeEvent = wfce.toClient
+    val w2: WorkspaceFoldersChangeEvent       = w1.toShared
+
+    val stringified =
+      "{\"added\":[{\"uri\":\"uri\",\"name\":\"name\"}],\"deleted\":[{\"uri\":\"uri\",\"name\":\"name\"}]}"
+
+    JSON.stringify(w1) should be(stringified)
+
+    wfce should be(w2)
+  }
+
+  it should "transform WorkspaceSymbolParams" in {
+    val w: WorkspaceSymbolParams        = WorkspaceSymbolParams("query")
+    val w1: ClientWorkspaceSymbolParams = w.toClient
+    val w2: WorkspaceSymbolParams       = w1.toShared
+
+    val stringified = "{\"query\":\"query\"}"
+
+    JSON.stringify(w1) should be(stringified)
+
+    w should be(w2)
+  }
+
+  // end of workspace
 }
