@@ -83,6 +83,15 @@ import org.mulesoft.als.client.lsp.textsync.{
   ClientTextDocumentContentChangeEvent,
   ClientTextDocumentSyncOptions
 }
+import org.mulesoft.als.client.lsp.workspace.{
+  ClientDidChangeConfigurationParams,
+  ClientDidChangeWatchedFilesParams,
+  ClientDidChangeWorkspaceFoldersParams,
+  ClientExecuteCommandParams,
+  ClientFileEvent,
+  ClientWorkspaceFoldersChangeEvent,
+  ClientWorkspaceSymbolParams
+}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -174,6 +183,16 @@ import org.mulesoft.lsp.textsync.{
   TextDocumentContentChangeEvent,
   TextDocumentSyncKind,
   TextDocumentSyncOptions
+}
+import org.mulesoft.lsp.workspace.{
+  DidChangeConfigurationParams,
+  DidChangeWatchedFilesParams,
+  DidChangeWorkspaceFoldersParams,
+  ExecuteCommandParams,
+  FileChangeType,
+  FileEvent,
+  WorkspaceFoldersChangeEvent,
+  WorkspaceSymbolParams
 }
 
 import scala.language.implicitConversions
@@ -611,5 +630,40 @@ object LspConvertersClientToShared {
         v.willSaveWaitUntil.toOption,
         v.save.toOption.map(_.toShared)
       )
+  }
+
+  implicit class DidChangeConfigurationParamsConverter(v: ClientDidChangeConfigurationParams) {
+    def toShared: DidChangeConfigurationParams =
+      DidChangeConfigurationParams(v.settings)
+  }
+
+  implicit class DidChangeWatchedFilesParamsConverter(v: ClientDidChangeWatchedFilesParams) {
+    def toShared: DidChangeWatchedFilesParams =
+      DidChangeWatchedFilesParams(v.changes.map(_.toShared).toList)
+  }
+
+  implicit class DidChangeWorkspaceFoldersParamsConverter(v: ClientDidChangeWorkspaceFoldersParams) {
+    def toShared: DidChangeWorkspaceFoldersParams =
+      DidChangeWorkspaceFoldersParams(v.event.toShared)
+  }
+
+  implicit class ExecuteCommandParamsConverter(v: ClientExecuteCommandParams) {
+    def toShared: ExecuteCommandParams =
+      ExecuteCommandParams(v.command, v.arguments.toList)
+  }
+
+  implicit class FileEventConverter(v: ClientFileEvent) {
+    def toShared: FileEvent =
+      FileEvent(v.uri, FileChangeType(v.`type`))
+  }
+
+  implicit class WorkspaceFoldersChangeEventConverter(v: ClientWorkspaceFoldersChangeEvent) {
+    def toShared: WorkspaceFoldersChangeEvent =
+      WorkspaceFoldersChangeEvent(v.added.map(_.toShared).toList, v.deleted.map(_.toShared).toList)
+  }
+
+  implicit class WorkspaceSymbolParamsConverter(v: ClientWorkspaceSymbolParams) {
+    def toShared: WorkspaceSymbolParams =
+      WorkspaceSymbolParams(v.query)
   }
 }
