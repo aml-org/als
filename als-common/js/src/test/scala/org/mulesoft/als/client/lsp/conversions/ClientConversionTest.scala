@@ -47,6 +47,7 @@ import org.mulesoft.als.client.lsp.feature.rename.{
   ClientRenameOptions,
   ClientRenameParams
 }
+import org.mulesoft.als.client.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -99,6 +100,7 @@ import org.mulesoft.lsp.feature.link.{
 }
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
+import org.mulesoft.lsp.feature.telemetry.{TelemetryClientCapabilities, TelemetryMessage}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -634,4 +636,32 @@ class ClientConversionTest extends FlatSpec with Matchers {
 
   // end of reference
 
+  behavior of "Telemetry transformations"
+
+  it should "transform TelemetryClientCapabilities" in {
+    val r: TelemetryClientCapabilities        = TelemetryClientCapabilities(Some(true))
+    val r1: ClientTelemetryClientCapabilities = r.toClient
+    val r2: TelemetryClientCapabilities       = r1.toShared
+
+    val stringified = "{\"relatedInformation\":true}"
+
+    JSON.stringify(r1) should be(stringified)
+
+    r should be(r2)
+  }
+
+  it should "transform TelemetryMessage" in {
+    val r: TelemetryMessage        = TelemetryMessage("event", 1, "message", "uri", 1L, "uuid")
+    val r1: ClientTelemetryMessage = r.toClient
+    val r2: TelemetryMessage       = r1.toShared
+
+    val stringified =
+      "{\"event\":\"event\",\"messageType\":1,\"message\":\"message\",\"uri\":\"uri\",\"time\":\"1\",\"uuid\":\"uuid\"}"
+
+    JSON.stringify(r1) should be(stringified)
+
+    r should be(r2)
+  }
+
+  // end of telemetry
 }
