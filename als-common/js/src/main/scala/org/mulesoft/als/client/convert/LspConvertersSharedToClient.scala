@@ -92,6 +92,15 @@ import org.mulesoft.als.client.lsp.textsync.{
   ClientTextDocumentContentChangeEvent,
   ClientTextDocumentSyncOptions
 }
+import org.mulesoft.als.client.lsp.workspace.{
+  ClientDidChangeConfigurationParams,
+  ClientDidChangeWatchedFilesParams,
+  ClientDidChangeWorkspaceFoldersParams,
+  ClientExecuteCommandParams,
+  ClientFileEvent,
+  ClientWorkspaceFoldersChangeEvent,
+  ClientWorkspaceSymbolParams
+}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -172,6 +181,15 @@ import org.mulesoft.lsp.textsync.{
   SynchronizationClientCapabilities,
   TextDocumentContentChangeEvent,
   TextDocumentSyncOptions
+}
+import org.mulesoft.lsp.workspace.{
+  DidChangeConfigurationParams,
+  DidChangeWatchedFilesParams,
+  DidChangeWorkspaceFoldersParams,
+  ExecuteCommandParams,
+  FileEvent,
+  WorkspaceFoldersChangeEvent,
+  WorkspaceSymbolParams
 }
 
 import scala.language.implicitConversions
@@ -531,5 +549,40 @@ object LspConvertersSharedToClient {
   implicit class ClientTextDocumentSyncOptionsConverter(v: TextDocumentSyncOptions) {
     def toClient: ClientTextDocumentSyncOptions =
       ClientTextDocumentSyncOptions(v)
+  }
+
+  implicit class ClientDidChangeConfigurationParamsConverter(v: DidChangeConfigurationParams) {
+    def toClient: ClientDidChangeConfigurationParams =
+      ClientDidChangeConfigurationParams(v)
+  }
+
+  implicit class ClientDidChangeWatchedFilesParamsConverter(v: DidChangeWatchedFilesParams) {
+    def toClient: ClientDidChangeWatchedFilesParams =
+      ClientDidChangeWatchedFilesParams(v)
+  }
+
+  implicit class ClientDidChangeWorkspaceFoldersParamsConverter(v: DidChangeWorkspaceFoldersParams) {
+    def toClient: ClientDidChangeWorkspaceFoldersParams =
+      ClientDidChangeWorkspaceFoldersParams(v)
+  }
+
+  implicit class ClientExecuteCommandParamsConverter(v: ExecuteCommandParams) {
+    def toClient: ClientExecuteCommandParams =
+      ClientExecuteCommandParams(v)
+  }
+
+  implicit class ClientFileEventConverter(v: FileEvent) {
+    def toClient: ClientFileEvent =
+      ClientFileEvent(v)
+  }
+
+  implicit class ClientWorkspaceFoldersChangeEventConverter(v: WorkspaceFoldersChangeEvent) {
+    def toClient: ClientWorkspaceFoldersChangeEvent =
+      ClientWorkspaceFoldersChangeEvent(v)
+  }
+
+  implicit class ClientWorkspaceSymbolParamsConverter(v: WorkspaceSymbolParams) {
+    def toClient: ClientWorkspaceSymbolParams =
+      ClientWorkspaceSymbolParams(v)
   }
 }
