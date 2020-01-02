@@ -71,6 +71,18 @@ import org.mulesoft.als.client.lsp.feature.rename.{
   ClientRenameParams
 }
 import org.mulesoft.als.client.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage}
+import org.mulesoft.als.client.lsp.textsync.{
+  ClientDidChangeConfigurationNotificationParams,
+  ClientDidChangeTextDocumentParams,
+  ClientDidCloseTextDocumentParams,
+  ClientDidFocusParams,
+  ClientDidOpenTextDocumentParams,
+  ClientIndexDialectParams,
+  ClientSaveOptions,
+  ClientSynchronizationClientCapabilities,
+  ClientTextDocumentContentChangeEvent,
+  ClientTextDocumentSyncOptions
+}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -150,7 +162,19 @@ import org.mulesoft.lsp.feature.link.{
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
 import org.mulesoft.lsp.feature.telemetry.{TelemetryClientCapabilities, TelemetryMessage}
-import org.mulesoft.lsp.textsync.TextDocumentSyncKind
+import org.mulesoft.lsp.textsync.{
+  DidChangeConfigurationNotificationParams,
+  DidChangeTextDocumentParams,
+  DidCloseTextDocumentParams,
+  DidFocusParams,
+  DidOpenTextDocumentParams,
+  IndexDialectParams,
+  SaveOptions,
+  SynchronizationClientCapabilities,
+  TextDocumentContentChangeEvent,
+  TextDocumentSyncKind,
+  TextDocumentSyncOptions
+}
 
 import scala.language.implicitConversions
 
@@ -528,5 +552,64 @@ object LspConvertersClientToShared {
   implicit class TelemetryClientCapabilitiesConverter(v: ClientTelemetryClientCapabilities) {
     def toShared: TelemetryClientCapabilities =
       TelemetryClientCapabilities(v.relatedInformation.toOption)
+  }
+
+  implicit class DidChangeConfigurationNotificationParamsConverter(v: ClientDidChangeConfigurationNotificationParams) {
+    def toShared: DidChangeConfigurationNotificationParams =
+      DidChangeConfigurationNotificationParams(v.mainUri, v.dependencies.toSet)
+  }
+
+  implicit class DidChangeTextDocumentParamsConverter(v: ClientDidChangeTextDocumentParams) {
+    def toShared: DidChangeTextDocumentParams =
+      DidChangeTextDocumentParams(v.textDocument.toShared, v.contentChanges.map(_.toShared).toSeq)
+  }
+
+  implicit class DidCloseTextDocumentParamsConverter(v: ClientDidCloseTextDocumentParams) {
+    def toShared: DidCloseTextDocumentParams =
+      DidCloseTextDocumentParams(v.textDocument.toShared)
+  }
+
+  implicit class DidFocusParamsConverter(v: ClientDidFocusParams) {
+    def toShared: DidFocusParams =
+      DidFocusParams(v.uri, v.version)
+  }
+
+  implicit class DidOpenTextDocumentParamsConverter(v: ClientDidOpenTextDocumentParams) {
+    def toShared: DidOpenTextDocumentParams =
+      DidOpenTextDocumentParams(v.textDocument.toShared)
+  }
+
+  implicit class IndexDialectParamsConverter(v: ClientIndexDialectParams) {
+    def toShared: IndexDialectParams =
+      IndexDialectParams(v.uri, v.content.toOption)
+  }
+
+  implicit class SaveOptionsConverter(v: ClientSaveOptions) {
+    def toShared: SaveOptions =
+      SaveOptions(v.includeText.toOption)
+  }
+
+  implicit class SynchronizationClientCapabilitiesConverter(v: ClientSynchronizationClientCapabilities) {
+    def toShared: SynchronizationClientCapabilities =
+      SynchronizationClientCapabilities(v.dynamicRegistration.toOption,
+                                        v.willSave.toOption,
+                                        v.willSaveWaitUntil.toOption,
+                                        v.didSave.toOption)
+  }
+
+  implicit class TextDocumentContentChangeEventConverter(v: ClientTextDocumentContentChangeEvent) {
+    def toShared: TextDocumentContentChangeEvent =
+      TextDocumentContentChangeEvent(v.text, v.range.map(_.toShared).toOption, v.rangeLength.toOption)
+  }
+
+  implicit class TextDocumentSyncOptionsConverter(v: ClientTextDocumentSyncOptions) {
+    def toShared: TextDocumentSyncOptions =
+      TextDocumentSyncOptions(
+        v.openClose.toOption,
+        v.change.toOption.map(k => TextDocumentSyncKind(k)),
+        v.willSave.toOption,
+        v.willSaveWaitUntil.toOption,
+        v.save.toOption.map(_.toShared)
+      )
   }
 }

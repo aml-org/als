@@ -80,6 +80,18 @@ import org.mulesoft.als.client.lsp.feature.rename.{
   ClientRenameParams
 }
 import org.mulesoft.als.client.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage}
+import org.mulesoft.als.client.lsp.textsync.{
+  ClientDidChangeConfigurationNotificationParams,
+  ClientDidChangeTextDocumentParams,
+  ClientDidCloseTextDocumentParams,
+  ClientDidFocusParams,
+  ClientDidOpenTextDocumentParams,
+  ClientIndexDialectParams,
+  ClientSaveOptions,
+  ClientSynchronizationClientCapabilities,
+  ClientTextDocumentContentChangeEvent,
+  ClientTextDocumentSyncOptions
+}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -149,6 +161,18 @@ import org.mulesoft.lsp.feature.link.{
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
 import org.mulesoft.lsp.feature.telemetry.{TelemetryClientCapabilities, TelemetryMessage}
+import org.mulesoft.lsp.textsync.{
+  DidChangeConfigurationNotificationParams,
+  DidChangeTextDocumentParams,
+  DidCloseTextDocumentParams,
+  DidFocusParams,
+  DidOpenTextDocumentParams,
+  IndexDialectParams,
+  SaveOptions,
+  SynchronizationClientCapabilities,
+  TextDocumentContentChangeEvent,
+  TextDocumentSyncOptions
+}
 
 import scala.language.implicitConversions
 
@@ -457,5 +481,55 @@ object LspConvertersSharedToClient {
   implicit class ClientTelemetryClientCapabilitiesConverter(v: TelemetryClientCapabilities) {
     def toClient: ClientTelemetryClientCapabilities =
       ClientTelemetryClientCapabilities(v)
+  }
+
+  implicit class ClientDidChangeConfigurationNotificationParamsConverter(v: DidChangeConfigurationNotificationParams) {
+    def toClient: ClientDidChangeConfigurationNotificationParams =
+      ClientDidChangeConfigurationNotificationParams(v)
+  }
+
+  implicit class ClientDidChangeTextDocumentParamsConverter(v: DidChangeTextDocumentParams) {
+    def toClient: ClientDidChangeTextDocumentParams =
+      ClientDidChangeTextDocumentParams(v)
+  }
+
+  implicit class ClientDidCloseTextDocumentParamsConverter(v: DidCloseTextDocumentParams) {
+    def toClient: ClientDidCloseTextDocumentParams =
+      ClientDidCloseTextDocumentParams(v)
+  }
+
+  implicit class ClientDidFocusParamsConverter(v: DidFocusParams) {
+    def toClient: ClientDidFocusParams =
+      ClientDidFocusParams(v)
+  }
+
+  implicit class ClientDidOpenTextDocumentParamsConverter(v: DidOpenTextDocumentParams) {
+    def toClient: ClientDidOpenTextDocumentParams =
+      ClientDidOpenTextDocumentParams(v)
+  }
+
+  implicit class ClientIndexDialectParamsConverter(v: IndexDialectParams) {
+    def toClient: ClientIndexDialectParams =
+      ClientIndexDialectParams(v)
+  }
+
+  implicit class ClientSaveOptionsConverter(v: SaveOptions) {
+    def toClient: ClientSaveOptions =
+      ClientSaveOptions(v)
+  }
+
+  implicit class ClientSynchronizationClientCapabilitiesConverter(v: SynchronizationClientCapabilities) {
+    def toClient: ClientSynchronizationClientCapabilities =
+      ClientSynchronizationClientCapabilities(v)
+  }
+
+  implicit class ClientTextDocumentContentChangeEventConverter(v: TextDocumentContentChangeEvent) {
+    def toClient: ClientTextDocumentContentChangeEvent =
+      ClientTextDocumentContentChangeEvent(v)
+  }
+
+  implicit class ClientTextDocumentSyncOptionsConverter(v: TextDocumentSyncOptions) {
+    def toClient: ClientTextDocumentSyncOptions =
+      ClientTextDocumentSyncOptions(v)
   }
 }
