@@ -37,6 +37,11 @@ import org.mulesoft.als.client.lsp.feature.link.{
   ClientDocumentLinkOptions,
   ClientDocumentLinkParams
 }
+import org.mulesoft.als.client.lsp.feature.reference.{
+  ClientReferenceClientCapabilities,
+  ClientReferenceContext,
+  ClientReferenceParams
+}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -87,6 +92,7 @@ import org.mulesoft.lsp.feature.link.{
   DocumentLinkOptions,
   DocumentLinkParams
 }
+import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -538,4 +544,44 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   // end of documentLink
+
+  behavior of "Reference transformations"
+
+  it should "transform ReferenceClientCapabilities" in {
+    val r: ReferenceClientCapabilities        = ReferenceClientCapabilities(Some(true))
+    val r1: ClientReferenceClientCapabilities = r.toClient
+    val r2: ReferenceClientCapabilities       = r1.toShared
+
+    val stringified = "{\"dynamicRegistration\":true}"
+
+    JSON.stringify(r1) should be(stringified)
+
+    r should be(r2)
+  }
+
+  val rc: ReferenceContext = ReferenceContext(true)
+
+  it should "transform ReferenceContext" in {
+    val rc1: ClientReferenceContext = rc.toClient
+    val rc2: ReferenceContext       = rc1.toShared
+
+    val stringified = "{\"includeDeclaration\":true}"
+
+    JSON.stringify(rc1) should be(stringified)
+
+    rc should be(rc2)
+  }
+
+  it should "transform ReferenceParams" in {
+    val r: ReferenceParams        = ReferenceParams(tdi, p, rc)
+    val r1: ClientReferenceParams = r.toClient
+    val r2: ReferenceParams       = r1.toShared
+
+    val stringified =
+      "{\"textDocument\":{\"uri\":\"uri\"},\"position\":{\"line\":10,\"character\":10},\"context\":{\"includeDeclaration\":true}}"
+
+    JSON.stringify(r1) should be(stringified)
+
+    r should be(r2)
+  }
 }

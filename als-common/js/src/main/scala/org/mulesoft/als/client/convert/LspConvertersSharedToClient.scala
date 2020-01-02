@@ -69,6 +69,11 @@ import org.mulesoft.als.client.lsp.feature.link.{
   ClientDocumentLinkOptions,
   ClientDocumentLinkParams
 }
+import org.mulesoft.als.client.lsp.feature.reference.{
+  ClientReferenceClientCapabilities,
+  ClientReferenceContext,
+  ClientReferenceParams
+}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -135,6 +140,7 @@ import org.mulesoft.lsp.feature.link.{
   DocumentLinkOptions,
   DocumentLinkParams
 }
+import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 
 import scala.language.implicitConversions
 
@@ -388,6 +394,21 @@ object LspConvertersSharedToClient {
   implicit class ClientDocumentLinkConverter(v: DocumentLink) {
     def toClient: ClientDocumentLink =
       ClientDocumentLink(v)
+  }
+
+  implicit class ClientReferenceClientCapabilitiesConverter(v: ReferenceClientCapabilities) {
+    def toClient: ClientReferenceClientCapabilities =
+      ClientReferenceClientCapabilities(v)
+  }
+
+  implicit class ClientReferenceContextConverter(v: ReferenceContext) {
+    def toClient: ClientReferenceContext =
+      ClientReferenceContext(v)
+  }
+
+  implicit class ClientReferenceParamsConverter(v: ReferenceParams) {
+    def toClient: ClientReferenceParams =
+      ClientReferenceParams(v)
   }
 
   implicit class ClientDocumentLinkClientCapabilitiesConverter(v: DocumentLinkClientCapabilities) {
