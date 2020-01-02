@@ -48,6 +48,18 @@ import org.mulesoft.als.client.lsp.feature.rename.{
   ClientRenameParams
 }
 import org.mulesoft.als.client.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage}
+import org.mulesoft.als.client.lsp.textsync.{
+  ClientDidChangeConfigurationNotificationParams,
+  ClientDidChangeTextDocumentParams,
+  ClientDidCloseTextDocumentParams,
+  ClientDidFocusParams,
+  ClientDidOpenTextDocumentParams,
+  ClientIndexDialectParams,
+  ClientSaveOptions,
+  ClientSynchronizationClientCapabilities,
+  ClientTextDocumentContentChangeEvent,
+  ClientTextDocumentSyncOptions
+}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -101,7 +113,19 @@ import org.mulesoft.lsp.feature.link.{
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
 import org.mulesoft.lsp.feature.telemetry.{TelemetryClientCapabilities, TelemetryMessage}
-import org.mulesoft.lsp.textsync.TextDocumentSyncKind
+import org.mulesoft.lsp.textsync.{
+  DidChangeConfigurationNotificationParams,
+  DidChangeTextDocumentParams,
+  DidCloseTextDocumentParams,
+  DidFocusParams,
+  DidOpenTextDocumentParams,
+  IndexDialectParams,
+  SaveOptions,
+  SynchronizationClientCapabilities,
+  TextDocumentContentChangeEvent,
+  TextDocumentSyncKind,
+  TextDocumentSyncOptions
+}
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.scalajs.js.JSON
@@ -167,14 +191,14 @@ class ClientConversionTest extends FlatSpec with Matchers {
     vtdi should be(vtdi2)
   }
 
+  val tdItem: TextDocumentItem = TextDocumentItem("uri", "test", 1, "test text")
   it should "transform TextDocumentItem" in {
     val tdiStringified               = "{\"uri\":\"uri\",\"languageId\":\"test\",\"version\":1,\"text\":\"test text\"}"
-    val tdi: TextDocumentItem        = TextDocumentItem("uri", "test", 1, "test text")
-    val tdi1: ClientTextDocumentItem = tdi.toClient
+    val tdi1: ClientTextDocumentItem = tdItem.toClient
     val tdi2: TextDocumentItem       = tdi1.toShared
 
     JSON.stringify(tdi1) should be(tdiStringified)
-    tdi should be(tdi2)
+    tdItem should be(tdi2)
   }
 
   it should "transform TextDocumentPositionParams" in {
@@ -664,4 +688,135 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   // end of telemetry
+
+  behavior of "Text Sync transformations"
+  val tdcce: TextDocumentContentChangeEvent = TextDocumentContentChangeEvent("text", Some(r), Some(1))
+
+  it should "transform DidChangeConfigurationNotificationParams" in {
+    val ts: DidChangeConfigurationNotificationParams =
+      DidChangeConfigurationNotificationParams("uri", Set("dep1", "dep2"))
+    val ts1: ClientDidChangeConfigurationNotificationParams = ts.toClient
+    val ts2: DidChangeConfigurationNotificationParams       = ts1.toShared
+
+    val stringified = "{\"mainUri\":\"uri\",\"dependencies\":[\"dep1\",\"dep2\"]}"
+
+    JSON.stringify(ts1) should be(stringified)
+
+    ts should be(ts2)
+  }
+
+  it should "transform DidChangeTextDocumentParams" in {
+    val ts: DidChangeTextDocumentParams        = DidChangeTextDocumentParams(vtdi, Seq(tdcce))
+    val ts1: ClientDidChangeTextDocumentParams = ts.toClient
+    val ts2: DidChangeTextDocumentParams       = ts1.toShared
+
+    val stringified =
+      "{\"textDocument\":{\"uri\":\"uri\",\"version\":1},\"contentChanges\":[{\"text\":\"text\",\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"rangeLength\":1}]}"
+
+    JSON.stringify(ts1) should be(stringified)
+
+    ts should be(ts2)
+  }
+
+  it should "transform DidCloseTextDocumentParams" in {
+    val ts: DidCloseTextDocumentParams        = DidCloseTextDocumentParams(tdi)
+    val ts1: ClientDidCloseTextDocumentParams = ts.toClient
+    val ts2: DidCloseTextDocumentParams       = ts1.toShared
+
+    val stringified = "{\"textDocument\":{\"uri\":\"uri\"}}"
+
+    JSON.stringify(ts1) should be(stringified)
+
+    ts should be(ts2)
+  }
+
+  it should "transform DidFocusParams" in {
+    val ts: DidFocusParams        = DidFocusParams("uri", 1)
+    val ts1: ClientDidFocusParams = ts.toClient
+    val ts2: DidFocusParams       = ts1.toShared
+
+    val stringified = "{\"uri\":\"uri\",\"version\":1}"
+
+    JSON.stringify(ts1) should be(stringified)
+
+    ts should be(ts2)
+  }
+
+  it should "transform DidOpenTextDocumentParams" in {
+    val ts: DidOpenTextDocumentParams        = DidOpenTextDocumentParams(tdItem)
+    val ts1: ClientDidOpenTextDocumentParams = ts.toClient
+    val ts2: DidOpenTextDocumentParams       = ts1.toShared
+
+    val stringified =
+      "{\"textDocument\":{\"uri\":\"uri\",\"languageId\":\"test\",\"version\":1,\"text\":\"test text\"}}"
+
+    JSON.stringify(ts1) should be(stringified)
+
+    ts should be(ts2)
+  }
+
+  it should "transform IndexDialectParams" in {
+    val ts: IndexDialectParams        = IndexDialectParams("uri", Some("content"))
+    val ts1: ClientIndexDialectParams = ts.toClient
+    val ts2: IndexDialectParams       = ts1.toShared
+
+    val stringified = "{\"uri\":\"uri\",\"content\":\"content\"}"
+
+    JSON.stringify(ts1) should be(stringified)
+
+    ts should be(ts2)
+  }
+
+  val so: SaveOptions = SaveOptions(Some(true))
+  it should "transform SaveOptions" in {
+    val ts1: ClientSaveOptions = so.toClient
+    val ts2: SaveOptions       = ts1.toShared
+
+    val stringified = "{\"includeText\":true}"
+
+    JSON.stringify(ts1) should be(stringified)
+
+    so should be(ts2)
+  }
+
+  it should "transform SynchronizationClientCapabilities" in {
+    val ts: SynchronizationClientCapabilities =
+      SynchronizationClientCapabilities(Some(true), Some(true), Some(true), Some(true))
+    val ts1: ClientSynchronizationClientCapabilities = ts.toClient
+    val ts2: SynchronizationClientCapabilities       = ts1.toShared
+
+    val stringified = "{\"dynamicRegistration\":true,\"willSave\":true,\"willSaveWaitUntil\":true,\"didSave\":true}"
+
+    JSON.stringify(ts1) should be(stringified)
+
+    ts should be(ts2)
+  }
+
+  it should "transform TextDocumentContentChangeEvent" in {
+    val tdcce1: ClientTextDocumentContentChangeEvent = tdcce.toClient
+    val tdcce2: TextDocumentContentChangeEvent       = tdcce1.toShared
+
+    val stringified =
+      "{\"text\":\"text\",\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"rangeLength\":1}"
+
+    JSON.stringify(tdcce1) should be(stringified)
+
+    tdcce should be(tdcce2)
+  }
+
+  it should "transform TextDocumentSyncOptions" in {
+    val ts: TextDocumentSyncOptions =
+      TextDocumentSyncOptions(Some(true), Some(TextDocumentSyncKind(1)), Some(true), Some(true), Some(so))
+    val ts1: ClientTextDocumentSyncOptions = ts.toClient
+    val ts2: TextDocumentSyncOptions       = ts1.toShared
+
+    val stringified =
+      "{\"openClose\":true,\"change\":1,\"willSave\":true,\"willSaveWaitUntil\":true,\"save\":{\"includeText\":true}}"
+
+    JSON.stringify(ts1) should be(stringified)
+
+    ts should be(ts2)
+  }
+
+  // end of textsync
 }
