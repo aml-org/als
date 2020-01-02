@@ -60,6 +60,11 @@ import org.mulesoft.als.client.lsp.feature.link.{
   ClientDocumentLinkOptions,
   ClientDocumentLinkParams
 }
+import org.mulesoft.als.client.lsp.feature.reference.{
+  ClientReferenceClientCapabilities,
+  ClientReferenceContext,
+  ClientReferenceParams
+}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -136,6 +141,7 @@ import org.mulesoft.lsp.feature.link.{
   DocumentLinkOptions,
   DocumentLinkParams
 }
+import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind
 
 import scala.language.implicitConversions
@@ -475,5 +481,20 @@ object LspConvertersClientToShared {
   implicit class DocumentLinkParamsConverter(v: ClientDocumentLinkParams) {
     def toShared: DocumentLinkParams =
       DocumentLinkParams(v.textDocument.toShared)
+  }
+
+  implicit class ReferenceClientCapabilitiesConverter(v: ClientReferenceClientCapabilities) {
+    def toShared: ReferenceClientCapabilities =
+      ReferenceClientCapabilities(v.dynamicRegistration.toOption)
+  }
+
+  implicit class ReferenceContextConverter(v: ClientReferenceContext) {
+    def toShared: ReferenceContext =
+      ReferenceContext(v.includeDeclaration)
+  }
+
+  implicit class ReferenceParamsConverter(v: ClientReferenceParams) {
+    def toShared: ReferenceParams =
+      ReferenceParams(v.textDocument.toShared, v.position.toShared, v.context.toShared)
   }
 }
