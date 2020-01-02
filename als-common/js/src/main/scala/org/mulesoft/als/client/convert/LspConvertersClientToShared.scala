@@ -65,6 +65,11 @@ import org.mulesoft.als.client.lsp.feature.reference.{
   ClientReferenceContext,
   ClientReferenceParams
 }
+import org.mulesoft.als.client.lsp.feature.rename.{
+  ClientRenameClientCapabilities,
+  ClientRenameOptions,
+  ClientRenameParams
+}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -142,6 +147,7 @@ import org.mulesoft.lsp.feature.link.{
   DocumentLinkParams
 }
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
+import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind
 
 import scala.language.implicitConversions
@@ -496,5 +502,19 @@ object LspConvertersClientToShared {
   implicit class ReferenceParamsConverter(v: ClientReferenceParams) {
     def toShared: ReferenceParams =
       ReferenceParams(v.textDocument.toShared, v.position.toShared, v.context.toShared)
+  }
+
+  implicit class RenameClientCapabilitiesConverter(v: ClientRenameClientCapabilities) {
+    def toShared: RenameClientCapabilities =
+      RenameClientCapabilities(v.dynamicRegistration.toOption, v.prepareSupport.toOption)
+  }
+
+  implicit class RenameOptionsConverter(v: ClientRenameOptions) {
+    def toShared: RenameOptions = RenameOptions(v.prepareProvider.toOption)
+  }
+
+  implicit class RenameParamsConverter(v: ClientRenameParams) {
+    def toShared: RenameParams =
+      RenameParams(v.textDocument.toShared, v.position.toShared, v.newName)
   }
 }
