@@ -42,6 +42,11 @@ import org.mulesoft.als.client.lsp.feature.reference.{
   ClientReferenceContext,
   ClientReferenceParams
 }
+import org.mulesoft.als.client.lsp.feature.rename.{
+  ClientRenameClientCapabilities,
+  ClientRenameOptions,
+  ClientRenameParams
+}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -93,6 +98,7 @@ import org.mulesoft.lsp.feature.link.{
   DocumentLinkParams
 }
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
+import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -584,4 +590,48 @@ class ClientConversionTest extends FlatSpec with Matchers {
 
     r should be(r2)
   }
+
+  // end of reference
+
+  behavior of "Rename transformations"
+
+  it should "transform RenameClientCapabilities" in {
+    val r: RenameClientCapabilities        = RenameClientCapabilities(Some(true), Some(false))
+    val r1: ClientRenameClientCapabilities = r.toClient
+    val r2: RenameClientCapabilities       = r1.toShared
+
+    val stringified = "{\"dynamicRegistration\":true,\"prepareSupport\":false}"
+
+    JSON.stringify(r1) should be(stringified)
+
+    r should be(r2)
+  }
+
+  it should "transform RenameOptions" in {
+    val rc: RenameOptions        = RenameOptions(Some(true))
+    val rc1: ClientRenameOptions = rc.toClient
+    val rc2: RenameOptions       = rc1.toShared
+
+    val stringified = "{\"prepareProvider\":true}"
+
+    JSON.stringify(rc1) should be(stringified)
+
+    rc should be(rc2)
+  }
+
+  it should "transform RenameParams" in {
+    val r: RenameParams        = RenameParams(tdi, p, "name")
+    val r1: ClientRenameParams = r.toClient
+    val r2: RenameParams       = r1.toShared
+
+    val stringified =
+      "{\"textDocument\":{\"uri\":\"uri\"},\"position\":{\"line\":10,\"character\":10},\"newName\":\"name\"}"
+
+    JSON.stringify(r1) should be(stringified)
+
+    r should be(r2)
+  }
+
+  // end of reference
+
 }

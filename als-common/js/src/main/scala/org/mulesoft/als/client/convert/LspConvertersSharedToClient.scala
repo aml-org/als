@@ -74,6 +74,11 @@ import org.mulesoft.als.client.lsp.feature.reference.{
   ClientReferenceContext,
   ClientReferenceParams
 }
+import org.mulesoft.als.client.lsp.feature.rename.{
+  ClientRenameClientCapabilities,
+  ClientRenameOptions,
+  ClientRenameParams
+}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{
   Location,
@@ -141,6 +146,7 @@ import org.mulesoft.lsp.feature.link.{
   DocumentLinkParams
 }
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
+import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
 
 import scala.language.implicitConversions
 
@@ -424,5 +430,20 @@ object LspConvertersSharedToClient {
   implicit class ClientDocumentLinkParamsConverter(v: DocumentLinkParams) {
     def toClient: ClientDocumentLinkParams =
       ClientDocumentLinkParams(v)
+  }
+
+  implicit class ClientRenameClientCapabilitiesConverter(v: RenameClientCapabilities) {
+    def toClient: ClientRenameClientCapabilities =
+      ClientRenameClientCapabilities(v)
+  }
+
+  implicit class ClientRenameOptionsConverter(v: RenameOptions) {
+    def toClient: ClientRenameOptions =
+      ClientRenameOptions(v)
+  }
+
+  implicit class ClientRenameParamsConverter(v: RenameParams) {
+    def toClient: ClientRenameParams =
+      ClientRenameParams(v)
   }
 }
