@@ -2,198 +2,34 @@ package org.mulesoft.als.client.convert
 
 import org.mulesoft.als.client.lsp.command.ClientCommand
 import org.mulesoft.als.client.lsp.common._
-import org.mulesoft.als.client.lsp.configuration.{
-  ClientClientCapabilities,
-  ClientInitializeParams,
-  ClientInitializeResult,
-  ClientServerCapabilities,
-  ClientStaticRegistrationOptions,
-  ClientTextDocumentClientCapabilities,
-  ClientWorkspaceClientCapabilities,
-  ClientWorkspaceFolder
-}
-import org.mulesoft.als.client.lsp.edit.{
-  ClientCreateFile,
-  ClientDeleteFile,
-  ClientDeleteFileOptions,
-  ClientNewFileOptions,
-  ClientRenameFile,
-  ClientTextDocumentEdit,
-  ClientTextEdit,
-  ClientWorkspaceEdit
-}
-import org.mulesoft.als.client.lsp.feature.codeactions.{
-  ClientCodeAction,
-  ClientCodeActionCapabilities,
-  ClientCodeActionContext,
-  ClientCodeActionKindCapabilities,
-  ClientCodeActionLiteralSupportCapabilities,
-  ClientCodeActionOptions,
-  ClientCodeActionParams
-}
-import org.mulesoft.als.client.lsp.feature.completion.{
-  ClientCompletionClientCapabilities,
-  ClientCompletionContext,
-  ClientCompletionItem,
-  ClientCompletionItemClientCapabilities,
-  ClientCompletionItemKindClientCapabilities,
-  ClientCompletionList,
-  ClientCompletionOptions,
-  ClientCompletionParams
-}
+import org.mulesoft.als.client.lsp.configuration._
+import org.mulesoft.als.client.lsp.edit._
+import org.mulesoft.als.client.lsp.feature.codeactions._
+import org.mulesoft.als.client.lsp.feature.completion._
 import org.mulesoft.als.client.lsp.feature.definition.ClientDefinitionClientCapabilities
-import org.mulesoft.als.client.lsp.feature.diagnostic.{
-  ClientDiagnostic,
-  ClientDiagnosticClientCapabilities,
-  ClientDiagnosticRelatedInformation
-}
-import org.mulesoft.als.client.lsp.feature.documentsymbol.{
-  ClientDocumentSymbol,
-  ClientDocumentSymbolClientCapabilities,
-  ClientDocumentSymbolParams,
-  ClientSymbolInformation,
-  ClientSymbolKindClientCapabilities
-}
-import org.mulesoft.als.client.lsp.feature.link.{
-  ClientDocumentLink,
-  ClientDocumentLinkClientCapabilities,
-  ClientDocumentLinkOptions,
-  ClientDocumentLinkParams
-}
-import org.mulesoft.als.client.lsp.feature.reference.{
-  ClientReferenceClientCapabilities,
-  ClientReferenceContext,
-  ClientReferenceParams
-}
-import org.mulesoft.als.client.lsp.feature.rename.{
-  ClientRenameClientCapabilities,
-  ClientRenameOptions,
-  ClientRenameParams
-}
+import org.mulesoft.als.client.lsp.feature.diagnostic.{ClientDiagnostic, ClientDiagnosticClientCapabilities, ClientDiagnosticRelatedInformation}
+import org.mulesoft.als.client.lsp.feature.documentsymbol._
+import org.mulesoft.als.client.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkClientCapabilities, ClientDocumentLinkOptions, ClientDocumentLinkParams}
+import org.mulesoft.als.client.lsp.feature.reference.{ClientReferenceClientCapabilities, ClientReferenceContext, ClientReferenceParams}
+import org.mulesoft.als.client.lsp.feature.rename.{ClientRenameClientCapabilities, ClientRenameOptions, ClientRenameParams}
 import org.mulesoft.als.client.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage}
-import org.mulesoft.als.client.lsp.textsync.{
-  ClientDidChangeConfigurationNotificationParams,
-  ClientDidChangeTextDocumentParams,
-  ClientDidCloseTextDocumentParams,
-  ClientDidFocusParams,
-  ClientDidOpenTextDocumentParams,
-  ClientIndexDialectParams,
-  ClientSaveOptions,
-  ClientSynchronizationClientCapabilities,
-  ClientTextDocumentContentChangeEvent,
-  ClientTextDocumentSyncOptions
-}
-import org.mulesoft.als.client.lsp.workspace.{
-  ClientDidChangeConfigurationParams,
-  ClientDidChangeWatchedFilesParams,
-  ClientDidChangeWorkspaceFoldersParams,
-  ClientExecuteCommandParams,
-  ClientFileEvent,
-  ClientWorkspaceFoldersChangeEvent,
-  ClientWorkspaceSymbolParams
-}
+import org.mulesoft.als.client.lsp.textsync._
+import org.mulesoft.als.client.lsp.workspace._
 import org.mulesoft.lsp.command.Command
-import org.mulesoft.lsp.common.{
-  Location,
-  LocationLink,
-  Position,
-  Range,
-  TextDocumentIdentifier,
-  TextDocumentItem,
-  TextDocumentPositionParams,
-  VersionedTextDocumentIdentifier
-}
-import org.mulesoft.lsp.configuration.{
-  ClientCapabilities,
-  InitializeParams,
-  InitializeResult,
-  ServerCapabilities,
-  StaticRegistrationOptions,
-  TextDocumentClientCapabilities,
-  TraceKind,
-  WorkspaceClientCapabilities,
-  WorkspaceFolder
-}
-import org.mulesoft.lsp.edit.{
-  CreateFile,
-  DeleteFile,
-  DeleteFileOptions,
-  NewFileOptions,
-  RenameFile,
-  TextDocumentEdit,
-  TextEdit,
-  WorkspaceEdit
-}
-import org.mulesoft.lsp.feature.codeactions.{
-  CodeAction,
-  CodeActionCapabilities,
-  CodeActionContext,
-  CodeActionKind,
-  CodeActionKindCapabilities,
-  CodeActionLiteralSupportCapabilities,
-  CodeActionOptions,
-  CodeActionParams
-}
-import org.mulesoft.lsp.feature.completion.{
-  CompletionClientCapabilities,
-  CompletionContext,
-  CompletionItem,
-  CompletionItemClientCapabilities,
-  CompletionItemKind,
-  CompletionItemKindClientCapabilities,
-  CompletionList,
-  CompletionOptions,
-  CompletionParams,
-  CompletionTriggerKind,
-  InsertTextFormat
-}
+import org.mulesoft.lsp.common.{Location, LocationLink, Position, Range, TextDocumentIdentifier, TextDocumentItem, TextDocumentPositionParams, VersionedTextDocumentIdentifier}
+import org.mulesoft.lsp.configuration._
+import org.mulesoft.lsp.edit._
+import org.mulesoft.lsp.feature.codeactions._
+import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
-import org.mulesoft.lsp.feature.diagnostic.{
-  Diagnostic,
-  DiagnosticClientCapabilities,
-  DiagnosticRelatedInformation,
-  DiagnosticSeverity
-}
-import org.mulesoft.lsp.feature.documentsymbol.{
-  DocumentSymbol,
-  DocumentSymbolClientCapabilities,
-  DocumentSymbolParams,
-  SymbolInformation,
-  SymbolKind,
-  SymbolKindClientCapabilities
-}
-import org.mulesoft.lsp.feature.link.{
-  DocumentLink,
-  DocumentLinkClientCapabilities,
-  DocumentLinkOptions,
-  DocumentLinkParams
-}
+import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticClientCapabilities, DiagnosticRelatedInformation, DiagnosticSeverity}
+import org.mulesoft.lsp.feature.documentsymbol._
+import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
 import org.mulesoft.lsp.feature.telemetry.{TelemetryClientCapabilities, TelemetryMessage}
-import org.mulesoft.lsp.textsync.{
-  DidChangeConfigurationNotificationParams,
-  DidChangeTextDocumentParams,
-  DidCloseTextDocumentParams,
-  DidFocusParams,
-  DidOpenTextDocumentParams,
-  IndexDialectParams,
-  SaveOptions,
-  SynchronizationClientCapabilities,
-  TextDocumentContentChangeEvent,
-  TextDocumentSyncKind,
-  TextDocumentSyncOptions
-}
-import org.mulesoft.lsp.workspace.{
-  DidChangeConfigurationParams,
-  DidChangeWatchedFilesParams,
-  DidChangeWorkspaceFoldersParams,
-  ExecuteCommandParams,
-  FileChangeType,
-  FileEvent,
-  WorkspaceFoldersChangeEvent,
-  WorkspaceSymbolParams
-}
+import org.mulesoft.lsp.textsync.{TextDocumentSyncKind, _}
+import org.mulesoft.lsp.workspace._
 
 import scala.language.implicitConversions
 
@@ -262,6 +98,22 @@ object LspConvertersClientToShared {
   implicit class WorkspaceClientCapabilitiesConverter(v: ClientWorkspaceClientCapabilities) {
     def toShared: WorkspaceClientCapabilities =
       WorkspaceClientCapabilities()
+  }
+
+  implicit class ClientWorkspaceFolderServerCapabilitiesConverter(v: ClientWorkspaceFolderServerCapabilities) {
+    def toShared: WorkspaceFolderServerCapabilities =
+      WorkspaceFolderServerCapabilities(
+        v.supported.toOption,
+        v.changeNotifications.toOption.map((value: Any) => value match {
+          case value: String => Left[String, Boolean](value)
+          case value: Boolean => Right[String, Boolean](value)
+        })
+      )
+  }
+
+  implicit class ClientWorkspaceServerCapabilitiesConverter(v: ClientWorkspaceServerCapabilities) {
+    def toShared: WorkspaceServerCapabilities =
+      WorkspaceServerCapabilities(v.workspaceFolders.toOption.map(_.toShared))
   }
 
   implicit class ClientCapabilitiesConverter(v: ClientClientCapabilities) {
@@ -413,19 +265,22 @@ object LspConvertersClientToShared {
     def toShared: InitializeParams =
       InitializeParams(
         Some(v.capabilities.toShared),
-        Some(TraceKind(v.trace)),
+        v.trace.toOption.map(TraceKind.withName),
         v.rootUri.toOption,
-        v.processId.toOption,
-        v.workspaceFolders.toOption.map(a => a.map(_.toShared).toSeq),
+        Option(v.processId),
+        v.workspace.toOption.map(_.toShared),
         v.rootPath.toOption,
-        v.initializationOptions.toOption
+        v.initializationOptions.toOption,
       )
   }
 
   implicit class ServerCapabilitiesConverter(v: ClientServerCapabilities) {
     def toShared: ServerCapabilities =
       ServerCapabilities(
-        v.textDocumentSync.toOption.map(tdsk => Left(TextDocumentSyncKind(tdsk))),
+        v.textDocumentSync.toOption.map((textDocumentSync: Any) => textDocumentSync match {
+          case value: Int => Left(TextDocumentSyncKind(value))
+          case _ => Right(textDocumentSync.asInstanceOf[ClientTextDocumentSyncOptions].toShared)
+        }),
         v.completionProvider.toOption.map(_.toShared),
         v.definitionProvider,
         v.referencesProvider,
