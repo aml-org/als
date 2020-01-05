@@ -5,28 +5,28 @@ import org.mulesoft.lsp.configuration.InitializeParams
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
-import scala.scalajs.js.UndefOr
+import scala.scalajs.js.{UndefOr, |}
 
 @js.native
 trait ClientInitializeParams extends js.Object {
+  def processId: Int = js.native // Nullable
+  def rootPath: UndefOr[String] = js.native // Nullable
+  def rootUri: UndefOr[String] = js.native // Nullable
   def capabilities: ClientClientCapabilities = js.native
-  def trace: Int = js.native
-  def rootUri: UndefOr[String] = js.native
-  def processId: UndefOr[Int] = js.native
-  def workspaceFolders: UndefOr[js.Array[ClientWorkspaceFolder]] = js.native
-  def rootPath: UndefOr[String] = js.native
-  def initializationOptions: UndefOr[js.Object] = js.native
+  def initializationOptions: UndefOr[js.Any] = js.native
+  def trace: UndefOr[String] = js.native
+  def workspace: UndefOr[ClientWorkspaceServerCapabilities] = js.native
 }
 
 object ClientInitializeParams {
   def apply(internal: InitializeParams): ClientInitializeParams =
     js.Dynamic
       .literal(
+        processId = internal.processId.getOrElse(null).asInstanceOf[js.Any],
         capabilities = internal.capabilities.toClient,
-        trace = internal.trace.id,
+        trace = internal.trace.toString,
         rootUri = internal.rootUri.orUndefined,
-        processId = internal.processId.orUndefined,
-        workspaceFolders = internal.workspaceFolders.map(a => a.map(_.toClient).toJSArray).orUndefined,
+        workspace = internal.workspace.map(_.toClient).orUndefined,
         rootPath = internal.rootPath.orUndefined,
         initializationOptions = internal.initializationOptions.collect{case js: js.Object => js}.orUndefined,
       )

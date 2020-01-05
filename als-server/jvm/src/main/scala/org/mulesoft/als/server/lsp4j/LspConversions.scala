@@ -152,7 +152,7 @@ object LspConversions {
         Option(p.getTrace).map(traceKind),
         Option(p.getRootUri),
         Option(p.getProcessId),
-        Option(p.getWorkspaceFolders).map(_.asScala.map(workspaceFolder)),
+        None,
         Option(p.getRootPath),
         Option(p.getInitializationOptions)
       )
