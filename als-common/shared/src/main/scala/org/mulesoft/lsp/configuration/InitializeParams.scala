@@ -23,21 +23,19 @@ import org.mulesoft.lsp.configuration.TraceKind.TraceKind
   * @param processId             The process Id of the parent process that started
   *                              the server. Is None if the process has not been started by another process.
   *                              If the parent process is not alive then the server should exit (see exit notification) its process.
-  * @param workspaceFolders      The workspace folders configured in the client when the server starts.
-  *                              This property is only available if the client supports workspace folders.
-  *                              It can be `None` if the client supports workspace folders but none are
-  *                              configured.
   * @param rootPath              The rootPath of the workspace. Is null
   *                              if no folder is open.
   * @param initializationOptions User provided initialization options.
+  * @param workspace             The workspace server capabilities
   */
 class InitializeParams private (val capabilities: ClientCapabilities,
                                 val trace: TraceKind,
                                 val rootUri: Option[String] = None,
                                 val processId: Option[Int] = None,
-                                val workspaceFolders: Option[Seq[WorkspaceFolder]] = None,
                                 val rootPath: Option[String] = None,
-                                val initializationOptions: Option[Any] = None)
+                                val initializationOptions: Option[Any] = None,
+                                val workspace: Option[WorkspaceServerCapabilities] = None
+                               )
 
 object InitializeParams {
 
@@ -45,16 +43,17 @@ object InitializeParams {
             trace: Option[TraceKind],
             rootUri: Option[String] = None,
             processId: Option[Int] = None,
-            workspaceFolders: Option[Seq[WorkspaceFolder]] = None,
+            workspace: Option[WorkspaceServerCapabilities] = None,
             rootPath: Option[String] = None,
             initializationOptions: Option[Any] = None): InitializeParams =
     new InitializeParams(capabilities.getOrElse(ClientCapabilities()),
                          trace.getOrElse(TraceKind.Off),
                          rootUri,
                          processId,
-                         workspaceFolders,
                          rootPath,
-                         initializationOptions)
+                         initializationOptions,
+                         workspace
+    )
 
   def default = apply(None, Some(TraceKind.Off))
 }

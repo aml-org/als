@@ -148,9 +148,14 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
     }
   )
   .jsSettings(
+    mainClass in assembly := Some("org.mulesoft.als.server.Main"),
+    mainClass in Compile := Some("org.mulesoft.als.server.Main"),
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
+    libraryDependencies += "io.scalajs" %%% "nodejs-core" % "0.4.2",
     libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
     scalaJSModuleKind := ModuleKind.CommonJSModule,
+    scalaJSUseMainModuleInitializer := true,
+    artifactPath in(Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.js",
     artifactPath in(Compile, fullOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.js"
   )
 
@@ -164,11 +169,11 @@ lazy val serverJS = server.js.in(file("./als-server/js")).disablePlugins(SonarPl
 val buildJS = TaskKey[Unit]("buildJS", "Build npm module")
 
 buildJS := {
-  val _ = (fullOptJS in Compile in serverJS).value
+  val _ = (fastOptJS in Compile in serverJS).value
   "./als-server/js/build-scripts/buildJs.sh" !
 }
 
-mainClass in Compile := Some("org.mulesoft.als.server.lsp4j.Main")
+mainClass in Compile := Some("org.mulesoft.als.server.Main")
 
 val buildSuggestionsJS = TaskKey[Unit]("buildSuggestionsJS", "Build suggestions npm module")
 
