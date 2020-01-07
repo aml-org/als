@@ -78,7 +78,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     }
 
     withServer { s =>
-      val server       = new LanguageServerImpl(s)
+      val server = new LanguageServerImpl(s)
       val mainFilePath = s"file://api.raml"
 
       val mainContent =
@@ -126,8 +126,10 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     var parsedOK = false
 
     class TestDidChangeConfigurationCommandExecutor(wsc: WorkspaceManager) extends DidChangeConfigurationCommandExecutor(EmptyLogger, wsc) {
-      override protected def runCommand(param: DidChangeConfigurationNotificationParams): Unit =
+      override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] = {
         parsedOK = true // If it reaches this command, it was parsed correctly
+        Future.unit
+      }
     }
 
     def wrapJson(mainUri: String, dependecies: Array[String], gson: Gson): String =
@@ -148,9 +150,10 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
       override val platform: Platform = p
     }, new DummyTelemetryProvider(), Nil, EmptyLogger, DefaultServerSystemConf) {
 
-      private val commandExecutors: Map[String, CommandExecutor[_]] = Map(
+      private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(
         Commands.DID_CHANGE_CONFIGURATION -> new TestDidChangeConfigurationCommandExecutor(this),
       )
+
       override def executeCommand(params: SharedExecuteParams): Future[AnyRef] = Future {
         commandExecutors.get(params.command) match {
           case Some(exe) => exe.runCommand(params)
@@ -164,7 +167,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
     val ws = new TestWorkspaceManager()
     ws.executeCommand(SharedExecuteParams(Commands.DID_CHANGE_CONFIGURATION, args))
-      .map(_ =>assert(parsedOK))
+      .map(_ => assert(parsedOK))
 
   }
 

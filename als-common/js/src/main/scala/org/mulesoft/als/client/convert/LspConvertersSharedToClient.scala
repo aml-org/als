@@ -364,6 +364,11 @@ object LspConvertersSharedToClient {
       ClientDidChangeConfigurationNotificationParams(v)
   }
 
+  implicit class ClientValidationRequestParamsConverter(v: ValidationRequestParams) {
+    def toClient: ClientValidationRequestParams =
+      ClientValidationRequestParams(v)
+  }
+
   implicit class ClientDidChangeTextDocumentParamsConverter(v: DidChangeTextDocumentParams) {
     def toClient: ClientDidChangeTextDocumentParams =
       ClientDidChangeTextDocumentParams(v)

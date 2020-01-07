@@ -39,6 +39,7 @@ class WorkspaceContentManager(val folder: String,
     configMainFile.flatMap(ic => ic.configReader.map(cr => s"${ic.rootFolder}/${cr.configFileName}"))
 
   private val stagingArea: StagingArea                                               = new StagingArea(environmentProvider)
+  def environment: Environment                                                       = stagingArea.snapshot().environment
   private val repository                                                             = new Repository(logger)
   private var current: Future[Unit]                                                  = Future.unit
   private var workspaceConfigurationProvider: Option[WorkspaceConfigurationProvider] = None
