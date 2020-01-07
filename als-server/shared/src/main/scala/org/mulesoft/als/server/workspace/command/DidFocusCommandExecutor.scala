@@ -7,7 +7,10 @@ import org.mulesoft.lsp.textsync.DidFocusParams
 import org.yaml.model.YMap
 import amf.core.parser._
 
-class DidFocusCommandExecutor(val logger: Logger, wsc: WorkspaceManager) extends CommandExecutor[DidFocusParams] {
+import scala.concurrent.Future
+
+class DidFocusCommandExecutor(val logger: Logger, wsc: WorkspaceManager)
+    extends CommandExecutor[DidFocusParams, Unit] {
   override protected def buildParamFromMap(m: YMap): Option[DidFocusParams] = {
     val version: Int = m.key("version").flatMap(e => e.value.toOption[Int]).getOrElse(1)
     m.key("uri").map { n =>
@@ -18,7 +21,8 @@ class DidFocusCommandExecutor(val logger: Logger, wsc: WorkspaceManager) extends
     }
   }
 
-  override protected def runCommand(param: DidFocusParams): Unit = {
+  override protected def runCommand(param: DidFocusParams): Future[Unit] = {
     wsc.getWorkspace(param.uri).changedFile(param.uri, FOCUS_FILE)
+    Future.unit
   }
 }

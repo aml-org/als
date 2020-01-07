@@ -33,7 +33,7 @@ import scala.util.{Failure, Success}
 class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                         private val clientNotifier: ClientNotifier,
                         private val logger: Logger,
-                        private val optimizationKing: DiagnosticNotificationsKind = ALL_TOGETHER)
+                        private val optimizationKind: DiagnosticNotificationsKind = ALL_TOGETHER)
     extends BaseUnitListener
     with ClientNotifierModule[DiagnosticClientCapabilities, Unit] {
 
@@ -43,7 +43,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
 
   private val reconciler: Reconciler = new Reconciler(logger, 300)
 
-  private val notifyParsing: Boolean = optimizationKing == PARSING_BEFORE
+  private val notifyParsing: Boolean = optimizationKind == PARSING_BEFORE
   override def initialize(): Future[Unit] = {
     Future.successful()
   }
