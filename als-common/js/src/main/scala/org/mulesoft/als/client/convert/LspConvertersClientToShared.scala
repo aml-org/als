@@ -433,6 +433,11 @@ object LspConvertersClientToShared {
       DidChangeConfigurationNotificationParams(v.mainUri, v.dependencies.toSet)
   }
 
+  implicit class ValidationRequestParamsConverter(v: ClientValidationRequestParams) {
+    def toShared: ValidationRequestParams =
+      ValidationRequestParams(v.mainUri)
+  }
+
   implicit class DidChangeTextDocumentParamsConverter(v: ClientDidChangeTextDocumentParams) {
     def toShared: DidChangeTextDocumentParams =
       DidChangeTextDocumentParams(v.textDocument.toShared, v.contentChanges.map(_.toShared).toSeq)
