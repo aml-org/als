@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.categories
 
 import amf.plugins.domain.shapes.metamodel.{CreativeWorkModel, XMLSerializerModel}
-import amf.plugins.domain.webapi.metamodel.security.{ApiKeySettingsModel, SecuritySchemeModel}
+import amf.plugins.domain.webapi.metamodel.security.{ApiKeySettingsModel, SecuritySchemeModel, SettingsModel}
 import amf.plugins.domain.webapi.metamodel._
 
 case class CategoryIndex(classTerm: String, property: String)
@@ -119,6 +119,7 @@ object CategoryRegistry {
     (None, "scopes"),
     (None, "authorizationUrl"),
     (Some(SecuritySchemeModel.`type`.head.iri()), "type"),
+    (Some(SettingsModel.`type`.head.iri()), "type"),
     (Some(ApiKeySettingsModel.`type`.head.iri()), "in"),
     (Some(ApiKeySettingsModel.`type`.head.iri()), "name"),
     (Some(OperationModel.`type`.head.iri()), "securedBy"),
