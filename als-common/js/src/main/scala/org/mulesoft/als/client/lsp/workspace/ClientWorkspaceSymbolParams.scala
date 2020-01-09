@@ -3,6 +3,7 @@ package org.mulesoft.als.client.lsp.workspace
 import org.mulesoft.lsp.workspace.WorkspaceSymbolParams
 
 import scala.scalajs.js
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientWorkspaceSymbolParams extends js.Object {
@@ -15,3 +16,4 @@ object ClientWorkspaceSymbolParams {
       .literal(query = internal.query)
       .asInstanceOf[ClientWorkspaceSymbolParams]
 }
+// $COVERAGE-ON$

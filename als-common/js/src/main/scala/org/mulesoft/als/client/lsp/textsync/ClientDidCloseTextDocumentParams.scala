@@ -5,6 +5,7 @@ import org.mulesoft.als.client.lsp.common.ClientTextDocumentIdentifier
 import org.mulesoft.lsp.textsync.DidCloseTextDocumentParams
 
 import scala.scalajs.js
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientDidCloseTextDocumentParams extends js.Object {
@@ -17,3 +18,5 @@ object ClientDidCloseTextDocumentParams {
       .literal(textDocument = internal.textDocument.toClient)
       .asInstanceOf[ClientDidCloseTextDocumentParams]
 }
+
+// $COVERAGE-ON$

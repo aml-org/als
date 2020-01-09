@@ -5,6 +5,7 @@ import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import scala.scalajs.js
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import scala.scalajs.js.JSConverters._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientPublishDiagnosticsParams extends js.Object {
@@ -23,3 +24,5 @@ object ClientPublishDiagnosticsParams {
       )
       .asInstanceOf[ClientPublishDiagnosticsParams]
 }
+
+// $COVERAGE-ON$

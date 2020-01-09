@@ -5,6 +5,7 @@ import org.mulesoft.lsp.feature.link.DocumentLinkClientCapabilities
 import scala.scalajs.js
 import scala.scalajs.js.UndefOr
 import js.JSConverters._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientDocumentLinkClientCapabilities extends js.Object {
@@ -19,3 +20,5 @@ object ClientDocumentLinkClientCapabilities {
                tooltipSupport = internal.tooltipSupport.orUndefined)
       .asInstanceOf[ClientDocumentLinkClientCapabilities]
 }
+
+// $COVERAGE-ON$

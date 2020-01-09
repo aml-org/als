@@ -4,6 +4,7 @@ import org.mulesoft.lsp.configuration.StaticRegistrationOptions
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientStaticRegistrationOptions extends js.Object {
@@ -16,3 +17,5 @@ object ClientStaticRegistrationOptions {
       .literal(id = internal.id.orUndefined)
       .asInstanceOf[ClientStaticRegistrationOptions]
 }
+
+// $COVERAGE-ON$

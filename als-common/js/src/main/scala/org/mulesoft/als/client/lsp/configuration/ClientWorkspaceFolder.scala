@@ -4,6 +4,7 @@ import org.mulesoft.lsp.configuration.WorkspaceFolder
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientWorkspaceFolder extends js.Object {
@@ -18,3 +19,5 @@ object ClientWorkspaceFolder {
       .literal(uri = internal.uri.orUndefined, name = internal.name.orUndefined)
       .asInstanceOf[ClientWorkspaceFolder]
 }
+
+// $COVERAGE-ON$

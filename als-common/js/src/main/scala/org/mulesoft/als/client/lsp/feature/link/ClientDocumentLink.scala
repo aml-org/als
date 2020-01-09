@@ -7,6 +7,7 @@ import scala.scalajs.js
 import scala.scalajs.js.UndefOr
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import js.JSConverters._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientDocumentLink extends js.Object {
@@ -23,3 +24,5 @@ object ClientDocumentLink {
       }.orUndefined)
       .asInstanceOf[ClientDocumentLink]
 }
+
+// $COVERAGE-ON$

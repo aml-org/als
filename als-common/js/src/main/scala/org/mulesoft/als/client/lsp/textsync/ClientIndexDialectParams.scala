@@ -5,6 +5,7 @@ import org.mulesoft.lsp.textsync.IndexDialectParams
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.UndefOr
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientIndexDialectParams extends js.Object {
@@ -21,3 +22,5 @@ object ClientIndexDialectParams {
       )
       .asInstanceOf[ClientIndexDialectParams]
 }
+
+// $COVERAGE-ON$

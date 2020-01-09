@@ -3,6 +3,7 @@ package org.mulesoft.als.client.lsp.textsync
 import org.mulesoft.lsp.textsync.ValidationRequestParams
 
 import scala.scalajs.js
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientValidationRequestParams extends js.Object {
@@ -15,3 +16,4 @@ object ClientValidationRequestParams {
       .literal(mainUri = internal.mainUri)
       .asInstanceOf[ClientValidationRequestParams]
 }
+// $COVERAGE-ON$

@@ -3,6 +3,7 @@ package org.mulesoft.als.client.lsp.workspace
 import org.mulesoft.lsp.workspace.DidChangeConfigurationParams
 
 import scala.scalajs.js
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientDidChangeConfigurationParams extends js.Object {
@@ -20,3 +21,4 @@ object ClientDidChangeConfigurationParams {
       .asInstanceOf[ClientDidChangeConfigurationParams]
   }
 }
+// $COVERAGE-ON$

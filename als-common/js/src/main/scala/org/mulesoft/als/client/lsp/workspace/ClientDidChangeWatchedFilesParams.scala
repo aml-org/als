@@ -4,6 +4,7 @@ import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import org.mulesoft.lsp.workspace.DidChangeWatchedFilesParams
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientDidChangeWatchedFilesParams extends js.Object {
@@ -16,3 +17,5 @@ object ClientDidChangeWatchedFilesParams {
       .literal(changes = internal.changes.map(_.toClient).toJSArray)
       .asInstanceOf[ClientDidChangeWatchedFilesParams]
 }
+
+// $COVERAGE-ON$
