@@ -21,6 +21,5 @@ class IndexDialectCommandExecutor(val logger: Logger, platform: Platform)
 
   override protected def runCommand(param: IndexDialectParams): Future[Unit] = {
     ParserHelper(platform).indexDialect(param.uri, param.content)
-    Future.unit
   }
 }
