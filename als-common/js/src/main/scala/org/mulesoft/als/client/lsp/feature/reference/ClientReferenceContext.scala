@@ -3,6 +3,7 @@ package org.mulesoft.als.client.lsp.feature.reference
 import org.mulesoft.lsp.feature.reference.ReferenceContext
 
 import scala.scalajs.js
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientReferenceContext extends js.Object {
@@ -15,3 +16,5 @@ object ClientReferenceContext {
       .literal(includeDeclaration = internal.includeDeclaration)
       .asInstanceOf[ClientReferenceContext]
 }
+
+// $COVERAGE-ON$

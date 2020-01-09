@@ -6,6 +6,7 @@ import org.mulesoft.lsp.feature.completion.CompletionParams
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientCompletionParams extends js.Object {
@@ -24,3 +25,5 @@ object ClientCompletionParams {
       )
       .asInstanceOf[ClientCompletionParams]
 }
+
+// $COVERAGE-ON$

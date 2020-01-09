@@ -223,8 +223,6 @@ assemblyMergeStrategy in assembly := {
   case x => MergeStrategy.first
 }
 
-
-
 //******* fat jar*****************************
 //
 lazy val fat = crossProject(JSPlatform, JVMPlatform).settings(

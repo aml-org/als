@@ -6,6 +6,7 @@ import org.mulesoft.lsp.configuration.InitializeParams
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.{UndefOr, |}
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientInitializeParams extends js.Object {
@@ -32,3 +33,5 @@ object ClientInitializeParams {
       )
       .asInstanceOf[ClientInitializeParams]
 }
+
+// $COVERAGE-ON$

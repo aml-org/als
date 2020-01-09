@@ -12,12 +12,14 @@ import org.mulesoft.als.client.lsp.feature.definition.ClientDefinitionClientCapa
 import org.mulesoft.als.client.lsp.feature.link.ClientDocumentLinkClientCapabilities
 import org.mulesoft.als.client.lsp.feature.reference.ClientReferenceClientCapabilities
 import org.mulesoft.als.client.lsp.feature.rename.ClientRenameClientCapabilities
+import org.mulesoft.als.client.lsp.textsync.ClientSynchronizationClientCapabilities
 
 import scala.scalajs.js.JSConverters._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientTextDocumentClientCapabilities extends js.Object {
-//  def synchronization: js.UndefOr[ClientSynchronizationClientCapabilities] = js.native
+  def synchronization: js.UndefOr[ClientSynchronizationClientCapabilities] = js.native
 
   def publishDiagnostics: js.UndefOr[ClientDiagnosticClientCapabilities] =
     js.native
@@ -42,6 +44,7 @@ object ClientTextDocumentClientCapabilities {
   def apply(internal: TextDocumentClientCapabilities): ClientTextDocumentClientCapabilities =
     js.Dynamic
       .literal(
+        synchronization = internal.synchronization.map(_.toClient).orUndefined,
         publishDiagnostics = internal.publishDiagnostics.map(_.toClient).orUndefined,
         completion = internal.completion.map(_.toClient).orUndefined,
         references = internal.references.map(_.toClient).orUndefined,
@@ -53,3 +56,4 @@ object ClientTextDocumentClientCapabilities {
       )
       .asInstanceOf[ClientTextDocumentClientCapabilities]
 }
+// $COVERAGE-ON$

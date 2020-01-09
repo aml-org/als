@@ -3,6 +3,7 @@ package org.mulesoft.als.client.lsp.textsync
 import org.mulesoft.lsp.textsync.DidFocusParams
 
 import scala.scalajs.js
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientDidFocusParams extends js.Object {
@@ -19,3 +20,5 @@ object ClientDidFocusParams {
       )
       .asInstanceOf[ClientDidFocusParams]
 }
+
+// $COVERAGE-ON$

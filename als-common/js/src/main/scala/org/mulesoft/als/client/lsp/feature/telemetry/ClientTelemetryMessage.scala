@@ -3,6 +3,7 @@ package org.mulesoft.als.client.lsp.feature.telemetry
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 
 import scala.scalajs.js
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientTelemetryMessage extends js.Object {
@@ -27,4 +28,4 @@ object ClientTelemetryMessage {
       )
       .asInstanceOf[ClientTelemetryMessage]
 }
-
+// $COVERAGE-ON$

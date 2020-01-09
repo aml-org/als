@@ -5,6 +5,7 @@ import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 
 import scala.scalajs.js
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientTextEdit extends js.Object {
@@ -18,3 +19,5 @@ object ClientTextEdit {
       .literal(range = internal.range.toClient, newText = internal.newText)
       .asInstanceOf[ClientTextEdit]
 }
+
+// $COVERAGE-ON$

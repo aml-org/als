@@ -4,6 +4,7 @@ import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import org.mulesoft.lsp.edit.{TextDocumentEdit, WorkspaceEdit}
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientWorkspaceEdit extends js.Object {
@@ -31,3 +32,5 @@ object ClientWorkspaceEdit {
 //  def changes: js.Dictionary[js.Array[ClientTextEdit]] = js.native
 //  def documentChanges: js.Array[ClientResourceOperation] = js.native
 // }
+
+// $COVERAGE-ON$

@@ -5,6 +5,7 @@ import org.mulesoft.lsp.feature.codeactions.CodeActionCapabilities
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientCodeActionCapabilities extends js.Object {
@@ -19,3 +20,5 @@ object ClientCodeActionCapabilities {
                codeActionLiteralSupport = internal.codeActionLiteralSupport.toClient)
       .asInstanceOf[ClientCodeActionCapabilities]
 }
+
+// $COVERAGE-ON$

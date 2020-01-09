@@ -6,6 +6,7 @@ import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientWorkspaceServerCapabilities extends js.Object {
@@ -20,5 +21,4 @@ object ClientWorkspaceServerCapabilities {
       )
       .asInstanceOf[ClientWorkspaceServerCapabilities]
 }
-
-
+// $COVERAGE-ON$

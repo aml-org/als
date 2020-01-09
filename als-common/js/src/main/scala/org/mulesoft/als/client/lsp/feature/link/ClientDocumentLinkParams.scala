@@ -5,6 +5,7 @@ import org.mulesoft.lsp.feature.link.DocumentLinkParams
 
 import scala.scalajs.js
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientDocumentLinkParams extends js.Object {
@@ -17,3 +18,5 @@ object ClientDocumentLinkParams {
       .literal(textDocument = internal.textDocument.toClient)
       .asInstanceOf[ClientDocumentLinkParams]
 }
+
+// $COVERAGE-ON$

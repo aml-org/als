@@ -6,6 +6,7 @@ import org.mulesoft.lsp.configuration.WorkspaceFolderServerCapabilities
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.|
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientWorkspaceFolderServerCapabilities extends js.Object {
@@ -13,14 +14,16 @@ trait ClientWorkspaceFolderServerCapabilities extends js.Object {
   val changeNotifications: js.UndefOr[String | Boolean]
 }
 
-
 object ClientWorkspaceFolderServerCapabilities {
 
   def apply(internal: WorkspaceFolderServerCapabilities): ClientWorkspaceFolderServerCapabilities =
     js.Dynamic
       .literal(
         supported = internal.supported.orUndefined,
-        changeNotifications = internal.changeNotifications.map[String | Boolean](eitherToUnion).orUndefined.asInstanceOf[js.Any]
+        changeNotifications =
+          internal.changeNotifications.map[String | Boolean](eitherToUnion).orUndefined.asInstanceOf[js.Any]
       )
       .asInstanceOf[ClientWorkspaceFolderServerCapabilities]
 }
+
+// $COVERAGE-ON$

@@ -5,6 +5,7 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryClientCapabilities
 import scala.scalajs.js
 import scala.scalajs.js.UndefOr
 import js.JSConverters._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientTelemetryClientCapabilities extends js.Object {
@@ -17,3 +18,5 @@ object ClientTelemetryClientCapabilities {
       .literal(relatedInformation = internal.relatedInformation.orUndefined)
       .asInstanceOf[ClientTelemetryClientCapabilities]
 }
+
+// $COVERAGE-ON$
