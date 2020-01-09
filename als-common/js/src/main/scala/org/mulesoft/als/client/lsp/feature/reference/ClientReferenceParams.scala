@@ -9,6 +9,7 @@ import org.mulesoft.als.client.lsp.common.{ClientPosition, ClientTextDocumentIde
 import org.mulesoft.lsp.feature.reference.ReferenceParams
 
 import js.JSConverters._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientReferenceParams extends js.Object {
@@ -27,3 +28,5 @@ object ClientReferenceParams {
       )
       .asInstanceOf[ClientReferenceParams]
 }
+
+// $COVERAGE-ON$

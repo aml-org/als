@@ -6,6 +6,7 @@ import org.mulesoft.lsp.textsync.DidChangeTextDocumentParams
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientDidChangeTextDocumentParams extends js.Object {
@@ -22,3 +23,5 @@ object ClientDidChangeTextDocumentParams {
       )
       .asInstanceOf[ClientDidChangeTextDocumentParams]
 }
+
+// $COVERAGE-ON$

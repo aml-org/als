@@ -4,6 +4,7 @@ import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import org.mulesoft.lsp.common.Range
 
 import scala.scalajs.js
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientRange extends js.Object {
@@ -18,3 +19,5 @@ object ClientRange {
       .literal(start = internal.start.toClient, end = internal.end.toClient)
       .asInstanceOf[ClientRange]
 }
+
+// $COVERAGE-ON$

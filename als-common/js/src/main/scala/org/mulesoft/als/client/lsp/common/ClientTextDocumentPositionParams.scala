@@ -4,6 +4,7 @@ import org.mulesoft.lsp.common.TextDocumentPositionParams
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 
 import scala.scalajs.js
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientTextDocumentPositionParams extends js.Object {
@@ -19,3 +20,5 @@ object ClientTextDocumentPositionParams {
       .literal(textDocument = internal.textDocument.toClient, position = internal.position.toClient)
       .asInstanceOf[ClientTextDocumentPositionParams]
 }
+
+// $COVERAGE-ON$

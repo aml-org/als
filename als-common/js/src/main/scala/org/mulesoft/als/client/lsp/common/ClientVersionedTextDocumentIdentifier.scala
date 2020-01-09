@@ -4,6 +4,7 @@ import org.mulesoft.lsp.common.VersionedTextDocumentIdentifier
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientVersionedTextDocumentIdentifier extends js.Object {
@@ -18,3 +19,5 @@ object ClientVersionedTextDocumentIdentifier {
       .literal(uri = internal.uri, version = internal.version.orUndefined)
       .asInstanceOf[ClientVersionedTextDocumentIdentifier]
 }
+
+// $COVERAGE-ON$

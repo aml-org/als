@@ -5,6 +5,7 @@ import org.mulesoft.lsp.common.LocationLink
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientLocationLink extends js.Object {
@@ -25,3 +26,5 @@ object ClientLocationLink {
       )
       .asInstanceOf[ClientLocationLink]
 }
+
+// $COVERAGE-ON$

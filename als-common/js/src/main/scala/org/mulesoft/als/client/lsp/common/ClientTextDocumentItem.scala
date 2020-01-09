@@ -3,6 +3,7 @@ package org.mulesoft.als.client.lsp.common
 import org.mulesoft.lsp.common.TextDocumentItem
 
 import scala.scalajs.js
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientTextDocumentItem extends js.Object {
@@ -21,3 +22,5 @@ object ClientTextDocumentItem {
       .literal(uri = internal.uri, languageId = internal.languageId, version = internal.version, text = internal.text)
       .asInstanceOf[ClientTextDocumentItem]
 }
+
+// $COVERAGE-ON$

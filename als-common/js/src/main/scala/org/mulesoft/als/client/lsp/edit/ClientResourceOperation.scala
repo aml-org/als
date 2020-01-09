@@ -7,6 +7,7 @@ import org.mulesoft.lsp.edit.{CreateFile, DeleteFile, DeleteFileOptions, NewFile
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientNewFileOptions extends js.Object {
@@ -75,3 +76,5 @@ object ClientDeleteFile {
       .literal(uri = internal.uri, options = internal.options.map(_.toClient).orUndefined)
       .asInstanceOf[ClientDeleteFile]
 }
+
+// $COVERAGE-ON$
