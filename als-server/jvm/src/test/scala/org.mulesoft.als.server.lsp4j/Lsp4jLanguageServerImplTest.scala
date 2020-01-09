@@ -32,11 +32,11 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
   test("Lsp4j LanguageServerImpl: initialize correctly") {
 
     val myString = "#%RAML 1.0\ntitle:test"
-    val in = new ByteArrayInputStream(myString.getBytes())
-    val baos = new ByteArrayOutputStream()
-    val out = new ObjectOutputStream(baos)
+    val in       = new ByteArrayInputStream(myString.getBytes())
+    val baos     = new ByteArrayOutputStream()
+    val out      = new ObjectOutputStream(baos)
 
-    val logger: Logger = EmptyLogger
+    val logger: Logger   = EmptyLogger
     val clientConnection = ClientConnection(logger)
 
     val server = new LanguageServerImpl(
@@ -47,11 +47,11 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
   test("Lsp4j LanguageServerImpl with null params: initialize should not fail") {
     val myString = "#%RAML 1.0\ntitle:test"
-    val in = new ByteArrayInputStream(myString.getBytes())
-    val baos = new ByteArrayOutputStream()
-    val out = new ObjectOutputStream(baos)
+    val in       = new ByteArrayInputStream(myString.getBytes())
+    val baos     = new ByteArrayOutputStream()
+    val out      = new ObjectOutputStream(baos)
 
-    val logger: Logger = EmptyLogger
+    val logger: Logger   = EmptyLogger
     val clientConnection = ClientConnection(logger)
 
     val server = new LanguageServerImpl(
@@ -71,14 +71,13 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
         .executeCommand(new ExecuteCommandParams(Commands.INDEX_DIALECT, args))
         .toScala
         .map(_ => {
-          Thread.sleep(1000)
           Unit
         })
 
     }
 
     withServer { s =>
-      val server = new LanguageServerImpl(s)
+      val server       = new LanguageServerImpl(s)
       val mainFilePath = s"file://api.raml"
 
       val mainContent =
@@ -125,7 +124,8 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
     var parsedOK = false
 
-    class TestDidChangeConfigurationCommandExecutor(wsc: WorkspaceManager) extends DidChangeConfigurationCommandExecutor(EmptyLogger, wsc) {
+    class TestDidChangeConfigurationCommandExecutor(wsc: WorkspaceManager)
+        extends DidChangeConfigurationCommandExecutor(EmptyLogger, wsc) {
       override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] = {
         parsedOK = true // If it reaches this command, it was parsed correctly
         Future.unit
@@ -144,14 +144,21 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     }
 
     val p = platform
-    class TestWorkspaceManager extends WorkspaceManager(new EnvironmentProvider {
-      override def environmentSnapshot(): Environment = ???
+    class TestWorkspaceManager
+        extends WorkspaceManager(
+          new EnvironmentProvider {
+            override def environmentSnapshot(): Environment = ???
 
-      override val platform: Platform = p
-    }, new DummyTelemetryProvider(), Nil, EmptyLogger, DefaultServerSystemConf) {
+            override val platform: Platform = p
+          },
+          new DummyTelemetryProvider(),
+          Nil,
+          EmptyLogger,
+          DefaultServerSystemConf
+        ) {
 
       private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(
-        Commands.DID_CHANGE_CONFIGURATION -> new TestDidChangeConfigurationCommandExecutor(this),
+        Commands.DID_CHANGE_CONFIGURATION -> new TestDidChangeConfigurationCommandExecutor(this)
       )
 
       override def executeCommand(params: SharedExecuteParams): Future[AnyRef] = Future {
