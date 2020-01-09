@@ -28,57 +28,39 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
 
   test("Initialized workspace links relative to main file should work") {
     val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("ws")
-    workspaceLinkHandler
-      .init()
-      .flatMap(_ => {
-        workspaceLinkHandler
-          .getDocumentLinks(workspaceFile)
-          .flatMap(seq => {
-            assert(seq.exists(_.target.equals(workspaceIncludedFilePath)))
-          })
-      })
+
+    for {
+      _   <- workspaceLinkHandler.init()
+      seq <- workspaceLinkHandler.getDocumentLinks(workspaceFile)
+    } yield assert(seq.exists(_.target.equals(workspaceIncludedFilePath)))
   }
 
   test("Uninitialized workspace links relative to main file shouldn't work") {
     val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("ws")
-    workspaceLinkHandler
-      .init()
-      .flatMap(_ => {
-        workspaceLinkHandler
-          .openFile(nonWorkspaceFile)
-          .getDocumentLinks(nonWorkspaceFile)
-          .flatMap(links => {
-            workspaceLinkHandler
-              .openFile(workspaceFile)
-              .getDocumentLinks(workspaceFile)
-              .flatMap(initLinks => {
-                assert(!links.exists(_.target.equals(nonWorkspaceRelativeFilePath)))
-                assert(links.exists(_.target.equals(nonWorkspaceNonRelativeFilePath)))
-                assert(initLinks.exists(_.target.equals(workspaceIncludedFilePath)))
-              })
-          })
-      })
+    for {
+      _         <- workspaceLinkHandler.init()
+      links     <- workspaceLinkHandler.openFileAndGetLinks(nonWorkspaceFile)
+      initLinks <- workspaceLinkHandler.openFileAndGetLinks(workspaceFile)
+    } yield {
+      assert(!links.exists(_.target.equals(nonWorkspaceRelativeFilePath)))
+      assert(links.exists(_.target.equals(nonWorkspaceNonRelativeFilePath)))
+      assert(initLinks.exists(_.target.equals(workspaceIncludedFilePath)))
+    }
   }
 
   test("Returning to initialized workspace from an uninitialized and relative links still work") {
     val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("ws")
-    workspaceLinkHandler
-      .init()
-      .flatMap(_ => {
-        workspaceLinkHandler
-          .openFile(nonWorkspaceFile)
-          .getDocumentLinks(nonWorkspaceFile)
-          .flatMap(links => {
-            workspaceLinkHandler
-              .getDocumentLinks(workspaceFile)
-              .flatMap(initLinks => {
-                assert(links.nonEmpty)
-                assert(links.exists(_.target.equals(nonWorkspaceNonRelativeFilePath)))
-                assert(!links.exists(_.target.equals(nonWorkspaceRelativeFilePath)))
-                assert(initLinks.exists(_.target.equals(workspaceIncludedFilePath)))
-              })
-          })
-      })
+    for {
+      _         <- workspaceLinkHandler.init()
+      links     <- workspaceLinkHandler.openFileAndGetLinks(nonWorkspaceFile)
+      initLinks <- workspaceLinkHandler.openFileAndGetLinks(workspaceFile)
+    } yield {
+      assert(links.nonEmpty)
+      assert(links.exists(_.target.equals(nonWorkspaceNonRelativeFilePath)))
+      assert(!links.exists(_.target.equals(nonWorkspaceRelativeFilePath)))
+      assert(initLinks.exists(_.target.equals(workspaceIncludedFilePath)))
+    }
+
   }
 
   test("Starting a global workspace non-relative links should work") {
@@ -106,16 +88,19 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   class WorkspaceLinkHandler(rootFolder: String) {
     val clientNotifier: MockDiagnosticClientNotifier.type = MockDiagnosticClientNotifier;
     val telemetryManager: TelemetryManager                = new TelemetryManager(clientNotifier, logger)
-    private val projectDependencies                       = Nil
     val container: TextDocumentContainer                  = TextDocumentContainer(DefaultServerSystemConf)
 
     val workspaceManager: WorkspaceManager =
-      new WorkspaceManager(container, telemetryManager, projectDependencies, logger, DefaultServerSystemConf)
+      new WorkspaceManager(container, telemetryManager, Nil, logger, DefaultServerSystemConf)
     val documentLinksManager: DocumentLinksManager =
       new DocumentLinksManager(workspaceManager, telemetryManager, logger, DefaultServerSystemConf)
 
     def init(): Future[Unit] = {
       workspaceManager.initializeWS(filePath(rootFolder))
+    }
+
+    def openFileAndGetLinks(path: String): Future[Seq[DocumentLink]] = {
+      openFile(path).getDocumentLinks(path)
     }
 
     def openFile(path: String): WorkspaceLinkHandler = {
