@@ -458,6 +458,15 @@ object LspConvertersSharedToClient {
     }
   }
 
+  implicit class ClientDocumentSymbolResponseConverter(response: Either[Seq[SymbolInformation], Seq[DocumentSymbol]]) {
+    def toClient: js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation] = {
+      if (response.isLeft)
+        |.from[js.Array[ClientSymbolInformation], js.Array[ClientDocumentSymbol], js.Array[ClientSymbolInformation]](response.left.get.map(_.toClient).toJSArray)
+      else
+        |.from[js.Array[ClientDocumentSymbol], js.Array[ClientDocumentSymbol], js.Array[ClientSymbolInformation]](response.right.get.map(_.toClient).toJSArray)
+    }
+  }
+
   def eitherToUnion[A, B](either: Either[A, B]): A | B = either fold(
     a => |.from[A, A, B](a),
     b => |.from[B, A, B](b),
