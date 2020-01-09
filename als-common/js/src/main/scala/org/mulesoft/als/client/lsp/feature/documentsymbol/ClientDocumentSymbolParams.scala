@@ -5,6 +5,7 @@ import org.mulesoft.als.client.lsp.common.ClientTextDocumentIdentifier
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolParams
 
 import scala.scalajs.js
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientDocumentSymbolParams extends js.Object {
@@ -17,3 +18,5 @@ object ClientDocumentSymbolParams {
       .literal(textDocument = internal.textDocument.toClient)
       .asInstanceOf[ClientDocumentSymbolParams]
 }
+
+// $COVERAGE-ON$

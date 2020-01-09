@@ -4,6 +4,7 @@ import org.mulesoft.lsp.workspace.ExecuteCommandParams
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientExecuteCommandParams extends js.Object {
@@ -21,3 +22,5 @@ object ClientExecuteCommandParams {
       )
       .asInstanceOf[ClientExecuteCommandParams]
 }
+
+// $COVERAGE-ON$

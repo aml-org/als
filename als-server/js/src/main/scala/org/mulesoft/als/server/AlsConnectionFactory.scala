@@ -12,6 +12,7 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.client.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 object JsPrintLnLogger {
   def apply(): Logger =
@@ -24,7 +25,6 @@ object JsPrintLnLogger {
       )
       .asInstanceOf[Logger]
 }
-
 
 @JSExportAll
 @JSExportTopLevel("AlsConnectionFactory")
@@ -51,4 +51,6 @@ class AlsConnectionFactory {
 
     new AlsConnection(connection, server)
   }
+
+  // $COVERAGE-ON$
 }

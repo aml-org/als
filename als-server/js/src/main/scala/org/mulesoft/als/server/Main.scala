@@ -2,6 +2,7 @@ package org.mulesoft.als.server
 
 import io.scalajs.nodejs.process
 import org.mulesoft.als.vscode.ServerSocketTransport
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 object Main {
   case class Options(port: Int)
@@ -20,7 +21,6 @@ object Main {
     innerReadOptions(DefaultOptions, args.toList)
   }
 
-
   def main(args: Array[String]): Unit = {
     println("Starting ALS...")
     val options = readOptions(process.argv.drop(2).toArray)
@@ -28,10 +28,10 @@ object Main {
     try {
       println("Starting in port " + options.port)
 
-      val factory = new AlsConnectionFactory()
+      val factory   = new AlsConnectionFactory()
       val transport = ServerSocketTransport(options.port)
-      val reader = transport._1
-      val writer = transport._2
+      val reader    = transport._1
+      val writer    = transport._2
 
       factory.fromReaders(reader, writer)
 
@@ -42,3 +42,4 @@ object Main {
     }
   }
 }
+// $COVERAGE-ON$

@@ -5,6 +5,7 @@ import org.mulesoft.lsp.configuration.InitializeResult
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientInitializeResult extends js.Object {
@@ -19,3 +20,5 @@ object ClientInitializeResult {
       )
       .asInstanceOf[ClientInitializeResult]
 }
+
+// $COVERAGE-ON$

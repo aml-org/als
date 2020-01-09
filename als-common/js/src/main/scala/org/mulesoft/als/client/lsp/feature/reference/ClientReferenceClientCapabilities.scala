@@ -5,6 +5,7 @@ import org.mulesoft.lsp.feature.reference.ReferenceClientCapabilities
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.UndefOr
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientReferenceClientCapabilities extends js.Object {
@@ -17,3 +18,4 @@ object ClientReferenceClientCapabilities {
       .literal(dynamicRegistration = internal.dynamicRegistration.orUndefined)
       .asInstanceOf[ClientReferenceClientCapabilities]
 }
+// $COVERAGE-ON$

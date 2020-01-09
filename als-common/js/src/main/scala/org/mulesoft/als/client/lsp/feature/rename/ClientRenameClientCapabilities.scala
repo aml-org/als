@@ -5,6 +5,7 @@ import org.mulesoft.lsp.feature.rename.RenameClientCapabilities
 import scala.scalajs.js
 import scala.scalajs.js.UndefOr
 import js.JSConverters._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientRenameClientCapabilities extends js.Object {
@@ -21,3 +22,5 @@ object ClientRenameClientCapabilities {
       )
       .asInstanceOf[ClientRenameClientCapabilities]
 }
+
+// $COVERAGE-ON$

@@ -5,6 +5,7 @@ import org.mulesoft.lsp.textsync.SynchronizationClientCapabilities
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.UndefOr
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientSynchronizationClientCapabilities extends js.Object {
@@ -25,3 +26,5 @@ object ClientSynchronizationClientCapabilities {
       )
       .asInstanceOf[ClientSynchronizationClientCapabilities]
 }
+
+// $COVERAGE-ON$

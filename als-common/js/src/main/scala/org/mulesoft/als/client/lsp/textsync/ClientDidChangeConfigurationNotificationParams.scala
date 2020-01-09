@@ -4,6 +4,7 @@ import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientDidChangeConfigurationNotificationParams extends js.Object {
@@ -20,3 +21,5 @@ object ClientDidChangeConfigurationNotificationParams {
       )
       .asInstanceOf[ClientDidChangeConfigurationNotificationParams]
 }
+
+// $COVERAGE-ON$

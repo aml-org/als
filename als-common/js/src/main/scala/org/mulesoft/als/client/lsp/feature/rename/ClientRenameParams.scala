@@ -5,6 +5,7 @@ import org.mulesoft.als.client.lsp.common.{ClientPosition, ClientTextDocumentIde
 import org.mulesoft.lsp.feature.rename.RenameParams
 
 import scala.scalajs.js
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientRenameParams extends js.Object {
@@ -23,3 +24,5 @@ object ClientRenameParams {
       )
       .asInstanceOf[ClientRenameParams]
 }
+
+// $COVERAGE-ON$

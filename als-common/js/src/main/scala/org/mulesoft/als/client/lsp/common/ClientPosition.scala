@@ -3,6 +3,7 @@ package org.mulesoft.als.client.lsp.common
 import org.mulesoft.lsp.common.Position
 
 import scala.scalajs.js
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientPosition extends js.Object {
@@ -16,3 +17,5 @@ object ClientPosition {
       .literal(line = internal.line, character = internal.character)
       .asInstanceOf[ClientPosition]
 }
+
+// $COVERAGE-ON$

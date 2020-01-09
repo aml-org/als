@@ -5,6 +5,7 @@ import org.mulesoft.lsp.textsync.SaveOptions
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.UndefOr
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientSaveOptions extends js.Object {
@@ -17,3 +18,5 @@ object ClientSaveOptions {
       .literal(includeText = internal.includeText.orUndefined)
       .asInstanceOf[ClientSaveOptions]
 }
+
+// $COVERAGE-ON$

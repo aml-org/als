@@ -5,6 +5,7 @@ import scala.scalajs.js.JSConverters._
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.client.lsp.configuration.ClientWorkspaceFolder
 import org.mulesoft.lsp.workspace.WorkspaceFoldersChangeEvent
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientWorkspaceFoldersChangeEvent extends js.Object {
@@ -18,3 +19,4 @@ object ClientWorkspaceFoldersChangeEvent {
       .literal(added = internal.added.map(_.toClient).toJSArray, deleted = internal.deleted.map(_.toClient).toJSArray)
       .asInstanceOf[ClientWorkspaceFoldersChangeEvent]
 }
+// $COVERAGE-ON$
