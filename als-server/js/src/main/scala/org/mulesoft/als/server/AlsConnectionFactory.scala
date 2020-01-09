@@ -47,6 +47,7 @@ class AlsConnectionFactory {
       .addInitializable(managerFactory.diagnosticManager)
       .addInitializable(managerFactory.workspaceManager)
       .addRequestModule(managerFactory.completionManager)
+      .addRequestModule(managerFactory.structureManager)
       .build()
 
     new AlsConnection(connection, server)
