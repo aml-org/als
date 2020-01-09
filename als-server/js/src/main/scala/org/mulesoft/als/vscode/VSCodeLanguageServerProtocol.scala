@@ -1,17 +1,24 @@
 package org.mulesoft.als.vscode
 
 import org.mulesoft.als.client.lsp.configuration.{ClientInitializeParams, ClientInitializeResult}
-import org.mulesoft.als.client.lsp.feature.completion.{ClientCompletionItem, ClientCompletionList, ClientCompletionParams}
+import org.mulesoft.als.client.lsp.feature.completion.{
+  ClientCompletionItem,
+  ClientCompletionList,
+  ClientCompletionParams
+}
 import org.mulesoft.als.client.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
+import org.mulesoft.als.client.lsp.feature.documentsymbol.{
+  ClientDocumentSymbol,
+  ClientDocumentSymbolParams,
+  ClientSymbolInformation
+}
 import org.mulesoft.als.client.lsp.textsync.{ClientDidChangeTextDocumentParams, ClientDidOpenTextDocumentParams}
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 import scala.scalajs.js.|
 
-
 /** vscode-languageserver-protocol */
-
 @js.native
 @JSImport("vscode-languageserver-protocol", "createProtocolConnection")
 object ProtocolConnection extends js.Function3[MessageReader, MessageWriter, Logger, ProtocolConnection] {
@@ -20,6 +27,7 @@ object ProtocolConnection extends js.Function3[MessageReader, MessageWriter, Log
 
 @js.native
 trait ProtocolConnection extends js.Object {
+
   /**
     * Sends a request and returns a promise resolving to the result of the request.
     *
@@ -52,7 +60,7 @@ trait ProtocolConnection extends js.Object {
     * Sends a request and returns a promise resolving to the result of the request.
     *
     * @param method the request's method name.
-    * @param params The request's parameter.
+    * @param param The request's parameter.
     * @param token  An optional cancellation token.
     * @returns A promise resolving to the request's result.
     */
@@ -175,44 +183,53 @@ trait ProtocolConnection extends js.Object {
   def listen(): Unit
 }
 
-
 /** Notifications */
 @js.native
 @JSImport("vscode-languageserver-protocol", "DidChangeTextDocumentNotification")
-object DidChangeTextDocumentNotification extends js.Object  {
+object DidChangeTextDocumentNotification extends js.Object {
   val `type`: NotificationType[ClientDidChangeTextDocumentParams, js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "DidOpenTextDocumentNotification")
-object DidOpenTextDocumentNotification extends js.Object  {
+object DidOpenTextDocumentNotification extends js.Object {
   val `type`: NotificationType[ClientDidOpenTextDocumentParams, js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "InitializedNotification")
-object InitializedNotification extends js.Object  {
+object InitializedNotification extends js.Object {
   val `type`: NotificationType[js.Any, js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "ExitNotification")
-object ExitNotification extends js.Object  {
+object ExitNotification extends js.Object {
   val `type`: NotificationType0[js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "PublishDiagnosticsNotification")
-object PublishDiagnosticsNotification extends js.Object  {
+object PublishDiagnosticsNotification extends js.Object {
   val `type`: NotificationType[ClientPublishDiagnosticsParams, js.Any] = js.native
 }
 
 /** Requests */
-
 @js.native
 @JSImport("vscode-languageserver-protocol", "CompletionRequest")
 object CompletionRequest extends js.Object {
-  val `type`: RequestType[ClientCompletionParams, ClientCompletionList | js.Array[ClientCompletionItem], js.Any, js.Any] = js.native
+  val `type`
+    : RequestType[ClientCompletionParams, ClientCompletionList | js.Array[ClientCompletionItem], js.Any, js.Any] =
+    js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "DocumentSymbolRequest")
+object DocumentSymbolRequest extends js.Object {
+  val `type`: RequestType[ClientDocumentSymbolParams,
+                          js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation],
+                          js.Any,
+                          js.Any] = js.native
 }
 
 @js.native
