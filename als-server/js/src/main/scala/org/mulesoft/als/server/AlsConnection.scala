@@ -132,6 +132,7 @@ class AlsConnection(private val protocolConnection: ProtocolConnection,
           case Some(validations: Seq[PublishDiagnosticsParams]) =>
             logger.debug(s"validations size: ${validations.size}", "AlsConnection", "CommandExecutor")
             validations.map(v => v.toClient).toJSArray
+          // TODO: ALS-950: Return serialized JSON-LD
           case other => other
         }
         .toJSPromise
