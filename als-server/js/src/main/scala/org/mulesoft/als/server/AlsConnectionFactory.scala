@@ -31,7 +31,6 @@ object JsPrintLnLogger {
 class AlsConnectionFactory {
   def fromReaders(reader: MessageReader, writer: MessageWriter): AlsConnection = {
     val connection = ProtocolConnection(reader, writer, JsPrintLnLogger())
-
     val notifier = new ClientNotifier {
       override def notifyDiagnostic(params: PublishDiagnosticsParams): Unit = {
         val clientParams: ClientPublishDiagnosticsParams = params.toClient
@@ -50,7 +49,7 @@ class AlsConnectionFactory {
       .addRequestModule(managerFactory.structureManager)
       .build()
 
-    new AlsConnection(connection, server)
+    new AlsConnection(connection, server, PrintLnLogger)
   }
 
   // $COVERAGE-ON$

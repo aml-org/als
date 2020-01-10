@@ -93,7 +93,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
 
   private def notifyReport(result: AmfParseResult, references: Map[String, DiagnosticsBundle], step: String): Unit = {
 
-    val errors = buildIssueResults(merge(result), references)
+    val errors = DiagnosticConverters.buildIssueResults(merge(result), references)
 
     logger.debug(s"Number of $step errors is:\n" + errors.flatMap(_.issues).length,
                  "ValidationManager",
@@ -151,68 +151,6 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     }
   }
 
-  def buildIssueResults(results: Map[String, Seq[AMFValidationResult]],
-                        references: Map[String, DiagnosticsBundle]): Seq[ValidationReport] = {
-
-    val issuesWithStack = buildIssues(results.values.flatten.toSeq, references)
-    results
-      .map(t => ValidationReport(t._1, issuesWithStack.filter(_.filePath == t._1).toSet))
-      .toSeq
-      .sortBy(_.pointOfViewUri)
-  }
-
-  private def buildIssues(results: Seq[AMFValidationResult],
-                          references: Map[String, DiagnosticsBundle]): Seq[ValidationIssue] = {
-    results.flatMap { r =>
-      references.get(r.location.getOrElse("")) match {
-        case Some(t)
-            if !t.isExternal && t.references.nonEmpty => // Has stack, ain't ExternalFragment todo: check if it's a syntax error?
-          t.references.map { stackContainer =>
-            buildIssue(
-              r,
-              stackContainer.stack
-                .map(
-                  s =>
-                    DiagnosticRelatedInformation(Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
-                                                 s"at ${s.originUri} ${s.originRange}"))
-            )
-          }
-        case Some(t) if t.references.nonEmpty =>
-          // invert order of stack, put root as last element of the trace
-          val range = LspRangeConverter.toLspRange(
-            r.position
-              .map(position => PositionRange(position.range))
-              .getOrElse(PositionRange(Position(0, 0), Position(0, 0))))
-          val rootAsRelatedInfo: DiagnosticRelatedInformation = DiagnosticRelatedInformation(
-            Location(
-              r.location.getOrElse(""),
-              range
-            ),
-            s"from ${r.location.getOrElse("")} ${range}"
-          )
-
-          t.references.map { stackContainer =>
-            val newHead = stackContainer.stack.last
-
-            buildIssue(
-              newHead.originUri,
-              newHead.originRange,
-              r.message,
-              r.level,
-              stackContainer.stack.reverse
-                .drop(1)
-                .map(s =>
-                  DiagnosticRelatedInformation(Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
-                                               s"from ${s.originUri}")) :+
-                rootAsRelatedInfo
-            )
-          }
-        case _ =>
-          Seq(buildIssue(r, Nil))
-      }
-    }
-  }
-
   // check if DialectInstance <- nameAndVersion ?
   // check if .raml (and force RAML vendor)
   private def checkProfileName(baseUnit: BaseUnit): String =
@@ -238,26 +176,6 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
 
   override def onRemoveFile(uri: String): Unit =
     clientNotifier.notifyDiagnostic(AlsPublishDiagnosticsParams(uri, Nil))
-
-  private def buildIssue(r: AMFValidationResult, stack: Seq[DiagnosticRelatedInformation]): ValidationIssue = {
-    ValidationIssue("PROPERTY_UNUSED",
-                    ValidationSeverity(r.level),
-                    r.location.getOrElse(""),
-                    r.message,
-                    lexicalToPosition(r.position),
-                    stack)
-  }
-
-  private def buildIssue(path: String,
-                         range: PositionRange,
-                         message: String,
-                         level: String,
-                         stack: Seq[DiagnosticRelatedInformation]): ValidationIssue = {
-    ValidationIssue("PROPERTY_UNUSED", ValidationSeverity(level), path, message, range, stack)
-  }
-
-  private def lexicalToPosition(maybeLi: Option[LexicalInformation]): PositionRange =
-    maybeLi.map(position => PositionRange(position.range)).getOrElse(PositionRange(Position(0, 0), Position(0, 0)))
 }
 
 case class DiagnosticNotificationsKind(kind: String)

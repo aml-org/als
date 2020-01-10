@@ -4,12 +4,11 @@ import java.util
 import java.util.concurrent.CompletableFuture
 
 import amf.core.unsafe.PlatformSecrets
-import amf.core.validation.AMFValidationReport
 import org.eclipse.lsp4j.ExecuteCommandParams
 import org.mulesoft.als.server.modules.ManagersFactory
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
+import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
-import org.scalatest.Assertions
 
 import scala.compat.java8.FutureConverters
 import scala.concurrent.Future
@@ -143,16 +142,24 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
           openFileNotification(s)(libFilePath, libFileContent)
           openFileNotification(s)(mainFilePath, mainContent)
         }
-        v <- FutureConverters.toScala(executeCommandValidate(server)(mainFilePath))
+        v1 <- FutureConverters.toScala(executeCommandValidate(server)(mainFilePath))
+        _  <- changeNotification(s)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
+        v2 <- FutureConverters.toScala(executeCommandValidate(server)(mainFilePath))
+
       } yield {
         server.shutdown()
 
         MockDiagnosticClientNotifier.promises.clear()
-        v match {
-          case Some(report: AMFValidationReport) =>
-            report.conforms should be(false)
-            report.results.size should be(1)
-            report.results.head.message should be("required key [b] not found")
+        v1 match {
+          case Some(reports: Seq[PublishDiagnosticsParams]) =>
+            reports.size should be(1)
+            reports.head.diagnostics.size should be(1)
+          case _ => fail("wrong type")
+        }
+        v2 match {
+          case Some(reports: Seq[PublishDiagnosticsParams]) =>
+            reports.size should be(0) // fixed error
+
           case _ => fail("wrong type")
         }
 

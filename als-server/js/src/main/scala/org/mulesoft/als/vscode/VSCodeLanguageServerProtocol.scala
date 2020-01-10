@@ -13,6 +13,7 @@ import org.mulesoft.als.client.lsp.feature.documentsymbol.{
   ClientSymbolInformation
 }
 import org.mulesoft.als.client.lsp.textsync.{ClientDidChangeTextDocumentParams, ClientDidOpenTextDocumentParams}
+import org.mulesoft.als.client.lsp.workspace.ClientExecuteCommandParams
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
@@ -230,6 +231,12 @@ object DocumentSymbolRequest extends js.Object {
                           js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation],
                           js.Any,
                           js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "ExecuteCommandRequest")
+object ExecuteCommandRequest extends js.Object {
+  val `type`: RequestType[ClientExecuteCommandParams, js.Any, js.Any, js.Any] = js.native
 }
 
 @js.native

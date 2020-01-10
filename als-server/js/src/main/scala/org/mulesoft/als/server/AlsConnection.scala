@@ -1,6 +1,5 @@
 package org.mulesoft.als.server
 
-import io.scalajs.nodejs.console
 import org.mulesoft.als.client.convert.LspConvertersClientToShared._
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.client.lsp.configuration.{ClientInitializeParams, ClientInitializeResult}
@@ -15,11 +14,14 @@ import org.mulesoft.als.client.lsp.feature.documentsymbol.{
   ClientSymbolInformation
 }
 import org.mulesoft.als.client.lsp.textsync.{ClientDidChangeTextDocumentParams, ClientDidOpenTextDocumentParams}
+import org.mulesoft.als.client.lsp.workspace.ClientExecuteCommandParams
 import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestHandler0 => ClientRequestHandler0, _}
 import org.mulesoft.lsp.feature.completion.CompletionRequestType
+import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.als.server.logger.Logger
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
@@ -28,7 +30,9 @@ import scala.scalajs.js.annotation.JSExport
 import scala.scalajs.js.|
 
 @JSExport
-class AlsConnection(private val protocolConnection: ProtocolConnection, private val inner: LanguageServer) {
+class AlsConnection(private val protocolConnection: ProtocolConnection,
+                    private val inner: LanguageServer,
+                    private val logger: Logger) {
   protocolConnection.listen()
 
   private def resolveHandler[P, R](`type`: RequestType[P, R]): RequestHandler[P, R] = {
@@ -110,6 +114,29 @@ class AlsConnection(private val protocolConnection: ProtocolConnection, private 
       .asInstanceOf[ClientRequestHandler[ClientDocumentSymbolParams,
                                          js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation],
                                          js.Any]]
+  )
+
+  //COMMAND
+
+  val onExecuteCommandHandlerJs: js.Function2[ClientExecuteCommandParams, CancellationToken, Thenable[js.Any]] =
+    (param: ClientExecuteCommandParams, _: CancellationToken) => {
+      logger.debug(param.command, "AlsConnection", "CommandExecutor")
+      inner.workspaceService
+        .executeCommand(param.toShared)
+        .map {
+          case Some(validations: Seq[PublishDiagnosticsParams]) =>
+            logger.debug(s"validations size: ${validations.size}", "AlsConnection", "CommandExecutor")
+            validations.map(v => v.toClient).toJSArray
+          case other => other
+        }
+        .toJSPromise
+        .asInstanceOf[Thenable[js.Any]]
+    }
+
+  protocolConnection.onRequest(
+    ExecuteCommandRequest.`type`,
+    onExecuteCommandHandlerJs
+      .asInstanceOf[ClientRequestHandler[ClientExecuteCommandParams, js.Any, js.Any]]
   )
 
 }
