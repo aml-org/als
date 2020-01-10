@@ -12,6 +12,7 @@ import org.mulesoft.als.client.lsp.feature.documentsymbol.{
   ClientDocumentSymbolParams,
   ClientSymbolInformation
 }
+import org.mulesoft.als.client.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
 import org.mulesoft.als.client.lsp.textsync.{ClientDidChangeTextDocumentParams, ClientDidOpenTextDocumentParams}
 import org.mulesoft.als.client.lsp.workspace.ClientExecuteCommandParams
 
@@ -231,6 +232,12 @@ object DocumentSymbolRequest extends js.Object {
                           js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation],
                           js.Any,
                           js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "DocumentLinkRequest")
+object DocumentLinkRequest extends js.Object {
+  val `type`: RequestType[ClientDocumentLinkParams, js.Array[ClientDocumentLink], js.Any, js.Any] = js.native
 }
 
 @js.native
