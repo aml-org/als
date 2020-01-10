@@ -35,6 +35,7 @@ import scala.language.implicitConversions
 import scala.scalajs.js.JSON
 
 object LspConvertersClientToShared {
+  // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
   implicit class SymbolKindClientCapabilitiesConverter(v: ClientSymbolKindClientCapabilities) {
     def toShared: SymbolKindClientCapabilities =
@@ -527,4 +528,5 @@ object LspConvertersClientToShared {
     def toShared: WorkspaceSymbolParams =
       WorkspaceSymbolParams(v.query)
   }
+  // $COVERAGE-ON
 }
