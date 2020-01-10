@@ -21,7 +21,6 @@ import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
-import org.mulesoft.lsp.workspace
 import org.mulesoft.lsp.workspace.{ExecuteCommandParams => SharedExecuteParams}
 
 import scala.compat.java8.FutureConverters._

@@ -32,6 +32,7 @@ import org.mulesoft.lsp.textsync.{TextDocumentSyncKind, _}
 import org.mulesoft.lsp.workspace._
 
 import scala.language.implicitConversions
+import scala.scalajs.js.JSON
 
 object LspConvertersClientToShared {
 
@@ -509,7 +510,7 @@ object LspConvertersClientToShared {
 
   implicit class ExecuteCommandParamsConverter(v: ClientExecuteCommandParams) {
     def toShared: ExecuteCommandParams =
-      ExecuteCommandParams(v.command, v.arguments.toList)
+      ExecuteCommandParams(v.command, v.arguments.map(JSON.stringify(_)).toList)
   }
 
   implicit class FileEventConverter(v: ClientFileEvent) {
