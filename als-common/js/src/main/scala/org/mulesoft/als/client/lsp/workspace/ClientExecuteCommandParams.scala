@@ -10,7 +10,7 @@ import scala.scalajs.js.JSConverters._
 trait ClientExecuteCommandParams extends js.Object {
   def command: String = js.native
 
-  def arguments: js.Array[String] = js.native
+  def arguments: js.Array[js.Any] = js.native
 }
 
 object ClientExecuteCommandParams {

@@ -15,7 +15,7 @@ import scala.scalajs.js.{UndefOr, |}
 
 @js.native
 trait ClientServerCapabilities extends js.Object {
-  def textDocumentSync: UndefOr[Int | ClientTextDocumentSyncOptions] = js.native // todo: Right??
+  def textDocumentSync: UndefOr[Int | ClientTextDocumentSyncOptions] = js.native
   def completionProvider: UndefOr[ClientCompletionOptions]           = js.native
   def definitionProvider: Boolean                                    = js.native
   def referencesProvider: Boolean                                    = js.native
