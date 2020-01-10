@@ -13,6 +13,7 @@ import org.mulesoft.als.client.lsp.feature.documentsymbol.{
   ClientDocumentSymbolParams,
   ClientSymbolInformation
 }
+import org.mulesoft.als.client.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
 import org.mulesoft.als.client.lsp.textsync.{ClientDidChangeTextDocumentParams, ClientDidOpenTextDocumentParams}
 import org.mulesoft.als.client.lsp.workspace.ClientExecuteCommandParams
 import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestHandler0 => ClientRequestHandler0, _}
@@ -22,6 +23,7 @@ import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
@@ -116,8 +118,7 @@ class AlsConnection(private val protocolConnection: ProtocolConnection,
                                          js.Any]]
   )
 
-  //COMMAND
-
+  // COMMAND
   val onExecuteCommandHandlerJs: js.Function2[ClientExecuteCommandParams, CancellationToken, Thenable[js.Any]] =
     (param: ClientExecuteCommandParams, _: CancellationToken) => {
       logger.debug(param.command, "AlsConnection", "CommandExecutor")
@@ -138,5 +139,22 @@ class AlsConnection(private val protocolConnection: ProtocolConnection,
     onExecuteCommandHandlerJs
       .asInstanceOf[ClientRequestHandler[ClientExecuteCommandParams, js.Any, js.Any]]
   )
+  // End Command
+
+  // DocumentLink
+  val onDocumentLinkHandlerJs
+    : js.Function2[ClientDocumentLinkParams, CancellationToken, Thenable[js.Array[ClientDocumentLink]]] =
+    (param: ClientDocumentLinkParams, _: CancellationToken) =>
+      resolveHandler(DocumentLinkRequestType)(param.toShared)
+        .map(_.map(_.toClient).toJSArray)
+        .toJSPromise
+        .asInstanceOf[Thenable[js.Array[ClientDocumentLink]]]
+
+  protocolConnection.onRequest(
+    DocumentLinkRequest.`type`,
+    onDocumentLinkHandlerJs
+      .asInstanceOf[ClientRequestHandler[ClientDocumentLinkParams, js.Array[ClientDocumentLink], js.Any]]
+  )
+  // End DocumentLink
 
 }

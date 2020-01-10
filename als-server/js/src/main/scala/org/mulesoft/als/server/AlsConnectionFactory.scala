@@ -47,6 +47,7 @@ class AlsConnectionFactory {
       .addInitializable(managerFactory.workspaceManager)
       .addRequestModule(managerFactory.completionManager)
       .addRequestModule(managerFactory.structureManager)
+      .addRequestModule(managerFactory.documentLinksManager)
       .build()
 
     new AlsConnection(connection, server, PrintLnLogger)
