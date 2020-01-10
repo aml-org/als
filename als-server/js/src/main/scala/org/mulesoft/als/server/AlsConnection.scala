@@ -2,6 +2,7 @@ package org.mulesoft.als.server
 
 import org.mulesoft.als.client.convert.LspConvertersClientToShared._
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
+import org.mulesoft.als.client.lsp.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
 import org.mulesoft.als.client.lsp.configuration.{ClientInitializeParams, ClientInitializeResult}
 import org.mulesoft.als.client.lsp.feature.completion.{
   ClientCompletionItem,
@@ -14,16 +15,19 @@ import org.mulesoft.als.client.lsp.feature.documentsymbol.{
   ClientSymbolInformation
 }
 import org.mulesoft.als.client.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
+import org.mulesoft.als.client.lsp.feature.reference.ClientReferenceParams
 import org.mulesoft.als.client.lsp.textsync.{ClientDidChangeTextDocumentParams, ClientDidOpenTextDocumentParams}
 import org.mulesoft.als.client.lsp.workspace.ClientExecuteCommandParams
+import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestHandler0 => ClientRequestHandler0, _}
 import org.mulesoft.lsp.feature.completion.CompletionRequestType
+import org.mulesoft.lsp.feature.definition.DefinitionRequestType
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
+import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
+import org.mulesoft.lsp.feature.reference.ReferenceRequestType
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.lsp.server.LanguageServer
-import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
@@ -156,5 +160,41 @@ class AlsConnection(private val protocolConnection: ProtocolConnection,
       .asInstanceOf[ClientRequestHandler[ClientDocumentLinkParams, js.Array[ClientDocumentLink], js.Any]]
   )
   // End DocumentLink
+
+  // Definition
+  val onDefinitionHandlerJs
+    : js.Function2[ClientTextDocumentPositionParams,
+                   CancellationToken,
+                   Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
+    (param: ClientTextDocumentPositionParams, _: CancellationToken) =>
+      resolveHandler(DefinitionRequestType)(param.toShared)
+        .map(_.toClient)
+        .toJSPromise
+        .asInstanceOf[Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]]
+
+  protocolConnection.onRequest(
+    DefinitionRequest.`type`,
+    onDefinitionHandlerJs
+      .asInstanceOf[ClientRequestHandler[ClientTextDocumentPositionParams,
+                                         ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
+                                         js.Any]]
+  )
+  // End Definition
+
+  // References
+  val onReferencesHandlerJs
+    : js.Function2[ClientReferenceParams, CancellationToken, Thenable[js.Array[ClientLocation]]] =
+    (param: ClientReferenceParams, _: CancellationToken) =>
+      resolveHandler(ReferenceRequestType)(param.toShared)
+        .map(_.map(_.toClient).toJSArray)
+        .toJSPromise
+        .asInstanceOf[Thenable[js.Array[ClientLocation]]]
+
+  protocolConnection.onRequest(
+    ReferencesRequest.`type`,
+    onReferencesHandlerJs
+      .asInstanceOf[ClientRequestHandler[ClientReferenceParams, js.Array[ClientLocation], js.Any]]
+  )
+  // End References
 
 }

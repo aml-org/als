@@ -1,5 +1,6 @@
 package org.mulesoft.als.vscode
 
+import org.mulesoft.als.client.lsp.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
 import org.mulesoft.als.client.lsp.configuration.{ClientInitializeParams, ClientInitializeResult}
 import org.mulesoft.als.client.lsp.feature.completion.{
   ClientCompletionItem,
@@ -13,6 +14,8 @@ import org.mulesoft.als.client.lsp.feature.documentsymbol.{
   ClientSymbolInformation
 }
 import org.mulesoft.als.client.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
+import org.mulesoft.als.client.lsp.feature.reference.ClientReferenceParams
+import org.mulesoft.als.client.lsp.feature.telemetry.ClientTelemetryMessage
 import org.mulesoft.als.client.lsp.textsync.{ClientDidChangeTextDocumentParams, ClientDidOpenTextDocumentParams}
 import org.mulesoft.als.client.lsp.workspace.ClientExecuteCommandParams
 
@@ -216,6 +219,12 @@ object PublishDiagnosticsNotification extends js.Object {
   val `type`: NotificationType[ClientPublishDiagnosticsParams, js.Any] = js.native
 }
 
+@js.native
+@JSImport("vscode-languageserver-protocol", "TelemetryEventNotification")
+object TelemetryEventNotification extends js.Object {
+  val `type`: NotificationType[ClientTelemetryMessage, js.Any] = js.native
+}
+
 /** Requests */
 @js.native
 @JSImport("vscode-languageserver-protocol", "CompletionRequest")
@@ -238,6 +247,21 @@ object DocumentSymbolRequest extends js.Object {
 @JSImport("vscode-languageserver-protocol", "DocumentLinkRequest")
 object DocumentLinkRequest extends js.Object {
   val `type`: RequestType[ClientDocumentLinkParams, js.Array[ClientDocumentLink], js.Any, js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "DefinitionRequest")
+object DefinitionRequest extends js.Object {
+  val `type`: RequestType[ClientTextDocumentPositionParams,
+                          ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
+                          js.Any,
+                          js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "ReferencesRequest")
+object ReferencesRequest extends js.Object {
+  val `type`: RequestType[ClientReferenceParams, js.Array[ClientLocation], js.Any, js.Any] = js.native
 }
 
 @js.native

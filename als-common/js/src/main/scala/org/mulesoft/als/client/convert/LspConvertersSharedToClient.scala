@@ -467,6 +467,15 @@ object LspConvertersSharedToClient {
     }
   }
 
+  implicit class ClientDefinitionResponseConverter(response: Either[Seq[Location], Seq[LocationLink]]) {
+    def toClient: js.Array[ClientLocation] | js.Array[ClientLocationLink] = {
+      if (response.isLeft)
+        |.from[js.Array[ClientLocation], js.Array[ClientLocation], js.Array[ClientLocationLink]](response.left.get.map(_.toClient).toJSArray)
+      else
+        |.from[js.Array[ClientLocationLink], js.Array[ClientLocation], js.Array[ClientLocationLink]](response.right.get.map(_.toClient).toJSArray)
+    }
+  }
+
   def eitherToUnion[A, B](either: Either[A, B]): A | B = either fold(
     a => |.from[A, A, B](a),
     b => |.from[B, A, B](b),

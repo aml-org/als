@@ -12,6 +12,7 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.client.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
+import org.mulesoft.als.client.lsp.feature.telemetry.ClientTelemetryMessage
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 object JsPrintLnLogger {
@@ -37,7 +38,9 @@ class AlsConnectionFactory {
         connection.sendNotification[ClientPublishDiagnosticsParams, js.Any](PublishDiagnosticsNotification.`type`, clientParams)
       }
 
-      override def notifyTelemetry(params: TelemetryMessage): Unit = {}
+      override def notifyTelemetry(params: TelemetryMessage): Unit = {
+        connection.sendNotification[ClientTelemetryMessage, js.Any](TelemetryEventNotification.`type`, params.toClient)
+      }
     }
 
     val managerFactory = ManagersFactory(notifier, PrintLnLogger)
@@ -48,6 +51,9 @@ class AlsConnectionFactory {
       .addRequestModule(managerFactory.completionManager)
       .addRequestModule(managerFactory.structureManager)
       .addRequestModule(managerFactory.documentLinksManager)
+      .addRequestModule(managerFactory.definitionManager)
+      .addRequestModule(managerFactory.referenceManager)
+      .addInitializable(managerFactory.telemetryManager)
       .build()
 
     new AlsConnection(connection, server, PrintLnLogger)
