@@ -225,7 +225,7 @@ assemblyMergeStrategy in assembly := {
 
 //******* fat jar*****************************
 //
-lazy val fat = crossProject(JSPlatform, JVMPlatform).settings(
+lazy val fat = crossProject(JVMPlatform).settings(
   Seq(
     name := "api-language-server"
   )
@@ -245,14 +245,6 @@ lazy val fat = crossProject(JSPlatform, JVMPlatform).settings(
     case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
     case x => MergeStrategy.first
   },
-).jsSettings(
-  libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
-  libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
-  scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-  scalaJSModuleKind := ModuleKind.CommonJSModule,
-  scalaJSUseMainModuleInitializer := true,
-  mainClass in Compile := Some("org.mulesoft.language.client.js.ServerProcess"),
-  artifactPath in(Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" / "serverProcess.js"
 )
 
 lazy val coreJVM = fat.jvm.in(file("./als-fat/jvm")).disablePlugins(SonarPlugin)
