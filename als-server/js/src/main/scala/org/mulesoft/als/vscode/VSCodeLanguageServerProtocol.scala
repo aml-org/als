@@ -23,6 +23,8 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 import scala.scalajs.js.|
 
+// Exclude from coverage because native functions are not tracked
+// $COVERAGE-OFF$
 /** vscode-languageserver-protocol */
 @js.native
 @JSImport("vscode-languageserver-protocol", "createProtocolConnection")
