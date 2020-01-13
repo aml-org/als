@@ -127,6 +127,9 @@ lazy val actions = crossProject(JSPlatform, JVMPlatform)
 lazy val actionsJVM = server.jvm.in(file("./als-actions/jvm"))
 lazy val actionsJS = server.js.in(file("./als-actions/js")).disablePlugins(SonarPlugin)
 
+val installJsDependencies = TaskKey[Unit]("installJsDependencies", "Runs npm i")
+
+
 lazy val server = crossProject(JSPlatform, JVMPlatform)
   .settings(name := "als-server")
   .settings(libraryDependencies += "org.wvlet.airframe" %% "airframe" % "19.3.7")
@@ -148,6 +151,10 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
     }
   )
   .jsSettings(
+    installJsDependencies := {
+      Process("npm install",     new File("./als-server/js/")) !
+    },
+    test in Test := ((test in Test) dependsOn (installJsDependencies)).value,
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
     libraryDependencies += "io.scalajs" %%% "nodejs-core" % "0.4.2",
     libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
