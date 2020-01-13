@@ -7,7 +7,6 @@ import org.yaml.model._
 import org.mulesoft.als.common.dtoTypes.Position
 import amf.core.parser.{Position => AmfPosition}
 import amf.core.parser._
-
 import scala.annotation.tailrec
 
 case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], isJson: Boolean) {
@@ -46,7 +45,17 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
     case _            => None
   }
 
-  val isKey: Boolean = stack.headOption.exists(_.isKey(position)) || (isJson && node.isInstanceOf[YMap])
+  val isKey: Boolean =
+    if (isJson) node.isInstanceOf[YMap]
+    else {
+      node.isInstanceOf[YMap] || (stack.headOption match {
+        case Some(entry: YMapEntry) if entry.value == node =>
+          entry.value.asScalar.isDefined &&
+            node.range.columnFrom > entry.key.range.columnFrom && position.line > entry.key.range.lineFrom
+        case Some(entry: YMapEntry) => entry.key == node
+        case _                      => false
+      })
+    }
 
   lazy val hasIncludeTag: Boolean = node match {
     case mr: YNode.MutRef => mr.origTag.tagType == YType.Include
@@ -57,7 +66,7 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
 
   lazy val isIncludeTagValue: Boolean = stack.headOption.exists(_.isInstanceOf[YMapEntry]) && !isKey && hasIncludeTag
 
-  val isAtRoot: Boolean = stack.count(_.isInstanceOf[YMap]) <= 1
+  val isAtRoot: Boolean = stack.count(_.isInstanceOf[YMap]) == 0 && node.isInstanceOf[YMap]
   val isArray: Boolean  = node.isArray
   lazy val isInArray: Boolean =
     getSequence.isDefined
@@ -120,13 +129,24 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
       .map(_.nodes.flatMap(node => node.asScalar.map(_.text)))
       .getOrElse(Seq())
 
-  def brothers: Seq[YPart] = {
-    val map = stack.headOption match {
-      case Some(entry: YMapEntry) => stack.tail.headOption
-      case Some(m: YMap)          => Some(m)
-      case _                      => None
+  // todo remove
+  private def getMap(): Option[YPart] = {
+    if (isJson) {
+      stack.headOption match {
+        case Some(entry: YMapEntry) => stack.tail.headOption
+        case Some(m: YMap)          => Some(m)
+        case _                      => None
+      }
+    } else {
+      node match {
+        case m: YMap => Some(m)
+        case _       => None
+      }
     }
-    map
+  }
+
+  def brothers: Seq[YPart] = {
+    getMap()
       .map(_.children.filterNot(_.isInstanceOf[YNonContent]).filterNot {
         case e: YMapEntry => e.key == node
         case c            => c == node
@@ -181,7 +201,7 @@ object NodeBranchBuilder {
       .filterNot(_.isInstanceOf[YNonContent])
       .filter {
         case entry: YMapEntry =>
-          entry.range.toPositionRange.contains(Position(amfPosition))
+          entry.range.toPositionRange.contains(Position(amfPosition)) && !startingNewEntry(amfPosition, entry)
         case map: YMap      => map.range.toPositionRange.contains(Position(amfPosition))
         case node: YNode    => node.range.toPositionRange.contains(Position(amfPosition))
         case seq: YSequence => seq.range.toPositionRange.contains(Position(amfPosition))
@@ -189,4 +209,6 @@ object NodeBranchBuilder {
       }
       .lastOption
 
+  private def startingNewEntry(amfPosition: AmfPosition, entry: YMapEntry) =
+    amfPosition.column <= entry.key.range.columnFrom
 }
