@@ -2,6 +2,9 @@ package org.mulesoft.als.server.logger
 
 import org.mulesoft.als.server.logger.MessageSeverity.MessageSeverity
 
+import scala.scalajs.js.annotation.JSExportAll
+
+@JSExportAll
 trait Logger {
 
   /**
