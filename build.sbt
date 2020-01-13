@@ -148,32 +148,35 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
     }
   )
   .jsSettings(
-    mainClass in assembly := Some("org.mulesoft.als.server.Main"),
-    mainClass in Compile := Some("org.mulesoft.als.server.Main"),
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
     libraryDependencies += "io.scalajs" %%% "nodejs-core" % "0.4.2",
     libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
     scalaJSModuleKind := ModuleKind.CommonJSModule,
-    scalaJSUseMainModuleInitializer := true,
     artifactPath in(Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.js",
     artifactPath in(Compile, fullOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.js"
   )
-
-
 
 lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
 lazy val serverJS = server.js.in(file("./als-server/js")).disablePlugins(SonarPlugin)
 
 // ******************** BuildJS ****************************************************************************************
 
-val buildJS = TaskKey[Unit]("buildJS", "Build npm module")
+val buildJS = TaskKey[Unit]("buildJS", "Build library module")
 
 buildJS := {
-  val _ = (fastOptJS in Compile in serverJS).value
+  (fastOptJS in Compile in serverJS).value
   "./als-server/js/build-scripts/buildJs.sh" !
 }
 
-mainClass in Compile := Some("org.mulesoft.als.server.Main")
+val buildNodeJsClient = TaskKey[Unit]("buildNodeJsClient", "Build node client module")
+
+buildNodeJsClient := {
+  mainClass in assembly := Some("org.mulesoft.als.server.Main")
+  mainClass in Compile := Some("org.mulesoft.als.server.Main")
+  scalaJSUseMainModuleInitializer := true
+  (fastOptJS in Compile in serverJS).value
+  "./als-server/js/build-scripts/buildJs.sh" !
+}
 
 val buildSuggestionsJS = TaskKey[Unit]("buildSuggestionsJS", "Build suggestions npm module")
 
