@@ -4,13 +4,25 @@ import org.mulesoft.als.client.convert.LspConvertersClientToShared._
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.client.lsp.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
 import org.mulesoft.als.client.lsp.configuration.{ClientInitializeParams, ClientInitializeResult}
-import org.mulesoft.als.client.lsp.feature.completion.{ClientCompletionItem, ClientCompletionList, ClientCompletionParams}
+import org.mulesoft.als.client.lsp.feature.completion.{
+  ClientCompletionItem,
+  ClientCompletionList,
+  ClientCompletionParams
+}
 import org.mulesoft.als.client.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
-import org.mulesoft.als.client.lsp.feature.documentsymbol.{ClientDocumentSymbol, ClientDocumentSymbolParams, ClientSymbolInformation}
+import org.mulesoft.als.client.lsp.feature.documentsymbol.{
+  ClientDocumentSymbol,
+  ClientDocumentSymbolParams,
+  ClientSymbolInformation
+}
 import org.mulesoft.als.client.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
 import org.mulesoft.als.client.lsp.feature.reference.ClientReferenceParams
 import org.mulesoft.als.client.lsp.feature.telemetry.ClientTelemetryMessage
-import org.mulesoft.als.client.lsp.textsync.{ClientDidChangeTextDocumentParams, ClientDidOpenTextDocumentParams}
+import org.mulesoft.als.client.lsp.textsync.{
+  ClientDidChangeTextDocumentParams,
+  ClientDidCloseTextDocumentParams,
+  ClientDidOpenTextDocumentParams
+}
 import org.mulesoft.als.client.lsp.workspace.ClientExecuteCommandParams
 import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestHandler0 => ClientRequestHandler0, _}
 import org.mulesoft.lsp.client.{LanguageClient, LanguageClientAware}
@@ -33,7 +45,8 @@ import scala.scalajs.js.|
 case class ProtocolConnectionLanguageClient(connection: ProtocolConnection) extends LanguageClient {
   override def publishDiagnostic(params: PublishDiagnosticsParams): Unit = {
     val clientParams: ClientPublishDiagnosticsParams = params.toClient
-    connection.sendNotification[ClientPublishDiagnosticsParams, js.Any](PublishDiagnosticsNotification.`type`, clientParams)
+    connection
+      .sendNotification[ClientPublishDiagnosticsParams, js.Any](PublishDiagnosticsNotification.`type`, clientParams)
   }
 
   override def notifyTelemetry(params: TelemetryMessage): Unit = {
@@ -44,7 +57,9 @@ case class ProtocolConnectionLanguageClient(connection: ProtocolConnection) exte
 @JSExportAll
 @JSExportTopLevel("ProtocolConnectionBinder")
 object ProtocolConnectionBinder {
-  def bind(protocolConnection: ProtocolConnection, languageServer: LanguageServer, clientAware: LanguageClientAware): Unit = {
+  def bind(protocolConnection: ProtocolConnection,
+           languageServer: LanguageServer,
+           clientAware: LanguageClientAware): Unit = {
     def resolveHandler[P, R](`type`: RequestType[P, R]): RequestHandler[P, R] = {
       val maybeHandler = languageServer.resolveHandler(`type`)
       if (maybeHandler.isEmpty) throw new UnsupportedOperationException else maybeHandler.get
@@ -52,7 +67,8 @@ object ProtocolConnectionBinder {
 
     clientAware.connect(ProtocolConnectionLanguageClient(protocolConnection))
 
-    val initializeHandlerJs: js.Function2[ClientInitializeParams, CancellationToken, Thenable[ClientInitializeResult]] =
+    val initializeHandlerJs
+      : js.Function2[ClientInitializeParams, CancellationToken, Thenable[ClientInitializeResult]] =
       (param: ClientInitializeParams, _: CancellationToken) =>
         languageServer
           .initialize(param.toShared)
@@ -68,16 +84,17 @@ object ProtocolConnectionBinder {
       languageServer.initialized()
 
     protocolConnection.onNotification(InitializedNotification.`type`,
-      initializedHandlerJs.asInstanceOf[NotificationHandler[js.Any]])
+                                      initializedHandlerJs.asInstanceOf[NotificationHandler[js.Any]])
 
     val exitHandlerJs: js.Function1[CancellationToken, Unit] = (_: CancellationToken) => languageServer.exit()
 
     protocolConnection.onNotification(ExitNotification.`type`, exitHandlerJs.asInstanceOf[NotificationHandler0])
 
-    val shutdownHandlerJs: js.Function1[CancellationToken, js.Any] = (_: CancellationToken) => languageServer.shutdown()
+    val shutdownHandlerJs: js.Function1[CancellationToken, js.Any] = (_: CancellationToken) =>
+      languageServer.shutdown()
 
     protocolConnection.onRequest(ShutdownRequest.`type`,
-      shutdownHandlerJs.asInstanceOf[ClientRequestHandler0[js.Any, js.Any]])
+                                 shutdownHandlerJs.asInstanceOf[ClientRequestHandler0[js.Any, js.Any]])
 
     val onDidChangeHandlerJs: js.Function2[ClientDidChangeTextDocumentParams, CancellationToken, Unit] =
       (param: ClientDidChangeTextDocumentParams, _: CancellationToken) =>
@@ -95,9 +112,17 @@ object ProtocolConnectionBinder {
       DidOpenTextDocumentNotification.`type`,
       onDidOpenHandlerJs.asInstanceOf[NotificationHandler[ClientDidOpenTextDocumentParams]])
 
+    val onDidCloseHandlerJs: js.Function2[ClientDidCloseTextDocumentParams, CancellationToken, Unit] =
+      (param: ClientDidCloseTextDocumentParams, _: CancellationToken) =>
+        languageServer.textDocumentSyncConsumer.didClose(param.toShared)
+
+    protocolConnection.onNotification(
+      DidCloseTextDocumentNotification.`type`,
+      onDidCloseHandlerJs.asInstanceOf[NotificationHandler[ClientDidCloseTextDocumentParams]])
+
     val onCompletionHandlerJs: js.Function2[ClientCompletionParams,
-      CancellationToken,
-      Thenable[ClientCompletionList | js.Array[ClientCompletionItem]]] =
+                                            CancellationToken,
+                                            Thenable[ClientCompletionList | js.Array[ClientCompletionItem]]] =
       (param: ClientCompletionParams, _: CancellationToken) =>
         resolveHandler(CompletionRequestType)(param.toShared)
           .map(_.toClient)
@@ -111,9 +136,9 @@ object ProtocolConnectionBinder {
     )
 
     val onDocumentSymbolHandlerJs
-    : js.Function2[ClientDocumentSymbolParams,
-      CancellationToken,
-      Thenable[js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation]]] =
+      : js.Function2[ClientDocumentSymbolParams,
+                     CancellationToken,
+                     Thenable[js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation]]] =
       (param: ClientDocumentSymbolParams, _: CancellationToken) =>
         resolveHandler(DocumentSymbolRequestType)(param.toShared)
           .map(_.toClient)
@@ -124,8 +149,8 @@ object ProtocolConnectionBinder {
       DocumentSymbolRequest.`type`,
       onDocumentSymbolHandlerJs
         .asInstanceOf[ClientRequestHandler[ClientDocumentSymbolParams,
-        js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation],
-        js.Any]]
+                                           js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation],
+                                           js.Any]]
     )
 
     // COMMAND
@@ -152,7 +177,7 @@ object ProtocolConnectionBinder {
 
     // DocumentLink
     val onDocumentLinkHandlerJs
-    : js.Function2[ClientDocumentLinkParams, CancellationToken, Thenable[js.Array[ClientDocumentLink]]] =
+      : js.Function2[ClientDocumentLinkParams, CancellationToken, Thenable[js.Array[ClientDocumentLink]]] =
       (param: ClientDocumentLinkParams, _: CancellationToken) =>
         resolveHandler(DocumentLinkRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -168,9 +193,9 @@ object ProtocolConnectionBinder {
 
     // Definition
     val onDefinitionHandlerJs
-    : js.Function2[ClientTextDocumentPositionParams,
-      CancellationToken,
-      Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
+      : js.Function2[ClientTextDocumentPositionParams,
+                     CancellationToken,
+                     Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
       (param: ClientTextDocumentPositionParams, _: CancellationToken) =>
         resolveHandler(DefinitionRequestType)(param.toShared)
           .map(_.toClient)
@@ -181,14 +206,14 @@ object ProtocolConnectionBinder {
       DefinitionRequest.`type`,
       onDefinitionHandlerJs
         .asInstanceOf[ClientRequestHandler[ClientTextDocumentPositionParams,
-        ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
-        js.Any]]
+                                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
+                                           js.Any]]
     )
     // End Definition
 
     // References
     val onReferencesHandlerJs
-    : js.Function2[ClientReferenceParams, CancellationToken, Thenable[js.Array[ClientLocation]]] =
+      : js.Function2[ClientReferenceParams, CancellationToken, Thenable[js.Array[ClientLocation]]] =
       (param: ClientReferenceParams, _: CancellationToken) =>
         resolveHandler(ReferenceRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
