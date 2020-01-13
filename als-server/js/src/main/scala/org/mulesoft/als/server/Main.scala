@@ -1,8 +1,24 @@
 package org.mulesoft.als.server
 
 import io.scalajs.nodejs.process
-import org.mulesoft.als.vscode.ServerSocketTransport
+import org.mulesoft.als.server.client.ClientConnection
+import org.mulesoft.als.server.logger.PrintLnLogger
+import org.mulesoft.als.vscode.{Logger, ProtocolConnection, ServerSocketTransport}
+
+import scala.scalajs.js
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
+
+object JsPrintLnLogger {
+  def apply(): ClientLogger =
+    js.Dynamic
+      .literal(
+        error = (message: String) => println(message),
+        warn = (message: String) => println(message),
+        info = (message: String) => println(message),
+        log = (message: String) => println(message),
+      )
+      .asInstanceOf[ClientLogger]
+}
 
 object Main {
   case class Options(port: Int)
@@ -28,12 +44,19 @@ object Main {
     try {
       println("Starting in port " + options.port)
 
-      val factory   = new AlsConnectionFactory()
+      val logger = JsPrintLnLogger()
+
+      val clientConnection = ClientNotifierFactory.createWithClientAware(logger)
+      val languageServer = LanguageServerFactory.fromLoaders(clientConnection)
+
       val transport = ServerSocketTransport(options.port)
       val reader    = transport._1
       val writer    = transport._2
+      val connection = ProtocolConnection(reader, writer, logger)
 
-      factory.fromReaders(reader, writer)
+      ProtocolConnectionBinder.bind(connection, languageServer, clientConnection)
+
+      connection.listen()
 
       println("ALS started")
     } catch {
