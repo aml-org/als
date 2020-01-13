@@ -16,7 +16,11 @@ import org.mulesoft.als.client.lsp.feature.documentsymbol.{
 import org.mulesoft.als.client.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
 import org.mulesoft.als.client.lsp.feature.reference.ClientReferenceParams
 import org.mulesoft.als.client.lsp.feature.telemetry.ClientTelemetryMessage
-import org.mulesoft.als.client.lsp.textsync.{ClientDidChangeTextDocumentParams, ClientDidOpenTextDocumentParams}
+import org.mulesoft.als.client.lsp.textsync.{
+  ClientDidChangeTextDocumentParams,
+  ClientDidCloseTextDocumentParams,
+  ClientDidOpenTextDocumentParams
+}
 import org.mulesoft.als.client.lsp.workspace.ClientExecuteCommandParams
 
 import scala.scalajs.js
@@ -201,6 +205,12 @@ object DidChangeTextDocumentNotification extends js.Object {
 @JSImport("vscode-languageserver-protocol", "DidOpenTextDocumentNotification")
 object DidOpenTextDocumentNotification extends js.Object {
   val `type`: NotificationType[ClientDidOpenTextDocumentParams, js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "DidCloseTextDocumentNotification")
+object DidCloseTextDocumentNotification extends js.Object {
+  val `type`: NotificationType[ClientDidCloseTextDocumentParams, js.Any] = js.native
 }
 
 @js.native
