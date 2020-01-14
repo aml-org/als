@@ -224,28 +224,12 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   it should "transform InitializeParams" in {
-    val ip: InitializeParams = InitializeParams(
-      None,
-      Some(TraceKind.Off),
-      Some("uri"),
-      Some(19),
-      Some(
-        WorkspaceServerCapabilities(
-          Some(
-            WorkspaceFolderServerCapabilities(
-              Some(true),
-              Some(Right(false))
-            )
-          ))
-      ),
-      None,
-      None
-    )
+    val ip: InitializeParams        = InitializeParams(None, None, Some("uri"), None, Some(Seq(wf)), None, None)
     val ip1: ClientInitializeParams = ip.toClient
     val ip2: InitializeParams       = ip1.toShared
 
     val stringified =
-      "{\"processId\":19,\"capabilities\":{},\"trace\":\"off\",\"rootUri\":\"uri\",\"workspace\":{\"workspaceFolders\":{\"supported\":true,\"changeNotifications\":false}}}"
+      "{\"capabilities\":{},\"trace\":0,\"rootUri\":\"uri\",\"workspaceFolders\":[{\"uri\":\"uri\",\"name\":\"name\"}]}"
 
     JSON.stringify(ip1) should be(stringified)
 
@@ -253,7 +237,7 @@ class ClientConversionTest extends FlatSpec with Matchers {
     ip.initializationOptions should be(ip2.initializationOptions)
     ip.rootUri should be(ip2.rootUri)
     ip.trace should be(ip2.trace)
-    ip.workspace should be(ip2.workspace)
+    ip.workspaceFolders should be(ip2.workspaceFolders)
   }
 
   val sc: ServerCapabilities = ServerCapabilities(Some(Left(TextDocumentSyncKind(1))), Some(CompletionOptions()))

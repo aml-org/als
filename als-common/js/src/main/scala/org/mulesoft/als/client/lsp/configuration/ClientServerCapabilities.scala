@@ -23,6 +23,7 @@ trait ClientServerCapabilities extends js.Object {
   def renameProvider: UndefOr[ClientRenameOptions]                   = js.native
   def codeActionProvider: UndefOr[ClientCodeActionOptions]           = js.native
   def documentLinkProvider: UndefOr[ClientDocumentLinkOptions]       = js.native
+  def workspace: UndefOr[ClientWorkspaceServerCapabilities]          = js.native
   def experimental: UndefOr[js.Object]                               = js.native
 }
 
@@ -39,6 +40,7 @@ object ClientServerCapabilities {
         renameProvider = internal.renameProvider.map(_.toClient).orUndefined,
         codeActionProvider = internal.codeActionProvider.map(_.toClient).orUndefined,
         documentLinkProvider = internal.documentLinkProvider.map(_.toClient).orUndefined,
+        workspace = internal.workspace.map(_.toClient).orUndefined,
         experimental = internal.experimental.collect { case js: js.Object => js }.orUndefined
       )
       .asInstanceOf[ClientServerCapabilities]

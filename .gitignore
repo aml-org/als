@@ -17,3 +17,8 @@ node_modules
 *als-suggestions.js.map
 *als-suggestions.min.js
 *als-suggestions.min.js.map
+
+*als-node-client.js
+*als-node-client.js.map
+*als-node-client.min.js
+*als-node-client.min.js.map
