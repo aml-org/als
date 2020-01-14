@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture
 import amf.core.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.ExecuteCommandParams
 import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
@@ -98,7 +99,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
     def executeCommandValidate(server: LanguageServerImpl)(file: String): CompletableFuture[Object] = {
       val args: java.util.List[AnyRef] = new util.ArrayList[AnyRef]()
       args.add(wrapJson(file))
-      server.getWorkspaceService.executeCommand(new ExecuteCommandParams("fullValidation", args))
+      server.getWorkspaceService.executeCommand(new ExecuteCommandParams(Commands.COMPILE, args))
       //      MockDiagnosticClientNotifier.nextCall
     }
 
