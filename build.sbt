@@ -1,7 +1,7 @@
 import Dependencies.deps
 import org.scalajs.core.tools.linker.ModuleKind
 import org.scalajs.core.tools.linker.backend.OutputMode
-import org.scalajs.sbtplugin.ScalaJSPlugin.AutoImport.scalaJSOutputMode
+import org.scalajs.sbtplugin.ScalaJSPlugin.AutoImport.{fastOptJS, scalaJSOutputMode}
 import sbt.File
 import sbt.Keys.{mainClass, packageOptions}
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
@@ -169,6 +169,7 @@ lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
 lazy val serverJS = server.js.in(file("./als-server/js")).disablePlugins(SonarPlugin)
 
 /** ALS node client */
+val npmIClient = TaskKey[Unit]("npmIClient", "Install npm at node client")
 
 lazy val nodeClient =  project
   .dependsOn(serverJS)
@@ -181,12 +182,18 @@ lazy val nodeClient =  project
 
     scalaJSUseMainModuleInitializer := true,
     scalaJSModuleKind := ModuleKind.CommonJSModule,
-
+    libraryDependencies += "io.scalajs" %%% "nodejs-core" % "0.4.2",
     mainClass in Compile := Some("org.mulesoft.als.nodeclient.Main"),
 
-    libraryDependencies += "io.scalajs" %%% "nodejs-core" % "0.4.2",
-)
-
+    npmIClient := {
+      Process(
+        "npm i",
+        new File("./als-node-client/node-package/")
+      ).!
+    },
+    test in Test := ((test in Test) dependsOn npmIClient).value,
+    artifactPath in(Test, fastOptJS) := baseDirectory.value / "node-package" / "tmp" / "als-node-client.js",
+  )
 /** ALS build tasks */
 
 // Suggestions
@@ -217,10 +224,11 @@ val buildNodeJsClient = TaskKey[Unit]("buildNodeJsClient", "Build node client")
 
 buildNodeJsClient := {
   (fastOptJS in Compile in nodeClient).value
+  (npmIClient in nodeClient).value
   Process(
     "./scripts/build.sh",
     new File("./als-node-client/node-package/")
-  ) !
+  ).!
 }
 
 // ************** SONAR *******************************

@@ -1,7 +1,7 @@
 package org.mulesoft.als.client.lsp.configuration
 
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
-import org.mulesoft.lsp.configuration.InitializeParams
+import org.mulesoft.lsp.configuration.{InitializeParams, WorkspaceFolder}
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
@@ -27,7 +27,7 @@ object ClientInitializeParams {
         capabilities = internal.capabilities.toClient,
         trace = internal.trace.toString,
         rootUri = internal.rootUri.orUndefined,
-        workspaceFolders = internal.workspaceFolders.map(_.map(_.toClient)).getOrElse(null).asInstanceOf[js.Any],
+        workspaceFolders = internal.workspaceFolders.map(_.map(_.toClient)).map(_.toJSArray).getOrElse(null).asInstanceOf[js.Any],
         rootPath = internal.rootPath.orUndefined,
         initializationOptions = internal.initializationOptions.collect{case js: js.Object => js}.orUndefined,
       )
