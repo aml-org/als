@@ -16,7 +16,7 @@ trait ClientInitializeParams extends js.Object {
   def capabilities: ClientClientCapabilities = js.native
   def initializationOptions: UndefOr[js.Any] = js.native
   def trace: UndefOr[String] = js.native
-  def workspace: UndefOr[ClientWorkspaceServerCapabilities] = js.native
+  def workspaceFolders: js.Array[ClientWorkspaceFolder] = js.native // Nullable
 }
 
 object ClientInitializeParams {
@@ -27,7 +27,7 @@ object ClientInitializeParams {
         capabilities = internal.capabilities.toClient,
         trace = internal.trace.toString,
         rootUri = internal.rootUri.orUndefined,
-        workspace = internal.workspace.map(_.toClient).orUndefined,
+        workspaceFolders = internal.workspaceFolders.map(_.map(_.toClient)).getOrElse(null).asInstanceOf[js.Any],
         rootPath = internal.rootPath.orUndefined,
         initializationOptions = internal.initializationOptions.collect{case js: js.Object => js}.orUndefined,
       )
