@@ -6,12 +6,13 @@ import amf.client.remote.Content
 import amf.core.CompilerContextBuilder
 import amf.core.annotations.SourceVendor
 import amf.core.client.ParserConfig
+import amf.core.emitter.RenderOptions
 import amf.core.errorhandling.{ErrorCollector, UnhandledErrorHandler}
 import amf.core.model.document.{BaseUnit, EncodesModel}
 import amf.core.parser.UnspecifiedReference
 import amf.core.remote._
 import amf.core.resolution.pipelines.ResolutionPipeline
-import amf.core.services.{RuntimeCompiler, RuntimeResolver, RuntimeValidator}
+import amf.core.services.{RuntimeCompiler, RuntimeResolver, RuntimeSerializer, RuntimeValidator}
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
@@ -73,6 +74,12 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
     } yield { Unit }
   }
 
+  def editingResolve(model: BaseUnit): BaseUnit = {
+    RuntimeResolver.resolve(ParserHelper.vendor(model).map(_.name).getOrElse(Amf.name),
+                            model,
+                            ResolutionPipeline.EDITING_PIPELINE)
+  }
+
   def printModel(model: BaseUnit, config: ParserConfig): Future[Unit] = {
     generateOutput(config, model)
   }
@@ -80,6 +87,13 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
 }
 
 object ParserHelper {
+  def toJsonLD(resolved: BaseUnit): String = {
+    RuntimeSerializer.apply(resolved,
+                            Mimes.`APPLICATION/LD+JSONLD`,
+                            Amf.name,
+                            RenderOptions().withCompactUris.withoutSourceMaps)
+  }
+
   def apply(platform: Platform) = new ParserHelper(platform)
 
   def report(model: BaseUnit): Future[AMFValidationReport] = RuntimeValidator(model, profile(model))
@@ -87,7 +101,7 @@ object ParserHelper {
   def reportResolved(model: BaseUnit): Future[AMFValidationReport] =
     RuntimeValidator(model, profile(model), resolved = true)
 
-  private def vendor(model: BaseUnit): Option[Vendor] = {
+  def vendor(model: BaseUnit): Option[Vendor] = {
     val ann = model match {
       case d: EncodesModel => d.encodes.annotations.find(classOf[SourceVendor])
       case _               => model.annotations.find(classOf[SourceVendor])
