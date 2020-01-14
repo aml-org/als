@@ -2,6 +2,7 @@ package org.mulesoft.als.server.workspace.command
 
 import amf.core.parser._
 import amf.core.remote.Platform
+import amf.core.validation.AMFValidationResult
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticConverters
 import org.mulesoft.als.server.workspace.WorkspaceManager
@@ -13,7 +14,7 @@ import org.yaml.model.YMap
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class RequestAMFFullValidationCommandExecutor(val logger: Logger, wsc: WorkspaceManager, platform: Platform)
+class RequestCompileCommandExecutor(val logger: Logger, wsc: WorkspaceManager, platform: Platform)
     extends CommandExecutor[ValidationRequestParams, Seq[PublishDiagnosticsParams]] {
   override protected def buildParamFromMap(m: YMap): Option[ValidationRequestParams] = {
     m.key("mainUri").flatMap(e => e.value.toOption[String]).map(ValidationRequestParams)
@@ -31,11 +32,15 @@ class RequestAMFFullValidationCommandExecutor(val logger: Logger, wsc: Workspace
       })
       .map { t =>
         val report = t._1
-        val ge     = t._2
+        val ge: Map[String, List[AMFValidationResult]] = t._2
         logger.debug(s"report conforms: ${report.conforms}", "RequestAMFFullValidationCommandExecutor", "runCommand")
-        DiagnosticConverters
-          .buildIssueResults(report.results.groupBy(r => r.location.getOrElse(param.mainUri)) ++ ge, Map.empty)
-          .map(_.publishDiagnosticsParams)
+        val grouped = report.results.groupBy(r => r.location.getOrElse(param.mainUri)).toMap
+
+        val merged = grouped.map({ case (k,v) =>
+          k -> (v ++ ge.get(k).map(_.toSeq).getOrElse(Seq.empty))
+        }) ++ ge.filter(t => !grouped.keys.exists(_ == t._1))
+
+        DiagnosticConverters.buildIssueResults(merged, Map.empty).map(_.publishDiagnosticsParams)
       }
   }
 }
