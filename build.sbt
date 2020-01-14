@@ -31,8 +31,6 @@ lazy val amfJSRef = ProjectRef(workspaceDirectory / "amf", "clientJS")
 lazy val amfLibJVM = "com.github.amlorg" %% "amf-client" % amfVersion
 lazy val amfLibJS = "com.github.amlorg" %% "amf-client_sjs0.6" % amfVersion
 
-
-
 val settings = Common.settings ++ Common.publish ++ Seq(
   organization := "org.mule.als",
   version := deps("version"),
@@ -51,14 +49,14 @@ val settings = Common.settings ++ Common.publish ++ Seq(
   libraryDependencies ++= Seq(
     "com.chuusai" %% "shapeless" % "2.3.3",
     "org.scala-js" %% "scalajs-stubs" % scalaJSVersion % "provided",
-    
+
     "org.scalatest" %%% "scalatest" % "3.0.5" % Test,
     "org.scalamock" %%% "scalamock" % "4.1.0" % Test,
     "com.lihaoyi" %%% "upickle" % "0.5.1" % Test,
-    "com.github.google.guava" % "guava" % "28.1"
-
   )
 )
+
+/** ALS common */
 
 lazy val common = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
@@ -75,7 +73,8 @@ lazy val common = crossProject(JSPlatform, JVMPlatform).settings(
 lazy val commonJVM = common.jvm.in(file("./als-common/jvm")).sourceDependency(amfJVMRef, amfLibJVM)
 lazy val commonJS = common.js.in(file("./als-common/js")).sourceDependency(amfJSRef, amfLibJS).disablePlugins(SonarPlugin)
 
-//
+/** ALS suggestions */
+
 lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
     name := "als-suggestions"
@@ -91,6 +90,8 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
 
 lazy val suggestionsJVM = suggestions.jvm.in(file("./als-suggestions/jvm"))
 lazy val suggestionsJS = suggestions.js.in(file("./als-suggestions/js")).disablePlugins(SonarPlugin)
+
+/** ALS structure */
 
 lazy val structure = crossProject(JSPlatform, JVMPlatform).settings(
   Seq(
@@ -110,6 +111,8 @@ lazy val structure = crossProject(JSPlatform, JVMPlatform).settings(
 lazy val structureJVM = structure.jvm.in(file("./als-structure/jvm"))
 lazy val structureJS = structure.js.in(file("./als-structure/js")).disablePlugins(SonarPlugin)
 
+/** ALS actions */
+
 lazy val actions = crossProject(JSPlatform, JVMPlatform)
   .settings(name := "als-actions")
   .settings(libraryDependencies += "org.wvlet.airframe" %% "airframe" % "19.3.7")
@@ -122,13 +125,12 @@ lazy val actions = crossProject(JSPlatform, JVMPlatform)
     scalaJSModuleKind := ModuleKind.CommonJSModule
   ).disablePlugins(SonarPlugin)
 
-
-
 lazy val actionsJVM = server.jvm.in(file("./als-actions/jvm"))
 lazy val actionsJS = server.js.in(file("./als-actions/js")).disablePlugins(SonarPlugin)
 
+/** ALS server */
+  
 val installJsDependencies = TaskKey[Unit]("installJsDependencies", "Runs npm i")
-
 
 lazy val server = crossProject(JSPlatform, JVMPlatform)
   .settings(name := "als-server")
@@ -154,11 +156,11 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
     installJsDependencies := {
       Process("npm install",     new File("./als-server/js/")) !
     },
-    test in Test := ((test in Test) dependsOn (installJsDependencies)).value,
+    test in Test := ((test in Test) dependsOn installJsDependencies).value,
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
-    libraryDependencies += "io.scalajs" %%% "nodejs-core" % "0.4.2",
-    libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
+
     scalaJSModuleKind := ModuleKind.CommonJSModule,
+
     artifactPath in(Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.js",
     artifactPath in(Compile, fullOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.js"
   )
@@ -166,26 +168,30 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
 lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
 lazy val serverJS = server.js.in(file("./als-server/js")).disablePlugins(SonarPlugin)
 
-// ******************** BuildJS ****************************************************************************************
+/** ALS node client */
 
-val buildJS = TaskKey[Unit]("buildJS", "Build library module")
+lazy val nodeClient =  project
+  .dependsOn(serverJS)
+  .in(file("./als-node-client"))
+  .enablePlugins(ScalaJSPlugin)
+  .settings(settings: _*)
+  .disablePlugins(SonarPlugin)
+  .settings(
+    name := "als-node-client",
 
-buildJS := {
-  (fastOptJS in Compile in serverJS).value
-  "./als-server/js/build-scripts/buildJs.sh" !
-}
+    scalaJSUseMainModuleInitializer := true,
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
 
-val buildNodeJsClient = TaskKey[Unit]("buildNodeJsClient", "Build node client module")
+    mainClass in Compile := Some("org.mulesoft.als.nodeclient.Main"),
 
-buildNodeJsClient := {
-  mainClass in assembly := Some("org.mulesoft.als.server.Main")
-  mainClass in Compile := Some("org.mulesoft.als.server.Main")
-  scalaJSUseMainModuleInitializer := true
-  (fastOptJS in Compile in serverJS).value
-  "./als-server/js/build-scripts/buildJs.sh" !
-}
+    libraryDependencies += "io.scalajs" %%% "nodejs-core" % "0.4.2",
+)
 
-val buildSuggestionsJS = TaskKey[Unit]("buildSuggestionsJS", "Build suggestions npm module")
+/** ALS build tasks */
+
+// Suggestions
+
+val buildSuggestionsJS = TaskKey[Unit]("buildSuggestionsJS", "Build suggestions library")
 
 buildSuggestionsJS := {
   (fastOptJS in Compile in suggestionsJS).value
@@ -193,6 +199,27 @@ buildSuggestionsJS := {
   Process(
     "./build-package.sh",
     new File("./als-suggestions/js/node-package/")
+  ) !
+}
+
+// Server library
+
+val buildJsServerLibrary = TaskKey[Unit]("buildJsServerLibrary", "Build server library")
+
+buildJsServerLibrary := {
+  (fastOptJS in Compile in serverJS).value
+  "./als-server/js/build-scripts/buildJs.sh" !
+}
+
+// Node client
+
+val buildNodeJsClient = TaskKey[Unit]("buildNodeJsClient", "Build node client")
+
+buildNodeJsClient := {
+  (fastOptJS in Compile in nodeClient).value
+  Process(
+    "./scripts/build.sh",
+    new File("./als-node-client/node-package/")
   ) !
 }
 
@@ -215,7 +242,6 @@ sonarProperties ++= Map(
   "sonar.tests" -> "als-server/shared/src/test/scala,als-structure/shared/src/test/scala,als-suggestions/shared/src/test/scala"
 )
 
-
 //**************** ALIASES *********************************************************************************************
 // run only one?
 addCommandAlias(
@@ -234,7 +260,7 @@ assemblyMergeStrategy in assembly := {
 }
 
 //******* fat jar*****************************
-//
+
 lazy val fat = crossProject(JVMPlatform).settings(
   Seq(
     name := "api-language-server"

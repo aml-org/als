@@ -1,24 +1,10 @@
-package org.mulesoft.als.server
+package org.mulesoft.als.nodeclient
 
 import io.scalajs.nodejs.process
-import org.mulesoft.als.server.client.ClientConnection
-import org.mulesoft.als.server.logger.PrintLnLogger
-import org.mulesoft.als.vscode.{Logger, ProtocolConnection, ServerSocketTransport}
+import org.mulesoft.als.server.{ClientNotifierFactory, LanguageServerFactory, ProtocolConnectionBinder}
+import org.mulesoft.als.vscode.{ProtocolConnection, ServerSocketTransport}
 
-import scala.scalajs.js
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
-
-object JsPrintLnLogger {
-  def apply(): ClientLogger =
-    js.Dynamic
-      .literal(
-        error = (message: String) => println(message),
-        warn = (message: String) => println(message),
-        info = (message: String) => println(message),
-        log = (message: String) => println(message),
-      )
-      .asInstanceOf[ClientLogger]
-}
 
 object Main {
   case class Options(port: Int)
@@ -65,4 +51,5 @@ object Main {
     }
   }
 }
+
 // $COVERAGE-ON$
