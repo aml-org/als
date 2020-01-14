@@ -229,7 +229,7 @@ class ClientConversionTest extends FlatSpec with Matchers {
     val ip2: InitializeParams       = ip1.toShared
 
     val stringified =
-      "{\"capabilities\":{},\"trace\":0,\"rootUri\":\"uri\",\"workspaceFolders\":[{\"uri\":\"uri\",\"name\":\"name\"}]}"
+      "{\"processId\":null,\"capabilities\":{},\"trace\":\"off\",\"rootUri\":\"uri\",\"workspaceFolders\":[{\"uri\":\"uri\",\"name\":\"name\"}]}"
 
     JSON.stringify(ip1) should be(stringified)
 
