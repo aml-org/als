@@ -270,7 +270,7 @@ object LspConvertersClientToShared {
         v.trace.toOption.map(TraceKind.withName),
         v.rootUri.toOption,
         Option(v.processId),
-        v.workspace.toOption.map(_.toShared),
+        Option(v.workspaceFolders).map(_.map(_.toShared).toSeq),
         v.rootPath.toOption,
         v.initializationOptions.toOption,
       )
@@ -290,6 +290,7 @@ object LspConvertersClientToShared {
         None,
         None,
         None,
+        v.workspace.toOption.map(_.toShared),
         v.experimental.toOption
       )
   }
