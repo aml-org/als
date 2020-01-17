@@ -9,6 +9,7 @@ import org.eclipse.lsp4j.launch.LSPLauncher
 import org.eclipse.lsp4j.services.LanguageClient
 import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
+import org.mulesoft.als.server.modules.diagnostic.PARSING_BEFORE
 import org.mulesoft.amfmanager.{CustomDialects, CustomVocabulary}
 
 object Main {
@@ -64,7 +65,9 @@ object Main {
           logger,
           options.dialectPath
             .map(readDialectFile(_, options.dialectName.get, options.vocabularyPath))
-            .toSeq))
+            .toSeq,
+          notificationKind = PARSING_BEFORE
+        ))
 
       val launcher: Launcher[LanguageClient] =
         LSPLauncher.createServerLauncher(server, in, out)

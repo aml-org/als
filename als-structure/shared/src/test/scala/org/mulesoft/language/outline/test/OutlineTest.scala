@@ -103,7 +103,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
   def amfParse(url: String, env: Environment = Environment()): Future[BaseUnit] = {
 
     val helper = ParserHelper(this.platform)
-    helper.parse(url, env)
+    helper.parse(url, env).map(_.baseUnit)
   }
 
   def buildEnvironment(fileUrl: String, content: String, position: Int, mime: Option[String]): Environment = {

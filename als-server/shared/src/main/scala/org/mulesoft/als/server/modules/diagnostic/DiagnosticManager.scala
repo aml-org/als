@@ -13,6 +13,7 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
 import org.mulesoft.als.server.modules.workspace.DiagnosticsBundle
+import org.mulesoft.amfmanager.AmfParseResult
 import org.mulesoft.amfmanager.BaseUnitImplicits._
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.common.Location
@@ -24,13 +25,16 @@ import org.mulesoft.lsp.feature.diagnostic.{
 }
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
+import scala.collection.{immutable, mutable}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js.annotation.JSExport
 import scala.util.{Failure, Success}
 
 class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                         private val clientNotifier: ClientNotifier,
-                        private val logger: Logger)
+                        private val logger: Logger,
+                        private val optimizationKing: DiagnosticNotificationsKind = ALL_TOGETHER)
     extends BaseUnitListener
     with ClientNotifierModule[DiagnosticClientCapabilities, Unit] {
 
@@ -38,11 +42,14 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
 
   override def applyConfig(config: Option[DiagnosticClientCapabilities]): Unit = {}
 
-  private val reconciler: Reconciler = new Reconciler(logger, 1000)
+  private val reconciler: Reconciler = new Reconciler(logger, 300)
 
+  private val notifyParsing: Boolean = optimizationKing == PARSING_BEFORE
   override def initialize(): Future[Unit] = {
     Future.successful()
   }
+
+  private val resultsByUnit: mutable.Map[String, Seq[AMFValidationResult]] = mutable.Map.empty
 
   /**
     * Called on new AST available
@@ -50,11 +57,11 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     * @param tuple - (AST, References)
     * @param uuid  - telemetry UUID
     */
-  override def onNewAst(tuple: (BaseUnit, Map[String, DiagnosticsBundle]), uuid: String): Unit = {
-    val ast        = tuple._1
+  override def onNewAst(tuple: (AmfParseResult, Map[String, DiagnosticsBundle]), uuid: String): Unit = {
+    val result     = tuple._1
     val references = tuple._2
-    logger.debug("Got new AST:\n" + ast.toString, "ValidationManager", "newASTAvailable")
-    val uri = ast.location().getOrElse(ast.id)
+    logger.debug("Got new AST:\n" + result.baseUnit.toString, "ValidationManager", "newASTAvailable")
+    val uri = result.location
     telemetryProvider.addTimedMessage("Start report",
                                       "DiagnosticManager",
                                       "onNewAst",
@@ -63,21 +70,9 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                                       uuid)
 
     reconciler
-      .shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, ast, references, uuid)))
+      .shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, result, references, uuid)))
       .future andThen {
-      case Success(reports: Seq[ValidationReport]) =>
-        logger.debug("Number of errors is:\n" + reports.flatMap(_.issues).length,
-                     "ValidationManager",
-                     "newASTAvailable")
-        reports.foreach { r =>
-          telemetryProvider.addTimedMessage(s"Got reports: ${r.publishDiagnosticsParams.uri}",
-                                            "DiagnosticManager",
-                                            "onNewAst",
-                                            MessageTypes.GOT_DIAGNOSTICS,
-                                            uri,
-                                            uuid)
-          clientNotifier.notifyDiagnostic(r.publishDiagnosticsParams)
-        }
+      case Success(_) =>
         telemetryProvider.addTimedMessage("End report",
                                           "DiagnosticManager",
                                           "onNewAst",
@@ -97,46 +92,79 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     }
   }
 
-  private def gatherValidationErrors(uri: String,
-                                     baseUnit: BaseUnit,
-                                     references: Map[String, DiagnosticsBundle],
-                                     uuid: String): Future[Seq[ValidationReport]] = {
-    val clonedUnit = baseUnit //.clone()
-    val startTime  = System.currentTimeMillis()
+  private def notifyReport(result: AmfParseResult, references: Map[String, DiagnosticsBundle], step: String): Unit = {
 
+    val errors = buildIssueResults(merge(result), references)
+
+    logger.debug(s"Number of $step errors is:\n" + errors.flatMap(_.issues).length,
+                 "ValidationManager",
+                 "newASTAvailable")
+    errors.foreach(r => clientNotifier.notifyDiagnostic(r.publishDiagnosticsParams))
+  }
+
+  private def merge(result: AmfParseResult): Map[String, Seq[AMFValidationResult]] = {
+    val merged = merge(result.groupedErrors, resultsByUnit.toMap)
+    result.tree.map(t => t -> merged.getOrElse(t, Nil)).toMap
+  }
+
+  private def merge(left: Map[String, Seq[AMFValidationResult]],
+                    right: Map[String, Seq[AMFValidationResult]]): Map[String, Seq[AMFValidationResult]] =
+    left.map {
+      case (k, v) => k -> (v ++ right.getOrElse(k, Nil))
+    } ++ right.filter(t => !left.keys.exists(_ == t._1))
+
+  private def gatherValidationErrors(uri: String,
+                                     result: AmfParseResult,
+                                     references: Map[String, DiagnosticsBundle],
+                                     uuid: String): Future[Unit] = {
+    val startTime = System.currentTimeMillis()
+
+    if (notifyParsing) notifyReport(result, references, "parsing")
     this
-      .report(uri, telemetryProvider, clonedUnit, uuid)
+      .report(uri, telemetryProvider, result.baseUnit, uuid)
       .map(report => {
         val endTime = System.currentTimeMillis()
+        indexNewReport(report, result, uuid)
+        notifyReport(result, references, "model and resolution")
 
         this.logger.debugDetail(s"It took ${endTime - startTime} milliseconds to validate",
                                 "ValidationManager",
                                 "gatherValidationErrors")
-
-        buildIssueResults(uri, report, baseUnit, references)
       })
   }
 
-  def buildIssueResults(root: String,
-                        report: AMFValidationReport,
-                        baseUnit: BaseUnit,
-                        references: Map[String, DiagnosticsBundle]): Seq[ValidationReport] = {
-    val issuesWithStack: Seq[ValidationIssue] = buildIssues(report, references)
+  private def indexNewReport(report: AMFValidationReport, result: AmfParseResult, uuid: String): Unit = {
+    val results: Map[String, Seq[AMFValidationResult]] =
+      report.results.groupBy(r => r.location.getOrElse(result.location))
 
-    extractAllReferences(baseUnit)
-      .map { dependency =>
-        ValidationReport(
-          dependency,
-          issuesWithStack.filter(_.filePath == dependency).toSet
-        )
+    telemetryProvider.addTimedMessage(s"Got reports: ${result.location}",
+                                      "DiagnosticManager",
+                                      "onNewAst",
+                                      MessageTypes.GOT_DIAGNOSTICS,
+                                      result.location,
+                                      uuid)
+
+    result.tree.foreach { t =>
+      results.get(t) match {
+        case Some(r) => resultsByUnit.update(t, r)
+        case _       => resultsByUnit.remove(t)
       }
-      .toSeq
-      .sortBy(_.publishDiagnosticsParams.uri)
+    }
   }
 
-  private def buildIssues(report: AMFValidationReport,
+  def buildIssueResults(results: Map[String, Seq[AMFValidationResult]],
+                        references: Map[String, DiagnosticsBundle]): Seq[ValidationReport] = {
+
+    val issuesWithStack = buildIssues(results.values.flatten.toSeq, references)
+    results
+      .map(t => ValidationReport(t._1, issuesWithStack.filter(_.filePath == t._1).toSet))
+      .toSeq
+      .sortBy(_.pointOfViewUri)
+  }
+
+  private def buildIssues(results: Seq[AMFValidationResult],
                           references: Map[String, DiagnosticsBundle]): Seq[ValidationIssue] = {
-    report.results.flatMap { r =>
+    results.flatMap { r =>
       references.get(r.location.getOrElse("")) match {
         case Some(t)
             if !t.isExternal && t.references.nonEmpty => // Has stack, ain't ExternalFragment todo: check if it's a syntax error?
@@ -212,10 +240,6 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
   override def onRemoveFile(uri: String): Unit =
     clientNotifier.notifyDiagnostic(AlsPublishDiagnosticsParams(uri, Nil))
 
-  // todo: include old tree references
-  private def extractAllReferences(baseUnit: BaseUnit): Set[String] =
-    baseUnit.flatRefs.map(bu => bu.location().getOrElse(bu.id)).toSet + baseUnit.location().getOrElse(baseUnit.id)
-
   private def buildIssue(r: AMFValidationResult, stack: Seq[DiagnosticRelatedInformation]): ValidationIssue = {
     ValidationIssue("PROPERTY_UNUSED",
                     ValidationSeverity(r.level),
@@ -235,4 +259,15 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
 
   private def lexicalToPosition(maybeLi: Option[LexicalInformation]): PositionRange =
     maybeLi.map(position => PositionRange(position.range)).getOrElse(PositionRange(Position(0, 0), Position(0, 0)))
+}
+
+case class DiagnosticNotificationsKind(kind: String)
+
+object PARSING_BEFORE extends DiagnosticNotificationsKind("PARSING_BEFORE")
+object ALL_TOGETHER   extends DiagnosticNotificationsKind("ALL_TOGETHER")
+
+@JSExport
+object DiagnosticNotificationsKind {
+  def parsingBefore: DiagnosticNotificationsKind = PARSING_BEFORE
+  def allTogether: DiagnosticNotificationsKind   = ALL_TOGETHER
 }
