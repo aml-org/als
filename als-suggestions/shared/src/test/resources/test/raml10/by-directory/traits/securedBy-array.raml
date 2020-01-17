@@ -1,0 +1,16 @@
+#%RAML 1.0
+title: api
+
+securitySchemes:
+  mySecurityScheme:
+    type: OAuth 2.0
+    describedBy:
+
+traits:
+  myTrait:
+    securedBy:
+          - *
+
+/endpoint:
+  is: myTrait
+  description: test trait

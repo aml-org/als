@@ -1,0 +1,32 @@
+[
+  {
+    "label": "mySecurityScheme",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "mySecurityScheme",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11mySecurityScheme",
+    "filterText": "mySecurityScheme:\n            ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 11,
+          "character": 12
+        },
+        "end": {
+          "line": 11,
+          "character": 12
+        }
+      },
+      "newText": "mySecurityScheme:\n            "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

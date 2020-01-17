@@ -8,13 +8,13 @@ import scala.concurrent.ExecutionContext
 
 class ServerDiagnosticTest extends LanguageServerBaseTest {
 
-  override implicit val executionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   override def rootPath: String = ""
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = true)
+    val factory = ManagersFactory(MockDiagnosticClientNotifier, logger)
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
       .addInitializableModule(factory.diagnosticManager)
       .build()
