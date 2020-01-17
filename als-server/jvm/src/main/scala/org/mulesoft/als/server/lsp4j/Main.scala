@@ -66,7 +66,7 @@ object Main {
           options.dialectPath
             .map(readDialectFile(_, options.dialectName.get, options.vocabularyPath))
             .toSeq,
-          notificationKind = Some(PARSING_BEFORE)
+          notificationKind = PARSING_BEFORE
         ))
 
       val launcher: Launcher[LanguageClient] =

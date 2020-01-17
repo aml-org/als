@@ -5,7 +5,7 @@ import org.mulesoft.als.server.LanguageServerBuilder
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.modules.diagnostic.DiagnosticNotificationsKind
+import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
 import org.mulesoft.amfmanager.CustomDialects
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer, LanguageServerSystemConf}
 
@@ -16,7 +16,7 @@ object LanguageServerFactory extends PlatformSecrets {
                         dialects: Seq[CustomDialects] = Seq(),
                         systemConfiguration: LanguageServerSystemConf = DefaultServerSystemConf,
                         withDiagnostics: Boolean = true,
-                        notificationKind: Option[DiagnosticNotificationsKind] = None): LanguageServer = {
+                        notificationKind: DiagnosticNotificationsKind = PARSING_BEFORE): LanguageServer = {
 
     // todo: uri to editor environment
     val builders =
@@ -24,7 +24,7 @@ object LanguageServerFactory extends PlatformSecrets {
                       logger,
                       withDiagnostics = withDiagnostics,
                       configuration = systemConfiguration,
-                      notificationKind = notificationKind)
+                      notificationKind = Some(notificationKind))
 
     new LanguageServerBuilder(builders.documentManager, builders.workspaceManager, systemConfiguration)
       .addInitializable(builders.diagnosticManager)
