@@ -9,14 +9,14 @@ import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
 import com.google.gson.{Gson, GsonBuilder}
 import org.eclipse.lsp4j.{ExecuteCommandParams, InitializeParams}
-import org.mulesoft.als.server.client.{ClientConnection, ClientNotifier}
+import org.mulesoft.als.server._
+import org.mulesoft.als.server.client.{AlsClientNotifier, ClientConnection, ClientNotifier}
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
-import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.server.workspace.command.{CommandExecutor, Commands, DidChangeConfigurationCommandExecutor}
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
@@ -38,8 +38,10 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     val logger: Logger   = EmptyLogger
     val clientConnection = ClientConnection(logger)
 
+    val notifier: AlsClientNotifier[StringWriter] = new MockAlsClientNotifier
     val server = new LanguageServerImpl(
-      LanguageServerFactory.alsLanguageServer(clientConnection, logger, withDiagnostics = false))
+      LanguageServerFactory
+        .alsLanguageServer(clientConnection, JvmSerializationProps(notifier), logger, withDiagnostics = false))
 
     server.initialize(new InitializeParams()).toScala.map(_ => succeed)
   }
@@ -50,11 +52,12 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     val baos     = new ByteArrayOutputStream()
     val out      = new ObjectOutputStream(baos)
 
-    val logger: Logger   = EmptyLogger
-    val clientConnection = ClientConnection(logger)
-
+    val logger: Logger                            = EmptyLogger
+    val clientConnection                          = ClientConnection(logger)
+    val notifier: AlsClientNotifier[StringWriter] = new MockAlsClientNotifier
     val server = new LanguageServerImpl(
-      LanguageServerFactory.alsLanguageServer(clientConnection, logger, withDiagnostics = false))
+      LanguageServerFactory
+        .alsLanguageServer(clientConnection, JvmSerializationProps(notifier), logger, withDiagnostics = false))
 
     server.initialize(null).toScala.map(_ => succeed)
   }
@@ -178,11 +181,12 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
   }
 
   override def buildServer(): LanguageServer = {
-
-    val managers = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = false)
+    val builder  = new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+    val dm       = builder.diagnosticManager()
+    val managers = builder.buildWorkspaceManagerFactory()
 
     new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, DefaultServerSystemConf)
-      .addInitializableModule(managers.diagnosticManager)
+      .addInitializableModule(dm)
       .build()
   }
 

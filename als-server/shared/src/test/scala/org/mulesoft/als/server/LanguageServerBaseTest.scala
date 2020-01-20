@@ -1,7 +1,6 @@
 package org.mulesoft.als.server
 
 import amf.core.unsafe.PlatformSecrets
-import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
@@ -13,62 +12,13 @@ import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.{AsyncFunSuite, Matchers, OptionValues}
 
-import scala.collection.mutable
-import scala.concurrent.{Future, Promise}
+import scala.concurrent.Future
 
 abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets with Matchers with OptionValues {
 
   val logger: Logger = EmptyLogger
 
   protected val initializeParams: InitializeParams = InitializeParams.default
-
-  private def sync(fn: () => Any): Any = synchronized(fn())
-
-  object MockDiagnosticClientNotifier extends ClientNotifier {
-    val promises: mutable.Queue[Promise[PublishDiagnosticsParams]] = mutable.Queue.empty
-
-    override def notifyTelemetry(params: TelemetryMessage): Unit = {}
-
-    override def notifyDiagnostic(msg: PublishDiagnosticsParams): Unit =
-      sync(
-        () =>
-          if (promises.forall(_.isCompleted)) promises.enqueue(Promise[PublishDiagnosticsParams].success(msg))
-          else promises.dequeueFirst(!_.isCompleted).map(_.success(msg)))
-
-    def nextCall: Future[PublishDiagnosticsParams] =
-      sync(() =>
-        if (promises.isEmpty) {
-          val promise = Promise[PublishDiagnosticsParams]()
-          promises.enqueue(promise)
-          promise.future
-        } else promises.dequeue().future) match {
-        case r: Future[PublishDiagnosticsParams] => r
-        case _                                   => Future.failed(new Exception("Wrong notification"))
-      }
-  }
-
-  sealed class MockTelemetryClientNotifier extends ClientNotifier {
-    val promises: mutable.Queue[Promise[TelemetryMessage]] = mutable.Queue.empty
-
-    override def notifyTelemetry(msg: TelemetryMessage): Unit =
-      sync(
-        () =>
-          if (promises.forall(_.isCompleted)) promises.enqueue(Promise[TelemetryMessage].success(msg))
-          else promises.dequeueFirst(!_.isCompleted).map(_.success(msg)))
-
-    def nextCall: Future[TelemetryMessage] =
-      sync(() =>
-        if (promises.isEmpty) {
-          val promise = Promise[TelemetryMessage]()
-          promises.enqueue(promise)
-          promise.future
-        } else promises.dequeue().future) match {
-        case r: Future[TelemetryMessage] => r
-        case _                           => Future.failed(new Exception("Wrong notification"))
-      }
-
-    override def notifyDiagnostic(params: PublishDiagnosticsParams): Unit = {}
-  }
 
   private def telemetryNotifications(mockTelemetryClientNotifier: MockTelemetryClientNotifier)(
       qty: Int,

@@ -5,6 +5,7 @@ import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.client.lsp.command.ClientCommand
 import org.mulesoft.als.client.lsp.common._
 import org.mulesoft.als.client.lsp.configuration.{
+  ClientAlsClientCapabilities,
   ClientInitializeParams,
   ClientInitializeResult,
   ClientServerCapabilities
@@ -64,6 +65,7 @@ import org.mulesoft.lsp.feature.link.{
 }
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
+import org.mulesoft.lsp.feature.serialization.SerializationClientCapabilities
 import org.mulesoft.lsp.feature.telemetry.{TelemetryClientCapabilities, TelemetryMessage}
 import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace._
@@ -238,6 +240,15 @@ class ClientConversionTest extends FlatSpec with Matchers {
     ip.rootUri should be(ip2.rootUri)
     ip.trace should be(ip2.trace)
     ip.workspaceFolders should be(ip2.workspaceFolders)
+  }
+
+  it should "transform AlsClientCapabilities" in {
+    val acp: AlsClientCapabilities        = AlsClientCapabilities(Some(SerializationClientCapabilities(true)))
+    val acp1: ClientAlsClientCapabilities = acp.toClient
+    val acp2: AlsClientCapabilities       = acp1.toShared
+
+    acp.serialization should be(acp2.serialization)
+    acp.serialization.get.acceptsNotification should be(acp2.serialization.get.acceptsNotification)
   }
 
   val sc: ServerCapabilities = ServerCapabilities(Some(Left(TextDocumentSyncKind(1))), Some(CompletionOptions()))

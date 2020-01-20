@@ -3,7 +3,11 @@ package org.mulesoft.als.server
 import org.mulesoft.als.client.convert.LspConvertersClientToShared._
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.client.lsp.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
-import org.mulesoft.als.client.lsp.configuration.{ClientInitializeParams, ClientInitializeResult}
+import org.mulesoft.als.client.lsp.configuration.{
+  ClientAlsClientCapabilities,
+  ClientInitializeParams,
+  ClientInitializeResult
+}
 import org.mulesoft.als.client.lsp.feature.completion.{
   ClientCompletionItem,
   ClientCompletionList,
@@ -17,6 +21,7 @@ import org.mulesoft.als.client.lsp.feature.documentsymbol.{
 }
 import org.mulesoft.als.client.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
 import org.mulesoft.als.client.lsp.feature.reference.ClientReferenceParams
+import org.mulesoft.als.client.lsp.feature.serialization.ClientSerializationMessage
 import org.mulesoft.als.client.lsp.feature.telemetry.ClientTelemetryMessage
 import org.mulesoft.als.client.lsp.textsync.{
   ClientDidChangeTextDocumentParams,
@@ -25,16 +30,18 @@ import org.mulesoft.als.client.lsp.textsync.{
 }
 import org.mulesoft.als.client.lsp.workspace.ClientExecuteCommandParams
 import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestHandler0 => ClientRequestHandler0, _}
-import org.mulesoft.lsp.client.{LanguageClient, LanguageClientAware}
+import org.mulesoft.lsp.client.{AlsLanguageClient, AlsLanguageClientAware, LspLanguageClient, LspLanguageClientAware}
 import org.mulesoft.lsp.feature.completion.CompletionRequestType
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
 import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
 import org.mulesoft.lsp.feature.reference.ReferenceRequestType
+import org.mulesoft.lsp.feature.serialization.SerializationMessage
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.lsp.server.LanguageServer
+import org.yaml.builder.JsOutputBuilder
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
@@ -42,7 +49,9 @@ import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 import scala.scalajs.js.|
 
-case class ProtocolConnectionLanguageClient(connection: ProtocolConnection) extends LanguageClient {
+case class ProtocolConnectionLanguageClient(connection: ProtocolConnection)
+    extends LspLanguageClient
+    with AlsLanguageClient[js.Any] {
   override def publishDiagnostic(params: PublishDiagnosticsParams): Unit = {
     val clientParams: ClientPublishDiagnosticsParams = params.toClient
     connection
@@ -52,6 +61,10 @@ case class ProtocolConnectionLanguageClient(connection: ProtocolConnection) exte
   override def notifyTelemetry(params: TelemetryMessage): Unit = {
     connection.sendNotification[ClientTelemetryMessage, js.Any](TelemetryEventNotification.`type`, params.toClient)
   }
+
+  override def notifySerialization(params: SerializationMessage[js.Any]): Unit =
+    connection
+      .sendNotification[ClientSerializationMessage, js.Any](SerializationEventNotification.`type`, params.toClient)
 }
 
 @JSExportAll
@@ -59,13 +72,14 @@ case class ProtocolConnectionLanguageClient(connection: ProtocolConnection) exte
 object ProtocolConnectionBinder {
   def bind(protocolConnection: ProtocolConnection,
            languageServer: LanguageServer,
-           clientAware: LanguageClientAware): Unit = {
+           clientAware: LspLanguageClientAware with AlsLanguageClientAware[js.Any]): Unit = {
     def resolveHandler[P, R](`type`: RequestType[P, R]): RequestHandler[P, R] = {
       val maybeHandler = languageServer.resolveHandler(`type`)
       if (maybeHandler.isEmpty) throw new UnsupportedOperationException else maybeHandler.get
     }
 
     clientAware.connect(ProtocolConnectionLanguageClient(protocolConnection))
+    clientAware.connectAls(ProtocolConnectionLanguageClient(protocolConnection))
 
     val initializeHandlerJs
       : js.Function2[ClientInitializeParams, CancellationToken, Thenable[ClientInitializeResult]] =
@@ -79,6 +93,15 @@ object ProtocolConnectionBinder {
     protocolConnection.onRequest(
       InitializeRequest.`type`,
       initializeHandlerJs.asInstanceOf[ClientRequestHandler[ClientInitializeParams, ClientInitializeResult, js.Any]])
+
+    val notifyAlsClientCapabilities: js.Function2[ClientAlsClientCapabilities, CancellationToken, Unit] =
+      (param: ClientAlsClientCapabilities, _: CancellationToken) =>
+        languageServer
+          .notifyAlsClientCapabilities(param.toShared)
+
+    protocolConnection.onNotification(
+      AlsClientCapabilitiesNotification.`type`,
+      notifyAlsClientCapabilities.asInstanceOf[NotificationHandler[ClientAlsClientCapabilities]])
 
     val initializedHandlerJs: js.Function2[js.Any, CancellationToken, Unit] = (_: js.Any, _: CancellationToken) =>
       languageServer.initialized()
@@ -162,7 +185,8 @@ object ProtocolConnectionBinder {
             case Some(validations: Seq[PublishDiagnosticsParams]) =>
               validations.map(v => v.toClient).toJSArray
             // TODO: ALS-950: Return serialized JSON-LD
-            case other => other
+            case Some(docBuilder: JsOutputBuilder) => docBuilder.result
+            case other                             => other
           }
           .toJSPromise
           .asInstanceOf[Thenable[js.Any]]
@@ -226,5 +250,6 @@ object ProtocolConnectionBinder {
         .asInstanceOf[ClientRequestHandler[ClientReferenceParams, js.Array[ClientLocation], js.Any]]
     )
     // End References
+
   }
 }
