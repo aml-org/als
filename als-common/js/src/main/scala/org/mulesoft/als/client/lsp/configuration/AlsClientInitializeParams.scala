@@ -8,10 +8,10 @@ import scala.scalajs.js.annotation.JSExportTopLevel
 
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
-@JSExportTopLevel("AlsLanguageServerProtocol.ClientAlsClientCapabilities")
+@JSExportTopLevel("ClientAlsClientCapabilities")
 class ClientAlsClientCapabilities(val serialization: js.UndefOr[ClientSerializationClientCapabilities])
 
-@JSExportTopLevel("AlsLanguageServerProtocol.ClientSerializationClientCapabilities")
+@JSExportTopLevel("ClientSerializationClientCapabilities")
 class ClientSerializationClientCapabilities(val acceptsNotification: Boolean)
 
 // $COVERAGE-ON$
