@@ -4,6 +4,4 @@ object Commands {
   val DID_FOCUS_CHANGE_COMMAND: String = "didFocusChange"
   val INDEX_DIALECT: String            = "indexDialect"
   val DID_CHANGE_CONFIGURATION: String = "didChangeConfiguration"
-  val COMPILE: String                  = "compile"
-  val SERIALIZE: String                = "serialize"
 }

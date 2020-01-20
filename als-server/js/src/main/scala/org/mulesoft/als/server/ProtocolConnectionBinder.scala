@@ -5,6 +5,7 @@ import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.client.lsp.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
 import org.mulesoft.als.client.lsp.configuration.{
   ClientAlsClientCapabilities,
+  ClientAlsServerCapabilities,
   ClientInitializeParams,
   ClientInitializeResult
 }
@@ -94,10 +95,12 @@ object ProtocolConnectionBinder {
       InitializeRequest.`type`,
       initializeHandlerJs.asInstanceOf[ClientRequestHandler[ClientInitializeParams, ClientInitializeResult, js.Any]])
 
-    val notifyAlsClientCapabilities: js.Function2[ClientAlsClientCapabilities, CancellationToken, Unit] =
+    val notifyAlsClientCapabilities
+      : js.Function2[ClientAlsClientCapabilities, CancellationToken, ClientAlsServerCapabilities] =
       (param: ClientAlsClientCapabilities, _: CancellationToken) =>
         languageServer
           .notifyAlsClientCapabilities(param.toShared)
+          .toClient
 
     protocolConnection.onNotification(
       AlsClientCapabilitiesNotification.`type`,
