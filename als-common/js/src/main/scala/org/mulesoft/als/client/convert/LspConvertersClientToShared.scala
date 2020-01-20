@@ -27,6 +27,7 @@ import org.mulesoft.lsp.feature.documentsymbol._
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
+import org.mulesoft.lsp.feature.serialization.SerializationClientCapabilities
 import org.mulesoft.lsp.feature.telemetry.{TelemetryClientCapabilities, TelemetryMessage}
 import org.mulesoft.lsp.textsync.{TextDocumentSyncKind, _}
 import org.mulesoft.lsp.workspace._
@@ -274,6 +275,16 @@ object LspConvertersClientToShared {
         v.rootPath.toOption,
         v.initializationOptions.toOption,
       )
+  }
+
+  implicit class SerializationClientCapabilitiesConverter(v: ClientSerializationClientCapabilities) {
+    def toShared: SerializationClientCapabilities = {
+      SerializationClientCapabilities(v.acceptsNotification)
+    }
+  }
+
+  implicit class AlsClientCapabilitiesConverter(v: ClientAlsClientCapabilities){
+    def toShared: AlsClientCapabilities = AlsClientCapabilities(serialization = v.serialization.map(_.toShared).toOption)
   }
 
   implicit class ServerCapabilitiesConverter(v: ClientServerCapabilities) {

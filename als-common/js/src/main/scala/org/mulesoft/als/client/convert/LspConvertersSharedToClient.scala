@@ -12,6 +12,7 @@ import org.mulesoft.als.client.lsp.feature.documentsymbol._
 import org.mulesoft.als.client.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkClientCapabilities, ClientDocumentLinkOptions, ClientDocumentLinkParams}
 import org.mulesoft.als.client.lsp.feature.reference.{ClientReferenceClientCapabilities, ClientReferenceContext, ClientReferenceParams}
 import org.mulesoft.als.client.lsp.feature.rename.{ClientRenameClientCapabilities, ClientRenameOptions, ClientRenameParams}
+import org.mulesoft.als.client.lsp.feature.serialization.ClientSerializationMessage
 import org.mulesoft.als.client.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage}
 import org.mulesoft.als.client.lsp.textsync._
 import org.mulesoft.als.client.lsp.workspace._
@@ -27,6 +28,7 @@ import org.mulesoft.lsp.feature.documentsymbol._
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
+import org.mulesoft.lsp.feature.serialization.SerializationMessage
 import org.mulesoft.lsp.feature.telemetry.{TelemetryClientCapabilities, TelemetryMessage}
 import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace._
@@ -234,6 +236,11 @@ object LspConvertersSharedToClient {
       ClientInitializeParams(v)
   }
 
+  implicit class ClientAlsClientCapabilitiesConverter(v: AlsClientCapabilities) {
+    def toClient: ClientAlsClientCapabilities =
+      new ClientAlsClientCapabilities(v.serialization.map(s => new ClientSerializationClientCapabilities(s.acceptsNotification)).orUndefined)
+  }
+
   implicit class ClientServerCapabilitiesConverter(v: ServerCapabilities) {
     def toClient: ClientServerCapabilities =
       ClientServerCapabilities(v)
@@ -352,6 +359,11 @@ object LspConvertersSharedToClient {
   implicit class ClientTelemetryMessageConverter(v: TelemetryMessage) {
     def toClient: ClientTelemetryMessage =
       ClientTelemetryMessage(v)
+  }
+
+  implicit class ClientSerializationMessageConverter(v: SerializationMessage[js.Any]) {
+    def toClient: ClientSerializationMessage  =
+      ClientSerializationMessage(v.model)
   }
 
   implicit class ClientTelemetryClientCapabilitiesConverter(v: TelemetryClientCapabilities) {

@@ -5,8 +5,8 @@ import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
-import org.mulesoft.als.server.LanguageServerBuilder
-import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer, LanguageServerSystemConf}
 import org.scalatest.Assertion
 
@@ -15,17 +15,16 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class IncludeCacheTests extends RAMLSuggestionTestServer {
 
-  override implicit val executionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   test("test01") {
     runTest("includes/testGroup03/api1.raml", Set("t", "l."))
   }
 
   def buildServer(rl: ResourceLoader): LanguageServer = {
-    val factory = ManagersFactory(MockDiagnosticClientNotifier,
-                                  logger,
-                                  withDiagnostics = false,
-                                  configuration = DummyLanguageServerSystemConf(rl))
+    val factory = new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+      .withConfiguration(DummyLanguageServerSystemConf(rl))
+      .buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
       .addRequestModule(factory.completionManager)
       .build()

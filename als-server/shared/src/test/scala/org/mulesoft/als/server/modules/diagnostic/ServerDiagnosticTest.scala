@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 
 import scala.concurrent.ExecutionContext
@@ -12,12 +12,15 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
   override def rootPath: String = ""
 
+  val diagnosticNotifier = new MockDiagnosticClientNotifier
   override def buildServer(): LanguageServer = {
-
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, logger)
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
+    val dm      = builder.diagnosticManager()
+    val factory = builder.buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
-      .addInitializableModule(factory.diagnosticManager)
+      .addInitializableModule(dm)
       .build()
+
   }
 
   test("diagnostics test 001 - onFocus") {
@@ -57,17 +60,17 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
        */
       for {
         _       <- openFileNotification(server)(libFilePath, libFileContent)
-        oLib1   <- MockDiagnosticClientNotifier.nextCall
+        oLib1   <- diagnosticNotifier.nextCall
         _       <- openFileNotification(server)(mainFilePath, mainContent)
-        oMain11 <- MockDiagnosticClientNotifier.nextCall
-        oMain12 <- MockDiagnosticClientNotifier.nextCall
+        oMain11 <- diagnosticNotifier.nextCall
+        oMain12 <- diagnosticNotifier.nextCall
         _       <- focusNotification(server)(libFilePath, 0)
-        oLib2   <- MockDiagnosticClientNotifier.nextCall
+        oLib2   <- diagnosticNotifier.nextCall
         _       <- changeNotification(server)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
-        oLib3   <- MockDiagnosticClientNotifier.nextCall
+        oLib3   <- diagnosticNotifier.nextCall
         _       <- focusNotification(server)(mainFilePath, 0)
-        oMain21 <- MockDiagnosticClientNotifier.nextCall
-        oMain22 <- MockDiagnosticClientNotifier.nextCall
+        oMain21 <- diagnosticNotifier.nextCall
+        oMain22 <- diagnosticNotifier.nextCall
       } yield {
         server.shutdown()
         assert(oLib1.diagnostics.isEmpty && oLib1.uri == libFilePath)
@@ -77,7 +80,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
         assert(oLib3 == oLib2)
         assert(oMain22 == oLib1)
         assert(oMain21.diagnostics.isEmpty && oMain21.uri == mainFilePath)
-        assert(MockDiagnosticClientNotifier.promises.isEmpty)
+        assert(diagnosticNotifier.promises.isEmpty)
       }
     }
   }
