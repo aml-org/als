@@ -157,12 +157,13 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
       Process("npm install",     new File("./als-server/js/")) !
     },
     test in Test := ((test in Test) dependsOn installJsDependencies).value,
-    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
+    artifactPath in(Test, fastOptJS) := baseDirectory.value / "node-package" / "tmp" / "als-server.js",
 
     scalaJSModuleKind := ModuleKind.CommonJSModule,
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
 
     artifactPath in(Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.js",
-    artifactPath in(Compile, fullOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.js"
+    artifactPath in(Compile, fullOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.min.js"
   )
 
 lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
@@ -215,7 +216,11 @@ val buildJsServerLibrary = TaskKey[Unit]("buildJsServerLibrary", "Build server l
 
 buildJsServerLibrary := {
   (fastOptJS in Compile in serverJS).value
-  "./als-server/js/build-scripts/buildJs.sh" !
+  (fullOptJS in Compile in serverJS).value
+  Process(
+    "./scripts/build.sh",
+    new File("./als-server/js/node-package/")
+  ).!
 }
 
 // Node client
