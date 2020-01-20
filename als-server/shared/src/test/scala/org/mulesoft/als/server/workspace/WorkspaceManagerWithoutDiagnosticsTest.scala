@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.workspace
 
-import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
@@ -12,9 +12,12 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
 
-  override implicit val executionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  private val factory = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = false)
+  val diagnosticClientNotifier = new MockDiagnosticClientNotifier
+
+  private val factory =
+    new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
 
   private val editorFiles = factory.container
 

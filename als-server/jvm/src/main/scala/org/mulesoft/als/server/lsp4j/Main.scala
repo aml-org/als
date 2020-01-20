@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.lsp4j
 
+import java.io.StringWriter
 import java.net.{ServerSocket, Socket}
 
 import amf.ProfileName
@@ -7,10 +8,12 @@ import amf.core.lexer.FileStream
 import org.eclipse.lsp4j.jsonrpc.Launcher
 import org.eclipse.lsp4j.launch.LSPLauncher
 import org.eclipse.lsp4j.services.LanguageClient
+import org.mulesoft.als.server.JvmSerializationProps
 import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.modules.diagnostic.PARSING_BEFORE
 import org.mulesoft.amfmanager.{CustomDialects, CustomVocabulary}
+import org.mulesoft.lsp.feature.serialization.SerializationMessage
 
 object Main {
   case class Options(port: Int,
@@ -58,10 +61,12 @@ object Main {
       val out = socket.getOutputStream
 
       val logger: Logger   = PrintLnLogger
-      val clientConnection = ClientConnection(logger)
+      val clientConnection = ClientConnection[StringWriter](logger)
+
       val server = new LanguageServerImpl(
         LanguageServerFactory.alsLanguageServer(
           clientConnection,
+          JvmSerializationProps(clientConnection),
           logger,
           options.dialectPath
             .map(readDialectFile(_, options.dialectName.get, options.vocabularyPath))
@@ -73,6 +78,9 @@ object Main {
         LSPLauncher.createServerLauncher(server, in, out)
       val client = launcher.getRemoteProxy
       clientConnection.connect(LanguageClientWrapper(client))
+
+      clientConnection.connectAls((params: SerializationMessage[StringWriter]) => {}) // example
+
       launcher.startListening
       println("ALS started")
     } catch {

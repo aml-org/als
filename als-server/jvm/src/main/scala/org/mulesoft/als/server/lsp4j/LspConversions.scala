@@ -38,6 +38,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
 import org.mulesoft.lsp.feature.link.{DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
+import org.mulesoft.lsp.feature.serialization.SerializationClientCapabilities
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
 
@@ -320,4 +321,8 @@ object LspConversions {
 
   implicit def documentLinkOptions(options: lsp4j.DocumentLinkOptions): DocumentLinkOptions =
     DocumentLinkOptions(Option(options.getResolveProvider))
+
+  implicit def alsClientCapabilities(clientCapabilities: extension.AlsClientCapabilities): AlsClientCapabilities =
+    AlsClientCapabilities(Option(clientCapabilities.getSerialization).map(s =>
+      SerializationClientCapabilities(acceptsNotification = s.getSupportsSerialization)))
 }

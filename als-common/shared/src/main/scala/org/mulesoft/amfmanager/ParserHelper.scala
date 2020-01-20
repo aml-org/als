@@ -3,7 +3,7 @@ package org.mulesoft.amfmanager
 import amf.client.commands.CommandHelper
 import amf.client.parse.DefaultParserErrorHandler
 import amf.client.remote.Content
-import amf.core.CompilerContextBuilder
+import amf.core.{AMFSerializer, CompilerContextBuilder}
 import amf.core.annotations.SourceVendor
 import amf.core.client.ParserConfig
 import amf.core.emitter.RenderOptions
@@ -19,8 +19,9 @@ import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.{ProfileName, ProfileNames}
 import org.mulesoft.amfmanager.BaseUnitImplicits._
+import org.yaml.builder.DocBuilder
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class AmfParseResult(val baseUnit: BaseUnit, val eh: ErrorCollector) {
 
@@ -87,11 +88,12 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
 }
 
 object ParserHelper {
-  def toJsonLD(resolved: BaseUnit): String = {
-    RuntimeSerializer.apply(resolved,
-                            Mimes.`APPLICATION/LD+JSONLD`,
-                            Amf.name,
-                            RenderOptions().withCompactUris.withoutSourceMaps)
+  def toJsonLD(resolved: BaseUnit, builder: DocBuilder[_]): Future[Unit] = {
+    new AMFSerializer(
+      resolved,
+      Mimes.`APPLICATION/LD+JSONLD`,
+      Amf.name,
+      RenderOptions().withCompactUris.withoutSourceMaps).renderToBuilder(builder)(ExecutionContext.Implicits.global)
   }
 
   def apply(platform: Platform) = new ParserHelper(platform)

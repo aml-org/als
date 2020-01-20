@@ -3,6 +3,7 @@ package org.mulesoft.als.server.workspace
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.{BaseUnitListener, CHANGE_CONFIG, NotificationKind, TextListener}
+import org.mulesoft.als.server.modules.serialization.SerializationManager
 import org.mulesoft.als.server.modules.workspace.{CompilableUnit, WorkspaceContentManager}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.command._
@@ -82,8 +83,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     Commands.DID_FOCUS_CHANGE_COMMAND -> new DidFocusCommandExecutor(logger, this),
     Commands.DID_CHANGE_CONFIGURATION -> new DidChangeConfigurationCommandExecutor(logger, this),
     Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, environmentProvider.platform),
-    Commands.COMPILE                  -> new RequestCompileCommandExecutor(logger, this, environmentProvider.platform),
-    Commands.SERIALIZE                -> new RequestSerializedModelCommandExecutor(logger, this, environmentProvider.platform)
+    Commands.COMPILE                  -> new RequestCompileCommandExecutor(logger, this, environmentProvider.platform)
   )
 
   val defaultWorkspace =
