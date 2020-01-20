@@ -31,6 +31,7 @@ object LanguageServerFactory extends PlatformSecrets {
         .addInitializable(builders.workspaceManager)
         .addInitializableModule(dm)
         .addInitializableModule(sm)
+        .addRequestModule(builders.cleanDiagnosticManager)
         .addRequestModule(builders.completionManager)
         .addRequestModule(builders.structureManager)
         .addRequestModule(builders.definitionManager)

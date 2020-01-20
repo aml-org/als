@@ -22,7 +22,7 @@ import org.mulesoft.lsp.edit._
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
-import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticClientCapabilities, DiagnosticRelatedInformation, DiagnosticSeverity}
+import org.mulesoft.lsp.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, Diagnostic, DiagnosticClientCapabilities, DiagnosticRelatedInformation, DiagnosticSeverity}
 import org.mulesoft.lsp.feature.documentsymbol._
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
@@ -283,8 +283,14 @@ object LspConvertersClientToShared {
     }
   }
 
+  implicit class CleanDiagnosticTreeClientCapabilitiesConverter(v: ClientCleanDiagnosticTreeClientCapabilities) {
+    def toShared: CleanDiagnosticTreeClientCapabilities = {
+      CleanDiagnosticTreeClientCapabilities(v.enableCleanDiagnostic)
+    }
+  }
+
   implicit class AlsClientCapabilitiesConverter(v: ClientAlsClientCapabilities){
-    def toShared: AlsClientCapabilities = AlsClientCapabilities(serialization = v.serialization.map(_.toShared).toOption)
+    def toShared: AlsClientCapabilities = AlsClientCapabilities(serialization = v.serialization.map(_.toShared).toOption,cleanDiagnosticTree = v.cleanDiagnosticTree.map(_.toShared).toOption)
   }
 
   implicit class ServerCapabilitiesConverter(v: ClientServerCapabilities) {
@@ -445,11 +451,6 @@ object LspConvertersClientToShared {
   implicit class DidChangeConfigurationNotificationParamsConverter(v: ClientDidChangeConfigurationNotificationParams) {
     def toShared: DidChangeConfigurationNotificationParams =
       DidChangeConfigurationNotificationParams(v.mainUri, v.dependencies.toSet)
-  }
-
-  implicit class ValidationRequestParamsConverter(v: ClientValidationRequestParams) {
-    def toShared: ValidationRequestParams =
-      ValidationRequestParams(v.mainUri)
   }
 
   implicit class DidChangeTextDocumentParamsConverter(v: ClientDidChangeTextDocumentParams) {

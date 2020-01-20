@@ -6,11 +6,11 @@ import java.util.concurrent.CompletableFuture.completedFuture
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.services.{JsonDelegate, JsonNotification}
 import org.eclipse.lsp4j.services.LanguageServer
-import org.mulesoft.lsp.server.{LanguageServer => lspLanguageServer}
 import org.mulesoft.als.server.custom.CustomTextDocumentService
 import org.mulesoft.als.server.lsp4j.Lsp4JConversions._
 import org.mulesoft.als.server.lsp4j.LspConversions._
 import org.mulesoft.als.server.lsp4j.extension.AlsClientCapabilities
+import org.mulesoft.lsp.server.{LanguageServer => lspLanguageServer}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 class LanguageServerImpl(private val inner: lspLanguageServer) extends LanguageServer {
@@ -32,7 +32,7 @@ class LanguageServerImpl(private val inner: lspLanguageServer) extends LanguageS
   override def exit(): Unit = inner.exit()
 
   @JsonNotification
-  def notifyAlsClientCapabilities(clientCapabilities: AlsClientCapabilities): Unit = {
+  def notifyAlsClientCapabilities(clientCapabilities: AlsClientCapabilities): extension.AlsServerCapabilities = {
     inner.notifyAlsClientCapabilities(clientCapabilities)
   }
 
