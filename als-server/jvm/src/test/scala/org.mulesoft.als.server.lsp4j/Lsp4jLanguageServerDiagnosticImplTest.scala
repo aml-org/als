@@ -1,17 +1,13 @@
 package org.mulesoft.als.server.lsp4j
 
 import java.util
-import java.util.concurrent.CompletableFuture
 
 import amf.core.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.ExecuteCommandParams
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
-import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 
-import scala.compat.java8.FutureConverters
 import scala.concurrent.Future
 
 class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with PlatformSecrets {
@@ -97,15 +93,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
     def wrapJson(uri: String): String =
       s"""{"mainUri": "$uri"}"""
 
-    def executeCommandValidate(server: LanguageServerImpl)(file: String): CompletableFuture[Object] = {
-      val args: java.util.List[AnyRef] = new util.ArrayList[AnyRef]()
-      args.add(wrapJson(file))
-      server.getWorkspaceService.executeCommand(new ExecuteCommandParams(Commands.COMPILE, args))
-      //      MockDiagnosticClientNotifier.nextCall
-    }
-
     withServer { s =>
-      val server       = new LanguageServerImpl(s)
       val mainFilePath = s"file://api.raml"
       val libFilePath  = s"file://lib1.raml"
 
@@ -144,27 +132,19 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
           openFileNotification(s)(libFilePath, libFileContent)
           openFileNotification(s)(mainFilePath, mainContent)
         }
-        v1 <- FutureConverters.toScala(executeCommandValidate(server)(mainFilePath))
+        v1 <- requestCleanDiagnostic(s)(mainFilePath)
         _  <- changeNotification(s)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
-        v2 <- FutureConverters.toScala(executeCommandValidate(server)(mainFilePath))
+        v2 <- requestCleanDiagnostic(s)(mainFilePath)
 
       } yield {
-        server.shutdown()
+        s.shutdown()
 
         diagnosticsClient.promises.clear()
-        v1 match {
-          case Some(reports: Seq[PublishDiagnosticsParams]) =>
-            reports.size should be(1)
-            reports.head.diagnostics.size should be(1)
-          case _ => fail("wrong type")
-        }
-        v2 match {
-          case Some(reports: Seq[PublishDiagnosticsParams]) =>
-            reports.size should be(0) // fixed error
-
-          case _ => fail("wrong type")
-        }
-
+        v1.size should be(2)
+        v1.head.diagnostics.size should be(1)
+        v1.last.diagnostics.size should be(0)
+        v2.size should be(2) // fixed error
+        v2.head.diagnostics.size should be(0)
       }
     }
   }
@@ -176,6 +156,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
 
     new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, DefaultServerSystemConf)
       .addInitializableModule(dm)
+      .addRequestModule(managers.cleanDiagnosticManager)
       .build()
   }
 

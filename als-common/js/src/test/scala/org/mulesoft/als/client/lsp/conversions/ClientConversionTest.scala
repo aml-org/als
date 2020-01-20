@@ -51,6 +51,7 @@ import org.mulesoft.lsp.configuration._
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.diagnostic.{
+  CleanDiagnosticTreeClientCapabilities,
   Diagnostic,
   DiagnosticClientCapabilities,
   DiagnosticRelatedInformation,
@@ -243,12 +244,15 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   it should "transform AlsClientCapabilities" in {
-    val acp: AlsClientCapabilities        = AlsClientCapabilities(Some(SerializationClientCapabilities(true)))
+    val acp: AlsClientCapabilities = AlsClientCapabilities(Some(SerializationClientCapabilities(true)),
+                                                           Some(CleanDiagnosticTreeClientCapabilities(true)))
     val acp1: ClientAlsClientCapabilities = acp.toClient
     val acp2: AlsClientCapabilities       = acp1.toShared
 
     acp.serialization should be(acp2.serialization)
+    acp.cleanDiagnosticTree should be(acp2.cleanDiagnosticTree)
     acp.serialization.get.acceptsNotification should be(acp2.serialization.get.acceptsNotification)
+    acp.cleanDiagnosticTree.get.enableCleanDiagnostic should be(acp2.cleanDiagnosticTree.get.enableCleanDiagnostic)
   }
 
   val sc: ServerCapabilities = ServerCapabilities(Some(Left(TextDocumentSyncKind(1))), Some(CompletionOptions()))

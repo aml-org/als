@@ -9,7 +9,7 @@ import org.eclipse.lsp4j.ExecuteCommandOptions
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{Location, LocationLink, Position, Range, VersionedTextDocumentIdentifier}
-import org.mulesoft.lsp.configuration.{InitializeResult, ServerCapabilities}
+import org.mulesoft.lsp.configuration.{AlsServerCapabilities, InitializeResult, ServerCapabilities}
 import org.mulesoft.lsp.edit.{
   CreateFile,
   DeleteFile,
@@ -314,6 +314,15 @@ object Lsp4JConversions {
 
   implicit def lsp4JInitializeResult(result: InitializeResult): lsp4j.InitializeResult =
     new lsp4j.InitializeResult(result.capabilities)
+
+  implicit def alsServerCapabilities(capabilities: AlsServerCapabilities): extension.AlsServerCapabilities = {
+    val result = new extension.AlsServerCapabilities()
+    capabilities.cleanDiagnostics.foreach(cd =>
+      result.setCleanDiagnosticTree(new extension.CleanDiagnosticTreeServerOptions(cd.supported)))
+    capabilities.serialization.foreach(s =>
+      result.setSerialization(new extension.SerializationServerOptions(s.supportsSerialization)))
+    result
+  }
 
   implicit def lsp4JDiagnosticSeverity(diagnostic: DiagnosticSeverity): lsp4j.DiagnosticSeverity =
     lsp4j.DiagnosticSeverity.forValue(diagnostic.id)

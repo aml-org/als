@@ -6,14 +6,18 @@ import org.mulesoft.als.server.modules.ast.BaseUnitListener
 import org.mulesoft.als.server.modules.workspace.DiagnosticsBundle
 import org.mulesoft.als.server.{ClientNotifierModule, SerializationProps}
 import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
-import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.feature.serialization.{SerializationClientCapabilities, SerializationMessage}
+import org.mulesoft.lsp.feature.serialization.{
+  SerializationClientCapabilities,
+  SerializationConfigType,
+  SerializationMessage,
+  SerializationServerOptions
+}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class SerializationManager[S](platform: Platform, props: SerializationProps[S])
-    extends ClientNotifierModule[SerializationClientCapabilities, Unit]
+    extends ClientNotifierModule[SerializationClientCapabilities, SerializationServerOptions]
     with BaseUnitListener {
 
   private var enabled: Boolean = false
@@ -43,11 +47,10 @@ class SerializationManager[S](platform: Platform, props: SerializationProps[S])
 
   override def onRemoveFile(uri: String): Unit = {}
 
-  override def applyConfig(config: Option[SerializationClientCapabilities]): Unit = {
+  override def applyConfig(config: Option[SerializationClientCapabilities]): SerializationServerOptions = {
     config.foreach(c => enabled = c.acceptsNotification)
+    SerializationServerOptions(true)
   }
 
   override def initialize(): Future[Unit] = Future.successful()
 }
-
-case object SerializationConfigType extends ConfigType[SerializationClientCapabilities, Unit]

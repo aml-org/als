@@ -30,7 +30,7 @@ class SerializationNotificationTest extends LanguageServerBaseTest {
   protected val factory: WorkspaceManagerFactory = factoryBuilder.buildWorkspaceManagerFactory()
 
   def notifyAlsClientCapabilities(server: LanguageServer): Unit =
-    server.notifyAlsClientCapabilities(AlsClientCapabilities(Some(SerializationClientCapabilities(true))))
+    server.notifyAlsClientCapabilities(AlsClientCapabilities(Some(SerializationClientCapabilities(true)), None))
 
   override def withServer[R](fn: LanguageServer => Future[R]): Future[R] = {
     val ovFn: LanguageServer => Future[R] = s => {
