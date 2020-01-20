@@ -23,6 +23,7 @@ import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
 import org.mulesoft.lsp.feature.diagnostic.{
+  CleanDiagnosticTreeClientCapabilities,
   Diagnostic,
   DiagnosticClientCapabilities,
   DiagnosticRelatedInformation,
@@ -323,6 +324,10 @@ object LspConversions {
     DocumentLinkOptions(Option(options.getResolveProvider))
 
   implicit def alsClientCapabilities(clientCapabilities: extension.AlsClientCapabilities): AlsClientCapabilities =
-    AlsClientCapabilities(Option(clientCapabilities.getSerialization).map(s =>
-      SerializationClientCapabilities(acceptsNotification = s.getSupportsSerialization)))
+    AlsClientCapabilities(
+      Option(clientCapabilities.getSerialization).map(s =>
+        SerializationClientCapabilities(acceptsNotification = s.getSupportsSerialization)),
+      Option(clientCapabilities.getCleanDiagnosticTree).map(dt =>
+        CleanDiagnosticTreeClientCapabilities(enableCleanDiagnostic = dt.getEnabledCleanDiagnostic))
+    )
 }

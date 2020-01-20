@@ -59,6 +59,7 @@ object LanguageServerFactory {
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, languageServerSystemConf)
       .addInitializableModule(dm)
       .addInitializableModule(sm)
+      .addInitializable(factory.cleanDiagnosticManager)
       .addInitializable(factory.workspaceManager)
       .addRequestModule(factory.completionManager)
       .addRequestModule(factory.structureManager)

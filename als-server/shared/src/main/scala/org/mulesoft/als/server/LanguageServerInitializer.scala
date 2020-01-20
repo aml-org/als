@@ -1,22 +1,17 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.als.server.modules.serialization.SerializationConfigType
-import org.mulesoft.lsp.{ConfigType, Initializable}
-import org.mulesoft.lsp.configuration.{
-  AlsClientCapabilities,
-  ClientCapabilities,
-  InitializeParams,
-  InitializeResult,
-  ServerCapabilities
-}
+import org.mulesoft.lsp.configuration._
 import org.mulesoft.lsp.feature.codeactions.CodeActionConfigType
 import org.mulesoft.lsp.feature.completion.CompletionConfigType
 import org.mulesoft.lsp.feature.definition.DefinitionConfigType
+import org.mulesoft.lsp.feature.diagnostic.CleanDiagnosticTreeConfigType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolConfigType
 import org.mulesoft.lsp.feature.link.DocumentLinkConfigType
 import org.mulesoft.lsp.feature.reference.ReferenceConfigType
 import org.mulesoft.lsp.feature.rename.RenameConfigType
+import org.mulesoft.lsp.feature.serialization.SerializationConfigType
 import org.mulesoft.lsp.textsync.TextDocumentSyncConfigType
+import org.mulesoft.lsp.{ConfigType, Initializable}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -41,8 +36,11 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
     configMap(configType).map(_.applyConfig(config))
   }
 
-  def applyAlsCapabilities(clientCapabilities: AlsClientCapabilities): Unit = {
-    applyConfig(SerializationConfigType, clientCapabilities.serialization)
+  def applyAlsCapabilities(clientCapabilities: AlsClientCapabilities): AlsServerCapabilities = {
+    AlsServerCapabilities(
+      applyConfig(SerializationConfigType, clientCapabilities.serialization),
+      applyConfig(CleanDiagnosticTreeConfigType, clientCapabilities.cleanDiagnosticTree)
+    )
   }
 
   def initialize(params: InitializeParams): Future[InitializeResult] = {
