@@ -1,8 +1,7 @@
 package org.mulesoft.als.server.workspace
 
-import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.modules.structure.StructureManager
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
+import org.mulesoft.als.server._
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
@@ -15,10 +14,12 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
 
-  override implicit val executionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   private val notifier = new MockTelemetryClientNotifier()
-  private val factory  = ManagersFactory(notifier, logger, withDiagnostics = false)
+
+  val alsClientNotifier: MockAlsClientNotifier = new MockAlsClientNotifier
+  private val factory                          = new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
 
   private val editorFiles = factory.container
 

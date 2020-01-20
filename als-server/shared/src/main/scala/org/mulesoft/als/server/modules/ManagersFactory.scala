@@ -1,29 +1,62 @@
 package org.mulesoft.als.server.modules
 
+import org.mulesoft.als.server.SerializationProps
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.actions.{DocumentLinksManager, FindReferenceManager, GoToDefinitionManager}
+import org.mulesoft.als.server.modules.ast.BaseUnitListener
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
 import org.mulesoft.als.server.modules.diagnostic.{ALL_TOGETHER, DiagnosticManager, DiagnosticNotificationsKind}
+import org.mulesoft.als.server.modules.serialization.SerializationManager
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
 import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.lsp.{Initializable, InitializableModule}
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServerSystemConf}
 
-case class ManagersFactory(clientNotifier: ClientNotifier,
-                           logger: Logger,
-                           configuration: LanguageServerSystemConf = DefaultServerSystemConf,
-                           withDiagnostics: Boolean = true,
-                           notificationKind: Option[DiagnosticNotificationsKind] = None) {
+import scala.collection.immutable
+import scala.collection.mutable.ListBuffer
+
+class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Logger) {
+
+  private var configuration: LanguageServerSystemConf       = DefaultServerSystemConf
+  private var notificationKind: DiagnosticNotificationsKind = ALL_TOGETHER
+
+  def withConfiguration(configuration: LanguageServerSystemConf): WorkspaceManagerFactoryBuilder = {
+    this.configuration = configuration
+    this
+  }
+
+  def withNotificationKind(nk: DiagnosticNotificationsKind): WorkspaceManagerFactoryBuilder = {
+    notificationKind = nk
+    this
+  }
+
+  private val projectDependencies: ListBuffer[InitializableModule[_, _] with BaseUnitListener] = ListBuffer()
+
   val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
-  // todo initialize amf
-  //  val astManager                         = new AstManager(editorEnvironment.environment, telemetryManager, platform, logger)
 
-  lazy val diagnosticManager =
-    new DiagnosticManager(telemetryManager, clientNotifier, logger, notificationKind.getOrElse(ALL_TOGETHER))
+  def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
+    val s = new SerializationManager(configuration.platform, sp)
+    projectDependencies += s
+    s
+  }
 
-  private val projectDependencies      = if (withDiagnostics) List(diagnosticManager) else Nil
+  def diagnosticManager(): DiagnosticManager = {
+    val dm = new DiagnosticManager(telemetryManager, clientNotifier, logger, notificationKind)
+    projectDependencies += dm
+    dm
+  }
+
+  def buildWorkspaceManagerFactory(): WorkspaceManagerFactory =
+    WorkspaceManagerFactory(projectDependencies.toList, telemetryManager, logger, configuration)
+}
+
+case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
+                                   telemetryManager: TelemetryManager,
+                                   logger: Logger,
+                                   configuration: LanguageServerSystemConf) {
   val container: TextDocumentContainer = TextDocumentContainer(configuration)
 
   val workspaceManager     = new WorkspaceManager(container, telemetryManager, projectDependencies, logger, configuration)

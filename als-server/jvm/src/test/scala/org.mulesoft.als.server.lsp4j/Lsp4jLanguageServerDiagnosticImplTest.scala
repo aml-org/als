@@ -5,9 +5,9 @@ import java.util.concurrent.CompletableFuture
 
 import amf.core.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.ExecuteCommandParams
-import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.workspace.command.Commands
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 
@@ -16,6 +16,7 @@ import scala.concurrent.Future
 
 class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with PlatformSecrets {
 
+  val diagnosticsClient = new MockDiagnosticClientNotifier
   // TODO: check if a new validation should be sent from WorkspaceContentCollection when "onFocus" (when the BU is already parsed)
   test("Lsp4j LanguageServerImpl Command - Did Focus: Command should notify DidFocus") {
     def wrapJson(uri: String, version: String): String =
@@ -66,17 +67,17 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
        */
       for {
         _      <- openFileNotification(s)(libFilePath, libFileContent)
-        a      <- MockDiagnosticClientNotifier.nextCall
+        a      <- diagnosticsClient.nextCall
         _      <- openFileNotification(s)(mainFilePath, mainContent)
-        b      <- MockDiagnosticClientNotifier.nextCall
-        c      <- MockDiagnosticClientNotifier.nextCall // dependency of main
+        b      <- diagnosticsClient.nextCall
+        c      <- diagnosticsClient.nextCall // dependency of main
         _      <- executeCommandFocus(server)(libFilePath, 0)
-        focus1 <- MockDiagnosticClientNotifier.nextCall
+        focus1 <- diagnosticsClient.nextCall
         _      <- changeNotification(s)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
-        d      <- MockDiagnosticClientNotifier.nextCall
+        d      <- diagnosticsClient.nextCall
         _      <- executeCommandFocus(server)(mainFilePath, 0)
-        focus2 <- MockDiagnosticClientNotifier.nextCall
-        focus3 <- MockDiagnosticClientNotifier.nextCall
+        focus2 <- diagnosticsClient.nextCall
+        focus3 <- diagnosticsClient.nextCall
       } yield {
         server.shutdown()
         assert(
@@ -150,7 +151,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
       } yield {
         server.shutdown()
 
-        MockDiagnosticClientNotifier.promises.clear()
+        diagnosticsClient.promises.clear()
         v1 match {
           case Some(reports: Seq[PublishDiagnosticsParams]) =>
             reports.size should be(1)
@@ -169,11 +170,12 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
   }
 
   override def buildServer(): LanguageServer = {
-
-    val managers = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = true)
+    val builder  = new WorkspaceManagerFactoryBuilder(diagnosticsClient, logger)
+    val dm       = builder.diagnosticManager()
+    val managers = builder.buildWorkspaceManagerFactory()
 
     new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, DefaultServerSystemConf)
-      .addInitializableModule(managers.diagnosticManager)
+      .addInitializableModule(dm)
       .build()
   }
 

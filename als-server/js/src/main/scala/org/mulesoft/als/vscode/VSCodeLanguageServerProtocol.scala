@@ -15,6 +15,7 @@ import org.mulesoft.als.client.lsp.feature.documentsymbol.{
 }
 import org.mulesoft.als.client.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
 import org.mulesoft.als.client.lsp.feature.reference.ClientReferenceParams
+import org.mulesoft.als.client.lsp.feature.serialization.ClientSerializationMessage
 import org.mulesoft.als.client.lsp.feature.telemetry.ClientTelemetryMessage
 import org.mulesoft.als.client.lsp.textsync.{
   ClientDidChangeTextDocumentParams,
@@ -24,7 +25,7 @@ import org.mulesoft.als.client.lsp.textsync.{
 import org.mulesoft.als.client.lsp.workspace.ClientExecuteCommandParams
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.JSImport
+import scala.scalajs.js.annotation.{JSExport, JSExportAll, JSImport}
 import scala.scalajs.js.|
 
 // Exclude from coverage because native functions are not tracked

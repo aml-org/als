@@ -1,8 +1,9 @@
 package org.mulesoft.als.server.workspace
 
-import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
 import org.mulesoft.als.server.workspace.command.Commands
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.common.{Position, Range}
 import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
@@ -13,9 +14,12 @@ import scala.concurrent.ExecutionContext
 
 class WorkspaceManagerTest extends LanguageServerBaseTest {
 
-  override implicit val executionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  private val factory = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = true)
+  val diagnosticClientNotifier = new MockDiagnosticClientNotifier
+  val builder                  = new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
+  val dm: DiagnosticManager    = builder.diagnosticManager()
+  private val factory          = builder.buildWorkspaceManagerFactory()
 
   private val editorFiles = factory.container
 
@@ -23,9 +27,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     withServer[Assertion] { server =>
       for {
         _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
-        a <- MockDiagnosticClientNotifier.nextCall
-        b <- MockDiagnosticClientNotifier.nextCall
-        c <- MockDiagnosticClientNotifier.nextCall
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
+        c <- diagnosticClientNotifier.nextCall
       } yield {
         val allDiagnostics = Seq(a, b, c)
         assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
@@ -37,8 +41,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     withServer[Assertion] { server =>
       for {
         _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws3")}")))
-        a <- MockDiagnosticClientNotifier.nextCall
-        b <- MockDiagnosticClientNotifier.nextCall
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
       } yield {
         val allDiagnostics = Seq(a, b)
         assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
@@ -51,9 +55,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val rootFolder = s"${filePath("ws-error-stack-1")}"
       for {
         _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
-        a <- MockDiagnosticClientNotifier.nextCall
-        b <- MockDiagnosticClientNotifier.nextCall
-        c <- MockDiagnosticClientNotifier.nextCall
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
+        c <- diagnosticClientNotifier.nextCall
       } yield {
         val allDiagnostics = Seq(a, b, c)
         assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
@@ -83,8 +87,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val rootFolder = s"${filePath("ws-error-stack-2")}"
       for {
         _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
-        a <- MockDiagnosticClientNotifier.nextCall
-        b <- MockDiagnosticClientNotifier.nextCall
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
       } yield {
         val allDiagnostics = Seq(a, b)
         assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
@@ -111,8 +115,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val rootFolder = s"${filePath("ws-error-stack-3")}"
       for {
         _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
-        a <- MockDiagnosticClientNotifier.nextCall
-        b <- MockDiagnosticClientNotifier.nextCall
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
       } yield {
         val allDiagnostics = Seq(a, b)
         assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
@@ -139,10 +143,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val rootFolder = s"${filePath("ws-error-stack-4")}"
       for {
         _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
-        a <- MockDiagnosticClientNotifier.nextCall
-        b <- MockDiagnosticClientNotifier.nextCall
-        c <- MockDiagnosticClientNotifier.nextCall
-        d <- MockDiagnosticClientNotifier.nextCall
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
+        c <- diagnosticClientNotifier.nextCall
+        d <- diagnosticClientNotifier.nextCall
       } yield {
         val allDiagnostics = Seq(a, b, c, d)
         assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
@@ -192,15 +196,15 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       for {
         _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
         // api.raml, fragment.raml
-        a <- MockDiagnosticClientNotifier.nextCall
-        b <- MockDiagnosticClientNotifier.nextCall
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
         _ <- changeNotification(server)(s"$root/exchange.json", changedConfig, 2)
         // api2.raml
-        c <- MockDiagnosticClientNotifier.nextCall
+        c <- diagnosticClientNotifier.nextCall
         _ <- changeNotification(server)(s"$root/exchange.json", originalConfig, 3)
         // api.raml, fragment.raml
-        d <- MockDiagnosticClientNotifier.nextCall
-        e <- MockDiagnosticClientNotifier.nextCall
+        d <- diagnosticClientNotifier.nextCall
+        e <- diagnosticClientNotifier.nextCall
 
       } yield {
         val first = Seq(a, b)
@@ -228,19 +232,19 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       for {
         _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
         // api.raml, fragment.raml
-        a <- MockDiagnosticClientNotifier.nextCall
-        b <- MockDiagnosticClientNotifier.nextCall
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
                                List(s"""{"mainUri": "$api2Root", "dependencies": []}""")))
         // api2.raml
-        c <- MockDiagnosticClientNotifier.nextCall
+        c <- diagnosticClientNotifier.nextCall
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
                                List(s"""{"mainUri": "$apiRoot", "dependencies": []}""")))
         // api.raml, fragment.raml
-        d <- MockDiagnosticClientNotifier.nextCall
-        e <- MockDiagnosticClientNotifier.nextCall
+        d <- diagnosticClientNotifier.nextCall
+        e <- diagnosticClientNotifier.nextCall
 
       } yield {
         val first = Seq(a, b)
@@ -258,10 +262,11 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
-  override def buildServer(): LanguageServer =
+  override def buildServer(): LanguageServer = {
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
       .addRequestModule(factory.structureManager)
       .build()
+  }
 
   override def rootPath: String = "workspace"
 
