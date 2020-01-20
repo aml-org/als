@@ -7,8 +7,6 @@ target/
 *.cache
 build/
 .gradle
-*als-server.js
-*als-server.js.map
 
 .DS_Store
 node_modules
@@ -22,3 +20,8 @@ node_modules
 *als-node-client.js.map
 *als-node-client.min.js
 *als-node-client.min.js.map
+
+*als-server.js
+*als-server.js.map
+*als-server.min.js
+*als-server.min.js.map
