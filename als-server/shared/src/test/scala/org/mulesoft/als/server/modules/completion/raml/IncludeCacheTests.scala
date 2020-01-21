@@ -7,7 +7,7 @@ import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer, LanguageServerSystemConf}
+import org.mulesoft.lsp.server.{DefaultAmfConfiguration, LanguageServer, LanguageServerSystemConf}
 import org.scalatest.Assertion
 
 import scala.collection.mutable
@@ -23,9 +23,9 @@ class IncludeCacheTests extends RAMLSuggestionTestServer {
 
   def buildServer(rl: ResourceLoader): LanguageServer = {
     val factory = new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
-      .withConfiguration(DummyLanguageServerSystemConf(rl))
+      .withAmfConfiguration(DefaultAmfConfiguration)
       .buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.completionManager)
       .build()
   }

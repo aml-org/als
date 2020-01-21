@@ -3,7 +3,7 @@ package org.mulesoft.als.server.modules.telemetry
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockTelemetryClientNotifier}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryMessage}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
+import org.mulesoft.lsp.server.LanguageServer
 
 import scala.concurrent.{ExecutionContext, Future}
 // TODO: keep each manager inside each test, instantiated with separated ClientNotifiers, which receive
@@ -20,7 +20,7 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
     val dm = builder.diagnosticManager()
     val factory = builder.buildWorkspaceManagerFactory()
 
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
         .addInitializableModule(dm)
         .build()
   }

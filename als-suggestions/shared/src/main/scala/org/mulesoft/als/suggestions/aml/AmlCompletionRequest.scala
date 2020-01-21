@@ -4,9 +4,7 @@ import amf.core.annotations.{LexicalInformation, SourceAST, SynthesizedField}
 import amf.core.model.document.{BaseUnit, Document}
 import amf.core.model.domain.{AmfArray, AmfObject, DomainElement}
 import amf.core.parser.{FieldEntry, Position => AmfPosition}
-import amf.core.remote.Platform
 import amf.dialects.{RAML08Dialect, RAML10Dialect}
-import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import org.mulesoft.als.common.AmfSonElementFinder._
@@ -15,12 +13,13 @@ import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
+import org.mulesoft.lsp.server.LanguageServerSystemConf
 import org.yaml.model.{YDocument, YNode, YType}
 
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: DtoPosition,
                            val actualDialect: Dialect,
-                           val env: CompletionEnvironment,
+                           val languageEnvironment: LanguageServerSystemConf,
                            val styler: SuggestionRender,
                            val yPartBranch: YPartBranch,
                            private val objectInTree: ObjectInTree,
@@ -115,7 +114,7 @@ object AmlCompletionRequestBuilder {
   def build(baseUnit: BaseUnit,
             position: AmfPosition,
             dialect: Dialect,
-            env: CompletionEnvironment,
+            languageEnvironment: LanguageServerSystemConf,
             patchedContent: PatchedContent,
             snippetSupport: Boolean): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
@@ -137,7 +136,13 @@ object AmlCompletionRequestBuilder {
                                                snippetSupport,
                                                indentation(baseUnit, dtoPosition))
     val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
-    new AmlCompletionRequest(baseUnit, DtoPosition(position), dialect, env, styler, yPartBranch, objectInTree)
+    new AmlCompletionRequest(baseUnit,
+                             DtoPosition(position),
+                             dialect,
+                             languageEnvironment,
+                             styler,
+                             yPartBranch,
+                             objectInTree)
   }
 
   private def prefix(yPartBranch: YPartBranch, position: DtoPosition): String = {
@@ -189,7 +194,7 @@ object AmlCompletionRequestBuilder {
       parent.baseUnit,
       parent.position,
       parent.actualDialect,
-      parent.env,
+      parent.languageEnvironment,
       parent.styler,
       parent.yPartBranch,
       objectInTree,
@@ -197,5 +202,3 @@ object AmlCompletionRequestBuilder {
     )
   }
 }
-
-case class CompletionEnvironment(directoryResolver: DirectoryResolver, platform: Platform, env: Environment)

@@ -18,7 +18,7 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.structureManager)
       .build()
   }

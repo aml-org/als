@@ -1,11 +1,6 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.lsp.configuration.{
-  AlsClientCapabilities,
-  AlsServerCapabilities,
-  AlsInitializeParams,
-  AlsInitializeResult
-}
+import org.mulesoft.lsp.configuration.{AlsInitializeParams, AlsInitializeResult}
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer, LanguageServerSystemConf}
 import org.mulesoft.lsp.textsync.TextDocumentSyncConsumer

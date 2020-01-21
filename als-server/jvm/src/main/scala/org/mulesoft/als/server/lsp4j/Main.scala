@@ -31,12 +31,6 @@ object Main {
           innerReadOptions(options.copy(port = value.toInt), tail)
         case "--listen" :: tail =>
           innerReadOptions(options.copy(listen = true), tail)
-        case "--dialect" :: value :: tail =>
-          innerReadOptions(options.copy(dialectPath = Some(value)), tail)
-        case "--vocabulary" :: value :: tail =>
-          innerReadOptions(options.copy(vocabularyPath = Some(value)), tail)
-        case "--dialectProfile" :: value :: tail =>
-          innerReadOptions(options.copy(dialectName = Some(value)), tail)
         case _ =>
           throw new IllegalArgumentException()
       }
@@ -68,9 +62,6 @@ object Main {
           clientConnection,
           JvmSerializationProps(clientConnection),
           logger,
-          options.dialectPath
-            .map(readDialectFile(_, options.dialectName.get, options.vocabularyPath))
-            .toSeq,
           notificationKind = Some(PARSING_BEFORE)
         ))
 
@@ -92,13 +83,6 @@ object Main {
       case e: Exception =>
         e.printStackTrace()
     }
-  }
-
-  private def readDialectFile(path: String, profile: String, vocabularyPath: Option[String]) = {
-    CustomDialects(ProfileName(profile),
-                   path,
-                   new FileStream(path).toString(),
-                   vocabularyPath.map(vp => CustomVocabulary(vp, new FileStream(vp).toString())))
   }
 
 }

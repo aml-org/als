@@ -8,7 +8,7 @@ import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.rename.{RenameParams, RenameRequestType}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
+import org.mulesoft.lsp.server.LanguageServer
 import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -20,7 +20,7 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
   override def buildServer(): LanguageServer = {
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addInitializable(factory.documentManager)
       .build()
   }
