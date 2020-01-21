@@ -2,23 +2,19 @@ package org.mulesoft.als.server.modules.completion
 
 import java.util.UUID
 
-import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer}
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.als.suggestions
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
-import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import org.mulesoft.lsp.server.LanguageServerSystemConf
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -26,12 +22,12 @@ import scala.concurrent.Future
 class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                          val workspaceManager: WorkspaceManager,
                          private val telemetryProvider: TelemetryProvider,
-                         private val configuration: LanguageServerSystemConf,
                          private val logger: Logger)
     extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
 
   private var conf: Option[CompletionClientCapabilities] = None
 
+  private val suggestions = new Suggestions(editorEnvironment.amfConfig)
   private def snippetSupport =
     conf
       .getOrElse(CompletionClientCapabilities(contextSupport = None))
@@ -58,11 +54,11 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
     CompletionOptions(None, Some(Set('[')))
   }
 
-  override def initialize(): Future[Unit] =
-    suggestions.Core.init()
+  override def initialize(): Future[Unit] = suggestions.init()
 
   protected def onDocumentCompletion(uri: String, position: Position): Future[Seq[CompletionItem]] = {
-    val refinedUri            = configuration.platform.decodeURI(configuration.platform.resolvePath(uri))
+    val refinedUri =
+      editorEnvironment.amfConfig.platform.decodeURI(editorEnvironment.amfConfig.platform.resolvePath(uri))
     val telemetryUUID: String = UUID.randomUUID().toString
 
     logger.debug(s"Calling for completion for uri $uri and position $position",
@@ -138,7 +134,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                  syntax: Syntax,
                                  patchedContent: PatchedContent,
                                  uuid: String): Future[CompletionProvider] = {
-    val amfRefinedUri = FileUtils.getDecodedUri(uri, configuration.platform)
+    val amfRefinedUri = editorEnvironment.amfConfig.getDecodedUri(uri)
     telemetryProvider.addTimedMessage("Start parsing for completion",
                                       "SuggestionsManager",
                                       "buildCompletionProviderAST",
@@ -149,13 +145,12 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
 
     val eventualUnit =
       workspaceManager.getUnit(uri, uuid).flatMap { bu =>
-        ParserHelper(configuration.platform)
-          .parse(
-            amfRefinedUri,
-            patchedEnvironment.environment
-              .withResolver(CompletionReferenceResolver(bu.unit))
-              .withLoaders(patchedEnvironment.environment.loaders ++ configuration.environment.loaders)
-          )
+        editorEnvironment.amfConfig.parseHelper.parse(
+          amfRefinedUri,
+          patchedEnvironment.environment
+            .withResolver(CompletionReferenceResolver(bu.unit))
+            .withLoaders(patchedEnvironment.environment.loaders ++ editorEnvironment.amfConfig.environment.loaders)
+        )
       }
 
     eventualUnit.foreach { _ =>
@@ -167,12 +162,9 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                         uuid)
     }
 
-    Suggestions.buildProviderAsync(
+    suggestions.buildProviderAsync(
       eventualUnit.map(_.baseUnit),
       position,
-      configuration.directoryResolver,
-      configuration.platform,
-      patchedEnvironment.environment,
       uri,
       patchedContent,
       snippetSupport

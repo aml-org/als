@@ -14,7 +14,7 @@ import org.mulesoft.als.server._
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.lsp.configuration.{AlsClientCapabilities, AlsInitializeParams, TraceKind}
 import org.mulesoft.lsp.feature.serialization.SerializationClientCapabilities
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
+import org.mulesoft.lsp.server.LanguageServer
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -70,7 +70,7 @@ class SerializationNotificationTest extends LanguageServerBaseTest {
   }
 
   override def buildServer(): LanguageServer = {
-    val builder = new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
+    val builder = new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
     builder.addInitializableModule(serializationManager)
     builder.build()
   }

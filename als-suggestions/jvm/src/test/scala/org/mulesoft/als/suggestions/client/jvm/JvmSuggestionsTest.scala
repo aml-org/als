@@ -9,6 +9,7 @@ import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.amfmanager.InitOptions
 import org.scalatest.{AsyncFunSuite, Matchers}
 import amf.internal.environment.Environment
+import org.mulesoft.lsp.server.{AmfConfiguration, DefaultAmfConfiguration, LanguageServerEnvironmentInstance}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -46,15 +47,11 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
     : Environment = Environment().add(fileLoader) // .add(new ResourceLoaderAdapter(new FileResourceLoader()))
 
   test("Custom Resource Loader test") {
+    val s =
+      new Suggestions(AmfConfiguration(LanguageServerEnvironmentInstance(platform, environment, directoryResolver)))
     for {
-      _ <- Suggestions.init(InitOptions.AllProfiles)
-      suggestions <- Suggestions.suggest(Raml10.name,
-                                         url,
-                                         40,
-                                         directoryResolver,
-                                         environment,
-                                         platform,
-                                         snippetsSupport = true)
+      _           <- s.init(InitOptions.AllProfiles)
+      suggestions <- s.suggest(Raml10.name, url, 40, snippetsSupport = true)
     } yield {
       assert(suggestions.size == 14)
     }

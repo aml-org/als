@@ -18,17 +18,17 @@ import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.InitializableModule
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServerSystemConf}
+import org.mulesoft.lsp.server.{AmfConfiguration, DefaultAmfConfiguration}
 
 import scala.collection.mutable.ListBuffer
 
 class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Logger) {
 
-  private var configuration: LanguageServerSystemConf       = DefaultServerSystemConf
+  private var amfConfig: AmfConfiguration                   = DefaultAmfConfiguration
   private var notificationKind: DiagnosticNotificationsKind = ALL_TOGETHER
 
-  def withConfiguration(configuration: LanguageServerSystemConf): WorkspaceManagerFactoryBuilder = {
-    this.configuration = configuration
+  def withAmfConfiguration(amfConfig: AmfConfiguration): WorkspaceManagerFactoryBuilder = {
+    this.amfConfig = amfConfig
     this
   }
 
@@ -42,7 +42,7 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
   val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
 
   def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
-    val s = new SerializationManager(configuration.platform, sp)
+    val s = new SerializationManager(amfConfig, sp)
     projectDependencies += s
     s
   }
@@ -54,28 +54,28 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
   }
 
   def buildWorkspaceManagerFactory(): WorkspaceManagerFactory =
-    WorkspaceManagerFactory(projectDependencies.toList, telemetryManager, logger, configuration)
+    WorkspaceManagerFactory(projectDependencies.toList, telemetryManager, logger, amfConfig)
 }
 
 case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
                                    telemetryManager: TelemetryManager,
                                    logger: Logger,
-                                   configuration: LanguageServerSystemConf) {
-  val container: TextDocumentContainer = TextDocumentContainer(configuration)
+                                   amfConfiguration: AmfConfiguration) {
+  val container: TextDocumentContainer = TextDocumentContainer(amfConfiguration)
 
   val cleanDiagnosticManager = new CleanDiagnosticTreeManager(container, logger)
-  val workspaceManager       = new WorkspaceManager(container, telemetryManager, projectDependencies, logger, configuration)
+  val workspaceManager       = new WorkspaceManager(container, telemetryManager, projectDependencies, logger)
   lazy val documentManager   = new TextDocumentManager(container, List(workspaceManager), logger)
 
   lazy val completionManager =
-    new SuggestionsManager(container, workspaceManager, telemetryManager, configuration, logger)
+    new SuggestionsManager(container, workspaceManager, telemetryManager, logger)
 
   lazy val structureManager = new StructureManager(workspaceManager, telemetryManager, logger)
 
   lazy val definitionManager =
-    new GoToDefinitionManager(workspaceManager, telemetryManager, logger, configuration)
+    new GoToDefinitionManager(workspaceManager, telemetryManager, logger)
   lazy val referenceManager =
     new FindReferenceManager(workspaceManager, telemetryManager, logger)
   lazy val documentLinksManager =
-    new DocumentLinksManager(workspaceManager, telemetryManager, logger, configuration)
+    new DocumentLinksManager(workspaceManager, telemetryManager, logger)
 }

@@ -5,9 +5,10 @@ import amf.core.registries.AMFPluginsRegistry
 import amf.core.remote.Platform
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.suggestions.RawSuggestion
-import org.mulesoft.als.suggestions.aml.{AmlCompletionRequest, CompletionEnvironment}
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.amfmanager.dialect.DialectKnowledge
+import org.mulesoft.lsp.server.LanguageServerSystemConf
 
 import scala.concurrent.Future
 
@@ -25,11 +26,11 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
     if (DialectKnowledge.isRamlInclusion(params.yPartBranch, params.actualDialect) || DialectKnowledge.isJsonInclusion(
           params.yPartBranch,
           params.actualDialect)) {
-      resolveInclusion(params.baseUnit.location().getOrElse(""), params.env, params.prefix)
+      resolveInclusion(params.baseUnit.location().getOrElse(""), params.languageEnvironment, params.prefix)
     } else emptySuggestion
 
   def resolveInclusion(actualLocation: String,
-                       env: CompletionEnvironment,
+                       env: LanguageServerSystemConf,
                        prefix: String): Future[Seq[RawSuggestion]] = {
     val fullPath     = FileUtils.getPath(actualLocation, env.platform)
     val baseDir      = extractPath(fullPath) // root path for file
@@ -40,7 +41,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
 
     if (!prefix.startsWith("#"))
       if (fullURI.contains("#") && !fullURI.startsWith("#"))
-        PathNavigation(fullURI, env.platform, env.env, prefix).suggest()
+        PathNavigation(fullURI, env.platform, env.environment, prefix).suggest()
       else FilesEnumeration(env.directoryResolver, env.platform, actual, relativePath).filesIn(fullURI)
     else emptySuggestion
 

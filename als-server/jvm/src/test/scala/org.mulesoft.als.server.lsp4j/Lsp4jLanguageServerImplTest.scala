@@ -3,7 +3,6 @@ package org.mulesoft.als.server.lsp4j
 import java.io._
 import java.util
 
-import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
@@ -20,7 +19,7 @@ import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.server.workspace.command.{CommandExecutor, Commands, DidChangeConfigurationCommandExecutor}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
+import org.mulesoft.lsp.server.{AmfConfiguration, DefaultAmfConfiguration, LanguageServer}
 import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
 import org.mulesoft.lsp.workspace.{ExecuteCommandParams => SharedExecuteParams}
 
@@ -42,7 +41,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     val notifier: AlsClientNotifier[StringWriter] = new MockAlsClientNotifier
     val server = new LanguageServerImpl(
       LanguageServerFactory
-        .alsLanguageServer(clientConnection, JvmSerializationProps(notifier), logger, withDiagnostics = false))
+        .alsLanguageServer(clientConnection, JvmSerializationProps(notifier), logger))
 
     server.initialize(new AlsInitializeParams()).toScala.map(_ => succeed)
   }
@@ -58,7 +57,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     val notifier: AlsClientNotifier[StringWriter] = new MockAlsClientNotifier
     val server = new LanguageServerImpl(
       LanguageServerFactory
-        .alsLanguageServer(clientConnection, JvmSerializationProps(notifier), logger, withDiagnostics = false))
+        .alsLanguageServer(clientConnection, JvmSerializationProps(notifier), logger))
 
     server.initialize(null).toScala.map(_ => succeed)
   }
@@ -152,12 +151,11 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
           new EnvironmentProvider {
             override def environmentSnapshot(): Environment = ???
 
-            override val platform: Platform = p
+            override val amfConfig: AmfConfiguration = DefaultAmfConfiguration
           },
           new DummyTelemetryProvider(),
           Nil,
-          EmptyLogger,
-          DefaultServerSystemConf
+          EmptyLogger
         ) {
 
       private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(
@@ -186,7 +184,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     val dm       = builder.diagnosticManager()
     val managers = builder.buildWorkspaceManagerFactory()
 
-    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, DefaultServerSystemConf)
+    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager)
       .addInitializableModule(dm)
       .build()
   }

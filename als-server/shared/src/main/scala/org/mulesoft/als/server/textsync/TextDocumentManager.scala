@@ -30,7 +30,7 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
       ))
   }
 
-  override def initialize(): Future[Unit] = Future.successful()
+  override def initialize(): Future[Unit] = uriToEditor.initialize()
 
   def onOpenDocument(document: OpenedDocument): Unit = {
 
@@ -56,19 +56,13 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
         val currentVersion = current.version
         val currentText    = current.text
 
-        if (currentVersion == document.version) {
+        if (currentVersion == document.version)
           this.logger.debugDetail("Version of the reported change is equal to the previous one",
                                   "EditorManager",
                                   "onChangeDocument")
 
-          return
-        }
-
-        if (document.version < currentVersion && document.text.contains(currentText)) {
+        if (document.version < currentVersion && document.text.contains(currentText))
           this.logger.debugDetail("No changes detected", "EditorManager", "onChangeDocument")
-
-          return
-        }
 
       })
 
