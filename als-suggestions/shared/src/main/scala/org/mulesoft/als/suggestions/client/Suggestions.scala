@@ -11,7 +11,7 @@ import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher, PlatformD
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequestBuilder
 import org.mulesoft.als.suggestions.interfaces.Syntax._
-import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
+import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, EmptyCompletionProvider, Syntax}
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.amfmanager.InitOptions
 import org.mulesoft.amfmanager.dialect.DialectKnowledge
@@ -29,7 +29,7 @@ class Suggestions(platform: Platform,
   def init(options: InitOptions = InitOptions.WebApiProfiles): Future[Unit] =
     Core.init(options, amfInstance)
 
-  def suggest(language: String, url: String, position: Int, snippetsSupport: Boolean): Future[Seq[CompletionItem]] = {
+  def suggest(url: String, position: Int, snippetsSupport: Boolean): Future[Seq[CompletionItem]] = {
 
     platform
       .resolve(url, environment)
@@ -41,7 +41,7 @@ class Suggestions(platform: Platform,
       })
       .flatMap {
         case (patchedContent, patchedEnv) =>
-          suggestWithPatchedEnvironment(language, url, patchedContent, position, patchedEnv, snippetsSupport)
+          suggestWithPatchedEnvironment(url, patchedContent, position, patchedEnv, snippetsSupport)
       }
   }
 
@@ -68,8 +68,7 @@ class Suggestions(platform: Platform,
           Future(
             RamlHeaderCompletionProvider
               .build(url, patchedContent.original, DtoPosition(position, patchedContent.original)))
-      case _ =>
-        Future.failed(new Exception("Cannot find dialect for unit: " + bu.id))
+      case _ => Future.successful(EmptyCompletionProvider)
     }
   }
 
@@ -88,8 +87,7 @@ class Suggestions(platform: Platform,
       .replaceAll("^\\{?\\s+", "")
       .contains('\n')
 
-  private def suggestWithPatchedEnvironment(language: String,
-                                            url: String,
+  private def suggestWithPatchedEnvironment(url: String,
                                             patchedContent: PatchedContent,
                                             position: Int,
                                             environment: Environment,

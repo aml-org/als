@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.client.jvm
 
 import amf.client.remote.Content
-import amf.core.remote.{FileNotFound, Raml10}
+import amf.core.remote.FileNotFound
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
@@ -51,7 +51,7 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
       new Suggestions(platform, environment, directoryResolver, AmfInstance(platform, environment))
     for {
       _           <- s.init(InitOptions.AllProfiles)
-      suggestions <- s.suggest(Raml10.name, url, 40, snippetsSupport = true)
+      suggestions <- s.suggest(url, 40, snippetsSupport = true)
     } yield {
       assert(suggestions.size == 14)
     }
