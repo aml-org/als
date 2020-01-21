@@ -10,6 +10,8 @@ import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.amfmanager.InitOptions
 import org.mulesoft.lsp.server.{AmfConfiguration, LanguageServerEnvironmentInstance}
 import org.scalatest.{AsyncFunSuite, Matchers}
+import amf.internal.environment.Environment
+import org.mulesoft.lsp.server.{AmfConfiguration, DefaultAmfConfiguration, LanguageServerEnvironmentInstance}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -51,7 +53,7 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
       new Suggestions(AmfConfiguration(LanguageServerEnvironmentInstance(platform, environment, directoryResolver)))
     for {
       _           <- s.init(InitOptions.AllProfiles)
-      suggestions <- s.suggest(url, 40, snippetsSupport = true)
+      suggestions <- s.suggest( url, 40, snippetsSupport = true)
     } yield {
       assert(suggestions.size == 14)
     }
