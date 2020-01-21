@@ -5,6 +5,7 @@ import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
 import org.mulesoft.amfmanager.{CustomDialects, ParserHelper}
 import org.mulesoft.lsp.feature.completion.CompletionItem
+import org.mulesoft.lsp.server.DefaultAmfConfiguration
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -113,11 +114,9 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
 
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])
 
-  def init(): Future[Unit] = org.mulesoft.als.suggestions.Core.init()
-
   def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] = {
 
-    val helper = ParserHelper(platform)
+    val helper = new ParserHelper(platform, DefaultAmfConfiguration.init())
     helper.parse(path, env).map(_.baseUnit)
   }
 

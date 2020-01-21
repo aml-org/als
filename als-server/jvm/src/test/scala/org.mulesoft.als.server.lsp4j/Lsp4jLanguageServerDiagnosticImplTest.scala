@@ -154,7 +154,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
     val dm       = builder.diagnosticManager()
     val managers = builder.buildWorkspaceManagerFactory()
 
-    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, DefaultServerSystemConf)
+    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager)
       .addInitializableModule(dm)
       .addRequestModule(managers.cleanDiagnosticManager)
       .build()

@@ -11,19 +11,18 @@ import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.amfmanager.{CustomDialects, DialectInitializer, InitOptions}
 import org.mulesoft.lsp.feature.completion.CompletionItem
+import org.mulesoft.lsp.server.{AmfConfiguration, LanguageServerEnvironmentInstance}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 trait BaseSuggestionsForTest extends PlatformSecrets {
 
-  protected val directoryResolver = new PlatformDirectoryResolver(platform)
+  protected val dr = new PlatformDirectoryResolver(platform)
 
   def suggest(url: String, format: String, customDialect: Option[CustomDialects]): Future[Seq[CompletionItem]] = {
 
-    var position = 0
     for {
-      _       <- Suggestions.init(InitOptions.AllProfiles.withCustomDialects(customDialect.toSeq))
       content <- platform.resolve(url)
       r       <- suggestFromFile(content.stream.toString, url, content.mime, format, customDialect)
     } yield {
@@ -43,23 +42,17 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
 
     var position = 0
     for {
-      _ <- Suggestions.init(InitOptions.AllProfiles.withCustomDialects(customDialect.toSeq))
-      env <- Future.successful {
+      s <- Future.successful {
         val fileContentsStr = content
         val markerInfo      = this.findMarker(fileContentsStr)
 
         position = markerInfo.position
 
-        this.buildEnvironment(url, markerInfo.patchedContent.original, mime)
+        val environment = this.buildEnvironment(url, markerInfo.patchedContent.original, mime)
+        new Suggestions(AmfConfiguration(LanguageServerEnvironmentInstance(platform, environment, dr)))
       }
-
-      suggestions <- Suggestions.suggest(format,
-                                         url,
-                                         position,
-                                         directoryResolver,
-                                         env,
-                                         platform,
-                                         snippetsSupport = true)
+      _           <- s.init(InitOptions.AllProfiles.withCustomDialects(customDialect.toSeq))
+      suggestions <- s.suggest(format, url, position, snippetsSupport = true)
     } yield suggestions
   }
 
