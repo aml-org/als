@@ -12,8 +12,7 @@ import scala.concurrent.Future
 class LanguageServerImpl(val textDocumentSyncConsumer: TextDocumentSyncConsumer,
                          val workspaceService: WorkspaceService,
                          private val languageServerInitializer: LanguageServerInitializer,
-                         private val requestHandlerMap: RequestMap,
-                         private val systemConfiguration: LanguageServerSystemConf = DefaultServerSystemConf)
+                         private val requestHandlerMap: RequestMap)
     extends LanguageServer {
 
   override def initialize(params: AlsInitializeParams): Future[AlsInitializeResult] =
