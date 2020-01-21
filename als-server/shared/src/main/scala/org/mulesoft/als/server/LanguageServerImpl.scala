@@ -31,6 +31,4 @@ class LanguageServerImpl(val textDocumentSyncConsumer: TextDocumentSyncConsumer,
 
   override def resolveHandler[P, R](requestType: RequestType[P, R]): Option[RequestHandler[P, R]] =
     requestHandlerMap(requestType)
-
-  override def configuration: LanguageServerSystemConf = systemConfiguration
 }
