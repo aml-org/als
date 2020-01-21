@@ -22,8 +22,6 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  def format: String
-
   def rootPath: String
 
   def suggest(path: String,
@@ -42,7 +40,7 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
         (this.buildEnvironment(url, markerInfo.patchedContent.original, content.mime), markerInfo.position)
       }
 
-      suggestions <- suggestions.suggest(format, url, position, snippetsSupport = true)
+      suggestions <- suggestions.suggest(url, position, snippetsSupport = true)
     } yield suggestions
   }
 

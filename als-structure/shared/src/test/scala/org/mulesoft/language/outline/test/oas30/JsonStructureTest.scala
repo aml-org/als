@@ -3,7 +3,6 @@ package org.mulesoft.language.outline.test.oas30
 import org.mulesoft.language.outline.test.BaseStructureTest
 
 class JsonStructureTest extends BaseStructureTest {
-  override def format: String = "OAS 3.0"
 
   override def rootPath: String = "OAS30"
 

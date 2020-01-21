@@ -41,7 +41,7 @@ object JsSuggestions extends PlatformSecrets {
     new Suggestions(
       AmfConfiguration(
         LanguageServerEnvironmentInstance(platform, environment, DirectoryResolverAdapter.convert(dirResolver))))
-      .suggest(language, url, position, snippetSupport)
+      .suggest(url, position, snippetSupport)
       .map(_.map(_.toClient).toJSArray)
       .toJSPromise
   }

@@ -100,8 +100,6 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
     }
   }
 
-  def format: String
-
   def rootPath: String
 
   def suggest(path: String,
@@ -109,7 +107,7 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
               cutTail: Boolean,
               labels: Array[String],
               customDialect: Option[CustomDialects] = None): Future[Seq[CompletionItem]] = {
-    super.suggest(filePath(path), format, customDialect)
+    super.suggest(filePath(path), customDialect)
   }
 
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])

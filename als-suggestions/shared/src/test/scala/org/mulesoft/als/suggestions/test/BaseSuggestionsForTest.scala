@@ -20,11 +20,11 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
 
   protected val dr = new PlatformDirectoryResolver(platform)
 
-  def suggest(url: String, format: String, customDialect: Option[CustomDialects]): Future[Seq[CompletionItem]] = {
+  def suggest(url: String, customDialect: Option[CustomDialects]): Future[Seq[CompletionItem]] = {
 
     for {
       content <- platform.resolve(url)
-      r       <- suggestFromFile(content.stream.toString, url, content.mime, format, customDialect)
+      r       <- suggestFromFile(content.stream.toString, url, content.mime, customDialect)
     } yield {
       customDialect.foreach(c => {
         AMLPlugin.registry.remove(c.url)
@@ -37,7 +37,6 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
   def suggestFromFile(content: String,
                       url: String,
                       mime: Option[String],
-                      format: String,
                       customDialect: Option[CustomDialects]): Future[Seq[CompletionItem]] = {
 
     var position = 0
@@ -52,7 +51,7 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
         new Suggestions(AmfConfiguration(LanguageServerEnvironmentInstance(platform, environment, dr)))
       }
       _           <- s.init(InitOptions.AllProfiles.withCustomDialects(customDialect.toSeq))
-      suggestions <- s.suggest(format, url, position, snippetsSupport = true)
+      suggestions <- s.suggest(url, position, snippetsSupport = true)
     } yield suggestions
   }
 
