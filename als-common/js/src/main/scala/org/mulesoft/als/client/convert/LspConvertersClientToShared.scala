@@ -22,12 +22,12 @@ import org.mulesoft.lsp.edit._
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
-import org.mulesoft.lsp.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, Diagnostic, DiagnosticClientCapabilities, DiagnosticRelatedInformation, DiagnosticSeverity}
+import org.mulesoft.lsp.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions, Diagnostic, DiagnosticClientCapabilities, DiagnosticRelatedInformation, DiagnosticSeverity}
 import org.mulesoft.lsp.feature.documentsymbol._
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
-import org.mulesoft.lsp.feature.serialization.SerializationClientCapabilities
+import org.mulesoft.lsp.feature.serialization.{SerializationClientCapabilities, SerializationServerOptions}
 import org.mulesoft.lsp.feature.telemetry.{TelemetryClientCapabilities, TelemetryMessage}
 import org.mulesoft.lsp.textsync.{TextDocumentSyncKind, _}
 import org.mulesoft.lsp.workspace._
@@ -119,11 +119,14 @@ object LspConvertersClientToShared {
       WorkspaceServerCapabilities(v.workspaceFolders.toOption.map(_.toShared))
   }
 
-  implicit class ClientCapabilitiesConverter(v: ClientClientCapabilities) {
-    def toShared: ClientCapabilities =
-      ClientCapabilities(v.workspace.map(_.toShared).toOption,
-                         v.textDocument.map(_.toShared).toOption,
-                         v.experimental.toOption)
+  implicit class ClientSerializationServerOptionsConverter(v: ClientSerializationServerOptions) {
+    def toShared: SerializationServerOptions =
+      SerializationServerOptions(v.supportsSerialization)
+  }
+
+  implicit class ClientCleanDiagnosticTreeOptionsConverter(v: ClientCleanDiagnosticTreeOptions) {
+    def toShared: CleanDiagnosticTreeOptions =
+      CleanDiagnosticTreeOptions(v.supported)
   }
 
   implicit class StaticRegistrationOptionsConverter(v: ClientStaticRegistrationOptions) {
@@ -264,10 +267,19 @@ object LspConvertersClientToShared {
       CompletionParams(v.textDocument.toShared, v.position.toShared, v.context.toOption.map(_.toShared))
   }
 
-  implicit class InitializeParamsConverter(v: ClientInitializeParams) {
-    def toShared: InitializeParams =
-      InitializeParams(
-        Some(v.capabilities.toShared),
+  implicit class AlsClientCapabilitiesConverter(v: ClientAlsClientCapabilities){
+    def toShared: AlsClientCapabilities = AlsClientCapabilities(
+      v.workspace.map(_.toShared).toOption,
+      v.textDocument.map(_.toShared).toOption,
+      v.experimental.toOption,
+      serialization = v.serialization.map(_.toShared).toOption,
+      cleanDiagnosticTree = v.cleanDiagnosticTree.map(_.toShared).toOption)
+  }
+
+  implicit class InitializeParamsConverter(v: ClientAlsInitializeParams) {
+    def toShared: AlsInitializeParams =
+      AlsInitializeParams(
+        Option(v.capabilities).map(c => new AlsClientCapabilitiesConverter(c).toShared),
         v.trace.toOption.map(TraceKind.withName),
         v.rootUri.toOption,
         Option(v.processId),
@@ -289,13 +301,9 @@ object LspConvertersClientToShared {
     }
   }
 
-  implicit class AlsClientCapabilitiesConverter(v: ClientAlsClientCapabilities){
-    def toShared: AlsClientCapabilities = AlsClientCapabilities(serialization = v.serialization.map(_.toShared).toOption,cleanDiagnosticTree = v.cleanDiagnosticTree.map(_.toShared).toOption)
-  }
-
-  implicit class ServerCapabilitiesConverter(v: ClientServerCapabilities) {
-    def toShared: ServerCapabilities =
-      ServerCapabilities(
+  implicit class ServerCapabilitiesConverter(v: ClientAlsServerCapabilities) {
+    def toShared: AlsServerCapabilities =
+      AlsServerCapabilities(
         v.textDocumentSync.toOption.map((textDocumentSync: Any) => textDocumentSync match {
           case value: Int => Left(TextDocumentSyncKind(value))
           case _ => Right(textDocumentSync.asInstanceOf[ClientTextDocumentSyncOptions].toShared)
@@ -308,13 +316,15 @@ object LspConvertersClientToShared {
         None,
         None,
         v.workspace.toOption.map(_.toShared),
-        v.experimental.toOption
+        v.experimental.toOption,
+        v.serialization.toOption.map(_.toShared),
+        v.cleanDiagnostics.toOption.map(_.toShared)
       )
   }
 
-  implicit class InitializeResultConverter(v: ClientInitializeResult) {
-    def toShared: InitializeResult =
-      InitializeResult(v.capabilities.toShared)
+  implicit class InitializeResultConverter(v: ClientAlsInitializeResult) {
+    def toShared: AlsInitializeResult =
+      AlsInitializeResult(v.capabilities.toShared)
   }
 
   implicit class CodeActionConverter(v: ClientCodeAction) {

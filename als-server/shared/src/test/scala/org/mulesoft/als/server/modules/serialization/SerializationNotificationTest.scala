@@ -12,7 +12,7 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
-import org.mulesoft.lsp.configuration.AlsClientCapabilities
+import org.mulesoft.lsp.configuration.{AlsClientCapabilities, AlsInitializeParams, TraceKind}
 import org.mulesoft.lsp.feature.serialization.SerializationClientCapabilities
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 
@@ -29,16 +29,9 @@ class SerializationNotificationTest extends LanguageServerBaseTest {
     factoryBuilder.serializationManager(JvmSerializationProps(alsClient))
   protected val factory: WorkspaceManagerFactory = factoryBuilder.buildWorkspaceManagerFactory()
 
-  def notifyAlsClientCapabilities(server: LanguageServer): Unit =
-    server.notifyAlsClientCapabilities(AlsClientCapabilities(Some(SerializationClientCapabilities(true)), None))
-
-  override def withServer[R](fn: LanguageServer => Future[R]): Future[R] = {
-    val ovFn: LanguageServer => Future[R] = s => {
-      notifyAlsClientCapabilities(s)
-      fn(s)
-    }
-    super.withServer(ovFn)
-  }
+  override val initializeParams: AlsInitializeParams = AlsInitializeParams(
+    Some(AlsClientCapabilities(serialization = Some(SerializationClientCapabilities(true)))),
+    Some(TraceKind.Off))
 
   test("Parse Model and check serialized json ld") {
     withServer { server =>

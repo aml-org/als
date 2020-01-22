@@ -3,7 +3,7 @@ package org.mulesoft.als.server.workspace
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem}
-import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
+import org.mulesoft.lsp.configuration.{AlsInitializeParams, TraceKind}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
@@ -24,7 +24,7 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
 
   private def testStructureForFile(server: LanguageServer, url: String) = {
     for {
-      _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+      _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
       _ <- {
         platform.resolve(url).map { c =>
           server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
