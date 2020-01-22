@@ -18,9 +18,9 @@ import scala.concurrent.Future
 
 class LanguageServerInitializer(private val configMap: ConfigMap, private val initializables: Seq[Initializable]) {
 
-  private def applyCapabilitiesConfig(clientCapabilities: ClientCapabilities): ServerCapabilities = {
+  private def applyCapabilitiesConfig(clientCapabilities: AlsClientCapabilities): AlsServerCapabilities = {
     val textDocument = clientCapabilities.textDocument
-    ServerCapabilities(
+    AlsServerCapabilities(
       applyConfig(TextDocumentSyncConfigType, textDocument.flatMap(_.synchronization)),
       applyConfig(CompletionConfigType, textDocument.flatMap(_.completion)),
       applyConfig(DefinitionConfigType, textDocument.flatMap(_.definition)).isDefined,
@@ -28,7 +28,11 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(DocumentSymbolConfigType, textDocument.flatMap(_.documentSymbol)).isDefined,
       applyConfig(RenameConfigType, textDocument.flatMap(_.rename)),
       applyConfig(CodeActionConfigType, textDocument.flatMap(_.codeActionCapabilities)),
-      applyConfig(DocumentLinkConfigType, textDocument.flatMap(_.documentLink))
+      applyConfig(DocumentLinkConfigType, textDocument.flatMap(_.documentLink)),
+      None,
+      None,
+      applyConfig(SerializationConfigType, clientCapabilities.serialization),
+      applyConfig(CleanDiagnosticTreeConfigType, clientCapabilities.cleanDiagnosticTree)
     )
   }
 
@@ -36,18 +40,11 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
     configMap(configType).map(_.applyConfig(config))
   }
 
-  def applyAlsCapabilities(clientCapabilities: AlsClientCapabilities): AlsServerCapabilities = {
-    AlsServerCapabilities(
-      applyConfig(SerializationConfigType, clientCapabilities.serialization),
-      applyConfig(CleanDiagnosticTreeConfigType, clientCapabilities.cleanDiagnosticTree)
-    )
-  }
-
-  def initialize(params: InitializeParams): Future[InitializeResult] = {
+  def initialize(params: AlsInitializeParams): Future[AlsInitializeResult] = {
     val serverCapabilities = applyCapabilitiesConfig(params.capabilities)
 
     Future
       .sequence(initializables.map(_.initialize()))
-      .map(_ => InitializeResult(serverCapabilities))
+      .map(_ => AlsInitializeResult(serverCapabilities))
   }
 }

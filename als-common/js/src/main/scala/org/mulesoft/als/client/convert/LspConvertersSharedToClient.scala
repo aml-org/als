@@ -23,12 +23,12 @@ import org.mulesoft.lsp.edit._
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
-import org.mulesoft.lsp.feature.diagnostic.{CleanDiagnosticTreeOptions, Diagnostic, DiagnosticClientCapabilities, DiagnosticRelatedInformation, PublishDiagnosticsParams}
+import org.mulesoft.lsp.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions, Diagnostic, DiagnosticClientCapabilities, DiagnosticRelatedInformation, PublishDiagnosticsParams}
 import org.mulesoft.lsp.feature.documentsymbol._
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
-import org.mulesoft.lsp.feature.serialization.{SerializationMessage, SerializationServerOptions}
+import org.mulesoft.lsp.feature.serialization.{SerializationClientCapabilities, SerializationMessage, SerializationServerOptions}
 import org.mulesoft.lsp.feature.telemetry.{TelemetryClientCapabilities, TelemetryMessage}
 import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace._
@@ -95,14 +95,24 @@ object LspConvertersSharedToClient {
       ClientTextDocumentClientCapabilities(v)
   }
 
+  implicit class ClientSerializationClientCapabilitiesConverter(v: SerializationClientCapabilities) {
+    def toClient: ClientSerializationClientCapabilities =
+      ClientSerializationClientCapabilities(v)
+  }
+
+  implicit class ClientCleanDiagnosticTreeClientCapabilitiesConverter(v: CleanDiagnosticTreeClientCapabilities) {
+    def toClient: ClientCleanDiagnosticTreeClientCapabilities =
+      ClientCleanDiagnosticTreeClientCapabilities(v)
+  }
+
   implicit class ClientWorkspaceClientCapabilitiesConverter(v: WorkspaceClientCapabilities) {
     def toClient: ClientWorkspaceClientCapabilities =
       ClientWorkspaceClientCapabilities(v)
   }
 
-  implicit class ClientClientCapabilitiesConverter(v: ClientCapabilities) {
-    def toClient: ClientClientCapabilities =
-      ClientClientCapabilities(v)
+  implicit class ClientAlsClientCapabilitiesConverter(v: AlsClientCapabilities) {
+    def toClient: ClientAlsClientCapabilities =
+      ClientAlsClientCapabilities(v)
   }
 
   implicit class ClientStaticRegistrationOptionsConverter(v: StaticRegistrationOptions) {
@@ -231,42 +241,19 @@ object LspConvertersSharedToClient {
       ClientWorkspaceFolderServerCapabilities(v)
   }
 
-  implicit class ClientInitializeParamsConverter(v: InitializeParams) {
-    def toClient: ClientInitializeParams =
-      ClientInitializeParams(v)
+  implicit class ClientAlsInitializeParamsConverter(v: AlsInitializeParams) {
+    def toClient: ClientAlsInitializeParams =
+      ClientAlsInitializeParams(v)
   }
 
-  implicit class ClientAlsClientCapabilitiesConverter(v: AlsClientCapabilities) {
-    def toClient: ClientAlsClientCapabilities =
-      new ClientAlsClientCapabilities(
-        v.serialization.map(s => new ClientSerializationClientCapabilities(s.acceptsNotification)).orUndefined,
-        v.cleanDiagnosticTree.map(s => new ClientCleanDiagnosticTreeClientCapabilities(s.enableCleanDiagnostic)).orUndefined
-      )
-  }
-
-  implicit class ClientServerCapabilitiesConverter(v: ServerCapabilities) {
-    def toClient: ClientServerCapabilities =
-      ClientServerCapabilities(v)
-  }
-
-  implicit class ClientSerializationServerOptionsConverter(v: SerializationServerOptions) {
-    def toClient: ClientSerializationServerOptions =
-      new ClientSerializationServerOptions(v.supportsSerialization)
-  }
-
-  implicit class ClientCleanDiagnosticTreeClientCapabilitiesConverter(v: CleanDiagnosticTreeOptions) {
-    def toClient: ClientCleanDiagnosticTreeServerOptions =
-      new ClientCleanDiagnosticTreeServerOptions(v.supported)
-  }
-
-  implicit class ClientAlsServerCapabilitiesConverter(v: AlsServerCapabilities) {
+  implicit class ClientServerCapabilitiesConverter(v: AlsServerCapabilities) {
     def toClient: ClientAlsServerCapabilities =
-      new ClientAlsServerCapabilities(v.serialization.map(_.toClient).orUndefined, v.cleanDiagnostics.map(_.toClient).orUndefined)
+      ClientAlsServerCapabilities(v)
   }
 
-  implicit class ClientInitializeResultConverter(v: InitializeResult) {
-    def toClient: ClientInitializeResult =
-      ClientInitializeResult(v)
+  implicit class ClientInitializeResultConverter(v: AlsInitializeResult) {
+    def toClient: ClientAlsInitializeResult =
+      ClientAlsInitializeResult(v)
   }
 
   implicit class ClientCodeActionConverter(v: CodeAction) {
@@ -352,6 +339,16 @@ object LspConvertersSharedToClient {
   implicit class ClientDocumentLinkOptionsConverter(v: DocumentLinkOptions) {
     def toClient: ClientDocumentLinkOptions =
       ClientDocumentLinkOptions(v)
+  }
+
+  implicit class ClientCleanDiagnosticTreeOptionsConverter(v: CleanDiagnosticTreeOptions) {
+    def toClient: ClientCleanDiagnosticTreeOptions =
+      ClientCleanDiagnosticTreeOptions(v)
+  }
+
+  implicit class ClientSerializationServerOptionsConverter(v: SerializationServerOptions) {
+    def toClient: ClientSerializationServerOptions =
+      ClientSerializationServerOptions(v)
   }
 
   implicit class ClientDocumentLinkParamsConverter(v: DocumentLinkParams) {

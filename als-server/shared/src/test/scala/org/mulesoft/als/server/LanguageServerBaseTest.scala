@@ -4,7 +4,7 @@ import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
-import org.mulesoft.lsp.configuration.InitializeParams
+import org.mulesoft.lsp.configuration.AlsInitializeParams
 import org.mulesoft.lsp.feature.diagnostic.{
   CleanDiagnosticTreeParams,
   CleanDiagnosticTreeRequestType,
@@ -22,7 +22,7 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
 
   val logger: Logger = EmptyLogger
 
-  protected val initializeParams: InitializeParams = InitializeParams.default
+  protected val initializeParams: AlsInitializeParams = AlsInitializeParams.default
 
   private def telemetryNotifications(mockTelemetryClientNotifier: MockTelemetryClientNotifier)(
       qty: Int,

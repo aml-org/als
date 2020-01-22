@@ -3,8 +3,8 @@ package org.mulesoft.als.server
 import org.mulesoft.lsp.configuration.{
   AlsClientCapabilities,
   AlsServerCapabilities,
-  InitializeParams,
-  InitializeResult
+  AlsInitializeParams,
+  AlsInitializeResult
 }
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer, LanguageServerSystemConf}
@@ -21,7 +21,7 @@ class LanguageServerImpl(val textDocumentSyncConsumer: TextDocumentSyncConsumer,
                          private val systemConfiguration: LanguageServerSystemConf = DefaultServerSystemConf)
     extends LanguageServer {
 
-  override def initialize(params: InitializeParams): Future[InitializeResult] =
+  override def initialize(params: AlsInitializeParams): Future[AlsInitializeResult] =
     languageServerInitializer.initialize(params).flatMap { p =>
       params.rootUri.orElse(params.rootPath) match {
         case Some(root) => workspaceService.initializeWS(root).map(_ => p)
@@ -39,7 +39,4 @@ class LanguageServerImpl(val textDocumentSyncConsumer: TextDocumentSyncConsumer,
     requestHandlerMap(requestType)
 
   override def configuration: LanguageServerSystemConf = systemConfiguration
-
-  override def notifyAlsClientCapabilities(clientCapabilities: AlsClientCapabilities): AlsServerCapabilities =
-    languageServerInitializer.applyAlsCapabilities(clientCapabilities)
 }
