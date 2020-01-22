@@ -1,6 +1,8 @@
 package org.mulesoft.als.server.lsp4j.extension;
 
-public class AlsServerCapabilities {
+import org.eclipse.lsp4j.ServerCapabilities;
+
+public class AlsServerCapabilities extends ServerCapabilities {
 
     private SerializationServerOptions serialization;
 

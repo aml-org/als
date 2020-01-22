@@ -21,7 +21,7 @@ object Main {
                      dialectPath: Option[String],
                      dialectName: Option[String],
                      vocabularyPath: Option[String])
-  val DefaultOptions = Options(4000, listen = true, dialectPath = None, dialectName = None, vocabularyPath = None)
+  val DefaultOptions = Options(4000, listen = false, dialectPath = None, dialectName = None, vocabularyPath = None)
 
   def readOptions(args: Array[String]): Options = {
     def innerReadOptions(options: Options, list: List[String]): Options =
@@ -74,8 +74,13 @@ object Main {
           notificationKind = Some(PARSING_BEFORE)
         ))
 
-      val launcher: Launcher[LanguageClient] =
-        LSPLauncher.createServerLauncher(server, in, out)
+      val launcher = new Launcher.Builder[LanguageClient]()
+        .setLocalService(server)
+        .setRemoteInterface(classOf[LanguageClient])
+        .setInput(in)
+        .setOutput(out)
+        .create();
+
       val client = launcher.getRemoteProxy
       clientConnection.connect(LanguageClientWrapper(client))
 
