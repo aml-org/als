@@ -1,7 +1,7 @@
 package org.mulesoft.als.vscode
 
 import org.mulesoft.als.client.lsp.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
-import org.mulesoft.als.client.lsp.configuration.{ClientInitializeParams, ClientInitializeResult}
+import org.mulesoft.als.client.lsp.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
 import org.mulesoft.als.client.lsp.feature.completion.{
   ClientCompletionItem,
   ClientCompletionList,
@@ -15,7 +15,6 @@ import org.mulesoft.als.client.lsp.feature.documentsymbol.{
 }
 import org.mulesoft.als.client.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
 import org.mulesoft.als.client.lsp.feature.reference.ClientReferenceParams
-import org.mulesoft.als.client.lsp.feature.serialization.ClientSerializationMessage
 import org.mulesoft.als.client.lsp.feature.telemetry.ClientTelemetryMessage
 import org.mulesoft.als.client.lsp.textsync.{
   ClientDidChangeTextDocumentParams,
@@ -25,7 +24,7 @@ import org.mulesoft.als.client.lsp.textsync.{
 import org.mulesoft.als.client.lsp.workspace.ClientExecuteCommandParams
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.{JSExport, JSExportAll, JSImport}
+import scala.scalajs.js.annotation.JSImport
 import scala.scalajs.js.|
 
 // Exclude from coverage because native functions are not tracked
@@ -286,7 +285,7 @@ object ExecuteCommandRequest extends js.Object {
 @js.native
 @JSImport("vscode-languageserver-protocol", "InitializeRequest")
 object InitializeRequest extends js.Object {
-  val `type`: RequestType[ClientInitializeParams, ClientInitializeResult, js.Any, js.Any] = js.native
+  val `type`: RequestType[ClientAlsInitializeParams, ClientAlsInitializeResult, js.Any, js.Any] = js.native
 }
 
 @js.native

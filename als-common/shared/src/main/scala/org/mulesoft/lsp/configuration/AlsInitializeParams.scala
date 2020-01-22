@@ -31,24 +31,24 @@ import org.mulesoft.lsp.configuration.TraceKind.TraceKind
   *                              if no folder is open.
   * @param initializationOptions User provided initialization options.
   */
-class InitializeParams private (val capabilities: ClientCapabilities,
-                                val trace: TraceKind,
-                                val rootUri: Option[String] = None,
-                                val processId: Option[Int] = None,
-                                val workspaceFolders: Option[Seq[WorkspaceFolder]] = None,
-                                val rootPath: Option[String] = None,
-                                val initializationOptions: Option[Any] = None)
+class AlsInitializeParams private(val capabilities: AlsClientCapabilities,
+                                  val trace: TraceKind,
+                                  val rootUri: Option[String] = None,
+                                  val processId: Option[Int] = None,
+                                  val workspaceFolders: Option[Seq[WorkspaceFolder]] = None,
+                                  val rootPath: Option[String] = None,
+                                  val initializationOptions: Option[Any] = None)
 
-object InitializeParams {
+object AlsInitializeParams {
 
-  def apply(capabilities: Option[ClientCapabilities],
+  def apply(capabilities: Option[AlsClientCapabilities],
             trace: Option[TraceKind],
             rootUri: Option[String] = None,
             processId: Option[Int] = None,
             workspaceFolders: Option[Seq[WorkspaceFolder]] = None,
             rootPath: Option[String] = None,
-            initializationOptions: Option[Any] = None): InitializeParams =
-    new InitializeParams(capabilities.getOrElse(ClientCapabilities()),
+            initializationOptions: Option[Any] = None): AlsInitializeParams =
+    new AlsInitializeParams(capabilities.getOrElse(AlsClientCapabilities()),
       trace.getOrElse(TraceKind.Off),
       rootUri,
       processId,

@@ -6,7 +6,7 @@ import org.mulesoft.als.client.lsp.feature.completion.ClientCompletionOptions
 import org.mulesoft.als.client.lsp.feature.link.ClientDocumentLinkOptions
 import org.mulesoft.als.client.lsp.feature.rename.ClientRenameOptions
 import org.mulesoft.als.client.lsp.textsync.ClientTextDocumentSyncOptions
-import org.mulesoft.lsp.configuration.ServerCapabilities
+import org.mulesoft.lsp.configuration.AlsServerCapabilities
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
@@ -14,7 +14,7 @@ import scala.scalajs.js.{UndefOr, |}
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
-trait ClientServerCapabilities extends js.Object {
+trait ClientAlsServerCapabilities extends js.Object {
   def textDocumentSync: UndefOr[Int | ClientTextDocumentSyncOptions] = js.native
   def completionProvider: UndefOr[ClientCompletionOptions]           = js.native
   def definitionProvider: Boolean                                    = js.native
@@ -25,10 +25,13 @@ trait ClientServerCapabilities extends js.Object {
   def documentLinkProvider: UndefOr[ClientDocumentLinkOptions]       = js.native
   def workspace: UndefOr[ClientWorkspaceServerCapabilities]          = js.native
   def experimental: UndefOr[js.Object]                               = js.native
+  def serialization: UndefOr[ClientSerializationServerOptions]       = js.native
+  def cleanDiagnostics: UndefOr[ClientCleanDiagnosticTreeOptions]       = js.native
+
 }
 
-object ClientServerCapabilities {
-  def apply(internal: ServerCapabilities): ClientServerCapabilities =
+object ClientAlsServerCapabilities {
+  def apply(internal: AlsServerCapabilities): ClientAlsServerCapabilities =
     js.Dynamic
       .literal(
         textDocumentSync =
@@ -41,9 +44,11 @@ object ClientServerCapabilities {
         codeActionProvider = internal.codeActionProvider.map(_.toClient).orUndefined,
         documentLinkProvider = internal.documentLinkProvider.map(_.toClient).orUndefined,
         workspace = internal.workspace.map(_.toClient).orUndefined,
-        experimental = internal.experimental.collect { case js: js.Object => js }.orUndefined
+        experimental = internal.experimental.collect { case js: js.Object => js }.orUndefined,
+        serialization = internal.serialization.map(_.toClient).orUndefined,
+        cleanDiagnostics = internal.cleanDiagnostics.map(_.toClient).orUndefined
       )
-      .asInstanceOf[ClientServerCapabilities]
+      .asInstanceOf[ClientAlsServerCapabilities]
 }
 
 // $COVERAGE-ON$
