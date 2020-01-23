@@ -154,7 +154,7 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
   )
   .jsSettings(
     installJsDependencies := {
-      Process("npm install",     new File("./als-server/js/")) !
+      Process("npm install",     new File("./als-server/js/node-package/")) !
     },
     test in Test := ((test in Test) dependsOn installJsDependencies).value,
     artifactPath in(Test, fastOptJS) := baseDirectory.value / "node-package" / "tmp" / "als-server.js",
