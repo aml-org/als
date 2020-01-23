@@ -3,6 +3,7 @@ package org.mulesoft.als.client.lsp.feature.diagnostic
 import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientFilesInProjectMessage extends js.Object {
@@ -19,3 +20,4 @@ object ClientFilesInProjectMessage {
       .asInstanceOf[ClientFilesInProjectMessage]
   }
 }
+// $COVERAGE-ON$
