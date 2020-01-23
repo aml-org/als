@@ -10,6 +10,8 @@ import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.amfmanager.InitOptions
 import org.mulesoft.lsp.server.{AmfConfiguration, LanguageServerEnvironmentInstance}
 import org.scalatest.{AsyncFunSuite, Matchers}
+import amf.internal.environment.Environment
+import org.mulesoft.lsp.server.{AmfConfiguration, DefaultAmfConfiguration, LanguageServerEnvironmentInstance}
 
 import scala.concurrent.{ExecutionContext, Future}
 

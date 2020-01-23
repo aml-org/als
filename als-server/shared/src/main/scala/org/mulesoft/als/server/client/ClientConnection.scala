@@ -5,6 +5,7 @@ import org.mulesoft.lsp.client.{AlsLanguageClient, AlsLanguageClientAware, LspLa
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.serialization.SerializationMessage
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
+import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
 
 case class ClientConnection[S](logger: Logger)
     extends LspLanguageClientAware
@@ -40,5 +41,9 @@ case class ClientConnection[S](logger: Logger)
 
   override def notifySerialization(params: SerializationMessage[S]): Unit = applyToAlsClient { client =>
     client.notifySerialization(params)
+  }
+
+  override def notifyProjectFiles(params: FilesInProjectParams): Unit = applyToAlsClient { client =>
+    client.notifyProjectFiles(params)
   }
 }

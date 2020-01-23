@@ -5,6 +5,7 @@ import Lsp4JConversions._
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.client.{LspLanguageClient => lspLanguageClient}
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
+import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
 
 case class LanguageClientWrapper(private val inner: LanguageClient) extends lspLanguageClient {
   override def publishDiagnostic(params: PublishDiagnosticsParams): Unit =

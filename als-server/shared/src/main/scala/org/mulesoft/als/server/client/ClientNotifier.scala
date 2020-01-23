@@ -3,6 +3,7 @@ package org.mulesoft.als.server.client
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.serialization.SerializationMessage
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
+import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
 
 import scala.scalajs.js.annotation.JSExportAll
 
@@ -15,6 +16,8 @@ trait ClientNotifier {
 
 @JSExportAll
 trait AlsClientNotifier[S] {
+
+  def notifyProjectFiles(params: FilesInProjectParams): Unit
 
   def notifySerialization(params: SerializationMessage[S]): Unit
 }

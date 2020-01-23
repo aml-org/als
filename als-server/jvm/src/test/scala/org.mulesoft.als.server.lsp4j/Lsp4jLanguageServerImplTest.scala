@@ -7,7 +7,7 @@ import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
 import com.google.gson.{Gson, GsonBuilder}
-import org.eclipse.lsp4j.{ExecuteCommandParams, InitializeParams}
+import org.eclipse.lsp4j.ExecuteCommandParams
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientConnection, ClientNotifier}
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
