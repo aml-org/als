@@ -13,7 +13,9 @@ import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.modules.diagnostic.PARSING_BEFORE
 import org.mulesoft.amfmanager.{CustomDialects, CustomVocabulary}
+import org.mulesoft.lsp.client.AlsLanguageClient
 import org.mulesoft.lsp.feature.serialization.SerializationMessage
+import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
 
 object Main {
   case class Options(port: Int,
@@ -75,7 +77,11 @@ object Main {
       val client = launcher.getRemoteProxy
       clientConnection.connect(LanguageClientWrapper(client))
 
-      clientConnection.connectAls((params: SerializationMessage[StringWriter]) => {}) // example
+      clientConnection.connectAls(new AlsLanguageClient[StringWriter] {
+        override def notifySerialization(params: SerializationMessage[StringWriter]): Unit = {}
+
+        override def notifyProjectFiles(params: FilesInProjectParams): Unit = {}
+      }) // example
 
       launcher.startListening
       println("ALS started")
