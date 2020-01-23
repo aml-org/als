@@ -1,11 +1,11 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.als.client.lsp.configuration.ClientAlsClientCapabilities
+import org.mulesoft.als.client.lsp.feature.diagnostic.ClientFilesInProjectMessage
 import org.mulesoft.als.client.lsp.feature.serialization.ClientSerializationMessage
 import org.mulesoft.als.vscode.NotificationType
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.{JSExportTopLevel, JSImport}
+import scala.scalajs.js.annotation.JSExportTopLevel
 
 @JSExportTopLevel("SerializationEventNotification")
 object SerializationEventNotification {
@@ -13,8 +13,8 @@ object SerializationEventNotification {
     new NotificationType[ClientSerializationMessage, js.Any]("SerializeJSONLD")
 }
 
-@JSExportTopLevel("AlsClientCapabilitiesNotification")
-object AlsClientCapabilitiesNotification {
-  val `type`: NotificationType[ClientAlsClientCapabilities, js.Any] =
-    new NotificationType[ClientAlsClientCapabilities, js.Any]("NotifyAlsClientCapabilities")
+@JSExportTopLevel("FilesInProjectEventNotification")
+object FilesInProjectEventNotification {
+  val `type`: NotificationType[ClientFilesInProjectMessage, js.Any] =
+    new NotificationType[ClientFilesInProjectMessage, js.Any]("SerializeJSONLD")
 }

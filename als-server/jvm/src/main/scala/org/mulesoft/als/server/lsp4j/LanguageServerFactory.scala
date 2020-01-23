@@ -25,6 +25,7 @@ object LanguageServerFactory extends PlatformSecrets {
     notificationKind.foreach(factory.withNotificationKind)
     val dm       = factory.diagnosticManager()
     val sm       = factory.serializationManager(serialization)
+    val fip      = factory.filesInProjectManager(serialization.alsClientNotifier)
     val builders = factory.buildWorkspaceManagerFactory()
 
     val languageBuilder =
@@ -32,6 +33,7 @@ object LanguageServerFactory extends PlatformSecrets {
         .addInitializable(builders.workspaceManager)
         .addInitializableModule(dm)
         .addInitializableModule(sm)
+        .addInitializableModule(fip)
         .addRequestModule(builders.cleanDiagnosticManager)
         .addRequestModule(builders.completionManager)
         .addRequestModule(builders.structureManager)
