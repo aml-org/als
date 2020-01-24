@@ -2,6 +2,7 @@ package org.mulesoft.als.server.modules.completion
 
 import java.util.UUID
 
+import org.mulesoft.als.common.{DirectoryResolver, FileUtils}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
@@ -22,12 +23,16 @@ import scala.concurrent.Future
 class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                          val workspaceManager: WorkspaceManager,
                          private val telemetryProvider: TelemetryProvider,
+                         val directoryResolver: DirectoryResolver,
                          private val logger: Logger)
     extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
 
   private var conf: Option[CompletionClientCapabilities] = None
 
-  private val suggestions = new Suggestions(editorEnvironment.amfConfig)
+  private val suggestions = new Suggestions(editorEnvironment.platform,
+                                            editorEnvironment.environment,
+                                            directoryResolver,
+                                            editorEnvironment.amfConfiguration)
   private def snippetSupport =
     conf
       .getOrElse(CompletionClientCapabilities(contextSupport = None))
@@ -58,7 +63,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
 
   protected def onDocumentCompletion(uri: String, position: Position): Future[Seq[CompletionItem]] = {
     val refinedUri =
-      editorEnvironment.amfConfig.platform.decodeURI(editorEnvironment.amfConfig.platform.resolvePath(uri))
+      editorEnvironment.platform.decodeURI(editorEnvironment.platform.resolvePath(uri))
     val telemetryUUID: String = UUID.randomUUID().toString
 
     logger.debug(s"Calling for completion for uri $uri and position $position",
@@ -134,7 +139,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                  syntax: Syntax,
                                  patchedContent: PatchedContent,
                                  uuid: String): Future[CompletionProvider] = {
-    val amfRefinedUri = editorEnvironment.amfConfig.getDecodedUri(uri)
+    val amfRefinedUri = FileUtils.getDecodedUri(uri, editorEnvironment.platform)
     telemetryProvider.addTimedMessage("Start parsing for completion",
                                       "SuggestionsManager",
                                       "buildCompletionProviderAST",
@@ -145,11 +150,11 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
 
     val eventualUnit =
       workspaceManager.getUnit(uri, uuid).flatMap { bu =>
-        editorEnvironment.amfConfig.parseHelper.parse(
+        editorEnvironment.amfConfiguration.parserHelper.parse(
           amfRefinedUri,
           patchedEnvironment.environment
             .withResolver(CompletionReferenceResolver(bu.unit))
-            .withLoaders(patchedEnvironment.environment.loaders ++ editorEnvironment.amfConfig.environment.loaders)
+            .withLoaders(patchedEnvironment.environment.loaders ++ editorEnvironment.environment.loaders)
         )
       }
 

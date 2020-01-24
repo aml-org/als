@@ -4,13 +4,15 @@ import amf.client.remote.Content
 import amf.core.lexer.CharSequenceStream
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.DomainElement
+import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance}
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping}
+import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.test.SuggestionsTest
-import org.mulesoft.lsp.server.DefaultAmfConfiguration
+import org.mulesoft.lsp.server.AmfInstance
 import org.scalatest.exceptions.TestFailedException
 
 import scala.concurrent.Future
@@ -46,7 +48,7 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
                                 url: String,
                                 patchedContent: PatchedContent,
                                 position: Int): Future[Seq[String]] = {
-    new Suggestions(DefaultAmfConfiguration)
+    new Suggestions(platform, Environment(), new PlatformDirectoryResolver(platform), AmfInstance.default)
       .buildProvider(bu, position, url, patchedContent, snippetSupport = true)
       .flatMap(_.suggest())
       .map(suggestions =>

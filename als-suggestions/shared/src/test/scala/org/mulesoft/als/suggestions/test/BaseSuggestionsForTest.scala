@@ -11,7 +11,7 @@ import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.amfmanager.{CustomDialects, DialectInitializer, InitOptions}
 import org.mulesoft.lsp.feature.completion.CompletionItem
-import org.mulesoft.lsp.server.{AmfConfiguration, LanguageServerEnvironmentInstance}
+import org.mulesoft.lsp.server.AmfInstance
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -49,7 +49,7 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
         position = markerInfo.position
 
         val environment = this.buildEnvironment(url, markerInfo.patchedContent.original, mime)
-        new Suggestions(AmfConfiguration(LanguageServerEnvironmentInstance(platform, environment, dr)))
+        new Suggestions(platform, environment, dr, AmfInstance(platform, environment))
       }
       _           <- s.init(InitOptions.AllProfiles.withCustomDialects(customDialect.toSeq))
       suggestions <- s.suggest(format, url, position, snippetsSupport = true)

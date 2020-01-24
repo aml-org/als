@@ -3,27 +3,22 @@ package org.mulesoft.lsp.server
 import amf.client.plugins.AMFPlugin
 import amf.core.AMF
 import amf.core.remote.Platform
+import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.features.validation.AMFValidatorPlugin
-import org.mulesoft.als.common.{DirectoryResolver, FileUtils}
 import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
 
 import scala.concurrent.Future
 
-class AmfConfiguration(plugins: Seq[AMFPlugin], languageServerConf: LanguageServerSystemConf)
-    extends AmfEnvHandler
-    with LanguageServerSystemConf {
+// todo: move to another module
+class AmfInstance(plugins: Seq[AMFPlugin], platform:Platform, environment: Environment)
+    extends CompilerEnvironment[AmfParseResult, Environment] {
 
-  def parseHelper: ParserHelper = new ParserHelper(platform = languageServerConf.platform, init())
-
-  def parse(uri: String): Future[AmfParseResult] = parseHelper.parse(uri, languageServerConf.environment)
-
-  def getEncodedUri(uri: String): String = FileUtils.getEncodedUri(uri, languageServerConf.platform)
-
-  def getDecodedUri(uri: String): String = FileUtils.getDecodedUri(uri, languageServerConf.platform)
+  def parserHelper = new ParserHelper(platform, init())
+  def parse(uri: String): Future[AmfParseResult] = parserHelper.parse(uri, environment)
 
   private var initialization: Option[Future[Unit]] = None
 
@@ -45,20 +40,11 @@ class AmfConfiguration(plugins: Seq[AMFPlugin], languageServerConf: LanguageServ
     }
   }
 
-  override def platform: Platform = languageServerConf.platform
-
-  override def environment: Environment = languageServerConf.environment
-
-  override def directoryResolver: DirectoryResolver = languageServerConf.directoryResolver
+  override def modelBuiler(): ModelBuilder[AmfParseResult, Environment] = parserHelper
 }
 
-object AmfConfiguration {
-  def apply(languageServerSystemConf: LanguageServerSystemConf): AmfConfiguration =
-    new AmfConfiguration(Nil, languageServerSystemConf)
+object AmfInstance extends PlatformSecrets {
+  def apply(environment: Environment): AmfInstance = apply(platform, environment)
+  def apply(platform: Platform, environment: Environment): AmfInstance = new AmfInstance(Nil, platform, environment)
+  val default: AmfInstance = new AmfInstance(Nil,platform, Environment())
 }
-
-trait AmfEnvHandler {
-  def init(): Future[Unit]
-}
-
-object DefaultAmfConfiguration extends AmfConfiguration(Nil, DefaultServerSystemConf)

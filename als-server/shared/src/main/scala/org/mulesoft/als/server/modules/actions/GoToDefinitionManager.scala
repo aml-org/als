@@ -2,6 +2,7 @@ package org.mulesoft.als.server.modules.actions
 
 import java.util.UUID
 
+import amf.core.remote.Platform
 import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
@@ -18,6 +19,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class GoToDefinitionManager(val unitsRepository: WorkspaceManager,
+                            platform: Platform,
                             private val telemetryProvider: TelemetryProvider,
                             private val logger: Logger)
     extends RequestModule[DefinitionClientCapabilities, Unit] {
@@ -45,7 +47,7 @@ class GoToDefinitionManager(val unitsRepository: WorkspaceManager,
     unitsRepository
       .getUnit(str, UUID.randomUUID().toString)
       .map(cu => {
-        FindDefinition.getDefinition(cu.unit, position, unitsRepository.amfConfiguration.platform)
+        FindDefinition.getDefinition(cu.unit, position, platform)
       })
       .map(Right(_))
   }

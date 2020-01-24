@@ -3,13 +3,13 @@ package org.mulesoft.als.suggestions.client.jvm
 import amf.client.remote.Content
 import amf.core.remote.{FileNotFound, Raml10}
 import amf.core.unsafe.PlatformSecrets
+import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.amfmanager.InitOptions
+import org.mulesoft.lsp.server.AmfInstance
 import org.scalatest.{AsyncFunSuite, Matchers}
-import amf.internal.environment.Environment
-import org.mulesoft.lsp.server.{AmfConfiguration, DefaultAmfConfiguration, LanguageServerEnvironmentInstance}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -48,7 +48,7 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
 
   test("Custom Resource Loader test") {
     val s =
-      new Suggestions(AmfConfiguration(LanguageServerEnvironmentInstance(platform, environment, directoryResolver)))
+      new Suggestions(platform, environment, directoryResolver, AmfInstance(platform, environment))
     for {
       _           <- s.init(InitOptions.AllProfiles)
       suggestions <- s.suggest(Raml10.name, url, 40, snippetsSupport = true)

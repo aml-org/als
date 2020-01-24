@@ -3,11 +3,12 @@ package org.mulesoft.als.server.lsp4j
 import java.io._
 import java.util
 
+import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
 import com.google.gson.{Gson, GsonBuilder}
-import org.eclipse.lsp4j.{ExecuteCommandParams, InitializeParams}
+import org.eclipse.lsp4j.ExecuteCommandParams
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientConnection, ClientNotifier}
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
@@ -19,7 +20,7 @@ import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.server.workspace.command.{CommandExecutor, Commands, DidChangeConfigurationCommandExecutor}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
-import org.mulesoft.lsp.server.{AmfConfiguration, DefaultAmfConfiguration, LanguageServer}
+import org.mulesoft.lsp.server.{AmfInstance, LanguageServer}
 import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
 import org.mulesoft.lsp.workspace.{ExecuteCommandParams => SharedExecuteParams}
 
@@ -40,8 +41,10 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
     val notifier: AlsClientNotifier[StringWriter] = new MockAlsClientNotifier
     val server = new LanguageServerImpl(
-      LanguageServerFactory
-        .alsLanguageServer(clientConnection, JvmSerializationProps(notifier), logger))
+      new LanguageServerFactory(clientConnection)
+        .withSerializationProps(JvmSerializationProps(notifier))
+        .withLogger(logger)
+        .build())
 
     server.initialize(new AlsInitializeParams()).toScala.map(_ => succeed)
   }
@@ -56,8 +59,10 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     val clientConnection                          = ClientConnection(logger)
     val notifier: AlsClientNotifier[StringWriter] = new MockAlsClientNotifier
     val server = new LanguageServerImpl(
-      LanguageServerFactory
-        .alsLanguageServer(clientConnection, JvmSerializationProps(notifier), logger))
+      new LanguageServerFactory(clientConnection)
+        .withSerializationProps(JvmSerializationProps(notifier))
+        .withLogger(logger)
+        .build())
 
     server.initialize(null).toScala.map(_ => succeed)
   }
@@ -148,10 +153,10 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     val p = platform
     class TestWorkspaceManager
         extends WorkspaceManager(
-          new EnvironmentProvider {
+          new EnvironmentProvider with PlatformSecrets {
             override def environmentSnapshot(): Environment = ???
 
-            override val amfConfig: AmfConfiguration = DefaultAmfConfiguration
+            override val amfConfiguration: AmfInstance = AmfInstance.default
           },
           new DummyTelemetryProvider(),
           Nil,

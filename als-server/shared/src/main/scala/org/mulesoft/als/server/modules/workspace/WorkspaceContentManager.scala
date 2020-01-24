@@ -3,6 +3,7 @@ package org.mulesoft.als.server.modules.workspace
 import java.util.UUID
 
 import amf.internal.environment.Environment
+import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
@@ -131,7 +132,7 @@ class WorkspaceContentManager(val folder: String,
     stagingArea.enqueue(snapshot.files.filterNot(t => t._2 == CHANGE_CONFIG))
     workspaceConfigurationProvider match {
       case Some(cp) =>
-        cp.obtainConfiguration(environmentProvider.amfConfig.platform, snapshot.environment)
+        cp.obtainConfiguration(environmentProvider.platform, snapshot.environment)
           .flatMap(processChangeConfig)
       case _ => Future.failed(new Exception("Expected Configuration Provider"))
     }
@@ -169,8 +170,9 @@ class WorkspaceContentManager(val folder: String,
                                       MessageTypes.BEGIN_PARSE,
                                       uri,
                                       uuid)
-    val eventualUnit = environmentProvider.amfConfig.parseHelper
-      .parse(environmentProvider.amfConfig.getDecodedUri(uri), environment.withResolver(repository.resolverCache))
+    val eventualUnit = environmentProvider.amfConfiguration.parserHelper
+      .parse(FileUtils.getDecodedUri(uri, environmentProvider.platform),
+             environment.withResolver(repository.resolverCache))
     eventualUnit.foreach(
       _ =>
         telemetryProvider
