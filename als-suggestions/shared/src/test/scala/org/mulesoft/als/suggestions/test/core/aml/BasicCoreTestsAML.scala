@@ -6,7 +6,7 @@ import org.mulesoft.als.suggestions.CompletionsPluginHandler
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.test.core.{CoreTest, DummyPlugins}
 import org.mulesoft.amfmanager.InitOptions
-import org.mulesoft.lsp.server.DefaultAmfConfiguration
+import org.mulesoft.lsp.server.AmfInstance
 
 import scala.concurrent.Future
 
@@ -30,8 +30,8 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
 
   test("Custom Plugins completion Dummy") {
     val p             = filePath("dialect.yaml")
-    val configuration = DefaultAmfConfiguration
-    val s             = new Suggestions(configuration)
+    val configuration = AmfInstance.default
+    val s             = Suggestions.default
     for {
       dialect <- configuration.parse(p).map(_.baseUnit)
       _       <- s.init(InitOptions.AllProfiles)

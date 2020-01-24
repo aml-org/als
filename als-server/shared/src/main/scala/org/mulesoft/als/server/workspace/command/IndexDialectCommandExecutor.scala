@@ -4,13 +4,13 @@ import amf.core.parser._
 import amf.core.remote.Platform
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.amfmanager.ParserHelper
-import org.mulesoft.lsp.server.AmfConfiguration
+import org.mulesoft.lsp.server.AmfInstance
 import org.mulesoft.lsp.textsync.IndexDialectParams
 import org.yaml.model.YMap
 
 import scala.concurrent.Future
 
-class IndexDialectCommandExecutor(val logger: Logger, amfConfiguration: AmfConfiguration)
+class IndexDialectCommandExecutor(val logger: Logger, amfConfiguration: AmfInstance)
     extends CommandExecutor[IndexDialectParams, Unit] {
   override protected def buildParamFromMap(ast: YMap): Option[IndexDialectParams] = {
     val content: Option[String] = ast.key("content").map(e => e.value.asScalar.map(_.text).getOrElse(e.value.toString))
@@ -21,6 +21,6 @@ class IndexDialectCommandExecutor(val logger: Logger, amfConfiguration: AmfConfi
   }
 
   override protected def runCommand(param: IndexDialectParams): Future[Unit] = {
-    amfConfiguration.parseHelper.indexDialect(param.uri, param.content)
+    amfConfiguration.parserHelper.indexDialect(param.uri, param.content)
   }
 }

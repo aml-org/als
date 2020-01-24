@@ -44,7 +44,7 @@ class CleanDiagnosticTreeManager(environmentProvider: EnvironmentProvider, logge
   override def initialize(): Future[Unit] = Future.successful()
 
   def validate(uri: String): Future[Seq[PublishDiagnosticsParams]] = {
-    val helper = environmentProvider.amfConfig.parseHelper
+    val helper = environmentProvider.amfConfiguration.parserHelper
     helper
       .parse(uri, environmentProvider.environmentSnapshot())
       .flatMap(pr => {

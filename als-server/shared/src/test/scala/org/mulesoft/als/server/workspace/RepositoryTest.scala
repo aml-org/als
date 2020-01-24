@@ -8,7 +8,7 @@ import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.server.logger.EmptyLogger
 import org.mulesoft.als.server.modules.workspace.{ParsedUnit, Repository}
 import org.mulesoft.amfmanager.AmfParseResult
-import org.mulesoft.lsp.server.DefaultAmfConfiguration
+import org.mulesoft.lsp.server.AmfInstance
 import org.scalatest.{AsyncFunSuite, Matchers}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -17,7 +17,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class RepositoryTest extends AsyncFunSuite with Matchers with PlatformSecrets {
   override val executionContext: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
 
-  val amfConfig = DefaultAmfConfiguration
+  val amfConfig: AmfInstance = AmfInstance.default
   test("Basic repository test") {
 
     val cachable: MockFile = MockFile("file://fakeURI/ws/cachable.raml",
@@ -181,7 +181,7 @@ class RepositoryTest extends AsyncFunSuite with Matchers with PlatformSecrets {
 
   case class MockFile(uri: String, content: String)
 
-  def parse(url: String, env: Environment): Future[AmfParseResult] = amfConfig.parseHelper.parse(url, env)
+  def parse(url: String, env: Environment): Future[AmfParseResult] = amfConfig.parserHelper.parse(url, env)
 
   def buildEnvironment(files: Set[MockFile]): Environment =
     Environment().withLoaders(files.map(f => buildResourceLoaderForFile(f)).toSeq)

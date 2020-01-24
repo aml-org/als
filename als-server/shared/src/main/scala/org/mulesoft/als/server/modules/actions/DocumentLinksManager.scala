@@ -2,6 +2,7 @@ package org.mulesoft.als.server.modules.actions
 
 import java.util.UUID
 
+import amf.core.remote.Platform
 import org.mulesoft.als.actions.links.FindLinks
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
@@ -16,6 +17,7 @@ import scala.concurrent.Future
 
 class DocumentLinksManager(val workspaceManager: WorkspaceManager,
                            private val telemetryProvider: TelemetryProvider,
+                           platform: Platform,
                            private val logger: Logger)
     extends RequestModule[DocumentLinkClientCapabilities, DocumentLinkOptions] {
 
@@ -41,7 +43,7 @@ class DocumentLinksManager(val workspaceManager: WorkspaceManager,
       .getUnit(str, UUID.randomUUID().toString)
       .flatMap(_.getLast)
       .map(bu => {
-        FindLinks.getLinks(bu.unit, workspaceManager.amfConfiguration.platform)
+        FindLinks.getLinks(bu.unit, platform)
       })
 
   override def initialize(): Future[Unit] = Future.successful()
