@@ -50,7 +50,7 @@ class WorkspaceContentManager(val folder: String,
   }
 
   def getCompilableUnit(uri: String): Future[CompilableUnit] = {
-    val encodedUri = FileUtils.getEncodedUri(uri, configuration.platform)
+    val encodedUri = FileUtils.getEncodedUri(uri, environmentProvider.platform)
     repository.getParsed(encodedUri) match {
       case Some(pu) =>
         Future.successful(pu.toCU(getNext(encodedUri), mainFile, repository.getReferenceStack(encodedUri)))

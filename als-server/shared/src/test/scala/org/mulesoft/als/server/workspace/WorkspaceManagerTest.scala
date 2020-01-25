@@ -6,7 +6,7 @@ import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.common.{Position, Range}
 import org.mulesoft.lsp.configuration.{AlsInitializeParams, TraceKind}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
+import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.Assertion
 

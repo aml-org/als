@@ -8,7 +8,7 @@ import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.completion.{CompletionItem, CompletionParams, CompletionRequestType}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
+import org.mulesoft.lsp.server.LanguageServer
 import org.scalatest.{Assertion, EitherValues}
 
 import scala.concurrent.Future
