@@ -23,6 +23,7 @@ import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
 import org.mulesoft.lsp.feature.diagnostic.{
+  CleanDiagnosticTreeClientCapabilities,
   Diagnostic,
   DiagnosticClientCapabilities,
   DiagnosticRelatedInformation,
@@ -138,10 +139,14 @@ object LspConversions {
       capabilities: lsp4j.WorkspaceClientCapabilities): WorkspaceClientCapabilities =
     WorkspaceClientCapabilities()
 
-  implicit def clientCapabilities(capabilities: lsp4j.ClientCapabilities): ClientCapabilities =
-    ClientCapabilities(
+  implicit def clientCapabilities(capabilities: extension.AlsClientCapabilities): AlsClientCapabilities =
+    AlsClientCapabilities(
       Option(capabilities.getWorkspace).map(workspaceClientCapabilities),
-      Option(capabilities.getTextDocument).map(textDocumentClientCapabilities)
+      Option(capabilities.getTextDocument).map(textDocumentClientCapabilities),
+      Option(capabilities.getExperimental),
+      Option(capabilities.getSerialization).map(s => SerializationClientCapabilities(s.getSupportsSerialization)),
+      Option(capabilities.getCleanDiagnosticTree).map(s =>
+        CleanDiagnosticTreeClientCapabilities(s.getEnabledCleanDiagnostic))
     )
 
   implicit def traceKind(kind: String): TraceKind = TraceKind.withName(kind)
@@ -149,9 +154,9 @@ object LspConversions {
   implicit def workspaceFolder(folder: lsp4j.WorkspaceFolder): WorkspaceFolder =
     if (folder == null) WorkspaceFolder(None, None) else WorkspaceFolder(Option(folder.getUri), Option(folder.getName))
 
-  implicit def initializeParams(params: lsp4j.InitializeParams): InitializeParams =
+  implicit def alsInitializeParams(params: extension.AlsInitializeParams): AlsInitializeParams =
     Option(params).map { p =>
-      InitializeParams(
+      AlsInitializeParams(
         Option(p.getCapabilities).map(clientCapabilities),
         Option(p.getTrace).map(traceKind),
         Option(p.getRootUri),
@@ -160,7 +165,7 @@ object LspConversions {
         Option(p.getRootPath),
         Option(p.getInitializationOptions)
       )
-    } getOrElse InitializeParams.default
+    } getOrElse AlsInitializeParams.default
 
   implicit def textDocumentSyncKind(kind: lsp4j.TextDocumentSyncKind): TextDocumentSyncKind = kind match {
     case lsp4j.TextDocumentSyncKind.Full        => TextDocumentSyncKind.Full
@@ -213,10 +218,10 @@ object LspConversions {
       capabilities: lsp4j.WorkspaceServerCapabilities): WorkspaceServerCapabilities =
     WorkspaceServerCapabilities(Option(capabilities.getWorkspaceFolders))
 
-  implicit def serverCapabilities(result: lsp4j.ServerCapabilities): ServerCapabilities =
-    if (result == null) ServerCapabilities.empty
+  implicit def serverCapabilities(result: lsp4j.ServerCapabilities): AlsServerCapabilities =
+    if (result == null) AlsServerCapabilities.empty
     else
-      ServerCapabilities(
+      AlsServerCapabilities(
         Option(result.getTextDocumentSync).map(either(_, textDocumentSyncKind, textDocumentSyncOptions)),
         Option(result.getCompletionProvider).map(completionOptions),
         booleanOrFalse(result.getDefinitionProvider),
@@ -229,8 +234,10 @@ object LspConversions {
         Option(result.getExperimental)
       )
 
-  implicit def initializeResult(result: lsp4j.InitializeResult): InitializeResult =
-    Option(result).map(r => InitializeResult(serverCapabilities(r.getCapabilities))).getOrElse(InitializeResult.empty)
+  implicit def initializeResult(result: lsp4j.InitializeResult): AlsInitializeResult =
+    Option(result)
+      .map(r => AlsInitializeResult(serverCapabilities(r.getCapabilities)))
+      .getOrElse(AlsInitializeResult.empty)
 
   implicit def textDocumentIdentifier(identifier: lsp4j.TextDocumentIdentifier): TextDocumentIdentifier =
     TextDocumentIdentifier(identifier.getUri)
@@ -321,8 +328,4 @@ object LspConversions {
 
   implicit def documentLinkOptions(options: lsp4j.DocumentLinkOptions): DocumentLinkOptions =
     DocumentLinkOptions(Option(options.getResolveProvider))
-
-  implicit def alsClientCapabilities(clientCapabilities: extension.AlsClientCapabilities): AlsClientCapabilities =
-    AlsClientCapabilities(Option(clientCapabilities.getSerialization).map(s =>
-      SerializationClientCapabilities(acceptsNotification = s.getSupportsSerialization)))
 }

@@ -15,6 +15,7 @@ import org.mulesoft.als.server.workspace.extract.{
 }
 import org.mulesoft.amfmanager.AmfInitializationHandler
 import org.mulesoft.lsp.Initializable
+import org.mulesoft.lsp.feature.diagnostic.CleanDiagnosticTreeParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.server.LanguageServerSystemConf
 import org.mulesoft.lsp.workspace.{ExecuteCommandParams, WorkspaceService}
@@ -82,8 +83,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(
     Commands.DID_FOCUS_CHANGE_COMMAND -> new DidFocusCommandExecutor(logger, this),
     Commands.DID_CHANGE_CONFIGURATION -> new DidChangeConfigurationCommandExecutor(logger, this),
-    Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, environmentProvider.platform),
-    Commands.COMPILE                  -> new RequestCompileCommandExecutor(logger, this, environmentProvider.platform)
+    Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, environmentProvider.platform)
   )
 
   val defaultWorkspace =

@@ -4,8 +4,12 @@ import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
-import org.mulesoft.lsp.configuration.InitializeParams
-import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
+import org.mulesoft.lsp.configuration.AlsInitializeParams
+import org.mulesoft.lsp.feature.diagnostic.{
+  CleanDiagnosticTreeParams,
+  CleanDiagnosticTreeRequestType,
+  PublishDiagnosticsParams
+}
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync._
@@ -18,7 +22,7 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
 
   val logger: Logger = EmptyLogger
 
-  protected val initializeParams: InitializeParams = InitializeParams.default
+  protected val initializeParams: AlsInitializeParams = AlsInitializeParams.default
 
   private def telemetryNotifications(mockTelemetryClientNotifier: MockTelemetryClientNotifier)(
       qty: Int,
@@ -41,6 +45,12 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
   def openFileNotification(server: LanguageServer)(file: String, content: String): Future[Unit] = Future.successful {
     openFile(server)(file, content)
   }
+
+  def requestCleanDiagnostic(server: LanguageServer)(uri: String): Future[Seq[PublishDiagnosticsParams]] =
+    server
+      .resolveHandler(CleanDiagnosticTreeRequestType)
+      .value
+      .apply(CleanDiagnosticTreeParams(TextDocumentIdentifier(uri)))
 
   def focusNotification(server: LanguageServer)(file: String, version: Int): Future[Unit] = Future.successful {
     onFocus(server)(file, version)
@@ -68,24 +78,6 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
 
   def onFocus(server: LanguageServer)(uri: String, version: Int): Unit =
     server.textDocumentSyncConsumer.didFocus(DidFocusParams(uri, version))
-
-  def compile(server: LanguageServer)(uri: String): Future[Seq[PublishDiagnosticsParams]] = {
-    server.workspaceService
-      .executeCommand(ExecuteCommandParams(Commands.COMPILE, List("{\"mainUri\": \"" + uri + "\"}")))
-      .map {
-        case Some(seq: Seq[PublishDiagnosticsParams]) => seq
-        case _                                        => Nil
-      }
-  }
-
-  def serialize(server: LanguageServer)(uri: String): Future[String] = {
-    server.workspaceService
-      .executeCommand(ExecuteCommandParams(Commands.SERIALIZE, List("{\"uri\": \"" + uri + "\"}")))
-      .map {
-        case Some(s: String) => s
-        case _               => ""
-      }
-  }
 
   def closeFile(server: LanguageServer)(uri: String): Unit =
     server.textDocumentSyncConsumer.didClose(DidCloseTextDocumentParams(TextDocumentIdentifier(uri)))

@@ -6,9 +6,9 @@ import org.mulesoft.als.client.lsp.command.ClientCommand
 import org.mulesoft.als.client.lsp.common._
 import org.mulesoft.als.client.lsp.configuration.{
   ClientAlsClientCapabilities,
-  ClientInitializeParams,
-  ClientInitializeResult,
-  ClientServerCapabilities
+  ClientAlsInitializeParams,
+  ClientAlsInitializeResult,
+  ClientAlsServerCapabilities
 }
 import org.mulesoft.als.client.lsp.feature.completion.{ClientCompletionContext, ClientCompletionItem}
 import org.mulesoft.als.client.lsp.feature.diagnostic.{
@@ -50,12 +50,7 @@ import org.mulesoft.lsp.common.{
 import org.mulesoft.lsp.configuration._
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.completion._
-import org.mulesoft.lsp.feature.diagnostic.{
-  Diagnostic,
-  DiagnosticClientCapabilities,
-  DiagnosticRelatedInformation,
-  DiagnosticSeverity
-}
+import org.mulesoft.lsp.feature.diagnostic._
 import org.mulesoft.lsp.feature.documentsymbol._
 import org.mulesoft.lsp.feature.link.{
   DocumentLink,
@@ -71,6 +66,7 @@ import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace._
 import org.scalatest.{FlatSpec, Matchers}
 
+import scala.scalajs.js
 import scala.scalajs.js.JSON
 
 class ClientConversionTest extends FlatSpec with Matchers {
@@ -190,11 +186,19 @@ class ClientConversionTest extends FlatSpec with Matchers {
   behavior of "Configuration transformations"
 
   it should "transform ClientCapabilities" in {
-    val cc  = ClientCapabilities(Some(WorkspaceClientCapabilities()), Some(TextDocumentClientCapabilities()), None)
+    val cc = AlsClientCapabilities(
+      Some(WorkspaceClientCapabilities()),
+      Some(TextDocumentClientCapabilities()),
+      None,
+      Some(SerializationClientCapabilities(true)),
+      Some(CleanDiagnosticTreeClientCapabilities(true))
+    )
+
     val cc1 = cc.toClient
     val cc2 = cc1.toShared
 
-    val stringified = "{\"workspace\":{},\"textDocument\":{}}" // todo: test with textDocument parameters when ready
+    val stringified =
+      "{\"workspace\":{},\"textDocument\":{},\"serialization\":{\"acceptsNotification\":true},\"cleanDiagnosticTree\":{\"enableCleanDiagnostic\":true}}" // todo: test with textDocument parameters when ready
 
     JSON.stringify(cc1) should be(stringified)
 
@@ -226,9 +230,9 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   it should "transform InitializeParams" in {
-    val ip: InitializeParams        = InitializeParams(None, None, Some("uri"), None, Some(Seq(wf)), None, None)
-    val ip1: ClientInitializeParams = ip.toClient
-    val ip2: InitializeParams       = ip1.toShared
+    val ip: AlsInitializeParams        = AlsInitializeParams(None, None, Some("uri"), None, Some(Seq(wf)), None, None)
+    val ip1: ClientAlsInitializeParams = ip.toClient
+    val ip2: AlsInitializeParams       = ip1.toShared
 
     val stringified =
       "{\"processId\":null,\"capabilities\":{},\"trace\":\"off\",\"rootUri\":\"uri\",\"workspaceFolders\":[{\"uri\":\"uri\",\"name\":\"name\"}]}"
@@ -243,18 +247,24 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   it should "transform AlsClientCapabilities" in {
-    val acp: AlsClientCapabilities        = AlsClientCapabilities(Some(SerializationClientCapabilities(true)))
+    val acp: AlsClientCapabilities = AlsClientCapabilities(None,
+                                                           None,
+                                                           None,
+                                                           Some(SerializationClientCapabilities(true)),
+                                                           Some(CleanDiagnosticTreeClientCapabilities(true)))
     val acp1: ClientAlsClientCapabilities = acp.toClient
     val acp2: AlsClientCapabilities       = acp1.toShared
 
     acp.serialization should be(acp2.serialization)
+    acp.cleanDiagnosticTree should be(acp2.cleanDiagnosticTree)
     acp.serialization.get.acceptsNotification should be(acp2.serialization.get.acceptsNotification)
+    acp.cleanDiagnosticTree.get.enableCleanDiagnostic should be(acp2.cleanDiagnosticTree.get.enableCleanDiagnostic)
   }
 
-  val sc: ServerCapabilities = ServerCapabilities(Some(Left(TextDocumentSyncKind(1))), Some(CompletionOptions()))
+  val sc: AlsServerCapabilities = AlsServerCapabilities(Some(Left(TextDocumentSyncKind(1))), Some(CompletionOptions()))
   it should "transform ServerCapabilities" in {
-    val sc1: ClientServerCapabilities = sc.toClient
-    val sc2: ServerCapabilities       = sc1.toShared
+    val sc1: ClientAlsServerCapabilities = sc.toClient
+    val sc2: AlsServerCapabilities       = sc1.toShared
 
     val stringified =
       "{\"textDocumentSync\":1,\"completionProvider\":{},\"definitionProvider\":false,\"referencesProvider\":false,\"documentSymbolProvider\":false}"
@@ -265,9 +275,9 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   it should "transform InitializeResult" in {
-    val ir: InitializeResult        = InitializeResult(sc)
-    val ir1: ClientInitializeResult = ir.toClient
-    val ir2: InitializeResult       = ir1.toShared
+    val ir: AlsInitializeResult        = AlsInitializeResult(sc)
+    val ir1: ClientAlsInitializeResult = ir.toClient
+    val ir2: AlsInitializeResult       = ir1.toShared
 
     val stringified =
       "{\"capabilities\":{\"textDocumentSync\":1,\"completionProvider\":{},\"definitionProvider\":false,\"referencesProvider\":false,\"documentSymbolProvider\":false}}"
