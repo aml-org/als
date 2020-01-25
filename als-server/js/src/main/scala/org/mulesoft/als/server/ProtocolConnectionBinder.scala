@@ -3,11 +3,7 @@ package org.mulesoft.als.server
 import org.mulesoft.als.client.convert.LspConvertersClientToShared._
 import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.client.lsp.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
-import org.mulesoft.als.client.lsp.configuration.{
-  ClientAlsClientCapabilities,
-  ClientInitializeParams,
-  ClientInitializeResult
-}
+import org.mulesoft.als.client.lsp.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
 import org.mulesoft.als.client.lsp.feature.completion.{
   ClientCompletionItem,
   ClientCompletionList,
@@ -82,26 +78,18 @@ object ProtocolConnectionBinder {
     clientAware.connectAls(ProtocolConnectionLanguageClient(protocolConnection))
 
     val initializeHandlerJs
-      : js.Function2[ClientInitializeParams, CancellationToken, Thenable[ClientInitializeResult]] =
-      (param: ClientInitializeParams, _: CancellationToken) =>
+      : js.Function2[ClientAlsInitializeParams, CancellationToken, Thenable[ClientAlsInitializeResult]] =
+      (param: ClientAlsInitializeParams, _: CancellationToken) =>
         languageServer
           .initialize(param.toShared)
           .map(_.toClient)
           .toJSPromise
-          .asInstanceOf[Thenable[ClientInitializeResult]]
+          .asInstanceOf[Thenable[ClientAlsInitializeResult]]
 
     protocolConnection.onRequest(
       InitializeRequest.`type`,
-      initializeHandlerJs.asInstanceOf[ClientRequestHandler[ClientInitializeParams, ClientInitializeResult, js.Any]])
-
-    val notifyAlsClientCapabilities: js.Function2[ClientAlsClientCapabilities, CancellationToken, Unit] =
-      (param: ClientAlsClientCapabilities, _: CancellationToken) =>
-        languageServer
-          .notifyAlsClientCapabilities(param.toShared)
-
-    protocolConnection.onNotification(
-      AlsClientCapabilitiesNotification.`type`,
-      notifyAlsClientCapabilities.asInstanceOf[NotificationHandler[ClientAlsClientCapabilities]])
+      initializeHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientAlsInitializeParams, ClientAlsInitializeResult, js.Any]])
 
     val initializedHandlerJs: js.Function2[js.Any, CancellationToken, Unit] = (_: js.Any, _: CancellationToken) =>
       languageServer.initialized()

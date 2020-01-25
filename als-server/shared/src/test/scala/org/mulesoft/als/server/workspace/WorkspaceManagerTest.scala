@@ -5,7 +5,7 @@ import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
 import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.common.{Position, Range}
-import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
+import org.mulesoft.lsp.configuration.{AlsInitializeParams, TraceKind}
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.Assertion
@@ -26,7 +26,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   test("Workspace Manager check validations (initializing a tree should validate instantly)") {
     withServer[Assertion] { server =>
       for {
-        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
         c <- diagnosticClientNotifier.nextCall
@@ -40,7 +40,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   test("Workspace Manager search by location rather than uri (workspace)") {
     withServer[Assertion] { server =>
       for {
-        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws3")}")))
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws3")}")))
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
       } yield {
@@ -54,7 +54,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     withServer[Assertion] { server =>
       val rootFolder = s"${filePath("ws-error-stack-1")}"
       for {
-        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
         c <- diagnosticClientNotifier.nextCall
@@ -86,7 +86,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     withServer[Assertion] { server =>
       val rootFolder = s"${filePath("ws-error-stack-2")}"
       for {
-        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
       } yield {
@@ -114,7 +114,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     withServer[Assertion] { server =>
       val rootFolder = s"${filePath("ws-error-stack-3")}"
       for {
-        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
       } yield {
@@ -142,7 +142,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     withServer[Assertion] { server =>
       val rootFolder = s"${filePath("ws-error-stack-4")}"
       for {
-        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
         c <- diagnosticClientNotifier.nextCall
@@ -194,7 +194,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val originalConfig = """{"main": "api.raml"}"""
 
       for {
-        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
         // api.raml, fragment.raml
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
@@ -230,7 +230,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val apiFragment = s"$root/fragment.raml"
 
       for {
-        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
         // api.raml, fragment.raml
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall

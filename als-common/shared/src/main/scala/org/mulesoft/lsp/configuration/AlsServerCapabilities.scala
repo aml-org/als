@@ -2,8 +2,10 @@ package org.mulesoft.lsp.configuration
 
 import org.mulesoft.lsp.feature.codeactions.CodeActionOptions
 import org.mulesoft.lsp.feature.completion.CompletionOptions
+import org.mulesoft.lsp.feature.diagnostic.CleanDiagnosticTreeOptions
 import org.mulesoft.lsp.feature.link.DocumentLinkOptions
 import org.mulesoft.lsp.feature.rename.RenameOptions
+import org.mulesoft.lsp.feature.serialization.SerializationServerOptions
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync.TextDocumentSyncOptions
 
@@ -19,18 +21,23 @@ import org.mulesoft.lsp.textsync.TextDocumentSyncOptions
   *                               specified if the client states that it supports
   *                               `prepareSupport` in its initial `initialize` request.
   * @param experimental           Experimental server capabilities.
+  * @param serialization          the server provides serialization of the resolved model notifications
+  * @param cleanDiagnostics       the server supports request for clean full diagnostics over a given uri
   */
-case class ServerCapabilities(textDocumentSync: Option[Either[TextDocumentSyncKind, TextDocumentSyncOptions]] = None,
-                              completionProvider: Option[CompletionOptions] = None,
-                              definitionProvider: Boolean = false,
-                              referencesProvider: Boolean = false,
-                              documentSymbolProvider: Boolean = false,
-                              renameProvider: Option[RenameOptions] = None,
-                              codeActionProvider: Option[CodeActionOptions] = None,
-                              documentLinkProvider: Option[DocumentLinkOptions] = None,
-                              workspace: Option[WorkspaceServerCapabilities] = None,
-                              experimental: Option[AnyRef] = None)
+case class AlsServerCapabilities(
+    textDocumentSync: Option[Either[TextDocumentSyncKind, TextDocumentSyncOptions]] = None,
+    completionProvider: Option[CompletionOptions] = None,
+    definitionProvider: Boolean = false,
+    referencesProvider: Boolean = false,
+    documentSymbolProvider: Boolean = false,
+    renameProvider: Option[RenameOptions] = None,
+    codeActionProvider: Option[CodeActionOptions] = None,
+    documentLinkProvider: Option[DocumentLinkOptions] = None,
+    workspace: Option[WorkspaceServerCapabilities] = None,
+    experimental: Option[AnyRef] = None,
+    serialization: Option[SerializationServerOptions] = None,
+    cleanDiagnostics: Option[CleanDiagnosticTreeOptions] = None)
 
-object ServerCapabilities {
-  def empty = ServerCapabilities()
+object AlsServerCapabilities {
+  def empty: AlsServerCapabilities = AlsServerCapabilities()
 }

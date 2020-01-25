@@ -9,30 +9,20 @@ import org.eclipse.lsp4j.ExecuteCommandOptions
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.mulesoft.lsp.command.Command
 import org.mulesoft.lsp.common.{Location, LocationLink, Position, Range, VersionedTextDocumentIdentifier}
-import org.mulesoft.lsp.configuration.{InitializeResult, ServerCapabilities}
-import org.mulesoft.lsp.edit.{
-  CreateFile,
-  DeleteFile,
-  DeleteFileOptions,
-  NewFileOptions,
-  RenameFile,
-  ResourceOperation,
-  TextDocumentEdit,
-  TextEdit,
-  WorkspaceEdit
-}
-import org.mulesoft.lsp.feature.codeactions.{CodeAction, CodeActionKind, CodeActionOptions}
+import org.mulesoft.lsp.configuration.{AlsInitializeResult, AlsServerCapabilities}
+import org.mulesoft.lsp.edit._
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
-import org.mulesoft.lsp.feature.completion.{CompletionItem, CompletionList, CompletionOptions}
+import org.mulesoft.lsp.feature.codeactions.{CodeAction, CodeActionKind, CodeActionOptions}
 import org.mulesoft.lsp.feature.completion.CompletionItemKind.CompletionItemKind
 import org.mulesoft.lsp.feature.completion.InsertTextFormat.InsertTextFormat
-import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticRelatedInformation, PublishDiagnosticsParams}
+import org.mulesoft.lsp.feature.completion.{CompletionItem, CompletionList, CompletionOptions}
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
+import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticRelatedInformation, PublishDiagnosticsParams}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbol, SymbolInformation}
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.rename.RenameOptions
-import org.mulesoft.lsp.textsync.{SaveOptions, TextDocumentSyncKind, TextDocumentSyncOptions}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
+import org.mulesoft.lsp.textsync.{SaveOptions, TextDocumentSyncKind, TextDocumentSyncOptions}
 
 import scala.collection.JavaConverters._
 import scala.compat.java8.FutureConverters._
@@ -284,15 +274,18 @@ object Lsp4JConversions {
         JEither.forRight[java.lang.Boolean, lsp4j.CodeActionOptions](lsp4JCodeActionOptions(codeActionOptions)))
       .getOrElse(JEither.forLeft(false))
 
-  implicit def lsp4JServerCapabilities(capabilities: ServerCapabilities): lsp4j.ServerCapabilities = {
-    val result = new lsp4j.ServerCapabilities()
+  implicit def alsInitializeResult(result: AlsInitializeResult): extension.AlsInitializeResult = {
+    val clientR = new extension.AlsInitializeResult
+    clientR.setServerCapabilities(result.capabilities)
+    clientR
+  }
+
+  implicit def alsServerCapabilities(capabilities: AlsServerCapabilities): extension.AlsServerCapabilities = {
+    val result = new extension.AlsServerCapabilities()
+
     result.setTextDocumentSync(
       capabilities.textDocumentSync
         .map(jEither(_, lsp4JTextDocumentSyncKind, lsp4JTextDocumentSyncOptions))
-        //        .map(v => {
-        //          println(v)
-        //          v
-        //        })
         .orNull)
     result.setCompletionProvider(
       capabilities.completionProvider
@@ -309,11 +302,12 @@ object Lsp4JConversions {
     result.setExperimental(capabilities.experimental)
     result.setExecuteCommandProvider(new ExecuteCommandOptions(Lists.newArrayList("didFocusChange")))
 
+    capabilities.cleanDiagnostics.foreach(cd =>
+      result.setCleanDiagnosticTree(new extension.CleanDiagnosticTreeServerOptions(cd.supported)))
+    capabilities.serialization.foreach(s =>
+      result.setSerialization(new extension.SerializationServerOptions(s.supportsSerialization)))
     result
   }
-
-  implicit def lsp4JInitializeResult(result: InitializeResult): lsp4j.InitializeResult =
-    new lsp4j.InitializeResult(result.capabilities)
 
   implicit def lsp4JDiagnosticSeverity(diagnostic: DiagnosticSeverity): lsp4j.DiagnosticSeverity =
     lsp4j.DiagnosticSeverity.forValue(diagnostic.id)

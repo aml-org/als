@@ -12,6 +12,7 @@ import org.eclipse.lsp4j.{ExecuteCommandParams, InitializeParams}
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientConnection, ClientNotifier}
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
+import org.mulesoft.als.server.lsp4j.extension.AlsInitializeParams
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.textsync.EnvironmentProvider
@@ -43,7 +44,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
       LanguageServerFactory
         .alsLanguageServer(clientConnection, JvmSerializationProps(notifier), logger, withDiagnostics = false))
 
-    server.initialize(new InitializeParams()).toScala.map(_ => succeed)
+    server.initialize(new AlsInitializeParams()).toScala.map(_ => succeed)
   }
 
   test("Lsp4j LanguageServerImpl with null params: initialize should not fail") {

@@ -4,7 +4,7 @@ import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
-import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
+import org.mulesoft.lsp.configuration.{AlsInitializeParams, TraceKind}
 import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.reference.{ReferenceContext, ReferenceParams, ReferenceRequestType}
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
@@ -30,7 +30,7 @@ class ServerReferenceTest extends LanguageServerBaseTest {
     withServer[Assertion] { server =>
       val uri = s"${filePath("ws2")}"
       for {
-        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(uri)))
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(uri)))
         references <- {
           val handler = server.resolveHandler(ReferenceRequestType).value
           handler(

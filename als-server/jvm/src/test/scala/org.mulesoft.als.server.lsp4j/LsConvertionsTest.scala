@@ -2,24 +2,25 @@ package org.mulesoft.als.server.lsp4j
 
 import org.eclipse.lsp4j._
 import org.mulesoft.als.server.lsp4j.LspConversions._
+import org.mulesoft.als.server.lsp4j.extension.{AlsClientCapabilities, AlsInitializeParams}
 import org.mulesoft.lsp.configuration.{
-  ClientCapabilities => InternalCapabilities,
-  InitializeParams => InternalParams,
+  AlsClientCapabilities => InternalCapabilities,
+  AlsInitializeParams => InternalParams,
   TextDocumentClientCapabilities => InternalDocumentClient
 }
 import org.scalatest.FunSuite
 
 import scala.collection.JavaConverters._
-
+import org.mulesoft.lsp.configuration.{AlsInitializeParams => AlsInternalParams}
 class LsConvertionsTest extends FunSuite {
 
   test("Empty InitializeParams Conversions") {
-    val internalParams: InternalParams = new InitializeParams()
+    val internalParams: AlsInternalParams = new AlsInitializeParams()
     succeed
   }
 
   test("Empty sons of InitializeParams Conversions") {
-    val clientParams = new InitializeParams()
+    val clientParams = new AlsInitializeParams()
     clientParams.setCapabilities(new ClientCapabilities())
     val folder = new WorkspaceFolder()
     clientParams.setWorkspaceFolders(List(folder).asJava)
@@ -29,7 +30,7 @@ class LsConvertionsTest extends FunSuite {
   }
 
   test("Empty sons of client capabilities") {
-    val capabilities = new ClientCapabilities()
+    val capabilities = new AlsClientCapabilities()
     capabilities.setTextDocument(new TextDocumentClientCapabilities())
     capabilities.setWorkspace(new WorkspaceClientCapabilities())
     val internal: InternalCapabilities = capabilities
