@@ -9,7 +9,7 @@ import org.mulesoft.als.client.lsp.feature.completion.{
   ClientCompletionList,
   ClientCompletionParams
 }
-import org.mulesoft.als.client.lsp.feature.diagnostic.{ClientFilesInProjectMessage, ClientPublishDiagnosticsParams}
+import org.mulesoft.als.client.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
 import org.mulesoft.als.client.lsp.feature.documentsymbol.{
   ClientDocumentSymbol,
   ClientDocumentSymbolParams,

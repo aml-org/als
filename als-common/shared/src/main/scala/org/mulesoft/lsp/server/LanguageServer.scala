@@ -26,4 +26,5 @@ trait LanguageServer {
   def workspaceService: WorkspaceService
 
   def resolveHandler[P, R](requestType: RequestType[P, R]): Option[RequestHandler[P, R]]
+
 }

@@ -49,9 +49,11 @@ class WorkspaceContentManager(val folder: String,
   }
 
   def getCompilableUnit(uri: String): Future[CompilableUnit] = {
-    repository.getParsed(uri) match {
-      case Some(pu) => Future.successful(pu.toCU(getNext(uri), mainFile, repository.getReferenceStack(uri)))
-      case _        => getNext(uri).getOrElse(fail(uri))
+    val encodedUri = FileUtils.getEncodedUri(uri, environmentProvider.platform)
+    repository.getParsed(encodedUri) match {
+      case Some(pu) =>
+        Future.successful(pu.toCU(getNext(encodedUri), mainFile, repository.getReferenceStack(encodedUri)))
+      case _ => getNext(encodedUri).getOrElse(fail(encodedUri))
     }
   }
 
@@ -167,8 +169,9 @@ class WorkspaceContentManager(val folder: String,
                                       MessageTypes.BEGIN_PARSE,
                                       uri,
                                       uuid)
-    val eventualUnit = environmentProvider.amfConfig.parseHelper
-      .parse(environmentProvider.amfConfig.getDecodedUri(uri), environment.withResolver(repository.resolverCache))
+    val eventualUnit = environmentProvider.amfConfiguration.parserHelper
+      .parse(FileUtils.getDecodedUri(uri, environmentProvider.platform),
+             environment.withResolver(repository.resolverCache))
     eventualUnit.foreach(
       _ =>
         telemetryProvider

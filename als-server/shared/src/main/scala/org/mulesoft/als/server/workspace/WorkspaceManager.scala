@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.workspace
 
+import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.{BaseUnitListener, CHANGE_CONFIG, NotificationKind, TextListener}
 import org.mulesoft.als.server.modules.workspace.{CompilableUnit, WorkspaceContentManager}
@@ -13,7 +14,6 @@ import org.mulesoft.als.server.workspace.extract.{
 }
 import org.mulesoft.lsp.Initializable
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
-import org.mulesoft.lsp.server.AmfConfiguration
 import org.mulesoft.lsp.workspace.{ExecuteCommandParams, WorkspaceService}
 
 import scala.collection.mutable.ListBuffer
@@ -50,7 +50,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
   override def notify(uri: String, kind: NotificationKind): Unit = {
     val manager: WorkspaceContentManager = getWorkspace(uri)
-    if (manager.configFile.map(environmentProvider.amfConfig.getEncodedUri).contains(uri)) {
+    if (manager.configFile.map(FileUtils.getEncodedUri(_, environmentProvider.platform)).contains(uri)) {
       manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
       manager.changedFile(uri, CHANGE_CONFIG)
     } else manager.changedFile(uri, kind)
@@ -78,7 +78,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(
     Commands.DID_FOCUS_CHANGE_COMMAND -> new DidFocusCommandExecutor(logger, this),
     Commands.DID_CHANGE_CONFIGURATION -> new DidChangeConfigurationCommandExecutor(logger, this),
-    Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, environmentProvider.amfConfig)
+    Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, environmentProvider.amfConfiguration)
   )
 
   val defaultWorkspace =

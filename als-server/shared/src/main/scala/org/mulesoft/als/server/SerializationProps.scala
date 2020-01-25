@@ -3,6 +3,7 @@ package org.mulesoft.als.server
 import java.io.StringWriter
 
 import org.mulesoft.als.server.client.AlsClientNotifier
+import org.mulesoft.lsp.feature.serialization.SerializationMessage
 import org.yaml.builder.{DocBuilder, JsonOutputBuilder}
 
 abstract class SerializationProps[S](val alsClientNotifier: AlsClientNotifier[S]) {
@@ -14,3 +15,5 @@ case class JvmSerializationProps(override val alsClientNotifier: AlsClientNotifi
     extends SerializationProps[StringWriter](alsClientNotifier) {
   override def newDocBuilder(): DocBuilder[StringWriter] = JsonOutputBuilder()
 }
+
+object EmptyJvmSerializationProps extends JvmSerializationProps((params: SerializationMessage[StringWriter]) => {})

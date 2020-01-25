@@ -4,13 +4,15 @@ import amf.client.remote.Content
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.lsp.Initializable
-import org.mulesoft.lsp.server.AmfConfiguration
+import org.mulesoft.lsp.server.AmfInstance
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class TextDocumentContainer(override val amfConfig: AmfConfiguration,
+case class TextDocumentContainer(givenEnvironment: Environment,
+                                 override val platform: Platform,
+                                 override val amfConfiguration: AmfInstance,
                                  private val uriToEditor: mutable.Map[String, TextDocument] = mutable.Map())
     extends EnvironmentProvider
     with Initializable {
@@ -58,7 +60,7 @@ case class TextDocumentContainer(override val amfConfig: AmfConfiguration,
     })
 
   override def environmentSnapshot(): Environment =
-    amfConfig.environment
+    environment
       .add(new ResourceLoader {
         private val current: Map[String, String] = uriToEditor.map(t => t._1 -> t._2.text).toMap
 
@@ -76,7 +78,8 @@ case class TextDocumentContainer(override val amfConfig: AmfConfiguration,
 
 trait EnvironmentProvider extends Initializable {
   def environmentSnapshot(): Environment
-  val amfConfig: AmfConfiguration
-  override def initialize(): Future[Unit] = amfConfig.init()
+  val amfConfiguration: AmfInstance
+  val platform: Platform
 
+  override def initialize(): Future[Unit] = amfConfiguration.init()
 }

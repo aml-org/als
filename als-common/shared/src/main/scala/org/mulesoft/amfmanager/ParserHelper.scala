@@ -19,6 +19,7 @@ import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.{ProfileName, ProfileNames}
 import org.mulesoft.amfmanager.BaseUnitImplicits._
+import org.mulesoft.lsp.server.ModelBuilder
 import org.yaml.builder.DocBuilder
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -34,7 +35,9 @@ class AmfParseResult(val baseUnit: BaseUnit, val eh: ErrorCollector) {
     .toSet + baseUnit.location().getOrElse(baseUnit.id)
 }
 
-class ParserHelper(val platform: Platform, amfInit: Future[Unit]) extends CommandHelper {
+class ParserHelper(val platform: Platform, amfInit: Future[Unit])
+    extends CommandHelper
+    with ModelBuilder[AmfParseResult, Environment] {
 
   private def parseInput(url: String, env: Environment, plat: Option[Platform]): Future[AmfParseResult] = {
     val eh        = DefaultParserErrorHandler()
@@ -50,7 +53,7 @@ class ParserHelper(val platform: Platform, amfInit: Future[Unit]) extends Comman
       .map(m => new AmfParseResult(m, eh))
   }
 
-  def parse(url: String, env: Environment = Environment()): Future[AmfParseResult] = {
+  def parse(url: String, env: Environment): Future[AmfParseResult] = {
     for {
       _     <- amfInit
       model <- parseInput(url, env, None)
@@ -85,6 +88,7 @@ class ParserHelper(val platform: Platform, amfInit: Future[Unit]) extends Comman
     generateOutput(config, model)
   }
 
+  override def parse(uri: String): Future[AmfParseResult] = parse(uri, Environment())
 }
 
 object ParserHelper {

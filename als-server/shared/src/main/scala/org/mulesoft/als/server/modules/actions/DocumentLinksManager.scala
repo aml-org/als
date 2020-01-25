@@ -16,6 +16,7 @@ import scala.concurrent.Future
 
 class DocumentLinksManager(val workspaceManager: WorkspaceManager,
                            private val telemetryProvider: TelemetryProvider,
+                           platform: Platform,
                            private val logger: Logger)
     extends RequestModule[DocumentLinkClientCapabilities, DocumentLinkOptions] {
 
@@ -41,7 +42,7 @@ class DocumentLinksManager(val workspaceManager: WorkspaceManager,
       .getUnit(str, UUID.randomUUID().toString)
       .flatMap(_.getLast)
       .map(bu => {
-        FindLinks.getLinks(bu.unit, workspaceManager.amfConfiguration.platform)
+        FindLinks.getLinks(bu.unit, platform)
       })
 
   override def initialize(): Future[Unit] = Future.successful()

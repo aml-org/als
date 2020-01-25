@@ -7,7 +7,7 @@ import org.mulesoft.als.client.lsp.edit._
 import org.mulesoft.als.client.lsp.feature.codeactions._
 import org.mulesoft.als.client.lsp.feature.completion._
 import org.mulesoft.als.client.lsp.feature.definition.ClientDefinitionClientCapabilities
-import org.mulesoft.als.client.lsp.feature.diagnostic.{ClientDiagnostic, ClientDiagnosticClientCapabilities, ClientDiagnosticRelatedInformation, ClientFilesInProjectMessage, ClientPublishDiagnosticsParams}
+import org.mulesoft.als.client.lsp.feature.diagnostic.{ClientDiagnostic, ClientDiagnosticClientCapabilities, ClientDiagnosticRelatedInformation, ClientPublishDiagnosticsParams}
 import org.mulesoft.als.client.lsp.feature.documentsymbol._
 import org.mulesoft.als.client.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkClientCapabilities, ClientDocumentLinkOptions, ClientDocumentLinkParams}
 import org.mulesoft.als.client.lsp.feature.reference.{ClientReferenceClientCapabilities, ClientReferenceContext, ClientReferenceParams}

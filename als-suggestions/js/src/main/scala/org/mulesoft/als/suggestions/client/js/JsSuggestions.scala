@@ -13,7 +13,7 @@ import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.client.lsp.feature.completion.ClientCompletionItem
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.amfmanager.InitOptions
-import org.mulesoft.lsp.server.{AmfConfiguration, DefaultAmfConfiguration, LanguageServerEnvironmentInstance}
+import org.mulesoft.lsp.server.AmfInstance
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
@@ -26,7 +26,7 @@ object JsSuggestions extends PlatformSecrets {
   private val suggestions = new Suggestions(DefaultAmfConfiguration)
   @JSExport
   def init(options: InitOptions = InitOptions.WebApiProfiles): js.Promise[Unit] =
-    suggestions.init(options).toJSPromise
+    Suggestions.default.init(options).toJSPromise
 
   @JSExport
   def suggest(language: String,
@@ -38,9 +38,7 @@ object JsSuggestions extends PlatformSecrets {
 
     val environment = Environment(loaders.map(ResourceLoaderConverter.internalResourceLoader).toSeq)
 
-    new Suggestions(
-      AmfConfiguration(
-        LanguageServerEnvironmentInstance(platform, environment, DirectoryResolverAdapter.convert(dirResolver))))
+    new Suggestions(platform, environment, DirectoryResolverAdapter.convert(dirResolver), AmfInstance(environment))
       .suggest(url, position, snippetSupport)
       .map(_.map(_.toClient).toJSArray)
       .toJSPromise
