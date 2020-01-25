@@ -1,24 +1,22 @@
 package org.mulesoft.als.suggestions.test.core
 
 import amf.client.remote.Content
-import amf.core.model.document.BaseUnit
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
 import org.mulesoft.als.common.PlatformDirectoryResolver
-import org.mulesoft.als.suggestions.Core
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
-import org.mulesoft.amfmanager.{InitOptions, ParserHelper}
+import org.mulesoft.amfmanager.InitOptions
 import org.mulesoft.lsp.feature.completion.CompletionItem
+import org.mulesoft.lsp.server.AmfInstance
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
 
 trait CoreTest extends AsyncFunSuite with PlatformSecrets {
-  private val directoryResolver = new PlatformDirectoryResolver(platform)
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
@@ -30,7 +28,8 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
   def suggest(path: String,
               label: String = "*",
               cutTail: Boolean = false,
-              labels: Array[String] = Array("*")): Future[Seq[CompletionItem]] = {
+              labels: Array[String] = Array("*"),
+              suggestions: Suggestions): Future[Seq[CompletionItem]] = {
 
     val url = filePath(path)
     for {
@@ -42,13 +41,7 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
         (this.buildEnvironment(url, markerInfo.patchedContent.original, content.mime), markerInfo.position)
       }
 
-      suggestions <- Suggestions.suggest(format,
-                                         url,
-                                         position,
-                                         directoryResolver,
-                                         env,
-                                         platform,
-                                         snippetsSupport = true)
+      suggestions <- suggestions.suggest(format, url, position, snippetsSupport = true)
     } yield suggestions
   }
 
@@ -95,23 +88,18 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
   }
 
   def runTestForCustomDialect(path: String, dialectPath: String, originalSuggestions: Set[String]): Future[Assertion] = {
-    val p = filePath(dialectPath)
-    Suggestions
-      .init(InitOptions.AllProfiles)
-      .flatMap(_ => parseAMF(p))
+    val p             = filePath(dialectPath)
+    val configuration = AmfInstance.default
+    val s             = Suggestions.default
+    s.init(InitOptions.AllProfiles)
+      .flatMap(_ => configuration.parse(p))
       .flatMap(_ =>
-        suggest(path).map(suggestions => {
+        suggest(path, suggestions = s).map(suggestions => {
           AMLPlugin.registry.remove(p)
           assert(suggestions.map(_.label).size == originalSuggestions.size)
           assert(suggestions.map(_.label).forall(s => originalSuggestions.contains(s)))
           assert(originalSuggestions.forall(s => suggestions.map(_.label).contains(s)))
         }))
-  }
-
-  def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] = {
-
-    val helper = ParserHelper(platform)
-    helper.parse(path, env).map(_.baseUnit)
   }
 }
 

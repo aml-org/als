@@ -20,7 +20,9 @@ import org.yaml.model.{YDocument, YNode, YType}
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: DtoPosition,
                            val actualDialect: Dialect,
-                           val env: CompletionEnvironment,
+                           val environment: Environment,
+                           val directoryResolver: DirectoryResolver,
+                           val platform: Platform,
                            val styler: SuggestionRender,
                            val yPartBranch: YPartBranch,
                            private val objectInTree: ObjectInTree,
@@ -90,6 +92,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
   }
 }
 
+// todo: make instance
 object AmlCompletionRequestBuilder {
 
   private def indentation(bu: BaseUnit, position: DtoPosition): Int =
@@ -115,7 +118,9 @@ object AmlCompletionRequestBuilder {
   def build(baseUnit: BaseUnit,
             position: AmfPosition,
             dialect: Dialect,
-            env: CompletionEnvironment,
+            environment: Environment,
+            directoryResolver: DirectoryResolver,
+            platform: Platform,
             patchedContent: PatchedContent,
             snippetSupport: Boolean): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
@@ -137,7 +142,15 @@ object AmlCompletionRequestBuilder {
                                                snippetSupport,
                                                indentation(baseUnit, dtoPosition))
     val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
-    new AmlCompletionRequest(baseUnit, DtoPosition(position), dialect, env, styler, yPartBranch, objectInTree)
+    new AmlCompletionRequest(baseUnit,
+                             DtoPosition(position),
+                             dialect,
+                             environment,
+                             directoryResolver,
+                             platform,
+                             styler,
+                             yPartBranch,
+                             objectInTree)
   }
 
   private def prefix(yPartBranch: YPartBranch, position: DtoPosition): String = {
@@ -189,7 +202,9 @@ object AmlCompletionRequestBuilder {
       parent.baseUnit,
       parent.position,
       parent.actualDialect,
-      parent.env,
+      parent.environment,
+      parent.directoryResolver,
+      parent.platform,
       parent.styler,
       parent.yPartBranch,
       objectInTree,
@@ -197,5 +212,3 @@ object AmlCompletionRequestBuilder {
     )
   }
 }
-
-case class CompletionEnvironment(directoryResolver: DirectoryResolver, platform: Platform, env: Environment)

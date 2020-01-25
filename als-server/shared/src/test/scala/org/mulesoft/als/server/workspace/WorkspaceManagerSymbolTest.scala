@@ -5,7 +5,7 @@ import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, M
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.configuration.{AlsInitializeParams, TraceKind}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
+import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.scalatest.Assertion
 
@@ -62,7 +62,7 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
   }
 
   override def buildServer(): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.structureManager)
       .build()
 

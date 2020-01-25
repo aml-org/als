@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.serialization
 
 import amf.core.model.document.BaseUnit
-import amf.core.remote.Platform
 import org.mulesoft.als.server.modules.ast.BaseUnitListener
 import org.mulesoft.als.server.modules.workspace.DiagnosticsBundle
 import org.mulesoft.als.server.{ClientNotifierModule, SerializationProps}
@@ -12,11 +11,12 @@ import org.mulesoft.lsp.feature.serialization.{
   SerializationMessage,
   SerializationServerOptions
 }
+import org.mulesoft.lsp.server.AmfInstance
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class SerializationManager[S](platform: Platform, props: SerializationProps[S])
+class SerializationManager[S](amfConf: AmfInstance, props: SerializationProps[S])
     extends ClientNotifierModule[SerializationClientCapabilities, SerializationServerOptions]
     with BaseUnitListener {
 
@@ -25,7 +25,7 @@ class SerializationManager[S](platform: Platform, props: SerializationProps[S])
   override val `type`: SerializationConfigType.type = SerializationConfigType
 
   private def resolveAndSerialize(model: BaseUnit) = {
-    val resolved = ParserHelper(platform).editingResolve(model)
+    val resolved = amfConf.parserHelper.editingResolve(model)
     val value    = props.newDocBuilder()
     ParserHelper.toJsonLD(resolved, value).map(_ => value)
   }

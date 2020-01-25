@@ -3,7 +3,6 @@ package org.mulesoft.amfmanager
 import amf.client.commands.CommandHelper
 import amf.client.parse.DefaultParserErrorHandler
 import amf.client.remote.Content
-import amf.core.{AMFSerializer, CompilerContextBuilder}
 import amf.core.annotations.SourceVendor
 import amf.core.client.ParserConfig
 import amf.core.emitter.RenderOptions
@@ -12,13 +11,15 @@ import amf.core.model.document.{BaseUnit, EncodesModel}
 import amf.core.parser.UnspecifiedReference
 import amf.core.remote._
 import amf.core.resolution.pipelines.ResolutionPipeline
-import amf.core.services.{RuntimeCompiler, RuntimeResolver, RuntimeSerializer, RuntimeValidator}
+import amf.core.services.{RuntimeCompiler, RuntimeResolver, RuntimeValidator}
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
+import amf.core.{AMFSerializer, CompilerContextBuilder}
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.{ProfileName, ProfileNames}
 import org.mulesoft.amfmanager.BaseUnitImplicits._
+import org.mulesoft.lsp.server.ModelBuilder
 import org.yaml.builder.DocBuilder
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -34,7 +35,9 @@ class AmfParseResult(val baseUnit: BaseUnit, val eh: ErrorCollector) {
     .toSet + baseUnit.location().getOrElse(baseUnit.id)
 }
 
-class ParserHelper(val platform: Platform) extends CommandHelper {
+class ParserHelper(val platform: Platform, amfInit: Future[Unit])
+    extends CommandHelper
+    with ModelBuilder[AmfParseResult, Environment] {
 
   private def parseInput(url: String, env: Environment, plat: Option[Platform]): Future[AmfParseResult] = {
     val eh        = DefaultParserErrorHandler()
@@ -50,9 +53,9 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
       .map(m => new AmfParseResult(m, eh))
   }
 
-  def parse(url: String, env: Environment = Environment()): Future[AmfParseResult] = {
+  def parse(url: String, env: Environment): Future[AmfParseResult] = {
     for {
-      _     <- AmfInitializationHandler.init()
+      _     <- amfInit
       model <- parseInput(url, env, None)
     } yield model
   }
@@ -70,7 +73,7 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
     })
 
     for {
-      _     <- AmfInitializationHandler.init()
+      _     <- amfInit
       model <- AMLPlugin.registry.registerDialect(url, env)
     } yield { Unit }
   }
@@ -85,6 +88,7 @@ class ParserHelper(val platform: Platform) extends CommandHelper {
     generateOutput(config, model)
   }
 
+  override def parse(uri: String): Future[AmfParseResult] = parse(uri, Environment())
 }
 
 object ParserHelper {
@@ -95,9 +99,6 @@ object ParserHelper {
       Amf.name,
       RenderOptions().withCompactUris.withoutSourceMaps).renderToBuilder(builder)(ExecutionContext.Implicits.global)
   }
-
-  def apply(platform: Platform) = new ParserHelper(platform)
-
   def report(model: BaseUnit): Future[AMFValidationReport] = RuntimeValidator(model, profile(model))
 
   def reportResolved(model: BaseUnit): Future[AMFValidationReport] =

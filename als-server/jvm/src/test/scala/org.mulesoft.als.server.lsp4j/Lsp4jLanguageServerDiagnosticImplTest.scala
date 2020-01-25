@@ -6,7 +6,7 @@ import amf.core.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.ExecuteCommandParams
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
+import org.mulesoft.lsp.server.LanguageServer
 
 import scala.concurrent.Future
 
@@ -154,7 +154,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
     val dm       = builder.diagnosticManager()
     val managers = builder.buildWorkspaceManagerFactory()
 
-    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, DefaultServerSystemConf)
+    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager)
       .addInitializableModule(dm)
       .addRequestModule(managers.cleanDiagnosticManager)
       .build()

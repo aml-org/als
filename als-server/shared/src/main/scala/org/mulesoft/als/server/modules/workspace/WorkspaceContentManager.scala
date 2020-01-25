@@ -8,9 +8,8 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.extract.{WorkspaceConf, WorkspaceConfigurationProvider}
-import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
+import org.mulesoft.amfmanager.AmfParseResult
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import org.mulesoft.lsp.server.LanguageServerSystemConf
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -19,8 +18,7 @@ class WorkspaceContentManager(val folder: String,
                               environmentProvider: EnvironmentProvider,
                               telemetryProvider: TelemetryProvider,
                               logger: Logger,
-                              dependencies: List[BaseUnitListener],
-                              configuration: LanguageServerSystemConf) {
+                              dependencies: List[BaseUnitListener]) {
 
   private var state: WorkspaceState                 = Idle
   private var configMainFile: Option[WorkspaceConf] = None
@@ -52,7 +50,7 @@ class WorkspaceContentManager(val folder: String,
   }
 
   def getCompilableUnit(uri: String): Future[CompilableUnit] = {
-    val encodedUri = FileUtils.getEncodedUri(uri, configuration.platform)
+    val encodedUri = FileUtils.getEncodedUri(uri, environmentProvider.platform)
     repository.getParsed(encodedUri) match {
       case Some(pu) =>
         Future.successful(pu.toCU(getNext(encodedUri), mainFile, repository.getReferenceStack(encodedUri)))
@@ -172,7 +170,7 @@ class WorkspaceContentManager(val folder: String,
                                       MessageTypes.BEGIN_PARSE,
                                       uri,
                                       uuid)
-    val eventualUnit = new ParserHelper(environmentProvider.platform)
+    val eventualUnit = environmentProvider.amfConfiguration.parserHelper
       .parse(FileUtils.getDecodedUri(uri, environmentProvider.platform),
              environment.withResolver(repository.resolverCache))
     eventualUnit.foreach(
