@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
-import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 
 import scala.concurrent.ExecutionContext
@@ -9,11 +9,16 @@ import scala.concurrent.ExecutionContext
 class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
+  val clientNotifier                                       = new MockDiagnosticClientNotifier
   override def buildServer(): LanguageServer = {
+    val builder = new WorkspaceManagerFactoryBuilder(clientNotifier, logger)
+      .withNotificationKind(PARSING_BEFORE)
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, logger, notificationKind = Some(PARSING_BEFORE))
+    val dm      = builder.diagnosticManager()
+    val factory = builder.buildWorkspaceManagerFactory()
+
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
-      .addInitializableModule(factory.diagnosticManager)
+      .addInitializableModule(dm)
       .build()
   }
   override def rootPath: String = ""
@@ -28,8 +33,8 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
     withServer { server =>
       for {
         _       <- openFileNotification(server)(filePath, api)
-        parsing <- MockDiagnosticClientNotifier.nextCall
-        model   <- MockDiagnosticClientNotifier.nextCall
+        parsing <- clientNotifier.nextCall
+        model   <- clientNotifier.nextCall
       } yield {
         server.shutdown()
         assert(parsing.diagnostics.length == 1)
@@ -51,8 +56,8 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
     withServer { server =>
       for {
         _       <- openFileNotification(server)(filePath, api)
-        parsing <- MockDiagnosticClientNotifier.nextCall
-        model   <- MockDiagnosticClientNotifier.nextCall
+        parsing <- clientNotifier.nextCall
+        model   <- clientNotifier.nextCall
       } yield {
         server.shutdown()
         assert(parsing.diagnostics.length == 1)
@@ -79,11 +84,11 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
     withServer { server =>
       for {
         _            <- openFileNotification(server)(filePath, api)
-        parsing      <- MockDiagnosticClientNotifier.nextCall
-        model        <- MockDiagnosticClientNotifier.nextCall
+        parsing      <- clientNotifier.nextCall
+        model        <- clientNotifier.nextCall
         _            <- changeNotification(server)(filePath, apiPatched, 1)
-        parsingFixed <- MockDiagnosticClientNotifier.nextCall
-        model2       <- MockDiagnosticClientNotifier.nextCall
+        parsingFixed <- clientNotifier.nextCall
+        model2       <- clientNotifier.nextCall
       } yield {
         server.shutdown()
         assert(parsing.diagnostics.length == 1)
@@ -114,11 +119,11 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
     withServer { server =>
       for {
         _           <- openFileNotification(server)(filePath, api)
-        parsing     <- MockDiagnosticClientNotifier.nextCall
-        model       <- MockDiagnosticClientNotifier.nextCall
+        parsing     <- clientNotifier.nextCall
+        model       <- clientNotifier.nextCall
         _           <- changeNotification(server)(filePath, apiPatched, 1)
-        parsing2    <- MockDiagnosticClientNotifier.nextCall
-        modelBroken <- MockDiagnosticClientNotifier.nextCall
+        parsing2    <- clientNotifier.nextCall
+        modelBroken <- clientNotifier.nextCall
       } yield {
         server.shutdown()
         assert(parsing.diagnostics.isEmpty)

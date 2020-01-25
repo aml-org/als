@@ -1,6 +1,6 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.textsync.TextDocument
 import org.mulesoft.lsp.common.TextDocumentItem
 import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
@@ -11,9 +11,10 @@ import scala.concurrent.ExecutionContext
 
 class LanguageServerImplTest extends LanguageServerBaseTest {
 
-  override implicit val executionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  private val factory = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = false)
+  protected val factory: WorkspaceManagerFactory =
+    new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
 
   private val editorFiles = factory.container
 

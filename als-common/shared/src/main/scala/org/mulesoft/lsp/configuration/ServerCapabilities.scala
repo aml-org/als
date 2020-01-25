@@ -28,6 +28,7 @@ case class ServerCapabilities(textDocumentSync: Option[Either[TextDocumentSyncKi
                               renameProvider: Option[RenameOptions] = None,
                               codeActionProvider: Option[CodeActionOptions] = None,
                               documentLinkProvider: Option[DocumentLinkOptions] = None,
+                              workspace: Option[WorkspaceServerCapabilities] = None,
                               experimental: Option[AnyRef] = None)
 
 object ServerCapabilities {

@@ -1,5 +1,7 @@
 package org.mulesoft.als.server.lsp4j
 
+import java.util.{List => JList}
+
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.mulesoft.lsp.common.{
@@ -36,9 +38,9 @@ import org.mulesoft.lsp.feature.documentsymbol.{
 import org.mulesoft.lsp.feature.link.{DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
+import org.mulesoft.lsp.feature.serialization.SerializationClientCapabilities
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
-import org.mulesoft.lsp.workspace.ExecuteCommandParams
 
 import scala.collection.JavaConverters._
 import scala.language.implicitConversions
@@ -47,6 +49,8 @@ object LspConversions {
 
   implicit def either[A, B, C, D](either: JEither[A, B], leftTo: A => C, rightTo: B => D): Either[C, D] =
     if (either.isLeft) Left(leftTo(either.getLeft)) else Right(rightTo(either.getRight))
+
+  implicit def seq[A, B](list: JList[A], mapper: A => B): Seq[B] = list.asScala.map(mapper)
 
   def booleanOrFalse(value: java.lang.Boolean): Boolean = !(value == null) && value
 
@@ -143,7 +147,7 @@ object LspConversions {
   implicit def traceKind(kind: String): TraceKind = TraceKind.withName(kind)
 
   implicit def workspaceFolder(folder: lsp4j.WorkspaceFolder): WorkspaceFolder =
-    WorkspaceFolder(Option(folder.getUri), Option(folder.getName))
+    if (folder == null) WorkspaceFolder(None, None) else WorkspaceFolder(Option(folder.getUri), Option(folder.getName))
 
   implicit def initializeParams(params: lsp4j.InitializeParams): InitializeParams =
     Option(params).map { p =>
@@ -152,7 +156,7 @@ object LspConversions {
         Option(p.getTrace).map(traceKind),
         Option(p.getRootUri),
         Option(p.getProcessId),
-        Option(p.getWorkspaceFolders).map(_.asScala.map(workspaceFolder)),
+        Option(p.getWorkspaceFolders).map(wf => seq(wf, workspaceFolder)),
         Option(p.getRootPath),
         Option(p.getInitializationOptions)
       )
@@ -199,6 +203,16 @@ object LspConversions {
       Option(options.getTriggerCharacters).map(_.asScala.map(_(0)).toSet)
     )
 
+  implicit def workspaceFolderServerCapabilities(
+      options: lsp4j.WorkspaceFoldersOptions): WorkspaceFolderServerCapabilities =
+    WorkspaceFolderServerCapabilities(
+      Option(options.getSupported),
+      Option(either(options.getChangeNotifications, (a: String) => a, (a: java.lang.Boolean) => a)))
+
+  implicit def workspaceServerCapabilities(
+      capabilities: lsp4j.WorkspaceServerCapabilities): WorkspaceServerCapabilities =
+    WorkspaceServerCapabilities(Option(capabilities.getWorkspaceFolders))
+
   implicit def serverCapabilities(result: lsp4j.ServerCapabilities): ServerCapabilities =
     if (result == null) ServerCapabilities.empty
     else
@@ -211,6 +225,7 @@ object LspConversions {
         Option(result.getRenameProvider).flatMap(eitherRenameOptions),
         Option(result.getCodeActionProvider).flatMap(eitherCodeActionProviderOptions),
         Option(result.getDocumentLinkProvider),
+        Option(result.getWorkspace),
         Option(result.getExperimental)
       )
 
@@ -306,4 +321,8 @@ object LspConversions {
 
   implicit def documentLinkOptions(options: lsp4j.DocumentLinkOptions): DocumentLinkOptions =
     DocumentLinkOptions(Option(options.getResolveProvider))
+
+  implicit def alsClientCapabilities(clientCapabilities: extension.AlsClientCapabilities): AlsClientCapabilities =
+    AlsClientCapabilities(Option(clientCapabilities.getSerialization).map(s =>
+      SerializationClientCapabilities(acceptsNotification = s.getSupportsSerialization)))
 }
