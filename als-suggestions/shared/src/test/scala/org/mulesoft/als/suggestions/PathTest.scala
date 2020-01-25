@@ -20,7 +20,7 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
 
   test("Should list files from absolute route, having '/' prefix") {
     val eventualAssertion: Future[Assertion] = for {
-      result <- AMLPathCompletionPlugin.resolveInclusion(url, completionEnvironment, "/")
+      result <- AMLPathCompletionPlugin.resolveInclusion(url, environment, platform, directoryResolver, "/")
     } yield {
       assert(result.size == 1)
     }
@@ -29,7 +29,7 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
 
   test("Should list files from absolute route, NOT having '/' prefix") {
     for {
-      result <- AMLPathCompletionPlugin.resolveInclusion(url, completionEnvironment, "")
+      result <- AMLPathCompletionPlugin.resolveInclusion(url, environment, platform, directoryResolver, "")
     } yield {
       assert(result.size == 1)
     }
@@ -71,6 +71,4 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
       Future.successful(!path.contains('.'))
   }
   val environment: Environment = Environment().add(fileLoader)
-  val completionEnvironment: AmfConfiguration = AmfConfiguration(
-    LanguageServerEnvironmentInstance(platform, environment, directoryResolver))
 }

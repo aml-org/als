@@ -17,4 +17,8 @@ object SerializationEventNotification {
 object FilesInProjectEventNotification {
   val `type`: NotificationType[ClientFilesInProjectMessage, js.Any] =
     new NotificationType[ClientFilesInProjectMessage, js.Any]("SerializeJSONLD")
+@JSExportTopLevel("AlsClientCapabilitiesNotification")
+object AlsClientCapabilitiesNotification {
+  val `type`: NotificationType[ClientAlsClientCapabilities, js.Any] =
+    new NotificationType[ClientAlsClientCapabilities, js.Any]("NotifyAlsClientCapabilities")
 }

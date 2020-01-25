@@ -19,7 +19,9 @@ import org.yaml.model.{YDocument, YNode, YType}
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: DtoPosition,
                            val actualDialect: Dialect,
-                           val languageEnvironment: LanguageServerSystemConf,
+                           val environment: Environment,
+                           val directoryResolver: DirectoryResolver,
+                           val platform: Platform,
                            val styler: SuggestionRender,
                            val yPartBranch: YPartBranch,
                            private val objectInTree: ObjectInTree,
@@ -89,6 +91,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
   }
 }
 
+// todo: make instance
 object AmlCompletionRequestBuilder {
 
   private def indentation(bu: BaseUnit, position: DtoPosition): Int =
@@ -114,7 +117,9 @@ object AmlCompletionRequestBuilder {
   def build(baseUnit: BaseUnit,
             position: AmfPosition,
             dialect: Dialect,
-            languageEnvironment: LanguageServerSystemConf,
+            environment: Environment,
+            directoryResolver: DirectoryResolver,
+            platform: Platform,
             patchedContent: PatchedContent,
             snippetSupport: Boolean): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
@@ -139,7 +144,9 @@ object AmlCompletionRequestBuilder {
     new AmlCompletionRequest(baseUnit,
                              DtoPosition(position),
                              dialect,
-                             languageEnvironment,
+                             environment,
+                             directoryResolver,
+                             platform,
                              styler,
                              yPartBranch,
                              objectInTree)
@@ -194,7 +201,9 @@ object AmlCompletionRequestBuilder {
       parent.baseUnit,
       parent.position,
       parent.actualDialect,
-      parent.languageEnvironment,
+      parent.environment,
+      parent.directoryResolver,
+      parent.platform,
       parent.styler,
       parent.yPartBranch,
       objectInTree,

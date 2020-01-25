@@ -129,7 +129,7 @@ lazy val actionsJVM = server.jvm.in(file("./als-actions/jvm"))
 lazy val actionsJS = server.js.in(file("./als-actions/js")).disablePlugins(SonarPlugin)
 
 /** ALS server */
-  
+
 val installJsDependencies = TaskKey[Unit]("installJsDependencies", "Runs npm i")
 
 lazy val server = crossProject(JSPlatform, JVMPlatform)
@@ -154,7 +154,7 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
   )
   .jsSettings(
     installJsDependencies := {
-      Process("npm install",     new File("./als-server/js/node-package/")) !
+      Process("npm install",     new File("./als-server/js/node-package")) !
     },
     test in Test := ((test in Test) dependsOn installJsDependencies).value,
     artifactPath in(Test, fastOptJS) := baseDirectory.value / "node-package" / "tmp" / "als-server.js",

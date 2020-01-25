@@ -14,8 +14,7 @@ import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.extract.DefaultWorkspaceConfigurationProvider
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
-import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
-import org.mulesoft.lsp.server.{AmfConfiguration, DefaultAmfConfiguration}
+import org.mulesoft.lsp.server.AmfInstance
 import org.scalatest.{AsyncFunSuite, Matchers}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -68,7 +67,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
       override def environmentSnapshot(): Environment = Environment(rl)
 
-      override val amfConfig: AmfConfiguration = DefaultAmfConfiguration
+      override val amfConfiguration: AmfInstance = AmfInstance.default
     }
 
     val ws =
@@ -134,7 +133,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
       override def environmentSnapshot(): Environment = Environment(rl)
 
-      override val amfConfig: AmfConfiguration = DefaultAmfConfiguration
+      override val amfConfiguration: AmfInstance = AmfInstance.default
     }
 
     val ws =
@@ -192,7 +191,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
       override def environmentSnapshot(): Environment = Environment(rl)
 
-      override val amfConfig: AmfConfiguration = DefaultAmfConfiguration
+      override val amfConfiguration: AmfInstance = AmfInstance.default
     }
 
     val ws =
@@ -250,7 +249,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
       override def environmentSnapshot(): Environment = Environment(rl)
 
-      override val amfConfig: AmfConfiguration = DefaultAmfConfiguration
+      override val amfConfiguration: AmfInstance = AmfInstance.default
     }
 
     val ws =
@@ -305,7 +304,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
       override def environmentSnapshot(): Environment = Environment(rl)
 
-      override val amfConfig: AmfConfiguration = DefaultAmfConfiguration
+      override val amfConfiguration: AmfInstance = AmfInstance.default
     }
 
     val ws =

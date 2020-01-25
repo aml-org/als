@@ -2,10 +2,13 @@ package org.mulesoft.als.suggestions.client
 
 import amf.core.model.document.BaseUnit
 import amf.core.parser.{Position => AmfPosition}
+import amf.core.remote.Platform
+import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.EnvironmentPatcher
 import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
+import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher, PlatformDirectoryResolver}
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequestBuilder
 import org.mulesoft.als.suggestions.interfaces.Syntax._
@@ -14,14 +17,18 @@ import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.amfmanager.InitOptions
 import org.mulesoft.amfmanager.dialect.DialectKnowledge
 import org.mulesoft.lsp.feature.completion.CompletionItem
-import org.mulesoft.lsp.server.AmfConfiguration
+import org.mulesoft.lsp.server.AmfInstance
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class Suggestions(amfConfiguration: AmfConfiguration) extends SuggestionsHelper {
+class Suggestions(platform: Platform,
+                  environment: Environment,
+                  directoryResolver: DirectoryResolver,
+                  amfInstance: AmfInstance)
+    extends SuggestionsHelper {
   def init(options: InitOptions = InitOptions.WebApiProfiles): Future[Unit] =
-    Core.init(options, amfConfiguration)
+    Core.init(options, amfInstance)
 
   def suggest(url: String, position: Int, snippetsSupport: Boolean): Future[Seq[CompletionItem]] = {
 
@@ -87,7 +94,7 @@ class Suggestions(amfConfiguration: AmfConfiguration) extends SuggestionsHelper 
                                             environment: Environment,
                                             snippetsSupport: Boolean): Future[Seq[CompletionItem]] = {
 
-    buildProviderAsync(amfConfiguration.parseHelper.parse(url, environment).map(_.baseUnit),
+    buildProviderAsync(amfInstance.parserHelper.parse(url, environment).map(_.baseUnit),
                        position,
                        url,
                        patchedContent,
@@ -105,14 +112,18 @@ class Suggestions(amfConfiguration: AmfConfiguration) extends SuggestionsHelper 
     val amfPosition: AmfPosition = pos.toAmfPosition
     CompletionProviderAST(
       AmlCompletionRequestBuilder
-        .build(bu, amfPosition, dialect, amfConfiguration, patchedContent, snippetSupport))
+        .build(bu, amfPosition, dialect, environment, directoryResolver, platform, patchedContent, snippetSupport))
   }
+}
+
+object Suggestions extends PlatformSecrets {
+  val default = new Suggestions(platform, Environment(), new PlatformDirectoryResolver(platform), AmfInstance.default)
 }
 
 trait SuggestionsHelper {
 
-  def amfParse(url: String, amfConfiguration: AmfConfiguration): Future[BaseUnit] =
-    amfConfiguration.parseHelper.parse(url, amfConfiguration.environment).map(_.baseUnit)
+  def amfParse(url: String, amfInstance: AmfInstance, environment: Environment): Future[BaseUnit] =
+    amfInstance.parserHelper.parse(url, environment).map(_.baseUnit)
 
   def getMediaType(originalContent: String): Syntax = {
 

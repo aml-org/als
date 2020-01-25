@@ -2,7 +2,7 @@ package org.mulesoft.als.server
 
 import org.mulesoft.lsp.configuration.{AlsInitializeParams, AlsInitializeResult}
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer, LanguageServerSystemConf}
+import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync.TextDocumentSyncConsumer
 import org.mulesoft.lsp.workspace.WorkspaceService
 

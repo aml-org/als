@@ -2,12 +2,13 @@ package org.mulesoft.language.outline.test
 
 import amf.client.remote.Content
 import amf.core.model.document.BaseUnit
+import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import common.diff.FileAssertionTest
-import org.mulesoft.amfmanager.{DialectInitializer, InitOptions}
-import org.mulesoft.lsp.server.{AmfConfiguration, DefaultAmfConfiguration}
+import org.mulesoft.amfmanager.{AmfParseResult, DialectInitializer, InitOptions}
+import org.mulesoft.lsp.server.{AmfInstance, CompilerEnvironment}
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -40,10 +41,10 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
 
     val fullFilePath = filePath(platform.encodeURI(path)) // filePath(path)
     val fullJsonPath = filePath(jsonPath)
-    val amfConfig    = DefaultAmfConfiguration
+    val amfConfig    = AmfInstance.default
     for {
       _             <- DialectInitializer.init(InitOptions.AllProfiles, amfConfig)
-      actualOutline <- this.getActualOutline(fullFilePath, amfConfig)
+      actualOutline <- this.getActualOutline(fullFilePath, platform, amfConfig)
       tmp           <- writeTemporaryFile(jsonPath)(writeDataToString(actualOutline))
       r             <- assertDifferences(tmp, fullJsonPath)
 
@@ -64,12 +65,14 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
   def getExpectedOutline(url: String): Future[String] =
     this.platform.resolve(url, Environment(this.platform.loaders)).map(_.stream.toString)
 
-  def getActualOutline(url: String, amfConfiguration: AmfConfiguration): Future[T] = {
+  def getActualOutline(url: String,
+                       platform: Platform,
+                       compilerEnvironment: CompilerEnvironment[AmfParseResult, Environment]): Future[T] = {
 
-    var position = 0;
+    var position = 0
 
     var contentOpt: Option[String] = None
-    amfConfiguration
+    platform
       .resolve(url)
       .map(content => {
 
@@ -82,7 +85,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
         env
       })
       .flatMap(env => {
-        amfConfiguration.parseHelper.parse(url, env).map(_.baseUnit)
+        compilerEnvironment.modelBuiler().parse(url, env).map(_.baseUnit)
       })
       .map {
         case amfUnit: BaseUnit =>

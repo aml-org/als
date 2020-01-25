@@ -11,13 +11,12 @@ import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.amfmanager.InitOptions
 import org.mulesoft.lsp.feature.completion.CompletionItem
-import org.mulesoft.lsp.server.DefaultAmfConfiguration
+import org.mulesoft.lsp.server.AmfInstance
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
 
 trait CoreTest extends AsyncFunSuite with PlatformSecrets {
-  private val directoryResolver = new PlatformDirectoryResolver(platform)
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
@@ -88,8 +87,8 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
 
   def runTestForCustomDialect(path: String, dialectPath: String, originalSuggestions: Set[String]): Future[Assertion] = {
     val p             = filePath(dialectPath)
-    val configuration = DefaultAmfConfiguration
-    val s             = new Suggestions(configuration)
+    val configuration = AmfInstance.default
+    val s             = Suggestions.default
     s.init(InitOptions.AllProfiles)
       .flatMap(_ => configuration.parse(p))
       .flatMap(_ =>

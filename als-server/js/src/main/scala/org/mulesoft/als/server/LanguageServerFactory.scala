@@ -1,14 +1,14 @@
 package org.mulesoft.als.server
 
+import amf.client.convert.ClientPayloadPluginConverter
 import amf.client.plugins.ClientAMFPayloadValidationPlugin
 import amf.client.resource.ClientResourceLoader
 import org.mulesoft.als.client.configuration._
-import org.mulesoft.als.client.convert.AmfConfigurationConverter.Converter
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticNotificationsKind
-import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.lsp.server.{AmfInstance, LanguageServer}
 import org.yaml.builder.{DocBuilder, JsOutputBuilder}
 
 import scala.scalajs.js
@@ -26,23 +26,27 @@ object LanguageServerFactory {
                   notificationKind: Option[DiagnosticNotificationsKind] = None,
                   amfPlugins: js.Array[ClientAMFPayloadValidationPlugin] = js.Array.apply()): LanguageServer = {
     fromSystemConfig(clientNotifier,
-                     JsAmfConfiguration(amfPlugins, JsServerSystemConf(clientLoaders, clientDirResolver)),
+                     JsServerSystemConf(clientLoaders, clientDirResolver),
+                     amfPlugins,
                      logger,
                      withDiagnostics,
                      notificationKind)
   }
 
   def fromSystemConfig(clientNotifier: ClientNotifier with AlsClientNotifier[js.Any],
-                       amfConfiguration: JsAmfConfiguration = DefaultJsAmfConfiguration,
+                       jsServerSystemConf: JsServerSystemConf = DefaultJsServerSystemConf,
+                       plugins: js.Array[ClientAMFPayloadValidationPlugin] = js.Array(),
                        logger: Logger = PrintLnLogger,
                        withDiagnostics: Boolean = true,
                        notificationKind: Option[DiagnosticNotificationsKind] = None): LanguageServer = {
 
     val builders = new WorkspaceManagerFactoryBuilder(clientNotifier, logger)
-      .withAmfConfiguration(amfConfiguration.asInternal)
-    val dm  = builders.diagnosticManager()
-    val fit = builders.filesInProjectManager(clientNotifier)
-    val sm  = builders.serializationManager(JsSerializationProps(clientNotifier))
+      .withAmfConfiguration(
+        new AmfInstance(plugins.toSeq.map(ClientPayloadPluginConverter.convert),
+                        jsServerSystemConf.platform,
+                        jsServerSystemConf.environment))
+    val dm = builders.diagnosticManager()
+    val sm = builders.serializationManager(JsSerializationProps(clientNotifier))
 
     notificationKind.foreach(builders.withNotificationKind)
     val factory = builders.buildWorkspaceManagerFactory()
