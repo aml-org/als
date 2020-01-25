@@ -51,8 +51,6 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
     } yield r
   }
 
-  def format: String
-
   def rootPath: String
 
   def bulbLoaders(path: String, content: String): Seq[ResourceLoader] = {

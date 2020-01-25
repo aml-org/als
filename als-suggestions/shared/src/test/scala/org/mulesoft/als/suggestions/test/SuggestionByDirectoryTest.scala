@@ -64,7 +64,6 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
         content,
         "file://" + f.path.replaceAllLiterally(platform.fs.separatorChar.toString, "/"),
         Some("application/" + origin.syntax.extension),
-        origin.vendor.toString,
         None
       )
       tmp <- writeTemporaryFile(expected)(
