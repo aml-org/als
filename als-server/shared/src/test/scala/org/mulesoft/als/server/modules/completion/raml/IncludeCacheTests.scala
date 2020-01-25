@@ -1,13 +1,10 @@
 package org.mulesoft.als.server.modules.completion.raml
 
 import amf.client.remote.Content
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
-import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer, LanguageServerSystemConf}
+import org.mulesoft.lsp.server.{AmfInstance, LanguageServer}
 import org.scalatest.Assertion
 
 import scala.collection.mutable
@@ -23,9 +20,9 @@ class IncludeCacheTests extends RAMLSuggestionTestServer {
 
   def buildServer(rl: ResourceLoader): LanguageServer = {
     val factory = new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
-      .withConfiguration(DummyLanguageServerSystemConf(rl))
+      .withAmfConfiguration(AmfInstance.default)
       .buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.completionManager)
       .build()
   }
@@ -89,12 +86,6 @@ class IncludeCacheTests extends RAMLSuggestionTestServer {
         fail(
           s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
     }
-  }
-
-  case class DummyLanguageServerSystemConf(rl: ResourceLoader) extends LanguageServerSystemConf with PlatformSecrets {
-    override def environment: Environment = Environment().add(rl)
-
-    override def directoryResolver: DirectoryResolver = new PlatformDirectoryResolver(platform)
   }
 
 }

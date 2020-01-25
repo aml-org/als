@@ -12,10 +12,9 @@ import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.extract.DefaultWorkspaceConfigurationProvider
-import org.mulesoft.amfmanager.AmfInitializationHandler
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
-import org.mulesoft.lsp.server.DefaultServerSystemConf
+import org.mulesoft.lsp.server.AmfInstance
 import org.scalatest.{AsyncFunSuite, Matchers}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -68,11 +67,12 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
       override def environmentSnapshot(): Environment = Environment(rl)
 
+      override val amfConfiguration: AmfInstance = AmfInstance.default
     }
 
     val ws =
-      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil, DefaultServerSystemConf)
-    AmfInitializationHandler.init()
+      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil)
+
     ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
       .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
     ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).flatMap { _ =>
@@ -133,10 +133,11 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
       override def environmentSnapshot(): Environment = Environment(rl)
 
+      override val amfConfiguration: AmfInstance = AmfInstance.default
     }
 
     val ws =
-      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil, DefaultServerSystemConf)
+      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil)
 
     ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
       .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
@@ -190,10 +191,11 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
       override def environmentSnapshot(): Environment = Environment(rl)
 
+      override val amfConfiguration: AmfInstance = AmfInstance.default
     }
 
     val ws =
-      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil, DefaultServerSystemConf)
+      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil)
 
     ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, Set.empty, None))
       .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
@@ -247,10 +249,11 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
       override def environmentSnapshot(): Environment = Environment(rl)
 
+      override val amfConfiguration: AmfInstance = AmfInstance.default
     }
 
     val ws =
-      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil, DefaultServerSystemConf)
+      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil)
     ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
       .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
     ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).flatMap { _ =>
@@ -301,11 +304,11 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
       override def environmentSnapshot(): Environment = Environment(rl)
 
+      override val amfConfiguration: AmfInstance = AmfInstance.default
     }
 
     val ws =
-      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil, DefaultServerSystemConf)
-    AmfInitializationHandler.init()
+      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil)
 
     for {
       _ <- Future.successful {

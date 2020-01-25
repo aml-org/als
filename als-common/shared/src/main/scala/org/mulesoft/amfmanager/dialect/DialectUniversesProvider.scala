@@ -8,16 +8,18 @@ import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
+import org.mulesoft.amfmanager.{AmfParseResult, InitOptions}
 import org.mulesoft.amfmanager.dialect.dialects.AsyncAPIDialect
-import org.mulesoft.amfmanager.{AmfInitializationHandler, InitOptions}
+import org.mulesoft.lsp.server.CompilerEnvironment
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object DialectUniversesProvider {
 
-  def buildAndLoadDialects(initOptions: InitOptions): Future[Unit] = {
-    AmfInitializationHandler.init().flatMap { _ =>
+  def buildAndLoadDialects(initOptions: InitOptions,
+                           compilerEnv: CompilerEnvironment[AmfParseResult, Environment]): Future[Unit] = {
+    compilerEnv.init().flatMap { _ =>
       val rl = new ResourceLoader {
         override def fetch(resource: String): Future[Content] =
           Future(

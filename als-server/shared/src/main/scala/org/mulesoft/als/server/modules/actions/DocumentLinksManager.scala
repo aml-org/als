@@ -11,15 +11,14 @@ import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
-import org.mulesoft.lsp.server.LanguageServerSystemConf
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class DocumentLinksManager(val workspaceManager: WorkspaceManager,
                            private val telemetryProvider: TelemetryProvider,
-                           private val logger: Logger,
-                           private val configuration: LanguageServerSystemConf)
+                           platform: Platform,
+                           private val logger: Logger)
     extends RequestModule[DocumentLinkClientCapabilities, DocumentLinkOptions] {
 
   override val `type`: ConfigType[DocumentLinkClientCapabilities, DocumentLinkOptions] =
@@ -44,7 +43,7 @@ class DocumentLinksManager(val workspaceManager: WorkspaceManager,
       .getUnit(str, UUID.randomUUID().toString)
       .flatMap(_.getLast)
       .map(bu => {
-        FindLinks.getLinks(bu.unit, configuration.platform)
+        FindLinks.getLinks(bu.unit, platform)
       })
 
   override def initialize(): Future[Unit] = Future.successful()

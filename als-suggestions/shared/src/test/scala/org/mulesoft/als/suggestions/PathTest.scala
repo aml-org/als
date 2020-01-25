@@ -6,13 +6,12 @@ import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.common.DirectoryResolver
-import org.mulesoft.als.suggestions.aml.CompletionEnvironment
 import org.mulesoft.als.suggestions.plugins.aml.AMLPathCompletionPlugin
 import org.scalatest.AsyncFunSuite
 import org.scalatest.compatible.Assertion
 
-import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{ExecutionContext, Future}
 
 class PathTest extends AsyncFunSuite with PlatformSecrets {
 
@@ -20,7 +19,7 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
 
   test("Should list files from absolute route, having '/' prefix") {
     val eventualAssertion: Future[Assertion] = for {
-      result <- AMLPathCompletionPlugin.resolveInclusion(url, completionEnvironment, "/")
+      result <- AMLPathCompletionPlugin.resolveInclusion(url, environment, platform, directoryResolver, "/")
     } yield {
       assert(result.size == 1)
     }
@@ -29,7 +28,7 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
 
   test("Should list files from absolute route, NOT having '/' prefix") {
     for {
-      result <- AMLPathCompletionPlugin.resolveInclusion(url, completionEnvironment, "")
+      result <- AMLPathCompletionPlugin.resolveInclusion(url, environment, platform, directoryResolver, "")
     } yield {
       assert(result.size == 1)
     }
@@ -70,6 +69,5 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
     override def isDirectory(path: String): Future[Boolean] =
       Future.successful(!path.contains('.'))
   }
-  val environment: Environment                     = Environment().add(fileLoader)
-  val completionEnvironment: CompletionEnvironment = CompletionEnvironment(directoryResolver, platform, environment)
+  val environment: Environment = Environment().add(fileLoader)
 }

@@ -8,9 +8,11 @@ import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance}
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping}
+import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.test.SuggestionsTest
+import org.mulesoft.lsp.server.AmfInstance
 import org.scalatest.exceptions.TestFailedException
 
 import scala.concurrent.Future
@@ -42,23 +44,12 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
     } else propertyMapping.name().value() + ": "
   }
 
-  protected def parse(content: Content): Future[BaseUnit] =
-    init().flatMap(_ =>
-      this.parseAMF(content.url, this.buildEnvironment(content.url, content.stream.toString, content.mime)))
-
   private def suggestFromParsed(bu: BaseUnit,
                                 url: String,
                                 patchedContent: PatchedContent,
                                 position: Int): Future[Seq[String]] = {
-    Suggestions
-      .buildProvider(bu,
-                     position,
-                     directoryResolver,
-                     platform,
-                     Environment(),
-                     url,
-                     patchedContent,
-                     snippetSupport = true)
+    new Suggestions(platform, Environment(), new PlatformDirectoryResolver(platform), AmfInstance.default)
+      .buildProvider(bu, position, url, patchedContent, snippetSupport = true)
       .flatMap(_.suggest())
       .map(suggestions =>
         suggestions.flatMap(suggestion => {

@@ -3,16 +3,11 @@ package org.mulesoft.als.server.lsp4j
 import java.io.StringWriter
 import java.net.{ServerSocket, Socket}
 
-import amf.ProfileName
-import amf.core.lexer.FileStream
 import org.eclipse.lsp4j.jsonrpc.Launcher
-import org.eclipse.lsp4j.launch.LSPLauncher
 import org.eclipse.lsp4j.services.LanguageClient
 import org.mulesoft.als.server.JvmSerializationProps
 import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
-import org.mulesoft.als.server.modules.diagnostic.PARSING_BEFORE
-import org.mulesoft.amfmanager.{CustomDialects, CustomVocabulary}
 import org.mulesoft.lsp.feature.serialization.SerializationMessage
 
 object Main {
@@ -31,12 +26,6 @@ object Main {
           innerReadOptions(options.copy(port = value.toInt), tail)
         case "--listen" :: tail =>
           innerReadOptions(options.copy(listen = true), tail)
-        case "--dialect" :: value :: tail =>
-          innerReadOptions(options.copy(dialectPath = Some(value)), tail)
-        case "--vocabulary" :: value :: tail =>
-          innerReadOptions(options.copy(vocabularyPath = Some(value)), tail)
-        case "--dialectProfile" :: value :: tail =>
-          innerReadOptions(options.copy(dialectName = Some(value)), tail)
         case _ =>
           throw new IllegalArgumentException()
       }
@@ -64,22 +53,17 @@ object Main {
       val clientConnection = ClientConnection[StringWriter](logger)
 
       val server = new LanguageServerImpl(
-        LanguageServerFactory.alsLanguageServer(
-          clientConnection,
-          JvmSerializationProps(clientConnection),
-          logger,
-          options.dialectPath
-            .map(readDialectFile(_, options.dialectName.get, options.vocabularyPath))
-            .toSeq,
-          notificationKind = Some(PARSING_BEFORE)
-        ))
+        new LanguageServerFactory(clientConnection)
+          .withSerializationProps(JvmSerializationProps(clientConnection))
+          .build()
+      )
 
       val launcher = new Launcher.Builder[LanguageClient]()
         .setLocalService(server)
         .setRemoteInterface(classOf[LanguageClient])
         .setInput(in)
         .setOutput(out)
-        .create();
+        .create()
 
       val client = launcher.getRemoteProxy
       clientConnection.connect(LanguageClientWrapper(client))
@@ -92,13 +76,6 @@ object Main {
       case e: Exception =>
         e.printStackTrace()
     }
-  }
-
-  private def readDialectFile(path: String, profile: String, vocabularyPath: Option[String]) = {
-    CustomDialects(ProfileName(profile),
-                   path,
-                   new FileStream(path).toString(),
-                   vocabularyPath.map(vp => CustomVocabulary(vp, new FileStream(vp).toString())))
   }
 
 }

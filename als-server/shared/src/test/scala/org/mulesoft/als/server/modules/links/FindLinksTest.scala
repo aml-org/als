@@ -7,7 +7,7 @@ import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.lsp.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkParams, DocumentLinkRequestType}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
+import org.mulesoft.lsp.server.LanguageServer
 import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -22,7 +22,7 @@ trait FindLinksTest extends LanguageServerBaseTest {
 
     val managers =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, DefaultServerSystemConf)
+    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager)
       .addRequestModule(managers.documentLinksManager)
       .build()
   }
