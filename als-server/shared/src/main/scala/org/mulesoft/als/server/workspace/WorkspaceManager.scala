@@ -1,10 +1,9 @@
 package org.mulesoft.als.server.workspace
 
-import amf.core.remote.Platform
-import amf.internal.environment.Environment
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.{BaseUnitListener, CHANGE_CONFIG, NotificationKind, TextListener}
+import org.mulesoft.als.server.modules.serialization.SerializationManager
 import org.mulesoft.als.server.modules.workspace.{CompilableUnit, WorkspaceContentManager}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.command._
@@ -70,20 +69,21 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
       .changedFile(mainUri, CHANGE_CONFIG)
   }
 
-  override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] =
-    Future {
-      commandExecutors.get(params.command) match {
-        case Some(exe) => exe.runCommand(params)
-        case _ =>
-          logger.error(s"Command [${params.command}] not recognized", "WorkspaceManager", "executeCommand")
-      }
-      Unit
+  override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] = {
+    commandExecutors.get(params.command) match {
+      case Some(exe) =>
+        exe.runCommand(params)
+      case _ =>
+        logger.error(s"Command [${params.command}] not recognized", "WorkspaceManager", "executeCommand")
+        Future.successful(Unit) // future failed?
     }
+  }
 
-  private val commandExecutors: Map[String, CommandExecutor[_]] = Map(
+  private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(
     Commands.DID_FOCUS_CHANGE_COMMAND -> new DidFocusCommandExecutor(logger, this),
     Commands.DID_CHANGE_CONFIGURATION -> new DidChangeConfigurationCommandExecutor(logger, this),
-    Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, environmentProvider.platform)
+    Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, environmentProvider.platform),
+    Commands.COMPILE                  -> new RequestCompileCommandExecutor(logger, this, environmentProvider.platform)
   )
 
   val defaultWorkspace =

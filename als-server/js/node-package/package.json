@@ -1,0 +1,20 @@
+{
+  "name": "@mulesoft/als-server",
+  "version": "2.3.0-snapshot.2",
+  "description": "ALS Server Library",
+  "main": "lib/als-server.js",
+  "types": "typescript/als-server.d.ts",
+  "author": "als team",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/mulesoft/als",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mulesoft/als"
+  },
+  "dependencies": {
+    "amf-shacl-node": "1.1.0",
+    "ajv": "6.5.2",
+    "vscode-jsonrpc": "4.0.0",
+    "vscode-languageserver-protocol": "3.14.1"
+  }
+}

@@ -49,12 +49,12 @@ object InitializeParams {
             rootPath: Option[String] = None,
             initializationOptions: Option[Any] = None): InitializeParams =
     new InitializeParams(capabilities.getOrElse(ClientCapabilities()),
-                         trace.getOrElse(TraceKind.Off),
-                         rootUri,
-                         processId,
-                         workspaceFolders,
-                         rootPath,
-                         initializationOptions)
+      trace.getOrElse(TraceKind.Off),
+      rootUri,
+      processId,
+      workspaceFolders,
+      rootPath,
+      initializationOptions)
 
   def default = apply(None, Some(TraceKind.Off))
 }

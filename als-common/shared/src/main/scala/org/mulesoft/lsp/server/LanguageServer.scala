@@ -1,6 +1,6 @@
 package org.mulesoft.lsp.server
 
-import org.mulesoft.lsp.configuration.{InitializeParams, InitializeResult}
+import org.mulesoft.lsp.configuration.{AlsClientCapabilities, InitializeParams, InitializeResult}
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.lsp.textsync.TextDocumentSyncConsumer
 import org.mulesoft.lsp.workspace.WorkspaceService
@@ -23,4 +23,6 @@ trait LanguageServer {
   def resolveHandler[P, R](requestType: RequestType[P, R]): Option[RequestHandler[P, R]]
 
   def configuration: LanguageServerSystemConf
+
+  def notifyAlsClientCapabilities(clientCapabilities: AlsClientCapabilities)
 }
