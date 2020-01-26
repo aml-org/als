@@ -1,21 +1,23 @@
 package org.mulesoft.als.server.lsp4j.extension;
 
-import org.eclipse.lsp4j.InitializeResult;
 import org.eclipse.lsp4j.ServerCapabilities;
 
-public class AlsInitializeResult extends InitializeResult {
+public class AlsInitializeResult {
 
-    private AlsServerCapabilities serverCapabilities;
+    private AlsServerCapabilities capabilities;
 
     public AlsServerCapabilities getServerCapabilities() {
-        return serverCapabilities;
+        return capabilities;
     }
 
     public void setServerCapabilities(AlsServerCapabilities serverCapabilities) {
-        this.serverCapabilities = serverCapabilities;
+        this.capabilities = serverCapabilities;
     }
 
-    @Override
+    public ServerCapabilities getCapabilities() {
+        return this.capabilities;
+    }
+
     public void setCapabilities(ServerCapabilities capabilities) {
         AlsServerCapabilities asp = new AlsServerCapabilities();
         asp.setCallHierarchyProvider(capabilities.getCallHierarchyProvider());
@@ -43,6 +45,6 @@ public class AlsInitializeResult extends InitializeResult {
         asp.setTypeDefinitionProvider(capabilities.getTypeDefinitionProvider());
         asp.setWorkspace(capabilities.getWorkspace());
         asp.setWorkspaceSymbolProvider(capabilities.getWorkspaceSymbolProvider());
-        serverCapabilities = asp;
+        this.capabilities = asp;
     }
 }
