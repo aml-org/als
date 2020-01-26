@@ -4,6 +4,7 @@ import amf.client.remote.Content
 import amf.core.lexer.CharSequenceStream
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.DomainElement
+import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance}
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping}

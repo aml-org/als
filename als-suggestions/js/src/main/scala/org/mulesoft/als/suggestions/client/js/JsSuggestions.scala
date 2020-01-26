@@ -23,7 +23,6 @@ import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 @JSExportTopLevel("Suggestions")
 object JsSuggestions extends PlatformSecrets {
 
-  private val suggestions = new Suggestions(DefaultAmfConfiguration)
   @JSExport
   def init(options: InitOptions = InitOptions.WebApiProfiles): js.Promise[Unit] =
     Suggestions.default.init(options).toJSPromise

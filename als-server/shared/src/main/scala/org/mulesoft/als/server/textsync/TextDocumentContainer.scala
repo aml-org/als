@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.textsync
 
 import amf.client.remote.Content
+import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.lsp.Initializable
