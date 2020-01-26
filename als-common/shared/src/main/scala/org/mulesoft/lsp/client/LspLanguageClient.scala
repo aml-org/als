@@ -8,5 +8,4 @@ trait LspLanguageClient {
   def publishDiagnostic(params: PublishDiagnosticsParams): Unit
 
   def notifyTelemetry(params: TelemetryMessage): Unit
-
 }

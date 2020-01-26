@@ -17,23 +17,6 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
 
   override val executionContext: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
 
-  test("Should list files from absolute route, having '/' prefix") {
-    val eventualAssertion: Future[Assertion] = for {
-      result <- AMLPathCompletionPlugin.resolveInclusion(url, environment, platform, directoryResolver, "/")
-    } yield {
-      assert(result.size == 1)
-    }
-    eventualAssertion
-  }
-
-  test("Should list files from absolute route, NOT having '/' prefix") {
-    for {
-      result <- AMLPathCompletionPlugin.resolveInclusion(url, environment, platform, directoryResolver, "")
-    } yield {
-      assert(result.size == 1)
-    }
-  }
-
   val urlDir = "file:///absolute/path/"
   val url    = s"${urlDir}api.raml"
 
@@ -70,4 +53,21 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
       Future.successful(!path.contains('.'))
   }
   val environment: Environment = Environment().add(fileLoader)
+
+  test("Should list files from absolute route, having '/' prefix") {
+    val eventualAssertion: Future[Assertion] = for {
+      result <- AMLPathCompletionPlugin.resolveInclusion(url, environment, platform, directoryResolver, "/")
+    } yield {
+      assert(result.size == 1)
+    }
+    eventualAssertion
+  }
+
+  test("Should list files from absolute route, NOT having '/' prefix") {
+    for {
+      result <- AMLPathCompletionPlugin.resolveInclusion(url, environment, platform, directoryResolver, "")
+    } yield {
+      assert(result.size == 1)
+    }
+  }
 }

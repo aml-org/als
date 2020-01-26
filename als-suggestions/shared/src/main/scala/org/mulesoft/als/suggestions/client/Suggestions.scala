@@ -6,6 +6,7 @@ import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
+import org.mulesoft.als.common.EnvironmentPatcher
 import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
 import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher, PlatformDirectoryResolver}
 import org.mulesoft.als.suggestions._

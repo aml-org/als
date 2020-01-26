@@ -3,7 +3,6 @@ package org.mulesoft.als.server.lsp4j
 import java.io._
 import java.util
 
-import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin

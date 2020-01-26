@@ -4,7 +4,7 @@ import org.mulesoft.lsp.feature.diagnostic.CleanDiagnosticTreeOptions
 
 import scala.scalajs.js
 
-// $COVERAGE-OFF$
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 @js.native
 trait ClientCleanDiagnosticTreeOptions extends js.Object {
 
