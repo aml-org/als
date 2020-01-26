@@ -4,6 +4,7 @@ import java.io.StringWriter
 
 import org.mulesoft.als.server.client.AlsClientNotifier
 import org.mulesoft.lsp.feature.serialization.SerializationMessage
+import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
 import org.yaml.builder.{DocBuilder, JsonOutputBuilder}
 
 abstract class SerializationProps[S](val alsClientNotifier: AlsClientNotifier[S]) {
@@ -16,4 +17,9 @@ case class JvmSerializationProps(override val alsClientNotifier: AlsClientNotifi
   override def newDocBuilder(): DocBuilder[StringWriter] = JsonOutputBuilder()
 }
 
-object EmptyJvmSerializationProps extends JvmSerializationProps((params: SerializationMessage[StringWriter]) => {})
+object EmptyJvmSerializationProps
+    extends JvmSerializationProps(new AlsClientNotifier[StringWriter] {
+      override def notifyProjectFiles(params: FilesInProjectParams): Unit = {}
+
+      override def notifySerialization(params: SerializationMessage[StringWriter]): Unit = {}
+    })
