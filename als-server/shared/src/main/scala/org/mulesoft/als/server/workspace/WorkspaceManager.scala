@@ -28,8 +28,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     with WorkspaceService
     with Initializable {
 
-  val amfConfiguration: AmfConfiguration                      = environmentProvider.amfConfig
-  private val rootHandler                                     = new WorkspaceRootHandler(amfConfiguration.platform)
+  private val rootHandler                                     = new WorkspaceRootHandler(environmentProvider.platform)
   private val workspaces: ListBuffer[WorkspaceContentManager] = ListBuffer()
 
   def getWorkspace(uri: String): WorkspaceContentManager =

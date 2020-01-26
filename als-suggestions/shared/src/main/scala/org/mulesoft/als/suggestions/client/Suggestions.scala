@@ -32,12 +32,12 @@ class Suggestions(platform: Platform,
 
   def suggest(url: String, position: Int, snippetsSupport: Boolean): Future[Seq[CompletionItem]] = {
 
-    amfConfiguration
-      .resolve(url)
+    platform
+      .resolve(url, environment)
       .map(content => {
         val originalContent = content.stream.toString
         val (patched, patchedEnv) =
-          patchContentInEnvironment(amfConfiguration.environment, url, originalContent, position)
+          patchContentInEnvironment(environment, url, originalContent, position)
         (patched, patchedEnv)
       })
       .flatMap {
