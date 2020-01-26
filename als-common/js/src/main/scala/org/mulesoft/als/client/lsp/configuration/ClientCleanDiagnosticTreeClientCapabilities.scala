@@ -4,7 +4,7 @@ import org.mulesoft.lsp.feature.diagnostic.CleanDiagnosticTreeClientCapabilities
 
 import scala.scalajs.js
 
-// $COVERAGE-OFF$
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 @js.native
 trait ClientCleanDiagnosticTreeClientCapabilities extends js.Object {
   def enableCleanDiagnostic: Boolean = js.native

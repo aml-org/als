@@ -9,7 +9,7 @@ import org.mulesoft.als.client.lsp.feature.completion.{
   ClientCompletionList,
   ClientCompletionParams
 }
-import org.mulesoft.als.client.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
+import org.mulesoft.als.client.lsp.feature.diagnostic.{ClientFilesInProjectMessage, ClientPublishDiagnosticsParams}
 import org.mulesoft.als.client.lsp.feature.documentsymbol.{
   ClientDocumentSymbol,
   ClientDocumentSymbolParams,
@@ -35,6 +35,7 @@ import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
 import org.mulesoft.lsp.feature.reference.ReferenceRequestType
 import org.mulesoft.lsp.feature.serialization.SerializationMessage
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
+import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.lsp.server.LanguageServer
 import org.yaml.builder.JsOutputBuilder
@@ -61,6 +62,11 @@ case class ProtocolConnectionLanguageClient(connection: ProtocolConnection)
   override def notifySerialization(params: SerializationMessage[js.Any]): Unit =
     connection
       .sendNotification[ClientSerializationMessage, js.Any](SerializationEventNotification.`type`, params.toClient)
+
+  override def notifyProjectFiles(params: FilesInProjectParams): Unit = {
+    connection
+      .sendNotification[ClientFilesInProjectMessage, js.Any](FilesInProjectEventNotification.`type`, params.toClient)
+  }
 }
 
 @JSExportAll
@@ -169,13 +175,6 @@ object ProtocolConnectionBinder {
       (param: ClientExecuteCommandParams, _: CancellationToken) => {
         languageServer.workspaceService
           .executeCommand(param.toShared)
-          .map {
-            case Some(validations: Seq[PublishDiagnosticsParams]) =>
-              validations.map(v => v.toClient).toJSArray
-            // TODO: ALS-950: Return serialized JSON-LD
-            case Some(docBuilder: JsOutputBuilder) => docBuilder.result
-            case other                             => other
-          }
           .toJSPromise
           .asInstanceOf[Thenable[js.Any]]
       }

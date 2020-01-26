@@ -129,7 +129,7 @@ lazy val actionsJVM = server.jvm.in(file("./als-actions/jvm"))
 lazy val actionsJS = server.js.in(file("./als-actions/js")).disablePlugins(SonarPlugin)
 
 /** ALS server */
-  
+
 val installJsDependencies = TaskKey[Unit]("installJsDependencies", "Runs npm i")
 
 lazy val server = crossProject(JSPlatform, JVMPlatform)

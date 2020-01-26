@@ -7,7 +7,7 @@ import org.mulesoft.als.client.lsp.edit._
 import org.mulesoft.als.client.lsp.feature.codeactions._
 import org.mulesoft.als.client.lsp.feature.completion._
 import org.mulesoft.als.client.lsp.feature.definition.ClientDefinitionClientCapabilities
-import org.mulesoft.als.client.lsp.feature.diagnostic.{ClientDiagnostic, ClientDiagnosticClientCapabilities, ClientDiagnosticRelatedInformation, ClientPublishDiagnosticsParams}
+import org.mulesoft.als.client.lsp.feature.diagnostic.{ClientDiagnostic, ClientDiagnosticClientCapabilities, ClientDiagnosticRelatedInformation, ClientFilesInProjectMessage, ClientPublishDiagnosticsParams}
 import org.mulesoft.als.client.lsp.feature.documentsymbol._
 import org.mulesoft.als.client.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkClientCapabilities, ClientDocumentLinkOptions, ClientDocumentLinkParams}
 import org.mulesoft.als.client.lsp.feature.reference.{ClientReferenceClientCapabilities, ClientReferenceContext, ClientReferenceParams}
@@ -30,6 +30,7 @@ import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, Referenc
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
 import org.mulesoft.lsp.feature.serialization.{SerializationClientCapabilities, SerializationMessage, SerializationServerOptions}
 import org.mulesoft.lsp.feature.telemetry.{TelemetryClientCapabilities, TelemetryMessage}
+import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
 import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace._
 
@@ -199,6 +200,11 @@ object LspConvertersSharedToClient {
   implicit class ClientPublishDiagnosticsParamsConverter(v: PublishDiagnosticsParams) {
     def toClient: ClientPublishDiagnosticsParams =
       ClientPublishDiagnosticsParams(v)
+  }
+
+  implicit class ClientFilesInProjectParamsConverter(v: FilesInProjectParams) {
+    def toClient: ClientFilesInProjectMessage =
+      ClientFilesInProjectMessage(v)
   }
 
   implicit class ClientCompletionItemKindClientCapabilitiesConverter(v: CompletionItemKindClientCapabilities) {

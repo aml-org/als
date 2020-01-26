@@ -6,6 +6,8 @@ import amf.internal.environment.Environment
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server.SerializationProps
 import org.mulesoft.als.server.client.ClientNotifier
+import org.mulesoft.als.server.SerializationProps
+import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.actions.{DocumentLinksManager, FindReferenceManager, GoToDefinitionManager}
 import org.mulesoft.als.server.modules.ast.BaseUnitListener
@@ -19,6 +21,7 @@ import org.mulesoft.als.server.modules.diagnostic.{
 import org.mulesoft.als.server.modules.serialization.SerializationManager
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
+import org.mulesoft.als.server.modules.workspace.FilesInProjectManager
 import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.InitializableModule
@@ -71,6 +74,11 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
     val dm = new DiagnosticManager(telemetryManager, clientNotifier, logger, notificationKind)
     projectDependencies += dm
     dm
+  }
+  def filesInProjectManager(alsClientNotifier: AlsClientNotifier[_]): FilesInProjectManager = {
+    val fip = new FilesInProjectManager(alsClientNotifier)
+    projectDependencies += fip
+    fip
   }
 
   def buildWorkspaceManagerFactory(): WorkspaceManagerFactory =

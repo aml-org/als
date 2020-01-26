@@ -14,10 +14,10 @@ import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
 import scala.concurrent.Future
 
 // todo: move to another module
-class AmfInstance(plugins: Seq[AMFPlugin], platform:Platform, environment: Environment)
+class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Environment)
     extends CompilerEnvironment[AmfParseResult, Environment] {
 
-  def parserHelper = new ParserHelper(platform, init())
+  def parserHelper                               = new ParserHelper(platform, init())
   def parse(uri: String): Future[AmfParseResult] = parserHelper.parse(uri, environment)
 
   private var initialization: Option[Future[Unit]] = None
@@ -44,7 +44,7 @@ class AmfInstance(plugins: Seq[AMFPlugin], platform:Platform, environment: Envir
 }
 
 object AmfInstance extends PlatformSecrets {
-  def apply(environment: Environment): AmfInstance = apply(platform, environment)
+  def apply(environment: Environment): AmfInstance                     = apply(platform, environment)
   def apply(platform: Platform, environment: Environment): AmfInstance = new AmfInstance(Nil, platform, environment)
-  val default: AmfInstance = new AmfInstance(Nil,platform, Environment())
+  val default: AmfInstance                                             = new AmfInstance(Nil, platform, Environment())
 }

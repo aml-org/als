@@ -45,14 +45,16 @@ object LanguageServerFactory {
         new AmfInstance(plugins.toSeq.map(ClientPayloadPluginConverter.convert),
                         jsServerSystemConf.platform,
                         jsServerSystemConf.environment))
-    val dm = builders.diagnosticManager()
-    val sm = builders.serializationManager(JsSerializationProps(clientNotifier))
+    val dm  = builders.diagnosticManager()
+    val fit = builders.filesInProjectManager(clientNotifier)
+    val sm  = builders.serializationManager(JsSerializationProps(clientNotifier))
 
     notificationKind.foreach(builders.withNotificationKind)
     val factory = builders.buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addInitializableModule(dm)
       .addInitializableModule(sm)
+      .addInitializableModule(fit)
       .addInitializable(factory.cleanDiagnosticManager)
       .addInitializable(factory.workspaceManager)
       .addRequestModule(factory.completionManager)

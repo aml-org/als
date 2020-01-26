@@ -4,7 +4,7 @@ import org.mulesoft.lsp.feature.serialization.SerializationServerOptions
 
 import scala.scalajs.js
 
-// $COVERAGE-OFF$
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 @js.native
 trait ClientSerializationServerOptions extends js.Object {
 
