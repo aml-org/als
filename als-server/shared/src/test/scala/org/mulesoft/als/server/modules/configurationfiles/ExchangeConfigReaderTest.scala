@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.configurationfiles
 
 import amf.core.unsafe.PlatformSecrets
-import common.diff.ListAssertions
+import org.mulesoft.als.common.diff.ListAssertions
 import org.mulesoft.als.server.workspace.extract.ExchangeConfigReader
 import org.scalatest.{AsyncFlatSpec, Matchers}
 

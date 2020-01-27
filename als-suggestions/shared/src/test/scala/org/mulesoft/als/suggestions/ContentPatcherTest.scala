@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions
 
-import common.diff.{FileAssertionTest, ListAssertions}
+import org.mulesoft.als.common.diff.{FileAssertionTest, ListAssertions}
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.patcher.{ColonToken, CommaToken, ContentPatcher, QuoteToken}
 import org.scalatest.AsyncFunSuite
