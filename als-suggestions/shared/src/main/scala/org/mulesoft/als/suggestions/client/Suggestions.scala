@@ -6,7 +6,6 @@ import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
-import org.mulesoft.als.common.EnvironmentPatcher
 import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
 import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher, PlatformDirectoryResolver}
 import org.mulesoft.als.suggestions._
@@ -50,26 +49,23 @@ class Suggestions(platform: Platform,
                     position: Int,
                     url: String,
                     patchedContent: PatchedContent,
-                    snippetSupport: Boolean): Future[CompletionProvider] = {
+                    snippetSupport: Boolean): CompletionProvider = {
     DialectKnowledge.dialectFor(bu) match {
       case Some(d) =>
-        Future(
-          buildCompletionProviderAST(bu,
-                                     d,
-                                     bu.id,
-                                     DtoPosition(position, patchedContent.original),
-                                     patchedContent,
-                                     snippetSupport))
+        buildCompletionProviderAST(bu,
+                                   d,
+                                   bu.id,
+                                   DtoPosition(position, patchedContent.original),
+                                   patchedContent,
+                                   snippetSupport)
       case _ if isHeader(position, url, patchedContent.original) =>
         if (!url.toLowerCase().endsWith(".raml"))
-          Future(
-            HeaderCompletionProviderBuilder
-              .build(url, patchedContent.original, DtoPosition(position, patchedContent.original)))
+          HeaderCompletionProviderBuilder
+            .build(url, patchedContent.original, DtoPosition(position, patchedContent.original))
         else
-          Future(
-            RamlHeaderCompletionProvider
-              .build(url, patchedContent.original, DtoPosition(position, patchedContent.original)))
-      case _ => Future.successful(EmptyCompletionProvider)
+          RamlHeaderCompletionProvider
+            .build(url, patchedContent.original, DtoPosition(position, patchedContent.original))
+      case _ => EmptyCompletionProvider
     }
   }
 
@@ -79,7 +75,7 @@ class Suggestions(platform: Platform,
                          patchedContent: PatchedContent,
                          snippetSupport: Boolean): Future[CompletionProvider] = {
     unitFuture
-      .flatMap(buildProvider(_, position, url, patchedContent, snippetSupport))
+      .map(buildProvider(_, position, url, patchedContent, snippetSupport))
   }
 
   private def isHeader(position: Int, url: String, originalContent: String): Boolean =

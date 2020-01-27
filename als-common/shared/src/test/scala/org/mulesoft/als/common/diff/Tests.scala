@@ -1,4 +1,4 @@
-package common.diff
+package org.mulesoft.als.common.diff
 
 import java.io.{File, FileNotFoundException, FileReader, Reader}
 import java.lang.System.getProperty

@@ -1,4 +1,4 @@
-package common.dtoTypes
+package org.mulesoft.als.common.dtoTypes
 
 import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.als.common.FileUtils
