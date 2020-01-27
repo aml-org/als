@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.test
 
 import amf.core.remote.Hint
-import common.diff.FileAssertionTest
+import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.suggestions.test.CompletionItemNode._
 import org.mulesoft.common.io.{Fs, SyncFile}
 import org.mulesoft.lsp.feature.completion.CompletionItem

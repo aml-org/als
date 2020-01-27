@@ -1,4 +1,4 @@
-package common.diff
+package org.mulesoft.als.common.diff
 
 import amf.core.metamodel.Field
 import amf.core.model.domain.{AmfObject, Annotation}
