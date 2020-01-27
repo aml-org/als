@@ -59,7 +59,7 @@ object Suggestions extends SuggestionsHelper {
                     env: Environment,
                     url: String,
                     patchedContent: PatchedContent,
-                    snippetSupport: Boolean): Future[CompletionProvider] = {
+                    snippetSupport: Boolean): CompletionProvider = {
     DialectKnowledge.dialectFor(bu) match {
       case Some(d) =>
         Future(
@@ -74,9 +74,8 @@ object Suggestions extends SuggestionsHelper {
                                      snippetSupport))
       case _ if isHeader(position, url, patchedContent.original) =>
         if (!url.toLowerCase().endsWith(".raml"))
-          Future(
-            HeaderCompletionProviderBuilder
-              .build(url, patchedContent.original, DtoPosition(position, patchedContent.original)))
+          HeaderCompletionProviderBuilder
+            .build(url, patchedContent.original, DtoPosition(position, patchedContent.original))
         else
           Future(
             RamlHeaderCompletionProvider
