@@ -37,7 +37,7 @@ object Raml08CompletionPluginRegistry {
       NodeShapeDiscriminatorProperty :+
       SecuredByCompletionPlugin :+
       Raml08SecuritySchemeStructureCompletionPlugin :+
-      UnitUsesFacet :+
+      UnitDocumentationFacet :+
       DefaultVariablesAbstractDefinition :+
       OperationRequest :+
       Raml08KnownValueCompletionPlugin
