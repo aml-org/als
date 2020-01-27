@@ -2,7 +2,6 @@ package org.mulesoft.als.server
 
 import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
-import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.configuration.AlsInitializeParams
 import org.mulesoft.lsp.feature.diagnostic.{
@@ -13,7 +12,6 @@ import org.mulesoft.lsp.feature.diagnostic.{
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync._
-import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.{AsyncFunSuite, Matchers, OptionValues}
 
 import scala.concurrent.Future
