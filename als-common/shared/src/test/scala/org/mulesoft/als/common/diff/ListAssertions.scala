@@ -1,4 +1,4 @@
-package common.diff
+package org.mulesoft.als.common.diff
 
 import org.scalatest.{Assertion, Assertions}
 

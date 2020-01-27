@@ -1,4 +1,4 @@
-package common.diff
+package org.mulesoft.als.common.diff
 
 import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.common.io.{AsyncFile, FileSystem}

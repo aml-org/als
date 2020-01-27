@@ -6,7 +6,7 @@ import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
-import common.diff.FileAssertionTest
+import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.amfmanager.{AmfParseResult, DialectInitializer, InitOptions}
 import org.mulesoft.lsp.server.{AmfInstance, CompilerEnvironment}
 import org.scalatest.{Assertion, AsyncFunSuite}
