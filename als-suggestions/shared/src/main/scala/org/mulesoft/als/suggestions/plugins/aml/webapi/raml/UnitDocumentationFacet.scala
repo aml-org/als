@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.document.{BaseUnit, Fragment, Module}
+import amf.core.model.document.{BaseUnit, Module}
 import amf.core.model.domain.AmfObject
-import amf.plugins.document.webapi.model.{ResourceTypeFragment, TraitFragment}
+import amf.plugins.document.webapi.model.{Overlay, ResourceTypeFragment, TraitFragment, Extension}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -10,8 +10,8 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object UnitUsesFacet extends AMLCompletionPlugin {
-  override def id: String = "UnitUsesFacet"
+object UnitDocumentationFacet extends AMLCompletionPlugin {
+  override def id: String = "UnitDocumentationFacet"
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
@@ -31,5 +31,6 @@ object UnitUsesFacet extends AMLCompletionPlugin {
     }
   }
 
-  private def moduleOrFragment(obj: AmfObject): Boolean = obj.isInstanceOf[Fragment] || obj.isInstanceOf[Module]
+  private def moduleOrFragment(obj: AmfObject): Boolean =
+    obj.isInstanceOf[Extension] || obj.isInstanceOf[Module] || obj.isInstanceOf[Overlay]
 }
