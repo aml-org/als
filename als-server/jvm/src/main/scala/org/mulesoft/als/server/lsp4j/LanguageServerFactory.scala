@@ -12,7 +12,6 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
 import org.mulesoft.als.server.{EmptyJvmSerializationProps, JvmSerializationProps, LanguageServerBuilder}
 import org.mulesoft.lsp.server.{AmfInstance, LanguageServer}
-
 import scala.collection.JavaConverters._
 
 // todo: standarize in one only converter (js and jvm) with generics
@@ -59,12 +58,12 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
     val i = InternalEnvironment.empty()
     i.withLoaders(environment.loaders.asInternal)
     // i.withResolver(environment.reference)
-    i
   }
 
   def build(): LanguageServer = {
     val factory = new WorkspaceManagerFactoryBuilder(clientNotifier, logger)
       .withAmfConfiguration(new AmfInstance(amfPlugins.asScala, platform, environment))
+      .withEnvironment(environment)
     factory.withNotificationKind(notificationsKind) // move to initialization param
     val dm       = factory.diagnosticManager()
     val sm       = factory.serializationManager(serialization)
