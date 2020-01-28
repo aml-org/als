@@ -5,7 +5,7 @@ import amf.core.model.document.BaseUnit
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
-import common.diff.FileAssertionTest
+import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.amfmanager.{DialectInitializer, InitOptions, ParserHelper}
 import org.scalatest.{Assertion, AsyncFunSuite}
 
