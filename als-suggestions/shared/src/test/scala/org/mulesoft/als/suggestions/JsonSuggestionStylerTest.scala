@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions
 
 import amf.core.parser.{Position => AmfPosition}
-import common.diff.FileAssertionTest
+import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.patcher.{ColonToken, PatchedContent, QuoteToken}
