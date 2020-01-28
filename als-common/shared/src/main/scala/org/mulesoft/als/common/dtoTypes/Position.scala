@@ -3,6 +3,7 @@ package org.mulesoft.als.common.dtoTypes
 import amf.core.parser.{Position => AmfPosition}
 
 import scala.annotation.tailrec
+import scala.collection.mutable.ListBuffer
 
 /**
   * @param line   Line position in a document (zero-based).
@@ -59,7 +60,7 @@ case class Position(line: Int, column: Int) {
 
   override def hashCode(): Int = super.hashCode()
 
-  lazy val toAmfPosition = AmfPosition(line + 1, column)
+  lazy val toAmfPosition: AmfPosition = AmfPosition(line + 1, column)
 }
 
 object Position {
@@ -93,23 +94,25 @@ object Position {
     if (second > first) second else first
 }
 
-private object TextHelper {
+private[als] object TextHelper {
   def linesWithSeparators(text: String): List[String] = {
     def isBreakLine(head: Char): Boolean = head == '\n'
 
-    def addToResult(result: List[StringBuilder], head: Char): List[StringBuilder] = {
-      result.last.append(head)
-      if (isBreakLine(head)) result :+ new StringBuilder else result
+    val array   = text.toCharArray
+    var current = new StringBuilder()
+    val lines   = ListBuffer[String]()
+    var i       = 0
+    while (i < array.length) {
+      val c = array(i)
+      current.append(c)
+      if (isBreakLine(c)) {
+        lines += current.mkString
+        current = new StringBuilder()
+      }
+      i = i + 1
     }
-
-    @tailrec def innerFn(result: List[StringBuilder], rest: List[Char]): List[StringBuilder] = rest match {
-      case Nil          => result
-      case head :: Nil  => addToResult(result, head)
-      case head :: tail => innerFn(addToResult(result, head), tail)
-    }
-
-    innerFn(List(new StringBuilder), text.toList)
-      .map(_.mkString)
+    lines += current.mkString
+    lines.toList
   }
 }
 
