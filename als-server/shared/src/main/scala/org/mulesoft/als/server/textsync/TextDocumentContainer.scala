@@ -49,7 +49,7 @@ case class TextDocumentContainer(givenEnvironment: Environment,
 
   def versionOf(uri: String): Option[Int] = get(uri).map(_.version)
 
-  val environment: Environment = Environment()
+  val environment: Environment = givenEnvironment
     .add(new ResourceLoader {
 
       /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
@@ -61,7 +61,7 @@ case class TextDocumentContainer(givenEnvironment: Environment,
     })
 
   override def environmentSnapshot(): Environment =
-    environment
+    givenEnvironment
       .add(new ResourceLoader {
         private val current: Map[String, String] = uriToEditor.map(t => t._1 -> t._2.text).toMap
 
