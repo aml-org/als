@@ -1,27 +1,23 @@
 package org.mulesoft.als.vscode
 
-import org.mulesoft.als.client.lsp.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
-import org.mulesoft.als.client.lsp.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
-import org.mulesoft.als.client.lsp.feature.completion.{
-  ClientCompletionItem,
-  ClientCompletionList,
-  ClientCompletionParams
-}
-import org.mulesoft.als.client.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
-import org.mulesoft.als.client.lsp.feature.documentsymbol.{
+import org.mulesoft.als.server.protocol.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
+import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
+import org.mulesoft.lsp.feature.completion.{ClientCompletionItem, ClientCompletionList, ClientCompletionParams}
+import org.mulesoft.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
+import org.mulesoft.lsp.feature.documentsymbol.{
   ClientDocumentSymbol,
   ClientDocumentSymbolParams,
   ClientSymbolInformation
 }
-import org.mulesoft.als.client.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
-import org.mulesoft.als.client.lsp.feature.reference.ClientReferenceParams
-import org.mulesoft.als.client.lsp.feature.telemetry.ClientTelemetryMessage
-import org.mulesoft.als.client.lsp.textsync.{
+import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
+import org.mulesoft.lsp.feature.reference.ClientReferenceParams
+import org.mulesoft.lsp.feature.telemetry.ClientTelemetryMessage
+import org.mulesoft.lsp.textsync.{
   ClientDidChangeTextDocumentParams,
   ClientDidCloseTextDocumentParams,
   ClientDidOpenTextDocumentParams
 }
-import org.mulesoft.als.client.lsp.workspace.ClientExecuteCommandParams
+import org.mulesoft.lsp.workspace.ClientExecuteCommandParams
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport

@@ -8,7 +8,7 @@ import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.common.Location
+import org.mulesoft.lsp.feature.common.Location
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.reference.{
   ReferenceClientCapabilities,

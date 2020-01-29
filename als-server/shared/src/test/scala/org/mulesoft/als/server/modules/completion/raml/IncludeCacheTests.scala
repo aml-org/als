@@ -3,8 +3,9 @@ package org.mulesoft.als.server.modules.completion.raml
 import amf.client.remote.Content
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.lsp.server.{AmfInstance, LanguageServer}
+import org.mulesoft.amfintegration.AmfInstance
 import org.scalatest.Assertion
 
 import scala.collection.mutable

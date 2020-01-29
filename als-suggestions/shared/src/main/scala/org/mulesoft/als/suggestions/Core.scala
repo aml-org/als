@@ -6,8 +6,8 @@ import org.mulesoft.als.suggestions.aml.webapi.{
   Raml08CompletionPluginRegistry,
   RamlCompletionPluginRegistry
 }
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfmanager.{DialectInitializer, InitOptions}
-import org.mulesoft.lsp.server.AmfInstance
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

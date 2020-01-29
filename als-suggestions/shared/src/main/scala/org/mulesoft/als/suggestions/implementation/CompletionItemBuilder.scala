@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.implementation
 
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.lsp.convert.LspRangeConverter
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.completion.InsertTextFormat.InsertTextFormat
 import org.mulesoft.lsp.feature.completion.{CompletionItem, InsertTextFormat}

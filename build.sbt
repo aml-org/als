@@ -3,7 +3,7 @@ import org.scalajs.core.tools.linker.ModuleKind
 import org.scalajs.core.tools.linker.backend.OutputMode
 import org.scalajs.sbtplugin.ScalaJSPlugin.AutoImport.{fastOptJS, scalaJSOutputMode}
 import sbt.File
-import sbt.Keys.{mainClass, packageOptions}
+import sbt.Keys.{libraryDependencies, mainClass, packageOptions}
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 import scala.sys.process.Process
@@ -63,6 +63,7 @@ lazy val common = crossProject(JSPlatform, JVMPlatform).settings(
     name := "als-common"
   ))
   .in(file("./als-common"))
+  .dependsOn(lsp)
   .settings(settings: _*)
   .jsSettings(
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
@@ -128,6 +129,28 @@ lazy val actions = crossProject(JSPlatform, JVMPlatform)
 lazy val actionsJVM = server.jvm.in(file("./als-actions/jvm"))
 lazy val actionsJS = server.js.in(file("./als-actions/js")).disablePlugins(SonarPlugin)
 
+
+/** ALS LSP */
+
+lazy val lsp = crossProject(JSPlatform, JVMPlatform).settings(
+  Seq(
+    name := "als-lsp"
+  ))
+  .in(file("./als-lsp"))
+  .settings(settings: _*)
+  .jvmSettings(
+    libraryDependencies += "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.7.2",
+    libraryDependencies += "org.scala-lang.modules" % "scala-java8-compat_2.12" % "0.8.0"
+  )
+  .jsSettings(
+    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
+    scalaJSModuleKind := ModuleKind.CommonJSModule
+    //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
+  ).disablePlugins(SonarPlugin)
+
+lazy val lspJVM = lsp.jvm.in(file("./als-lsp/jvm"))
+lazy val lspJS = lsp.js.in(file("./als-lsp/js"))
+
 /** ALS server */
 
 val installJsDependencies = TaskKey[Unit]("installJsDependencies", "Runs npm i")
@@ -141,7 +164,6 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
   .disablePlugins(SonarPlugin)
   .jvmSettings(
     // https://mvnrepository.com/artifact/org.eclipse.lsp4j/org.eclipse.lsp4j
-    libraryDependencies += "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.7.2",
     packageOptions in(Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
     aggregate in assembly := true,
     mainClass in assembly := Some("org.mulesoft.als.server.lsp4j.Main"),

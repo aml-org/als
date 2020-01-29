@@ -1,6 +1,11 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.lsp.configuration._
+import org.mulesoft.als.server.protocol.configuration.{
+  AlsClientCapabilities,
+  AlsInitializeParams,
+  AlsInitializeResult,
+  AlsServerCapabilities
+}
 import org.mulesoft.lsp.feature.codeactions.CodeActionConfigType
 import org.mulesoft.lsp.feature.completion.CompletionConfigType
 import org.mulesoft.lsp.feature.definition.DefinitionConfigType

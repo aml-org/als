@@ -5,8 +5,8 @@ import amf.plugins.document.vocabularies.AMLPlugin
 import org.mulesoft.als.suggestions.CompletionsPluginHandler
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.test.core.{CoreTest, DummyPlugins}
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfmanager.InitOptions
-import org.mulesoft.lsp.server.AmfInstance
 
 import scala.concurrent.Future
 

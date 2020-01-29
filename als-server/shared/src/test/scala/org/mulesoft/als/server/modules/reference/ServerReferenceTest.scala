@@ -1,13 +1,14 @@
 package org.mulesoft.als.server.modules.reference
 
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.lsp.common.TextDocumentIdentifier
-import org.mulesoft.lsp.configuration.{AlsInitializeParams, TraceKind}
-import org.mulesoft.lsp.convert.LspRangeConverter
+import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.reference.{ReferenceContext, ReferenceParams, ReferenceRequestType}
-import org.mulesoft.lsp.server.LanguageServer
 import org.scalatest.Assertion
 
 import scala.concurrent.ExecutionContext
@@ -35,7 +36,7 @@ class ServerReferenceTest extends LanguageServerBaseTest {
           val handler = server.resolveHandler(ReferenceRequestType).value
           handler(
             ReferenceParams(TextDocumentIdentifier(s"$uri/fragment.raml"),
-                            org.mulesoft.lsp.common.Position(1, 1),
+                            org.mulesoft.lsp.feature.common.Position(1, 1),
                             ReferenceContext(false)))
         }
       } yield {

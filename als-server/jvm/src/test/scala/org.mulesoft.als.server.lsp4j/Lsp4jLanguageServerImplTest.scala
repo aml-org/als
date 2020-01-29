@@ -14,12 +14,13 @@ import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.lsp4j.extension.AlsInitializeParams
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
+import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.server.workspace.command.{CommandExecutor, Commands, DidChangeConfigurationCommandExecutor}
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
-import org.mulesoft.lsp.server.{AmfInstance, LanguageServer}
 import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
 import org.mulesoft.lsp.workspace.{ExecuteCommandParams => SharedExecuteParams}
 
@@ -68,7 +69,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
   test("Lsp4j LanguageServerImpl Command - Index Dialect") {
     def wrapJson(file: String, content: String, gson: Gson): String =
-      s"""{"uri": "${file}", "content": ${gson.toJson(content)}}"""
+      s"""{"uri": "$file", "content": ${gson.toJson(content)}}"""
 
     def executeCommandIndexDialect(server: LanguageServerImpl)(file: String, content: String): Future[Unit] = {
       val args: java.util.List[AnyRef] = new util.ArrayList[AnyRef]()
@@ -139,7 +140,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     }
 
     def wrapJson(mainUri: String, dependecies: Array[String], gson: Gson): String =
-      s"""{"mainUri": "${mainUri}", "dependencies": ${gson.toJson(dependecies)}}"""
+      s"""{"mainUri": "$mainUri", "dependencies": ${gson.toJson(dependecies)}}"""
 
     class DummyTelemetryProvider extends TelemetryManager(new DummyClientNotifier(), EmptyLogger)
 

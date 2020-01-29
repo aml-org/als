@@ -2,11 +2,12 @@ package org.mulesoft.als.server.workspace
 
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
-import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem}
-import org.mulesoft.lsp.configuration.{AlsInitializeParams, TraceKind}
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
+import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes
-import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.scalatest.Assertion
 
@@ -20,8 +21,6 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
 
   val alsClientNotifier: MockAlsClientNotifier = new MockAlsClientNotifier
   private val factory                          = new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
-
-  private val editorFiles = factory.container
 
   test("Workspace Manager check parsing times (project should have 1, independent file 1)") {
     val main        = s"${filePath("ws1")}/api.raml"

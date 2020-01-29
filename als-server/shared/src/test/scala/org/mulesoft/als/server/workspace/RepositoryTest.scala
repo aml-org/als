@@ -7,8 +7,8 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.server.logger.EmptyLogger
 import org.mulesoft.als.server.modules.workspace.{ParsedUnit, Repository}
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfmanager.AmfParseResult
-import org.mulesoft.lsp.server.AmfInstance
 import org.scalatest.{AsyncFunSuite, Matchers}
 
 import scala.concurrent.ExecutionContext.Implicits.global

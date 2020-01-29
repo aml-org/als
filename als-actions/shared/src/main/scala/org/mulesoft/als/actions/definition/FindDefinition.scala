@@ -4,7 +4,7 @@ import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
 import org.mulesoft.als.actions.definition.files.FindDefinitionFile
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.lsp.common.LocationLink
+import org.mulesoft.lsp.feature.common.LocationLink
 
 /**
   * Cases in which to return a Location:

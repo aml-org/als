@@ -3,9 +3,9 @@ package org.mulesoft.als.server.modules.diagnostic
 import amf.core.annotations.LexicalInformation
 import amf.core.validation.AMFValidationResult
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.workspace.DiagnosticsBundle
-import org.mulesoft.lsp.common.Location
-import org.mulesoft.lsp.convert.LspRangeConverter
+import org.mulesoft.lsp.feature.common.Location
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticRelatedInformation
 
 object DiagnosticConverters {

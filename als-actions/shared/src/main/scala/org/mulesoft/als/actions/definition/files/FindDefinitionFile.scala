@@ -9,7 +9,7 @@ import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.amfmanager.dialect.DialectKnowledge
 import org.mulesoft.lexer.SourceLocation
-import org.mulesoft.lsp.common.LocationLink
+import org.mulesoft.lsp.feature.common.LocationLink
 import org.yaml.model.{YNode, YScalar}
 
 trait FindDefinitionFile {

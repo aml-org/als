@@ -1,9 +1,9 @@
 package org.mulesoft.als.server.modules.telemetry
 
+import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockTelemetryClientNotifier}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryMessage}
-import org.mulesoft.lsp.server.LanguageServer
 
 import scala.concurrent.{ExecutionContext, Future}
 // TODO: keep each manager inside each test, instantiated with separated ClientNotifiers, which receive

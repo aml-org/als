@@ -10,8 +10,10 @@ import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
+import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{EmptyJvmSerializationProps, JvmSerializationProps, LanguageServerBuilder}
-import org.mulesoft.lsp.server.{AmfInstance, LanguageServer}
+import org.mulesoft.amfintegration.AmfInstance
+
 import scala.collection.JavaConverters._
 
 // todo: standarize in one only converter (js and jvm) with generics
