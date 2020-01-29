@@ -55,7 +55,12 @@ class Repository(logger: Logger) {
 
   def newTree(result: AmfParseResult): Future[Unit] = synchronized {
     cleanTree()
-    MainFileTreeBuilder.build(result.eh, result.baseUnit, cachables, logger).map(tree = _)
+    MainFileTreeBuilder
+      .build(result.eh, result.baseUnit, cachables, logger)
+      .map(nt => {
+        tree = nt
+        nt.parsedUnits.keys.foreach(units.remove)
+      })
   }
 
   def getReferenceStack(uri: String): Seq[ReferenceStack] =
