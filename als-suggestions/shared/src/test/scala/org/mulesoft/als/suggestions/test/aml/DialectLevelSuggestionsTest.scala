@@ -12,7 +12,7 @@ import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.test.SuggestionsTest
-import org.mulesoft.lsp.server.AmfInstance
+import org.mulesoft.amfintegration.AmfInstance
 import org.scalatest.exceptions.TestFailedException
 
 import scala.concurrent.Future

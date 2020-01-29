@@ -1,13 +1,13 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.lsp.server.LanguageServer
-import org.mulesoft.lsp.textsync.TextDocumentSyncConsumer
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.textsync.AlsTextDocumentSyncConsumer
 import org.mulesoft.lsp.workspace.WorkspaceService
 import org.mulesoft.lsp.{Initializable, InitializableModule}
 
 import scala.collection.mutable
 
-class LanguageServerBuilder(private val textDocumentSyncConsumer: TextDocumentSyncConsumer,
+class LanguageServerBuilder(private val textDocumentSyncConsumer: AlsTextDocumentSyncConsumer,
                             private val workspaceManager: WorkspaceService) {
   private val initializableModules = mutable.ListBuffer[InitializableModule[_, _]]()
   private val requestModules       = mutable.ListBuffer[RequestModule[_, _]]()

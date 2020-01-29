@@ -3,9 +3,9 @@ package org.mulesoft.als.suggestions.test
 import amf.ProfileName
 import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
-import org.mulesoft.amfmanager.{CustomDialects, ParserHelper}
+import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfmanager.CustomDialects
 import org.mulesoft.lsp.feature.completion.CompletionItem
-import org.mulesoft.lsp.server.AmfInstance
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}

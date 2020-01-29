@@ -1,7 +1,8 @@
 package org.mulesoft.als.server
 
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientConnection, ClientNotifier}
-import org.mulesoft.lsp.client.{AlsLanguageClientAware, LspLanguageClientAware}
+import org.mulesoft.als.server.protocol.client.AlsLanguageClientAware
+import org.mulesoft.lsp.client.LspLanguageClientAware
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}

@@ -7,8 +7,8 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.suggestions.client.Suggestions
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfmanager.InitOptions
-import org.mulesoft.lsp.server.AmfInstance
 import org.scalatest.{AsyncFunSuite, Matchers}
 
 import scala.concurrent.{ExecutionContext, Future}

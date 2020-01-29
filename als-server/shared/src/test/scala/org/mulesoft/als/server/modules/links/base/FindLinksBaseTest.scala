@@ -1,10 +1,9 @@
 package org.mulesoft.als.server.modules.links.base
 
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.links.FindLinksTest
-import org.mulesoft.lsp.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.link.DocumentLink
-import org.scalatest.Assertion
 
 class FindLinksBaseTest extends FindLinksTest {
 

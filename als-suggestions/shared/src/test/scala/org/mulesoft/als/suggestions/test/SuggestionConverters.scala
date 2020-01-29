@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.test
 
-import org.mulesoft.lsp.command.Command
-import org.mulesoft.lsp.common.{Position, Range}
+import org.mulesoft.lsp.feature.command.Command
+import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import upickle.default.{macroRW, ReadWriter => RW}

@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.textsync
 
 import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.server.protocol.textsync.{AlsTextDocumentSyncConsumer, DidFocusParams}
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
@@ -11,7 +12,7 @@ import scala.language.experimental.macros
 class TextDocumentManager(val uriToEditor: TextDocumentContainer,
                           val dependencies: List[TextListener],
                           private val logger: Logger)
-    extends TextDocumentSyncConsumer {
+    extends AlsTextDocumentSyncConsumer {
 
   //  dependencies.foreach(d => d.withTextDocumentContainer(uriToEditor))
 

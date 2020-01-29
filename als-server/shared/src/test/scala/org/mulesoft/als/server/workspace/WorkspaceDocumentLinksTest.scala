@@ -5,10 +5,11 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.actions.DocumentLinksManager
 import org.mulesoft.als.server.modules.ast.{CLOSE_FILE, OPEN_FILE}
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
+import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.TextDocumentContainer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.lsp.feature.link.DocumentLink
-import org.mulesoft.lsp.server.{AmfInstance, LanguageServer}
 
 import scala.concurrent.{ExecutionContext, Future}
 

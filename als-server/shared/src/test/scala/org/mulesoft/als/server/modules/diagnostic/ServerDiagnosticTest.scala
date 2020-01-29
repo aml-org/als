@@ -1,8 +1,8 @@
 package org.mulesoft.als.server.modules.diagnostic
 
+import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.lsp.server.LanguageServer
 
 import scala.concurrent.ExecutionContext
 

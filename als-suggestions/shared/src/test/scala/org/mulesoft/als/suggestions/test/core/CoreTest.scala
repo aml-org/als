@@ -5,13 +5,12 @@ import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
-import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfmanager.InitOptions
 import org.mulesoft.lsp.feature.completion.CompletionItem
-import org.mulesoft.lsp.server.AmfInstance
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}

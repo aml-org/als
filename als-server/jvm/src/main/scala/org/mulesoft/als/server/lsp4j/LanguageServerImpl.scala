@@ -6,13 +6,14 @@ import java.util.concurrent.CompletableFuture.completedFuture
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.services.JsonDelegate
 import org.mulesoft.als.server.custom.CustomTextDocumentService
-import org.mulesoft.als.server.lsp4j.Lsp4JConversions._
+import org.mulesoft.als.server.lsp4j.AlsJConversions._
 import org.mulesoft.als.server.lsp4j.LspConversions._
 import org.mulesoft.als.server.lsp4j.extension.{AlsInitializeParams, AlsInitializeResult, ExtendedLanguageServer}
-import org.mulesoft.lsp.server.{LanguageServer => lspLanguageServer}
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.lsp.Lsp4JConversions._
 
 import scala.concurrent.ExecutionContext.Implicits.global
-class LanguageServerImpl(private val inner: lspLanguageServer) extends ExtendedLanguageServer {
+class LanguageServerImpl(private val inner: LanguageServer) extends ExtendedLanguageServer {
 
   private val textDocumentService = new TextDocumentServiceImpl(inner)
 
