@@ -32,10 +32,9 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
 
   override def rootPath: String = "workspace/"
 
-  test("Recieve simple dependency tree") {
+  test("Receive simple dependency tree") {
     withServer { server =>
       for {
-
         _              <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
         filesInProject <- alsClient.nextCall
       } yield {
