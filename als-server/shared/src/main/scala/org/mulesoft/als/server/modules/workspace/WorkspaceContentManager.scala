@@ -83,11 +83,14 @@ class WorkspaceContentManager(val folder: String,
   private def processSnapshot(): Future[Unit] = {
     val snapshot: Snapshot    = stagingArea.snapshot()
     val (treeUnits, isolated) = snapshot.files.partition(u => repository.inTree(u._1)) // what if a new file is added between the partition and the override down
-    val changedTreeUnits      = treeUnits.filter(tu => tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE)
+    val changedTreeUnits =
+      treeUnits.filter(tu => tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE)
 
     if (hasChangedConfigFile(snapshot)) processChangeConfigChanges(snapshot)
-    else if (changedTreeUnits.nonEmpty) processMFChanges(configMainFile.get.mainFile, snapshot)
-    else processIsolatedChanges(isolated, snapshot.environment)
+    else if (changedTreeUnits.nonEmpty)
+      processMFChanges(configMainFile.get.mainFile, snapshot)
+    else
+      processIsolatedChanges(isolated, snapshot.environment)
   }
 
   private def hasChangedConfigFile(snapshot: Snapshot) =
@@ -110,7 +113,8 @@ class WorkspaceContentManager(val folder: String,
     val (closedFiles, changedFiles) = files.partition(_._2 == CLOSE_FILE)
     cleanFiles(closedFiles)
 
-    if (changedFiles.nonEmpty) processIsolated(files.head._1, environment, UUID.randomUUID().toString)
+    if (changedFiles.nonEmpty)
+      processIsolated(files.head._1, environment, UUID.randomUUID().toString)
     else Future.successful(Unit)
   }
 

@@ -21,8 +21,6 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   val dm: DiagnosticManager    = builder.diagnosticManager()
   private val factory          = builder.buildWorkspaceManagerFactory()
 
-  private val editorFiles = factory.container
-
   test("Workspace Manager check validations (initializing a tree should validate instantly)") {
     withServer[Assertion] { server =>
       for {
@@ -262,6 +260,35 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
+  test("Workspace Content Manager - Unit not found (when changing RAML header)") {
+    withServer[Assertion] { server =>
+      val root     = s"${filePath("ws4")}"
+      val title    = s"$root/fragment.raml"
+      val content1 = "#%RAML 1.0 DataType\n"
+      val content2 = "#%RAML 1.0 Lib\n"
+      val content3 = "#%RAML 1.0 Library\n"
+
+      for {
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+        _ <- {
+          openFile(server)(title, content1)
+          diagnosticClientNotifier.nextCall
+        }
+        _ <- {
+          changeFile(server)(title, content2, 2)
+          diagnosticClientNotifier.nextCall
+        }
+        _ <- {
+          changeFile(server)(title, content3, 3)
+          diagnosticClientNotifier.nextCall
+        }
+        _ <- requestDocumentSymbol(server)(title)
+      } yield {
+        succeed // if it hasn't blown, it's OK
+      }
+    }
+  }
+
   override def buildServer(): LanguageServer = {
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.structureManager)
@@ -269,5 +296,4 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   override def rootPath: String = "workspace"
-
 }

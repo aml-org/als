@@ -6,7 +6,7 @@ import amf.core.remote.Platform
 
 object FileUtils {
 
-  val FILE_PROTOCOL = amf.core.remote.File.FILE_PROTOCOL
+  val FILE_PROTOCOL: String = amf.core.remote.File.FILE_PROTOCOL
 
   def getPath(iri: String, platform: Platform): String =
     if (iri.startsWith(FILE_PROTOCOL)) {

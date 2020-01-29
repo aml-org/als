@@ -9,6 +9,12 @@ import org.mulesoft.lsp.feature.diagnostic.{
   CleanDiagnosticTreeRequestType,
   PublishDiagnosticsParams
 }
+import org.mulesoft.lsp.feature.documentsymbol.{
+  DocumentSymbol,
+  DocumentSymbolParams,
+  DocumentSymbolRequestType,
+  SymbolInformation
+}
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync._
@@ -49,6 +55,13 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
       .resolveHandler(CleanDiagnosticTreeRequestType)
       .value
       .apply(CleanDiagnosticTreeParams(TextDocumentIdentifier(uri)))
+
+  def requestDocumentSymbol(server: LanguageServer)(
+      uri: String): Future[Either[Seq[SymbolInformation], Seq[DocumentSymbol]]] =
+    server
+      .resolveHandler(DocumentSymbolRequestType)
+      .value
+      .apply(DocumentSymbolParams(TextDocumentIdentifier(uri)))
 
   def focusNotification(server: LanguageServer)(file: String, version: Int): Future[Unit] = Future.successful {
     onFocus(server)(file, version)
