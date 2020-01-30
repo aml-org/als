@@ -8,7 +8,7 @@ import org.eclipse.lsp4j.services.LanguageClient
 import org.mulesoft.als.server.JvmSerializationProps
 import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
-import org.mulesoft.lsp.client.AlsLanguageClient
+import org.mulesoft.als.server.protocol.client.AlsLanguageClient
 import org.mulesoft.lsp.feature.serialization.SerializationMessage
 import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
 

@@ -3,9 +3,9 @@ package org.mulesoft.als.server.workspace.command
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.FOCUS_FILE
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.lsp.textsync.DidFocusParams
 import org.yaml.model.YMap
 import amf.core.parser._
+import org.mulesoft.als.server.protocol.textsync.DidFocusParams
 
 import scala.concurrent.Future
 

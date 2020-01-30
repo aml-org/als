@@ -1,7 +1,7 @@
 package org.mulesoft.language.outline.test.aml
 
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.language.outline.test.BaseStructureTest
-import org.mulesoft.lsp.server.AmfInstance
 import org.scalatest.compatible.Assertion
 
 import scala.concurrent.Future

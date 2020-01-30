@@ -1,14 +1,15 @@
 package org.mulesoft.als.server.modules.workspace
 
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.{
   LanguageServerBaseTest,
   LanguageServerBuilder,
   MockDiagnosticClientNotifier,
   MockFilesInClientNotifier
 }
-import org.mulesoft.lsp.configuration.{AlsInitializeParams, TraceKind}
-import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.lsp.configuration.TraceKind
 
 import scala.concurrent.ExecutionContext
 

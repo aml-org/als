@@ -9,8 +9,8 @@ import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.common.{Location, LocationLink, TextDocumentPositionParams}
-import org.mulesoft.lsp.convert.LspRangeConverter
+import org.mulesoft.lsp.feature.common.{Location, LocationLink, TextDocumentPositionParams}
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.definition.{DefinitionClientCapabilities, DefinitionConfigType, DefinitionRequestType}
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider

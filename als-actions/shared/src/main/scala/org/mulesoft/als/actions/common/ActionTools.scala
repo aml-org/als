@@ -2,13 +2,13 @@ package org.mulesoft.als.actions.common
 
 import java.net.{URI, URISyntaxException}
 
+import amf.core.parser.{Position => AmfPosition}
 import amf.core.remote.Platform
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lexer.SourceLocation
-import org.mulesoft.lsp.common.Range
-import org.mulesoft.lsp.convert.LspRangeConverter
-import amf.core.parser.{Position => AmfPosition}
+import org.mulesoft.lsp.feature.common.Range
 
 object ActionTools {
   def sourceLocationToRange(targetLocation: SourceLocation): Range = {

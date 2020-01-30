@@ -2,8 +2,10 @@ package org.mulesoft.als.server
 
 import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
-import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
-import org.mulesoft.lsp.configuration.AlsInitializeParams
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
+import org.mulesoft.als.server.protocol.textsync.DidFocusParams
+import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.diagnostic.{
   CleanDiagnosticTreeParams,
   CleanDiagnosticTreeRequestType,
@@ -16,7 +18,6 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolInformation
 }
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
-import org.mulesoft.lsp.server.LanguageServer
 import org.mulesoft.lsp.textsync._
 import org.scalatest.{AsyncFunSuite, Matchers, OptionValues}
 

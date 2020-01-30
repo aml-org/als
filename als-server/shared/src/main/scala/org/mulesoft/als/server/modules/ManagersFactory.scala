@@ -5,8 +5,6 @@ import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server.SerializationProps
-import org.mulesoft.als.server.client.ClientNotifier
-import org.mulesoft.als.server.SerializationProps
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.actions.{DocumentLinksManager, FindReferenceManager, GoToDefinitionManager}
@@ -24,8 +22,8 @@ import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.modules.workspace.FilesInProjectManager
 import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
 import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.lsp.InitializableModule
-import org.mulesoft.lsp.server.AmfInstance
 
 import scala.collection.mutable.ListBuffer
 

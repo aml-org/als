@@ -1,7 +1,8 @@
 package org.mulesoft.als.server.client
 
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.lsp.client.{AlsLanguageClient, AlsLanguageClientAware, LspLanguageClient, LspLanguageClientAware}
+import org.mulesoft.als.server.protocol.client.{AlsLanguageClient, AlsLanguageClientAware}
+import org.mulesoft.lsp.client.{LspLanguageClient, LspLanguageClientAware}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.serialization.SerializationMessage
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage

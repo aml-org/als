@@ -2,8 +2,8 @@ package org.mulesoft.als.server.modules.definition.files
 
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.server.modules.definition.ServerDefinitionTest
-import org.mulesoft.lsp.common.LocationLink
-import org.mulesoft.lsp.convert.LspRangeConverter
+import org.mulesoft.lsp.feature.common.LocationLink
+import org.mulesoft.als.convert.LspRangeConverter
 
 import scala.concurrent.ExecutionContext
 

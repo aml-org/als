@@ -2,11 +2,12 @@ package org.mulesoft.als.server.workspace
 
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.lsp.common.{Position, Range}
-import org.mulesoft.lsp.configuration.{AlsInitializeParams, TraceKind}
-import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.Assertion
 

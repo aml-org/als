@@ -10,7 +10,7 @@ import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureBuilder}
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.feature.RequestHandler
+import org.mulesoft.lsp.feature.{RequestHandler, documentsymbol}
 import org.mulesoft.lsp.feature.documentsymbol.{
   DocumentSymbolClientCapabilities,
   DocumentSymbolConfigType,
@@ -34,11 +34,11 @@ class StructureManager(val workspaceManager: WorkspaceManager,
   override def applyConfig(config: Option[DocumentSymbolClientCapabilities]): Unit = {}
 
   override def getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
-    new RequestHandler[DocumentSymbolParams, Either[Seq[SymbolInformation], Seq[LspDocumentSymbol]]] {
+    new RequestHandler[DocumentSymbolParams, Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] {
       override def `type`: DocumentSymbolRequestType.type = DocumentSymbolRequestType
 
       override def apply(
-          params: DocumentSymbolParams): Future[Either[Seq[SymbolInformation], Seq[LspDocumentSymbol]]] = {
+          params: DocumentSymbolParams): Future[Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] = {
         onDocumentStructure(params.textDocument.uri)
           .map(_.map(LspConverter.toLspDocumentSymbol))
           .map(Right.apply)
