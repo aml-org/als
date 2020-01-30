@@ -69,13 +69,13 @@ class StructureManager(val workspaceManager: WorkspaceManager,
       .map(cu => {
         val r = getStructureFromAST(cu.unit, telemetryUUID) // todo: if isn't resolved yet map future
         logger
-          .debugDetail(s"Got result for url $uri of size ${r.size}", "StructureManager", "onDocumentStructure")
+          .debug(s"Got result for url $uri of size ${r.size}", "StructureManager", "onDocumentStructure")
         r
       })
       .recoverWith({
         case e: Exception =>
           logger
-            .debugDetail(s"Got error for $uri message: ${e.getMessage}", "StructureManager", "onDocumentStructure")
+            .error(s"Got error for $uri message: ${e.getMessage}", "StructureManager", "onDocumentStructure")
           Future.successful(List.empty)
       })
 
