@@ -50,7 +50,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
   override def onNewAst(tuple: (AmfParseResult, Map[String, DiagnosticsBundle]), uuid: String): Unit = {
     val result     = tuple._1
     val references = tuple._2
-    logger.debug("Got new AST:\n" + result.baseUnit.toString, "ValidationManager", "newASTAvailable")
+    logger.debug("Got new AST:\n" + result.baseUnit.id, "ValidationManager", "newASTAvailable")
     val uri = result.location
     telemetryProvider.addTimedMessage("Start report",
                                       "DiagnosticManager",
@@ -77,7 +77,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                                           MessageTypes.END_DIAGNOSTIC,
                                           uri,
                                           uuid)
-        logger.warning("Error on validation: " + exception.toString, "ValidationManager", "newASTAvailable")
+        logger.error("Error on validation: " + exception.toString, "ValidationManager", "newASTAvailable")
         clientNotifier.notifyDiagnostic(ValidationReport(uri, Set.empty).publishDiagnosticsParams)
     }
   }
@@ -117,9 +117,9 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
         indexNewReport(report, result, uuid)
         notifyReport(result, references, "model and resolution")
 
-        this.logger.debugDetail(s"It took ${endTime - startTime} milliseconds to validate",
-                                "ValidationManager",
-                                "gatherValidationErrors")
+        this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate",
+                          "ValidationManager",
+                          "gatherValidationErrors")
       })
   }
 
