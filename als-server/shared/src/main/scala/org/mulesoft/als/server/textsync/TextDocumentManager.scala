@@ -35,7 +35,7 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
 
   def onOpenDocument(document: OpenedDocument): Unit = {
 
-    logger.debug("Document is opened", "EditorManager", "onOpenDocument")
+    logger.debug(s"Document is opened ${document.uri}", "EditorManager", "onOpenDocument")
 
     val syntax = determineSyntax(document.uri, document.text)
 
@@ -46,10 +46,7 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
   }
 
   def documentWasChanged(document: ChangedDocument) {
-    logger.debug("Document is changed", "EditorManager", "onChangeDocument")
-
-    logger.debugDetail("Uri is:\n " + document.uri, "EditorManager", "onChangeDocument")
-    logger.debugDetail("Text is:\n " + document.text, "EditorManager", "onChangeDocument")
+    logger.debug(s"Document is changed ${document.uri}", "EditorManager", "onChangeDocument")
 
     uriToEditor
       .get(document.uri)
@@ -58,12 +55,12 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
         val currentText    = current.text
 
         if (currentVersion == document.version)
-          this.logger.debugDetail("Version of the reported change is equal to the previous one",
-                                  "EditorManager",
-                                  "onChangeDocument")
+          this.logger.debug(s"Version of the reported change is equal to the previous one at ${document.uri}",
+                            "EditorManager",
+                            "onChangeDocument")
 
         if (document.version < currentVersion && document.text.contains(currentText))
-          this.logger.debugDetail("No changes detected", "EditorManager", "onChangeDocument")
+          this.logger.debug(s"No changes detected for ${document.uri}", "EditorManager", "onChangeDocument")
 
       })
 

@@ -108,13 +108,14 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
           provider
             .suggest()
             .map(result => {
-              this.logger.debug(s"Got ${result.length} proposals", "SuggestionsManager", "onDocumentCompletion")
+              this.logger
+                .debug(s"Got ${result.length} proposals for $uri", "SuggestionsManager", "onDocumentCompletion")
 
               val endTime = System.currentTimeMillis()
 
-              this.logger.debugDetail(s"It took ${endTime - startTime} milliseconds to complete",
-                                      "ASTSuggestionsManager",
-                                      "onDocumentCompletion")
+              this.logger.debug(s"It took ${endTime - startTime} milliseconds to complete",
+                                "ASTSuggestionsManager",
+                                "onDocumentCompletion")
 
               telemetryProvider.addTimedMessage("End Suggestions",
                                                 "SuggestionsManager",
