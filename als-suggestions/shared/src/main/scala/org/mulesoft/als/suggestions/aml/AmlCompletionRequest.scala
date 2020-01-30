@@ -15,6 +15,7 @@ import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
+import org.yaml.model.YNode.MutRef
 import org.yaml.model.{YDocument, YNode, YType}
 
 class AmlCompletionRequest(val baseUnit: BaseUnit,
@@ -155,6 +156,13 @@ object AmlCompletionRequestBuilder {
 
   private def prefix(yPartBranch: YPartBranch, position: DtoPosition): String = {
     yPartBranch.node match {
+      case node: MutRef =>
+        node.origValue.toString.substring(
+          0,
+          (0 max (position.column - node.origValue.range.columnFrom - {
+            if (node.asScalar.exists(_.mark.plain)) 0 else 1 // if there is a quotation mark, adjust the range according
+          })) min node.origValue.toString.length
+        )
       case node: YNode =>
         if (PositionRange(node.tag.range).contains(position))
           node.tag.text
@@ -173,17 +181,6 @@ object AmlCompletionRequestBuilder {
 
                 next.substring(0, diff)
               } else ""
-            case YType.Include =>
-              node match {
-                case mr: YNode.MutRef if mr.origTag.tagType == YType.Include =>
-                  mr.origValue.toString.substring(
-                    0,
-                    (0 max (position.column - mr.origValue.range.columnFrom - {
-                      if (node.asScalar.exists(_.mark.plain)) 0 else 1 // if there is a quotation mark, adjust the range according
-                    })) min mr.origValue.toString.length
-                  )
-                case _ => ""
-              }
             case _ => ""
           }
       case _ => ""
