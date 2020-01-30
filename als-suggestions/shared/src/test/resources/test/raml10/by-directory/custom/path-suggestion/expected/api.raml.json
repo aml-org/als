@@ -1,0 +1,32 @@
+[
+  {
+    "label": "/expected/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11/expected/",
+    "filterText": "/expected/",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 30
+        },
+        "end": {
+          "line": 9,
+          "character": 33
+        }
+      },
+      "newText": "/expected/"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
