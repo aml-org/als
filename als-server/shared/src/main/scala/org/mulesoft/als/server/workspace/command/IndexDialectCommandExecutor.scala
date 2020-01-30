@@ -1,11 +1,9 @@
 package org.mulesoft.als.server.workspace.command
 
 import amf.core.parser._
-import amf.core.remote.Platform
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.amfmanager.ParserHelper
-import org.mulesoft.lsp.server.AmfInstance
-import org.mulesoft.lsp.textsync.IndexDialectParams
+import org.mulesoft.als.server.protocol.textsync.IndexDialectParams
+import org.mulesoft.amfintegration.AmfInstance
 import org.yaml.model.YMap
 
 import scala.concurrent.Future

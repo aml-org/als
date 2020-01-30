@@ -12,7 +12,7 @@ import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.convert.LspRangeConverter
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}

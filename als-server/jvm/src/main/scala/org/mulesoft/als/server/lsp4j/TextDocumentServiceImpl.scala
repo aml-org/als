@@ -28,24 +28,25 @@ import org.eclipse.lsp4j.{
   WorkspaceEdit
 }
 import org.mulesoft.als.server.custom.{CustomEvents, CustomTextDocumentService}
-import org.mulesoft.als.server.lsp4j.Lsp4JConversions._
-import org.mulesoft.als.server.lsp4j.LspConversions._
+import org.mulesoft.als.server.lsp4j.AlsJConversions._
+import org.mulesoft.lsp.LspConversions._
+import org.mulesoft.lsp.Lsp4JConversions._
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.textsync.{AlsTextDocumentSyncConsumer, DidFocusParams}
 import org.mulesoft.lsp.feature.codeactions.CodeActionRequestType
-import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.lsp.feature.completion.CompletionRequestType
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
 import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
 import org.mulesoft.lsp.feature.reference.ReferenceRequestType
 import org.mulesoft.lsp.feature.rename.RenameRequestType
-import org.mulesoft.lsp.server.LanguageServer
-import org.mulesoft.lsp.textsync.{DidChangeConfigurationNotificationParams, DidFocusParams}
+import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomTextDocumentService with CustomEvents {
 
-  private val textDocumentSyncConsumer = inner.textDocumentSyncConsumer
+  private val textDocumentSyncConsumer: AlsTextDocumentSyncConsumer = inner.textDocumentSyncConsumer
 
   override def didOpen(params: DidOpenTextDocumentParams): Unit =
     textDocumentSyncConsumer.didOpen(params)

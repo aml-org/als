@@ -4,8 +4,8 @@ import amf.client.remote.Content
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.lsp.Initializable
-import org.mulesoft.lsp.server.AmfInstance
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global

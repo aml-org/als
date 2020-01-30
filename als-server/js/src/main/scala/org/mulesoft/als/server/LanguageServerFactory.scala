@@ -3,12 +3,18 @@ package org.mulesoft.als.server
 import amf.client.convert.ClientPayloadPluginConverter
 import amf.client.plugins.ClientAMFPayloadValidationPlugin
 import amf.client.resource.ClientResourceLoader
-import org.mulesoft.als.client.configuration._
+import org.mulesoft.als.configuration.{
+  ClientDirectoryResolver,
+  DefaultJsServerSystemConf,
+  EmptyJsDirectoryResolver,
+  JsServerSystemConf
+}
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticNotificationsKind
-import org.mulesoft.lsp.server.{AmfInstance, LanguageServer}
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.amfintegration.AmfInstance
 import org.yaml.builder.{DocBuilder, JsOutputBuilder}
 
 import scala.scalajs.js

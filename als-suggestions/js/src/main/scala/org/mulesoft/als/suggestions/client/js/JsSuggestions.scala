@@ -3,18 +3,17 @@ package org.mulesoft.als.suggestions.client.js
 import amf.client.resource.ClientResourceLoader
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
-import org.mulesoft.als.client.configuration.{
+import org.mulesoft.als.configuration.{
   ClientDirectoryResolver,
   DirectoryResolverAdapter,
   EmptyJsDirectoryResolver,
   ResourceLoaderConverter
 }
-import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
-import org.mulesoft.als.client.lsp.feature.completion.ClientCompletionItem
 import org.mulesoft.als.suggestions.client.Suggestions
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfmanager.InitOptions
-import org.mulesoft.lsp.server.AmfInstance
-
+import org.mulesoft.lsp.feature.completion.ClientCompletionItem
+import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._

@@ -1,44 +1,44 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.als.client.convert.LspConvertersClientToShared._
-import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
-import org.mulesoft.als.client.lsp.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
-import org.mulesoft.als.client.lsp.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
-import org.mulesoft.als.client.lsp.feature.completion.{
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
+import org.mulesoft.lsp.convert.LspConvertersClientToShared._
+import org.mulesoft.als.server.protocol.client.{AlsLanguageClient, AlsLanguageClientAware}
+import org.mulesoft.als.server.protocol.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
+import org.mulesoft.als.server.protocol.convert.LspConvertersClientToShared._
+import org.mulesoft.als.server.protocol.diagnostic.ClientFilesInProjectMessage
+import org.mulesoft.als.server.protocol.serialization.ClientSerializationMessage
+import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestHandler0 => ClientRequestHandler0, _}
+import org.mulesoft.lsp.client.{LspLanguageClient, LspLanguageClientAware}
+import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
+import org.mulesoft.lsp.feature
+import org.mulesoft.lsp.feature.RequestHandler
+import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
+import org.mulesoft.lsp.feature.completion.{
   ClientCompletionItem,
   ClientCompletionList,
-  ClientCompletionParams
+  ClientCompletionParams,
+  CompletionRequestType
 }
-import org.mulesoft.als.client.lsp.feature.diagnostic.{ClientFilesInProjectMessage, ClientPublishDiagnosticsParams}
-import org.mulesoft.als.client.lsp.feature.documentsymbol.{
+import org.mulesoft.lsp.feature.definition.DefinitionRequestType
+import org.mulesoft.lsp.feature.diagnostic.{ClientPublishDiagnosticsParams, PublishDiagnosticsParams}
+import org.mulesoft.lsp.feature.documentsymbol.{
   ClientDocumentSymbol,
   ClientDocumentSymbolParams,
-  ClientSymbolInformation
+  ClientSymbolInformation,
+  DocumentSymbolRequestType
 }
-import org.mulesoft.als.client.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
-import org.mulesoft.als.client.lsp.feature.reference.ClientReferenceParams
-import org.mulesoft.als.client.lsp.feature.serialization.ClientSerializationMessage
-import org.mulesoft.als.client.lsp.feature.telemetry.ClientTelemetryMessage
-import org.mulesoft.als.client.lsp.textsync.{
+import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams, DocumentLinkRequestType}
+import org.mulesoft.lsp.feature.reference.{ClientReferenceParams, ReferenceRequestType}
+import org.mulesoft.lsp.feature.serialization.SerializationMessage
+import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryMessage, TelemetryMessage}
+import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
+import org.mulesoft.lsp.textsync.{
   ClientDidChangeTextDocumentParams,
   ClientDidCloseTextDocumentParams,
   ClientDidOpenTextDocumentParams
 }
-import org.mulesoft.als.client.lsp.workspace.ClientExecuteCommandParams
-import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestHandler0 => ClientRequestHandler0, _}
-import org.mulesoft.lsp.client.{AlsLanguageClient, AlsLanguageClientAware, LspLanguageClient, LspLanguageClientAware}
-import org.mulesoft.lsp.feature.completion.CompletionRequestType
-import org.mulesoft.lsp.feature.definition.DefinitionRequestType
-import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
-import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
-import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
-import org.mulesoft.lsp.feature.reference.ReferenceRequestType
-import org.mulesoft.lsp.feature.serialization.SerializationMessage
-import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
-import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
-import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
-import org.mulesoft.lsp.server.LanguageServer
-import org.yaml.builder.JsOutputBuilder
+import org.mulesoft.lsp.workspace.ClientExecuteCommandParams
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
@@ -75,7 +75,7 @@ object ProtocolConnectionBinder {
   def bind(protocolConnection: ProtocolConnection,
            languageServer: LanguageServer,
            clientAware: LspLanguageClientAware with AlsLanguageClientAware[js.Any]): Unit = {
-    def resolveHandler[P, R](`type`: RequestType[P, R]): RequestHandler[P, R] = {
+    def resolveHandler[P, R](`type`: feature.RequestType[P, R]): RequestHandler[P, R] = {
       val maybeHandler = languageServer.resolveHandler(`type`)
       if (maybeHandler.isEmpty) throw new UnsupportedOperationException else maybeHandler.get
     }

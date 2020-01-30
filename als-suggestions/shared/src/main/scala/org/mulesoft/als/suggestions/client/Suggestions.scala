@@ -13,10 +13,10 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequestBuilder
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, EmptyCompletionProvider, Syntax}
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfmanager.InitOptions
 import org.mulesoft.amfmanager.dialect.DialectKnowledge
 import org.mulesoft.lsp.feature.completion.CompletionItem
-import org.mulesoft.lsp.server.AmfInstance
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

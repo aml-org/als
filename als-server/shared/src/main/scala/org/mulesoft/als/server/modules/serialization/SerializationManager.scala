@@ -4,6 +4,7 @@ import amf.core.model.document.BaseUnit
 import org.mulesoft.als.server.modules.ast.BaseUnitListener
 import org.mulesoft.als.server.modules.workspace.DiagnosticsBundle
 import org.mulesoft.als.server.{ClientNotifierModule, SerializationProps}
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
 import org.mulesoft.lsp.feature.serialization.{
   SerializationClientCapabilities,
@@ -11,7 +12,6 @@ import org.mulesoft.lsp.feature.serialization.{
   SerializationMessage,
   SerializationServerOptions
 }
-import org.mulesoft.lsp.server.AmfInstance
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

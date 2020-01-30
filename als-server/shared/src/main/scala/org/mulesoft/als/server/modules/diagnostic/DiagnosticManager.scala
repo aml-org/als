@@ -1,12 +1,10 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.ProfileName
-import amf.core.annotations.LexicalInformation
 import amf.core.model.document.BaseUnit
 import amf.core.remote.Aml
 import amf.core.services.RuntimeValidator
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
-import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
@@ -14,18 +12,11 @@ import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
 import org.mulesoft.als.server.modules.workspace.DiagnosticsBundle
 import org.mulesoft.amfmanager.AmfParseResult
-import org.mulesoft.amfmanager.BaseUnitImplicits._
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.common.Location
-import org.mulesoft.lsp.convert.LspRangeConverter
-import org.mulesoft.lsp.feature.diagnostic.{
-  DiagnosticClientCapabilities,
-  DiagnosticConfigType,
-  DiagnosticRelatedInformation
-}
+import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
-import scala.collection.{immutable, mutable}
+import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}

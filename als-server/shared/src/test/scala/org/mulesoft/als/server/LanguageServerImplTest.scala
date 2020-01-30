@@ -1,9 +1,9 @@
 package org.mulesoft.als.server
 
+import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.textsync.TextDocument
-import org.mulesoft.lsp.common.TextDocumentItem
-import org.mulesoft.lsp.server.LanguageServer
+import org.mulesoft.lsp.feature.common.TextDocumentItem
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.scalatest.Assertion
 

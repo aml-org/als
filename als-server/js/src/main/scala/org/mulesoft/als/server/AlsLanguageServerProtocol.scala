@@ -1,8 +1,8 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.als.client.lsp.configuration.ClientAlsClientCapabilities
-import org.mulesoft.als.client.lsp.feature.diagnostic.ClientFilesInProjectMessage
-import org.mulesoft.als.client.lsp.feature.serialization.ClientSerializationMessage
+import org.mulesoft.als.server.protocol.configuration.ClientAlsClientCapabilities
+import org.mulesoft.als.server.protocol.serialization.ClientSerializationMessage
+import org.mulesoft.als.server.protocol.diagnostic.ClientFilesInProjectMessage
 import org.mulesoft.als.vscode.NotificationType
 
 import scala.scalajs.js
