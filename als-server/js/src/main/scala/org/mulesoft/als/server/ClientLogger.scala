@@ -9,13 +9,12 @@ import scala.scalajs.js
 trait ClientLogger extends VsCodeLogger {}
 
 case class ClientLoggerAdapter(clientLogger: ClientLogger) extends AbstractLogger {
-  override protected def executeLogging(msg: String, severity: MessageSeverity.MessageSeverity): Unit = severity match {
-    case MessageSeverity.ERROR => clientLogger.error(msg)
-    case MessageSeverity.WARNING => clientLogger.warn(msg)
-    case MessageSeverity.DEBUG => clientLogger.log(msg)
-    case MessageSeverity.DEBUG_DETAIL => clientLogger.log(msg)
-    case MessageSeverity.DEBUG_OVERVIEW => clientLogger.log(msg)
-  }
+  override protected def executeLogging(msg: String, severity: MessageSeverity.MessageSeverity): Unit =
+    severity match {
+      case MessageSeverity.ERROR   => clientLogger.error(msg)
+      case MessageSeverity.WARNING => clientLogger.warn(msg)
+      case MessageSeverity.DEBUG   => clientLogger.log(msg)
+    }
 
   override protected val settings: Option[LoggerSettings] = None
 
