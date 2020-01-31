@@ -74,6 +74,27 @@ lazy val common = crossProject(JSPlatform, JVMPlatform).settings(
 lazy val commonJVM = common.jvm.in(file("./als-common/jvm")).sourceDependency(amfJVMRef, amfLibJVM)
 lazy val commonJS = common.js.in(file("./als-common/js")).sourceDependency(amfJSRef, amfLibJS).disablePlugins(SonarPlugin)
 
+/** ALS LSP */
+
+lazy val lsp = crossProject(JSPlatform, JVMPlatform).settings(
+  Seq(
+    name := "als-lsp"
+  ))
+  .in(file("./als-lsp"))
+  .settings(settings: _*)
+  .jvmSettings(
+    libraryDependencies += "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.7.2",
+    libraryDependencies += "org.scala-lang.modules" % "scala-java8-compat_2.12" % "0.8.0"
+  )
+  .jsSettings(
+    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
+    scalaJSModuleKind := ModuleKind.CommonJSModule
+    //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
+  ).disablePlugins(SonarPlugin)
+
+lazy val lspJVM = lsp.jvm.in(file("./als-lsp/jvm"))
+lazy val lspJS = lsp.js.in(file("./als-lsp/js"))
+
 /** ALS suggestions */
 
 lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
@@ -128,28 +149,6 @@ lazy val actions = crossProject(JSPlatform, JVMPlatform)
 
 lazy val actionsJVM = server.jvm.in(file("./als-actions/jvm"))
 lazy val actionsJS = server.js.in(file("./als-actions/js")).disablePlugins(SonarPlugin)
-
-
-/** ALS LSP */
-
-lazy val lsp = crossProject(JSPlatform, JVMPlatform).settings(
-  Seq(
-    name := "als-lsp"
-  ))
-  .in(file("./als-lsp"))
-  .settings(settings: _*)
-  .jvmSettings(
-    libraryDependencies += "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.7.2",
-    libraryDependencies += "org.scala-lang.modules" % "scala-java8-compat_2.12" % "0.8.0"
-  )
-  .jsSettings(
-    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-    scalaJSModuleKind := ModuleKind.CommonJSModule
-    //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
-  ).disablePlugins(SonarPlugin)
-
-lazy val lspJVM = lsp.jvm.in(file("./als-lsp/jvm"))
-lazy val lspJS = lsp.js.in(file("./als-lsp/js"))
 
 /** ALS server */
 
