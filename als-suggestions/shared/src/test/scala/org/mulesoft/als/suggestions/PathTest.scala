@@ -19,6 +19,7 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
 
   val urlDir = "file:///absolute/path/"
   val url    = s"${urlDir}api.raml"
+  val urlSub = s"${urlDir}directory/lib.raml"
 
   val fileLoader: ResourceLoader = new ResourceLoader {
     override def accepts(resource: String): Boolean = resource == url
@@ -56,7 +57,7 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
 
   test("Should list files from absolute route, having '/' prefix") {
     val eventualAssertion: Future[Assertion] = for {
-      result <- AMLPathCompletionPlugin.resolveInclusion(url, environment, platform, directoryResolver, "/")
+      result <- AMLPathCompletionPlugin.resolveInclusion(url, environment, platform, directoryResolver, "/", None)
     } yield {
       assert(result.size == 1)
     }
@@ -65,7 +66,20 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
 
   test("Should list files from absolute route, NOT having '/' prefix") {
     for {
-      result <- AMLPathCompletionPlugin.resolveInclusion(url, environment, platform, directoryResolver, "")
+      result <- AMLPathCompletionPlugin.resolveInclusion(url, environment, platform, directoryResolver, "", None)
+    } yield {
+      assert(result.size == 1)
+    }
+  }
+
+  test("Should list files from root route, having '/' prefix") {
+    for {
+      result <- AMLPathCompletionPlugin.resolveInclusion(url,
+                                                         environment,
+                                                         platform,
+                                                         directoryResolver,
+                                                         "/",
+                                                         Some(urlDir))
     } yield {
       assert(result.size == 1)
     }

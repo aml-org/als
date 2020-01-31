@@ -20,7 +20,8 @@ object AMLLibraryPathCompletion extends AMLCompletionPlugin {
                                                request.environment,
                                                request.platform,
                                                request.directoryResolver,
-                                               request.prefix)
+                                               request.prefix,
+                                               request.rootUri)
     } else emptySuggestion
   }
 }

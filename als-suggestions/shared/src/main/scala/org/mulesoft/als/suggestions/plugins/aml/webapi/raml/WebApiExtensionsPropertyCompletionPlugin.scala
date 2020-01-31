@@ -18,13 +18,16 @@ object WebApiExtensionsPropertyCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     request.baseUnit match {
-      case e: ExtensionLike[WebApi] if request.amfObject.isInstanceOf[WebApi] && request.fieldEntry.isEmpty =>
+      case e: ExtensionLike[WebApi]
+          if request.amfObject
+            .isInstanceOf[WebApi] && request.fieldEntry.isEmpty =>
         suggestOverExtends(e,
                            request.yPartBranch.isKey,
                            request.environment,
                            request.platform,
                            request.directoryResolver,
-                           request.prefix)
+                           request.prefix,
+                           request.rootUri)
       case _ => emptySuggestion
     }
   }
@@ -34,12 +37,14 @@ object WebApiExtensionsPropertyCompletionPlugin extends AMLCompletionPlugin {
                                  environment: Environment,
                                  platform: Platform,
                                  directoryResolver: DirectoryResolver,
-                                 prefix: String): Future[Seq[RawSuggestion]] = {
+                                 prefix: String,
+                                 rootLocation: Option[String]): Future[Seq[RawSuggestion]] = {
     if (isKey) Future { Seq(RawSuggestion.forKey("extends", mandatory = true)) } else
       AMLPathCompletionPlugin.resolveInclusion(e.location().getOrElse(""),
                                                environment,
                                                platform,
                                                directoryResolver,
-                                               prefix)
+                                               prefix,
+                                               rootLocation)
   }
 }
