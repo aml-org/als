@@ -51,7 +51,7 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
       new Suggestions(platform, environment, directoryResolver, AmfInstance(platform, environment))
     for {
       _           <- s.init(InitOptions.AllProfiles)
-      suggestions <- s.suggest(url, 40, snippetsSupport = true)
+      suggestions <- s.suggest(url, 40, snippetsSupport = true, None)
     } yield {
       assert(suggestions.size == 14)
     }

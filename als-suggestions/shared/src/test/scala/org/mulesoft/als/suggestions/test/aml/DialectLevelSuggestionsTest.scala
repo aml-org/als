@@ -49,7 +49,7 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
                                 patchedContent: PatchedContent,
                                 position: Int): Future[Seq[String]] = {
     new Suggestions(platform, Environment(), new PlatformDirectoryResolver(platform), AmfInstance.default)
-      .buildProvider(bu, position, url, patchedContent, snippetSupport = true)
+      .buildProvider(bu, position, url, patchedContent, snippetSupport = true, None)
       .suggest()
       .map(suggestions =>
         suggestions.flatMap(suggestion => {

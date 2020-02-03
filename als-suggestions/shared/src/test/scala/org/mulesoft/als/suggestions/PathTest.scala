@@ -81,7 +81,7 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
                                                          "/",
                                                          Some(urlDir))
     } yield {
-      assert(result.size == 1)
+      assert(result.forall(r => Seq("/api.raml", "/directory/").contains(r.newText)))
     }
   }
 }
