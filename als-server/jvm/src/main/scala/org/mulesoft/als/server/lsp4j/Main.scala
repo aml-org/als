@@ -17,7 +17,8 @@ object Main {
                      listen: Boolean,
                      dialectPath: Option[String],
                      dialectName: Option[String],
-                     vocabularyPath: Option[String])
+                     vocabularyPath: Option[String],
+                     systemStream: Boolean = false)
   val DefaultOptions: Options =
     Options(4000, listen = false, dialectPath = None, dialectName = None, vocabularyPath = None)
 
@@ -27,6 +28,8 @@ object Main {
         case Nil => options
         case "--port" :: value :: tail =>
           innerReadOptions(options.copy(port = value.toInt), tail)
+        case "--systemStream" :: tail => // intellij lsp plugin only supports stdio at the moment
+          innerReadOptions(options.copy(systemStream = true), tail)
         case "--listen" :: tail =>
           innerReadOptions(options.copy(listen = true), tail)
         case _ =>
@@ -37,9 +40,9 @@ object Main {
   }
 
   def createSocket(options: Options): Socket = options match {
-    case Options(port, true, _, _, _) =>
+    case Options(port, true, _, _, _, false) =>
       new ServerSocket(port).accept()
-    case Options(port, false, _, _, _) =>
+    case Options(port, false, _, _, _, false) =>
       new Socket("localhost", port)
   }
 
@@ -47,10 +50,13 @@ object Main {
     val options = readOptions(args)
 
     try {
-      val socket = createSocket(options)
-
-      val in  = socket.getInputStream
-      val out = socket.getOutputStream
+      val (in, out) =
+        if (options.systemStream)
+          (System.in, System.out)
+        else {
+          val socket = createSocket(options)
+          (socket.getInputStream, socket.getOutputStream)
+        }
 
       val logger: Logger   = PrintLnLogger
       val clientConnection = ClientConnection[StringWriter](logger)
@@ -78,7 +84,6 @@ object Main {
       }) // example
 
       launcher.startListening
-      println("ALS started")
     } catch {
       case e: Exception =>
         e.printStackTrace()
