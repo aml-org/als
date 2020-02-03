@@ -18,7 +18,7 @@ object Main {
                      dialectPath: Option[String],
                      dialectName: Option[String],
                      vocabularyPath: Option[String],
-                     isStdio: Boolean = false)
+                     systemStream: Boolean = false)
   val DefaultOptions: Options =
     Options(4000, listen = false, dialectPath = None, dialectName = None, vocabularyPath = None)
 
@@ -28,8 +28,8 @@ object Main {
         case Nil => options
         case "--port" :: value :: tail =>
           innerReadOptions(options.copy(port = value.toInt), tail)
-        case "--stdio" :: tail => // intellij lsp plugin only supports stdio at the moment
-          innerReadOptions(options.copy(isStdio = true), tail)
+        case "--systemStream" :: tail => // intellij lsp plugin only supports stdio at the moment
+          innerReadOptions(options.copy(systemStream = true), tail)
         case "--listen" :: tail =>
           innerReadOptions(options.copy(listen = true), tail)
         case _ =>
@@ -51,7 +51,7 @@ object Main {
 
     try {
       val (in, out) =
-        if (options.isStdio)
+        if (options.systemStream)
           (System.in, System.out)
         else {
           val socket = createSocket(options)
