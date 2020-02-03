@@ -29,7 +29,10 @@ class Suggestions(platform: Platform,
   def init(options: InitOptions = InitOptions.WebApiProfiles): Future[Unit] =
     Core.init(options, amfInstance)
 
-  def suggest(url: String, position: Int, snippetsSupport: Boolean): Future[Seq[CompletionItem]] = {
+  def suggest(url: String,
+              position: Int,
+              snippetsSupport: Boolean,
+              rootLocation: Option[String]): Future[Seq[CompletionItem]] = {
 
     platform
       .resolve(url, environment)
@@ -41,7 +44,7 @@ class Suggestions(platform: Platform,
       })
       .flatMap {
         case (patchedContent, patchedEnv) =>
-          suggestWithPatchedEnvironment(url, patchedContent, position, patchedEnv, snippetsSupport)
+          suggestWithPatchedEnvironment(url, patchedContent, position, patchedEnv, snippetsSupport, rootLocation)
       }
   }
 
@@ -49,7 +52,8 @@ class Suggestions(platform: Platform,
                     position: Int,
                     url: String,
                     patchedContent: PatchedContent,
-                    snippetSupport: Boolean): CompletionProvider = {
+                    snippetSupport: Boolean,
+                    rootLocation: Option[String]): CompletionProvider = {
     DialectKnowledge.dialectFor(bu) match {
       case Some(d) =>
         buildCompletionProviderAST(bu,
@@ -57,7 +61,8 @@ class Suggestions(platform: Platform,
                                    bu.id,
                                    DtoPosition(position, patchedContent.original),
                                    patchedContent,
-                                   snippetSupport)
+                                   snippetSupport,
+                                   rootLocation)
       case _ if isHeader(position, url, patchedContent.original) =>
         if (!url.toLowerCase().endsWith(".raml"))
           HeaderCompletionProviderBuilder
@@ -73,9 +78,10 @@ class Suggestions(platform: Platform,
                          position: Int,
                          url: String,
                          patchedContent: PatchedContent,
-                         snippetSupport: Boolean): Future[CompletionProvider] = {
+                         snippetSupport: Boolean,
+                         rootLocation: Option[String]): Future[CompletionProvider] = {
     unitFuture
-      .map(buildProvider(_, position, url, patchedContent, snippetSupport))
+      .map(buildProvider(_, position, url, patchedContent, snippetSupport, rootLocation))
   }
 
   private def isHeader(position: Int, url: String, originalContent: String): Boolean =
@@ -88,13 +94,15 @@ class Suggestions(platform: Platform,
                                             patchedContent: PatchedContent,
                                             position: Int,
                                             environment: Environment,
-                                            snippetsSupport: Boolean): Future[Seq[CompletionItem]] = {
+                                            snippetsSupport: Boolean,
+                                            rootLocation: Option[String]): Future[Seq[CompletionItem]] = {
 
     buildProviderAsync(amfInstance.parserHelper.parse(url, environment).map(_.baseUnit),
                        position,
                        url,
                        patchedContent,
-                       snippetsSupport)
+                       snippetsSupport,
+                       rootLocation)
       .flatMap(_.suggest())
   }
 
@@ -103,12 +111,21 @@ class Suggestions(platform: Platform,
                                          url: String,
                                          pos: DtoPosition,
                                          patchedContent: PatchedContent,
-                                         snippetSupport: Boolean): CompletionProviderAST = {
+                                         snippetSupport: Boolean,
+                                         rootLocation: Option[String]): CompletionProviderAST = {
 
     val amfPosition: AmfPosition = pos.toAmfPosition
     CompletionProviderAST(
       AmlCompletionRequestBuilder
-        .build(bu, amfPosition, dialect, environment, directoryResolver, platform, patchedContent, snippetSupport))
+        .build(bu,
+               amfPosition,
+               dialect,
+               environment,
+               directoryResolver,
+               platform,
+               patchedContent,
+               snippetSupport,
+               rootLocation))
   }
 }
 

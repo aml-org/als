@@ -21,7 +21,6 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
       parts.substring(0, parts.lastIndexOf('/') + 1)
     else ""
 
-  // TODO: When project is implemented, baseDir should depend on '/' prefix (to define if root is main file or current one)
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     if (DialectKnowledge.isRamlInclusion(params.yPartBranch, params.actualDialect) || DialectKnowledge.isJsonInclusion(
           params.yPartBranch,
@@ -30,16 +29,22 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
                        params.environment,
                        params.platform,
                        params.directoryResolver,
-                       params.prefix)
+                       params.prefix,
+                       params.rootUri)
     } else emptySuggestion
 
   def resolveInclusion(actualLocation: String,
                        environment: Environment,
                        platform: Platform,
                        directoryResolver: DirectoryResolver,
-                       prefix: String): Future[Seq[RawSuggestion]] = {
-    val fullPath     = FileUtils.getPath(actualLocation, platform)
-    val baseDir      = extractPath(fullPath) // root path for file
+                       prefix: String,
+                       rootLocation: Option[String]): Future[Seq[RawSuggestion]] = {
+    val baseLocation: String =
+      if (prefix.startsWith("/")) rootLocation.getOrElse(actualLocation)
+      else actualLocation
+    val fullPath = FileUtils.getPath(baseLocation, platform)
+    val baseDir  = extractPath(fullPath) // root path for file
+
     val relativePath = extractPath(prefix)
     val fullURI =
       FileUtils.getEncodedUri(s"${baseDir.stripSuffix("/")}/${relativePath.stripPrefix("/")}", platform)
@@ -48,7 +53,9 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
     if (!prefix.startsWith("#"))
       if (fullURI.contains("#") && !fullURI.startsWith("#"))
         PathNavigation(fullURI, platform, environment, prefix).suggest()
-      else FilesEnumeration(directoryResolver, platform, actual, relativePath).filesIn(fullURI)
+      else
+        FilesEnumeration(directoryResolver, platform, actual, relativePath)
+          .filesIn(fullURI)
     else emptySuggestion
 
   }
@@ -64,5 +71,6 @@ trait PathCompletion {
       .flatMap(platform.mimeFromExtension)
       .exists(pluginForMime(_).isDefined)
 
-  def pluginForMime(mime: String): Option[AMFSyntaxPlugin] = AMFPluginsRegistry.syntaxPluginForMediaType(mime)
+  def pluginForMime(mime: String): Option[AMFSyntaxPlugin] =
+    AMFPluginsRegistry.syntaxPluginForMediaType(mime)
 }

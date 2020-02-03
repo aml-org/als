@@ -27,7 +27,8 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val styler: SuggestionRender,
                            val yPartBranch: YPartBranch,
                            private val objectInTree: ObjectInTree,
-                           val inheritedProvider: Option[DeclarationProvider] = None) {
+                           val inheritedProvider: Option[DeclarationProvider] = None,
+                           val rootUri: Option[String]) {
 
   lazy val branchStack: Seq[AmfObject] = objectInTree.stack
 
@@ -65,8 +66,9 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
   val propertyMapping: List[PropertyMapping] = {
 
     val mappings: List[PropertyMapping] = DialectNodeFinder.find(objectInTree.obj, fieldEntry, actualDialect) match {
-      case Some(nm: NodeMapping) => PropertyMappingFilter(objectInTree, actualDialect, nm).filter().toList
-      case _                     => Nil
+      case Some(nm: NodeMapping) =>
+        PropertyMappingFilter(objectInTree, actualDialect, nm).filter().toList
+      case _ => Nil
     }
 
     fieldEntry match {
@@ -123,7 +125,8 @@ object AmlCompletionRequestBuilder {
             directoryResolver: DirectoryResolver,
             platform: Platform,
             patchedContent: PatchedContent,
-            snippetSupport: Boolean): AmlCompletionRequest = {
+            snippetSupport: Boolean,
+            rootLocation: Option[String]): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
       val ast = baseUnit match {
         case d: Document =>
@@ -151,7 +154,8 @@ object AmlCompletionRequestBuilder {
                              platform,
                              styler,
                              yPartBranch,
-                             objectInTree)
+                             objectInTree,
+                             rootUri = rootLocation)
   }
 
   private def prefix(yPartBranch: YPartBranch, position: DtoPosition): String = {
@@ -205,7 +209,8 @@ object AmlCompletionRequestBuilder {
       parent.styler,
       parent.yPartBranch,
       objectInTree,
-      Some(filterProvider)
+      Some(filterProvider),
+      parent.rootUri
     )
   }
 }

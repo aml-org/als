@@ -51,7 +51,7 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
         new Suggestions(platform, environment, dr, AmfInstance(platform, environment))
       }
       _           <- s.init(InitOptions.AllProfiles.withCustomDialects(customDialect.toSeq))
-      suggestions <- s.suggest(url, position, snippetsSupport = true)
+      suggestions <- s.suggest(url, position, snippetsSupport = true, None)
     } yield suggestions
   }
 

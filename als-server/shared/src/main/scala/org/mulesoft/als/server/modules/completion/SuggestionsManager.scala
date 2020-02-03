@@ -173,7 +173,8 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
       position,
       uri,
       patchedContent,
-      snippetSupport
+      snippetSupport,
+      workspaceManager.getWorkspace(uri).workspaceConfiguration.map(c => s"${c.rootFolder}/")
     )
   }
 }
