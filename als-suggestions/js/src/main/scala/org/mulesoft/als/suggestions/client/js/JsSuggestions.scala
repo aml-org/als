@@ -37,7 +37,7 @@ object JsSuggestions extends PlatformSecrets {
     val environment = Environment(loaders.map(ResourceLoaderConverter.internalResourceLoader).toSeq)
 
     new Suggestions(platform, environment, DirectoryResolverAdapter.convert(dirResolver), AmfInstance(environment))
-      .suggest(url, position, snippetSupport)
+      .suggest(url, position, snippetSupport, None)
       .map(_.map(_.toClient).toJSArray)
       .toJSPromise
   }

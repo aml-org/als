@@ -38,7 +38,7 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
         (this.buildEnvironment(url, markerInfo.patchedContent.original, content.mime), markerInfo.position)
       }
 
-      suggestions <- suggestions.suggest(url, position, snippetsSupport = true)
+      suggestions <- suggestions.suggest(url, position, snippetsSupport = true, None)
     } yield suggestions
   }
 
