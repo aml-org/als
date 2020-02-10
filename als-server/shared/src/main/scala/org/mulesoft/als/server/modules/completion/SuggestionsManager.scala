@@ -99,7 +99,6 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
           new TextDocument(uri, textDocument.version, patchedContent.content, syntax.toString, logger),
           originalText,
           uri,
-          refinedUri,
           offset,
           syntax,
           patchedContent,
@@ -135,7 +134,6 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
   def buildCompletionProviderAST(text: TextDocument,
                                  unmodifiedContent: String,
                                  uri: String,
-                                 refinedUri: String,
                                  position: Int,
                                  syntax: Syntax,
                                  patchedContent: PatchedContent,
@@ -147,7 +145,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                       MessageTypes.BEGIN_PARSE_PATCHED,
                                       uri,
                                       uuid)
-    val patchedEnvironment: TextDocumentContainer = editorEnvironment.patchUri(amfRefinedUri, text)
+    val patchedEnvironment: TextDocumentContainer = editorEnvironment.patchUri(uri, text)
 
     val eventualUnit =
       workspaceManager.getUnit(uri, uuid).flatMap { bu =>
