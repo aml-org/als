@@ -46,7 +46,7 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
   }
 
   val isKey: Boolean =
-    if (isJson) node.isInstanceOf[YMap]
+    if (isJson) stack.headOption.exists(_.isKey(position)) || node.isInstanceOf[YMap]
     else {
       node.isInstanceOf[YMap] || (stack.headOption match {
         case Some(entry: YMapEntry) if entry.value == node =>

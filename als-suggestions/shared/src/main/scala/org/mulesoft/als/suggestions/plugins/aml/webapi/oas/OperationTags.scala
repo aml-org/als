@@ -16,7 +16,8 @@ object OperationTags extends AMLCompletionPlugin {
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = Future {
     request.amfObject match {
       case _: Operation
-          if request.fieldEntry.exists(_.field == OperationModel.Tags) && request.yPartBranch.isInArray =>
+          if request.fieldEntry
+            .exists(_.field == OperationModel.Tags) && (request.yPartBranch.isInArray || request.yPartBranch.isArray) =>
         tags(request)
       case _: Tag if request.branchStack.headOption.exists(_.isInstanceOf[Operation]) => tags(request)
       case _                                                                          => Nil

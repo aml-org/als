@@ -5,6 +5,7 @@ import amf.core.model.domain._
 import amf.core.model.domain.extensions.PropertyShape
 import amf.core.parser.Value
 import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.plugins.domain.shapes.metamodel.ExampleModel
 import amf.plugins.domain.shapes.models.{AnyShape, ArrayShape, Example, NodeShape}
 import amf.plugins.domain.shapes.resolution.stages.elements.CompleteShapeTransformationPipeline
 import amf.plugins.domain.webapi.metamodel.PayloadModel
@@ -60,7 +61,9 @@ case class ObjectExamplePropertiesCompletionPlugin(objectNode: ObjectNode,
       case arr: ArrayNode if a.isInstanceOf[ArrayShape] =>
         val items = a.asInstanceOf[ArrayShape].items
         arr.members.flatMap(mem => findNode(items, mem, obj)).headOption
-      case _ => None
+      case _ if a.isInstanceOf[NodeShape] => Some(a.asInstanceOf[NodeShape])
+      case _                              => None
+
     }
   }
 }

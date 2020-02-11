@@ -7,6 +7,13 @@ import org.mulesoft.lsp.feature.common.{Range => LspRange}
 case class PositionRange(start: Position, end: Position) {
   def contains(position: Position): Boolean = position >= start && position <= end
 
+  def containsNotEndField(position: Position): Boolean =
+    containsNotEndObj(position) && !(end.column == 0 && position.column > 0)
+
+  def containsNotEndObj(position: Position): Boolean =
+    position >= start && position <= end && !(start.line < position.line && (end.line == position.line && position.column == end.line ||
+      end.line == position.line + 1 && end.column == 0 && position.column == 0))
+
   def intersection(other: PositionRange): Option[PositionRange] =
     if (start > other.end || other.start > end) None
     else Some(PositionRange(Position.max(start, other.start), Position.min(end, other.end)))
