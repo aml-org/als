@@ -2,7 +2,6 @@ package org.mulesoft.lsp.configuration
 
 import org.mulesoft.lsp.feature.codeactions.CodeActionOptions
 import org.mulesoft.lsp.feature.completion.CompletionOptions
-import org.mulesoft.lsp.feature.diagnostic.CleanDiagnosticTreeOptions
 import org.mulesoft.lsp.feature.link.DocumentLinkOptions
 import org.mulesoft.lsp.feature.rename.RenameOptions
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind

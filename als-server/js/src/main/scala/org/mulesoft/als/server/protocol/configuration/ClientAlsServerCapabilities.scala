@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.protocol.configuration
 
+import org.mulesoft.als.server.feature.serialization.ConversionRequestOptions
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 import org.mulesoft.lsp.configuration.ClientWorkspaceServerCapabilities
 import org.mulesoft.lsp.feature.codeactions.ClientCodeActionOptions
@@ -8,6 +9,7 @@ import org.mulesoft.lsp.feature.link.ClientDocumentLinkOptions
 import org.mulesoft.lsp.feature.rename.ClientRenameOptions
 import org.mulesoft.lsp.textsync.ClientTextDocumentSyncOptions
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
+
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.{UndefOr, |}
@@ -26,7 +28,8 @@ trait ClientAlsServerCapabilities extends js.Object {
   def workspace: UndefOr[ClientWorkspaceServerCapabilities]          = js.native
   def experimental: UndefOr[js.Object]                               = js.native
   def serialization: UndefOr[ClientSerializationServerOptions]       = js.native
-  def cleanDiagnostics: UndefOr[ClientCleanDiagnosticTreeOptions]       = js.native
+  def cleanDiagnostics: UndefOr[ClientCleanDiagnosticTreeOptions]    = js.native
+  def conversion: UndefOr[ClientConversionOptions]                   = js.native
 
 }
 
@@ -46,7 +49,8 @@ object ClientAlsServerCapabilities {
         workspace = internal.workspace.map(_.toClient).orUndefined,
         experimental = internal.experimental.collect { case js: js.Object => js }.orUndefined,
         serialization = internal.serialization.map(_.toClient).orUndefined,
-        cleanDiagnostics = internal.cleanDiagnostics.map(_.toClient).orUndefined
+        cleanDiagnostics = internal.cleanDiagnostics.map(_.toClient).orUndefined,
+        conversion = internal.conversion.map(_.toClient).orUndefined
       )
       .asInstanceOf[ClientAlsServerCapabilities]
 }

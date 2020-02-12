@@ -1,8 +1,18 @@
 package org.mulesoft.als.server.protocol.convert
 
+import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions}
+import org.mulesoft.als.server.feature.serialization.{
+  ConversionClientCapabilities,
+  ConversionRequestOptions,
+  SerializationClientCapabilities,
+  SerializationMessage,
+  SerializationServerOptions,
+  SerializedDocument
+}
+import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.protocol.configuration._
 import org.mulesoft.als.server.protocol.diagnostic.ClientFilesInProjectMessage
-import org.mulesoft.als.server.protocol.serialization.ClientSerializationMessage
+import org.mulesoft.als.server.protocol.serialization.{ClientSerializationMessage, ClientSerializedDocument}
 import org.mulesoft.als.server.protocol.textsync.{
   ClientDidFocusParams,
   ClientIndexDialectParams,
@@ -10,13 +20,6 @@ import org.mulesoft.als.server.protocol.textsync.{
   IndexDialectParams
 }
 import org.mulesoft.lsp.configuration._
-import org.mulesoft.lsp.feature.diagnostic._
-import org.mulesoft.lsp.feature.serialization.{
-  SerializationClientCapabilities,
-  SerializationMessage,
-  SerializationServerOptions
-}
-import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
 
 import scala.language.implicitConversions
 import scala.scalajs.js
@@ -31,6 +34,11 @@ object LspConvertersSharedToClient {
   implicit class ClientCleanDiagnosticTreeClientCapabilitiesConverter(v: CleanDiagnosticTreeClientCapabilities) {
     def toClient: ClientCleanDiagnosticTreeClientCapabilities =
       ClientCleanDiagnosticTreeClientCapabilities(v)
+  }
+
+  implicit class ClientSerializationRequestClientCapabilitiesConverter(v: ConversionClientCapabilities) {
+    def toClient: ClientConversionClientCapabilities =
+      ClientConversionClientCapabilities(v)
   }
 
   implicit class ClientWorkspaceClientCapabilitiesConverter(v: WorkspaceClientCapabilities) {
@@ -68,6 +76,11 @@ object LspConvertersSharedToClient {
       ClientCleanDiagnosticTreeOptions(v)
   }
 
+  implicit class ClientSerializationRequestOptionsConverter(v: ConversionRequestOptions) {
+    def toClient: ClientConversionOptions =
+      ClientConversionOptions(v)
+  }
+
   implicit class ClientSerializationServerOptionsConverter(v: SerializationServerOptions) {
     def toClient: ClientSerializationServerOptions =
       ClientSerializationServerOptions(v)
@@ -86,5 +99,9 @@ object LspConvertersSharedToClient {
   implicit class ClientIndexDialectParamsConverter(v: IndexDialectParams) {
     def toClient: ClientIndexDialectParams =
       ClientIndexDialectParams(v)
+  }
+
+  implicit class ClientSerializedDocumentConverter(v: SerializedDocument) {
+    def toClient: ClientSerializedDocument = ClientSerializedDocument(v)
   }
 }

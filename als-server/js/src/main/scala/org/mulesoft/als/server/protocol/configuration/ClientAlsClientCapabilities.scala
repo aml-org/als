@@ -19,6 +19,8 @@ trait ClientAlsClientCapabilities extends js.Object {
   def serialization: js.UndefOr[ClientSerializationClientCapabilities] = js.native
 
   def cleanDiagnosticTree: js.UndefOr[ClientCleanDiagnosticTreeClientCapabilities] = js.native
+
+  def conversion: js.UndefOr[ClientConversionClientCapabilities] = js.native
 }
 
 object ClientAlsClientCapabilities {
@@ -29,7 +31,8 @@ object ClientAlsClientCapabilities {
         textDocument = internal.textDocument.map(_.toClient).orUndefined,
         experimental = internal.experimental.collect { case js: js.Object => js }.orUndefined,
         serialization = internal.serialization.map(_.toClient).orUndefined,
-        cleanDiagnosticTree = internal.cleanDiagnosticTree.map(_.toClient).orUndefined
+        cleanDiagnosticTree = internal.cleanDiagnosticTree.map(_.toClient).orUndefined,
+        conversion = internal.conversion.map(_.toClient).orUndefined
       )
       .asInstanceOf[ClientAlsClientCapabilities]
   }

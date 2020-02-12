@@ -3,8 +3,8 @@ package org.mulesoft.als.server
 import java.io.StringWriter
 
 import org.mulesoft.als.server.client.AlsClientNotifier
-import org.mulesoft.lsp.feature.serialization.SerializationMessage
-import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
+import org.mulesoft.als.server.feature.serialization.SerializationMessage
+import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.yaml.builder.{DocBuilder, JsonOutputBuilder}
 
 abstract class SerializationProps[S](val alsClientNotifier: AlsClientNotifier[S]) {
