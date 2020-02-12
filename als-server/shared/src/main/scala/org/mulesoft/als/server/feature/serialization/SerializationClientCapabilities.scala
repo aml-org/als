@@ -1,4 +1,4 @@
-package org.mulesoft.lsp.feature.serialization
+package org.mulesoft.als.server.feature.serialization
 
 /**
   * Capabilities specific to `workspace/serializedModel`.

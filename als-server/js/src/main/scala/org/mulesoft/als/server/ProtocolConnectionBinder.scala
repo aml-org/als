@@ -1,13 +1,19 @@
 package org.mulesoft.als.server
 
+import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeRequestType
+import org.mulesoft.als.server.feature.serialization.{ConversionRequestType, SerializationMessage}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
 import org.mulesoft.lsp.convert.LspConvertersClientToShared._
 import org.mulesoft.als.server.protocol.client.{AlsLanguageClient, AlsLanguageClientAware}
 import org.mulesoft.als.server.protocol.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
 import org.mulesoft.als.server.protocol.convert.LspConvertersClientToShared._
-import org.mulesoft.als.server.protocol.diagnostic.ClientFilesInProjectMessage
-import org.mulesoft.als.server.protocol.serialization.ClientSerializationMessage
+import org.mulesoft.als.server.protocol.diagnostic.{ClientCleanDiagnosticTreeParams, ClientFilesInProjectMessage}
+import org.mulesoft.als.server.protocol.serialization.{
+  ClientConversionParams,
+  ClientSerializationMessage,
+  ClientSerializedDocument
+}
 import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestHandler0 => ClientRequestHandler0, _}
 import org.mulesoft.lsp.client.{LspLanguageClient, LspLanguageClientAware}
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
@@ -30,9 +36,8 @@ import org.mulesoft.lsp.feature.documentsymbol.{
 }
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams, DocumentLinkRequestType}
 import org.mulesoft.lsp.feature.reference.{ClientReferenceParams, ReferenceRequestType}
-import org.mulesoft.lsp.feature.serialization.SerializationMessage
 import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryMessage, TelemetryMessage}
-import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
+import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.lsp.textsync.{
   ClientDidChangeTextDocumentParams,
   ClientDidCloseTextDocumentParams,
@@ -75,7 +80,7 @@ object ProtocolConnectionBinder {
   def bind(protocolConnection: ProtocolConnection,
            languageServer: LanguageServer,
            clientAware: LspLanguageClientAware with AlsLanguageClientAware[js.Any]): Unit = {
-    def resolveHandler[P, R](`type`: feature.RequestType[P, R]): RequestHandler[P, R] = {
+    def resolveHandler[P, R](`type`: org.mulesoft.lsp.feature.RequestType[P, R]): RequestHandler[P, R] = {
       val maybeHandler = languageServer.resolveHandler(`type`)
       if (maybeHandler.isEmpty) throw new UnsupportedOperationException else maybeHandler.get
     }
@@ -238,5 +243,39 @@ object ProtocolConnectionBinder {
     )
     // End References
 
+    // CleanDiagnosticTree
+    val onCleanDiagnosticTreeHandlerJs: js.Function2[ClientCleanDiagnosticTreeParams,
+                                                     CancellationToken,
+                                                     Thenable[js.Array[ClientPublishDiagnosticsParams]]] =
+      (param: ClientCleanDiagnosticTreeParams, _: CancellationToken) =>
+        resolveHandler(CleanDiagnosticTreeRequestType)(param.toShared)
+          .map(_.map(_.toClient).toJSArray)
+          .toJSPromise
+          .asInstanceOf[Thenable[js.Array[ClientPublishDiagnosticsParams]]]
+
+    protocolConnection.onRequest(
+      ClientCleanDiagnosticTreeRequestType.`type`,
+      onCleanDiagnosticTreeHandlerJs
+        .asInstanceOf[
+          ClientRequestHandler[ClientCleanDiagnosticTreeParams, js.Array[ClientPublishDiagnosticsParams], js.Any]]
+    )
+    // End CleanDiagnosticTree
+
+    // ConversionRequest
+
+    val onConversionHandlerJs
+      : js.Function2[ClientConversionParams, CancellationToken, Thenable[js.Array[ClientSerializedDocument]]] =
+      (param: ClientConversionParams, _: CancellationToken) =>
+        resolveHandler(ConversionRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[js.Array[ClientSerializedDocument]]]
+
+    protocolConnection.onRequest(
+      ClientConversionRequestType.`type`,
+      onConversionHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientConversionParams, js.Array[ClientSerializedDocument], js.Any]]
+    )
+    // End Conversion Request
   }
 }

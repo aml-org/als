@@ -4,7 +4,7 @@ import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.AlsClientNotifier
 import org.mulesoft.als.server.modules.ast.BaseUnitListener
 import org.mulesoft.amfmanager.AmfParseResult
-import org.mulesoft.lsp.feature.workspace.{
+import org.mulesoft.als.server.feature.workspace.{
   FilesInProjectClientCapabilities,
   FilesInProjectConfigType,
   FilesInProjectParams,

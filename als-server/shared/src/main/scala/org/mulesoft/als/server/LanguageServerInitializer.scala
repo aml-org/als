@@ -1,5 +1,7 @@
 package org.mulesoft.als.server
 
+import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeConfigType
+import org.mulesoft.als.server.feature.serialization.{SerializationConfigType, ConversionConfigType}
 import org.mulesoft.als.server.protocol.configuration.{
   AlsClientCapabilities,
   AlsInitializeParams,
@@ -9,12 +11,10 @@ import org.mulesoft.als.server.protocol.configuration.{
 import org.mulesoft.lsp.feature.codeactions.CodeActionConfigType
 import org.mulesoft.lsp.feature.completion.CompletionConfigType
 import org.mulesoft.lsp.feature.definition.DefinitionConfigType
-import org.mulesoft.lsp.feature.diagnostic.CleanDiagnosticTreeConfigType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolConfigType
 import org.mulesoft.lsp.feature.link.DocumentLinkConfigType
 import org.mulesoft.lsp.feature.reference.ReferenceConfigType
 import org.mulesoft.lsp.feature.rename.RenameConfigType
-import org.mulesoft.lsp.feature.serialization.SerializationConfigType
 import org.mulesoft.lsp.textsync.TextDocumentSyncConfigType
 import org.mulesoft.lsp.{ConfigType, Initializable}
 
@@ -37,7 +37,8 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       None,
       None,
       applyConfig(SerializationConfigType, clientCapabilities.serialization),
-      applyConfig(CleanDiagnosticTreeConfigType, clientCapabilities.cleanDiagnosticTree)
+      applyConfig(CleanDiagnosticTreeConfigType, clientCapabilities.cleanDiagnosticTree),
+      applyConfig(ConversionConfigType, clientCapabilities.conversion)
     )
   }
 

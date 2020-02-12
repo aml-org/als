@@ -7,10 +7,10 @@ import org.eclipse.lsp4j.jsonrpc.Launcher
 import org.eclipse.lsp4j.services.LanguageClient
 import org.mulesoft.als.server.JvmSerializationProps
 import org.mulesoft.als.server.client.ClientConnection
+import org.mulesoft.als.server.feature.serialization.SerializationMessage
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.protocol.client.AlsLanguageClient
-import org.mulesoft.lsp.feature.serialization.SerializationMessage
-import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
+import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 
 object Main {
   case class Options(port: Int,

@@ -2,19 +2,13 @@ package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.validation.AMFValidationResult
 import org.mulesoft.als.server.RequestModule
+import org.mulesoft.als.server.feature.diagnostic._
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.RequestHandler
-import org.mulesoft.lsp.feature.diagnostic.{
-  CleanDiagnosticTreeClientCapabilities,
-  CleanDiagnosticTreeConfigType,
-  CleanDiagnosticTreeOptions,
-  CleanDiagnosticTreeParams,
-  CleanDiagnosticTreeRequestType,
-  PublishDiagnosticsParams
-}
+import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
