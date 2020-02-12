@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.protocol.diagnostic
 
-import org.mulesoft.lsp.feature.workspace.FilesInProjectParams
+import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js

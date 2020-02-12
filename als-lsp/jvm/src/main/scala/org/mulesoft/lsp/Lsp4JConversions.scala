@@ -295,6 +295,9 @@ object Lsp4JConversions {
   implicit def lsp4JPublishDiagnosticsParams(params: PublishDiagnosticsParams): lsp4j.PublishDiagnosticsParams =
     new lsp4j.PublishDiagnosticsParams(params.uri, javaList(params.diagnostics, lsp4JDiagnostic))
 
+  implicit def lsp4JPublishDiagnosticsParamsSeq(
+      seq: Seq[PublishDiagnosticsParams]): util.List[lsp4j.PublishDiagnosticsParams] =
+    javaList(seq, lsp4JPublishDiagnosticsParams)
   implicit def lsp4JDocumentLinkParams(params: DocumentLinkParams): lsp4j.DocumentLinkParams =
     new lsp4j.DocumentLinkParams(new lsp4j.TextDocumentIdentifier(params.textDocument.uri))
 

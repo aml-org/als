@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.protocol.configuration
 
-import org.mulesoft.lsp.feature.diagnostic.CleanDiagnosticTreeClientCapabilities
+import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeClientCapabilities
 
 import scala.scalajs.js
 

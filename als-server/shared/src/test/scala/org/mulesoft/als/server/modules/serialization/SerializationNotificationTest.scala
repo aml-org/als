@@ -11,11 +11,11 @@ import amf.core.services.RuntimeCompiler
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.server._
+import org.mulesoft.als.server.feature.serialization.SerializationClientCapabilities
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
 import org.mulesoft.lsp.configuration.TraceKind
-import org.mulesoft.lsp.feature.serialization.SerializationClientCapabilities
 
 import scala.concurrent.{ExecutionContext, Future}
 

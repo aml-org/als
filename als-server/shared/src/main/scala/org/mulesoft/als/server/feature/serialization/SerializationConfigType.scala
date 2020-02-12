@@ -1,4 +1,4 @@
-package org.mulesoft.lsp.feature.serialization
+package org.mulesoft.als.server.feature.serialization
 
 import org.mulesoft.lsp.ConfigType
 

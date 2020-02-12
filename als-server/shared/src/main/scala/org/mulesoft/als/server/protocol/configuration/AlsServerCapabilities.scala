@@ -1,12 +1,12 @@
 package org.mulesoft.als.server.protocol.configuration
 
+import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeOptions
+import org.mulesoft.als.server.feature.serialization.{ConversionRequestOptions, SerializationServerOptions}
 import org.mulesoft.lsp.configuration.WorkspaceServerCapabilities
 import org.mulesoft.lsp.feature.codeactions.CodeActionOptions
 import org.mulesoft.lsp.feature.completion.CompletionOptions
-import org.mulesoft.lsp.feature.diagnostic.CleanDiagnosticTreeOptions
 import org.mulesoft.lsp.feature.link.DocumentLinkOptions
 import org.mulesoft.lsp.feature.rename.RenameOptions
-import org.mulesoft.lsp.feature.serialization.SerializationServerOptions
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync.TextDocumentSyncOptions
 
@@ -37,7 +37,8 @@ case class AlsServerCapabilities(
     workspace: Option[WorkspaceServerCapabilities] = None,
     experimental: Option[AnyRef] = None,
     serialization: Option[SerializationServerOptions] = None,
-    cleanDiagnostics: Option[CleanDiagnosticTreeOptions] = None)
+    cleanDiagnostics: Option[CleanDiagnosticTreeOptions] = None,
+    conversion: Option[ConversionRequestOptions] = None)
 
 object AlsServerCapabilities {
   def empty: AlsServerCapabilities = AlsServerCapabilities()

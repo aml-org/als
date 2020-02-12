@@ -64,6 +64,7 @@ object LanguageServerFactory {
       .addInitializable(factory.cleanDiagnosticManager)
       .addInitializable(factory.workspaceManager)
       .addRequestModule(factory.completionManager)
+      .addRequestModule(factory.conversionManager)
       .addRequestModule(factory.structureManager)
       .addRequestModule(factory.definitionManager)
       .addRequestModule(factory.referenceManager)

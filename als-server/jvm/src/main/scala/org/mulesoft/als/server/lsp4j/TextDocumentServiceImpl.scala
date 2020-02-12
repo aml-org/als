@@ -21,6 +21,7 @@ import org.eclipse.lsp4j.{
   DocumentSymbolParams,
   Location,
   LocationLink,
+  PublishDiagnosticsParams,
   ReferenceParams,
   RenameParams,
   SymbolInformation,
@@ -28,7 +29,9 @@ import org.eclipse.lsp4j.{
   WorkspaceEdit
 }
 import org.mulesoft.als.server.custom.{CustomEvents, CustomTextDocumentService}
+import org.mulesoft.als.server.feature.serialization.ConversionRequestType
 import org.mulesoft.als.server.lsp4j.AlsJConversions._
+import org.mulesoft.als.server.lsp4j.extension.{CleanDiagnosticTreeParams, ConversionParams, SerializedDocument}
 import org.mulesoft.lsp.LspConversions._
 import org.mulesoft.lsp.Lsp4JConversions._
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -41,8 +44,11 @@ import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
 import org.mulesoft.lsp.feature.reference.ReferenceRequestType
 import org.mulesoft.lsp.feature.rename.RenameRequestType
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
+import LspConversions._
+import org.mulesoft.lsp.feature.diagnostic.{PublishDiagnosticsParams => InternalPublishDiagnosticParams}
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeConfigType, CleanDiagnosticTreeRequestType}
 
 class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomTextDocumentService with CustomEvents {
 
@@ -92,4 +98,11 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
   override def documentLink(params: DocumentLinkParams): CompletableFuture[util.List[DocumentLink]] =
     javaFuture(resolveHandler(DocumentLinkRequestType)(params), lsp4JDocumentLinkRequestResult)
 
+  override def conversion(params: ConversionParams): CompletableFuture[SerializedDocument] =
+    javaFuture(resolveHandler(ConversionRequestType)(params), serializedDocument)
+
+  override def cleanDiagnosticTree(
+      params: CleanDiagnosticTreeParams): CompletableFuture[util.List[PublishDiagnosticsParams]] = {
+    javaFuture(resolveHandler(CleanDiagnosticTreeRequestType)(params), lsp4JPublishDiagnosticsParamsSeq)
+  }
 }

@@ -16,7 +16,7 @@ import org.mulesoft.als.server.modules.diagnostic.{
   DiagnosticManager,
   DiagnosticNotificationsKind
 }
-import org.mulesoft.als.server.modules.serialization.SerializationManager
+import org.mulesoft.als.server.modules.serialization.{SerializationManager, ConversionManager}
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.modules.workspace.FilesInProjectManager
@@ -113,4 +113,6 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     new FindReferenceManager(workspaceManager, telemetryManager, logger)
   lazy val documentLinksManager =
     new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
+
+  lazy val conversionManager = new ConversionManager(workspaceManager, amfConfiguration, logger)
 }

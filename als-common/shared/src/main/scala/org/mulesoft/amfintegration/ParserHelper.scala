@@ -84,6 +84,29 @@ class ParserHelper(val platform: Platform, amfInit: Future[Unit])
                             ResolutionPipeline.EDITING_PIPELINE)
   }
 
+  def compatibilityResolve(model: BaseUnit, target: String): BaseUnit = {
+    RuntimeResolver.resolve(target, model, ResolutionPipeline.COMPATIBILITY_PIPELINE)
+  }
+
+  private def syntaxFor(profile: ProfileName) = {
+    profile match {
+      case ProfileNames.OAS20 => Mimes.`APPLICATION/JSON`
+      case _                  => Mimes.`APPLICATION/YAML`
+    }
+  }
+
+  private def mediaType(syntax: String) = {
+    if (syntax.toUpperCase.contains("JSON")) Mimes.`APPLICATION/JSON`
+    else Mimes.`APPLICATION/YAML`
+  }
+
+  def convertTo(model: BaseUnit, target: String, syntax: Option[String]): Future[String] = {
+    val unit = compatibilityResolve(model, target)
+    val name = ProfileName(target)
+    new AMFSerializer(unit, syntax.map(mediaType).getOrElse(syntaxFor(name)), target, RenderOptions())
+      .renderToString(ExecutionContext.Implicits.global)
+  }
+
   def printModel(model: BaseUnit, config: ParserConfig): Future[Unit] = {
     generateOutput(config, model)
   }
