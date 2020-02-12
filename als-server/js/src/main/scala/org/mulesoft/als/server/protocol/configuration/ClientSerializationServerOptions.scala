@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.protocol.configuration
 
-import org.mulesoft.lsp.feature.serialization.SerializationServerOptions
+import org.mulesoft.als.server.feature.serialization.SerializationServerOptions
 
 import scala.scalajs.js
 

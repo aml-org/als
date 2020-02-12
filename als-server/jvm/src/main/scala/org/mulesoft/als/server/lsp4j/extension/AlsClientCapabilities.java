@@ -9,6 +9,8 @@ public class AlsClientCapabilities extends ClientCapabilities {
 
     private CleanDiagnosticTreeClientCapabilities cleanDiagnosticTree;
 
+    private ConversionClientCapabilities conversion;
+
     @Pure
     public SerializationClientCapabilities getSerialization() {
         return this.serialization;
@@ -25,5 +27,14 @@ public class AlsClientCapabilities extends ClientCapabilities {
 
     public void setCleanDiagnosticTree(CleanDiagnosticTreeClientCapabilities cleanDiagnosticTree){
         this.cleanDiagnosticTree = cleanDiagnosticTree;
+    }
+
+    public void setConversionClientCapabilities(ConversionClientCapabilities conversion){
+        this.conversion = conversion;
+    }
+
+    @Pure
+    public ConversionClientCapabilities getConversion() {
+        return conversion;
     }
 }

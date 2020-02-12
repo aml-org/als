@@ -1,16 +1,13 @@
 package org.mulesoft.als.server
 
 import amf.core.unsafe.PlatformSecrets
+import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.protocol.textsync.DidFocusParams
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
-import org.mulesoft.lsp.feature.diagnostic.{
-  CleanDiagnosticTreeParams,
-  CleanDiagnosticTreeRequestType,
-  PublishDiagnosticsParams
-}
+import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.documentsymbol.{
   DocumentSymbol,
   DocumentSymbolParams,

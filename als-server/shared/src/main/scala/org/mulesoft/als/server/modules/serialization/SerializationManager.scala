@@ -1,17 +1,17 @@
 package org.mulesoft.als.server.modules.serialization
 
 import amf.core.model.document.BaseUnit
-import org.mulesoft.als.server.modules.ast.BaseUnitListener
-import org.mulesoft.als.server.modules.workspace.DiagnosticsBundle
-import org.mulesoft.als.server.{ClientNotifierModule, SerializationProps}
-import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
-import org.mulesoft.lsp.feature.serialization.{
+import org.mulesoft.als.server.feature.serialization.{
   SerializationClientCapabilities,
   SerializationConfigType,
   SerializationMessage,
   SerializationServerOptions
 }
+import org.mulesoft.als.server.modules.ast.BaseUnitListener
+import org.mulesoft.als.server.modules.workspace.DiagnosticsBundle
+import org.mulesoft.als.server.{ClientNotifierModule, SerializationProps}
+import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

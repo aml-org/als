@@ -1,4 +1,4 @@
-package org.mulesoft.lsp.feature.workspace
+package org.mulesoft.als.server.feature.workspace
 
 import org.mulesoft.lsp.ConfigType
 

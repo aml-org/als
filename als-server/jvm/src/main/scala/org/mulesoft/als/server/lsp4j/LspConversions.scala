@@ -4,6 +4,13 @@ import java.util.{List => JList}
 
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
+import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeParams}
+import org.mulesoft.als.server.feature.serialization.{
+  ConversionClientCapabilities,
+  ConversionConfig,
+  ConversionParams,
+  SerializationClientCapabilities
+}
 import org.mulesoft.als.server.protocol.configuration.{
   AlsClientCapabilities,
   AlsInitializeParams,
@@ -23,10 +30,9 @@ import org.mulesoft.lsp.LspConversions.{
   workspaceFolder,
   workspaceServerCapabilities
 }
-import org.mulesoft.lsp.feature.diagnostic._
-import org.mulesoft.lsp.feature.serialization.SerializationClientCapabilities
-
 import scala.collection.JavaConverters._
+
+import org.mulesoft.lsp.LspConversions.textDocumentIdentifier
 import scala.language.implicitConversions
 
 object LspConversions {
@@ -45,7 +51,8 @@ object LspConversions {
       Option(capabilities.getExperimental),
       Option(capabilities.getSerialization).map(s => SerializationClientCapabilities(s.getSupportsSerialization)),
       Option(capabilities.getCleanDiagnosticTree).map(s =>
-        CleanDiagnosticTreeClientCapabilities(s.getEnabledCleanDiagnostic))
+        CleanDiagnosticTreeClientCapabilities(s.getEnabledCleanDiagnostic)),
+      Option(capabilities.getConversion).map(c => conversionClientCapabilities(c))
     )
 
   implicit def alsInitializeParams(params: extension.AlsInitializeParams): AlsInitializeParams =
@@ -77,8 +84,26 @@ object LspConversions {
         Option(result.getExperimental)
       )
 
+  private def conversionClientCapabilities(
+      result: extension.ConversionClientCapabilities): ConversionClientCapabilities = {
+    ConversionClientCapabilities(result.getSupported)
+  }
+
+  private def conversionConfig(result: extension.ConversionConf): ConversionConfig =
+    ConversionConfig(result.getFrom, result.getTo)
+
   implicit def initializeResult(result: lsp4j.InitializeResult): AlsInitializeResult =
     Option(result)
       .map(r => AlsInitializeResult(serverCapabilities(r.getCapabilities)))
       .getOrElse(AlsInitializeResult.empty)
+
+  implicit def jvmConversionParams(result: extension.ConversionParams): ConversionParams = {
+    ConversionParams(Option(result.getUri).getOrElse(""),
+                     Option(result.getTarget).getOrElse(""),
+                     Option(result.getSyntax))
+  }
+
+  implicit def jvmCleanDiagnosticTreeParams(result: extension.CleanDiagnosticTreeParams): CleanDiagnosticTreeParams = {
+    CleanDiagnosticTreeParams(textDocumentIdentifier(result.getTextDocument))
+  }
 }

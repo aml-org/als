@@ -1,12 +1,15 @@
 package org.mulesoft.als.server.protocol.convert
 
-import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams, AlsInitializeResult, AlsServerCapabilities, ClientAlsClientCapabilities, ClientAlsInitializeParams, ClientAlsInitializeResult, ClientAlsServerCapabilities, ClientCleanDiagnosticTreeClientCapabilities, ClientCleanDiagnosticTreeOptions, ClientSerializationClientCapabilities, ClientSerializationServerOptions}
+import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions, CleanDiagnosticTreeParams}
+import org.mulesoft.als.server.feature.serialization._
+import org.mulesoft.als.server.protocol.configuration._
+import org.mulesoft.als.server.protocol.diagnostic.ClientCleanDiagnosticTreeParams
+import org.mulesoft.als.server.protocol.serialization.ClientConversionParams
 import org.mulesoft.als.server.protocol.textsync.{ClientDidFocusParams, ClientIndexDialectParams, DidFocusParams, IndexDialectParams}
 import org.mulesoft.lsp.configuration.TraceKind
-import org.mulesoft.lsp.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions}
-import org.mulesoft.lsp.feature.serialization.{SerializationClientCapabilities, SerializationServerOptions}
+import org.mulesoft.lsp.convert.LspConvertersClientToShared.{ClientWorkspaceServerCapabilitiesConverter, CompletionOptionsConverter, TextDocumentClientCapabilitiesConverter, TextDocumentSyncOptionsConverter, WorkspaceClientCapabilitiesConverter, WorkspaceFolderConverter}
 import org.mulesoft.lsp.textsync.{ClientTextDocumentSyncOptions, TextDocumentSyncKind}
-import org.mulesoft.lsp.convert.LspConvertersClientToShared.{ClientWorkspaceServerCapabilitiesConverter, TextDocumentClientCapabilitiesConverter, TextDocumentSyncOptionsConverter, WorkspaceClientCapabilitiesConverter, WorkspaceFolderConverter, CompletionOptionsConverter}
+import org.mulesoft.lsp.convert.LspConvertersClientToShared._
 
 object LspConvertersClientToShared {
   // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
@@ -16,9 +19,19 @@ object LspConvertersClientToShared {
       SerializationServerOptions(v.supportsSerialization)
   }
 
+  implicit class ClientConversionOptionsConverter(v: ClientConversionOptions) {
+    def toShared: ConversionRequestOptions =
+      ConversionRequestOptions(v.supported.toSeq.map(s => ConversionConfig(s.from, s.to)))
+  }
+
   implicit class ClientCleanDiagnosticTreeOptionsConverter(v: ClientCleanDiagnosticTreeOptions) {
     def toShared: CleanDiagnosticTreeOptions =
       CleanDiagnosticTreeOptions(v.supported)
+  }
+
+  implicit class ClientCleanDiagnosticTreeParamsConverter(v: ClientCleanDiagnosticTreeParams) {
+    def toShared: CleanDiagnosticTreeParams =
+      CleanDiagnosticTreeParams(v.textDocument.toShared)
   }
 
   implicit class AlsClientCapabilitiesConverter(v: ClientAlsClientCapabilities){
@@ -27,7 +40,9 @@ object LspConvertersClientToShared {
       v.textDocument.map(_.toShared).toOption,
       v.experimental.toOption,
       serialization = v.serialization.map(_.toShared).toOption,
-      cleanDiagnosticTree = v.cleanDiagnosticTree.map(_.toShared).toOption)
+      cleanDiagnosticTree = v.cleanDiagnosticTree.map(_.toShared).toOption,
+      conversion =  v.conversion.map(_.toShared).toOption
+    )
   }
 
   implicit class InitializeParamsConverter(v: ClientAlsInitializeParams) {
@@ -46,6 +61,18 @@ object LspConvertersClientToShared {
   implicit class SerializationClientCapabilitiesConverter(v: ClientSerializationClientCapabilities) {
     def toShared: SerializationClientCapabilities = {
       SerializationClientCapabilities(v.acceptsNotification)
+    }
+  }
+
+  implicit class ConversionConfigConverter(v: ClientConversionConfig) {
+    def toShared: ConversionConfig = {
+      ConversionConfig(v.from, v.to)
+    }
+  }
+
+  implicit class SerializationRequestClientCapabilitiesConverter(v: ClientConversionClientCapabilities) {
+    def toShared: ConversionClientCapabilities = {
+      ConversionClientCapabilities(v.supported)
     }
   }
 
@@ -72,7 +99,8 @@ object LspConvertersClientToShared {
         v.workspace.toOption.map(_.toShared),
         v.experimental.toOption,
         v.serialization.toOption.map(_.toShared),
-        v.cleanDiagnostics.toOption.map(_.toShared)
+        v.cleanDiagnostics.toOption.map(_.toShared),
+        v.conversion.toOption.map(_.toShared)
       )
   }
 
@@ -89,6 +117,10 @@ object LspConvertersClientToShared {
   implicit class IndexDialectParamsConverter(v: ClientIndexDialectParams) {
     def toShared: IndexDialectParams =
       IndexDialectParams(v.uri, v.content.toOption)
+  }
+
+  implicit class ClientConversionParamsConverter(v: ClientConversionParams){
+    def toShared: ConversionParams = ConversionParams(v.uri, v.target, v.syntax.toOption)
   }
   // $COVERAGE-ON
 }
