@@ -24,7 +24,8 @@ import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 @JSExportTopLevel("LanguageServerFactory")
 object LanguageServerFactory {
 
-  def fromLoaders(clientNotifier: ClientNotifier with AlsClientNotifier[js.Any],
+  def fromLoaders(clientNotifier: ClientNotifier,
+                  serializationProps: JsSerializationProps,
                   clientLoaders: js.Array[ClientResourceLoader] = js.Array(),
                   clientDirResolver: ClientDirectoryResolver = EmptyJsDirectoryResolver,
                   logger: Logger = PrintLnLogger,
@@ -32,6 +33,7 @@ object LanguageServerFactory {
                   notificationKind: Option[DiagnosticNotificationsKind] = None,
                   amfPlugins: js.Array[ClientAMFPayloadValidationPlugin] = js.Array.apply()): LanguageServer = {
     fromSystemConfig(clientNotifier,
+                     serializationProps,
                      JsServerSystemConf(clientLoaders, clientDirResolver),
                      amfPlugins,
                      logger,
@@ -39,7 +41,8 @@ object LanguageServerFactory {
                      notificationKind)
   }
 
-  def fromSystemConfig(clientNotifier: ClientNotifier with AlsClientNotifier[js.Any],
+  def fromSystemConfig(clientNotifier: ClientNotifier,
+                       serializationProps: JsSerializationProps,
                        jsServerSystemConf: JsServerSystemConf = DefaultJsServerSystemConf,
                        plugins: js.Array[ClientAMFPayloadValidationPlugin] = js.Array(),
                        logger: Logger = PrintLnLogger,
@@ -51,16 +54,16 @@ object LanguageServerFactory {
         new AmfInstance(plugins.toSeq.map(ClientPayloadPluginConverter.convert),
                         jsServerSystemConf.platform,
                         jsServerSystemConf.environment))
-    val dm  = builders.diagnosticManager()
-    val fit = builders.filesInProjectManager(clientNotifier)
-    val sm  = builders.serializationManager(JsSerializationProps(clientNotifier))
+    val diagnosticManager     = builders.diagnosticManager()
+    val filesInProjectManager = builders.filesInProjectManager(serializationProps.alsClientNotifier)
+    val serializationManager  = builders.serializationManager(serializationProps)
 
     notificationKind.foreach(builders.withNotificationKind)
     val factory = builders.buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
-      .addInitializableModule(dm)
-      .addInitializableModule(sm)
-      .addInitializableModule(fit)
+    val builder = new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
+      .addInitializableModule(diagnosticManager)
+      .addInitializableModule(serializationManager)
+      .addInitializableModule(filesInProjectManager)
       .addInitializable(factory.cleanDiagnosticManager)
       .addInitializable(factory.workspaceManager)
       .addRequestModule(factory.completionManager)
@@ -70,6 +73,8 @@ object LanguageServerFactory {
       .addRequestModule(factory.referenceManager)
       .addRequestModule(factory.documentLinksManager)
       .addInitializable(factory.telemetryManager)
+    factory.serializationManager.foreach(builder.addRequestModule)
+    builder
       .build()
   }
 }
