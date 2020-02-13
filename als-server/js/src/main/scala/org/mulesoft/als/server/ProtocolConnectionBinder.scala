@@ -1,17 +1,17 @@
 package org.mulesoft.als.server
 
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeRequestType
-import org.mulesoft.als.server.feature.serialization.{ConversionRequestType, SerializationMessage}
+import org.mulesoft.als.server.feature.serialization.{ConversionRequestType, SerializationResult}
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.client.{AlsLanguageClient, AlsLanguageClientAware}
 import org.mulesoft.als.server.protocol.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
 import org.mulesoft.als.server.protocol.convert.LspConvertersClientToShared._
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
-import org.mulesoft.als.server.protocol.diagnostic.{ClientCleanDiagnosticTreeParams, ClientFilesInProjectMessage}
+import org.mulesoft.als.server.protocol.diagnostic.{ClientCleanDiagnosticTreeParams, ClientFilesInProjectParams}
 import org.mulesoft.als.server.protocol.serialization.{
   ClientConversionParams,
-  ClientSerializationMessage,
+  ClientSerializationResult,
   ClientSerializationParams,
   ClientSerializedDocument
 }
@@ -64,13 +64,13 @@ case class ProtocolConnectionLanguageClient(connection: ProtocolConnection)
     connection.sendNotification[ClientTelemetryMessage, js.Any](TelemetryEventNotification.`type`, params.toClient)
   }
 
-  override def notifySerialization(params: SerializationMessage[js.Any]): Unit =
+  override def notifySerialization(params: SerializationResult[js.Any]): Unit =
     connection
-      .sendNotification[ClientSerializationMessage, js.Any](SerializationEventNotification.`type`, params.toClient)
+      .sendNotification[ClientSerializationResult, js.Any](SerializationEventNotification.`type`, params.toClient)
 
   override def notifyProjectFiles(params: FilesInProjectParams): Unit = {
     connection
-      .sendNotification[ClientFilesInProjectMessage, js.Any](FilesInProjectEventNotification.`type`, params.toClient)
+      .sendNotification[ClientFilesInProjectParams, js.Any](FilesInProjectEventNotification.`type`, params.toClient)
   }
 }
 
@@ -282,17 +282,17 @@ object ProtocolConnectionBinder {
     // SerializedJSONLD request
 
     val onSerializedHandlerJs
-      : js.Function2[ClientSerializationParams, CancellationToken, Thenable[ClientSerializationMessage]] =
+      : js.Function2[ClientSerializationParams, CancellationToken, Thenable[ClientSerializationResult]] =
       (param: ClientSerializationParams, _: CancellationToken) =>
         resolveHandler(serializationProps.requestType)(param.toShared)
           .map(s => new ClientSerializationMessageConverter(s).toClient)
           .toJSPromise
-          .asInstanceOf[Thenable[ClientSerializationMessage]]
+          .asInstanceOf[Thenable[ClientSerializationResult]]
 
     protocolConnection.onRequest(
       ClientSerializationRequestType.`type`,
       onSerializedHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientSerializationParams, ClientSerializationMessage, js.Any]]
+        .asInstanceOf[ClientRequestHandler[ClientSerializationParams, ClientSerializationResult, js.Any]]
     )
     // End SerializedJSONLD request
 
