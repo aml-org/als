@@ -1,8 +1,8 @@
 package org.mulesoft.als.server.protocol
 
 import org.mulesoft.als.server.protocol.configuration.{AlsInitializeParams, AlsInitializeResult}
-import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.als.server.protocol.textsync.AlsTextDocumentSyncConsumer
+import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.lsp.workspace.WorkspaceService
 
 import scala.concurrent.Future

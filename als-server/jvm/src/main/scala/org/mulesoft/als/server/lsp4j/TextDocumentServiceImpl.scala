@@ -29,13 +29,15 @@ import org.eclipse.lsp4j.{
   WorkspaceEdit
 }
 import org.mulesoft.als.server.custom.{CustomEvents, CustomTextDocumentService}
+import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeRequestType
 import org.mulesoft.als.server.feature.serialization.ConversionRequestType
 import org.mulesoft.als.server.lsp4j.AlsJConversions._
-import org.mulesoft.als.server.lsp4j.extension.{CleanDiagnosticTreeParams, ConversionParams, SerializedDocument}
-import org.mulesoft.lsp.LspConversions._
-import org.mulesoft.lsp.Lsp4JConversions._
+import org.mulesoft.als.server.lsp4j.LspConversions._
+import org.mulesoft.als.server.lsp4j.extension._
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.textsync.{AlsTextDocumentSyncConsumer, DidFocusParams}
+import org.mulesoft.lsp.Lsp4JConversions._
+import org.mulesoft.lsp.LspConversions._
 import org.mulesoft.lsp.feature.codeactions.CodeActionRequestType
 import org.mulesoft.lsp.feature.completion.CompletionRequestType
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
@@ -44,11 +46,8 @@ import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
 import org.mulesoft.lsp.feature.reference.ReferenceRequestType
 import org.mulesoft.lsp.feature.rename.RenameRequestType
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
-import LspConversions._
-import org.mulesoft.lsp.feature.diagnostic.{PublishDiagnosticsParams => InternalPublishDiagnosticParams}
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeConfigType, CleanDiagnosticTreeRequestType}
 
 class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomTextDocumentService with CustomEvents {
 
@@ -104,5 +103,9 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
   override def cleanDiagnosticTree(
       params: CleanDiagnosticTreeParams): CompletableFuture[util.List[PublishDiagnosticsParams]] = {
     javaFuture(resolveHandler(CleanDiagnosticTreeRequestType)(params), lsp4JPublishDiagnosticsParamsSeq)
+  }
+
+  override def serialization(params: SerializationParams): CompletableFuture[SerializedDocument] = {
+    javaFuture(resolveHandler(JvmSerializationRequestType)(params), serializationSerializedDocument)
   }
 }
