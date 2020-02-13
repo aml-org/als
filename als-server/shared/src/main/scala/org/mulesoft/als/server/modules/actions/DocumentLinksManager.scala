@@ -6,7 +6,7 @@ import amf.core.remote.Platform
 import org.mulesoft.als.actions.links.FindLinks
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.als.server.workspace.{UnitRepositoriesManager, WorkspaceManager}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.link._
@@ -15,7 +15,7 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DocumentLinksManager(val workspaceManager: WorkspaceManager,
+class DocumentLinksManager(val workspaceManager: UnitRepositoriesManager,
                            private val telemetryProvider: TelemetryProvider,
                            platform: Platform,
                            private val logger: Logger)
@@ -40,7 +40,7 @@ class DocumentLinksManager(val workspaceManager: WorkspaceManager,
 
   def documentLinks(str: String): Future[Seq[DocumentLink]] =
     workspaceManager
-      .getUnit(str, UUID.randomUUID().toString)
+      .getCU(str, UUID.randomUUID().toString)
       .flatMap(_.getLast)
       .map(bu => {
         FindLinks.getLinks(bu.unit, platform)

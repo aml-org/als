@@ -9,7 +9,8 @@ import org.mulesoft.als.server.feature.serialization.{
   ConversionClientCapabilities,
   ConversionConfig,
   ConversionParams,
-  SerializationClientCapabilities
+  SerializationClientCapabilities,
+  SerializationParams
 }
 import org.mulesoft.als.server.protocol.configuration.{
   AlsClientCapabilities,
@@ -30,9 +31,10 @@ import org.mulesoft.lsp.LspConversions.{
   workspaceFolder,
   workspaceServerCapabilities
 }
-import scala.collection.JavaConverters._
 
+import scala.collection.JavaConverters._
 import org.mulesoft.lsp.LspConversions.textDocumentIdentifier
+
 import scala.language.implicitConversions
 
 object LspConversions {
@@ -105,5 +107,9 @@ object LspConversions {
 
   implicit def jvmCleanDiagnosticTreeParams(result: extension.CleanDiagnosticTreeParams): CleanDiagnosticTreeParams = {
     CleanDiagnosticTreeParams(textDocumentIdentifier(result.getTextDocument))
+  }
+
+  implicit def jvmSerializationParams(params: extension.SerializationParams): SerializationParams = {
+    SerializationParams(params.getDocumentIdentifier)
   }
 }

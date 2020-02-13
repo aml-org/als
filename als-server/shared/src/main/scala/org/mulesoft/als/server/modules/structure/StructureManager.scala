@@ -6,25 +6,17 @@ import amf.core.model.document.BaseUnit
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.LspConverter
-import org.mulesoft.als.server.modules.workspace.CompilableUnit
-import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.als.server.workspace.UnitRepositoriesManager
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureBuilder}
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.feature.{RequestHandler, documentsymbol}
-import org.mulesoft.lsp.feature.documentsymbol.{
-  DocumentSymbolClientCapabilities,
-  DocumentSymbolConfigType,
-  DocumentSymbolParams,
-  DocumentSymbolRequestType,
-  SymbolInformation,
-  DocumentSymbol => LspDocumentSymbol
-}
+import org.mulesoft.lsp.feature.documentsymbol._
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
+import org.mulesoft.lsp.feature.{RequestHandler, documentsymbol}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class StructureManager(val workspaceManager: WorkspaceManager,
+class StructureManager(val unitAccesor: UnitRepositoriesManager,
                        private val telemetryProvider: TelemetryProvider,
                        private val logger: Logger)
     extends RequestModule[DocumentSymbolClientCapabilities, Unit] {
@@ -63,8 +55,8 @@ class StructureManager(val workspaceManager: WorkspaceManager,
                                       MessageTypes.BEGIN_STRUCTURE,
                                       uri,
                                       telemetryUUID)
-    val results = workspaceManager
-      .getUnit(uri, telemetryUUID)
+    val results = unitAccesor
+      .getCU(uri, telemetryUUID)
       .flatMap(_.getLast)
       .map(cu => {
         val r = getStructureFromAST(cu.unit, telemetryUUID) // todo: if isn't resolved yet map future

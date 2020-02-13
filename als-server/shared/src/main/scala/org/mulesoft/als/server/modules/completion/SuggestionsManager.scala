@@ -7,7 +7,7 @@ import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer}
-import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.als.server.workspace.{UnitRepositoriesManager, WorkspaceManager}
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
@@ -21,7 +21,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
-                         val workspaceManager: WorkspaceManager,
+                         val repository: UnitRepositoriesManager,
                          private val telemetryProvider: TelemetryProvider,
                          val directoryResolver: DirectoryResolver,
                          private val logger: Logger)
@@ -148,7 +148,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
     val patchedEnvironment: TextDocumentContainer = editorEnvironment.patchUri(uri, text)
 
     val eventualUnit =
-      workspaceManager.getUnit(uri, uuid).flatMap { bu =>
+      repository.getCU(uri, uuid).flatMap { bu =>
         editorEnvironment.amfConfiguration.parserHelper.parse(
           amfRefinedUri,
           patchedEnvironment.environment
@@ -172,7 +172,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
       uri,
       patchedContent,
       snippetSupport,
-      workspaceManager.getWorkspace(uri).workspaceConfiguration.map(c => s"${c.rootFolder}/")
+      repository.getRootOf(uri)
     )
   }
 }

@@ -23,6 +23,7 @@ import org.mulesoft.lsp.configuration._
 
 import scala.language.implicitConversions
 import scala.scalajs.js
+import scala.scalajs.js.JSConverters._
 
 object LspConvertersSharedToClient {
 

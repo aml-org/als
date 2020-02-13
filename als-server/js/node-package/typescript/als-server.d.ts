@@ -2043,14 +2043,34 @@ declare module '@mulesoft/als-server' {
     connect(languageClient: LanguageClient): void
   }
 
+  export interface ClientFilesInProjectParams{
+    uris: string[]
+  }
+
+  export interface ClientSerializationMessage {
+    model: any
+  }
+
+  export class AlsClientNotifier{
+    notifyProjectFiles(params: ClientFilesInProjectParams): void
+    notifySerialization(params: ClientSerializationMessage): void
+  }
+
+  export class JsSerializationProps{
+    alsClientNotifier: AlsClientNotifier;
+    newDocBuilder(): DocBuilder<any>
+  }
+
   export const ProtocolConnectionBinder: {
     bind(protocolConnection: ProtocolConnection,
          languageServer: LanguageServer,
-         clientAware: LanguageClientAware): void
+         clientAware: LanguageClientAware,
+         serializationProps: JsSerializationProps): void
   }
 
   export const LanguageServerFactory: {
     fromLoaders(clientNotifier: ClientNotifier,
+                serializationProps: JsSerializationProps,
                 clientLoaders?: resource.ResourceLoader[],
                 clientDirResolver?: ClientDirectoryResolver): LanguageServer
   }

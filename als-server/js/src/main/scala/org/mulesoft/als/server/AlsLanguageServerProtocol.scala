@@ -5,6 +5,7 @@ import org.mulesoft.als.server.protocol.diagnostic.{ClientCleanDiagnosticTreePar
 import org.mulesoft.als.server.protocol.serialization.{
   ClientConversionParams,
   ClientSerializationMessage,
+  ClientSerializationParams,
   ClientSerializedDocument
 }
 import org.mulesoft.als.vscode.{NotificationType, RequestType}
@@ -41,4 +42,10 @@ object ClientCleanDiagnosticTreeRequestType {
 object ClientConversionRequestType {
   val `type`: RequestType[ClientConversionParams, js.Array[ClientSerializedDocument], js.Any, js.Any] =
     new RequestType[ClientConversionParams, js.Array[ClientSerializedDocument], js.Any, js.Any]("Conversion")
+}
+
+@JSExportTopLevel("SerializationRequestType")
+object ClientSerializationRequestType {
+  val `type`: RequestType[ClientSerializationParams, ClientSerializationMessage, js.Any, js.Any] =
+    new RequestType[ClientSerializationParams, ClientSerializationMessage, js.Any, js.Any]("Serialization")
 }
