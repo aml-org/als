@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.client
 
-import org.mulesoft.als.server.feature.serialization.SerializationMessage
+import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.protocol.client.{AlsLanguageClient, AlsLanguageClientAware}
 import org.mulesoft.lsp.client.{LspLanguageClient, LspLanguageClientAware}
@@ -40,7 +40,7 @@ case class ClientConnection[S](logger: Logger)
     else
       fn(alsClientProxy.get)
 
-  override def notifySerialization(params: SerializationMessage[S]): Unit = applyToAlsClient { client =>
+  override def notifySerialization(params: SerializationResult[S]): Unit = applyToAlsClient { client =>
     client.notifySerialization(params)
   }
 

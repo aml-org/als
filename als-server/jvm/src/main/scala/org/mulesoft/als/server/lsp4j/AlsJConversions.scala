@@ -1,8 +1,10 @@
 package org.mulesoft.als.server.lsp4j
 
+import java.io.StringWriter
+
 import com.google.common.collect.Lists
 import org.eclipse.lsp4j.ExecuteCommandOptions
-import org.mulesoft.als.server.feature.serialization.SerializedDocument
+import org.mulesoft.als.server.feature.serialization.{SerializationResult, SerializedDocument}
 import org.mulesoft.als.server.protocol.configuration.{AlsInitializeResult, AlsServerCapabilities}
 import org.mulesoft.lsp.Lsp4JConversions._
 
@@ -52,5 +54,9 @@ object AlsJConversions {
 
   implicit def serializedDocument(serializedDocument: SerializedDocument): extension.SerializedDocument =
     new extension.SerializedDocument(serializedDocument.uri, serializedDocument.uri)
+
+  implicit def serializationSerializedDocument(
+      serializationMessage: SerializationResult[StringWriter]): extension.SerializedDocument =
+    new extension.SerializedDocument(serializationMessage.uri, serializationMessage.model.toString)
 
 }

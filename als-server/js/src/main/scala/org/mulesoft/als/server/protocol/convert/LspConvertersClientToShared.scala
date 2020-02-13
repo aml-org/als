@@ -4,7 +4,7 @@ import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapa
 import org.mulesoft.als.server.feature.serialization._
 import org.mulesoft.als.server.protocol.configuration._
 import org.mulesoft.als.server.protocol.diagnostic.ClientCleanDiagnosticTreeParams
-import org.mulesoft.als.server.protocol.serialization.ClientConversionParams
+import org.mulesoft.als.server.protocol.serialization.{ClientConversionParams, ClientSerializationParams}
 import org.mulesoft.als.server.protocol.textsync.{ClientDidFocusParams, ClientIndexDialectParams, DidFocusParams, IndexDialectParams}
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.convert.LspConvertersClientToShared.{ClientWorkspaceServerCapabilitiesConverter, CompletionOptionsConverter, TextDocumentClientCapabilitiesConverter, TextDocumentSyncOptionsConverter, WorkspaceClientCapabilitiesConverter, WorkspaceFolderConverter}
@@ -121,6 +121,10 @@ object LspConvertersClientToShared {
 
   implicit class ClientConversionParamsConverter(v: ClientConversionParams){
     def toShared: ConversionParams = ConversionParams(v.uri, v.target, v.syntax.toOption)
+  }
+
+  implicit class ClientSerializationParamsConverter(v:ClientSerializationParams){
+    def toShared: SerializationParams = SerializationParams(v.documentIdentifier.toShared)
   }
   // $COVERAGE-ON
 }

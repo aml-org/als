@@ -303,5 +303,4 @@ object Lsp4JConversions {
 
   implicit def lsp4JDocumentLinkOptions(options: DocumentLinkOptions): lsp4j.DocumentLinkOptions =
     new lsp4j.DocumentLinkOptions(options.resolveProvider)
-
 }

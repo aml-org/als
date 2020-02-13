@@ -7,18 +7,18 @@ import scala.scalajs.js
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
-trait ClientFilesInProjectMessage extends js.Object {
+trait ClientFilesInProjectParams extends js.Object {
 
   def uris: js.Array[String] = js.native
 }
 
-object ClientFilesInProjectMessage {
-  def apply(internal: FilesInProjectParams): ClientFilesInProjectMessage = {
+object ClientFilesInProjectParams {
+  def apply(internal: FilesInProjectParams): ClientFilesInProjectParams = {
     js.Dynamic
       .literal(
         uris = internal.uris.toJSArray
       )
-      .asInstanceOf[ClientFilesInProjectMessage]
+      .asInstanceOf[ClientFilesInProjectParams]
   }
 }
 // $COVERAGE-ON$
