@@ -16,6 +16,7 @@ import org.mulesoft.lsp.feature.link.DocumentLinkConfigType
 import org.mulesoft.lsp.feature.reference.ReferenceConfigType
 import org.mulesoft.lsp.feature.rename.RenameConfigType
 import org.mulesoft.lsp.textsync.TextDocumentSyncConfigType
+import org.mulesoft.lsp.workspace.WorkspaceConfigType
 import org.mulesoft.lsp.{ConfigType, Initializable}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -34,7 +35,7 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(RenameConfigType, textDocument.flatMap(_.rename)),
       applyConfig(CodeActionConfigType, textDocument.flatMap(_.codeActionCapabilities)),
       applyConfig(DocumentLinkConfigType, textDocument.flatMap(_.documentLink)),
-      None,
+      applyConfig(WorkspaceConfigType, clientCapabilities.workspace),
       None,
       applyConfig(SerializationConfigType, clientCapabilities.serialization),
       applyConfig(CleanDiagnosticTreeConfigType, clientCapabilities.cleanDiagnosticTree),

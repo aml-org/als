@@ -2,6 +2,7 @@ package org.mulesoft.als.server.modules.workspace
 
 import java.util.UUID
 
+import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
@@ -71,6 +72,7 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def process(): Future[Unit] = {
+    if (state == ShuttingDown) dependencies.foreach(_.closedWorkspace(repository.getPaths))
     if (stagingArea.isPending) next(processSnapshot())
     else goIdle()
   }
@@ -126,6 +128,15 @@ class WorkspaceContentManager(val folder: String,
         repository.update(bu.baseUnit)
         dependencies.foreach(_.onNewAst((bu, Map()), uuid))
       }
+  }
+
+  def shutdown(): Unit = {
+    if (state != Idle) current.onComplete(_ => {
+      state = ShuttingDown
+      process()
+    })
+    else state = ShuttingDown
+    process()
   }
 
   private def cleanFiles(closedFiles: List[(String, NotificationKind)]): Unit =

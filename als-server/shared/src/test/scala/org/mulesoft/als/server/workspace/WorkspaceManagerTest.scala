@@ -6,12 +6,13 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 import org.mulesoft.lsp.feature.common.{Position, Range}
-import org.mulesoft.lsp.workspace.ExecuteCommandParams
+import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
+import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams, WorkspaceFoldersChangeEvent}
 import org.scalatest.Assertion
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 class WorkspaceManagerTest extends LanguageServerBaseTest {
 
@@ -20,7 +21,6 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   val diagnosticClientNotifier = new MockDiagnosticClientNotifier
   val builder                  = new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
   val dm: DiagnosticManager    = builder.diagnosticManager()
-  private val factory          = builder.buildWorkspaceManagerFactory()
 
   test("Workspace Manager check validations (initializing a tree should validate instantly)") {
     withServer[Assertion] { server =>
@@ -59,25 +59,28 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         c <- diagnosticClientNotifier.nextCall
       } yield {
         val allDiagnostics = Seq(a, b, c)
-        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
-        val main   = allDiagnostics.find(_.uri == s"$rootFolder/api.raml")
-        val others = allDiagnostics.filterNot(pd => main.exists(_.uri == pd.uri))
-        assert(main.isDefined)
-        others.size should be(2)
-
-        main match {
-          case Some(m) =>
-            m.diagnostics.size should be(1)
-            m.diagnostics.head.range should be(Range(Position(3, 5), Position(3, 28)))
-            m.diagnostics.head.relatedInformation.size should be(2)
-            m.diagnostics.head.relatedInformation.head.location.uri should be(s"$rootFolder/external1.yaml")
-            m.diagnostics.head.relatedInformation.head.location.range should be(Range(Position(2, 5), Position(2, 28)))
-            m.diagnostics.head.relatedInformation.tail.head.location.uri should be(s"$rootFolder/external2.yaml")
-            m.diagnostics.head.relatedInformation.tail.head.location.range should be(
-              Range(Position(2, 0), Position(2, 9)))
-          case _ => fail("No Main detected")
-        }
+        verifyWS1ErrorStack(rootFolder, allDiagnostics)
       }
+    }
+  }
+
+  private def verifyWS1ErrorStack(rootFolder: String, allDiagnostics: Seq[PublishDiagnosticsParams]) = {
+    assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
+    val main   = allDiagnostics.find(_.uri == s"$rootFolder/api.raml")
+    val others = allDiagnostics.filterNot(pd => main.exists(_.uri == pd.uri))
+    assert(main.isDefined)
+    others.size should be(2)
+
+    main match {
+      case Some(m) =>
+        m.diagnostics.size should be(1)
+        m.diagnostics.head.range should be(Range(Position(3, 5), Position(3, 28)))
+        m.diagnostics.head.relatedInformation.size should be(2)
+        m.diagnostics.head.relatedInformation.head.location.uri should be(s"$rootFolder/external1.yaml")
+        m.diagnostics.head.relatedInformation.head.location.range should be(Range(Position(2, 5), Position(2, 28)))
+        m.diagnostics.head.relatedInformation.tail.head.location.uri should be(s"$rootFolder/external2.yaml")
+        m.diagnostics.head.relatedInformation.tail.head.location.range should be(Range(Position(2, 0), Position(2, 9)))
+      case _ => fail("No Main detected")
     }
   }
 
@@ -279,13 +282,129 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           diagnosticClientNotifier.nextCall
         }
         _ <- requestDocumentSymbol(server)(title)
+        _ <- diagnosticClientNotifier.nextCall // There are a couple of diagnostics notifications not used in the test that could potentially bug proceeding tests
+        _ <- diagnosticClientNotifier.nextCall // There are a couple of diagnostics notifications not used in the test that could potentially bug proceeding tests
       } yield {
         succeed // if it hasn't blown, it's OK
       }
     }
   }
 
+  test("Workspace Manager multiworkspace support - basic test") {
+    withServer[Assertion] { server =>
+      val ws1path  = s"${filePath("multiworkspace/ws1")}"
+      val filesWS1 = List(s"${ws1path}/api.raml", s"${ws1path}/sub/type.raml", s"${ws1path}/type.json")
+      val ws2path  = s"${filePath("multiworkspace/ws2")}"
+      val filesWS2 = List(s"${ws2path}/api.raml", s"${ws2path}/sub/type.raml")
+      val ws1      = WorkspaceFolder(Some(ws1path), Some("ws1"))
+      val ws2      = WorkspaceFolder(Some(ws2path), Some("ws2"))
+      val wsList   = List(ws1, ws2)
+
+      for {
+        _ <- server.initialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(ws1path), workspaceFolders = Some(wsList)))
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
+        c <- diagnosticClientNotifier.nextCall
+        d <- diagnosticClientNotifier.nextCall
+        e <- diagnosticClientNotifier.nextCall
+      } yield {
+        val allDiagnostics = List(a, b, c, d, e)
+        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
+        assert(allDiagnostics.map(_.uri).containsSlice(filesWS1 ++ filesWS2))
+      }
+    }
+  }
+
+  test("Workspace Manager multiworkspace support - add workspace") {
+    withServer[Assertion] { server =>
+      val ws1path  = s"${filePath("multiworkspace/ws1")}"
+      val filesWS1 = List(s"${ws1path}/api.raml", s"${ws1path}/sub/type.raml", s"${ws1path}/type.json")
+      val ws2path  = s"${filePath("multiworkspace/ws2")}"
+      val filesWS2 = List(s"${ws2path}/api.raml", s"${ws2path}/sub/type.raml")
+      val ws1      = WorkspaceFolder(Some(ws1path), Some("ws1"))
+      val ws2      = WorkspaceFolder(Some(ws2path), Some("ws2"))
+
+      for {
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(ws1path)))
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
+        c <- diagnosticClientNotifier.nextCall
+        _ <- addWorkspaceFolder(server)(ws2)
+        d <- diagnosticClientNotifier.nextCall
+        e <- diagnosticClientNotifier.nextCall
+      } yield {
+        val firstDiagnostics  = List(a, b, c)
+        val secondDiagnostics = List(d, e)
+
+        assert(firstDiagnostics.size == firstDiagnostics.map(_.uri).distinct.size)
+        assert(firstDiagnostics.map(_.uri).containsSlice(filesWS1))
+
+        assert(secondDiagnostics.size == secondDiagnostics.map(_.uri).distinct.size)
+        assert(secondDiagnostics.map(_.uri).containsSlice(filesWS2))
+
+      }
+    }
+  }
+
+  test("Workspace Manager multiworkspace support - remove workspace") {
+    withServer[Assertion] { server =>
+      val root  = s"${filePath("multiworkspace/ws-error-stack-1")}"
+      val file1 = s"${filePath("multiworkspace/ws-error-stack-1/api.raml")}"
+      val file2 = s"${filePath("multiworkspace/ws-error-stack-1/external1.yaml")}"
+      val file3 = s"${filePath("multiworkspace/ws-error-stack-1/external2.yaml")}"
+
+      val rootWSF = WorkspaceFolder(Some(root), Some("ws-error-stack-1"))
+
+      for {
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
+        c <- diagnosticClientNotifier.nextCall
+        _ <- removeWorkspaceFolder(server)(rootWSF)
+        d <- diagnosticClientNotifier.nextCall
+        e <- diagnosticClientNotifier.nextCall
+        f <- diagnosticClientNotifier.nextCall
+      } yield {
+        val firstDiagnostics  = Seq(a, b, c)
+        val secondDiagnostics = Seq(d, e, f).map(_.uri)
+
+        verifyWS1ErrorStack(root, firstDiagnostics)
+        d.diagnostics shouldBe empty
+        e.diagnostics shouldBe empty
+        f.diagnostics shouldBe empty
+        secondDiagnostics should contain(file1)
+        secondDiagnostics should contain(file2)
+        secondDiagnostics should contain(file3)
+
+      }
+    }
+  }
+
+  def addWorkspaceFolder(server: LanguageServer)(ws: WorkspaceFolder): Future[Unit] = {
+    server.workspaceService.didChangeWorkspaceFolders(
+      params = DidChangeWorkspaceFoldersParams(WorkspaceFoldersChangeEvent(List(ws), List()))
+    )
+    Future.successful()
+  }
+
+  def removeWorkspaceFolder(server: LanguageServer)(ws: WorkspaceFolder): Future[Unit] = {
+    server.workspaceService.didChangeWorkspaceFolders(
+      params = DidChangeWorkspaceFoldersParams(WorkspaceFoldersChangeEvent(List(), List(ws)))
+    )
+    Future.successful()
+  }
+
+  def didChangeWorkspaceFolders(server: LanguageServer)(added: List[WorkspaceFolder],
+                                                        removed: List[WorkspaceFolder]): Future[Unit] = {
+    server.workspaceService.didChangeWorkspaceFolders(
+      params = DidChangeWorkspaceFoldersParams(WorkspaceFoldersChangeEvent(added, removed))
+    )
+    Future.successful()
+  }
+
   override def buildServer(): LanguageServer = {
+    val factory = builder.buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.structureManager)
       .build()

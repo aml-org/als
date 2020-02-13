@@ -17,10 +17,10 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
 
   override def initialize(params: AlsInitializeParams): Future[AlsInitializeResult] =
     languageServerInitializer.initialize(params).flatMap { p =>
-      params.rootUri.orElse(params.rootPath) match {
-        case Some(root) => workspaceService.initializeWS(root).map(_ => p)
-        case _          => Future.successful(p)
-      }
+      val root = if (params.rootUri.isDefined) params.rootUri else params.rootPath
+      workspaceService
+        .initialize(params.capabilities.workspace, root, params.workspaceFolders)
+        .map(_ => p)
     }
 
   override def initialized(): Unit = {}

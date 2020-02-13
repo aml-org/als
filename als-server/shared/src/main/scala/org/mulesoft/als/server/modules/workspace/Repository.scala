@@ -37,6 +37,9 @@ class Repository(logger: Logger) {
 
   private val units: mutable.Map[String, ParsedUnit] = mutable.Map.empty
 
+  def getPaths: List[String] =
+    units.values.map(_.bu.identifier).toList ++ tree.parsedUnits.values.map(_.bu.identifier).toList
+
   def getParsed(uri: String): Option[ParsedUnit] = tree.parsedUnits.get(uri).orElse(units.get(uri))
 
   def references: Map[String, DiagnosticsBundle] = tree.references
