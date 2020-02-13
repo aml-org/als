@@ -47,12 +47,12 @@ class SerializationManager[S](amfConf: AmfInstance, props: SerializationProps[S]
     SerializationServerOptions(true)
   }
 
-  private def process(ast: BaseUnit): Future[SerializationMessage[S]] = {
+  private def process(ast: BaseUnit): Future[SerializationResult[S]] = {
     val cloned = ast.cloneUnit()
-    resolveAndSerialize(cloned).map(b => SerializationMessage(ast.identifier, b.result))
+    resolveAndSerialize(cloned).map(b => SerializationResult(ast.identifier, b.result))
   }
 
-  private def processRequest(uri: String): Future[SerializationMessage[S]] = {
+  private def processRequest(uri: String): Future[SerializationResult[S]] = {
     val bu: Future[CompilableUnit] = unitAccessor match {
       case Some(ua) =>
         ua.getCU(uri, UUID.randomUUID().toString)
@@ -67,10 +67,10 @@ class SerializationManager[S](amfConf: AmfInstance, props: SerializationProps[S]
   override def initialize(): Future[Unit] = Future.successful()
 
   override def getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
-    new RequestHandler[SerializationParams, SerializationMessage[S]] {
+    new RequestHandler[SerializationParams, SerializationResult[S]] {
       override def `type`: props.requestType.type = props.requestType
 
-      override def apply(params: SerializationParams): Future[SerializationMessage[S]] =
+      override def apply(params: SerializationParams): Future[SerializationResult[S]] =
         processRequest(params.textDocument.uri)
 
     }

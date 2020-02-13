@@ -1,6 +1,11 @@
 declare module '@mulesoft/als-server' {
-  import {Logger as VsCodeLogger} from 'vscode-jsonrpc'
-  import {ProtocolConnection} from 'vscode-languageserver-protocol'
+  import {Logger as VsCodeLogger, NotificationType, RequestType} from 'vscode-jsonrpc'
+  import {
+  ProtocolConnection, PublishDiagnosticsParams,
+  TextDocumentClientCapabilities,
+  WorkspaceClientCapabilities,
+  TextDocumentIdentifier, WorkspaceFolder
+  } from 'vscode-languageserver-protocol'
 
   /* amf-client-js */
 
@@ -2037,34 +2042,40 @@ declare module '@mulesoft/als-server' {
 
   export interface LanguageClient {}
 
+  export interface AlsLanguageClient {}
+
   export interface ClientNotifier {}
 
   export interface LanguageClientAware {
     connect(languageClient: LanguageClient): void
   }
 
-  export interface ClientFilesInProjectParams{
+  export interface AlsLanguageClientAware {
+    connectAls(languageClient: AlsLanguageClient): void
+  }
+
+  export interface FilesInProjectParams{
     uris: string[]
   }
 
-  export interface ClientSerializationMessage {
+  export interface SerializationResult {
     model: any
   }
 
-  export class AlsClientNotifier{
-    notifyProjectFiles(params: ClientFilesInProjectParams): void
-    notifySerialization(params: ClientSerializationMessage): void
+  export interface AlsClientNotifier{
+    notifyProjectFiles(params: FilesInProjectParams): void
+    notifySerialization(params: SerializationResult): void
   }
 
   export class JsSerializationProps{
     alsClientNotifier: AlsClientNotifier;
-    newDocBuilder(): DocBuilder<any>
+    newDocBuilder(): org.yaml.builder.DocBuilder<any>
   }
 
   export const ProtocolConnectionBinder: {
     bind(protocolConnection: ProtocolConnection,
          languageServer: LanguageServer,
-         clientAware: LanguageClientAware,
+         clientAware: LanguageClientAware & AlsLanguageClientAware,
          serializationProps: JsSerializationProps): void
   }
 
@@ -2077,7 +2088,84 @@ declare module '@mulesoft/als-server' {
 
   export interface ClientLogger extends VsCodeLogger {}
 
+  export const SerializationEventNotification: {
+    type: NotificationType<SerializationResult, any>
+  }
+
+  export interface SerializationClientCapabilities{
+    acceptsNotification: boolean
+  }
+  export interface CleanDiagnosticTreeClientCapabilities{
+    enableCleanDiagnostic: boolean
+  }
+  export interface ConversionClientCapabilities{
+    supported: boolean
+  }
+
+  export interface AlsInitializeParams{
+    processId: number | null
+    rootPath?: string | null
+    rootUri?: string | null
+    capabilities: AlsClientCapabilities
+    initializationOptions?: any
+    trace?: string
+    workspaceFolders: WorkspaceFolder[] | null
+  }
+
+  export interface AlsClientCapabilities {
+    workspace?: WorkspaceClientCapabilities
+
+    textDocument?: TextDocumentClientCapabilities
+
+    experimental?: any
+
+    serialization?: SerializationClientCapabilities
+
+    cleanDiagnosticTree?: CleanDiagnosticTreeClientCapabilities
+
+    conversion?: ConversionClientCapabilities
+  }
+
+  export const FilesInProjectEventNotification: {
+    type: NotificationType<FilesInProjectParams, any>
+  }
+
+ export const AlsCapabilitiesNotification: {
+    type: NotificationType<AlsClientCapabilities, any>
+  }
+
+  export interface CleanDiagnosticTreeParams {
+    textDocument: TextDocumentIdentifier
+  }
+ export const CleanDiagnosticTreeRequestType: {
+    type: RequestType<CleanDiagnosticTreeParams, PublishDiagnosticsParams[], any, any>
+
+  }
+
+  export interface ConversionParams{
+    uri: string
+    target: string
+    syntax?: string
+  }
+
+  export interface SerializedDocument {
+    uri: string
+    document: string
+  }
+
+ export const ConversionRequestType: {
+    type: RequestType<ConversionParams, SerializedDocument[], any, any>
+  }
+
+  export interface SerializationParams {
+    documentIdentifier: TextDocumentIdentifier
+  }
+
+ export const SerializationRequestType: {
+    type: RequestType<SerializationParams, SerializationResult, any, any>
+  }
+
   export const ClientNotifierFactory: {
-    createWithClientAware(logger: ClientLogger): ClientNotifier & LanguageClientAware
+    createWithClientAware(logger: ClientLogger): ClientNotifier & LanguageClientAware & AlsClientNotifier & AlsLanguageClientAware
   }
 }

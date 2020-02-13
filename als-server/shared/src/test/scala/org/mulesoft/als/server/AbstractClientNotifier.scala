@@ -3,7 +3,7 @@ package org.mulesoft.als.server
 import java.io.StringWriter
 
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
-import org.mulesoft.als.server.feature.serialization.SerializationMessage
+import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
@@ -43,9 +43,9 @@ class MockDiagnosticClientNotifier extends ClientNotifier with AbstractTestClien
 
 class MockAlsClientNotifier
     extends AlsClientNotifier[StringWriter]
-    with AbstractTestClientNotifier[SerializationMessage[StringWriter]] {
+    with AbstractTestClientNotifier[SerializationResult[StringWriter]] {
 
-  override def notifySerialization(params: SerializationMessage[StringWriter]): Unit = notify(params)
+  override def notifySerialization(params: SerializationResult[StringWriter]): Unit = notify(params)
 
   override def notifyProjectFiles(params: FilesInProjectParams): Unit = {}
 }
@@ -61,5 +61,5 @@ class MockFilesInClientNotifier extends AlsClientNotifier[Any] with AbstractTest
 
   override def notifyProjectFiles(params: FilesInProjectParams): Unit = notify(params)
 
-  override def notifySerialization(params: SerializationMessage[Any]): Unit = {}
+  override def notifySerialization(params: SerializationResult[Any]): Unit = {}
 }

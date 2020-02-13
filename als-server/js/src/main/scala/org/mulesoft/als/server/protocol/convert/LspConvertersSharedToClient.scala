@@ -5,14 +5,14 @@ import org.mulesoft.als.server.feature.serialization.{
   ConversionClientCapabilities,
   ConversionRequestOptions,
   SerializationClientCapabilities,
-  SerializationMessage,
+  SerializationResult,
   SerializationServerOptions,
   SerializedDocument
 }
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.protocol.configuration._
-import org.mulesoft.als.server.protocol.diagnostic.ClientFilesInProjectMessage
-import org.mulesoft.als.server.protocol.serialization.{ClientSerializationMessage, ClientSerializedDocument}
+import org.mulesoft.als.server.protocol.diagnostic.ClientFilesInProjectParams
+import org.mulesoft.als.server.protocol.serialization.{ClientSerializationResult, ClientSerializedDocument}
 import org.mulesoft.als.server.protocol.textsync.{
   ClientDidFocusParams,
   ClientIndexDialectParams,
@@ -53,8 +53,8 @@ object LspConvertersSharedToClient {
   }
 
   implicit class ClientFilesInProjectParamsConverter(v: FilesInProjectParams) {
-    def toClient: ClientFilesInProjectMessage =
-      ClientFilesInProjectMessage(v)
+    def toClient: ClientFilesInProjectParams =
+      ClientFilesInProjectParams(v)
   }
 
   implicit class ClientAlsInitializeParamsConverter(v: AlsInitializeParams) {
@@ -87,9 +87,9 @@ object LspConvertersSharedToClient {
       ClientSerializationServerOptions(v)
   }
 
-  implicit class ClientSerializationMessageConverter(v: SerializationMessage[js.Any]) {
-    def toClient: ClientSerializationMessage =
-      ClientSerializationMessage(v.model)
+  implicit class ClientSerializationMessageConverter(v: SerializationResult[js.Any]) {
+    def toClient: ClientSerializationResult =
+      ClientSerializationResult(v.model)
   }
 
   implicit class ClientDidFocusParamsConverter(v: DidFocusParams) {
