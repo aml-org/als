@@ -1,10 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
+import amf.core.metamodel.Type.ArrayLike
 import amf.plugins.domain.webapi.metamodel.{OperationModel, WebApiModel}
 import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
 import amf.plugins.domain.webapi.models.{Operation, WebApi}
 import amf.plugins.domain.webapi.models.security.ParametrizedSecurityScheme
-import org.mulesoft.als.suggestions.{ObjectRange, RawSuggestion}
+import org.mulesoft.als.suggestions.{ArrayRange, ObjectRange, RawSuggestion}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -20,9 +21,15 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
     Future {
       if (isWritingSecuredBy(request) && (!request.yPartBranch.isJson || (request.yPartBranch.isJson && request.yPartBranch.isInArray))) {
         val original = getSecurityNames(request.prefix, request.declarationProvider)
-        if (request.yPartBranch.isKey)
-          original.map(r => r.copy(options = r.options.copy(isKey = true, rangeKind = ObjectRange)))
-        else original
+        val forKey =
+          if (request.yPartBranch.isKey)
+            original.map(r => r.copy(options = r.options.copy(isKey = true, rangeKind = ObjectRange)))
+          else original
+
+        if (request.fieldEntry.exists(_.field.`type`.isInstanceOf[ArrayLike]) && !request.yPartBranch.isInArray)
+          forKey.map(r => r.copy(options = r.options.copy(rangeKind = ArrayRange)))
+        else forKey
+
       } else Nil
     }
   }
