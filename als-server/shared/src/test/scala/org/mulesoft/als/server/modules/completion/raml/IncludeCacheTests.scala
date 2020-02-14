@@ -1,13 +1,11 @@
 package org.mulesoft.als.server.modules.completion.raml
 
 import amf.client.remote.Content
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
-import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
-import org.mulesoft.als.server.LanguageServerBuilder
-import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer, LanguageServerSystemConf}
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.AmfInstance
 import org.scalatest.Assertion
 
 import scala.collection.mutable
@@ -15,18 +13,17 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class IncludeCacheTests extends RAMLSuggestionTestServer {
 
-  override implicit val executionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   test("test01") {
     runTest("includes/testGroup03/api1.raml", Set("t", "l."))
   }
 
   def buildServer(rl: ResourceLoader): LanguageServer = {
-    val factory = ManagersFactory(MockDiagnosticClientNotifier,
-                                  logger,
-                                  withDiagnostics = false,
-                                  configuration = DummyLanguageServerSystemConf(rl))
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
+    val factory = new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+      .withAmfConfiguration(AmfInstance.default)
+      .buildWorkspaceManagerFactory()
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.completionManager)
       .build()
   }
@@ -90,12 +87,6 @@ class IncludeCacheTests extends RAMLSuggestionTestServer {
         fail(
           s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
     }
-  }
-
-  case class DummyLanguageServerSystemConf(rl: ResourceLoader) extends LanguageServerSystemConf with PlatformSecrets {
-    override def environment: Environment = Environment().add(rl)
-
-    override def directoryResolver: DirectoryResolver = new PlatformDirectoryResolver(platform)
   }
 
 }

@@ -1,0 +1,10 @@
+#%RAML 1.0
+title: test
+version: 1
+/ep:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include /ex*pected/api.raml.json

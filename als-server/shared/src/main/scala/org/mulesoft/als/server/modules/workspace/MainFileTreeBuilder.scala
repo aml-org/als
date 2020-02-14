@@ -22,22 +22,27 @@ class ParsedMainFileTree(eh: ErrorCollector, main: BaseUnit, cachables: Set[Stri
   private val innerRefs: mutable.Map[String, DiagnosticsBundle] = mutable.Map.empty
 
   private def index(bu: BaseUnit, stack: ReferenceStack): Future[Unit] = {
-    val cachedF = checkCache(bu)
-    val refs = if (!isRecursive(stack, bu)) { // stop: recursion
+    val cachedF: Future[Unit]   = checkCache(bu)
+    val refs: Seq[Future[Unit]] = extractRefs(bu, stack)
+
+    Future.sequence(cachedF +: refs).map(_ => Unit)
+  }
+
+  private def extractRefs(bu: BaseUnit, stack: ReferenceStack): Seq[Future[Unit]] =
+    if (!isRecursive(stack, bu)) { // stop: recursion
       units.put(bu.identifier, bu)
       intoInners(bu, stack)
       bu.annotations
         .collect[ReferenceTargets] { case rt: ReferenceTargets => rt }
-        .map(
-          rt =>
+        .flatMap { rt =>
+          bu.references.find(_.identifier == rt.targetLocation).map { r =>
             index(
-              bu.references.find(_.identifier == rt.targetLocation).get,
+              r,
               stack.through(ReferenceOrigins(bu.identifier, PositionRange(rt.originRange)))
-          ))
+            )
+          }
+        }
     } else Nil
-
-    Future.sequence(cachedF +: refs).map(_ => Unit)
-  }
 
   private def intoInners(bu: BaseUnit, stack: ReferenceStack) = {
     innerRefs.get(bu.identifier) match {

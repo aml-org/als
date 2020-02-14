@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.textsync
 
 import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.server.protocol.textsync.{AlsTextDocumentSyncConsumer, DidFocusParams}
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
@@ -11,7 +12,7 @@ import scala.language.experimental.macros
 class TextDocumentManager(val uriToEditor: TextDocumentContainer,
                           val dependencies: List[TextListener],
                           private val logger: Logger)
-    extends TextDocumentSyncConsumer {
+    extends AlsTextDocumentSyncConsumer {
 
   //  dependencies.foreach(d => d.withTextDocumentContainer(uriToEditor))
 
@@ -30,11 +31,11 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
       ))
   }
 
-  override def initialize(): Future[Unit] = Future.successful()
+  override def initialize(): Future[Unit] = uriToEditor.initialize()
 
   def onOpenDocument(document: OpenedDocument): Unit = {
 
-    logger.debug("Document is opened", "EditorManager", "onOpenDocument")
+    logger.debug(s"Document is opened ${document.uri}", "EditorManager", "onOpenDocument")
 
     val syntax = determineSyntax(document.uri, document.text)
 
@@ -45,10 +46,7 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
   }
 
   def documentWasChanged(document: ChangedDocument) {
-    logger.debug("Document is changed", "EditorManager", "onChangeDocument")
-
-    logger.debugDetail("Uri is:\n " + document.uri, "EditorManager", "onChangeDocument")
-    logger.debugDetail("Text is:\n " + document.text, "EditorManager", "onChangeDocument")
+    logger.debug(s"Document is changed ${document.uri}", "EditorManager", "onChangeDocument")
 
     uriToEditor
       .get(document.uri)
@@ -56,19 +54,13 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
         val currentVersion = current.version
         val currentText    = current.text
 
-        if (currentVersion == document.version) {
-          this.logger.debugDetail("Version of the reported change is equal to the previous one",
-                                  "EditorManager",
-                                  "onChangeDocument")
+        if (currentVersion == document.version)
+          this.logger.debug(s"Version of the reported change is equal to the previous one at ${document.uri}",
+                            "EditorManager",
+                            "onChangeDocument")
 
-          return
-        }
-
-        if (document.version < currentVersion && document.text.contains(currentText)) {
-          this.logger.debugDetail("No changes detected", "EditorManager", "onChangeDocument")
-
-          return
-        }
+        if (document.version < currentVersion && document.text.contains(currentText))
+          this.logger.debug(s"No changes detected for ${document.uri}", "EditorManager", "onChangeDocument")
 
       })
 

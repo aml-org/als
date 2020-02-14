@@ -1,82 +1,44 @@
 package org.mulesoft.als.suggestions.client.js
 
-import amf.client.remote.Content
 import amf.client.resource.ClientResourceLoader
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
-import org.mulesoft.als.client.lsp.CompletionItem
-import org.mulesoft.als.common.{DirectoryResolver => InternalResolver}
+import org.mulesoft.als.configuration.{
+  ClientDirectoryResolver,
+  DirectoryResolverAdapter,
+  EmptyJsDirectoryResolver,
+  ResourceLoaderConverter
+}
 import org.mulesoft.als.suggestions.client.Suggestions
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfmanager.InitOptions
-import org.mulesoft.als.client.convert.LspConverters._
-
+import org.mulesoft.lsp.feature.completion.ClientCompletionItem
+import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
-import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel, ScalaJSDefined}
+import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 
 @JSExportTopLevel("Suggestions")
-object JsSuggestions extends PlatformSecrets with EmptyDirectoryResolver {
+object JsSuggestions extends PlatformSecrets {
 
   @JSExport
   def init(options: InitOptions = InitOptions.WebApiProfiles): js.Promise[Unit] =
-    Suggestions.init(options).toJSPromise
-
-  def internalResourceLoader(loader: ClientResourceLoader): amf.internal.resource.ResourceLoader =
-    new amf.internal.resource.ResourceLoader {
-      override def fetch(resource: String): Future[Content] =
-        loader.fetch(resource).toFuture
-
-      override def accepts(resource: String): Boolean = loader.accepts(resource)
-    }
+    Suggestions.default.init(options).toJSPromise
 
   @JSExport
   def suggest(language: String,
               url: String,
               position: Int,
               loaders: js.Array[ClientResourceLoader] = js.Array(),
-              dirResolver: ClientDirectoryResolver = emptyDirectoryResolver,
-              snippetSupport: Boolean = true): js.Promise[js.Array[CompletionItem]] = {
+              dirResolver: ClientDirectoryResolver = EmptyJsDirectoryResolver,
+              snippetSupport: Boolean = true): js.Promise[js.Array[ClientCompletionItem]] = {
 
-    val environment = Environment(loaders.map(internalResourceLoader).toSeq)
+    val environment = Environment(loaders.map(ResourceLoaderConverter.internalResourceLoader).toSeq)
 
-    Suggestions
-      .suggest(language,
-               url,
-               position,
-               DirectoryResolverAdapter.convert(dirResolver),
-               environment,
-               platform,
-               snippetSupport)
-      .map(_.map(toClientCompletionItem).toJSArray)
+    new Suggestions(platform, environment, DirectoryResolverAdapter.convert(dirResolver), AmfInstance(environment))
+      .suggest(url, position, snippetSupport, None)
+      .map(_.map(_.toClient).toJSArray)
       .toJSPromise
-  }
-}
-
-@ScalaJSDefined
-trait ClientDirectoryResolver extends js.Object {
-
-  def exists(path: String): js.Promise[Boolean]
-
-  def readDir(path: String): js.Promise[js.Array[String]]
-
-  def isDirectory(path: String): js.Promise[Boolean]
-}
-
-object DirectoryResolverAdapter {
-  def convert(clientResolver: ClientDirectoryResolver): InternalResolver = {
-    new InternalResolver {
-
-      override def exists(path: String): Future[Boolean] =
-        clientResolver.exists(toPath(path)).toFuture
-
-      override def readDir(path: String): Future[Seq[String]] =
-        clientResolver.readDir(toPath(path)).toFuture.map(_.toSeq)
-
-      override def isDirectory(path: String): Future[Boolean] =
-        clientResolver.isDirectory(toPath(path)).toFuture
-
-    }
   }
 }

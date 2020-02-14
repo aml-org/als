@@ -1,11 +1,12 @@
 package org.mulesoft.als.server.workspace
 
-import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
-import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem}
-import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.scalatest.Assertion
 
@@ -13,15 +14,16 @@ import scala.concurrent.ExecutionContext
 
 class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
 
-  override implicit val executionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  private val factory = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = false)
+  val diagnosticClientNotifier = new MockDiagnosticClientNotifier
 
-  private val editorFiles = factory.container
+  private val factory =
+    new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
 
   private def testStructureForFile(server: LanguageServer, url: String) = {
     for {
-      _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+      _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
       _ <- {
         platform.resolve(url).map { c =>
           server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
@@ -59,7 +61,7 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
   }
 
   override def buildServer(): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.structureManager)
       .build()
 

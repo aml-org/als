@@ -7,8 +7,10 @@ import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
 import org.yaml.model.{YMap, YSequence}
 
+import scala.concurrent.Future
+
 class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceManager)
-    extends CommandExecutor[DidChangeConfigurationNotificationParams] {
+    extends CommandExecutor[DidChangeConfigurationNotificationParams, Unit] {
   override protected def buildParamFromMap(m: YMap): Option[DidChangeConfigurationNotificationParams] = {
     val mainUri: String = m.key("mainUri").flatMap(e => e.value.toOption[String]).getOrElse("")
     m.key("dependencies").map { n =>
@@ -22,9 +24,10 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
     }
   }
 
-  override protected def runCommand(param: DidChangeConfigurationNotificationParams): Unit = {
+  override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] = {
     val manager = wsc.getWorkspace(param.mainUri)
     wsc.contentManagerConfiguration(manager, param.mainUri, param.dependencies, None)
     manager.changedFile(param.mainUri, CHANGE_CONFIG)
+    Future.unit
   }
 }

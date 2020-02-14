@@ -24,7 +24,8 @@ trait AbstractLogger extends Logger {
     val filtered = this.filterLogMessage(LogMessage(message, severity, component, subComponent))
 
     filtered.foreach(logMessage => {
-      val toLog = f" ${logMessage.severity} ${logMessage.component}:${logMessage.subComponent}    ${logMessage.content}"
+      val toLog =
+        f" ${logMessage.severity} ${logMessage.component}:${logMessage.subComponent}    ${logMessage.content}"
       this.executeLogging(toLog, logMessage.severity)
     })
   }
@@ -38,29 +39,6 @@ trait AbstractLogger extends Logger {
     */
   override def debug(message: String, component: String, subComponent: String): Unit = {
     log(message, MessageSeverity.DEBUG, component, subComponent)
-  }
-
-  /**
-    * Logs a DEBUG_DETAIL severity message.
-    *
-    * @param message      - message text
-    * @param component    - component name
-    * @param subComponent - sub-component name
-    */
-  override def debugDetail(message: String, component: String, subComponent: String): Unit = {
-    log(message, MessageSeverity.DEBUG_DETAIL, component, subComponent)
-  }
-
-  // $COVERAGE-OFF$
-  /**
-    * Logs a DEBUG_OVERVIEW severity message.
-    *
-    * @param message      - message text
-    * @param component    - component name
-    * @param subComponent - sub-component name
-    */
-  override def debugOverview(message: String, component: String, subComponent: String): Unit = {
-    log(message, MessageSeverity.DEBUG_OVERVIEW, component, subComponent)
   }
 
   /**
@@ -108,7 +86,8 @@ trait AbstractLogger extends Logger {
                       case Some(maxSeverity) if message.severity.id < maxSeverity.id => None
                       case _ =>
                         val resultMessage = settingsValue.maxMessageLength match {
-                          case Some(maxLength) if message.content.length > maxLength => message.content.substring(0, maxLength)
+                          case Some(maxLength) if message.content.length > maxLength =>
+                            message.content.substring(0, maxLength)
                           case _ => message.content
                         }
 
@@ -118,7 +97,8 @@ trait AbstractLogger extends Logger {
             }
         }
       case _ =>
-        val croppedContent = if (message.content.length > MaxLength)
+        val croppedContent =
+          if (message.content.length > MaxLength)
             message.content.substring(0, MaxLength)
           else
             message.content

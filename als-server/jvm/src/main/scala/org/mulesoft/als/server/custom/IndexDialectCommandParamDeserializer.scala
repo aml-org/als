@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.custom
 
 import com.google.gson.JsonElement
-import org.mulesoft.lsp.textsync.IndexDialectParams
+import org.mulesoft.als.server.protocol.textsync.IndexDialectParams
 
 object IndexDialectCommandParamDeserializer extends CommandParamDeserializer[IndexDialectParams] {
 

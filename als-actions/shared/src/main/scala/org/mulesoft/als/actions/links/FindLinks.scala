@@ -4,7 +4,7 @@ import amf.core.annotations.ReferenceTargets
 import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.lsp.convert.LspRangeConverter
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 object FindLinks {

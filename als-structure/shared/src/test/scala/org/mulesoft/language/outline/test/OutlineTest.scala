@@ -2,11 +2,14 @@ package org.mulesoft.language.outline.test
 
 import amf.client.remote.Content
 import amf.core.model.document.BaseUnit
+import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
+import org.mulesoft.als.CompilerEnvironment
 import org.mulesoft.als.common.diff.FileAssertionTest
-import org.mulesoft.amfmanager.{DialectInitializer, InitOptions, ParserHelper}
+import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfmanager.{AmfParseResult, DialectInitializer, InitOptions}
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -39,17 +42,15 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
 
     val fullFilePath = filePath(platform.encodeURI(path)) // filePath(path)
     val fullJsonPath = filePath(jsonPath)
-
+    val amfConfig    = AmfInstance.default
     for {
-      _             <- DialectInitializer.init(InitOptions.AllProfiles)
-      actualOutline <- this.getActualOutline(fullFilePath)
+      _             <- DialectInitializer.init(InitOptions.AllProfiles, amfConfig)
+      actualOutline <- this.getActualOutline(fullFilePath, platform, amfConfig)
       tmp           <- writeTemporaryFile(jsonPath)(writeDataToString(actualOutline))
       r             <- assertDifferences(tmp, fullJsonPath)
 
     } yield r
   }
-
-  def format: String
 
   def rootPath: String
 
@@ -65,13 +66,15 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
   def getExpectedOutline(url: String): Future[String] =
     this.platform.resolve(url, Environment(this.platform.loaders)).map(_.stream.toString)
 
-  def getActualOutline(url: String): Future[T] = {
+  def getActualOutline(url: String,
+                       platform: Platform,
+                       compilerEnvironment: CompilerEnvironment[AmfParseResult, Environment]): Future[T] = {
 
-    var position = 0;
+    var position = 0
 
     var contentOpt: Option[String] = None
-    this.platform
-      .resolve(url, Environment(this.platform.loaders))
+    platform
+      .resolve(url)
       .map(content => {
 
         val fileContentsStr = content.stream.toString
@@ -83,9 +86,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
         env
       })
       .flatMap(env => {
-
-        this.amfParse(url)
-
+        compilerEnvironment.modelBuiler().parse(url, env).map(_.baseUnit)
       })
       .map {
         case amfUnit: BaseUnit =>
@@ -98,12 +99,6 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
         Future.successful(emptyData())
       case _ => Future.successful(emptyData())
     }
-  }
-
-  def amfParse(url: String, env: Environment = Environment()): Future[BaseUnit] = {
-
-    val helper = ParserHelper(this.platform)
-    helper.parse(url, env).map(_.baseUnit)
   }
 
   def buildEnvironment(fileUrl: String, content: String, position: Int, mime: Option[String]): Environment = {

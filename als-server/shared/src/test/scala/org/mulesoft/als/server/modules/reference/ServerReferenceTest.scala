@@ -1,13 +1,14 @@
 package org.mulesoft.als.server.modules.reference
 
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
-import org.mulesoft.lsp.common.TextDocumentIdentifier
-import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
-import org.mulesoft.lsp.convert.LspRangeConverter
+import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.reference.{ReferenceContext, ReferenceParams, ReferenceRequestType}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 import org.scalatest.Assertion
 
 import scala.concurrent.ExecutionContext
@@ -18,9 +19,10 @@ class ServerReferenceTest extends LanguageServerBaseTest {
 
   override def buildServer(): LanguageServer = {
 
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = false)
+    val factory =
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
 
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.referenceManager)
       .build()
   }
@@ -29,12 +31,12 @@ class ServerReferenceTest extends LanguageServerBaseTest {
     withServer[Assertion] { server =>
       val uri = s"${filePath("ws2")}"
       for {
-        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(uri)))
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(uri)))
         references <- {
           val handler = server.resolveHandler(ReferenceRequestType).value
           handler(
             ReferenceParams(TextDocumentIdentifier(s"$uri/fragment.raml"),
-                            org.mulesoft.lsp.common.Position(1, 1),
+                            org.mulesoft.lsp.feature.common.Position(1, 1),
                             ReferenceContext(false)))
         }
       } yield {

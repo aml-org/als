@@ -2,9 +2,13 @@ package org.mulesoft.als.server.logger
 
 import org.mulesoft.als.server.logger.MessageSeverity.MessageSeverity
 
+import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
+
 /**
   * Logger that prints to console.
   */
+@JSExportAll
+@JSExportTopLevel("PrintLnLogger")
 object PrintLnLogger extends AbstractLogger {
   protected def executeLogging(msg: String, severity: MessageSeverity.Value): Unit = println(msg)
 

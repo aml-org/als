@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.custom
 
 import com.google.gson.JsonElement
-import org.mulesoft.lsp.textsync.DidFocusParams
+import org.mulesoft.als.server.protocol.textsync.DidFocusParams
 
 object DidFocusCommandParamDeserializer extends CommandParamDeserializer[DidFocusParams] {
   override def matcher: AnyRef => Option[DidFocusParams] = {

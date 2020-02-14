@@ -1,40 +1,90 @@
 package org.mulesoft.als.server.lsp4j
 
+import amf.client.convert.CoreClientConverters._
+import amf.client.environment.Environment
+import amf.client.plugins.AMFPlugin
+import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
-import org.mulesoft.als.server.LanguageServerBuilder
+import amf.internal.environment.{Environment => InternalEnvironment}
 import org.mulesoft.als.server.client.ClientNotifier
-import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.ManagersFactory
+import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
-import org.mulesoft.amfmanager.CustomDialects
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer, LanguageServerSystemConf}
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.{EmptyJvmSerializationProps, JvmSerializationProps, LanguageServerBuilder}
+import org.mulesoft.amfintegration.AmfInstance
 
-object LanguageServerFactory extends PlatformSecrets {
+import scala.collection.JavaConverters._
 
-  def alsLanguageServer(clientNotifier: ClientNotifier,
-                        logger: Logger,
-                        dialects: Seq[CustomDialects] = Seq(),
-                        systemConfiguration: LanguageServerSystemConf = DefaultServerSystemConf,
-                        withDiagnostics: Boolean = true,
-                        notificationKind: DiagnosticNotificationsKind = PARSING_BEFORE): LanguageServer = {
+// todo: standarize in one only converter (js and jvm) with generics
+class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecrets {
 
-    // todo: uri to editor environment
-    val builders =
-      ManagersFactory(clientNotifier,
-                      logger,
-                      withDiagnostics = withDiagnostics,
-                      configuration = systemConfiguration,
-                      notificationKind = Some(notificationKind))
+  private var serialization: JvmSerializationProps           = EmptyJvmSerializationProps
+  private var logger: Logger                                 = PrintLnLogger
+  private var givenPlatform: Platform                        = platform
+  private var environment: InternalEnvironment               = InternalEnvironment()
+  private var notificationsKind: DiagnosticNotificationsKind = PARSING_BEFORE
+  private var amfPlugins: java.util.List[AMFPlugin]          = new java.util.ArrayList()
 
-    new LanguageServerBuilder(builders.documentManager, builders.workspaceManager, systemConfiguration)
-      .addInitializable(builders.diagnosticManager)
-      .addInitializable(builders.workspaceManager)
-      .addRequestModule(builders.completionManager)
-      .addRequestModule(builders.structureManager)
-      .addRequestModule(builders.definitionManager)
-      .addRequestModule(builders.referenceManager)
-      .addRequestModule(builders.documentLinksManager)
-      .addInitializable(builders.telemetryManager)
-      .build()
+  def withSerializationProps(serializationProps: JvmSerializationProps): LanguageServerFactory = {
+    serialization = serializationProps
+    this
+  }
+
+  def withLogger(logger: Logger): LanguageServerFactory = {
+    this.logger = logger
+    this
+  }
+
+  def withGivenPlatform(givenPlatform: Platform): LanguageServerFactory = {
+    this.givenPlatform = givenPlatform
+    this
+  }
+
+  def withEnvironment(environment: Environment): LanguageServerFactory = {
+    this.environment = convertEnv(environment)
+    this
+  }
+
+  def withNotificationKind(notificationsKind: DiagnosticNotificationsKind): LanguageServerFactory = {
+    this.notificationsKind = notificationsKind
+    this
+  }
+
+  def withAmfPlugins(amfPlugins: java.util.List[AMFPlugin]): LanguageServerFactory = {
+    this.amfPlugins = amfPlugins
+    this
+  }
+
+  private def convertEnv(environment: Environment): InternalEnvironment = {
+    val i = InternalEnvironment.empty()
+    i.withLoaders(environment.loaders.asInternal)
+    // i.withResolver(environment.reference)
+  }
+
+  def build(): LanguageServer = {
+    val factory = new WorkspaceManagerFactoryBuilder(clientNotifier, logger)
+      .withAmfConfiguration(new AmfInstance(amfPlugins.asScala, platform, environment))
+      .withEnvironment(environment)
+    factory.withNotificationKind(notificationsKind) // move to initialization param
+    val dm       = factory.diagnosticManager()
+    val sm       = factory.serializationManager(serialization)
+    val builders = factory.buildWorkspaceManagerFactory()
+
+    val languageBuilder =
+      new LanguageServerBuilder(builders.documentManager, builders.workspaceManager)
+        .addInitializable(builders.workspaceManager)
+        .addInitializableModule(dm)
+        .addInitializableModule(sm)
+        .addRequestModule(builders.cleanDiagnosticManager)
+        .addRequestModule(builders.conversionManager)
+        .addRequestModule(builders.completionManager)
+        .addRequestModule(builders.structureManager)
+        .addRequestModule(builders.definitionManager)
+        .addRequestModule(builders.referenceManager)
+        .addRequestModule(builders.documentLinksManager)
+        .addInitializable(builders.telemetryManager)
+    builders.serializationManager.foreach(languageBuilder.addRequestModule)
+    languageBuilder.build()
   }
 }

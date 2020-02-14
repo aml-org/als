@@ -1,20 +1,24 @@
 package org.mulesoft.als.server.workspace
 
-import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
-import org.mulesoft.lsp.common.TextDocumentIdentifier
-import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
 
-  override implicit val executionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  private val factory = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = false)
+  val diagnosticClientNotifier = new MockDiagnosticClientNotifier
+
+  private val factory =
+    new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
 
   private val editorFiles = factory.container
 
@@ -29,7 +33,7 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
     val fragmentUri = s"${filePath("ws2/fragment.raml")}"
     withServer[Assertion] { server =>
       for {
-        _               <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws2")}")))
+        _               <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws2")}")))
         apiContent      <- platform.resolve(s"${filePath("ws2/api.raml")}")
         fragmentContent <- platform.resolve(fragmentUri)
         _               <- Future { openFile(server)(s"${filePath("ws2/api.raml")}", apiContent.stream.toString) }
@@ -67,7 +71,7 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
   }
 
   override def buildServer(): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.structureManager)
       .build()
 

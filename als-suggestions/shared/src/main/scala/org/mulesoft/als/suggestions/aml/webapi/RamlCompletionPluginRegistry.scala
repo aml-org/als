@@ -41,7 +41,7 @@ object RamlCompletionPluginRegistry {
       AnnotationFacets :+
       NodeShapeDiscriminatorProperty :+
       Raml10SecuritySchemeStructureCompletionPlugin :+
-      UnitUsesFacet :+
+      UnitDocumentationFacet :+
       DefaultVariablesAbstractDefinition :+
       OperationRequest :+
       WebApiKnownValueCompletionPlugin
