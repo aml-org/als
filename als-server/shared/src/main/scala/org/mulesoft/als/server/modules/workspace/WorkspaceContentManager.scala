@@ -8,9 +8,8 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.extract.{WorkspaceConf, WorkspaceConfigurationProvider}
-import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
+import org.mulesoft.amfmanager.AmfParseResult
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import org.mulesoft.lsp.server.LanguageServerSystemConf
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -19,8 +18,7 @@ class WorkspaceContentManager(val folder: String,
                               environmentProvider: EnvironmentProvider,
                               telemetryProvider: TelemetryProvider,
                               logger: Logger,
-                              dependencies: List[BaseUnitListener],
-                              configuration: LanguageServerSystemConf) {
+                              dependencies: List[BaseUnitListener]) {
 
   private var state: WorkspaceState                 = Idle
   private var configMainFile: Option[WorkspaceConf] = None
@@ -39,6 +37,7 @@ class WorkspaceContentManager(val folder: String,
     configMainFile.flatMap(ic => ic.configReader.map(cr => s"${ic.rootFolder}/${cr.configFileName}"))
 
   private val stagingArea: StagingArea                                               = new StagingArea(environmentProvider)
+  def environment: Environment                                                       = stagingArea.snapshot().environment
   private val repository                                                             = new Repository(logger)
   private var current: Future[Unit]                                                  = Future.unit
   private var workspaceConfigurationProvider: Option[WorkspaceConfigurationProvider] = None
@@ -51,9 +50,11 @@ class WorkspaceContentManager(val folder: String,
   }
 
   def getCompilableUnit(uri: String): Future[CompilableUnit] = {
-    repository.getParsed(uri) match {
-      case Some(pu) => Future.successful(pu.toCU(getNext(uri), mainFile, repository.getReferenceStack(uri)))
-      case _        => getNext(uri).getOrElse(fail(uri))
+    val encodedUri = FileUtils.getEncodedUri(uri, environmentProvider.platform)
+    repository.getParsed(encodedUri) match {
+      case Some(pu) =>
+        Future.successful(pu.toCU(getNext(encodedUri), mainFile, repository.getReferenceStack(encodedUri)))
+      case _ => getNext(encodedUri).getOrElse(fail(encodedUri))
     }
   }
 
@@ -82,11 +83,14 @@ class WorkspaceContentManager(val folder: String,
   private def processSnapshot(): Future[Unit] = {
     val snapshot: Snapshot    = stagingArea.snapshot()
     val (treeUnits, isolated) = snapshot.files.partition(u => repository.inTree(u._1)) // what if a new file is added between the partition and the override down
-    val changedTreeUnits      = treeUnits.filter(tu => tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE)
+    val changedTreeUnits =
+      treeUnits.filter(tu => tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE)
 
     if (hasChangedConfigFile(snapshot)) processChangeConfigChanges(snapshot)
-    else if (changedTreeUnits.nonEmpty) processMFChanges(configMainFile.get.mainFile, snapshot)
-    else processIsolatedChanges(isolated, snapshot.environment)
+    else if (changedTreeUnits.nonEmpty)
+      processMFChanges(configMainFile.get.mainFile, snapshot)
+    else
+      processIsolatedChanges(isolated, snapshot.environment)
   }
 
   private def hasChangedConfigFile(snapshot: Snapshot) =
@@ -109,7 +113,8 @@ class WorkspaceContentManager(val folder: String,
     val (closedFiles, changedFiles) = files.partition(_._2 == CLOSE_FILE)
     cleanFiles(closedFiles)
 
-    if (changedFiles.nonEmpty) processIsolated(files.head._1, environment, UUID.randomUUID().toString)
+    if (changedFiles.nonEmpty)
+      processIsolated(files.head._1, environment, UUID.randomUUID().toString)
     else Future.successful(Unit)
   }
 
@@ -169,7 +174,7 @@ class WorkspaceContentManager(val folder: String,
                                       MessageTypes.BEGIN_PARSE,
                                       uri,
                                       uuid)
-    val eventualUnit = new ParserHelper(environmentProvider.platform)
+    val eventualUnit = environmentProvider.amfConfiguration.parserHelper
       .parse(FileUtils.getDecodedUri(uri, environmentProvider.platform),
              environment.withResolver(repository.resolverCache))
     eventualUnit.foreach(

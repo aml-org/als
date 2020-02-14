@@ -1,17 +1,15 @@
 package org.mulesoft.als.server.workspace
 
-import java.util.UUID
-
-import amf.core.model.document.BaseUnit
-import org.mulesoft.als.server.modules.ManagersFactory
+import amf.internal.environment.Environment
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.actions.DocumentLinksManager
 import org.mulesoft.als.server.modules.ast.{CLOSE_FILE, OPEN_FILE}
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
+import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.TextDocumentContainer
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.lsp.feature.link.DocumentLink
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
-import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -19,8 +17,9 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  private val factory                         = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = false)
-  private val workspaceFile                   = "ws/sub/type.raml";
+  private val factory =
+    new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier(), logger).buildWorkspaceManagerFactory()
+  private val workspaceFile                   = "ws/sub/type.raml"
   private val workspaceIncludedFilePath       = filePath("ws/includes/type.json")
   private val nonWorkspaceFile                = "uninitialized-ws/sub/non-main.raml"
   private val nonWorkspaceNonRelativeFilePath = filePath("uninitialized-ws/sub/non-relative.raml")
@@ -86,14 +85,14 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   }
 
   class WorkspaceLinkHandler(rootFolder: String) {
-    val clientNotifier: MockDiagnosticClientNotifier.type = MockDiagnosticClientNotifier;
-    val telemetryManager: TelemetryManager                = new TelemetryManager(clientNotifier, logger)
-    val container: TextDocumentContainer                  = TextDocumentContainer(DefaultServerSystemConf)
+    val clientNotifier                     = new MockDiagnosticClientNotifier()
+    val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
+    val container: TextDocumentContainer   = TextDocumentContainer(Environment(), platform, AmfInstance.default)
 
     val workspaceManager: WorkspaceManager =
-      new WorkspaceManager(container, telemetryManager, Nil, logger, DefaultServerSystemConf)
+      new WorkspaceManager(container, telemetryManager, Nil, logger)
     val documentLinksManager: DocumentLinksManager =
-      new DocumentLinksManager(workspaceManager, telemetryManager, logger, DefaultServerSystemConf)
+      new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
 
     def init(): Future[Unit] = {
       workspaceManager.initializeWS(filePath(rootFolder))
@@ -120,7 +119,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   }
 
   override def buildServer(): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.structureManager)
       .build()
 

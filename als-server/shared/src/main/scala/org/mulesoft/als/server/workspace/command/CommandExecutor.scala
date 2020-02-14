@@ -6,9 +6,14 @@ import org.yaml.model.{YDocument, YMap, YNode}
 import org.yaml.parser.JsonParser
 import amf.core.parser.YNodeLikeOps
 
-trait CommandExecutor[P] {
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+
+trait CommandExecutor[P, R] {
   protected def buildParamFromMap(ast: YMap): Option[P]
-  protected def runCommand(param: P): Unit
+
+  protected def runCommand(param: P): Future[R]
+
   protected val logger: Logger
 
   private def buildParam(params: ExecuteCommandParams): Option[P] = {
@@ -19,14 +24,21 @@ trait CommandExecutor[P] {
     maybeNode.flatMap(n => n.toOption[YMap]).flatMap(buildParamFromMap)
   }
 
-  def runCommand(params: ExecuteCommandParams): Unit = {
+  def runCommand(params: ExecuteCommandParams): Future[Option[R]] = {
+    logger.debug(params.toString, "org.mulesoft.als.server.workspace.command.CommandExecutor", "executeCommand")
     buildParam(params) match {
-      case Some(parsedParam) => runCommand(parsedParam)
-      case _ =>
-        logger.error(s"Cannot build params for focus: ${params.arguments.toString()}",
+      case Some(parsedParam) =>
+        logger.debug(parsedParam.toString,
                      "org.mulesoft.als.server.workspace.command.CommandExecutor",
                      "executeCommand")
+        runCommand(parsedParam).map(c => Some(c))
+      case _ =>
+        logger.error(
+          s"Cannot build params for ${params.command}: ${params.arguments.toString()}",
+          "org.mulesoft.als.server.workspace.command.CommandExecutor",
+          "executeCommand"
+        )
+        Future.successful(None)
     }
-
   }
 }

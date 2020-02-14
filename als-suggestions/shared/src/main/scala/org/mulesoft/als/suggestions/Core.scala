@@ -6,6 +6,7 @@ import org.mulesoft.als.suggestions.aml.webapi.{
   Raml08CompletionPluginRegistry,
   RamlCompletionPluginRegistry
 }
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfmanager.{DialectInitializer, InitOptions}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -13,9 +14,9 @@ import scala.concurrent.Future
 import scala.language.postfixOps
 
 object Core {
-  def init(initOptions: InitOptions = InitOptions.AllProfiles): Future[Unit] = {
+  def init(initOptions: InitOptions = InitOptions.AllProfiles, amfInstance: AmfInstance): Future[Unit] = {
     DialectInitializer
-      .init(initOptions)
+      .init(initOptions, amfInstance)
       .map(_ => {
         // **************** AML *************************
         // initialize aml plugins option?

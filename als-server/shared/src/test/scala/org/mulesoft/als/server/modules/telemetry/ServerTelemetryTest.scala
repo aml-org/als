@@ -1,27 +1,28 @@
 package org.mulesoft.als.server.modules.telemetry
 
-import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockTelemetryClientNotifier}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryMessage}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 
 import scala.concurrent.{ExecutionContext, Future}
 // TODO: keep each manager inside each test, instantiated with separated ClientNotifiers, which receive
 //    the expected messages and compare inside.
 class ServerTelemetryTest extends LanguageServerBaseTest {
-  override implicit val executionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   override def rootPath: String = ""
 
   private val mockTelemetryClientNotifier = new MockTelemetryClientNotifier
 
   override def buildServer(): LanguageServer = {
+    val builder = new WorkspaceManagerFactoryBuilder(mockTelemetryClientNotifier,logger)
+    val dm = builder.diagnosticManager()
+    val factory = builder.buildWorkspaceManagerFactory()
 
-    val factory = ManagersFactory(mockTelemetryClientNotifier, logger, withDiagnostics = true)
-
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
-      .addInitializableModule(factory.diagnosticManager)
-      .build()
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
+        .addInitializableModule(dm)
+        .build()
   }
 
   def checkMessages(telemetryMessages: Seq[MessageTypes.Value], msgs: Seq[TelemetryMessage]): Boolean =

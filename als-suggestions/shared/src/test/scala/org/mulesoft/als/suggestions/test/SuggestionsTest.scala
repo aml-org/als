@@ -3,7 +3,8 @@ package org.mulesoft.als.suggestions.test
 import amf.ProfileName
 import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
-import org.mulesoft.amfmanager.{CustomDialects, ParserHelper}
+import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfmanager.CustomDialects
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{Assertion, AsyncFunSuite}
 
@@ -99,8 +100,6 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
     }
   }
 
-  def format: String
-
   def rootPath: String
 
   def suggest(path: String,
@@ -108,18 +107,13 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
               cutTail: Boolean,
               labels: Array[String],
               customDialect: Option[CustomDialects] = None): Future[Seq[CompletionItem]] = {
-    super.suggest(filePath(path), format, customDialect)
+    super.suggest(filePath(path), customDialect)
   }
 
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])
 
-  def init(): Future[Unit] = org.mulesoft.als.suggestions.Core.init()
-
-  def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] = {
-
-    val helper = ParserHelper(platform)
-    helper.parse(path, env).map(_.baseUnit)
-  }
+  def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] =
+    AmfInstance.default.parserHelper.parse(path, env).map(_.baseUnit)
 
   def filePath(path: String): String = {
     var result =

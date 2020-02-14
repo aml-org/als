@@ -1,0 +1,22 @@
+{
+  "name": "als-node-client",
+  "version": "2.0.5",
+  "description": "ALS Node Client",
+  "main": "./dist/als-node-client.js",
+  "author": "ALS team",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/mulesoft/als",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mulesoft/als"
+  },
+  "bin": {
+    "als": "./dist/als-node-client.js"
+  },
+  "dependencies": {
+    "amf-shacl-node": "1.1.0",
+    "ajv": "6.5.2",
+    "vscode-jsonrpc": "4.0.0",
+    "vscode-languageserver-protocol": "3.14.1"
+  }
+}

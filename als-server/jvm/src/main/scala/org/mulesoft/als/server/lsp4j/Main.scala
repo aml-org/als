@@ -1,24 +1,26 @@
 package org.mulesoft.als.server.lsp4j
 
+import java.io.StringWriter
 import java.net.{ServerSocket, Socket}
 
-import amf.ProfileName
-import amf.core.lexer.FileStream
 import org.eclipse.lsp4j.jsonrpc.Launcher
-import org.eclipse.lsp4j.launch.LSPLauncher
 import org.eclipse.lsp4j.services.LanguageClient
+import org.mulesoft.als.server.JvmSerializationProps
 import org.mulesoft.als.server.client.ClientConnection
+import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
-import org.mulesoft.als.server.modules.diagnostic.PARSING_BEFORE
-import org.mulesoft.amfmanager.{CustomDialects, CustomVocabulary}
+import org.mulesoft.als.server.protocol.client.AlsLanguageClient
+import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 
 object Main {
   case class Options(port: Int,
                      listen: Boolean,
                      dialectPath: Option[String],
                      dialectName: Option[String],
-                     vocabularyPath: Option[String])
-  val DefaultOptions = Options(4000, listen = false, dialectPath = None, dialectName = None, vocabularyPath = None)
+                     vocabularyPath: Option[String],
+                     systemStream: Boolean = false)
+  val DefaultOptions: Options =
+    Options(4000, listen = false, dialectPath = None, dialectName = None, vocabularyPath = None)
 
   def readOptions(args: Array[String]): Options = {
     def innerReadOptions(options: Options, list: List[String]): Options =
@@ -26,14 +28,10 @@ object Main {
         case Nil => options
         case "--port" :: value :: tail =>
           innerReadOptions(options.copy(port = value.toInt), tail)
+        case "--systemStream" :: tail => // intellij lsp plugin only supports stdio at the moment
+          innerReadOptions(options.copy(systemStream = true), tail)
         case "--listen" :: tail =>
           innerReadOptions(options.copy(listen = true), tail)
-        case "--dialect" :: value :: tail =>
-          innerReadOptions(options.copy(dialectPath = Some(value)), tail)
-        case "--vocabulary" :: value :: tail =>
-          innerReadOptions(options.copy(vocabularyPath = Some(value)), tail)
-        case "--dialectProfile" :: value :: tail =>
-          innerReadOptions(options.copy(dialectName = Some(value)), tail)
         case _ =>
           throw new IllegalArgumentException()
       }
@@ -42,9 +40,9 @@ object Main {
   }
 
   def createSocket(options: Options): Socket = options match {
-    case Options(port, true, _, _, _) =>
+    case Options(port, true, _, _, _, false) =>
       new ServerSocket(port).accept()
-    case Options(port, false, _, _, _) =>
+    case Options(port, false, _, _, _, false) =>
       new Socket("localhost", port)
   }
 
@@ -52,40 +50,44 @@ object Main {
     val options = readOptions(args)
 
     try {
-      val socket = createSocket(options)
-
-      val in  = socket.getInputStream
-      val out = socket.getOutputStream
+      val (in, out) =
+        if (options.systemStream)
+          (System.in, System.out)
+        else {
+          val socket = createSocket(options)
+          (socket.getInputStream, socket.getOutputStream)
+        }
 
       val logger: Logger   = PrintLnLogger
-      val clientConnection = ClientConnection(logger)
-      val server = new LanguageServerImpl(
-        LanguageServerFactory.alsLanguageServer(
-          clientConnection,
-          logger,
-          options.dialectPath
-            .map(readDialectFile(_, options.dialectName.get, options.vocabularyPath))
-            .toSeq,
-          notificationKind = PARSING_BEFORE
-        ))
+      val clientConnection = ClientConnection[StringWriter](logger)
 
-      val launcher: Launcher[LanguageClient] =
-        LSPLauncher.createServerLauncher(server, in, out)
+      val server = new LanguageServerImpl(
+        new LanguageServerFactory(clientConnection)
+          .withSerializationProps(JvmSerializationProps(clientConnection))
+          .build()
+      )
+
+      val launcher = new Launcher.Builder[LanguageClient]()
+        .setLocalService(server)
+        .setRemoteInterface(classOf[LanguageClient])
+        .setInput(in)
+        .setOutput(out)
+        .create()
+
       val client = launcher.getRemoteProxy
       clientConnection.connect(LanguageClientWrapper(client))
+
+      clientConnection.connectAls(new AlsLanguageClient[StringWriter] {
+        override def notifySerialization(params: SerializationResult[StringWriter]): Unit = {}
+
+        override def notifyProjectFiles(params: FilesInProjectParams): Unit = {}
+      }) // example
+
       launcher.startListening
-      println("ALS started")
     } catch {
       case e: Exception =>
         e.printStackTrace()
     }
-  }
-
-  private def readDialectFile(path: String, profile: String, vocabularyPath: Option[String]) = {
-    CustomDialects(ProfileName(profile),
-                   path,
-                   new FileStream(path).toString(),
-                   vocabularyPath.map(vp => CustomVocabulary(vp, new FileStream(vp).toString())))
   }
 
 }

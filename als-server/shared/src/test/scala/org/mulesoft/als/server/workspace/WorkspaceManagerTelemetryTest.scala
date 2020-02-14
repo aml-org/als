@@ -1,13 +1,13 @@
 package org.mulesoft.als.server.workspace
 
-import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.modules.structure.StructureManager
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
-import org.mulesoft.lsp.common.{TextDocumentIdentifier, TextDocumentItem}
-import org.mulesoft.lsp.configuration.{InitializeParams, TraceKind}
+import org.mulesoft.als.server._
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
+import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.scalatest.Assertion
 
@@ -15,12 +15,12 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
 
-  override implicit val executionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   private val notifier = new MockTelemetryClientNotifier()
-  private val factory  = ManagersFactory(notifier, logger, withDiagnostics = false)
 
-  private val editorFiles = factory.container
+  val alsClientNotifier: MockAlsClientNotifier = new MockAlsClientNotifier
+  private val factory                          = new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
 
   test("Workspace Manager check parsing times (project should have 1, independent file 1)") {
     val main        = s"${filePath("ws1")}/api.raml"
@@ -31,7 +31,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
 
       for {
-        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
         _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(main)))
         _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
         _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(main)))
@@ -67,7 +67,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
 
       for {
-        _ <- server.initialize(InitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))) // parse main with subdir
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))) // parse main with subdir
         _ <- platform
           .resolve(main)
           .map(c => openFile(server)(main, c.stream.toString)) // open main file (should not reparse)
@@ -92,7 +92,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
   }
 
   override def buildServer(): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.structureManager)
       .build()
 

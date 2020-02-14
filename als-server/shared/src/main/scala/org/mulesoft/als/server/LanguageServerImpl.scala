@@ -1,22 +1,21 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.lsp.configuration.{InitializeParams, InitializeResult}
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.configuration.{AlsInitializeParams, AlsInitializeResult}
+import org.mulesoft.als.server.protocol.textsync.AlsTextDocumentSyncConsumer
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer, LanguageServerSystemConf}
-import org.mulesoft.lsp.textsync.TextDocumentSyncConsumer
 import org.mulesoft.lsp.workspace.WorkspaceService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class LanguageServerImpl(val textDocumentSyncConsumer: TextDocumentSyncConsumer,
+class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsumer,
                          val workspaceService: WorkspaceService,
                          private val languageServerInitializer: LanguageServerInitializer,
-                         private val requestHandlerMap: RequestMap,
-                         private val systemConfiguration: LanguageServerSystemConf = DefaultServerSystemConf)
+                         private val requestHandlerMap: RequestMap)
     extends LanguageServer {
 
-  override def initialize(params: InitializeParams): Future[InitializeResult] =
+  override def initialize(params: AlsInitializeParams): Future[AlsInitializeResult] =
     languageServerInitializer.initialize(params).flatMap { p =>
       params.rootUri.orElse(params.rootPath) match {
         case Some(root) => workspaceService.initializeWS(root).map(_ => p)
@@ -32,7 +31,4 @@ class LanguageServerImpl(val textDocumentSyncConsumer: TextDocumentSyncConsumer,
 
   override def resolveHandler[P, R](requestType: RequestType[P, R]): Option[RequestHandler[P, R]] =
     requestHandlerMap(requestType)
-
-  override def configuration: LanguageServerSystemConf = systemConfiguration
-
 }

@@ -1,25 +1,26 @@
 package org.mulesoft.als.server.modules.rename
 
 import org.mulesoft.als.common.dtoTypes.{DescendingPositionOrdering, Position}
-import org.mulesoft.als.server.modules.ManagersFactory
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder}
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
-import org.mulesoft.lsp.common.TextDocumentIdentifier
-import org.mulesoft.lsp.convert.LspRangeConverter
+import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.rename.{RenameParams, RenameRequestType}
-import org.mulesoft.lsp.server.{DefaultServerSystemConf, LanguageServer}
 import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
 abstract class ServerRenameTest extends LanguageServerBaseTest {
 
-  override implicit val executionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   override def buildServer(): LanguageServer = {
-    val factory = ManagersFactory(MockDiagnosticClientNotifier, logger, withDiagnostics = false)
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, DefaultServerSystemConf)
+    val factory =
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addInitializable(factory.documentManager)
       .build()
   }
