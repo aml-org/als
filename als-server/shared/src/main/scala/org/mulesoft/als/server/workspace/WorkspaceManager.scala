@@ -13,7 +13,7 @@ import org.mulesoft.als.server.workspace.extract.{
   WorkspaceRootHandler
 }
 import org.mulesoft.lsp.Initializable
-import org.mulesoft.lsp.configuration.{WorkspaceClientCapabilities, WorkspaceFolder}
+import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams, WorkspaceService}
 
@@ -41,29 +41,44 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     val currentWorkspaces = workspaces.map(_.folder)
 
     // filter newWorkspaces that are contained in currentWorkspaces
-    val newFilteredWorkspaces = newWorkspaces.filterNot(f => currentWorkspaces.exists(p => f.startsWith(p)))
+    val newFilteredWorkspaces =
+      newWorkspaces.distinct.filterNot(f => currentWorkspaces.exists(p => { f.startsWith(p) }))
 
-    // drop currentWorkspaces that are contained in new Workspaces
-    val wsk = workspaces
-      .filter(ws => newFilteredWorkspaces.exists(p => (ws.folder.startsWith(p) && !p.equals(ws.folder))))
-    wsk.foreach(shutdownWS)
-
-    if (newFilteredWorkspaces.nonEmpty)
-      Future.reduceLeft(newFilteredWorkspaces.distinct.map(initializeWS))((_, _) => ())
-    else Future.successful()
+    if (newFilteredWorkspaces.nonEmpty) {
+      val tuples: List[(String, List[WorkspaceContentManager])] = newFilteredWorkspaces.map(uri => {
+        (uri, workspaces.filter(wsm => wsm.folder.startsWith(uri) && !uri.equals(wsm.folder)).toList)
+      })
+      Future.reduceLeft(
+        tuples.map(t => {
+          initializeWS(t._1, Some(t._2))
+        })
+      )((_, _) => ())
+    } else Future.successful()
   }
 
-  def initializeWS(root: String): Future[Unit] = rootHandler.extractConfiguration(root).map { mainOption =>
-    logger.debug("Parsing: " + root, "WorkspaceManager", "initializeWS")
-    val workspace =
-      new WorkspaceContentManager(root, environmentProvider, telemetryProvider, logger, dependencies)
-    workspaces += workspace
-    workspace.setConfigMainFile(mainOption)
-    mainOption.foreach(conf =>
-      contentManagerConfiguration(workspace, conf.mainFile, conf.cachables, mainOption.flatMap(_.configReader)))
-  }
+  def initializeWS(root: String): Future[Unit] = initializeWS(root, None)
+
+  private def initializeWS(root: String, replace: Option[List[WorkspaceContentManager]]): Future[Unit] =
+    rootHandler.extractConfiguration(root).map { mainOption =>
+      logger.debug("Adding workspace: " + root, "WorkspaceManager", "initializeWS")
+      val workspace: WorkspaceContentManager =
+        new WorkspaceContentManager(root, environmentProvider, telemetryProvider, logger, dependencies)
+      if (replace.isDefined) {
+        replace.get.foreach(w => {
+          logger.debug("Replacing Workspace: " + w.folder + " due to " + workspace.folder,
+                       "WorkspaceManager",
+                       "initializeWS")
+          shutdownWS(w)
+        })
+      }
+      workspaces += workspace
+      workspace.setConfigMainFile(mainOption)
+      mainOption.foreach(conf =>
+        contentManagerConfiguration(workspace, conf.mainFile, conf.cachables, mainOption.flatMap(_.configReader)))
+    }
 
   def shutdownWS(workspace: WorkspaceContentManager): Unit = {
+    logger.debug("Removing workspace: " + workspace.folder, "WorkspaceManager", "shutdownWS")
     workspaces -= workspace
     workspace.shutdown()
   }
@@ -71,12 +86,17 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   override def getCU(uri: String, uuid: String): Future[CompilableUnit] =
     getWorkspace(uri).getCompilableUnit(uri)
 
+  override def getLastCU(uri: String, uuid: String): Future[CompilableUnit] = {
+    getCU(uri, uuid).flatMap(CU => {
+      if (CU.isDirty) getLastCU(uri, uuid) else Future.successful(CU)
+    })
+  }
   override def notify(uri: String, kind: NotificationKind): Unit = {
     val manager: WorkspaceContentManager = getWorkspace(uri)
     if (manager.configFile.map(FileUtils.getEncodedUri(_, environmentProvider.platform)).contains(uri)) {
       manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
-      manager.changedFile(uri, CHANGE_CONFIG)
-    } else manager.changedFile(uri, kind)
+      manager.changedFile(Some(uri), CHANGE_CONFIG)
+    } else manager.changedFile(Some(uri), kind)
   }
 
   def contentManagerConfiguration(manager: WorkspaceContentManager,
@@ -85,7 +105,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
                                   reader: Option[ConfigReader]): Unit = {
     manager
       .withConfiguration(DefaultWorkspaceConfigurationProvider(manager, mainUri, dependencies, reader))
-      .changedFile(mainUri, CHANGE_CONFIG)
+      .changedFile(Some(mainUri), CHANGE_CONFIG)
   }
 
   override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] = {
@@ -113,21 +133,9 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
   override def getRootOf(uri: String): Option[String] =
     getWorkspace(uri).workspaceConfiguration.map(c => s"${c.rootFolder}/")
-  override def initialize(clientCapabilites: Option[WorkspaceClientCapabilities],
-                          root: Option[String],
-                          workspaceFolders: Option[Seq[WorkspaceFolder]]): Future[Unit] = {
-
-    setCapabilites(clientCapabilites)
-
+  override def initialize(root: Option[String], workspaceFolders: Option[Seq[WorkspaceFolder]]): Future[Unit] = {
     if (root.isDefined) initializeWSList((workspaceFolders.getOrElse(List()).flatMap(_.uri) ++ root).toList)
     else Future.successful()
-  }
-
-  private def setCapabilites(clientCapabilites: Option[WorkspaceClientCapabilities]): Unit = {
-    clientCapabilites match {
-      case Some(clientCapabilities) => clientCapabilities
-      case _                        => Unit
-    }
   }
 
   override def didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams): Unit = {

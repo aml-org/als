@@ -56,7 +56,7 @@ class StructureManager(val unitAccesor: UnitRepositoriesManager,
                                       uri,
                                       telemetryUUID)
     val results = unitAccesor
-      .getCU(uri, telemetryUUID)
+      .getLastCU(uri, telemetryUUID)
       .flatMap(_.getLast)
       .map(cu => {
         val r = getStructureFromAST(cu.unit, telemetryUUID) // todo: if isn't resolved yet map future

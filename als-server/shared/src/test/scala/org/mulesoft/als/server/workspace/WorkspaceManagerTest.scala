@@ -298,6 +298,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val filesWS2 = List(s"${ws2path}/api.raml", s"${ws2path}/sub/type.raml")
       val ws1      = WorkspaceFolder(Some(ws1path), Some("ws1"))
       val ws2      = WorkspaceFolder(Some(ws2path), Some("ws2"))
+      val allFiles = (filesWS1 ++ filesWS2)
       val wsList   = List(ws1, ws2)
 
       for {
@@ -309,9 +310,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         d <- diagnosticClientNotifier.nextCall
         e <- diagnosticClientNotifier.nextCall
       } yield {
-        val allDiagnostics = List(a, b, c, d, e)
-        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
-        assert(allDiagnostics.map(_.uri).containsSlice(filesWS1 ++ filesWS2))
+        val allDiagnosticsFolders = List(a, b, c, d, e).map(_.uri)
+        assert(allDiagnosticsFolders.size == allDiagnosticsFolders.distinct.size)
+        assert(allFiles.map(u => allDiagnosticsFolders.contains(u)).forall(a => a))
       }
     }
   }
@@ -381,26 +382,41 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
-  def addWorkspaceFolder(server: LanguageServer)(ws: WorkspaceFolder): Future[Unit] = {
-    server.workspaceService.didChangeWorkspaceFolders(
-      params = DidChangeWorkspaceFoldersParams(WorkspaceFoldersChangeEvent(List(ws), List()))
-    )
-    Future.successful()
-  }
+  test("Workspace Manager multiworkspace support - included workspace") {
+    withServer[Assertion] { server =>
+      val root1 = s"${filePath("multiworkspace/containedws")}"
+      val root2 = s"${filePath("multiworkspace/containedws/ws1")}"
+      val file1 = s"${filePath("multiworkspace/containedws/api.raml")}"
+      val file2 = s"${filePath("multiworkspace/containedws/ws1/api.raml")}"
+      val file3 = s"${filePath("multiworkspace/containedws/ws1/sub/type.raml")}"
 
-  def removeWorkspaceFolder(server: LanguageServer)(ws: WorkspaceFolder): Future[Unit] = {
-    server.workspaceService.didChangeWorkspaceFolders(
-      params = DidChangeWorkspaceFoldersParams(WorkspaceFoldersChangeEvent(List(), List(ws)))
-    )
-    Future.successful()
-  }
+      val root2WSF = WorkspaceFolder(Some(root2), Some("ws-2"))
+      val root1WSF = WorkspaceFolder(Some(root1), Some("ws-1"))
 
-  def didChangeWorkspaceFolders(server: LanguageServer)(added: List[WorkspaceFolder],
-                                                        removed: List[WorkspaceFolder]): Future[Unit] = {
-    server.workspaceService.didChangeWorkspaceFolders(
-      params = DidChangeWorkspaceFoldersParams(WorkspaceFoldersChangeEvent(added, removed))
-    )
-    Future.successful()
+      for {
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root2)))
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
+        _ <- didChangeWorkspaceFolders(server)(List(root1WSF), List())
+        c <- diagnosticClientNotifier.nextCall
+        d <- diagnosticClientNotifier.nextCall
+        e <- diagnosticClientNotifier.nextCall
+        f <- diagnosticClientNotifier.nextCall
+
+      } yield {
+        val firstDiagnostics         = Seq(a, b).map(_.uri)
+        val secondDiagnostics        = Seq(c, d, e, f)
+        val secondDiagnosticsFolders = Seq(c, d, e, f).map(_.uri)
+
+        firstDiagnostics should contain(file2)
+        firstDiagnostics should contain(file3)
+        secondDiagnosticsFolders should contain(file1)
+        secondDiagnosticsFolders should contain(file2)
+        secondDiagnostics.filter(_.uri.equals(file2)).head.diagnostics shouldBe empty
+        secondDiagnosticsFolders should contain(file3)
+
+      }
+    }
   }
 
   override def buildServer(): LanguageServer = {

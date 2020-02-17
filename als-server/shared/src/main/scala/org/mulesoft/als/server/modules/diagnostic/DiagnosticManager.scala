@@ -191,8 +191,8 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
   override def onRemoveFile(uri: String): Unit =
     clientNotifier.notifyDiagnostic(AlsPublishDiagnosticsParams(uri, Nil))
 
-  override def closedWorkspace(uris: List[String]): Unit = {
-    uris.foreach(onRemoveFile)
+  override def closedWorkspace(includedFiles: List[String]): Unit = {
+    includedFiles.foreach(onRemoveFile)
   }
 }
 

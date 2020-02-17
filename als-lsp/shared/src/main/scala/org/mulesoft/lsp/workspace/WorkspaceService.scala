@@ -51,7 +51,5 @@ trait WorkspaceService {
 
   def initializeWS(folder: String): Future[Unit]
 
-  def initialize(clientCapabilites: Option[WorkspaceClientCapabilities],
-                 rootTuple: Option[String],
-                 workspaceFolders: Option[Seq[WorkspaceFolder]]): Future[Unit]
+  def initialize(root: Option[String], workspaceFolders: Option[Seq[WorkspaceFolder]]): Future[Unit]
 }

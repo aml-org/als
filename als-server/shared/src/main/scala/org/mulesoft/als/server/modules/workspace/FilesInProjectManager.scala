@@ -39,5 +39,5 @@ class FilesInProjectManager(clientNotifier: AlsClientNotifier[_])
     FilesInProjectServerOptions(true)
   }
 
-  override def closedWorkspace(uris: List[String]): Unit = {}
+  override def closedWorkspace(includedFiles: List[String]): Unit = {}
 }

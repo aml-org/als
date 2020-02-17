@@ -19,7 +19,7 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
     languageServerInitializer.initialize(params).flatMap { p =>
       val root = if (params.rootUri.isDefined) params.rootUri else params.rootPath
       workspaceService
-        .initialize(params.capabilities.workspace, root, params.workspaceFolders)
+        .initialize(root, params.workspaceFolders)
         .map(_ => p)
     }
 
