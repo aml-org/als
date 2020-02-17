@@ -1,8 +1,18 @@
 package org.mulesoft.als.server.modules.diagnostic
 
+import amf.core.annotations.LexicalInformation
+import amf.core.errorhandling.{ErrorCollector, ErrorHandler, StaticErrorCollector}
+import amf.core.metamodel.Obj
+import amf.core.model.document.BaseUnit
+import amf.core.model.domain.AmfObject
+import amf.core.parser.{Annotations, Fields}
+import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
+import amf.plugins.document.vocabularies.model.document.DialectInstance
+import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.amfmanager.AmfParseResult
 
 import scala.concurrent.ExecutionContext
 
@@ -145,6 +155,45 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
         assert(i3 == i1)
         assert(diagnosticNotifier.promises.isEmpty)
       }
+    }
+  }
+
+  test("DiagnosticManager with invalid clone") {
+    class MockDialectDomainElementModel extends DialectDomainElementModel {
+      override def modelInstance: AmfObject = throw new Exception("should fail")
+    }
+
+    class MockDialectInstance(override val fields: Fields) extends BaseUnit {
+
+      override def meta: Obj = new MockDialectDomainElementModel()
+
+      override def references: Seq[BaseUnit] = Nil
+
+      override def componentId: String = ""
+
+      override val annotations: Annotations = Annotations()
+
+      override def cloneUnit(): BaseUnit = throw new Exception("should fail")
+
+      override def location(): Option[String] = Some("location")
+    }
+
+    val builder               = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
+    val dm: DiagnosticManager = builder.diagnosticManager()
+
+    val amfBaseUnit: BaseUnit = new MockDialectInstance(new Fields())
+
+    val eh = new ErrorCollector {}
+
+    val amfParseResult: AmfParseResult = new AmfParseResult(amfBaseUnit, eh)
+    dm.onNewAst((amfParseResult, Map.empty), "")
+    for {
+      d <- diagnosticNotifier.nextCall
+    } yield {
+      assert(d.diagnostics.length == 1)
+      assert(d.uri == "location")
+      assert(
+        d.diagnostics.head.message == "DiagnosticManager suffered an unexpected error while cloning unit: should fail")
     }
   }
 }

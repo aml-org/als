@@ -15,6 +15,7 @@ import org.mulesoft.amfmanager.AmfParseResult
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
+import amf.core.validation.SeverityLevels.VIOLATION
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -158,8 +159,14 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                                       MessageTypes.BEGIN_REPORT,
                                       uri,
                                       uuid)
-    val unit = try {
-      baseUnit.cloneUnit()
+    try {
+      val eventualReport: Future[AMFValidationReport] =
+        RuntimeValidator(baseUnit.cloneUnit(), ProfileName(checkProfileName(baseUnit)))
+      eventualReport.foreach(
+        r =>
+          telemetryProvider
+            .addTimedMessage("End AMF report", "DiagnosticManager", "report", MessageTypes.END_REPORT, uri, uuid))
+      eventualReport
     } catch {
       case e: Exception =>
         val msg = s"DiagnosticManager suffered an unexpected error while cloning unit: ${e.getMessage}"
@@ -170,15 +177,16 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                                           MessageTypes.DIAGNOSTIC_ERROR,
                                           baseUnit.id,
                                           uuid)
-        baseUnit // todo: clean unit from repository?
+
+        Future.successful(failedReportDiagnostic(msg, baseUnit))
     }
-    val eventualReport = RuntimeValidator(unit, ProfileName(checkProfileName(baseUnit)))
-    eventualReport.foreach(
-      r =>
-        telemetryProvider
-          .addTimedMessage("End AMF report", "DiagnosticManager", "report", MessageTypes.END_REPORT, uri, uuid))
-    eventualReport
   }
+
+  private final def failedReportDiagnostic(msg: String, baseUnit: BaseUnit): AMFValidationReport =
+    AMFValidationReport(conforms = false,
+                        "",
+                        ProfileName(checkProfileName(baseUnit)),
+                        Seq(AMFValidationResult(msg, VIOLATION, "", None, "", None, baseUnit.location(), None)))
 
   override def onRemoveFile(uri: String): Unit =
     clientNotifier.notifyDiagnostic(AlsPublishDiagnosticsParams(uri, Nil))
