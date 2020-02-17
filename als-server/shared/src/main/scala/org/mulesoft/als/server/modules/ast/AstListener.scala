@@ -1,7 +1,9 @@
 package org.mulesoft.als.server.modules.ast
 
 import org.mulesoft.als.server.modules.workspace.DiagnosticsBundle
+import org.mulesoft.als.server.workspace.{UnitRepositoriesManager, WorkspaceManager}
 import org.mulesoft.amfmanager.AmfParseResult
+import org.mulesoft.lsp.InitializableModule
 
 /**
   * AST listener
@@ -17,6 +19,13 @@ trait AstListener[T] {
   def onNewAst(ast: T, uuid: String): Unit
 
   def onRemoveFile(uri: String): Unit
+
+  def withUnitAccessor(unitAccesor: UnitRepositoriesManager): AstListener[T] = {
+    this.unitAccessor = Some(unitAccesor)
+    this
+  }
+
+  protected var unitAccessor: Option[UnitRepositoriesManager] = None
 }
 
 trait BaseUnitListener extends AstListener[(AmfParseResult, Map[String, DiagnosticsBundle])]

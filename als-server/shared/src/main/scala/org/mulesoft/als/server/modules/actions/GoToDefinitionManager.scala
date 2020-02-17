@@ -7,7 +7,7 @@ import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.als.server.workspace.{UnitRepositoriesManager, WorkspaceManager}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.common.{Location, LocationLink, TextDocumentPositionParams}
 import org.mulesoft.als.convert.LspRangeConverter
@@ -18,7 +18,7 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class GoToDefinitionManager(val unitsRepository: WorkspaceManager,
+class GoToDefinitionManager(val unitsRepository: UnitRepositoriesManager,
                             platform: Platform,
                             private val telemetryProvider: TelemetryProvider,
                             private val logger: Logger)
@@ -45,7 +45,7 @@ class GoToDefinitionManager(val unitsRepository: WorkspaceManager,
 
   def goToDefinition(str: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] = {
     unitsRepository
-      .getUnit(str, UUID.randomUUID().toString)
+      .getCU(str, UUID.randomUUID().toString)
       .map(cu => {
         FindDefinition.getDefinition(cu.unit, position, platform)
       })

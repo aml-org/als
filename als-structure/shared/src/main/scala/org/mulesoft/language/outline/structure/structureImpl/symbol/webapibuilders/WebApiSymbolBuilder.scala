@@ -100,7 +100,8 @@ object NameFieldSymbolBuilder extends ElementSymbolBuilderCompanion {
 
   override val supportedIri: String = WebApiModel.Name.value.iri()
 
-  override def construct(element: T)(implicit factory: BuilderFactory) = Some(new NameFieldSymbolBuilder(element))
+  override def construct(element: T)(implicit factory: BuilderFactory): Option[NameFieldSymbolBuilder] =
+    Some(new NameFieldSymbolBuilder(element))
 
   override def getType: Class[_ <: AmfElement] = classOf[AmfScalar]
 }
@@ -116,7 +117,8 @@ object WebApiVersionBuilder extends ElementSymbolBuilderCompanion {
 
   override val supportedIri: String = WebApiModel.Version.value.iri()
 
-  override def construct(element: T)(implicit factory: BuilderFactory) = Some(new WebApiVersionBuilder(element))
+  override def construct(element: T)(implicit factory: BuilderFactory): Option[WebApiVersionBuilder] =
+    Some(new WebApiVersionBuilder(element))
 }
 
 object EndPointListBuilder extends ElementSymbolBuilderCompanion {

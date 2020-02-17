@@ -4,7 +4,7 @@ import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
-import org.mulesoft.als.server.SerializationProps
+import org.mulesoft.als.server.{RequestModule, SerializationProps}
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.actions.{DocumentLinksManager, FindReferenceManager, GoToDefinitionManager}
@@ -16,14 +16,13 @@ import org.mulesoft.als.server.modules.diagnostic.{
   DiagnosticManager,
   DiagnosticNotificationsKind
 }
-import org.mulesoft.als.server.modules.serialization.{SerializationManager, ConversionManager}
+import org.mulesoft.als.server.modules.serialization.{ConversionManager, SerializationManager}
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.modules.workspace.FilesInProjectManager
 import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.lsp.InitializableModule
 
 import scala.collection.mutable.ListBuffer
 
@@ -34,6 +33,7 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
   private var givenPlatform                                 = platform
   private var environment                                   = Environment()
   private var directoryResolver: DirectoryResolver          = new PlatformDirectoryResolver(platform)
+
   def withAmfConfiguration(amfConfig: AmfInstance): WorkspaceManagerFactoryBuilder = {
     this.amfConfig = amfConfig
     this
@@ -58,12 +58,12 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
     this.directoryResolver = directoryResolver
     this
   }
-  private val projectDependencies: ListBuffer[InitializableModule[_, _] with BaseUnitListener] = ListBuffer()
+  private val projectDependencies: ListBuffer[BaseUnitListener] = ListBuffer()
 
   val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
 
   def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
-    val s = new SerializationManager(amfConfig, sp)
+    val s = new SerializationManager(amfConfig, sp, logger)
     projectDependencies += s
     s
   }
@@ -115,4 +115,8 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
 
   lazy val conversionManager = new ConversionManager(workspaceManager, amfConfiguration, logger)
+
+  lazy val serializationManager: Option[SerializationManager[_]] = projectDependencies.collectFirst({
+    case s: SerializationManager[_] => s
+  })
 }

@@ -7,7 +7,7 @@ import org.eclipse.lsp4j.jsonrpc.Launcher
 import org.eclipse.lsp4j.services.LanguageClient
 import org.mulesoft.als.server.JvmSerializationProps
 import org.mulesoft.als.server.client.ClientConnection
-import org.mulesoft.als.server.feature.serialization.SerializationMessage
+import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.protocol.client.AlsLanguageClient
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
@@ -78,7 +78,7 @@ object Main {
       clientConnection.connect(LanguageClientWrapper(client))
 
       clientConnection.connectAls(new AlsLanguageClient[StringWriter] {
-        override def notifySerialization(params: SerializationMessage[StringWriter]): Unit = {}
+        override def notifySerialization(params: SerializationResult[StringWriter]): Unit = {}
 
         override def notifyProjectFiles(params: FilesInProjectParams): Unit = {}
       }) // example

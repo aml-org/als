@@ -25,6 +25,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
                        dependencies: List[BaseUnitListener],
                        logger: Logger)
     extends TextListener
+    with UnitRepositoriesManager
     with WorkspaceService
     with Initializable {
 
@@ -44,7 +45,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     workspaces += workspace
   }
 
-  def getUnit(uri: String, uuid: String): Future[CompilableUnit] =
+  override def getCU(uri: String, uuid: String): Future[CompilableUnit] =
     getWorkspace(uri).getCompilableUnit(uri)
 
   override def notify(uri: String, kind: NotificationKind): Unit = {
@@ -83,5 +84,10 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   val defaultWorkspace =
     new WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, dependencies)
 
-  override def initialize(): Future[Unit] = Future.unit
+  override def initialize(): Future[Unit] = {
+    Future.successful(dependencies.foreach(d => d.withUnitAccessor(this)))
+  }
+
+  override def getRootOf(uri: String): Option[String] =
+    getWorkspace(uri).workspaceConfiguration.map(c => s"${c.rootFolder}/")
 }
