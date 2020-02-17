@@ -1,7 +1,12 @@
 package org.mulesoft.als.nodeclient
 
 import io.scalajs.nodejs.process
-import org.mulesoft.als.server.{ClientNotifierFactory, LanguageServerFactory, ProtocolConnectionBinder}
+import org.mulesoft.als.server.{
+  ClientNotifierFactory,
+  JsSerializationProps,
+  LanguageServerFactory,
+  ProtocolConnectionBinder
+}
 import org.mulesoft.als.vscode.{ProtocolConnection, ServerSocketTransport}
 
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
@@ -32,15 +37,16 @@ object Main {
 
       val logger = JsPrintLnLogger()
 
-      val clientConnection = ClientNotifierFactory.createWithClientAware(logger)
-      val languageServer = LanguageServerFactory.fromLoaders(clientConnection)
+      val clientConnection   = ClientNotifierFactory.createWithClientAware(logger)
+      val serializationProps = JsSerializationProps(clientConnection)
+      val languageServer     = LanguageServerFactory.fromLoaders(clientConnection, serializationProps)
 
-      val transport = ServerSocketTransport(options.port)
-      val reader    = transport._1
-      val writer    = transport._2
+      val transport  = ServerSocketTransport(options.port)
+      val reader     = transport._1
+      val writer     = transport._2
       val connection = ProtocolConnection(reader, writer, logger)
 
-      ProtocolConnectionBinder.bind(connection, languageServer, clientConnection)
+      ProtocolConnectionBinder.bind(connection, languageServer, clientConnection, serializationProps)
 
       connection.listen()
 

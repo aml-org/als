@@ -19,6 +19,7 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js.annotation.JSExport
 import scala.util.{Failure, Success}
 
 class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
@@ -173,3 +174,9 @@ case class DiagnosticNotificationsKind(kind: String)
 
 object PARSING_BEFORE extends DiagnosticNotificationsKind("PARSING_BEFORE")
 object ALL_TOGETHER   extends DiagnosticNotificationsKind("ALL_TOGETHER")
+
+@JSExport
+object DiagnosticNotificationsKind {
+  def parsingBefore: DiagnosticNotificationsKind = PARSING_BEFORE
+  def allTogether: DiagnosticNotificationsKind   = ALL_TOGETHER
+}
