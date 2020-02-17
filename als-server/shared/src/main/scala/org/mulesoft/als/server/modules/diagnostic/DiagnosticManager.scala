@@ -158,7 +158,21 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                                       MessageTypes.BEGIN_REPORT,
                                       uri,
                                       uuid)
-    val eventualReport = RuntimeValidator(baseUnit.cloneUnit(), ProfileName(checkProfileName(baseUnit)))
+    val unit = try {
+      baseUnit.cloneUnit()
+    } catch {
+      case e: Exception =>
+        val msg = s"DiagnosticManager suffered an unexpected error while cloning unit: ${e.getMessage}"
+        logger.warning(msg, "DiagnosticManager", "report")
+        telemetryProvider.addTimedMessage(msg,
+                                          "DiagnosticManager",
+                                          "report",
+                                          MessageTypes.DIAGNOSTIC_ERROR,
+                                          baseUnit.id,
+                                          uuid)
+        baseUnit // todo: clean unit from repository?
+    }
+    val eventualReport = RuntimeValidator(unit, ProfileName(checkProfileName(baseUnit)))
     eventualReport.foreach(
       r =>
         telemetryProvider

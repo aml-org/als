@@ -84,4 +84,67 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
       }
     }
   }
+
+  test("diagnostics test 002 - AML") {
+    withServer { server =>
+      val dialectPath  = s"file://dialect.yaml"
+      val instancePath = s"file://instance.yaml"
+
+      val dialectContent =
+        """#%Dialect 1.0
+          |
+          |dialect: Diagnostic Test
+          |version: 1.1
+          |
+          |external:
+          |  mock: mock.org
+          |
+          |nodeMappings:
+          |  A:
+          |    classTerm: mock.A
+          |    mapping:
+          |      a:
+          |        range: boolean
+          |
+          |documents:
+          |  root:
+          |    encodes: A
+          |
+        """.stripMargin
+
+      val instanceContent1 =
+        """#%Diagnostic Test 1.1
+          |
+          |a: t
+        """.stripMargin
+
+      val instanceContent2 =
+        """#%Diagnostic Test 1.1
+          |
+          |a: true
+        """.stripMargin
+
+      /*
+        register dialect -> open invalid instance -> fix -> invalid again
+       */
+      diagnosticNotifier.promises.clear()
+      for {
+        _  <- openFileNotification(server)(dialectPath, dialectContent)
+        d1 <- diagnosticNotifier.nextCall
+        _  <- openFileNotification(server)(instancePath, instanceContent1)
+        i1 <- diagnosticNotifier.nextCall
+        _  <- openFileNotification(server)(instancePath, instanceContent2)
+        i2 <- diagnosticNotifier.nextCall
+        _  <- openFileNotification(server)(instancePath, instanceContent1)
+        i3 <- diagnosticNotifier.nextCall
+      } yield {
+        server.shutdown()
+        assert(d1.diagnostics.isEmpty && d1.uri == dialectPath)
+        assert(i1.diagnostics.length == 1 && i1.uri == instancePath)
+        assert(i2.diagnostics.isEmpty && i2.uri == instancePath)
+        assert(i3 == i1)
+        assert(diagnosticNotifier.promises.isEmpty)
+      }
+    }
+  }
 }
