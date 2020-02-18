@@ -173,8 +173,6 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
       override val annotations: Annotations = Annotations()
 
-      override def cloneUnit(): BaseUnit = throw new Exception("should fail")
-
       override def location(): Option[String] = Some("location")
     }
 
