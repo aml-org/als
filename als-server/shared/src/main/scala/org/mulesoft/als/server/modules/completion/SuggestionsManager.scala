@@ -62,8 +62,6 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
   override def initialize(): Future[Unit] = suggestions.init()
 
   protected def onDocumentCompletion(uri: String, position: Position): Future[Seq[CompletionItem]] = {
-    val refinedUri =
-      editorEnvironment.platform.decodeURI(editorEnvironment.platform.resolvePath(uri))
     val telemetryUUID: String = UUID.randomUUID().toString
 
     logger.debug(s"Calling for completion for uri $uri and position $position",
