@@ -4,12 +4,7 @@ import org.mulesoft.als.actions.common.ActionTools
 import org.scalatest.{FlatSpec, Matchers}
 
 class DefinitionFileTests extends FlatSpec with Matchers {
-  behavior of "ActionTools"
+  behavior of "Find Definition"
 
-  it should "extract protocols from relativePath" in {
-    ActionTools.extractProtocol("file://fragment") should be("")
-    ActionTools.extractProtocol("file:///fragment") should be("file")
-    ActionTools.extractProtocol("/fragment") should be("")
-    ActionTools.extractProtocol("http://localhost:8080/test") should be("http")
-  }
+  // todo: find a way to test this in a simple way (currently tested in server module)
 }
