@@ -92,7 +92,6 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
   }
 
   override def buildServer(): LanguageServer = {
-    val factory = new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.structureManager)
       .build()

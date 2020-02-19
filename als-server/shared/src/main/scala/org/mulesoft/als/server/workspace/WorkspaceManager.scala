@@ -133,7 +133,11 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
   override def getRootOf(uri: String): Option[String] =
     getWorkspace(uri).workspaceConfiguration.map(c => s"${c.rootFolder}/")
+
   override def initialize(root: Option[String], workspaceFolders: Option[Seq[WorkspaceFolder]]): Future[Unit] = {
+    // Drop all old workspaces
+    workspaces.clear()
+
     if (root.isDefined) initializeWSList((workspaceFolders.getOrElse(List()).flatMap(_.uri) ++ root).toList)
     else Future.successful()
   }

@@ -16,6 +16,10 @@ public class AlsInitializeParams extends InitializeParams {
         alsClientCapabilities = capabilities;
     }
 
+    public ClientCapabilities getClientCapabilities(){
+        return super.getCapabilities();
+    }
+
     @Override
     public void setCapabilities(ClientCapabilities capabilities) {
         AlsClientCapabilities acp = new AlsClientCapabilities();

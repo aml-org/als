@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.workspace
 
-import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
@@ -18,9 +18,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  val diagnosticClientNotifier = new MockDiagnosticClientNotifier
-  val builder                  = new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
-  val dm: DiagnosticManager    = builder.diagnosticManager()
+  val diagnosticClientNotifier         = new MockDiagnosticClientNotifier
+  val builder                          = new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
+  val dm: DiagnosticManager            = builder.diagnosticManager()
+  val factory: WorkspaceManagerFactory = builder.buildWorkspaceManagerFactory()
 
   test("Workspace Manager check validations (initializing a tree should validate instantly)") {
     withServer[Assertion] { server =>
@@ -420,7 +421,6 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   override def buildServer(): LanguageServer = {
-    val factory = builder.buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.structureManager)
       .build()
