@@ -44,8 +44,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     val newFilteredWorkspaces =
       newWorkspaces.distinct.filterNot(f => currentWorkspaces.exists(p => { f.startsWith(p) }))
 
-    Future.reduceLeft(newFilteredWorkspaces.map(initializeWS))((_, _) => ())
-
+    Future.sequence(newFilteredWorkspaces.map(initializeWS)).map(_ => Unit)
   }
 
   def initializeWS(root: String): Future[Unit] =
