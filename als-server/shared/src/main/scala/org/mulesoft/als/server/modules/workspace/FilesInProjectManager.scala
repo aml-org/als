@@ -38,4 +38,6 @@ class FilesInProjectManager(clientNotifier: AlsClientNotifier[_])
     config.foreach(fip => enabled = fip.requiresNotification)
     FilesInProjectServerOptions(true)
   }
+
+  override def closedWorkspace(includedFiles: List[String]): Unit = {}
 }

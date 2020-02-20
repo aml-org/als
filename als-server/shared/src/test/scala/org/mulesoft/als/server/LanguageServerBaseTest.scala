@@ -6,6 +6,7 @@ import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.protocol.textsync.DidFocusParams
+import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.documentsymbol.{
@@ -16,6 +17,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
 }
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.textsync._
+import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, WorkspaceFoldersChangeEvent}
 import org.scalatest.{AsyncFunSuite, Matchers, OptionValues}
 
 import scala.concurrent.Future
@@ -104,5 +106,27 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
     s"file://als-server/shared/src/test/resources/$rootPath/$path"
       .replace('\\', '/')
       .replace("null/", "")
+  }
+
+  def addWorkspaceFolder(server: LanguageServer)(ws: WorkspaceFolder): Future[Unit] = {
+    server.workspaceService.didChangeWorkspaceFolders(
+      params = DidChangeWorkspaceFoldersParams(WorkspaceFoldersChangeEvent(List(ws), List()))
+    )
+    Future.successful()
+  }
+
+  def removeWorkspaceFolder(server: LanguageServer)(ws: WorkspaceFolder): Future[Unit] = {
+    server.workspaceService.didChangeWorkspaceFolders(
+      params = DidChangeWorkspaceFoldersParams(WorkspaceFoldersChangeEvent(List(), List(ws)))
+    )
+    Future.successful()
+  }
+
+  def didChangeWorkspaceFolders(server: LanguageServer)(added: List[WorkspaceFolder],
+                                                        removed: List[WorkspaceFolder]): Future[Unit] = {
+    server.workspaceService.didChangeWorkspaceFolders(
+      params = DidChangeWorkspaceFoldersParams(WorkspaceFoldersChangeEvent(added, removed))
+    )
+    Future.successful()
   }
 }

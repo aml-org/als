@@ -75,4 +75,6 @@ class SerializationManager[S](amfConf: AmfInstance, props: SerializationProps[S]
 
     }
   )
+
+  override def closedWorkspace(includedFiles: List[String]): Unit = {}
 }
