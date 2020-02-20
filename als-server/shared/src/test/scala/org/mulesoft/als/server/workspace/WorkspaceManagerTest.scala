@@ -420,6 +420,53 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
+  test("Workspace Manager multiworkspace support - multiple included workspaces") {
+    withServer[Assertion] { server =>
+      val root1      = s"${filePath("multiworkspace/ws1")}"
+      val root2      = s"${filePath("multiworkspace/ws2")}"
+      val globalRoot = s"${filePath("multiworkspace")}"
+
+      val filesWS1      = List(s"${root1}/api.raml", s"${root1}/sub/type.raml", s"${root1}/type.json")
+      val filesWS2      = List(s"${root2}/api.raml", s"${root2}/sub/type.raml")
+      val filesGlobalWS = List(s"${globalRoot}/api.raml")
+
+      val root2WSF  = WorkspaceFolder(Some(root2), Some("ws-2"))
+      val root1WSF  = WorkspaceFolder(Some(root1), Some("ws-1"))
+      val globalWSF = WorkspaceFolder(Some(globalRoot), Some("global"))
+      for {
+        _ <- server.initialize(
+          AlsInitializeParams(None,
+                              Some(TraceKind.Off),
+                              rootUri = Some(root2),
+                              workspaceFolders = Some(Seq(root1WSF, root2WSF))))
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
+        c <- diagnosticClientNotifier.nextCall
+        d <- diagnosticClientNotifier.nextCall
+        e <- diagnosticClientNotifier.nextCall
+        _ <- didChangeWorkspaceFolders(server)(List(globalWSF), List())
+        f <- diagnosticClientNotifier.nextCall
+        g <- diagnosticClientNotifier.nextCall
+        h <- diagnosticClientNotifier.nextCall
+        i <- diagnosticClientNotifier.nextCall
+        j <- diagnosticClientNotifier.nextCall
+        k <- diagnosticClientNotifier.nextCall
+      } yield {
+        val firstDiagnostics         = Seq(a, b, c, d, e).map(_.uri)
+        val secondDiagnostics        = Seq(f, g, h, i, j, k)
+        val secondDiagnosticsFolders = secondDiagnostics.map(_.uri)
+
+        firstDiagnostics should contain allElementsOf filesWS1
+        firstDiagnostics should contain allElementsOf filesWS2
+        secondDiagnosticsFolders should contain allElementsOf filesWS1
+        secondDiagnosticsFolders should contain allElementsOf filesWS2
+        secondDiagnosticsFolders should contain allElementsOf filesGlobalWS
+        secondDiagnostics.flatMap(d => d.diagnostics) shouldBe empty
+
+      }
+    }
+  }
+
   override def buildServer(): LanguageServer = {
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.structureManager)

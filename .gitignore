@@ -10,7 +10,6 @@ build/
 
 .DS_Store
 node_modules
-/als-node-client/node-package/tmp/
 
 als-node-client/node-package/tmp/
 

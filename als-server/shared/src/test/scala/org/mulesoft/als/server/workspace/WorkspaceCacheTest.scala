@@ -76,11 +76,11 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil)
 
     ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
-      .changedFile(Some("file://folder/" + mainApiName), CHANGE_CONFIG)
+      .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
     ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).flatMap { _ =>
       counter should be(1)
 
-      ws.changedFile(Some("file://folder/" + mainApiName), CHANGE_FILE)
+      ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
 
       ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
         counter should be(1)
@@ -142,12 +142,12 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil)
 
     ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
-      .changedFile(Some("file://folder/" + mainApiName), CHANGE_CONFIG)
+      .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
 
     ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).flatMap { _ =>
       counter should be(1)
 
-      ws.changedFile(Some("file://folder/" + mainApiName), CHANGE_FILE)
+      ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
 
       ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
         counter should be(1)
@@ -200,12 +200,12 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil)
 
     ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, Set.empty, None))
-      .changedFile(Some("file://folder/" + mainApiName), CHANGE_CONFIG)
+      .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
 
     ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).flatMap { _ =>
       counter should be(1)
 
-      ws.changedFile(Some("file://folder/" + mainApiName), CHANGE_FILE)
+      ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
 
       ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
         counter should be(2)
@@ -257,10 +257,10 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val ws =
       new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil)
     ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
-      .changedFile(Some("file://folder/" + mainApiName), CHANGE_CONFIG)
+      .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
     ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).flatMap { _ =>
       counter should be(1)
-      ws.changedFile(Some("file://folder/" + mainApiName), CHANGE_FILE)
+      ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
 
       ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
         counter should be(2)
@@ -314,13 +314,13 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     for {
       _ <- Future.successful {
         ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
-          .changedFile(Some("file://folder/" + mainApiName), CHANGE_CONFIG)
+          .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
         ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
           counter should be(1)
         }
       }
       _ <- { // first reparse
-        ws.changedFile(Some("file://folder/" + mainApiName), CHANGE_FILE)
+        ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
         ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
           counter should be(1)
         }
@@ -328,14 +328,14 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       _ <- { // remove caché
         counter = 0
         ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, Set.empty, None))
-          .changedFile(Some("file://folder/" + mainApiName), CHANGE_CONFIG)
+          .changedFile("file://folder/" + mainApiName, CHANGE_CONFIG)
 
         ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
           counter should be(1)
         }
       }
       _ <- { // reparse without cache
-        ws.changedFile(Some("file://folder/" + mainApiName), CHANGE_FILE)
+        ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
         ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
           counter should be(2)
         }
@@ -343,8 +343,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       _ <- { // with cache
         counter = 0
         ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
-          .changedFile(Some("file://folder/" + rootUri), CHANGE_CONFIG)
-        ws.changedFile(Some("file://folder/" + mainApiName), CHANGE_FILE)
+          .changedFile("file://folder/" + rootUri, CHANGE_CONFIG)
+        ws.changedFile("file://folder/" + mainApiName, CHANGE_FILE)
         ws.getCompilableUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).map { _ =>
           counter should be(1)
         }

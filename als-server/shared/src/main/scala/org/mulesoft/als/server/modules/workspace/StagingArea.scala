@@ -12,23 +12,22 @@ class StagingArea(environmentProvider: EnvironmentProvider) {
 
   def isPending: Boolean = pending.nonEmpty
 
-  private val pending: mutable.Map[Option[String], NotificationKind] = mutable.Map.empty
+  private val pending: mutable.Map[String, NotificationKind] = mutable.Map.empty
 
   def enqueue(files: List[(String, NotificationKind)]): Unit =
-    files.foreach(f => enqueue(Some(f._1), f._2))
+    files.foreach(f => enqueue(f._1, f._2))
 
-  def enqueue(file: Option[String], kind: NotificationKind): Unit = pending.update(file, kind)
+  def enqueue(file: String, kind: NotificationKind): Unit = pending.update(file, kind)
 
   def dequeue(files: Set[String]): Unit =
-    files.map(Some(_)).foreach(pending.remove)
+    files.foreach(pending.remove)
 
   def snapshot(): Snapshot = synchronized {
     val environment = environmentProvider.environmentSnapshot()
     val actual: List[(String, NotificationKind)] = pending.map {
-      case (Some(p), notification) => (p, notification)
-      case (None, notification)    => ("", notification)
+      case (p, notification) => (p, notification)
     }.toList
-    if (!shouldDie) pending.clear()
+    pending.clear()
     Snapshot(environment, actual)
   }
 

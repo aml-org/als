@@ -45,7 +45,7 @@ class WorkspaceContentManager(val folder: String,
 
   def canProcess: Boolean = state == Idle && current == Future.unit
 
-  def changedFile(uri: Option[String], kind: NotificationKind): Unit = synchronized {
+  def changedFile(uri: String, kind: NotificationKind): Unit = synchronized {
     if (state == NotAvailable) throw new UnavailableWorkspaceException
     stagingArea.enqueue(uri, kind)
     if (canProcess) current = process()
@@ -75,10 +75,8 @@ class WorkspaceContentManager(val folder: String,
 
   private def process(): Future[Unit] = {
     if (state == NotAvailable) Future.unit
-    else {
-      if (stagingArea.isPending) next(preprocessSnapshot())
-      else goIdle()
-    }
+    else if (stagingArea.isPending) next(preprocessSnapshot())
+    else goIdle()
   }
 
   def withConfiguration(confProvider: WorkspaceConfigurationProvider): WorkspaceContentManager = {
@@ -147,7 +145,7 @@ class WorkspaceContentManager(val folder: String,
   }
 
   def shutdown(): Future[Unit] = {
-    changedFile(None, WORKSPACE_KILLED)
+    changedFile(folder, WORKSPACE_KILLED)
     Future.successful()
   }
 
