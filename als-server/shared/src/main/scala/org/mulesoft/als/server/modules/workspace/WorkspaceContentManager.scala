@@ -2,6 +2,7 @@ package org.mulesoft.als.server.modules.workspace
 
 import java.util.UUID
 
+import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
@@ -45,6 +46,7 @@ class WorkspaceContentManager(val folder: String,
   def canProcess: Boolean = state == Idle && current == Future.unit
 
   def changedFile(uri: String, kind: NotificationKind): Unit = synchronized {
+    if (state == NotAvailable) throw new UnavailableWorkspaceException
     stagingArea.enqueue(uri, kind)
     if (canProcess) current = process()
   }
@@ -53,7 +55,8 @@ class WorkspaceContentManager(val folder: String,
     val encodedUri = FileUtils.getEncodedUri(uri, environmentProvider.platform)
     repository.getParsed(encodedUri) match {
       case Some(pu) =>
-        Future.successful(pu.toCU(getNext(encodedUri), mainFile, repository.getReferenceStack(encodedUri)))
+        Future.successful(
+          pu.toCU(getNext(encodedUri), mainFile, repository.getReferenceStack(encodedUri), state == NotAvailable))
       case _ => getNext(encodedUri).getOrElse(fail(encodedUri))
     }
   }
@@ -71,13 +74,20 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def process(): Future[Unit] = {
-    if (stagingArea.isPending) next(processSnapshot())
+    if (state == NotAvailable) Future.unit
+    else if (stagingArea.isPending) next(preprocessSnapshot())
     else goIdle()
   }
 
   def withConfiguration(confProvider: WorkspaceConfigurationProvider): WorkspaceContentManager = {
     workspaceConfigurationProvider = Some(confProvider)
     this
+  }
+
+  private def preprocessSnapshot(): Future[Unit] = {
+    if (stagingArea.shouldDie) notAvailable()
+    else processSnapshot()
+
   }
 
   private def processSnapshot(): Future[Unit] = {
@@ -109,6 +119,12 @@ class WorkspaceContentManager(val folder: String,
     Future.unit
   }
 
+  private def notAvailable(): Future[Unit] = {
+    state = NotAvailable
+    dependencies.foreach(_.closedWorkspace(repository.getIncludedFilesUris))
+    Future.unit
+  }
+
   private def processIsolatedChanges(files: List[(String, NotificationKind)], environment: Environment): Future[Unit] = {
     val (closedFiles, changedFiles) = files.partition(_._2 == CLOSE_FILE)
     cleanFiles(closedFiles)
@@ -126,6 +142,11 @@ class WorkspaceContentManager(val folder: String,
         repository.update(bu.baseUnit)
         dependencies.foreach(_.onNewAst((bu, Map()), uuid))
       }
+  }
+
+  def shutdown(): Future[Unit] = {
+    changedFile(folder, WORKSPACE_KILLED)
+    Future.successful()
   }
 
   private def cleanFiles(closedFiles: List[(String, NotificationKind)]): Unit =

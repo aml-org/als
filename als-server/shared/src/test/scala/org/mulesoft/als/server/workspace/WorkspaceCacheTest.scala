@@ -5,8 +5,10 @@ import amf.client.resource.ResourceNotFound
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
+import org.mulesoft.als.server.MockDiagnosticClientNotifier
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.EmptyLogger
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.ast.{CHANGE_CONFIG, CHANGE_FILE}
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
@@ -21,7 +23,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecrets {
 
-  override implicit val executionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   private val rootUri = ""
 
@@ -303,8 +305,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = new EnvironmentProvider with PlatformSecrets {
 
       override def environmentSnapshot(): Environment = Environment(rl)
-
-      override val amfConfiguration: AmfInstance = AmfInstance.default
+      override val amfConfiguration: AmfInstance      = AmfInstance.default
     }
 
     val ws =

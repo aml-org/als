@@ -59,6 +59,7 @@ object LspConversions {
 
   implicit def alsInitializeParams(params: extension.AlsInitializeParams): AlsInitializeParams =
     Option(params).map { p =>
+      Option(p.getClientCapabilities).foreach(p.setCapabilities)
       AlsInitializeParams(
         Option(p.getCapabilities).map(clientCapabilities),
         Option(p.getTrace).map(traceKind),
