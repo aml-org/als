@@ -28,7 +28,9 @@ trait AstListener[T] {
   protected var unitAccessor: Option[UnitRepositoriesManager] = None
 }
 
-trait BaseUnitListener extends AstListener[(AmfParseResult, Map[String, DiagnosticsBundle])]
+trait BaseUnitListener extends AstListener[(AmfParseResult, Map[String, DiagnosticsBundle])] {
+  def closedWorkspace(filesIncluded: List[String]): Unit
+}
 
 abstract class AstNotifier[T](val dependencies: List[AstListener[T]]) {
   protected def notify(bu: T, uuid: String): Unit = dependencies.foreach(_.onNewAst(bu, uuid))
@@ -50,3 +52,5 @@ object CHANGE_FILE extends NotificationKind("CHANGE_FILE")
 object CLOSE_FILE extends NotificationKind("CLOSE_FILE")
 
 object CHANGE_CONFIG extends NotificationKind("CHANGE_CONFIG")
+
+object WORKSPACE_KILLED extends NotificationKind("WORKSPACE_KILLED")

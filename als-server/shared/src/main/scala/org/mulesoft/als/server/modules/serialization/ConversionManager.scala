@@ -30,7 +30,7 @@ class ConversionManager(unitAccesor: UnitRepositoriesManager, amfInstance: AmfIn
   )
 
   private def onSerializationRequest(uri: String, target: String, syntax: Option[String]): Future[SerializedDocument] = {
-    unitAccesor.getCU(uri, UUID.randomUUID().toString).flatMap(_.getLast) flatMap { cu =>
+    unitAccesor.getLastCU(uri, UUID.randomUUID().toString).flatMap(_.getLast) flatMap { cu =>
       val clone = cu.unit.cloneUnit()
       amfInstance.parserHelper
         .convertTo(clone, target, syntax) // should check the origin?
