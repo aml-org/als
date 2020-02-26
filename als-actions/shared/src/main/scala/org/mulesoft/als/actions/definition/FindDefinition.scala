@@ -1,10 +1,12 @@
 package org.mulesoft.als.actions.definition
 
-import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
-import org.mulesoft.als.common.{NodeBranchBuilder, ObjectInTree, ObjectInTreeBuilder, YPartBranch, YamlUtils}
-import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.lsp.feature.common.LocationLink
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.lsp.feature.common.{Location, LocationLink}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
   * Cases in which to return a Location:
@@ -13,11 +15,23 @@ import org.mulesoft.lsp.feature.common.LocationLink
   * *  [X] if clicked on a URI it will also return this as location
   */
 object FindDefinition {
-  def getDefinition(bu: BaseUnit, position: Position, platform: Platform): Seq[LocationLink] = {
-    val objectInTree: ObjectInTree = ObjectInTreeBuilder.fromUnit(bu, position.toAmfPosition)
-    val yPartBranch: YPartBranch =
-      NodeBranchBuilder.build(bu, position.toAmfPosition, YamlUtils.isJson(bu))
 
-    AllFinders.get.flatMap(_.find(bu, position, objectInTree, yPartBranch, platform))
-  }
+  private def findByPosition(uri: String,
+                             allRelationships: Seq[(Location, Location)],
+                             position: Position): Seq[(Location, Location)] =
+    allRelationships.filter { s =>
+      val range =
+        PositionRange(LspRangeConverter.toPosition(s._1.range.start), LspRangeConverter.toPosition(s._1.range.end))
+      s._1.uri == uri && range.contains(position)
+    }
+
+  def getDefinition(uri: String,
+                    position: Position,
+                    allRelationships: Future[Seq[(Location, Location)]],
+                    platform: Platform): Future[Seq[LocationLink]] =
+    allRelationships.map { relationships =>
+      findByPosition(uri, relationships, position).map { s =>
+        LocationLink(s._2.uri, s._2.range, s._2.range, Some(s._1.range))
+      }
+    }
 }
