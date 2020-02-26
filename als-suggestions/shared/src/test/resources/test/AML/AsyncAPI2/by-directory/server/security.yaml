@@ -1,0 +1,21 @@
+#%AsyncAPI 2.0
+
+asyncapi: 2.0.0
+
+id: test
+
+components:
+  securitySchemes:
+    oauth1:
+      type: oauth1
+      description: oauth1
+      name: key
+      scheme: invalid
+      bearerFormat: none
+    oauth2:
+
+
+servers:
+  someServer:
+    security:
+      *
