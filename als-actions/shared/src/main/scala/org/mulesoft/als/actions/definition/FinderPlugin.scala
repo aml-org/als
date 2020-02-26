@@ -2,10 +2,9 @@ package org.mulesoft.als.actions.definition
 
 import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
-import org.mulesoft.als.actions.definition.files.FindDefinitionFile
 import org.mulesoft.als.actions.definition.types.FindDefinitionTypes
-import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
 import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
 import org.mulesoft.lsp.feature.common.LocationLink
 
 trait FinderPlugin {
@@ -17,5 +16,5 @@ trait FinderPlugin {
 }
 
 object AllFinders {
-  def get: Seq[FinderPlugin] = Seq(FindDefinitionTypes, FindDefinitionFile)
+  def get: Seq[FinderPlugin] = Seq(FindDefinitionTypes)
 }

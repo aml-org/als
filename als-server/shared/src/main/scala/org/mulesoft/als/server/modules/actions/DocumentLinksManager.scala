@@ -38,13 +38,8 @@ class DocumentLinksManager(val workspaceManager: UnitRepositoriesManager,
 
   val onDocumentLinks: String => Future[Seq[DocumentLink]] = documentLinks
 
-  def documentLinks(str: String): Future[Seq[DocumentLink]] =
-    workspaceManager
-      .getLastCU(str, UUID.randomUUID().toString)
-      .flatMap(_.getLast)
-      .map(bu => {
-        FindLinks.getLinks(bu.unit, platform)
-      })
+  def documentLinks(uri: String): Future[Seq[DocumentLink]] =
+    workspaceManager.getDocumentLinks(uri, UUID.randomUUID().toString)
 
   override def initialize(): Future[Unit] = Future.successful()
 

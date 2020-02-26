@@ -1,11 +1,12 @@
 package org.mulesoft.als.server.modules.workspace
 
 import amf.core.model.document.BaseUnit
+import org.mulesoft.lexer.SourceLocation
+import org.mulesoft.lsp.feature.common.Location
+import org.mulesoft.lsp.feature.link.DocumentLink
 
-trait MainFileTree {
+trait MainFileTree extends FileTree {
   def getCache: Map[String, BaseUnit]
-
-  def parsedUnits: Map[String, ParsedUnit]
 
   def references: Map[String, DiagnosticsBundle]
 
@@ -20,6 +21,12 @@ object EmptyFileTree extends MainFileTree {
   override def getCache: Map[String, BaseUnit] = Map.empty
 
   override def parsedUnits: Map[String, ParsedUnit] = Map.empty
+
+  override def nodeRelationships: Seq[(Location, Location)] = Nil
+
+  override def documentLinks: Map[String, Seq[DocumentLink]] = Map.empty
+
+  override def aliases: Seq[(SourceLocation, SourceLocation)] = Nil
 
   override def references: Map[String, DiagnosticsBundle] = Map.empty
 

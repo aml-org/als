@@ -24,7 +24,7 @@ class StructureTests extends AlsStructureTest with RAML10Test {
     runTest("structure/test007/api.raml", "structure/test007/api-outline.json")
   }
 
-  test("/test 008") {
+  ignore("/test 008") {
     runTest("structure/test008/api.raml", "structure/test008/api-outline.json")
   }
 
