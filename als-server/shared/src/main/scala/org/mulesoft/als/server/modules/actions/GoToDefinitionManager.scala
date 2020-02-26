@@ -43,12 +43,10 @@ class GoToDefinitionManager(val unitsRepository: UnitRepositoriesManager,
 
   val onGoToDefinition: (String, Position) => Future[Either[Seq[Location], Seq[LocationLink]]] = goToDefinition
 
-  def goToDefinition(str: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] = {
-    unitsRepository
-      .getCU(str, UUID.randomUUID().toString)
-      .map(cu => {
-        FindDefinition.getDefinition(cu.unit, position, platform)
-      })
+  def goToDefinition(uri: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] = {
+    val uuid = UUID.randomUUID().toString
+    FindDefinition
+      .getDefinition(uri, position, unitsRepository.getRelationships(uri, uuid), platform)
       .map(Right(_))
   }
 

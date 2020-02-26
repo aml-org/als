@@ -6,9 +6,13 @@ import amf.internal.environment.Environment
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
+import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementDefaultVisitors
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.extract.{WorkspaceConf, WorkspaceConfigurationProvider}
 import org.mulesoft.amfmanager.AmfParseResult
+import org.mulesoft.lexer.SourceLocation
+import org.mulesoft.lsp.feature.common.Location
+import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -209,4 +213,38 @@ class WorkspaceContentManager(val folder: String,
           .addTimedMessage("End AMF Parse", "WorkspaceContentManager", "parse", MessageTypes.END_PARSE, uri, uuid))
     eventualUnit
   }
+
+  def getDocumentLinks(uri: String): Future[Seq[DocumentLink]] = {
+    if (repository.inTree(uri))
+      Future.successful(repository.getDocumentLinks().getOrElse(uri, Nil))
+    else
+      getCompilableUnit(uri).map { cu => // todo: optimize in cases in which I want all references from the same BU?
+        val visitors = AmfElementDefaultVisitors.build()
+        visitors.applyAmfVisitors(List(cu.unit))
+        visitors.getDocumentLinksFromVisitors.getOrElse(uri, Nil)
+      }
+  }
+
+  def getAliases(uri: String): Future[Seq[(SourceLocation, SourceLocation)]] = {
+    if (repository.inTree(uri))
+      Future.successful(repository.getAliases())
+    else
+      getCompilableUnit(uri).map { cu => // todo: optimize in cases in which I want all references from the same BU?
+        val visitors = AmfElementDefaultVisitors.build()
+        visitors.applyAmfVisitors(List(cu.unit))
+        visitors.getAliasesFromVisitors
+      }
+  }
+
+  def getRelationships(uri: String): Future[Seq[(Location, Location)]] = {
+    if (repository.inTree(uri))
+      Future.successful(repository.getRelationships().filter(l => l._1.uri == uri))
+    else
+      getCompilableUnit(uri).map { cu => // todo: optimize in cases in which I want all references from the same BU?
+        val visitors = AmfElementDefaultVisitors.build()
+        visitors.applyAmfVisitors(List(cu.unit))
+        visitors.getRelationshipsFromVisitors
+      }
+  }
+
 }
