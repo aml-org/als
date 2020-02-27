@@ -1,6 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30.runtimeexpressions
 
-import scala.collection.mutable
+import org.mulesoft.als.suggestions.plugins.aml.webapi.runtimeexpression.{
+  BaseLabeledExpressionToken,
+  LabeledExpressionToken,
+  RuntimeExpressionParser,
+  RuntimeParsingToken
+}
+
 import scala.util.matching.Regex
 
 case class OASRuntimeExpressionParser(override val value: String) extends RuntimeExpressionParser {
@@ -12,16 +18,6 @@ case class OASRuntimeExpressionParser(override val value: String) extends Runtim
     ResponseCodeBaseExpressionToken,
     RequestCodeBaseExpressionToken
   )
-
-  lazy val completeStack: Seq[RuntimeParsingToken] = {
-    val aux: mutable.ListBuffer[RuntimeParsingToken] = mutable.ListBuffer()
-    var token: Option[RuntimeParsingToken]           = Some(this)
-    do {
-      aux.append(token.get)
-      token = token.get.next
-    } while (token.isDefined)
-    aux
-  }
 }
 
 case class URLBaseExpressionToken(override val value: String) extends BaseLabeledExpressionToken {
