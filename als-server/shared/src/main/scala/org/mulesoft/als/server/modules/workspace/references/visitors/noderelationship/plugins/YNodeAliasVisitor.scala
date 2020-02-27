@@ -7,11 +7,17 @@ import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementV
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 import org.yaml.model.{YNode, YPart}
 
+/**
+  * @test: org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - yaml-alias
+  */
 class YNodeAliasVisitor extends NodeRelationshipVisitorType {
-  override protected def innerVisit(element: AmfElement): Option[Result] =
-    element.annotations.find(classOf[SourceNode]).flatMap { s =>
-      aliasForNode(s.node)
-    }
+  override protected def innerVisit(element: AmfElement): Seq[Result] =
+    element.annotations
+      .find(classOf[SourceNode])
+      .flatMap { s =>
+        aliasForNode(s.node)
+      }
+      .toSeq
 
   private def aliasForNode(part: YPart): Option[Result] =
     part match {

@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.workspace
 
 import amf.core.model.document.BaseUnit
-import org.mulesoft.lexer.SourceLocation
+import org.mulesoft.als.actions.common.AliasInfo
 import org.mulesoft.lsp.feature.common.Location
 import org.mulesoft.lsp.feature.link.DocumentLink
 
@@ -26,7 +26,7 @@ object EmptyFileTree extends MainFileTree {
 
   override def documentLinks: Map[String, Seq[DocumentLink]] = Map.empty
 
-  override def aliases: Seq[(SourceLocation, SourceLocation)] = Nil
+  override def aliases: Seq[AliasInfo] = Nil
 
   override def references: Map[String, DiagnosticsBundle] = Map.empty
 

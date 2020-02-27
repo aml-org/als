@@ -3,6 +3,7 @@ package org.mulesoft.als.server.modules.workspace
 import java.util.UUID
 
 import amf.internal.environment.Environment
+import org.mulesoft.als.actions.common.AliasInfo
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
@@ -10,7 +11,6 @@ import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementD
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.extract.{WorkspaceConf, WorkspaceConfigurationProvider}
 import org.mulesoft.amfmanager.AmfParseResult
-import org.mulesoft.lexer.SourceLocation
 import org.mulesoft.lsp.feature.common.Location
 import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
@@ -225,7 +225,7 @@ class WorkspaceContentManager(val folder: String,
       }
   }
 
-  def getAliases(uri: String): Future[Seq[(SourceLocation, SourceLocation)]] = {
+  def getAliases(uri: String): Future[Seq[AliasInfo]] = {
     if (repository.inTree(uri))
       Future.successful(repository.getAliases())
     else
