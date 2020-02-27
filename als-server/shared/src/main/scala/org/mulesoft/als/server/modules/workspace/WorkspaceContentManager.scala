@@ -85,7 +85,7 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def preprocessSnapshot(): Future[Unit] = {
-    if (stagingArea.shouldDie) notAvailable()
+    if (stagingArea.shouldDie) disable()
     else processSnapshot()
 
   }
@@ -119,9 +119,9 @@ class WorkspaceContentManager(val folder: String,
     Future.unit
   }
 
-  private def notAvailable(): Future[Unit] = {
+  private def disable(): Future[Unit] = {
     state = NotAvailable
-    dependencies.foreach(_.closedWorkspace(repository.getIncludedFilesUris))
+    dependencies.foreach(d => repository.getAllFilesUris.foreach(d.onRemoveFile))
     Future.unit
   }
 
@@ -146,6 +146,7 @@ class WorkspaceContentManager(val folder: String,
 
   def shutdown(): Future[Unit] = {
     changedFile(folder, WORKSPACE_KILLED)
+    while (state != NotAvailable) { /* Wait until state is NotAvailable */ }
     Future.successful()
   }
 

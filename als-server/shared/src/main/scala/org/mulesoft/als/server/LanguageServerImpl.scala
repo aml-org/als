@@ -3,6 +3,7 @@ package org.mulesoft.als.server
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsInitializeParams, AlsInitializeResult}
 import org.mulesoft.als.server.protocol.textsync.AlsTextDocumentSyncConsumer
+import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import org.mulesoft.lsp.workspace.WorkspaceService
 
@@ -10,16 +11,18 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsumer,
-                         val workspaceService: WorkspaceService,
+                         val workspaceService: AlsWorkspaceService,
                          private val languageServerInitializer: LanguageServerInitializer,
                          private val requestHandlerMap: RequestMap)
     extends LanguageServer {
 
   override def initialize(params: AlsInitializeParams): Future[AlsInitializeResult] =
     languageServerInitializer.initialize(params).flatMap { p =>
-      val root = if (params.rootUri.isDefined) params.rootUri else params.rootPath
+      val root: Option[String] =
+        if (params.rootUri.isDefined) params.rootUri else if (params.rootPath.isDefined) params.rootPath else None
+      val workspaceFolders: Seq[WorkspaceFolder] = params.workspaceFolders.getOrElse(List())
       workspaceService
-        .initialize(root, params.workspaceFolders)
+        .initialize((workspaceFolders :+ WorkspaceFolder(root, None)).distinct.toList)
         .map(_ => p)
     }
 

@@ -23,10 +23,8 @@ class StagingArea(environmentProvider: EnvironmentProvider) {
     files.foreach(pending.remove)
 
   def snapshot(): Snapshot = synchronized {
-    val environment = environmentProvider.environmentSnapshot()
-    val actual: List[(String, NotificationKind)] = pending.map {
-      case (p, notification) => (p, notification)
-    }.toList
+    val environment                              = environmentProvider.environmentSnapshot()
+    val actual: List[(String, NotificationKind)] = pending.toList
     pending.clear()
     Snapshot(environment, actual)
   }
