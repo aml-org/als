@@ -15,18 +15,22 @@ import org.mulesoft.lexer.SourceLocation
 import org.mulesoft.lsp.feature.common.Location
 import org.yaml.model.YMapEntry
 
+/**
+  * @test: org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - raml-test 1/2
+  */
 class TraitLinksVisitor extends NodeRelationshipVisitorType {
-  override protected def innerVisit(element: AmfElement): Option[Result] =
+  override protected def innerVisit(element: AmfElement): Seq[Result] =
     element match {
       case o: Operation =>
         o.fields
           .fields()
           .find(fe => fe.field.value == Namespace.Document + "extends") // todo: possible to find entry?
-          .flatMap(parametrizedDeclarationTargetsWithPosition(_, o))
-      case _ => None
+          .map(parametrizedDeclarationTargetsWithPosition(_, o))
+          .getOrElse(Nil)
+      case _ => Nil
     }
 
-  private def parametrizedDeclarationTargetsWithPosition(fe: FieldEntry, o: Operation): Option[(Location, Location)] = {
+  private def parametrizedDeclarationTargetsWithPosition(fe: FieldEntry, o: Operation): Seq[(Location, Location)] = {
     fe.value.value match {
       case array: AmfArray =>
         array.values.flatMap {
@@ -44,8 +48,8 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
                 }
               )
           case _ => None
-        }.headOption
-      case _ => None
+        }
+      case _ => Nil
     }
   }
 

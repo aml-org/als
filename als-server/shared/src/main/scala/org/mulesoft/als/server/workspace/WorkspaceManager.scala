@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.workspace
 
+import org.mulesoft.als.actions.common.AliasInfo
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.AlsWorkspaceService
 import org.mulesoft.als.server.logger.Logger
@@ -14,7 +15,6 @@ import org.mulesoft.als.server.workspace.extract.{
   WorkspaceConf,
   WorkspaceRootHandler
 }
-import org.mulesoft.lexer.SourceLocation
 import org.mulesoft.lsp.Initializable
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.common.Location
@@ -158,7 +158,7 @@ Future.sequence {
   override def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]] =
     getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getDocumentLinks(uri))
 
-  override def getAliases(uri: String, uuid: String): Future[Seq[(SourceLocation, SourceLocation)]] =
+  override def getAliases(uri: String, uuid: String): Future[Seq[AliasInfo]] =
     getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getAliases(uri))
 
   override def getRelationships(uri: String, uuid: String): Future[Seq[(Location, Location)]] =
