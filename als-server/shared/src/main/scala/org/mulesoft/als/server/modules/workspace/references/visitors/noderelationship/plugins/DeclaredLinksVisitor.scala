@@ -7,8 +7,11 @@ import org.mulesoft.als.actions.common.ActionTools
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 
+/**
+  * @test: org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - oas-anchor
+  */
 class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
-  override protected def innerVisit(element: AmfElement): Option[Result] =
+  override protected def innerVisit(element: AmfElement): Seq[Result] =
     element match {
       case obj: AmfObject =>
         obj.fields
@@ -17,11 +20,12 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
             fe.value.value.annotations
               .find(classOf[SourceNode])
               .map { sn =>
-                (ActionTools.sourceLocationToLocation(obj.annotations.sourceLocation),
-                 ActionTools.sourceLocationToLocation(sn.node.location))
+                Seq((ActionTools.sourceLocationToLocation(obj.annotations.sourceLocation),
+                     ActionTools.sourceLocationToLocation(sn.node.location)))
               }
           }
-      case _ => None
+          .getOrElse(Nil)
+      case _ => Nil
     }
 }
 

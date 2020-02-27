@@ -9,7 +9,8 @@ import scala.concurrent.ExecutionContext
 
 class DefinitionFilesTest extends ServerDefinitionTest {
 
-  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext =
+    ExecutionContext.Implicits.global
 
   test("common-ref") {
     runTest(
@@ -63,7 +64,54 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       "files/protocol-ref/api.raml",
       Set(
         // DocumentLink in charge
-//        )
+        //        )
+      )
+    )
+  }
+
+  test("raml-trait 1") {
+    runTest(
+      "files/raml-trait/api-1.raml",
+      Set(
+        LocationLink(
+          "file://als-server/shared/src/test/resources/actions/definition/files/raml-trait/api-1.raml",
+          LspRangeConverter.toLspRange(PositionRange(Position(8, 7), Position(11, 0))),
+          LspRangeConverter.toLspRange(PositionRange(Position(8, 7), Position(11, 0))),
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(14, 8), Position(14, 10))))
+        ))
+    )
+  }
+
+  test("raml-trait 2") {
+    runTest(
+      "files/raml-trait/api-2.raml",
+      Set(
+        LocationLink(
+          "file://als-server/shared/src/test/resources/actions/definition/files/raml-trait/library.raml",
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
+        )
+      )
+    )
+  }
+
+  test("raml-library") {
+    runTest(
+      "files/raml-library/api.raml",
+      Set(
+        LocationLink(
+          "file://als-server/shared/src/test/resources/actions/definition/files/raml-library/api.raml",
+          LspRangeConverter.toLspRange(PositionRange(Position(5, 9), Position(5, 21))),
+          LspRangeConverter.toLspRange(PositionRange(Position(5, 9), Position(5, 21))),
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
+        ),
+        LocationLink(
+          "file://als-server/shared/src/test/resources/actions/definition/files/raml-library/library.raml",
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
+        )
       )
     )
   }

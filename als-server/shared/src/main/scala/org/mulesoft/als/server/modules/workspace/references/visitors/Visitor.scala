@@ -14,12 +14,12 @@ trait AmfElementVisitorFactory {
 
 trait Visitor[T, R] {
 
-  private val results: mutable.ListBuffer[Option[R]] = mutable.ListBuffer()
+  private val results: mutable.ListBuffer[R] = mutable.ListBuffer()
 
-  protected def innerVisit(element: T): Option[R]
+  protected def innerVisit(element: T): Seq[R]
 
   final def visit(element: T): Unit =
-    results.append(innerVisit(element))
+    results ++= innerVisit(element)
 
-  final def report: List[R] = results.toList.flatten
+  final def report: List[R] = results.toList
 }

@@ -4,12 +4,12 @@ import amf.core.annotations.ReferenceTargets
 import amf.core.errorhandling.ErrorCollector
 import amf.core.model.document.{BaseUnit, ExternalFragment}
 import amf.core.validation.SeverityLevels
+import org.mulesoft.als.actions.common.AliasInfo
 import org.mulesoft.als.common.dtoTypes.{PositionRange, ReferenceOrigins, ReferenceStack}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitors
 import org.mulesoft.amfmanager.BaseUnitImplicits._
 import org.mulesoft.amfmanager.ParserHelper
-import org.mulesoft.lexer.SourceLocation
 import org.mulesoft.lsp.feature.common.Location
 import org.mulesoft.lsp.feature.link.DocumentLink
 
@@ -24,8 +24,6 @@ class ParsedMainFileTree(eh: ErrorCollector,
                          logger: Logger)
     extends MainFileTree {
 
-//  private val visitors: AmfElementVisitors = AmfElementDefaultVisitors.build()
-
   private val errors                               = eh.getErrors
   private val cache: mutable.Map[String, BaseUnit] = mutable.Map.empty
   private val units: mutable.Map[String, BaseUnit] = mutable.Map.empty
@@ -38,7 +36,7 @@ class ParsedMainFileTree(eh: ErrorCollector,
   private lazy val innerDocumentLinks: Map[String, Seq[DocumentLink]] = // won't ever change
     visitors.getDocumentLinksFromVisitors
 
-  private lazy val innerAliases: Seq[(SourceLocation, SourceLocation)] = // won't ever change
+  private lazy val innerAliases: Seq[AliasInfo] = // won't ever change
     visitors.getAliasesFromVisitors
 
   private def index(bu: BaseUnit, stack: ReferenceStack): Future[Unit] = {
@@ -111,7 +109,7 @@ class ParsedMainFileTree(eh: ErrorCollector,
 
   override def documentLinks: Map[String, Seq[DocumentLink]] = innerDocumentLinks
 
-  override def aliases: Seq[(SourceLocation, SourceLocation)] = innerAliases
+  override def aliases: Seq[AliasInfo] = innerAliases
 
   override def cleanCache(): Unit = cache.clear()
 

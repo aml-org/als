@@ -6,11 +6,11 @@ import org.mulesoft.als.actions.links.FindLinks
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
 
 class DocumentLinkVisitor extends DocumentLinkVisitorType {
-  override protected def innerVisit(element: AmfElement): Option[Result] = {
+  override protected def innerVisit(element: AmfElement): Seq[Result] = {
     element match {
       case bu: BaseUnit =>
-        Some(bu.location().getOrElse(bu.id), FindLinks.getLinks(bu))
-      case _ => None
+        Seq((bu.location().getOrElse(bu.id), FindLinks.getLinks(bu)))
+      case _ => Nil
     }
   }
 }
