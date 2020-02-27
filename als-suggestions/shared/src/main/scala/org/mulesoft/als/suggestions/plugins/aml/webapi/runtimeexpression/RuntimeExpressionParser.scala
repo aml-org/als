@@ -1,9 +1,18 @@
-package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30.runtimeexpressions
+package org.mulesoft.als.suggestions.plugins.aml.webapi.runtimeexpression
 
+import scala.collection.mutable
 import scala.util.matching.Regex
 
 trait RuntimeExpressionParser extends RuntimeParsingToken {
-  val completeStack: Seq[RuntimeParsingToken]
+  lazy val completeStack: Seq[RuntimeParsingToken] = {
+    val aux: mutable.ListBuffer[RuntimeParsingToken] = mutable.ListBuffer()
+    var token: Option[RuntimeParsingToken]           = Some(this)
+    do {
+      aux.append(token.get)
+      token = token.get.next
+    } while (token.isDefined)
+    aux
+  }
 }
 
 trait RuntimeParsingToken {

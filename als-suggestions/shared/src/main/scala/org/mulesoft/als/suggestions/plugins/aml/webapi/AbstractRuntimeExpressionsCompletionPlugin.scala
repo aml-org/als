@@ -1,28 +1,24 @@
-package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
+package org.mulesoft.als.suggestions.plugins.aml.webapi
 
 import amf.core.metamodel.Field
-import amf.plugins.domain.webapi.metamodel.{CallbackModel, IriTemplateMappingModel, RequestModel, TemplatedLinkModel}
+import amf.plugins.domain.webapi.metamodel.{CallbackModel, IriTemplateMappingModel, TemplatedLinkModel}
 import amf.plugins.domain.webapi.models.Callback
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30.runtimeexpressions.{
-  InvalidExpressionToken,
-  OASRuntimeExpressionParser,
-  RuntimeExpressionParser
-}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.runtimeexpression.{InvalidExpressionToken, RuntimeExpressionParser}
 import org.mulesoft.amfmanager.dialect.DialectKnowledge
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object RuntimeExpressionsCompletionPlugin extends AMLCompletionPlugin {
+abstract class AbstractRuntimeExpressionsCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "RuntimeExpressionsCompletionPlugin"
 
   protected val applicableFields: Seq[Field] =
     Seq(CallbackModel.Expression, TemplatedLinkModel.RequestBody, IriTemplateMappingModel.LinkExpression)
 
-  protected def parserObject(value: String): RuntimeExpressionParser = OASRuntimeExpressionParser(value)
+  protected def parserObject(value: String): RuntimeExpressionParser
 
   private def isApplicable(request: AmlCompletionRequest): Boolean =
     !(DialectKnowledge.isRamlInclusion(request.yPartBranch, request.actualDialect) ||
