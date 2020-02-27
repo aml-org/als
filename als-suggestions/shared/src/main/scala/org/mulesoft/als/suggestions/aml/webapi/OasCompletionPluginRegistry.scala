@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.aml.webapi
 
 import amf.dialects.{OAS20Dialect, OAS30Dialect}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.async.AsyncAPIRuntimeExpressionsCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.{
   Oas20ParameterStructure,
@@ -46,21 +47,7 @@ object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
 
 object Oas30CompletionPluginRegistry extends OasBaseCompletionRegistry {
 
-  private val all = common :+
-    Oas30ParameterStructure :+
-    EncodingPropertyName :+
-    Oas30TypeFacetsCompletionPlugin :+
-    OasUrlTemplateParam :+
-    OAS30RefTag :+
-    RefToParameters :+
-    DiscriminatorFacet :+
-    VariableValueParam :+
-    DiscriminatorObject :+
-    DiscriminatorMappingValue :+
-    FlowNames :+
-    OAS30EnumCompletionPlugin :+
-    OaslikeSecurityScopesCompletionPlugin :+
-    RuntimeExpressionsCompletionPlugin
+  private val all = common :+ Oas30ParameterStructure :+ EncodingPropertyName :+ Oas30TypeFacetsCompletionPlugin :+ OasUrlTemplateParam :+ OAS30RefTag :+ RefToParameters :+ DiscriminatorFacet :+ VariableValueParam :+ DiscriminatorObject :+ DiscriminatorMappingValue :+ FlowNames :+ OAS30EnumCompletionPlugin :+ RuntimeExpressionsCompletionPlugin
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, OAS30Dialect().id)
