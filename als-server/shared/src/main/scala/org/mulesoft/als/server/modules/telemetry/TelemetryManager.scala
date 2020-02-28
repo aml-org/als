@@ -20,7 +20,9 @@ class TelemetryManager(private val clientNotifier: ClientNotifier, private val l
 
   override val `type`: ConfigType[TelemetryClientCapabilities, Unit] = TelemetryConfigType
 
-  override def applyConfig(config: Option[TelemetryClientCapabilities]): Unit = {}
+  override def applyConfig(config: Option[TelemetryClientCapabilities]): Unit = {
+    // not used
+  }
 
   override def initialize(): Future[Unit] = {
     Future.successful()

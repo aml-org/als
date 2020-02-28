@@ -70,40 +70,39 @@ trait AbstractLogger extends Logger {
     */
   def withSettings(settings: LoggerSettings): this.type
 
+  private def allowedComponent(settings: LoggerSettings, component: String): Boolean =
+    whiteList(settings, component) &&
+      blackList(settings, component)
+
+  private def blackList(settings: LoggerSettings, component: String): Boolean =
+    settings.deniedComponents.forall(!_.contains(component))
+
+  private def whiteList(settings: LoggerSettings, component: String): Boolean =
+    settings.allowedComponents.forall(_.contains(component))
+
+  private def belowSeverity(settings: LoggerSettings, severity: MessageSeverity): Boolean =
+    settings.maxSeverity.forall(severity.id < _.id)
+
   private def filterLogMessage(message: LogMessage): Option[LogMessage] = {
-    settings match {
-      case Some(settingsValue) =>
-        settingsValue.disabled match {
-          case Some(true) => None
-          case _ =>
-            settingsValue.allowedComponents match {
-              case Some(allowedComponents) if !allowedComponents.contains(message.component) => None
-              case _ =>
-                settingsValue.deniedComponents match {
-                  case Some(deniedComponents) if deniedComponents.contains(message.component) => None
-                  case _ =>
-                    settingsValue.maxSeverity match {
-                      case Some(maxSeverity) if message.severity.id < maxSeverity.id => None
-                      case _ =>
-                        val resultMessage = settingsValue.maxMessageLength match {
-                          case Some(maxLength) if message.content.length > maxLength =>
-                            message.content.substring(0, maxLength)
-                          case _ => message.content
-                        }
+    val maxLength: Option[Int] = settings match {
+      case Some(settingsValue)
+          if !settingsValue.disabled.contains(true) && allowedComponent(settingsValue, message.component) && !belowSeverity(
+            settingsValue,
+            message.severity) =>
+        settingsValue.maxMessageLength
+      case None => Some(MaxLength) // default
+      case _    => None // there are settings, but the message is not compliant with the restrictions
 
-                        Some(LogMessage(resultMessage, message.severity, message.component, message.subComponent))
-                    }
-                }
-            }
-        }
-      case _ =>
-        val croppedContent =
-          if (message.content.length > MaxLength)
-            message.content.substring(0, MaxLength)
-          else
-            message.content
-
-        Some(message.copy(content = croppedContent))
     }
+    maxLength.map { ml =>
+      message.copy(content = cropMessage(message, ml))
+    }
+
   }
+
+  private def cropMessage(message: LogMessage, ml: Int) =
+    if (message.content.length > ml)
+      message.content.substring(0, ml)
+    else
+      message.content
 }

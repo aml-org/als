@@ -32,7 +32,9 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
 
   override val `type`: ConfigType[DiagnosticClientCapabilities, Unit] = DiagnosticConfigType
 
-  override def applyConfig(config: Option[DiagnosticClientCapabilities]): Unit = {}
+  override def applyConfig(config: Option[DiagnosticClientCapabilities]): Unit = {
+    // not used
+  }
 
   private val reconciler: Reconciler = new Reconciler(logger, 300)
 

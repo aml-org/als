@@ -23,7 +23,9 @@ class StructureManager(val unitAccesor: UnitRepositoriesManager,
 
   override val `type`: ConfigType[DocumentSymbolClientCapabilities, Unit] = DocumentSymbolConfigType
 
-  override def applyConfig(config: Option[DocumentSymbolClientCapabilities]): Unit = {}
+  override def applyConfig(config: Option[DocumentSymbolClientCapabilities]): Unit = {
+    // todo: use DocumentSymbolClientCapabilities <- SymbolKindClientCapabilities to avoid sending unsupported symbols
+  }
 
   override def getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
     new RequestHandler[DocumentSymbolParams, Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] {

@@ -10,18 +10,22 @@ import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 @JSExportAll
 @JSExportTopLevel("PrintLnLogger")
 object PrintLnLogger extends AbstractLogger {
-  protected def executeLogging(msg: String, severity: MessageSeverity.Value): Unit = println(msg)
+  protected def executeLogging(msg: String, severity: MessageSeverity.Value): Unit =
+    println(msg)
 
   override protected val settings: Option[LoggerSettings] = None
 
-  override def withSettings(settings: LoggerSettings): PrintLnLogger.this.type = this
+  override def withSettings(settings: LoggerSettings): PrintLnLogger.this.type =
+    this
 }
 
 class MutedLogger extends AbstractLogger {
 
   override protected val settings: Option[LoggerSettings] = None
 
-  protected def executeLogging(msg: String, severity: MessageSeverity): Unit = {}
+  protected def executeLogging(msg: String, severity: MessageSeverity): Unit = {
+    // muted
+  }
 
   /**
     * Sets logger configuration, both for the server and for the client.
