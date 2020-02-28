@@ -1,0 +1,116 @@
+[
+  {
+    "text": "title",
+    "description": "title",
+    "displayText": "title",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 2
+        },
+        "end": {
+          "line": 4,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "version",
+    "description": "version",
+    "displayText": "version",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 2
+        },
+        "end": {
+          "line": 4,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "description",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 2
+        },
+        "end": {
+          "line": 4,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "termsOfService",
+    "description": "termsOfService",
+    "displayText": "termsOfService",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 2
+        },
+        "end": {
+          "line": 4,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "contact",
+    "description": "contact",
+    "displayText": "contact",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 2
+        },
+        "end": {
+          "line": 4,
+          "character": 2
+        }
+      }
+    ]
+  },
+  {
+    "text": "license",
+    "description": "license",
+    "displayText": "license",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 4,
+          "character": 2
+        },
+        "end": {
+          "line": 4,
+          "character": 2
+        }
+      }
+    ]
+  }
+]

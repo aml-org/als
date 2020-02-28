@@ -1,0 +1,11 @@
+#%AsyncAPI 2.0
+
+asyncapi: 2.0.0
+components:
+  serverBindings:
+    serverBinding:
+      http:
+
+servers:
+  aServer:
+    $ref: *

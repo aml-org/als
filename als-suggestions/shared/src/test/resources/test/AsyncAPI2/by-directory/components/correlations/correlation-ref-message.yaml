@@ -1,0 +1,11 @@
+#%AsyncAPI 2.0
+
+asyncapi: 2.0.0
+components:
+  correlationIds:
+    correlationName:
+      description: a description
+  messages:
+    messageName:
+      correlationId:
+        $ref: *

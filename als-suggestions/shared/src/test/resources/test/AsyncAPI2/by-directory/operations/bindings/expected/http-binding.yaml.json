@@ -1,0 +1,78 @@
+[
+  {
+    "text": "type",
+    "description": "type",
+    "displayText": "type",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "method",
+    "description": "method",
+    "displayText": "method",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "query",
+    "description": "query",
+    "displayText": "query",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "bindingVersion",
+    "description": "bindingVersion",
+    "displayText": "bindingVersion",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  }
+]

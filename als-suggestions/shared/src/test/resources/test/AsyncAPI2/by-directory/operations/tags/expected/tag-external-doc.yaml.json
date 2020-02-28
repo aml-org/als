@@ -1,0 +1,40 @@
+[
+  {
+    "text": "description",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      }
+    ]
+  },
+  {
+    "text": "url",
+    "description": "url",
+    "displayText": "url",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 2
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+#%AsyncAPI 2.0
+
+asyncapi: 2.0.0
+components:
+  schemas:
+    schemaName:
+      type: object
+      properties:
+        p1:
+          *
