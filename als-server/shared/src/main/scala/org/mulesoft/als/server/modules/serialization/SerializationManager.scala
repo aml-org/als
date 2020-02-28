@@ -40,7 +40,9 @@ class SerializationManager[S](amfConf: AmfInstance, props: SerializationProps[S]
     if (enabled) process(ast._1.baseUnit).foreach(s => props.alsClientNotifier.notifySerialization(s))
   }
 
-  override def onRemoveFile(uri: String): Unit = {}
+  override def onRemoveFile(uri: String): Unit = {
+    // not action
+  }
 
   override def applyConfig(config: Option[SerializationClientCapabilities]): SerializationServerOptions = {
     config.foreach(c => enabled = c.acceptsNotification)

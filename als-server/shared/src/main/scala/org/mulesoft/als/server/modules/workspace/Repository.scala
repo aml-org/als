@@ -31,7 +31,7 @@ class Repository(logger: Logger) {
     * @param newCachables
     */
   def setCachables(newCachables: Set[String]): Unit = {
-    // { innerCachables -- newCachables }.foreach(cache.remove)
+    // possible optimization: { innerCachables -- newCachables }.foreach(cache.remove)
     tree.cleanCache()
     cachables = newCachables
   }

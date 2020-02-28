@@ -30,9 +30,9 @@ object Oas20ParameterStructure extends AMLCompletionPlugin {
             else Nil
           case p: Parameter if request.fieldEntry.isEmpty => parameterSuggestions(request, p)
           case ep: EndPoint if request.fieldEntry.exists(_.field == EndPointModel.Parameters) =>
-            suggestions(request, withName = false, None)
+            suggestions(withName = false, None)
           case o: Request if request.fieldEntry.exists(_.field == RequestModel.QueryParameters) =>
-            suggestions(request, withName = false, None)
+            suggestions(withName = false, None)
           case _ => Nil
         }
       } else Nil
@@ -40,10 +40,10 @@ object Oas20ParameterStructure extends AMLCompletionPlugin {
   }
 
   private def parameterSuggestions(request: AmlCompletionRequest, p: Parameter) = {
-    suggestions(request, isNamePresent(p), Option(p.schema))
+    suggestions(isNamePresent(p), Option(p.schema))
   }
 
-  private def suggestions(request: AmlCompletionRequest, withName: Boolean, schema: Option[Shape]) = {
+  private def suggestions(withName: Boolean, schema: Option[Shape]) = {
     val common = Oas20TypeFacetsCompletionPlugin.resolveShape(schema.getOrElse(ScalarShape()), Nil)
 
     val particular =

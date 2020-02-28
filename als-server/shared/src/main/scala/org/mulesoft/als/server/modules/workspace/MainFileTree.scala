@@ -23,7 +23,9 @@ object EmptyFileTree extends MainFileTree {
 
   override def references: Map[String, DiagnosticsBundle] = Map.empty
 
-  override def cleanCache(): Unit = {}
+  override def cleanCache(): Unit = {
+    // defaults to no action
+  }
 
   override def contains(uri: String): Boolean = false
 

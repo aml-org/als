@@ -11,6 +11,7 @@ import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferenc
 import org.yaml.model.{YMapEntry, YNode}
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
 
@@ -25,7 +26,7 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
   protected def isArray(yPartBranch: YPartBranch) = false
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    Future.successful(
+    Future {
       if ((elementClass.isInstance(params.amfObject)
           || abstractDeclarationClass.isInstance(params.amfObject)
           || errorDeclarationClass.isInstance(params.amfObject))
@@ -38,25 +39,25 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
                                                  stringValue(params.yPartBranch),
                                                  params.declarationProvider,
                                                  None).resolve().filter(r => !siblings.contains(r.newText))
-        suggestions.map {
-          s =>
-            val vars = extractChildren(params, s)
-            if (params.yPartBranch.isKey)
-              s.copy(options = s.options.copy(isKey = true,
-                                              rangeKind =
-                                                if (isArray(params.yPartBranch)) ArrayRange else ObjectRange),
-                     children = vars)
-            else
-              s.copy(
-                children = vars,
-                options = s.options.copy(isKey = vars.nonEmpty,
-                                         rangeKind =
-                                           if (isArray(params.yPartBranch)) ArrayRange
-                                           else if (vars.nonEmpty) ObjectRange
-                                           else StringScalarRange)
-              )
+        suggestions.map { s =>
+          val vars = extractChildren(params, s)
+          if (params.yPartBranch.isKey)
+            s.copy(
+              options =
+                s.options.copy(isKey = true, rangeKind = if (isArray(params.yPartBranch)) ArrayRange else ObjectRange),
+              children = vars)
+          else
+            s.copy(
+              children = vars,
+              options = s.options.copy(isKey = vars.nonEmpty,
+                                       rangeKind =
+                                         if (isArray(params.yPartBranch)) ArrayRange
+                                         else if (vars.nonEmpty) ObjectRange
+                                         else StringScalarRange)
+            )
         }
-      } else Nil)
+      } else Nil
+    }
 
   }
 

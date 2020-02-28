@@ -25,17 +25,16 @@ trait CommandExecutor[P, R] {
   }
 
   def runCommand(params: ExecuteCommandParams): Future[Option[R]] = {
-    logger.debug(params.toString, "org.mulesoft.als.server.workspace.command.CommandExecutor", "executeCommand")
+    val className = "org.mulesoft.als.server.workspace.command.CommandExecutor"
+    logger.debug(params.toString, className, "executeCommand")
     buildParam(params) match {
       case Some(parsedParam) =>
-        logger.debug(parsedParam.toString,
-                     "org.mulesoft.als.server.workspace.command.CommandExecutor",
-                     "executeCommand")
+        logger.debug(parsedParam.toString, className, "executeCommand")
         runCommand(parsedParam).map(c => Some(c))
       case _ =>
         logger.error(
           s"Cannot build params for ${params.command}: ${params.arguments.toString()}",
-          "org.mulesoft.als.server.workspace.command.CommandExecutor",
+          className,
           "executeCommand"
         )
         Future.successful(None)
