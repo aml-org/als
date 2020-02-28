@@ -1,0 +1,10 @@
+#%AsyncAPI 2.0
+
+asyncapi: 2.0.0
+channels:
+  user/signedup:
+    subscribe:
+      message:
+        schemaFormat: application/vnd.oai.openapi+yaml;version=3.0.0
+        payload:
+          *

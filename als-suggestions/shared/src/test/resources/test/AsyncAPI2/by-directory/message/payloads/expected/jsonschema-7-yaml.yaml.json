@@ -1,0 +1,542 @@
+[
+  {
+    "label": "type",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0type",
+    "filterText": "type: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "type: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "enum",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0enum",
+    "filterText": "enum: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "enum: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "const",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0const",
+    "filterText": "const: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "const: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "items",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0items",
+    "filterText": "items: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "items: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "properties",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0properties",
+    "filterText": "properties: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "properties: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "if",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0if",
+    "filterText": "if: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "if: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "then",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0then",
+    "filterText": "then: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "then: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "else",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0else",
+    "filterText": "else: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "else: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "allOf",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0allOf",
+    "filterText": "allOf: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "allOf: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "anyOf",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0anyOf",
+    "filterText": "anyOf: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "anyOf: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "oneOf",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0oneOf",
+    "filterText": "oneOf: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "oneOf: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "not",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0not",
+    "filterText": "not: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "not: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "title",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0title",
+    "filterText": "title: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "title: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "description",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0description",
+    "filterText": "description: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "default",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0default",
+    "filterText": "default: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "default: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "writeOnly",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0writeOnly",
+    "filterText": "writeOnly: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "writeOnly: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "readOnly",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0readOnly",
+    "filterText": "readOnly: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "readOnly: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "examples",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0examples",
+    "filterText": "examples: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "examples: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

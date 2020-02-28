@@ -1,0 +1,211 @@
+[
+  {
+    "text": "expiration",
+    "description": "expiration",
+    "displayText": "expiration",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "userId",
+    "description": "userId",
+    "displayText": "userId",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "cc",
+    "description": "cc",
+    "displayText": "cc",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "priority",
+    "description": "priority",
+    "displayText": "priority",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "deliveryMode",
+    "description": "deliveryMode",
+    "displayText": "deliveryMode",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "mandatory",
+    "description": "mandatory",
+    "displayText": "mandatory",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "bcc",
+    "description": "bcc",
+    "displayText": "bcc",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "replyTo",
+    "description": "replyTo",
+    "displayText": "replyTo",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "timestamp",
+    "description": "timestamp",
+    "displayText": "timestamp",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "ack",
+    "description": "ack",
+    "displayText": "ack",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "bindingVersion",
+    "description": "bindingVersion",
+    "displayText": "bindingVersion",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      }
+    ]
+  }
+]

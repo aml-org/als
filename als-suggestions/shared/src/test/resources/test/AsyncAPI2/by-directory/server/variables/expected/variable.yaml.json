@@ -1,0 +1,78 @@
+[
+  {
+    "text": "enum",
+    "description": "enum",
+    "displayText": "enum",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 10,
+          "character": 8
+        },
+        "end": {
+          "line": 10,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "default",
+    "description": "default",
+    "displayText": "default",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 10,
+          "character": 8
+        },
+        "end": {
+          "line": 10,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "description",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 10,
+          "character": 8
+        },
+        "end": {
+          "line": 10,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "examples",
+    "description": "examples",
+    "displayText": "examples",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 10,
+          "character": 8
+        },
+        "end": {
+          "line": 10,
+          "character": 8
+        }
+      }
+    ]
+  }
+]

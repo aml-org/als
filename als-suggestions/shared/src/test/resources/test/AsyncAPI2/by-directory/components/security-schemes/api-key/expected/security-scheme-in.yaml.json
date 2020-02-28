@@ -1,0 +1,62 @@
+[
+  {
+    "label": "user",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0user",
+    "filterText": "user",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "user"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "password",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0password",
+    "filterText": "password",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "password"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

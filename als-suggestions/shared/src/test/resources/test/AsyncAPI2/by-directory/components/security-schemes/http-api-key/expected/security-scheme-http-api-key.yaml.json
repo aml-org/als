@@ -1,0 +1,62 @@
+[
+  {
+    "label": "name",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0name",
+    "filterText": "name: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "name: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "in",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0in",
+    "filterText": "in: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "in: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

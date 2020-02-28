@@ -1,0 +1,62 @@
+[
+  {
+    "label": "int32",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "int32",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11int32",
+    "filterText": "int32: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "int32"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "int64",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "int64",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11int64",
+    "filterText": "int64: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "int64"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

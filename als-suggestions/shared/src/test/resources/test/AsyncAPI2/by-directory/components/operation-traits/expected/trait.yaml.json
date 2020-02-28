@@ -1,0 +1,116 @@
+[
+  {
+    "text": "operationId",
+    "description": "operationId",
+    "displayText": "operationId",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "summary",
+    "description": "summary",
+    "displayText": "summary",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "description",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "tags",
+    "description": "tags",
+    "displayText": "tags",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "externalDocs",
+    "description": "externalDocs",
+    "displayText": "externalDocs",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "bindings",
+    "description": "bindings",
+    "displayText": "bindings",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 6,
+          "character": 6
+        },
+        "end": {
+          "line": 6,
+          "character": 6
+        }
+      }
+    ]
+  }
+]

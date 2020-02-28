@@ -1,0 +1,19 @@
+#%AsyncAPI 2.0
+
+asyncapi: 2.0.0
+components:
+  messages:
+    message1:
+      contentType: application/json
+    message2:
+      contentType: application/yaml
+    message3:
+      contentType: application/html
+
+channels:
+  user/signedup:
+    subscribe:
+      message:
+        oneOf:
+          - '#/components/messages/message1'
+          - *
