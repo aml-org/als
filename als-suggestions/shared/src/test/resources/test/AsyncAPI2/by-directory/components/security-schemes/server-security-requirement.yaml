@@ -1,0 +1,17 @@
+#%AsyncAPI 2.0
+
+asyncapi: 2.0.0
+components:
+  securitySchemes:
+    security:
+      type: oauth2
+      flows:
+        implicit:
+          scopes:
+            - scope1
+            - scope2
+
+servers:
+  someServer:
+    security:
+      *

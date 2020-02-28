@@ -1,0 +1,13 @@
+#%AsyncAPI 2.0
+
+asyncapi: 2.0.0
+components:
+  parameters:
+    other:
+      description: a parameter
+
+channels:
+  user/signedup:
+    parameters:
+      paramName:
+        $ref: *

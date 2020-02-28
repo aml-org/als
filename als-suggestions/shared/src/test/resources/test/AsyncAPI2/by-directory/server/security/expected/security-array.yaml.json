@@ -1,0 +1,21 @@
+[
+  {
+    "text": "oauth1",
+    "description": "oauth1",
+    "displayText": "oauth1",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 17,
+          "character": 9
+        },
+        "end": {
+          "line": 17,
+          "character": 9
+        }
+      }
+    ]
+  }
+]

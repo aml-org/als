@@ -1,0 +1,154 @@
+[
+  {
+    "text": "clientId",
+    "description": "clientId",
+    "displayText": "clientId",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 8
+        },
+        "end": {
+          "line": 8,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "cleanSession",
+    "description": "cleanSession",
+    "displayText": "cleanSession",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 8
+        },
+        "end": {
+          "line": 8,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "lastWill",
+    "description": "lastWill",
+    "displayText": "lastWill",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 8
+        },
+        "end": {
+          "line": 8,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "lastWill.topic",
+    "description": "lastWill.topic",
+    "displayText": "lastWill.topic",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 8
+        },
+        "end": {
+          "line": 8,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "lastWill.qos",
+    "description": "lastWill.qos",
+    "displayText": "lastWill.qos",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 8
+        },
+        "end": {
+          "line": 8,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "lastWill.retain",
+    "description": "lastWill.retain",
+    "displayText": "lastWill.retain",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 8
+        },
+        "end": {
+          "line": 8,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "keepAlive",
+    "description": "keepAlive",
+    "displayText": "keepAlive",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 8
+        },
+        "end": {
+          "line": 8,
+          "character": 8
+        }
+      }
+    ]
+  },
+  {
+    "text": "bindingVersion",
+    "description": "bindingVersion",
+    "displayText": "bindingVersion",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 8,
+          "character": 8
+        },
+        "end": {
+          "line": 8,
+          "character": 8
+        }
+      }
+    ]
+  }
+]

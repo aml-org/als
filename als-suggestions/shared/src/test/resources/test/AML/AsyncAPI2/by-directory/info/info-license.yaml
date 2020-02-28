@@ -1,9 +1,0 @@
-#%AsyncAPI 2.0
-
-asyncapi: 2.0.0
-
-id: test
-
-info:
-  license:
-    *

@@ -1,0 +1,40 @@
+[
+  {
+    "text": "name",
+    "description": "name",
+    "displayText": "name",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "url",
+    "description": "url",
+    "displayText": "url",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      }
+    ]
+  }
+]
