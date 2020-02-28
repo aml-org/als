@@ -53,6 +53,7 @@ class TextBufferInfo(uri: String, logger: Logger) extends IEditorTextBuffer {
 
     var found: Option[IPoint] = None
 
+    val positionForCharacterIndex = "TextBufferInfo#positionForCharacterIndex"
     for { i <- 0 to this.lineLengths.length if found.isEmpty } {
 
       val lineLength = this.lineLengths(i)
@@ -62,7 +63,7 @@ class TextBufferInfo(uri: String, logger: Logger) extends IEditorTextBuffer {
         this.logger.debug("positionForCharacterIndex:" + offset +
                             ": [" + i + ":" + pos + "]",
                           "EditorManager",
-                          "TextBufferInfo#positionForCharacterIndex")
+                          positionForCharacterIndex)
 
         found = Option(
           IPoint(
@@ -86,7 +87,7 @@ class TextBufferInfo(uri: String, logger: Logger) extends IEditorTextBuffer {
 
         this.logger.debug("positionForCharacterIndex:" + offset + ": [" + resultRow + ":" + resultColumn + "]",
                           "EditorManager",
-                          "TextBufferInfo#positionForCharacterIndex")
+                          positionForCharacterIndex)
 
         IPoint(
           resultRow,
@@ -95,7 +96,7 @@ class TextBufferInfo(uri: String, logger: Logger) extends IEditorTextBuffer {
       } else {
 
         val errorMessage = s"""Character position exceeds text length: $offset > + ${this.text.length}"""
-        this.logger.error(errorMessage, "EditorManager", "TextBufferInfo#positionForCharacterIndex")
+        this.logger.error(errorMessage, "EditorManager", positionForCharacterIndex)
         throw new Error(errorMessage)
       }
     }

@@ -32,7 +32,9 @@ class FilesInProjectManager(clientNotifier: AlsClientNotifier[_])
   override def onNewAst(ast: (AmfParseResult, Map[String, DiagnosticsBundle]), uuid: String): Unit =
     clientNotifier.notifyProjectFiles(FilesInProjectParams(ast._2.keySet))
 
-  override def onRemoveFile(uri: String): Unit = {}
+  override def onRemoveFile(uri: String): Unit = {
+    // not used?
+  }
 
   override def applyConfig(config: Option[FilesInProjectClientCapabilities]): FilesInProjectServerOptions = {
     config.foreach(fip => enabled = fip.requiresNotification)

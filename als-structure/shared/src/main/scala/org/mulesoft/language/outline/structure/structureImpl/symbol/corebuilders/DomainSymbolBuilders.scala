@@ -44,8 +44,6 @@ trait AmfObjSymbolBuilder[T <: AmfObject] extends FatherSymbolBuilder[T] {
         case y if y.sourceName.isEmpty => None
         case y                         => Some(PositionRange(y.range))
       })
-//      .find(classOf[LexicalInformation])
-//      .map(l => PositionRange(l.range))
 
   override def build(): Seq[DocumentSymbol] =
     if (name.isEmpty) Nil
