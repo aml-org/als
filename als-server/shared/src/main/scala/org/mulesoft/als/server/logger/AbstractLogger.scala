@@ -85,10 +85,7 @@ trait AbstractLogger extends Logger {
 
   private def filterLogMessage(message: LogMessage): Option[LogMessage] = {
     val maxLength: Option[Int] = settings match {
-      case Some(settingsValue)
-          if !settingsValue.disabled.contains(true) && allowedComponent(settingsValue, message.component) && !belowSeverity(
-            settingsValue,
-            message.severity) =>
+      case Some(settingsValue) if passesLogFilter(message, settingsValue) =>
         settingsValue.maxMessageLength
       case None => Some(MaxLength) // default
       case _    => None // there are settings, but the message is not compliant with the restrictions
@@ -98,6 +95,12 @@ trait AbstractLogger extends Logger {
       message.copy(content = cropMessage(message, ml))
     }
 
+  }
+
+  private def passesLogFilter(message: LogMessage, settingsValue: LoggerSettings) = {
+    !settingsValue.disabled.contains(true) && allowedComponent(settingsValue, message.component) && !belowSeverity(
+      settingsValue,
+      message.severity)
   }
 
   private def cropMessage(message: LogMessage, ml: Int) =
