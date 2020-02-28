@@ -23,11 +23,17 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
         .map(_ => p)
     }
 
-  override def initialized(): Unit = {}
+  override def initialized(): Unit = {
+    // no further actions
+  }
 
-  override def shutdown(): Unit = {}
+  override def shutdown(): Unit = {
+    // no further actions at the moment, maybe shutdown managers?
+  }
 
-  override def exit(): Unit = {}
+  override def exit(): Unit = {
+    // no further actions at the moment, maybe shutdown managers?
+  }
 
   override def resolveHandler[P, R](requestType: RequestType[P, R]): Option[RequestHandler[P, R]] =
     requestHandlerMap(requestType)

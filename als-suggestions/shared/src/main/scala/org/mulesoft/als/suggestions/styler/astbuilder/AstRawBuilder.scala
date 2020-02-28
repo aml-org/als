@@ -59,11 +59,11 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
 
   protected def value(text: String, options: SuggestionStructure): YNode = {
     val node: YNode =
-      if (options.isObject) {
-        if (text.isEmpty) YMap.empty
-        else YMap(IndexedSeq(YMapEntry(raw.newText, "")), "")
-      } else plainValue(text, options)
-
+      if (!options.isObject)
+        plainValue(text)
+      else if (text.isEmpty)
+        YMap.empty
+      else YMap(IndexedSeq(YMapEntry(raw.newText, "")), "")
     wrapArray(options, node)
   }
 
@@ -72,7 +72,7 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
     else node
   }
 
-  private def plainValue(text: String, options: SuggestionStructure): YNode = {
+  private def plainValue(text: String): YNode = {
     val yType = if (valueTag == YType.Str && text.isEmpty) YType.Empty else valueTag
     scalar(text, yType)
   }

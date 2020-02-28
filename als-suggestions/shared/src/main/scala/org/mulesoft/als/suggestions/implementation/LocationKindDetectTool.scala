@@ -195,11 +195,12 @@ object LocationKindDetectTool {
     }
   }
 
+  private val includeTag = "!include"
+
   def checkIfPath(_line: String, column: Int): Boolean = {
 
-    var lineStart    = 0
-    var searchStart  = column - "!include".length
-    var includeIndex = _line.lastIndexOf("!include", searchStart)
+    var searchStart  = column - includeTag.length
+    var includeIndex = _line.lastIndexOf(includeTag, searchStart)
     includeIndex >= 0
   }
 
@@ -208,7 +209,7 @@ object LocationKindDetectTool {
     var includePotentialIndex = _line.lastIndexOf("!i", column)
     if (includePotentialIndex >= 0) {
       var segment = _line.substring(includePotentialIndex, column)
-      "!include".startsWith(segment)
+      includeTag.startsWith(segment)
     } else {
       false
     }
