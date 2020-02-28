@@ -25,13 +25,11 @@ case class TextDocumentContainer(givenEnvironment: Environment,
   }
 
   def +(tuple: (String, TextDocument)): TextDocumentContainer = {
-//    uriToEditor.put(FileUtils.getPath(tuple._1, platform), tuple._2)
     uriToEditor.put(tuple._1, tuple._2)
     this
   }
 
   def get(uri: String): Option[TextDocument] =
-//    uriToEditor.get(FileUtils.getPath(uri, platform))
     uriToEditor.get(uri)
 
   def getContent(uri: String): String = get(uri).map(_.text).getOrElse("")
@@ -40,12 +38,9 @@ case class TextDocumentContainer(givenEnvironment: Environment,
 
   def uris: Set[String] = uriToEditor.keys.toSet
 
-  def remove(uri: String): Unit = {
-//    val path = FileUtils.getPath(uri, platform)
-    val path = uri
-    if (uriToEditor.contains(path))
-      uriToEditor.remove(path)
-  }
+  def remove(uri: String): Unit =
+    if (uriToEditor.contains(uri))
+      uriToEditor.remove(uri)
 
   def versionOf(uri: String): Option[Int] = get(uri).map(_.version)
 
@@ -63,7 +58,8 @@ case class TextDocumentContainer(givenEnvironment: Environment,
   override def environmentSnapshot(): Environment =
     givenEnvironment
       .add(new ResourceLoader {
-        private val current: Map[String, String] = uriToEditor.map(t => t._1 -> t._2.text).toMap
+        private val current: Map[String, String] =
+          uriToEditor.map(t => t._1 -> t._2.text).toMap
 
         /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
         override def fetch(resource: String): Future[Content] =
@@ -72,7 +68,8 @@ case class TextDocumentContainer(givenEnvironment: Environment,
           }
 
         /** Accepts specified resource. */
-        override def accepts(resource: String): Boolean = current.contains(resource)
+        override def accepts(resource: String): Boolean =
+          current.contains(resource)
       })
 
 }
