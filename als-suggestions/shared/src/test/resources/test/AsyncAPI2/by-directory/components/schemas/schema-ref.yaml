@@ -1,0 +1,9 @@
+#%AsyncAPI 2.0
+
+asyncapi: 2.0.0
+components:
+  schemas:
+    schema1:
+      type: string
+    schemaName:
+      $ref: *

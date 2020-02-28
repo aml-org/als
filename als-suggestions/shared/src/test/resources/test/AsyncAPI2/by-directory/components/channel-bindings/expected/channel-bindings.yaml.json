@@ -1,0 +1,249 @@
+[
+  {
+    "text": "http",
+    "description": "http",
+    "displayText": "http",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "ws",
+    "description": "ws",
+    "displayText": "ws",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "kafka",
+    "description": "kafka",
+    "displayText": "kafka",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "amqp",
+    "description": "amqp",
+    "displayText": "amqp",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "amqp1",
+    "description": "amqp1",
+    "displayText": "amqp1",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "mqtt",
+    "description": "mqtt",
+    "displayText": "mqtt",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "mqtt5",
+    "description": "mqtt5",
+    "displayText": "mqtt5",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "nats",
+    "description": "nats",
+    "displayText": "nats",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "jms",
+    "description": "jms",
+    "displayText": "jms",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "sns",
+    "description": "sns",
+    "displayText": "sns",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "sqs",
+    "description": "sqs",
+    "displayText": "sqs",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "stomp",
+    "description": "stomp",
+    "displayText": "stomp",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      }
+    ]
+  },
+  {
+    "text": "redis",
+    "description": "redis",
+    "displayText": "redis",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,59 @@
+[
+  {
+    "text": "1.0.0",
+    "description": "1.0.0",
+    "displayText": "1.0.0",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 10
+        },
+        "end": {
+          "line": 2,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "2.1.0",
+    "description": "2.1.0",
+    "displayText": "2.1.0",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 10
+        },
+        "end": {
+          "line": 2,
+          "character": 10
+        }
+      }
+    ]
+  },
+  {
+    "text": "2.0.0",
+    "description": "2.0.0",
+    "displayText": "2.0.0",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 10
+        },
+        "end": {
+          "line": 2,
+          "character": 10
+        }
+      }
+    ]
+  }
+]

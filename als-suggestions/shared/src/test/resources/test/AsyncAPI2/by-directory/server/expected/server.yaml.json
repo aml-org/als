@@ -1,0 +1,135 @@
+[
+  {
+    "text": "url",
+    "description": "url",
+    "displayText": "url",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "description",
+    "description": "description",
+    "displayText": "description",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "protocol",
+    "description": "protocol",
+    "displayText": "protocol",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "protocolVersion",
+    "description": "protocolVersion",
+    "displayText": "protocolVersion",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "variables",
+    "description": "variables",
+    "displayText": "variables",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "security",
+    "description": "security",
+    "displayText": "security",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      }
+    ]
+  },
+  {
+    "text": "bindings",
+    "description": "bindings",
+    "displayText": "bindings",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,21 @@
+[
+  {
+    "text": "%RAML 1.0",
+    "description": "%RAML 1.0",
+    "displayText": "#%RAML 1.0",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 0,
+          "character": 1
+        },
+        "end": {
+          "line": 0,
+          "character": 1
+        }
+      }
+    ]
+  }
+]
