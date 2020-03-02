@@ -126,60 +126,7 @@
             "character": 22
           }
         },
-        "children": [
-          {
-            "name": "user",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 10,
-                "character": 8
-              },
-              "end": {
-                "line": 10,
-                "character": 122
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 10,
-                "character": 8
-              },
-              "end": {
-                "line": 10,
-                "character": 14
-              }
-            },
-            "children": []
-          },
-          {
-            "name": "user:email",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 11,
-                "character": 8
-              },
-              "end": {
-                "line": 11,
-                "character": 71
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 11,
-                "character": 8
-              },
-              "end": {
-                "line": 11,
-                "character": 20
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "name": "internalApiKey",

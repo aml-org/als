@@ -74,34 +74,7 @@
             "character": 11
           }
         },
-        "children": [
-          {
-            "name": "settings",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 8,
-                "character": 0
-              },
-              "end": {
-                "line": 11,
-                "character": 46
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 8,
-                "character": 0
-              },
-              "end": {
-                "line": 11,
-                "character": 46
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       }
     ]
   }
