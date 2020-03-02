@@ -103,10 +103,6 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
   val workspaceManager: WorkspaceManager =
     new WorkspaceManager(container, telemetryManager, projectDependencies, logger)
 
-  def cleanWorkspaceManager: WorkspaceManager = {
-    new WorkspaceManager(container, telemetryManager, projectDependencies, logger)
-  }
-
   lazy val documentManager = new TextDocumentManager(container, List(workspaceManager), logger)
 
   lazy val completionManager =

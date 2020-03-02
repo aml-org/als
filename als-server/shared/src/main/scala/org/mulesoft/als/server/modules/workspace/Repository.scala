@@ -40,8 +40,11 @@ class Repository(logger: Logger) {
 
   private val units: mutable.Map[String, ParsedUnit] = mutable.Map.empty
 
-  def getIncludedFilesUris: List[String] =
-    units.values.map(_.bu.identifier).toList ++ tree.parsedUnits.values.map(_.bu.identifier).toList
+  def getAllFilesUris: List[String] = getIsolatedUris ++ getTreeUris
+
+  def getTreeUris: List[String] = treeUnits().map(_.bu.identifier).toList
+
+  def getIsolatedUris: List[String] = units.values.map(_.bu.identifier).toList
 
   def getParsed(uri: String): Option[ParsedUnit] = tree.parsedUnits.get(uri).orElse(units.get(uri))
 
