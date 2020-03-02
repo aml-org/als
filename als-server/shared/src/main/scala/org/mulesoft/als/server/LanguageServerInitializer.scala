@@ -8,7 +8,11 @@ import org.mulesoft.als.server.protocol.configuration.{
   AlsInitializeResult,
   AlsServerCapabilities
 }
-import org.mulesoft.lsp.configuration.{WorkspaceFolderServerCapabilities, WorkspaceServerCapabilities}
+import org.mulesoft.lsp.configuration.{
+  DefaultWorkspaceServerCapabilities,
+  WorkspaceFolderServerCapabilities,
+  WorkspaceServerCapabilities
+}
 import org.mulesoft.lsp.feature.codeactions.CodeActionConfigType
 import org.mulesoft.lsp.feature.completion.CompletionConfigType
 import org.mulesoft.lsp.feature.definition.DefinitionConfigType
@@ -35,7 +39,7 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(RenameConfigType, textDocument.flatMap(_.rename)),
       applyConfig(CodeActionConfigType, textDocument.flatMap(_.codeActionCapabilities)),
       applyConfig(DocumentLinkConfigType, textDocument.flatMap(_.documentLink)),
-      Some(WorkspaceServerCapabilities(Some(WorkspaceFolderServerCapabilities(Some(true), None)))), //Not dependant on client capabilities
+      Some(DefaultWorkspaceServerCapabilities), //Not dependant on client capabilities
       None,
       applyConfig(SerializationConfigType, clientCapabilities.serialization),
       applyConfig(CleanDiagnosticTreeConfigType, clientCapabilities.cleanDiagnosticTree),

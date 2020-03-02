@@ -41,7 +41,7 @@ class SerializationManager[S](amfConf: AmfInstance, props: SerializationProps[S]
   }
 
   override def onRemoveFile(uri: String): Unit = {
-    // not action
+    /* No action required */
   }
 
   override def applyConfig(config: Option[SerializationClientCapabilities]): SerializationServerOptions = {
@@ -77,6 +77,4 @@ class SerializationManager[S](amfConf: AmfInstance, props: SerializationProps[S]
 
     }
   )
-
-  override def closedWorkspace(includedFiles: List[String]): Unit = {}
 }
