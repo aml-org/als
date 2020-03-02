@@ -52,6 +52,58 @@
     "children": []
   },
   {
+    "name": "basePath",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 19
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 19
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "host",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 17,
+        "character": 22
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 17,
+        "character": 22
+      }
+    },
+    "children": []
+  },
+  {
     "name": "API Support",
     "kind": 7,
     "deprecated": false,

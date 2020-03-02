@@ -26,6 +26,32 @@
     "children": []
   },
   {
+    "name": "Security",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 6,
+        "character": 0
+      },
+      "end": {
+        "line": 7,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 0
+      },
+      "end": {
+        "line": 7,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
     "name": "documentations",
     "kind": 18,
     "deprecated": false,

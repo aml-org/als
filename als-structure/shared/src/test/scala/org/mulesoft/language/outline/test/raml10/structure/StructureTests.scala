@@ -129,4 +129,8 @@ class RAML10StructureTests extends RAML10StructureTest {
   test("Nested files traits (inlined)") {
     this.runTest("nested-traits/api.raml", "nested-traits/api-outline.json")
   }
+
+  test("Test root field structure") {
+    this.runTest("root/api.raml", "root/api-outline.json")
+  }
 }
