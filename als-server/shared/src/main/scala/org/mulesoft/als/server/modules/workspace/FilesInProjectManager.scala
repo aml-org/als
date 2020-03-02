@@ -33,13 +33,11 @@ class FilesInProjectManager(clientNotifier: AlsClientNotifier[_])
     clientNotifier.notifyProjectFiles(FilesInProjectParams(ast._2.keySet))
 
   override def onRemoveFile(uri: String): Unit = {
-    // not used?
+    /* No action required */
   }
 
   override def applyConfig(config: Option[FilesInProjectClientCapabilities]): FilesInProjectServerOptions = {
     config.foreach(fip => enabled = fip.requiresNotification)
     FilesInProjectServerOptions(true)
   }
-
-  override def closedWorkspace(includedFiles: List[String]): Unit = {}
 }
