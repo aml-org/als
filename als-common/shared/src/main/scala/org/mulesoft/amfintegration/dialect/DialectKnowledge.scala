@@ -1,11 +1,12 @@
 package org.mulesoft.amfmanager.dialect
 
 import amf.core.model.document.BaseUnit
-import amf.core.remote.{Oas20, Oas30, Raml08, Raml10}
+import amf.core.remote.{AsyncApi20, Oas20, Oas30, Raml08, Raml10}
 import amf.dialects._
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceUnit}
 import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfmanager.dialect.webapi.oas.{Oas20DialectWrapper, Oas30DialectWrapper}
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
@@ -21,6 +22,8 @@ object DialectKnowledge {
       Some(Raml10TypesDialect.dialect)
     case d if d.sourceVendor.contains(Raml08) && !RAML08Dialect().id.isEmpty =>
       Some(Raml08TypesDialect.dialect)
+    case d if d.sourceVendor.contains(AsyncApi20) =>
+      Some(AsyncApi20Dialect.dialect)
     case _ => None
   }
 
