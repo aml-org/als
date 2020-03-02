@@ -152,39 +152,39 @@
                 },
                 "children": [
                   {
-                    "name": "name",
-                    "kind": 7,
+                    "name": "and",
+                    "kind": 2,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 21,
-                        "character": 12
+                        "line": 35,
+                        "character": 16
                       },
                       "end": {
-                        "line": 23,
+                        "line": 37,
                         "character": 0
                       }
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 21,
-                        "character": 12
+                        "line": 35,
+                        "character": 16
                       },
                       "end": {
-                        "line": 23,
+                        "line": 37,
                         "character": 0
                       }
                     },
                     "children": []
                   },
                   {
-                    "name": "tag",
-                    "kind": 7,
+                    "name": "property",
+                    "kind": 2,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 23,
-                        "character": 12
+                        "line": 20,
+                        "character": 10
                       },
                       "end": {
                         "line": 25,
@@ -193,15 +193,68 @@
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 23,
-                        "character": 12
+                        "line": 20,
+                        "character": 10
                       },
                       "end": {
                         "line": 25,
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      {
+                        "name": "name",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 21,
+                            "character": 12
+                          },
+                          "end": {
+                            "line": 23,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 21,
+                            "character": 12
+                          },
+                          "end": {
+                            "line": 23,
+                            "character": 0
+                          }
+                        },
+                        "children": []
+                      },
+                      {
+                        "name": "tag",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 23,
+                            "character": 12
+                          },
+                          "end": {
+                            "line": 25,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 23,
+                            "character": 12
+                          },
+                          "end": {
+                            "line": 25,
+                            "character": 0
+                          }
+                        },
+                        "children": []
+                      }
+                    ]
                   }
                 ]
               }

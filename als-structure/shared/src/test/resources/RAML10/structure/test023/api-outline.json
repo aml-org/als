@@ -26,6 +26,58 @@
     "children": []
   },
   {
+    "name": "contentType",
+    "kind": 2,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "accepts",
+    "kind": 2,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
     "name": "annotationTypes",
     "kind": 7,
     "deprecated": false,
@@ -339,39 +391,13 @@
             },
             "children": [
               {
-                "name": "level",
-                "kind": 7,
+                "name": "property",
+                "kind": 2,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 12,
-                    "character": 6
-                  },
-                  "end": {
-                    "line": 15,
-                    "character": 0
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 12,
-                    "character": 6
-                  },
-                  "end": {
-                    "line": 15,
-                    "character": 0
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "signature",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 15,
-                    "character": 6
+                    "line": 11,
+                    "character": 4
                   },
                   "end": {
                     "line": 18,
@@ -380,15 +406,68 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 15,
-                    "character": 6
+                    "line": 11,
+                    "character": 4
                   },
                   "end": {
                     "line": 18,
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  {
+                    "name": "level",
+                    "kind": 7,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 12,
+                        "character": 6
+                      },
+                      "end": {
+                        "line": 15,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 12,
+                        "character": 6
+                      },
+                      "end": {
+                        "line": 15,
+                        "character": 0
+                      }
+                    },
+                    "children": []
+                  },
+                  {
+                    "name": "signature",
+                    "kind": 7,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 15,
+                        "character": 6
+                      },
+                      "end": {
+                        "line": 18,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 15,
+                        "character": 6
+                      },
+                      "end": {
+                        "line": 18,
+                        "character": 0
+                      }
+                    },
+                    "children": []
+                  }
+                ]
               }
             ]
           }

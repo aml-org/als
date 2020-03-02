@@ -2,12 +2,11 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 
 import amf.core.annotations.{LexicalInformation, SourceAST}
 import amf.core.metamodel.domain.{DomainElementModel, LinkableElementModel}
-import amf.core.model.domain.{AmfElement, AmfObject, DomainElement, NamedDomainElement}
+import amf.core.model.domain._
 import amf.core.parser.{FieldEntry, Range => AmfRange}
 import amf.plugins.domain.webapi.metamodel.WebApiModel
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
-import org.mulesoft.lexer.InputRange
 import org.yaml.model.YMapEntry
 
 trait FatherSymbolBuilder[T <: AmfObject] extends ElementSymbolBuilder[T] {
@@ -16,17 +15,27 @@ trait FatherSymbolBuilder[T <: AmfObject] extends ElementSymbolBuilder[T] {
   def ignoreFields =
     List(WebApiModel.Name, DomainElementModel.Extends, LinkableElementModel.Target, WebApiModel.Version)
 
-  def customFieldFilters: Seq[FieldEntry => Boolean] = Nil
+  def customBuilders: Seq[FieldEntry => CustomBuilder] =
+    Seq(WebApiCustomArrayBuilder(_)(factory))
 
-  private def finalFilters: Seq[FieldEntry => Boolean] =
-    customFieldFilters :+ ((f: FieldEntry) => !ignoreFields.contains(f.field))
+  def getCustomFromFieldEntry(fe: FieldEntry): Option[Seq[DocumentSymbol]] =
+    customBuilders.find(c => c(fe).applies).map(_(fe)).map(_.build)
+
   protected def children: List[DocumentSymbol] =
     element.fields
       .fields()
-      .filter(f => finalFilters.forall(fn => fn(f)))
-      .flatMap(e => factory.builderFor(e, element.location()))
-      .flatMap(_.build())
+      .filterNot(fe => ignoreFields.contains(fe.field))
       .toList
+      .flatMap { getAllDocumentSymbols }
+
+  private def getAllDocumentSymbols(fe: FieldEntry): Seq[DocumentSymbol] =
+    getCustomFromFieldEntry(fe)
+      .orElse {
+        factory
+          .builderFor(fe, element.location())
+          .map(_.build())
+      }
+      .getOrElse(Nil)
 }
 
 trait AmfObjSymbolBuilder[T <: AmfObject] extends FatherSymbolBuilder[T] {
@@ -62,12 +71,6 @@ trait AmfObjSymbolBuilder[T <: AmfObject] extends FatherSymbolBuilder[T] {
 
 }
 
-class ObjectElementSymbolBuilder(override val element: DomainElement)(override implicit val factory: BuilderFactory)
-    extends FatherSymbolBuilder[DomainElement] {
-
-  override def build(): Seq[DocumentSymbol] = children
-}
-
 class DomainElementSymbolBuilder(override val element: DomainElement, entryAst: YMapEntry)(
     override implicit val factory: BuilderFactory)
     extends AmfObjSymbolBuilder[DomainElement] {
@@ -92,7 +95,7 @@ object DomainElementSymbolBuilder extends ElementSymbolBuilderCompanion {
         element.annotations.find(classOf[SourceAST]).map(_.ast) match {
           case Some(entry: YMapEntry) =>
             Some(new DomainElementSymbolBuilder(element, entry))
-          case _ => Some(new ObjectElementSymbolBuilder(element))
+          case _ => None
         }
     }
   }

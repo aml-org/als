@@ -26,6 +26,58 @@
     "children": []
   },
   {
+    "name": "contentType",
+    "kind": 2,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "accepts",
+    "kind": 2,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
     "name": "/resource",
     "kind": 12,
     "deprecated": false,
@@ -76,13 +128,13 @@
         },
         "children": [
           {
-            "name": "200",
-            "kind": 7,
+            "name": "responses",
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 8,
-                "character": 6
+                "line": 7,
+                "character": 4
               },
               "end": {
                 "line": 11,
@@ -91,23 +143,23 @@
             },
             "selectionRange": {
               "start": {
-                "line": 8,
-                "character": 6
+                "line": 7,
+                "character": 4
               },
               "end": {
-                "line": 8,
-                "character": 9
+                "line": 11,
+                "character": 0
               }
             },
             "children": [
               {
-                "name": "application/json",
+                "name": "200",
                 "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 10,
-                    "character": 10
+                    "line": 8,
+                    "character": 6
                   },
                   "end": {
                     "line": 11,
@@ -116,40 +168,94 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 10,
-                    "character": 10
+                    "line": 8,
+                    "character": 6
                   },
                   "end": {
-                    "line": 10,
-                    "character": 26
+                    "line": 8,
+                    "character": 9
                   }
                 },
                 "children": [
                   {
-                    "name": "application/json",
-                    "kind": 5,
+                    "name": "payload",
+                    "kind": 2,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 10,
-                        "character": 28
+                        "line": 9,
+                        "character": 8
                       },
                       "end": {
-                        "line": 10,
-                        "character": 38
+                        "line": 11,
+                        "character": 0
                       }
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 10,
-                        "character": 28
+                        "line": 9,
+                        "character": 8
                       },
                       "end": {
-                        "line": 10,
-                        "character": 38
+                        "line": 11,
+                        "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      {
+                        "name": "application/json",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 10,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 11,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 10,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 10,
+                            "character": 26
+                          }
+                        },
+                        "children": [
+                          {
+                            "name": "application/json",
+                            "kind": 5,
+                            "deprecated": false,
+                            "range": {
+                              "start": {
+                                "line": 10,
+                                "character": 28
+                              },
+                              "end": {
+                                "line": 10,
+                                "character": 38
+                              }
+                            },
+                            "selectionRange": {
+                              "start": {
+                                "line": 10,
+                                "character": 28
+                              },
+                              "end": {
+                                "line": 10,
+                                "character": 38
+                              }
+                            },
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }

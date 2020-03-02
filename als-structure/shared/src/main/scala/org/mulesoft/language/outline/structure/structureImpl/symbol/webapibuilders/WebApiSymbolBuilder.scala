@@ -7,15 +7,11 @@ import amf.core.model.document.BaseUnit
 import amf.core.model.domain.templates.ParametrizedDeclaration
 import amf.core.model.domain.{AmfArray, AmfElement, AmfScalar}
 import amf.core.parser.Value
-import amf.plugins.domain.shapes.models.CreativeWork
 import amf.plugins.domain.webapi.metamodel.{ServerModel, WebApiModel}
 import amf.plugins.domain.webapi.models.{EndPoint, WebApi}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.{
-  FatherSymbolBuilder,
-  NamedElementSymbolBuilder
-}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.{FatherSymbolBuilder, NamedElementSymbolBuilder}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ramlbuilders.RamlEndPointSymbolBuilder
 import org.yaml.model.YNode.MutRef
 
@@ -32,8 +28,13 @@ class WebApiArraySymbolBuilder(element: AmfArray)(override implicit val factory:
     element.values
       .flatMap(v => {
         v match {
-          case e if e.annotations.find(classOf[SourceAST]).exists(_.ast.isInstanceOf[MutRef]) => None
-          case _                                                                              => factory.builderForElement(v)
+          case _: AmfScalar => None
+          case e
+              if e.annotations
+                .find(classOf[SourceAST])
+                .exists(_.ast.isInstanceOf[MutRef]) =>
+            None
+          case _ => factory.builderForElement(v)
         }
       })
       .flatMap(_.build())
@@ -50,10 +51,11 @@ class WebApiSymbolBuilder(override val element: WebApi)(override implicit val fa
   val uriSymbols: Seq[DocumentSymbol] = element.servers.headOption
     .flatMap(s => s.fields.getValueAsOption(ServerModel.Url).map(v => buildServerSymbols(v)))
     .getOrElse(Nil)
-
   val titleChildren: Seq[DocumentSymbol] = element.fields
     .entryJsonld(WebApiModel.Name)
-    .map(e => new WebApiTitleSymbolBuilder(e.value.value.asInstanceOf[AmfScalar]).build())
+    .map(e =>
+      new WebApiTitleSymbolBuilder(e.value.value.asInstanceOf[AmfScalar])
+        .build())
     .getOrElse(Nil)
 
   val security: Seq[DocumentSymbol] = element.fields
@@ -101,7 +103,10 @@ trait WebApiScalarBuilder extends ElementSymbolBuilder[AmfScalar] {
   protected val scalar: AmfScalar
   protected val name: String
   private val range = PositionRange(
-    scalar.annotations.find(classOf[LexicalInformation]).map(l => l.range).getOrElse(amf.core.parser.Range.NONE))
+    scalar.annotations
+      .find(classOf[LexicalInformation])
+      .map(l => l.range)
+      .getOrElse(amf.core.parser.Range.NONE))
   override def build(): Seq[DocumentSymbol] =
     Seq(DocumentSymbol(name, SymbolKind.String, deprecated = false, range, range, Nil))
 }
@@ -166,36 +171,44 @@ class EndPointListBuilder(element: AmfArray)(override implicit val factory: Buil
     val endpoints = element.values.collect({ case e: EndPoint => e })
     endpoints
       .collect({
-        case e: EndPoint if e.parent.isEmpty => RamlEndPointSymbolBuilder(e, endpoints)(factory)
+        case e: EndPoint if e.parent.isEmpty =>
+          RamlEndPointSymbolBuilder(e, endpoints)(factory)
       })
       .flatMap(_.build())
   }
 }
 
-class CreativeWorkListSymbolBuilder(element: AmfArray)(override implicit val factory: BuilderFactory)
-    extends ElementSymbolBuilder[AmfArray] {
+class EndPointSymbolBuilder(override val element: EndPoint)(override implicit val factory: BuilderFactory)
+    extends NamedElementSymbolBuilder(element)(factory) {
 
-  private val children = element.values.zipWithIndex
-    .map(t => {
-      val (e: CreativeWork, index: Int) = t
-      val range = PositionRange(
-        e.annotations.find(classOf[LexicalInformation]).map(l => l.range).getOrElse(amf.core.parser.Range.NONE))
-      DocumentSymbol(index.toString, SymbolKind.Class, deprecated = false, range, range, Nil)
-    })
-    .toList
-  override def build(): Seq[DocumentSymbol] = {
-    val newRange = children.head.range + children.last.range
-    Seq(DocumentSymbol("documentations", SymbolKind.Array, deprecated = false, newRange, newRange, children))
+  override protected val name: String =
+    element.path
+      .value()
+      .stripPrefix(element.parent.flatMap(_.path.option()).getOrElse(""))
+  override protected val selectionRange: Option[PositionRange] =
+    element.path
+      .annotations()
+      .find(classOf[LexicalInformation])
+      .map(l => PositionRange(l.range))
+      .orElse(range)
+
+  override def children: List[DocumentSymbol] =
+    super.children ++ getExtendsChildren
+
+  private def getExtendsChildren = {
+    element.extend.headOption match {
+      case Some(first: ParametrizedDeclaration) =>
+        val range = first.annotations
+          .find(classOf[LexicalInformation])
+          .map(l => PositionRange(l.range))
+          .getOrElse(PositionRange(amf.core.parser.Range.NONE))
+        val end = element.extend.last.annotations
+          .find(classOf[LexicalInformation])
+          .map(l => PositionRange(l.range))
+          .getOrElse(PositionRange(amf.core.parser.Range.NONE))
+        val finalRange = range + end
+        Some(DocumentSymbol("type", SymbolKind.Interface, deprecated = false, finalRange, range, Nil))
+      case _ => None
+    }
   }
-}
-
-object CreativeWorkListSymbolBuilder extends ElementSymbolBuilderCompanion {
-  override type T = AmfArray
-
-  override def getType: Class[_ <: AmfElement] = classOf[AmfArray]
-
-  override val supportedIri: String = WebApiModel.Documentations.value.iri()
-
-  override def construct(element: T)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[AmfArray]] =
-    Some(new CreativeWorkListSymbolBuilder(element))
 }
