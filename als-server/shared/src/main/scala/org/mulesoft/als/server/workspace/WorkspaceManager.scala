@@ -11,6 +11,7 @@ import org.mulesoft.als.server.workspace.extract.{
   ConfigReader,
   DefaultWorkspaceConfigurationProvider,
   ReaderWorkspaceConfigurationProvider,
+  WorkspaceConf,
   WorkspaceRootHandler
 }
 import org.mulesoft.lsp.Initializable
@@ -39,34 +40,38 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
   def initializeWS(root: String): Future[Unit] =
     rootHandler.extractConfiguration(root).flatMap { mainOption =>
-      if (!workspaces.exists(w => root.startsWith(w.folder) || root.equals(w.folder))) { // if the current workspaces already contain upper directory, this one shouldn't be added
+      if (!workspaces.exists(w => root.startsWith(w.folder))) { // if there is an existing WS containing the new one, dont add it
         logger.debug("Adding workspace: " + root, "WorkspaceManager", "initializeWS")
         val workspace: WorkspaceContentManager =
           new WorkspaceContentManager(root, environmentProvider, telemetryProvider, logger, dependencies)
-
         Future.sequence {
-          workspaces
-            .filter(wsm => wsm.folder.startsWith(root) && !root.equals(wsm.folder))
-            .map(w => {
-              // We remove every workspace that is a subdirectory of the one being added
-              logger.debug("Replacing Workspace: " + w.folder + " due to " + workspace.folder,
-                           "WorkspaceManager",
-                           "initializeWS")
-              shutdownWS(w)
-            })
+          replaceWorkspaces(root)
         } map (_ => {
-          workspaces += workspace
-          workspace.setConfigMainFile(mainOption)
-          mainOption.foreach(conf =>
-            contentManagerConfiguration(workspace, conf.mainFile, conf.cachables, mainOption.flatMap(_.configReader)))
+          addWorkspace(mainOption, workspace)
         })
       } else Future.unit
     }
 
+  private def addWorkspace(mainOption: Option[WorkspaceConf], workspace: WorkspaceContentManager) = {
+    workspaces += workspace
+    workspace.setConfigMainFile(mainOption)
+    mainOption.foreach(conf =>
+      contentManagerConfiguration(workspace, conf.mainFile, conf.cachables, mainOption.flatMap(_.configReader)))
+  }
+
+  private def replaceWorkspaces(root: String) = {
+    workspaces
+      .filter(ws => ws.folder.startsWith(root))
+      .map(w => {
+        // We remove every workspace that is a subdirectory of the one being added
+        logger.debug("Replacing Workspace: " + w.folder + " due to " + root, "WorkspaceManager", "initializeWS")
+        shutdownWS(w)
+      })
+  }
+
   def shutdownWS(workspace: WorkspaceContentManager): Future[Unit] = {
     logger.debug("Removing workspace: " + workspace.folder, "WorkspaceManager", "shutdownWS")
-    workspaces -= workspace
-    workspace.shutdown()
+    workspace.shutdown().map(_ => workspaces -= workspace)
   }
 
   override def getCU(uri: String, uuid: String): Future[CompilableUnit] =
@@ -123,11 +128,14 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   override def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit] = {
     // Drop all old workspaces
     workspaces.clear()
-    val newWorkspaces = workspaceFolders.filterNot(_.uri.isEmpty).map(_.uri.get).distinct
+    val newWorkspaces = extractCleanURIs(workspaceFolders)
 
     Future.sequence(newWorkspaces.map(initializeWS)) map (_ => Unit)
 
   }
+
+  private def extractCleanURIs(workspaceFolders: List[WorkspaceFolder]) =
+    workspaceFolders.flatMap(_.uri).sortBy(_.length).distinct
 
   override def didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams): Unit = {
     val event          = params.event

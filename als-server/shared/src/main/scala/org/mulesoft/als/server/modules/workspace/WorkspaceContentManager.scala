@@ -2,7 +2,6 @@ package org.mulesoft.als.server.modules.workspace
 
 import java.util.UUID
 
-import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
@@ -13,7 +12,7 @@ import org.mulesoft.amfmanager.AmfParseResult
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{Future, Promise}
 
 class WorkspaceContentManager(val folder: String,
                               environmentProvider: EnvironmentProvider,
@@ -74,7 +73,7 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def process(): Future[Unit] = {
-    if (state == NotAvailable) Future.unit
+    if (state == NotAvailable) throw new UnavailableWorkspaceException
     else if (stagingArea.isPending) next(preprocessSnapshot())
     else goIdle()
   }
@@ -115,14 +114,20 @@ class WorkspaceContentManager(val folder: String,
     }
 
   private def goIdle(): Future[Unit] = {
-    state = Idle
+    changeState(Idle)
     Future.unit
   }
 
+  private def changeState(newState: WorkspaceState): Unit = synchronized {
+    if (state == NotAvailable) throw new UnavailableWorkspaceException
+    state = newState
+  }
+
+  private val isDisabled = Promise[Unit]()
+
   private def disable(): Future[Unit] = {
-    state = NotAvailable
-    dependencies.foreach(d => repository.getAllFilesUris.foreach(d.onRemoveFile))
-    Future.unit
+    changeState(NotAvailable)
+    Future(dependencies.map(d => repository.getAllFilesUris.foreach(d.onRemoveFile))).map(_ => isDisabled.success())
   }
 
   private def processIsolatedChanges(files: List[(String, NotificationKind)], environment: Environment): Future[Unit] = {
@@ -135,7 +140,7 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def processIsolated(file: String, environment: Environment, uuid: String): Future[Unit] = {
-    state = ProcessingFile(file)
+    changeState(ProcessingFile(file))
     stagingArea.dequeue(Set(file))
     parse(file, environment, uuid)
       .map { bu =>
@@ -145,16 +150,15 @@ class WorkspaceContentManager(val folder: String,
   }
 
   def shutdown(): Future[Unit] = {
-    changedFile(folder, WORKSPACE_KILLED)
-    while (state != NotAvailable) { /* Wait until state is NotAvailable */ }
-    Future.successful()
+    changedFile(folder, WORKSPACE_TERMINATED)
+    isDisabled.future
   }
 
   private def cleanFiles(closedFiles: List[(String, NotificationKind)]): Unit =
     closedFiles.foreach(cf => dependencies.foreach(_.onRemoveFile(cf._1)))
 
   private def processChangeConfigChanges(snapshot: Snapshot): Future[Unit] = {
-    state = ProcessingProject
+    changeState(ProcessingProject)
     stagingArea.enqueue(snapshot.files.filterNot(t => t._2 == CHANGE_CONFIG))
     workspaceConfigurationProvider match {
       case Some(cp) =>
@@ -178,7 +182,7 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def processMFChanges(mainFile: String, snapshot: Snapshot): Future[Unit] = {
-    state = ProcessingProject
+    changeState(ProcessingProject)
     val uuid = UUID.randomUUID().toString
     parse(s"$folder/$mainFile", snapshot.environment, uuid)
       .flatMap { u =>
