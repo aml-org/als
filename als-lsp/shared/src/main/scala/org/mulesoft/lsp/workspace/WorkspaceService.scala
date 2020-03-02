@@ -1,6 +1,5 @@
 package org.mulesoft.lsp.workspace
 
-import org.mulesoft.lsp.configuration.{WorkspaceClientCapabilities, WorkspaceFolder}
 import org.mulesoft.lsp.feature.documentsymbol.SymbolInformation
 
 import scala.concurrent.Future
@@ -49,7 +48,4 @@ trait WorkspaceService {
     */
   def didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams) {}
 
-  def initializeWS(folder: String): Future[Unit]
-
-  def initialize(root: Option[String], workspaceFolders: Option[Seq[WorkspaceFolder]]): Future[Unit]
 }
