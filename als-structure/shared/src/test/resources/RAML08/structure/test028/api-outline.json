@@ -52,6 +52,32 @@
     "children": []
   },
   {
+    "name": "baseUri",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 0
+      },
+      "end": {
+        "line": 4,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 0
+      },
+      "end": {
+        "line": 4,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
     "name": "types",
     "kind": 5,
     "deprecated": false,

@@ -6,8 +6,9 @@ import amf.core.metamodel.document.BaseUnitModel
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.templates.ParametrizedDeclaration
 import amf.core.model.domain.{AmfArray, AmfElement, AmfScalar}
+import amf.core.parser.Value
 import amf.plugins.domain.shapes.models.CreativeWork
-import amf.plugins.domain.webapi.metamodel.WebApiModel
+import amf.plugins.domain.webapi.metamodel.{ServerModel, WebApiModel}
 import amf.plugins.domain.webapi.models.{EndPoint, WebApi}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
@@ -41,11 +42,28 @@ class WebApiArraySymbolBuilder(element: AmfArray)(override implicit val factory:
 class WebApiSymbolBuilder(override val element: WebApi)(override implicit val factory: BuilderFactory)
     extends FatherSymbolBuilder[WebApi] {
 
-  override def ignoreFields: List[Field] = super.ignoreFields :+ WebApiModel.Servers // todo temp ignore
+  override def ignoreFields: List[Field] =
+    super.ignoreFields :+ WebApiModel.Servers :+ WebApiModel.Security // todo temp ignore
+
+  protected def buildServerSymbols(v: Value): Seq[DocumentSymbol] = Nil
+
+  val uriSymbols: Seq[DocumentSymbol] = element.servers.headOption
+    .flatMap(s => s.fields.getValueAsOption(ServerModel.Url).map(v => buildServerSymbols(v)))
+    .getOrElse(Nil)
+
   val titleChildren: Seq[DocumentSymbol] = element.fields
     .entryJsonld(WebApiModel.Name)
     .map(e => new WebApiTitleSymbolBuilder(e.value.value.asInstanceOf[AmfScalar]).build())
     .getOrElse(Nil)
+
+  val security: Seq[DocumentSymbol] = element.fields
+    .entry(WebApiModel.Security)
+    .map(fe => {
+      val range = PositionRange(
+        fe.value.annotations.find(classOf[LexicalInformation]).map(_.range).getOrElse(amf.core.parser.Range.NONE))
+      DocumentSymbol("Security", SymbolKind.String, deprecated = false, range, range, Nil)
+    })
+    .toSeq
 
   val versionChildren: Seq[DocumentSymbol] =
     element.fields
@@ -62,15 +80,18 @@ class WebApiSymbolBuilder(override val element: WebApi)(override implicit val fa
       .getOrElse(Nil)
 
   override def build(): Seq[DocumentSymbol] = {
-    titleChildren ++ versionChildren ++ super.children
+    titleChildren ++ versionChildren ++ uriSymbols ++ security ++ super.children
   }
 }
 
-object WebApiSymbolBuilder extends ElementSymbolBuilderCompanion {
+trait WebApiSymbolBuilderTrait extends ElementSymbolBuilderCompanion {
   override type T = WebApi
   override val supportedIri: String = WebApiModel.`type`.head.iri()
 
   override def getType: Class[_ <: AmfElement] = classOf[WebApi]
+}
+
+object WebApiSymbolBuilder extends WebApiSymbolBuilderTrait {
 
   override def construct(element: T)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[T]] =
     Some(new WebApiSymbolBuilder(element))
@@ -88,6 +109,11 @@ trait WebApiScalarBuilder extends ElementSymbolBuilder[AmfScalar] {
 class WebApiTitleSymbolBuilder(override val scalar: AmfScalar)(override implicit val factory: BuilderFactory)
     extends NameFieldSymbolBuilder(scalar) {
   override protected val name: String = "title"
+}
+
+class BaseUriSymbolBuilder(override val scalar: AmfScalar)(override implicit val factory: BuilderFactory)
+    extends NameFieldSymbolBuilder(scalar) {
+  override protected val name: String = "Base Url"
 }
 
 class NameFieldSymbolBuilder(override val scalar: AmfScalar)(override implicit val factory: BuilderFactory)
