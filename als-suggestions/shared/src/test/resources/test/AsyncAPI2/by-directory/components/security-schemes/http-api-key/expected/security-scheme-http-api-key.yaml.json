@@ -1,13 +1,13 @@
 [
   {
-    "label": "name",
+    "label": "description",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
+    "detail": "docs",
+    "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0name",
-    "filterText": "name: ",
+    "sortText": "11description",
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
+          "line": 7,
           "character": 6
         },
         "end": {
-          "line": 4,
+          "line": 7,
           "character": 6
         }
       },
-      "newText": "name: "
+      "newText": "description: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -33,10 +33,10 @@
     "label": "in",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "in",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0in",
+    "sortText": "10in",
     "filterText": "in: ",
     "insertText": null,
     "insertTextFormat": [
@@ -45,15 +45,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
+          "line": 7,
           "character": 6
         },
         "end": {
-          "line": 4,
+          "line": 7,
           "character": 6
         }
       },
       "newText": "in: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "name",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10name",
+    "filterText": "name: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      },
+      "newText": "name: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

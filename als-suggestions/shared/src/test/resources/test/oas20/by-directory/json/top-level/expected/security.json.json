@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "label": "mySecurity",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "mySecurity",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11mySecurity",
+    "filterText": "\"mySecurity\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 13,
+          "character": 15
+        },
+        "end": {
+          "line": 13,
+          "character": 17
+        }
+      },
+      "newText": "\"mySecurity\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

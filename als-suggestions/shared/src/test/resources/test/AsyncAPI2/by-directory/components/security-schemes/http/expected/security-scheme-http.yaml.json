@@ -1,42 +1,12 @@
 [
   {
-    "label": "scheme",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "0scheme",
-    "filterText": "scheme: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 6
-        },
-        "end": {
-          "line": 4,
-          "character": 6
-        }
-      },
-      "newText": "scheme: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "bearerFormat",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "bearerFormat",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0bearerFormat",
+    "sortText": "11bearerFormat",
     "filterText": "bearerFormat: ",
     "insertText": null,
     "insertTextFormat": [
@@ -45,15 +15,75 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
+          "line": 7,
           "character": 6
         },
         "end": {
-          "line": 4,
+          "line": 7,
           "character": 6
         }
       },
       "newText": "bearerFormat: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11description",
+    "filterText": "description: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "scheme",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "scheme",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10scheme",
+    "filterText": "scheme: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 6
+        },
+        "end": {
+          "line": 7,
+          "character": 6
+        }
+      },
+      "newText": "scheme: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
