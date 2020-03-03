@@ -52,39 +52,13 @@
     "children": []
   },
   {
-    "name": "githubAccessCode",
-    "kind": 7,
+    "name": "Security",
+    "kind": 15,
     "deprecated": false,
     "range": {
       "start": {
-        "line": 19,
-        "character": 2
-      },
-      "end": {
-        "line": 22,
+        "line": 18,
         "character": 0
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 19,
-        "character": 2
-      },
-      "end": {
-        "line": 19,
-        "character": 18
-      }
-    },
-    "children": []
-  },
-  {
-    "name": "internalApiKey",
-    "kind": 7,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 22,
-        "character": 2
       },
       "end": {
         "line": 23,
@@ -93,42 +67,15 @@
     },
     "selectionRange": {
       "start": {
-        "line": 22,
-        "character": 2
+        "line": 18,
+        "character": 0
       },
       "end": {
-        "line": 22,
-        "character": 16
+        "line": 23,
+        "character": 0
       }
     },
-    "children": [
-      {
-        "name": "internalApiKey",
-        "kind": 7,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 14,
-            "character": 2
-          },
-          "end": {
-            "line": 18,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 14,
-            "character": 2
-          },
-          "end": {
-            "line": 14,
-            "character": 16
-          }
-        },
-        "children": []
-      }
-    ]
+    "children": []
   },
   {
     "name": "securityDefinitions",

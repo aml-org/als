@@ -5,11 +5,13 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.oasbuilders.{
   Oas20BaseUnitSymbolBuilder,
+  Oas20WebApiSymbolBuilder,
   Oas30BaseUnitSymbolBuilder
 }
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ramlbuilders.{
   RamlBaseUnitSymbolBuilder,
-  RamlSecuritySchemesSettingsSymbolBuilder
+  RamlSecuritySchemesSettingsSymbolBuilder,
+  RamlWebApiSymbolBuilder
 }
 import org.mulesoft.language.outline.structure.structureImpl.{
   BuilderFactory,
@@ -30,7 +32,6 @@ trait AmfBuilderFactory extends BuilderFactory {
     PropertyShapeSymbolBuilder,
     EndPointListBuilder,
     WebApiVersionBuilder,
-    WebApiSymbolBuilder,
     CreativeWorkListSymbolBuilder,
     ShapeInheritsSymbolBuilder
   )
@@ -40,7 +41,8 @@ trait AmfBuilderFactory extends BuilderFactory {
 
 object RamlBuilderFactory extends AmfBuilderFactory {
 
-  override protected def companion: CompanionList = super.companion + RamlSecuritySchemesSettingsSymbolBuilder
+  override protected def companion: CompanionList =
+    super.companion + RamlSecuritySchemesSettingsSymbolBuilder + RamlWebApiSymbolBuilder
 
   override def baseUnitBuilder: ElementSymbolBuilderCompanion =
     RamlBaseUnitSymbolBuilder
@@ -48,6 +50,7 @@ object RamlBuilderFactory extends AmfBuilderFactory {
 
 object Oas20BuilderFactory extends AmfBuilderFactory {
 
+  override protected def companion: CompanionList = super.companion + Oas20WebApiSymbolBuilder
   override def baseUnitBuilder: ElementSymbolBuilderCompanion =
     Oas20BaseUnitSymbolBuilder
 }
@@ -56,4 +59,6 @@ object Oas30BuilderFactory extends AmfBuilderFactory {
 
   override def baseUnitBuilder: ElementSymbolBuilderCompanion =
     Oas30BaseUnitSymbolBuilder
+
+  override def companion: CompanionList = super.companion + WebApiSymbolBuilder
 }
