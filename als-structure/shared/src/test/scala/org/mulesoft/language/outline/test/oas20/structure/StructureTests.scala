@@ -93,4 +93,12 @@ class StructureTests extends OAS20StructureTest {
   test("test 011 YAML") {
     this.runTest("test011/api.yml", "test011/api-yaml-outline.json")
   }
+
+  test("test root JSON") {
+    this.runTest("root/api.json", "root/api-json-outline.json")
+  }
+
+  test("test root YAML") {
+    this.runTest("root/api.yml", "root/api-yaml-outline.json")
+  }
 }
