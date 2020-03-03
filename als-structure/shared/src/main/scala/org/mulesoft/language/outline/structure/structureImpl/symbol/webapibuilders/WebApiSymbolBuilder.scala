@@ -172,34 +172,6 @@ class EndPointListBuilder(element: AmfArray)(override implicit val factory: Buil
   }
 }
 
-class EndPointSymbolBuilder(override val element: EndPoint)(override implicit val factory: BuilderFactory)
-    extends NamedElementSymbolBuilder(element)(factory) {
-
-  override protected val name: String =
-    element.path.value().stripPrefix(element.parent.flatMap(_.path.option()).getOrElse(""))
-  override protected val selectionRange: Option[PositionRange] =
-    element.path.annotations().find(classOf[LexicalInformation]).map(l => PositionRange(l.range)).orElse(range)
-
-  override def children: List[DocumentSymbol] = super.children ++ getExtendsChildren
-
-  private def getExtendsChildren = {
-    element.extend.headOption match {
-      case Some(first: ParametrizedDeclaration) =>
-        val range = first.annotations
-          .find(classOf[LexicalInformation])
-          .map(l => PositionRange(l.range))
-          .getOrElse(PositionRange(amf.core.parser.Range.NONE))
-        val end = element.extend.last.annotations
-          .find(classOf[LexicalInformation])
-          .map(l => PositionRange(l.range))
-          .getOrElse(PositionRange(amf.core.parser.Range.NONE))
-        val finalRange = range + end
-        Some(DocumentSymbol("type", SymbolKind.Interface, deprecated = false, finalRange, range, Nil))
-      case _ => None
-    }
-  }
-}
-
 class CreativeWorkListSymbolBuilder(element: AmfArray)(override implicit val factory: BuilderFactory)
     extends ElementSymbolBuilder[AmfArray] {
 
