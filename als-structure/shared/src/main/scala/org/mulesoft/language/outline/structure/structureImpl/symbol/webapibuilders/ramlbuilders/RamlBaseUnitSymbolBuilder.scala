@@ -6,13 +6,9 @@ import amf.core.metamodel.domain.extensions.CustomDomainPropertyModel
 import amf.core.model.document.BaseUnit
 import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
-import amf.plugins.domain.webapi.models.EndPoint
-import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, ElementSymbolBuilder}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.BaseUnitSymbolBuilder
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.{
-  BaseUnitSymbolBuilderCompanion,
-  EndPointSymbolBuilder
-}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.BaseUnitSymbolBuilderCompanion
+import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, ElementSymbolBuilder}
 
 class RamlBaseUnitSymbolBuilder(element: BaseUnit)(override implicit val factory: BuilderFactory)
     extends BaseUnitSymbolBuilder(element) {
