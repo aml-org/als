@@ -1,0 +1,18 @@
+#%RAML 1.0
+title: Example API
+version: v1
+
+traits:
+  secured:
+    description: Some requests require authentication
+    queryParameters:
+      get: # e.g. get:
+        description: A token pair is required  # e.g. A get-token pair...
+        example: h8duh3uhhu38   # e.g. get=h8duh3uhhu38
+
+/endpoint:
+  get:
+    is:
+      - secured
+    responses:
+      200:

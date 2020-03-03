@@ -92,12 +92,12 @@
         },
         "selectionRange": {
           "start": {
-            "line": 16,
-            "character": 23
+            "line": 10,
+            "character": 6
           },
           "end": {
-            "line": 16,
-            "character": 29
+            "line": 10,
+            "character": 11
           }
         },
         "children": [
