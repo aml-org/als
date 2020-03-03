@@ -3,7 +3,7 @@
 asyncapi: 2.0.0
 components:
   securitySchemes:
-    security:
+    mySecurity:
       type: oauth2
       flows:
         implicit:
@@ -13,5 +13,4 @@ components:
 
 servers:
   someServer:
-    security:
-      *
+    security: *

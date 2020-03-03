@@ -49,11 +49,5 @@ object AsyncApiServerObject extends DialectNode {
         .withNodePropertyMapping(ServerModel.Security.value.iri())
         .withLiteralRange(xsdString.iri())
         .withAllowMultiple(true),
-      PropertyMapping()
-        .withId(location + "#/declarations/ServerObject/security")
-        .withName("security")
-        .withNodePropertyMapping(ServerModel.Bindings.value.iri())
-        .withObjectRange(Seq())
-        .withMapTermKeyProperty() ???
     )
 }
