@@ -21,7 +21,15 @@ object AsyncApi20Dialect extends OasBaseDialect {
       .withLocation(DialectLocation)
       .withId(DialectLocation)
       .withDeclares(Seq(
-        ))
+        AsyncApi20SecuritySchemeObject,
+        AsyncAPI20ApiKeySecurityObject,
+        AsyncAPI20HttpApiKeySecurityObject,
+        AsyncAPI20HttpSecurityObject,
+        AsyncAPI20Auth20SecurityObject,
+        AsyncAPI20penIdConnectUrl,
+        Oauth2FlowObject,
+        AsyncAPI20FlowObject
+      ))
       .withDocuments(
         DocumentsModel()
           .withId(DialectLocation + "#/documents")

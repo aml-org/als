@@ -1,13 +1,13 @@
 [
   {
-    "label": "implicit",
+    "label": "description",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
+    "detail": "docs",
+    "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0implicit",
-    "filterText": "implicit: ",
+    "sortText": "11description",
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,29 +15,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
+          "line": 7,
           "character": 6
         },
         "end": {
-          "line": 4,
+          "line": 7,
           "character": 6
         }
       },
-      "newText": "implicit: "
+      "newText": "description: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "password",
+    "label": "flows",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "flows",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0password",
-    "filterText": "password: ",
+    "sortText": "10flows",
+    "filterText": "flows:\n        ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,78 +45,18 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
+          "line": 7,
           "character": 6
         },
         "end": {
-          "line": 4,
+          "line": 7,
           "character": 6
         }
       },
-      "newText": "password: "
+      "newText": "flows:\n        "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
-  },
-  {
-    "label": "clientCredentials",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "0clientCredentials",
-    "filterText": "clientCredentials: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 6
-        },
-        "end": {
-          "line": 4,
-          "character": 6
-        }
-      },
-      "newText": "clientCredentials: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-  "label": "authorizationCode",
-  "kind": [],
-  "detail": "unknown",
-  "documentation": "reference tag",
-  "deprecated": [],
-  "preselect": [],
-  "sortText": "0authorizationCode",
-  "filterText": "authorizationCode: ",
-  "insertText": null,
-  "insertTextFormat": [
-    1
-  ],
-  "textEdit": {
-    "range": {
-      "start": {
-        "line": 4,
-        "character": 6
-      },
-      "end": {
-        "line": 4,
-        "character": 6
-      }
-    },
-    "newText": "authorizationCode: "
-  },
-  "additionalTextEdits": null,
-  "commitCharacters": null,
-  "command": null
-}
+  }
 ]

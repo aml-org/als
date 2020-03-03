@@ -1,13 +1,13 @@
 [
   {
-    "label": "security",
+    "label": "mySecurity",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "mySecurity",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0security",
-    "filterText": "security",
+    "sortText": "11mySecurity",
+    "filterText": "\n      - mySecurity",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 15,
+          "character": 14
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 15,
+          "character": 14
         }
       },
-      "newText": "security"
+      "newText": "\n      - mySecurity"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
