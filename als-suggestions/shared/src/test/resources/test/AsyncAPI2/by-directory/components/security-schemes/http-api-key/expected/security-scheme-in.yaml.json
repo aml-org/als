@@ -1,13 +1,13 @@
 [
   {
-    "label": "query",
+    "label": "cookie",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "cookie",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0query",
-    "filterText": "query",
+    "sortText": "10cookie",
+    "filterText": "cookie",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 10
         }
       },
-      "newText": "query"
+      "newText": "cookie"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -33,10 +33,10 @@
     "label": "header",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "header",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0header",
+    "sortText": "10header",
     "filterText": "header",
     "insertText": null,
     "insertTextFormat": [
@@ -45,12 +45,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 10
         }
       },
       "newText": "header"
@@ -60,14 +60,14 @@
     "command": null
   },
   {
-    "label": "cookie",
+    "label": "query",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "query",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0cookie",
-    "filterText": "cookie",
+    "sortText": "10query",
+    "filterText": "query",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,15 +75,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 10
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 10
         }
       },
-      "newText": "cookie"
+      "newText": "query"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
