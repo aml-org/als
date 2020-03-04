@@ -31,7 +31,6 @@ trait AmfBuilderFactory extends BuilderFactory {
     PropertyShapeSymbolBuilder,
     EndPointListBuilder,
     WebApiVersionBuilder,
-    WebApiSymbolBuilder,
     ShapeInheritsSymbolBuilder,
     OperationSymbolBuilderCompanion
   )

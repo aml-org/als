@@ -130,12 +130,12 @@
     "children": []
   },
   {
-    "name": "documentations",
-    "kind": 18,
+    "name": "documentation",
+    "kind": 2,
     "deprecated": false,
     "range": {
       "start": {
-        "line": 15,
+        "line": 14,
         "character": 0
       },
       "end": {
@@ -145,7 +145,7 @@
     },
     "selectionRange": {
       "start": {
-        "line": 15,
+        "line": 14,
         "character": 0
       },
       "end": {
@@ -153,34 +153,7 @@
         "character": 0
       }
     },
-    "children": [
-      {
-        "name": "0",
-        "kind": 5,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 15,
-            "character": 0
-          },
-          "end": {
-            "line": 17,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 15,
-            "character": 0
-          },
-          "end": {
-            "line": 17,
-            "character": 0
-          }
-        },
-        "children": []
-      }
-    ]
+    "children": []
   },
   {
     "name": "/aPath",

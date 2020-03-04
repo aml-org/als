@@ -4,14 +4,13 @@ import amf.core.annotations.{LexicalInformation, SourceAST}
 import amf.core.metamodel.Field
 import amf.core.metamodel.document.BaseUnitModel
 import amf.core.model.document.BaseUnit
-import amf.core.model.domain.templates.ParametrizedDeclaration
 import amf.core.model.domain.{AmfArray, AmfElement, AmfScalar}
 import amf.core.parser.Value
 import amf.plugins.domain.webapi.metamodel.{ServerModel, WebApiModel}
 import amf.plugins.domain.webapi.models.{EndPoint, WebApi}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.{FatherSymbolBuilder, NamedElementSymbolBuilder}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.FatherSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ramlbuilders.RamlEndPointSymbolBuilder
 import org.yaml.model.YNode.MutRef
 
@@ -116,11 +115,6 @@ class WebApiTitleSymbolBuilder(override val scalar: AmfScalar)(override implicit
   override protected val name: String = "title"
 }
 
-class BaseUriSymbolBuilder(override val scalar: AmfScalar)(override implicit val factory: BuilderFactory)
-    extends NameFieldSymbolBuilder(scalar) {
-  override protected val name: String = "Base Url"
-}
-
 class NameFieldSymbolBuilder(override val scalar: AmfScalar)(override implicit val factory: BuilderFactory)
     extends WebApiScalarBuilder {
   override protected val name: String = "name"
@@ -175,40 +169,5 @@ class EndPointListBuilder(element: AmfArray)(override implicit val factory: Buil
           RamlEndPointSymbolBuilder(e, endpoints)(factory)
       })
       .flatMap(_.build())
-  }
-}
-
-class EndPointSymbolBuilder(override val element: EndPoint)(override implicit val factory: BuilderFactory)
-    extends NamedElementSymbolBuilder(element)(factory) {
-
-  override protected val name: String =
-    element.path
-      .value()
-      .stripPrefix(element.parent.flatMap(_.path.option()).getOrElse(""))
-  override protected val selectionRange: Option[PositionRange] =
-    element.path
-      .annotations()
-      .find(classOf[LexicalInformation])
-      .map(l => PositionRange(l.range))
-      .orElse(range)
-
-  override def children: List[DocumentSymbol] =
-    super.children ++ getExtendsChildren
-
-  private def getExtendsChildren = {
-    element.extend.headOption match {
-      case Some(first: ParametrizedDeclaration) =>
-        val range = first.annotations
-          .find(classOf[LexicalInformation])
-          .map(l => PositionRange(l.range))
-          .getOrElse(PositionRange(amf.core.parser.Range.NONE))
-        val end = element.extend.last.annotations
-          .find(classOf[LexicalInformation])
-          .map(l => PositionRange(l.range))
-          .getOrElse(PositionRange(amf.core.parser.Range.NONE))
-        val finalRange = range + end
-        Some(DocumentSymbol("type", SymbolKind.Interface, deprecated = false, finalRange, range, Nil))
-      case _ => None
-    }
   }
 }
