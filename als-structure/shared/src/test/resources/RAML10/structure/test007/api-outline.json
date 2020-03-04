@@ -305,34 +305,7 @@
                                 "character": 27
                               }
                             },
-                            "children": [
-                              {
-                                "name": "application/xml",
-                                "kind": 5,
-                                "deprecated": false,
-                                "range": {
-                                  "start": {
-                                    "line": 41,
-                                    "character": 29
-                                  },
-                                  "end": {
-                                    "line": 41,
-                                    "character": 32
-                                  }
-                                },
-                                "selectionRange": {
-                                  "start": {
-                                    "line": 41,
-                                    "character": 29
-                                  },
-                                  "end": {
-                                    "line": 41,
-                                    "character": 32
-                                  }
-                                },
-                                "children": []
-                              }
-                            ]
+                            "children": []
                           }
                         ]
                       }
@@ -735,34 +708,7 @@
                     "character": 0
                   }
                 },
-                "children": [
-                  {
-                    "name": "reports",
-                    "kind": 18,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 21,
-                        "character": 6
-                      },
-                      "end": {
-                        "line": 22,
-                        "character": 0
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 21,
-                        "character": 6
-                      },
-                      "end": {
-                        "line": 21,
-                        "character": 13
-                      }
-                    },
-                    "children": []
-                  }
-                ]
+                "children": []
               },
               {
                 "name": "phone",

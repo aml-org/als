@@ -226,34 +226,7 @@
                             "character": 26
                           }
                         },
-                        "children": [
-                          {
-                            "name": "X-waiting-period",
-                            "kind": 16,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 18,
-                                "character": 18
-                              },
-                              "end": {
-                                "line": 18,
-                                "character": 25
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 18,
-                                "character": 18
-                              },
-                              "end": {
-                                "line": 18,
-                                "character": 25
-                              }
-                            },
-                            "children": []
-                          }
-                        ]
+                        "children": []
                       }
                     ]
                   }

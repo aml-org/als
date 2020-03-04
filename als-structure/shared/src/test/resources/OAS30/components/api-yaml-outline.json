@@ -686,34 +686,7 @@
             "character": 13
           }
         },
-        "children": [
-          {
-            "name": "skipParam",
-            "kind": 16,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 29,
-                "character": 6
-              },
-              "end": {
-                "line": 32,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 29,
-                "character": 6
-              },
-              "end": {
-                "line": 32,
-                "character": 0
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "name": "limitParam",
@@ -739,34 +712,7 @@
             "character": 14
           }
         },
-        "children": [
-          {
-            "name": "limitParam",
-            "kind": 16,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 37,
-                "character": 6
-              },
-              "end": {
-                "line": 40,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 37,
-                "character": 6
-              },
-              "end": {
-                "line": 40,
-                "character": 0
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "name": "header1",

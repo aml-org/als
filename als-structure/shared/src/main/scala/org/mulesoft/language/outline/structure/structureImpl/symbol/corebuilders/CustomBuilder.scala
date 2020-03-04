@@ -8,46 +8,45 @@ import amf.plugins.domain.webapi.metamodel.{EncodingModel, OperationModel, WebAp
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, SymbolKind}
 
-abstract class CustomBuilder(fe: FieldEntry)(implicit val factory: BuilderFactory) {
-  def applies: Boolean
-  def build: Seq[DocumentSymbol]
+abstract class CustomBuilder(implicit val factory: BuilderFactory) {
+  def applies(fe: FieldEntry): Boolean
+  def build(fe: FieldEntry): Seq[DocumentSymbol]
 }
 
-abstract class FieldArrayBuilder(fe: FieldEntry)(override implicit val factory: BuilderFactory)
-    extends CustomBuilder(fe) {
+abstract class FieldArrayBuilder(override implicit val factory: BuilderFactory) extends CustomBuilder {
   protected val ignored: Seq[Field] = Seq(WebApiModel.EndPoints)
 
-  override def applies: Boolean =
+  override def applies(fe: FieldEntry): Boolean =
     fe.value.value.isInstanceOf[AmfArray] && !ignored.contains(fe.field)
 
-  protected val name: String = fe.field.value.name
+  protected def name(fe: FieldEntry): String = fe.field.value.name
 
-  protected final val range: Option[PositionRange] = fe.value.annotations
-    .find(classOf[LexicalInformation])
-    .map(l => l.range)
-    .map(PositionRange(_))
+  protected def range(fe: FieldEntry): Option[PositionRange] =
+    fe.value.annotations
+      .find(classOf[LexicalInformation])
+      .map(l => l.range)
+      .map(PositionRange(_))
 
   protected val kind: SymbolKind.Module.type = SymbolKind.Module
 
-  private def getAllDocumentSymbols(fe: FieldEntry, e: AmfElement): Seq[DocumentSymbol] =
+  private def getAllDocumentSymbols(fe: FieldEntry): Seq[DocumentSymbol] =
     factory
-      .builderFor(fe, e.location())
+      .builderFor(fe, fe.array.location())
       .map(_.build())
       .getOrElse(Nil)
 
-  protected def children: List[DocumentSymbol] =
-    getAllDocumentSymbols(fe, fe.array).toList
+  protected def children(fe: FieldEntry): List[DocumentSymbol] =
+    getAllDocumentSymbols(fe).toList
 
-  def build: Seq[DocumentSymbol] =
-    range
+  def build(fe: FieldEntry): Seq[DocumentSymbol] =
+    range(fe)
       .map { r =>
-        Seq(DocumentSymbol(name, kind, deprecated = false, r, r, children))
+        Seq(DocumentSymbol(name(fe), kind, deprecated = false, r, r, children(fe)))
       }
-      .getOrElse { children }
+      .getOrElse { children(fe) }
 }
 
-case class WebApiCustomArrayBuilder(fe: FieldEntry)(override implicit val factory: BuilderFactory)
-    extends FieldArrayBuilder(fe) {
+case class WebApiCustomArrayBuilder(override implicit val factory: BuilderFactory) extends FieldArrayBuilder {
 
   protected val ignoreChildren: Seq[Field] = Seq(OperationModel.Tags)
 
@@ -57,16 +56,20 @@ case class WebApiCustomArrayBuilder(fe: FieldEntry)(override implicit val factor
     EncodingModel.Headers    -> "headers"
   )
 
-  override val name: String =
+  override def name(fe: FieldEntry): String =
     map.getOrElse(fe.field, fe.field.value.name)
 
-  override protected def children: List[DocumentSymbol] = {
-    val potentialChildren =
-      if (ignoreChildren.contains(fe.field)) Nil
-      else super.children
-    if (potentialChildren.length == 1 && potentialChildren.head.name == name) // skip lone child with same name
-      potentialChildren.head.children
+  override protected def children(fe: FieldEntry): List[DocumentSymbol] =
+    skipLoneChild(contemplateIgnoredChildren(fe), name(fe))
+
+  private def contemplateIgnoredChildren(fe: FieldEntry): List[DocumentSymbol] =
+    if (ignoreChildren.contains(fe.field)) Nil
+    else super.children(fe)
+
+  private def skipLoneChild(children: List[DocumentSymbol], name: String): List[DocumentSymbol] =
+    if (children.length == 1 && children.head.name == name)
+      children.head.children
     else
-      potentialChildren
-  }
+      children
+
 }

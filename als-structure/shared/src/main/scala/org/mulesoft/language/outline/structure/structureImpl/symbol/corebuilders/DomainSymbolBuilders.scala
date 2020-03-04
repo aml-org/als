@@ -15,11 +15,11 @@ trait FatherSymbolBuilder[T <: AmfObject] extends ElementSymbolBuilder[T] {
   def ignoreFields =
     List(WebApiModel.Name, DomainElementModel.Extends, LinkableElementModel.Target, WebApiModel.Version)
 
-  def customBuilders: Seq[FieldEntry => CustomBuilder] =
-    Seq(WebApiCustomArrayBuilder(_)(factory))
+  def customBuilders: Seq[CustomBuilder] =
+    Seq(WebApiCustomArrayBuilder()(factory))
 
   def getCustomFromFieldEntry(fe: FieldEntry): Option[Seq[DocumentSymbol]] =
-    customBuilders.find(c => c(fe).applies).map(_(fe)).map(_.build)
+    customBuilders.find(c => c.applies(fe)).map(_.build(fe))
 
   protected def children: List[DocumentSymbol] =
     element.fields
@@ -65,10 +65,15 @@ trait AmfObjSymbolBuilder[T <: AmfObject] extends FatherSymbolBuilder[T] {
                            deprecated = false,
                            r,
                            selectionRange.getOrElse(r),
-                           children))
+                           skipLoneChild(children, name)))
         }
         .getOrElse(children)
 
+  private def skipLoneChild(children: List[DocumentSymbol], name: String): List[DocumentSymbol] =
+    if (children.length == 1 && children.head.name == name)
+      children.head.children
+    else
+      children
 }
 
 class DomainElementSymbolBuilder(override val element: DomainElement, entryAst: YMapEntry)(
@@ -87,7 +92,7 @@ object DomainElementSymbolBuilder extends ElementSymbolBuilderCompanion {
   override def getType: Class[_ <: AmfElement] = classOf[DomainElement]
 
   override def construct(element: DomainElement)(
-      implicit factory: BuilderFactory): Option[ElementSymbolBuilder[_ <: DomainElement]] = {
+      implicit factory: BuilderFactory): Option[ElementSymbolBuilder[_ <: DomainElement]] =
     element match {
       case n: NamedDomainElement if n.name.option().isDefined =>
         NamedElementSymbolBuilder.construct(n)
@@ -98,7 +103,6 @@ object DomainElementSymbolBuilder extends ElementSymbolBuilderCompanion {
           case _ => None
         }
     }
-  }
 }
 
 object NamedElementSymbolBuilder extends ElementSymbolBuilderCompanion {

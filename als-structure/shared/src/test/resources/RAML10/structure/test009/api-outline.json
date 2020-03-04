@@ -334,34 +334,7 @@
                     "character": 0
                   }
                 },
-                "children": [
-                  {
-                    "name": "reports",
-                    "kind": 18,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 16,
-                        "character": 6
-                      },
-                      "end": {
-                        "line": 17,
-                        "character": 0
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 16,
-                        "character": 6
-                      },
-                      "end": {
-                        "line": 16,
-                        "character": 13
-                      }
-                    },
-                    "children": []
-                  }
-                ]
+                "children": []
               },
               {
                 "name": "phone",

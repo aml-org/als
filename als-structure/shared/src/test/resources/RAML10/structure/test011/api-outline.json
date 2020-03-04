@@ -152,57 +152,30 @@
                 },
                 "children": [
                   {
-                    "name": "addresses",
-                    "kind": 18,
+                    "name": "inherits",
+                    "kind": 2,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 10,
-                        "character": 6
+                        "line": 11,
+                        "character": 8
                       },
                       "end": {
-                        "line": 14,
+                        "line": 12,
                         "character": 0
                       }
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 10,
-                        "character": 6
+                        "line": 11,
+                        "character": 8
                       },
                       "end": {
-                        "line": 10,
-                        "character": 15
+                        "line": 12,
+                        "character": 0
                       }
                     },
-                    "children": [
-                      {
-                        "name": "inherits",
-                        "kind": 2,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 11,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 12,
-                            "character": 0
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 11,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 12,
-                            "character": 0
-                          }
-                        },
-                        "children": []
-                      }
-                    ]
+                    "children": []
                   }
                 ]
               }

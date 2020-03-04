@@ -686,34 +686,7 @@
             "character": 17
           }
         },
-        "children": [
-          {
-            "name": "skipParam",
-            "kind": 16,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 39,
-                "character": 8
-              },
-              "end": {
-                "line": 42,
-                "character": 9
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 39,
-                "character": 8
-              },
-              "end": {
-                "line": 42,
-                "character": 9
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "name": "limitParam",
@@ -739,34 +712,7 @@
             "character": 18
           }
         },
-        "children": [
-          {
-            "name": "limitParam",
-            "kind": 16,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 49,
-                "character": 8
-              },
-              "end": {
-                "line": 52,
-                "character": 9
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 49,
-                "character": 8
-              },
-              "end": {
-                "line": 52,
-                "character": 9
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "name": "header1",

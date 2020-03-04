@@ -176,34 +176,7 @@
                     "character": 27
                   }
                 },
-                "children": [
-                  {
-                    "name": "Authorization",
-                    "kind": 15,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 15,
-                        "character": 24
-                      },
-                      "end": {
-                        "line": 15,
-                        "character": 30
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 15,
-                        "character": 24
-                      },
-                      "end": {
-                        "line": 15,
-                        "character": 30
-                      }
-                    },
-                    "children": []
-                  }
-                ]
+                "children": []
               }
             ]
           },
@@ -281,34 +254,7 @@
                         "character": 26
                       }
                     },
-                    "children": [
-                      {
-                        "name": "access_token",
-                        "kind": 15,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 21,
-                            "character": 24
-                          },
-                          "end": {
-                            "line": 21,
-                            "character": 30
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 21,
-                            "character": 24
-                          },
-                          "end": {
-                            "line": 21,
-                            "character": 30
-                          }
-                        },
-                        "children": []
-                      }
-                    ]
+                    "children": []
                   }
                 ]
               }

@@ -126,34 +126,7 @@
             "character": 12
           }
         },
-        "children": [
-          {
-            "name": "deprecated",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 4,
-                "character": 2
-              },
-              "end": {
-                "line": 5,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 4,
-                "character": 2
-              },
-              "end": {
-                "line": 4,
-                "character": 12
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "name": "experimental",
@@ -179,34 +152,7 @@
             "character": 14
           }
         },
-        "children": [
-          {
-            "name": "experimental",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 5,
-                "character": 2
-              },
-              "end": {
-                "line": 6,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 5,
-                "character": 2
-              },
-              "end": {
-                "line": 5,
-                "character": 14
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "name": "feedbackRequested",
@@ -311,34 +257,7 @@
             "character": 7
           }
         },
-        "children": [
-          {
-            "name": "badge",
-            "kind": 15,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 9,
-                "character": 2
-              },
-              "end": {
-                "line": 10,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 9,
-                "character": 2
-              },
-              "end": {
-                "line": 9,
-                "character": 7
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "name": "clearanceLevel",

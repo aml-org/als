@@ -200,34 +200,7 @@
                             "character": 25
                           }
                         },
-                        "children": [
-                          {
-                            "name": "application/xml",
-                            "kind": 7,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 19,
-                                "character": 0
-                              },
-                              "end": {
-                                "line": 20,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 19,
-                                "character": 0
-                              },
-                              "end": {
-                                "line": 20,
-                                "character": 0
-                              }
-                            },
-                            "children": []
-                          }
-                        ]
+                        "children": []
                       }
                     ]
                   }
@@ -387,34 +360,7 @@
                             "character": 24
                           }
                         },
-                        "children": [
-                          {
-                            "name": "application/json",
-                            "kind": 7,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 24,
-                                "character": 0
-                              },
-                              "end": {
-                                "line": 25,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 24,
-                                "character": 0
-                              },
-                              "end": {
-                                "line": 25,
-                                "character": 0
-                              }
-                            },
-                            "children": []
-                          }
-                        ]
+                        "children": []
                       }
                     ]
                   }

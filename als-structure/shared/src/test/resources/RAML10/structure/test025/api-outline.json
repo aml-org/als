@@ -226,34 +226,7 @@
                             "character": 26
                           }
                         },
-                        "children": [
-                          {
-                            "name": "application/json",
-                            "kind": 5,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 10,
-                                "character": 28
-                              },
-                              "end": {
-                                "line": 10,
-                                "character": 38
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 10,
-                                "character": 28
-                              },
-                              "end": {
-                                "line": 10,
-                                "character": 38
-                              }
-                            },
-                            "children": []
-                          }
-                        ]
+                        "children": []
                       }
                     ]
                   }
