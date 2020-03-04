@@ -204,7 +204,34 @@
             "character": 10
           }
         },
-        "children": []
+        "children": [
+          {
+            "name": "example",
+            "kind": 2,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 24,
+                "character": 0
+              },
+              "end": {
+                "line": 26,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 24,
+                "character": 0
+              },
+              "end": {
+                "line": 26,
+                "character": 0
+              }
+            },
+            "children": []
+          }
+        ]
       },
       {
         "name": "lunchtime",
@@ -230,7 +257,34 @@
             "character": 11
           }
         },
-        "children": []
+        "children": [
+          {
+            "name": "example",
+            "kind": 2,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 27,
+                "character": 0
+              },
+              "end": {
+                "line": 29,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 27,
+                "character": 0
+              },
+              "end": {
+                "line": 29,
+                "character": 0
+              }
+            },
+            "children": []
+          }
+        ]
       },
       {
         "name": "fireworks",
@@ -256,7 +310,34 @@
             "character": 11
           }
         },
-        "children": []
+        "children": [
+          {
+            "name": "example",
+            "kind": 2,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 30,
+                "character": 0
+              },
+              "end": {
+                "line": 32,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 30,
+                "character": 0
+              },
+              "end": {
+                "line": 32,
+                "character": 0
+              }
+            },
+            "children": []
+          }
+        ]
       },
       {
         "name": "created",
@@ -282,7 +363,34 @@
             "character": 9
           }
         },
-        "children": []
+        "children": [
+          {
+            "name": "example",
+            "kind": 2,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 33,
+                "character": 0
+              },
+              "end": {
+                "line": 36,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 33,
+                "character": 0
+              },
+              "end": {
+                "line": 36,
+                "character": 0
+              }
+            },
+            "children": []
+          }
+        ]
       },
       {
         "name": "If-Modified-Since",
@@ -308,7 +416,34 @@
             "character": 19
           }
         },
-        "children": []
+        "children": [
+          {
+            "name": "example",
+            "kind": 2,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 37,
+                "character": 0
+              },
+              "end": {
+                "line": 40,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 37,
+                "character": 0
+              },
+              "end": {
+                "line": 40,
+                "character": 0
+              }
+            },
+            "children": []
+          }
+        ]
       },
       {
         "name": "userPicture",
@@ -443,12 +578,12 @@
         "children": [
           {
             "name": "example",
-            "kind": 7,
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 53,
-                "character": 4
+                "line": 49,
+                "character": 0
               },
               "end": {
                 "line": 56,
@@ -457,12 +592,12 @@
             },
             "selectionRange": {
               "start": {
-                "line": 53,
-                "character": 4
+                "line": 49,
+                "character": 0
               },
               "end": {
-                "line": 53,
-                "character": 11
+                "line": 56,
+                "character": 0
               }
             },
             "children": []
