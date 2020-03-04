@@ -153,13 +153,13 @@
             },
             "children": [
               {
-                "name": "headers",
-                "kind": 2,
+                "name": "Header",
+                "kind": 18,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 7,
-                    "character": 4
+                    "line": 8,
+                    "character": 0
                   },
                   "end": {
                     "line": 15,
@@ -168,8 +168,8 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 7,
-                    "character": 4
+                    "line": 8,
+                    "character": 0
                   },
                   "end": {
                     "line": 15,

@@ -128,13 +128,13 @@
         },
         "children": [
           {
-            "name": "headers",
-            "kind": 2,
+            "name": "Header",
+            "kind": 18,
             "deprecated": false,
             "range": {
               "start": {
                 "line": 13,
-                "character": 6
+                "character": 14
               },
               "end": {
                 "line": 15,
@@ -144,7 +144,7 @@
             "selectionRange": {
               "start": {
                 "line": 13,
-                "character": 6
+                "character": 14
               },
               "end": {
                 "line": 15,
@@ -208,13 +208,13 @@
             ]
           },
           {
-            "name": "parameter",
-            "kind": 2,
+            "name": "Query Parameters",
+            "kind": 18,
             "deprecated": false,
             "range": {
               "start": {
                 "line": 10,
-                "character": 6
+                "character": 22
               },
               "end": {
                 "line": 13,
@@ -224,7 +224,7 @@
             "selectionRange": {
               "start": {
                 "line": 10,
-                "character": 6
+                "character": 22
               },
               "end": {
                 "line": 13,
@@ -233,13 +233,13 @@
             },
             "children": [
               {
-                "name": "queryParameters",
-                "kind": 18,
+                "name": "query",
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 10,
-                    "character": 22
+                    "line": 11,
+                    "character": 8
                   },
                   "end": {
                     "line": 13,
@@ -248,18 +248,18 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 10,
-                    "character": 22
+                    "line": 11,
+                    "character": 8
                   },
                   "end": {
-                    "line": 13,
-                    "character": 0
+                    "line": 11,
+                    "character": 13
                   }
                 },
                 "children": [
                   {
-                    "name": "query",
-                    "kind": 7,
+                    "name": "schema",
+                    "kind": 15,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -277,38 +277,11 @@
                         "character": 8
                       },
                       "end": {
-                        "line": 11,
-                        "character": 13
+                        "line": 13,
+                        "character": 0
                       }
                     },
-                    "children": [
-                      {
-                        "name": "schema",
-                        "kind": 15,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 11,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 13,
-                            "character": 0
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 11,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 13,
-                            "character": 0
-                          }
-                        },
-                        "children": []
-                      }
-                    ]
+                    "children": []
                   }
                 ]
               }
