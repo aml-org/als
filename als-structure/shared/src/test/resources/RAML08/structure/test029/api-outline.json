@@ -128,13 +128,13 @@
         },
         "children": [
           {
-            "name": "headers",
-            "kind": 2,
+            "name": "Header",
+            "kind": 18,
             "deprecated": false,
             "range": {
               "start": {
                 "line": 10,
-                "character": 10
+                "character": 18
               },
               "end": {
                 "line": 16,
@@ -144,7 +144,7 @@
             "selectionRange": {
               "start": {
                 "line": 10,
-                "character": 10
+                "character": 18
               },
               "end": {
                 "line": 16,
@@ -181,13 +181,13 @@
             ]
           },
           {
-            "name": "parameter",
-            "kind": 2,
+            "name": "Query Parameters",
+            "kind": 18,
             "deprecated": false,
             "range": {
               "start": {
                 "line": 16,
-                "character": 10
+                "character": 26
               },
               "end": {
                 "line": 22,
@@ -197,7 +197,7 @@
             "selectionRange": {
               "start": {
                 "line": 16,
-                "character": 10
+                "character": 26
               },
               "end": {
                 "line": 22,
@@ -206,13 +206,13 @@
             },
             "children": [
               {
-                "name": "queryParameters",
-                "kind": 18,
+                "name": "access_token",
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 16,
-                    "character": 26
+                    "line": 17,
+                    "character": 14
                   },
                   "end": {
                     "line": 22,
@@ -221,42 +221,15 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 16,
-                    "character": 26
+                    "line": 17,
+                    "character": 14
                   },
                   "end": {
-                    "line": 22,
-                    "character": 0
+                    "line": 17,
+                    "character": 26
                   }
                 },
-                "children": [
-                  {
-                    "name": "access_token",
-                    "kind": 7,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 17,
-                        "character": 14
-                      },
-                      "end": {
-                        "line": 22,
-                        "character": 0
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 17,
-                        "character": 14
-                      },
-                      "end": {
-                        "line": 17,
-                        "character": 26
-                      }
-                    },
-                    "children": []
-                  }
-                ]
+                "children": []
               }
             ]
           },

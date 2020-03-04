@@ -4,8 +4,9 @@ import amf.core.annotations.LexicalInformation
 import amf.core.metamodel.Field
 import amf.core.model.domain.{AmfArray, AmfElement}
 import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.{EncodingModel, OperationModel, WebApiModel}
+import amf.plugins.domain.webapi.metamodel.{EncodingModel, OperationModel, RequestModel, WebApiModel}
 import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ParameterBindingLabelMapper
 import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, SymbolKind}
 
 abstract class CustomBuilder(implicit val factory: BuilderFactory) {
@@ -14,7 +15,14 @@ abstract class CustomBuilder(implicit val factory: BuilderFactory) {
 }
 
 abstract class FieldArrayBuilder(override implicit val factory: BuilderFactory) extends CustomBuilder {
-  protected val ignored: Seq[Field] = Seq(WebApiModel.EndPoints)
+  protected val ignored: Seq[Field] = Seq(
+    WebApiModel.EndPoints,
+    RequestModel.UriParameters,
+    RequestModel.QueryParameters,
+    RequestModel.QueryString,
+    RequestModel.UriParameters,
+    RequestModel.Headers
+  )
 
   override def applies(fe: FieldEntry): Boolean =
     fe.value.value.isInstanceOf[AmfArray] && !ignored.contains(fe.field)
@@ -53,7 +61,7 @@ case class WebApiCustomArrayBuilder(override implicit val factory: BuilderFactor
   private val map: Map[Field, String] = Map(
     OperationModel.Tags      -> "tags",
     OperationModel.Responses -> "responses",
-    EncodingModel.Headers    -> "headers"
+    EncodingModel.Headers    -> ParameterBindingLabelMapper.toLabel("header")
   )
 
   override def name(fe: FieldEntry): String =

@@ -152,13 +152,13 @@
                 },
                 "children": [
                   {
-                    "name": "headers",
-                    "kind": 2,
+                    "name": "Header",
+                    "kind": 18,
                     "deprecated": false,
                     "range": {
                       "start": {
                         "line": 13,
-                        "character": 10
+                        "character": 18
                       },
                       "end": {
                         "line": 18,
@@ -168,7 +168,7 @@
                     "selectionRange": {
                       "start": {
                         "line": 13,
-                        "character": 10
+                        "character": 18
                       },
                       "end": {
                         "line": 18,
@@ -285,13 +285,13 @@
                 },
                 "children": [
                   {
-                    "name": "headers",
-                    "kind": 2,
+                    "name": "Header",
+                    "kind": 18,
                     "deprecated": false,
                     "range": {
                       "start": {
                         "line": 24,
-                        "character": 10
+                        "character": 18
                       },
                       "end": {
                         "line": 29,
@@ -301,7 +301,7 @@
                     "selectionRange": {
                       "start": {
                         "line": 24,
-                        "character": 10
+                        "character": 18
                       },
                       "end": {
                         "line": 29,
