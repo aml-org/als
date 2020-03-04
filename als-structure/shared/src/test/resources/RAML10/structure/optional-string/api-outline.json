@@ -76,39 +76,13 @@
         },
         "children": [
           {
-            "name": "maxResults",
-            "kind": 7,
+            "name": "property",
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 7,
-                "character": 6
-              },
-              "end": {
-                "line": 8,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 7,
-                "character": 6
-              },
-              "end": {
-                "line": 8,
-                "character": 0
-              }
-            },
-            "children": []
-          },
-          {
-            "name": "zipcode",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 8,
-                "character": 6
+                "line": 6,
+                "character": 4
               },
               "end": {
                 "line": 8,
@@ -117,15 +91,68 @@
             },
             "selectionRange": {
               "start": {
-                "line": 8,
-                "character": 6
+                "line": 6,
+                "character": 4
               },
               "end": {
                 "line": 8,
                 "character": 23
               }
             },
-            "children": []
+            "children": [
+              {
+                "name": "maxResults",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 7,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 8,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 7,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 8,
+                    "character": 0
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "zipcode",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 8,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 8,
+                    "character": 23
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 8,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 8,
+                    "character": 23
+                  }
+                },
+                "children": []
+              }
+            ]
           }
         ]
       }

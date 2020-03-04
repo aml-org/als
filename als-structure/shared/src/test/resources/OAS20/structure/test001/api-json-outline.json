@@ -154,5 +154,83 @@
       }
     },
     "children": []
+  },
+  {
+    "name": "accepts",
+    "kind": 2,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 23,
+        "character": 2
+      },
+      "end": {
+        "line": 25,
+        "character": 3
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 23,
+        "character": 2
+      },
+      "end": {
+        "line": 25,
+        "character": 3
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "contentType",
+    "kind": 2,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 29,
+        "character": 3
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 29,
+        "character": 3
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "scheme",
+    "kind": 2,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 19,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 19,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "children": []
   }
 ]

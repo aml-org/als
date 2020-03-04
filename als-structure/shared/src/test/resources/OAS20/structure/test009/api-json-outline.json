@@ -127,27 +127,53 @@
             },
             "children": [
               {
-                "name": "idHeader",
-                "kind": 5,
+                "name": "and",
+                "kind": 2,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 20,
-                    "character": 12
+                    "line": 43,
+                    "character": 23
                   },
                   "end": {
-                    "line": 47,
-                    "character": 13
+                    "line": 45,
+                    "character": 15
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 20,
-                    "character": 12
+                    "line": 43,
+                    "character": 23
                   },
                   "end": {
-                    "line": 47,
-                    "character": 13
+                    "line": 45,
+                    "character": 15
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "property",
+                "kind": 2,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 23,
+                    "character": 14
+                  },
+                  "end": {
+                    "line": 30,
+                    "character": 15
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 23,
+                    "character": 14
+                  },
+                  "end": {
+                    "line": 30,
+                    "character": 15
                   }
                 },
                 "children": [
