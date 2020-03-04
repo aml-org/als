@@ -77,8 +77,8 @@
     },
     "children": [
       {
-        "name": "payload",
-        "kind": 2,
+        "name": "Body Parameters",
+        "kind": 13,
         "deprecated": false,
         "range": {
           "start": {
