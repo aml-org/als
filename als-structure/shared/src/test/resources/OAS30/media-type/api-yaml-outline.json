@@ -204,13 +204,13 @@
                     "children": []
                   },
                   {
-                    "name": "name",
-                    "kind": 7,
+                    "name": "encoding",
+                    "kind": 2,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 20,
-                        "character": 14
+                        "line": 19,
+                        "character": 12
                       },
                       "end": {
                         "line": 21,
@@ -219,15 +219,42 @@
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 20,
-                        "character": 14
+                        "line": 19,
+                        "character": 12
                       },
                       "end": {
-                        "line": 20,
-                        "character": 18
+                        "line": 21,
+                        "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      {
+                        "name": "name",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 20,
+                            "character": 14
+                          },
+                          "end": {
+                            "line": 21,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 20,
+                            "character": 14
+                          },
+                          "end": {
+                            "line": 20,
+                            "character": 18
+                          }
+                        },
+                        "children": []
+                      }
+                    ]
                   }
                 ]
               }

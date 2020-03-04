@@ -127,26 +127,52 @@
             },
             "children": [
               {
-                "name": "idHeader",
-                "kind": 5,
+                "name": "and",
+                "kind": 2,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 17,
-                    "character": 8
+                    "line": 35,
+                    "character": 16
                   },
                   "end": {
-                    "line": 38,
+                    "line": 37,
                     "character": 0
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 17,
-                    "character": 8
+                    "line": 35,
+                    "character": 16
                   },
                   "end": {
-                    "line": 38,
+                    "line": 37,
+                    "character": 0
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "property",
+                "kind": 2,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 20,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 25,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 20,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 25,
                     "character": 0
                   }
                 },

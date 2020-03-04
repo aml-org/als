@@ -76,39 +76,13 @@
         },
         "children": [
           {
-            "name": "name",
-            "kind": 7,
+            "name": "property",
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 5,
-                "character": 6
-              },
-              "end": {
-                "line": 10,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 5,
-                "character": 6
-              },
-              "end": {
-                "line": 10,
-                "character": 0
-              }
-            },
-            "children": []
-          },
-          {
-            "name": "addresses",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 10,
-                "character": 6
+                "line": 4,
+                "character": 4
               },
               "end": {
                 "line": 14,
@@ -117,8 +91,8 @@
             },
             "selectionRange": {
               "start": {
-                "line": 10,
-                "character": 6
+                "line": 4,
+                "character": 4
               },
               "end": {
                 "line": 14,
@@ -127,8 +101,34 @@
             },
             "children": [
               {
+                "name": "name",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 5,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 10,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 5,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 10,
+                    "character": 0
+                  }
+                },
+                "children": []
+              },
+              {
                 "name": "addresses",
-                "kind": 18,
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -146,14 +146,14 @@
                     "character": 6
                   },
                   "end": {
-                    "line": 10,
-                    "character": 15
+                    "line": 14,
+                    "character": 0
                   }
                 },
                 "children": [
                   {
                     "name": "inherits",
-                    "kind": 18,
+                    "kind": 2,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -209,39 +209,13 @@
         },
         "children": [
           {
-            "name": "street",
-            "kind": 7,
+            "name": "property",
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 16,
-                "character": 6
-              },
-              "end": {
-                "line": 17,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 16,
-                "character": 6
-              },
-              "end": {
-                "line": 17,
-                "character": 0
-              }
-            },
-            "children": []
-          },
-          {
-            "name": "city",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 17,
-                "character": 6
+                "line": 15,
+                "character": 4
               },
               "end": {
                 "line": 18,
@@ -250,15 +224,68 @@
             },
             "selectionRange": {
               "start": {
-                "line": 17,
-                "character": 6
+                "line": 15,
+                "character": 4
               },
               "end": {
                 "line": 18,
                 "character": 0
               }
             },
-            "children": []
+            "children": [
+              {
+                "name": "street",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 16,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 17,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 16,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 17,
+                    "character": 0
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "city",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 17,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 18,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 17,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 18,
+                    "character": 0
+                  }
+                },
+                "children": []
+              }
+            ]
           }
         ]
       }

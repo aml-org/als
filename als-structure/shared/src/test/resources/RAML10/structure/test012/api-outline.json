@@ -76,8 +76,8 @@
         },
         "children": [
           {
-            "name": "queryParameters",
-            "kind": 18,
+            "name": "parameter",
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
@@ -101,13 +101,13 @@
             },
             "children": [
               {
-                "name": "userIds",
-                "kind": 7,
+                "name": "queryParameters",
+                "kind": 18,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 8,
-                    "character": 6
+                    "line": 7,
+                    "character": 18
                   },
                   "end": {
                     "line": 14,
@@ -116,18 +116,18 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 8,
-                    "character": 6
+                    "line": 7,
+                    "character": 18
                   },
                   "end": {
-                    "line": 8,
-                    "character": 13
+                    "line": 14,
+                    "character": 25
                   }
                 },
                 "children": [
                   {
-                    "name": "schema",
-                    "kind": 18,
+                    "name": "userIds",
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -145,36 +145,63 @@
                         "character": 6
                       },
                       "end": {
-                        "line": 14,
-                        "character": 25
+                        "line": 8,
+                        "character": 13
                       }
                     },
                     "children": [
                       {
-                        "name": "items",
-                        "kind": 15,
+                        "name": "schema",
+                        "kind": 18,
                         "deprecated": false,
                         "range": {
                           "start": {
-                            "line": 11,
-                            "character": 8
+                            "line": 8,
+                            "character": 6
                           },
                           "end": {
                             "line": 14,
-                            "character": 0
+                            "character": 25
                           }
                         },
                         "selectionRange": {
                           "start": {
-                            "line": 11,
-                            "character": 8
+                            "line": 8,
+                            "character": 6
                           },
                           "end": {
-                            "line": 11,
-                            "character": 13
+                            "line": 14,
+                            "character": 25
                           }
                         },
-                        "children": []
+                        "children": [
+                          {
+                            "name": "items",
+                            "kind": 15,
+                            "deprecated": false,
+                            "range": {
+                              "start": {
+                                "line": 11,
+                                "character": 8
+                              },
+                              "end": {
+                                "line": 14,
+                                "character": 0
+                              }
+                            },
+                            "selectionRange": {
+                              "start": {
+                                "line": 11,
+                                "character": 8
+                              },
+                              "end": {
+                                "line": 11,
+                                "character": 13
+                              }
+                            },
+                            "children": []
+                          }
+                        ]
                       }
                     ]
                   }

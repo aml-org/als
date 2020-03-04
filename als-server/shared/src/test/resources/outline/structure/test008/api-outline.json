@@ -334,7 +334,34 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          {
+            "name": "fileType",
+            "kind": 2,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 42,
+                "character": 16
+              },
+              "end": {
+                "line": 42,
+                "character": 43
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 42,
+                "character": 16
+              },
+              "end": {
+                "line": 42,
+                "character": 43
+              }
+            },
+            "children": []
+          }
+        ]
       },
       {
         "name": "customFile",
@@ -360,7 +387,34 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          {
+            "name": "fileType",
+            "kind": 2,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 46,
+                "character": 16
+              },
+              "end": {
+                "line": 46,
+                "character": 23
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 46,
+                "character": 16
+              },
+              "end": {
+                "line": 46,
+                "character": 23
+              }
+            },
+            "children": []
+          }
+        ]
       },
       {
         "name": "NilValue",
@@ -414,39 +468,13 @@
             "children": []
           },
           {
-            "name": "name",
-            "kind": 7,
+            "name": "property",
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 51,
-                "character": 6
-              },
-              "end": {
-                "line": 52,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 51,
-                "character": 6
-              },
-              "end": {
-                "line": 52,
-                "character": 0
-              }
-            },
-            "children": []
-          },
-          {
-            "name": "comment",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 52,
-                "character": 6
+                "line": 50,
+                "character": 4
               },
               "end": {
                 "line": 53,
@@ -455,15 +483,68 @@
             },
             "selectionRange": {
               "start": {
-                "line": 52,
-                "character": 6
+                "line": 50,
+                "character": 4
               },
               "end": {
                 "line": 53,
                 "character": 0
               }
             },
-            "children": []
+            "children": [
+              {
+                "name": "name",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 51,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 52,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 51,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 52,
+                    "character": 0
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "comment",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 52,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 53,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 52,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 53,
+                    "character": 0
+                  }
+                },
+                "children": []
+              }
+            ]
           }
         ]
       }

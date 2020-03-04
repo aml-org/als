@@ -102,13 +102,13 @@
         },
         "children": [
           {
-            "name": "200",
-            "kind": 7,
+            "name": "responses",
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 17,
-                "character": 6
+                "line": 16,
+                "character": 4
               },
               "end": {
                 "line": 17,
@@ -117,15 +117,42 @@
             },
             "selectionRange": {
               "start": {
-                "line": 17,
-                "character": 6
+                "line": 16,
+                "character": 4
               },
               "end": {
                 "line": 17,
-                "character": 9
+                "character": 10
               }
             },
-            "children": []
+            "children": [
+              {
+                "name": "200",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 17,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 17,
+                    "character": 10
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 17,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 17,
+                    "character": 9
+                  }
+                },
+                "children": []
+              }
+            ]
           },
           {
             "name": "is",

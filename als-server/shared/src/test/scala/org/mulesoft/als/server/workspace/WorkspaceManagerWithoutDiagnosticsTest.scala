@@ -46,7 +46,7 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
             .collect { case Right(symbols) => symbols }
             .map(symbols =>
               symbols.headOption match {
-                case Some(o) => o.children.size should be(2)
+                case Some(o) => o.children.size should be(1)
                 case _       => fail("Missing first symbol")
             })
         }
