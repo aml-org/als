@@ -133,4 +133,8 @@ class RAML10StructureTests extends RAML10StructureTest {
   test("Test root field structure") {
     this.runTest("root/api.raml", "root/api-outline.json")
   }
+
+  test("Test trait reference") {
+    this.runTest("traits/api.raml", "traits/api-outline.json")
+  }
 }
