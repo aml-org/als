@@ -18,4 +18,5 @@ object RangesSplitter {
     Ranges(PositionRange(range), PositionRange(key))
   }
 
+  def empty: Ranges = Ranges(PositionRange(InputRange.Zero), PositionRange(InputRange.Zero))
 }

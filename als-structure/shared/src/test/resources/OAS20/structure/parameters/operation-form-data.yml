@@ -1,0 +1,18 @@
+swagger: '2.0'
+info:
+  title: a title
+  version: 1.0
+
+paths:
+  /aPath:
+    put:
+      responses:
+        200:
+          description: aa
+      parameters:
+        - name: prop1
+          in: formData
+          type: string
+        - name: prop2
+          in: formData
+          type: string
