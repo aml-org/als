@@ -26,6 +26,58 @@
     "children": []
   },
   {
+    "name": "contentType",
+    "kind": 2,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "accepts",
+    "kind": 2,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
     "name": "/resource",
     "kind": 12,
     "deprecated": false,
@@ -76,13 +128,13 @@
         },
         "children": [
           {
-            "name": "200",
-            "kind": 7,
+            "name": "responses",
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 6,
-                "character": 6
+                "line": 5,
+                "character": 4
               },
               "end": {
                 "line": 13,
@@ -91,235 +143,23 @@
             },
             "selectionRange": {
               "start": {
-                "line": 6,
-                "character": 6
+                "line": 5,
+                "character": 4
               },
               "end": {
-                "line": 6,
-                "character": 9
+                "line": 13,
+                "character": 0
               }
             },
             "children": [
               {
-                "name": "application/raml+yaml",
+                "name": "200",
                 "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 8,
-                    "character": 10
-                  },
-                  "end": {
-                    "line": 9,
-                    "character": 0
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 8,
-                    "character": 10
-                  },
-                  "end": {
-                    "line": 8,
-                    "character": 31
-                  }
-                },
-                "children": [
-                  {
-                    "name": "schema",
-                    "kind": 7,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 8,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 9,
-                        "character": 0
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 8,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 9,
-                        "character": 0
-                      }
-                    },
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "name": "text/yaml",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 9,
-                    "character": 10
-                  },
-                  "end": {
-                    "line": 10,
-                    "character": 0
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 9,
-                    "character": 10
-                  },
-                  "end": {
-                    "line": 9,
-                    "character": 19
-                  }
-                },
-                "children": [
-                  {
-                    "name": "schema",
-                    "kind": 7,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 9,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 10,
-                        "character": 0
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 9,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 10,
-                        "character": 0
-                      }
-                    },
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "name": "text/x-yaml",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 10,
-                    "character": 10
-                  },
-                  "end": {
-                    "line": 11,
-                    "character": 0
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 10,
-                    "character": 10
-                  },
-                  "end": {
-                    "line": 10,
-                    "character": 21
-                  }
-                },
-                "children": [
-                  {
-                    "name": "schema",
-                    "kind": 7,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 10,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 11,
-                        "character": 0
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 10,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 11,
-                        "character": 0
-                      }
-                    },
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "name": "application/yaml",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 11,
-                    "character": 10
-                  },
-                  "end": {
-                    "line": 12,
-                    "character": 0
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 11,
-                    "character": 10
-                  },
-                  "end": {
-                    "line": 11,
-                    "character": 26
-                  }
-                },
-                "children": [
-                  {
-                    "name": "schema",
-                    "kind": 7,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 11,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 12,
-                        "character": 0
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 11,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 12,
-                        "character": 0
-                      }
-                    },
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "name": "application/x-yaml",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 12,
-                    "character": 10
+                    "line": 6,
+                    "character": 6
                   },
                   "end": {
                     "line": 13,
@@ -328,23 +168,23 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 12,
-                    "character": 10
+                    "line": 6,
+                    "character": 6
                   },
                   "end": {
-                    "line": 12,
-                    "character": 28
+                    "line": 6,
+                    "character": 9
                   }
                 },
                 "children": [
                   {
-                    "name": "schema",
-                    "kind": 7,
+                    "name": "payload",
+                    "kind": 2,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 12,
-                        "character": 10
+                        "line": 7,
+                        "character": 8
                       },
                       "end": {
                         "line": 13,
@@ -353,15 +193,281 @@
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 12,
-                        "character": 10
+                        "line": 7,
+                        "character": 8
                       },
                       "end": {
                         "line": 13,
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      {
+                        "name": "application/raml+yaml",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 8,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 9,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 8,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 8,
+                            "character": 31
+                          }
+                        },
+                        "children": [
+                          {
+                            "name": "schema",
+                            "kind": 7,
+                            "deprecated": false,
+                            "range": {
+                              "start": {
+                                "line": 8,
+                                "character": 10
+                              },
+                              "end": {
+                                "line": 9,
+                                "character": 0
+                              }
+                            },
+                            "selectionRange": {
+                              "start": {
+                                "line": 8,
+                                "character": 10
+                              },
+                              "end": {
+                                "line": 9,
+                                "character": 0
+                              }
+                            },
+                            "children": []
+                          }
+                        ]
+                      },
+                      {
+                        "name": "text/yaml",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 9,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 10,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 9,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 9,
+                            "character": 19
+                          }
+                        },
+                        "children": [
+                          {
+                            "name": "schema",
+                            "kind": 7,
+                            "deprecated": false,
+                            "range": {
+                              "start": {
+                                "line": 9,
+                                "character": 10
+                              },
+                              "end": {
+                                "line": 10,
+                                "character": 0
+                              }
+                            },
+                            "selectionRange": {
+                              "start": {
+                                "line": 9,
+                                "character": 10
+                              },
+                              "end": {
+                                "line": 10,
+                                "character": 0
+                              }
+                            },
+                            "children": []
+                          }
+                        ]
+                      },
+                      {
+                        "name": "text/x-yaml",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 10,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 11,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 10,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 10,
+                            "character": 21
+                          }
+                        },
+                        "children": [
+                          {
+                            "name": "schema",
+                            "kind": 7,
+                            "deprecated": false,
+                            "range": {
+                              "start": {
+                                "line": 10,
+                                "character": 10
+                              },
+                              "end": {
+                                "line": 11,
+                                "character": 0
+                              }
+                            },
+                            "selectionRange": {
+                              "start": {
+                                "line": 10,
+                                "character": 10
+                              },
+                              "end": {
+                                "line": 11,
+                                "character": 0
+                              }
+                            },
+                            "children": []
+                          }
+                        ]
+                      },
+                      {
+                        "name": "application/yaml",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 11,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 12,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 11,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 11,
+                            "character": 26
+                          }
+                        },
+                        "children": [
+                          {
+                            "name": "schema",
+                            "kind": 7,
+                            "deprecated": false,
+                            "range": {
+                              "start": {
+                                "line": 11,
+                                "character": 10
+                              },
+                              "end": {
+                                "line": 12,
+                                "character": 0
+                              }
+                            },
+                            "selectionRange": {
+                              "start": {
+                                "line": 11,
+                                "character": 10
+                              },
+                              "end": {
+                                "line": 12,
+                                "character": 0
+                              }
+                            },
+                            "children": []
+                          }
+                        ]
+                      },
+                      {
+                        "name": "application/x-yaml",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 12,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 13,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 12,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 12,
+                            "character": 28
+                          }
+                        },
+                        "children": [
+                          {
+                            "name": "schema",
+                            "kind": 7,
+                            "deprecated": false,
+                            "range": {
+                              "start": {
+                                "line": 12,
+                                "character": 10
+                              },
+                              "end": {
+                                "line": 13,
+                                "character": 0
+                              }
+                            },
+                            "selectionRange": {
+                              "start": {
+                                "line": 12,
+                                "character": 10
+                              },
+                              "end": {
+                                "line": 13,
+                                "character": 0
+                              }
+                            },
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }

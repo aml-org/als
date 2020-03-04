@@ -204,30 +204,57 @@
                     "children": []
                   },
                   {
-                    "name": "name",
-                    "kind": 7,
+                    "name": "encoding",
+                    "kind": 2,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 24,
-                        "character": 16
+                        "line": 23,
+                        "character": 14
                       },
                       "end": {
-                        "line": 24,
-                        "character": 28
+                        "line": 25,
+                        "character": 15
                       }
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 24,
-                        "character": 16
+                        "line": 23,
+                        "character": 14
                       },
                       "end": {
-                        "line": 24,
-                        "character": 22
+                        "line": 25,
+                        "character": 15
                       }
                     },
-                    "children": []
+                    "children": [
+                      {
+                        "name": "name",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 24,
+                            "character": 16
+                          },
+                          "end": {
+                            "line": 24,
+                            "character": 28
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 24,
+                            "character": 16
+                          },
+                          "end": {
+                            "line": 24,
+                            "character": 22
+                          }
+                        },
+                        "children": []
+                      }
+                    ]
                   }
                 ]
               }

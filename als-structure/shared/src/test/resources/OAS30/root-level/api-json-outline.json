@@ -52,13 +52,39 @@
     "children": []
   },
   {
-    "name": "documentations",
-    "kind": 18,
+    "name": "tags",
+    "kind": 2,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 9,
+        "character": 2
+      },
+      "end": {
+        "line": 9,
+        "character": 12
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 9,
+        "character": 2
+      },
+      "end": {
+        "line": 9,
+        "character": 12
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "documentation",
+    "kind": 2,
     "deprecated": false,
     "range": {
       "start": {
         "line": 10,
-        "character": 18
+        "character": 2
       },
       "end": {
         "line": 10,
@@ -68,40 +94,13 @@
     "selectionRange": {
       "start": {
         "line": 10,
-        "character": 18
+        "character": 2
       },
       "end": {
         "line": 10,
         "character": 22
       }
     },
-    "children": [
-      {
-        "name": "0",
-        "kind": 5,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 10,
-            "character": 18
-          },
-          "end": {
-            "line": 10,
-            "character": 22
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 10,
-            "character": 18
-          },
-          "end": {
-            "line": 10,
-            "character": 22
-          }
-        },
-        "children": []
-      }
-    ]
+    "children": []
   }
 ]

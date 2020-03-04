@@ -100,7 +100,34 @@
             "character": 7
           }
         },
-        "children": []
+        "children": [
+          {
+            "name": "security",
+            "kind": 2,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 10,
+                "character": 6
+              },
+              "end": {
+                "line": 13,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 10,
+                "character": 6
+              },
+              "end": {
+                "line": 13,
+                "character": 0
+              }
+            },
+            "children": []
+          }
+        ]
       }
     ]
   }
