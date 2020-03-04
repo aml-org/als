@@ -205,87 +205,7 @@
             "character": 21
           }
         },
-        "children": [
-          {
-            "name": "implicit",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 82,
-                "character": 10
-              },
-              "end": {
-                "line": 88,
-                "character": 11
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 82,
-                "character": 10
-              },
-              "end": {
-                "line": 82,
-                "character": 20
-              }
-            },
-            "children": [
-              {
-                "name": "write:pets",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 85,
-                    "character": 14
-                  },
-                  "end": {
-                    "line": 85,
-                    "character": 57
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 85,
-                    "character": 14
-                  },
-                  "end": {
-                    "line": 85,
-                    "character": 26
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "read:pets",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 86,
-                    "character": 14
-                  },
-                  "end": {
-                    "line": 86,
-                    "character": 43
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 86,
-                    "character": 14
-                  },
-                  "end": {
-                    "line": 86,
-                    "character": 25
-                  }
-                },
-                "children": []
-              }
-            ]
-          }
-        ]
+        "children": []
       }
     ]
   },
@@ -340,30 +260,57 @@
         },
         "children": [
           {
-            "name": "userId",
-            "kind": 7,
+            "name": "mapping",
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 145,
-                "character": 10
+                "line": 144,
+                "character": 22
               },
               "end": {
-                "line": 145,
-                "character": 38
+                "line": 146,
+                "character": 9
               }
             },
             "selectionRange": {
               "start": {
-                "line": 145,
-                "character": 10
+                "line": 144,
+                "character": 22
               },
               "end": {
-                "line": 145,
-                "character": 18
+                "line": 146,
+                "character": 9
               }
             },
-            "children": []
+            "children": [
+              {
+                "name": "userId",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 145,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 145,
+                    "character": 38
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 145,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 145,
+                    "character": 18
+                  }
+                },
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -393,30 +340,57 @@
         },
         "children": [
           {
-            "name": "username",
-            "kind": 7,
+            "name": "mapping",
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 151,
-                "character": 10
+                "line": 150,
+                "character": 22
               },
               "end": {
-                "line": 151,
-                "character": 48
+                "line": 152,
+                "character": 9
               }
             },
             "selectionRange": {
               "start": {
-                "line": 151,
-                "character": 10
+                "line": 150,
+                "character": 22
               },
               "end": {
-                "line": 151,
-                "character": 20
+                "line": 152,
+                "character": 9
               }
             },
-            "children": []
+            "children": [
+              {
+                "name": "username",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 151,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 151,
+                    "character": 48
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 151,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 151,
+                    "character": 20
+                  }
+                },
+                "children": []
+              }
+            ]
           }
         ]
       }
@@ -523,30 +497,57 @@
                 },
                 "children": [
                   {
-                    "name": "200",
-                    "kind": 7,
+                    "name": "responses",
+                    "kind": 2,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 170,
-                        "character": 14
+                        "line": 169,
+                        "character": 12
                       },
                       "end": {
-                        "line": 172,
-                        "character": 15
+                        "line": 173,
+                        "character": 13
                       }
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 170,
-                        "character": 14
+                        "line": 169,
+                        "character": 12
                       },
                       "end": {
-                        "line": 170,
-                        "character": 19
+                        "line": 173,
+                        "character": 13
                       }
                     },
-                    "children": []
+                    "children": [
+                      {
+                        "name": "200",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 170,
+                            "character": 14
+                          },
+                          "end": {
+                            "line": 172,
+                            "character": 15
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 170,
+                            "character": 14
+                          },
+                          "end": {
+                            "line": 170,
+                            "character": 19
+                          }
+                        },
+                        "children": []
+                      }
+                    ]
                   },
                   {
                     "name": "request",
@@ -685,34 +686,7 @@
             "character": 17
           }
         },
-        "children": [
-          {
-            "name": "skipParam",
-            "kind": 16,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 39,
-                "character": 8
-              },
-              "end": {
-                "line": 42,
-                "character": 9
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 39,
-                "character": 8
-              },
-              "end": {
-                "line": 42,
-                "character": 9
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "name": "limitParam",
@@ -738,34 +712,7 @@
             "character": 18
           }
         },
-        "children": [
-          {
-            "name": "limitParam",
-            "kind": 16,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 49,
-                "character": 8
-              },
-              "end": {
-                "line": 52,
-                "character": 9
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 49,
-                "character": 8
-              },
-              "end": {
-                "line": 52,
-                "character": 9
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "name": "header1",
@@ -1085,56 +1032,83 @@
         },
         "children": [
           {
-            "name": "id",
-            "kind": 7,
+            "name": "property",
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 11,
-                "character": 10
+                "line": 10,
+                "character": 8
               },
               "end": {
-                "line": 14,
-                "character": 11
+                "line": 18,
+                "character": 9
               }
             },
             "selectionRange": {
               "start": {
-                "line": 11,
-                "character": 10
+                "line": 10,
+                "character": 8
               },
               "end": {
-                "line": 14,
-                "character": 11
+                "line": 18,
+                "character": 9
               }
             },
-            "children": []
-          },
-          {
-            "name": "name",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 15,
-                "character": 10
+            "children": [
+              {
+                "name": "id",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 11,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 14,
+                    "character": 11
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 11,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 14,
+                    "character": 11
+                  }
+                },
+                "children": []
               },
-              "end": {
-                "line": 17,
-                "character": 11
+              {
+                "name": "name",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 15,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 17,
+                    "character": 11
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 15,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 17,
+                    "character": 11
+                  }
+                },
+                "children": []
               }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 15,
-                "character": 10
-              },
-              "end": {
-                "line": 17,
-                "character": 11
-              }
-            },
-            "children": []
+            ]
           }
         ]
       },
@@ -1164,56 +1138,83 @@
         },
         "children": [
           {
-            "name": "id",
-            "kind": 7,
+            "name": "property",
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 23,
-                "character": 10
+                "line": 22,
+                "character": 8
               },
               "end": {
-                "line": 26,
-                "character": 11
+                "line": 30,
+                "character": 9
               }
             },
             "selectionRange": {
               "start": {
-                "line": 23,
-                "character": 10
+                "line": 22,
+                "character": 8
               },
               "end": {
-                "line": 26,
-                "character": 11
+                "line": 30,
+                "character": 9
               }
             },
-            "children": []
-          },
-          {
-            "name": "name",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 27,
-                "character": 10
+            "children": [
+              {
+                "name": "id",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 23,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 26,
+                    "character": 11
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 23,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 26,
+                    "character": 11
+                  }
+                },
+                "children": []
               },
-              "end": {
-                "line": 29,
-                "character": 11
+              {
+                "name": "name",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 27,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 29,
+                    "character": 11
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 27,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 29,
+                    "character": 11
+                  }
+                },
+                "children": []
               }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 27,
-                "character": 10
-              },
-              "end": {
-                "line": 29,
-                "character": 11
-              }
-            },
-            "children": []
+            ]
           }
         ]
       }

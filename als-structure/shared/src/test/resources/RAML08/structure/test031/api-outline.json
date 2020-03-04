@@ -128,13 +128,13 @@
         },
         "children": [
           {
-            "name": "503",
-            "kind": 7,
+            "name": "responses",
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 10,
-                "character": 6
+                "line": 9,
+                "character": 4
               },
               "end": {
                 "line": 23,
@@ -143,23 +143,23 @@
             },
             "selectionRange": {
               "start": {
-                "line": 10,
-                "character": 6
+                "line": 9,
+                "character": 4
               },
               "end": {
-                "line": 10,
-                "character": 9
+                "line": 23,
+                "character": 0
               }
             },
             "children": [
               {
-                "name": "headers",
-                "kind": 18,
+                "name": "503",
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 15,
-                    "character": 0
+                    "line": 10,
+                    "character": 6
                   },
                   "end": {
                     "line": 23,
@@ -168,23 +168,23 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 15,
-                    "character": 0
+                    "line": 10,
+                    "character": 6
                   },
                   "end": {
-                    "line": 23,
-                    "character": 0
+                    "line": 10,
+                    "character": 9
                   }
                 },
                 "children": [
                   {
-                    "name": "X-waiting-period",
-                    "kind": 7,
+                    "name": "headers",
+                    "kind": 2,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 15,
-                        "character": 10
+                        "line": 14,
+                        "character": 8
                       },
                       "end": {
                         "line": 23,
@@ -193,37 +193,37 @@
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 15,
-                        "character": 10
+                        "line": 14,
+                        "character": 8
                       },
                       "end": {
-                        "line": 15,
-                        "character": 26
+                        "line": 23,
+                        "character": 0
                       }
                     },
                     "children": [
                       {
                         "name": "X-waiting-period",
-                        "kind": 16,
+                        "kind": 7,
                         "deprecated": false,
                         "range": {
                           "start": {
-                            "line": 18,
-                            "character": 18
+                            "line": 15,
+                            "character": 10
                           },
                           "end": {
-                            "line": 18,
-                            "character": 25
+                            "line": 23,
+                            "character": 0
                           }
                         },
                         "selectionRange": {
                           "start": {
-                            "line": 18,
-                            "character": 18
+                            "line": 15,
+                            "character": 10
                           },
                           "end": {
-                            "line": 18,
-                            "character": 25
+                            "line": 15,
+                            "character": 26
                           }
                         },
                         "children": []

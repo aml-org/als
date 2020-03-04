@@ -102,13 +102,13 @@
         },
         "children": [
           {
-            "name": "b",
-            "kind": 7,
+            "name": "property",
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 9,
-                "character": 6
+                "line": 8,
+                "character": 4
               },
               "end": {
                 "line": 9,
@@ -117,15 +117,42 @@
             },
             "selectionRange": {
               "start": {
-                "line": 9,
-                "character": 6
+                "line": 8,
+                "character": 4
               },
               "end": {
                 "line": 9,
                 "character": 10
               }
             },
-            "children": []
+            "children": [
+              {
+                "name": "b",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 9,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 9,
+                    "character": 10
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 9,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 9,
+                    "character": 10
+                  }
+                },
+                "children": []
+              }
+            ]
           }
         ]
       }
