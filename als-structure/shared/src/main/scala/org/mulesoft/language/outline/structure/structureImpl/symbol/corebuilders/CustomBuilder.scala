@@ -4,10 +4,9 @@ import amf.core.annotations.LexicalInformation
 import amf.core.metamodel.Field
 import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.WebApiModel
+import amf.plugins.domain.webapi.metamodel.{RequestModel, WebApiModel}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, SymbolKind}
-import amf.plugins.domain.webapi.metamodel.{EncodingModel, OperationModel, RequestModel, WebApiModel}
 
 abstract class CustomBuilder(implicit val factory: BuilderFactory) {
   def applies(fe: FieldEntry): Boolean

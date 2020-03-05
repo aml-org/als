@@ -3,8 +3,8 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 import amf.core.model.domain.{AmfArray, NamedDomainElement}
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.ParameterModel
+import org.mulesoft.language.outline.structure.structureImpl.BuilderFactory
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.FieldArrayBuilder
-import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol}
 
 case class ExamplesCustomArrayBuilder(override implicit val factory: BuilderFactory) extends FieldArrayBuilder {
   override def applies(fe: FieldEntry): Boolean =
