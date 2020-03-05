@@ -7,6 +7,10 @@ import amf.core.parser.{FieldEntry, Range => AmfRange}
 import amf.plugins.domain.webapi.metamodel.WebApiModel
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
+import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.{
+  ExamplesCustomArrayBuilder,
+  WebApiCustomArrayBuilder
+}
 import org.yaml.model.YMapEntry
 
 trait FatherSymbolBuilder[T <: AmfObject] extends ElementSymbolBuilder[T] {
@@ -16,7 +20,7 @@ trait FatherSymbolBuilder[T <: AmfObject] extends ElementSymbolBuilder[T] {
     List(WebApiModel.Name, DomainElementModel.Extends, LinkableElementModel.Target, WebApiModel.Version)
 
   def customBuilders: Seq[CustomBuilder] =
-    Seq(WebApiCustomArrayBuilder()(factory))
+    Seq(ExamplesCustomArrayBuilder()(factory), WebApiCustomArrayBuilder()(factory))
 
   def getCustomFromFieldEntry(fe: FieldEntry): Option[Seq[DocumentSymbol]] =
     customBuilders.find(c => c.applies(fe)).map(_.build(fe))
