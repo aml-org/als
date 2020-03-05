@@ -1,7 +1,9 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
 import amf.core.metamodel.Field
+import amf.core.metamodel.domain.ShapeModel
 import amf.core.parser.FieldEntry
+import amf.plugins.domain.shapes.metamodel.NodeShapeModel
 import amf.plugins.domain.webapi.metamodel.{EncodingModel, OperationModel}
 import org.mulesoft.language.outline.structure.structureImpl.BuilderFactory
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.FieldArrayBuilder
@@ -11,9 +13,11 @@ case class WebApiCustomArrayBuilder(override implicit val factory: BuilderFactor
   override protected val ignoreChildren: Seq[Field] = Seq(OperationModel.Tags)
 
   private val map: Map[Field, String] = Map(
-    OperationModel.Tags      -> "tags",
-    OperationModel.Responses -> "responses",
-    EncodingModel.Headers    -> ParameterBindingLabelMapper.toLabel("header")
+    OperationModel.Tags       -> "tags",
+    OperationModel.Responses  -> "responses",
+    EncodingModel.Headers     -> ParameterBindingLabelMapper.toLabel("header"),
+    NodeShapeModel.Properties -> "properties",
+    ShapeModel.Values         -> "enum"
   )
 
   override def name(fe: FieldEntry): String =

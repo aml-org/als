@@ -27,7 +27,7 @@
   },
   {
     "name": "types",
-    "kind": 5,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -52,7 +52,7 @@
     "children": [
       {
         "name": "t1",
-        "kind": 5,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -76,8 +76,8 @@
         },
         "children": [
           {
-            "name": "property",
-            "kind": 2,
+            "name": "properties",
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -158,7 +158,7 @@
       },
       {
         "name": "t2",
-        "kind": 16,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {

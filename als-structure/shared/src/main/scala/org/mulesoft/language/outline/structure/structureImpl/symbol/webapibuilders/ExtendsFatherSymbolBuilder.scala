@@ -1,13 +1,14 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
 import amf.core.annotations.LexicalInformation
+import amf.core.metamodel.domain.DomainElementModel
 import amf.core.model.domain.{AmfElement, NamedDomainElement}
+import amf.plugins.document.webapi.annotations.{EndPointResourceTypeEntry, EndPointTraitEntry, OperationTraitEntry}
 import amf.plugins.domain.webapi.metamodel.OperationModel
-import amf.plugins.domain.webapi.models.{EndPoint, Operation}
+import amf.plugins.domain.webapi.models.Operation
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.NamedElementSymbolBuilderTrait
 import org.mulesoft.language.outline.structure.structureImpl._
-import amf.plugins.document.webapi.annotations.{OperationTraitEntry, EndPointTraitEntry, EndPointResourceTypeEntry}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.NamedElementSymbolBuilderTrait
 
 trait ExtendsFatherSymbolBuilder[T <: NamedDomainElement] extends NamedElementSymbolBuilderTrait[T] {
   override def children: List[DocumentSymbol] = super.children ++ getExtendsChildren
@@ -18,14 +19,24 @@ trait ExtendsFatherSymbolBuilder[T <: NamedDomainElement] extends NamedElementSy
       .map(_.range)
       .orElse(element.annotations.find(classOf[EndPointTraitEntry]).map(_.range))
       .map(r => {
-        DocumentSymbol("is", SymbolKind.Interface, deprecated = false, PositionRange(r), PositionRange(r), Nil)
+        DocumentSymbol("is",
+                       KindForResultMatcher.kindForField(DomainElementModel.Extends),
+                       deprecated = false,
+                       PositionRange(r),
+                       PositionRange(r),
+                       Nil)
       })
 
     val typeSons = element.annotations
       .find(classOf[EndPointResourceTypeEntry])
       .map(_.range)
       .map(r => {
-        DocumentSymbol("type", SymbolKind.Interface, deprecated = false, PositionRange(r), PositionRange(r), Nil)
+        DocumentSymbol("type",
+                       KindForResultMatcher.kindForField(DomainElementModel.Extends),
+                       deprecated = false,
+                       PositionRange(r),
+                       PositionRange(r),
+                       Nil)
       })
 
     (traitSons ++ typeSons).toSeq

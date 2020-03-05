@@ -103,7 +103,7 @@
         "children": [
           {
             "name": "responses",
-            "kind": 2,
+            "kind": 9,
             "deprecated": false,
             "range": {
               "start": {
@@ -128,7 +128,7 @@
             "children": [
               {
                 "name": "200",
-                "kind": 7,
+                "kind": 9,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -153,7 +153,7 @@
                 "children": [
                   {
                     "name": "Header",
-                    "kind": 18,
+                    "kind": 2,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -178,7 +178,7 @@
                     "children": [
                       {
                         "name": "X-Rate-Limit-Limit",
-                        "kind": 7,
+                        "kind": 13,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -203,7 +203,7 @@
                         "children": [
                           {
                             "name": "schema",
-                            "kind": 16,
+                            "kind": 7,
                             "deprecated": false,
                             "range": {
                               "start": {
@@ -231,7 +231,7 @@
                       },
                       {
                         "name": "X-Rate-Limit-Remaining",
-                        "kind": 7,
+                        "kind": 13,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -256,7 +256,7 @@
                         "children": [
                           {
                             "name": "schema",
-                            "kind": 16,
+                            "kind": 7,
                             "deprecated": false,
                             "range": {
                               "start": {
@@ -284,7 +284,7 @@
                       },
                       {
                         "name": "X-Rate-Limit-Reset",
-                        "kind": 7,
+                        "kind": 13,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -309,7 +309,7 @@
                         "children": [
                           {
                             "name": "schema",
-                            "kind": 16,
+                            "kind": 7,
                             "deprecated": false,
                             "range": {
                               "start": {
@@ -339,7 +339,7 @@
                   },
                   {
                     "name": "example",
-                    "kind": 2,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -392,7 +392,7 @@
                   },
                   {
                     "name": "schema",
-                    "kind": 7,
+                    "kind": 13,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -447,7 +447,7 @@
               },
               {
                 "name": "default",
-                "kind": 7,
+                "kind": 9,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -472,7 +472,7 @@
                 "children": [
                   {
                     "name": "schema",
-                    "kind": 7,
+                    "kind": 13,
                     "deprecated": false,
                     "range": {
                       "start": {

@@ -77,7 +77,7 @@
         "children": [
           {
             "name": "Path/Uri Parameters",
-            "kind": 18,
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
@@ -102,7 +102,7 @@
             "children": [
               {
                 "name": "userIds",
-                "kind": 7,
+                "kind": 13,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -127,7 +127,7 @@
                 "children": [
                   {
                     "name": "schema",
-                    "kind": 18,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -152,7 +152,7 @@
                     "children": [
                       {
                         "name": "items",
-                        "kind": 15,
+                        "kind": 7,
                         "deprecated": false,
                         "range": {
                           "start": {

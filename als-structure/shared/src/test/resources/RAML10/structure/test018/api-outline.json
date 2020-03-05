@@ -129,7 +129,7 @@
         "children": [
           {
             "name": "Header",
-            "kind": 18,
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
@@ -154,7 +154,7 @@
             "children": [
               {
                 "name": "Authorization",
-                "kind": 7,
+                "kind": 13,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -179,7 +179,7 @@
                 "children": [
                   {
                     "name": "schema",
-                    "kind": 15,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -209,7 +209,7 @@
           },
           {
             "name": "Query Parameters",
-            "kind": 18,
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
@@ -234,7 +234,7 @@
             "children": [
               {
                 "name": "access_token",
-                "kind": 7,
+                "kind": 13,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -259,7 +259,7 @@
                 "children": [
                   {
                     "name": "schema",
-                    "kind": 15,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -289,7 +289,7 @@
           },
           {
             "name": "response",
-            "kind": 2,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -314,7 +314,7 @@
             "children": [
               {
                 "name": "401",
-                "kind": 7,
+                "kind": 9,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -340,7 +340,7 @@
               },
               {
                 "name": "403",
-                "kind": 7,
+                "kind": 9,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -393,7 +393,7 @@
             "children": [
               {
                 "name": "authorizationGrant",
-                "kind": 2,
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {

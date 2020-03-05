@@ -16,7 +16,7 @@ class RamlBaseUnitSymbolBuilder(element: BaseUnit)(override implicit val factory
   override protected def nameFromMeta(obj: Obj): String = obj match {
     case _: ShapeModel             => "types"
     case ResourceTypeModel         => "resourceTypes"
-    case TraitModel                => "trait"
+    case TraitModel                => "traits"
     case SecuritySchemeModel       => "securitySchemes"
     case CustomDomainPropertyModel => "annotationTypes"
     case _                         => "unknowns"

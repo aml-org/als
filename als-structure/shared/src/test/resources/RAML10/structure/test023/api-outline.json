@@ -27,7 +27,7 @@
   },
   {
     "name": "contentType",
-    "kind": 2,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -53,7 +53,7 @@
   },
   {
     "name": "accepts",
-    "kind": 2,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -79,7 +79,7 @@
   },
   {
     "name": "annotationTypes",
-    "kind": 7,
+    "kind": 10,
     "deprecated": false,
     "range": {
       "start": {
@@ -104,7 +104,7 @@
     "children": [
       {
         "name": "deprecated",
-        "kind": 7,
+        "kind": 10,
         "deprecated": false,
         "range": {
           "start": {
@@ -130,7 +130,7 @@
       },
       {
         "name": "experimental",
-        "kind": 7,
+        "kind": 10,
         "deprecated": false,
         "range": {
           "start": {
@@ -156,7 +156,7 @@
       },
       {
         "name": "feedbackRequested",
-        "kind": 7,
+        "kind": 10,
         "deprecated": false,
         "range": {
           "start": {
@@ -182,7 +182,7 @@
       },
       {
         "name": "testHarness",
-        "kind": 7,
+        "kind": 10,
         "deprecated": false,
         "range": {
           "start": {
@@ -207,7 +207,7 @@
         "children": [
           {
             "name": "schema",
-            "kind": 15,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -235,7 +235,7 @@
       },
       {
         "name": "badge",
-        "kind": 7,
+        "kind": 10,
         "deprecated": false,
         "range": {
           "start": {
@@ -261,7 +261,7 @@
       },
       {
         "name": "clearanceLevel",
-        "kind": 7,
+        "kind": 10,
         "deprecated": false,
         "range": {
           "start": {
@@ -286,7 +286,7 @@
         "children": [
           {
             "name": "schema",
-            "kind": 5,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -310,8 +310,8 @@
             },
             "children": [
               {
-                "name": "property",
-                "kind": 2,
+                "name": "properties",
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {

@@ -129,7 +129,7 @@
         "children": [
           {
             "name": "request",
-            "kind": 7,
+            "kind": 11,
             "deprecated": false,
             "range": {
               "start": {
@@ -154,7 +154,7 @@
             "children": [
               {
                 "name": "Header",
-                "kind": 18,
+                "kind": 2,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -179,7 +179,7 @@
                 "children": [
                   {
                     "name": "X-Dept",
-                    "kind": 7,
+                    "kind": 13,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -204,7 +204,7 @@
                     "children": [
                       {
                         "name": "schema",
-                        "kind": 18,
+                        "kind": 7,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -229,7 +229,7 @@
                         "children": [
                           {
                             "name": "example",
-                            "kind": 2,
+                            "kind": 7,
                             "deprecated": false,
                             "range": {
                               "start": {
@@ -259,7 +259,7 @@
                   },
                   {
                     "name": "X-Tracker",
-                    "kind": 7,
+                    "kind": 13,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -284,7 +284,7 @@
                     "children": [
                       {
                         "name": "schema",
-                        "kind": 15,
+                        "kind": 7,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -309,7 +309,7 @@
                         "children": [
                           {
                             "name": "example",
-                            "kind": 2,
+                            "kind": 7,
                             "deprecated": false,
                             "range": {
                               "start": {

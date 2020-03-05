@@ -129,7 +129,7 @@
         "children": [
           {
             "name": "responses",
-            "kind": 2,
+            "kind": 9,
             "deprecated": false,
             "range": {
               "start": {
@@ -154,7 +154,7 @@
             "children": [
               {
                 "name": "503",
-                "kind": 7,
+                "kind": 9,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -179,7 +179,7 @@
                 "children": [
                   {
                     "name": "Header",
-                    "kind": 18,
+                    "kind": 2,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -204,7 +204,7 @@
                     "children": [
                       {
                         "name": "X-waiting-period",
-                        "kind": 7,
+                        "kind": 13,
                         "deprecated": false,
                         "range": {
                           "start": {

@@ -36,7 +36,7 @@ class ObjectNodeSymbolBuilder(obj: ObjectNode)(override implicit val factory: Bu
             .map { r =>
               Seq(
                 new DocumentSymbol(n.value.name.urlComponentDecoded,
-                                   SymbolKind.Property,
+                                   KindForResultMatcher.getKind(v),
                                    false,
                                    range,
                                    selectionRange,

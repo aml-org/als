@@ -78,7 +78,7 @@
     "children": [
       {
         "name": "Body Parameters",
-        "kind": 13,
+        "kind": 2,
         "deprecated": false,
         "range": {
           "start": {
@@ -103,7 +103,7 @@
         "children": [
           {
             "name": "bodyParam",
-            "kind": 7,
+            "kind": 13,
             "deprecated": false,
             "range": {
               "start": {
@@ -131,7 +131,7 @@
       },
       {
         "name": "Header",
-        "kind": 18,
+        "kind": 2,
         "deprecated": false,
         "range": {
           "start": {
@@ -156,7 +156,7 @@
         "children": [
           {
             "name": "headerParam",
-            "kind": 7,
+            "kind": 13,
             "deprecated": false,
             "range": {
               "start": {
@@ -181,7 +181,7 @@
             "children": [
               {
                 "name": "schema",
-                "kind": 15,
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -211,7 +211,7 @@
       },
       {
         "name": "Path/Uri Parameters",
-        "kind": 18,
+        "kind": 2,
         "deprecated": false,
         "range": {
           "start": {
@@ -236,7 +236,7 @@
         "children": [
           {
             "name": "pathParam",
-            "kind": 7,
+            "kind": 13,
             "deprecated": false,
             "range": {
               "start": {
@@ -261,7 +261,7 @@
             "children": [
               {
                 "name": "schema",
-                "kind": 15,
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -291,7 +291,7 @@
       },
       {
         "name": "Query Parameters",
-        "kind": 18,
+        "kind": 2,
         "deprecated": false,
         "range": {
           "start": {
@@ -316,7 +316,7 @@
         "children": [
           {
             "name": "pathFormData",
-            "kind": 7,
+            "kind": 13,
             "deprecated": false,
             "range": {
               "start": {
@@ -341,7 +341,7 @@
             "children": [
               {
                 "name": "schema",
-                "kind": 15,
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {
