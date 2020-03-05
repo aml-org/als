@@ -103,7 +103,7 @@
         "children": [
           {
             "name": "tags",
-            "kind": 2,
+            "kind": 4,
             "deprecated": false,
             "range": {
               "start": {
@@ -129,7 +129,7 @@
           },
           {
             "name": "security",
-            "kind": 2,
+            "kind": 15,
             "deprecated": false,
             "range": {
               "start": {
@@ -155,7 +155,7 @@
           },
           {
             "name": "responses",
-            "kind": 2,
+            "kind": 9,
             "deprecated": false,
             "range": {
               "start": {
@@ -180,7 +180,7 @@
             "children": [
               {
                 "name": "200",
-                "kind": 7,
+                "kind": 9,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -208,7 +208,7 @@
           },
           {
             "name": "request",
-            "kind": 7,
+            "kind": 11,
             "deprecated": false,
             "range": {
               "start": {
@@ -233,7 +233,7 @@
             "children": [
               {
                 "name": "Query Parameters",
-                "kind": 18,
+                "kind": 2,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -258,7 +258,7 @@
                 "children": [
                   {
                     "name": "param1",
-                    "kind": 7,
+                    "kind": 13,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -286,7 +286,7 @@
               },
               {
                 "name": "Header",
-                "kind": 18,
+                "kind": 2,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -311,7 +311,7 @@
                 "children": [
                   {
                     "name": "param2",
-                    "kind": 7,
+                    "kind": 13,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -341,7 +341,7 @@
           },
           {
             "name": "server",
-            "kind": 2,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {

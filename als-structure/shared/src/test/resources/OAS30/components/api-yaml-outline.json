@@ -261,7 +261,7 @@
         "children": [
           {
             "name": "mapping",
-            "kind": 2,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -341,7 +341,7 @@
         "children": [
           {
             "name": "mapping",
-            "kind": 2,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -498,7 +498,7 @@
                 "children": [
                   {
                     "name": "responses",
-                    "kind": 2,
+                    "kind": 9,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -523,7 +523,7 @@
                     "children": [
                       {
                         "name": "200",
-                        "kind": 7,
+                        "kind": 9,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -551,7 +551,7 @@
                   },
                   {
                     "name": "request",
-                    "kind": 7,
+                    "kind": 11,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -576,7 +576,7 @@
                     "children": [
                       {
                         "name": "payloads",
-                        "kind": 13,
+                        "kind": 2,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -601,7 +601,7 @@
                         "children": [
                           {
                             "name": "application/json",
-                            "kind": 7,
+                            "kind": 13,
                             "deprecated": false,
                             "range": {
                               "start": {
@@ -666,7 +666,7 @@
   },
   {
     "name": "parameters",
-    "kind": 7,
+    "kind": 13,
     "deprecated": false,
     "range": {
       "start": {
@@ -691,7 +691,7 @@
     "children": [
       {
         "name": "skipParam",
-        "kind": 7,
+        "kind": 13,
         "deprecated": false,
         "range": {
           "start": {
@@ -717,7 +717,7 @@
       },
       {
         "name": "limitParam",
-        "kind": 7,
+        "kind": 13,
         "deprecated": false,
         "range": {
           "start": {
@@ -743,7 +743,7 @@
       },
       {
         "name": "header1",
-        "kind": 7,
+        "kind": 13,
         "deprecated": false,
         "range": {
           "start": {
@@ -768,7 +768,7 @@
         "children": [
           {
             "name": "schema",
-            "kind": 16,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -796,7 +796,7 @@
       },
       {
         "name": "header2",
-        "kind": 7,
+        "kind": 13,
         "deprecated": false,
         "range": {
           "start": {
@@ -821,7 +821,7 @@
         "children": [
           {
             "name": "schema",
-            "kind": 15,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -851,7 +851,7 @@
   },
   {
     "name": "requestBodies",
-    "kind": 7,
+    "kind": 11,
     "deprecated": false,
     "range": {
       "start": {
@@ -876,7 +876,7 @@
     "children": [
       {
         "name": "request",
-        "kind": 7,
+        "kind": 11,
         "deprecated": false,
         "range": {
           "start": {
@@ -901,7 +901,7 @@
         "children": [
           {
             "name": "payloads",
-            "kind": 13,
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
@@ -926,7 +926,7 @@
             "children": [
               {
                 "name": "application/json",
-                "kind": 7,
+                "kind": 13,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -951,7 +951,7 @@
                 "children": [
                   {
                     "name": "schema",
-                    "kind": 15,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -1009,7 +1009,7 @@
       },
       {
         "name": "request",
-        "kind": 7,
+        "kind": 11,
         "deprecated": false,
         "range": {
           "start": {
@@ -1037,7 +1037,7 @@
   },
   {
     "name": "schemas",
-    "kind": 5,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -1062,7 +1062,7 @@
     "children": [
       {
         "name": "Category",
-        "kind": 5,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -1086,8 +1086,8 @@
         },
         "children": [
           {
-            "name": "property",
-            "kind": 2,
+            "name": "properties",
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -1168,7 +1168,7 @@
       },
       {
         "name": "Tag",
-        "kind": 5,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -1192,8 +1192,8 @@
         },
         "children": [
           {
-            "name": "property",
-            "kind": 2,
+            "name": "properties",
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -1276,7 +1276,7 @@
   },
   {
     "name": "responses",
-    "kind": 7,
+    "kind": 9,
     "deprecated": false,
     "range": {
       "start": {
@@ -1301,7 +1301,7 @@
     "children": [
       {
         "name": "NotFound",
-        "kind": 7,
+        "kind": 9,
         "deprecated": false,
         "range": {
           "start": {
@@ -1327,7 +1327,7 @@
       },
       {
         "name": "IllegalInput",
-        "kind": 7,
+        "kind": 9,
         "deprecated": false,
         "range": {
           "start": {
@@ -1353,7 +1353,7 @@
       },
       {
         "name": "GeneralError",
-        "kind": 7,
+        "kind": 9,
         "deprecated": false,
         "range": {
           "start": {
@@ -1378,7 +1378,7 @@
         "children": [
           {
             "name": "application/json",
-            "kind": 7,
+            "kind": 13,
             "deprecated": false,
             "range": {
               "start": {

@@ -53,7 +53,7 @@
   },
   {
     "name": "types",
-    "kind": 5,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -78,7 +78,7 @@
     "children": [
       {
         "name": "Person",
-        "kind": 5,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -102,8 +102,8 @@
         },
         "children": [
           {
-            "name": "property",
-            "kind": 2,
+            "name": "properties",
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -210,7 +210,7 @@
       },
       {
         "name": "Phone",
-        "kind": 15,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -236,7 +236,7 @@
       },
       {
         "name": "Manager",
-        "kind": 5,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -261,7 +261,7 @@
         "children": [
           {
             "name": "inherits",
-            "kind": 2,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -286,8 +286,8 @@
             "children": []
           },
           {
-            "name": "property",
-            "kind": 2,
+            "name": "properties",
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -368,7 +368,7 @@
       },
       {
         "name": "Admin",
-        "kind": 5,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -393,7 +393,7 @@
         "children": [
           {
             "name": "inherits",
-            "kind": 2,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -418,8 +418,8 @@
             "children": []
           },
           {
-            "name": "property",
-            "kind": 2,
+            "name": "properties",
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -474,7 +474,7 @@
       },
       {
         "name": "AlertableAdmin",
-        "kind": 5,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -499,7 +499,7 @@
         "children": [
           {
             "name": "inherits",
-            "kind": 2,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -524,8 +524,8 @@
             "children": []
           },
           {
-            "name": "property",
-            "kind": 2,
+            "name": "properties",
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -580,7 +580,7 @@
       },
       {
         "name": "Alertable",
-        "kind": 18,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {

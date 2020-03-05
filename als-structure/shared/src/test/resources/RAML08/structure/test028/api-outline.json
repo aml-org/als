@@ -79,7 +79,7 @@
   },
   {
     "name": "contentType",
-    "kind": 2,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -105,7 +105,7 @@
   },
   {
     "name": "accepts",
-    "kind": 2,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -131,7 +131,7 @@
   },
   {
     "name": "types",
-    "kind": 5,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -156,7 +156,7 @@
     "children": [
       {
         "name": "UserJSON",
-        "kind": 5,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -180,8 +180,8 @@
         },
         "children": [
           {
-            "name": "property",
-            "kind": 2,
+            "name": "properties",
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
