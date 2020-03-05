@@ -6,10 +6,10 @@ import amf.core.model.domain.{AmfArray, AmfObject, Shape}
 import amf.core.parser.Value
 import amf.plugins.document.webapi.annotations.{BodyParameter, FormBodyParameter}
 import amf.plugins.domain.shapes.models.NodeShape
-import amf.plugins.domain.webapi.metamodel.RequestModel
+import amf.plugins.domain.webapi.metamodel.{ParametersFieldModel, RequestModel}
 import amf.plugins.domain.webapi.models.Payload
 import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, PositionRange}
-import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, SymbolKind}
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, KindForResultMatcher, SymbolKind}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.AmfObjSymbolBuilder
 import org.mulesoft.amfintegration.ParserRangeImplicits._
 abstract class ParamPayloadDecomposeSymbolBuilders[T <: AmfObject](protected val payloadField: Field)
@@ -54,12 +54,14 @@ abstract class ParamPayloadDecomposeSymbolBuilders[T <: AmfObject](protected val
   private def buildForKey(key: String, sons: List[DocumentSymbol]): Option[DocumentSymbol] = {
     if (sons.nonEmpty)
       Some(
-        DocumentSymbol(key,
-                       SymbolKind.Variable,
-                       deprecated = false,
-                       payloadRange.getOrElse(EmptyPositionRange),
-                       payloadRange.orElse(range).getOrElse(EmptyPositionRange),
-                       sons))
+        DocumentSymbol(
+          key,
+          KindForResultMatcher.kindForField(ParametersFieldModel.QueryParameters),
+          deprecated = false,
+          payloadRange.getOrElse(EmptyPositionRange),
+          payloadRange.orElse(range).getOrElse(EmptyPositionRange),
+          sons
+        ))
     else None
   }
 

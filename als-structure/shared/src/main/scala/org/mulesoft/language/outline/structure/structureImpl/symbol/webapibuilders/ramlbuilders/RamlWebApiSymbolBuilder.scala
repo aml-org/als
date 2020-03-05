@@ -2,6 +2,7 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 
 import amf.core.annotations.LexicalInformation
 import amf.core.parser.Value
+import amf.plugins.domain.webapi.metamodel.ServerModel
 import amf.plugins.domain.webapi.models.WebApi
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.{
@@ -12,6 +13,7 @@ import org.mulesoft.language.outline.structure.structureImpl.{
   BuilderFactory,
   DocumentSymbol,
   ElementSymbolBuilder,
+  KindForResultMatcher,
   SymbolKind
 }
 
@@ -26,7 +28,12 @@ case class RamlBaseUrlSymbolBuilder(value: Value) {
       .find(classOf[LexicalInformation])
       .map { a =>
         val range = PositionRange(a.range)
-        DocumentSymbol("baseUri", SymbolKind.String, deprecated = false, range, range, Nil)
+        DocumentSymbol("baseUri",
+                       KindForResultMatcher.kindForField(ServerModel.Url),
+                       deprecated = false,
+                       range,
+                       range,
+                       Nil)
       }
       .toSeq
   }

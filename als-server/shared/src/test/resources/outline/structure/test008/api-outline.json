@@ -53,7 +53,7 @@
   },
   {
     "name": "types",
-    "kind": 15,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -78,7 +78,7 @@
     "children": [
       {
         "name": "Email",
-        "kind": 15,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -104,7 +104,7 @@
       },
       {
         "name": "Weight",
-        "kind": 16,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -130,7 +130,7 @@
       },
       {
         "name": "Age",
-        "kind": 16,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -156,7 +156,7 @@
       },
       {
         "name": "IsMarried",
-        "kind": 17,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -182,7 +182,7 @@
       },
       {
         "name": "birthday",
-        "kind": 15,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -207,7 +207,7 @@
         "children": [
           {
             "name": "example",
-            "kind": 2,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -235,7 +235,7 @@
       },
       {
         "name": "lunchtime",
-        "kind": 15,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -260,7 +260,7 @@
         "children": [
           {
             "name": "example",
-            "kind": 2,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -288,7 +288,7 @@
       },
       {
         "name": "fireworks",
-        "kind": 15,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -313,7 +313,7 @@
         "children": [
           {
             "name": "example",
-            "kind": 2,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -341,7 +341,7 @@
       },
       {
         "name": "created",
-        "kind": 15,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -366,7 +366,7 @@
         "children": [
           {
             "name": "example",
-            "kind": 2,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -394,7 +394,7 @@
       },
       {
         "name": "If-Modified-Since",
-        "kind": 15,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -419,7 +419,7 @@
         "children": [
           {
             "name": "example",
-            "kind": 2,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -447,7 +447,7 @@
       },
       {
         "name": "userPicture",
-        "kind": 1,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -472,7 +472,7 @@
         "children": [
           {
             "name": "fileType",
-            "kind": 2,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -500,7 +500,7 @@
       },
       {
         "name": "customFile",
-        "kind": 1,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -525,7 +525,7 @@
         "children": [
           {
             "name": "fileType",
-            "kind": 2,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -553,7 +553,7 @@
       },
       {
         "name": "NilValue",
-        "kind": 5,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -578,7 +578,7 @@
         "children": [
           {
             "name": "example",
-            "kind": 2,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -603,8 +603,8 @@
             "children": []
           },
           {
-            "name": "property",
-            "kind": 2,
+            "name": "properties",
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {

@@ -53,7 +53,7 @@
   },
   {
     "name": "tags",
-    "kind": 2,
+    "kind": 4,
     "deprecated": false,
     "range": {
       "start": {
