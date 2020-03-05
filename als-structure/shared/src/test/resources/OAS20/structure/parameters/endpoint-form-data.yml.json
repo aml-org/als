@@ -78,7 +78,7 @@
     "children": [
       {
         "name": "Form Data Parameters",
-        "kind": 13,
+        "kind": 2,
         "deprecated": false,
         "range": {
           "start": {
@@ -103,7 +103,7 @@
         "children": [
           {
             "name": "prop1",
-            "kind": 15,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -129,7 +129,7 @@
           },
           {
             "name": "prop2",
-            "kind": 15,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {

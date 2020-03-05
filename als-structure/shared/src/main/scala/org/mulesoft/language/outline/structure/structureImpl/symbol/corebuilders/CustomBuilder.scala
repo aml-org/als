@@ -6,6 +6,8 @@ import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.{RequestModel, WebApiModel}
 import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ParameterBindingLabelMapper
+import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, KindForResultMatcher}
 import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, SymbolKind}
 
 abstract class CustomBuilder(implicit val factory: BuilderFactory) {
@@ -34,8 +36,6 @@ abstract class FieldArrayBuilder(override implicit val factory: BuilderFactory) 
       .map(l => l.range)
       .map(PositionRange(_))
 
-  protected val kind: SymbolKind.Module.type = SymbolKind.Module
-
   protected val ignoreChildren: Seq[Field] = Seq()
 
   private def getAllDocumentSymbols(fe: FieldEntry): Seq[DocumentSymbol] =
@@ -47,7 +47,13 @@ abstract class FieldArrayBuilder(override implicit val factory: BuilderFactory) 
   def build(fe: FieldEntry): Seq[DocumentSymbol] =
     range(fe)
       .map { r =>
-        Seq(DocumentSymbol(name(fe), kind, deprecated = false, r, r, children(fe)))
+        Seq(
+          DocumentSymbol(name(fe),
+                         KindForResultMatcher.kindForField(fe.field),
+                         deprecated = false,
+                         r,
+                         r,
+                         children(fe)))
       }
       .getOrElse { children(fe) }
 

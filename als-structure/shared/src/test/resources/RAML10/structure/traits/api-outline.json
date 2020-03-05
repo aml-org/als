@@ -103,7 +103,7 @@
         "children": [
           {
             "name": "responses",
-            "kind": 2,
+            "kind": 9,
             "deprecated": false,
             "range": {
               "start": {
@@ -128,7 +128,7 @@
             "children": [
               {
                 "name": "200",
-                "kind": 7,
+                "kind": 9,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -156,7 +156,7 @@
           },
           {
             "name": "is",
-            "kind": 11,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -185,8 +185,8 @@
     ]
   },
   {
-    "name": "trait",
-    "kind": 7,
+    "name": "traits",
+    "kind": 11,
     "deprecated": false,
     "range": {
       "start": {
@@ -211,7 +211,7 @@
     "children": [
       {
         "name": "secured",
-        "kind": 7,
+        "kind": 11,
         "deprecated": false,
         "range": {
           "start": {

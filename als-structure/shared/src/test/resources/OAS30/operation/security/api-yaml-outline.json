@@ -103,7 +103,7 @@
         "children": [
           {
             "name": "security",
-            "kind": 2,
+            "kind": 15,
             "deprecated": false,
             "range": {
               "start": {
