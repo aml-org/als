@@ -27,7 +27,7 @@
   },
   {
     "name": "contentType",
-    "kind": 2,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -53,7 +53,7 @@
   },
   {
     "name": "accepts",
-    "kind": 2,
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
@@ -129,7 +129,7 @@
         "children": [
           {
             "name": "responses",
-            "kind": 2,
+            "kind": 9,
             "deprecated": false,
             "range": {
               "start": {
@@ -154,7 +154,7 @@
             "children": [
               {
                 "name": "200",
-                "kind": 7,
+                "kind": 9,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -179,7 +179,7 @@
                 "children": [
                   {
                     "name": "payload",
-                    "kind": 2,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -204,7 +204,7 @@
                     "children": [
                       {
                         "name": "application/raml+yaml",
-                        "kind": 7,
+                        "kind": 13,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -257,7 +257,7 @@
                       },
                       {
                         "name": "text/yaml",
-                        "kind": 7,
+                        "kind": 13,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -310,7 +310,7 @@
                       },
                       {
                         "name": "text/x-yaml",
-                        "kind": 7,
+                        "kind": 13,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -363,7 +363,7 @@
                       },
                       {
                         "name": "application/yaml",
-                        "kind": 7,
+                        "kind": 13,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -416,7 +416,7 @@
                       },
                       {
                         "name": "application/x-yaml",
-                        "kind": 7,
+                        "kind": 13,
                         "deprecated": false,
                         "range": {
                           "start": {

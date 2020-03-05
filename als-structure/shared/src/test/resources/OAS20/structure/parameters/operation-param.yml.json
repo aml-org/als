@@ -103,7 +103,7 @@
         "children": [
           {
             "name": "responses",
-            "kind": 2,
+            "kind": 9,
             "deprecated": false,
             "range": {
               "start": {
@@ -128,7 +128,7 @@
             "children": [
               {
                 "name": "200",
-                "kind": 7,
+                "kind": 9,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -156,7 +156,7 @@
           },
           {
             "name": "Query Parameters",
-            "kind": 18,
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
@@ -181,7 +181,7 @@
             "children": [
               {
                 "name": "skip_noseque",
-                "kind": 7,
+                "kind": 13,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -206,7 +206,7 @@
                 "children": [
                   {
                     "name": "schema",
-                    "kind": 15,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -236,7 +236,7 @@
           },
           {
             "name": "Header",
-            "kind": 18,
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
@@ -261,7 +261,7 @@
             "children": [
               {
                 "name": "headerParam",
-                "kind": 7,
+                "kind": 13,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -289,7 +289,7 @@
           },
           {
             "name": "Path/Uri Parameters",
-            "kind": 18,
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
@@ -314,7 +314,7 @@
             "children": [
               {
                 "name": "inPath",
-                "kind": 7,
+                "kind": 13,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -342,7 +342,7 @@
           },
           {
             "name": "Body Parameters",
-            "kind": 13,
+            "kind": 2,
             "deprecated": false,
             "range": {
               "start": {
@@ -367,7 +367,7 @@
             "children": [
               {
                 "name": "anotherData",
-                "kind": 7,
+                "kind": 13,
                 "deprecated": false,
                 "range": {
                   "start": {
