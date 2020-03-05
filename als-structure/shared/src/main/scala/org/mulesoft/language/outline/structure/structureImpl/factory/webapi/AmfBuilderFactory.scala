@@ -26,6 +26,7 @@ trait AmfBuilderFactory extends BuilderFactory {
     QueryParametersSymbolBuilder,
     QueryStringSymbolBuilder,
     UriParametersSymbolBuilder,
+    ExampleSymbolBuilders,
     RequestSymbolBuilders,
     ObjectNodeSymbolBuilder,
     PropertyShapeSymbolBuilder,

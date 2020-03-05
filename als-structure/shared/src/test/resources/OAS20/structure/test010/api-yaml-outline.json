@@ -338,7 +338,7 @@
                     ]
                   },
                   {
-                    "name": "examples",
+                    "name": "example",
                     "kind": 2,
                     "deprecated": false,
                     "range": {
@@ -382,8 +382,8 @@
                             "character": 12
                           },
                           "end": {
-                            "line": 24,
-                            "character": 28
+                            "line": 30,
+                            "character": 0
                           }
                         },
                         "children": []
