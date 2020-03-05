@@ -5,7 +5,7 @@ import amf.core.metamodel.Field
 import amf.core.metamodel.document.BaseUnitModel
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfArray, AmfElement, AmfScalar}
-import amf.core.parser.Value
+import amf.core.parser.{FieldEntry, Value}
 import amf.plugins.domain.webapi.metamodel.{ServerModel, WebApiModel}
 import amf.plugins.domain.webapi.models.{EndPoint, WebApi}
 import org.mulesoft.als.common.dtoTypes.PositionRange
@@ -43,7 +43,7 @@ class WebApiSymbolBuilder(override val element: WebApi)(override implicit val fa
     extends FatherSymbolBuilder[WebApi] {
 
   override def ignoreFields: List[Field] =
-    super.ignoreFields :+ WebApiModel.Servers :+ WebApiModel.Security // todo temp ignore
+    super.ignoreFields :+ WebApiModel.Servers :+ WebApiModel.Security :+ WebApiModel.Provider :+ WebApiModel.License // todo temp ignore
 
   protected def buildServerSymbols(v: Value): Seq[DocumentSymbol] = Nil
 
@@ -59,11 +59,7 @@ class WebApiSymbolBuilder(override val element: WebApi)(override implicit val fa
 
   val security: Seq[DocumentSymbol] = element.fields
     .entry(WebApiModel.Security)
-    .map(fe => {
-      val range = PositionRange(
-        fe.value.annotations.find(classOf[LexicalInformation]).map(_.range).getOrElse(amf.core.parser.Range.NONE))
-      DocumentSymbol("Security", SymbolKind.String, deprecated = false, range, range, Nil)
-    })
+    .map(namedSymbol(_, "Security"))
     .toSeq
 
   val versionChildren: Seq[DocumentSymbol] =
@@ -73,6 +69,24 @@ class WebApiSymbolBuilder(override val element: WebApi)(override implicit val fa
       .map(_.build())
       .getOrElse(Nil)
 
+  val licenseSymbol: Seq[DocumentSymbol] =
+    element.fields
+      .entryJsonld(WebApiModel.License)
+      .map(namedSymbol(_, "License"))
+      .toSeq
+
+  val contactSymbol: Seq[DocumentSymbol] =
+    element.fields
+      .entryJsonld(WebApiModel.Provider)
+      .map(namedSymbol(_, "Contact"))
+      .toSeq
+
+  private def namedSymbol(fe: FieldEntry, name: String) = {
+    val range = PositionRange(
+      fe.value.annotations.find(classOf[LexicalInformation]).map(_.range).getOrElse(amf.core.parser.Range.NONE))
+    DocumentSymbol(name, SymbolKind.String, deprecated = false, range, range, Nil)
+  }
+
   val endpointsChildren: Seq[DocumentSymbol] =
     element.fields
       .entryJsonld(WebApiModel.EndPoints)
@@ -81,7 +95,7 @@ class WebApiSymbolBuilder(override val element: WebApi)(override implicit val fa
       .getOrElse(Nil)
 
   override def build(): Seq[DocumentSymbol] = {
-    titleChildren ++ versionChildren ++ uriSymbols ++ security ++ super.children
+    titleChildren ++ versionChildren ++ uriSymbols ++ security ++ licenseSymbol ++ contactSymbol ++ super.children
   }
 }
 
