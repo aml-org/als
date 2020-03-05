@@ -52,39 +52,13 @@
     "children": []
   },
   {
-    "name": "API Support",
-    "kind": 7,
+    "name": "License",
+    "kind": 15,
     "deprecated": false,
     "range": {
       "start": {
-        "line": 6,
-        "character": 0
-      },
-      "end": {
         "line": 9,
-        "character": 0
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 6,
-        "character": 10
-      },
-      "end": {
-        "line": 6,
-        "character": 21
-      }
-    },
-    "children": []
-  },
-  {
-    "name": "Apache 2.0",
-    "kind": 7,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 10,
-        "character": 0
+        "character": 2
       },
       "end": {
         "line": 12,
@@ -93,12 +67,38 @@
     },
     "selectionRange": {
       "start": {
-        "line": 10,
-        "character": 10
+        "line": 9,
+        "character": 2
       },
       "end": {
-        "line": 10,
-        "character": 20
+        "line": 12,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "Contact",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 5,
+        "character": 2
+      },
+      "end": {
+        "line": 9,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 5,
+        "character": 2
+      },
+      "end": {
+        "line": 9,
+        "character": 0
       }
     },
     "children": []
