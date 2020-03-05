@@ -286,8 +286,8 @@
                 },
                 "children": [
                   {
-                    "name": "payload",
-                    "kind": 2,
+                    "name": "payloads",
+                    "kind": 13,
                     "deprecated": false,
                     "range": {
                       "start": {
