@@ -318,7 +318,7 @@
         ]
       },
       {
-        "name": "queryParameters",
+        "name": "Path/Uri Parameters",
         "kind": 18,
         "deprecated": false,
         "range": {

@@ -1,23 +1,13 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.annotations.LexicalInformation
 import amf.core.model.domain.AmfElement
-import amf.core.parser.{Range => AmfRange}
 import amf.plugins.domain.webapi.metamodel.RequestModel
 import amf.plugins.domain.webapi.models.Request
-import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.AmfObjSymbolBuilder
-import org.mulesoft.language.outline.structure.structureImpl.{
-  BuilderFactory,
-  ElementSymbolBuilder,
-  ElementSymbolBuilderCompanion
-}
+import org.mulesoft.language.outline.structure.structureImpl._
 
 class RequestSymbolBuilders(override val element: Request)(override implicit val factory: BuilderFactory)
-    extends AmfObjSymbolBuilder[Request] {
+    extends ParamPayloadDecomposeSymbolBuilders[Request](RequestModel.Payloads) {
   override protected val name: String = "request"
-  override protected val selectionRange: Option[PositionRange] =
-    element.annotations.find(classOf[LexicalInformation]).map(_.range).map(PositionRange.apply)
 }
 
 object RequestSymbolBuilders extends ElementSymbolBuilderCompanion {

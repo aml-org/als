@@ -12,7 +12,7 @@ import amf.plugins.document.webapi.annotations.{OperationTraitEntry, EndPointTra
 trait ExtendsFatherSymbolBuilder[T <: NamedDomainElement] extends NamedElementSymbolBuilderTrait[T] {
   override def children: List[DocumentSymbol] = super.children ++ getExtendsChildren
 
-  private def getExtendsChildren: Seq[DocumentSymbol] = {
+  protected def getExtendsChildren: Seq[DocumentSymbol] = {
     val traitSons = element.annotations
       .find(classOf[OperationTraitEntry])
       .map(_.range)
@@ -30,16 +30,6 @@ trait ExtendsFatherSymbolBuilder[T <: NamedDomainElement] extends NamedElementSy
 
     (traitSons ++ typeSons).toSeq
   }
-}
-
-class EndPointSymbolBuilder(override val element: EndPoint)(override implicit val factory: BuilderFactory)
-    extends ExtendsFatherSymbolBuilder[EndPoint] {
-
-  override protected val name: String =
-    element.path.value().stripPrefix(element.parent.flatMap(_.path.option()).getOrElse(""))
-  override protected val selectionRange: Option[PositionRange] =
-    element.path.annotations().find(classOf[LexicalInformation]).map(l => PositionRange(l.range)).orElse(range)
-
 }
 
 class OperationSymbolBuilder(override val element: Operation)(override implicit val factory: BuilderFactory)

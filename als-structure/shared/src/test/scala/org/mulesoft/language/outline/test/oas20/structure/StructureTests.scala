@@ -101,4 +101,20 @@ class StructureTests extends OAS20StructureTest {
   test("test root YAML") {
     this.runTest("root/api.yml", "root/api-yaml-outline.json")
   }
+
+  test("test endpoint parameter") {
+    this.runTest("parameters/endpoint-param.yml", "parameters/endpoint-param.yml.json")
+  }
+
+  test("test endpoint form data") {
+    this.runTest("parameters/endpoint-form-data.yml", "parameters/endpoint-form-data.yml.json")
+  }
+
+  test("test operation parameters") {
+    this.runTest("parameters/operation-param.yml", "parameters/operation-param.yml.json")
+  }
+
+  test("test operation form data") {
+    this.runTest("parameters/operation-form-data.yml", "parameters/operation-form-data.yml.json")
+  }
 }
