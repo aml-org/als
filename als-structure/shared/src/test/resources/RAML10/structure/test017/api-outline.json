@@ -102,7 +102,7 @@
             "children": [
               {
                 "name": "signature",
-                "kind": 2,
+                "kind": 7,
                 "deprecated": false,
                 "range": {
                   "start": {

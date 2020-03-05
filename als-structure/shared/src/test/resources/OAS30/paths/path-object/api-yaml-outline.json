@@ -78,7 +78,7 @@
     "children": [
       {
         "name": "server",
-        "kind": 2,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -156,7 +156,7 @@
       },
       {
         "name": "Header",
-        "kind": 18,
+        "kind": 2,
         "deprecated": false,
         "range": {
           "start": {
@@ -181,7 +181,7 @@
         "children": [
           {
             "name": "param2",
-            "kind": 7,
+            "kind": 13,
             "deprecated": false,
             "range": {
               "start": {
@@ -209,7 +209,7 @@
       },
       {
         "name": "Query Parameters",
-        "kind": 18,
+        "kind": 2,
         "deprecated": false,
         "range": {
           "start": {
@@ -234,7 +234,7 @@
         "children": [
           {
             "name": "param1",
-            "kind": 7,
+            "kind": 13,
             "deprecated": false,
             "range": {
               "start": {

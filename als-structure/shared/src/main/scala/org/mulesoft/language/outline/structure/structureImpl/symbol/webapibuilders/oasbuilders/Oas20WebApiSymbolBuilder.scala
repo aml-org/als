@@ -2,6 +2,7 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 
 import amf.core.annotations.{BasePathLexicalInformation, HostLexicalInformation}
 import amf.core.parser.Value
+import amf.plugins.domain.webapi.metamodel.ServerModel
 import amf.plugins.domain.webapi.models.WebApi
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.{
@@ -12,6 +13,7 @@ import org.mulesoft.language.outline.structure.structureImpl.{
   BuilderFactory,
   DocumentSymbol,
   ElementSymbolBuilder,
+  KindForResultMatcher,
   SymbolKind
 }
 
@@ -25,12 +27,12 @@ case class OasBaseUrlSymbolBuilder(value: Value) {
   def build(): Seq[DocumentSymbol] = {
     val basePath = value.annotations.find(classOf[BasePathLexicalInformation]).map { a =>
       val range = PositionRange(a.range)
-      DocumentSymbol("basePath", SymbolKind.String, false, range, range, Nil)
+      DocumentSymbol("basePath", KindForResultMatcher.kindForField(ServerModel.Url), false, range, range, Nil)
     }
 
     val host = value.annotations.find(classOf[HostLexicalInformation]).map { a =>
       val range = PositionRange(a.range)
-      DocumentSymbol("host", SymbolKind.String, false, range, range, Nil)
+      DocumentSymbol("host", KindForResultMatcher.kindForField(ServerModel.Url), false, range, range, Nil)
     }
 
     (basePath ++ host).toSeq

@@ -53,7 +53,7 @@
   },
   {
     "name": "parameters",
-    "kind": 7,
+    "kind": 13,
     "deprecated": false,
     "range": {
       "start": {
@@ -78,7 +78,7 @@
     "children": [
       {
         "name": "skipParam",
-        "kind": 7,
+        "kind": 13,
         "deprecated": false,
         "range": {
           "start": {
@@ -103,7 +103,7 @@
         "children": [
           {
             "name": "schema",
-            "kind": 16,
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {

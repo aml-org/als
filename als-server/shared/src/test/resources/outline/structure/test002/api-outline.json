@@ -103,7 +103,7 @@
         "children": [
           {
             "name": "responses",
-            "kind": 2,
+            "kind": 9,
             "deprecated": false,
             "range": {
               "start": {
@@ -128,7 +128,7 @@
             "children": [
               {
                 "name": "200",
-                "kind": 7,
+                "kind": 9,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -153,7 +153,7 @@
                 "children": [
                   {
                     "name": "payload",
-                    "kind": 2,
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -178,7 +178,7 @@
                     "children": [
                       {
                         "name": "application/xml",
-                        "kind": 7,
+                        "kind": 13,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -239,7 +239,7 @@
       },
       {
         "name": "type",
-        "kind": 11,
+        "kind": 7,
         "deprecated": false,
         "range": {
           "start": {
@@ -315,7 +315,7 @@
             "children": [
               {
                 "name": "request",
-                "kind": 7,
+                "kind": 11,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -340,7 +340,7 @@
                 "children": [
                   {
                     "name": "payloads",
-                    "kind": 13,
+                    "kind": 2,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -365,7 +365,7 @@
                     "children": [
                       {
                         "name": "application/json",
-                        "kind": 7,
+                        "kind": 13,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -428,7 +428,7 @@
   },
   {
     "name": "resourceTypes",
-    "kind": 12,
+    "kind": 11,
     "deprecated": false,
     "range": {
       "start": {
@@ -453,7 +453,7 @@
     "children": [
       {
         "name": "main",
-        "kind": 12,
+        "kind": 11,
         "deprecated": false,
         "range": {
           "start": {

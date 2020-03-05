@@ -153,7 +153,7 @@
                 "children": [
                   {
                     "name": "responses",
-                    "kind": 2,
+                    "kind": 9,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -178,7 +178,7 @@
                     "children": [
                       {
                         "name": "200",
-                        "kind": 7,
+                        "kind": 9,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -206,7 +206,7 @@
                   },
                   {
                     "name": "request",
-                    "kind": 7,
+                    "kind": 11,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -231,7 +231,7 @@
                     "children": [
                       {
                         "name": "payloads",
-                        "kind": 13,
+                        "kind": 2,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -256,7 +256,7 @@
                         "children": [
                           {
                             "name": "application/json",
-                            "kind": 7,
+                            "kind": 13,
                             "deprecated": false,
                             "range": {
                               "start": {
