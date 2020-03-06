@@ -291,7 +291,7 @@
         ]
       },
       {
-        "name": "Path/Uri Parameters",
+        "name": "Path/URI Parameters",
         "kind": 2,
         "deprecated": false,
         "range": {
