@@ -869,13 +869,13 @@
                 },
                 "children": [
                   {
-                    "name": "user",
+                    "name": "examples",
                     "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 79,
-                        "character": 12
+                        "line": 78,
+                        "character": 10
                       },
                       "end": {
                         "line": 82,
@@ -884,15 +884,42 @@
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 79,
-                        "character": 12
+                        "line": 78,
+                        "character": 10
                       },
                       "end": {
                         "line": 82,
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      {
+                        "name": "user",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 79,
+                            "character": 12
+                          },
+                          "end": {
+                            "line": 82,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 79,
+                            "character": 12
+                          },
+                          "end": {
+                            "line": 82,
+                            "character": 0
+                          }
+                        },
+                        "children": []
+                      }
+                    ]
                   }
                 ]
               }
