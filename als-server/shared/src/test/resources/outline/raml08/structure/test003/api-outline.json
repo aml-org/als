@@ -196,8 +196,8 @@
                             "character": 10
                           },
                           "end": {
-                            "line": 18,
-                            "character": 25
+                            "line": 20,
+                            "character": 0
                           }
                         },
                         "children": []
@@ -356,8 +356,8 @@
                             "character": 8
                           },
                           "end": {
-                            "line": 23,
-                            "character": 24
+                            "line": 25,
+                            "character": 0
                           }
                         },
                         "children": []
