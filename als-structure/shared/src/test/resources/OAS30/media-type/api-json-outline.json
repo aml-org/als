@@ -177,32 +177,6 @@
                     },
                     "children": [
                       {
-                        "name": "schema",
-                        "kind": 7,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 15,
-                            "character": 14
-                          },
-                          "end": {
-                            "line": 17,
-                            "character": 15
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 15,
-                            "character": 14
-                          },
-                          "end": {
-                            "line": 17,
-                            "character": 15
-                          }
-                        },
-                        "children": []
-                      },
-                      {
                         "name": "exampleName",
                         "kind": 7,
                         "deprecated": false,

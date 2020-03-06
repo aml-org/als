@@ -196,38 +196,11 @@
                             "character": 10
                           },
                           "end": {
-                            "line": 13,
-                            "character": 25
+                            "line": 15,
+                            "character": 0
                           }
                         },
-                        "children": [
-                          {
-                            "name": "schema",
-                            "kind": 7,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 13,
-                                "character": 10
-                              },
-                              "end": {
-                                "line": 15,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 13,
-                                "character": 10
-                              },
-                              "end": {
-                                "line": 15,
-                                "character": 0
-                              }
-                            },
-                            "children": []
-                          }
-                        ]
+                        "children": []
                       }
                     ]
                   }
@@ -357,38 +330,11 @@
                             "character": 8
                           },
                           "end": {
-                            "line": 18,
-                            "character": 24
+                            "line": 20,
+                            "character": 0
                           }
                         },
-                        "children": [
-                          {
-                            "name": "schema",
-                            "kind": 7,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 18,
-                                "character": 8
-                              },
-                              "end": {
-                                "line": 20,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 18,
-                                "character": 8
-                              },
-                              "end": {
-                                "line": 20,
-                                "character": 0
-                              }
-                            },
-                            "children": []
-                          }
-                        ]
+                        "children": []
                       }
                     ]
                   }

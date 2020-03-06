@@ -123,7 +123,7 @@ object NamedElementSymbolBuilder extends ElementSymbolBuilderCompanion {
 
 trait NamedElementSymbolBuilderTrait[T <: NamedDomainElement] extends AmfObjSymbolBuilder[T] {
 
-  override protected val name: String = element.name.value()
+  override protected val name: String = element.name.option().getOrElse("")
   override protected val selectionRange: Option[PositionRange] = element.name
     .annotations()
     .find(classOf[LexicalInformation])
