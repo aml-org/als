@@ -1,15 +1,14 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
 import amf.core.model.domain.AmfArray
-import amf.plugins.domain.webapi.metamodel.{OperationModel, ParametersFieldModel, RequestModel}
+import amf.plugins.domain.webapi.metamodel.{ParametersFieldModel, RequestModel}
 import amf.plugins.domain.webapi.models.Parameter
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.{
   BuilderFactory,
   DocumentSymbol,
   ElementSymbolBuilder,
-  KindForResultMatcher,
-  SymbolKind
+  KindForResultMatcher
 }
 
 class ParametersSymbolBuilder(parameters: Seq[Parameter], range: PositionRange, selectionRange: PositionRange)(
