@@ -336,34 +336,7 @@
                 "character": 108
               }
             },
-            "children": [
-              {
-                "name": "authorizationGrant",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 35,
-                    "character": 6
-                  },
-                  "end": {
-                    "line": 35,
-                    "character": 108
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 35,
-                    "character": 6
-                  },
-                  "end": {
-                    "line": 35,
-                    "character": 108
-                  }
-                },
-                "children": []
-              }
-            ]
+            "children": []
           }
         ]
       }

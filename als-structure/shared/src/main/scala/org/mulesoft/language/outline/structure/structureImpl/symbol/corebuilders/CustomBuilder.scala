@@ -1,7 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
 import amf.core.annotations.LexicalInformation
-import amf.core.metamodel.Field
+import amf.core.metamodel.{Field, Obj, Type}
+import amf.core.metamodel.Type.{ArrayLike, Scalar}
 import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.{RequestModel, WebApiModel}
@@ -44,16 +45,27 @@ abstract class FieldArrayBuilder(override implicit val factory: BuilderFactory) 
       .map(_.build())
       .getOrElse(Nil)
 
+  private def isScalarArray(f: Field): Boolean = {
+    f.`type` match {
+      case ArrayLike(value: Scalar) => true
+      case _                        => false
+    }
+  }
   def build(fe: FieldEntry): Seq[DocumentSymbol] =
     range(fe)
       .map { r =>
-        Seq(
-          DocumentSymbol(name(fe),
-                         KindForResultMatcher.kindForField(fe.field),
-                         deprecated = false,
-                         r,
-                         r,
-                         children(fe)))
+        children(fe) match {
+          case list if list.isEmpty && isScalarArray(fe.field) => Nil
+          case _ =>
+            Seq(
+              DocumentSymbol(name(fe),
+                             KindForResultMatcher.kindForField(fe.field),
+                             deprecated = false,
+                             r,
+                             r,
+                             children(fe)))
+        }
+
       }
       .getOrElse { children(fe) }
 
