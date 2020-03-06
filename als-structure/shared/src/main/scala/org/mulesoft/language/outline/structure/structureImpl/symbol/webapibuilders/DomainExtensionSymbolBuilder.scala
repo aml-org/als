@@ -8,6 +8,7 @@ import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.AmfObjSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.{
   BuilderFactory,
+  DocumentSymbol,
   ElementSymbolBuilder,
   ElementSymbolBuilderCompanion
 }
@@ -18,6 +19,8 @@ class DomainExtensionSymbolBuilder(override val element: DomainExtension)(
 
   override protected val name: String =
     element.name.option().getOrElse(element.id)
+
+  override protected def children: List[DocumentSymbol] = Nil
 
   override protected val selectionRange: Option[PositionRange] =
     element.annotations
