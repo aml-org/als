@@ -152,7 +152,7 @@
                 },
                 "children": [
                   {
-                    "name": "Header",
+                    "name": "Headers",
                     "kind": 2,
                     "deprecated": false,
                     "range": {
@@ -258,7 +258,7 @@
                 },
                 "children": [
                   {
-                    "name": "Header",
+                    "name": "Headers",
                     "kind": 2,
                     "deprecated": false,
                     "range": {
