@@ -27,6 +27,7 @@ trait AmfBuilderFactory extends BuilderFactory {
     QueryStringSymbolBuilder,
     UriParametersSymbolBuilder,
     ExampleSymbolBuilders,
+    DomainExtensionSymbolBuilder,
     RequestSymbolBuilders,
     ObjectNodeSymbolBuilder,
     PropertyShapeSymbolBuilder,
@@ -52,7 +53,8 @@ object RamlBuilderFactory extends AmfBuilderFactory {
 
 object Oas20BuilderFactory extends AmfBuilderFactory {
 
-  override protected def companion: CompanionList = super.companion + Oas20WebApiSymbolBuilder
+  override protected def companion: CompanionList =
+    super.companion + Oas20WebApiSymbolBuilder
   override def baseUnitBuilder: ElementSymbolBuilderCompanion =
     Oas20BaseUnitSymbolBuilder
 }
