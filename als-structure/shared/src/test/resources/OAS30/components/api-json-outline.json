@@ -623,34 +623,7 @@
                                 "character": 34
                               }
                             },
-                            "children": [
-                              {
-                                "name": "schema",
-                                "kind": 7,
-                                "deprecated": false,
-                                "range": {
-                                  "start": {
-                                    "line": 164,
-                                    "character": 20
-                                  },
-                                  "end": {
-                                    "line": 164,
-                                    "character": 62
-                                  }
-                                },
-                                "selectionRange": {
-                                  "start": {
-                                    "line": 164,
-                                    "character": 20
-                                  },
-                                  "end": {
-                                    "line": 164,
-                                    "character": 62
-                                  }
-                                },
-                                "children": []
-                              }
-                            ]
+                            "children": []
                           }
                         ]
                       }
@@ -765,34 +738,7 @@
             "character": 15
           }
         },
-        "children": [
-          {
-            "name": "schema",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 130,
-                "character": 8
-              },
-              "end": {
-                "line": 132,
-                "character": 9
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 130,
-                "character": 8
-              },
-              "end": {
-                "line": 132,
-                "character": 9
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "name": "header2",
@@ -818,34 +764,7 @@
             "character": 15
           }
         },
-        "children": [
-          {
-            "name": "schema",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 136,
-                "character": 8
-              },
-              "end": {
-                "line": 138,
-                "character": 9
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 136,
-                "character": 8
-              },
-              "end": {
-                "line": 138,
-                "character": 9
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       }
     ]
   },
@@ -949,32 +868,6 @@
                   }
                 },
                 "children": [
-                  {
-                    "name": "schema",
-                    "kind": 7,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 111,
-                        "character": 12
-                      },
-                      "end": {
-                        "line": 113,
-                        "character": 13
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 111,
-                        "character": 12
-                      },
-                      "end": {
-                        "line": 113,
-                        "character": 13
-                      }
-                    },
-                    "children": []
-                  },
                   {
                     "name": "user",
                     "kind": 7,
@@ -1400,34 +1293,7 @@
                 "character": 28
               }
             },
-            "children": [
-              {
-                "name": "schema",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 67,
-                    "character": 14
-                  },
-                  "end": {
-                    "line": 67,
-                    "character": 57
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 67,
-                    "character": 14
-                  },
-                  "end": {
-                    "line": 67,
-                    "character": 57
-                  }
-                },
-                "children": []
-              }
-            ]
+            "children": []
           }
         ]
       }
