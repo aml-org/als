@@ -221,19 +221,19 @@
                                 "character": 12
                               },
                               "end": {
-                                "line": 39,
-                                "character": 28
+                                "line": 41,
+                                "character": 0
                               }
                             },
                             "children": [
                               {
-                                "name": "schema",
+                                "name": "inherits",
                                 "kind": 7,
                                 "deprecated": false,
                                 "range": {
                                   "start": {
-                                    "line": 39,
-                                    "character": 12
+                                    "line": 40,
+                                    "character": 14
                                   },
                                   "end": {
                                     "line": 41,
@@ -242,42 +242,15 @@
                                 },
                                 "selectionRange": {
                                   "start": {
-                                    "line": 39,
-                                    "character": 12
+                                    "line": 40,
+                                    "character": 14
                                   },
                                   "end": {
                                     "line": 41,
                                     "character": 0
                                   }
                                 },
-                                "children": [
-                                  {
-                                    "name": "inherits",
-                                    "kind": 7,
-                                    "deprecated": false,
-                                    "range": {
-                                      "start": {
-                                        "line": 40,
-                                        "character": 14
-                                      },
-                                      "end": {
-                                        "line": 41,
-                                        "character": 0
-                                      }
-                                    },
-                                    "selectionRange": {
-                                      "start": {
-                                        "line": 40,
-                                        "character": 14
-                                      },
-                                      "end": {
-                                        "line": 41,
-                                        "character": 0
-                                      }
-                                    },
-                                    "children": []
-                                  }
-                                ]
+                                "children": []
                               }
                             ]
                           },
@@ -301,8 +274,8 @@
                                 "character": 12
                               },
                               "end": {
-                                "line": 41,
-                                "character": 27
+                                "line": 42,
+                                "character": 0
                               }
                             },
                             "children": []

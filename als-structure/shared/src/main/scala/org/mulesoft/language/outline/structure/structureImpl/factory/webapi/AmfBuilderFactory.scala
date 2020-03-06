@@ -33,7 +33,9 @@ trait AmfBuilderFactory extends BuilderFactory {
     EndPointListBuilder,
     WebApiVersionBuilder,
     ShapeInheritsSymbolBuilder,
-    OperationSymbolBuilderCompanion
+    OperationSymbolBuilderCompanion,
+    ParameterSymbolBuilderCompanion,
+    PayloadSymbolBuilderCompanion
   )
 
   override protected val defaultArrayBuilder = Some((e: AmfArray) => new WebApiArraySymbolBuilder(e))
