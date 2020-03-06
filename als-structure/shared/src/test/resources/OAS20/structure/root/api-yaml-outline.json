@@ -113,7 +113,7 @@
         "character": 0
       },
       "end": {
-        "line": 10,
+        "line": 9,
         "character": 0
       }
     },
@@ -123,7 +123,7 @@
         "character": 0
       },
       "end": {
-        "line": 10,
+        "line": 9,
         "character": 0
       }
     },
@@ -135,21 +135,21 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 14,
+        "line": 16,
         "character": 0
       },
       "end": {
-        "line": 17,
+        "line": 19,
         "character": 0
       }
     },
     "selectionRange": {
       "start": {
-        "line": 14,
+        "line": 16,
         "character": 0
       },
       "end": {
-        "line": 17,
+        "line": 19,
         "character": 0
       }
     },
@@ -161,21 +161,21 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 18,
+        "line": 20,
         "character": 2
       },
       "end": {
-        "line": 18,
+        "line": 20,
         "character": 9
       }
     },
     "selectionRange": {
       "start": {
-        "line": 18,
+        "line": 20,
         "character": 2
       },
       "end": {
-        "line": 18,
+        "line": 20,
         "character": 8
       }
     },
@@ -187,21 +187,21 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 11,
+        "line": 13,
         "character": 2
       },
       "end": {
-        "line": 14,
+        "line": 16,
         "character": 0
       }
     },
     "selectionRange": {
       "start": {
-        "line": 11,
+        "line": 13,
         "character": 2
       },
       "end": {
-        "line": 11,
+        "line": 13,
         "character": 6
       }
     },
@@ -212,21 +212,21 @@
         "deprecated": false,
         "range": {
           "start": {
-            "line": 11,
+            "line": 13,
             "character": 2
           },
           "end": {
-            "line": 14,
+            "line": 16,
             "character": 0
           }
         },
         "selectionRange": {
           "start": {
-            "line": 11,
+            "line": 13,
             "character": 2
           },
           "end": {
-            "line": 11,
+            "line": 13,
             "character": 6
           }
         },

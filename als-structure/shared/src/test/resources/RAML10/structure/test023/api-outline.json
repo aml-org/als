@@ -26,58 +26,6 @@
     "children": []
   },
   {
-    "name": "contentType",
-    "kind": 7,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 2,
-        "character": 0
-      },
-      "end": {
-        "line": 3,
-        "character": 0
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 2,
-        "character": 0
-      },
-      "end": {
-        "line": 3,
-        "character": 0
-      }
-    },
-    "children": []
-  },
-  {
-    "name": "accepts",
-    "kind": 7,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 2,
-        "character": 0
-      },
-      "end": {
-        "line": 3,
-        "character": 0
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 2,
-        "character": 0
-      },
-      "end": {
-        "line": 3,
-        "character": 0
-      }
-    },
-    "children": []
-  },
-  {
     "name": "annotationTypes",
     "kind": 10,
     "deprecated": false,

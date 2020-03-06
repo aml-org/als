@@ -99,34 +99,7 @@
                 "character": 46
               }
             },
-            "children": [
-              {
-                "name": "signature",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 11,
-                    "character": 6
-                  },
-                  "end": {
-                    "line": 11,
-                    "character": 46
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 11,
-                    "character": 6
-                  },
-                  "end": {
-                    "line": 11,
-                    "character": 46
-                  }
-                },
-                "children": []
-              }
-            ]
+            "children": []
           }
         ]
       }
