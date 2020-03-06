@@ -1,7 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.model.domain.{AmfArray, NamedDomainElement}
+import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry
+import amf.plugins.domain.shapes.models.Example
 import amf.plugins.domain.webapi.metamodel.ParameterModel
 import org.mulesoft.language.outline.structure.structureImpl.BuilderFactory
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.FieldArrayBuilder
@@ -14,9 +15,8 @@ case class ExamplesCustomArrayBuilder(override implicit val factory: BuilderFact
     if (isSingleExample(fe)) "example" else "examples"
 
   private def isSingleExample(fe: FieldEntry) =
-    fe.array.values match {
-      case head +: Seq() =>
-        head.asInstanceOf[NamedDomainElement].name.isNullOrEmpty
-      case _ => false
+    fe.array.values.exists {
+      case head: Example => head.name.isNullOrEmpty
+      case _             => false
     }
 }

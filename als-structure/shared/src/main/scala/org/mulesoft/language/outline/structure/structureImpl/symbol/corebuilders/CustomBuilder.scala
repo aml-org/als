@@ -45,7 +45,7 @@ abstract class FieldArrayBuilder(override implicit val factory: BuilderFactory) 
       .map(_.build())
       .getOrElse(Nil)
 
-  private def isScalarArray(f: Field): Boolean = {
+  protected def isScalarArray(f: Field): Boolean = {
     f.`type` match {
       case ArrayLike(value: Scalar) => true
       case _                        => false
