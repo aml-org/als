@@ -200,34 +200,7 @@
                             "character": 30
                           }
                         },
-                        "children": [
-                          {
-                            "name": "schema",
-                            "kind": 7,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 15,
-                                "character": 0
-                              },
-                              "end": {
-                                "line": 17,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 15,
-                                "character": 0
-                              },
-                              "end": {
-                                "line": 17,
-                                "character": 0
-                              }
-                            },
-                            "children": []
-                          }
-                        ]
+                        "children": []
                       },
                       {
                         "name": "X-Rate-Limit-Remaining",
@@ -253,34 +226,7 @@
                             "character": 34
                           }
                         },
-                        "children": [
-                          {
-                            "name": "schema",
-                            "kind": 7,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 18,
-                                "character": 0
-                              },
-                              "end": {
-                                "line": 20,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 18,
-                                "character": 0
-                              },
-                              "end": {
-                                "line": 20,
-                                "character": 0
-                              }
-                            },
-                            "children": []
-                          }
-                        ]
+                        "children": []
                       },
                       {
                         "name": "X-Rate-Limit-Reset",
@@ -306,34 +252,7 @@
                             "character": 30
                           }
                         },
-                        "children": [
-                          {
-                            "name": "schema",
-                            "kind": 7,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 21,
-                                "character": 0
-                              },
-                              "end": {
-                                "line": 23,
-                                "character": 0
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 21,
-                                "character": 0
-                              },
-                              "end": {
-                                "line": 23,
-                                "character": 0
-                              }
-                            },
-                            "children": []
-                          }
-                        ]
+                        "children": []
                       }
                     ]
                   },
@@ -389,59 +308,6 @@
                         "children": []
                       }
                     ]
-                  },
-                  {
-                    "name": "schema",
-                    "kind": 13,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 11,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 13,
-                        "character": 0
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 11,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 11,
-                        "character": 16
-                      }
-                    },
-                    "children": [
-                      {
-                        "name": "default",
-                        "kind": 7,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 12,
-                            "character": 12
-                          },
-                          "end": {
-                            "line": 13,
-                            "character": 0
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 12,
-                            "character": 12
-                          },
-                          "end": {
-                            "line": 13,
-                            "character": 0
-                          }
-                        },
-                        "children": []
-                      }
-                    ]
                   }
                 ]
               },
@@ -469,61 +335,7 @@
                     "character": 15
                   }
                 },
-                "children": [
-                  {
-                    "name": "schema",
-                    "kind": 13,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 32,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 34,
-                        "character": 0
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 32,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 32,
-                        "character": 16
-                      }
-                    },
-                    "children": [
-                      {
-                        "name": "default",
-                        "kind": 7,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 33,
-                            "character": 12
-                          },
-                          "end": {
-                            "line": 34,
-                            "character": 0
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 33,
-                            "character": 12
-                          },
-                          "end": {
-                            "line": 34,
-                            "character": 0
-                          }
-                        },
-                        "children": []
-                      }
-                    ]
-                  }
-                ]
+                "children": []
               }
             ]
           }

@@ -126,57 +126,30 @@
                 },
                 "children": [
                   {
-                    "name": "schema",
+                    "name": "items",
                     "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 8,
-                        "character": 6
+                        "line": 11,
+                        "character": 8
                       },
                       "end": {
                         "line": 14,
-                        "character": 25
+                        "character": 0
                       }
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 8,
-                        "character": 6
+                        "line": 11,
+                        "character": 8
                       },
                       "end": {
-                        "line": 14,
-                        "character": 25
+                        "line": 11,
+                        "character": 13
                       }
                     },
-                    "children": [
-                      {
-                        "name": "items",
-                        "kind": 7,
-                        "deprecated": false,
-                        "range": {
-                          "start": {
-                            "line": 11,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 14,
-                            "character": 0
-                          }
-                        },
-                        "selectionRange": {
-                          "start": {
-                            "line": 11,
-                            "character": 8
-                          },
-                          "end": {
-                            "line": 11,
-                            "character": 13
-                          }
-                        },
-                        "children": []
-                      }
-                    ]
+                    "children": []
                   }
                 ]
               }
