@@ -469,34 +469,7 @@
             "character": 0
           }
         },
-        "children": [
-          {
-            "name": "fileType",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 42,
-                "character": 16
-              },
-              "end": {
-                "line": 42,
-                "character": 43
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 42,
-                "character": 16
-              },
-              "end": {
-                "line": 42,
-                "character": 43
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "name": "customFile",
@@ -522,34 +495,7 @@
             "character": 0
           }
         },
-        "children": [
-          {
-            "name": "fileType",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 46,
-                "character": 16
-              },
-              "end": {
-                "line": 46,
-                "character": 23
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 46,
-                "character": 16
-              },
-              "end": {
-                "line": 46,
-                "character": 23
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "name": "NilValue",

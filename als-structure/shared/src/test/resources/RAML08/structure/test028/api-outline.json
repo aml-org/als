@@ -78,58 +78,6 @@
     "children": []
   },
   {
-    "name": "contentType",
-    "kind": 7,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 4,
-        "character": 0
-      },
-      "end": {
-        "line": 5,
-        "character": 0
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 4,
-        "character": 0
-      },
-      "end": {
-        "line": 5,
-        "character": 0
-      }
-    },
-    "children": []
-  },
-  {
-    "name": "accepts",
-    "kind": 7,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 4,
-        "character": 0
-      },
-      "end": {
-        "line": 5,
-        "character": 0
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 4,
-        "character": 0
-      },
-      "end": {
-        "line": 5,
-        "character": 0
-      }
-    },
-    "children": []
-  },
-  {
     "name": "types",
     "kind": 7,
     "deprecated": false,
