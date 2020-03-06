@@ -8,6 +8,7 @@ import amf.plugins.domain.webapi.metamodel.WebApiModel
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.{
+  CustomDomainPropertiesCustomArrayBuilder,
   ExamplesCustomArrayBuilder,
   WebApiCustomArrayBuilder
 }
@@ -18,9 +19,12 @@ trait FatherSymbolBuilder[T <: AmfObject] extends ElementSymbolBuilder[T] {
 
   def ignoreFields =
     List(WebApiModel.Name, DomainElementModel.Extends, LinkableElementModel.Target, WebApiModel.Version)
+  // WebApiModel.Version should be on it's own builder, or not?
 
   def customBuilders: Seq[CustomBuilder] =
-    Seq(ExamplesCustomArrayBuilder()(factory), WebApiCustomArrayBuilder()(factory))
+    Seq(ExamplesCustomArrayBuilder()(factory),
+        CustomDomainPropertiesCustomArrayBuilder()(factory),
+        WebApiCustomArrayBuilder()(factory))
 
   def getCustomFromFieldEntry(fe: FieldEntry): Option[Seq[DocumentSymbol]] =
     customBuilders.find(c => c.applies(fe)).map(_.build(fe))
@@ -40,6 +44,7 @@ trait FatherSymbolBuilder[T <: AmfObject] extends ElementSymbolBuilder[T] {
           .map(_.build())
       }
       .getOrElse(Nil)
+      .toList
 }
 
 trait AmfObjSymbolBuilder[T <: AmfObject] extends FatherSymbolBuilder[T] {
