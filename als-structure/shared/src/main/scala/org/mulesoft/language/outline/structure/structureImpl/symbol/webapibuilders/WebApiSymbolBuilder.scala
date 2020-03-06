@@ -84,8 +84,12 @@ class WebApiSymbolBuilder(override val element: WebApi)(override implicit val fa
   private def namedSymbol(fe: FieldEntry, name: String) = {
     val range = PositionRange(
       fe.value.annotations.find(classOf[LexicalInformation]).map(_.range).getOrElse(amf.core.parser.Range.NONE))
-    DocumentSymbol(name, KindForResultMatcher.kindForField(WebApiModel.Security),
-      deprecated = false, range, range, Nil)
+    DocumentSymbol(name,
+                   KindForResultMatcher.kindForField(WebApiModel.Security),
+                   deprecated = false,
+                   range,
+                   range,
+                   Nil)
   }
 
   val endpointsChildren: Seq[DocumentSymbol] =
