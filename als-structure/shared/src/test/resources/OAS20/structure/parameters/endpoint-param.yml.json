@@ -130,7 +130,7 @@
         ]
       },
       {
-        "name": "Header",
+        "name": "Headers",
         "kind": 2,
         "deprecated": false,
         "range": {
@@ -183,7 +183,7 @@
         ]
       },
       {
-        "name": "Path/Uri Parameters",
+        "name": "Path/URI Parameters",
         "kind": 2,
         "deprecated": false,
         "range": {
