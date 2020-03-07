@@ -181,7 +181,7 @@
             "children": [
               {
                 "name": "prop1",
-                "kind": 7,
+                "kind": 13,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -207,7 +207,7 @@
               },
               {
                 "name": "prop2",
-                "kind": 7,
+                "kind": 13,
                 "deprecated": false,
                 "range": {
                   "start": {
