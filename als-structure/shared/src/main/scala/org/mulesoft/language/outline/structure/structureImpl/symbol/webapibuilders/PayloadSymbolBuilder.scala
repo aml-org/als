@@ -3,6 +3,7 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 import amf.core.annotations.LexicalInformation
 import amf.core.metamodel.Field
 import amf.core.model.domain.AmfElement
+import amf.plugins.document.webapi.annotations.DefaultPayload
 import amf.plugins.domain.webapi.metamodel.PayloadModel
 import amf.plugins.domain.webapi.models.Payload
 import org.mulesoft.als.common.dtoTypes.PositionRange
@@ -32,6 +33,11 @@ class PayloadSymbolBuilder(override val element: Payload)(implicit val factory: 
       .find(classOf[LexicalInformation])
       .orElse(element.name.annotations().find(classOf[LexicalInformation]))
       .map(_.range.toPositionRange)
+
+  override def build(): Seq[DocumentSymbol] = {
+    if (element.annotations.contains(classOf[DefaultPayload])) children
+    else super.build()
+  }
 }
 
 object PayloadSymbolBuilderCompanion extends ElementSymbolBuilderCompanion {

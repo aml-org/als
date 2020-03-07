@@ -126,7 +126,7 @@
                 },
                 "children": [
                   {
-                    "name": "payload",
+                    "name": "Payloads",
                     "kind": 7,
                     "deprecated": false,
                     "range": {
