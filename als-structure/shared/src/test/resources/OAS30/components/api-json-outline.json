@@ -1297,8 +1297,8 @@
         },
         "children": [
           {
-            "name": "application/json",
-            "kind": 13,
+            "name": "Payloads",
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -1320,7 +1320,34 @@
                 "character": 28
               }
             },
-            "children": []
+            "children": [
+              {
+                "name": "application/json",
+                "kind": 13,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 65,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 69,
+                    "character": 11
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 65,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 65,
+                    "character": 28
+                  }
+                },
+                "children": []
+              }
+            ]
           }
         ]
       }

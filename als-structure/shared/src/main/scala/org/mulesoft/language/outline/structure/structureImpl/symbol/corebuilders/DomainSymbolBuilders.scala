@@ -7,9 +7,10 @@ import amf.core.parser.{FieldEntry, Range => AmfRange}
 import amf.plugins.domain.webapi.metamodel.WebApiModel
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.{
+import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.custom.array.builder.{
   CustomDomainPropertiesCustomArrayBuilder,
   ExamplesCustomArrayBuilder,
+  PayloadCustomArrayBuilder,
   WebApiCustomArrayBuilder
 }
 import org.yaml.model.YMapEntry
@@ -22,9 +23,12 @@ trait FatherSymbolBuilder[T <: AmfObject] extends ElementSymbolBuilder[T] {
   // WebApiModel.Version should be on it's own builder, or not?
 
   def customBuilders: Seq[CustomBuilder] =
-    Seq(ExamplesCustomArrayBuilder()(factory),
-        CustomDomainPropertiesCustomArrayBuilder()(factory),
-        WebApiCustomArrayBuilder()(factory))
+    Seq(
+      ExamplesCustomArrayBuilder()(factory),
+      CustomDomainPropertiesCustomArrayBuilder()(factory),
+      PayloadCustomArrayBuilder()(factory), // order is important here? if paylad is not first, it will match web api custom array builder.
+      WebApiCustomArrayBuilder()(factory)
+    )
 
   def getCustomFromFieldEntry(fe: FieldEntry): Option[Seq[DocumentSymbol]] =
     customBuilders.find(c => c.applies(fe)).map(_.build(fe))

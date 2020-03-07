@@ -100,7 +100,34 @@
             "character": 8
           }
         },
-        "children": []
+        "children": [
+          {
+            "name": "Payloads",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 9,
+                "character": 6
+              },
+              "end": {
+                "line": 11,
+                "character": 7
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "character": 6
+              },
+              "end": {
+                "line": 11,
+                "character": 7
+              }
+            },
+            "children": []
+          }
+        ]
       },
       {
         "name": "r2",
@@ -126,7 +153,34 @@
             "character": 8
           }
         },
-        "children": []
+        "children": [
+          {
+            "name": "Payloads",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 15,
+                "character": 6
+              },
+              "end": {
+                "line": 18,
+                "character": 7
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 15,
+                "character": 6
+              },
+              "end": {
+                "line": 18,
+                "character": 7
+              }
+            },
+            "children": []
+          }
+        ]
       }
     ]
   }

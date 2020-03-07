@@ -1,4 +1,4 @@
-package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
+package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.custom.array.builder
 
 import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry

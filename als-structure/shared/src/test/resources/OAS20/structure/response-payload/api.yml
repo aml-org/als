@@ -1,0 +1,30 @@
+swagger: '2.0'
+info:
+  title: a title
+  version: 1.0
+paths:
+  /aPath:
+    get:
+      parameters:
+        - name: getPAram
+          in: body
+          schema:
+            type: string
+          x-something: []
+      responses:
+        '404':
+          description: Not found
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+            example:
+              id: 38
+              name: T-shirt
+            x-something: []
+          examples:
+            application/json: { "id": 38, "title": "T-shirt" }
+          x-something: []
