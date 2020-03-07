@@ -1,6 +1,6 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.model.domain.{AmfArray, AmfScalar}
+import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.shapes.metamodel.ExampleModel
 import amf.plugins.domain.shapes.models.Example

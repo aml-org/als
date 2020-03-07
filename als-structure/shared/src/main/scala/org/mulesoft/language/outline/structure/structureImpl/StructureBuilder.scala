@@ -2,17 +2,17 @@ package org.mulesoft.language.outline.structure.structureImpl
 
 import amf.client.model.DataTypes
 import amf.core.metamodel.Field
-import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
 import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, PropertyShapeModel}
+import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
 import amf.core.remote.{Oas, Oas30, Raml}
 import amf.core.vocabulary.Namespace.XsdTypes
-import amf.plugins.domain.shapes.metamodel.common.DocumentationField
 import amf.plugins.domain.shapes.metamodel._
-import amf.plugins.domain.shapes.models.{AnyShape, ScalarShape}
-import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
+import amf.plugins.domain.shapes.metamodel.common.DocumentationField
+import amf.plugins.domain.shapes.models.ScalarShape
 import amf.plugins.domain.webapi.metamodel._
+import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.AmlBuilderFactory
@@ -34,6 +34,7 @@ class StructureBuilder(unit: BaseUnit) {
   def listSymbols(): List[DocumentSymbol] =
     builderFactory.builderFor(unit).map(_.build().toList).getOrElse(Nil)
 
+  // unused?
   def fullRange(ranges: Seq[PositionRange]): PositionRange = {
     val sortedStart = ranges.sortWith((a, b) => a.start < b.start)
     val sortedEnd   = ranges.sortWith((a, b) => a.end < b.end)
@@ -96,7 +97,7 @@ object KindForResultMatcher {
           case ResourceTypeModel | TraitModel  => SymbolKind.Interface
           case _                               => SymbolKind.Property
         }
-      case _ => SymbolKind.Property
+      case _ => SymbolKind.Property // default to class?
     }
   }
 
