@@ -7,7 +7,7 @@ import amf.core.parser.Value
 import amf.plugins.document.webapi.annotations.{BodyParameter, FormBodyParameter}
 import amf.plugins.domain.shapes.models.NodeShape
 import amf.plugins.domain.webapi.metamodel.{ParametersFieldModel, RequestModel}
-import amf.plugins.domain.webapi.models.Payload
+import amf.plugins.domain.webapi.models.{Parameter, Payload}
 import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, PositionRange}
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, KindForResultMatcher, SymbolKind}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.AmfObjSymbolBuilder
@@ -40,7 +40,14 @@ abstract class ParamPayloadDecomposeSymbolBuilders[T <: AmfObject](protected val
   }
 
   protected def formDataSymbols: Option[DocumentSymbol] =
-    buildForKey("Form Data Parameters", formData.flatMap(factory.builderForElement).flatMap(_.build()).toList)
+    buildForKey(
+      "Form Data Parameters",
+      formData
+        .flatMap(factory.builderForElement)
+        .flatMap(_.build())
+        .map(_.copy(kind = KindForResultMatcher.getKind(Parameter())))
+        .toList
+    )
 
   protected def bodySymbols: Option[DocumentSymbol] =
     buildForKey("Body Parameters", body.flatMap(factory.builderForElement).flatMap(_.build()).toList)
