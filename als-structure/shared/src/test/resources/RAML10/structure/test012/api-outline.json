@@ -127,7 +127,7 @@
                 "children": [
                   {
                     "name": "items",
-                    "kind": 7,
+                    "kind": 5,
                     "deprecated": false,
                     "range": {
                       "start": {

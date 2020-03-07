@@ -79,7 +79,7 @@
   },
   {
     "name": "types",
-    "kind": 7,
+    "kind": 5,
     "deprecated": false,
     "range": {
       "start": {
@@ -104,7 +104,7 @@
     "children": [
       {
         "name": "UserJSON",
-        "kind": 7,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -154,7 +154,7 @@
             "children": [
               {
                 "name": "input",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
