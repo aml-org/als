@@ -27,7 +27,7 @@
   },
   {
     "name": "types",
-    "kind": 7,
+    "kind": 5,
     "deprecated": false,
     "range": {
       "start": {
@@ -52,7 +52,7 @@
     "children": [
       {
         "name": "Person",
-        "kind": 7,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -102,7 +102,7 @@
             "children": [
               {
                 "name": "name",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -128,7 +128,7 @@
               },
               {
                 "name": "addresses",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -185,7 +185,7 @@
       },
       {
         "name": "Address",
-        "kind": 7,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -235,7 +235,7 @@
             "children": [
               {
                 "name": "street",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -261,7 +261,7 @@
               },
               {
                 "name": "city",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
