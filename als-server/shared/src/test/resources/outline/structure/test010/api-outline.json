@@ -202,7 +202,7 @@
                             "children": [
                               {
                                 "name": "firstname",
-                                "kind": 7,
+                                "kind": 5,
                                 "deprecated": false,
                                 "range": {
                                   "start": {
@@ -228,7 +228,7 @@
                               },
                               {
                                 "name": "lastname",
-                                "kind": 7,
+                                "kind": 5,
                                 "deprecated": false,
                                 "range": {
                                   "start": {
@@ -254,7 +254,7 @@
                               },
                               {
                                 "name": "age",
-                                "kind": 7,
+                                "kind": 5,
                                 "deprecated": false,
                                 "range": {
                                   "start": {

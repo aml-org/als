@@ -53,7 +53,7 @@
   },
   {
     "name": "definitions",
-    "kind": 7,
+    "kind": 5,
     "deprecated": false,
     "range": {
       "start": {
@@ -78,7 +78,7 @@
     "children": [
       {
         "name": "Pet",
-        "kind": 7,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -128,7 +128,7 @@
             "children": [
               {
                 "name": "name",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -154,7 +154,7 @@
               },
               {
                 "name": "tag",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -184,7 +184,7 @@
       },
       {
         "name": "ErrorModel",
-        "kind": 7,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {

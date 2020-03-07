@@ -90,7 +90,7 @@ object KindForResultMatcher {
           case RequestModel                    => SymbolKind.Interface
           case ResponseModel                   => SymbolKind.Constructor
           case CustomDomainPropertyModel       => SymbolKind.Enum
-          case ShapeModel                      => SymbolKind.Class
+          case _: ShapeModel                   => SymbolKind.Class
           case EndPointModel                   => SymbolKind.Function
           case OperationModel | OperationModel => SymbolKind.Method
           case PropertyShapeModel              => SymbolKind.Property
