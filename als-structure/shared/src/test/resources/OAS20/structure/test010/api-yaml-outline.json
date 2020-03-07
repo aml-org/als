@@ -308,6 +308,32 @@
                         "children": []
                       }
                     ]
+                  },
+                  {
+                    "name": "Payloads",
+                    "kind": 7,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 11,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 13,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 11,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 13,
+                        "character": 0
+                      }
+                    },
+                    "children": []
                   }
                 ]
               },
@@ -335,7 +361,34 @@
                     "character": 15
                   }
                 },
-                "children": []
+                "children": [
+                  {
+                    "name": "Payloads",
+                    "kind": 7,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 32,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 34,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 32,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 34,
+                        "character": 0
+                      }
+                    },
+                    "children": []
+                  }
+                ]
               }
             ]
           }
