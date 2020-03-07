@@ -205,8 +205,8 @@
                     ]
                   },
                   {
-                    "name": "name",
-                    "kind": 13,
+                    "name": "Payloads",
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -228,7 +228,34 @@
                         "character": 20
                       }
                     },
-                    "children": []
+                    "children": [
+                      {
+                        "name": "name",
+                        "kind": 13,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 23,
+                            "character": 14
+                          },
+                          "end": {
+                            "line": 23,
+                            "character": 26
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 23,
+                            "character": 14
+                          },
+                          "end": {
+                            "line": 23,
+                            "character": 20
+                          }
+                        },
+                        "children": []
+                      }
+                    ]
                   }
                 ]
               },
@@ -311,8 +338,8 @@
                     ]
                   },
                   {
-                    "name": "name",
-                    "kind": 13,
+                    "name": "Payloads",
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
@@ -334,7 +361,34 @@
                         "character": 20
                       }
                     },
-                    "children": []
+                    "children": [
+                      {
+                        "name": "name",
+                        "kind": 13,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 40,
+                            "character": 14
+                          },
+                          "end": {
+                            "line": 40,
+                            "character": 26
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 40,
+                            "character": 14
+                          },
+                          "end": {
+                            "line": 40,
+                            "character": 20
+                          }
+                        },
+                        "children": []
+                      }
+                    ]
                   }
                 ]
               }
