@@ -27,7 +27,7 @@
   },
   {
     "name": "types",
-    "kind": 7,
+    "kind": 5,
     "deprecated": false,
     "range": {
       "start": {
@@ -52,7 +52,7 @@
     "children": [
       {
         "name": "SearchCriteria",
-        "kind": 7,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -102,7 +102,7 @@
             "children": [
               {
                 "name": "maxResults",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -128,7 +128,7 @@
               },
               {
                 "name": "zipcode",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
