@@ -261,7 +261,7 @@
             },
             "children": [
               {
-                "name": "request",
+                "name": "Request",
                 "kind": 11,
                 "deprecated": false,
                 "range": {
