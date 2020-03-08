@@ -550,7 +550,7 @@
                     ]
                   },
                   {
-                    "name": "request",
+                    "name": "Request",
                     "kind": 11,
                     "deprecated": false,
                     "range": {
@@ -794,7 +794,7 @@
     },
     "children": [
       {
-        "name": "request",
+        "name": "Request",
         "kind": 11,
         "deprecated": false,
         "range": {
@@ -928,7 +928,7 @@
         ]
       },
       {
-        "name": "request",
+        "name": "Request",
         "kind": 11,
         "deprecated": false,
         "range": {
