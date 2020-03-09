@@ -53,7 +53,7 @@
   },
   {
     "name": "parameters",
-    "kind": 7,
+    "kind": 13,
     "deprecated": false,
     "range": {
       "start": {
@@ -78,7 +78,7 @@
     "children": [
       {
         "name": "skipParam",
-        "kind": 7,
+        "kind": 13,
         "deprecated": false,
         "range": {
           "start": {
@@ -100,34 +100,7 @@
             "character": 11
           }
         },
-        "children": [
-          {
-            "name": "schema",
-            "kind": 16,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 6,
-                "character": 2
-              },
-              "end": {
-                "line": 15,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 6,
-                "character": 2
-              },
-              "end": {
-                "line": 15,
-                "character": 0
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       }
     ]
   }

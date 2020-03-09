@@ -1,12 +1,14 @@
 package org.mulesoft.als.server.modules.workspace
 
 import amf.internal.environment.Environment
-import org.mulesoft.als.server.modules.ast.NotificationKind
+import org.mulesoft.als.server.modules.ast.{NotificationKind, WORKSPACE_TERMINATED}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 
 import scala.collection.mutable
 
 class StagingArea(environmentProvider: EnvironmentProvider) {
+
+  def shouldDie: Boolean = pending.values.toList.contains(WORKSPACE_TERMINATED)
 
   def isPending: Boolean = pending.nonEmpty
 

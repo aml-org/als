@@ -1,0 +1,84 @@
+swagger: "2.0"
+
+schemes:
+  - https
+
+host: gitlab.com
+basePath: /api
+
+info:
+  description: |-
+    The platform for modern developers
+    GitLab unifies issues, code review, CI and CD into a single UI
+  title: Gitlab
+  version: v3
+  termsOfService: My terms
+  contact:
+    name: Martin
+    url: http://my-url.com/
+    email: martin@my-url.com
+    x-something: []
+  license:
+    name: My license
+    url: http://my-url.com/license
+    x-something: []
+  x-providerName: gitlab.com
+
+produces:
+  - application/json
+  - text/plain
+
+
+tags:
+  - description: Operations about groups
+    name: groups
+  - description: An example tag
+    name: mytag
+    externalDocs:
+      description: tag doc
+      url: http://www.mulesoft.com
+    x-something: []
+
+externalDocs:
+  description: root doc
+  url: http://www.mulesoft.com
+  x-something: []
+
+paths:
+  x-something: []
+
+  /v3/groups:
+    put:
+      operationId: putV3Groups
+      responses:
+        '404':
+          description: Not found
+          schema:
+            title: A title
+            description: A description
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              image:
+                type: object
+                properties:
+                  url:
+                    type: string
+                  width:
+                    type: integer
+                  height:
+                    type: integer
+            required:
+              - id
+              - name
+            example:
+              id: 38
+              name: T-shirt
+              image:
+                url: images/38.png
+                width: 100
+                height: 100
+            x-something: []

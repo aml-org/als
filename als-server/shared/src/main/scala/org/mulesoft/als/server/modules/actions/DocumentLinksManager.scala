@@ -40,7 +40,7 @@ class DocumentLinksManager(val workspaceManager: UnitRepositoriesManager,
 
   def documentLinks(str: String): Future[Seq[DocumentLink]] =
     workspaceManager
-      .getCU(str, UUID.randomUUID().toString)
+      .getLastCU(str, UUID.randomUUID().toString)
       .flatMap(_.getLast)
       .map(bu => {
         FindLinks.getLinks(bu.unit, platform)

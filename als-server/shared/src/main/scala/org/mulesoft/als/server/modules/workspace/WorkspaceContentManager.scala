@@ -12,7 +12,7 @@ import org.mulesoft.amfmanager.AmfParseResult
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{Future, Promise}
 
 class WorkspaceContentManager(val folder: String,
                               environmentProvider: EnvironmentProvider,
@@ -45,6 +45,7 @@ class WorkspaceContentManager(val folder: String,
   def canProcess: Boolean = state == Idle && current == Future.unit
 
   def changedFile(uri: String, kind: NotificationKind): Unit = synchronized {
+    if (state == NotAvailable) throw new UnavailableWorkspaceException
     stagingArea.enqueue(uri, kind)
     if (canProcess) current = process()
   }
@@ -53,7 +54,8 @@ class WorkspaceContentManager(val folder: String,
     val encodedUri = FileUtils.getEncodedUri(uri, environmentProvider.platform)
     repository.getParsed(encodedUri) match {
       case Some(pu) =>
-        Future.successful(pu.toCU(getNext(encodedUri), mainFile, repository.getReferenceStack(encodedUri)))
+        Future.successful(
+          pu.toCU(getNext(encodedUri), mainFile, repository.getReferenceStack(encodedUri), state == NotAvailable))
       case _ => getNext(encodedUri).getOrElse(fail(encodedUri))
     }
   }
@@ -71,13 +73,20 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def process(): Future[Unit] = {
-    if (stagingArea.isPending) next(processSnapshot())
+    if (state == NotAvailable) throw new UnavailableWorkspaceException
+    else if (stagingArea.isPending) next(preprocessSnapshot())
     else goIdle()
   }
 
   def withConfiguration(confProvider: WorkspaceConfigurationProvider): WorkspaceContentManager = {
     workspaceConfigurationProvider = Some(confProvider)
     this
+  }
+
+  private def preprocessSnapshot(): Future[Unit] = {
+    if (stagingArea.shouldDie) disable()
+    else processSnapshot()
+
   }
 
   private def processSnapshot(): Future[Unit] = {
@@ -105,8 +114,20 @@ class WorkspaceContentManager(val folder: String,
     }
 
   private def goIdle(): Future[Unit] = {
-    state = Idle
+    changeState(Idle)
     Future.unit
+  }
+
+  private def changeState(newState: WorkspaceState): Unit = synchronized {
+    if (state == NotAvailable) throw new UnavailableWorkspaceException
+    state = newState
+  }
+
+  private val isDisabled = Promise[Unit]()
+
+  private def disable(): Future[Unit] = {
+    changeState(NotAvailable)
+    Future(dependencies.map(d => repository.getAllFilesUris.foreach(d.onRemoveFile))).map(_ => isDisabled.success())
   }
 
   private def processIsolatedChanges(files: List[(String, NotificationKind)], environment: Environment): Future[Unit] = {
@@ -119,7 +140,7 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def processIsolated(file: String, environment: Environment, uuid: String): Future[Unit] = {
-    state = ProcessingFile(file)
+    changeState(ProcessingFile(file))
     stagingArea.dequeue(Set(file))
     parse(file, environment, uuid)
       .map { bu =>
@@ -128,11 +149,16 @@ class WorkspaceContentManager(val folder: String,
       }
   }
 
+  def shutdown(): Future[Unit] = {
+    changedFile(folder, WORKSPACE_TERMINATED)
+    isDisabled.future
+  }
+
   private def cleanFiles(closedFiles: List[(String, NotificationKind)]): Unit =
     closedFiles.foreach(cf => dependencies.foreach(_.onRemoveFile(cf._1)))
 
   private def processChangeConfigChanges(snapshot: Snapshot): Future[Unit] = {
-    state = ProcessingProject
+    changeState(ProcessingProject)
     stagingArea.enqueue(snapshot.files.filterNot(t => t._2 == CHANGE_CONFIG))
     workspaceConfigurationProvider match {
       case Some(cp) =>
@@ -156,7 +182,7 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def processMFChanges(mainFile: String, snapshot: Snapshot): Future[Unit] = {
-    state = ProcessingProject
+    changeState(ProcessingProject)
     val uuid = UUID.randomUUID().toString
     parse(s"$folder/$mainFile", snapshot.environment, uuid)
       .flatMap { u =>

@@ -58,12 +58,11 @@ class Suggestions(platform: Platform,
       case Some(d) =>
         buildCompletionProviderAST(bu,
                                    d,
-                                   bu.id,
                                    DtoPosition(position, patchedContent.original),
                                    patchedContent,
                                    snippetSupport,
                                    rootLocation)
-      case _ if isHeader(position, url, patchedContent.original) =>
+      case _ if isHeader(position, patchedContent.original) =>
         if (!url.toLowerCase().endsWith(".raml"))
           HeaderCompletionProviderBuilder
             .build(url, patchedContent.original, DtoPosition(position, patchedContent.original))
@@ -84,7 +83,7 @@ class Suggestions(platform: Platform,
       .map(buildProvider(_, position, url, patchedContent, snippetSupport, rootLocation))
   }
 
-  private def isHeader(position: Int, url: String, originalContent: String): Boolean =
+  private def isHeader(position: Int, originalContent: String): Boolean =
     !originalContent
       .substring(0, position)
       .replaceAll("^\\{?\\s+", "")
@@ -108,7 +107,6 @@ class Suggestions(platform: Platform,
 
   private def buildCompletionProviderAST(bu: BaseUnit,
                                          dialect: Dialect,
-                                         url: String,
                                          pos: DtoPosition,
                                          patchedContent: PatchedContent,
                                          snippetSupport: Boolean,

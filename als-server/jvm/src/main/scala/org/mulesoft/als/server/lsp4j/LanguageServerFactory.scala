@@ -6,6 +6,8 @@ import amf.client.plugins.AMFPlugin
 import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.{Environment => InternalEnvironment}
+import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
+import org.mulesoft.als.configuration.{ClientDirectoryResolver, DirectoryResolverAdapter}
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
@@ -19,12 +21,13 @@ import scala.collection.JavaConverters._
 // todo: standarize in one only converter (js and jvm) with generics
 class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecrets {
 
-  private var serialization: JvmSerializationProps           = EmptyJvmSerializationProps
-  private var logger: Logger                                 = PrintLnLogger
-  private var givenPlatform: Platform                        = platform
-  private var environment: InternalEnvironment               = InternalEnvironment()
-  private var notificationsKind: DiagnosticNotificationsKind = PARSING_BEFORE
-  private var amfPlugins: java.util.List[AMFPlugin]          = new java.util.ArrayList()
+  private var serialization: JvmSerializationProps               = EmptyJvmSerializationProps
+  private var logger: Logger                                     = PrintLnLogger
+  private var givenPlatform: Platform                            = platform
+  private var environment: InternalEnvironment                   = InternalEnvironment()
+  private var notificationsKind: DiagnosticNotificationsKind     = PARSING_BEFORE
+  private var amfPlugins: java.util.List[AMFPlugin]              = new java.util.ArrayList()
+  private var directoryResolver: Option[ClientDirectoryResolver] = None
 
   def withSerializationProps(serializationProps: JvmSerializationProps): LanguageServerFactory = {
     serialization = serializationProps
@@ -56,6 +59,11 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
     this
   }
 
+  def withDirectoryResolver(dr: ClientDirectoryResolver): LanguageServerFactory = {
+    this.directoryResolver = Some(dr)
+    this
+  }
+
   private def convertEnv(environment: Environment): InternalEnvironment = {
     val i = InternalEnvironment.empty()
     i.withLoaders(environment.loaders.asInternal)
@@ -66,6 +74,8 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
     val factory = new WorkspaceManagerFactoryBuilder(clientNotifier, logger)
       .withAmfConfiguration(new AmfInstance(amfPlugins.asScala, platform, environment))
       .withEnvironment(environment)
+
+    directoryResolver.foreach(cdr => factory.withDirectoryResolver(DirectoryResolverAdapter.convert(cdr)))
     factory.withNotificationKind(notificationsKind) // move to initialization param
     val dm       = factory.diagnosticManager()
     val sm       = factory.serializationManager(serialization)

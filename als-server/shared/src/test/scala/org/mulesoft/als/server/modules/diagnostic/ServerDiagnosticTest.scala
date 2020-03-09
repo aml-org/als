@@ -1,8 +1,18 @@
 package org.mulesoft.als.server.modules.diagnostic
 
+import amf.core.annotations.LexicalInformation
+import amf.core.errorhandling.{ErrorCollector, ErrorHandler, StaticErrorCollector}
+import amf.core.metamodel.Obj
+import amf.core.model.document.BaseUnit
+import amf.core.model.domain.AmfObject
+import amf.core.parser.{Annotations, Fields}
+import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
+import amf.plugins.document.vocabularies.model.document.DialectInstance
+import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.amfmanager.AmfParseResult
 
 import scala.concurrent.ExecutionContext
 
@@ -82,6 +92,107 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
         assert(oMain21.diagnostics.isEmpty && oMain21.uri == mainFilePath)
         assert(diagnosticNotifier.promises.isEmpty)
       }
+    }
+  }
+
+  // had to ignore for relaase. when adopt new AML changes uncomment this test
+  ignore("diagnostics test 002 - AML") {
+    withServer { server =>
+      val dialectPath  = s"file://dialect.yaml"
+      val instancePath = s"file://instance.yaml"
+
+      val dialectContent =
+        """#%Dialect 1.0
+          |
+          |dialect: Diagnostic Test
+          |version: 1.1
+          |
+          |external:
+          |  mock: mock.org
+          |
+          |nodeMappings:
+          |  A:
+          |    classTerm: mock.A
+          |    mapping:
+          |      a:
+          |        range: boolean
+          |
+          |documents:
+          |  root:
+          |    encodes: A
+          |
+        """.stripMargin
+
+      val instanceContent1 =
+        """#%Diagnostic Test 1.1
+          |
+          |a: t
+        """.stripMargin
+
+      val instanceContent2 =
+        """#%Diagnostic Test 1.1
+          |
+          |a: true
+        """.stripMargin
+
+      /*
+        register dialect -> open invalid instance -> fix -> invalid again
+       */
+      diagnosticNotifier.promises.clear()
+      for {
+        _  <- openFileNotification(server)(dialectPath, dialectContent)
+        d1 <- diagnosticNotifier.nextCall
+        _  <- openFileNotification(server)(instancePath, instanceContent1)
+        i1 <- diagnosticNotifier.nextCall
+        _  <- openFileNotification(server)(instancePath, instanceContent2)
+        i2 <- diagnosticNotifier.nextCall
+        _  <- openFileNotification(server)(instancePath, instanceContent1)
+        i3 <- diagnosticNotifier.nextCall
+      } yield {
+        server.shutdown()
+        assert(d1.diagnostics.isEmpty && d1.uri == dialectPath)
+        assert(i1.diagnostics.length == 1 && i1.uri == instancePath)
+        assert(i2.diagnostics.isEmpty && i2.uri == instancePath)
+        assert(i3 == i1)
+        assert(diagnosticNotifier.promises.isEmpty)
+      }
+    }
+  }
+
+  test("DiagnosticManager with invalid clone") {
+    class MockDialectDomainElementModel extends DialectDomainElementModel {
+      override def modelInstance: AmfObject = throw new Exception("should fail")
+    }
+
+    class MockDialectInstance(override val fields: Fields) extends BaseUnit {
+
+      override def meta: Obj = new MockDialectDomainElementModel()
+
+      override def references: Seq[BaseUnit] = Nil
+
+      override def componentId: String = ""
+
+      override val annotations: Annotations = Annotations()
+
+      override def location(): Option[String] = Some("location")
+    }
+
+    val builder               = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
+    val dm: DiagnosticManager = builder.diagnosticManager()
+
+    val amfBaseUnit: BaseUnit = new MockDialectInstance(new Fields())
+
+    val eh = new ErrorCollector {}
+
+    val amfParseResult: AmfParseResult = new AmfParseResult(amfBaseUnit, eh)
+    dm.onNewAst((amfParseResult, Map.empty), "")
+    for {
+      d <- diagnosticNotifier.nextCall
+    } yield {
+      assert(d.diagnostics.length == 1)
+      assert(d.uri == "location")
+      assert(
+        d.diagnostics.head.message == "DiagnosticManager suffered an unexpected error while cloning unit: should fail")
     }
   }
 }

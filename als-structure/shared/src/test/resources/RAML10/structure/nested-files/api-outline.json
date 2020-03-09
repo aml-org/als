@@ -74,11 +74,91 @@
             "character": 6
           }
         },
-        "children": []
+        "children": [
+          {
+            "name": "properties",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 3,
+                "character": 14
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 1,
+                "character": 0
+              },
+              "end": {
+                "line": 3,
+                "character": 14
+              }
+            },
+            "children": [
+              {
+                "name": "p1",
+                "kind": 5,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 2,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 3,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 2,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 3,
+                    "character": 0
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "p2",
+                "kind": 5,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 3,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 3,
+                    "character": 14
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 3,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 3,
+                    "character": 14
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
       },
       {
         "name": "t2",
-        "kind": 16,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {

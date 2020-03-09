@@ -18,7 +18,7 @@ case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDialect: Dial
       .getOrElse(Nil)
       .filter(p => p.mapTermKeyProperty().option().isDefined)
 
-  private def isInDeclarations(nm: NodeMapping, filteredProps: Seq[PropertyMapping]): Boolean = {
+  private def isInDeclarations(nm: NodeMapping): Boolean = {
     actualDialect
       .documents()
       .root()
@@ -29,7 +29,7 @@ case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDialect: Dial
   private val semanticNameIris: Seq[String] = Seq(NameFieldSchema.Name.value.iri(), NameFieldShacl.Name.value.iri())
 
   private def filterSemanticsName(props: Seq[PropertyMapping]) = {
-    if (isInDeclarations(nm, props)) props.filterNot(p => semanticNameIris.contains(p.nodePropertyMapping().value()))
+    if (isInDeclarations(nm)) props.filterNot(p => semanticNameIris.contains(p.nodePropertyMapping().value()))
     else props
   }
 

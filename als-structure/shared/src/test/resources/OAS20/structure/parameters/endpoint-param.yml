@@ -1,0 +1,19 @@
+swagger: '2.0'
+info:
+  title: a title
+  version: 1.0
+
+paths:
+  /aPath:
+    parameters:
+      - in: query
+        name: pathFormData
+        type: string
+      - in: body
+        name: bodyParam
+      - in: path
+        name: pathParam
+        type: string
+      - in: header
+        name: headerParam
+        type: string

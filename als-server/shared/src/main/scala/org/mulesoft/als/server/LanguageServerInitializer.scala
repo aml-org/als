@@ -1,12 +1,17 @@
 package org.mulesoft.als.server
 
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeConfigType
-import org.mulesoft.als.server.feature.serialization.{SerializationConfigType, ConversionConfigType}
+import org.mulesoft.als.server.feature.serialization.{ConversionConfigType, SerializationConfigType}
 import org.mulesoft.als.server.protocol.configuration.{
   AlsClientCapabilities,
   AlsInitializeParams,
   AlsInitializeResult,
   AlsServerCapabilities
+}
+import org.mulesoft.lsp.configuration.{
+  DefaultWorkspaceServerCapabilities,
+  WorkspaceFolderServerCapabilities,
+  WorkspaceServerCapabilities
 }
 import org.mulesoft.lsp.feature.codeactions.CodeActionConfigType
 import org.mulesoft.lsp.feature.completion.CompletionConfigType
@@ -34,7 +39,7 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(RenameConfigType, textDocument.flatMap(_.rename)),
       applyConfig(CodeActionConfigType, textDocument.flatMap(_.codeActionCapabilities)),
       applyConfig(DocumentLinkConfigType, textDocument.flatMap(_.documentLink)),
-      None,
+      Some(DefaultWorkspaceServerCapabilities), //Not dependant on client capabilities
       None,
       applyConfig(SerializationConfigType, clientCapabilities.serialization),
       applyConfig(CleanDiagnosticTreeConfigType, clientCapabilities.cleanDiagnosticTree),
