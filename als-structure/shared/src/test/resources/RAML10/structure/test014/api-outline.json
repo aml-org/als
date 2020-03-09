@@ -76,7 +76,7 @@
         },
         "children": [
           {
-            "name": "request",
+            "name": "Request",
             "kind": 11,
             "deprecated": false,
             "range": {
@@ -102,7 +102,7 @@
             "children": [
               {
                 "name": "queryString",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -157,8 +157,8 @@
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 17,
-                        "character": 0
+                        "line": 18,
+                        "character": 6
                       },
                       "end": {
                         "line": 33,
@@ -167,8 +167,8 @@
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 17,
-                        "character": 0
+                        "line": 18,
+                        "character": 6
                       },
                       "end": {
                         "line": 33,
@@ -266,7 +266,7 @@
   },
   {
     "name": "types",
-    "kind": 7,
+    "kind": 5,
     "deprecated": false,
     "range": {
       "start": {
@@ -291,7 +291,7 @@
     "children": [
       {
         "name": "lat-long",
-        "kind": 7,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -341,7 +341,7 @@
             "children": [
               {
                 "name": "lat",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -367,7 +367,7 @@
               },
               {
                 "name": "long",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -397,7 +397,7 @@
       },
       {
         "name": "loc",
-        "kind": 7,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -447,7 +447,7 @@
             "children": [
               {
                 "name": "location",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -477,7 +477,7 @@
       },
       {
         "name": "paging",
-        "kind": 7,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -527,7 +527,7 @@
             "children": [
               {
                 "name": "start",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -553,7 +553,7 @@
               },
               {
                 "name": "page-size",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {

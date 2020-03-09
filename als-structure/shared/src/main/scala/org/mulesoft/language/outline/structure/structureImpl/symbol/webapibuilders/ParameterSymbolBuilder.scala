@@ -1,6 +1,7 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
 import amf.core.metamodel.Field
+import amf.core.metamodel.domain.DomainElementModel
 import amf.core.model.domain.AmfElement
 import amf.plugins.domain.webapi.metamodel.ParameterModel
 import amf.plugins.domain.webapi.models.Parameter
@@ -14,7 +15,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
 class ParameterSymbolBuilder(override val element: Parameter)(implicit val factory: BuilderFactory)
     extends NamedElementSymbolBuilderTrait[Parameter] {
-  override def ignoreFields: List[Field] = super.ignoreFields :+ ParameterModel.Schema
+  override def ignoreFields: List[Field] =
+    super.ignoreFields :+ ParameterModel.Schema :+ DomainElementModel.CustomDomainProperties
 
   override protected def children: List[DocumentSymbol] =
     super.children ++ Option(element.schema)

@@ -102,7 +102,7 @@
         },
         "children": [
           {
-            "name": "request",
+            "name": "Request",
             "kind": 11,
             "deprecated": false,
             "range": {
@@ -177,30 +177,57 @@
                     },
                     "children": [
                       {
-                        "name": "exampleName",
+                        "name": "examples",
                         "kind": 7,
                         "deprecated": false,
                         "range": {
                           "start": {
-                            "line": 19,
-                            "character": 16
+                            "line": 18,
+                            "character": 14
                           },
                           "end": {
-                            "line": 21,
-                            "character": 17
+                            "line": 22,
+                            "character": 15
                           }
                         },
                         "selectionRange": {
                           "start": {
-                            "line": 19,
-                            "character": 16
+                            "line": 18,
+                            "character": 14
                           },
                           "end": {
-                            "line": 21,
-                            "character": 17
+                            "line": 22,
+                            "character": 15
                           }
                         },
-                        "children": []
+                        "children": [
+                          {
+                            "name": "exampleName",
+                            "kind": 7,
+                            "deprecated": false,
+                            "range": {
+                              "start": {
+                                "line": 19,
+                                "character": 16
+                              },
+                              "end": {
+                                "line": 21,
+                                "character": 17
+                              }
+                            },
+                            "selectionRange": {
+                              "start": {
+                                "line": 19,
+                                "character": 16
+                              },
+                              "end": {
+                                "line": 21,
+                                "character": 17
+                              }
+                            },
+                            "children": []
+                          }
+                        ]
                       },
                       {
                         "name": "encoding",
