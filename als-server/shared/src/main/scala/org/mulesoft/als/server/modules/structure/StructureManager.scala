@@ -23,7 +23,9 @@ class StructureManager(val unitAccesor: UnitRepositoriesManager,
 
   override val `type`: ConfigType[DocumentSymbolClientCapabilities, Unit] = DocumentSymbolConfigType
 
-  override def applyConfig(config: Option[DocumentSymbolClientCapabilities]): Unit = {}
+  override def applyConfig(config: Option[DocumentSymbolClientCapabilities]): Unit = {
+    // todo: use DocumentSymbolClientCapabilities <- SymbolKindClientCapabilities to avoid sending unsupported symbols
+  }
 
   override def getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
     new RequestHandler[DocumentSymbolParams, Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] {
@@ -56,7 +58,7 @@ class StructureManager(val unitAccesor: UnitRepositoriesManager,
                                       uri,
                                       telemetryUUID)
     val results = unitAccesor
-      .getCU(uri, telemetryUUID)
+      .getLastCU(uri, telemetryUUID)
       .flatMap(_.getLast)
       .map(cu => {
         val r = getStructureFromAST(cu.unit, telemetryUUID) // todo: if isn't resolved yet map future

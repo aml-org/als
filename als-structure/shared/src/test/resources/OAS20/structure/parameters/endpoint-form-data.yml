@@ -1,0 +1,14 @@
+swagger: '2.0'
+info:
+  title: a title
+  version: 1.0
+
+paths:
+  /aPath:
+    parameters:
+      - in: formData
+        name: prop1
+        type: string
+      - in: formData
+        name: prop2
+        type: string

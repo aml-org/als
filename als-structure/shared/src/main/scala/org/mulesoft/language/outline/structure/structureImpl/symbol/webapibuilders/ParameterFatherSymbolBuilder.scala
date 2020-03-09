@@ -2,22 +2,17 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 
 import amf.core.model.domain.{AmfArray, AmfElement}
 import amf.plugins.domain.webapi.metamodel.ParametersFieldModel
+import amf.plugins.domain.webapi.models.Parameter
 import org.mulesoft.language.outline.structure.structureImpl._
 
-trait ParametersSymbolBuilder extends ElementSymbolBuilder[AmfArray] {
-  val element: AmfArray
-  protected val name: String
-  val ranges = RangesSplitter(element.annotations)
-  val children: Seq[DocumentSymbol] =
-    element.values.flatMap(e => factory.builderForElement(e).map(_.build()).getOrElse(Nil))
-
-  override def build(): Seq[DocumentSymbol] =
-    Seq(DocumentSymbol(name, SymbolKind.Array, false, ranges.range, ranges.selectionRange, children.toList))
-}
-
-class HeadersSymbolBuilder(override val element: AmfArray)(override implicit val factory: BuilderFactory)
-    extends ParametersSymbolBuilder {
-  override protected val name: String = "headers"
+class ArrayParametersSymbolBuilder(amfArray: AmfArray)(implicit val factory: BuilderFactory)
+    extends ElementSymbolBuilder[AmfArray] {
+  override def build(): Seq[DocumentSymbol] = {
+    val ranges = RangesSplitter(amfArray.annotations)
+    new ParametersSymbolBuilder(amfArray.values.collect({ case p: Parameter => p }),
+                                ranges.range,
+                                ranges.selectionRange).build()
+  }
 }
 
 object HeadersSymbolBuilder extends ElementSymbolBuilderCompanion {
@@ -28,12 +23,7 @@ object HeadersSymbolBuilder extends ElementSymbolBuilderCompanion {
   override val supportedIri: String = ParametersFieldModel.Headers.value.iri()
 
   override def construct(element: AmfArray)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[AmfArray]] =
-    Some(new HeadersSymbolBuilder(element))
-}
-
-class QueryParametersSymbolBuilder(override val element: AmfArray)(override implicit val factory: BuilderFactory)
-    extends ParametersSymbolBuilder {
-  override protected val name: String = "queryParameters"
+    Some(new ArrayParametersSymbolBuilder(element))
 }
 
 object QueryParametersSymbolBuilder extends ElementSymbolBuilderCompanion {
@@ -44,12 +34,7 @@ object QueryParametersSymbolBuilder extends ElementSymbolBuilderCompanion {
   override val supportedIri: String = ParametersFieldModel.QueryParameters.value.iri()
 
   override def construct(element: AmfArray)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[AmfArray]] =
-    Some(new QueryParametersSymbolBuilder(element))
-}
-
-class QueryStringSymbolBuilder(override val element: AmfArray)(override implicit val factory: BuilderFactory)
-    extends ParametersSymbolBuilder {
-  override protected val name: String = "queryString"
+    Some(new ArrayParametersSymbolBuilder(element))
 }
 
 object QueryStringSymbolBuilder extends ElementSymbolBuilderCompanion {
@@ -60,12 +45,7 @@ object QueryStringSymbolBuilder extends ElementSymbolBuilderCompanion {
   override val supportedIri: String = ParametersFieldModel.QueryString.value.iri()
 
   override def construct(element: AmfArray)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[AmfArray]] =
-    Some(new QueryStringSymbolBuilder(element))
-}
-
-class UriParametersSymbolBuilder(override val element: AmfArray)(override implicit val factory: BuilderFactory)
-    extends ParametersSymbolBuilder {
-  override protected val name: String = "uriParameters"
+    Some(new ArrayParametersSymbolBuilder(element))
 }
 
 object UriParametersSymbolBuilder extends ElementSymbolBuilderCompanion {
@@ -76,5 +56,5 @@ object UriParametersSymbolBuilder extends ElementSymbolBuilderCompanion {
   override val supportedIri: String = ParametersFieldModel.UriParameters.value.iri()
 
   override def construct(element: AmfArray)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[AmfArray]] =
-    Some(new UriParametersSymbolBuilder(element))
+    Some(new ArrayParametersSymbolBuilder(element))
 }

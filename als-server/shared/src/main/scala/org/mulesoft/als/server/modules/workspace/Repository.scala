@@ -12,8 +12,11 @@ import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 case class ParsedUnit(bu: BaseUnit, inTree: Boolean) {
-  def toCU(next: Option[Future[CompilableUnit]], mf: Option[String], stack: Seq[ReferenceStack]): CompilableUnit =
-    CompilableUnit(bu.location().getOrElse(bu.id), bu, if (inTree) mf else None, next, stack)
+  def toCU(next: Option[Future[CompilableUnit]],
+           mf: Option[String],
+           stack: Seq[ReferenceStack],
+           isDirty: Boolean = false): CompilableUnit =
+    CompilableUnit(bu.location().getOrElse(bu.id), bu, if (inTree) mf else None, next, stack, isDirty)
 }
 
 case class DiagnosticsBundle(isExternal: Boolean, references: Set[ReferenceStack]) {
@@ -28,7 +31,7 @@ class Repository(logger: Logger) {
     * @param newCachables
     */
   def setCachables(newCachables: Set[String]): Unit = {
-    // { innerCachables -- newCachables }.foreach(cache.remove)
+    // possible optimization: { innerCachables -- newCachables }.foreach(cache.remove)
     tree.cleanCache()
     cachables = newCachables
   }
@@ -36,6 +39,12 @@ class Repository(logger: Logger) {
   private var tree: MainFileTree = EmptyFileTree
 
   private val units: mutable.Map[String, ParsedUnit] = mutable.Map.empty
+
+  def getAllFilesUris: List[String] = getIsolatedUris ++ getTreeUris
+
+  def getTreeUris: List[String] = treeUnits().map(_.bu.identifier).toList
+
+  def getIsolatedUris: List[String] = units.values.map(_.bu.identifier).toList
 
   def getParsed(uri: String): Option[ParsedUnit] = tree.parsedUnits.get(uri).orElse(units.get(uri))
 

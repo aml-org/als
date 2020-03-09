@@ -10,7 +10,8 @@ case class CompilableUnit(uri: String,
                           unit: BaseUnit,
                           mainFile: Option[String],
                           next: Option[Future[CompilableUnit]],
-                          stack: Seq[ReferenceStack]) {
+                          stack: Seq[ReferenceStack],
+                          isDirty: Boolean = false) {
 
   def getLast: Future[CompilableUnit] = {
     next match {

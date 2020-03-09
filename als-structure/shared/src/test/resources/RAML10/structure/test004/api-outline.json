@@ -26,6 +26,32 @@
     "children": []
   },
   {
+    "name": "baseUri",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 6,
+        "character": 0
+      },
+      "end": {
+        "line": 8,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 0
+      },
+      "end": {
+        "line": 8,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
     "name": "/someChildUri",
     "kind": 12,
     "deprecated": false,
@@ -76,13 +102,13 @@
         },
         "children": [
           {
-            "name": "200",
-            "kind": 7,
+            "name": "responses",
+            "kind": 9,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 11,
-                "character": 6
+                "line": 10,
+                "character": 4
               },
               "end": {
                 "line": 15,
@@ -91,23 +117,23 @@
             },
             "selectionRange": {
               "start": {
-                "line": 11,
-                "character": 6
+                "line": 10,
+                "character": 4
               },
               "end": {
-                "line": 11,
-                "character": 9
+                "line": 15,
+                "character": 0
               }
             },
             "children": [
               {
-                "name": "application/xml",
-                "kind": 7,
+                "name": "200",
+                "kind": 9,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 13,
-                    "character": 10
+                    "line": 11,
+                    "character": 6
                   },
                   "end": {
                     "line": 15,
@@ -116,17 +142,17 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 13,
-                    "character": 10
+                    "line": 11,
+                    "character": 6
                   },
                   "end": {
-                    "line": 13,
-                    "character": 25
+                    "line": 11,
+                    "character": 9
                   }
                 },
                 "children": [
                   {
-                    "name": "schema",
+                    "name": "Payloads",
                     "kind": 7,
                     "deprecated": false,
                     "range": {
@@ -149,7 +175,34 @@
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      {
+                        "name": "application/xml",
+                        "kind": 13,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 13,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 15,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 13,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 15,
+                            "character": 0
+                          }
+                        },
+                        "children": []
+                      }
+                    ]
                   }
                 ]
               }
@@ -208,8 +261,8 @@
             },
             "children": [
               {
-                "name": "request",
-                "kind": 7,
+                "name": "Request",
+                "kind": 11,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -233,13 +286,13 @@
                 },
                 "children": [
                   {
-                    "name": "application/json",
-                    "kind": 7,
+                    "name": "payloads",
+                    "kind": 2,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 18,
-                        "character": 8
+                        "line": 17,
+                        "character": 6
                       },
                       "end": {
                         "line": 20,
@@ -248,18 +301,18 @@
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 18,
-                        "character": 8
+                        "line": 17,
+                        "character": 6
                       },
                       "end": {
-                        "line": 18,
-                        "character": 24
+                        "line": 20,
+                        "character": 0
                       }
                     },
                     "children": [
                       {
-                        "name": "schema",
-                        "kind": 7,
+                        "name": "application/json",
+                        "kind": 13,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -294,8 +347,8 @@
     ]
   },
   {
-    "name": "trait",
-    "kind": 7,
+    "name": "traits",
+    "kind": 11,
     "deprecated": false,
     "range": {
       "start": {
@@ -320,7 +373,7 @@
     "children": [
       {
         "name": "base",
-        "kind": 7,
+        "kind": 11,
         "deprecated": false,
         "range": {
           "start": {

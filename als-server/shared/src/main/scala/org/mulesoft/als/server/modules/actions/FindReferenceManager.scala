@@ -48,7 +48,7 @@ class FindReferenceManager(val workspaceManager: UnitRepositoriesManager,
 
   def findReference(str: String, position: Position): Future[Seq[Location]] =
     workspaceManager
-      .getCU(str, UUID.randomUUID().toString)
+      .getLastCU(str, UUID.randomUUID().toString)
       .flatMap(_.getLast)
       .map(bu => {
         FindReferences.getReferences(bu.unit, bu.stack)

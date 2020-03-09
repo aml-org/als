@@ -76,13 +76,13 @@
         },
         "children": [
           {
-            "name": "200",
-            "kind": 7,
+            "name": "responses",
+            "kind": 9,
             "deprecated": false,
             "range": {
               "start": {
-                "line": 8,
-                "character": 6
+                "line": 7,
+                "character": 4
               },
               "end": {
                 "line": 11,
@@ -91,23 +91,23 @@
             },
             "selectionRange": {
               "start": {
-                "line": 8,
-                "character": 6
+                "line": 7,
+                "character": 4
               },
               "end": {
-                "line": 8,
-                "character": 9
+                "line": 11,
+                "character": 0
               }
             },
             "children": [
               {
-                "name": "application/json",
-                "kind": 7,
+                "name": "200",
+                "kind": 9,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 10,
-                    "character": 10
+                    "line": 8,
+                    "character": 6
                   },
                   "end": {
                     "line": 11,
@@ -116,40 +116,67 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 10,
-                    "character": 10
+                    "line": 8,
+                    "character": 6
                   },
                   "end": {
-                    "line": 10,
-                    "character": 26
+                    "line": 8,
+                    "character": 9
                   }
                 },
                 "children": [
                   {
-                    "name": "application/json",
-                    "kind": 5,
+                    "name": "Payloads",
+                    "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
                         "line": 10,
-                        "character": 28
+                        "character": 10
                       },
                       "end": {
-                        "line": 10,
-                        "character": 38
+                        "line": 11,
+                        "character": 0
                       }
                     },
                     "selectionRange": {
                       "start": {
                         "line": 10,
-                        "character": 28
+                        "character": 10
                       },
                       "end": {
-                        "line": 10,
-                        "character": 38
+                        "line": 11,
+                        "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      {
+                        "name": "application/json",
+                        "kind": 13,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 10,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 11,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 10,
+                            "character": 10
+                          },
+                          "end": {
+                            "line": 11,
+                            "character": 0
+                          }
+                        },
+                        "children": []
+                      }
+                    ]
                   }
                 ]
               }

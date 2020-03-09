@@ -99,8 +99,11 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
   val container: TextDocumentContainer = TextDocumentContainer(environment, platform, amfConfiguration)
 
   val cleanDiagnosticManager = new CleanDiagnosticTreeManager(container, logger)
-  val workspaceManager       = new WorkspaceManager(container, telemetryManager, projectDependencies, logger)
-  lazy val documentManager   = new TextDocumentManager(container, List(workspaceManager), logger)
+
+  val workspaceManager: WorkspaceManager =
+    new WorkspaceManager(container, telemetryManager, projectDependencies, logger)
+
+  lazy val documentManager = new TextDocumentManager(container, List(workspaceManager), logger)
 
   lazy val completionManager =
     new SuggestionsManager(container, workspaceManager, telemetryManager, directoryResolver, logger)

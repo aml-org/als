@@ -3,6 +3,13 @@ package org.mulesoft.lsp
 import java.util.{List => JList}
 
 import org.eclipse.lsp4j
+import org.eclipse.lsp4j.{
+  DidChangeConfigurationCapabilities,
+  DidChangeWatchedFilesCapabilities,
+  ExecuteCommandCapabilities,
+  SymbolCapabilities,
+  WorkspaceEditCapabilities
+}
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.mulesoft.lsp.feature.common.{
   Location,
@@ -128,9 +135,37 @@ object LspConversions {
       Option(capabilities.getDocumentLink).map(documentLinkClientCapabilities)
     )
 
+  def workspaceEditClientCapabilities(c: WorkspaceEditCapabilities): WorkspaceEditClientCapabilities =
+    WorkspaceEditClientCapabilities(Option(c.getDocumentChanges))
+
+  def workspaceDidChangeConfiguration(
+      c: DidChangeConfigurationCapabilities): DidChangeConfigurationClientCapabilities =
+    DidChangeConfigurationClientCapabilities(Option(c.getDynamicRegistration))
+
+  def workspaceDidChangeWatchedFiles(c: DidChangeWatchedFilesCapabilities): DidChangeWatchedFilesClientCapabilities =
+    DidChangeWatchedFilesClientCapabilities(Option(c.getDynamicRegistration))
+
+  def workspaceSymbol(c: SymbolCapabilities): WorkspaceSymbolClientCapabilities =
+    WorkspaceSymbolClientCapabilities(Option(c.getDynamicRegistration))
+
+  def workspaceExecuteCommand(c: ExecuteCommandCapabilities): ExecuteCommandClientCapabilities =
+    ExecuteCommandClientCapabilities(Option(c.getDynamicRegistration))
+
   implicit def workspaceClientCapabilities(
-      capabilities: lsp4j.WorkspaceClientCapabilities): WorkspaceClientCapabilities =
-    WorkspaceClientCapabilities()
+      capabilities: lsp4j.WorkspaceClientCapabilities): WorkspaceClientCapabilities = {
+    Option(capabilities)
+      .map(
+        c =>
+          WorkspaceClientCapabilities(
+            Option(c.getApplyEdit),
+            Option(c.getWorkspaceEdit).map(workspaceEditClientCapabilities),
+            Option(c.getDidChangeConfiguration).map(workspaceDidChangeConfiguration),
+            Option(c.getDidChangeWatchedFiles).map(workspaceDidChangeWatchedFiles),
+            Option(c.getSymbol).map(workspaceSymbol),
+            Option(c.getExecuteCommand).map(workspaceExecuteCommand)
+        ))
+      .getOrElse(WorkspaceClientCapabilities())
+  }
 
   implicit def traceKind(kind: String): TraceKind = TraceKind.withName(kind)
 

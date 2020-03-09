@@ -52,39 +52,13 @@
     "children": []
   },
   {
-    "name": "pet",
-    "kind": 7,
+    "name": "tags",
+    "kind": 4,
     "deprecated": false,
     "range": {
       "start": {
-        "line": 6,
-        "character": 2
-      },
-      "end": {
-        "line": 11,
+        "line": 5,
         "character": 0
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 6,
-        "character": 8
-      },
-      "end": {
-        "line": 6,
-        "character": 11
-      }
-    },
-    "children": []
-  },
-  {
-    "name": "pet1",
-    "kind": 7,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 11,
-        "character": 2
       },
       "end": {
         "line": 13,
@@ -93,12 +67,12 @@
     },
     "selectionRange": {
       "start": {
-        "line": 11,
-        "character": 8
+        "line": 5,
+        "character": 0
       },
       "end": {
-        "line": 11,
-        "character": 12
+        "line": 13,
+        "character": 0
       }
     },
     "children": []

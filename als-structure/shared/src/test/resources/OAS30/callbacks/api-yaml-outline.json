@@ -102,8 +102,8 @@
         },
         "children": [
           {
-            "name": "callback",
-            "kind": 7,
+            "name": "http://notificationServer.com?transactionId={$request.body#/id}&email={$request.body#/email}",
+            "kind": 12,
             "deprecated": false,
             "range": {
               "start": {
@@ -121,19 +121,19 @@
                 "character": 10
               },
               "end": {
-                "line": 22,
-                "character": 94
+                "line": 12,
+                "character": 104
               }
             },
             "children": [
               {
-                "name": "http://notificationServer.com?transactionId={$request.body#/id}&email={$request.body#/email}",
-                "kind": 12,
+                "name": "post",
+                "kind": 6,
                 "deprecated": false,
                 "range": {
                   "start": {
-                    "line": 12,
-                    "character": 10
+                    "line": 13,
+                    "character": 12
                   },
                   "end": {
                     "line": 22,
@@ -142,23 +142,23 @@
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 12,
-                    "character": 10
+                    "line": 13,
+                    "character": 12
                   },
                   "end": {
-                    "line": 12,
-                    "character": 104
+                    "line": 13,
+                    "character": 16
                   }
                 },
                 "children": [
                   {
-                    "name": "post",
-                    "kind": 6,
+                    "name": "responses",
+                    "kind": 9,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 13,
-                        "character": 12
+                        "line": 20,
+                        "character": 14
                       },
                       "end": {
                         "line": 22,
@@ -167,18 +167,18 @@
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 13,
-                        "character": 12
+                        "line": 20,
+                        "character": 14
                       },
                       "end": {
-                        "line": 13,
-                        "character": 16
+                        "line": 22,
+                        "character": 94
                       }
                     },
                     "children": [
                       {
                         "name": "200",
-                        "kind": 7,
+                        "kind": 9,
                         "deprecated": false,
                         "range": {
                           "start": {
@@ -201,35 +201,62 @@
                           }
                         },
                         "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Request",
+                    "kind": 11,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 14,
+                        "character": 14
                       },
+                      "end": {
+                        "line": 20,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 14,
+                        "character": 14
+                      },
+                      "end": {
+                        "line": 20,
+                        "character": 0
+                      }
+                    },
+                    "children": [
                       {
-                        "name": "request",
-                        "kind": 7,
+                        "name": "payloads",
+                        "kind": 2,
                         "deprecated": false,
                         "range": {
                           "start": {
-                            "line": 14,
-                            "character": 14
+                            "line": 0,
+                            "character": 0
                           },
                           "end": {
-                            "line": 20,
-                            "character": 0
+                            "line": 0,
+                            "character": 1
                           }
                         },
                         "selectionRange": {
                           "start": {
-                            "line": 14,
-                            "character": 14
+                            "line": 0,
+                            "character": 0
                           },
                           "end": {
-                            "line": 20,
-                            "character": 0
+                            "line": 0,
+                            "character": 1
                           }
                         },
                         "children": [
                           {
                             "name": "application/json",
-                            "kind": 7,
+                            "kind": 13,
                             "deprecated": false,
                             "range": {
                               "start": {
@@ -251,34 +278,7 @@
                                 "character": 36
                               }
                             },
-                            "children": [
-                              {
-                                "name": "schema",
-                                "kind": 7,
-                                "deprecated": false,
-                                "range": {
-                                  "start": {
-                                    "line": 18,
-                                    "character": 20
-                                  },
-                                  "end": {
-                                    "line": 20,
-                                    "character": 0
-                                  }
-                                },
-                                "selectionRange": {
-                                  "start": {
-                                    "line": 18,
-                                    "character": 20
-                                  },
-                                  "end": {
-                                    "line": 20,
-                                    "character": 0
-                                  }
-                                },
-                                "children": []
-                              }
-                            ]
+                            "children": []
                           }
                         ]
                       }

@@ -5,7 +5,9 @@ package org.mulesoft.als.server.logger
   */
 object EmptyLogger extends AbstractLogger {
 
-  protected def executeLogging(msg: String, severity: MessageSeverity.Value): Unit = {}
+  protected def executeLogging(msg: String, severity: MessageSeverity.Value): Unit = {
+    // dummy
+  }
 
   override protected val settings: Option[LoggerSettings] = None
 
