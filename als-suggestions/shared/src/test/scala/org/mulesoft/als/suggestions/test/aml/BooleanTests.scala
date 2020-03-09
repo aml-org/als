@@ -5,7 +5,7 @@ import amf.ProfileName
 class BooleanTests extends AMLSuggestionsTest {
   override def rootPath: String = "AML/booleans"
 
-  test("test simple boolean") {
+  ignore("test simple boolean") {
     this.withDialect(
       "instance.yaml",
       Set("true"),
