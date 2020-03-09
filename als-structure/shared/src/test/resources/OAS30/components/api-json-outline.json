@@ -550,7 +550,7 @@
                     ]
                   },
                   {
-                    "name": "request",
+                    "name": "Request",
                     "kind": 11,
                     "deprecated": false,
                     "range": {
@@ -794,7 +794,7 @@
     },
     "children": [
       {
-        "name": "request",
+        "name": "Request",
         "kind": 11,
         "deprecated": false,
         "range": {
@@ -869,30 +869,57 @@
                 },
                 "children": [
                   {
-                    "name": "user",
+                    "name": "examples",
                     "kind": 7,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 115,
-                        "character": 14
+                        "line": 114,
+                        "character": 12
                       },
                       "end": {
-                        "line": 118,
-                        "character": 15
+                        "line": 119,
+                        "character": 13
                       }
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 115,
-                        "character": 14
+                        "line": 114,
+                        "character": 12
                       },
                       "end": {
-                        "line": 118,
-                        "character": 15
+                        "line": 119,
+                        "character": 13
                       }
                     },
-                    "children": []
+                    "children": [
+                      {
+                        "name": "user",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 115,
+                            "character": 14
+                          },
+                          "end": {
+                            "line": 118,
+                            "character": 15
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 115,
+                            "character": 14
+                          },
+                          "end": {
+                            "line": 118,
+                            "character": 15
+                          }
+                        },
+                        "children": []
+                      }
+                    ]
                   }
                 ]
               }
@@ -901,7 +928,7 @@
         ]
       },
       {
-        "name": "request",
+        "name": "Request",
         "kind": 11,
         "deprecated": false,
         "range": {
@@ -930,7 +957,7 @@
   },
   {
     "name": "schemas",
-    "kind": 7,
+    "kind": 5,
     "deprecated": false,
     "range": {
       "start": {
@@ -955,7 +982,7 @@
     "children": [
       {
         "name": "Category",
-        "kind": 7,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -1005,7 +1032,7 @@
             "children": [
               {
                 "name": "id",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -1031,7 +1058,7 @@
               },
               {
                 "name": "name",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -1061,7 +1088,7 @@
       },
       {
         "name": "Tag",
-        "kind": 7,
+        "kind": 5,
         "deprecated": false,
         "range": {
           "start": {
@@ -1111,7 +1138,7 @@
             "children": [
               {
                 "name": "id",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -1137,7 +1164,7 @@
               },
               {
                 "name": "name",
-                "kind": 7,
+                "kind": 5,
                 "deprecated": false,
                 "range": {
                   "start": {
@@ -1270,8 +1297,8 @@
         },
         "children": [
           {
-            "name": "application/json",
-            "kind": 13,
+            "name": "Payloads",
+            "kind": 7,
             "deprecated": false,
             "range": {
               "start": {
@@ -1293,7 +1320,34 @@
                 "character": 28
               }
             },
-            "children": []
+            "children": [
+              {
+                "name": "application/json",
+                "kind": 13,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 65,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 69,
+                    "character": 11
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 65,
+                    "character": 10
+                  },
+                  "end": {
+                    "line": 65,
+                    "character": 28
+                  }
+                },
+                "children": []
+              }
+            ]
           }
         ]
       }

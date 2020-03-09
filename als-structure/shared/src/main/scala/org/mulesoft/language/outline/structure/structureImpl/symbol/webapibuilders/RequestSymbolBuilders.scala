@@ -3,11 +3,14 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 import amf.core.model.domain.AmfElement
 import amf.plugins.domain.webapi.metamodel.RequestModel
 import amf.plugins.domain.webapi.models.Request
+import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, PositionRange}
 import org.mulesoft.language.outline.structure.structureImpl._
 
 class RequestSymbolBuilders(override val element: Request)(override implicit val factory: BuilderFactory)
     extends ParamPayloadDecomposeSymbolBuilders[Request](RequestModel.Payloads) {
-  override protected val name: String = "request"
+  override protected val name: String = "Request"
+
+  override def range: Option[PositionRange] = super.range.orElse(Some(EmptyPositionRange))
 }
 
 object RequestSymbolBuilders extends ElementSymbolBuilderCompanion {

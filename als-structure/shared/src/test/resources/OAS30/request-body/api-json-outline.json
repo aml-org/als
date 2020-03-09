@@ -102,7 +102,7 @@
         },
         "children": [
           {
-            "name": "request",
+            "name": "Request",
             "kind": 11,
             "deprecated": false,
             "range": {
@@ -180,7 +180,7 @@
                 ]
               },
               {
-                "name": "Header",
+                "name": "Headers",
                 "kind": 2,
                 "deprecated": false,
                 "range": {

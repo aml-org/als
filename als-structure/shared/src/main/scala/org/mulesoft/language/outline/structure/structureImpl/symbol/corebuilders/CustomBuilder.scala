@@ -1,15 +1,13 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
 import amf.core.annotations.LexicalInformation
-import amf.core.metamodel.{Field, Obj, Type}
+import amf.core.metamodel.Field
 import amf.core.metamodel.Type.{ArrayLike, Scalar}
 import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.{RequestModel, WebApiModel}
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ParameterBindingLabelMapper
 import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, KindForResultMatcher}
-import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, SymbolKind}
 
 abstract class CustomBuilder(implicit val factory: BuilderFactory) {
   def applies(fe: FieldEntry): Boolean
@@ -45,10 +43,10 @@ abstract class FieldArrayBuilder(override implicit val factory: BuilderFactory) 
       .map(_.build())
       .getOrElse(Nil)
 
-  private def isScalarArray(f: Field): Boolean = {
+  protected def isScalarArray(f: Field): Boolean = {
     f.`type` match {
-      case ArrayLike(value: Scalar) => true
-      case _                        => false
+      case ArrayLike(_: Scalar) => true
+      case _                    => false
     }
   }
   def build(fe: FieldEntry): Seq[DocumentSymbol] =
