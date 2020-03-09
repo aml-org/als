@@ -180,6 +180,126 @@
     "command": null
   },
   {
+    "label": "format",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "format",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11format",
+    "filterText": "\"format\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 13
+        }
+      },
+      "newText": "\"format\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "maxLength",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "maxLength",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11maxLength",
+    "filterText": "\"maxLength\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 13
+        }
+      },
+      "newText": "\"maxLength\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "minLength",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "minLength",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11minLength",
+    "filterText": "\"minLength\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 13
+        }
+      },
+      "newText": "\"minLength\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "pattern",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "pattern",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11pattern",
+    "filterText": "\"pattern\": \"$1\"",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 13
+        }
+      },
+      "newText": "\"pattern\": \"$1\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "readOnly",
     "kind": [],
     "detail": "schemas",
