@@ -3,7 +3,9 @@
   "paths": {
     "/path": {
       "parameters": [
-        "*"
+        {
+          "*"
+        }
       ]
     }
   }
