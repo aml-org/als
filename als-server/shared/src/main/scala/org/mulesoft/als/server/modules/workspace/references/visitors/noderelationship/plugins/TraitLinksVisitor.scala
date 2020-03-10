@@ -19,7 +19,7 @@ import org.yaml.model.YMapEntry
   * @test: org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - raml-test 1/2
   */
 class TraitLinksVisitor extends NodeRelationshipVisitorType {
-  override protected def innerVisit(element: AmfElement): Seq[Result] =
+  override protected def innerVisit(element: AmfElement) =
     element match {
       case o: Operation =>
         o.fields

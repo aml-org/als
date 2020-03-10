@@ -11,7 +11,7 @@ import org.mulesoft.als.server.modules.workspace.references.visitors.noderelatio
   * @test: org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - oas-anchor
   */
 class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
-  override protected def innerVisit(element: AmfElement): Seq[Result] =
+  override protected def innerVisit(element: AmfElement) =
     element match {
       case obj: AmfObject =>
         obj.fields

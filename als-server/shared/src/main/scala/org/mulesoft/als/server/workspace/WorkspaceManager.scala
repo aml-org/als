@@ -44,11 +44,11 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   def initializeWS(root: String): Future[Unit] =
     rootHandler.extractConfiguration(root).flatMap { mainOption =>
       if (!workspaces.exists(w => root.startsWith(w.folder))) { // if there is an existing WS containing the new one, dont add it
-      logger
-        .debug("Adding workspace: " + root, "WorkspaceManager", "initializeWS")
-      val workspace: WorkspaceContentManager =
-        new WorkspaceContentManager(root, environmentProvider, telemetryProvider, logger, dependencies)
-Future.sequence {
+        logger
+          .debug("Adding workspace: " + root, "WorkspaceManager", "initializeWS")
+        val workspace: WorkspaceContentManager =
+          new WorkspaceContentManager(root, environmentProvider, telemetryProvider, logger, dependencies)
+        Future.sequence {
           replaceWorkspaces(root)
         } map (_ => {
           addWorkspace(mainOption, workspace)
@@ -156,11 +156,11 @@ Future.sequence {
   }
 
   override def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]] =
-    getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getDocumentLinks(uri))
+    getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getDocumentLinks(uri))
 
   override def getAliases(uri: String, uuid: String): Future[Seq[AliasInfo]] =
-    getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getAliases(uri))
+    getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getAliases(uri))
 
   override def getRelationships(uri: String, uuid: String): Future[Seq[(Location, Location)]] =
-    getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri))
+    getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getRelationships(uri))
 }

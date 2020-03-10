@@ -6,11 +6,11 @@ uses:
     lib: library.raml
 
 traits:
-    tr:
+    tr:[*]
         body:
 
 /test:
   get:
     is:
       - tr
-      - lib[*].tr
+      - lib.tr

@@ -1,8 +1,8 @@
 package org.mulesoft.als.common.dtoTypes
 
 import amf.core.parser.{Position => AmfPosition}
+import org.mulesoft.lsp.feature.common.{Position => LspPosition}
 
-import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
 
 /**
@@ -67,6 +67,10 @@ object Position {
   def apply(position: AmfPosition): Position =
     if (position.isZero) Position0
     else Position(position.line - 1, position.column)
+
+  def apply(position: LspPosition): Position =
+    if (position.line == 0 && position.character == 0) Position0
+    else Position(position.line, position.character)
 
   def apply(offset: Int, text: String): Position = {
     @scala.annotation.tailrec
