@@ -29,7 +29,6 @@ object FindDefinition {
         findAliases(getYBranch(position, bu).node, aliases, position))
         .map(toLocationLink)
         .sortWith(sortInner)
-        .distinct
     }
 
   private def findByPosition(uri: String,
@@ -42,7 +41,7 @@ object FindDefinition {
       s._1.uri == uri && range.contains(position)
     }
 
-  private def findAliases(node: YPart, aliases: Seq[AliasInfo], position: Position): Seq[(Location, Location)] = {
+  private def findAliases(node: YPart, aliases: Seq[AliasInfo], position: Position): Seq[(Location, Location)] =
     aliases
       .find { alias =>
         node match {
@@ -58,7 +57,6 @@ object FindDefinition {
         (ActionTools.sourceLocationToLocation(node.location), alias.declaration)
       }
       .toSeq
-  }
 
   private def sortInner(l1: LocationLink, l2: LocationLink): Boolean =
     l1.originSelectionRange
@@ -71,11 +69,9 @@ object FindDefinition {
       }
       .getOrElse(false)
 
-  private def toLocationLink(s: (Location, Location)) = {
+  private def toLocationLink(s: (Location, Location)) =
     LocationLink(s._2.uri, s._2.range, s._2.range, Some(s._1.range))
-  }
 
-  private def getYBranch(position: Position, bu: BaseUnit) = {
+  private def getYBranch(position: Position, bu: BaseUnit) =
     NodeBranchBuilder.build(bu, position.toAmfPosition, YamlUtils.isJson(bu))
-  }
 }

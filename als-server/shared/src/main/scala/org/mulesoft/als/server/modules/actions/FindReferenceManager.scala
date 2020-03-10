@@ -46,13 +46,15 @@ class FindReferenceManager(val workspaceManager: UnitRepositoriesManager,
 
   val onFindReference: (String, Position) => Future[Seq[Location]] = findReference
 
-  def findReference(str: String, position: Position): Future[Seq[Location]] =
+  def findReference(uri: String, position: Position): Future[Seq[Location]] = {
+    val uuid = UUID.randomUUID().toString
     workspaceManager
-      .getLastCU(str, UUID.randomUUID().toString)
+      .getLastCU(uri, uuid)
       .flatMap(_.getLast)
-      .map(bu => {
-        FindReferences.getReferences(bu.unit, bu.stack)
+      .flatMap(bu => {
+        FindReferences.getReferences(bu.unit, uri, position, workspaceManager.getRelationships(uri, uuid))
       })
+  }
 
   override def initialize(): Future[Unit] =
     Future.successful()
