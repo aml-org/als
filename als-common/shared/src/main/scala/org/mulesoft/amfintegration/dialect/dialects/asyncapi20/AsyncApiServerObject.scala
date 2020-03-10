@@ -4,6 +4,7 @@ import amf.core.vocabulary.Namespace.XsdTypes._
 import amf.dialects.oas.nodes.DialectNode
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.{ParameterModel, ServerModel}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.ServerBindingObjectNode
 
 object AsyncApiServerObject extends DialectNode {
 
@@ -49,5 +50,10 @@ object AsyncApiServerObject extends DialectNode {
         .withNodePropertyMapping(ServerModel.Security.value.iri())
         .withLiteralRange(xsdString.iri())
         .withAllowMultiple(true),
+      PropertyMapping()
+        .withId(location + "#/declarations/ServerObject/bindings")
+        .withName("bindings")
+        .withNodePropertyMapping(ServerModel.Bindings.value.iri())
+        .withObjectRange(Seq(ServerBindingObjectNode.id))
     )
 }

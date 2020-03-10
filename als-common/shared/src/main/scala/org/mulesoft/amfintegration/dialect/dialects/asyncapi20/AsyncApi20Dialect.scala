@@ -8,6 +8,12 @@ import amf.dialects.oas.nodes._
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, DocumentsModel, External, PublicNodeMapping}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.{
+  ChannelBindingsObjectNode,
+  MessageBindingObjectNode,
+  OperationBindingsObjectNode,
+  ServerBindingObjectNode
+}
 
 object AsyncApi20Dialect extends OasBaseDialect {
 
@@ -28,7 +34,18 @@ object AsyncApi20Dialect extends OasBaseDialect {
         AsyncAPI20Auth20SecurityObject,
         AsyncAPI20penIdConnectUrl,
         Oauth2FlowObject,
-        AsyncAPI20FlowObject
+        AsyncAPI20FlowObject,
+        ChannelObject,
+        CorrelationIdObjectNode,
+        MessageObjectNode,
+        MessageTraitsObjectNode,
+        OperationObject,
+        OperationTraitsObjectNode,
+        ParameterObjectNode,
+        ChannelBindingsObjectNode,
+        ServerBindingObjectNode,
+        MessageBindingObjectNode,
+        OperationBindingsObjectNode
       ))
       .withDocuments(
         DocumentsModel()
@@ -40,13 +57,52 @@ object AsyncApi20Dialect extends OasBaseDialect {
             DocumentMapping()
               .withId(DialectLocation + "#/documents/root")
               .withEncoded(Oas30WebApiNode.id)
-              .withDeclaredNodes(
-                Seq(
-                  PublicNodeMapping()
-                    .withId(DialectLocation + "#/documents/securitySchemes")
-                    .withName("securitySchemes")
-                    .withMappedNode(AsyncApi20SecuritySchemeObject.id)
-                ))
+              .withDeclaredNodes(Seq(
+                PublicNodeMapping()
+                  .withId(DialectLocation + "#/documents/securitySchemes")
+                  .withName("securitySchemes")
+                  .withMappedNode(AsyncApi20SecuritySchemeObject.id),
+                PublicNodeMapping()
+                  .withId(DialectLocation + "#/documents/schemas")
+                  .withName("schemas")
+                  .withMappedNode(AsyncApi20SecuritySchemeObject.id),
+                PublicNodeMapping()
+                  .withId(DialectLocation + "#/documents/messages")
+                  .withName("messages")
+                  .withMappedNode(MessageObjectNode.id),
+                PublicNodeMapping()
+                  .withId(DialectLocation + "#/documents/parameters")
+                  .withName("parameters")
+                  .withMappedNode(ParameterObjectNode.id),
+                PublicNodeMapping()
+                  .withId(DialectLocation + "#/documents/correlationsIds")
+                  .withName("correlationsIds")
+                  .withMappedNode(CorrelationIdObjectNode.id),
+                PublicNodeMapping()
+                  .withId(DialectLocation + "#/documents/operationTraits")
+                  .withName("operationTraits")
+                  .withMappedNode(OperationTraitsObjectNode.id),
+                PublicNodeMapping()
+                  .withId(DialectLocation + "#/documents/messageTraits")
+                  .withName("messageTraits")
+                  .withMappedNode(MessageTraitsObjectNode.id),
+                PublicNodeMapping()
+                  .withId(DialectLocation + "#/documents/serverBindings")
+                  .withName("serverBindings")
+                  .withMappedNode(ServerBindingObjectNode.id),
+                PublicNodeMapping()
+                  .withId(DialectLocation + "#/documents/channelBindings")
+                  .withName("channelBindings")
+                  .withMappedNode(ChannelBindingsObjectNode.id),
+                PublicNodeMapping()
+                  .withId(DialectLocation + "#/documents/operationBindings")
+                  .withName("operationBindings")
+                  .withMappedNode(OperationBindingsObjectNode.id),
+                PublicNodeMapping()
+                  .withId(DialectLocation + "#/documents/messageBindings")
+                  .withName("messageBindings")
+                  .withMappedNode(MessageBindingObjectNode.id)
+              ))
           )
       )
 
