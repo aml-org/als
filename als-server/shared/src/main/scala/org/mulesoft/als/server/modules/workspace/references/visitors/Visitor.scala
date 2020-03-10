@@ -4,9 +4,7 @@ import amf.core.model.domain.AmfElement
 
 import scala.collection.mutable
 
-trait AmfElementVisitor[R] extends Visitor[AmfElement, R] {
-  type Result = R
-}
+trait AmfElementVisitor[R] extends Visitor[AmfElement, R]
 
 trait AmfElementVisitorFactory {
   def apply(): AmfElementVisitor[_]
