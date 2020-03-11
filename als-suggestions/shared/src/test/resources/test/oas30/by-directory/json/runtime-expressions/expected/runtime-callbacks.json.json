@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 50,
-          "character": 12
+          "character": 13
         }
       },
       "newText": "\"{$method\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 50,
-          "character": 12
+          "character": 13
         }
       },
       "newText": "\"{$request.\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 50,
-          "character": 12
+          "character": 13
         }
       },
       "newText": "\"{$response.\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 50,
-          "character": 12
+          "character": 13
         }
       },
       "newText": "\"{$statusCode\""
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 50,
-          "character": 12
+          "character": 13
         }
       },
       "newText": "\"{$url\""
