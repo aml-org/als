@@ -1,15 +1,18 @@
-package org.mulesoft.amfintegration.dialect.webapi
+package org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7
 
 import amf.core.metamodel.domain.ShapeModel
 import amf.core.metamodel.domain.extensions.PropertyShapeModel
 import amf.core.vocabulary.Namespace
-import amf.core.vocabulary.Namespace.XsdTypes.{xsdAnyType, xsdBoolean, xsdFloat, xsdInteger, xsdString}
+import amf.core.vocabulary.Namespace.XsdTypes._
 import amf.dialects.RAML10Dialect.DialectNodes.ExampleNode
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
-import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, ArrayShapeModel, ExampleModel, NilShapeModel, NodeShapeModel, ScalarShapeModel, TupleShapeModel}
+import amf.plugins.document.vocabularies.model.domain.{
+  NodeMapping,
+  PropertyMapping
+}
+import amf.plugins.domain.shapes.metamodel._
 
-object JsonSchemaDraft7TypesDialect {
-  val DialectLocation = "file://parallel-als/vocabularies/dialects/jsonSchemaDraft7.yaml"
+trait JsonSchemaDraft7DialectNodes {
+  val DialectLocation: String
 
   val ShapeNodeId: String = DialectLocation + "#/declarations/ShapeNode"
 
@@ -75,6 +78,42 @@ object JsonSchemaDraft7TypesDialect {
       .withId(DialectLocation + "#/declarations/SchemaObject/writeOnly")
       .withName("writeOnly")
       .withNodePropertyMapping(PropertyShapeModel.WriteOnly.value.iri())
+      .withLiteralRange(xsdBoolean.iri()),
+    PropertyMapping()
+      .withId(DialectLocation + "#/declarations/SchemaObject/if")
+      .withNodePropertyMapping(ShapeModel.If.value.iri())
+      .withName("if")
+      .withObjectRange(Seq(ShapeNode.id)),
+    PropertyMapping()
+      .withId(DialectLocation + "#/declarations/SchemaObject/then")
+      .withNodePropertyMapping(ShapeModel.Then.value.iri())
+      .withName("then")
+      .withObjectRange(Seq(ShapeNode.id)),
+    PropertyMapping()
+      .withId(DialectLocation + "#/declarations/SchemaObject/else")
+      .withNodePropertyMapping(ShapeModel.Else.value.iri())
+      .withName("else")
+      .withObjectRange(Seq(ShapeNode.id)),
+    PropertyMapping()
+      .withId(DialectLocation + "#/declarations/SchemaObject/allOf")
+      .withName("allOf")
+      .withNodePropertyMapping(ShapeModel.And.value.iri())
+      .withObjectRange(Seq(ShapeNode.id)),
+    PropertyMapping()
+      .withId(DialectLocation + "#/declarations/SchemaObject/oneOf")
+      .withName("oneOf")
+      .withNodePropertyMapping(ShapeModel.Xone.value.iri())
+      .withObjectRange(Seq(ShapeNode.id)),
+    PropertyMapping()
+      .withId(DialectLocation + "#/declarations/SchemaObject/anyOf")
+      .withName("anyOf")
+      .withNodePropertyMapping(ShapeModel.Or.value.iri())
+      .withObjectRange(Seq(ShapeNode.id)),
+    PropertyMapping()
+      .withId(DialectLocation + "#/declarations/SchemaObject/not")
+      .withName("not")
+      .withNodePropertyMapping(ShapeModel.Not.value.iri())
+      .withObjectRange(Seq(ShapeNode.id)),
   ) ++ shapeProperties
 
   val AnyShapeNode: NodeMapping = NodeMapping()
@@ -111,7 +150,8 @@ object JsonSchemaDraft7TypesDialect {
       .withNodePropertyMapping(NodeShapeModel.Properties.value.iri())
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
-      .withId(DialectLocation + "#/declarations/NodeShapeNode/additionalProperties")
+      .withId(
+        DialectLocation + "#/declarations/NodeShapeNode/additionalProperties")
       .withNodePropertyMapping(NodeShapeModel.Closed.value.iri())
       .withName("additionalProperties")
       .withLiteralRange(xsdBoolean.iri()),
@@ -125,7 +165,7 @@ object JsonSchemaDraft7TypesDialect {
       .withId(DialectLocation + s"#/declarations/SchemaObject/propertyNames")
       .withName("propertyNames")
       .withNodePropertyMapping(NodeShapeModel.PropertyNames.value.iri())
-      .withLiteralRange(NodeShapeNode.id)
+      .withObjectRange(Seq(ShapeNode.id))
   )
 
   val NodeShapeNode: NodeMapping = NodeMapping()
@@ -158,8 +198,14 @@ object JsonSchemaDraft7TypesDialect {
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/SchemaObject/additionalItems")
       .withName("additionalItems")
-      .withNodePropertyMapping(TupleShapeModel.AdditionalItemsSchema.value.iri())
-      .withLiteralRange(NodeShapeNode.id),
+      .withNodePropertyMapping(
+        TupleShapeModel.AdditionalItemsSchema.value.iri())
+      .withObjectRange(Seq(NodeShapeNode.id)),
+    PropertyMapping()
+      .withId(DialectLocation + s"#/declarations/SchemaObject/contains")
+      .withName("contains")
+      .withNodePropertyMapping(TupleShapeModel.Contains.value.iri())
+      .withObjectRange(Seq(NodeShapeNode.id)),
   )
 
   val ArrayShapeNode: NodeMapping = NodeMapping()
@@ -169,22 +215,22 @@ object JsonSchemaDraft7TypesDialect {
     .withPropertiesMapping(anyShapeProperties ++ arrayShapeProperties)
 
   val stringShapeProperties: Seq[PropertyMapping] = Seq(
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ScalarShapeNode/pattern")
-        .withNodePropertyMapping(ScalarShapeModel.Pattern.value.iri())
-        .withName("pattern")
-        .withLiteralRange(xsdString.iri()),
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ScalarShapeNode/minLength")
-        .withNodePropertyMapping(ScalarShapeModel.MinLength.value.iri())
-        .withName("minLength")
-        .withLiteralRange(xsdInteger.iri()),
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ScalarShapeNode/maxLength")
-        .withNodePropertyMapping(ScalarShapeModel.MaxLength.value.iri())
-        .withName("maxLength")
-        .withLiteralRange(xsdInteger.iri())
-    )
+    PropertyMapping()
+      .withId(DialectLocation + "#/declarations/ScalarShapeNode/pattern")
+      .withNodePropertyMapping(ScalarShapeModel.Pattern.value.iri())
+      .withName("pattern")
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(DialectLocation + "#/declarations/ScalarShapeNode/minLength")
+      .withNodePropertyMapping(ScalarShapeModel.MinLength.value.iri())
+      .withName("minLength")
+      .withLiteralRange(xsdInteger.iri()),
+    PropertyMapping()
+      .withId(DialectLocation + "#/declarations/ScalarShapeNode/maxLength")
+      .withNodePropertyMapping(ScalarShapeModel.MaxLength.value.iri())
+      .withName("maxLength")
+      .withLiteralRange(xsdInteger.iri())
+  )
 
   val StringShapeNode: NodeMapping = NodeMapping()
     .withId(DialectLocation + "#/declarations/StringShapeNode")
@@ -230,4 +276,5 @@ object JsonSchemaDraft7TypesDialect {
     .withId(DialectLocation + "#/declarations/NilShapeNode")
     .withName("NilShapeNode")
     .withNodeTypeMapping(NilShapeModel.`type`.head.iri())
+
 }
