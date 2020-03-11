@@ -15,9 +15,8 @@ class ReferenceTest extends ServerReferencesTest {
   test("common-ref") {
     runTest(
       "files/common-ref/api.raml",
-      Set(
-        // DocumentLink in charge
-      )
+      Set.empty
+      // DocumentLink in charge
     )
   }
 
@@ -48,10 +47,8 @@ class ReferenceTest extends ServerReferencesTest {
   test("oas-ref") {
     runTest(
       "files/oas-ref/api.yaml",
-      Set(
-        // DocumentLink in charge
-        //        )
-      )
+      Set.empty
+      // DocumentLink in charge
     )
   }
 

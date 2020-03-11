@@ -20,7 +20,9 @@ import scala.concurrent.Future
 class ParsedMainFileTree(eh: ErrorCollector,
                          main: BaseUnit,
                          cachables: Set[String],
-                         private val visitors: AmfElementVisitors,
+                         private val innerNodeRelationships: Seq[(Location, Location)],
+                         private val innerDocumentLinks: Map[String, Seq[DocumentLink]],
+                         private val innerAliases: Seq[AliasInfo],
                          logger: Logger)
     extends MainFileTree {
 
@@ -29,15 +31,6 @@ class ParsedMainFileTree(eh: ErrorCollector,
   private val units: mutable.Map[String, BaseUnit] = mutable.Map.empty
   private val innerRefs: mutable.Map[String, DiagnosticsBundle] =
     mutable.Map.empty
-
-  private lazy val innerRelationships: Seq[(Location, Location)] = // won't ever change
-    visitors.getRelationshipsFromVisitors
-
-  private lazy val innerDocumentLinks: Map[String, Seq[DocumentLink]] = // won't ever change
-    visitors.getDocumentLinksFromVisitors
-
-  private lazy val innerAliases: Seq[AliasInfo] = // won't ever change
-    visitors.getAliasesFromVisitors
 
   private def index(bu: BaseUnit, stack: ReferenceStack): Future[Unit] = {
     val cachedF: Future[Unit]   = checkCache(bu)
@@ -105,12 +98,6 @@ class ParsedMainFileTree(eh: ErrorCollector,
       }
   }
 
-  override def nodeRelationships: Seq[(Location, Location)] = innerRelationships
-
-  override def documentLinks: Map[String, Seq[DocumentLink]] = innerDocumentLinks
-
-  override def aliases: Seq[AliasInfo] = innerAliases
-
   override def cleanCache(): Unit = cache.clear()
 
   override def getCache: Map[String, BaseUnit] = cache.toMap
@@ -125,18 +112,23 @@ class ParsedMainFileTree(eh: ErrorCollector,
   override def contains(uri: String): Boolean = parsedUnits.contains(uri)
 
   override def cached(uri: String): Option[BaseUnit] = cache.get(uri)
+
+  override def nodeRelationships: Seq[(Location, Location)] = innerNodeRelationships
+
+  override def documentLinks: Map[String, Seq[DocumentLink]] = innerDocumentLinks
+
+  override def aliases: Seq[AliasInfo] = innerAliases
 }
 
 object ParsedMainFileTree {
   def apply(eh: ErrorCollector,
             main: BaseUnit,
             cachables: Set[String],
-            visitors: AmfElementVisitors,
-            logger: Logger): ParsedMainFileTree = {
-    val tree = new ParsedMainFileTree(eh, main, cachables, visitors, logger)
-    tree.visitors.applyAmfVisitors(List(main))
-    tree
-  }
+            nodeRelationships: Seq[(Location, Location)],
+            documentLinks: Map[String, Seq[DocumentLink]],
+            aliases: Seq[AliasInfo],
+            logger: Logger): ParsedMainFileTree =
+    new ParsedMainFileTree(eh, main, cachables, nodeRelationships, documentLinks, aliases, logger)
 }
 
 object MainFileTreeBuilder {
@@ -145,7 +137,14 @@ object MainFileTreeBuilder {
             cachables: Set[String],
             visitors: AmfElementVisitors,
             logger: Logger): Future[ParsedMainFileTree] = {
-    val tree = ParsedMainFileTree(eh, main, cachables, visitors, logger)
+    visitors.applyAmfVisitors(List(main))
+    val tree = ParsedMainFileTree(eh,
+                                  main,
+                                  cachables,
+                                  visitors.getRelationshipsFromVisitors,
+                                  visitors.getDocumentLinksFromVisitors,
+                                  visitors.getAliasesFromVisitors,
+                                  logger)
     tree.index().map(_ => tree)
   }
 }
