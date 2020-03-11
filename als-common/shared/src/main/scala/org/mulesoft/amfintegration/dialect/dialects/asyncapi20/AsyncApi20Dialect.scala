@@ -23,7 +23,7 @@ object AsyncApi20Dialect extends OasBaseDialect {
     val d = Dialect()
       .withId(DialectLocation)
       .withName("asyncapi")
-      .withVersion("2.0.0") // 3.0.1? 3.0.2?
+      .withVersion("2.0.0")
       .withLocation(DialectLocation)
       .withId(DialectLocation)
       .withDeclares(Seq(
@@ -45,7 +45,8 @@ object AsyncApi20Dialect extends OasBaseDialect {
         ChannelBindingsObjectNode,
         ServerBindingObjectNode,
         MessageBindingObjectNode,
-        OperationBindingsObjectNode
+        OperationBindingsObjectNode,
+        AsyncApi20SchemaObject
       ))
       .withDocuments(
         DocumentsModel()
@@ -101,7 +102,11 @@ object AsyncApi20Dialect extends OasBaseDialect {
                 PublicNodeMapping()
                   .withId(DialectLocation + "#/documents/messageBindings")
                   .withName("messageBindings")
-                  .withMappedNode(MessageBindingObjectNode.id)
+                  .withMappedNode(MessageBindingObjectNode.id),
+                PublicNodeMapping()
+                  .withId(DialectLocation + "#/documents/schemas")
+                  .withName("schemas")
+                  .withMappedNode(AsyncApi20SchemaObject.id),
               ))
           )
       )
