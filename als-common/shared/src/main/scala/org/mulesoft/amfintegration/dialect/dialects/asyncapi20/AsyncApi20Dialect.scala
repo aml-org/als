@@ -46,7 +46,11 @@ object AsyncApi20Dialect extends OasBaseDialect {
         ServerBindingObjectNode,
         MessageBindingObjectNode,
         OperationBindingsObjectNode,
-        AsyncApi20SchemaObject
+        AsyncApiObjectNodes.AnyShapeNode,
+        AsyncApiObjectNodes.ArrayShapeNode,
+        AsyncApiObjectNodes.NodeShapeNode,
+        AsyncApiObjectNodes.NumberShapeNode,
+        AsyncApiObjectNodes.StringShapeNode
       ))
       .withDocuments(
         DocumentsModel()
@@ -62,10 +66,6 @@ object AsyncApi20Dialect extends OasBaseDialect {
                 PublicNodeMapping()
                   .withId(DialectLocation + "#/documents/securitySchemes")
                   .withName("securitySchemes")
-                  .withMappedNode(AsyncApi20SecuritySchemeObject.id),
-                PublicNodeMapping()
-                  .withId(DialectLocation + "#/documents/schemas")
-                  .withName("schemas")
                   .withMappedNode(AsyncApi20SecuritySchemeObject.id),
                 PublicNodeMapping()
                   .withId(DialectLocation + "#/documents/messages")
@@ -106,7 +106,7 @@ object AsyncApi20Dialect extends OasBaseDialect {
                 PublicNodeMapping()
                   .withId(DialectLocation + "#/documents/schemas")
                   .withName("schemas")
-                  .withMappedNode(AsyncApi20SchemaObject.id),
+                  .withMappedNode(AsyncApiObjectNodes.AnyShapeNode.id),
               ))
           )
       )

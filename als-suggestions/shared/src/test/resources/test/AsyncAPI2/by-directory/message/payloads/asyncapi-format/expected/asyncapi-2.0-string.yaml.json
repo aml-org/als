@@ -1,35 +1,5 @@
 [
   {
-    "label": "$ref",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "0$ref",
-    "filterText": "$ref: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 9,
-          "character": 10
-        },
-        "end": {
-          "line": 9,
-          "character": 10
-        }
-      },
-      "newText": "$ref: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "allOf",
     "kind": [],
     "detail": "schemas",
@@ -45,11 +15,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 10
         }
       },
@@ -75,11 +45,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 10
         }
       },
@@ -105,11 +75,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 10
         }
       },
@@ -135,45 +105,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 10
         }
       },
       "newText": "default: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "deprecated",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "deprecated",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11deprecated",
-    "filterText": "deprecated: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 9,
-          "character": 10
-        },
-        "end": {
-          "line": 9,
-          "character": 10
-        }
-      },
-      "newText": "deprecated: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -195,45 +135,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 10
         }
       },
       "newText": "description: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "discriminator",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "discriminator",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11discriminator",
-    "filterText": "discriminator: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 9,
-          "character": 10
-        },
-        "end": {
-          "line": 9,
-          "character": 10
-        }
-      },
-      "newText": "discriminator: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -255,11 +165,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 10
         }
       },
@@ -285,11 +195,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 10
         }
       },
@@ -315,75 +225,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 10
         }
       },
       "newText": "examples:\n            "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "externalDocs",
-    "kind": [],
-    "detail": "docs",
-    "documentation": "externalDocs",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11externalDocs",
-    "filterText": "externalDocs:\n            ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 9,
-          "character": 10
-        },
-        "end": {
-          "line": 9,
-          "character": 10
-        }
-      },
-      "newText": "externalDocs:\n            "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "format",
-    "kind": [],
-    "detail": "parameters",
-    "documentation": "format",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11format",
-    "filterText": "format: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 9,
-          "character": 10
-        },
-        "end": {
-          "line": 9,
-          "character": 10
-        }
-      },
-      "newText": "format: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -405,15 +255,75 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 10
         }
       },
       "newText": "if:\n            "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "maxLength",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "maxLength",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11maxLength",
+    "filterText": "maxLength: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 10
+        },
+        "end": {
+          "line": 10,
+          "character": 10
+        }
+      },
+      "newText": "maxLength: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "minLength",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "minLength",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11minLength",
+    "filterText": "minLength: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 10
+        },
+        "end": {
+          "line": 10,
+          "character": 10
+        }
+      },
+      "newText": "minLength: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -435,11 +345,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 10
         }
       },
@@ -465,15 +375,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 10
         }
       },
       "newText": "oneOf:\n            "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "pattern",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "pattern",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11pattern",
+    "filterText": "pattern: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 10
+        },
+        "end": {
+          "line": 10,
+          "character": 10
+        }
+      },
+      "newText": "pattern: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -495,11 +435,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 10
         }
       },
@@ -525,45 +465,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 10
         }
       },
       "newText": "then:\n            "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "type",
-    "kind": [],
-    "detail": "types and traits",
-    "documentation": "type",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11type",
-    "filterText": "type: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 9,
-          "character": 10
-        },
-        "end": {
-          "line": 9,
-          "character": 10
-        }
-      },
-      "newText": "type: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -585,11 +495,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "character": 10
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "character": 10
         }
       },
