@@ -45,9 +45,9 @@ object FindDefinition {
     aliases
       .find { alias =>
         node match {
-          case n: YNodePlain if n.value.isInstanceOf[YScalar] =>
+          case n: YNodePlain =>
             (n.location.sourceName == alias.declaration.uri) &&
-              n.value.asInstanceOf[YScalar].text.startsWith(s"${alias.tag}.") &&
+              n.asScalar.exists(_.text.startsWith(s"${alias.tag}.")) &&
               (position.toAmfPosition.column - n.range.columnFrom) <= alias.tag.length
           case _ => false
         }

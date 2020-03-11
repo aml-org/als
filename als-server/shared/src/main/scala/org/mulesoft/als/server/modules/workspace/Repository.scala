@@ -29,7 +29,7 @@ case class DiagnosticsBundle(isExternal: Boolean, references: Set[ReferenceStack
 
 class Repository(logger: Logger) {
   var cachables: Set[String] = Set.empty
-  private val visitors       = AmfElementDefaultVisitors.build() // parametrize?
+  private val visitors       = AmfElementDefaultVisitors.build()
 
   /**
     * replaces cachable list and removes cached units which are not on the new list
