@@ -35,7 +35,7 @@ trait SuggestionRender {
             .map(_.range)
             .map(
               r =>
-                if (r.lineTo > r.lineFrom)
+                if (r.lineTo == r.lineFrom)
                   r.copy(columnTo = r.columnTo - params.patchedContent.addedTokens.foldLeft(0)((a, t) => a + t.size))
                 else r)
             .orElse(Some(n.range))
