@@ -15,9 +15,8 @@ class DefinitionFilesTest extends ServerDefinitionTest {
   test("common-ref") {
     runTest(
       "files/common-ref/api.raml",
-      Set(
-        // DocumentLink in charge
-      )
+      Set.empty
+      // DocumentLink in charge
     )
   }
 
@@ -52,10 +51,8 @@ class DefinitionFilesTest extends ServerDefinitionTest {
   test("oas-ref") {
     runTest(
       "files/oas-ref/api.yaml",
-      Set(
-        // DocumentLink in charge
-//        )
-      )
+      Set.empty
+      // DocumentLink in charge
     )
   }
 
