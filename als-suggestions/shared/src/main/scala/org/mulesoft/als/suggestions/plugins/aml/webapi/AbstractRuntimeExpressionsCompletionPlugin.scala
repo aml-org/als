@@ -6,7 +6,10 @@ import amf.plugins.domain.webapi.models.Callback
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.webapi.runtimeexpression.{InvalidExpressionToken, RuntimeExpressionParser}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.runtimeexpression.{
+  InvalidExpressionToken,
+  RuntimeExpressionParser
+}
 import org.mulesoft.amfmanager.dialect.DialectKnowledge
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -15,27 +18,16 @@ import scala.concurrent.Future
 abstract class AbstractRuntimeExpressionsCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "RuntimeExpressionsCompletionPlugin"
 
-  protected val applicableFields: Seq[Field] =
-    Seq(CallbackModel.Expression, TemplatedLinkModel.RequestBody, IriTemplateMappingModel.LinkExpression)
-
   protected def parserObject(value: String): RuntimeExpressionParser
 
-  private def isApplicable(request: AmlCompletionRequest): Boolean =
+  protected val applicableFields: Seq[Field]
+
+  protected def isApplicable(request: AmlCompletionRequest): Boolean =
     !(DialectKnowledge.isRamlInclusion(request.yPartBranch, request.actualDialect) ||
       DialectKnowledge.isJsonInclusion(request.yPartBranch, request.actualDialect)) &&
       appliesToField(request)
 
-  private def appliesToField(request: AmlCompletionRequest): Boolean =
-    request.fieldEntry match {
-      case Some(fe) => applicableFields.contains(fe.field)
-      case _ =>
-        if (request.yPartBranch.isKey)
-          request.branchStack.headOption match {
-            case Some(c: Callback) =>
-              request.yPartBranch.stringValue == c.expression.value() // ad-hoc for OAS 3 parser
-            case _ => false
-          } else request.amfObject.fields.fields().exists(fe => applicableFields.contains(fe.field))
-    }
+  protected def appliesToField(request: AmlCompletionRequest): Boolean
 
   // TODO: add navigation for fragments? Known values for tokens?
   private def extractExpression(v: String): Seq[RawSuggestion] = {
