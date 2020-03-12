@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 11,
-          "character": 10
+          "character": 11
         }
       },
       "newText": "\"p1\": \"$1\""
