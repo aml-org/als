@@ -1,0 +1,32 @@
+[
+  {
+    "label": "exchange",
+    "kind": [],
+    "detail": "AMQP",
+    "documentation": "exchange",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10exchange",
+    "filterText": "exchange: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 8
+        },
+        "end": {
+          "line": 8,
+          "character": 8
+        }
+      },
+      "newText": "exchange: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

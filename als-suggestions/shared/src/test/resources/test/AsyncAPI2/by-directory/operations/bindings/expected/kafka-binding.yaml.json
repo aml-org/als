@@ -1,13 +1,13 @@
 [
   {
-    "label": "groupId",
+    "label": "bindingVersion",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "bindingVersion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0groupId",
-    "filterText": "groupId: ",
+    "sortText": "11bindingVersion",
+    "filterText": "bindingVersion: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 8,
+          "character": 10
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 8,
+          "character": 10
         }
       },
-      "newText": "$ref: "
+      "newText": "bindingVersion: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -33,10 +33,10 @@
     "label": "clientId",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "clientId",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0clientId",
+    "sortText": "11clientId",
     "filterText": "clientId: ",
     "insertText": null,
     "insertTextFormat": [
@@ -45,29 +45,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 8,
+          "character": 10
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 8,
+          "character": 10
         }
       },
-      "newText": "$ref: "
+      "newText": "clientId: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "bindingVersion",
+    "label": "groupId",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "groupId",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0bindingVersion",
-    "filterText": "bindingVersion: ",
+    "sortText": "11groupId",
+    "filterText": "groupId: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,15 +75,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 8,
+          "character": 10
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 8,
+          "character": 10
         }
       },
-      "newText": "$ref: "
+      "newText": "groupId: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

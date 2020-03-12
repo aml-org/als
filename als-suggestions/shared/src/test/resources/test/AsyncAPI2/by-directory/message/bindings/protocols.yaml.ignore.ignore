@@ -6,5 +6,4 @@ channels:
     subscribe:
       message:
         bindings:
-          binding:
-            *
+          *

@@ -5,5 +5,4 @@ channels:
   user/signedup:
     subscribe:
       bindings:
-        binding:
-          *
+        *

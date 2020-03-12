@@ -5,7 +5,6 @@ channels:
   user/signedup:
     subscribe:
       bindings:
-        binding:
-          http:
-            query:
-              *
+        http:
+          query:
+            *

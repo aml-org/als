@@ -4,8 +4,8 @@ import amf.core.vocabulary.Namespace.XsdTypes.xsdString
 import amf.dialects.oas.nodes.{AMLExternalDocumentationObject, AMLTagObject, DialectNode}
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.OperationModel
-import amf.plugins.domain.webapi.metamodel.bindings.OperationBindingModel
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.OperationBindingsObjectNode
+import amf.plugins.domain.webapi.metamodel.bindings.{OperationBindingModel, OperationBindingsModel}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.OperationBindingObjectNode
 
 trait OperationAbstractObjectNode extends DialectNode{
 
@@ -42,8 +42,8 @@ trait OperationAbstractObjectNode extends DialectNode{
     PropertyMapping()
       .withId(location + "#/declarations/Operation/bindings")
       .withName("bindings")
-      .withNodePropertyMapping(OperationBindingModel.`type`.head.iri())
-      .withObjectRange(Seq(OperationBindingsObjectNode.id)),
+      .withNodePropertyMapping(OperationBindingsModel.`type`.head.iri())
+      .withObjectRange(Seq(OperationBindingObjectNode.id)),
   )
 }
 
