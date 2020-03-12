@@ -6,6 +6,5 @@ channels:
     subscribe:
       message:
         bindings:
-          binding:
-            mqtt5:
-              *
+          mqtt5:
+            *

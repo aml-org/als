@@ -6,7 +6,6 @@ channels:
     subscribe:
       message:
         bindings:
-          binding:
-            http:
-              headers:
-                *
+          http:
+            headers:
+              *

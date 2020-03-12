@@ -1,0 +1,32 @@
+[
+  {
+    "label": "queue",
+    "kind": [],
+    "detail": "AMQP",
+    "documentation": "queue",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10queue",
+    "filterText": "queue:\n          ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 8
+        },
+        "end": {
+          "line": 8,
+          "character": 8
+        }
+      },
+      "newText": "queue:\n          "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

@@ -5,6 +5,5 @@ channels:
   user/signedup:
     subscribe:
       bindings:
-        biding:
-          http:
-            *
+        http:
+          *

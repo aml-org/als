@@ -4,12 +4,7 @@ import amf.dialects.oas.nodes._
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.domain.DocumentsModel
 import org.mulesoft.amfintegration.dialect.BaseDialect
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.{
-  ChannelBindingsObjectNode,
-  MessageBindingObjectNode,
-  OperationBindingsObjectNode,
-  ServerBindingObjectNode
-}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.{AmqpChannelBindingObject, AmqpMessageBindingObjectNode, AmqpOperationBindingObjectNode, ChannelBindingObjectNode, ChannelBindingsObjectNode, DynamicBindingObjectNode, HttpMessageBindingObjectNode, HttpOperationBindingObjectNode, KafkaMessageBindingObjectNode, KafkaOperationBindingObjectNode, LastWillMqttServerBindingObject, MessageBindingObjectNode, MessageBindingsObjectNode, MqttMessageBindingObjectNode, MqttOperationBindingObjectNode, MqttServerBindingObjectNode, OperationBindingObjectNode, OperationBindingsObjectNode, ServerBindingObjectNode, ServerBindingsObjectNode, WsChannelBindingObject}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema._
 
 object AsyncApi20Dialect extends BaseDialect {
@@ -41,7 +36,28 @@ object AsyncApi20Dialect extends BaseDialect {
     ArrayShapeAsync2Node,
     NodeShapeAsync2Node,
     NumberShapeAsync2Node,
-    StringShapeAsync2Node
+    StringShapeAsync2Node,
+    ChannelBindingObjectNode,
+    ServerBindingObjectNode,
+    MessageBindingObjectNode,
+    OperationBindingObjectNode,
+    DynamicBindingObjectNode,
+    ServerBindingsObjectNode,
+    OperationBindingsObjectNode,
+    ChannelBindingsObjectNode,
+    MessageBindingsObjectNode,
+    AmqpChannelBindingObject,
+    WsChannelBindingObject,
+    LastWillMqttServerBindingObject,
+    MqttServerBindingObjectNode,
+    AmqpMessageBindingObjectNode,
+    KafkaMessageBindingObjectNode,
+    MqttMessageBindingObjectNode,
+    HttpMessageBindingObjectNode,
+    AmqpOperationBindingObjectNode,
+    KafkaOperationBindingObjectNode,
+    HttpOperationBindingObjectNode,
+    MqttOperationBindingObjectNode
   )
 
   override def emptyDocument: DocumentsModel =

@@ -3,10 +3,10 @@
     "label": "bindingVersion",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "bindingVersion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0bindingVersion",
+    "sortText": "11bindingVersion",
     "filterText": "bindingVersion: ",
     "insertText": null,
     "insertTextFormat": [
@@ -15,12 +15,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 9,
+          "character": 12
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 9,
+          "character": 12
         }
       },
       "newText": "bindingVersion: "

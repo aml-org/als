@@ -1,12 +1,19 @@
 [
   {
-    "text": "type",
-    "description": "type",
-    "displayText": "type",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "bindingVersion",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "bindingVersion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11bindingVersion",
+    "filterText": "bindingVersion: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 8,
           "character": 10
@@ -15,17 +22,28 @@
           "line": 8,
           "character": 10
         }
-      }
-    ]
+      },
+      "newText": "bindingVersion: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "method",
-    "description": "method",
-    "displayText": "method",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "method",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "method",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11method",
+    "filterText": "method: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 8,
           "character": 10
@@ -34,17 +52,28 @@
           "line": 8,
           "character": 10
         }
-      }
-    ]
+      },
+      "newText": "method: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "query",
-    "description": "query",
-    "displayText": "query",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "type",
+    "kind": [],
+    "detail": "types and traits",
+    "documentation": "type",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11type",
+    "filterText": "type: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 8,
           "character": 10
@@ -53,26 +82,11 @@
           "line": 8,
           "character": 10
         }
-      }
-    ]
-  },
-  {
-    "text": "bindingVersion",
-    "description": "bindingVersion",
-    "displayText": "bindingVersion",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 8,
-          "character": 10
-        },
-        "end": {
-          "line": 8,
-          "character": 10
-        }
-      }
-    ]
+      },
+      "newText": "type: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

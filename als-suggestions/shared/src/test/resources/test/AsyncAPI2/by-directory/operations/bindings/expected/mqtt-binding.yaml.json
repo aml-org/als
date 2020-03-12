@@ -1,12 +1,42 @@
 [
   {
+    "label": "bindingVersion",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "bindingVersion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11bindingVersion",
+    "filterText": "bindingVersion: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      },
+      "newText": "bindingVersion: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "qos",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "qos",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0qos",
+    "sortText": "11qos",
     "filterText": "qos: ",
     "insertText": null,
     "insertTextFormat": [
@@ -15,15 +45,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 8,
+          "character": 10
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 8,
+          "character": 10
         }
       },
-      "newText": "$ref: "
+      "newText": "qos: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -33,10 +63,10 @@
     "label": "retain",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "retain",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0retain",
+    "sortText": "11retain",
     "filterText": "retain: ",
     "insertText": null,
     "insertTextFormat": [
@@ -45,45 +75,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 8,
+          "character": 10
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 8,
+          "character": 10
         }
       },
-      "newText": "$ref: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "bindingVersion",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "0bindingVersion",
-    "filterText": "bindingVersion: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 6
-        },
-        "end": {
-          "line": 4,
-          "character": 6
-        }
-      },
-      "newText": "$ref: "
+      "newText": "retain: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
