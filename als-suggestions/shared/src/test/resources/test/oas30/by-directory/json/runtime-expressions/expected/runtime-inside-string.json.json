@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11$method",
-    "filterText": "notificationServer.com?transactionId={$method",
+    "filterText": "\"notificationServer.com?transactionId={$method\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 13,
-          "character": 13
+          "character": 12
         },
         "end": {
           "line": 13,
-          "character": 51
+          "character": 52
         }
       },
-      "newText": "notificationServer.com?transactionId={$method"
+      "newText": "\"notificationServer.com?transactionId={$method\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11$request.",
-    "filterText": "notificationServer.com?transactionId={$request.",
+    "filterText": "\"notificationServer.com?transactionId={$request.\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 13,
-          "character": 13
+          "character": 12
         },
         "end": {
           "line": 13,
-          "character": 51
+          "character": 52
         }
       },
-      "newText": "notificationServer.com?transactionId={$request."
+      "newText": "\"notificationServer.com?transactionId={$request.\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11$response.",
-    "filterText": "notificationServer.com?transactionId={$response.",
+    "filterText": "\"notificationServer.com?transactionId={$response.\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -76,14 +76,14 @@
       "range": {
         "start": {
           "line": 13,
-          "character": 13
+          "character": 12
         },
         "end": {
           "line": 13,
-          "character": 51
+          "character": 52
         }
       },
-      "newText": "notificationServer.com?transactionId={$response."
+      "newText": "\"notificationServer.com?transactionId={$response.\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11$statusCode",
-    "filterText": "notificationServer.com?transactionId={$statusCode",
+    "filterText": "\"notificationServer.com?transactionId={$statusCode\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -106,14 +106,14 @@
       "range": {
         "start": {
           "line": 13,
-          "character": 13
+          "character": 12
         },
         "end": {
           "line": 13,
-          "character": 51
+          "character": 52
         }
       },
-      "newText": "notificationServer.com?transactionId={$statusCode"
+      "newText": "\"notificationServer.com?transactionId={$statusCode\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11$url",
-    "filterText": "notificationServer.com?transactionId={$url",
+    "filterText": "\"notificationServer.com?transactionId={$url\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -136,14 +136,14 @@
       "range": {
         "start": {
           "line": 13,
-          "character": 13
+          "character": 12
         },
         "end": {
           "line": 13,
-          "character": 51
+          "character": 52
         }
       },
-      "newText": "notificationServer.com?transactionId={$url"
+      "newText": "\"notificationServer.com?transactionId={$url\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
