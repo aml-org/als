@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 13,
-          "character": 56
+          "character": 52
         }
       },
       "newText": "\"notificationServer.com?transactionId={$method\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 13,
-          "character": 56
+          "character": 52
         }
       },
       "newText": "\"notificationServer.com?transactionId={$request.\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 13,
-          "character": 56
+          "character": 52
         }
       },
       "newText": "\"notificationServer.com?transactionId={$response.\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 13,
-          "character": 56
+          "character": 52
         }
       },
       "newText": "\"notificationServer.com?transactionId={$statusCode\""
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 13,
-          "character": 56
+          "character": 52
         }
       },
       "newText": "\"notificationServer.com?transactionId={$url\""
