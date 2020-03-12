@@ -1,13 +1,13 @@
 [
   {
-    "label": "$message.header",
+    "label": "$message.",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
+    "detail": "RuntimeExpression",
+    "documentation": "$message.",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0$message.header",
-    "filterText": "$message.header",
+    "sortText": "11$message.",
+    "filterText": "$message.",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,45 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 6,
+          "character": 16
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 6,
+          "character": 16
         }
       },
-      "newText": "'$message.header'"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "$message.payload",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "0$message.payload",
-    "filterText": "$message.payload",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 6
-        },
-        "end": {
-          "line": 4,
-          "character": 6
-        }
-      },
-      "newText": "'$message.payload'"
+      "newText": "$message."
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
