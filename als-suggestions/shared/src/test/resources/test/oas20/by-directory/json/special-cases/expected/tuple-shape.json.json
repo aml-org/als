@@ -7,23 +7,23 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11maxItems",
-    "filterText": "maxItems",
+    "filterText": "\"maxItems\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
           "line": 15,
-          "character": 11
+          "character": 10
         },
         "end": {
           "line": 15,
-          "character": 17
+          "character": 22
         }
       },
-      "newText": "maxItems"
+      "newText": "\"maxItems\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
