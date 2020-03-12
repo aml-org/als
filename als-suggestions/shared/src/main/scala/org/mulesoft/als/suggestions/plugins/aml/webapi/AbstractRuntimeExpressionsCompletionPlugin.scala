@@ -1,8 +1,5 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.core.metamodel.Field
-import amf.plugins.domain.webapi.metamodel.{CallbackModel, IriTemplateMappingModel, TemplatedLinkModel}
-import amf.plugins.domain.webapi.models.Callback
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -19,8 +16,6 @@ abstract class AbstractRuntimeExpressionsCompletionPlugin extends AMLCompletionP
   override def id: String = "RuntimeExpressionsCompletionPlugin"
 
   protected def parserObject(value: String): RuntimeExpressionParser
-
-  protected val applicableFields: Seq[Field]
 
   protected def isApplicable(request: AmlCompletionRequest): Boolean =
     !(DialectKnowledge.isRamlInclusion(request.yPartBranch, request.actualDialect) ||

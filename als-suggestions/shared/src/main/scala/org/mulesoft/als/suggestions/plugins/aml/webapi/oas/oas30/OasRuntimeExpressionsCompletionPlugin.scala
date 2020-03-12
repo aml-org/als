@@ -10,7 +10,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.runtimeexpression.Runtime
 
 object OasRuntimeExpressionsCompletionPlugin extends AbstractRuntimeExpressionsCompletionPlugin {
 
-  override protected val applicableFields: Seq[Field] =
+  protected val applicableFields: Seq[Field] =
     Seq(CallbackModel.Expression, TemplatedLinkModel.RequestBody, IriTemplateMappingModel.LinkExpression)
 
   override protected def appliesToField(request: AmlCompletionRequest): Boolean =
