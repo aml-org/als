@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 11
         }
       },
       "newText": "\"$ref\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 11
         }
       },
       "newText": "\"content\": {\n          \"$1\"\n        }"
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 11
         }
       },
       "newText": "\"description\": \"$1\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 5,
-          "character": 10
+          "character": 11
         }
       },
       "newText": "\"required\": \"$1\""
