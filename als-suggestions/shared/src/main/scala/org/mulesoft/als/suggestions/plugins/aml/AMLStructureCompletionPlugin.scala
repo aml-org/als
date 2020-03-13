@@ -16,7 +16,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class AMLStructureCompletionsPlugin(propertyMapping: Seq[PropertyMapping]) {
-
   def resolve(classTerm: String): Seq[RawSuggestion] =
     propertyMapping.map(p => p.toRaw(CategoryRegistry(classTerm, p.name().value())))
 
@@ -27,15 +26,15 @@ object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
-      if (isWritingProperty(params.yPartBranch)) {
+      if (isWritingProperty(params.yPartBranch))
         if (!isInFieldValue(params)) {
           val isEncoded = isEncodes(params.amfObject, params.actualDialect) && params.fieldEntry.isEmpty
-          if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && params.fieldEntry.isEmpty) {
+          if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && params.fieldEntry.isEmpty)
             new AMLStructureCompletionsPlugin(params.propertyMapping)
               .resolve(params.amfObject.meta.`type`.head.iri())
-          } else Nil
+          else Nil
         } else resolveObjInArray(params)
-      } else Nil
+      else Nil
     }
   }
 
@@ -44,7 +43,7 @@ object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
 
   protected def objInArray(params: AmlCompletionRequest): Option[DomainElementModel] = {
     params.fieldEntry match {
-      case Some(FieldEntry(Field(t: ArrayLike, _, _, _), value))
+      case Some(FieldEntry(Field(t: ArrayLike, _, _, _), _))
           if t.element
             .isInstanceOf[DomainElementModel] && params.yPartBranch.isInArray =>
         Some(t.element.asInstanceOf[DomainElementModel])

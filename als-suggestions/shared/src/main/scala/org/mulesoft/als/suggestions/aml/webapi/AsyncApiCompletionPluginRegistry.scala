@@ -2,11 +2,12 @@ package org.mulesoft.als.suggestions.aml.webapi
 
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.SecuredByCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.webapi.async.AsyncAPIRuntimeExpressionsCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.async.{
   Async20PayloadCompletionPlugin,
   Async20StructureCompletionPlugin,
-  Async20TypeFacetsCompletionPlugin
+  Async20TypeFacetsCompletionPlugin,
+  AsyncAPIRuntimeExpressionsCompletionPlugin,
+  AsyncRefTag
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OaslikeSecurityScopesCompletionPlugin
 import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPluginHandler}
@@ -21,7 +22,8 @@ object AsyncApiCompletionPluginRegistry {
       OaslikeSecurityScopesCompletionPlugin :+
       Async20StructureCompletionPlugin :+
       Async20PayloadCompletionPlugin :+
-      Async20TypeFacetsCompletionPlugin
+      Async20TypeFacetsCompletionPlugin :+
+      AsyncRefTag
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, AsyncApi20Dialect().id)
