@@ -45,14 +45,20 @@ class JsonContentPatcher(override val textRaw: String, override val offsetRaw: I
     var colonIndex = line.indexOf(":")
     var newLine    = line
     if (colonIndex < 0) {
-      if (lineTrim.startsWith("\"")) {
-        if (lineTrim.endsWith("\"") && lineTrim.length > 2) newLine = addColon(line.substring(0, off) + "\"")
-        else newLine = addColon(addQuote(line.substring(0, off) + "x"))
-        if (!hasComplexValueStart)
-          newLine = addQuote(addQuote(newLine))
-        if (!(hasComplexValueSameLine || hasComplexValueNextLine))
-          newLine = addComma(newLine)
-      } else newLine = newLine + "\n"
+      if (!lineTrim.startsWith("\"")) newLine = addQuote(newLine)
+
+      if (lineTrim.endsWith("\""))
+        if (lineTrim.length > 2) // at least one char between ""
+          newLine = addColon(newLine.substring(0, off) + "\"")
+        else
+          newLine = addColon(newLine.substring(0, newLine.length - 1) + "x" + "\"")
+      else
+        newLine = addColon(addQuote(newLine + "x"))
+      if (!hasComplexValueStart)
+        newLine = addQuote(addQuote(newLine))
+      if (!(hasComplexValueSameLine || hasComplexValueNextLine))
+        newLine = addComma(newLine)
+
     } else if (colonIndex <= off) {
       colonIndex = line.lastIndexOf(":", off)
       var substr               = line.substring(colonIndex + 1).trim
