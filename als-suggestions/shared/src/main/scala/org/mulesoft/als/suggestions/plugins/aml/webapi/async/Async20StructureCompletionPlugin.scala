@@ -20,7 +20,8 @@ object Async20StructureCompletionPlugin extends AMLCompletionPlugin {
         Future.successful(
           Async20TypeFacetsCompletionPlugin
             .resolveShape(AnyShape(r.fields, r.annotations), Nil))
-
+      case _: Response if !MessageKnowledge.isRootMessageBlock(request) =>
+        emptySuggestion
       case _: Shape if isInPayload(request.branchStack) =>
         emptySuggestion
       case _ =>

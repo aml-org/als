@@ -6,7 +6,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.AbstractRuntimeExpression
 import org.mulesoft.als.suggestions.plugins.aml.webapi.async.runtimeexpressions.AsyncAPIRuntimeExpressionParser
 import org.mulesoft.als.suggestions.plugins.aml.webapi.runtimeexpression.RuntimeExpressionParser
 
-object AsyncAPIRuntimeExpressionsCompletionPlugin extends AbstractRuntimeExpressionsCompletionPlugin {
+object Async20RuntimeExpressionsCompletionPlugin extends AbstractRuntimeExpressionsCompletionPlugin {
   override def parserObject(value: String): RuntimeExpressionParser =
     AsyncAPIRuntimeExpressionParser(value)
 
