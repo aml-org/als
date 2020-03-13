@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 5,
-          "character": 13
+          "character": 8
         }
       },
       "newText": "\"format\": \"$1\""
@@ -230,7 +230,7 @@
         },
         "end": {
           "line": 5,
-          "character": 13
+          "character": 8
         }
       },
       "newText": "\"maxLength\": \"$1\""
@@ -260,7 +260,7 @@
         },
         "end": {
           "line": 5,
-          "character": 13
+          "character": 8
         }
       },
       "newText": "\"minLength\": \"$1\""
@@ -290,7 +290,7 @@
         },
         "end": {
           "line": 5,
-          "character": 13
+          "character": 8
         }
       },
       "newText": "\"pattern\": \"$1\""
