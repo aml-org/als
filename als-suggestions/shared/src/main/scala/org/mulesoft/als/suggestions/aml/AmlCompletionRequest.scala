@@ -183,7 +183,7 @@ object AmlCompletionRequestBuilder {
                   if (node.asScalar.exists(_.mark.plain)) 0 else 1
                 } // if there is a quotation mark, adjust the range according
 
-                next.substring(0, diff)
+                next.substring(0, Math.max(diff, 0))
               } else ""
             case _ => ""
           }

@@ -46,7 +46,7 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
     case _            => None
   }
 
-  val isKey: Boolean = stack.headOption.exists(_.isKey(position))
+  val isKey: Boolean = stack.headOption.exists(_.isKey(position)) || (isJson && node.isInstanceOf[YMap])
 
   lazy val hasIncludeTag: Boolean = node match {
     case mr: YNode.MutRef => mr.origTag.tagType == YType.Include

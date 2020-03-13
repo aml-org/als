@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 5,
-          "character": 15
+          "character": 11
         }
       },
       "newText": "\"$ref\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 5,
-          "character": 15
+          "character": 11
         }
       },
       "newText": "\"description\": \"$1\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 5,
-          "character": 15
+          "character": 11
         }
       },
       "newText": "\"operationId\": \"$1\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 5,
-          "character": 15
+          "character": 11
         }
       },
       "newText": "\"operationRef\": \"$1\""
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 5,
-          "character": 15
+          "character": 11
         }
       },
       "newText": "\"parameters\": {\n          \"$1\"\n        }"
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 5,
-          "character": 15
+          "character": 11
         }
       },
       "newText": "\"requestBody\": \"$1\""
@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 5,
-          "character": 15
+          "character": 11
         }
       },
       "newText": "\"server\": {\n          \"$1\"\n        }"

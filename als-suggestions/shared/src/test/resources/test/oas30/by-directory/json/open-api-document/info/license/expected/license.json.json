@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 4,
-          "character": 13
+          "character": 9
         }
       },
       "newText": "\"name\": \"$1\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 4,
-          "character": 13
+          "character": 9
         }
       },
       "newText": "\"url\": \"$1\""
