@@ -120,6 +120,9 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
   lazy val conversionManager = new ConversionManager(workspaceManager, amfConfiguration, logger)
 
   lazy val serializationManager: Option[SerializationManager[_]] = projectDependencies.collectFirst({
-    case s: SerializationManager[_] => s
+    case s: SerializationManager[_] => {
+      s.withUnitAccessor(workspaceManager)
+      s
+    }
   })
 }

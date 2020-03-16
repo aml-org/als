@@ -5,13 +5,13 @@ import java.util.UUID
 import amf.core.remote.Platform
 import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.workspace.{UnitRepositoriesManager, WorkspaceManager}
+import org.mulesoft.als.server.workspace.UnitRepositoriesManager
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.feature.common.{Location, LocationLink, TextDocumentPositionParams}
-import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.RequestHandler
+import org.mulesoft.lsp.feature.common.{Location, LocationLink, TextDocumentPositionParams}
 import org.mulesoft.lsp.feature.definition.{DefinitionClientCapabilities, DefinitionConfigType, DefinitionRequestType}
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
@@ -43,12 +43,15 @@ class GoToDefinitionManager(val unitsRepository: UnitRepositoriesManager,
 
   val onGoToDefinition: (String, Position) => Future[Either[Seq[Location], Seq[LocationLink]]] = goToDefinition
 
-  def goToDefinition(str: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] = {
-    unitsRepository
-      .getCU(str, UUID.randomUUID().toString)
-      .map(cu => {
-        FindDefinition.getDefinition(cu.unit, position, platform)
-      })
+  def goToDefinition(uri: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] = {
+    val uuid = UUID.randomUUID().toString
+    FindDefinition
+      .getDefinition(uri,
+                     position,
+                     unitsRepository.getRelationships(uri, uuid),
+                     unitsRepository.getAliases(uri, uuid),
+                     unitsRepository.getLastCU(uri, uuid).map(_.unit),
+                     platform)
       .map(Right(_))
   }
 

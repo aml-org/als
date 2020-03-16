@@ -4,7 +4,7 @@ import amf.core.unsafe.PlatformSecrets
 import org.scalatest.{FlatSpec, Matchers}
 
 class FindLinksTests extends FlatSpec with Matchers with PlatformSecrets {
-  behavior of "FindLinks"
+  behavior of "Find Links"
 
   // todo: find a way to test this in a simple way (currently tested in server module)
 }

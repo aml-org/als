@@ -3,12 +3,16 @@ package org.mulesoft.als.server.modules.workspace
 import java.util.UUID
 
 import amf.internal.environment.Environment
+import org.mulesoft.als.actions.common.AliasInfo
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
+import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementDefaultVisitors
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.extract.{WorkspaceConf, WorkspaceConfigurationProvider}
 import org.mulesoft.amfmanager.AmfParseResult
+import org.mulesoft.lsp.feature.common.Location
+import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -127,7 +131,8 @@ class WorkspaceContentManager(val folder: String,
 
   private def disable(): Future[Unit] = {
     changeState(NotAvailable)
-    Future(dependencies.map(d => repository.getAllFilesUris.foreach(d.onRemoveFile))).map(_ => isDisabled.success())
+    Future(dependencies.map(d => repository.getAllFilesUris.foreach(d.onRemoveFile)))
+      .map(_ => isDisabled.success())
   }
 
   private def processIsolatedChanges(files: List[(String, NotificationKind)], environment: Environment): Future[Unit] = {
@@ -209,4 +214,7 @@ class WorkspaceContentManager(val folder: String,
           .addTimedMessage("End AMF Parse", "WorkspaceContentManager", "parse", MessageTypes.END_PARSE, uri, uuid))
     eventualUnit
   }
+
+  def getRelationships(uri: String) =
+    Relationships(repository, () => Some(getCompilableUnit(uri)))
 }

@@ -4,22 +4,33 @@ import amf.core.annotations.ReferenceTargets
 import amf.core.errorhandling.ErrorCollector
 import amf.core.model.document.{BaseUnit, ExternalFragment}
 import amf.core.validation.SeverityLevels
+import org.mulesoft.als.actions.common.AliasInfo
 import org.mulesoft.als.common.dtoTypes.{PositionRange, ReferenceOrigins, ReferenceStack}
 import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitors
 import org.mulesoft.amfmanager.BaseUnitImplicits._
 import org.mulesoft.amfmanager.ParserHelper
+import org.mulesoft.lsp.feature.common.Location
+import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ParsedMainFileTree(eh: ErrorCollector, main: BaseUnit, cachables: Set[String], logger: Logger)
+class ParsedMainFileTree(eh: ErrorCollector,
+                         main: BaseUnit,
+                         cachables: Set[String],
+                         private val innerNodeRelationships: Seq[(Location, Location)],
+                         private val innerDocumentLinks: Map[String, Seq[DocumentLink]],
+                         private val innerAliases: Seq[AliasInfo],
+                         logger: Logger)
     extends MainFileTree {
 
-  private val errors                                            = eh.getErrors
-  private val cache: mutable.Map[String, BaseUnit]              = mutable.Map.empty
-  private val units: mutable.Map[String, BaseUnit]              = mutable.Map.empty
-  private val innerRefs: mutable.Map[String, DiagnosticsBundle] = mutable.Map.empty
+  private val errors                               = eh.getErrors
+  private val cache: mutable.Map[String, BaseUnit] = mutable.Map.empty
+  private val units: mutable.Map[String, BaseUnit] = mutable.Map.empty
+  private val innerRefs: mutable.Map[String, DiagnosticsBundle] =
+    mutable.Map.empty
 
   private def index(bu: BaseUnit, stack: ReferenceStack): Future[Unit] = {
     val cachedF: Future[Unit]   = checkCache(bu)
@@ -56,10 +67,15 @@ class ParsedMainFileTree(eh: ErrorCollector, main: BaseUnit, cachables: Set[Stri
     stack.stack.exists(_.originUri == unit.identifier)
 
   private def checkCache(bu: BaseUnit): Future[Unit] =
-    if (cache.isEmpty && cachables.contains(bu.identifier) && !hasErrors(bu)) cache(bu) else Future.unit
+    if (cache.isEmpty && cachables.contains(bu.identifier) && !hasErrors(bu))
+      cache(bu)
+    else Future.unit
 
   private def hasErrors(unit: BaseUnit): Boolean =
-    errors.exists(e => e.location.contains(unit.identifier) && e.level == SeverityLevels.VIOLATION)
+    errors.exists(
+      e =>
+        e.location
+          .contains(unit.identifier) && e.level == SeverityLevels.VIOLATION)
 
   private def cache(bu: BaseUnit): Future[Unit] = {
     val eventualUnit: Future[Unit] = Future {
@@ -86,7 +102,8 @@ class ParsedMainFileTree(eh: ErrorCollector, main: BaseUnit, cachables: Set[Stri
 
   override def getCache: Map[String, BaseUnit] = cache.toMap
 
-  override def parsedUnits: Map[String, ParsedUnit] = units.map(t => t._1 -> ParsedUnit(t._2, inTree = true)).toMap
+  override def parsedUnits: Map[String, ParsedUnit] =
+    units.map(t => t._1 -> ParsedUnit(t._2, inTree = true)).toMap
 
   override def references: Map[String, DiagnosticsBundle] = innerRefs.toMap
 
@@ -95,11 +112,39 @@ class ParsedMainFileTree(eh: ErrorCollector, main: BaseUnit, cachables: Set[Stri
   override def contains(uri: String): Boolean = parsedUnits.contains(uri)
 
   override def cached(uri: String): Option[BaseUnit] = cache.get(uri)
+
+  override def nodeRelationships: Seq[(Location, Location)] = innerNodeRelationships
+
+  override def documentLinks: Map[String, Seq[DocumentLink]] = innerDocumentLinks
+
+  override def aliases: Seq[AliasInfo] = innerAliases
+}
+
+object ParsedMainFileTree {
+  def apply(eh: ErrorCollector,
+            main: BaseUnit,
+            cachables: Set[String],
+            nodeRelationships: Seq[(Location, Location)],
+            documentLinks: Map[String, Seq[DocumentLink]],
+            aliases: Seq[AliasInfo],
+            logger: Logger): ParsedMainFileTree =
+    new ParsedMainFileTree(eh, main, cachables, nodeRelationships, documentLinks, aliases, logger)
 }
 
 object MainFileTreeBuilder {
-  def build(eh: ErrorCollector, main: BaseUnit, cachables: Set[String], logger: Logger): Future[ParsedMainFileTree] = {
-    val tree = new ParsedMainFileTree(eh, main, cachables, logger)
+  def build(eh: ErrorCollector,
+            main: BaseUnit,
+            cachables: Set[String],
+            visitors: AmfElementVisitors,
+            logger: Logger): Future[ParsedMainFileTree] = {
+    visitors.applyAmfVisitors(List(main))
+    val tree = ParsedMainFileTree(eh,
+                                  main,
+                                  cachables,
+                                  visitors.getRelationshipsFromVisitors,
+                                  visitors.getDocumentLinksFromVisitors,
+                                  visitors.getAliasesFromVisitors,
+                                  logger)
     tree.index().map(_ => tree)
   }
 }

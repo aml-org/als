@@ -54,11 +54,16 @@ object LanguageServerFactory {
         new AmfInstance(plugins.toSeq.map(ClientPayloadPluginConverter.convert),
                         jsServerSystemConf.platform,
                         jsServerSystemConf.environment))
+      .withEnvironment(jsServerSystemConf.environment)
+      .withPlatform(jsServerSystemConf.platform)
+      .withDirectoryResolver(jsServerSystemConf.directoryResolver)
+
+    notificationKind.foreach(builders.withNotificationKind)
+
     val diagnosticManager     = builders.diagnosticManager()
     val filesInProjectManager = builders.filesInProjectManager(serializationProps.alsClientNotifier)
     val serializationManager  = builders.serializationManager(serializationProps)
 
-    notificationKind.foreach(builders.withNotificationKind)
     val factory = builders.buildWorkspaceManagerFactory()
     val builder = new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addInitializableModule(diagnosticManager)
@@ -66,6 +71,7 @@ object LanguageServerFactory {
       .addInitializableModule(filesInProjectManager)
       .addInitializable(factory.cleanDiagnosticManager)
       .addInitializable(factory.workspaceManager)
+      .addRequestModule(factory.cleanDiagnosticManager)
       .addRequestModule(factory.completionManager)
       .addRequestModule(factory.conversionManager)
       .addRequestModule(factory.structureManager)
@@ -79,6 +85,8 @@ object LanguageServerFactory {
   }
 }
 
+@JSExportAll
+@JSExportTopLevel("JsSerializationProps")
 case class JsSerializationProps(override val alsClientNotifier: AlsClientNotifier[js.Any])
     extends SerializationProps[js.Any](alsClientNotifier) {
   override def newDocBuilder(): DocBuilder[js.Any] = JsOutputBuilder()
