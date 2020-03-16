@@ -1,53 +1,30 @@
 package org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7
 
-import amf.core.annotations.Aliases
-import amf.core.metamodel.domain.ModelVocabularies
-import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
+import amf.dialects.oas.nodes.DialectNode
+import amf.plugins.document.vocabularies.model.domain.DocumentsModel
+import org.mulesoft.amfintegration.dialect.BaseDialect
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.BaseShapeAsync2Node
 
-object JsonSchemaDraft7Dialect extends JsonSchemaDraft7DialectNodes {
+object JsonSchemaDraft7Dialect extends BaseDialect {
 
-  override val DialectLocation = "file://vocabularies/dialects/jsonSchemaDraft7.yaml"
+  override val DialectLocation: String = dialectLocation
 
-  // Dialect
-  val dialect: Dialect = {
-    val d = Dialect()
-      .withId(DialectLocation)
-      .withName("Json Schema")
-      .withVersion("Draft 7")
-      .withLocation(DialectLocation)
-      .withId(DialectLocation)
-      .withDeclares(
-        Seq(
-          AnyShapeNode,
-          ShapeNode,
-          ArrayShapeNode,
-          NilShapeNode,
-          NodeShapeNode,
-          NumberShapeNode,
-          StringShapeNode
-        ))
+  override protected val name: String    = "Json Schema" // no this way right?
+  override protected val version: String = "Draft 7"
 
-    val vocabularies = Seq(
-      ModelVocabularies.AmlDoc,
-      ModelVocabularies.ApiContract,
-      ModelVocabularies.Core,
-      ModelVocabularies.Shapes,
-      ModelVocabularies.Meta,
-      ModelVocabularies.Security
-    )
-    d.annotations += Aliases(vocabularies.map { vocab =>
-      (vocab.alias, (vocab.base, vocab.filename))
-    }.toSet)
+  override protected def emptyDocument: DocumentsModel = DocumentsModel()
 
-    d.withReferences(vocabularies.map { vocab =>
-      Vocabulary()
-        .withLocation(vocab.filename)
-        .withId(vocab.filename)
-        .withBase(vocab.base)
-    })
+  override protected def encodes: DialectNode = BaseShapeAsync2Node
 
-    d
-  }
+  override val declares: Seq[DialectNode] = Seq(
+    NilShapeDraft7Node,
+    ShapeDraft7Node,
+    AnyShapeDraft7Node,
+    ArrayShapeDraft7Node,
+    NodeShapeDraft7Node,
+    NumberShapeDraft7Node,
+    StringShapeDraft7Node
+  )
 
-  def apply(): Dialect = dialect
+  override protected def declaredNodes: Map[String, DialectNode] = Map.empty
 }
