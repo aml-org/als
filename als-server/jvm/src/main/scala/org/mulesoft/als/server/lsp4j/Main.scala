@@ -13,16 +13,18 @@ import org.mulesoft.als.server.protocol.client.AlsLanguageClient
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 
 object Main {
+
   case class Options(port: Int,
                      listen: Boolean,
                      dialectPath: Option[String],
                      dialectName: Option[String],
                      vocabularyPath: Option[String],
                      systemStream: Boolean = false)
+
   val DefaultOptions: Options =
     Options(4000, listen = false, dialectPath = None, dialectName = None, vocabularyPath = None)
 
-  def readOptions(args: Array[String]): Options = {
+  private def readOptions(args: Array[String]): Options = {
     def innerReadOptions(options: Options, list: List[String]): Options =
       list match {
         case Nil => options

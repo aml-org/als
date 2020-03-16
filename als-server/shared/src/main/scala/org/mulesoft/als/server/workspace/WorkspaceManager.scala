@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.workspace
 
+import org.mulesoft.als.actions.common.AliasInfo
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.AlsWorkspaceService
 import org.mulesoft.als.server.logger.Logger
@@ -16,6 +17,8 @@ import org.mulesoft.als.server.workspace.extract.{
 }
 import org.mulesoft.lsp.Initializable
 import org.mulesoft.lsp.configuration.WorkspaceFolder
+import org.mulesoft.lsp.feature.common.Location
+import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams, WorkspaceService}
 
@@ -41,7 +44,8 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   def initializeWS(root: String): Future[Unit] =
     rootHandler.extractConfiguration(root).flatMap { mainOption =>
       if (!workspaces.exists(w => root.startsWith(w.folder))) { // if there is an existing WS containing the new one, dont add it
-        logger.debug("Adding workspace: " + root, "WorkspaceManager", "initializeWS")
+        logger
+          .debug("Adding workspace: " + root, "WorkspaceManager", "initializeWS")
         val workspace: WorkspaceContentManager =
           new WorkspaceContentManager(root, environmentProvider, telemetryProvider, logger, dependencies)
         Future.sequence {
@@ -84,7 +88,9 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   }
   override def notify(uri: String, kind: NotificationKind): Unit = {
     val manager: WorkspaceContentManager = getWorkspace(uri)
-    if (manager.configFile.map(FileUtils.getEncodedUri(_, environmentProvider.platform)).contains(uri)) {
+    if (manager.configFile
+          .map(FileUtils.getEncodedUri(_, environmentProvider.platform))
+          .contains(uri)) {
       manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
       manager.changedFile(uri, CHANGE_CONFIG)
     } else manager.changedFile(uri, kind)
@@ -141,10 +147,20 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     val event          = params.event
     val deletedFolders = event.deleted.flatMap(_.uri)
 
-    workspaces.filter(p => deletedFolders.contains(p.folder)).foreach(shutdownWS)
+    workspaces
+      .filter(p => deletedFolders.contains(p.folder))
+      .foreach(shutdownWS)
 
     event.added.flatMap(_.uri).map(initializeWS)
 
   }
 
+  override def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]] =
+    getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getDocumentLinks(uri))
+
+  override def getAliases(uri: String, uuid: String): Future[Seq[AliasInfo]] =
+    getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getAliases(uri))
+
+  override def getRelationships(uri: String, uuid: String): Future[Seq[(Location, Location)]] =
+    getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getRelationships(uri))
 }

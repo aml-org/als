@@ -3,10 +3,14 @@ package org.mulesoft.als.server.modules.workspace
 import amf.client.resource.ResourceNotFound
 import amf.core.model.document.BaseUnit
 import amf.internal.reference.{CachedReference, ReferenceResolver}
+import org.mulesoft.als.actions.common.AliasInfo
 import org.mulesoft.als.common.dtoTypes.ReferenceStack
 import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementDefaultVisitors
 import org.mulesoft.amfmanager.AmfParseResult
 import org.mulesoft.amfmanager.BaseUnitImplicits._
+import org.mulesoft.lsp.feature.common.Location
+import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -25,6 +29,7 @@ case class DiagnosticsBundle(isExternal: Boolean, references: Set[ReferenceStack
 
 class Repository(logger: Logger) {
   var cachables: Set[String] = Set.empty
+  private val visitors       = AmfElementDefaultVisitors.build()
 
   /**
     * replaces cachable list and removes cached units which are not on the new list
@@ -65,7 +70,7 @@ class Repository(logger: Logger) {
   def newTree(result: AmfParseResult): Future[Unit] = synchronized {
     cleanTree()
     MainFileTreeBuilder
-      .build(result.eh, result.baseUnit, cachables, logger)
+      .build(result.eh, result.baseUnit, cachables, visitors, logger)
       .map(nt => {
         tree = nt
         nt.parsedUnits.keys.foreach(units.remove)
@@ -81,4 +86,13 @@ class Repository(logger: Logger) {
       case None    => Future.failed(new ResourceNotFound("Uncached ref"))
     }
   }
+
+  def getDocumentLinks(): Map[String, Seq[DocumentLink]] =
+    tree.documentLinks
+
+  def getAliases(): Seq[AliasInfo] =
+    tree.aliases
+
+  def getRelationships(): Seq[(Location, Location)] =
+    tree.nodeRelationships
 }

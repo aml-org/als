@@ -1,17 +1,24 @@
 package org.mulesoft.als.actions.references
 
 import amf.core.model.document.BaseUnit
-import org.mulesoft.als.common.dtoTypes.{ReferenceOrigins, ReferenceStack}
-import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.common.dtoTypes.{PositionRange, Position}
 import org.mulesoft.lsp.feature.common.Location
 
-object FindReferences {
-  def getReferences(bu: BaseUnit, references: Seq[ReferenceStack]): Seq[Location] =
-    references
-      .flatMap(
-        _.stack.headOption
-          .map(referenceOriginToLocation))
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
-  private def referenceOriginToLocation(ro: ReferenceOrigins) =
-    Location(ro.originUri, LspRangeConverter.toLspRange(ro.originRange))
+object FindReferences {
+  def getReferences(bu: BaseUnit,
+                    uri: String,
+                    position: Position,
+                    references: Future[Seq[(Location, Location)]]): Future[Seq[Location]] =
+    references.map { refs =>
+      refs
+        .filter(
+          t =>
+            t._2.uri == uri && PositionRange(t._2.range)
+              .contains(position) &&
+              t._1.uri.nonEmpty)
+        .map(_._1)
+    }
 }
