@@ -4,7 +4,7 @@ import amf.ProfileNames
 import amf.core.model.domain.Shape
 import amf.plugins.domain.shapes.metamodel.NodeShapeModel
 import amf.plugins.domain.shapes.models.{NodeShape, ScalarShape}
-import amf.plugins.domain.shapes.resolution.stages.elements.ShapeTransformationPipeline
+import amf.plugins.domain.shapes.resolution.stages.elements.CompleteShapeTransformationPipeline
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -32,5 +32,5 @@ object NodeShapeDiscriminatorProperty extends AMLCompletionPlugin {
     }
   }
   private def resolve(s: Shape) =
-    new ShapeTransformationPipeline(s, LocalIgnoreErrorHandler, ProfileNames.RAML).resolve()
+    new CompleteShapeTransformationPipeline(s, LocalIgnoreErrorHandler, ProfileNames.RAML).resolve()
 }
