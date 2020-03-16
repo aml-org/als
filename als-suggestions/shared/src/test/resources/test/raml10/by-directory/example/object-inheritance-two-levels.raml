@@ -1,0 +1,58 @@
+#%RAML 1.0
+title: ExampleSpec
+
+types:
+  Person:
+    properties:
+      name:
+        type: string
+        default: 'John'
+      surname:
+        type: string
+        default: 'Doe'
+      age:
+        type: number
+        maximum: 120
+        minimum: 18
+      birthday:
+        type: date-only
+        displayName: 'Bday'
+      cv:
+        type: Cv
+  Cv:
+    properties:
+      application:
+        type: ApplicationType
+      file:
+        type: file
+      photo:
+        type: file
+  ApplicationType:
+    properties:
+      position:
+        enum:
+          - Developer
+          - Architect
+          - Senior Developer
+          - Principal
+          - Director
+          - Manager
+      wageRequested:
+        type: number
+      specializedIn:
+        type: array
+/cv/{id}:
+  get:
+    queryParameters:
+      bringPhoto:
+        type: boolean
+      bringWageRequested:
+        type: boolean
+    responses:
+      200:
+        body:
+          application/json:
+            type: Cv
+            example:
+              application:
+                *
