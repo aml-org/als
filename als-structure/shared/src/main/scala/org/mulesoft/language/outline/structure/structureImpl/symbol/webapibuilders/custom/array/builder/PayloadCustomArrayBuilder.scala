@@ -5,7 +5,7 @@ import amf.core.model.domain.AmfArray
 import amf.core.parser.{FieldEntry, Value}
 import amf.plugins.domain.webapi.metamodel.ResponseModel
 import amf.plugins.domain.webapi.models.Payload
-import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, PositionRange}
+import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, Position0, PositionRange}
 import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, KindForResultMatcher}
 
 case class PayloadCustomArrayBuilder(override implicit val factory: BuilderFactory) extends WebApiCustomArrayBuilder {
@@ -27,9 +27,9 @@ case class PayloadCustomArrayBuilder(override implicit val factory: BuilderFacto
     val symbols = children(fe)
     firstPayload(fe.value)
       .map { p =>
-        val range = symbols.headOption
-          .map(_.range)
-          .orElse(p.annotations.find(classOf[LexicalInformation]).map(le => PositionRange(le.range)))
+        val range = p.annotations
+          .find(classOf[LexicalInformation])
+          .map(le => PositionRange(le.range))
           .getOrElse(EmptyPositionRange)
         val positionRange = symbols.headOption.map(_.selectionRange).getOrElse(EmptyPositionRange)
         List(
