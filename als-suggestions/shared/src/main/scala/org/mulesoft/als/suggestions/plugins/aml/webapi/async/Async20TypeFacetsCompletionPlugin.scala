@@ -6,8 +6,9 @@ import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.{AsyncApi20Dialect, AsyncApiObjectNodes}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import amf.plugins.domain.webapi.models.Payload
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.NumberShapeAsync2Node
 
 import scala.concurrent.Future
 
@@ -17,11 +18,11 @@ object Async20TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugi
 
   val dialect: Dialect = AsyncApi20Dialect.dialect
 
-  override def stringShapeNode: NodeMapping = AsyncApiObjectNodes.StringShapeNode
+  override def stringShapeNode: NodeMapping = NumberShapeAsync2Node.Obj
 
-  override def numberShapeNode: NodeMapping = AsyncApiObjectNodes.NumberShapeNode
+  override def numberShapeNode: NodeMapping = NumberShapeAsync2Node.Obj
 
-  override def integerShapeNode: NodeMapping = AsyncApiObjectNodes.NumberShapeNode
+  override def integerShapeNode: NodeMapping = NumberShapeAsync2Node.Obj
 
   def propertyShapeNode: Option[NodeMapping] = None
 
