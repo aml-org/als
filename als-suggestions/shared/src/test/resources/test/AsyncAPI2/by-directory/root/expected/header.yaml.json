@@ -1,21 +1,182 @@
 [
   {
-    "text": "%RAML 1.0",
-    "description": "%RAML 1.0",
-    "displayText": "#%RAML 1.0",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "#%AsyncAPI 0.6",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a %AsyncAPI 0.6 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#%AsyncAPI 0.6",
+    "filterText": "#%AsyncAPI 0.6",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 0,
-          "character": 1
+          "character": 0
         },
         "end": {
           "line": 0,
           "character": 1
         }
-      }
-    ]
+      },
+      "newText": "#%AsyncAPI 0.6"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%Library / AsyncAPI 0.6",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a %Library / AsyncAPI 0.6 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#%Library / AsyncAPI 0.6",
+    "filterText": "#%Library / AsyncAPI 0.6",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 1
+        }
+      },
+      "newText": "#%Library / AsyncAPI 0.6"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%Message / AsyncAPI 0.6",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a %Message / AsyncAPI 0.6 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#%Message / AsyncAPI 0.6",
+    "filterText": "#%Message / AsyncAPI 0.6",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 1
+        }
+      },
+      "newText": "#%Message / AsyncAPI 0.6"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%Patch / AsyncAPI 0.6",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a %Patch / AsyncAPI 0.6 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#%Patch / AsyncAPI 0.6",
+    "filterText": "#%Patch / AsyncAPI 0.6",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 1
+        }
+      },
+      "newText": "#%Patch / AsyncAPI 0.6"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%Schema / AsyncAPI 0.6",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a %Schema / AsyncAPI 0.6 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#%Schema / AsyncAPI 0.6",
+    "filterText": "#%Schema / AsyncAPI 0.6",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 1
+        }
+      },
+      "newText": "#%Schema / AsyncAPI 0.6"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%SecurityScheme / AsyncAPI 0.6",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a %SecurityScheme / AsyncAPI 0.6 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#%SecurityScheme / AsyncAPI 0.6",
+    "filterText": "#%SecurityScheme / AsyncAPI 0.6",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 1
+        }
+      },
+      "newText": "#%SecurityScheme / AsyncAPI 0.6"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

@@ -6,7 +6,7 @@
     "documentation": "array",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10array",
+    "sortText": "11array",
     "filterText": "array",
     "insertText": null,
     "insertTextFormat": [
@@ -15,11 +15,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
+          "line": 6,
           "character": 12
         },
         "end": {
-          "line": 4,
+          "line": 6,
           "character": 12
         }
       },
@@ -36,7 +36,7 @@
     "documentation": "boolean",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10boolean",
+    "sortText": "11boolean",
     "filterText": "boolean",
     "insertText": null,
     "insertTextFormat": [
@@ -45,45 +45,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
+          "line": 6,
           "character": 12
         },
         "end": {
-          "line": 4,
+          "line": 6,
           "character": 12
         }
       },
       "newText": "boolean"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "file",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "file",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "10file",
-    "filterText": "file",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 12
-        },
-        "end": {
-          "line": 4,
-          "character": 12
-        }
-      },
-      "newText": "file"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -96,7 +66,7 @@
     "documentation": "integer",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10integer",
+    "sortText": "11integer",
     "filterText": "integer",
     "insertText": null,
     "insertTextFormat": [
@@ -105,15 +75,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
+          "line": 6,
           "character": 12
         },
         "end": {
-          "line": 4,
+          "line": 6,
           "character": 12
         }
       },
       "newText": "integer"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "null",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "null",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11null",
+    "filterText": "\"null\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 12
+        },
+        "end": {
+          "line": 6,
+          "character": 12
+        }
+      },
+      "newText": "\"null\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -126,7 +126,7 @@
     "documentation": "number",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10number",
+    "sortText": "11number",
     "filterText": "number",
     "insertText": null,
     "insertTextFormat": [
@@ -135,11 +135,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
+          "line": 6,
           "character": 12
         },
         "end": {
-          "line": 4,
+          "line": 6,
           "character": 12
         }
       },
@@ -156,7 +156,7 @@
     "documentation": "object",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10object",
+    "sortText": "11object",
     "filterText": "object",
     "insertText": null,
     "insertTextFormat": [
@@ -165,11 +165,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
+          "line": 6,
           "character": 12
         },
         "end": {
-          "line": 4,
+          "line": 6,
           "character": 12
         }
       },
@@ -186,7 +186,7 @@
     "documentation": "string",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10string",
+    "sortText": "11string",
     "filterText": "string",
     "insertText": null,
     "insertTextFormat": [
@@ -195,11 +195,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
+          "line": 6,
           "character": 12
         },
         "end": {
-          "line": 4,
+          "line": 6,
           "character": 12
         }
       },

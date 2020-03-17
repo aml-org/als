@@ -210,36 +210,6 @@
     "command": null
   },
   {
-    "label": "discriminator",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "discriminator",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11discriminator",
-    "filterText": "discriminator: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 8,
-          "character": 10
-        },
-        "end": {
-          "line": 8,
-          "character": 10
-        }
-      },
-      "newText": "discriminator: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "else",
     "kind": [],
     "detail": "unknown",
@@ -277,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11enum",
-    "filterText": "enum:\n            - ",
+    "filterText": "enum:\n            ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -293,7 +263,7 @@
           "character": 10
         }
       },
-      "newText": "enum:\n            - "
+      "newText": "enum:\n            "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -354,36 +324,6 @@
         }
       },
       "newText": "externalDocs:\n            "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "format",
-    "kind": [],
-    "detail": "parameters",
-    "documentation": "format",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11format",
-    "filterText": "format: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 8,
-          "character": 10
-        },
-        "end": {
-          "line": 8,
-          "character": 10
-        }
-      },
-      "newText": "format: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -504,6 +444,36 @@
         }
       },
       "newText": "readOnly: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "required",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "required",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11required",
+    "filterText": "required: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 10
+        },
+        "end": {
+          "line": 8,
+          "character": 10
+        }
+      },
+      "newText": "required: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
