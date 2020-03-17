@@ -32,7 +32,7 @@ object AnyShapeAsync2Node extends BaseAnyShapeNode with BaseShapeAsync2Node
 
 object ArrayShapeAsync2Node extends BaseArrayShapeNode with BaseShapeAsync2Node
 
-object NodeShapeAsync2Node extends BaseNodeShapeNode with BaseShapeAsync2Node{
+object NodeShapeAsync2Node extends BaseNodeShapeNode with BaseShapeAsync2Node {
   override def properties: Seq[PropertyMapping] = super.properties ++ Seq( PropertyMapping()
     .withId(location + "#/declarations/AnyShapeNode/discriminator")
     .withNodePropertyMapping(NodeShapeModel.Discriminator.value.iri())

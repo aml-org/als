@@ -1,6 +1,5 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
-import amf.dialects.OasBaseDialect
 import amf.dialects.oas.nodes._
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.domain.DocumentsModel
