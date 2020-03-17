@@ -23,6 +23,8 @@ object Async20PayloadCompletionPlugin extends AMLCompletionPlugin {
     raw"application\/schema(\+json|\+yaml)?;?(version=draft-07)?".r
   val oas3Regex: Regex =
     raw"application\/vnd\.oai\.openapi(\+json|\+yaml)?;?(version=3\.[0-9]\.[0-9])?".r
+  val raml10Regex: Regex =
+    raw"application\/raml(\+yaml)?;?(version=1(\.[0-9])?)?".r
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
@@ -40,6 +42,8 @@ object Async20PayloadCompletionPlugin extends AMLCompletionPlugin {
                 JsonSchemeDraft7TypeFacetsCompletionPlugin.resolveShape(s, branchStack)
               else if (oas3Regex.findAllMatchIn(mediaTypeFormat).nonEmpty)
                 Oas30TypeFacetsCompletionPlugin.resolveShape(s, branchStack)
+              else if (raml10Regex.findAllMatchIn(mediaTypeFormat).nonEmpty)
+                Raml10TypeFacetsCompletionPlugin.resolveShape(s, branchStack)
               else Seq()
           }
         case _ => Seq()
