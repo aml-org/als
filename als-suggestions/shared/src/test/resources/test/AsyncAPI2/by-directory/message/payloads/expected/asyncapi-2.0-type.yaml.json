@@ -1,13 +1,13 @@
 [
   {
-    "label": "#%AsyncAPI 0.6",
+    "label": "array",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %AsyncAPI 0.6 file",
+    "documentation": "array",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%AsyncAPI 0.6",
-    "filterText": "#%AsyncAPI 0.6",
+    "sortText": "11array",
+    "filterText": "array",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,29 +15,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 9,
+          "character": 16
         },
         "end": {
-          "line": 0,
-          "character": 1
+          "line": 9,
+          "character": 16
         }
       },
-      "newText": "#%AsyncAPI 0.6"
+      "newText": "array"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Library / AsyncAPI 0.6",
+    "label": "boolean",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Library / AsyncAPI 0.6 file",
+    "documentation": "boolean",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Library / AsyncAPI 0.6",
-    "filterText": "#%Library / AsyncAPI 0.6",
+    "sortText": "11boolean",
+    "filterText": "boolean",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,29 +45,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 9,
+          "character": 16
         },
         "end": {
-          "line": 0,
-          "character": 1
+          "line": 9,
+          "character": 16
         }
       },
-      "newText": "#%Library / AsyncAPI 0.6"
+      "newText": "boolean"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Message / AsyncAPI 0.6",
+    "label": "integer",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Message / AsyncAPI 0.6 file",
+    "documentation": "integer",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Message / AsyncAPI 0.6",
-    "filterText": "#%Message / AsyncAPI 0.6",
+    "sortText": "11integer",
+    "filterText": "integer",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,29 +75,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 9,
+          "character": 16
         },
         "end": {
-          "line": 0,
-          "character": 1
+          "line": 9,
+          "character": 16
         }
       },
-      "newText": "#%Message / AsyncAPI 0.6"
+      "newText": "integer"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Patch / AsyncAPI 0.6",
+    "label": "null",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Patch / AsyncAPI 0.6 file",
+    "documentation": "null",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Patch / AsyncAPI 0.6",
-    "filterText": "#%Patch / AsyncAPI 0.6",
+    "sortText": "11null",
+    "filterText": "\"null\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -105,29 +105,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 9,
+          "character": 16
         },
         "end": {
-          "line": 0,
-          "character": 1
+          "line": 9,
+          "character": 16
         }
       },
-      "newText": "#%Patch / AsyncAPI 0.6"
+      "newText": "\"null\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Schema / AsyncAPI 0.6",
+    "label": "number",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Schema / AsyncAPI 0.6 file",
+    "documentation": "number",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Schema / AsyncAPI 0.6",
-    "filterText": "#%Schema / AsyncAPI 0.6",
+    "sortText": "11number",
+    "filterText": "number",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -135,29 +135,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 9,
+          "character": 16
         },
         "end": {
-          "line": 0,
-          "character": 1
+          "line": 9,
+          "character": 16
         }
       },
-      "newText": "#%Schema / AsyncAPI 0.6"
+      "newText": "number"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%SecurityScheme / AsyncAPI 0.6",
+    "label": "object",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %SecurityScheme / AsyncAPI 0.6 file",
+    "documentation": "object",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%SecurityScheme / AsyncAPI 0.6",
-    "filterText": "#%SecurityScheme / AsyncAPI 0.6",
+    "sortText": "11object",
+    "filterText": "object",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -165,15 +165,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 9,
+          "character": 16
         },
         "end": {
-          "line": 0,
-          "character": 1
+          "line": 9,
+          "character": 16
         }
       },
-      "newText": "#%SecurityScheme / AsyncAPI 0.6"
+      "newText": "object"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "string",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "string",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11string",
+    "filterText": "string",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 16
+        },
+        "end": {
+          "line": 9,
+          "character": 16
+        }
+      },
+      "newText": "string"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
