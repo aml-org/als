@@ -22,7 +22,7 @@ trait BaseDialect {
 
   protected def declaredNodes: Map[String, DialectNode]
 
-  val dialect: Dialect = {
+  lazy val dialect: Dialect = {
     val d = Dialect()
       .withId(DialectLocation)
       .withName(name)

@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11enum",
-    "filterText": "enum:\n            - ",
+    "filterText": "enum:\n            ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -233,7 +233,7 @@
           "character": 10
         }
       },
-      "newText": "enum:\n            - "
+      "newText": "enum:\n            "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -384,6 +384,36 @@
         }
       },
       "newText": "readOnly: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "required",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "required",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11required",
+    "filterText": "required: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 10
+        },
+        "end": {
+          "line": 9,
+          "character": 10
+        }
+      },
+      "newText": "required: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

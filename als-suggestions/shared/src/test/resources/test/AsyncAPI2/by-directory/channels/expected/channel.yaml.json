@@ -1,13 +1,13 @@
 [
   {
-    "label": "$ref",
+    "label": "bindings",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "bindings",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0$ref",
-    "filterText": "$ref",
+    "sortText": "11bindings",
+    "filterText": "bindings:\n      ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 5,
+          "character": 4
         }
       },
-      "newText": "$ref: "
+      "newText": "bindings:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "channelPath",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "channelPath",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11channelPath",
+    "filterText": "channelPath: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      },
+      "newText": "channelPath: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -32,12 +62,12 @@
   {
     "label": "description",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
+    "detail": "docs",
+    "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0description",
-    "filterText": "description",
+    "sortText": "11description",
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,12 +75,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 5,
+          "character": 4
         }
       },
       "newText": "description: "
@@ -60,14 +90,14 @@
     "command": null
   },
   {
-    "label": "subscribe",
+    "label": "parameters",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "parameters",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0subscribe",
-    "filterText": "subscribe",
+    "sortText": "11parameters",
+    "filterText": "parameters:\n      ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,15 +105,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 5,
+          "character": 4
         }
       },
-      "newText": "subscribe:\n    "
+      "newText": "parameters:\n      "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -93,11 +123,11 @@
     "label": "publish",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "publish",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0publish",
-    "filterText": "publish",
+    "sortText": "11publish",
+    "filterText": "publish:\n      ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -105,29 +135,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 5,
+          "character": 4
         }
       },
-      "newText": "publish:\n    "
+      "newText": "publish:\n      "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "parameters",
+    "label": "subscribe",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "subscribe",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0parameters",
-    "filterText": "parameters",
+    "sortText": "11subscribe",
+    "filterText": "subscribe:\n      ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -135,45 +165,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 5,
+          "character": 4
         }
       },
-      "newText": "parameters:\n    "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "bindings",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "0bindings",
-    "filterText": "bindings",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 6
-        },
-        "end": {
-          "line": 4,
-          "character": 6
-        }
-      },
-      "newText": "bindings:\n    "
+      "newText": "subscribe:\n      "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
