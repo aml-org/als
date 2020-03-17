@@ -27,9 +27,9 @@ case class PayloadCustomArrayBuilder(override implicit val factory: BuilderFacto
     val symbols = children(fe)
     firstPayload(fe.value)
       .map { p =>
-        val range = symbols.headOption
-          .map(_.range)
-          .orElse(p.annotations.find(classOf[LexicalInformation]).map(le => PositionRange(le.range)))
+        val range = p.annotations
+          .find(classOf[LexicalInformation])
+          .map(le => PositionRange(le.range))
           .getOrElse(EmptyPositionRange)
         val positionRange = symbols.headOption.map(_.selectionRange).getOrElse(EmptyPositionRange)
         List(
