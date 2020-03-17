@@ -26,5 +26,7 @@ object JsonSchemaDraft7Dialect extends BaseDialect {
     StringShapeDraft7Node
   )
 
-  override protected def declaredNodes: Map[String, DialectNode] = Map.empty
+  override protected def declaredNodes: Map[String, DialectNode] = Map(
+    "definitions" -> BaseShapeAsync2Node
+  )
 }

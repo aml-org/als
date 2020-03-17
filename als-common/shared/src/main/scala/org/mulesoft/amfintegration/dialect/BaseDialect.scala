@@ -11,12 +11,15 @@ import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, Document
 trait BaseDialect {
 
   def toNode(obj: DialectNode): DomainElement = obj.Obj
+
   def DialectLocation: String
   protected val name: String
   protected val version: String
   protected def emptyDocument: DocumentsModel
+
   protected def encodes: DialectNode
   val declares: Seq[DialectNode]
+
   protected def declaredNodes: Map[String, DialectNode]
 
   val dialect: Dialect = {
