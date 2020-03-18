@@ -6,7 +6,7 @@ import org.mulesoft.als.common.YPartBranch
 
 trait WritingShapeInfo {
   protected def isWritingFacet(yPartBranch: YPartBranch, shape: Shape, stack: Seq[AmfObject]): Boolean =
-    yPartBranch.isKey && !yPartBranch.isKeyDescendanceOf("required") && !writingShapeName(shape, yPartBranch) && !writingParamName(
+    yPartBranch.isKey && !yPartBranch.isKeyDescendantOf("required") && !writingShapeName(shape, yPartBranch) && !writingParamName(
       stack,
       yPartBranch)
 

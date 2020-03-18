@@ -78,7 +78,7 @@ class WorkspaceContentManager(val folder: String,
 
   private def process(): Future[Unit] = {
     if (state == NotAvailable) throw new UnavailableWorkspaceException
-    else if (stagingArea.isPending) next(preprocessSnapshot())
+    else if (stagingArea.hasPending) next(preprocessSnapshot())
     else goIdle()
   }
 
