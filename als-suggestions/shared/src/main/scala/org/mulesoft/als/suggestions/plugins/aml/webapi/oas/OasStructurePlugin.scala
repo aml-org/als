@@ -22,7 +22,7 @@ object OasStructurePlugin extends AMLCompletionPlugin {
         declaredResponse(request)
       case _: Tag if request.branchStack.headOption.exists(_.isInstanceOf[Operation]) =>
         emptySuggestion
-      case _: WebApi if request.yPartBranch.isKeyDescendanceOf("info") =>
+      case _: WebApi if request.yPartBranch.isKeyDescendantOf("info") =>
         infoSuggestions()
       case _ =>
         AMLStructureCompletionPlugin.resolve(request)
