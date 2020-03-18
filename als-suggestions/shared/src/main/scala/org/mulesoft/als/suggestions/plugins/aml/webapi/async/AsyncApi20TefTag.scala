@@ -1,12 +1,6 @@
-package org.mulesoft.als.suggestions.plugins.aml.webapi
+package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 
-import amf.plugins.domain.webapi.models.bindings.{
-  ChannelBinding,
-  DynamicBinding,
-  MessageBinding,
-  OperationBinding,
-  ServerBinding
-}
+import amf.plugins.domain.webapi.models.bindings.{ChannelBinding, MessageBinding, OperationBinding, ServerBinding}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.AMLRefTagCompletionPlugin
 
@@ -19,7 +13,7 @@ object AsyncApi20TefTag extends AMLRefTagCompletionPlugin {
   private def isBindingAtRef(params: AmlCompletionRequest) = {
     params.amfObject match {
       case _: ServerBinding | _: MessageBinding | _: ChannelBinding | _: OperationBinding =>
-        params.yPartBranch.isKeyDescendanceOf("bindings")
+        params.yPartBranch.isKeyDescendantOf("bindings")
       case _ => true
     }
   }
