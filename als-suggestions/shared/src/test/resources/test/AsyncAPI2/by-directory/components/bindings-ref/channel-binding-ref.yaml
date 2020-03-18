@@ -15,6 +15,7 @@ components:
     messageBinding:
       http:
 
-servers:
-  server:
-    $ref: *
+channels:
+  user/{paramName}/signedup:
+    bindings:
+      $ref: *

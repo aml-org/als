@@ -15,10 +15,7 @@ components:
     messageBinding:
       http:
 
-channels:
-  user/signedup:
-    subscribe:
-      message:
-        bindings:
-          binding:
-            $ref: *
+servers:
+  server:
+    bindings:
+      $ref: *

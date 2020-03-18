@@ -1,13 +1,13 @@
 [
   {
-    "label": "#/components/serverBindings/serverBinding",
+    "label": "autoDelete",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Reference to #/components/serverBindings/serverBinding",
+    "documentation": "autoDelete",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#/components/serverBindings/serverBinding",
-    "filterText": "\"#/components/serverBindings/serverBinding\"",
+    "sortText": "11autoDelete",
+    "filterText": "autoDelete: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,29 +15,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 20,
-          "character": 12
+          "line": 9,
+          "character": 10
         },
         "end": {
-          "line": 20,
-          "character": 12
+          "line": 9,
+          "character": 10
         }
       },
-      "newText": "\"#/components/serverBindings/serverBinding\""
+      "newText": "autoDelete: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "channel-binding-ref.yaml",
+    "label": "durable",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Path suggestion",
+    "documentation": "durable",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11channel-binding-ref.yaml",
-    "filterText": "channel-binding-ref.yaml",
+    "sortText": "11durable",
+    "filterText": "durable: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,29 +45,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 20,
-          "character": 12
+          "line": 9,
+          "character": 10
         },
         "end": {
-          "line": 20,
-          "character": 12
+          "line": 9,
+          "character": 10
         }
       },
-      "newText": "channel-binding-ref.yaml"
+      "newText": "durable: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "expected/",
+    "label": "name\t",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Path suggestion",
+    "documentation": "name\t",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11expected/",
-    "filterText": "expected/",
+    "sortText": "11name\t",
+    "filterText": "\"name\\t\": ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,29 +75,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 20,
-          "character": 12
+          "line": 9,
+          "character": 10
         },
         "end": {
-          "line": 20,
-          "character": 12
+          "line": 9,
+          "character": 10
         }
       },
-      "newText": "expected/"
+      "newText": "\"name\\t\": "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "message-binding-ref.yaml",
+    "label": "type",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "types and traits",
+    "documentation": "type",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11message-binding-ref.yaml",
-    "filterText": "message-binding-ref.yaml",
+    "sortText": "11type",
+    "filterText": "type: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -105,29 +105,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 20,
-          "character": 12
+          "line": 9,
+          "character": 10
         },
         "end": {
-          "line": 20,
-          "character": 12
+          "line": 9,
+          "character": 10
         }
       },
-      "newText": "message-binding-ref.yaml"
+      "newText": "type: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "operation-binding-ref.yaml",
+    "label": "vhost",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Path suggestion",
+    "documentation": "vhost",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11operation-binding-ref.yaml",
-    "filterText": "operation-binding-ref.yaml",
+    "sortText": "11vhost",
+    "filterText": "vhost: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -135,15 +135,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 20,
-          "character": 12
+          "line": 9,
+          "character": 10
         },
         "end": {
-          "line": 20,
-          "character": 12
+          "line": 9,
+          "character": 10
         }
       },
-      "newText": "operation-binding-ref.yaml"
+      "newText": "vhost: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
