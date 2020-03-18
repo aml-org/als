@@ -3,11 +3,11 @@
     "label": "#/components/channelBindings/channelBinding",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "Reference to #/components/channelBindings/channelBinding",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0#/components/channelBindings/channelBinding",
-    "filterText": "#/components/channelBindings/channelBinding",
+    "sortText": "11#/components/channelBindings/channelBinding",
+    "filterText": "\"#/components/channelBindings/channelBinding\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,135 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 20,
+          "character": 12
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 20,
+          "character": 12
         }
       },
-      "newText": "'#/components/channelBindings/channelBinding'"
+      "newText": "\"#/components/channelBindings/channelBinding\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "expected/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11expected/",
+    "filterText": "expected/",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 20,
+          "character": 12
+        },
+        "end": {
+          "line": 20,
+          "character": 12
+        }
+      },
+      "newText": "expected/"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "message-binding-ref.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11message-binding-ref.yaml",
+    "filterText": "message-binding-ref.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 20,
+          "character": 12
+        },
+        "end": {
+          "line": 20,
+          "character": 12
+        }
+      },
+      "newText": "message-binding-ref.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "operation-binding-ref.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11operation-binding-ref.yaml",
+    "filterText": "operation-binding-ref.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 20,
+          "character": 12
+        },
+        "end": {
+          "line": 20,
+          "character": 12
+        }
+      },
+      "newText": "operation-binding-ref.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "server-binding-ref.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11server-binding-ref.yaml",
+    "filterText": "server-binding-ref.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 20,
+          "character": 12
+        },
+        "end": {
+          "line": 20,
+          "character": 12
+        }
+      },
+      "newText": "server-binding-ref.yaml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

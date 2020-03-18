@@ -19,5 +19,4 @@ channels:
   user/signedup:
     subscribe:
       bindings:
-        binding:
-          $ref: *
+        $ref: *

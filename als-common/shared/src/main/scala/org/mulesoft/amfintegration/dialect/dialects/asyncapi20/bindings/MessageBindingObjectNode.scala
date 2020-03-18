@@ -19,10 +19,12 @@ object MessageBindingObjectNode extends BindingObjectNode {
 
 }
 
-object MessageBindingsObjectNode extends BindingObjectNode {
+object MessageBindingsObjectNode extends DialectNode {
   override def name: String = "MessageBindingsObjectNode"
 
   override def nodeTypeMapping: String = MessageBindingsModel.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] = Nil
 }
 
 object HttpMessageBindingObjectNode extends DialectNode {

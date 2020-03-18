@@ -1,7 +1,8 @@
 package org.mulesoft.als.suggestions.aml.webapi
 
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.webapi.SecuredByCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.{AsyncApi20TefTag, SecuredByCompletionPlugin}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.async.AsyncAPIRuntimeExpressionsCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.async.{
   Async20MessageOneOfCompletionPlugin,
   Async20PayloadCompletionPlugin,
@@ -28,10 +29,10 @@ object AsyncApiCompletionPluginRegistry {
       Async20StructureCompletionPlugin :+
       Async20PayloadCompletionPlugin :+
       Async20TypeFacetsCompletionPlugin :+
-      Async20RefTagCompletionPlugin :+
       Async20MessageOneOfCompletionPlugin :+
       AsyncApiBindingsCompletionPlugin :+
-      BindingsDiscreditableProperties
+      BindingsDiscreditableProperties :+
+      AsyncApi20TefTag
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, AsyncApi20Dialect().id)

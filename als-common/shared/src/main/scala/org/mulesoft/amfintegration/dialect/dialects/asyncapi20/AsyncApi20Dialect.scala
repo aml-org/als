@@ -4,7 +4,31 @@ import amf.dialects.oas.nodes._
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.domain.DocumentsModel
 import org.mulesoft.amfintegration.dialect.BaseDialect
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.{AmqpChannelBindingObject, AmqpMessageBindingObjectNode, AmqpOperationBindingObjectNode, ChannelBindingObjectNode, ChannelBindingsObjectNode, DynamicBindingObjectNode, HttpMessageBindingObjectNode, HttpOperationBindingObjectNode, KafkaMessageBindingObjectNode, KafkaOperationBindingObjectNode, LastWillMqttServerBindingObject, MessageBindingObjectNode, MessageBindingsObjectNode, MqttMessageBindingObjectNode, MqttOperationBindingObjectNode, MqttServerBindingObjectNode, OperationBindingObjectNode, OperationBindingsObjectNode, ServerBindingObjectNode, ServerBindingsObjectNode, WsChannelBindingObject}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.{
+  AmqpChannelBindingObject,
+  AmqpMessageBindingObjectNode,
+  AmqpOperationBindingObjectNode,
+  ChannelBindingObjectNode,
+  ChannelBindingsObjectNode,
+  DynamicBindingObjectNode,
+  HttpMessageBindingObjectNode,
+  HttpOperationBindingObjectNode,
+  KafkaMessageBindingObjectNode,
+  KafkaOperationBindingObjectNode,
+  LastWillMqttServerBindingObject,
+  MessageBindingObjectNode,
+  MessageBindingsObjectNode,
+  MqttMessageBindingObjectNode,
+  MqttOperationBindingObjectNode,
+  MqttServerBindingObjectNode,
+  OperationBindingObjectNode,
+  OperationBindingsObjectNode,
+  QueueAmqpChannelBinding,
+  RoutingKeyAmqpChannelBinding,
+  ServerBindingObjectNode,
+  ServerBindingsObjectNode,
+  WsChannelBindingObject
+}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema._
 
 object AsyncApi20Dialect extends BaseDialect {
@@ -57,7 +81,9 @@ object AsyncApi20Dialect extends BaseDialect {
     AmqpOperationBindingObjectNode,
     KafkaOperationBindingObjectNode,
     HttpOperationBindingObjectNode,
-    MqttOperationBindingObjectNode
+    MqttOperationBindingObjectNode,
+    QueueAmqpChannelBinding,
+    RoutingKeyAmqpChannelBinding
   )
 
   override def emptyDocument: DocumentsModel =
@@ -76,10 +102,10 @@ object AsyncApi20Dialect extends BaseDialect {
 //    "correlationsIds"   -> CorrelationIdObjectNode,
     "operationTraits"   -> OperationTraitsObjectNode,
     "messageTraits"     -> MessageTraitsObjectNode,
-    "serverBindings"    -> ServerBindingObjectNode,
+    "serverBindings"    -> ServerBindingsObjectNode,
     "channelBindings"   -> ChannelBindingsObjectNode,
     "operationBindings" -> OperationBindingsObjectNode,
-    "messageBindings"   -> MessageBindingObjectNode,
+    "messageBindings"   -> MessageBindingsObjectNode,
     "schemas"           -> BaseShapeAsync2Node
   )
 

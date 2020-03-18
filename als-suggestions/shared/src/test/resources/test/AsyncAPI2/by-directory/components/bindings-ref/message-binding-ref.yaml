@@ -16,7 +16,8 @@ components:
       http:
 
 channels:
-  user/{paramName}/signedup:
-    bindings:
-      binding:
-        $ref: *
+  user/signedup:
+    subscribe:
+      message:
+        bindings:
+          $ref: *
