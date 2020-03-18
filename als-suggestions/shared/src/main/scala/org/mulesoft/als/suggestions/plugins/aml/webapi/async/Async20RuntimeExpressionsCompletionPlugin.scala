@@ -11,7 +11,7 @@ object Async20RuntimeExpressionsCompletionPlugin extends AbstractRuntimeExpressi
     AsyncAPIRuntimeExpressionParser(value)
 
   override protected def appliesToField(request: AmlCompletionRequest): Boolean = request.amfObject match {
-    case _ @(_: Parameter | _: CorrelationId) => true
+    case _ @(_: Parameter | _: CorrelationId) => request.yPartBranch.isValue
     case _                                    => false
   }
 }
