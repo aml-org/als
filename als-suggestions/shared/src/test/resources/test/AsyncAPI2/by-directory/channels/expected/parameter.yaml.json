@@ -2,12 +2,12 @@
   {
     "label": "description",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
+    "detail": "docs",
+    "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0description",
-    "filterText": "description",
+    "sortText": "11description",
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,12 +15,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 8
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 8
         }
       },
       "newText": "description: "
@@ -30,14 +30,14 @@
     "command": null
   },
   {
-    "label": "schema",
+    "label": "location",
     "kind": [],
     "detail": "unknown",
-    "documentation": "reference tag",
+    "documentation": "location",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0schema",
-    "filterText": "schema",
+    "sortText": "11location",
+    "filterText": "location: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,29 +45,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 8
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 8
         }
       },
-      "newText": "schema:\n   "
+      "newText": "location: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "location",
+    "label": "schema",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "reference tag",
+    "detail": "schemas",
+    "documentation": "schema",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0location",
-    "filterText": "location",
+    "sortText": "11schema",
+    "filterText": "schema:\n          ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,15 +75,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 8
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 8
         }
       },
-      "newText": "location: "
+      "newText": "schema:\n          "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
