@@ -54,10 +54,10 @@ object AsyncApi20Dialect extends BaseDialect {
   override def encodes: DialectNode = Oas30WebApiNode
 
   override def declaredNodes: Map[String, DialectNode] = Map(
-    "securitySchemes"   -> AsyncApi20SecuritySchemeObject,
-    "messages"          -> MessageObjectNode,
-    "parameters"        -> ParameterObjectNode,
-    "correlationsIds"   -> CorrelationIdObjectNode,
+    "securitySchemes" -> AsyncApi20SecuritySchemeObject,
+    "messages"        -> MessageObjectNode,
+//    "parameters"        -> ParameterObjectNode,
+//    "correlationsIds"   -> CorrelationIdObjectNode,
     "operationTraits"   -> OperationTraitsObjectNode,
     "messageTraits"     -> MessageTraitsObjectNode,
     "serverBindings"    -> ServerBindingObjectNode,
