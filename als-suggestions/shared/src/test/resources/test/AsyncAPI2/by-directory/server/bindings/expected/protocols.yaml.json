@@ -1,12 +1,19 @@
 [
   {
-    "text": "http",
-    "description": "http",
-    "displayText": "http",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "amqp",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "amqp",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11amqp",
+    "filterText": "amqp:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 6
@@ -15,17 +22,28 @@
           "line": 7,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "amqp:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "ws",
-    "description": "ws",
-    "displayText": "ws",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "amqp1",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "amqp1",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11amqp1",
+    "filterText": "amqp1:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 6
@@ -34,17 +52,28 @@
           "line": 7,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "amqp1:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "kafka",
-    "description": "kafka",
-    "displayText": "kafka",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "http",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "http",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11http",
+    "filterText": "http:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 6
@@ -53,17 +82,28 @@
           "line": 7,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "http:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "amqp",
-    "description": "amqp",
-    "displayText": "amqp",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "jms",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "jms",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11jms",
+    "filterText": "jms:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 6
@@ -72,17 +112,28 @@
           "line": 7,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "jms:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "amqp1",
-    "description": "amqp1",
-    "displayText": "amqp1",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "kafka",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "kafka",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11kafka",
+    "filterText": "kafka:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 6
@@ -91,17 +142,28 @@
           "line": 7,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "kafka:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "mqtt",
-    "description": "mqtt",
-    "displayText": "mqtt",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "mqtt",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "mqtt",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11mqtt",
+    "filterText": "mqtt:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 6
@@ -110,17 +172,28 @@
           "line": 7,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "mqtt:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "mqtt5",
-    "description": "mqtt5",
-    "displayText": "mqtt5",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "mqtt5",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "mqtt5",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11mqtt5",
+    "filterText": "mqtt5:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 6
@@ -129,17 +202,28 @@
           "line": 7,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "mqtt5:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "nats",
-    "description": "nats",
-    "displayText": "nats",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "nats",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "nats",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11nats",
+    "filterText": "nats:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 6
@@ -148,17 +232,28 @@
           "line": 7,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "nats:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "jms",
-    "description": "jms",
-    "displayText": "jms",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "redis",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "redis",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11redis",
+    "filterText": "redis:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 6
@@ -167,17 +262,28 @@
           "line": 7,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "redis:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "sns",
-    "description": "sns",
-    "displayText": "sns",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "sns",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "sns",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11sns",
+    "filterText": "sns:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 6
@@ -186,17 +292,28 @@
           "line": 7,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "sns:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "sqs",
-    "description": "sqs",
-    "displayText": "sqs",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "sqs",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "sqs",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11sqs",
+    "filterText": "sqs:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 6
@@ -205,17 +322,28 @@
           "line": 7,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "sqs:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "stomp",
-    "description": "stomp",
-    "displayText": "stomp",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "stomp",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "stomp",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11stomp",
+    "filterText": "stomp:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 6
@@ -224,17 +352,28 @@
           "line": 7,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "stomp:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "redis",
-    "description": "redis",
-    "displayText": "redis",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "ws",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "ws",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11ws",
+    "filterText": "ws:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
           "line": 7,
           "character": 6
@@ -243,7 +382,11 @@
           "line": 7,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "ws:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]
