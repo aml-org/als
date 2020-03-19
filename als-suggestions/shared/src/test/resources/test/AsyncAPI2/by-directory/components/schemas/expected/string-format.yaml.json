@@ -1,43 +1,13 @@
 [
   {
-    "label": "byte",
-    "kind": [],
-    "detail": "schemas",
-    "documentation": "byte",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11byte",
-    "filterText": "byte: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 6
-        },
-        "end": {
-          "line": 4,
-          "character": 6
-        }
-      },
-      "newText": "byte"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "binary",
     "kind": [],
-    "detail": "schemas",
+    "detail": "unknown",
     "documentation": "binary",
     "deprecated": [],
     "preselect": [],
     "sortText": "11binary",
-    "filterText": "binary: ",
+    "filterText": "binary",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,12 +15,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 14
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 14
         }
       },
       "newText": "binary"
@@ -60,14 +30,14 @@
     "command": null
   },
   {
-    "label": "date",
+    "label": "byte",
     "kind": [],
-    "detail": "schemas",
-    "documentation": "date",
+    "detail": "unknown",
+    "documentation": "byte",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11date",
-    "filterText": "date: ",
+    "sortText": "11byte",
+    "filterText": "byte",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,12 +45,42 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 14
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 14
+        }
+      },
+      "newText": "byte"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "date",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "date",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11date",
+    "filterText": "date",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
         }
       },
       "newText": "date"
@@ -92,12 +92,12 @@
   {
     "label": "date-time",
     "kind": [],
-    "detail": "schemas",
+    "detail": "unknown",
     "documentation": "date-time",
     "deprecated": [],
     "preselect": [],
     "sortText": "11date-time",
-    "filterText": "date-time: ",
+    "filterText": "date-time",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -105,12 +105,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 14
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 14
         }
       },
       "newText": "date-time"
@@ -122,12 +122,12 @@
   {
     "label": "password",
     "kind": [],
-    "detail": "schemas",
+    "detail": "unknown",
     "documentation": "password",
     "deprecated": [],
     "preselect": [],
     "sortText": "11password",
-    "filterText": "password: ",
+    "filterText": "password",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -135,12 +135,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 14
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 14
         }
       },
       "newText": "password"

@@ -83,7 +83,9 @@ object AsyncApi20Dialect extends BaseDialect {
     HttpOperationBindingObjectNode,
     MqttOperationBindingObjectNode,
     QueueAmqpChannelBinding,
-    RoutingKeyAmqpChannelBinding
+    RoutingKeyAmqpChannelBinding,
+    StringShapeAsync2Node,
+    AMLExternalDocumentationObject
   )
 
   override def emptyDocument: DocumentsModel =

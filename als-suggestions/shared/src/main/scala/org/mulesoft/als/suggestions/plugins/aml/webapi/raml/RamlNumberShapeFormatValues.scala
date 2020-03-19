@@ -7,6 +7,6 @@ import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
 object RamlNumberShapeFormatValues extends ShapeNumberShapeFormatValues {
   override def id: String = "RamlNumberShapeFormatValues"
 
-  override def numberNodeMapping(dataType: String): NodeMapping =
+  override def dataTypeNodeMapping(dataType: String): NodeMapping =
     Raml10TypesDialect.NumberShapeNode
 }

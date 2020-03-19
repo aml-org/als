@@ -18,7 +18,7 @@ trait ShapeNumberShapeFormatValues extends AMLCompletionPlugin {
     Future {
       request.fieldEntry match {
         case Some(FieldEntry(ScalarShapeModel.Format, _)) if request.yPartBranch.isValue =>
-          val formats: Seq[String] = numberNodeMapping(getDataType(request.amfObject))
+          val formats: Seq[String] = dataTypeNodeMapping(getDataType(request.amfObject))
             .propertiesMapping()
             .find(_.name().option().contains("format"))
             .map(p => p.enum().flatMap(v => v.option().map(_.toString)))
@@ -36,5 +36,5 @@ trait ShapeNumberShapeFormatValues extends AMLCompletionPlugin {
       .map(_.value.asInstanceOf[AmfScalar].value.toString)
       .getOrElse(DataTypes.Integer)
 
-  def numberNodeMapping(dataType: String): NodeMapping
+  def dataTypeNodeMapping(dataType: String): NodeMapping
 }
