@@ -1,0 +1,154 @@
+[
+  {
+    "text": "asyncapi",
+    "description": "asyncapi",
+    "displayText": "asyncapi",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "id",
+    "description": "id",
+    "displayText": "id",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "info",
+    "description": "info",
+    "displayText": "info",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "servers",
+    "description": "servers",
+    "displayText": "servers",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "channels",
+    "description": "channels",
+    "displayText": "channels",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "components",
+    "description": "components",
+    "displayText": "components",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "tags",
+    "description": "tags",
+    "displayText": "tags",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      }
+    ]
+  },
+  {
+    "text": "externalDocs",
+    "description": "externalDocs",
+    "displayText": "externalDocs",
+    "prefix": "",
+    "category": "unknown",
+    "range": [
+      {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      }
+    ]
+  }
+]

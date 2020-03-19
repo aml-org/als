@@ -1,0 +1,29 @@
+package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
+
+import amf.core.metamodel.Field
+import amf.plugins.domain.webapi.metamodel.{CallbackModel, IriTemplateMappingModel, TemplatedLinkModel}
+import amf.plugins.domain.webapi.models.Callback
+import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
+import org.mulesoft.als.suggestions.plugins.aml.webapi.AbstractRuntimeExpressionsCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30.runtimeexpressions.OASRuntimeExpressionParser
+import org.mulesoft.als.suggestions.plugins.aml.webapi.runtimeexpression.RuntimeExpressionParser
+
+object OasRuntimeExpressionsCompletionPlugin extends AbstractRuntimeExpressionsCompletionPlugin {
+
+  protected val applicableFields: Seq[Field] =
+    Seq(CallbackModel.Expression, TemplatedLinkModel.RequestBody, IriTemplateMappingModel.LinkExpression)
+
+  override protected def appliesToField(request: AmlCompletionRequest): Boolean =
+    request.fieldEntry match {
+      case Some(fe) => applicableFields.contains(fe.field)
+      case _ =>
+        if (request.yPartBranch.isKey)
+          request.branchStack.headOption match {
+            case Some(c: Callback) =>
+              request.yPartBranch.stringValue == c.expression.value()
+            case _ => false
+          } else request.amfObject.fields.fields().exists(fe => applicableFields.contains(fe.field))
+    }
+
+  override def parserObject(value: String): RuntimeExpressionParser = OASRuntimeExpressionParser(value)
+}

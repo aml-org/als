@@ -9,10 +9,10 @@ object OASRefTag extends AMLRefTagCompletionPlugin {
 
   override protected def isObjectDeclarable(params: AmlCompletionRequest): Boolean =
     super.isObjectDeclarable(params) || ((params.amfObject
-      .isInstanceOf[EndPoint] || params.amfObject.isInstanceOf[Request]) && !params.yPartBranch.isKeyDescendanceOf(
+      .isInstanceOf[EndPoint] || params.amfObject.isInstanceOf[Request]) && !params.yPartBranch.isKeyDescendantOf(
       "parameters"))
 
   override def isExceptionCase(branch: YPartBranch): Boolean =
-    branch.isKeyDescendanceOf("required") ||
+    branch.isKeyDescendantOf("required") ||
       ((branch.isValue || (branch.isInArray && branch.stringValue == "x")) && branch.parentEntryIs("required"))
 }

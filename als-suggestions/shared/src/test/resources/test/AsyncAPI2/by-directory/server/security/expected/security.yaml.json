@@ -1,0 +1,62 @@
+[
+  {
+    "label": "oauth1",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "oauth1",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11oauth1",
+    "filterText": "oauth1:\n        - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 44,
+          "character": 6
+        },
+        "end": {
+          "line": 44,
+          "character": 6
+        }
+      },
+      "newText": "oauth1:\n        - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "oauth2",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "oauth2",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11oauth2",
+    "filterText": "oauth2:\n        - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 44,
+          "character": 6
+        },
+        "end": {
+          "line": 44,
+          "character": 6
+        }
+      },
+      "newText": "oauth2:\n        - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

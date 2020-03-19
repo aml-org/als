@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.{ObjectRange, RawSuggestion, StringScalarRange}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 

@@ -7,7 +7,7 @@ import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
-import amf.plugins.document.webapi.{Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
+import amf.plugins.document.webapi.{Async20Plugin, Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.features.validation.AMFValidatorPlugin
 import org.mulesoft.als.{CompilerEnvironment, ModelBuilder}
 import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
@@ -32,6 +32,7 @@ class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Envi
         amf.core.AMF.registerPlugin(Raml08Plugin)
         amf.core.AMF.registerPlugin(Oas20Plugin)
         amf.core.AMF.registerPlugin(Oas30Plugin)
+        amf.core.AMF.registerPlugin(Async20Plugin)
         amf.core.AMF.registerPlugin(AMFValidatorPlugin)
         amf.core.AMF.registerPlugin(PayloadValidatorPlugin)
         plugins.foreach(amf.core.AMF.registerPlugin)

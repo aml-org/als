@@ -12,6 +12,7 @@ build/
 node_modules
 
 als-node-client/node-package/tmp/
+als-server/js/node-package/tmp/
 
 *als-suggestions.js
 *als-suggestions.js.map

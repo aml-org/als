@@ -1,9 +1,9 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
 import amf.core.metamodel.Type.ArrayLike
-import amf.plugins.domain.webapi.metamodel.{OperationModel, WebApiModel}
+import amf.plugins.domain.webapi.metamodel.{OperationModel, ServerModel, WebApiModel}
 import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
-import amf.plugins.domain.webapi.models.{Operation, WebApi}
+import amf.plugins.domain.webapi.models.{Operation, Server, WebApi}
 import amf.plugins.domain.webapi.models.security.ParametrizedSecurityScheme
 import org.mulesoft.als.suggestions.{ArrayRange, ObjectRange, RawSuggestion}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -40,6 +40,7 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
         p.name.value() == "k" || (p.name.value() != "k" && !request.yPartBranch.parentEntryIs(p.name.value()))
       case w: WebApi    => request.fieldEntry.exists(t => t.field == WebApiModel.Security)
       case w: Operation => request.fieldEntry.exists(t => t.field == OperationModel.Security)
+      case s: Server    => request.fieldEntry.exists(t => t.field == ServerModel.Security)
       case _            => false
     }
   }

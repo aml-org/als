@@ -1,0 +1,28 @@
+{
+  "info" : {
+    "title": "api",
+    "version" : "2"
+  },
+  "openapi": "3.0.0",
+  "components": {
+    "securitySchemes": {
+      "aScheme": {
+        "flows": {
+          "implicit": {
+            "scopes" : {
+              "a":"b"
+            }
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "security": [
+    {
+      "aScheme": [
+        "*"
+      ]
+    }
+  ]
+}

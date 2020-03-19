@@ -1,0 +1,152 @@
+[
+  {
+    "label": "#/components/operationBindings/operationBinding",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/components/operationBindings/operationBinding",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#/components/operationBindings/operationBinding",
+    "filterText": "\"#/components/operationBindings/operationBinding\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 21,
+          "character": 14
+        },
+        "end": {
+          "line": 21,
+          "character": 14
+        }
+      },
+      "newText": "\"#/components/operationBindings/operationBinding\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "channel-binding-ref.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11channel-binding-ref.yaml",
+    "filterText": "channel-binding-ref.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 21,
+          "character": 14
+        },
+        "end": {
+          "line": 21,
+          "character": 14
+        }
+      },
+      "newText": "channel-binding-ref.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "expected/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11expected/",
+    "filterText": "expected/",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 21,
+          "character": 14
+        },
+        "end": {
+          "line": 21,
+          "character": 14
+        }
+      },
+      "newText": "expected/"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "message-binding-ref.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11message-binding-ref.yaml",
+    "filterText": "message-binding-ref.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 21,
+          "character": 14
+        },
+        "end": {
+          "line": 21,
+          "character": 14
+        }
+      },
+      "newText": "message-binding-ref.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "server-binding-ref.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11server-binding-ref.yaml",
+    "filterText": "server-binding-ref.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 21,
+          "character": 14
+        },
+        "end": {
+          "line": 21,
+          "character": 14
+        }
+      },
+      "newText": "server-binding-ref.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
