@@ -1,0 +1,45 @@
+#%AsyncAPI 2.0
+
+asyncapi: 2.0.0
+components:
+  securitySchemes:
+    oauth1:
+      type: oauth1
+      description: oauth1
+      name: key
+      scheme: invalid
+      bearerFormat: none
+    oauth2:
+      type: oauth2
+      description: oauth2 security scheme
+      flows:
+        implicit:
+          authorizationUrl: https://a.ml/
+          refreshUrl: https://a.ml/
+          scopes:
+            "write:pets": modify pets in your account
+            "read:pets": read your pets
+        password:
+          tokenUrl: https://a.ml/
+          refreshUrl: https://a.ml/
+          scopes:
+            "write:pets": modify pets in your account
+            "read:pets": read your pets
+        clientCredentials:
+          tokenUrl: https://a.ml/
+          refreshUrl: https://a.ml/
+          scopes:
+            "write:pets": modify pets in your account
+            "read:pets": read your pets
+        authorizationCode:
+          authorizationUrl: https://a.ml/
+          tokenUrl: https://a.ml/
+          refreshUrl: https://a.ml/
+          scopes:
+            "write:pets": modify pets in your account
+            "read:pets": read your pets
+
+servers:
+  someServer:
+    security:
+      *

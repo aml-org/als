@@ -1,0 +1,182 @@
+[
+  {
+    "label": "authorizationUrl",
+    "kind": [],
+    "detail": "security",
+    "documentation": "authorizationUrl",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11authorizationUrl",
+    "filterText": "authorizationUrl: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 10
+        },
+        "end": {
+          "line": 9,
+          "character": 10
+        }
+      },
+      "newText": "authorizationUrl: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11description",
+    "filterText": "description: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 10
+        },
+        "end": {
+          "line": 9,
+          "character": 10
+        }
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "flow",
+    "kind": [],
+    "detail": "security",
+    "documentation": "flow",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10flow",
+    "filterText": "flow: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 10
+        },
+        "end": {
+          "line": 9,
+          "character": 10
+        }
+      },
+      "newText": "flow: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "scopes",
+    "kind": [],
+    "detail": "security",
+    "documentation": "scopes",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11scopes",
+    "filterText": "scopes:\n            ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 10
+        },
+        "end": {
+          "line": 9,
+          "character": 10
+        }
+      },
+      "newText": "scopes:\n            "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "tokenUrl",
+    "kind": [],
+    "detail": "security",
+    "documentation": "tokenUrl",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11tokenUrl",
+    "filterText": "tokenUrl: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 10
+        },
+        "end": {
+          "line": 9,
+          "character": 10
+        }
+      },
+      "newText": "tokenUrl: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "type",
+    "kind": [],
+    "detail": "types and traits",
+    "documentation": "type",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10type",
+    "filterText": "type: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 10
+        },
+        "end": {
+          "line": 9,
+          "character": 10
+        }
+      },
+      "newText": "type: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

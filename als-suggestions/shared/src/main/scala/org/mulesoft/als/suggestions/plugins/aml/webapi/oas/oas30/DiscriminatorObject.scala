@@ -24,7 +24,7 @@ object DiscriminatorObject extends ExceptionPlugin {
     request.amfObject.isInstanceOf[NodeShape] && isInDiscriminator(request)
 
   private def isInDiscriminator(request: AmlCompletionRequest): Boolean =
-    (request.yPartBranch.isKeyDescendanceOf("discriminator") && request.fieldEntry.isEmpty) || request.fieldEntry
+    (request.yPartBranch.isKeyDescendantOf("discriminator") && request.fieldEntry.isEmpty) || request.fieldEntry
       .exists(_.field == NodeShapeModel.Discriminator)
 
 }

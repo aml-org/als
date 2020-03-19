@@ -3,6 +3,8 @@ package org.mulesoft.als.server.lsp4j.extension;
 import org.eclipse.lsp4j.ClientCapabilities;
 import org.eclipse.xtext.xbase.lib.Pure;
 
+import java.util.Objects;
+
 public class AlsClientCapabilities extends ClientCapabilities {
 
     private SerializationClientCapabilities serialization;

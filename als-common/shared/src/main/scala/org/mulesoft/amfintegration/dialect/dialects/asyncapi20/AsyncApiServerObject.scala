@@ -1,0 +1,62 @@
+package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
+
+import amf.core.vocabulary.Namespace.XsdTypes._
+import amf.dialects.oas.nodes.DialectNode
+import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import amf.plugins.domain.webapi.metamodel.{ParameterModel, ServerModel}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.{
+  ServerBindingObjectNode,
+  ServerBindingsObjectNode
+}
+
+object AsyncApiServerObject extends DialectNode {
+
+  override def name: String = "ServerObject"
+
+  override def nodeTypeMapping: String = ServerModel.`type`.head.iri()
+
+  override def properties: Seq[PropertyMapping] =
+    Seq(
+      PropertyMapping()
+        .withId(location + "#/declarations/ServerObject/name")
+        .withName("name")
+        .withNodePropertyMapping(ServerModel.Name.value.iri())
+        .withMinCount(1)
+        .withLiteralRange(xsdString.iri()),
+      PropertyMapping()
+        .withId(location + "#/declarations/ServerObject/url")
+        .withName("url")
+        .withNodePropertyMapping(ServerModel.Url.value.iri())
+        .withMinCount(1)
+        .withLiteralRange(xsdString.iri()),
+      PropertyMapping()
+        .withId(location + "#/declarations/ServerObject/protocol")
+        .withName("protocol")
+        .withNodePropertyMapping(ServerModel.Protocol.value.iri())
+        .withMinCount(1)
+        .withLiteralRange(xsdString.iri()),
+      PropertyMapping()
+        .withId(location + "#/declarations/ServerObject/protocolVersion")
+        .withName("protocolVersion")
+        .withNodePropertyMapping(ServerModel.ProtocolVersion.value.iri())
+        .withMinCount(1)
+        .withLiteralRange(xsdString.iri()),
+      PropertyMapping()
+        .withId(location + "#/declarations/ServerObject/variables")
+        .withName("variables")
+        .withNodePropertyMapping(ServerModel.Variables.value.iri())
+        .withObjectRange(Seq(AsyncApiVariableObject.id))
+        .withMapTermKeyProperty(ParameterModel.Name.value.iri()),
+      PropertyMapping()
+        .withId(location + "#/declarations/ServerObject/security")
+        .withName("security")
+        .withNodePropertyMapping(ServerModel.Security.value.iri())
+        .withLiteralRange(xsdString.iri())
+        .withAllowMultiple(true),
+      PropertyMapping()
+        .withId(location + "#/declarations/ServerObject/bindings")
+        .withName("bindings")
+        .withNodePropertyMapping(ServerModel.Bindings.value.iri())
+        .withObjectRange(Seq(ServerBindingsObjectNode.id))
+    )
+}

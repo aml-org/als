@@ -1,13 +1,13 @@
 [
   {
-    "label": "write",
+    "label": "a",
     "kind": [],
-    "detail": "",
-    "documentation": "",
+    "detail": "unknown",
+    "documentation": "a",
     "deprecated": [],
     "preselect": [],
-    "sortText": "",
-    "filterText": null,
+    "sortText": "11a",
+    "filterText": "\"a\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,45 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": x,
-          "character": x
+          "line": 23,
+          "character": 8
         },
         "end": {
-          "line": x,
-          "character": x
+          "line": 23,
+          "character": 11
         }
       },
-      "newText": "write:"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "read",
-    "kind": [],
-    "detail": "",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "",
-    "filterText": null,
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": x,
-          "character": x
-        },
-        "end": {
-          "line": x,
-          "character": x
-        }
-      },
-      "newText": "read:"
+      "newText": "\"a\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

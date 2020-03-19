@@ -36,11 +36,11 @@ object Oas20StructurePlugin extends AMLCompletionPlugin {
   }
 
   def isInParameter(yPartBranch: YPartBranch): Boolean =
-    yPartBranch.isKeyDescendanceOf("parameters") || (yPartBranch.isJson && yPartBranch.isInArray && yPartBranch
+    yPartBranch.isKeyDescendantOf("parameters") || (yPartBranch.isJson && yPartBranch.isInArray && yPartBranch
       .parentEntryIs("parameters"))
 
   def infoSuggestions() =
     Future(AMLInfoObject.Obj.propertiesRaw(Some("docs")))
 
-  def definingParam(yPart: YPartBranch): Boolean = yPart.isKeyDescendanceOf("parameters")
+  def definingParam(yPart: YPartBranch): Boolean = yPart.isKeyDescendantOf("parameters")
 }

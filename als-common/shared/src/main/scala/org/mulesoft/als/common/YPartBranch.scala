@@ -83,7 +83,7 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
   def ancestorOf[T <: YPart](clazz: Class[T]): Option[T] =
     if (stack.nonEmpty) findFirstOf(clazz, stack.tail) else None
 
-  def isKeyDescendanceOf(key: String): Boolean =
+  def isKeyDescendantOf(key: String): Boolean =
     isKey && ancestorOf(classOf[YMapEntry])
       .flatMap(_.key.asScalar.map(_.text))
       .contains(key)
