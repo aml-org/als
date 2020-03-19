@@ -1,13 +1,13 @@
 [
   {
-    "label": "float",
+    "label": "double",
     "kind": [],
-    "detail": "schemas",
-    "documentation": "float",
+    "detail": "unknown",
+    "documentation": "double",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11float",
-    "filterText": "float: ",
+    "sortText": "11double",
+    "filterText": "double",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,12 +15,42 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 14
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 14
+        }
+      },
+      "newText": "double"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "float",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "float",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11float",
+    "filterText": "float",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
         }
       },
       "newText": "float"
@@ -30,14 +60,14 @@
     "command": null
   },
   {
-    "label": "double",
+    "label": "int32",
     "kind": [],
-    "detail": "schemas",
-    "documentation": "double",
+    "detail": "unknown",
+    "documentation": "int32",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11double",
-    "filterText": "double: ",
+    "sortText": "11int32",
+    "filterText": "int32",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,15 +75,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 14
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 7,
+          "character": 14
         }
       },
-      "newText": "double"
+      "newText": "int32"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "int64",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "int64",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11int64",
+    "filterText": "int64",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 14
+        }
+      },
+      "newText": "int64"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
