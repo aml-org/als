@@ -38,6 +38,10 @@ class ContentPatcherTest extends AsyncFunSuite with FileAssertionTest with ListA
     assertJson("empty-key-without-value", List(ColonToken, QuoteToken, QuoteToken))
   }
 
+  test("Only one quote at the beginning") {
+    assertJson("only-one-quote", List(QuoteToken, ColonToken, QuoteToken, QuoteToken, CommaToken))
+  }
+
   test("empty value") {
     assertJson("empty-value", List(QuoteToken, QuoteToken))
   }

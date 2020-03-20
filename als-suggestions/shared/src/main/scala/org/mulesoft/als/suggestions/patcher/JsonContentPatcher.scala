@@ -50,8 +50,10 @@ class JsonContentPatcher(override val textRaw: String, override val offsetRaw: I
       if (lineTrim.endsWith("\""))
         if (lineTrim.length > 2) // at least one char between ""
           newLine = addColon(newLine.substring(0, off) + "\"")
-        else
+        else if (lineTrim.length > 1) // ""
           newLine = addColon(newLine.substring(0, newLine.length - 1) + "x" + "\"")
+        else
+          newLine = addColon(addQuote(newLine + "x"))
       else
         newLine = addColon(addQuote(newLine + "x"))
       if (!hasComplexValueStart)
