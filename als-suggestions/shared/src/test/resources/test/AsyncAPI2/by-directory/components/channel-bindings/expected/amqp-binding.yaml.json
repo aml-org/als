@@ -1,13 +1,13 @@
 [
   {
-    "label": "$message.",
+    "label": "is",
     "kind": [],
-    "detail": "RuntimeExpression",
-    "documentation": "$message.",
+    "detail": "unknown",
+    "documentation": "is",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11$message.",
-    "filterText": "$message.",
+    "sortText": "11is",
+    "filterText": "is: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 16
+          "line": 5,
+          "character": 8
         },
         "end": {
-          "line": 4,
-          "character": 16
+          "line": 5,
+          "character": 8
         }
       },
-      "newText": "$message."
+      "newText": "is: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
