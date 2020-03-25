@@ -1,0 +1,20 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Api",
+    "version": 2
+  },
+  "securityDefinitions": {
+    "mySec": {
+      "type": "apiKey"
+    },
+    "mySec2": {
+      "type": "oauth2"
+    }
+  },
+  "security": [
+    {
+      "mySec": "*"
+    }
+  ]
+}
