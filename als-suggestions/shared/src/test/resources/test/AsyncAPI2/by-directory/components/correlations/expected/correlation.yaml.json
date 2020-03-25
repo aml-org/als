@@ -15,11 +15,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
+          "line": 4,
           "character": 6
         },
         "end": {
-          "line": 6,
+          "line": 4,
           "character": 6
         }
       },
@@ -45,11 +45,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
+          "line": 4,
           "character": 6
         },
         "end": {
-          "line": 6,
+          "line": 4,
           "character": 6
         }
       },
