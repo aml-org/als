@@ -120,36 +120,6 @@
     "command": null
   },
   {
-    "label": "is",
-    "kind": [],
-    "detail": "types and traits",
-    "documentation": "is",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11is",
-    "filterText": "is:\n        - ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 6
-        },
-        "end": {
-          "line": 4,
-          "character": 6
-        }
-      },
-      "newText": "is:\n        - "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "message",
     "kind": [],
     "detail": "unknown",
@@ -264,6 +234,36 @@
         }
       },
       "newText": "tags:\n        - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "traits",
+    "kind": [],
+    "detail": "types and traits",
+    "documentation": "traits",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11traits",
+    "filterText": "traits:\n        - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "traits:\n        - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
