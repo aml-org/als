@@ -3,12 +3,12 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 import amf.core.model.domain.Shape
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
+import amf.plugins.domain.webapi.models.Payload
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
-import amf.plugins.domain.webapi.models.Payload
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.NumberShapeAsync2Node
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.{NumberShapeAsync2Node, StringShapeAsync2Node}
 
 import scala.concurrent.Future
 
@@ -18,7 +18,7 @@ object Async20TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugi
 
   val dialect: Dialect = AsyncApi20Dialect.dialect
 
-  override def stringShapeNode: NodeMapping = NumberShapeAsync2Node.Obj
+  override def stringShapeNode: NodeMapping = StringShapeAsync2Node.Obj
 
   override def numberShapeNode: NodeMapping = NumberShapeAsync2Node.Obj
 

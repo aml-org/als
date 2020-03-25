@@ -270,66 +270,6 @@
     "command": null
   },
   {
-    "label": "exclusiveMaximum",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "exclusiveMaximum",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11exclusiveMaximum",
-    "filterText": "exclusiveMaximum: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 10
-        },
-        "end": {
-          "line": 10,
-          "character": 10
-        }
-      },
-      "newText": "exclusiveMaximum: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "exclusiveMinimum",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "exclusiveMinimum",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11exclusiveMinimum",
-    "filterText": "exclusiveMinimum: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 10
-        },
-        "end": {
-          "line": 10,
-          "character": 10
-        }
-      },
-      "newText": "exclusiveMinimum: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "externalDocs",
     "kind": [],
     "detail": "docs",
@@ -420,14 +360,14 @@
     "command": null
   },
   {
-    "label": "maximum",
+    "label": "maxLength",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "maximum",
+    "detail": "parameters",
+    "documentation": "maxLength",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11maximum",
-    "filterText": "maximum: ",
+    "sortText": "11maxLength",
+    "filterText": "maxLength: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -443,21 +383,21 @@
           "character": 10
         }
       },
-      "newText": "maximum: "
+      "newText": "maxLength: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "minimum",
+    "label": "minLength",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "minimum",
+    "detail": "parameters",
+    "documentation": "minLength",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11minimum",
-    "filterText": "minimum: ",
+    "sortText": "11minLength",
+    "filterText": "minLength: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -473,37 +413,7 @@
           "character": 10
         }
       },
-      "newText": "minimum: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "multipleOf",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "multipleOf",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11multipleOf",
-    "filterText": "multipleOf: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 10
-        },
-        "end": {
-          "line": 10,
-          "character": 10
-        }
-      },
-      "newText": "multipleOf: "
+      "newText": "minLength: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -564,6 +474,36 @@
         }
       },
       "newText": "oneOf:\n            "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "pattern",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "pattern",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11pattern",
+    "filterText": "pattern: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 10
+        },
+        "end": {
+          "line": 10,
+          "character": 10
+        }
+      },
+      "newText": "pattern: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

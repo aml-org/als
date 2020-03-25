@@ -22,17 +22,10 @@ object Async20StructureCompletionPlugin extends AMLCompletionPlugin {
             .resolveShape(AnyShape(r.fields, r.annotations), Nil))
       case _: Response if !MessageKnowledge.isRootMessageBlock(request) =>
         emptySuggestion
-      case _: Shape if isInPayload(request.branchStack) =>
+      case _: Shape =>
         emptySuggestion
       case _ =>
         AMLStructureCompletionPlugin.resolve(request)
     }
-
-  def isInPayload(branch: Seq[AmfObject]): Boolean = {
-    branch.headOption match {
-      case Some(_: Payload) => true
-      case _                => false
-    }
-  }
 
 }
