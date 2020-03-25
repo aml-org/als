@@ -3,5 +3,4 @@ components:
   securitySchemes:
     aScheme:
       type: oauth2
-security:
-  *
+security: *
