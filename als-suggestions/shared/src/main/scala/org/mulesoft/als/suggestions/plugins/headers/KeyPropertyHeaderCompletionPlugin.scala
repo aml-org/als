@@ -10,10 +10,23 @@ import scala.concurrent.Future
 object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
   override def id: String = "KeyPropertyHeaderCompletionPlugin"
 
+  // todo: remove this three when internal dialect initialization is done
   private def swaggerHeader(isJson: Boolean, hasBracket: Boolean) = {
     val text = (if (isJson) jsonFlavour("swagger", "2.0", hasBracket)
                 else yamlFlavour("swagger", "2.0"))._1
-    RawSuggestion(text, text, s"Define a OAS 2.0 file", Seq(), children = Nil)
+    RawSuggestion(text, text, s"Define an OAS 2.0 file", Seq(), children = Nil)
+  }
+
+  private def openApi(isJson: Boolean, hasBracket: Boolean) = {
+    val text = (if (isJson) jsonFlavour("openapi", "3.0.0", hasBracket)
+                else yamlFlavour("openapi", "3.0.0"))._1
+    RawSuggestion(text, text, s"Define an OpenApi 3.0.0 file", Seq(), children = Nil)
+  }
+
+  private def asyncApi(isJson: Boolean, hasBracket: Boolean) = {
+    val text = (if (isJson) jsonFlavour("asyncapi", "2.0.0", hasBracket)
+                else yamlFlavour("asyncapi", "2.0.0"))._1
+    RawSuggestion(text, text, s"Define an AsyncApi 2.0.0 file", Seq(), children = Nil)
   }
 
   private def yamlFlavour(key: String, value: String) =
@@ -44,7 +57,7 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
 
         new RawSuggestion(text, text, s"Define a ${d.nameAndVersion()} file", Seq(), children = Nil)
       })
-      .toSeq :+ swaggerHeader(isJson, hasBracket) // TODO: remove when OAS is added as a Dialect
+      .toSeq :+ swaggerHeader(isJson, hasBracket) :+ openApi(isJson, hasBracket) :+ asyncApi(isJson, hasBracket) // TODO: remove when OAS is added as a Dialect
   }
 
   override def resolve(params: HeaderCompletionParams): Future[Seq[RawSuggestion]] =

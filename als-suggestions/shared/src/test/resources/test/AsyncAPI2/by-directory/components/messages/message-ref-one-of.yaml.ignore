@@ -13,5 +13,5 @@ channels:
     subscribe:
       message:
         oneOf:
-          - '#/components/messages/message1'
-          - *
+          - $ref: '#/components/messages/message1'
+          - $ref: *

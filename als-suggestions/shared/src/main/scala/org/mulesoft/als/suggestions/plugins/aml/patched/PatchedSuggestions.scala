@@ -10,6 +10,8 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   RamlCommonMediaTypes,
   RamlResponseCodes
 }
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
+import org.mulesoft.amfmanager.dialect.dialects.AsyncAPIDialect
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
 
@@ -45,6 +47,12 @@ object PatchedSuggestionsForDialect {
         Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_, isObj = true)))
     ) ++ webApiClasses
 
+  private val asyncApi20Classes: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] = {
+    Map(
+      FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
+        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))))
+  }
+
   private val ramlClasses: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
     Map(
       FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.Accepts.value.iri()) ->
@@ -62,7 +70,8 @@ object PatchedSuggestionsForDialect {
       Raml10TypesDialect.dialect.id -> ramlClasses,
       Raml08TypesDialect.dialect.id -> ramlClasses,
       OAS20Dialect.dialect.id       -> oas20Classes,
-      OAS30Dialect.dialect.id       -> oas20Classes
+      OAS30Dialect.dialect.id       -> oas20Classes,
+      AsyncApi20Dialect.dialect.id  -> asyncApi20Classes
     )
 
   def getKnownValues(dialect: String, classTerm: String, propertyTerm: String): Seq[PatchedSuggestion] =

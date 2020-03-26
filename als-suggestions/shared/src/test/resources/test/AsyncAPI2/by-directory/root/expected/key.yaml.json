@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 0,
-          "character": 1
+          "character": 0
         }
       },
       "newText": "#%AsyncAPI 0.6"
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 0,
-          "character": 1
+          "character": 0
         }
       },
       "newText": "#%Library / AsyncAPI 0.6"
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 0,
-          "character": 1
+          "character": 0
         }
       },
       "newText": "#%Message / AsyncAPI 0.6"
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 0,
-          "character": 1
+          "character": 0
         }
       },
       "newText": "#%Patch / AsyncAPI 0.6"
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 0,
-          "character": 1
+          "character": 0
         }
       },
       "newText": "#%Schema / AsyncAPI 0.6"
@@ -170,10 +170,100 @@
         },
         "end": {
           "line": 0,
-          "character": 1
+          "character": 0
         }
       },
       "newText": "#%SecurityScheme / AsyncAPI 0.6"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "asyncapi: \"2.0.0\"",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define an AsyncApi 2.0.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11asyncapi: \"2.0.0\"",
+    "filterText": "asyncapi: \"2.0.0\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "asyncapi: \"2.0.0\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "openapi: \"3.0.0\"",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define an OpenApi 3.0.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11openapi: \"3.0.0\"",
+    "filterText": "openapi: \"3.0.0\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "openapi: \"3.0.0\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "swagger: \"2.0\"",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define an OAS 2.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11swagger: \"2.0\"",
+    "filterText": "swagger: \"2.0\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "swagger: \"2.0\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
