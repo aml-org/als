@@ -1,46 +1,64 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20
 
-import amf.core.model.domain.Shape
-import amf.dialects.oas.nodes.AMLInfoObject
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import amf.plugins.domain.webapi.metamodel.OperationModel
-import amf.plugins.domain.webapi.models.{EndPoint, Parameter, Request, WebApi}
+import amf.plugins.domain.webapi.models.{EndPoint, Request}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OasStructurePlugin
-import org.mulesoft.als.suggestions.plugins.aml.{AMLStructureCompletionPlugin, _}
+import org.mulesoft.als.suggestions.plugins.aml._
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.{
+  ResolveDeclaredResponse,
+  ResolveInfo,
+  ResolveParameterShapes,
+  ResolveTag
+}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object Oas20StructurePlugin extends AMLCompletionPlugin {
-  override def id: String = "AMLStructureCompletionPlugin"
+object Oas20StructurePlugin extends StructureCompletionPlugin {
+  override protected val resolvers: List[ResolveIfApplies] = List(
+    ResolveParameterShapes,
+    ResolveParameterEndpoint,
+    ResolveRequest,
+    ResolveDeclaredResponse,
+    ResolveTag,
+    ResolveInfo,
+    ResolveDefault
+  )
 
-  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    request.amfObject match {
-      case _: Parameter | _: Shape                           => emptySuggestion
-      case _: EndPoint if isInParameter(request.yPartBranch) => emptySuggestion
-      case _: Request if isInParameter(request.yPartBranch)  => emptySuggestion
-      case _: Request if request.fieldEntry.isEmpty && !definingParam(request.yPartBranch) =>
-        Future {
-          request.actualDialect.declares
-            .collect({ case n: NodeMapping => n })
-            .find(_.nodetypeMapping.option().contains(OperationModel.`type`.head.iri()))
-            .map(_.propertiesRaw())
-            .getOrElse(Nil)
-        }
-      case _ => OasStructurePlugin.resolve(request)
-    }
+  object ResolveParameterEndpoint extends ResolveIfApplies {
+    override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
+      request.amfObject match {
+        case _: EndPoint if isInParameter(request.yPartBranch) =>
+          applies(emptySuggestion)
+        case _ => notApply
+      }
   }
 
-  def isInParameter(yPartBranch: YPartBranch): Boolean =
+  object ResolveRequest extends ResolveIfApplies {
+    override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
+      request.amfObject match {
+        case _: Request =>
+          if (isInParameter(request.yPartBranch))
+            applies(emptySuggestion)
+          else if (request.fieldEntry.isEmpty && !definingParam(request.yPartBranch))
+            applies(Future {
+              request.actualDialect.declares
+                .collect({ case n: NodeMapping => n })
+                .find(_.nodetypeMapping.option().contains(OperationModel.`type`.head.iri()))
+                .map(_.propertiesRaw())
+                .getOrElse(Nil)
+            })
+          else notApply
+        case _ => notApply
+      }
+
+    private def definingParam(yPart: YPartBranch): Boolean = yPart.isKeyDescendantOf("parameters")
+  }
+
+  private def isInParameter(yPartBranch: YPartBranch): Boolean =
     yPartBranch.isKeyDescendantOf("parameters") || (yPartBranch.isJson && yPartBranch.isInArray && yPartBranch
       .parentEntryIs("parameters"))
-
-  def infoSuggestions() =
-    Future(AMLInfoObject.Obj.propertiesRaw(Some("docs")))
-
-  def definingParam(yPart: YPartBranch): Boolean = yPart.isKeyDescendantOf("parameters")
 }

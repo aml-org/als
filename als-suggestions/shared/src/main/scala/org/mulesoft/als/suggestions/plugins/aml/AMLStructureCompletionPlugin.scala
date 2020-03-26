@@ -9,7 +9,6 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml._
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -21,21 +20,55 @@ class AMLStructureCompletionsPlugin(propertyMapping: Seq[PropertyMapping]) {
 
 }
 
-object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
-  override def id = "AMLStructureCompletionPlugin"
+object AMLStructureCompletionPlugin extends StructureCompletionPlugin
 
-  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    Future {
-      if (isWritingProperty(params.yPartBranch))
-        if (!isInFieldValue(params)) {
-          val isEncoded = isEncodes(params.amfObject, params.actualDialect) && params.fieldEntry.isEmpty
-          if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && params.fieldEntry.isEmpty)
-            new AMLStructureCompletionsPlugin(params.propertyMapping)
-              .resolve(params.amfObject.meta.`type`.head.iri())
-          else Nil
-        } else resolveObjInArray(params)
-      else Nil
+// inside StructureCompletionPlugin?
+trait ResolveIfApplies {
+  def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]]
+
+  protected val notApply: Option[Future[Seq[RawSuggestion]]] = None
+
+  protected def applies(response: Future[Seq[RawSuggestion]]): Option[Future[Seq[RawSuggestion]]] =
+    Some(response)
+}
+
+trait StructureCompletionPlugin extends AMLCompletionPlugin {
+  override final def id = "AMLStructureCompletionPlugin"
+
+  protected val resolvers: List[ResolveIfApplies] = List(
+    ResolveDefault
+  )
+
+  override final def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
+    lookForResolver(resolvers, request)
+
+  @scala.annotation.tailrec
+  private def lookForResolver(res: List[ResolveIfApplies], request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
+    res match {
+      case head :: tail =>
+        head.resolve(request) match {
+          case Some(rs) => rs
+          case _        => lookForResolver(tail, request)
+        }
+      case Nil =>
+        emptySuggestion
     }
+
+  object ResolveDefault extends ResolveIfApplies {
+    override def resolve(params: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
+      applies(defaultStructure(params))
+  }
+
+  protected final def defaultStructure(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = Future {
+    if (isWritingProperty(params.yPartBranch))
+      if (!isInFieldValue(params)) {
+        val isEncoded = isEncodes(params.amfObject, params.actualDialect) && params.fieldEntry.isEmpty
+        if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && params.fieldEntry.isEmpty)
+          new AMLStructureCompletionsPlugin(params.propertyMapping)
+            .resolve(params.amfObject.meta.`type`.head.iri())
+        else Nil
+      } else resolveObjInArray(params)
+    else Nil
   }
 
   private def isWritingProperty(yPartBranch: YPartBranch): Boolean =
