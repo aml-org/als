@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 import amf.core.model.domain.Shape
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
-import amf.plugins.domain.webapi.models.Payload
+import amf.plugins.domain.webapi.models.{Payload, Server}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
@@ -31,8 +31,9 @@ object Async20TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugi
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     params.branchStack.headOption match {
-      case Some(_: Payload) => emptySuggestion
-      case _                => super.resolve(params)
+      case Some(_: Payload)                                       => emptySuggestion
+      case _ if params.branchStack.exists(_.isInstanceOf[Server]) => emptySuggestion
+      case _                                                      => super.resolve(params)
     }
   }
 
