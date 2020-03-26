@@ -4,19 +4,22 @@ import amf.core.model.domain.Shape
 import amf.plugins.domain.webapi.models.security.SecurityScheme
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.AMLStructureCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.{ResolveIfApplies, StructureCompletionPlugin}
 
 import scala.concurrent.Future
 
-object Raml10StructureCompletionPlugin extends AMLCompletionPlugin {
-  override def id: String = "AMLStructureCompletionPlugin"
+object Raml10StructureCompletionPlugin extends StructureCompletionPlugin {
+  override protected val resolvers: List[ResolveIfApplies] = List(
+    ResolveShapeAndSecurity,
+    ResolveDefault
+  )
+}
 
-  override def resolve(
-      request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
+object ResolveShapeAndSecurity extends ResolveIfApplies {
+  override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = {
     request.amfObject match {
-      case _: Shape | _: SecurityScheme => emptySuggestion
-      case _                            => AMLStructureCompletionPlugin.resolve(request)
+      case _: Shape | _: SecurityScheme => applies(Future.successful(Seq()))
+      case _                            => notApply
     }
   }
 }
