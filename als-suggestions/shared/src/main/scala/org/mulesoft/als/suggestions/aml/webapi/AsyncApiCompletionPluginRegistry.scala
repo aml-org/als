@@ -4,11 +4,6 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.SecuredByCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.async._
-import org.mulesoft.als.suggestions.plugins.aml.webapi.async.structure.{
-  ResolveResponses,
-  ResolveShapeInPayload,
-  ResolveTraits
-}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.asyncapi20.bindings.{
   AsyncApiBindingsCompletionPlugin,
   BindingsDiscreditableProperties
@@ -18,7 +13,9 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.async.{
   Async20PayloadCompletionPlugin,
   Async20RuntimeExpressionsCompletionPlugin,
   Async20ShapeTypeFormatCompletionPlugin,
-  Async20TypeFacetsCompletionPlugin
+  Async20StructureCompletionPlugin,
+  Async20TypeFacetsCompletionPlugin,
+  Async20RuntimeExpressionsCompletionPlugin
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OaslikeSecurityScopesCompletionPlugin
 import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPluginHandler}
@@ -46,7 +43,8 @@ object AsyncApiCompletionPluginRegistry {
       AsyncApi20TefTag :+
       Async20TypeFacetsCompletionPlugin :+
       Async20ShapeTypeFormatCompletionPlugin :+
-      Async20EnumCompletionPlugin
+      Async20EnumCompletionPlugin :+
+      AsyncMessageContentType
 
   def init(): Unit =
     CompletionsPluginHandler.registerPlugins(all, AsyncApi20Dialect().id)

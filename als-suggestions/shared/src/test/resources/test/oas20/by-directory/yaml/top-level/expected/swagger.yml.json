@@ -3,7 +3,7 @@
     "label": "swagger: \"2.0\"",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a OAS 2.0 file",
+    "documentation": "Define an OAS 2.0 file",
     "deprecated": [],
     "preselect": [],
     "sortText": "11swagger: \"2.0\"",
