@@ -11,20 +11,21 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.async.MessageKnowledge
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-
 object ResolveTraits extends ResolveIfApplies {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
     request.amfObject match {
       case o: Operation if o.isAbstract.option().contains(true) =>
-        ResolveDefault
-          .resolve(request)
-          .map(_.map(_.filterNot(rs => rs.newText == "traits" || rs.newText == "message")))
+        if (!request.yPartBranch.isInArray)
+          ResolveDefault
+            .resolve(request)
+            .map(_.map(_.filterNot(rs => rs.newText == "traits" || rs.newText == "message")))
+        else applies(Future.successful(Seq()))
       case m: Message if m.isAbstract.option().contains(true) =>
-        ResolveDefault
-          .resolve(request)
-          .map(_.map(_.filterNot(rs => rs.newText == "traits" || rs.newText == "payload")))
-      case _: Response if !MessageKnowledge.isRootMessageBlock(request) =>
-        applies(Future.successful(Seq()))
+        if (!request.yPartBranch.isInArray)
+          ResolveDefault
+            .resolve(request)
+            .map(_.map(_.filterNot(rs => rs.newText == "traits" || rs.newText == "payload")))
+        else applies(Future.successful(Seq()))
       case _: ErrorOperationTrait =>
         applies(Future(Seq()))
       case _ => notApply
