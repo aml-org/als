@@ -1,116 +1,212 @@
 [
   {
-    "text": "operationId",
-    "description": "operationId",
-    "displayText": "operationId",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "$ref",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "reference tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "0$ref",
+    "filterText": "$ref: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 6,
+          "line": 4,
           "character": 6
         },
         "end": {
-          "line": 6,
+          "line": 4,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "$ref: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "summary",
-    "description": "summary",
-    "displayText": "summary",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "bindings",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "bindings",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11bindings",
+    "filterText": "bindings:\n        ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 6,
+          "line": 4,
           "character": 6
         },
         "end": {
-          "line": 6,
+          "line": 4,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "bindings:\n        "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "description",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11description",
+    "filterText": "description: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 6,
+          "line": 4,
           "character": 6
         },
         "end": {
-          "line": 6,
+          "line": 4,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "tags",
-    "description": "tags",
-    "displayText": "tags",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "externalDocs",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "externalDocs",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11externalDocs",
+    "filterText": "externalDocs:\n        - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 6,
+          "line": 4,
           "character": 6
         },
         "end": {
-          "line": 6,
+          "line": 4,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "externalDocs:\n        - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "externalDocs",
-    "description": "externalDocs",
-    "displayText": "externalDocs",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "operationId",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "operationId",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11operationId",
+    "filterText": "operationId: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 6,
+          "line": 4,
           "character": 6
         },
         "end": {
-          "line": 6,
+          "line": 4,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "operationId: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "bindings",
-    "description": "bindings",
-    "displayText": "bindings",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "summary",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "summary",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11summary",
+    "filterText": "summary: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 6,
+          "line": 4,
           "character": 6
         },
         "end": {
-          "line": 6,
+          "line": 4,
           "character": 6
         }
-      }
-    ]
+      },
+      "newText": "summary: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "tags",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "tags",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11tags",
+    "filterText": "tags:\n        - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "tags:\n        - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]
