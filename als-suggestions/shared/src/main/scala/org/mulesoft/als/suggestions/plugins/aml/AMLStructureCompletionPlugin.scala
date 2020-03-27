@@ -8,7 +8,7 @@ import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapp
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.interfaces.{AmfObjectKnowledge, DisjointCompletionPlugins, ResolveIfApplies}
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -17,47 +17,15 @@ import scala.concurrent.Future
 class AMLStructureCompletionsPlugin(propertyMapping: Seq[PropertyMapping]) {
   def resolve(classTerm: String): Seq[RawSuggestion] =
     propertyMapping.map(p => p.toRaw(CategoryRegistry(classTerm, p.name().value())))
-
 }
 
-object AMLStructureCompletionPlugin extends StructureCompletionPlugin
-
-// inside StructureCompletionPlugin?
-trait ResolveIfApplies {
-  def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]]
-
-  protected val notApply: Option[Future[Seq[RawSuggestion]]] = None
-
-  protected def applies(response: Future[Seq[RawSuggestion]]): Option[Future[Seq[RawSuggestion]]] =
-    Some(response)
-}
-
-trait StructureCompletionPlugin extends AMLCompletionPlugin {
+case class StructureCompletionPlugin(resolvers: List[ResolveIfApplies]) extends DisjointCompletionPlugins {
   override final def id = "AMLStructureCompletionPlugin"
+}
 
-  protected val resolvers: List[ResolveIfApplies] = List(
-    ResolveDefault
-  )
-
-  override final def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
-    lookForResolver(resolvers, request)
-
-  @scala.annotation.tailrec
-  private def lookForResolver(res: List[ResolveIfApplies], request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
-    res match {
-      case head :: tail =>
-        head.resolve(request) match {
-          case Some(rs) => rs
-          case _        => lookForResolver(tail, request)
-        }
-      case Nil =>
-        emptySuggestion
-    }
-
-  object ResolveDefault extends ResolveIfApplies {
-    override def resolve(params: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
-      applies(defaultStructure(params))
-  }
+object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
+  override def resolve(params: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
+    applies(defaultStructure(params))
 
   protected final def defaultStructure(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = Future {
     if (isWritingProperty(params.yPartBranch))

@@ -9,9 +9,11 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 
 import scala.concurrent.Future
 
-trait AMLCompletionPlugin extends CompletionPlugin[AmlCompletionRequest] {
+trait AMLCompletionPlugin extends CompletionPlugin[AmlCompletionRequest] with AmfObjectKnowledge {
   protected def emptySuggestion: Future[Seq[RawSuggestion]] = Future.successful(Seq())
+}
 
+trait AmfObjectKnowledge {
   protected def isEncodes(amfObject: AmfObject, dialect: Dialect): Boolean = {
     val iri = amfObject.meta.`type`.head.iri()
 
