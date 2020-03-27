@@ -4,18 +4,23 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.SecuredByCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.async._
-import org.mulesoft.als.suggestions.plugins.aml.webapi.asyncapi20.bindings.{
+import org.mulesoft.als.suggestions.plugins.aml.webapi.async.bindings.{
   AsyncApiBindingsCompletionPlugin,
   BindingsDiscreditableProperties
+}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.async.structure.{
+  ResolveInfo,
+  ResolveResponses,
+  ResolveServers,
+  ResolveShapeInPayload,
+  ResolveTraits
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.async.{
   Async20EnumCompletionPlugin,
   Async20PayloadCompletionPlugin,
   Async20RuntimeExpressionsCompletionPlugin,
   Async20ShapeTypeFormatCompletionPlugin,
-  Async20StructureCompletionPlugin,
-  Async20TypeFacetsCompletionPlugin,
-  Async20RuntimeExpressionsCompletionPlugin
+  Async20TypeFacetsCompletionPlugin
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OaslikeSecurityScopesCompletionPlugin
 import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPluginHandler}
@@ -30,9 +35,11 @@ object AsyncApiCompletionPluginRegistry {
       OaslikeSecurityScopesCompletionPlugin :+
       StructureCompletionPlugin(
         List(
+          ResolveServers,
           ResolveShapeInPayload,
           ResolveResponses,
           ResolveTraits,
+          ResolveInfo,
           ResolveDefault
         )) :+
       Async20PayloadCompletionPlugin :+
