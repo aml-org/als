@@ -4,31 +4,7 @@ import amf.dialects.oas.nodes._
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.domain.DocumentsModel
 import org.mulesoft.amfintegration.dialect.BaseDialect
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.{
-  AmqpChannelBindingObject,
-  AmqpMessageBindingObjectNode,
-  AmqpOperationBindingObjectNode,
-  ChannelBindingObjectNode,
-  ChannelBindingsObjectNode,
-  DynamicBindingObjectNode,
-  HttpMessageBindingObjectNode,
-  HttpOperationBindingObjectNode,
-  KafkaMessageBindingObjectNode,
-  KafkaOperationBindingObjectNode,
-  LastWillMqttServerBindingObject,
-  MessageBindingObjectNode,
-  MessageBindingsObjectNode,
-  MqttMessageBindingObjectNode,
-  MqttOperationBindingObjectNode,
-  MqttServerBindingObjectNode,
-  OperationBindingObjectNode,
-  OperationBindingsObjectNode,
-  QueueAmqpChannelBinding,
-  RoutingKeyAmqpChannelBinding,
-  ServerBindingObjectNode,
-  ServerBindingsObjectNode,
-  WsChannelBindingObject
-}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings._
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema._
 
 object AsyncApi20Dialect extends BaseDialect {
@@ -85,7 +61,13 @@ object AsyncApi20Dialect extends BaseDialect {
     QueueAmqpChannelBinding,
     RoutingKeyAmqpChannelBinding,
     StringShapeAsync2Node,
-    AMLExternalDocumentationObject
+    AMLExternalDocumentationObject,
+    AMLInfoObject,
+    AMLContactObject,
+    AMLLicenseObject,
+    Oas30WebApiNode,
+    AMLTagObject,
+    AsyncApiServerObject
   )
 
   override def emptyDocument: DocumentsModel =
@@ -98,10 +80,10 @@ object AsyncApi20Dialect extends BaseDialect {
   override def encodes: DialectNode = Oas30WebApiNode
 
   override def declaredNodes: Map[String, DialectNode] = Map(
-    "securitySchemes" -> AsyncApi20SecuritySchemeObject,
-    "messages"        -> MessageObjectNode,
-//    "parameters"        -> ParameterObjectNode,
-//    "correlationsIds"   -> CorrelationIdObjectNode,
+    "securitySchemes"   -> AsyncApi20SecuritySchemeObject,
+    "messages"          -> MessageObjectNode,
+    "parameters"        -> ParameterObjectNode,
+    "correlationsIds"   -> CorrelationIdObjectNode,
     "operationTraits"   -> OperationTraitsObjectNode,
     "messageTraits"     -> MessageTraitsObjectNode,
     "serverBindings"    -> ServerBindingsObjectNode,

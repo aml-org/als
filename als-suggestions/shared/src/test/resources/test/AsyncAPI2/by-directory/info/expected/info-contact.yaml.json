@@ -1,59 +1,92 @@
 [
   {
-    "text": "name",
-    "description": "name",
-    "displayText": "name",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "email",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "email",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11email",
+    "filterText": "email: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 5,
+          "line": 3,
           "character": 4
         },
         "end": {
-          "line": 5,
+          "line": 3,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "email: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "url",
-    "description": "url",
-    "displayText": "url",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "name",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11name",
+    "filterText": "name: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 5,
+          "line": 3,
           "character": 4
         },
         "end": {
-          "line": 5,
+          "line": 3,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "name: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "email",
-    "description": "email",
-    "displayText": "email",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "url",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "url",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11url",
+    "filterText": "url: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 5,
+          "line": 3,
           "character": 4
         },
         "end": {
-          "line": 5,
+          "line": 3,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "url: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]
