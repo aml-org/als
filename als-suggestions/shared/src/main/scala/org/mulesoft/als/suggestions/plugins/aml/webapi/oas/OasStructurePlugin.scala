@@ -8,7 +8,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.{AMLStructureCompletionPlugin, _}
-
+import org.mulesoft.als.suggestions.plugins.aml._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -35,6 +35,6 @@ object OasStructurePlugin extends AMLCompletionPlugin {
       .resolve(request.amfObject.meta.`type`.head.iri())
   }
 
-  def infoSuggestions() =
+  def infoSuggestions(): Future[Seq[RawSuggestion]] =
     Future(AMLInfoObject.Obj.propertiesRaw(Some("docs")))
 }
