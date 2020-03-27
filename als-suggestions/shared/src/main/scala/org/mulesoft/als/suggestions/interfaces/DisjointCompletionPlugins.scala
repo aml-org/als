@@ -16,8 +16,9 @@ trait DisjointCompletionPlugins extends AMLCompletionPlugin {
     res match {
       case head :: tail =>
         head.resolve(request) match {
-          case Some(rs) => rs
-          case _        => lookForResolver(tail, request)
+          case Some(rs) =>
+            rs
+          case _ => lookForResolver(tail, request)
         }
       case Nil =>
         emptySuggestion

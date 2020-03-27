@@ -1,13 +1,13 @@
 [
   {
-    "label": "#/components/messageTraits/mtr",
+    "label": "$ref",
     "kind": [],
     "detail": "unknown",
     "documentation": "reference tag",
     "deprecated": [],
     "preselect": [],
-    "sortText": "0#/components/messageTraits/mtr",
-    "filterText": "#/components/messageTraits/mtr",
+    "sortText": "0$ref",
+    "filterText": "$ref: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 6
+          "line": 8,
+          "character": 10
         },
         "end": {
-          "line": 4,
-          "character": 6
+          "line": 8,
+          "character": 10
         }
       },
-      "newText": "'#/components/messageTraits/mtr'"
+      "newText": "$ref: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
