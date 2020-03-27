@@ -4,4 +4,4 @@ components:
     other:
       description: a parameter
     parameterName:
-      $ref: *
+      $ref: '#/*'

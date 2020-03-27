@@ -1,135 +1,212 @@
 [
   {
-    "text": "url",
-    "description": "url",
-    "displayText": "url",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "bindings",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "bindings",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11bindings",
+    "filterText": "bindings:\n      ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 5,
+          "line": 3,
           "character": 4
         },
         "end": {
-          "line": 5,
+          "line": 3,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "bindings:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "description",
-    "description": "description",
-    "displayText": "description",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "name",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10name",
+    "filterText": "name: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 5,
+          "line": 3,
           "character": 4
         },
         "end": {
-          "line": 5,
+          "line": 3,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "name: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "protocol",
-    "description": "protocol",
-    "displayText": "protocol",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "protocol",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "protocol",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10protocol",
+    "filterText": "protocol: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 5,
+          "line": 3,
           "character": 4
         },
         "end": {
-          "line": 5,
+          "line": 3,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "protocol: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "protocolVersion",
-    "description": "protocolVersion",
-    "displayText": "protocolVersion",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "protocolVersion",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "protocolVersion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10protocolVersion",
+    "filterText": "protocolVersion: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 5,
+          "line": 3,
           "character": 4
         },
         "end": {
-          "line": 5,
+          "line": 3,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "protocolVersion: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "variables",
-    "description": "variables",
-    "displayText": "variables",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "security",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "security",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11security",
+    "filterText": "security:\n      - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 5,
+          "line": 3,
           "character": 4
         },
         "end": {
-          "line": 5,
+          "line": 3,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "security:\n      - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "security",
-    "description": "security",
-    "displayText": "security",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "url",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "url",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10url",
+    "filterText": "url: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 5,
+          "line": 3,
           "character": 4
         },
         "end": {
-          "line": 5,
+          "line": 3,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "url: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "bindings",
-    "description": "bindings",
-    "displayText": "bindings",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "variables",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "variables",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11variables",
+    "filterText": "variables:\n      ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 5,
+          "line": 3,
           "character": 4
         },
         "end": {
-          "line": 5,
+          "line": 3,
           "character": 4
         }
-      }
-    ]
+      },
+      "newText": "variables:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]

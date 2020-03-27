@@ -1,4 +1,4 @@
-package org.mulesoft.als.suggestions.plugins.aml.webapi.asyncapi20.bindings
+package org.mulesoft.als.suggestions.plugins.aml.webapi.async.bindings
 
 import amf.core.annotations.SynthesizedField
 import amf.plugins.domain.webapi.metamodel.bindings.Amqp091ChannelBindingModel

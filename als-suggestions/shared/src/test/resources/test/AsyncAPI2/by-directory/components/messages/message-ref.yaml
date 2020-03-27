@@ -3,9 +3,5 @@ components:
   messages:
     messageDef:
       contentType: application/json
-
-channels:
-  user/signedup:
-    subscribe:
-      message:
-        $ref: *
+    messageName:
+      $ref: '#/*'

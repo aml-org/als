@@ -6,4 +6,4 @@ components:
   messages:
     messageName:
       correlationId:
-        $ref: *
+        $ref: '#/*'

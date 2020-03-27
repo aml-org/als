@@ -12,6 +12,21 @@ import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.{
 trait MessageAbstractObjectNode extends DialectNode {
   override def nodeTypeMapping: String = MessageModel.`type`.head.iri()
 
+  val schemaFormatProp = PropertyMapping()
+    .withId(location + "#/declarations/Message/schemaFormat")
+    .withName("schemaFormat")
+    .withNodePropertyMapping(PayloadModel.SchemaMediaType.value.iri())
+    .withLiteralRange(xsdString.iri())
+    .withEnum(Seq(
+      "application/vnd.aai.asyncapi;version=2.0.0",
+      "application/vnd.aai.asyncapi+json;version=2.0.0",
+      "application/vnd.aai.asyncapi+yaml;version=2.0.0",
+      "application/vnd.oai.openapi;version=3.0.0",
+      "application/vnd.oai.openapi+json;version=3.0.0",
+      "application/vnd.oai.openapi+yaml;version=3.0.0",
+      "application/schema+json;version=draft-07",
+      "application/schema+yaml;version=draft-07"
+    ))
   override def properties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
       .withId(location + "#/declarations/Message/headers")
@@ -23,21 +38,7 @@ trait MessageAbstractObjectNode extends DialectNode {
       .withName("correlationId")
       .withNodePropertyMapping(MessageModel.CorrelationId.value.iri())
       .withObjectRange(Seq(CorrelationIdObjectNode.id)),
-    PropertyMapping()
-      .withId(location + "#/declarations/Message/schemaFormat")
-      .withName("schemaFormat")
-      .withNodePropertyMapping(PayloadModel.SchemaMediaType.value.iri())
-      .withLiteralRange(xsdString.iri())
-      .withEnum(Seq(
-        "application/vnd.aai.asyncapi;version=2.0.0",
-        "application/vnd.aai.asyncapi+json;version=2.0.0",
-        "application/vnd.aai.asyncapi+yaml;version=2.0.0",
-        "application/vnd.oai.openapi;version=3.0.0",
-        "application/vnd.oai.openapi+json;version=3.0.0",
-        "application/vnd.oai.openapi+yaml;version=3.0.0",
-        "application/schema+json;version=draft-07",
-        "application/schema+yaml;version=draft-07"
-      )),
+    schemaFormatProp,
     PropertyMapping()
       .withId(location + "#/declarations/Message/contentType")
       .withName("contentType")
