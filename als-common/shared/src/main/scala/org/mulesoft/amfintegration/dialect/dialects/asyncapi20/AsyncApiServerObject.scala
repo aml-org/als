@@ -24,6 +24,11 @@ object AsyncApiServerObject extends DialectNode {
         .withMinCount(1)
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
+        .withId(location + "#/declarations/ServerObject/description")
+        .withName("description")
+        .withNodePropertyMapping(ServerModel.Description.value.iri())
+        .withLiteralRange(xsdString.iri()),
+      PropertyMapping()
         .withId(location + "#/declarations/ServerObject/url")
         .withName("url")
         .withNodePropertyMapping(ServerModel.Url.value.iri())

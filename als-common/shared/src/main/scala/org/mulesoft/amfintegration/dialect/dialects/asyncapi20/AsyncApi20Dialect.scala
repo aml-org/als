@@ -1,6 +1,13 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
-import amf.dialects.oas.nodes._
+import amf.dialects.oas.nodes.{
+  AMLContactObject,
+  AMLExternalDocumentationObject,
+  AMLInfoObject,
+  AMLLicenseObject,
+  AMLTagObject,
+  DialectNode
+}
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.domain.DocumentsModel
 import org.mulesoft.amfintegration.dialect.BaseDialect
@@ -12,6 +19,7 @@ object AsyncApi20Dialect extends BaseDialect {
   override def DialectLocation: String = "file://vocabularies/dialects/asyncapi20.yaml"
 
   override val declares: Seq[DialectNode] = Seq(
+    AsyncApi20WebApiNode,
     AsyncApi20SecuritySchemeObject,
     AsyncAPI20ApiKeySecurityObject,
     AsyncAPI20HttpApiKeySecurityObject,
@@ -65,7 +73,6 @@ object AsyncApi20Dialect extends BaseDialect {
     AMLInfoObject,
     AMLContactObject,
     AMLLicenseObject,
-    Oas30WebApiNode,
     AMLTagObject,
     AsyncApiServerObject
   )
@@ -77,7 +84,7 @@ object AsyncApi20Dialect extends BaseDialect {
       .withReferenceStyle(ReferenceStyles.JSONSCHEMA)
       .withDeclarationsPath("components")
 
-  override def encodes: DialectNode = Oas30WebApiNode
+  override def encodes: DialectNode = AsyncApi20WebApiNode
 
   override def declaredNodes: Map[String, DialectNode] = Map(
     "securitySchemes"   -> AsyncApi20SecuritySchemeObject,
