@@ -30,7 +30,7 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
   protected final def defaultStructure(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = Future {
     if (isWritingProperty(params.yPartBranch))
       if (!isInFieldValue(params)) {
-        val isEncoded = isEncodes(params.amfObject, params.actualDialect) && params.fieldEntry.isEmpty
+        val isEncoded = isEncodes(params.amfObject, params.actualDialect) && params.fieldEntry.isEmpty // params.fieldEntry.isEmpty does nothing here?
         if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && params.fieldEntry.isEmpty)
           new AMLStructureCompletionsPlugin(params.propertyMapping)
             .resolve(params.amfObject.meta.`type`.head.iri())

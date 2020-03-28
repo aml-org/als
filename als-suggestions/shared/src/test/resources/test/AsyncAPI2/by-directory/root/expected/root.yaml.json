@@ -1,154 +1,212 @@
 [
   {
-    "text": "asyncapi",
-    "description": "asyncapi",
-    "displayText": "asyncapi",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "channels",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "channels",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11channels",
+    "filterText": "channels:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 2,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 2,
+          "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "channels:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "id",
-    "description": "id",
-    "displayText": "id",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "components",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "components",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11components",
+    "filterText": "components:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 2,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 2,
+          "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "components:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "info",
-    "description": "info",
-    "displayText": "info",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "externalDocs",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "externalDocs",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11externalDocs",
+    "filterText": "externalDocs:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 2,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 2,
+          "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "externalDocs:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "servers",
-    "description": "servers",
-    "displayText": "servers",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "id",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "id",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11id",
+    "filterText": "id: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 2,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 2,
+          "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "id: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "channels",
-    "description": "channels",
-    "displayText": "channels",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "info",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "info",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10info",
+    "filterText": "info:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 2,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 2,
+          "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "info:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "components",
-    "description": "components",
-    "displayText": "components",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "servers",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "servers",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11servers",
+    "filterText": "servers:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 2,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 2,
+          "line": 1,
           "character": 0
         }
-      }
-    ]
+      },
+      "newText": "servers:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   },
   {
-    "text": "tags",
-    "description": "tags",
-    "displayText": "tags",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
+    "label": "tags",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "tags",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11tags",
+    "filterText": "tags:\n  - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
         "start": {
-          "line": 2,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 2,
+          "line": 1,
           "character": 0
         }
-      }
-    ]
-  },
-  {
-    "text": "externalDocs",
-    "description": "externalDocs",
-    "displayText": "externalDocs",
-    "prefix": "",
-    "category": "unknown",
-    "range": [
-      {
-        "start": {
-          "line": 2,
-          "character": 0
-        },
-        "end": {
-          "line": 2,
-          "character": 0
-        }
-      }
-    ]
+      },
+      "newText": "tags:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
   }
 ]
