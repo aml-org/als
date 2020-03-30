@@ -8,8 +8,8 @@ object OperationObject extends OperationAbstractObjectNode {
 
   override def properties: Seq[PropertyMapping] = super.properties ++ Seq(
     PropertyMapping()
-      .withId(location + "#/declarations/Operation/is")
-      .withName("is")
+      .withId(location + "#/declarations/Operation/traits")
+      .withName("traits")
       .withNodePropertyMapping(OperationModel.Extends.value.iri())
       .withAllowMultiple(true)
       .withObjectRange(Seq(OperationModel.Extends.value.iri())),

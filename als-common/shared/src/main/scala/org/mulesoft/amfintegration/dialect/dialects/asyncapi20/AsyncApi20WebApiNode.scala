@@ -2,7 +2,7 @@ package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
 import amf.dialects.OAS20Dialect.OwlSameAs
-import amf.dialects.oas.nodes.{AMLExternalDocumentationObject, AMLInfoObject, AMLTagObject, DialectNode, WebApiNode}
+import amf.dialects.oas.nodes.{AMLExternalDocumentationObject, AMLInfoObject, AMLTagObject, DialectNode}
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, ServerModel, WebApiModel}
 
