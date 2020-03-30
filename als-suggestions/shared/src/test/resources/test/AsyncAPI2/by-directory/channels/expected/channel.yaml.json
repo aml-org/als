@@ -30,36 +30,6 @@
     "command": null
   },
   {
-    "label": "channelPath",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "channelPath",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11channelPath",
-    "filterText": "channelPath: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 3,
-          "character": 4
-        },
-        "end": {
-          "line": 3,
-          "character": 4
-        }
-      },
-      "newText": "channelPath: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "description",
     "kind": [],
     "detail": "docs",

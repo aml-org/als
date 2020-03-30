@@ -1,13 +1,13 @@
 [
   {
-    "label": "#/components/operationTraits/tr",
+    "label": "#/components/messageTraits/mTr",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Reference to #/components/operationTraits/tr",
+    "documentation": "Reference to #/components/messageTraits/mTr",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#/components/operationTraits/tr",
-    "filterText": "\"#/components/operationTraits/tr\"",
+    "sortText": "11#/components/messageTraits/mTr",
+    "filterText": "\"#/components/messageTraits/mTr\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
+          "line": 8,
           "character": 16
         },
         "end": {
-          "line": 10,
+          "line": 8,
           "character": 16
         }
       },
-      "newText": "\"#/components/operationTraits/tr\""
+      "newText": "\"#/components/messageTraits/mTr\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#/components/messageTraits/ms",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/components/messageTraits/ms",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#/components/messageTraits/ms",
+    "filterText": "\"#/components/messageTraits/ms\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      },
+      "newText": "\"#/components/messageTraits/ms\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -45,11 +75,11 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
+          "line": 8,
           "character": 16
         },
         "end": {
-          "line": 10,
+          "line": 8,
           "character": 16
         }
       },
@@ -60,14 +90,14 @@
     "command": null
   },
   {
-    "label": "trait-bindings.yaml",
+    "label": "message-trait-name.yaml",
     "kind": [],
     "detail": "unknown",
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11trait-bindings.yaml",
-    "filterText": "trait-bindings.yaml",
+    "sortText": "11message-trait-name.yaml",
+    "filterText": "message-trait-name.yaml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,29 +105,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
+          "line": 8,
           "character": 16
         },
         "end": {
-          "line": 10,
+          "line": 8,
           "character": 16
         }
       },
-      "newText": "trait-bindings.yaml"
+      "newText": "message-trait-name.yaml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "trait-external-doc.yaml",
+    "label": "message-trait-ref.yaml",
     "kind": [],
     "detail": "unknown",
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11trait-external-doc.yaml",
-    "filterText": "trait-external-doc.yaml",
+    "sortText": "11message-trait-ref.yaml",
+    "filterText": "message-trait-ref.yaml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -105,29 +135,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
+          "line": 8,
           "character": 16
         },
         "end": {
-          "line": 10,
+          "line": 8,
           "character": 16
         }
       },
-      "newText": "trait-external-doc.yaml"
+      "newText": "message-trait-ref.yaml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "trait-name.yaml",
+    "label": "message-trait.yaml",
     "kind": [],
     "detail": "unknown",
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11trait-name.yaml",
-    "filterText": "trait-name.yaml",
+    "sortText": "11message-trait.yaml",
+    "filterText": "message-trait.yaml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -135,105 +165,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
+          "line": 8,
           "character": 16
         },
         "end": {
-          "line": 10,
+          "line": 8,
           "character": 16
         }
       },
-      "newText": "trait-name.yaml"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "trait-ref.yaml",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11trait-ref.yaml",
-    "filterText": "trait-ref.yaml",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 16
-        },
-        "end": {
-          "line": 10,
-          "character": 16
-        }
-      },
-      "newText": "trait-ref.yaml"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "trait-tags.yaml",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11trait-tags.yaml",
-    "filterText": "trait-tags.yaml",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 16
-        },
-        "end": {
-          "line": 10,
-          "character": 16
-        }
-      },
-      "newText": "trait-tags.yaml"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "trait.yaml",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11trait.yaml",
-    "filterText": "trait.yaml",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 16
-        },
-        "end": {
-          "line": 10,
-          "character": 16
-        }
-      },
-      "newText": "trait.yaml"
+      "newText": "message-trait.yaml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
