@@ -1,0 +1,8 @@
+#%Dialect 1.0
+
+externals:
+  schema-org: http://schema-org.com
+
+nodeMappings:
+  myNodeMapping:
+    classTerm: *

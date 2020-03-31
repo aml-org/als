@@ -1,0 +1,32 @@
+[
+  {
+    "label": "schema-org.otherMapping",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "schema-org.otherMapping",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11schema-org.otherMapping",
+    "filterText": "schema-org.otherMapping",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "schema-org.otherMapping"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

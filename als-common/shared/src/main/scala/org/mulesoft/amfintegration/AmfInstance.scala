@@ -39,6 +39,7 @@ class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Envi
         amf.Core.registerPlugin(PayloadValidatorPlugin)
         CoreRegister.register(platform)
         plugins.foreach(amf.core.AMF.registerPlugin)
+        WebApi.register()
         val f = AMF.init()
         initialization = Some(f)
         f

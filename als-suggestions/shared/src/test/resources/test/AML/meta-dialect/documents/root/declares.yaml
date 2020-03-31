@@ -1,0 +1,13 @@
+#%Dialect 1.0
+
+nodeMappings:
+  myClass:
+    classTerm: runtime.Deployment
+documents:
+  root:
+    declares:
+      *
+
+external:
+  runtime: http://mulesoft.com/vocabularies/runtime#
+  schema-org: http://schema.org/

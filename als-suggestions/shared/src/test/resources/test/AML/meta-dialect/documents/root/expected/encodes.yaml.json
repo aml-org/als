@@ -1,0 +1,32 @@
+[
+  {
+    "label": "myClass",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "myClass",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11myClass",
+    "filterText": "myClass",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "myClass"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
