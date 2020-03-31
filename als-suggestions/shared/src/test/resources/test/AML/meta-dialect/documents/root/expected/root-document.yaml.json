@@ -1,0 +1,62 @@
+[
+  {
+    "label": "encodes",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "encodes",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11encodes",
+    "filterText": "encodes",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "encodes:\n   "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "declares",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "declares",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11declares",
+    "filterText": "declares",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "declares:\n   "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

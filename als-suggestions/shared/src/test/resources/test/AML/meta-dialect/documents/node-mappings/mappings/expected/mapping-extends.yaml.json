@@ -1,0 +1,62 @@
+[
+  {
+    "label": "otherMapping",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "otherMapping",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11otherMapping",
+    "filterText": "otherMapping",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "otherMapping"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "!include",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "!include",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11!include",
+    "filterText": "!include",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "!include"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

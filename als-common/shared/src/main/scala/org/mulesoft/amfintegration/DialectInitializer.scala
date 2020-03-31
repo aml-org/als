@@ -2,6 +2,7 @@ package org.mulesoft.amfmanager
 
 import amf.ProfileName
 import amf.internal.environment.Environment
+import amf.plugins.document.vocabularies.DialectsRegistry
 import org.mulesoft.als.CompilerEnvironment
 import org.mulesoft.amfmanager.dialect.DialectUniversesProvider
 
