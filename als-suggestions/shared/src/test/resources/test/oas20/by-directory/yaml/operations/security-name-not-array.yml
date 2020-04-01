@@ -1,0 +1,13 @@
+swagger: '2.0'
+securityDefinitions:
+  internalApiKey:
+    type: apiKey
+    in: header
+    name: api_key
+  mySec:
+    type: apiKey
+paths:
+  /path:
+    get:
+      security:
+        *
