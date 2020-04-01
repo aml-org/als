@@ -33,9 +33,9 @@ object OaslikeSecurityScopesCompletionPlugin extends AMLCompletionPlugin {
     }
 
   private def getCurrentScopes(branchStack: Seq[AmfObject]): Seq[String] = {
-    branchStack.collectFirst({ case settings: OAuth2Settings => settings}) match {
+    branchStack.collectFirst({ case settings: OAuth2Settings => settings }) match {
       case Some(settings: OAuth2Settings) =>
-        if(settings.flows.nonEmpty) settings.flows.head.scopes.flatMap(_.name.option()) else List()
+        if (settings.flows.nonEmpty) settings.flows.head.scopes.flatMap(_.name.option()) else List()
       case _ => List()
     }
   }
@@ -44,8 +44,8 @@ object OaslikeSecurityScopesCompletionPlugin extends AMLCompletionPlugin {
     branchStack.collectFirst({ case p: ParametrizedSecurityScheme => p }) match {
       case Some(p: ParametrizedSecurityScheme) =>
         p.scheme.settings match {
-          case s2: OAuth2Settings => s2.flows.head.scopes.flatMap(_.name.option())
-          case _                  => Nil
+          case s2: OAuth2Settings if (s2.flows.nonEmpty) => s2.flows.head.scopes.flatMap(_.name.option())
+          case _                                         => Nil
         }
       case _ => Nil
     }

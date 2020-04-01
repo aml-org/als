@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11aScheme",
-    "filterText": "aScheme:\n    - ",
+    "filterText": "\n  - aScheme",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 2
+          "line": 5,
+          "character": 10
         },
         "end": {
-          "line": 6,
-          "character": 2
+          "line": 5,
+          "character": 10
         }
       },
-      "newText": "aScheme:\n    - "
+      "newText": "\n  - aScheme"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
