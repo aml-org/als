@@ -7,14 +7,20 @@ import org.yaml.render.{JsonRender, JsonRenderOptions}
 
 case class JsonSuggestionStyler(override val params: StylerParams) extends SuggestionRender {
   override protected def render(options: SuggestionStructure, builder: AstRawBuilder): String = {
-    var json = JsonRender.render(builder.ast, params.indentation, options = JsonRenderOptions().withoutNonAsciiEncode)
-    if (json.endsWith("{}")) {
-      builder.forSnippet()
-      json = json.replace("{}", "{\n" + (" " * params.indentation) + "  \"$1\"\n" + (" " * params.indentation) + "}")
-    }
+
+    val json = rawRender(builder)
 
     if (hasBrotherAfterwards(params.yPartBranch)) json + ","
     else json
+  }
+
+  private def rawRender(builder: AstRawBuilder) = {
+    val renderedJson =
+      JsonRender.render(builder.ast, params.indentation, options = JsonRenderOptions().withoutNonAsciiEncode)
+    if (renderedJson.endsWith("{}")) {
+      builder.forSnippet()
+      renderedJson.replace("{}", "{\n" + (" " * params.indentation) + "  \"$1\"\n" + (" " * params.indentation) + "}")
+    } else renderedJson
   }
 
   override def astBuilder: RawSuggestion => AstRawBuilder =
