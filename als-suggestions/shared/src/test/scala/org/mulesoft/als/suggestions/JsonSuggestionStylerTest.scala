@@ -6,8 +6,9 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.patcher.{ColonToken, PatchedContent, QuoteToken}
 import org.mulesoft.als.suggestions.styler.{JsonSuggestionStyler, StylerParams}
+import org.mulesoft.lexer.{InputRange, SourceLocation}
 import org.scalatest.AsyncFunSuite
-import org.yaml.model.YNode
+import org.yaml.model.{YMap, YMapEntry, YNode, YNodePlain, YScalar, YType}
 
 import scala.concurrent.ExecutionContext
 
@@ -87,6 +88,43 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
 
     assert(!styled.plain)
     assert(styled.text == "\"swagger\": \"$1\"")
+  }
+
+  test("should add commas if there is a brother afterwards") {
+    val content =
+      """{
+        |  "
+        |  "swagger": "2.0"
+        |}
+        |""".stripMargin
+
+    val patched =
+      """{
+        |  "x" : ""
+        |  "swagger": "2.0"
+        |}
+        |""".stripMargin
+
+    val node       = new YNodePlain(YScalar("\"x\"", ""), YType.Str.tag, None, SourceLocation("x", 2, 3, 2, 4), IndexedSeq())
+    val emptyVal   = YNode("")
+    val current    = YMapEntry(SourceLocation("x", 2, 3, 2, 4), IndexedSeq(node, emptyVal))
+    val swagger    = YNode("\"swagger\"")
+    val swaggerVal = YNode("\"2.0\"")
+    val swaggerMap = YMapEntry(SourceLocation("swagger", InputRange(3, 3, 3, 19)), IndexedSeq(swagger, swaggerVal))
+    val stack      = Seq(current, YMap(IndexedSeq(current, swaggerMap), "noname"))
+
+    val dummyYPart = YPartBranch(node, AmfPosition(2, 3), stack, isJson = true)
+
+    val styler = JsonSuggestionStyler(
+      StylerParams("",
+                   PatchedContent(content, content, List(QuoteToken, ColonToken, QuoteToken, QuoteToken)),
+                   Position(2, 3),
+                   dummyYPart))
+
+    val styled = styler.style(RawSuggestion.forObject("info", "none"))
+
+    assert(!styled.plain)
+    assert(styled.text == "\"info\": {\n  \"$1\"\n},")
   }
 
 }
