@@ -2,17 +2,16 @@ package org.mulesoft.als.server.modules.workspace.references.visitors.noderelati
 
 import amf.core.annotations.SourceNode
 import amf.core.model.domain.AmfElement
-import org.mulesoft.als.actions.common.ActionTools
+import org.mulesoft.als.actions.common.{ActionTools, RelationshipLink}
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
-import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
-import org.mulesoft.lsp.feature.common.Location
+import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.{NodeRelationshipVisitorType}
 import org.yaml.model.{YNode, YPart}
 
 /**
   * @test: org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - yaml-alias
   */
 class YNodeAliasVisitor extends NodeRelationshipVisitorType {
-  override protected def innerVisit(element: AmfElement): Seq[(Location, Location)] =
+  override protected def innerVisit(element: AmfElement): Seq[RelationshipLink] =
     element.annotations
       .find(classOf[SourceNode])
       .flatMap { s =>
@@ -20,11 +19,13 @@ class YNodeAliasVisitor extends NodeRelationshipVisitorType {
       }
       .toSeq
 
-  private def aliasForNode(part: YPart): Option[(Location, Location)] =
+  private def aliasForNode(part: YPart): Option[RelationshipLink] =
     part match {
       case alias: YNode.Alias =>
-        Some(ActionTools.sourceLocationToLocation(alias.location),
-             ActionTools.sourceLocationToLocation(alias.target.location))
+        Some(
+          RelationshipLink(ActionTools.sourceLocationToLocation(alias.location),
+                           ActionTools.sourceLocationToLocation(alias.target.location),
+                           None))
       case _ => None
     }
 }

@@ -3,13 +3,12 @@ package org.mulesoft.als.server.modules.workspace
 import amf.client.resource.ResourceNotFound
 import amf.core.model.document.BaseUnit
 import amf.internal.reference.{CachedReference, ReferenceResolver}
-import org.mulesoft.als.actions.common.AliasInfo
+import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.common.dtoTypes.ReferenceStack
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementDefaultVisitors
 import org.mulesoft.amfmanager.AmfParseResult
 import org.mulesoft.amfmanager.BaseUnitImplicits._
-import org.mulesoft.lsp.feature.common.Location
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.collection.mutable
@@ -93,6 +92,6 @@ class Repository(logger: Logger) {
   def getAliases(): Seq[AliasInfo] =
     tree.aliases
 
-  def getRelationships(): Seq[(Location, Location)] =
+  def getRelationships(): Seq[RelationshipLink] =
     tree.nodeRelationships
 }
