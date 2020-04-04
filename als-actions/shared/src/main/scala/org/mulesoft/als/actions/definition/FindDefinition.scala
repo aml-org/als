@@ -2,7 +2,7 @@ package org.mulesoft.als.actions.definition
 
 import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
-import org.mulesoft.als.actions.common.{ActionTools, AliasInfo}
+import org.mulesoft.als.actions.common.{ActionTools, AliasInfo, RelationshipLink}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.{NodeBranchBuilder, YamlUtils}
 import org.mulesoft.als.convert.LspRangeConverter
@@ -16,7 +16,7 @@ object FindDefinition {
 
   def getDefinition(uri: String,
                     position: Position,
-                    allRelationships: Future[Seq[(Location, Location)]],
+                    allRelationships: Future[Seq[RelationshipLink]],
                     allAliases: Future[Seq[AliasInfo]],
                     fbu: Future[BaseUnit],
                     platform: Platform): Future[Seq[LocationLink]] =
@@ -25,7 +25,7 @@ object FindDefinition {
       aliases       <- allAliases
       bu            <- fbu
     } yield {
-      (findByPosition(uri, relationships, aliases, position) ++
+      (findByPosition(uri, relationships.map(r => (r.source, r.destination)), aliases, position) ++
         findAliases(getYBranch(position, bu).node, aliases, position))
         .map(toLocationLink)
         .sortWith(sortInner)

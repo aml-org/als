@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.workspace
 
-import org.mulesoft.als.actions.common.AliasInfo
+import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.AlsWorkspaceService
 import org.mulesoft.als.server.logger.Logger
@@ -8,19 +8,12 @@ import org.mulesoft.als.server.modules.ast.{BaseUnitListener, CHANGE_CONFIG, Not
 import org.mulesoft.als.server.modules.workspace.{CompilableUnit, WorkspaceContentManager}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.command._
-import org.mulesoft.als.server.workspace.extract.{
-  ConfigReader,
-  DefaultWorkspaceConfigurationProvider,
-  ReaderWorkspaceConfigurationProvider,
-  WorkspaceConf,
-  WorkspaceRootHandler
-}
+import org.mulesoft.als.server.workspace.extract._
 import org.mulesoft.lsp.Initializable
 import org.mulesoft.lsp.configuration.WorkspaceFolder
-import org.mulesoft.lsp.feature.common.Location
 import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
-import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams, WorkspaceService}
+import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -161,6 +154,6 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   override def getAliases(uri: String, uuid: String): Future[Seq[AliasInfo]] =
     getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getAliases(uri))
 
-  override def getRelationships(uri: String, uuid: String): Future[Seq[(Location, Location)]] =
+  override def getRelationships(uri: String, uuid: String): Future[Seq[RelationshipLink]] =
     getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getRelationships(uri))
 }
