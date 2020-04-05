@@ -1,35 +1,5 @@
 [
   {
-    "label": "encodes",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "encodes",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11encodes",
-    "filterText": "encodes",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "encodes:\n   "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "declares",
     "kind": [],
     "detail": "unknown",
@@ -37,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11declares",
-    "filterText": "declares",
+    "filterText": "declares:\n      ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,15 +15,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 4,
+          "character": 4
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 4,
+          "character": 4
         }
       },
-      "newText": "declares:\n   "
+      "newText": "declares:\n      "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "encodes",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "encodes",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11encodes",
+    "filterText": "encodes: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "encodes: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

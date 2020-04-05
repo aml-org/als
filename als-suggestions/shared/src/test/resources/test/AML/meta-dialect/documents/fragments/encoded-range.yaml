@@ -5,7 +5,8 @@ nodeMappings:
     classTerm: runtime.Deployment
 documents:
   fragments:
-    Schema: *
+    encodes:
+      schema: *
 
 external:
   runtime: http://mulesoft.com/vocabularies/runtime#

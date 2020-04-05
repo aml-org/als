@@ -6,6 +6,7 @@ nodeMappings:
 documents:
   root:
     declares:
+      schema1: myClass
       schema: *
 
 external:

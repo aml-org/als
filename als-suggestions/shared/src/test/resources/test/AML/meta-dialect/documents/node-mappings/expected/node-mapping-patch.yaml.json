@@ -1,35 +1,5 @@
 [
   {
-    "label": "insert",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "insert",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11insert",
-    "filterText": "insert",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "insert"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "delete",
     "kind": [],
     "detail": "unknown",
@@ -45,15 +15,105 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 8,
+          "character": 11
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 8,
+          "character": 11
         }
       },
       "newText": "delete"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "fail",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "fail",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11fail",
+    "filterText": "fail",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 11
+        },
+        "end": {
+          "line": 8,
+          "character": 11
+        }
+      },
+      "newText": "fail"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "ignore",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "ignore",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11ignore",
+    "filterText": "ignore",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 11
+        },
+        "end": {
+          "line": 8,
+          "character": 11
+        }
+      },
+      "newText": "ignore"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "insert",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "insert",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11insert",
+    "filterText": "insert",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 11
+        },
+        "end": {
+          "line": 8,
+          "character": 11
+        }
+      },
+      "newText": "insert"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -75,12 +135,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 8,
+          "character": 11
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 8,
+          "character": 11
         }
       },
       "newText": "update"
@@ -105,75 +165,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 8,
+          "character": 11
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 8,
+          "character": 11
         }
       },
       "newText": "upsert"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "ignore",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "ignore",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11ignore",
-    "filterText": "ignore",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "ignore"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "fail",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "fail",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11fail",
-    "filterText": "fail",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "fail"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
