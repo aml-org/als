@@ -120,14 +120,14 @@
     "command": null
   },
   {
-    "label": "mappings",
+    "label": "mapping",
     "kind": [],
     "detail": "unknown",
-    "documentation": "mappings",
+    "documentation": "mapping",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11mappings",
-    "filterText": "mappings:\n      ",
+    "sortText": "11mapping",
+    "filterText": "mapping:\n      ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,7 +143,7 @@
           "character": 4
         }
       },
-      "newText": "mappings:\n      "
+      "newText": "mapping:\n      "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

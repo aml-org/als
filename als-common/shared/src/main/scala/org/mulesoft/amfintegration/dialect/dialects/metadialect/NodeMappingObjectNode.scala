@@ -39,7 +39,7 @@ object NodeMappingObjectNode extends DialectNode {
       PropertyMapping()
         .withId(location + s"#/declarations/$name/mappings")
         .withNodePropertyMapping(NodeMappingModel.PropertiesMapping.value.iri())
-        .withName("mappings")
+        .withName("mapping")
         .withObjectRange(Seq(PropertyMappingObjectNode.id))
         .withMapTermKeyProperty(PropertyMappingModel.Name.value.iri()),
       PropertyMapping()

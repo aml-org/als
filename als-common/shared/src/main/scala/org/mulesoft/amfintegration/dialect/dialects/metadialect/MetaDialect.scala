@@ -33,6 +33,6 @@ object MetaDialect extends BaseDialect {
   )
 
   override protected def declaredNodes: Map[String, DialectNode] = Map(
-    "nodeMapping" -> NodeMappingObjectNode
+    "nodeMappings" -> NodeMappingObjectNode
   )
 }
