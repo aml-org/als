@@ -8,8 +8,8 @@ object MetaDialect extends BaseDialect {
 
   override def DialectLocation: String = "file://vocabularies/dialects/metadialect.yaml"
 
-  override protected val name: String    = "MetaDialect"
-  override protected val version: String = "0.1"
+  override protected val name: String    = "Dialect"
+  override protected val version: String = "1.0"
 
   override protected def emptyDocument: DocumentsModel =
     DocumentsModel()

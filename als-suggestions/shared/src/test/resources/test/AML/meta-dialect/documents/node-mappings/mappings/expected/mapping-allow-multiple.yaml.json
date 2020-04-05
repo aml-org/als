@@ -15,12 +15,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 12,
+          "character": 23
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 12,
+          "character": 23
         }
       },
       "newText": "false"
@@ -45,12 +45,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 12,
+          "character": 23
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 12,
+          "character": 23
         }
       },
       "newText": "true"

@@ -7,7 +7,7 @@ nodeMappings:
   otherMapping:
     classTerm: schema-org.other
     mapping:
-      otherMapping:
+      otherLabel:
         propertyTerm: schema-org.otherMapping
   myNodeMapping:
     classTerm: schema-org.unreal

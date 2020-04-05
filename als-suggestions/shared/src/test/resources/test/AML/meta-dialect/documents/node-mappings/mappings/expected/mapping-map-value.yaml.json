@@ -1,13 +1,13 @@
 [
   {
-    "label": "otherMapping",
+    "label": "otherLabel",
     "kind": [],
     "detail": "unknown",
-    "documentation": "otherMapping",
+    "documentation": "otherLabel",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11otherMapping",
-    "filterText": "otherMapping",
+    "sortText": "11otherLabel",
+    "filterText": "otherLabel",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 16,
+          "character": 18
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 16,
+          "character": 18
         }
       },
-      "newText": "otherMapping"
+      "newText": "otherLabel"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

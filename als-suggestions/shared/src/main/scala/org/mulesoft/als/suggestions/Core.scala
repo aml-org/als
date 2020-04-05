@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions
 
+import org.mulesoft.als.suggestions.aml.MetaDialectPluginRegistry
 import org.mulesoft.als.suggestions.aml.webapi.{
   AsyncApiCompletionPluginRegistry,
   Oas20CompletionPluginRegistry,
@@ -27,6 +28,7 @@ object Core {
         RamlCompletionPluginRegistry.init()
         Raml08CompletionPluginRegistry.init()
         AsyncApiCompletionPluginRegistry.init()
+        MetaDialectPluginRegistry.init()
       })
   }
 }

@@ -1,13 +1,13 @@
 [
   {
-    "label": "schema-org.",
+    "label": "schema-org",
     "kind": [],
     "detail": "unknown",
-    "documentation": "schema-org.",
+    "documentation": "schema-org",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11schema-org.",
-    "filterText": "schema-org.",
+    "sortText": "11schema-org",
+    "filterText": "schema-org",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 10,
+          "character": 22
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 10,
+          "character": 22
         }
       },
-      "newText": "schema-org.: "
+      "newText": "schema-org"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -1,6 +1,6 @@
 #%Dialect 1.0
 
-externals:
+external:
   schema-org: http://schema-org.com
 
 nodeMappings:

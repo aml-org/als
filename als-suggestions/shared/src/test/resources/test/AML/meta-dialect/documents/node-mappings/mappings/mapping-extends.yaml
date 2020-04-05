@@ -8,6 +8,4 @@ nodeMappings:
     classTerm: schema-org.other
   myNodeMapping:
     classTerm: schema-org.unreal
-    mapping:
-      myMapping:
-        extends: *
+    extends: *

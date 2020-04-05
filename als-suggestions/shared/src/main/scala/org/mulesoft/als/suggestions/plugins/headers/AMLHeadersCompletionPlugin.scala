@@ -5,6 +5,7 @@ import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.configuration.Configuration
 import org.mulesoft.als.suggestions.{HeaderCompletionParams, RawSuggestion}
 import org.mulesoft.als.suggestions.interfaces.HeaderCompletionPlugin
+import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
 
 import scala.concurrent.Future
 
@@ -12,12 +13,12 @@ object AMLHeadersCompletionPlugin extends HeaderCompletionPlugin {
   override def id: String = "AMLHeadersCompletionPlugin"
 
   def allHeaders: Seq[String] =
-    AMLPlugin.registry
+    (AMLPlugin.registry
       .allDialects()
       .filterNot(d => Configuration.internalDialects.contains(d.id))
       .filterNot(_.documents().keyProperty().value())
+      .toSeq :+ MetaDialect.dialect)
       .flatMap(computeHeaders)
-      .toSeq
       .distinct
 
   override def resolve(params: HeaderCompletionParams): Future[Seq[RawSuggestion]] =
