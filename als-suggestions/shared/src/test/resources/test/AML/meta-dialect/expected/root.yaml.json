@@ -90,14 +90,14 @@
     "command": null
   },
   {
-    "label": "nodeMapping",
+    "label": "nodeMappings",
     "kind": [],
     "detail": "unknown",
-    "documentation": "nodeMapping",
+    "documentation": "nodeMappings",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11nodeMapping",
-    "filterText": "nodeMapping:\n  ",
+    "sortText": "11nodeMappings",
+    "filterText": "nodeMappings:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 0
         }
       },
-      "newText": "nodeMapping:\n  "
+      "newText": "nodeMappings:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
