@@ -20,6 +20,7 @@ trait ClientAlsServerCapabilities extends js.Object {
   def completionProvider: UndefOr[ClientCompletionOptions]                       = js.native
   def definitionProvider: Boolean                                                = js.native
   def implementationProvider: UndefOr[Boolean | ClientStaticRegistrationOptions] = js.native
+  def typeDefinitionProvider: UndefOr[Boolean | ClientStaticRegistrationOptions] = js.native
   def referencesProvider: Boolean                                                = js.native
   def documentSymbolProvider: Boolean                                            = js.native
   def renameProvider: UndefOr[ClientRenameOptions]                               = js.native
@@ -42,6 +43,10 @@ object ClientAlsServerCapabilities {
         completionProvider = internal.completionProvider.map(_.toClient).orUndefined,
         definitionProvider = internal.definitionProvider,
         implementationProvider = internal.implementationProvider
+          .map(eitherToUnionWithMapping(_.booleanValue(), _.toClient))
+          .orUndefined
+          .asInstanceOf[js.Any],
+        typeDefinitionProvider = internal.typeDefinitionProvider
           .map(eitherToUnionWithMapping(_.booleanValue(), _.toClient))
           .orUndefined
           .asInstanceOf[js.Any],

@@ -31,6 +31,7 @@ case class AlsServerCapabilities(
     completionProvider: Option[CompletionOptions] = None,
     definitionProvider: Boolean = false,
     implementationProvider: Option[Either[Boolean, StaticRegistrationOptions]] = None,
+    typeDefinitionProvider: Option[Either[Boolean, StaticRegistrationOptions]] = None,
     referencesProvider: Boolean = false,
     documentSymbolProvider: Boolean = false,
     renameProvider: Option[RenameOptions] = None,

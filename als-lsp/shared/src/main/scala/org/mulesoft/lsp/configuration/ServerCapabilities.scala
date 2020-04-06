@@ -25,6 +25,7 @@ class ServerCapabilities(val textDocumentSync: Option[Either[TextDocumentSyncKin
                          val completionProvider: Option[CompletionOptions] = None,
                          val definitionProvider: Boolean = false,
                          val implementationProvider: Boolean = false,
+                         val typeDefinitionProvider: Boolean = false,
                          val referencesProvider: Boolean = false,
                          val documentSymbolProvider: Boolean = false,
                          val renameProvider: Option[RenameOptions] = None,

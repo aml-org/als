@@ -39,6 +39,7 @@ import org.mulesoft.lsp.feature.implementation.ImplementationRequestType
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams, DocumentLinkRequestType}
 import org.mulesoft.lsp.feature.reference.{ClientReferenceParams, ReferenceRequestType}
 import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryMessage, TelemetryMessage}
+import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionRequestType
 import org.mulesoft.lsp.textsync.{
   ClientDidChangeTextDocumentParams,
   ClientDidCloseTextDocumentParams,
@@ -248,6 +249,26 @@ object ProtocolConnectionBinder {
                                            js.Any]]
     )
     // End Implementation
+
+    // TypeDefinition
+    val onTypeDefinitionHandlerJs
+      : js.Function2[ClientTextDocumentPositionParams,
+                     CancellationToken,
+                     Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
+      (param: ClientTextDocumentPositionParams, _: CancellationToken) =>
+        resolveHandler(TypeDefinitionRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]]
+
+    protocolConnection.onRequest(
+      DefinitionRequest.`type`,
+      onTypeDefinitionHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientTextDocumentPositionParams,
+                                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
+                                           js.Any]]
+    )
+    // End TypeDefinition
 
     // References
     val onReferencesHandlerJs
