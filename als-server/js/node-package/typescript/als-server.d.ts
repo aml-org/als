@@ -149,6 +149,8 @@ declare module '@mulesoft/als-server' {
 
   export class Oas20Resolver extends resolve.Resolver {}
 
+  export class Oas30Resolver extends resolve.Resolver {}
+
   export class Raml08Parser extends parse.Parser {
     constructor()
     constructor(env: client.environment.Environment)
