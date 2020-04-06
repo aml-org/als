@@ -9,6 +9,7 @@ import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.{ClientDefinitionClientCapabilities, DefinitionClientCapabilities}
 import org.mulesoft.lsp.feature.diagnostic._
 import org.mulesoft.lsp.feature.documentsymbol._
+import org.mulesoft.lsp.feature.implementation.{ClientImplementationClientCapabilities, ImplementationClientCapabilities}
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.reference._
 import org.mulesoft.lsp.feature.rename._
@@ -242,6 +243,11 @@ object LspConvertersSharedToClient {
   implicit class ClientDefinitionClientCapabilitiesConverter(v: DefinitionClientCapabilities) {
     def toClient: ClientDefinitionClientCapabilities =
       ClientDefinitionClientCapabilities(v)
+  }
+
+  implicit class ClientImplementationClientCapabilitiesConverter(v: ImplementationClientCapabilities) {
+    def toClient: ClientImplementationClientCapabilities =
+      ClientImplementationClientCapabilities(v)
   }
 
   implicit class ClientDocumentSymbolConverter(v: DocumentSymbol) {

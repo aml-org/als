@@ -8,15 +8,12 @@ import org.mulesoft.als.server.protocol.configuration.{
   AlsInitializeResult,
   AlsServerCapabilities
 }
-import org.mulesoft.lsp.configuration.{
-  DefaultWorkspaceServerCapabilities,
-  WorkspaceFolderServerCapabilities,
-  WorkspaceServerCapabilities
-}
+import org.mulesoft.lsp.configuration.DefaultWorkspaceServerCapabilities
 import org.mulesoft.lsp.feature.codeactions.CodeActionConfigType
 import org.mulesoft.lsp.feature.completion.CompletionConfigType
 import org.mulesoft.lsp.feature.definition.DefinitionConfigType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolConfigType
+import org.mulesoft.lsp.feature.implementation.ImplementationConfigType
 import org.mulesoft.lsp.feature.link.DocumentLinkConfigType
 import org.mulesoft.lsp.feature.reference.ReferenceConfigType
 import org.mulesoft.lsp.feature.rename.RenameConfigType
@@ -34,12 +31,13 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(TextDocumentSyncConfigType, textDocument.flatMap(_.synchronization)),
       applyConfig(CompletionConfigType, textDocument.flatMap(_.completion)),
       applyConfig(DefinitionConfigType, textDocument.flatMap(_.definition)).isDefined,
+      applyConfig(ImplementationConfigType, textDocument.flatMap(_.implementation)),
       applyConfig(ReferenceConfigType, textDocument.flatMap(_.references)).isDefined,
       applyConfig(DocumentSymbolConfigType, textDocument.flatMap(_.documentSymbol)).isDefined,
       applyConfig(RenameConfigType, textDocument.flatMap(_.rename)),
       applyConfig(CodeActionConfigType, textDocument.flatMap(_.codeActionCapabilities)),
       applyConfig(DocumentLinkConfigType, textDocument.flatMap(_.documentLink)),
-      Some(DefaultWorkspaceServerCapabilities), //Not dependant on client capabilities
+      Some(DefaultWorkspaceServerCapabilities), // Not dependant on client capabilities
       None,
       applyConfig(SerializationConfigType, clientCapabilities.serialization),
       applyConfig(CleanDiagnosticTreeConfigType, clientCapabilities.cleanDiagnosticTree),
