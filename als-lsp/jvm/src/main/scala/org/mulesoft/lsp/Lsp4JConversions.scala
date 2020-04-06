@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture
 
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.eclipse.lsp4j
+import org.mulesoft.lsp.configuration.StaticRegistrationOptions
 import org.mulesoft.lsp.feature.command.Command
 import org.mulesoft.lsp.feature.common.{Location, LocationLink, Position, Range, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.edit._
@@ -237,11 +238,29 @@ object Lsp4JConversions {
     result
   }
 
+  implicit def lsp4JStaticRegistrationOptions(options: StaticRegistrationOptions): lsp4j.StaticRegistrationOptions = {
+    val result = new lsp4j.StaticRegistrationOptions()
+    options.id.foreach(result.setId)
+    result
+  }
+
   implicit def lsp4JEitherRenameOptions(
       options: Option[RenameOptions]): JEither[java.lang.Boolean, lsp4j.RenameOptions] =
     options
       .map(renameOptions =>
         JEither.forRight[java.lang.Boolean, lsp4j.RenameOptions](lsp4JRenameOptions(renameOptions)))
+      .getOrElse(JEither.forLeft(false))
+
+  implicit def lsp4JEitherImplementationOptions(options: Option[Either[Boolean, StaticRegistrationOptions]])
+    : JEither[java.lang.Boolean, lsp4j.StaticRegistrationOptions] =
+    options
+      .map {
+        case Right(implementationOptions) =>
+          JEither.forRight[java.lang.Boolean, lsp4j.StaticRegistrationOptions](
+            lsp4JStaticRegistrationOptions(implementationOptions))
+        case Left(bool) =>
+          JEither.forLeft[java.lang.Boolean, lsp4j.StaticRegistrationOptions](bool)
+      }
       .getOrElse(JEither.forLeft(false))
 
   implicit def lsp4JCompletionOptions(options: CompletionOptions): lsp4j.CompletionOptions =

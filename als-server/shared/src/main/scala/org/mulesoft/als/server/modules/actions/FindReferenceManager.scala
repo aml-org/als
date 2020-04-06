@@ -44,8 +44,6 @@ class FindReferenceManager(val workspaceManager: UnitRepositoriesManager,
     conf = config
   }
 
-  val onFindReference: (String, Position) => Future[Seq[Location]] = findReference
-
   def findReference(uri: String, position: Position): Future[Seq[Location]] = {
     val uuid = UUID.randomUUID().toString
     workspaceManager

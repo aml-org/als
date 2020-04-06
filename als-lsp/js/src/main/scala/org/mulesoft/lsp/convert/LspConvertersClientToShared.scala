@@ -4,15 +4,38 @@ import org.mulesoft.lsp.configuration._
 import org.mulesoft.lsp.edit._
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.command.{ClientCommand, Command}
-import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientPosition, ClientRange, ClientTextDocumentIdentifier, ClientTextDocumentItem, ClientTextDocumentPositionParams, ClientVersionedTextDocumentIdentifier, Location, LocationLink, Position, Range, TextDocumentIdentifier, TextDocumentItem, TextDocumentPositionParams, VersionedTextDocumentIdentifier}
+import org.mulesoft.lsp.feature.common.{
+  ClientLocation,
+  ClientLocationLink,
+  ClientPosition,
+  ClientRange,
+  ClientTextDocumentIdentifier,
+  ClientTextDocumentItem,
+  ClientTextDocumentPositionParams,
+  ClientVersionedTextDocumentIdentifier,
+  Location,
+  LocationLink,
+  Position,
+  Range,
+  TextDocumentIdentifier,
+  TextDocumentItem,
+  TextDocumentPositionParams,
+  VersionedTextDocumentIdentifier
+}
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.{ClientDefinitionClientCapabilities, DefinitionClientCapabilities}
 import org.mulesoft.lsp.feature.diagnostic._
 import org.mulesoft.lsp.feature.documentsymbol._
+import org.mulesoft.lsp.feature.implementation.ImplementationClientCapabilities
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.reference._
 import org.mulesoft.lsp.feature.rename._
-import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage, TelemetryClientCapabilities, TelemetryMessage}
+import org.mulesoft.lsp.feature.telemetry.{
+  ClientTelemetryClientCapabilities,
+  ClientTelemetryMessage,
+  TelemetryClientCapabilities,
+  TelemetryMessage
+}
 import org.mulesoft.lsp.textsync.{TextDocumentSyncKind, _}
 import org.mulesoft.lsp.workspace._
 
@@ -91,9 +114,10 @@ object LspConvertersClientToShared {
     def toShared: WorkspaceFolderServerCapabilities =
       WorkspaceFolderServerCapabilities(
         v.supported.toOption,
-        v.changeNotifications.toOption.map((value: Any) => value match {
-          case value: String => Left[String, Boolean](value)
-          case value: Boolean => Right[String, Boolean](value)
+        v.changeNotifications.toOption.map((value: Any) =>
+          value match {
+            case value: String  => Left[String, Boolean](value)
+            case value: Boolean => Right[String, Boolean](value)
         })
       )
   }
@@ -286,6 +310,11 @@ object LspConvertersClientToShared {
   implicit class DefinitionClientCapabilitiesConverter(v: ClientDefinitionClientCapabilities) {
     def toShared: DefinitionClientCapabilities =
       DefinitionClientCapabilities(v.dynamicRegistration.toOption, v.linkSupport.toOption)
+  }
+
+  implicit class ImplementationClientCapabilitiesConverter(v: ClientDefinitionClientCapabilities) {
+    def toShared: ImplementationClientCapabilities =
+      ImplementationClientCapabilities(v.dynamicRegistration.toOption, v.linkSupport.toOption)
   }
 
   implicit class DocumentSymbolConverter(v: ClientDocumentSymbol) {

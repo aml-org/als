@@ -7,6 +7,7 @@ import org.eclipse.lsp4j.ExecuteCommandOptions
 import org.mulesoft.als.server.feature.serialization.{SerializationResult, SerializedDocument}
 import org.mulesoft.als.server.protocol.configuration.{AlsInitializeResult, AlsServerCapabilities}
 import org.mulesoft.lsp.Lsp4JConversions._
+import org.mulesoft.lsp.configuration.StaticRegistrationOptions
 
 import scala.collection.JavaConverters._
 import scala.language.implicitConversions
@@ -36,6 +37,8 @@ object AlsJConversions {
     result.setRenameProvider(capabilities.renameProvider)
     result.setCodeActionProvider(capabilities.codeActionProvider)
 
+    result.setImplementationProvider(lsp4JEitherImplementationOptions(capabilities.implementationProvider))
+
     capabilities.documentLinkProvider.foreach(dlp => result.setDocumentLinkProvider(dlp))
 
     result.setExperimental(capabilities.experimental)
@@ -47,7 +50,10 @@ object AlsJConversions {
       result.setSerialization(new extension.SerializationServerOptions(s.supportsSerialization)))
     capabilities.conversion.foreach { c =>
       result.setConversion(
-        new extension.ConversionServerOptions(c.supported.map(s => new extension.ConversionConf(s.from, s.to)).asJava))
+        new extension.ConversionServerOptions(
+          c.supported
+            .map(s => new extension.ConversionConf(s.from, s.to))
+            .asJava))
     }
     result
   }
