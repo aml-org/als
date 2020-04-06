@@ -3,7 +3,7 @@ package org.mulesoft.als.server.modules.reference.files
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.reference.ServerReferencesTest
-import org.mulesoft.lsp.feature.common.Location
+import org.mulesoft.lsp.feature.common.{Location, LocationLink}
 
 import scala.concurrent.ExecutionContext
 
@@ -54,6 +54,17 @@ class ReferenceTest extends ServerReferencesTest {
 
   test("raml-trait") {
     runTest(
+      "files/raml-trait/api.raml",
+      Set(
+        Location(
+          "file://als-server/shared/src/test/resources/actions/reference/files/raml-trait/api.raml",
+          LspRangeConverter.toLspRange(PositionRange(Position(14, 8), Position(14, 10)))
+        ))
+    )
+  }
+
+  test("raml-trait implementations") {
+    runTestImplementations(
       "files/raml-trait/api.raml",
       Set(
         Location(
