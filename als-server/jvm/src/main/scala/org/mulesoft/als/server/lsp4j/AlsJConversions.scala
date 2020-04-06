@@ -37,7 +37,8 @@ object AlsJConversions {
     result.setRenameProvider(capabilities.renameProvider)
     result.setCodeActionProvider(capabilities.codeActionProvider)
 
-    result.setImplementationProvider(lsp4JEitherImplementationOptions(capabilities.implementationProvider))
+    result.setImplementationProvider(lsp4JEitherStaticregistrationOptions(capabilities.implementationProvider))
+    result.setTypeDefinitionProvider(lsp4JEitherStaticregistrationOptions(capabilities.typeDefinitionProvider))
 
     capabilities.documentLinkProvider.foreach(dlp => result.setDocumentLinkProvider(dlp))
 

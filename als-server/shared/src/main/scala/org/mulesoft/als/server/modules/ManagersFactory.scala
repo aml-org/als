@@ -11,7 +11,8 @@ import org.mulesoft.als.server.modules.actions.{
   DocumentLinksManager,
   FindReferenceManager,
   GoToDefinitionManager,
-  GoToImplementationManager
+  GoToImplementationManager,
+  GoToTypeDefinitionManager
 }
 import org.mulesoft.als.server.modules.ast.BaseUnitListener
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
@@ -120,6 +121,9 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
 
   lazy val implementationManager =
     new GoToImplementationManager(workspaceManager, platform, telemetryManager, logger)
+
+  lazy val typeDefinitionManager =
+    new GoToTypeDefinitionManager(workspaceManager, platform, telemetryManager, logger)
 
   lazy val referenceManager =
     new FindReferenceManager(workspaceManager, telemetryManager, logger)
