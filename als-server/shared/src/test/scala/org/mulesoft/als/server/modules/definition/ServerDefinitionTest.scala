@@ -9,6 +9,7 @@ import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.lsp.feature.common.{LocationLink, TextDocumentIdentifier, TextDocumentPositionParams}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
+import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionRequestType
 import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -25,6 +26,7 @@ trait ServerDefinitionTest extends LanguageServerBaseTest {
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.definitionManager)
+      .addRequestModule(factory.typeDefinitionManager)
       .build()
   }
 
@@ -44,6 +46,22 @@ trait ServerDefinitionTest extends LanguageServerBaseTest {
       }
   }
 
+  def runTestTypeDefinition(path: String, expectedDefinitions: Set[LocationLink]): Future[Assertion] =
+    withServer[Assertion] { server =>
+      val resolved = filePath(platform.encodeURI(path))
+      for {
+        content <- this.platform.resolve(resolved)
+        definitions <- {
+          val fileContentsStr = content.stream.toString
+          val markerInfo      = this.findMarker(fileContentsStr)
+
+          getServerTypeDefinition(resolved, server, markerInfo)
+        }
+      } yield {
+        assert(definitions.toSet == expectedDefinitions)
+      }
+    }
+
   def getServerDefinition(filePath: String,
                           server: LanguageServer,
                           markerInfo: MarkerInfo): Future[Seq[LocationLink]] = {
@@ -51,6 +69,24 @@ trait ServerDefinitionTest extends LanguageServerBaseTest {
     openFile(server)(filePath, markerInfo.patchedContent.original)
 
     val definitionHandler = server.resolveHandler(DefinitionRequestType).value
+
+    definitionHandler(
+      TextDocumentPositionParams(TextDocumentIdentifier(filePath),
+                                 LspRangeConverter.toLspPosition(markerInfo.position)))
+      .map(definitions => {
+        closeFile(server)(filePath)
+
+        definitions.right.getOrElse(Nil)
+      })
+  }
+
+  def getServerTypeDefinition(filePath: String,
+                              server: LanguageServer,
+                              markerInfo: MarkerInfo): Future[Seq[LocationLink]] = {
+
+    openFile(server)(filePath, markerInfo.patchedContent.original)
+
+    val definitionHandler = server.resolveHandler(TypeDefinitionRequestType).value
 
     definitionHandler(
       TextDocumentPositionParams(TextDocumentIdentifier(filePath),
