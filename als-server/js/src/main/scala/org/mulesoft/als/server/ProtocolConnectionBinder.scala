@@ -11,8 +11,8 @@ import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.server.protocol.diagnostic.{ClientCleanDiagnosticTreeParams, ClientFilesInProjectParams}
 import org.mulesoft.als.server.protocol.serialization.{
   ClientConversionParams,
-  ClientSerializationResult,
   ClientSerializationParams,
+  ClientSerializationResult,
   ClientSerializedDocument
 }
 import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestHandler0 => ClientRequestHandler0, _}
@@ -35,6 +35,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   ClientSymbolInformation,
   DocumentSymbolRequestType
 }
+import org.mulesoft.lsp.feature.implementation.ImplementationRequestType
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams, DocumentLinkRequestType}
 import org.mulesoft.lsp.feature.reference.{ClientReferenceParams, ReferenceRequestType}
 import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryMessage, TelemetryMessage}
@@ -227,6 +228,26 @@ object ProtocolConnectionBinder {
                                            js.Any]]
     )
     // End Definition
+
+    // Implementation
+    val onImplementationHandlerJs
+      : js.Function2[ClientTextDocumentPositionParams,
+                     CancellationToken,
+                     Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
+      (param: ClientTextDocumentPositionParams, _: CancellationToken) =>
+        resolveHandler(ImplementationRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]]
+
+    protocolConnection.onRequest(
+      DefinitionRequest.`type`,
+      onImplementationHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientTextDocumentPositionParams,
+                                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
+                                           js.Any]]
+    )
+    // End Implementation
 
     // References
     val onReferencesHandlerJs

@@ -32,13 +32,13 @@ import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
   *                              if no folder is open.
   * @param initializationOptions User provided initialization options.
   */
-class AlsInitializeParams private(val capabilities: AlsClientCapabilities,
-                                  val trace: TraceKind,
-                                  val rootUri: Option[String] = None,
-                                  val processId: Option[Int] = None,
-                                  val workspaceFolders: Option[Seq[WorkspaceFolder]] = None,
-                                  val rootPath: Option[String] = None,
-                                  val initializationOptions: Option[Any] = None)
+class AlsInitializeParams private (val capabilities: AlsClientCapabilities,
+                                   val trace: TraceKind,
+                                   val rootUri: Option[String] = None,
+                                   val processId: Option[Int] = None,
+                                   val workspaceFolders: Option[Seq[WorkspaceFolder]] = None,
+                                   val rootPath: Option[String] = None,
+                                   val initializationOptions: Option[Any] = None)
 
 object AlsInitializeParams {
 
@@ -50,12 +50,12 @@ object AlsInitializeParams {
             rootPath: Option[String] = None,
             initializationOptions: Option[Any] = None): AlsInitializeParams =
     new AlsInitializeParams(capabilities.getOrElse(AlsClientCapabilities()),
-      trace.getOrElse(TraceKind.Off),
-      rootUri,
-      processId,
-      workspaceFolders,
-      rootPath,
-      initializationOptions)
+                            trace.getOrElse(TraceKind.Off),
+                            rootUri,
+                            processId,
+                            workspaceFolders,
+                            rootPath,
+                            initializationOptions)
 
-  def default = apply(None, Some(TraceKind.Off))
+  def default: AlsInitializeParams = apply(None, Some(TraceKind.Off))
 }

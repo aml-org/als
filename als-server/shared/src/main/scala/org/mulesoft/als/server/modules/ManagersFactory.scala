@@ -7,7 +7,12 @@ import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server.{RequestModule, SerializationProps}
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.actions.{DocumentLinksManager, FindReferenceManager, GoToDefinitionManager}
+import org.mulesoft.als.server.modules.actions.{
+  DocumentLinksManager,
+  FindReferenceManager,
+  GoToDefinitionManager,
+  GoToImplementationManager
+}
 import org.mulesoft.als.server.modules.ast.BaseUnitListener
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
 import org.mulesoft.als.server.modules.diagnostic.{
@@ -112,8 +117,13 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
 
   lazy val definitionManager =
     new GoToDefinitionManager(workspaceManager, platform, telemetryManager, logger)
+
+  lazy val implementationManager =
+    new GoToImplementationManager(workspaceManager, platform, telemetryManager, logger)
+
   lazy val referenceManager =
     new FindReferenceManager(workspaceManager, telemetryManager, logger)
+
   lazy val documentLinksManager =
     new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
 

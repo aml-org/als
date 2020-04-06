@@ -1,14 +1,13 @@
 package org.mulesoft.als.server.protocol.configuration
 
-import org.mulesoft.als.server.feature.serialization.ConversionRequestOptions
+import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
+import org.mulesoft.lsp.configuration.{ClientStaticRegistrationOptions, ClientWorkspaceServerCapabilities}
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
-import org.mulesoft.lsp.configuration.ClientWorkspaceServerCapabilities
 import org.mulesoft.lsp.feature.codeactions.ClientCodeActionOptions
 import org.mulesoft.lsp.feature.completion.ClientCompletionOptions
 import org.mulesoft.lsp.feature.link.ClientDocumentLinkOptions
 import org.mulesoft.lsp.feature.rename.ClientRenameOptions
 import org.mulesoft.lsp.textsync.ClientTextDocumentSyncOptions
-import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
@@ -17,19 +16,20 @@ import scala.scalajs.js.{UndefOr, |}
 
 @js.native
 trait ClientAlsServerCapabilities extends js.Object {
-  def textDocumentSync: UndefOr[Int | ClientTextDocumentSyncOptions] = js.native
-  def completionProvider: UndefOr[ClientCompletionOptions]           = js.native
-  def definitionProvider: Boolean                                    = js.native
-  def referencesProvider: Boolean                                    = js.native
-  def documentSymbolProvider: Boolean                                = js.native
-  def renameProvider: UndefOr[ClientRenameOptions]                   = js.native
-  def codeActionProvider: UndefOr[ClientCodeActionOptions]           = js.native
-  def documentLinkProvider: UndefOr[ClientDocumentLinkOptions]       = js.native
-  def workspace: UndefOr[ClientWorkspaceServerCapabilities]          = js.native
-  def experimental: UndefOr[js.Object]                               = js.native
-  def serialization: UndefOr[ClientSerializationServerOptions]       = js.native
-  def cleanDiagnostics: UndefOr[ClientCleanDiagnosticTreeOptions]    = js.native
-  def conversion: UndefOr[ClientConversionOptions]                   = js.native
+  def textDocumentSync: UndefOr[Int | ClientTextDocumentSyncOptions]             = js.native
+  def completionProvider: UndefOr[ClientCompletionOptions]                       = js.native
+  def definitionProvider: Boolean                                                = js.native
+  def implementationProvider: UndefOr[Boolean | ClientStaticRegistrationOptions] = js.native
+  def referencesProvider: Boolean                                                = js.native
+  def documentSymbolProvider: Boolean                                            = js.native
+  def renameProvider: UndefOr[ClientRenameOptions]                               = js.native
+  def codeActionProvider: UndefOr[ClientCodeActionOptions]                       = js.native
+  def documentLinkProvider: UndefOr[ClientDocumentLinkOptions]                   = js.native
+  def workspace: UndefOr[ClientWorkspaceServerCapabilities]                      = js.native
+  def experimental: UndefOr[js.Object]                                           = js.native
+  def serialization: UndefOr[ClientSerializationServerOptions]                   = js.native
+  def cleanDiagnostics: UndefOr[ClientCleanDiagnosticTreeOptions]                = js.native
+  def conversion: UndefOr[ClientConversionOptions]                               = js.native
 
 }
 
@@ -41,6 +41,10 @@ object ClientAlsServerCapabilities {
           internal.textDocumentSync.map(eitherToUnionWithMapping(_.id, _.toClient)).orUndefined.asInstanceOf[js.Any],
         completionProvider = internal.completionProvider.map(_.toClient).orUndefined,
         definitionProvider = internal.definitionProvider,
+        implementationProvider = internal.implementationProvider
+          .map(eitherToUnionWithMapping(_.booleanValue(), _.toClient))
+          .orUndefined
+          .asInstanceOf[js.Any],
         referencesProvider = internal.referencesProvider,
         documentSymbolProvider = internal.documentSymbolProvider,
         renameProvider = internal.renameProvider.map(_.toClient).orUndefined,
