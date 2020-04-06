@@ -85,6 +85,8 @@ object LspConversions {
         booleanOrFalse(result.getDefinitionProvider),
         Option(result.getImplementationProvider)
           .map(either(_, booleanOrFalse, staticRegistrationOptions)),
+        Option(result.getTypeDefinitionProvider)
+          .map(either(_, booleanOrFalse, staticRegistrationOptions)),
         booleanOrFalse(result.getReferencesProvider),
         booleanOrFalse(result.getDocumentSymbolProvider),
         Option(result.getRenameProvider).flatMap(eitherRenameOptions),

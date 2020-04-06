@@ -17,6 +17,7 @@ import org.mulesoft.lsp.feature.implementation.ImplementationConfigType
 import org.mulesoft.lsp.feature.link.DocumentLinkConfigType
 import org.mulesoft.lsp.feature.reference.ReferenceConfigType
 import org.mulesoft.lsp.feature.rename.RenameConfigType
+import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionConfigType
 import org.mulesoft.lsp.textsync.TextDocumentSyncConfigType
 import org.mulesoft.lsp.{ConfigType, Initializable}
 
@@ -32,6 +33,7 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(CompletionConfigType, textDocument.flatMap(_.completion)),
       applyConfig(DefinitionConfigType, textDocument.flatMap(_.definition)).isDefined,
       applyConfig(ImplementationConfigType, textDocument.flatMap(_.implementation)),
+      applyConfig(TypeDefinitionConfigType, textDocument.flatMap(_.typeDefinition)),
       applyConfig(ReferenceConfigType, textDocument.flatMap(_.references)).isDefined,
       applyConfig(DocumentSymbolConfigType, textDocument.flatMap(_.documentSymbol)).isDefined,
       applyConfig(RenameConfigType, textDocument.flatMap(_.rename)),

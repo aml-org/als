@@ -251,7 +251,7 @@ object Lsp4JConversions {
         JEither.forRight[java.lang.Boolean, lsp4j.RenameOptions](lsp4JRenameOptions(renameOptions)))
       .getOrElse(JEither.forLeft(false))
 
-  implicit def lsp4JEitherImplementationOptions(options: Option[Either[Boolean, StaticRegistrationOptions]])
+  implicit def lsp4JEitherStaticregistrationOptions(options: Option[Either[Boolean, StaticRegistrationOptions]])
     : JEither[java.lang.Boolean, lsp4j.StaticRegistrationOptions] =
     options
       .map {

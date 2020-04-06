@@ -26,7 +26,10 @@ import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.{ClientDefinitionClientCapabilities, DefinitionClientCapabilities}
 import org.mulesoft.lsp.feature.diagnostic._
 import org.mulesoft.lsp.feature.documentsymbol._
-import org.mulesoft.lsp.feature.implementation.ImplementationClientCapabilities
+import org.mulesoft.lsp.feature.implementation.{
+  ClientImplementationClientCapabilities,
+  ImplementationClientCapabilities
+}
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.reference._
 import org.mulesoft.lsp.feature.rename._
@@ -35,6 +38,10 @@ import org.mulesoft.lsp.feature.telemetry.{
   ClientTelemetryMessage,
   TelemetryClientCapabilities,
   TelemetryMessage
+}
+import org.mulesoft.lsp.feature.typedefinition.{
+  ClientTypeDefinitionClientCapabilities,
+  TypeDefinitionClientCapabilities
 }
 import org.mulesoft.lsp.textsync.{TextDocumentSyncKind, _}
 import org.mulesoft.lsp.workspace._
@@ -312,9 +319,14 @@ object LspConvertersClientToShared {
       DefinitionClientCapabilities(v.dynamicRegistration.toOption, v.linkSupport.toOption)
   }
 
-  implicit class ImplementationClientCapabilitiesConverter(v: ClientDefinitionClientCapabilities) {
+  implicit class ImplementationClientCapabilitiesConverter(v: ClientImplementationClientCapabilities) {
     def toShared: ImplementationClientCapabilities =
       ImplementationClientCapabilities(v.dynamicRegistration.toOption, v.linkSupport.toOption)
+  }
+
+  implicit class TypeDefinitionClientCapabilitiesConverter(v: ClientTypeDefinitionClientCapabilities) {
+    def toShared: TypeDefinitionClientCapabilities =
+      TypeDefinitionClientCapabilities(v.dynamicRegistration.toOption, v.linkSupport.toOption)
   }
 
   implicit class DocumentSymbolConverter(v: ClientDocumentSymbol) {

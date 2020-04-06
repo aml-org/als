@@ -14,6 +14,7 @@ import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.reference._
 import org.mulesoft.lsp.feature.rename._
 import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage, TelemetryClientCapabilities, TelemetryMessage}
+import org.mulesoft.lsp.feature.typedefinition.{ClientTypeDefinitionClientCapabilities, TypeDefinitionClientCapabilities}
 import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace._
 
@@ -248,6 +249,11 @@ object LspConvertersSharedToClient {
   implicit class ClientImplementationClientCapabilitiesConverter(v: ImplementationClientCapabilities) {
     def toClient: ClientImplementationClientCapabilities =
       ClientImplementationClientCapabilities(v)
+  }
+
+  implicit class ClientTypeDefinitionClientCapabilitiesConverter(v: TypeDefinitionClientCapabilities) {
+    def toClient: ClientTypeDefinitionClientCapabilities =
+      ClientTypeDefinitionClientCapabilities(v)
   }
 
   implicit class ClientDocumentSymbolConverter(v: DocumentSymbol) {
