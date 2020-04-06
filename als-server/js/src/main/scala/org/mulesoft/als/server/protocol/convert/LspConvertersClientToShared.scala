@@ -6,7 +6,7 @@ import org.mulesoft.als.server.protocol.configuration._
 import org.mulesoft.als.server.protocol.diagnostic.ClientCleanDiagnosticTreeParams
 import org.mulesoft.als.server.protocol.serialization.{ClientConversionParams, ClientSerializationParams}
 import org.mulesoft.als.server.protocol.textsync.{ClientDidFocusParams, ClientIndexDialectParams, DidFocusParams, IndexDialectParams}
-import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.lsp.configuration.{ClientStaticRegistrationOptions, StaticRegistrationOptions, TraceKind}
 import org.mulesoft.lsp.convert.LspConvertersClientToShared.{ClientWorkspaceServerCapabilitiesConverter, CompletionOptionsConverter, TextDocumentClientCapabilitiesConverter, TextDocumentSyncOptionsConverter, WorkspaceClientCapabilitiesConverter, WorkspaceFolderConverter}
 import org.mulesoft.lsp.textsync.{ClientTextDocumentSyncOptions, TextDocumentSyncKind}
 import org.mulesoft.lsp.convert.LspConvertersClientToShared._
@@ -91,6 +91,8 @@ object LspConvertersClientToShared {
         }),
         v.completionProvider.toOption.map(_.toShared),
         v.definitionProvider,
+        v.implementationProvider.toOption.map(staticRegistrationToShared),
+        v.typeDefinitionProvider.toOption.map(staticRegistrationToShared),
         v.referencesProvider,
         v.documentSymbolProvider,
         None,
@@ -102,6 +104,11 @@ object LspConvertersClientToShared {
         v.cleanDiagnostics.toOption.map(_.toShared),
         v.conversion.toOption.map(_.toShared)
       )
+  }
+
+  private def staticRegistrationToShared: Any => Either[Boolean, StaticRegistrationOptions] = {
+    case value: Boolean => Left(value)
+    case staticRegistration => Right(staticRegistration.asInstanceOf[ClientStaticRegistrationOptions].toShared)
   }
 
   implicit class InitializeResultConverter(v: ClientAlsInitializeResult) {
