@@ -8,7 +8,11 @@ import org.mulesoft.als.server.protocol.client.{AlsLanguageClient, AlsLanguageCl
 import org.mulesoft.als.server.protocol.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
 import org.mulesoft.als.server.protocol.convert.LspConvertersClientToShared._
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
-import org.mulesoft.als.server.protocol.diagnostic.{ClientCleanDiagnosticTreeParams, ClientFilesInProjectParams}
+import org.mulesoft.als.server.protocol.diagnostic.{
+  ClientAlsPublishDiagnosticsParams,
+  ClientCleanDiagnosticTreeParams,
+  ClientFilesInProjectParams
+}
 import org.mulesoft.als.server.protocol.serialization.{
   ClientConversionParams,
   ClientSerializationParams,
@@ -289,18 +293,18 @@ object ProtocolConnectionBinder {
     // CleanDiagnosticTree
     val onCleanDiagnosticTreeHandlerJs: js.Function2[ClientCleanDiagnosticTreeParams,
                                                      CancellationToken,
-                                                     Thenable[js.Array[ClientPublishDiagnosticsParams]]] =
+                                                     Thenable[js.Array[ClientAlsPublishDiagnosticsParams]]] =
       (param: ClientCleanDiagnosticTreeParams, _: CancellationToken) =>
         resolveHandler(CleanDiagnosticTreeRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
           .toJSPromise
-          .asInstanceOf[Thenable[js.Array[ClientPublishDiagnosticsParams]]]
+          .asInstanceOf[Thenable[js.Array[ClientAlsPublishDiagnosticsParams]]]
 
     protocolConnection.onRequest(
       ClientCleanDiagnosticTreeRequestType.`type`,
       onCleanDiagnosticTreeHandlerJs
         .asInstanceOf[
-          ClientRequestHandler[ClientCleanDiagnosticTreeParams, js.Array[ClientPublishDiagnosticsParams], js.Any]]
+          ClientRequestHandler[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any]]
     )
     // End CleanDiagnosticTree
 

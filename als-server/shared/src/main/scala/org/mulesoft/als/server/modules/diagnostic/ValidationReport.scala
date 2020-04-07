@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.diagnostic
 
+import amf.ProfileName
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 
 /**
@@ -10,9 +11,10 @@ import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
   * @param issues         Validation issues.
   *
   */
-case class ValidationReport(pointOfViewUri: String, issues: Set[ValidationIssue]) {
-  lazy val publishDiagnosticsParams: PublishDiagnosticsParams = AlsPublishDiagnosticsParams(
+case class ValidationReport(pointOfViewUri: String, issues: Set[ValidationIssue], profile: ProfileName) {
+  lazy val publishDiagnosticsParams: AlsPublishDiagnosticsParams = AlsPublishDiagnosticsParams(
     pointOfViewUri,
-    issues.map(_.diagnostic).toSeq
+    issues.map(_.diagnostic).toSeq,
+    profile
   )
 }
