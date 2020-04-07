@@ -2,22 +2,20 @@ package org.mulesoft.amfintegration
 
 import amf.core.model.document.BaseUnit
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 abstract class AmfResolvedUnit(val resolvedUnit: BaseUnit) {
   val originalUnit: BaseUnit
 
-  protected def next(): Option[Future[AmfResolvedUnit]]
+  protected def nextIfNotLast(): Option[Future[AmfResolvedUnit]]
 
-  def latestBU: Future[BaseUnit] = {
-    def innerGetLast(r: AmfResolvedUnit): Future[AmfResolvedUnit] = {
-      r.next()
-        .map(_.flatMap { a: AmfResolvedUnit =>
-          innerGetLast(a)
-        })
-        .getOrElse(Future.successful(r))
+  private def getLastRecursively(r: AmfResolvedUnit): Future[AmfResolvedUnit] =
+    r.nextIfNotLast() match {
+      case Some(f) => f.flatMap(a => getLastRecursively(a))
+      case None    => Future.successful(r)
     }
-    innerGetLast(this).map(_.resolvedUnit)
-  }
+
+  def latestBU: Future[BaseUnit] =
+    getLastRecursively(this).map(_.resolvedUnit)
 }

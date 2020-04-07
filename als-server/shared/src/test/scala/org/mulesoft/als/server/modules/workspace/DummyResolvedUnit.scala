@@ -16,7 +16,7 @@ trait DummyResolvedUnit {
     new AmfResolvedUnit(resolved) {
       override val originalUnit: BaseUnit = amfBaseUnit
 
-      override def next(): Option[Future[AmfResolvedUnit]] = None
+      override def nextIfNotLast(): Option[Future[AmfResolvedUnit]] = None
     }
   }
 }

@@ -2,6 +2,7 @@ package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.model.document.BaseUnit
 import amf.core.services.RuntimeValidator
+import amf.core.validation.SeverityLevels.VIOLATION
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
 import amf.{ProfileName, ProfileNames}
 import org.mulesoft.als.server.ClientNotifierModule
@@ -15,7 +16,7 @@ import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import amf.core.validation.SeverityLevels.VIOLATION
+
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

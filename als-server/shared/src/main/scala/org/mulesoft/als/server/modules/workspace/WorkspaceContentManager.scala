@@ -250,19 +250,23 @@ class WorkspaceContentManager(val folder: String,
 
   private class AmfResolvedUnitImpl(baseUnit: BaseUnit, override val originalUnit: BaseUnit)
       extends AmfResolvedUnit(baseUnit) {
-    override protected def next(): Option[Future[AmfResolvedUnit]] = {
-      val uri = originalUnit.identifier
+    private val uri: String = originalUnit.identifier
+
+    override protected def nextIfNotLast(): Option[Future[AmfResolvedUnit]] =
       repository
         .getParsed(uri)
-        .flatMap { p =>
-          val unit = getCurrentCU(uri, p)
-          if (!unit.isDirty && unit.next.isEmpty && unit.unit.eq(originalUnit))
-            None
-          else
-            Some(unit.getLast.flatMap { _ =>
-              repository.getResolved(uri).get
-            })
-        }
+        .flatMap { nextIfNotLatest(uri) }
+
+    private def nextIfNotLatest(uri: String)(p: ParsedUnit): Option[Future[AmfResolvedUnit]] = {
+      val unit = getCurrentCU(uri, p)
+      if (latestYet(unit)) None
+      else // get me the latest and check again
+        Some(unit.getLast.flatMap { _ =>
+          repository.getResolved(uri).get
+        })
     }
+
+    private def latestYet(unit: CompilableUnit): Boolean =
+      !unit.isDirty && unit.next.isEmpty && unit.unit.eq(originalUnit)
   }
 }
