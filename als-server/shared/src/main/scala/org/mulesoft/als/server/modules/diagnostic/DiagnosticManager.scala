@@ -172,7 +172,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                                       uri,
                                       uuid)
     try {
-      futureResolvedFn().flatMap(_.latestBU).flatMap { baseUnit =>
+      futureResolvedFn().map(_.resolvedUnit).flatMap { baseUnit =>
         RuntimeValidator(baseUnit, profile, resolved = true)
       } andThen {
         case _ =>
