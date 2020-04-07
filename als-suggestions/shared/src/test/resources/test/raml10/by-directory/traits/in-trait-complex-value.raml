@@ -1,0 +1,20 @@
+#%RAML 1.0
+title: test api
+version: v1
+protocols:
+  - HTTP
+baseUri: http://anuri-app.s4b2c/
+traits:
+  client_id_enforcement:
+    description: "A description"
+    headers:
+      client_id:
+        description: The Client-ID of the Application.
+        type: string
+        pattern: ^[0-9a-fA-F]{32,32}
+        example: '1234567890abcd*efABCDEF1234567890'
+      client_secret:
+        description: The Client-Secret of Application.
+        type: string
+        pattern: ^[0-9a-fA-F]{32,32}
+        example: '1234567890ABCDEFabcdef1234567890'

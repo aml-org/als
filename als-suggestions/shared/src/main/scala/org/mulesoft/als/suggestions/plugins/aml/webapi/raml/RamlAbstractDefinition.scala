@@ -31,6 +31,7 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
         }
         val newRequest =
           AmlCompletionRequestBuilder.forElement(info.element,
+                                                 info.original,
                                                  params.declarationProvider.filterLocal(info.name, info.iri),
                                                  params)
         CompletionsPluginHandler
@@ -44,7 +45,7 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
       .getOrElse(Future.successful(Nil))
   }
 
-  private case class ElementInfo(element: DomainElement, name: String, iri: String)
+  private case class ElementInfo(element: DomainElement, original: DomainElement, name: String, iri: String)
 
   private def elementInfo(params: AmlCompletionRequest): Option[ElementInfo] = {
     params.branchStack
@@ -58,14 +59,14 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
                             errorHandler = LocalIgnoreErrorHandler,
                             annotations = r.annotations)
         })
-        Some(ElementInfo(resolved, r.name.value(), r.meta.`type`.head.iri()))
+        Some(ElementInfo(resolved, r, r.name.value(), r.meta.`type`.head.iri()))
 
       case Some(t: Trait) =>
         val resolved =
           getSourceEntry(t, "trait").fold(t.asOperation(params.baseUnit))(e => {
             t.entryAsOperation(params.baseUnit, entry = e, annotations = t.annotations)
           })
-        Some(ElementInfo(resolved, t.name.value(), t.meta.`type`.head.iri()))
+        Some(ElementInfo(resolved, t, t.name.value(), t.meta.`type`.head.iri()))
       case _ => None
     }
   }
