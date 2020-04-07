@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.diagnostic
 
+import amf.ProfileName
 import amf.core.annotations.LexicalInformation
 import amf.core.validation.AMFValidationResult
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
@@ -10,11 +11,12 @@ import org.mulesoft.lsp.feature.diagnostic.DiagnosticRelatedInformation
 
 object DiagnosticConverters {
   def buildIssueResults(results: Map[String, Seq[AMFValidationResult]],
-                        references: Map[String, DiagnosticsBundle]): Seq[ValidationReport] = {
+                        references: Map[String, DiagnosticsBundle],
+                        profile: ProfileName): Seq[ValidationReport] = {
 
     val issuesWithStack = buildIssues(results.values.flatten.toSeq, references)
     results
-      .map(t => ValidationReport(t._1, issuesWithStack.filter(_.filePath == t._1).toSet))
+      .map(t => ValidationReport(t._1, issuesWithStack.filter(_.filePath == t._1).toSet, profile))
       .toSeq
       .sortBy(_.pointOfViewUri)
   }
@@ -46,7 +48,7 @@ object DiagnosticConverters {
               r.location.getOrElse(""),
               range
             ),
-            s"from ${r.location.getOrElse("")} ${range}"
+            s"from ${r.location.getOrElse("")} $range"
           )
 
           t.references.map { stackContainer =>

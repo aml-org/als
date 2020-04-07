@@ -2140,8 +2140,12 @@ declare module '@mulesoft/als-server' {
     textDocument: TextDocumentIdentifier
   }
  export const CleanDiagnosticTreeRequestType: {
-    type: RequestType<CleanDiagnosticTreeParams, PublishDiagnosticsParams[], any, any>
+    type: RequestType<CleanDiagnosticTreeParams, AlsPublishDiagnosticsParams[], any, any>
 
+  }
+
+  export interface AlsPublishDiagnosticsParams extends PublishDiagnosticsParams {
+      profile: string
   }
 
   export interface ConversionParams{

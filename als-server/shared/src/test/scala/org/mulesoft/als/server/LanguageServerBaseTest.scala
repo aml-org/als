@@ -3,6 +3,7 @@ package org.mulesoft.als.server
 import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
 import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
+import org.mulesoft.als.server.modules.diagnostic.AlsPublishDiagnosticsParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.protocol.textsync.DidFocusParams
@@ -50,7 +51,7 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
     openFile(server)(file, content)
   }
 
-  def requestCleanDiagnostic(server: LanguageServer)(uri: String): Future[Seq[PublishDiagnosticsParams]] =
+  def requestCleanDiagnostic(server: LanguageServer)(uri: String): Future[Seq[AlsPublishDiagnosticsParams]] =
     server
       .resolveHandler(CleanDiagnosticTreeRequestType)
       .value
