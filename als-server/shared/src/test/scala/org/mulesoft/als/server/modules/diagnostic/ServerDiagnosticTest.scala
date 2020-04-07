@@ -7,23 +7,29 @@ import amf.core.model.domain.AmfObject
 import amf.core.parser.{Annotations, Fields}
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.modules.ast.BaseUnitListenerParams
+import org.mulesoft.als.server.modules.workspace.DummyResolvedUnit
 import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.textsync.TextDocumentContainer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.amfmanager.AmfParseResult
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
-class ServerDiagnosticTest extends LanguageServerBaseTest {
+class ServerDiagnosticTest extends LanguageServerBaseTest with DummyResolvedUnit {
 
-  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext =
+    ExecutionContext.Implicits.global
 
   override def rootPath: String = ""
 
-  val diagnosticNotifier = new MockDiagnosticClientNotifier
+  var container: Option[TextDocumentContainer] = None
+  val diagnosticNotifier                       = new MockDiagnosticClientNotifier
   override def buildServer(): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
     val dm      = builder.diagnosticManager()
     val factory = builder.buildWorkspaceManagerFactory()
+    container = Option(factory.container)
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addInitializableModule(dm)
       .build()
@@ -181,7 +187,15 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     val eh = new ErrorCollector {}
 
     val amfParseResult: AmfParseResult = new AmfParseResult(amfBaseUnit, eh)
-    dm.onNewAst((amfParseResult, Map.empty), "")
+
+    dm.onNewAst(
+      BaseUnitListenerParams(
+        amfParseResult,
+        Map.empty,
+        () => Future(dummyResolved(amfBaseUnit, container))
+      ),
+      ""
+    )
     for {
       d <- diagnosticNotifier.nextCall
     } yield {

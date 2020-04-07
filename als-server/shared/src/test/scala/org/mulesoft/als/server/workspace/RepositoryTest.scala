@@ -6,7 +6,7 @@ import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.server.logger.EmptyLogger
-import org.mulesoft.als.server.modules.workspace.{ParsedUnit, Repository}
+import org.mulesoft.als.server.modules.workspace.{DummyResolvedUnit, ParsedUnit, Repository}
 import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfmanager.AmfParseResult
 import org.scalatest.{AsyncFunSuite, Matchers}
@@ -14,7 +14,7 @@ import org.scalatest.{AsyncFunSuite, Matchers}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
-class RepositoryTest extends AsyncFunSuite with Matchers with PlatformSecrets {
+class RepositoryTest extends AsyncFunSuite with Matchers with PlatformSecrets with DummyResolvedUnit {
   override val executionContext: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
 
   val amfConfig: AmfInstance = AmfInstance.default
@@ -85,7 +85,7 @@ class RepositoryTest extends AsyncFunSuite with Matchers with PlatformSecrets {
       val apiPU: ParsedUnit = getParsedUnitOrFail(r, api.uri)
       val moddedBU          = apiPU.bu.cloneUnit()
       moddedBU.withLocation("file://newLocation/api.raml")
-      r.update(moddedBU)
+      r.update(moddedBU, Future.successful(dummyResolved(moddedBU)))
       val moddedPU = getParsedUnitOrFail(r, "file://newLocation/api.raml")
       assert(moddedPU.bu.id == apiPU.bu.id) // Same id, but different location
       assert(moddedPU.bu.location() != apiPU.bu.location())
@@ -191,7 +191,7 @@ class RepositoryTest extends AsyncFunSuite with Matchers with PlatformSecrets {
     repository.setCachables(cacheables)
     val env: Environment = buildEnvironment(files)
     val futures: Set[Future[Unit]] = files.map(f => {
-      parse(f.uri, env).map(bu => repository.update(bu.baseUnit))
+      parse(f.uri, env).map(bu => repository.update(bu.baseUnit, Future.successful(dummyResolved(bu.baseUnit))))
     })
     Future.sequence(futures).map(_ => repository)
   }
@@ -203,7 +203,7 @@ class RepositoryTest extends AsyncFunSuite with Matchers with PlatformSecrets {
     repository.setCachables(cacheables)
     val env: Environment = buildEnvironment(files)
     val future = parse(mainFile.uri, env).flatMap(bu => {
-      repository.newTree(bu)
+      repository.newTree(bu, Future.successful(dummyResolved(bu.baseUnit)))
     })
     future.flatMap(_ => Future(repository))
   }

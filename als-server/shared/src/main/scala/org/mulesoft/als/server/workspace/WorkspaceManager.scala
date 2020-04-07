@@ -9,6 +9,7 @@ import org.mulesoft.als.server.modules.workspace.{CompilableUnit, WorkspaceConte
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.command._
 import org.mulesoft.als.server.workspace.extract._
+import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.lsp.Initializable
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
@@ -73,6 +74,9 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
   override def getCU(uri: String, uuid: String): Future[CompilableUnit] =
     getWorkspace(uri).getCompilableUnit(uri)
+
+  override def getResolved(uri: String, uuid: String): Future[AmfResolvedUnit] =
+    getWorkspace(uri).getResolvedUnit(uri)
 
   override def getLastCU(uri: String, uuid: String): Future[CompilableUnit] = {
     getCU(uri, uuid).flatMap(cu => {
