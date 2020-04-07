@@ -22,7 +22,7 @@ class CleanDiagnosticTreeManager(environmentProvider: EnvironmentProvider, logge
     new RequestHandler[CleanDiagnosticTreeParams, Seq[PublishDiagnosticsParams]] {
       override def `type`: CleanDiagnosticTreeRequestType.type = CleanDiagnosticTreeRequestType
 
-      override def apply(params: CleanDiagnosticTreeParams): Future[Seq[PublishDiagnosticsParams]] =
+      override def apply(params: CleanDiagnosticTreeParams): Future[Seq[AlsPublishDiagnosticsParams]] =
         validate(params.textDocument.uri)
     }
   )
@@ -37,7 +37,7 @@ class CleanDiagnosticTreeManager(environmentProvider: EnvironmentProvider, logge
 
   override def initialize(): Future[Unit] = Future.successful()
 
-  def validate(uri: String): Future[Seq[PublishDiagnosticsParams]] = {
+  def validate(uri: String): Future[Seq[AlsPublishDiagnosticsParams]] = {
     val helper = environmentProvider.amfConfiguration.parserHelper
     helper
       .parse(uri, environmentProvider.environmentSnapshot())
@@ -46,6 +46,7 @@ class CleanDiagnosticTreeManager(environmentProvider: EnvironmentProvider, logge
         ParserHelper.report(pr.baseUnit).map(r => (r, pr))
       })
       .map { t =>
+        val profile                                    = t._1.profile
         val list                                       = t._2.tree
         val ge: Map[String, List[AMFValidationResult]] = t._2.groupedErrors
         val report                                     = t._1
@@ -54,7 +55,7 @@ class CleanDiagnosticTreeManager(environmentProvider: EnvironmentProvider, logge
         val merged = list.map(uri => uri -> (ge.getOrElse(uri, Nil) ++ grouped.getOrElse(uri, Nil))).toMap
         logger.debug(s"report conforms: ${report.conforms}", "RequestAMFFullValidationCommandExecutor", "runCommand")
 
-        DiagnosticConverters.buildIssueResults(merged, Map.empty).map(_.publishDiagnosticsParams)
+        DiagnosticConverters.buildIssueResults(merged, Map.empty, profile).map(_.publishDiagnosticsParams)
       }
   }
 }

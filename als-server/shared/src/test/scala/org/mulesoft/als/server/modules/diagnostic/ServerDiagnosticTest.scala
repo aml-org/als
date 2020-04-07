@@ -1,16 +1,13 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.core.annotations.LexicalInformation
-import amf.core.errorhandling.{ErrorCollector, ErrorHandler, StaticErrorCollector}
+import amf.core.errorhandling.ErrorCollector
 import amf.core.metamodel.Obj
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.AmfObject
 import amf.core.parser.{Annotations, Fields}
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
-import amf.plugins.document.vocabularies.model.document.DialectInstance
-import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
-import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.amfmanager.AmfParseResult
 
