@@ -17,7 +17,7 @@ import amf.core.{AMFSerializer, CompilerContextBuilder}
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.plugins.document.vocabularies.model.document.{Dialect, DialectLibrary}
 import amf.{ProfileName, ProfileNames}
 import org.mulesoft.als.ModelBuilder
 import org.mulesoft.amfmanager.BaseUnitImplicits._
@@ -136,9 +136,9 @@ object ParserHelper {
 
   def vendor(model: BaseUnit): Option[Vendor] = {
     val ann = model match {
-      case _: Dialect      => Some(SourceVendor(Aml))
-      case d: EncodesModel => d.encodes.annotations.find(classOf[SourceVendor])
-      case _               => model.annotations.find(classOf[SourceVendor])
+      case _ @(_: Dialect | _: DialectLibrary) => Some(SourceVendor(Aml))
+      case d: EncodesModel                     => d.encodes.annotations.find(classOf[SourceVendor])
+      case _                                   => model.annotations.find(classOf[SourceVendor])
     }
     ann.map(_.vendor)
   }
