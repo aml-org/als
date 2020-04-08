@@ -30,7 +30,8 @@ object Async20PayloadCompletionPlugin extends AMLCompletionPlugin {
     Future {
       val branchStack = request.branchStack
       branchStack.headOption match {
-        case Some(p: Payload) if request.yPartBranch.isKey && !branchStack.exists(_.isInstanceOf[Server]) =>
+        case Some(p: Payload)
+            if request.yPartBranch.isKeyDescendantOf("payload") && !branchStack.exists(_.isInstanceOf[Server]) =>
           request.amfObject match {
             case s: Shape =>
               val mediaTypeFormat = p.schemaMediaType.value()
