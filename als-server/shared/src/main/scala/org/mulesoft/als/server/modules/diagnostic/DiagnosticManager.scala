@@ -1,7 +1,9 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.model.document.BaseUnit
-import amf.core.services.RuntimeValidator
+import amf.core.remote.Amf
+import amf.core.resolution.pipelines.ResolutionPipeline
+import amf.core.services.{RuntimeResolver, RuntimeValidator}
 import amf.core.validation.SeverityLevels.VIOLATION
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
 import amf.{ProfileName, ProfileNames}
@@ -29,7 +31,8 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     extends BaseUnitListener
     with ClientNotifierModule[DiagnosticClientCapabilities, Unit] {
 
-  override val `type`: ConfigType[DiagnosticClientCapabilities, Unit] = DiagnosticConfigType
+  override val `type`: ConfigType[DiagnosticClientCapabilities, Unit] =
+    DiagnosticConfigType
 
   override def applyConfig(config: Option[DiagnosticClientCapabilities]): Unit = {
     // not used
@@ -42,7 +45,8 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     Future.successful()
   }
 
-  private val resultsByUnit: mutable.Map[String, Seq[AMFValidationResult]] = mutable.Map.empty
+  private val resultsByUnit: mutable.Map[String, Seq[AMFValidationResult]] =
+    mutable.Map.empty
 
   /**
     * Called on new AST available
@@ -90,7 +94,8 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                            step: String,
                            profile: ProfileName): Unit = {
 
-    val errors = DiagnosticConverters.buildIssueResults(merge(result), references, profile)
+    val errors =
+      DiagnosticConverters.buildIssueResults(merge(result), references, profile)
 
     logger.debug(s"Number of $step errors is:\n" + errors.flatMap(_.issues).length,
                  "ValidationManager",
@@ -151,7 +156,8 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
 
   // check if DialectInstance <- nameAndVersion ?
   // check if .raml (and force RAML vendor)
-  private def profileName(baseUnit: BaseUnit): ProfileName = ParserHelper.profile(baseUnit)
+  private def profileName(baseUnit: BaseUnit): ProfileName =
+    ParserHelper.profile(baseUnit)
 
   private def report(uri: String,
                      telemetryProvider: TelemetryProvider,
@@ -165,8 +171,13 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                                       uri,
                                       uuid)
     try {
-      val eventualReport: Future[AMFValidationReport] =
-        RuntimeValidator(baseUnit.cloneUnit(), profile)
+      val model = baseUnit.cloneUnit()
+      val eventualReport: Future[AMFValidationReport] = Future {
+        RuntimeResolver.resolve(ParserHelper.vendor(model).map(_.name).getOrElse(Amf.name),
+                                model,
+                                ResolutionPipeline.EDITING_PIPELINE)
+      }.flatMap(bu => RuntimeValidator(bu, profile, resolved = true))
+
       eventualReport.foreach(
         r =>
           telemetryProvider
@@ -174,7 +185,8 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
       eventualReport
     } catch {
       case e: Exception =>
-        val msg = s"DiagnosticManager suffered an unexpected error while cloning unit: ${e.getMessage}"
+        val msg =
+          s"DiagnosticManager suffered an unexpected error while cloning unit: ${e.getMessage}"
         logger.warning(msg, "DiagnosticManager", "report")
         telemetryProvider.addTimedMessage(msg,
                                           "DiagnosticManager",
