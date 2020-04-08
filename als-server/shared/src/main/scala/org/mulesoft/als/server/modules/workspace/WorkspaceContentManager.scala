@@ -157,15 +157,14 @@ class WorkspaceContentManager(val folder: String,
 
   def getResolvedUnit(uri: String)(): Future[AmfResolvedUnit] = {
     repository.getResolved(uri) match {
-      case Some(f) => f
+      case Some(f) => Future.successful(f)
       case _ =>
         getCompilableUnit(uri)
-          .flatMap(
+          .map(
             _ =>
               repository
                 .getResolved(uri)
-                .getOrElse(throw new Exception(s"Asked for an unknown resolved unit ${uri}")))
-
+                .getOrElse(throw new Exception(s"Asked for an unknown resolved unit $uri")))
     }
   }
 
@@ -234,22 +233,10 @@ class WorkspaceContentManager(val folder: String,
   def getRelationships(uri: String): Relationships =
     Relationships(repository, () => Some(getCompilableUnit(uri)))
 
-  private def resolve(unit: BaseUnit): Future[AmfResolvedUnitImpl] = Future {
-    val uuid = UUID.randomUUID().toString
-    telemetryProvider.addTimedMessage("resolve",
-                                      MessageTypes.BEGIN_RESOLUTION,
-                                      "begin resolution",
-                                      unit.identifier,
-                                      uuid)
-    val cloned = unit.cloneUnit()
-    val resolved =
-      environmentProvider.amfConfiguration.parserHelper.editingResolve(cloned)
-    telemetryProvider.addTimedMessage("resolve", MessageTypes.END_RESOLUTION, "end resolution", unit.identifier, uuid)
-    new AmfResolvedUnitImpl(resolved, unit)
-  }
+  private def resolve(unit: BaseUnit): AmfResolvedUnitImpl =
+    new AmfResolvedUnitImpl(unit)
 
-  private class AmfResolvedUnitImpl(baseUnit: BaseUnit, override val originalUnit: BaseUnit)
-      extends AmfResolvedUnit(baseUnit) {
+  private class AmfResolvedUnitImpl(override val originalUnit: BaseUnit) extends AmfResolvedUnit {
     private val uri: String = originalUnit.identifier
 
     override protected def nextIfNotLast(): Option[Future[AmfResolvedUnit]] =
@@ -261,12 +248,23 @@ class WorkspaceContentManager(val folder: String,
       val unit = getCurrentCU(uri, p)
       if (latestYet(unit)) None
       else // get me the latest and check again
-        Some(unit.getLast.flatMap { _ =>
+        Some(unit.getLast.map { _ =>
           repository.getResolved(uri).get
         })
     }
 
     private def latestYet(unit: CompilableUnit): Boolean =
       !unit.isDirty && unit.next.isEmpty && unit.unit.eq(originalUnit)
+
+    override protected def resolvedUnitFn(): Future[BaseUnit] = {
+      val uuid = UUID.randomUUID().toString
+      telemetryProvider.addTimedMessage("resolve", MessageTypes.BEGIN_RESOLUTION, "begin resolution", uri, uuid)
+      Future(
+        environmentProvider.amfConfiguration.parserHelper
+          .editingResolve(originalUnit.cloneUnit())) andThen {
+        case _ =>
+          telemetryProvider.addTimedMessage("resolve", MessageTypes.END_RESOLUTION, "end resolution", uri, uuid)
+      }
+    }
   }
 }

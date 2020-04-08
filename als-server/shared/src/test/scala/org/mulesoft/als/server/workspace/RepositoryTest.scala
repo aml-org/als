@@ -85,7 +85,7 @@ class RepositoryTest extends AsyncFunSuite with Matchers with PlatformSecrets wi
       val apiPU: ParsedUnit = getParsedUnitOrFail(r, api.uri)
       val moddedBU          = apiPU.bu.cloneUnit()
       moddedBU.withLocation("file://newLocation/api.raml")
-      r.update(moddedBU, Future.successful(dummyResolved(moddedBU)))
+      r.update(moddedBU, dummyResolved(moddedBU))
       val moddedPU = getParsedUnitOrFail(r, "file://newLocation/api.raml")
       assert(moddedPU.bu.id == apiPU.bu.id) // Same id, but different location
       assert(moddedPU.bu.location() != apiPU.bu.location())
@@ -191,7 +191,7 @@ class RepositoryTest extends AsyncFunSuite with Matchers with PlatformSecrets wi
     repository.setCachables(cacheables)
     val env: Environment = buildEnvironment(files)
     val futures: Set[Future[Unit]] = files.map(f => {
-      parse(f.uri, env).map(bu => repository.update(bu.baseUnit, Future.successful(dummyResolved(bu.baseUnit))))
+      parse(f.uri, env).map(bu => repository.update(bu.baseUnit, dummyResolved(bu.baseUnit)))
     })
     Future.sequence(futures).map(_ => repository)
   }
@@ -203,7 +203,7 @@ class RepositoryTest extends AsyncFunSuite with Matchers with PlatformSecrets wi
     repository.setCachables(cacheables)
     val env: Environment = buildEnvironment(files)
     val future = parse(mainFile.uri, env).flatMap(bu => {
-      repository.newTree(bu, Future.successful(dummyResolved(bu.baseUnit)))
+      repository.newTree(bu, dummyResolved(bu.baseUnit))
     })
     future.flatMap(_ => Future(repository))
   }

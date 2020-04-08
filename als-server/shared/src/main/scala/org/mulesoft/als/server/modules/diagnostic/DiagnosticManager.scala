@@ -4,7 +4,7 @@ import amf.core.model.document.BaseUnit
 import amf.core.services.RuntimeValidator
 import amf.core.validation.SeverityLevels.VIOLATION
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
-import amf.{ProfileName, ProfileNames}
+import amf._
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
@@ -173,7 +173,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                                       uri,
                                       uuid)
     try {
-      futureResolvedFn().map(_.resolvedUnit).flatMap { baseUnit =>
+      futureResolvedFn().flatMap(_.resolvedUnit).flatMap { baseUnit =>
         RuntimeValidator(baseUnit, profile, resolved = true)
       } andThen {
         case _ =>

@@ -10,13 +10,14 @@ trait DummyResolvedUnit {
 
   def dummyResolved(amfBaseUnit: BaseUnit, container: Option[TextDocumentContainer] = None): AmfResolvedUnit = {
     val cloned = amfBaseUnit.cloneUnit()
-    val resolved =
-      container.map(_.amfConfiguration.parserHelper.editingResolve(cloned)).getOrElse(cloned)
 
-    new AmfResolvedUnit(resolved) {
+    new AmfResolvedUnit() {
       override val originalUnit: BaseUnit = amfBaseUnit
 
       override def nextIfNotLast(): Option[Future[AmfResolvedUnit]] = None
+
+      override protected def resolvedUnitFn(): Future[BaseUnit] =
+        Future.successful(container.map(_.amfConfiguration.parserHelper.editingResolve(cloned)).getOrElse(cloned))
     }
   }
 }

@@ -5,8 +5,11 @@ import amf.core.model.document.BaseUnit
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-abstract class AmfResolvedUnit(val resolvedUnit: BaseUnit) {
+trait AmfResolvedUnit {
+  protected def resolvedUnitFn(): Future[BaseUnit]
+
   val originalUnit: BaseUnit
+  final lazy val resolvedUnit: Future[BaseUnit] = resolvedUnitFn()
 
   protected def nextIfNotLast(): Option[Future[AmfResolvedUnit]]
 
@@ -16,6 +19,6 @@ abstract class AmfResolvedUnit(val resolvedUnit: BaseUnit) {
       case None    => Future.successful(r)
     }
 
-  def latestBU: Future[BaseUnit] =
-    getLastRecursively(this).map(_.resolvedUnit)
+  final def latestBU: Future[BaseUnit] =
+    getLastRecursively(this).flatMap(_.resolvedUnit)
 }

@@ -45,7 +45,7 @@ class Repository(logger: Logger) {
 
   private val units: mutable.Map[String, ParsedUnit] = mutable.Map.empty
 
-  private val resolvedUnits: mutable.Map[String, Future[AmfResolvedUnit]] = mutable.Map.empty
+  private val resolvedUnits: mutable.Map[String, AmfResolvedUnit] = mutable.Map.empty
 
   def getAllFilesUris: List[String] = getIsolatedUris ++ getTreeUris
 
@@ -55,7 +55,7 @@ class Repository(logger: Logger) {
 
   def getParsed(uri: String): Option[ParsedUnit] = tree.parsedUnits.get(uri).orElse(units.get(uri))
 
-  def getResolved(uri: String): Option[Future[AmfResolvedUnit]] = resolvedUnits.get(uri)
+  def getResolved(uri: String): Option[AmfResolvedUnit] = resolvedUnits.get(uri)
 
   def references: Map[String, DiagnosticsBundle] = tree.references
 
@@ -63,16 +63,16 @@ class Repository(logger: Logger) {
 
   def treeUnits(): Iterable[ParsedUnit] = tree.parsedUnits.values
 
-  def update(bu: BaseUnit, futureResolved: Future[AmfResolvedUnit]): Unit = {
+  def update(bu: BaseUnit, resolved: AmfResolvedUnit): Unit = {
     if (tree.contains(bu.identifier)) throw new Exception("Cannot update an unit from the tree")
     val unit = ParsedUnit(bu, inTree = false)
-    resolvedUnits.update(bu.identifier, futureResolved)
+    resolvedUnits.update(bu.identifier, resolved)
     units.update(bu.identifier, unit)
   }
 
   def cleanTree(): Unit = tree = EmptyFileTree
 
-  def newTree(result: AmfParseResult, resolved: Future[AmfResolvedUnit]): Future[Unit] = synchronized {
+  def newTree(result: AmfParseResult, resolved: AmfResolvedUnit): Future[Unit] = synchronized {
     cleanTree()
     MainFileTreeBuilder
       .build(result.eh, result.baseUnit, cachables, visitors, logger)
