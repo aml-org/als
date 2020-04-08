@@ -5,19 +5,11 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.IsInsideRequired
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class OASRequiredObjectCompletionPlugin(ns: NodeShape) {
-
-  def resolve(): Seq[RawSuggestion] = {
-    ns.properties
-      .flatMap(_.name.option())
-      .map(RawSuggestion(_, isAKey = false))
-  }
-}
-
-object OASRequiredObjectCompletionPlugin extends AMLCompletionPlugin {
+trait OASLikeRequiredObjectCompletionPlugin extends AMLCompletionPlugin with IsInsideRequired {
   override def id: String = "OASRequiredObjectCompletionPlugin"
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
@@ -29,11 +21,15 @@ object OASRequiredObjectCompletionPlugin extends AMLCompletionPlugin {
     }(ExecutionContext.Implicits.global)
   }
 
-  private def resolveNode(ns: NodeShape, yPartBranch: YPartBranch): Seq[RawSuggestion] = {
+  private def resolveNode(ns: NodeShape, yPartBranch: YPartBranch): Seq[RawSuggestion] =
+    if (isInsideRequired(yPartBranch)) resolve(ns)
+    else Nil
 
-    if (yPartBranch.isKeyDescendantOf("required") || ((yPartBranch.isValue || yPartBranch.isArray || (yPartBranch.stringValue == "x" && yPartBranch.isInArray)) && yPartBranch
-          .parentEntryIs("required"))) {
-      new OASRequiredObjectCompletionPlugin(ns).resolve()
-    } else Nil
+  private def resolve(ns: NodeShape): Seq[RawSuggestion] = {
+    ns.properties
+      .flatMap(_.name.option())
+      .map(RawSuggestion(_, isAKey = false))
   }
 }
+
+object OASRequiredObjectCompletionPlugin extends OASLikeRequiredObjectCompletionPlugin

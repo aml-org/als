@@ -1,0 +1,18 @@
+asyncapi: 2.0.0
+info:
+  title: MyApi
+  version: 1
+channels:
+  user/signedup:
+    subscribe:
+      message:
+        schemaFormat: application/vnd.aai.asyncapi;version=2.0.0
+        payload:
+          type: object
+          properties:
+            a:
+              type: string
+            b:
+              type: number
+          required:
+            - *
