@@ -205,4 +205,39 @@ class ServerDiagnosticTest extends LanguageServerBaseTest with DummyResolvedUnit
         d.diagnostics.head.message == "DiagnosticManager suffered an unexpected error while validating: should fail")
     }
   }
+
+  test("Trait resolution with error( test resolution error handler") {
+    withServer { server =>
+      val apiPath = s"file://api.raml"
+
+      val apiContent =
+        """#%RAML 1.0
+          |
+          |title: Example API
+          |
+          |traits:
+          |  secured:
+          |    queryParameters:
+          |      access_token:
+          |        descriptionA: A valid access_token is required
+          |
+          |/books:
+          |  get:
+          |    is: [ secured ]
+        """.stripMargin
+
+      /*
+        register dialect -> open invalid instance -> fix -> invalid again
+       */
+      diagnosticNotifier.promises.clear()
+      for {
+        _  <- openFileNotification(server)(apiPath, apiContent)
+        d1 <- diagnosticNotifier.nextCall
+      } yield {
+        server.shutdown()
+        assert(d1.diagnostics.nonEmpty && d1.uri == apiPath)
+        assert(diagnosticNotifier.promises.isEmpty)
+      }
+    }
+  }
 }
