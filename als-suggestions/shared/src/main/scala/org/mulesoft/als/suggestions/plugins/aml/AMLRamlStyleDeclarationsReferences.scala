@@ -16,7 +16,7 @@ import org.mulesoft.als.suggestions.interfaces.{AMLCompletionPlugin, CompletionP
 import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
 import amf.core.parser._
 import scala.concurrent.Future
-
+import org.mulesoft.amfmanager.AmfImplicits._
 class AMLRamlStyleDeclarationsReferences(nodeTypeMappings: Seq[String],
                                          prefix: String,
                                          provider: DeclarationProvider,
@@ -71,7 +71,7 @@ trait AMLDeclarationReferences extends AMLCompletionPlugin {
       case Some(seq) => seq
       case _ =>
         val obj = if (params.amfObject.isInstanceOf[ErrorDeclaration]) params.branchStack.head else params.amfObject
-        obj.meta.`type`.headOption.map(_.iri()).toSeq
+        obj.metaURIs.headOption.toSeq
     }
     candidates.filter(_ != DomainElementModel.`type`.head.iri())
   }

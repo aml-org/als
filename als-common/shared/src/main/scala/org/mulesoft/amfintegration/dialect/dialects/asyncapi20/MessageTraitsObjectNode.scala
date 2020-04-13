@@ -90,4 +90,6 @@ trait MessageAbstractObjectNode extends DialectNode {
 
 object MessageTraitsObjectNode extends MessageAbstractObjectNode {
   override def name: String = "MessageTraitsObjectNode"
+
+  override def isAbstract: Boolean = true
 }
