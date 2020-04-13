@@ -60,13 +60,19 @@ class SerializationManager[S](amfConf: AmfInstance, props: SerializationProps[S]
     else
       unit.flatRefs.find(_.identifier == uri) match {
         case Some(u) => u
-        case None    => unit // shouldn't be possible, should throw exception?
+        case None    => throw new Exception(s"Unreachable code - getUnitFromResolved $uri in BaseUnit ${unit.id}")
       }
 
   private def processRequest(uri: String): Future[SerializationResult[S]] = {
     val bu: Future[BaseUnit] = unitAccessor match {
       case Some(ua) =>
-        ua.getResolved(uri, UUID.randomUUID().toString).flatMap(_.latestBU).map(getUnitFromResolved(_, uri))
+        try {
+          ua.getResolved(uri, UUID.randomUUID().toString).flatMap(_.latestBU).map(getUnitFromResolved(_, uri))
+        } catch {
+          case e: Exception =>
+            logger.warning(e.getMessage, "SerializationManager", "RequestSerialization")
+            Future.successful(Document())
+        }
       case _ =>
         logger.warning("Unit accessor not configured", "SerializationManager", "RequestSerialization")
         Future.successful(Document())
