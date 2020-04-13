@@ -50,7 +50,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
       } else Future.unit
     }
 
-  private def addWorkspace(mainOption: Option[WorkspaceConf], workspace: WorkspaceContentManager) = {
+  private def addWorkspace(mainOption: Option[WorkspaceConf], workspace: WorkspaceContentManager): Unit = {
     workspaces += workspace
     workspace.setConfigMainFile(mainOption)
     mainOption.foreach(conf =>

@@ -3,6 +3,7 @@ package org.mulesoft.als.server.modules.serialization
 import java.util.UUID
 
 import amf.core.model.document.{BaseUnit, Document}
+import amf.plugins.document.webapi.model.{Extension, Overlay}
 import org.mulesoft.als.server.feature.serialization._
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.{BaseUnitListener, BaseUnitListenerParams}
@@ -66,13 +67,17 @@ class SerializationManager[S](amfConf: AmfInstance, props: SerializationProps[S]
   private def processRequest(uri: String): Future[SerializationResult[S]] = {
     val bu: Future[BaseUnit] = unitAccessor match {
       case Some(ua) =>
-        try {
-          ua.getResolved(uri, UUID.randomUUID().toString).flatMap(_.latestBU).map(getUnitFromResolved(_, uri))
-        } catch {
-          case e: Exception =>
-            logger.warning(e.getMessage, "SerializationManager", "RequestSerialization")
-            Future.successful(Document())
-        }
+        ua.getResolved(uri, UUID.randomUUID().toString)
+          .flatMap { r =>
+            if (r.originalUnit.isInstanceOf[Extension] || r.originalUnit.isInstanceOf[Overlay])
+              r.latestBU
+            else r.latestBU.map(getUnitFromResolved(_, uri))
+          }
+          .recoverWith {
+            case e: Exception =>
+              logger.warning(e.getMessage, "SerializationManager", "RequestSerialization")
+              Future.successful(Document())
+          }
       case _ =>
         logger.warning("Unit accessor not configured", "SerializationManager", "RequestSerialization")
         Future.successful(Document())
