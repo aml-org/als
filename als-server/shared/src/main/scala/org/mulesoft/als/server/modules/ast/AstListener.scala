@@ -1,9 +1,11 @@
 package org.mulesoft.als.server.modules.ast
 
 import org.mulesoft.als.server.modules.workspace.DiagnosticsBundle
-import org.mulesoft.als.server.workspace.{UnitRepositoriesManager, WorkspaceManager}
+import org.mulesoft.als.server.workspace.UnitRepositoriesManager
+import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.amfmanager.AmfParseResult
-import org.mulesoft.lsp.InitializableModule
+
+import scala.concurrent.Future
 
 /**
   * AST listener
@@ -28,11 +30,11 @@ trait AstListener[T] {
   protected var unitAccessor: Option[UnitRepositoriesManager] = None
 }
 
-trait BaseUnitListener extends AstListener[(AmfParseResult, Map[String, DiagnosticsBundle])]
+case class BaseUnitListenerParams(parseResult: AmfParseResult,
+                                  diagnosticsBundle: Map[String, DiagnosticsBundle],
+                                  resolvedUnit: () => Future[AmfResolvedUnit])
 
-abstract class AstNotifier[T](val dependencies: List[AstListener[T]]) {
-  protected def notify(bu: T, uuid: String): Unit = dependencies.foreach(_.onNewAst(bu, uuid))
-}
+trait BaseUnitListener extends AstListener[BaseUnitListenerParams]
 
 trait TextListener {
 

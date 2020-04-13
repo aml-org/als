@@ -4,13 +4,16 @@ import amf.core.model.document.BaseUnit
 import amf.core.services.RuntimeValidator
 import amf.core.validation.SeverityLevels.VIOLATION
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
-import amf.{ProfileName, ProfileNames}
+import amf._
+import amf.client.parse.DefaultErrorHandler
+import amf.core.errorhandling.ErrorCollector
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Reconciler
 import org.mulesoft.als.server.modules.workspace.DiagnosticsBundle
+import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
@@ -29,7 +32,8 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     extends BaseUnitListener
     with ClientNotifierModule[DiagnosticClientCapabilities, Unit] {
 
-  override val `type`: ConfigType[DiagnosticClientCapabilities, Unit] = DiagnosticConfigType
+  override val `type`: ConfigType[DiagnosticClientCapabilities, Unit] =
+    DiagnosticConfigType
 
   override def applyConfig(config: Option[DiagnosticClientCapabilities]): Unit = {
     // not used
@@ -42,7 +46,8 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     Future.successful()
   }
 
-  private val resultsByUnit: mutable.Map[String, Seq[AMFValidationResult]] = mutable.Map.empty
+  private val resultsByUnit: mutable.Map[String, Seq[AMFValidationResult]] =
+    mutable.Map.empty
 
   /**
     * Called on new AST available
@@ -50,20 +55,22 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     * @param tuple - (AST, References)
     * @param uuid  - telemetry UUID
     */
-  override def onNewAst(tuple: (AmfParseResult, Map[String, DiagnosticsBundle]), uuid: String): Unit = {
-    val result     = tuple._1
-    val references = tuple._2
-    logger.debug("Got new AST:\n" + result.baseUnit.id, "ValidationManager", "newASTAvailable")
-    val uri = result.location
+  override def onNewAst(tuple: BaseUnitListenerParams, uuid: String): Unit = {
+    val parsedResult     = tuple.parseResult
+    val futureResolvedFn = tuple.resolvedUnit
+    val references       = tuple.diagnosticsBundle
+    logger.debug("Got new AST:\n" + parsedResult.baseUnit.id, "ValidationManager", "newASTAvailable")
+    val uri = parsedResult.location
     telemetryProvider.addTimedMessage("Start report",
                                       "DiagnosticManager",
                                       "onNewAst",
                                       MessageTypes.BEGIN_DIAGNOSTIC,
                                       uri,
                                       uuid)
-
     reconciler
-      .shedule(new ValidationRunnable(uri, () => gatherValidationErrors(uri, result, references, uuid)))
+      .shedule(
+        new ValidationRunnable(uri,
+                               () => gatherValidationErrors(uri, parsedResult, futureResolvedFn, references, uuid)))
       .future andThen {
       case Success(_) =>
         telemetryProvider.addTimedMessage("End report",
@@ -90,7 +97,8 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                            step: String,
                            profile: ProfileName): Unit = {
 
-    val errors = DiagnosticConverters.buildIssueResults(merge(result), references, profile)
+    val errors =
+      DiagnosticConverters.buildIssueResults(merge(result), references, profile)
 
     logger.debug(s"Number of $step errors is:\n" + errors.flatMap(_.issues).length,
                  "ValidationManager",
@@ -111,6 +119,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
 
   private def gatherValidationErrors(uri: String,
                                      result: AmfParseResult,
+                                     resolved: () => Future[AmfResolvedUnit],
                                      references: Map[String, DiagnosticsBundle],
                                      uuid: String): Future[Unit] = {
     val startTime = System.currentTimeMillis()
@@ -118,7 +127,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
     val profile = profileName(result.baseUnit)
     if (notifyParsing) notifyReport(result, references, "parsing", profile)
     this
-      .report(uri, telemetryProvider, result.baseUnit, uuid, profile)
+      .report(uri, telemetryProvider, resolved, result.baseUnit, uuid, profile)
       .map(report => {
         val endTime = System.currentTimeMillis()
         indexNewReport(report, result, uuid)
@@ -155,6 +164,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
 
   private def report(uri: String,
                      telemetryProvider: TelemetryProvider,
+                     futureResolvedFn: () => Future[AmfResolvedUnit],
                      baseUnit: BaseUnit,
                      uuid: String,
                      profile: ProfileName): Future[AMFValidationReport] = {
@@ -165,26 +175,35 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                                       uri,
                                       uuid)
     try {
-      val eventualReport: Future[AMFValidationReport] =
-        RuntimeValidator(baseUnit.cloneUnit(), profile)
-      eventualReport.foreach(
-        r =>
+      futureResolvedFn().flatMap { r =>
+        r.resolvedUnit.flatMap(RuntimeValidator(_, profile, resolved = true)).map { vr =>
+          AMFValidationReport(vr.conforms, vr.model, vr.profile, vr.results ++ r.eh.getErrors)
+        }
+      } andThen {
+        case _ =>
           telemetryProvider
-            .addTimedMessage("End AMF report", "DiagnosticManager", "report", MessageTypes.END_REPORT, uri, uuid))
-      eventualReport
+            .addTimedMessage("End AMF report", "DiagnosticManager", "report", MessageTypes.END_REPORT, uri, uuid)
+      } recoverWith {
+        case e: Exception =>
+          sendFailedClone(uri, telemetryProvider, baseUnit, uuid, e.getMessage)
+      }
     } catch {
       case e: Exception =>
-        val msg = s"DiagnosticManager suffered an unexpected error while cloning unit: ${e.getMessage}"
-        logger.warning(msg, "DiagnosticManager", "report")
-        telemetryProvider.addTimedMessage(msg,
-                                          "DiagnosticManager",
-                                          "report",
-                                          MessageTypes.DIAGNOSTIC_ERROR,
-                                          baseUnit.id,
-                                          uuid)
-
-        Future.successful(failedReportDiagnostic(msg, baseUnit))
+        sendFailedClone(uri, telemetryProvider, baseUnit, uuid, e.getMessage)
     }
+  }
+
+  private def sendFailedClone(uri: String,
+                              telemetryProvider: TelemetryProvider,
+                              baseUnit: BaseUnit,
+                              uuid: String,
+                              e: String) = {
+    val msg =
+      s"DiagnosticManager suffered an unexpected error while validating: $e"
+    logger.warning(msg, "DiagnosticManager", "report")
+    telemetryProvider.addTimedMessage(msg, "DiagnosticManager", "report", MessageTypes.DIAGNOSTIC_ERROR, uri, uuid)
+
+    Future.successful(failedReportDiagnostic(msg, baseUnit))
   }
 
   private final def failedReportDiagnostic(msg: String, baseUnit: BaseUnit): AMFValidationReport =
