@@ -7,6 +7,7 @@ import amf.core.model.domain.DomainElement
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import org.mulesoft.als.common.ElementNameExtractor._
+import org.mulesoft.amfmanager.AmfImplicits._
 
 import scala.collection.mutable
 
@@ -144,10 +145,10 @@ object DeclarationProvider {
 
   private def populateDeclares(de: DeclaresModel, provider: DeclarationProvider): Unit =
     de.declares.foreach { d =>
-      d.meta.`type`
-        .filter(_.iri() != DomainElementModel.`type`.head.iri())
+      d.metaURIs
+        .filter(_ != DomainElementModel.`type`.head.iri())
         .foreach { iri =>
-          provider.put(iri.iri(), d)
+          provider.put(iri, d)
         }
     }
 }

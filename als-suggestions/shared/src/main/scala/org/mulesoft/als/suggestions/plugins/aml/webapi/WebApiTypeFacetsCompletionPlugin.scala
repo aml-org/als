@@ -12,6 +12,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
+import org.mulesoft.amfmanager.AmfImplicits._
 
 import scala.concurrent.Future
 
@@ -36,7 +37,7 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
           case _                      => Some(stringShapeNode)
         }
       case _ =>
-        val s = findMoreSpecific(shape.meta.`type`.map(_.iri()), declarations)
+        val s = findMoreSpecific(shape.metaURIs, declarations)
         s
     }
 
