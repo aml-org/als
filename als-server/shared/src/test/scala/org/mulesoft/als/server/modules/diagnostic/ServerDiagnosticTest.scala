@@ -202,7 +202,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest with DummyResolvedUnit
       assert(d.diagnostics.length == 1)
       assert(d.uri == "location")
       assert(
-        d.diagnostics.head.message == "DiagnosticManager suffered an unexpected error while cloning unit: should fail")
+        d.diagnostics.head.message == "DiagnosticManager suffered an unexpected error while validating: should fail")
     }
   }
 }

@@ -199,7 +199,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                               uuid: String,
                               e: String) = {
     val msg =
-      s"DiagnosticManager suffered an unexpected error while cloning unit: $e"
+      s"DiagnosticManager suffered an unexpected error while validating: $e"
     logger.warning(msg, "DiagnosticManager", "report")
     telemetryProvider.addTimedMessage(msg, "DiagnosticManager", "report", MessageTypes.DIAGNOSTIC_ERROR, uri, uuid)
 
