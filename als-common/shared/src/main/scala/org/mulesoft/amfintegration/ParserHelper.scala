@@ -83,10 +83,11 @@ class ParserHelper(val platform: Platform, amfInit: Future[Unit])
     } yield { Unit }
   }
 
-  def editingResolve(model: BaseUnit): BaseUnit = {
+  def editingResolve(model: BaseUnit, eh: ErrorCollector): BaseUnit = {
     RuntimeResolver.resolve(ParserHelper.vendor(model).map(_.name).getOrElse(Amf.name),
                             model,
-                            ResolutionPipeline.EDITING_PIPELINE)
+                            ResolutionPipeline.EDITING_PIPELINE,
+                            eh)
   }
 
   def compatibilityResolve(model: BaseUnit, target: String): BaseUnit = {

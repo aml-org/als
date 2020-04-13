@@ -5,6 +5,8 @@ import amf.core.services.RuntimeValidator
 import amf.core.validation.SeverityLevels.VIOLATION
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
 import amf._
+import amf.client.parse.DefaultErrorHandler
+import amf.core.errorhandling.ErrorCollector
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
@@ -173,14 +175,17 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                                       uri,
                                       uuid)
     try {
-      futureResolvedFn().flatMap(_.resolvedUnit).flatMap { baseUnit =>
-        RuntimeValidator(baseUnit, profile, resolved = true)
+      futureResolvedFn().flatMap { r =>
+        r.resolvedUnit.flatMap(RuntimeValidator(_, profile, resolved = true)).map { vr =>
+          AMFValidationReport(vr.conforms, vr.model, vr.profile, vr.results ++ r.eh.getErrors)
+        }
       } andThen {
         case _ =>
           telemetryProvider
             .addTimedMessage("End AMF report", "DiagnosticManager", "report", MessageTypes.END_REPORT, uri, uuid)
       } recoverWith {
-        case e: Exception => sendFailedClone(uri, telemetryProvider, baseUnit, uuid, e.getMessage)
+        case e: Exception =>
+          sendFailedClone(uri, telemetryProvider, baseUnit, uuid, e.getMessage)
       }
     } catch {
       case e: Exception =>

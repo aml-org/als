@@ -174,7 +174,10 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def cleanFiles(closedFiles: List[(String, NotificationKind)]): Unit =
-    closedFiles.foreach(cf => dependencies.foreach(_.onRemoveFile(cf._1)))
+    closedFiles.foreach { cf =>
+      repository.removeIsolated(cf._1)
+      dependencies.foreach(_.onRemoveFile(cf._1))
+    }
 
   private def processChangeConfigChanges(snapshot: Snapshot): Future[Unit] = {
     changeState(ProcessingProject)
@@ -261,7 +264,7 @@ class WorkspaceContentManager(val folder: String,
       telemetryProvider.addTimedMessage("resolve", MessageTypes.BEGIN_RESOLUTION, "begin resolution", uri, uuid)
       Future(
         environmentProvider.amfConfiguration.parserHelper
-          .editingResolve(originalUnit.cloneUnit())) andThen {
+          .editingResolve(originalUnit.cloneUnit(), eh)) andThen {
         case _ =>
           telemetryProvider.addTimedMessage("resolve", MessageTypes.END_RESOLUTION, "end resolution", uri, uuid)
       }

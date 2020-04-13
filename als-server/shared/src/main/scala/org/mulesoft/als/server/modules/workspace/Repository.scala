@@ -76,13 +76,18 @@ class Repository(logger: Logger) {
     cleanTree()
     MainFileTreeBuilder
       .build(result.eh, result.baseUnit, cachables, visitors, logger)
-      .map(nt => {
+      .map { nt =>
         tree = nt
-        nt.parsedUnits.keys.foreach(k => {
+        nt.parsedUnits.keys.foreach { k =>
           resolvedUnits.update(k, resolved)
           units.remove(k)
-        })
-      })
+        }
+      }
+  }
+
+  def removeIsolated(uri: String): Unit = {
+    units.remove(uri)
+    resolvedUnits.remove(uri)
   }
 
   def getReferenceStack(uri: String): Seq[ReferenceStack] =
