@@ -25,7 +25,6 @@ class SerializationManager[S](amfConf: AmfInstance, props: SerializationProps[S]
   override val `type`: SerializationConfigType.type = SerializationConfigType
 
   private def resolveAndSerialize(resolved: BaseUnit) = {
-//    val resolved = amfConf.parserHelper.editingResolve(model)
     val value = props.newDocBuilder()
     ParserHelper.toJsonLD(resolved, value).map(_ => value)
   }
@@ -53,15 +52,21 @@ class SerializationManager[S](amfConf: AmfInstance, props: SerializationProps[S]
     SerializationServerOptions(true)
   }
 
-  private def process(ast: BaseUnit): Future[SerializationResult[S]] = {
-//    val cloned = ast.cloneUnit()
+  private def process(ast: BaseUnit): Future[SerializationResult[S]] =
     resolveAndSerialize(ast).map(b => SerializationResult(ast.identifier, b.result))
-  }
+
+  private def getUnitFromResolved(unit: BaseUnit, uri: String): BaseUnit =
+    if (unit.identifier == uri) unit
+    else
+      unit.flatRefs.find(_.identifier == uri) match {
+        case Some(u) => u
+        case None    => unit // shouldn't be possible, should throw exception?
+      }
 
   private def processRequest(uri: String): Future[SerializationResult[S]] = {
     val bu: Future[BaseUnit] = unitAccessor match {
       case Some(ua) =>
-        ua.getResolved(uri, UUID.randomUUID().toString).flatMap(_.latestBU)
+        ua.getResolved(uri, UUID.randomUUID().toString).flatMap(_.latestBU).map(getUnitFromResolved(_, uri))
       case _ =>
         logger.warning("Unit accessor not configured", "SerializationManager", "RequestSerialization")
         Future.successful(Document())
