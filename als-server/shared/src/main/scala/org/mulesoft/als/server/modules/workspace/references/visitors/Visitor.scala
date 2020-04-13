@@ -19,5 +19,9 @@ trait Visitor[T, R] {
   final def visit(element: T): Unit =
     results ++= innerVisit(element)
 
-  final def report: List[R] = results.toList
+  final def report: List[R] = {
+    val r = results.toList
+    results.clear()
+    r
+  }
 }

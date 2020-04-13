@@ -17,7 +17,7 @@ import amf.core.{AMFSerializer, CompilerContextBuilder}
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.plugins.document.vocabularies.model.document.{Dialect, DialectLibrary}
 import amf.{ProfileName, ProfileNames}
 import org.mulesoft.als.ModelBuilder
 import org.mulesoft.amfmanager.BaseUnitImplicits._
@@ -29,7 +29,8 @@ class AmfParseResult(val baseUnit: BaseUnit, val eh: ErrorCollector) {
 
   val location: String = baseUnit.location().getOrElse(baseUnit.id)
 
-  def groupedErrors: Map[String, List[AMFValidationResult]] = eh.getErrors.groupBy(e => e.location.getOrElse(location))
+  def groupedErrors: Map[String, List[AMFValidationResult]] =
+    eh.getErrors.groupBy(e => e.location.getOrElse(location))
 
   lazy val tree: Set[String] = baseUnit.flatRefs
     .map(bu => bu.location().getOrElse(bu.id))
@@ -46,7 +47,9 @@ class ParserHelper(val platform: Platform, amfInit: Future[Unit])
 
     RuntimeCompiler
       .forContext(
-        new CompilerContextBuilder(inputFile, plat.getOrElse(platform), eh).withEnvironment(env).build(),
+        new CompilerContextBuilder(inputFile, plat.getOrElse(platform), eh)
+          .withEnvironment(env)
+          .build(),
         None,
         None,
         UnspecifiedReference
@@ -66,7 +69,8 @@ class ParserHelper(val platform: Platform, amfInit: Future[Unit])
       Environment().add(new ResourceLoader {
 
         /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
-        override def fetch(resource: String): Future[Content] = Future(new Content(c, resource))
+        override def fetch(resource: String): Future[Content] =
+          Future(new Content(c, resource))
 
         /** Accepts specified resource. */
         override def accepts(resource: String): Boolean = resource == url
@@ -79,10 +83,11 @@ class ParserHelper(val platform: Platform, amfInit: Future[Unit])
     } yield { Unit }
   }
 
-  def editingResolve(model: BaseUnit): BaseUnit = {
+  def editingResolve(model: BaseUnit, eh: ErrorCollector): BaseUnit = {
     RuntimeResolver.resolve(ParserHelper.vendor(model).map(_.name).getOrElse(Amf.name),
                             model,
-                            ResolutionPipeline.EDITING_PIPELINE)
+                            ResolutionPipeline.EDITING_PIPELINE,
+                            eh)
   }
 
   def compatibilityResolve(model: BaseUnit, target: String): BaseUnit = {
@@ -112,27 +117,29 @@ class ParserHelper(val platform: Platform, amfInit: Future[Unit])
     generateOutput(config, model)
   }
 
-  override def parse(uri: String): Future[AmfParseResult] = parse(uri, Environment())
+  override def parse(uri: String): Future[AmfParseResult] =
+    parse(uri, Environment())
 }
 
 object ParserHelper {
   def toJsonLD(resolved: BaseUnit, builder: DocBuilder[_]): Future[Unit] = {
-    new AMFSerializer(
-      resolved,
-      Mimes.`APPLICATION/LD+JSONLD`,
-      Amf.name,
-      RenderOptions().withCompactUris.withoutSourceMaps).renderToBuilder(builder)(ExecutionContext.Implicits.global)
+    new AMFSerializer(resolved,
+                      Mimes.`APPLICATION/LD+JSONLD`,
+                      Amf.name,
+                      RenderOptions().withCompactUris.withoutSourceMaps)
+      .renderToBuilder(builder)(ExecutionContext.Implicits.global)
   }
-  def report(model: BaseUnit): Future[AMFValidationReport] = RuntimeValidator(model, profile(model))
+  def report(model: BaseUnit): Future[AMFValidationReport] =
+    RuntimeValidator(model, profile(model))
 
   def reportResolved(model: BaseUnit): Future[AMFValidationReport] =
     RuntimeValidator(model, profile(model), resolved = true)
 
   def vendor(model: BaseUnit): Option[Vendor] = {
     val ann = model match {
-      case _: Dialect      => Some(SourceVendor(Aml))
-      case d: EncodesModel => d.encodes.annotations.find(classOf[SourceVendor])
-      case _               => model.annotations.find(classOf[SourceVendor])
+      case _ @(_: Dialect | _: DialectLibrary) => Some(SourceVendor(Aml))
+      case d: EncodesModel                     => d.encodes.annotations.find(classOf[SourceVendor])
+      case _                                   => model.annotations.find(classOf[SourceVendor])
     }
     ann.map(_.vendor)
   }

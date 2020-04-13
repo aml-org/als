@@ -39,6 +39,7 @@ class AmfElementVisitors(allVisitors: Seq[AmfElementVisitor[_]]) {
   }
 
   final def applyAmfVisitors(elements: List[AmfElement]): Unit = {
+
     val iterator = AmfElementStrategy.iterator(elements)
     while (iterator.hasNext) {
       val element = iterator.next()

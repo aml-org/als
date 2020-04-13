@@ -136,6 +136,7 @@ object MainFileTreeBuilder {
             cachables: Set[String],
             visitors: AmfElementVisitors,
             logger: Logger): Future[ParsedMainFileTree] = {
+
     visitors.applyAmfVisitors(List(main))
     val tree = ParsedMainFileTree(eh,
                                   main,
