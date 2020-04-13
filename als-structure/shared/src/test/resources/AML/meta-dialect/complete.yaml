@@ -1,0 +1,36 @@
+#%Dialect 1.0
+
+dialect: MyDialect
+version: 1.0
+
+external:
+  schema-org: http://schema.org
+nodeMappings:
+  NodeMapping1:
+    classTerm: schema-org.nm1
+    mapping:
+      Mapping1:
+        propertyTerm: schema-org.m1
+        range: string
+      Mapping2:
+        propertyTerm: schema-org.m2
+        range: integer
+  NodeMapping2:
+    classTerm: schema-org.nm2
+    mapping:
+      Mapping1:
+        propertyTerm: schema-org.m21
+        range: NodeMapping1
+      Mapping2:
+        propertyTerm: schema-org.m22
+        range: integer
+
+documents:
+  root:
+    encodes: NodeMapping1
+    declares:
+      types: NodeMapping2
+  library:
+    declares:
+      types: NodeMapping2
+      schemes: NodeMapping1

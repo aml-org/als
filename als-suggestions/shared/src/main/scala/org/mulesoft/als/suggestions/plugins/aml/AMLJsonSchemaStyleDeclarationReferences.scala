@@ -8,7 +8,7 @@ import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
-import org.mulesoft.als.common.ElementNameExtractor._
+import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.als.common.YPartBranch
 import org.yaml.model.{DoubleQuoteMark, NoMark, ScalarMark}
 

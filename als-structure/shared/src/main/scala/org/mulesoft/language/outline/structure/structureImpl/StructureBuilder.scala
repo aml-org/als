@@ -1,14 +1,17 @@
 package org.mulesoft.language.outline.structure.structureImpl
 
 import amf.client.model.DataTypes
+import amf.core.annotations.SourceVendor
 import amf.core.metamodel.Field
 import amf.core.metamodel.Type.Scalar
 import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, PropertyShapeModel}
 import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
+import amf.core.remote.{Oas, Oas30, Raml, Vendor}
 import amf.core.remote._
 import amf.core.vocabulary.Namespace.XsdTypes
+import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{DialectInstance, DialectInstanceUnit}
 import amf.plugins.domain.shapes.metamodel._
@@ -22,7 +25,10 @@ import org.mulesoft.amfmanager.dialect.webapi.oas.{Oas20DialectWrapper, Oas30Dia
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
-import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.AmlBuilderFactory
+import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.{
+  AmlBuilderFactory,
+  AmlMetaDialectBuilderFactory
+}
 import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{
   Async20BuilderFactory,
   Oas20BuilderFactory,

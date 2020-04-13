@@ -8,7 +8,7 @@ import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import org.mulesoft.als.common.ElementNameExtractor._
+import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
