@@ -467,6 +467,23 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
+  test("Workspace Manager test isolated file that needs encodes") {
+    val text =
+      """#%RAML 1.0
+        |title: test
+        |""".stripMargin
+    withServer[Assertion] { server =>
+      for {
+        _ <- server.initialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("for-encode")}")))
+        _ <- Future(openFile(server)(s"${filePath("for-encode/api with spaces.raml")}", text))
+        b <- diagnosticClientNotifier.nextCall
+      } yield {
+        b.diagnostics.isEmpty should be(true)
+      }
+    }
+  }
+
   override def buildServer(): LanguageServer = {
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addRequestModule(factory.structureManager)
