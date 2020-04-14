@@ -36,7 +36,7 @@ class AMLRamlStyleDeclarationsReferences(nodeTypeMappings: Seq[String],
       .map(n => alias + "." + n)
 
   private def resolveLocal(actualName: Option[String]) = {
-    val names = nodeTypeMappings.flatMap(provider.forNodeType)
+    val names = nodeTypeMappings.flatMap(np => provider.forNodeType(np).map(_._1))
     actualName.fold(names)(n => names.filter(_ != n))
   }
 }
