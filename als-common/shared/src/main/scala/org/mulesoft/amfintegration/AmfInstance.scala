@@ -11,6 +11,7 @@ import amf.plugins.document.webapi.{Async20Plugin, Oas20Plugin, Oas30Plugin, Ram
 import amf.plugins.features.validation.AMFValidatorPlugin
 import org.mulesoft.als.{CompilerEnvironment, ModelBuilder}
 import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
+import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.concurrent.Future
 
