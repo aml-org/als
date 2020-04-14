@@ -22,7 +22,10 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     val info =
-      if (params.amfObject.isInstanceOf[DataNode]) elementInfo(params) else None
+      if (params.amfObject
+            .isInstanceOf[DataNode] && !params.yPartBranch.isIncludeTagValue)
+        elementInfo(params)
+      else None
 
     info
       .map { info =>
