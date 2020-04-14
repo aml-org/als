@@ -26,7 +26,8 @@ class ExchangeConfigReaderTest extends AsyncFlatSpec with PlatformSecrets with L
     TestConfig("son-dependency", "api.raml", List(base + "son-dependency/dependency/lib.raml")),
     TestConfig("two-dependencies",
                "api.raml",
-               List(base + "two-dependencies/dependency/lib.raml", base + "two-dependencies/dependency2/lib2.raml"))
+               List(base + "two-dependencies/dependency/lib.raml", base + "two-dependencies/dependency2/lib2.raml")),
+    TestConfig("for-encode", "api%20with%20space.raml", Nil)
   )
 
   fixture.foreach { testCase =>
