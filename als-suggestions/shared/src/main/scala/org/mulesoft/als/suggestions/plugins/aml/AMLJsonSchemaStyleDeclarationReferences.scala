@@ -24,8 +24,8 @@ class AMLJsonSchemaStyleDeclarationReferences(dialect: Dialect,
   def resolve(dp: DeclarationProvider): Seq[RawSuggestion] = {
     val declarationsPath = dialect.documents().declarationsPath().option().map(_ + "/").getOrElse("")
     val routes = ids.flatMap { id =>
-      dp.forNodeType(id).filter(n => !actualName.contains(n)).map { name =>
-        nameForIri(id).fold(s"#/$name")(n => s"#/$declarationsPath$n/$name")
+      dp.forNodeType(id).filter(n => !actualName.contains(n._1)).map {
+        case (name, nId) => nameForIri(nId).fold(s"#/$name")(n => s"#/$declarationsPath$n/$name")
       }
     }
     AMLJsonSchemaStyleDeclarationReferences.resolveRoutes(routes, yPart)
