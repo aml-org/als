@@ -15,6 +15,7 @@ import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, 
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{EmptyJvmSerializationProps, JvmSerializationProps, LanguageServerBuilder}
 import org.mulesoft.amfintegration.AmfInstance
+import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.collection.JavaConverters._
 
