@@ -151,7 +151,8 @@ class WorkspaceContentManager(val folder: String,
     parse(file, environment, uuid)
       .map { bu =>
         repository.update(bu.baseUnit, resolve(bu.baseUnit))
-        dependencies.foreach(_.onNewAst(BaseUnitListenerParams(bu, Map(), getResolvedUnit(file)), uuid))
+        dependencies.foreach(
+          _.onNewAst(BaseUnitListenerParams(bu, Map(), getResolvedUnit(bu.baseUnit.identifier)), uuid))
       }
   }
 
