@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11api-trait-include.raml",
-    "filterText": "api-trait-include.raml",
+    "filterText": "//api-trait-include.raml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 27
+          "line": 3,
+          "character": 34
         },
         "end": {
-          "line": 5,
-          "character": 27
+          "line": 3,
+          "character": 36
         }
       },
-      "newText": "api-trait-include.raml"
+      "newText": "//api-trait-include.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "api-trait-inlined.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11api-trait-inlined.raml",
+    "filterText": "//api-trait-inlined.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 34
+        },
+        "end": {
+          "line": 3,
+          "character": 36
+        }
+      },
+      "newText": "//api-trait-inlined.raml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11api.raml",
-    "filterText": "api.raml",
+    "filterText": "//api.raml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,45 +75,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 27
+          "line": 3,
+          "character": 34
         },
         "end": {
-          "line": 5,
-          "character": 27
+          "line": 3,
+          "character": 36
         }
       },
-      "newText": "api.raml"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "double-slash.raml",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11double-slash.raml",
-    "filterText": "double-slash.raml",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 27
-        },
-        "end": {
-          "line": 5,
-          "character": 27
-        }
-      },
-      "newText": "double-slash.raml"
+      "newText": "//api.raml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11expected/",
-    "filterText": "expected/",
+    "filterText": "//expected/",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -105,15 +105,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 27
+          "line": 3,
+          "character": 34
         },
         "end": {
-          "line": 5,
-          "character": 27
+          "line": 3,
+          "character": 36
         }
       },
-      "newText": "expected/"
+      "newText": "//expected/"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
