@@ -16,14 +16,14 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class AMLJsonSchemaStyleDeclarationReferences(dialect: Dialect,
-                                              ranges: Seq[String],
+                                              ids: Seq[String],
                                               actualName: Option[String],
                                               yPart: YPartBranch,
                                               iriToPath: Map[String, String]) {
 
   def resolve(dp: DeclarationProvider): Seq[RawSuggestion] = {
     val declarationsPath = dialect.documents().declarationsPath().option().map(_ + "/").getOrElse("")
-    val routes = ranges.flatMap { id =>
+    val routes = ids.flatMap { id =>
       dp.forNodeType(id).filter(n => !actualName.contains(n)).map { name =>
         nameForIri(id).fold(s"#/$name")(n => s"#/$declarationsPath$n/$name")
       }
@@ -44,7 +44,6 @@ object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences 
   override def id: String = "AMLJsonSchemaStyleDeclarationReferences"
 
   def applies(request: AmlCompletionRequest): Boolean = {
-    val stringValue = request.yPartBranch.stringValue
     request.yPartBranch.isValue && request.yPartBranch.parentEntryIs("$ref") && request.actualDialect
       .documents()
       .referenceStyle()
@@ -70,7 +69,7 @@ object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences 
 
     val mappings: Seq[NodeMapping] = request.actualDialect.declares.collect({ case n: NodeMapping => n })
 
-    val map: Map[String, String] = request.actualDialect
+    val iriToPath: Map[String, String] = request.actualDialect
       .documents()
       .root()
       .declaredNodes()
@@ -82,7 +81,7 @@ object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences 
             .map(iri => iri -> dn.name().value()))
       .toMap
 
-    new AMLJsonSchemaStyleDeclarationReferences(request.actualDialect, ids, actualName, request.yPartBranch, map)
+    new AMLJsonSchemaStyleDeclarationReferences(request.actualDialect, ids, actualName, request.yPartBranch, iriToPath)
       .resolve(request.declarationProvider)
   }
 

@@ -4,6 +4,7 @@ import amf.core.model.domain.{AmfElement, _}
 import amf.core.parser.{FieldEntry, Value}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.DomainElementSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.NameFieldSymbolBuilder
+import org.mulesoft.amfmanager.AmfImplicits._
 
 trait BuilderFactory {
 
@@ -16,7 +17,7 @@ trait BuilderFactory {
   def baseUnitBuilder: ElementSymbolBuilderCompanion
 
   def builderFor[T <: AmfObject](obj: T): Option[ElementSymbolBuilder[_ <: AmfElement]] =
-    builderFor[T](obj.meta.`type`.map(_.iri()), obj)
+    builderFor[T](obj.metaURIs, obj)
 
   def builderFor(e: FieldEntry, location: Option[String]): Option[ElementSymbolBuilder[_ <: AmfElement]] =
     e match {

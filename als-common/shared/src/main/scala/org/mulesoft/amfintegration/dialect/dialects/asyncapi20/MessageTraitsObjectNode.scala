@@ -4,10 +4,7 @@ import amf.core.vocabulary.Namespace.XsdTypes.xsdString
 import amf.dialects.oas.nodes.{AMLExternalDocumentationObject, AMLTagObject, DialectNode}
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.{MessageModel, PayloadModel}
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.{
-  MessageBindingObjectNode,
-  MessageBindingsObjectNode
-}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.MessageBindingsObjectNode
 
 trait MessageAbstractObjectNode extends DialectNode {
   override def nodeTypeMapping: String = MessageModel.`type`.head.iri()
@@ -90,4 +87,6 @@ trait MessageAbstractObjectNode extends DialectNode {
 
 object MessageTraitsObjectNode extends MessageAbstractObjectNode {
   override def name: String = "MessageTraitsObjectNode"
+
+  override def isAbstract: Boolean = true
 }

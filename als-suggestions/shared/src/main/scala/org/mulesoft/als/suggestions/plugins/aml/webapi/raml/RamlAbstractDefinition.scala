@@ -11,6 +11,7 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLRefTagCompletionPlugin
 import org.mulesoft.als.suggestions.{CompletionsPluginHandler, RawSuggestion}
 import org.yaml.model.{YMap, YMapEntry, YNode}
+import org.mulesoft.amfmanager.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -62,14 +63,14 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
                             errorHandler = LocalIgnoreErrorHandler,
                             annotations = r.annotations)
         })
-        Some(ElementInfo(resolved, r, r.name.value(), r.meta.`type`.head.iri()))
+        Some(ElementInfo(resolved, r, r.name.value(), r.metaURIs.head))
 
       case Some(t: Trait) =>
         val resolved =
           getSourceEntry(t, "trait").fold(t.asOperation(params.baseUnit))(e => {
             t.entryAsOperation(params.baseUnit, entry = e, annotations = t.annotations)
           })
-        Some(ElementInfo(resolved, t, t.name.value(), t.meta.`type`.head.iri()))
+        Some(ElementInfo(resolved, t, t.name.value(), t.metaURIs.head))
       case _ => None
     }
   }

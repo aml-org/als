@@ -7,7 +7,7 @@ import org.mulesoft.als.server.feature.serialization._
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.UnitRepositoriesManager
 import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.amfmanager.BaseUnitImplicits._
+import org.mulesoft.amfmanager.AmfImplicits._
 import org.mulesoft.lsp.feature.RequestHandler
 
 import scala.concurrent.ExecutionContext.Implicits.global

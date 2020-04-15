@@ -11,7 +11,7 @@ import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.extract.{WorkspaceConf, WorkspaceConfigurationProvider}
 import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.amfmanager.AmfParseResult
-import org.mulesoft.amfmanager.BaseUnitImplicits._
+import org.mulesoft.amfmanager.AmfImplicits._
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global

@@ -8,6 +8,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
+import org.mulesoft.amfmanager.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -57,7 +58,7 @@ object AMLRootDeclarationsCompletionPlugin extends AMLCompletionPlugin {
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     if (params.yPartBranch.isAtRoot && params.yPartBranch.isKey && !isInFieldValue(params))
       new AMLRootDeclarationsCompletionPlugin(params)
-        .resolve(params.amfObject.meta.`type`.head.iri())
+        .resolve(params.amfObject.metaURIs.head)
     else emptySuggestion
   }
 }

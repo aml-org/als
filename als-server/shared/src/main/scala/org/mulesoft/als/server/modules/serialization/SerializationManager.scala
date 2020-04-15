@@ -9,10 +9,12 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.{BaseUnitListener, BaseUnitListenerParams}
 import org.mulesoft.als.server.{ClientNotifierModule, RequestModule, SerializationProps}
 import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.amfmanager.BaseUnitImplicits._
 import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.feature.RequestHandler
 
+import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
+import org.mulesoft.lsp.feature.RequestHandler
+import org.mulesoft.amfmanager.AmfImplicits._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

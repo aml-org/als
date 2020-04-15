@@ -7,6 +7,7 @@ import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import org.mulesoft.als.common.ObjectInTree
+import org.mulesoft.amfmanager.AmfImplicits._
 
 case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDialect: Dialect, nm: NodeMapping) {
 
@@ -54,10 +55,10 @@ case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDialect: Dial
 
 object DialectNodeFinder {
   def find(amfObject: AmfObject, fieldEntry: Option[FieldEntry], actualDialect: Dialect): Option[DomainElement] = {
-    amfObject.meta.`type`.flatMap { v =>
+    amfObject.metaURIs.flatMap { v =>
       actualDialect.declares.find {
         case s: NodeMapping =>
-          s.nodetypeMapping.value() == v.iri() &&
+          s.nodetypeMapping.value() == v &&
             fieldEntry.forall(f => {
               s.propertiesMapping()
                 .find(
