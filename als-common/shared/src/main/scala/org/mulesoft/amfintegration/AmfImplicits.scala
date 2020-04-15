@@ -11,12 +11,8 @@ object AmfImplicits {
 
   implicit class AmfObjectImp(amfObject: AmfObject) {
     def metaURIs: List[String] = amfObject.meta.`type` match {
-      case head :: tail if isAbstract => (amfObject.abstractURI) +: (tail.map(_.iri()))
+      case head :: tail if isAbstract => (head.iri() + "Abstract") +: (tail.map(_.iri()))
       case l                          => l.map(_.iri())
-    }
-
-    def abstractURI: String = {
-      amfObject.meta.`type`.head.iri() + "Abstract"
     }
 
     lazy val isAbstract: Boolean = amfObject.fields

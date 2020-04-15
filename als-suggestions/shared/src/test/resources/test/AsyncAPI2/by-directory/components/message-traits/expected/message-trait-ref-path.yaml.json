@@ -30,36 +30,6 @@
     "command": null
   },
   {
-    "label": "#/components/messages/ms",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Reference to #/components/messages/ms",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11#/components/messages/ms",
-    "filterText": "\"#/components/messages/ms\"",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 8,
-          "character": 16
-        },
-        "end": {
-          "line": 8,
-          "character": 16
-        }
-      },
-      "newText": "\"#/components/messages/ms\""
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "expected/",
     "kind": [],
     "detail": "unknown",

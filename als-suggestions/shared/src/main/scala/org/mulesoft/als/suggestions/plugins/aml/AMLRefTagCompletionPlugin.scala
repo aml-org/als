@@ -37,8 +37,7 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
 
   protected def isObjectDeclarable(params: AmlCompletionRequest): Boolean = {
     params.amfObject.metaURIs
-      .exists(v => params.declarationProvider.isTermDeclarable(v)) ||
-    (!params.amfObject.isAbstract && params.declarationProvider.isTermDeclarable(params.amfObject.abstractURI))
+      .exists(v => params.declarationProvider.isTermDeclarable(v))
   }
 
   def getSuggestion(params: AmlCompletionRequest, style: Option[String]): Seq[RawSuggestion] = {
