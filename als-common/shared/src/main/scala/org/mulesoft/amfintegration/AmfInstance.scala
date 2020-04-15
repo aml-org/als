@@ -14,6 +14,7 @@ import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 // todo: move to another module
 class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Environment)

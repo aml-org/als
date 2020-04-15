@@ -9,7 +9,7 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementDefaultVisitors
 import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.amfmanager.AmfParseResult
-import org.mulesoft.amfmanager.BaseUnitImplicits._
+import org.mulesoft.amfmanager.AmfImplicits._
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.collection.mutable

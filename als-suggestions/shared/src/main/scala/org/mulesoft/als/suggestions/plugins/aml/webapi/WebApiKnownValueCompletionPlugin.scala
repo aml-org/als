@@ -7,6 +7,7 @@ import amf.plugins.domain.webapi.models.Parameter
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.AbstractKnownValueCompletionPlugin
+import org.mulesoft.amfmanager.AmfImplicits._
 
 import scala.concurrent.Future
 
@@ -31,7 +32,7 @@ trait WebApiKnownValueCompletionPlugin extends AbstractKnownValueCompletionPlugi
       fe.field.value.iri().equals(ScalarShapeModel.DataType.value.iri())
 
   protected def isParam(params: AmlCompletionRequest): Boolean =
-    params.amfObject.meta.`type`.headOption.map(_.iri()).contains(ParameterModel.`type`.head.iri())
+    params.amfObject.metaURIs.headOption.contains(ParameterModel.`type`.head.iri())
 
 }
 
