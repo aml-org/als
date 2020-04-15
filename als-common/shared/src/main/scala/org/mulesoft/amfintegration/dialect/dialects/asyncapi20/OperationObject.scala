@@ -12,7 +12,7 @@ object OperationObject extends OperationAbstractObjectNode {
       .withName("traits")
       .withNodePropertyMapping(OperationModel.Extends.value.iri())
       .withAllowMultiple(true)
-      .withObjectRange(Seq(OperationModel.Extends.value.iri())),
+      .withObjectRange(Seq(OperationTraitsObjectNode.id)),
     PropertyMapping()
       .withId(location + "#/declarations/Operation/message")
       .withName("message")

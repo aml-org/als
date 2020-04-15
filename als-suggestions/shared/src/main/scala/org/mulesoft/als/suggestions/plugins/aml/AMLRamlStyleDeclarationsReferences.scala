@@ -36,7 +36,7 @@ class AMLRamlStyleDeclarationsReferences(nodeTypeMappings: Seq[String],
       .map(n => alias + "." + n)
 
   private def resolveLocal(actualName: Option[String]) = {
-    val names = nodeTypeMappings.flatMap(np => provider.forNodeType(np).map(_._1))
+    val names = nodeTypeMappings.flatMap(np => provider.forNodeType(np))
     actualName.fold(names)(n => names.filter(_ != n))
   }
 }
@@ -70,8 +70,7 @@ trait AMLDeclarationReferences extends AMLCompletionPlugin {
       .map(_.objectRange().flatMap(_.option())) match {
       case Some(seq) => seq
       case _ =>
-        val obj = if (params.amfObject.isInstanceOf[ErrorDeclaration]) params.branchStack.head else params.amfObject
-        obj.metaURIs.headOption.toSeq
+        params.amfObject.metaURIs.headOption.toSeq
     }
     candidates.filter(_ != DomainElementModel.`type`.head.iri())
   }

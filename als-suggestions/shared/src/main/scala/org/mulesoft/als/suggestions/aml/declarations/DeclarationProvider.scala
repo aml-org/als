@@ -31,12 +31,12 @@ class DeclarationProvider(componentId: Option[String] = None) {
     def nonEmpty: Boolean = local.nonEmpty || alias.nonEmpty
   }
 
-  def forNodeType(nodeTypeMapping: String): Set[(Name, String)] =
-    declarations.getOrElse(nodeTypeMapping, Set.empty).map(nm => (nm._1, nm._2.metaURIs.head)) ++
+  def forNodeType(nodeTypeMapping: String): Set[Name] =
+    declarations.getOrElse(nodeTypeMapping, Set.empty).map(_._1) ++
       libraries
         .filter(t => t._2.isLocallyDeclared(nodeTypeMapping))
         .keys
-        .map(n => (n + ".", nodeTypeMapping))
+        .map(_ + ".")
         .toSet
 
   def filterLocalByType(nodeTypeMapping: String): Set[DomainElement] =
@@ -45,7 +45,7 @@ class DeclarationProvider(componentId: Option[String] = None) {
   def forNodeType(nodeTypeMapping: String, alias: Alias): Set[Name] =
     libraries
       .get(alias)
-      .map(d => d.forNodeType(nodeTypeMapping).map(_._1))
+      .map(d => d.forNodeType(nodeTypeMapping))
       .getOrElse(Set.empty)
 
   type Alias           = String
@@ -146,8 +146,7 @@ object DeclarationProvider {
 
   private def populateDeclares(de: DeclaresModel, provider: DeclarationProvider): Unit =
     de.declares.foreach { d =>
-      d.meta.`type`
-        .map(_.iri())
+      d.metaURIs
         .filter(_ != DomainElementModel.`type`.head.iri())
         .foreach { iri =>
           provider.put(iri, d)
