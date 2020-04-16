@@ -13,6 +13,7 @@ import org.mulesoft.lsp.textsync.TextDocumentSyncOptions
   *                               omitted it defaults to `TextDocumentSyncKind.None`.
   * @param completionProvider     The server provides completion support.
   * @param definitionProvider     The server provides goto definition support.
+  * @param implementationProvider The server provides goto implementation support.
   * @param referencesProvider     The server provides find references support.
   * @param documentSymbolProvider The server provides document symbol support.
   * @param renameProvider         The server provides rename support. RenameOptions may only be
@@ -23,6 +24,8 @@ import org.mulesoft.lsp.textsync.TextDocumentSyncOptions
 class ServerCapabilities(val textDocumentSync: Option[Either[TextDocumentSyncKind, TextDocumentSyncOptions]] = None,
                          val completionProvider: Option[CompletionOptions] = None,
                          val definitionProvider: Boolean = false,
+                         val implementationProvider: Boolean = false,
+                         val typeDefinitionProvider: Boolean = false,
                          val referencesProvider: Boolean = false,
                          val documentSymbolProvider: Boolean = false,
                          val renameProvider: Option[RenameOptions] = None,

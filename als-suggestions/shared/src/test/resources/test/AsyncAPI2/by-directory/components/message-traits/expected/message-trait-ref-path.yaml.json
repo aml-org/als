@@ -1,0 +1,182 @@
+[
+  {
+    "label": "#/components/messageTraits/mTr",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/components/messageTraits/mTr",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#/components/messageTraits/mTr",
+    "filterText": "\"#/components/messageTraits/mTr\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      },
+      "newText": "\"#/components/messageTraits/mTr\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#/components/messageTraits/ms",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/components/messageTraits/ms",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#/components/messageTraits/ms",
+    "filterText": "\"#/components/messageTraits/ms\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      },
+      "newText": "\"#/components/messageTraits/ms\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "expected/",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11expected/",
+    "filterText": "expected/",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      },
+      "newText": "expected/"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "message-trait-name.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11message-trait-name.yaml",
+    "filterText": "message-trait-name.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      },
+      "newText": "message-trait-name.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "message-trait-ref.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11message-trait-ref.yaml",
+    "filterText": "message-trait-ref.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      },
+      "newText": "message-trait-ref.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "message-trait.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11message-trait.yaml",
+    "filterText": "message-trait.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      },
+      "newText": "message-trait.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

@@ -3,4 +3,5 @@ securityDefinitions:
   security:
     type: oauth2
 security:
-  - security: *
+  - security:
+    - *

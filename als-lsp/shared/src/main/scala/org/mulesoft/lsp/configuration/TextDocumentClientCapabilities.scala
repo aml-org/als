@@ -5,6 +5,8 @@ import org.mulesoft.lsp.feature.completion.CompletionClientCapabilities
 import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticClientCapabilities
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolClientCapabilities
+import org.mulesoft.lsp.feature.implementation.ImplementationClientCapabilities
+import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionClientCapabilities
 import org.mulesoft.lsp.feature.link.DocumentLinkClientCapabilities
 import org.mulesoft.lsp.feature.reference.ReferenceClientCapabilities
 import org.mulesoft.lsp.feature.rename.RenameClientCapabilities
@@ -19,6 +21,8 @@ case class TextDocumentClientCapabilities(synchronization: Option[Synchronizatio
                                           references: Option[ReferenceClientCapabilities] = None,
                                           documentSymbol: Option[DocumentSymbolClientCapabilities] = None,
                                           definition: Option[DefinitionClientCapabilities] = None,
+                                          implementation: Option[ImplementationClientCapabilities] = None,
+                                          typeDefinition: Option[TypeDefinitionClientCapabilities] = None,
                                           rename: Option[RenameClientCapabilities] = None,
                                           codeActionCapabilities: Option[CodeActionCapabilities] = None,
                                           documentLink: Option[DocumentLinkClientCapabilities] = None)

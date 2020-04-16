@@ -1,0 +1,11 @@
+asyncapi: 2.0.0
+components:
+  operationTraits:
+    tr:
+      operationId: tr1id
+
+channels:
+  user/signedup:
+    subscribe:
+      traits:
+        - $ref: *

@@ -29,7 +29,8 @@ import org.mulesoft.lsp.LspConversions.{
   traceKind,
   workspaceClientCapabilities,
   workspaceFolder,
-  workspaceServerCapabilities
+  workspaceServerCapabilities,
+  staticRegistrationOptions
 }
 
 import scala.collection.JavaConverters._
@@ -40,11 +41,14 @@ import scala.language.implicitConversions
 object LspConversions {
 
   implicit def either[A, B, C, D](either: JEither[A, B], leftTo: A => C, rightTo: B => D): Either[C, D] =
-    if (either.isLeft) Left(leftTo(either.getLeft)) else Right(rightTo(either.getRight))
+    if (either.isLeft) Left(leftTo(either.getLeft))
+    else Right(rightTo(either.getRight))
 
-  implicit def seq[A, B](list: JList[A], mapper: A => B): Seq[B] = list.asScala.map(mapper)
+  implicit def seq[A, B](list: JList[A], mapper: A => B): Seq[B] =
+    list.asScala.map(mapper)
 
-  def booleanOrFalse(value: java.lang.Boolean): Boolean = !(value == null) && value
+  def booleanOrFalse(value: java.lang.Boolean): Boolean =
+    !(value == null) && value
 
   implicit def clientCapabilities(capabilities: extension.AlsClientCapabilities): AlsClientCapabilities =
     AlsClientCapabilities(
@@ -75,13 +79,19 @@ object LspConversions {
     if (result == null) AlsServerCapabilities.empty
     else
       AlsServerCapabilities(
-        Option(result.getTextDocumentSync).map(either(_, textDocumentSyncKind, textDocumentSyncOptions)),
+        Option(result.getTextDocumentSync)
+          .map(either(_, textDocumentSyncKind, textDocumentSyncOptions)),
         Option(result.getCompletionProvider).map(completionOptions),
         booleanOrFalse(result.getDefinitionProvider),
+        Option(result.getImplementationProvider)
+          .map(either(_, booleanOrFalse, staticRegistrationOptions)),
+        Option(result.getTypeDefinitionProvider)
+          .map(either(_, booleanOrFalse, staticRegistrationOptions)),
         booleanOrFalse(result.getReferencesProvider),
         booleanOrFalse(result.getDocumentSymbolProvider),
         Option(result.getRenameProvider).flatMap(eitherRenameOptions),
-        Option(result.getCodeActionProvider).flatMap(eitherCodeActionProviderOptions),
+        Option(result.getCodeActionProvider)
+          .flatMap(eitherCodeActionProviderOptions),
         Option(result.getDocumentLinkProvider),
         Option(result.getWorkspace),
         Option(result.getExperimental)

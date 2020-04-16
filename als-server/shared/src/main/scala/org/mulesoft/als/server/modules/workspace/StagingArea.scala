@@ -10,7 +10,7 @@ class StagingArea(environmentProvider: EnvironmentProvider) {
 
   def shouldDie: Boolean = pending.values.toList.contains(WORKSPACE_TERMINATED)
 
-  def isPending: Boolean = pending.nonEmpty
+  def hasPending: Boolean = pending.nonEmpty
 
   private val pending: mutable.Map[String, NotificationKind] = mutable.Map.empty
 

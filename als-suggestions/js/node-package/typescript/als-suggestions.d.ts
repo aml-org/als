@@ -1,5 +1,3 @@
-import {client, parse} from "@mulesoft/als-suggestions";
-
 declare module '@mulesoft/als-suggestions' {
 
   /* amf-client-js */
@@ -142,6 +140,8 @@ declare module '@mulesoft/als-suggestions' {
   export class Oas30Renderer extends render.Renderer {}
 
   export class Oas20Resolver extends resolve.Resolver {}
+
+  export class Oas30Resolver extends resolve.Resolver {}
 
   export class Raml08Parser extends parse.Parser {
     constructor()

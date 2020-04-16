@@ -9,7 +9,10 @@ import org.mulesoft.lsp.feature.link.ClientDocumentLinkClientCapabilities
 import org.mulesoft.lsp.feature.reference.ClientReferenceClientCapabilities
 import org.mulesoft.lsp.feature.rename.ClientRenameClientCapabilities
 import org.mulesoft.lsp.textsync.ClientSynchronizationClientCapabilities
-import  org.mulesoft.lsp.convert.LspConvertersSharedToClient._
+import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
+import org.mulesoft.lsp.feature.implementation.ClientImplementationClientCapabilities
+import org.mulesoft.lsp.feature.typedefinition.ClientTypeDefinitionClientCapabilities
+
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
@@ -30,6 +33,10 @@ trait ClientTextDocumentClientCapabilities extends js.Object {
 
   def definition: js.UndefOr[ClientDefinitionClientCapabilities] = js.native
 
+  def implementation: js.UndefOr[ClientImplementationClientCapabilities] = js.native
+
+  def typeDefinition: js.UndefOr[ClientTypeDefinitionClientCapabilities] = js.native
+
   def rename: js.UndefOr[ClientRenameClientCapabilities] = js.native
 
   def codeActionCapabilities: js.UndefOr[ClientCodeActionCapabilities] = js.native
@@ -47,6 +54,8 @@ object ClientTextDocumentClientCapabilities {
         references = internal.references.map(_.toClient).orUndefined,
         documentSymbol = internal.documentSymbol.map(_.toClient).orUndefined,
         definition = internal.definition.map(_.toClient).orUndefined,
+        implementation = internal.implementation.map(_.toClient).orUndefined,
+        typeDefinition = internal.typeDefinition.map(_.toClient).orUndefined,
         rename = internal.rename.map(_.toClient).orUndefined,
         codeActionCapabilities = internal.codeActionCapabilities.map(_.toClient).orUndefined,
         documentLink = internal.documentLink.map(_.toClient).orUndefined

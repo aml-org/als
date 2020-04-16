@@ -1,0 +1,32 @@
+[
+  {
+    "label": "components/parameters/other",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/components/parameters/other",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11components/parameters/other",
+    "filterText": "\"#/components/parameters/other\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 15
+        },
+        "end": {
+          "line": 10,
+          "character": 17
+        }
+      },
+      "newText": "\"#/components/parameters/other\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

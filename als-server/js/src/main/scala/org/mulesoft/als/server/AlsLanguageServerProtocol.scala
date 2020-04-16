@@ -1,11 +1,15 @@
 package org.mulesoft.als.server
 
 import org.mulesoft.als.server.protocol.configuration.ClientAlsClientCapabilities
-import org.mulesoft.als.server.protocol.diagnostic.{ClientCleanDiagnosticTreeParams, ClientFilesInProjectParams}
+import org.mulesoft.als.server.protocol.diagnostic.{
+  ClientAlsPublishDiagnosticsParams,
+  ClientCleanDiagnosticTreeParams,
+  ClientFilesInProjectParams
+}
 import org.mulesoft.als.server.protocol.serialization.{
   ClientConversionParams,
-  ClientSerializationResult,
   ClientSerializationParams,
+  ClientSerializationResult,
   ClientSerializedDocument
 }
 import org.mulesoft.als.vscode.{NotificationType, RequestType}
@@ -33,8 +37,9 @@ object AlsClientCapabilitiesNotification {
 
 @JSExportTopLevel("CleanDiagnosticTreeRequestType")
 object ClientCleanDiagnosticTreeRequestType {
-  val `type`: RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientPublishDiagnosticsParams], js.Any, js.Any] =
-    new RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientPublishDiagnosticsParams], js.Any, js.Any](
+  val `type`
+    : RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any, js.Any] =
+    new RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any, js.Any](
       "CleanDiagnosticTree")
 }
 

@@ -7,30 +7,35 @@ import amf.core.model.domain.templates.{AbstractDeclaration, ParametrizedDeclara
 import amf.core.model.domain.{AmfArray, AmfElement}
 import amf.core.parser.FieldEntry
 import amf.core.vocabulary.Namespace
-import amf.plugins.domain.webapi.models.Operation
-import org.mulesoft.als.actions.common.ActionTools
+import amf.plugins.domain.webapi.models.{EndPoint, Operation}
+import org.mulesoft.als.actions.common.LinkTypes.LinkTypes
+import org.mulesoft.als.actions.common.{ActionTools, LinkTypes, RelationshipLink}
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 import org.mulesoft.lexer.SourceLocation
-import org.mulesoft.lsp.feature.common.Location
 import org.yaml.model.YMapEntry
 
 /**
   * @test: org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - raml-test 1/2
   */
 class TraitLinksVisitor extends NodeRelationshipVisitorType {
-  override protected def innerVisit(element: AmfElement) =
+  override protected def innerVisit(element: AmfElement): Seq[RelationshipLink] =
     element match {
       case o: Operation =>
-        o.fields
-          .fields()
-          .find(fe => fe.field.value == Namespace.Document + "extends") // todo: possible to find entry?
-          .map(parametrizedDeclarationTargetsWithPosition(_, o))
-          .getOrElse(Nil)
+        extractFromEntries(o.fields.fields())
+      case e: EndPoint =>
+        extractFromEntries(e.fields.fields())
       case _ => Nil
     }
 
-  private def parametrizedDeclarationTargetsWithPosition(fe: FieldEntry, o: Operation): Seq[(Location, Location)] = {
+  private def extractFromEntries(entries: Iterable[FieldEntry]): Seq[RelationshipLink] = {
+    entries
+      .find(fe => fe.field.value == Namespace.Document + "extends")
+      .map(parametrizedDeclarationTargetsWithPosition)
+      .getOrElse(Nil)
+  }
+
+  private def parametrizedDeclarationTargetsWithPosition(fe: FieldEntry): Seq[RelationshipLink] = {
     fe.value.value match {
       case array: AmfArray =>
         array.values.flatMap {
@@ -43,7 +48,7 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
                     case a: AbstractDeclaration =>
                       a.fields
                         .entry(LinkableElementModel.Target)
-                        .flatMap(fieldEntryToLocation(_, p))
+                        .flatMap(fieldEntryToLocation(_, p, LinkTypes.TRAITRESOURCES))
                     case _ => None
                 }
               )
@@ -53,7 +58,9 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
     }
   }
 
-  private def fieldEntryToLocation(fe: FieldEntry, p: ParametrizedDeclaration): Option[(Location, Location)] = {
+  private def fieldEntryToLocation(fe: FieldEntry,
+                                   p: ParametrizedDeclaration,
+                                   linkTypes: LinkTypes): Option[RelationshipLink] = {
     fe.value.value.annotations
       .find(classOf[SourceNode])
       .map { sn =>
@@ -72,7 +79,14 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
             }
           }
           .getOrElse(p.annotations.sourceLocation)
-        (ActionTools.sourceLocationToLocation(sourceLocation), ActionTools.sourceLocationToLocation(sn.node.location))
+        RelationshipLink(
+          ActionTools.sourceLocationToLocation(sourceLocation),
+          ActionTools.sourceLocationToLocation(sn.node.location),
+          fe.value.value.annotations
+            .find(classOf[SourceAST])
+            .map(a => ActionTools.sourceLocationToLocation(a.ast.location)),
+          linkTypes
+        )
       }
   }
 }

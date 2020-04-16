@@ -8,35 +8,35 @@ import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapp
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml._
+import org.mulesoft.als.suggestions.interfaces.{AmfObjectKnowledge, DisjointCompletionPlugins, ResolveIfApplies}
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class AMLStructureCompletionsPlugin(propertyMapping: Seq[PropertyMapping]) {
-
   def resolve(classTerm: String): Seq[RawSuggestion] =
     propertyMapping.map(p => p.toRaw(CategoryRegistry(classTerm, p.name().value())))
-
 }
 
-object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
-  override def id = "AMLStructureCompletionPlugin"
+case class StructureCompletionPlugin(resolvers: List[ResolveIfApplies]) extends DisjointCompletionPlugins {
+  override final def id = "AMLStructureCompletionPlugin"
+}
 
-  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    Future {
-      if (isWritingProperty(params.yPartBranch)) {
-        if (!isInFieldValue(params)) {
-          val isEncoded = isEncodes(params.amfObject, params.actualDialect) && params.fieldEntry.isEmpty
-          if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && params.fieldEntry.isEmpty) {
-            new AMLStructureCompletionsPlugin(params.propertyMapping)
-              .resolve(params.amfObject.meta.`type`.head.iri())
-          } else Nil
-        } else resolveObjInArray(params)
-      } else Nil
-    }
+object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
+  override def resolve(params: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
+    applies(defaultStructure(params))
+
+  protected final def defaultStructure(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = Future {
+    if (isWritingProperty(params.yPartBranch))
+      if (!isInFieldValue(params)) {
+        val isEncoded = isEncodes(params.amfObject, params.actualDialect) && params.fieldEntry.isEmpty // params.fieldEntry.isEmpty does nothing here?
+        if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && params.fieldEntry.isEmpty)
+          new AMLStructureCompletionsPlugin(params.propertyMapping)
+            .resolve(params.amfObject.meta.`type`.head.iri())
+        else Nil
+      } else resolveObjInArray(params)
+    else Nil
   }
 
   private def isWritingProperty(yPartBranch: YPartBranch): Boolean =
@@ -44,7 +44,7 @@ object AMLStructureCompletionPlugin extends AMLCompletionPlugin {
 
   protected def objInArray(params: AmlCompletionRequest): Option[DomainElementModel] = {
     params.fieldEntry match {
-      case Some(FieldEntry(Field(t: ArrayLike, _, _, _), value))
+      case Some(FieldEntry(Field(t: ArrayLike, _, _, _), _))
           if t.element
             .isInstanceOf[DomainElementModel] && params.yPartBranch.isInArray =>
         Some(t.element.asInstanceOf[DomainElementModel])

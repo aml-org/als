@@ -5,7 +5,6 @@ import java.util.concurrent.CompletableFuture
 import org.eclipse.lsp4j.services.WorkspaceService
 import org.eclipse.lsp4j.{DidChangeConfigurationParams, DidChangeWatchedFilesParams, ExecuteCommandParams}
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.lsp.server.{LanguageServer => lspLanguageServer}
 import org.mulesoft.lsp.workspace.{ExecuteCommandParams => InternalCommandParams}
 
 import scala.collection.JavaConverters._

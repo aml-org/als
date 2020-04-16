@@ -15,6 +15,7 @@ import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, 
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{EmptyJvmSerializationProps, JvmSerializationProps, LanguageServerBuilder}
 import org.mulesoft.amfintegration.AmfInstance
+import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.collection.JavaConverters._
 
@@ -91,6 +92,8 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
         .addRequestModule(builders.completionManager)
         .addRequestModule(builders.structureManager)
         .addRequestModule(builders.definitionManager)
+        .addRequestModule(builders.implementationManager)
+        .addRequestModule(builders.typeDefinitionManager)
         .addRequestModule(builders.referenceManager)
         .addRequestModule(builders.documentLinksManager)
         .addInitializable(builders.telemetryManager)

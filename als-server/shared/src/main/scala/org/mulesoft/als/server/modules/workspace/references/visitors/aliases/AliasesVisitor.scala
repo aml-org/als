@@ -11,7 +11,7 @@ class AliasesVisitor extends AliasesVisitorType {
   private def parserToDtoRange(core: amf.core.parser.Range): Range =
     Range(Position(core.start.line - 1, core.start.column), Position(core.end.line - 1, core.end.column))
 
-  override protected def innerVisit(element: AmfElement) = {
+  override protected def innerVisit(element: AmfElement): Seq[AliasInfo] = {
     element match {
       case bu: BaseUnit =>
         bu.annotations

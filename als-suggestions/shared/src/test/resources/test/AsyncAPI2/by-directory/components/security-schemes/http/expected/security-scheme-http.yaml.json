@@ -1,0 +1,92 @@
+[
+  {
+    "label": "bearerFormat",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "bearerFormat",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11bearerFormat",
+    "filterText": "bearerFormat: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      },
+      "newText": "bearerFormat: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "description",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "description",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11description",
+    "filterText": "description: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      },
+      "newText": "description: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "scheme",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "scheme",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10scheme",
+    "filterText": "scheme: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      },
+      "newText": "scheme: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

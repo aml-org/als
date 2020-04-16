@@ -37,9 +37,11 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolKind,
   SymbolKindClientCapabilities
 }
+import org.mulesoft.lsp.feature.implementation.ImplementationClientCapabilities
 import org.mulesoft.lsp.feature.link.{DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
+import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionClientCapabilities
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
 
@@ -115,6 +117,14 @@ object LspConversions {
   implicit def definitionClientCapabilities(capabilities: lsp4j.DefinitionCapabilities): DefinitionClientCapabilities =
     DefinitionClientCapabilities(Option(capabilities.getDynamicRegistration), None)
 
+  implicit def implementationClientCapabilities(
+      capabilities: lsp4j.ImplementationCapabilities): ImplementationClientCapabilities =
+    ImplementationClientCapabilities(Option(capabilities.getDynamicRegistration), None)
+
+  implicit def typeDefinitionClientCapabilities(
+      capabilities: lsp4j.TypeDefinitionCapabilities): TypeDefinitionClientCapabilities =
+    TypeDefinitionClientCapabilities(Option(capabilities.getDynamicRegistration), None)
+
   implicit def renameClientCapabilities(capabilities: lsp4j.RenameCapabilities): RenameClientCapabilities =
     RenameClientCapabilities(
       Option(capabilities.getDynamicRegistration),
@@ -130,6 +140,8 @@ object LspConversions {
       Option(capabilities.getReferences).map(referenceClientCapabilities),
       Option(capabilities.getDocumentSymbol).map(documentSymbolClientCapabilities),
       Option(capabilities.getDefinition).map(definitionClientCapabilities),
+      Option(capabilities.getImplementation).map(implementationClientCapabilities),
+      Option(capabilities.getTypeDefinition).map(typeDefinitionClientCapabilities),
       Option(capabilities.getRename).map(renameClientCapabilities),
       Option(capabilities.getCodeAction).flatMap(_ => None), // TODO: CodeAction
       Option(capabilities.getDocumentLink).map(documentLinkClientCapabilities)
@@ -201,6 +213,9 @@ object LspConversions {
 
   implicit def codeActionOptions(options: lsp4j.CodeActionOptions): CodeActionOptions =
     CodeActionOptions(Option(options.getCodeActionKinds).map(_.asScala.toSeq))
+
+  implicit def staticRegistrationOptions(options: lsp4j.StaticRegistrationOptions): StaticRegistrationOptions =
+    StaticRegistrationOptions(Option(options.getId))
 
   implicit def eitherCodeActionProviderOptions(
       options: JEither[java.lang.Boolean, lsp4j.CodeActionOptions]): Option[CodeActionOptions] =

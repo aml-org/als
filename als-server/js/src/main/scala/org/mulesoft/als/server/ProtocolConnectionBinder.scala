@@ -8,11 +8,15 @@ import org.mulesoft.als.server.protocol.client.{AlsLanguageClient, AlsLanguageCl
 import org.mulesoft.als.server.protocol.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
 import org.mulesoft.als.server.protocol.convert.LspConvertersClientToShared._
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
-import org.mulesoft.als.server.protocol.diagnostic.{ClientCleanDiagnosticTreeParams, ClientFilesInProjectParams}
+import org.mulesoft.als.server.protocol.diagnostic.{
+  ClientAlsPublishDiagnosticsParams,
+  ClientCleanDiagnosticTreeParams,
+  ClientFilesInProjectParams
+}
 import org.mulesoft.als.server.protocol.serialization.{
   ClientConversionParams,
-  ClientSerializationResult,
   ClientSerializationParams,
+  ClientSerializationResult,
   ClientSerializedDocument
 }
 import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestHandler0 => ClientRequestHandler0, _}
@@ -35,9 +39,11 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   ClientSymbolInformation,
   DocumentSymbolRequestType
 }
+import org.mulesoft.lsp.feature.implementation.ImplementationRequestType
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams, DocumentLinkRequestType}
 import org.mulesoft.lsp.feature.reference.{ClientReferenceParams, ReferenceRequestType}
 import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryMessage, TelemetryMessage}
+import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionRequestType
 import org.mulesoft.lsp.textsync.{
   ClientDidChangeTextDocumentParams,
   ClientDidCloseTextDocumentParams,
@@ -228,6 +234,46 @@ object ProtocolConnectionBinder {
     )
     // End Definition
 
+    // Implementation
+    val onImplementationHandlerJs
+      : js.Function2[ClientTextDocumentPositionParams,
+                     CancellationToken,
+                     Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
+      (param: ClientTextDocumentPositionParams, _: CancellationToken) =>
+        resolveHandler(ImplementationRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]]
+
+    protocolConnection.onRequest(
+      DefinitionRequest.`type`,
+      onImplementationHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientTextDocumentPositionParams,
+                                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
+                                           js.Any]]
+    )
+    // End Implementation
+
+    // TypeDefinition
+    val onTypeDefinitionHandlerJs
+      : js.Function2[ClientTextDocumentPositionParams,
+                     CancellationToken,
+                     Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
+      (param: ClientTextDocumentPositionParams, _: CancellationToken) =>
+        resolveHandler(TypeDefinitionRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]]
+
+    protocolConnection.onRequest(
+      DefinitionRequest.`type`,
+      onTypeDefinitionHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientTextDocumentPositionParams,
+                                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
+                                           js.Any]]
+    )
+    // End TypeDefinition
+
     // References
     val onReferencesHandlerJs
       : js.Function2[ClientReferenceParams, CancellationToken, Thenable[js.Array[ClientLocation]]] =
@@ -247,18 +293,18 @@ object ProtocolConnectionBinder {
     // CleanDiagnosticTree
     val onCleanDiagnosticTreeHandlerJs: js.Function2[ClientCleanDiagnosticTreeParams,
                                                      CancellationToken,
-                                                     Thenable[js.Array[ClientPublishDiagnosticsParams]]] =
+                                                     Thenable[js.Array[ClientAlsPublishDiagnosticsParams]]] =
       (param: ClientCleanDiagnosticTreeParams, _: CancellationToken) =>
         resolveHandler(CleanDiagnosticTreeRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
           .toJSPromise
-          .asInstanceOf[Thenable[js.Array[ClientPublishDiagnosticsParams]]]
+          .asInstanceOf[Thenable[js.Array[ClientAlsPublishDiagnosticsParams]]]
 
     protocolConnection.onRequest(
       ClientCleanDiagnosticTreeRequestType.`type`,
       onCleanDiagnosticTreeHandlerJs
         .asInstanceOf[
-          ClientRequestHandler[ClientCleanDiagnosticTreeParams, js.Array[ClientPublishDiagnosticsParams], js.Any]]
+          ClientRequestHandler[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any]]
     )
     // End CleanDiagnosticTree
 

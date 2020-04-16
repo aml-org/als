@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
+import amf.core.annotations.ErrorDeclaration
 import amf.core.metamodel.domain.ShapeModel
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.Dialect
@@ -58,8 +59,13 @@ object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences 
     }
   }
 
+  private def errorParentName(request: AmlCompletionRequest): Option[String] = {
+    if (request.amfObject.isInstanceOf[ErrorDeclaration]) request.branchStack.headOption.flatMap(_.elementIdentifier())
+    else None
+  }
+
   def suggest(request: AmlCompletionRequest): Seq[RawSuggestion] = {
-    val actualName = request.amfObject.elementIdentifier()
+    val actualName = request.amfObject.elementIdentifier().orElse(errorParentName(request))
     val ids        = getObjectRangeIds(request)
 
     val mappings: Seq[NodeMapping] = request.actualDialect.declares.collect({ case n: NodeMapping => n })
