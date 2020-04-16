@@ -48,13 +48,12 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
     val relativePath = extractPath(prefix)
     val fullURI =
       FileUtils.getEncodedUri(s"${baseDir.stripSuffix("/")}/${relativePath.stripPrefix("/")}", platform)
-    val actual = fullPath.stripPrefix(baseDir)
 
     if (!prefix.startsWith("#"))
       if (fullURI.contains("#") && !fullURI.startsWith("#"))
         PathNavigation(fullURI, platform, environment, prefix).suggest()
       else
-        FilesEnumeration(directoryResolver, platform, actual, relativePath)
+        FilesEnumeration(directoryResolver, platform, FileUtils.getPath(actualLocation, platform), relativePath)
           .filesIn(fullURI)
     else emptySuggestion
 
@@ -65,11 +64,16 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
 trait PathCompletion {
   val platform: Platform
 
-  def supportedExtension(file: String): Boolean =
-    platform
+  val exceptions = Seq("xml", "xsd", "md")
+
+  def supportedExtension(file: String): Boolean = {
+    val maybeExtension = platform
       .extension(file)
-      .flatMap(platform.mimeFromExtension)
-      .exists(pluginForMime(_).isDefined)
+    maybeExtension
+      .flatMap(ext => platform.mimeFromExtension(ext))
+      .exists(pluginForMime(_).isDefined) ||
+    maybeExtension.exists(exceptions.contains)
+  }
 
   def pluginForMime(mime: String): Option[AMFSyntaxPlugin] =
     AMFPluginsRegistry.syntaxPluginForMediaType(mime)
