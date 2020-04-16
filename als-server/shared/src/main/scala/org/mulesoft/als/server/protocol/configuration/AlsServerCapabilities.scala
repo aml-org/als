@@ -2,7 +2,7 @@ package org.mulesoft.als.server.protocol.configuration
 
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeOptions
 import org.mulesoft.als.server.feature.serialization.{ConversionRequestOptions, SerializationServerOptions}
-import org.mulesoft.lsp.configuration.WorkspaceServerCapabilities
+import org.mulesoft.lsp.configuration.{StaticRegistrationOptions, WorkspaceServerCapabilities}
 import org.mulesoft.lsp.feature.codeactions.CodeActionOptions
 import org.mulesoft.lsp.feature.completion.CompletionOptions
 import org.mulesoft.lsp.feature.link.DocumentLinkOptions
@@ -16,6 +16,7 @@ import org.mulesoft.lsp.textsync.TextDocumentSyncOptions
   *                               omitted it defaults to `TextDocumentSyncKind.None`.
   * @param completionProvider     The server provides completion support.
   * @param definitionProvider     The server provides goto definition support.
+  * @param implementationProvider The server provides goto implementation support.
   * @param referencesProvider     The server provides find references support.
   * @param documentSymbolProvider The server provides document symbol support.
   * @param renameProvider         The server provides rename support. RenameOptions may only be
@@ -29,6 +30,8 @@ case class AlsServerCapabilities(
     textDocumentSync: Option[Either[TextDocumentSyncKind, TextDocumentSyncOptions]] = None,
     completionProvider: Option[CompletionOptions] = None,
     definitionProvider: Boolean = false,
+    implementationProvider: Option[Either[Boolean, StaticRegistrationOptions]] = None,
+    typeDefinitionProvider: Option[Either[Boolean, StaticRegistrationOptions]] = None,
     referencesProvider: Boolean = false,
     documentSymbolProvider: Boolean = false,
     renameProvider: Option[RenameOptions] = None,

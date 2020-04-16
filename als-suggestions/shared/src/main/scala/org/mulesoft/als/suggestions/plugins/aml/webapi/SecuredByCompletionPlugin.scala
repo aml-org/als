@@ -1,10 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
 import amf.core.metamodel.Type.ArrayLike
-import amf.plugins.domain.webapi.metamodel.{OperationModel, WebApiModel}
+import amf.core.model.domain.AmfObject
+import amf.plugins.domain.webapi.metamodel.{OperationModel, ServerModel, WebApiModel}
 import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
-import amf.plugins.domain.webapi.models.{Operation, WebApi}
-import amf.plugins.domain.webapi.models.security.ParametrizedSecurityScheme
+import amf.plugins.domain.webapi.models.security.{ParametrizedSecurityScheme, SecurityRequirement}
+import amf.plugins.domain.webapi.models.{Operation, Server, WebApi}
+import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{ArrayRange, ObjectRange, RawSuggestion}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
@@ -37,10 +39,15 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
   private def isWritingSecuredBy(request: AmlCompletionRequest): Boolean = {
     request.amfObject match {
       case p: ParametrizedSecurityScheme =>
-        p.name.value() == "k" || (p.name.value() != "k" && !request.yPartBranch.parentEntryIs(p.name.value()))
-      case w: WebApi    => request.fieldEntry.exists(t => t.field == WebApiModel.Security)
-      case w: Operation => request.fieldEntry.exists(t => t.field == OperationModel.Security)
-      case _            => false
+        p.name.value() == "k" ||
+          (p.name.value() != "k" && !request.yPartBranch.parentEntryIs(p.name.value())) && !request.yPartBranch
+            .isKeyDescendantOf(p.name.value())
+      case w: WebApi =>
+        request.fieldEntry.exists(t => t.field == WebApiModel.Security) && (request.yPartBranch.isInArray || request.yPartBranch.isValue)
+      case w: Operation =>
+        request.fieldEntry.exists(t => t.field == OperationModel.Security) && request.yPartBranch.isInArray
+      case s: Server => request.fieldEntry.exists(t => t.field == ServerModel.Security)
+      case _         => false
     }
   }
 

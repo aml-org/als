@@ -1,0 +1,92 @@
+[
+  {
+    "label": "bindingVersion",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "bindingVersion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11bindingVersion",
+    "filterText": "bindingVersion: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      },
+      "newText": "bindingVersion: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "contentEncoding",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "contentEncoding",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11contentEncoding",
+    "filterText": "contentEncoding: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      },
+      "newText": "contentEncoding: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "messageType",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "messageType",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11messageType",
+    "filterText": "messageType: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 12
+        }
+      },
+      "newText": "messageType: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

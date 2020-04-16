@@ -1,0 +1,17 @@
+{
+  "swagger": "2.0",
+  "securityDefinitions": {
+    "internalApiKey": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "api_key"
+    }
+  },
+  "paths": {
+    "/path": {
+      "get": {
+        "security": "*"
+      }
+    }
+  }
+}

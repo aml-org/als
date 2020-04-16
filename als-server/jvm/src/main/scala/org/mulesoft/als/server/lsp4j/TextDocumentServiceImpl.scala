@@ -42,9 +42,11 @@ import org.mulesoft.lsp.feature.codeactions.CodeActionRequestType
 import org.mulesoft.lsp.feature.completion.CompletionRequestType
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
+import org.mulesoft.lsp.feature.implementation.ImplementationRequestType
 import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
 import org.mulesoft.lsp.feature.reference.ReferenceRequestType
 import org.mulesoft.lsp.feature.rename.RenameRequestType
+import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionRequestType
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -78,6 +80,14 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
   override def definition(params: TextDocumentPositionParams)
     : CompletableFuture[messages.Either[util.List[_ <: Location], util.List[_ <: LocationLink]]] =
     javaFuture(resolveHandler(DefinitionRequestType)(params), lsp4JLocationsEither)
+
+  override def implementation(params: TextDocumentPositionParams)
+    : CompletableFuture[messages.Either[util.List[_ <: Location], util.List[_ <: LocationLink]]] =
+    javaFuture(resolveHandler(ImplementationRequestType)(params), lsp4JLocationsEither)
+
+  override def typeDefinition(params: TextDocumentPositionParams)
+    : CompletableFuture[messages.Either[util.List[_ <: Location], util.List[_ <: LocationLink]]] =
+    javaFuture(resolveHandler(TypeDefinitionRequestType)(params), lsp4JLocationsEither)
 
   override def completion(
       params: CompletionParams): CompletableFuture[messages.Either[util.List[CompletionItem], CompletionList]] =

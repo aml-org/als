@@ -1,0 +1,32 @@
+[
+  {
+    "label": "asyncapi: \"2.0.0\"",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define an AsyncApi 2.0.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11asyncapi: \"2.0.0\"",
+    "filterText": "asyncapi: \"2.0.0\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 10
+        }
+      },
+      "newText": "asyncapi: \"2.0.0\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

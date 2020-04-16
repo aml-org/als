@@ -1,0 +1,21 @@
+asyncapi: 2.0.0
+components:
+  serverBindings:
+    serverBinding:
+      http:
+  channelBindings:
+    channelBinding:
+      http:
+  operationBindings:
+    operationBinding:
+      http:
+  messageBindings:
+    messageBinding:
+      http:
+
+channels:
+  user/signedup:
+    subscribe:
+      message:
+        bindings:
+          $ref: *

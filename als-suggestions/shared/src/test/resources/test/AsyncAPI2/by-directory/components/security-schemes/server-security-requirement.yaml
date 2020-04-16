@@ -1,0 +1,14 @@
+asyncapi: 2.0.0
+components:
+  securitySchemes:
+    mySecurity:
+      type: oauth2
+      flows:
+        implicit:
+          scopes:
+            - scope1
+            - scope2
+
+servers:
+  someServer:
+    security: *

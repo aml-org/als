@@ -13,8 +13,8 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.{AMLCompletionPlugin, CompletionPlugin}
-import org.yaml.model.{YMapEntry, YPart}
-
+import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
+import amf.core.parser._
 import scala.concurrent.Future
 
 class AMLRamlStyleDeclarationsReferences(nodeTypeMappings: Seq[String],
@@ -71,7 +71,7 @@ trait AMLDeclarationReferences extends AMLCompletionPlugin {
       case Some(seq) => seq
       case _ =>
         val obj = if (params.amfObject.isInstanceOf[ErrorDeclaration]) params.branchStack.head else params.amfObject
-        referenceFromDeclared(obj).toSeq
+        obj.meta.`type`.headOption.map(_.iri()).toSeq
     }
     candidates.filter(_ != DomainElementModel.`type`.head.iri())
   }
@@ -80,19 +80,29 @@ trait AMLDeclarationReferences extends AMLCompletionPlugin {
                           propertyMapping: Seq[PropertyMapping]): Option[PropertyMapping] =
     fieldEntry.flatMap(fe => propertyMapping.find(_.nodePropertyMapping().value() == fe.field.value.iri()))
 
-  private def referenceFromDeclared(amfObject: AmfObject): Option[String] = {
-    amfObject.fields.fields() match {
-      case head :: Nil if amfObject.elementIdentifier().nonEmpty =>
-        amfObject.meta.`type`.headOption.map(_.iri())
-      case others if others.nonEmpty => // hack for inferred fields like data type
-        amfObject.annotations.find(classOf[SourceAST]).map(_.ast) match {
-          case Some(entry: YMapEntry) =>
-            amfObject.meta.`type`.headOption.map(_.iri())
-          case _ => None
-        }
-      case _ => amfObject.meta.`type`.headOption.map(_.iri())
-    }
-  }
+//  private def referenceFromDeclared(amfObject: AmfObject): Option[String] = {
+//    amfObject.fields.fields() match {
+//      case head :: Nil if amfObject.elementIdentifier().nonEmpty =>
+//        amfObject.meta.`type`.headOption.map(_.iri())
+//      case others if others.nonEmpty => // hack for inferred fields like data type
+//        amfObject.annotations.find(classOf[SourceAST]).map(_.ast) match {
+//          case Some(p) if refEntryOrMap(p) =>
+//            amfObject.meta.`type`.headOption.map(_.iri())
+//          case _ => None
+//        }
+//      case _ => amfObject.meta.`type`.headOption.map(_.iri())
+//    }
+//  }
+//
+//  private def refEntryOrMap(ast:YPart)  :Boolean =
+//    ast match {
+//      case e:YMapEntry => isRefKey(e)
+//      case m:YMap => m.entries.headOption.exists(isRefKey)
+//      case n:YNode => n.toOption[YMap].flatMap(_.entries.headOption).exists(isRefKey)
+//      case _ => false
+//    }
+//
+//  private def isRefKey(e:YMapEntry):Boolean = e.key.asScalar.exists(_.text == "$ref")
 
   private def declaredFromKey(parent: Option[YPart], propertyMapping: Seq[PropertyMapping]): Option[PropertyMapping] =
     parent

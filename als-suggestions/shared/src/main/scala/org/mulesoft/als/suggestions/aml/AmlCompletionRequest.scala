@@ -192,13 +192,13 @@ object AmlCompletionRequestBuilder {
   }
 
   def forElement(element: DomainElement,
+                 current: DomainElement,
                  filterProvider: DeclarationProvider,
                  parent: AmlCompletionRequest): AmlCompletionRequest = {
-
-    val objectInTree = ObjectInTreeBuilder.fromSubTree(
-      element,
-      parent.position.toAmfPosition,
-      parent.branchStack.splitAt(parent.branchStack.indexOf(element))._2)
+    val currentIndex = parent.branchStack.indexOf(current) + 1
+    val newStack: Seq[AmfObject] =
+      if (currentIndex < parent.branchStack.length) parent.branchStack.splitAt(currentIndex)._2 else parent.branchStack
+    val objectInTree = ObjectInTreeBuilder.fromSubTree(element, parent.position.toAmfPosition, newStack)
     new AmlCompletionRequest(
       parent.baseUnit,
       parent.position,

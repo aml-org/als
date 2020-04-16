@@ -1,0 +1,32 @@
+[
+  {
+    "label": "components/messageTraits/messageDef",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/components/messageTraits/messageDef",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11components/messageTraits/messageDef",
+    "filterText": "\"#/components/messageTraits/messageDef\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 15
+        },
+        "end": {
+          "line": 10,
+          "character": 17
+        }
+      },
+      "newText": "\"#/components/messageTraits/messageDef\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

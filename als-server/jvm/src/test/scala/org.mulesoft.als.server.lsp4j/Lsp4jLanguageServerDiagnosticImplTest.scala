@@ -2,6 +2,7 @@ package org.mulesoft.als.server.lsp4j
 
 import java.util
 
+import amf.ProfileNames
 import amf.core.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.ExecuteCommandParams
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -142,6 +143,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
         diagnosticsClient.promises.clear()
         v1.size should be(2)
         v1.head.diagnostics.size should be(1)
+        v1.head.profile should be(ProfileNames.RAML10)
         v1.last.diagnostics.size should be(0)
         v2.size should be(2) // fixed error
         v2.head.diagnostics.size should be(0)

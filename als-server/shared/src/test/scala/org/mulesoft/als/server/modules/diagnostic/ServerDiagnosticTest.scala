@@ -1,32 +1,35 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.core.annotations.LexicalInformation
-import amf.core.errorhandling.{ErrorCollector, ErrorHandler, StaticErrorCollector}
+import amf.core.errorhandling.ErrorCollector
 import amf.core.metamodel.Obj
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.AmfObject
 import amf.core.parser.{Annotations, Fields}
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
-import amf.plugins.document.vocabularies.model.document.DialectInstance
-import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
-import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.modules.ast.BaseUnitListenerParams
+import org.mulesoft.als.server.modules.workspace.DummyResolvedUnit
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.textsync.TextDocumentContainer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.amfmanager.AmfParseResult
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
-class ServerDiagnosticTest extends LanguageServerBaseTest {
+class ServerDiagnosticTest extends LanguageServerBaseTest with DummyResolvedUnit {
 
-  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext =
+    ExecutionContext.Implicits.global
 
   override def rootPath: String = ""
 
-  val diagnosticNotifier = new MockDiagnosticClientNotifier
+  var container: Option[TextDocumentContainer] = None
+  val diagnosticNotifier                       = new MockDiagnosticClientNotifier
   override def buildServer(): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
     val dm      = builder.diagnosticManager()
     val factory = builder.buildWorkspaceManagerFactory()
+    container = Option(factory.container)
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
       .addInitializableModule(dm)
       .build()
@@ -184,14 +187,57 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     val eh = new ErrorCollector {}
 
     val amfParseResult: AmfParseResult = new AmfParseResult(amfBaseUnit, eh)
-    dm.onNewAst((amfParseResult, Map.empty), "")
+
+    dm.onNewAst(
+      BaseUnitListenerParams(
+        amfParseResult,
+        Map.empty,
+        () => Future(dummyResolved(amfBaseUnit, container))
+      ),
+      ""
+    )
     for {
       d <- diagnosticNotifier.nextCall
     } yield {
       assert(d.diagnostics.length == 1)
       assert(d.uri == "location")
       assert(
-        d.diagnostics.head.message == "DiagnosticManager suffered an unexpected error while cloning unit: should fail")
+        d.diagnostics.head.message == "DiagnosticManager suffered an unexpected error while validating: should fail")
+    }
+  }
+
+  test("Trait resolution with error( test resolution error handler") {
+    withServer { server =>
+      val apiPath = s"file://api.raml"
+
+      val apiContent =
+        """#%RAML 1.0
+          |
+          |title: Example API
+          |
+          |traits:
+          |  secured:
+          |    queryParameters:
+          |      access_token:
+          |        descriptionA: A valid access_token is required
+          |
+          |/books:
+          |  get:
+          |    is: [ secured ]
+        """.stripMargin
+
+      /*
+        register dialect -> open invalid instance -> fix -> invalid again
+       */
+      diagnosticNotifier.promises.clear()
+      for {
+        _  <- openFileNotification(server)(apiPath, apiContent)
+        d1 <- diagnosticNotifier.nextCall
+      } yield {
+        server.shutdown()
+        assert(d1.diagnostics.nonEmpty && d1.uri == apiPath)
+        assert(diagnosticNotifier.promises.isEmpty)
+      }
     }
   }
 }

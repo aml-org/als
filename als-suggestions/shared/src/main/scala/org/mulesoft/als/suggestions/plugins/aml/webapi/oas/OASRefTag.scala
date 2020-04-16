@@ -4,15 +4,14 @@ import amf.plugins.domain.webapi.models.{EndPoint, Request}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.AMLRefTagCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.IsInsideRequired
 
-object OASRefTag extends AMLRefTagCompletionPlugin {
+object OASRefTag extends AMLRefTagCompletionPlugin with IsInsideRequired {
 
   override protected def isObjectDeclarable(params: AmlCompletionRequest): Boolean =
     super.isObjectDeclarable(params) || ((params.amfObject
-      .isInstanceOf[EndPoint] || params.amfObject.isInstanceOf[Request]) && !params.yPartBranch.isKeyDescendanceOf(
+      .isInstanceOf[EndPoint] || params.amfObject.isInstanceOf[Request]) && !params.yPartBranch.isKeyDescendantOf(
       "parameters"))
 
-  override def isExceptionCase(branch: YPartBranch): Boolean =
-    branch.isKeyDescendanceOf("required") ||
-      ((branch.isValue || (branch.isInArray && branch.stringValue == "x")) && branch.parentEntryIs("required"))
+  override def isExceptionCase(branch: YPartBranch): Boolean = isInsideRequired(branch)
 }

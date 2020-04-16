@@ -1,0 +1,8 @@
+#%RAML 1.0
+title: test api
+version: v1
+protocols:
+  - HTTP
+baseUri: http://anuri-app.s4b2c/
+traits:
+  client_id_enforcement: !include * /fragment/trait.raml

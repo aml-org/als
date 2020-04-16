@@ -1,0 +1,32 @@
+[
+  {
+    "label": "$message.",
+    "kind": [],
+    "detail": "RuntimeExpression",
+    "documentation": "$message.",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11$message.",
+    "filterText": "$message.",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 16
+        },
+        "end": {
+          "line": 4,
+          "character": 16
+        }
+      },
+      "newText": "$message."
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

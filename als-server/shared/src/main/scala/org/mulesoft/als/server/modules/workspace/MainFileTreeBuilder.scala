@@ -4,13 +4,12 @@ import amf.core.annotations.ReferenceTargets
 import amf.core.errorhandling.ErrorCollector
 import amf.core.model.document.{BaseUnit, ExternalFragment}
 import amf.core.validation.SeverityLevels
-import org.mulesoft.als.actions.common.AliasInfo
+import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.common.dtoTypes.{PositionRange, ReferenceOrigins, ReferenceStack}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitors
 import org.mulesoft.amfmanager.BaseUnitImplicits._
 import org.mulesoft.amfmanager.ParserHelper
-import org.mulesoft.lsp.feature.common.Location
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.collection.mutable
@@ -20,7 +19,7 @@ import scala.concurrent.Future
 class ParsedMainFileTree(eh: ErrorCollector,
                          main: BaseUnit,
                          cachables: Set[String],
-                         private val innerNodeRelationships: Seq[(Location, Location)],
+                         private val innerNodeRelationships: Seq[RelationshipLink],
                          private val innerDocumentLinks: Map[String, Seq[DocumentLink]],
                          private val innerAliases: Seq[AliasInfo],
                          logger: Logger)
@@ -113,7 +112,7 @@ class ParsedMainFileTree(eh: ErrorCollector,
 
   override def cached(uri: String): Option[BaseUnit] = cache.get(uri)
 
-  override def nodeRelationships: Seq[(Location, Location)] = innerNodeRelationships
+  override def nodeRelationships: Seq[RelationshipLink] = innerNodeRelationships
 
   override def documentLinks: Map[String, Seq[DocumentLink]] = innerDocumentLinks
 
@@ -124,7 +123,7 @@ object ParsedMainFileTree {
   def apply(eh: ErrorCollector,
             main: BaseUnit,
             cachables: Set[String],
-            nodeRelationships: Seq[(Location, Location)],
+            nodeRelationships: Seq[RelationshipLink],
             documentLinks: Map[String, Seq[DocumentLink]],
             aliases: Seq[AliasInfo],
             logger: Logger): ParsedMainFileTree =
@@ -137,6 +136,7 @@ object MainFileTreeBuilder {
             cachables: Set[String],
             visitors: AmfElementVisitors,
             logger: Logger): Future[ParsedMainFileTree] = {
+
     visitors.applyAmfVisitors(List(main))
     val tree = ParsedMainFileTree(eh,
                                   main,

@@ -1,0 +1,32 @@
+[
+  {
+    "label": "components/correlationsIds/correlationName",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Reference to #/components/correlationsIds/correlationName",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11components/correlationsIds/correlationName",
+    "filterText": "\"#/components/correlationsIds/correlationName\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 15
+        },
+        "end": {
+          "line": 8,
+          "character": 17
+        }
+      },
+      "newText": "\"#/components/correlationsIds/correlationName\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

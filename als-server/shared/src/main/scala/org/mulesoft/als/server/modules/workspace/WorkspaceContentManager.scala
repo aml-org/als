@@ -2,17 +2,16 @@ package org.mulesoft.als.server.modules.workspace
 
 import java.util.UUID
 
+import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
-import org.mulesoft.als.actions.common.AliasInfo
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
-import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementDefaultVisitors
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.extract.{WorkspaceConf, WorkspaceConfigurationProvider}
+import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.amfmanager.AmfParseResult
-import org.mulesoft.lsp.feature.common.Location
-import org.mulesoft.lsp.feature.link.DocumentLink
+import org.mulesoft.amfmanager.BaseUnitImplicits._
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -58,11 +57,13 @@ class WorkspaceContentManager(val folder: String,
     val encodedUri = FileUtils.getEncodedUri(uri, environmentProvider.platform)
     repository.getParsed(encodedUri) match {
       case Some(pu) =>
-        Future.successful(
-          pu.toCU(getNext(encodedUri), mainFile, repository.getReferenceStack(encodedUri), state == NotAvailable))
+        Future.successful(getCurrentCU(encodedUri, pu))
       case _ => getNext(encodedUri).getOrElse(fail(encodedUri))
     }
   }
+
+  private def getCurrentCU(encodedUri: String, pu: ParsedUnit): CompilableUnit =
+    pu.toCU(getNext(encodedUri), mainFile, repository.getReferenceStack(encodedUri), state == NotAvailable)
 
   private def next(f: Future[Unit]): Future[Unit] = {
     f.recoverWith({
@@ -78,7 +79,7 @@ class WorkspaceContentManager(val folder: String,
 
   private def process(): Future[Unit] = {
     if (state == NotAvailable) throw new UnavailableWorkspaceException
-    else if (stagingArea.isPending) next(preprocessSnapshot())
+    else if (stagingArea.hasPending) next(preprocessSnapshot())
     else goIdle()
   }
 
@@ -149,9 +150,23 @@ class WorkspaceContentManager(val folder: String,
     stagingArea.dequeue(Set(file))
     parse(file, environment, uuid)
       .map { bu =>
-        repository.update(bu.baseUnit)
-        dependencies.foreach(_.onNewAst((bu, Map()), uuid))
+        repository.update(bu.baseUnit, resolve(bu.baseUnit))
+        dependencies.foreach(
+          _.onNewAst(BaseUnitListenerParams(bu, Map(), getResolvedUnit(bu.baseUnit.identifier)), uuid))
       }
+  }
+
+  def getResolvedUnit(uri: String)(): Future[AmfResolvedUnit] = {
+    repository.getResolved(uri) match {
+      case Some(f) => Future.successful(f)
+      case _ =>
+        getCompilableUnit(uri)
+          .map(
+            _ =>
+              repository
+                .getResolved(uri)
+                .getOrElse(throw new Exception(s"Asked for an unknown resolved unit $uri")))
+    }
   }
 
   def shutdown(): Future[Unit] = {
@@ -160,7 +175,10 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def cleanFiles(closedFiles: List[(String, NotificationKind)]): Unit =
-    closedFiles.foreach(cf => dependencies.foreach(_.onRemoveFile(cf._1)))
+    closedFiles.foreach { cf =>
+      repository.removeIsolated(cf._1)
+      dependencies.foreach(_.onRemoveFile(cf._1))
+    }
 
   private def processChangeConfigChanges(snapshot: Snapshot): Future[Unit] = {
     changeState(ProcessingProject)
@@ -191,8 +209,9 @@ class WorkspaceContentManager(val folder: String,
     val uuid = UUID.randomUUID().toString
     parse(s"$folder/$mainFile", snapshot.environment, uuid)
       .flatMap { u =>
-        repository.newTree(u).map { _ =>
-          dependencies.foreach(_.onNewAst((u, repository.references), uuid))
+        repository.newTree(u, resolve(u.baseUnit)).map { _ =>
+          dependencies.foreach(
+            _.onNewAst(BaseUnitListenerParams(u, repository.references, getResolvedUnit(u.baseUnit.identifier)), uuid))
           stagingArea.enqueue(snapshot.files.filter(t => !repository.inTree(t._1)))
         }
       }
@@ -215,6 +234,41 @@ class WorkspaceContentManager(val folder: String,
     eventualUnit
   }
 
-  def getRelationships(uri: String) =
+  def getRelationships(uri: String): Relationships =
     Relationships(repository, () => Some(getCompilableUnit(uri)))
+
+  private def resolve(unit: BaseUnit): AmfResolvedUnitImpl =
+    new AmfResolvedUnitImpl(unit)
+
+  private class AmfResolvedUnitImpl(override val originalUnit: BaseUnit) extends AmfResolvedUnit {
+    private val uri: String = originalUnit.identifier
+
+    override protected def nextIfNotLast(): Option[Future[AmfResolvedUnit]] =
+      repository
+        .getParsed(uri)
+        .flatMap { nextIfNotLatest(uri) }
+
+    private def nextIfNotLatest(uri: String)(p: ParsedUnit): Option[Future[AmfResolvedUnit]] = {
+      val unit = getCurrentCU(uri, p)
+      if (latestYet(unit)) None
+      else // get me the latest and check again
+        Some(unit.getLast.map { _ =>
+          repository.getResolved(uri).get
+        })
+    }
+
+    private def latestYet(unit: CompilableUnit): Boolean =
+      !unit.isDirty && unit.next.isEmpty && unit.unit.eq(originalUnit)
+
+    override protected def resolvedUnitFn(): Future[BaseUnit] = {
+      val uuid = UUID.randomUUID().toString
+      telemetryProvider.addTimedMessage("resolve", MessageTypes.BEGIN_RESOLUTION, "begin resolution", uri, uuid)
+      Future(
+        environmentProvider.amfConfiguration.parserHelper
+          .editingResolve(originalUnit.cloneUnit(), eh)) andThen {
+        case _ =>
+          telemetryProvider.addTimedMessage("resolve", MessageTypes.END_RESOLUTION, "end resolution", uri, uuid)
+      }
+    }
+  }
 }

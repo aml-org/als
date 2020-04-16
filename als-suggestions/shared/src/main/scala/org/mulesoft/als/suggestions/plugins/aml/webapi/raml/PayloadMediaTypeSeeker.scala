@@ -30,11 +30,11 @@ trait PayloadMediaTypeSeeker {
             .option()
             .isEmpty || inMediaType(request.yPartBranch))
         case Some(_: Operation) =>
-          request.yPartBranch.isKey && request.yPartBranch.isKeyDescendanceOf("body")
+          request.yPartBranch.isKey && request.yPartBranch.isKeyDescendantOf("body")
         case _ => false
       })
 
   // todo : replace hack when amf keeps lexical information over media type field in payload
   protected def inMediaType(yPartBranch: YPartBranch): Boolean =
-    yPartBranch.stringValue.contains('/') && yPartBranch.isKeyDescendanceOf("body")
+    yPartBranch.stringValue.contains('/') && yPartBranch.isKeyDescendantOf("body")
 }

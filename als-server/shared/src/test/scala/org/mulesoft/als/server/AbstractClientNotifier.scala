@@ -7,6 +7,7 @@ import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
+import org.mulesoft.als.server.modules.diagnostic.AlsPublishDiagnosticsParams
 
 import scala.collection.mutable
 import scala.concurrent.{Future, Promise}

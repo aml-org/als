@@ -83,7 +83,10 @@ object AmfSonElementFinder {
           case Nil => None
           case list =>
             list
-              .filterNot(v => v.value.annotations.contains(classOf[VirtualObject]))
+              .filterNot(
+                v =>
+                  v.value.annotations.contains(classOf[VirtualObject]) || v.value.annotations.contains(
+                    classOf[SynthesizedField]))
               .lastOption
               .orElse(list.lastOption)
         }

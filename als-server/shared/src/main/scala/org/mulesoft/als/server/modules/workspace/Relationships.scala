@@ -1,12 +1,11 @@
 package org.mulesoft.als.server.modules.workspace
 
-import org.mulesoft.als.actions.common.AliasInfo
+import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.server.modules.workspace.references.visitors.{AmfElementDefaultVisitors, AmfElementVisitors}
-import org.mulesoft.lsp.feature.common.Location
 import org.mulesoft.lsp.feature.link.DocumentLink
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 private[workspace] object Relationships {
   def apply(repository: Repository, fcu: () => Option[Future[CompilableUnit]]): Relationships =
@@ -38,6 +37,6 @@ class Relationships private (private val repository: Repository, fcu: () => Opti
   def getAliases(uri: String): Future[Seq[AliasInfo]] =
     getVisitorResult(uri)(repository.getAliases, visitors => visitors.getAliasesFromVisitors)
 
-  def getRelationships(uri: String): Future[Seq[(Location, Location)]] =
+  def getRelationships(uri: String): Future[Seq[RelationshipLink]] =
     getVisitorResult(uri)(repository.getRelationships, visitors => visitors.getRelationshipsFromVisitors)
 }

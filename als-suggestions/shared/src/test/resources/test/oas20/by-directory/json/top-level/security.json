@@ -1,9 +1,15 @@
 {
   "swagger": "2.0",
   "securityDefinitions": {
-    "security": {
-      "type": "oauth2"
+    "mySecurity": {
+      "type": "oauth2",
+      "authorizationUrl": "http://swagger.io/api/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:pets": "modify pets in your account",
+        "read:pets": "read your pets"
+      }
     }
   },
-  "security": "*"
+  "security": ["*"]
 }

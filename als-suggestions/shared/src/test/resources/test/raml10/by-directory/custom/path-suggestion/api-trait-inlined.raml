@@ -1,0 +1,10 @@
+#%RAML 1.0
+traits:
+  trait:
+    body:
+        application/json:
+            type: !include *
+
+/.:
+    get:
+        is: [ trait ]

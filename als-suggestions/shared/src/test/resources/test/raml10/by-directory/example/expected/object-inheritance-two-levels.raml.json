@@ -1,0 +1,92 @@
+[
+  {
+    "label": "position",
+    "kind": [],
+    "detail": "example",
+    "documentation": "position",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10position",
+    "filterText": "position: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 57,
+          "character": 16
+        },
+        "end": {
+          "line": 57,
+          "character": 16
+        }
+      },
+      "newText": "position: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "specializedIn",
+    "kind": [],
+    "detail": "example",
+    "documentation": "specializedIn",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10specializedIn",
+    "filterText": "specializedIn: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 57,
+          "character": 16
+        },
+        "end": {
+          "line": 57,
+          "character": 16
+        }
+      },
+      "newText": "specializedIn: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "wageRequested",
+    "kind": [],
+    "detail": "example",
+    "documentation": "wageRequested",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10wageRequested",
+    "filterText": "wageRequested: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 57,
+          "character": 16
+        },
+        "end": {
+          "line": 57,
+          "character": 16
+        }
+      },
+      "newText": "wageRequested: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

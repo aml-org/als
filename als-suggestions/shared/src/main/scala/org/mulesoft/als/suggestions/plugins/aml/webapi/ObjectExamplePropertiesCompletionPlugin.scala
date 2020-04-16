@@ -5,7 +5,7 @@ import amf.core.model.domain._
 import amf.core.model.domain.extensions.PropertyShape
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.domain.shapes.models.{AnyShape, ArrayShape, Example, NodeShape}
-import amf.plugins.domain.shapes.resolution.stages.elements.ShapeTransformationPipeline
+import amf.plugins.domain.shapes.resolution.stages.elements.CompleteShapeTransformationPipeline
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -38,7 +38,7 @@ case class ObjectExamplePropertiesCompletionPlugin(objectNode: ObjectNode, diale
     branch.collectFirst({ case a: AnyShape => a }).map(resolve).collectFirst({ case a: AnyShape => a })
 
   private def resolve(a: AnyShape): Shape =
-    new ShapeTransformationPipeline(a, LocalIgnoreErrorHandler, profile).resolve()
+    new CompleteShapeTransformationPipeline(a, LocalIgnoreErrorHandler, profile).resolve()
 
   private def shapeForObj(a: AnyShape, findFn: Example => Boolean) =
     a.examples.find(findFn).flatMap(e => findNode(a, e.structuredValue, objectNode))

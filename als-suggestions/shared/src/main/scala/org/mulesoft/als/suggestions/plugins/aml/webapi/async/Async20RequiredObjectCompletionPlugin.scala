@@ -1,0 +1,5 @@
+package org.mulesoft.als.suggestions.plugins.aml.webapi.async
+
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OASLikeRequiredObjectCompletionPlugin
+
+object Async20RequiredObjectCompletionPlugin extends OASLikeRequiredObjectCompletionPlugin

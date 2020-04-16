@@ -2,14 +2,13 @@ package org.mulesoft.als.server.modules.workspace
 
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.AlsClientNotifier
-import org.mulesoft.als.server.modules.ast.BaseUnitListener
-import org.mulesoft.amfmanager.AmfParseResult
 import org.mulesoft.als.server.feature.workspace.{
   FilesInProjectClientCapabilities,
   FilesInProjectConfigType,
   FilesInProjectParams,
   FilesInProjectServerOptions
 }
+import org.mulesoft.als.server.modules.ast.{BaseUnitListener, BaseUnitListenerParams}
 
 import scala.concurrent.Future
 
@@ -29,8 +28,8 @@ class FilesInProjectManager(clientNotifier: AlsClientNotifier[_])
     * @param ast  - AST
     * @param uuid - telemetry UUID
     */
-  override def onNewAst(ast: (AmfParseResult, Map[String, DiagnosticsBundle]), uuid: String): Unit =
-    clientNotifier.notifyProjectFiles(FilesInProjectParams(ast._2.keySet))
+  override def onNewAst(ast: BaseUnitListenerParams, uuid: String): Unit =
+    clientNotifier.notifyProjectFiles(FilesInProjectParams(ast.diagnosticsBundle.keySet))
 
   override def onRemoveFile(uri: String): Unit = {
     /* No action required */

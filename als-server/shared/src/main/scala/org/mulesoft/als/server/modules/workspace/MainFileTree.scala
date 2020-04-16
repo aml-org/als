@@ -1,8 +1,7 @@
 package org.mulesoft.als.server.modules.workspace
 
 import amf.core.model.document.BaseUnit
-import org.mulesoft.als.actions.common.AliasInfo
-import org.mulesoft.lsp.feature.common.Location
+import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 trait MainFileTree extends FileTree {
@@ -22,7 +21,7 @@ object EmptyFileTree extends MainFileTree {
 
   override def parsedUnits: Map[String, ParsedUnit] = Map.empty
 
-  override def nodeRelationships: Seq[(Location, Location)] = Nil
+  override def nodeRelationships: Seq[RelationshipLink] = Nil
 
   override def documentLinks: Map[String, Seq[DocumentLink]] = Map.empty
 
