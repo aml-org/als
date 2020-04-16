@@ -25,7 +25,9 @@ case class FilesEnumeration(directoryResolver: DirectoryResolver,
       .readDir(fullURI)
       .flatMap(withIsDir(_, fullURI))
       .map(s => {
-        s.filter(tuple => tuple._1 != actual && (tuple._2 || supportedExtension(tuple._1)))
+        s.filter(tuple =>
+            s"${FileUtils.getPath(fullURI, platform)}${tuple._1}" != actual && (tuple._2 || supportedExtension(
+              tuple._1)))
           .map(t => if (t._2) s"${t._1}/" else t._1)
           .map(toRawSuggestion)
       })
