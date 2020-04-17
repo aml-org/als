@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11headers",
-    "filterText": "headers: ",
+    "filterText": "headers:\n        ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -233,7 +233,7 @@
           "character": 6
         }
       },
-      "newText": "headers: "
+      "newText": "headers:\n        "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
