@@ -1,12 +1,11 @@
 package org.mulesoft.als.server.modules.diagnostic
 
+import amf._
 import amf.core.model.document.BaseUnit
 import amf.core.services.RuntimeValidator
 import amf.core.validation.SeverityLevels.VIOLATION
 import amf.core.validation.{AMFValidationReport, AMFValidationResult}
-import amf._
-import amf.client.parse.DefaultErrorHandler
-import amf.core.errorhandling.ErrorCollector
+import amf.internal.environment.Environment
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
@@ -28,6 +27,7 @@ import scala.util.{Failure, Success}
 class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                         private val clientNotifier: ClientNotifier,
                         private val logger: Logger,
+                        private val env: Environment,
                         private val optimizationKind: DiagnosticNotificationsKind = ALL_TOGETHER)
     extends BaseUnitListener
     with ClientNotifierModule[DiagnosticClientCapabilities, Unit] {
@@ -176,7 +176,7 @@ class DiagnosticManager(private val telemetryProvider: TelemetryProvider,
                                       uuid)
     try {
       futureResolvedFn().flatMap { r =>
-        r.resolvedUnit.flatMap(RuntimeValidator(_, profile, resolved = true)).map { vr =>
+        r.resolvedUnit.flatMap(RuntimeValidator(_, profile, resolved = true, env = env)).map { vr =>
           AMFValidationReport(vr.conforms, vr.model, vr.profile, vr.results ++ r.eh.getErrors)
         }
       } andThen {

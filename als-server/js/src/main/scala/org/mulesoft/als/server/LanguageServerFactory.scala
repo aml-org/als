@@ -49,12 +49,11 @@ object LanguageServerFactory {
                        withDiagnostics: Boolean = true,
                        notificationKind: Option[DiagnosticNotificationsKind] = None): LanguageServer = {
 
-    val builders = new WorkspaceManagerFactoryBuilder(clientNotifier, logger)
+    val builders = new WorkspaceManagerFactoryBuilder(clientNotifier, logger, jsServerSystemConf.environment)
       .withAmfConfiguration(
         new AmfInstance(plugins.toSeq.map(ClientPayloadPluginConverter.convert),
                         jsServerSystemConf.platform,
                         jsServerSystemConf.environment))
-      .withEnvironment(jsServerSystemConf.environment)
       .withPlatform(jsServerSystemConf.platform)
       .withDirectoryResolver(jsServerSystemConf.directoryResolver)
 
