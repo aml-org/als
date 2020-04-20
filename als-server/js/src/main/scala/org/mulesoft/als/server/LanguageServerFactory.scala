@@ -30,7 +30,7 @@ object LanguageServerFactory {
                   clientDirResolver: ClientDirectoryResolver = EmptyJsDirectoryResolver,
                   logger: Logger = PrintLnLogger,
                   withDiagnostics: Boolean = true,
-                  notificationKind: Option[DiagnosticNotificationsKind] = None,
+                  notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined,
                   amfPlugins: js.Array[ClientAMFPayloadValidationPlugin] = js.Array.apply()): LanguageServer = {
     fromSystemConfig(clientNotifier,
                      serializationProps,
@@ -47,7 +47,7 @@ object LanguageServerFactory {
                        plugins: js.Array[ClientAMFPayloadValidationPlugin] = js.Array(),
                        logger: Logger = PrintLnLogger,
                        withDiagnostics: Boolean = true,
-                       notificationKind: Option[DiagnosticNotificationsKind] = None): LanguageServer = {
+                       notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined): LanguageServer = {
 
     val builders = new WorkspaceManagerFactoryBuilder(clientNotifier, logger, jsServerSystemConf.environment)
       .withAmfConfiguration(
@@ -57,7 +57,7 @@ object LanguageServerFactory {
       .withPlatform(jsServerSystemConf.platform)
       .withDirectoryResolver(jsServerSystemConf.directoryResolver)
 
-    notificationKind.foreach(builders.withNotificationKind)
+    notificationKind.toOption.foreach(builders.withNotificationKind)
 
     val diagnosticManager     = builders.diagnosticManager()
     val filesInProjectManager = builders.filesInProjectManager(serializationProps.alsClientNotifier)
