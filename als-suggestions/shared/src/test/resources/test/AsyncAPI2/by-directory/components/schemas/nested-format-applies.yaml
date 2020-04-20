@@ -1,0 +1,15 @@
+#%AsyncAPI 2.0
+asyncapi: 2.0.0
+info:
+  title: myTitle
+  version: 2
+channels:
+  mychan:
+    publish:
+      message:
+        payload:
+          type: object
+          properties:
+            myProp:
+              *
+        schemaFormat: application/vnd.oai.openapi;version=3.0.0
