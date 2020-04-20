@@ -64,7 +64,8 @@ object DiagnosticConverters {
                 .map(s =>
                   DiagnosticRelatedInformation(Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
                                                s"from ${s.originUri}")) :+
-                rootAsRelatedInfo
+                rootAsRelatedInfo,
+              r.validationId
             )
           }
         case _ =>
@@ -74,7 +75,7 @@ object DiagnosticConverters {
   }
 
   private def buildIssue(r: AMFValidationResult, stack: Seq[DiagnosticRelatedInformation]): ValidationIssue = {
-    ValidationIssue("PROPERTY_UNUSED",
+    ValidationIssue(r.validationId,
                     ValidationSeverity(r.level),
                     r.location.getOrElse(""),
                     r.message,
@@ -86,8 +87,9 @@ object DiagnosticConverters {
                          range: PositionRange,
                          message: String,
                          level: String,
-                         stack: Seq[DiagnosticRelatedInformation]): ValidationIssue = {
-    ValidationIssue("PROPERTY_UNUSED", ValidationSeverity(level), path, message, range, stack)
+                         stack: Seq[DiagnosticRelatedInformation],
+                         validationId: String): ValidationIssue = {
+    ValidationIssue(validationId, ValidationSeverity(level), path, message, range, stack)
   }
 
   private def lexicalToPosition(maybeLi: Option[LexicalInformation]): PositionRange =
