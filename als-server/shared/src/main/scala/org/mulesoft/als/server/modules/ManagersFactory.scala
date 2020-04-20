@@ -32,12 +32,12 @@ import org.mulesoft.amfintegration.AmfInstance
 
 import scala.collection.mutable.ListBuffer
 
-class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Logger) extends PlatformSecrets {
+class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Logger, env: Environment = Environment())
+    extends PlatformSecrets {
 
   private var amfConfig: AmfInstance                        = AmfInstance.default
   private var notificationKind: DiagnosticNotificationsKind = ALL_TOGETHER
   private var givenPlatform                                 = platform
-  private var environment                                   = Environment()
   private var directoryResolver: DirectoryResolver          = new PlatformDirectoryResolver(platform)
 
   def withAmfConfiguration(amfConfig: AmfInstance): WorkspaceManagerFactoryBuilder = {
@@ -52,11 +52,6 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
 
   def withPlatform(p: Platform): WorkspaceManagerFactoryBuilder = {
     givenPlatform = p
-    this
-  }
-
-  def withEnvironment(environment: Environment): WorkspaceManagerFactoryBuilder = {
-    this.environment = environment
     this
   }
 
@@ -75,7 +70,7 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
   }
 
   def diagnosticManager(): DiagnosticManager = {
-    val dm = new DiagnosticManager(telemetryManager, clientNotifier, logger, notificationKind)
+    val dm = new DiagnosticManager(telemetryManager, clientNotifier, logger, env, notificationKind)
     projectDependencies += dm
     dm
   }
@@ -88,7 +83,7 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
   def buildWorkspaceManagerFactory(): WorkspaceManagerFactory =
     WorkspaceManagerFactory(projectDependencies.toList,
                             telemetryManager,
-                            environment,
+                            env,
                             platform,
                             directoryResolver,
                             logger,
