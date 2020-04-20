@@ -26,7 +26,7 @@ case class ValidationIssue(code: String,
     toLspRange(range),
     text,
     Some(ValidationSeverity.toDiagnosticSeverity(`type`)),
-    None,
+    Some(code),
     None,
     trace
   )
