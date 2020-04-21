@@ -8,6 +8,7 @@ import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.common.dtoTypes.{PositionRange, ReferenceOrigins, ReferenceStack}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitors
+import org.mulesoft.amfintegration.DiagnosticsBundle
 import org.mulesoft.amfmanager.AmfImplicits._
 import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.feature.link.DocumentLink

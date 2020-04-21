@@ -3,19 +3,17 @@ package org.mulesoft.als.server.modules.actions
 import java.util.UUID
 
 import amf.core.remote.Platform
-import org.mulesoft.als.actions.links.FindLinks
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.workspace.{UnitRepositoriesManager, WorkspaceManager}
+import org.mulesoft.als.server.workspace.UnitWorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DocumentLinksManager(val workspaceManager: UnitRepositoriesManager,
+class DocumentLinksManager(val workspaceManager: UnitWorkspaceManager,
                            private val telemetryProvider: TelemetryProvider,
                            platform: Platform,
                            private val logger: Logger)

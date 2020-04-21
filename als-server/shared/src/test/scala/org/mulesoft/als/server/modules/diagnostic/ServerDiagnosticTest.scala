@@ -8,7 +8,6 @@ import amf.core.parser.{Annotations, Fields}
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.ast.BaseUnitListenerParams
-import org.mulesoft.als.server.modules.workspace.DummyResolvedUnit
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.TextDocumentContainer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
@@ -16,7 +15,7 @@ import org.mulesoft.amfmanager.AmfParseResult
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class ServerDiagnosticTest extends LanguageServerBaseTest with DummyResolvedUnit {
+class ServerDiagnosticTest extends LanguageServerBaseTest {
 
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
@@ -30,13 +29,14 @@ class ServerDiagnosticTest extends LanguageServerBaseTest with DummyResolvedUnit
     val dm      = builder.diagnosticManager()
     val factory = builder.buildWorkspaceManagerFactory()
     container = Option(factory.container)
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
-      .addInitializableModule(dm)
-      .build()
+    val b = new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+    dm.foreach(b.addInitializableModule)
+    b.build()
 
   }
 
   test("diagnostics test 001 - onFocus") {
+    diagnosticNotifier.promises.clear()
     withServer { server =>
       val mainFilePath = s"file://api.raml"
       val libFilePath  = s"file://lib1.raml"
@@ -78,27 +78,33 @@ class ServerDiagnosticTest extends LanguageServerBaseTest with DummyResolvedUnit
         oMain11 <- diagnosticNotifier.nextCall
         oMain12 <- diagnosticNotifier.nextCall
         _       <- focusNotification(server)(libFilePath, 0)
-        oLib2   <- diagnosticNotifier.nextCall
+        oLib21  <- diagnosticNotifier.nextCall
         _       <- changeNotification(server)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
-        oLib3   <- diagnosticNotifier.nextCall
+        oLib31  <- diagnosticNotifier.nextCall
         _       <- focusNotification(server)(mainFilePath, 0)
         oMain21 <- diagnosticNotifier.nextCall
         oMain22 <- diagnosticNotifier.nextCall
       } yield {
         server.shutdown()
+        val firstMain  = Seq(oMain11, oMain12)
+        val secondMain = Seq(oLib21)
+        val thirdMain  = Seq(oLib31)
+        val fixedMain  = Seq(oMain21, oMain22)
+
         assert(oLib1.diagnostics.isEmpty && oLib1.uri == libFilePath)
-        assert(oMain11.diagnostics.length == 1 && oMain11.uri == mainFilePath)
-        assert(oLib1 == oMain12)
-        assert(oLib2 == oLib1)
-        assert(oLib3 == oLib2)
-        assert(oMain22 == oLib1)
-        assert(oMain21.diagnostics.isEmpty && oMain21.uri == mainFilePath)
+        assert(firstMain.find(_.uri == mainFilePath).exists(_.diagnostics.length == 1))
+        assert(firstMain.contains(oLib1))
+        assert(firstMain.find(_.uri == libFilePath).contains(oLib21))
+        assert(oLib21 == oLib31)
+        assert(oLib1 == oLib31)
+        assert(fixedMain.forall(_.diagnostics.isEmpty))
         assert(diagnosticNotifier.promises.isEmpty)
       }
     }
   }
 
   test("diagnostics test 002 - AML") {
+    diagnosticNotifier.promises.clear()
     withServer { server =>
       val dialectPath  = s"file://dialect.yaml"
       val instancePath = s"file://instance.yaml"
@@ -140,22 +146,21 @@ class ServerDiagnosticTest extends LanguageServerBaseTest with DummyResolvedUnit
       /*
         register dialect -> open invalid instance -> fix -> invalid again
        */
-      diagnosticNotifier.promises.clear()
       for {
-        _  <- openFileNotification(server)(dialectPath, dialectContent)
-        d1 <- diagnosticNotifier.nextCall
-        _  <- openFileNotification(server)(instancePath, instanceContent1)
-        i1 <- diagnosticNotifier.nextCall
-        _  <- openFileNotification(server)(instancePath, instanceContent2)
-        i2 <- diagnosticNotifier.nextCall
-        _  <- openFileNotification(server)(instancePath, instanceContent1)
-        i3 <- diagnosticNotifier.nextCall
+        _             <- openFileNotification(server)(dialectPath, dialectContent)
+        d1            <- diagnosticNotifier.nextCall
+        _             <- openFileNotification(server)(instancePath, instanceContent1)
+        openInvalid   <- diagnosticNotifier.nextCall
+        _             <- openFileNotification(server)(instancePath, instanceContent2)
+        fixed         <- diagnosticNotifier.nextCall
+        _             <- openFileNotification(server)(instancePath, instanceContent1)
+        reopenInvalid <- diagnosticNotifier.nextCall
       } yield {
         server.shutdown()
         assert(d1.diagnostics.isEmpty && d1.uri == dialectPath)
-        assert(i1.diagnostics.length == 1 && i1.uri == instancePath)
-        assert(i2.diagnostics.isEmpty && i2.uri == instancePath)
-        assert(i3 == i1)
+        assert(openInvalid.diagnostics.length == 1 && openInvalid.uri == instancePath)
+        assert(fixed.diagnostics.isEmpty && fixed.uri == instancePath)
+        assert(openInvalid == reopenInvalid)
         assert(diagnosticNotifier.promises.isEmpty)
       }
     }
@@ -179,25 +184,28 @@ class ServerDiagnosticTest extends LanguageServerBaseTest with DummyResolvedUnit
       override def location(): Option[String] = Some("location")
     }
 
-    val builder               = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
-    val dm: DiagnosticManager = builder.diagnosticManager()
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
+    builder
+      .diagnosticManager()
+    val factory = builder.buildWorkspaceManagerFactory()
 
     val amfBaseUnit: BaseUnit = new MockDialectInstance(new Fields())
 
-    val eh = new ErrorCollector {}
-
+    val eh                             = new ErrorCollector {}
     val amfParseResult: AmfParseResult = new AmfParseResult(amfBaseUnit, eh)
 
-    dm.onNewAst(
-      BaseUnitListenerParams(
-        amfParseResult,
-        Map.empty,
-        () => Future(dummyResolved(amfBaseUnit, container)),
-        tree = false
-      ),
-      ""
-    )
     for {
+      _ <- Future {
+        diagnosticNotifier.promises.clear()
+        factory.resolutionTaskManager.onNewAst(
+          BaseUnitListenerParams(
+            amfParseResult,
+            Map.empty,
+            tree = false
+          ),
+          ""
+        )
+      }
       d <- diagnosticNotifier.nextCall
     } yield {
       assert(d.diagnostics.length == 1)

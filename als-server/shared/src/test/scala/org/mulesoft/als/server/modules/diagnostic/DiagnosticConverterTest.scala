@@ -2,7 +2,6 @@ package org.mulesoft.als.server.modules.diagnostic
 
 import amf.ProfileNames
 import amf.core.validation.{AMFValidationResult, SeverityLevels}
-import org.mulesoft.als.server.modules.workspace.DiagnosticsBundle
 import org.scalatest.{FunSuite, Matchers}
 
 class DiagnosticConverterTest extends FunSuite with Matchers {

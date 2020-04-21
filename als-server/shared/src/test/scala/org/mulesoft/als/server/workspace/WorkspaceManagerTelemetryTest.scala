@@ -92,7 +92,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
   }
 
   override def buildServer(): LanguageServer = {
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()
   }

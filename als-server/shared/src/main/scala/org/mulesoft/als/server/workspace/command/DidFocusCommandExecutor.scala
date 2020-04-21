@@ -22,7 +22,7 @@ class DidFocusCommandExecutor(val logger: Logger, wsc: WorkspaceManager)
   }
 
   override protected def runCommand(param: DidFocusParams): Future[Unit] = {
-    wsc.getWorkspace(param.uri).changedFile(param.uri, FOCUS_FILE)
+    wsc.getWorkspace(param.uri).stage(param.uri, FOCUS_FILE)
     Future.unit
   }
 }
