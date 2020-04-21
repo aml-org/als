@@ -224,6 +224,6 @@ object ALL_TOGETHER   extends DiagnosticNotificationsKind("ALL_TOGETHER")
 
 @JSExport
 object DiagnosticNotificationsKind {
-  def parsingBefore: DiagnosticNotificationsKind = PARSING_BEFORE
-  def allTogether: DiagnosticNotificationsKind   = ALL_TOGETHER
+  val parsingBefore: DiagnosticNotificationsKind = PARSING_BEFORE
+  val allTogether: DiagnosticNotificationsKind   = ALL_TOGETHER
 }
