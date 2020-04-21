@@ -6,10 +6,10 @@ import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.workspace.{UnitRepositoriesManager, WorkspaceManager}
+import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.feature.common.Location
 import org.mulesoft.lsp.feature.RequestHandler
+import org.mulesoft.lsp.feature.common.Location
 import org.mulesoft.lsp.feature.reference.{
   ReferenceClientCapabilities,
   ReferenceConfigType,
@@ -21,7 +21,7 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class FindReferenceManager(val workspaceManager: UnitRepositoriesManager,
+class FindReferenceManager(val workspace: WorkspaceManager,
                            private val telemetryProvider: TelemetryProvider,
                            private val logger: Logger)
     extends RequestModule[ReferenceClientCapabilities, Unit] {
@@ -46,11 +46,11 @@ class FindReferenceManager(val workspaceManager: UnitRepositoriesManager,
 
   def findReference(uri: String, position: Position): Future[Seq[Location]] = {
     val uuid = UUID.randomUUID().toString
-    workspaceManager
-      .getLastCU(uri, uuid)
+    workspace
+      .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
       .flatMap(bu => {
-        FindReferences.getReferences(bu.unit, uri, position, workspaceManager.getRelationships(uri, uuid))
+        FindReferences.getReferences(bu.unit, uri, position, workspace.getRelationships(uri, uuid))
       })
   }
 

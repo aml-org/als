@@ -160,6 +160,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
           },
           new DummyTelemetryProvider(),
           Nil,
+          Nil,
           EmptyLogger
         ) {
 
@@ -189,9 +190,10 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     val dm       = builder.diagnosticManager()
     val managers = builder.buildWorkspaceManagerFactory()
 
-    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager)
-      .addInitializableModule(dm)
-      .build()
+    val b =
+      new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, managers.resolutionTaskManager)
+    dm.foreach(b.addInitializableModule)
+    b.build()
   }
 
   override def rootPath: String = ""

@@ -2,6 +2,7 @@ package org.mulesoft.als.server.modules.workspace
 
 import amf.core.model.document.BaseUnit
 import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
+import org.mulesoft.amfintegration.DiagnosticsBundle
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 trait MainFileTree extends FileTree {

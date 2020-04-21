@@ -9,7 +9,7 @@ import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.workspace.UnitRepositoriesManager
+import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.configuration.StaticRegistrationOptions
 import org.mulesoft.lsp.feature.RequestHandler
@@ -21,10 +21,10 @@ import org.mulesoft.lsp.feature.implementation.{
 }
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
-class GoToImplementationManager(val workspaceManager: UnitRepositoriesManager,
+class GoToImplementationManager(val workspace: WorkspaceManager,
                                 platform: Platform,
                                 private val telemetryProvider: TelemetryProvider,
                                 private val logger: Logger)
@@ -53,14 +53,14 @@ class GoToImplementationManager(val workspaceManager: UnitRepositoriesManager,
 
   def goToImplementation(uri: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] = {
     val uuid = UUID.randomUUID().toString
-    workspaceManager
-      .getLastCU(uri, uuid)
+    workspace
+      .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
       .flatMap(bu => {
         FindReferences.getReferences(bu.unit,
                                      uri,
                                      position,
-                                     workspaceManager
+                                     workspace
                                        .getRelationships(uri, uuid)
                                        .map(_.filter(_.linkType == LinkTypes.TRAITRESOURCES)))
       })

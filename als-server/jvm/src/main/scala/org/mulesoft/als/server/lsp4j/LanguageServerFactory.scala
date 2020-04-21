@@ -81,9 +81,9 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
     val builders = factory.buildWorkspaceManagerFactory()
 
     val languageBuilder =
-      new LanguageServerBuilder(builders.documentManager, builders.workspaceManager)
+      new LanguageServerBuilder(builders.documentManager, builders.workspaceManager, builders.resolutionTaskManager)
         .addInitializable(builders.workspaceManager)
-        .addInitializableModule(dm)
+        .addInitializable(builders.resolutionTaskManager)
         .addInitializableModule(sm)
         .addRequestModule(builders.cleanDiagnosticManager)
         .addRequestModule(builders.conversionManager)
@@ -95,6 +95,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
         .addRequestModule(builders.referenceManager)
         .addRequestModule(builders.documentLinksManager)
         .addInitializable(builders.telemetryManager)
+    dm.foreach(languageBuilder.addInitializableModule)
     builders.serializationManager.foreach(languageBuilder.addRequestModule)
     languageBuilder.build()
   }

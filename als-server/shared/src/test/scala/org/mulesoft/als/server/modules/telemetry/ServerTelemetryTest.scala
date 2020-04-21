@@ -20,9 +20,9 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
     val dm = builder.diagnosticManager()
     val factory = builder.buildWorkspaceManagerFactory()
 
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
-        .addInitializableModule(dm)
-        .build()
+    val b = new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+    dm.foreach(b.addInitializableModule)
+    b.build()
   }
 
   def checkMessages(telemetryMessages: Seq[MessageTypes.Value], msgs: Seq[TelemetryMessage]): Boolean =

@@ -23,7 +23,7 @@ class IncludeCacheTests extends RAMLSuggestionTestServer {
     val factory = new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
       .withAmfConfiguration(AmfInstance.default)
       .buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
       .addRequestModule(factory.completionManager)
       .build()
   }

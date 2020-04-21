@@ -70,9 +70,10 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
     val builder     = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, env).withAmfConfiguration(amfInstance)
     val dm          = builder.diagnosticManager()
     val factory     = builder.buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
-      .addInitializableModule(dm)
-      .build()
+    val b           = new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+
+    dm.foreach(b.addInitializableModule)
+    b.build()
   }
 
   override def rootPath: String = ???
