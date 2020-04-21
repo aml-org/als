@@ -240,4 +240,33 @@ class ServerDiagnosticTest extends LanguageServerBaseTest with DummyResolvedUnit
       }
     }
   }
+
+  test("Error without location") {
+    withServer { server =>
+      val apiPath = s"file://api.json"
+
+      val apiContent =
+        """{
+          |  "openapi": "3.0.0",
+          |  "info": {
+          |    "title": "test api",
+          |    "version": "1"
+          |  }
+          |}
+        """.stripMargin
+
+      /*
+        register dialect -> open invalid instance -> fix -> invalid again
+       */
+      diagnosticNotifier.promises.clear()
+      for {
+        _  <- openFileNotification(server)(apiPath, apiContent)
+        d1 <- diagnosticNotifier.nextCall
+      } yield {
+        server.shutdown()
+        assert(d1.diagnostics.nonEmpty && d1.uri == apiPath)
+        assert(d1.diagnostics.head.relatedInformation.nonEmpty)
+      }
+    }
+  }
 }
