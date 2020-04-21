@@ -45,7 +45,7 @@ class IncludeTests extends RAMLSuggestionTestServer {
     runTest("includes/testGroup%5A/test%25 B.raml", Set("with space/test%A5 lib.raml"))
   }
 
-  ignore("test with '//'") {
-    runTest("includes/testGroup04/double-slash.raml", Set("t.raml"))
+  test("test with '//'") {
+    runTest("includes/testGroup04/double-slash.raml", Set("//t.raml", "//double-slash.raml"))
   }
 }
