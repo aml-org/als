@@ -17,10 +17,11 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
     val dm      = builder.diagnosticManager()
     val factory = builder.buildWorkspaceManagerFactory()
 
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
-      .addInitializableModule(dm)
-      .build()
+    val b = new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+    dm.foreach(b.addInitializableModule)
+    b.build()
   }
+
   override def rootPath: String = ""
 
   test("Only Parsing error") {
@@ -41,7 +42,7 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
         assert(parsing.diagnostics.length == model.diagnostics.length)
         assert(parsing.diagnostics.head.message == model.diagnostics.head.message)
         assert(parsing.diagnostics.head.message.startsWith("Syntax error in the following text"))
-
+        assert(clientNotifier.promises.isEmpty)
       }
     }
   }
@@ -63,8 +64,9 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
         assert(parsing.diagnostics.length == 1)
         assert(model.diagnostics.length == 2)
         assert(parsing.diagnostics.head.message.startsWith("Syntax error in the following text"))
-        assert(model.diagnostics.head.message.startsWith("Syntax error in the following text"))
-        assert(model.diagnostics.last.message.startsWith("API title is mandatory"))
+        assert(model.diagnostics.exists(_.message.startsWith("Syntax error in the following text")))
+        assert(model.diagnostics.exists(_.message.startsWith("API title is mandatory")))
+        assert(clientNotifier.promises.isEmpty)
       }
     }
   }
@@ -94,12 +96,14 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
         assert(parsing.diagnostics.length == 1)
         assert(model.diagnostics.length == 2)
         assert(parsing.diagnostics.head.message.startsWith("Syntax error in the following text"))
-        assert(model.diagnostics.head.message.startsWith("Syntax error in the following text"))
-        assert(model.diagnostics.last.message.startsWith("API title is mandatory"))
+        assert(model.diagnostics.exists(_.message.startsWith("Syntax error in the following text")))
+        assert(model.diagnostics.exists(_.message.startsWith("API title is mandatory")))
 
         assert(parsingFixed.diagnostics.length == 1)
         assert(parsingFixed.diagnostics.length == model2.diagnostics.length)
         assert(model2.diagnostics.head.message == "API title is mandatory")
+        assert(clientNotifier.promises.isEmpty)
+
       }
     }
   }

@@ -28,3 +28,4 @@ als-server/js/node-package/tmp/
 *als-server.js.map
 *als-server.min.js
 *als-server.min.js.map
+/lsp/*

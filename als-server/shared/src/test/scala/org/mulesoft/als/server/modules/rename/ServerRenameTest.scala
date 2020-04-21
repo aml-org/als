@@ -20,7 +20,7 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
   override def buildServer(): LanguageServer = {
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
       .addInitializable(factory.documentManager)
       .build()
   }

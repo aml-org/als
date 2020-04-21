@@ -4,13 +4,11 @@ import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.AlsWorkspaceService
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.ast.{BaseUnitListener, CHANGE_CONFIG, NotificationKind, TextListener}
+import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.workspace.{CompilableUnit, WorkspaceContentManager}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.command._
 import org.mulesoft.als.server.workspace.extract._
-import org.mulesoft.amfintegration.AmfResolvedUnit
-import org.mulesoft.lsp.Initializable
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
@@ -22,13 +20,15 @@ import scala.concurrent.Future
 
 class WorkspaceManager(environmentProvider: EnvironmentProvider,
                        telemetryProvider: TelemetryProvider,
-                       dependencies: List[BaseUnitListener],
+                       val allSubscribers: List[BaseUnitListener],
+                       override val dependencies: List[AccessUnits[CompilableUnit]],
                        logger: Logger)
     extends TextListener
-    with UnitRepositoriesManager
-    with AlsWorkspaceService
-    with Initializable {
+    with UnitWorkspaceManager
+    with UnitsManager[CompilableUnit, BaseUnitListenerParams]
+    with AlsWorkspaceService {
 
+  override def subscribers: List[BaseUnitListener]            = allSubscribers.filter(_.isActive)
   private val rootHandler                                     = new WorkspaceRootHandler(environmentProvider.platform)
   private val workspaces: ListBuffer[WorkspaceContentManager] = ListBuffer()
 
@@ -41,7 +41,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
         logger
           .debug("Adding workspace: " + root, "WorkspaceManager", "initializeWS")
         val workspace: WorkspaceContentManager =
-          new WorkspaceContentManager(root, environmentProvider, telemetryProvider, logger, dependencies)
+          new WorkspaceContentManager(root, environmentProvider, telemetryProvider, logger, subscribers)
         Future.sequence {
           replaceWorkspaces(root)
         } map (_ => {
@@ -74,15 +74,12 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     workspace.shutdown().map(_ => { this.synchronized { workspaces -= workspace } })
   }
 
-  override def getCU(uri: String, uuid: String): Future[CompilableUnit] =
+  override def getUnit(uri: String, uuid: String): Future[CompilableUnit] =
     getWorkspace(uri).getCompilableUnit(uri)
 
-  override def getResolved(uri: String, uuid: String): Future[AmfResolvedUnit] =
-    getWorkspace(uri).getResolvedUnit(uri)
-
-  override def getLastCU(uri: String, uuid: String): Future[CompilableUnit] = {
-    getCU(uri, uuid).flatMap(cu => {
-      if (cu.isDirty) getLastCU(uri, uuid) else Future.successful(cu)
+  override def getLastUnit(uri: String, uuid: String): Future[CompilableUnit] = {
+    getUnit(uri, uuid).flatMap(cu => {
+      if (cu.isDirty) getLastUnit(uri, uuid) else Future.successful(cu)
     })
   }
   override def notify(uri: String, kind: NotificationKind): Unit = {
@@ -91,8 +88,8 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
           .map(FileUtils.getEncodedUri(_, environmentProvider.platform))
           .contains(uri)) {
       manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
-      manager.changedFile(uri, CHANGE_CONFIG)
-    } else manager.changedFile(uri, kind)
+      manager.stage(uri, CHANGE_CONFIG)
+    } else manager.stage(uri, kind)
   }
 
   def contentManagerConfiguration(manager: WorkspaceContentManager,
@@ -101,7 +98,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
                                   reader: Option[ConfigReader]): Unit = {
     manager
       .withConfiguration(DefaultWorkspaceConfigurationProvider(manager, mainUri, dependencies, reader))
-      .changedFile(mainUri, CHANGE_CONFIG)
+      .stage(mainUri, CHANGE_CONFIG)
   }
 
   override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] = {
@@ -121,11 +118,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   )
 
   val defaultWorkspace =
-    new WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, dependencies)
-
-  override def initialize(): Future[Unit] = {
-    Future.successful(dependencies.foreach(d => d.withUnitAccessor(this)))
-  }
+    new WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers)
 
   override def getRootOf(uri: String): Option[String] =
     getWorkspace(uri).workspaceConfiguration.map(c => s"${c.rootFolder}/")
@@ -134,9 +127,8 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     // Drop all old workspaces
     workspaces.clear()
     val newWorkspaces = extractCleanURIs(workspaceFolders)
-
+    dependencies.foreach(d => d.withUnitAccessor(this))
     Future.sequence(newWorkspaces.map(initializeWS)) map (_ => Unit)
-
   }
 
   private def extractCleanURIs(workspaceFolders: List[WorkspaceFolder]) =
@@ -151,15 +143,16 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
       .foreach(shutdownWS)
 
     event.added.flatMap(_.uri).map(initializeWS)
-
   }
 
+  dependencies.foreach(d => d.withUnitAccessor(this))
+
   override def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]] =
-    getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getDocumentLinks(uri))
+    getLastUnit(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getDocumentLinks(uri))
 
   override def getAliases(uri: String, uuid: String): Future[Seq[AliasInfo]] =
-    getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getAliases(uri))
+    getLastUnit(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getAliases(uri))
 
   override def getRelationships(uri: String, uuid: String): Future[Seq[RelationshipLink]] =
-    getLastCU(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getRelationships(uri))
+    getLastUnit(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getRelationships(uri))
 }
