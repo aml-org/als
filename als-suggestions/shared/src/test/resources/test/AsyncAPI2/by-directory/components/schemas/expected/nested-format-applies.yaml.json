@@ -1,13 +1,13 @@
 [
   {
-    "label": "#/components/schemas/schema1",
+    "label": "$ref",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Reference to #/components/schemas/schema1",
+    "documentation": "reference tag",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#/components/schemas/schema1",
-    "filterText": "\"#/components/schemas/schema1\"",
+    "sortText": "0$ref",
+    "filterText": "$ref: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,29 +15,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "\"#/components/schemas/schema1\""
+      "newText": "$ref: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "array-schema.yaml",
+    "label": "allOf",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "schemas",
+    "documentation": "allOf",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11array-schema.yaml",
-    "filterText": "array-schema.yaml",
+    "sortText": "11allOf",
+    "filterText": "allOf: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,29 +45,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "array-schema.yaml"
+      "newText": "allOf: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "boolean-format.yaml",
+    "label": "anyOf",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Path suggestion",
+    "documentation": "anyOf",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11boolean-format.yaml",
-    "filterText": "boolean-format.yaml",
+    "sortText": "11anyOf",
+    "filterText": "anyOf:\n                ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,29 +75,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "boolean-format.yaml"
+      "newText": "anyOf:\n                "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "expected/",
+    "label": "default",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "parameters",
+    "documentation": "default",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11expected/",
-    "filterText": "expected/",
+    "sortText": "11default",
+    "filterText": "default: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -105,29 +105,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "expected/"
+      "newText": "default: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "external-docs-schema.yaml",
+    "label": "deprecated",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Path suggestion",
+    "documentation": "deprecated",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11external-docs-schema.yaml",
-    "filterText": "external-docs-schema.yaml",
+    "sortText": "11deprecated",
+    "filterText": "deprecated: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -135,29 +135,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "external-docs-schema.yaml"
+      "newText": "deprecated: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "integer-format.yaml",
+    "label": "description",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "docs",
+    "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11integer-format.yaml",
-    "filterText": "integer-format.yaml",
+    "sortText": "10description",
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -165,29 +165,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "integer-format.yaml"
+      "newText": "description: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "items-schema.yaml",
+    "label": "enum",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "parameters",
+    "documentation": "enum",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11items-schema.yaml",
-    "filterText": "items-schema.yaml",
+    "sortText": "11enum",
+    "filterText": "enum: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -195,29 +195,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "items-schema.yaml"
+      "newText": "enum: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "nested-format-applies.yaml",
+    "label": "example",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "docs",
+    "documentation": "example",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11nested-format-applies.yaml",
-    "filterText": "nested-format-applies.yaml",
+    "sortText": "11example",
+    "filterText": "example: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -225,29 +225,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "nested-format-applies.yaml"
+      "newText": "example: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "number-format.yaml",
+    "label": "externalDocs",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "docs",
+    "documentation": "externalDocs",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11number-format.yaml",
-    "filterText": "number-format.yaml",
+    "sortText": "11externalDocs",
+    "filterText": "externalDocs:\n                ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -255,29 +255,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "number-format.yaml"
+      "newText": "externalDocs:\n                "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "number-schema.yaml",
+    "label": "items",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "schemas",
+    "documentation": "items",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11number-schema.yaml",
-    "filterText": "number-schema.yaml",
+    "sortText": "11items",
+    "filterText": "items:\n                ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -285,29 +285,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "number-schema.yaml"
+      "newText": "items:\n                "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "object-schema.yaml",
+    "label": "not",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Path suggestion",
+    "documentation": "not",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11object-schema.yaml",
-    "filterText": "object-schema.yaml",
+    "sortText": "11not",
+    "filterText": "not:\n                ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -315,29 +315,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "object-schema.yaml"
+      "newText": "not:\n                "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "properties-schema.yaml",
+    "label": "nullable",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Path suggestion",
+    "documentation": "nullable",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11properties-schema.yaml",
-    "filterText": "properties-schema.yaml",
+    "sortText": "11nullable",
+    "filterText": "nullable: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -345,29 +345,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "properties-schema.yaml"
+      "newText": "nullable: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "property-schema.yaml",
+    "label": "oneOf",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Path suggestion",
+    "documentation": "oneOf",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11property-schema.yaml",
-    "filterText": "property-schema.yaml",
+    "sortText": "11oneOf",
+    "filterText": "oneOf:\n                ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -375,29 +375,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "property-schema.yaml"
+      "newText": "oneOf:\n                "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "required.yaml",
+    "label": "properties",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "schemas",
+    "documentation": "properties",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11required.yaml",
-    "filterText": "required.yaml",
+    "sortText": "11properties",
+    "filterText": "properties:\n                ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -405,29 +405,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "required.yaml"
+      "newText": "properties:\n                "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "schema-name.yaml",
+    "label": "readOnly",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "schemas",
+    "documentation": "readOnly",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11schema-name.yaml",
-    "filterText": "schema-name.yaml",
+    "sortText": "11readOnly",
+    "filterText": "readOnly: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -435,29 +435,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "schema-name.yaml"
+      "newText": "readOnly: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "schema.yaml",
+    "label": "required",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "parameters",
+    "documentation": "required",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11schema.yaml",
-    "filterText": "schema.yaml",
+    "sortText": "11required",
+    "filterText": "required: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -465,29 +465,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "schema.yaml"
+      "newText": "required: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "string-format.yaml",
+    "label": "title",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "docs",
+    "documentation": "title",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11string-format.yaml",
-    "filterText": "string-format.yaml",
+    "sortText": "11title",
+    "filterText": "title: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -495,29 +495,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "string-format.yaml"
+      "newText": "title: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "string-schema.yaml",
+    "label": "type",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
+    "detail": "types and traits",
+    "documentation": "type",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11string-schema.yaml",
-    "filterText": "string-schema.yaml",
+    "sortText": "10type",
+    "filterText": "type: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -525,29 +525,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "string-schema.yaml"
+      "newText": "type: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "types-schema.yaml",
+    "label": "writeOnly",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Path suggestion",
+    "documentation": "writeOnly",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11types-schema.yaml",
-    "filterText": "types-schema.yaml",
+    "sortText": "11writeOnly",
+    "filterText": "writeOnly: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -555,15 +555,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         },
         "end": {
-          "line": 6,
-          "character": 12
+          "line": 13,
+          "character": 14
         }
       },
-      "newText": "types-schema.yaml"
+      "newText": "writeOnly: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "xml",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "xml",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11xml",
+    "filterText": "xml:\n                ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 13,
+          "character": 14
+        },
+        "end": {
+          "line": 13,
+          "character": 14
+        }
+      },
+      "newText": "xml:\n                "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
