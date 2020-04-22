@@ -32,7 +32,8 @@ trait AstListener[T] {
 
 case class BaseUnitListenerParams(parseResult: AmfParseResult,
                                   diagnosticsBundle: Map[String, DiagnosticsBundle],
-                                  resolvedUnit: () => Future[AmfResolvedUnit])
+                                  resolvedUnit: () => Future[AmfResolvedUnit],
+                                  tree: Boolean)
 
 trait BaseUnitListener extends AstListener[BaseUnitListenerParams]
 

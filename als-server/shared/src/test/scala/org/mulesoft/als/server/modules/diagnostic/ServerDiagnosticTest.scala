@@ -192,7 +192,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest with DummyResolvedUnit
       BaseUnitListenerParams(
         amfParseResult,
         Map.empty,
-        () => Future(dummyResolved(amfBaseUnit, container))
+        () => Future(dummyResolved(amfBaseUnit, container)),
+        tree = false
       ),
       ""
     )
