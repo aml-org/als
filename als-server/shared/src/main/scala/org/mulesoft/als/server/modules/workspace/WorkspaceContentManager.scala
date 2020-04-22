@@ -152,7 +152,8 @@ class WorkspaceContentManager(val folder: String,
       .map { bu =>
         repository.update(bu.baseUnit, resolve(bu.baseUnit))
         dependencies.foreach(
-          _.onNewAst(BaseUnitListenerParams(bu, Map(), getResolvedUnit(bu.baseUnit.identifier)), uuid))
+          _.onNewAst(BaseUnitListenerParams(bu, Map.empty, getResolvedUnit(bu.baseUnit.identifier), tree = false),
+                     uuid))
       }
   }
 
@@ -211,7 +212,9 @@ class WorkspaceContentManager(val folder: String,
       .flatMap { u =>
         repository.newTree(u, resolve(u.baseUnit)).map { _ =>
           dependencies.foreach(
-            _.onNewAst(BaseUnitListenerParams(u, repository.references, getResolvedUnit(u.baseUnit.identifier)), uuid))
+            _.onNewAst(
+              BaseUnitListenerParams(u, repository.references, getResolvedUnit(u.baseUnit.identifier), tree = true),
+              uuid))
           stagingArea.enqueue(snapshot.files.filter(t => !repository.inTree(t._1)))
         }
       }

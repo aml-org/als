@@ -29,7 +29,7 @@ class FilesInProjectManager(clientNotifier: AlsClientNotifier[_])
     * @param uuid - telemetry UUID
     */
   override def onNewAst(ast: BaseUnitListenerParams, uuid: String): Unit =
-    clientNotifier.notifyProjectFiles(FilesInProjectParams(ast.diagnosticsBundle.keySet))
+    if (ast.tree) clientNotifier.notifyProjectFiles(FilesInProjectParams(ast.diagnosticsBundle.keySet))
 
   override def onRemoveFile(uri: String): Unit = {
     /* No action required */
