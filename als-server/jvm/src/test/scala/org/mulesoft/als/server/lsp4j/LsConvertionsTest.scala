@@ -4,9 +4,10 @@ import org.eclipse.lsp4j._
 import org.mulesoft.als.server.lsp4j.LspConversions._
 import org.mulesoft.als.server.lsp4j.extension.{AlsClientCapabilities, AlsInitializeParams}
 import org.mulesoft.als.server.protocol.configuration
+import org.mulesoft.lsp.LspConversions._
 import org.mulesoft.lsp.configuration.{TextDocumentClientCapabilities => InternalDocumentClient}
 import org.scalatest.FunSuite
-import org.mulesoft.lsp.LspConversions._
+
 import scala.collection.JavaConverters._
 class LsConvertionsTest extends FunSuite {
 
