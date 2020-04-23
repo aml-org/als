@@ -5,7 +5,12 @@ import org.mulesoft.als.server.modules.diagnostic.DiagnosticManager
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.command.Commands
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{
+  LanguageServerBaseTest,
+  LanguageServerBuilder,
+  MockDiagnosticClientNotifier,
+  TimeoutFuture
+}
 import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
@@ -18,7 +23,13 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  val diagnosticClientNotifier         = new MockDiagnosticClientNotifier
+  class TimedMockDiagnosticClientNotifier(timeoutMillis: Long)
+      extends MockDiagnosticClientNotifier
+      with TimeoutFuture {
+    override def nextCall: Future[PublishDiagnosticsParams] = timeoutFuture(super.nextCall, timeoutMillis)
+  }
+
+  val diagnosticClientNotifier         = new TimedMockDiagnosticClientNotifier(10000)
   val builder                          = new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
   val dm: DiagnosticManager            = builder.diagnosticManager()
   val factory: WorkspaceManagerFactory = builder.buildWorkspaceManagerFactory()
