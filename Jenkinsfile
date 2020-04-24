@@ -85,6 +85,7 @@ pipeline {
                     branch 'master'
                     branch 'devel'
                     branch 'rc/*'
+                    branch 'support/*'
                     branch 'fat-jar-publish'
                 }
             }
