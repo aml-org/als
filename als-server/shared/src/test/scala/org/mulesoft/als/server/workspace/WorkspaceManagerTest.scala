@@ -23,13 +23,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  class TimedMockDiagnosticClientNotifier(timeoutMillis: Long)
-      extends MockDiagnosticClientNotifier
-      with TimeoutFuture {
-    override def nextCall: Future[PublishDiagnosticsParams] = timeoutFuture(super.nextCall, timeoutMillis)
-  }
-
-  val diagnosticClientNotifier         = new TimedMockDiagnosticClientNotifier(10000)
+  val diagnosticClientNotifier         = new MockDiagnosticClientNotifier
   val builder                          = new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
   val dm: DiagnosticManager            = builder.diagnosticManager()
   val factory: WorkspaceManagerFactory = builder.buildWorkspaceManagerFactory()
