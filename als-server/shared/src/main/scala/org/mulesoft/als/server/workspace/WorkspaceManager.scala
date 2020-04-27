@@ -50,12 +50,13 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
       } else Future.unit
     }
 
-  private def addWorkspace(mainOption: Option[WorkspaceConf], workspace: WorkspaceContentManager): Unit = {
-    workspaces += workspace
-    workspace.setConfigMainFile(mainOption)
-    mainOption.foreach(conf =>
-      contentManagerConfiguration(workspace, conf.mainFile, conf.cachables, mainOption.flatMap(_.configReader)))
-  }
+  private def addWorkspace(mainOption: Option[WorkspaceConf], workspace: WorkspaceContentManager): Unit =
+    this.synchronized {
+      workspaces += workspace
+      workspace.setConfigMainFile(mainOption)
+      mainOption.foreach(conf =>
+        contentManagerConfiguration(workspace, conf.mainFile, conf.cachables, mainOption.flatMap(_.configReader)))
+    }
 
   private def replaceWorkspaces(root: String) = {
     workspaces
@@ -67,7 +68,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
       })
   }
 
-  def shutdownWS(workspace: WorkspaceContentManager): Future[Unit] = {
+  def shutdownWS(workspace: WorkspaceContentManager): Future[Unit] = this.synchronized {
     logger.debug("Removing workspace: " + workspace.folder, "WorkspaceManager", "shutdownWS")
     workspace.shutdown().map(_ => workspaces -= workspace)
   }
