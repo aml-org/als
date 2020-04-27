@@ -62,6 +62,7 @@ pipeline {
                 anyOf {
                     branch 'master'
                     branch 'devel'
+                    branch 'gradle-nexusIq'
                 }
             }
             steps {
