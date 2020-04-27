@@ -51,7 +51,9 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     }
 
   private def addWorkspace(mainOption: Option[WorkspaceConf], workspace: WorkspaceContentManager): Unit = {
-    workspaces += workspace
+    this.synchronized {
+      workspaces += workspace
+    }
     workspace.setConfigMainFile(mainOption)
     mainOption.foreach(conf =>
       contentManagerConfiguration(workspace, conf.mainFile, conf.cachables, mainOption.flatMap(_.configReader)))
@@ -69,7 +71,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
   def shutdownWS(workspace: WorkspaceContentManager): Future[Unit] = {
     logger.debug("Removing workspace: " + workspace.folder, "WorkspaceManager", "shutdownWS")
-    workspace.shutdown().map(_ => workspaces -= workspace)
+    workspace.shutdown().map(_ => { this.synchronized { workspaces -= workspace } })
   }
 
   override def getCU(uri: String, uuid: String): Future[CompilableUnit] =
