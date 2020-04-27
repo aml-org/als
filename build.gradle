@@ -53,11 +53,6 @@ repositories {
 
 dependencies {
     compile "com.github.amlorg:amf-client_2.12:${deps.amf}"
-    compile "com.github.amlorg:amf-webapi_2.12:${deps.amf}"
-    compile "com.github.amlorg:amf-core_2.12:${deps.amf}"
-    compile "com.github.amlorg:amf-aml_2.12:${deps.amf}"
-    compile "org.mule.common:scala-common_2.12:${deps.common}"
-    compile "org.mule.syaml:syaml_2.12:${deps.syaml}"
     compile "com.chuusai:shapeless_2.12:2.3.3"
 }
 
