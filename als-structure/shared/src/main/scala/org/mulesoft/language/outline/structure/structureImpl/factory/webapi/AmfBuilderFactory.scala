@@ -42,28 +42,3 @@ trait AmfBuilderFactory extends BuilderFactory {
 
   override protected val defaultArrayBuilder = Some((e: AmfArray) => new WebApiArraySymbolBuilder(e))
 }
-
-object RamlBuilderFactory extends AmfBuilderFactory {
-
-  override protected def companion: CompanionList =
-    super.companion + RamlSecuritySchemesSettingsSymbolBuilder + RamlWebApiSymbolBuilder
-
-  override def baseUnitBuilder: ElementSymbolBuilderCompanion =
-    RamlBaseUnitSymbolBuilder
-}
-
-object Oas20BuilderFactory extends AmfBuilderFactory {
-
-  override protected def companion: CompanionList =
-    super.companion + Oas20WebApiSymbolBuilder
-  override def baseUnitBuilder: ElementSymbolBuilderCompanion =
-    Oas20BaseUnitSymbolBuilder
-}
-
-object Oas30BuilderFactory extends AmfBuilderFactory {
-
-  override def baseUnitBuilder: ElementSymbolBuilderCompanion =
-    Oas30BaseUnitSymbolBuilder
-
-  override def companion: CompanionList = super.companion + WebApiSymbolBuilder
-}
