@@ -2,12 +2,14 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 
 import amf.core.metamodel.Obj
 import amf.core.model.document.{BaseUnit, DeclaresModel, EncodesModel}
-import amf.core.model.domain.{AmfElement, DomainElement}
+import amf.core.model.domain.{AmfElement, AmfObject, DomainElement}
 import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, ElementSymbolBuilder}
 
 abstract class BaseUnitSymbolBuilder(element: BaseUnit)(override implicit val factory: BuilderFactory)
     extends ElementSymbolBuilder[BaseUnit] {
   protected def nameFromMeta(obj: Obj): String
+
+  protected def nameForDeclared(element: AmfObject) = nameFromMeta(element.meta)
 
   private val encodedChildren = element match {
     case e: EncodesModel =>
@@ -15,14 +17,17 @@ abstract class BaseUnitSymbolBuilder(element: BaseUnit)(override implicit val fa
     case _ => Nil
   }
 
-  private val declaredChildren: Map[String, Seq[ElementSymbolBuilder[_ <: AmfElement]]] = element match {
-    case d: DeclaresModel =>
-      val objToElements: Map[String, Seq[DomainElement]] =
-        d.declares
-          .filter(de => de.location() == element.location())
-          .groupBy(d => nameFromMeta(d.meta))
-      objToElements.map(t => (t._1, t._2.flatMap(e => factory.builderFor[DomainElement](e))))
-    case _ => Map()
+  private val declaredChildren: Map[String, Seq[ElementSymbolBuilder[_ <: AmfElement]]] = {
+
+    element match {
+      case d: DeclaresModel =>
+        val objToElements: Map[String, Seq[DomainElement]] =
+          d.declares
+            .filter(de => de.location() == element.location())
+            .groupBy(d => nameForDeclared(d))
+        objToElements.map(t => (t._1, t._2.flatMap(e => factory.builderFor[DomainElement](e))))
+      case _ => Map()
+    }
   }
 
   protected def buildDeclaredSymbols = {
