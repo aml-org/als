@@ -8,6 +8,8 @@ import org.mulesoft.amfmanager.AmfImplicits._
 
 trait BuilderFactory {
 
+  val supportedDialects: Set[String]
+
   protected def companion: CompanionList =
     CompanionList(baseUnitBuilder) ++ List(DomainElementSymbolBuilder, NameFieldSymbolBuilder)
   private lazy val companionList: CompanionList = companion

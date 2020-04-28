@@ -10,8 +10,9 @@ import org.mulesoft.als.server.feature.serialization.{
   SerializedDocument
 }
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
+import org.mulesoft.als.server.modules.diagnostic.AlsPublishDiagnosticsParams
 import org.mulesoft.als.server.protocol.configuration._
-import org.mulesoft.als.server.protocol.diagnostic.ClientFilesInProjectParams
+import org.mulesoft.als.server.protocol.diagnostic.{ClientAlsPublishDiagnosticsParams, ClientFilesInProjectParams}
 import org.mulesoft.als.server.protocol.serialization.{ClientSerializationResult, ClientSerializedDocument}
 import org.mulesoft.als.server.protocol.textsync.{
   ClientDidFocusParams,
@@ -20,6 +21,7 @@ import org.mulesoft.als.server.protocol.textsync.{
   IndexDialectParams
 }
 import org.mulesoft.lsp.configuration._
+import org.mulesoft.lsp.feature.diagnostic.{ClientPublishDiagnosticsParams, PublishDiagnosticsParams}
 
 import scala.language.implicitConversions
 import scala.scalajs.js
