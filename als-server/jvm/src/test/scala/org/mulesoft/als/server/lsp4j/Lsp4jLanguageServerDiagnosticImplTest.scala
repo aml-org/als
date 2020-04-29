@@ -13,7 +13,7 @@ import scala.concurrent.Future
 
 class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with PlatformSecrets {
 
-  val diagnosticsClient = new MockDiagnosticClientNotifier
+  val diagnosticsClient = new MockDiagnosticClientNotifier(10000)
   // TODO: check if a new validation should be sent from WorkspaceContentCollection when "onFocus" (when the BU is already parsed)
   test("Lsp4j LanguageServerImpl Command - Did Focus: Command should notify DidFocus") {
     def wrapJson(uri: String, version: String): String =
