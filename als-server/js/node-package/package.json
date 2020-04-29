@@ -1,6 +1,6 @@
 {
   "name": "@mulesoft/als-server",
-  "version": "2.3.0-snapshot.2",
+  "version": "2.4.0-snapshot.0",
   "description": "ALS Server Library",
   "main": "lib/als-server.js",
   "types": "typescript/als-server.d.ts",
@@ -11,10 +11,22 @@
     "type": "git",
     "url": "https://github.com/mulesoft/als"
   },
+  "scripts": {
+    "build:dist": "webpack --config ./webpack.config.js"
+  },
   "dependencies": {
-    "amf-shacl-node": "1.1.0",
     "ajv": "6.5.2",
+    "amf-shacl-node": "1.1.0",
     "vscode-jsonrpc": "4.0.0",
     "vscode-languageserver-protocol": "3.14.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "babel-loader": "^8.1.0",
+    "terser-webpack-plugin": "^2.3.5",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-merge": "^4.2.2"
   }
 }
