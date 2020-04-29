@@ -18,3 +18,5 @@ cat ../../target/artifact/als-server.min.js >> als-server.min.js
 chmod a+x als-server.min.js
 
 cd ..
+
+npm run build:dist
