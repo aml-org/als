@@ -13,6 +13,4 @@ import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
   *                empty string.
   */
 
-@JSExportAll
-@JSExportTopLevel("TextEditorg.mulesoft.als.client.lsp.Command")
 case class TextEdit(range: Range, newText: String)
