@@ -1,9 +1,11 @@
 package org.mulesoft.language.outline.structure.structureImpl
 
+import amf.core.annotations.LexicalInformation
 import amf.core.metamodel.domain.{DomainElementModel, LinkableElementModel}
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject, AmfScalar}
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.WebApiModel
+import org.mulesoft.als.common.dtoTypes.PositionRange
 
 /**
   * Common Symbol builder
@@ -43,6 +45,19 @@ trait IriFieldSymbolBuilderCompanion extends FieldSymbolBuilderCompanion with Ir
 
 trait FieldTypeSymbolBuilder[ElementType <: AmfElement] extends FieldSymbolBuilder {
   val value: ElementType
+
+  protected def range: PositionRange =
+    PositionRange(
+      value.annotations
+        .find(classOf[LexicalInformation])
+        .map(l => l.range)
+        .getOrElse(amf.core.parser.Range.NONE))
+}
+
+trait SingleFieldTypeSymbolBuilder[ElementType <: AmfElement] extends FieldTypeSymbolBuilder[ElementType] {
+  protected val name: Option[String]
+  def build(): Seq[DocumentSymbol] =
+    name.map(n => DocumentSymbol(n, SymbolKind.String, deprecated = false, range, range, Nil)).toSeq
 }
 
 trait FieldTypeSymbolBuilderCompanion[ElementType <: AmfElement] extends FieldSymbolBuilderCompanion {
@@ -51,7 +66,8 @@ trait FieldTypeSymbolBuilderCompanion[ElementType <: AmfElement] extends FieldSy
   def construct(element: FieldEntry, value: ElementType)(
       implicit factory: BuilderFactory): Option[FieldTypeSymbolBuilder[ElementType]]
 
-  override def construct(element: FieldEntry)(implicit factory: BuilderFactory): Option[SymbolBuilder[FieldEntry]] = {
+  final override def construct(element: FieldEntry)(
+      implicit factory: BuilderFactory): Option[SymbolBuilder[FieldEntry]] = {
     if (getElementType.isInstance(element.value.value)) {
       construct(element, element.value.value.asInstanceOf[ElementType])
     } else None
@@ -62,14 +78,20 @@ trait FieldTypeSymbolBuilderCompanion[ElementType <: AmfElement] extends FieldSy
 trait ArrayFieldTypeSymbolBuilder extends FieldTypeSymbolBuilder[AmfArray] {}
 trait ArrayFieldTypeSymbolBuilderCompanion extends FieldTypeSymbolBuilderCompanion[AmfArray] {
   override def getElementType: Class[_ <: AmfElement] = classOf[AmfArray]
-
 }
 
-trait ScalarFieldTypeSymbolBuilder          extends FieldTypeSymbolBuilder[AmfScalar] {}
-trait ScalarFieldTypeSymbolBuilderCompanion extends FieldTypeSymbolBuilderCompanion[AmfScalar]
+// separate between optional and mandatory name for aml?
+trait ScalarFieldTypeSymbolBuilder extends SingleFieldTypeSymbolBuilder[AmfScalar] {}
 
-trait ObjectFieldTypeSymbolBuilder          extends FieldTypeSymbolBuilder[AmfObject] {}
-trait ObjectFieldTypeSymbolBuilderCompanion extends FieldTypeSymbolBuilderCompanion[AmfObject]
+trait ScalarFieldTypeSymbolBuilderCompanion extends FieldTypeSymbolBuilderCompanion[AmfScalar] {
+  override def getElementType: Class[_ <: AmfElement] = classOf[AmfScalar]
+}
+
+trait ObjectFieldTypeSymbolBuilder extends SingleFieldTypeSymbolBuilder[AmfObject] {}
+trait ObjectFieldTypeSymbolBuilderCompanion extends FieldTypeSymbolBuilderCompanion[AmfObject] {
+  override def getElementType: Class[_ <: AmfElement] = classOf[AmfObject]
+}
+
 //
 
 trait AmfObjectSimpleBuilderCompanion[DM <: AmfObject]
