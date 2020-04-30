@@ -6,7 +6,7 @@ import amf.core.parser.{Range => AmfRange}
 import amf.plugins.domain.webapi.metamodel.security.SettingsModel
 import amf.plugins.domain.webapi.models.security.Settings
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.AmfObjSymbolBuilder
+import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.StructuredSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.{
   BuilderFactory,
   ElementSymbolBuilder,
@@ -15,7 +15,7 @@ import org.mulesoft.language.outline.structure.structureImpl.{
 
 class RamlSecuritySchemesSettingsSymbolBuilder(override val element: Settings)(
     override implicit val factory: BuilderFactory)
-    extends AmfObjSymbolBuilder[Settings] {
+    extends StructuredSymbolBuilder[Settings] {
   override protected val name: String = "settings"
   override protected val selectionRange: Option[PositionRange] =
     element.annotations.find(classOf[LexicalInformation]).map(_.range).map(PositionRange.apply)

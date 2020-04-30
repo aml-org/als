@@ -8,14 +8,19 @@ import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.{RequestModel, WebApiModel}
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, KindForResultMatcher}
-
-abstract class CustomBuilder(implicit val factory: BuilderFactory) {
-  def applies(fe: FieldEntry): Boolean
-  def build(fe: FieldEntry): Seq[DocumentSymbol]
+import org.mulesoft.language.outline.structure.structureImpl.{
+  BuilderFactory,
+  DocumentSymbol,
+  FieldSymbolBuilder,
+  KindForResultMatcher
 }
 
-abstract class FieldArrayBuilder(override implicit val factory: BuilderFactory) extends CustomBuilder {
+abstract class CustomBuilder(fe: FieldEntry)(implicit val factory: BuilderFactory) extends FieldSymbolBuilder {
+  def build(): Seq[DocumentSymbol]
+}
+
+abstract class FieldArrayBuilder(fe: FieldEntry)(override implicit val factory: BuilderFactory)
+    extends CustomBuilder(fe) {
   protected val ignored: Seq[Field] = Seq(
     WebApiModel.EndPoints,
     RequestModel.UriParameters,
