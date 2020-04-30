@@ -13,6 +13,4 @@ object Oas20BuilderFactory extends AmfBuilderFactory {
     super.companion + Oas20WebApiSymbolBuilder
   override def baseUnitBuilder: ElementSymbolBuilderCompanion =
     Oas20BaseUnitSymbolBuilder
-
-  override val supportedDialects: Set[String] = Set(OAS20Dialect.dialect.id)
 }

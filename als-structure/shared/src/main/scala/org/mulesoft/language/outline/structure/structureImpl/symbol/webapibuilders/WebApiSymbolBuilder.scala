@@ -14,9 +14,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ramlbuilders.RamlEndPointSymbolBuilder
 import org.yaml.model.YNode.MutRef
 
-trait BaseUnitSymbolBuilderCompanion extends ElementSymbolBuilderCompanion {
+trait BaseUnitSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[BaseUnit] {
 
-  override type T = BaseUnit
   override def getType: Class[_ <: AmfElement] = classOf[BaseUnit]
   override val supportedIri: String            = BaseUnitModel.`type`.head.iri()
 }
@@ -165,23 +164,22 @@ object WebApiVersionBuilder extends ElementSymbolBuilderCompanion {
     Some(new WebApiVersionBuilder(element))
 }
 
-object EndPointListBuilder extends ElementSymbolBuilderCompanion {
-  override type T = AmfArray
-
-  override def getType: Class[_ <: AmfElement] = classOf[AmfArray]
+object EndPointFieldBuilderCompanion extends IriFieldSymbolBuilderCompanion with ArrayFieldTypeSymbolBuilderCompanion {
 
   override val supportedIri: String = WebApiModel.EndPoints.value.iri()
 
-  override def construct(element: AmfArray)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[AmfArray]] =
-    Some(new EndPointListBuilder(element))
+  override def construct(element: FieldEntry, value: AmfArray)(
+      implicit factory: BuilderFactory): Option[FieldTypeSymbolBuilder[AmfArray]] =
+    Some(new EndPointFieldSymbolBuilder(value, element))
 }
 
-class EndPointListBuilder(element: AmfArray)(override implicit val factory: BuilderFactory)
-    extends ElementSymbolBuilder[AmfArray] {
+class EndPointFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
+    override implicit val factory: BuilderFactory)
+    extends ArrayFieldTypeSymbolBuilder {
 
   override def build(): Seq[DocumentSymbol] = {
 
-    val endpoints = element.values.collect({ case e: EndPoint => e })
+    val endpoints = value.values.collect({ case e: EndPoint => e })
     endpoints
       .collect({
         case e: EndPoint if e.parent.isEmpty =>

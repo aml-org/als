@@ -8,7 +8,7 @@ import amf.plugins.domain.webapi.metamodel.PayloadModel
 import amf.plugins.domain.webapi.models.Payload
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.amfintegration.ParserRangeImplicits._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.AmfObjSymbolBuilder
+import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.StructuredSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.{
   BuilderFactory,
   DocumentSymbol,
@@ -16,7 +16,7 @@ import org.mulesoft.language.outline.structure.structureImpl.{
   ElementSymbolBuilderCompanion
 }
 class PayloadSymbolBuilder(override val element: Payload)(implicit val factory: BuilderFactory)
-    extends AmfObjSymbolBuilder[Payload] {
+    extends StructuredSymbolBuilder[Payload] {
   override def ignoreFields: List[Field] = super.ignoreFields :+ PayloadModel.Schema
 
   override protected def children: List[DocumentSymbol] =

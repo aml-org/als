@@ -1,9 +1,20 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
 import amf.core.model.domain.{AmfArray, AmfElement}
+import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.ParametersFieldModel
 import amf.plugins.domain.webapi.models.Parameter
 import org.mulesoft.language.outline.structure.structureImpl._
+
+class ParameterFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
+    implicit val factory: BuilderFactory)
+    extends ArrayFieldTypeSymbolBuilder {
+  override def build(): Seq[DocumentSymbol] = {
+    val ranges = RangesSplitter(value.annotations)
+    new ParametersSymbolBuilder(value.values.collect({ case p: Parameter => p }), ranges.range, ranges.selectionRange)
+      .build()
+  }
+}
 
 class ArrayParametersSymbolBuilder(amfArray: AmfArray)(implicit val factory: BuilderFactory)
     extends ElementSymbolBuilder[AmfArray] {
