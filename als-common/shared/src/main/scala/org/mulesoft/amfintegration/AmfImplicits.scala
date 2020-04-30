@@ -3,6 +3,8 @@ package org.mulesoft.amfmanager
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfObject, AmfScalar}
 import amf.core.parser.Value
+import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping}
 import amf.plugins.domain.webapi.metamodel.AbstractModel
 
 import scala.collection.mutable
@@ -39,4 +41,20 @@ object AmfImplicits {
     def identifier: String = bu.location().getOrElse(bu.id)
   }
 
+  implicit class DialectImplicits(d: Dialect) extends BaseUnitImp(d) {
+    val declarationsMapTerms: Map[String, String] = {
+      d.documents()
+        .root()
+        .declaredNodes()
+        .flatMap { pnm =>
+          d.declares
+            .find(_.id == pnm.mappedNode().value())
+            .collect({ case nm: NodeMapping => nm })
+            .map { declared =>
+              declared.nodetypeMapping.value() -> pnm.name().value()
+            }
+        }
+        .toMap
+    }
+  }
 }

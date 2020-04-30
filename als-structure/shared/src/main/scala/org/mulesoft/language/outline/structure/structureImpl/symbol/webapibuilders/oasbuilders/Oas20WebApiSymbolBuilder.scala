@@ -1,46 +1,51 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.oasbuilders
 
 import amf.core.annotations.{BasePathLexicalInformation, HostLexicalInformation}
-import amf.core.parser.Value
-import amf.plugins.domain.webapi.metamodel.ServerModel
-import amf.plugins.domain.webapi.models.WebApi
+import amf.core.model.domain.AmfArray
+import amf.core.parser.FieldEntry
+import amf.plugins.domain.webapi.metamodel.{ServerModel, WebApiModel}
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.{
-  WebApiSymbolBuilder,
-  WebApiSymbolBuilderTrait
-}
-import org.mulesoft.language.outline.structure.structureImpl.{
-  BuilderFactory,
-  DocumentSymbol,
-  ElementSymbolBuilder,
-  KindForResultMatcher,
-  SymbolKind
-}
+import org.mulesoft.language.outline.structure.structureImpl._
 
-class Oas20WebApiSymbolBuilder(element: WebApi)(override implicit val factory: BuilderFactory)
-    extends WebApiSymbolBuilder(element) {
+object OasBaseUrlSymbolBuilderCompanion
+    extends ArrayFieldTypeSymbolBuilderCompanion
+    with IriFieldSymbolBuilderCompanion {
+  override val supportedIri: String = WebApiModel.Servers.value.iri()
 
-  override protected def buildServerSymbols(v: Value): Seq[DocumentSymbol] = OasBaseUrlSymbolBuilder(v).build()
+  override def construct(element: FieldEntry, value: AmfArray)(
+      implicit factory: BuilderFactory): Option[FieldTypeSymbolBuilder[AmfArray]] =
+    Some(new OasBaseUrlSymbolBuilder(value, element))
 }
 
-case class OasBaseUrlSymbolBuilder(value: Value) {
+class OasBaseUrlSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
+    override implicit val factory: BuilderFactory)
+    extends ArrayFieldTypeSymbolBuilder {
+  private val default = value.values.headOption
   def build(): Seq[DocumentSymbol] = {
-    val basePath = value.annotations.find(classOf[BasePathLexicalInformation]).map { a =>
-      val range = PositionRange(a.range)
-      DocumentSymbol("basePath", KindForResultMatcher.kindForField(ServerModel.Url), false, range, range, Nil)
-    }
+    default
+      .map { server =>
+        val basePath = server.annotations.find(classOf[BasePathLexicalInformation]).map { a =>
+          val range = PositionRange(a.range)
+          DocumentSymbol("basePath",
+                         KindForResultMatcher.kindForField(ServerModel.Url),
+                         deprecated = false,
+                         range,
+                         range,
+                         Nil)
+        }
 
-    val host = value.annotations.find(classOf[HostLexicalInformation]).map { a =>
-      val range = PositionRange(a.range)
-      DocumentSymbol("host", KindForResultMatcher.kindForField(ServerModel.Url), false, range, range, Nil)
-    }
+        val host = server.annotations.find(classOf[HostLexicalInformation]).map { a =>
+          val range = PositionRange(a.range)
+          DocumentSymbol("host",
+                         KindForResultMatcher.kindForField(ServerModel.Url),
+                         deprecated = false,
+                         range,
+                         range,
+                         Nil)
+        }
 
-    (basePath ++ host).toSeq
+        (basePath ++ host).toSeq
+      }
+      .getOrElse(Nil)
   }
-}
-
-object Oas20WebApiSymbolBuilder extends WebApiSymbolBuilderTrait {
-  override def construct(element: WebApi)(
-      implicit factory: BuilderFactory): Option[ElementSymbolBuilder[_ <: WebApi]] =
-    Some(new Oas20WebApiSymbolBuilder(element))
 }
