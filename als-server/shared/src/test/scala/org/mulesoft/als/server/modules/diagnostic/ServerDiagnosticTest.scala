@@ -24,7 +24,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest with DummyResolvedUnit
   override def rootPath: String = ""
 
   var container: Option[TextDocumentContainer] = None
-  val diagnosticNotifier                       = new MockDiagnosticClientNotifier
+  val diagnosticNotifier                       = new MockDiagnosticClientNotifier(3000)
   override def buildServer(): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
     val dm      = builder.diagnosticManager()
