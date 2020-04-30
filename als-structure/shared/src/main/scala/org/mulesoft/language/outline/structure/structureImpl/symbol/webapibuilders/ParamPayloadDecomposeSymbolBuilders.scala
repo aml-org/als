@@ -10,10 +10,10 @@ import amf.plugins.domain.webapi.metamodel.{ParametersFieldModel, RequestModel}
 import amf.plugins.domain.webapi.models.{Parameter, Payload}
 import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, PositionRange}
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, KindForResultMatcher, SymbolKind}
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.AmfObjSymbolBuilder
+import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.StructuredSymbolBuilder
 import org.mulesoft.amfintegration.ParserRangeImplicits._
 abstract class ParamPayloadDecomposeSymbolBuilders[T <: AmfObject](protected val payloadField: Field)
-    extends AmfObjSymbolBuilder[T] {
+    extends StructuredSymbolBuilder[T] {
 
   override protected val selectionRange: Option[PositionRange] =
     element.annotations.find(classOf[LexicalInformation]).map(_.range).map(PositionRange.apply)

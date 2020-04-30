@@ -5,7 +5,7 @@ import amf.core.metamodel.domain.extensions.DomainExtensionModel
 import amf.core.model.domain.AmfElement
 import amf.core.model.domain.extensions.DomainExtension
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.AmfObjSymbolBuilder
+import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.StructuredSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.{
   BuilderFactory,
   DocumentSymbol,
@@ -15,7 +15,7 @@ import org.mulesoft.language.outline.structure.structureImpl.{
 
 class DomainExtensionSymbolBuilder(override val element: DomainExtension)(
     override implicit val factory: BuilderFactory)
-    extends AmfObjSymbolBuilder[DomainExtension] {
+    extends StructuredSymbolBuilder[DomainExtension] {
 
   override protected val name: String =
     element.name.option().getOrElse(element.id)

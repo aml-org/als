@@ -5,7 +5,7 @@ import amf.core.model.domain.{AmfElement, AmfScalar}
 import amf.plugins.domain.shapes.metamodel.ExampleModel
 import amf.plugins.domain.shapes.models.Example
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.AmfObjSymbolBuilder
+import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.StructuredSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.{
   BuilderFactory,
   DocumentSymbol,
@@ -14,7 +14,7 @@ import org.mulesoft.language.outline.structure.structureImpl.{
 }
 
 class ExampleSymbolBuilders(override val element: Example)(override implicit val factory: BuilderFactory)
-    extends AmfObjSymbolBuilder[Example] {
+    extends StructuredSymbolBuilder[Example] {
   override protected val name: String =
     element.name.option() match {
       case Some(n) => n

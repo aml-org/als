@@ -14,6 +14,7 @@ import org.mulesoft.language.outline.structure.structureImpl.{
   DocumentSymbol,
   ElementSymbolBuilder,
   KindForResultMatcher,
+  SymbolBuilder,
   SymbolKind
 }
 
@@ -40,7 +41,6 @@ case class RamlBaseUrlSymbolBuilder(value: Value) {
 }
 
 object RamlWebApiSymbolBuilder extends WebApiSymbolBuilderTrait {
-  override def construct(element: WebApi)(
-      implicit factory: BuilderFactory): Option[ElementSymbolBuilder[_ <: WebApi]] =
+  override def construct(element: WebApi)(implicit factory: BuilderFactory): Option[SymbolBuilder] =
     Some(new RamlWebApiSymbolBuilder(element))
 }

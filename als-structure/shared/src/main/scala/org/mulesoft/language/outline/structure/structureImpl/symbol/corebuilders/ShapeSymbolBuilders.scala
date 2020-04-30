@@ -47,6 +47,6 @@ object PropertyShapeSymbolBuilder extends ElementSymbolBuilderCompanion {
   override val supportedIri: String = PropertyShapeModel.`type`.head.iri()
 
   override def construct(element: PropertyShape)(
-      implicit factory: BuilderFactory): Option[AmfObjSymbolBuilder[PropertyShape]] =
+      implicit factory: BuilderFactory): Option[StructuredSymbolBuilder[PropertyShape]] =
     Some(new PropertyShapeSymbolBuilder(element))
 }

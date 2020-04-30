@@ -3,7 +3,7 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 import amf.core.metamodel.Obj
 import amf.core.model.document.{BaseUnit, DeclaresModel, EncodesModel}
 import amf.core.model.domain.{AmfElement, AmfObject, DomainElement}
-import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, ElementSymbolBuilder}
+import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, ElementSymbolBuilder, SymbolBuilder}
 
 abstract class BaseUnitSymbolBuilder(element: BaseUnit)(override implicit val factory: BuilderFactory)
     extends ElementSymbolBuilder[BaseUnit] {

@@ -15,6 +15,4 @@ object RamlBuilderFactory extends AmfBuilderFactory {
 
   override def baseUnitBuilder: ElementSymbolBuilderCompanion =
     RamlBaseUnitSymbolBuilder
-
-  override val supportedDialects: Set[String] = Set(RAML10Dialect.dialect.id, RAML08Dialect.dialect.id)
 }
