@@ -21,6 +21,9 @@ object Raml10TypesDialect {
 
   val DialectLocation = "file://parallel-als/vocabularies/dialects/raml10.yaml"
 
+  // hack to force object initialization in amf and avoid exception
+  private val orignalId = RAML10Dialect().id
+
   val ShapeNodeId: String = DialectLocation + "#/declarations/ShapeNode"
   val shapeTypesProperty: PropertyMapping = PropertyMapping()
     .withId(DialectLocation + "#/declarations/ShapeNode/inherits")

@@ -4,13 +4,13 @@ import amf.core.metamodel.document.DocumentModel
 import amf.core.model.domain.{AmfArray, AmfObject}
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.models.Parameter
+import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.DeclaresFieldSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.{
   ArrayFieldTypeSymbolBuilderCompanion,
   BuilderFactory,
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields.DeclaresFieldSymbolBuilder
 
 class Oas30DeclaresFieldSymbolBuilder(value: AmfArray, element: FieldEntry)(
     override implicit val factory: BuilderFactory)
