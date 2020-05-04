@@ -23,7 +23,8 @@ class AmfObjectCompanionList(list: List[AmfObjectSimpleBuilderCompanion[_ <: Amf
     definitions match {
       case Nil => None
       case head :: tail =>
-        val maybeOption: Option[SymbolBuilder[_ <: AmfObject]] = map.get(head).flatMap(_.construct(element))
+        val maybeOption: Option[SymbolBuilder[_ <: AmfObject]] =
+          map.get(head).flatMap(b => b.constructAny(element).map(_.asInstanceOf[SymbolBuilder[AmfObject]]))
         maybeOption.orElse(find(tail, element))
     }
   }

@@ -10,10 +10,10 @@ import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.amfintegration.ParserRangeImplicits._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.StructuredSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.{
+  AmfObjectSimpleBuilderCompanion,
   BuilderFactory,
   DocumentSymbol,
-  ElementSymbolBuilder,
-  ElementSymbolBuilderCompanion
+  SymbolBuilder
 }
 class PayloadSymbolBuilder(override val element: Payload)(implicit val factory: BuilderFactory)
     extends StructuredSymbolBuilder[Payload] {
@@ -22,7 +22,7 @@ class PayloadSymbolBuilder(override val element: Payload)(implicit val factory: 
   override protected def children: List[DocumentSymbol] =
     super.children ++
       Option(element.schema)
-        .flatMap(factory.builderForElement)
+        .flatMap(s => factory.builderFor(s))
         .map(bs => bs.build().flatMap(_.children))
         .getOrElse(Nil)
 
@@ -40,13 +40,11 @@ class PayloadSymbolBuilder(override val element: Payload)(implicit val factory: 
   }
 }
 
-object PayloadSymbolBuilderCompanion extends ElementSymbolBuilderCompanion {
-  override type T = Payload
-
+object PayloadSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[Payload] {
   override def getType: Class[_ <: AmfElement] = classOf[Payload]
 
   override val supportedIri: String = PayloadModel.`type`.head.iri()
 
-  override def construct(element: Payload)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[Payload]] =
+  override def construct(element: Payload)(implicit factory: BuilderFactory): Option[SymbolBuilder[Payload]] =
     Some(new PayloadSymbolBuilder(element))
 }

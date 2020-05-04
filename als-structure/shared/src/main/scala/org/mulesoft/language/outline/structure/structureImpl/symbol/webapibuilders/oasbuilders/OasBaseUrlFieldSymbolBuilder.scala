@@ -7,17 +7,17 @@ import amf.plugins.domain.webapi.metamodel.{ServerModel, WebApiModel}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
 
-object OasBaseUrlSymbolBuilderCompanion
+object OasBaseUrlFieldSymbolBuilderCompanion
     extends ArrayFieldTypeSymbolBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
   override val supportedIri: String = WebApiModel.Servers.value.iri()
 
   override def construct(element: FieldEntry, value: AmfArray)(
       implicit factory: BuilderFactory): Option[FieldTypeSymbolBuilder[AmfArray]] =
-    Some(new OasBaseUrlSymbolBuilder(value, element))
+    Some(new OasBaseUrlFieldSymbolBuilder(value, element))
 }
 
-class OasBaseUrlSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
+class OasBaseUrlFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val factory: BuilderFactory)
     extends ArrayFieldTypeSymbolBuilder {
   private val default = value.values.headOption

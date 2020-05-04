@@ -1,46 +1,40 @@
-package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
+package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields
 
 import amf.core.model.domain.{AmfObject, AmfScalar}
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.WebApiModel
-import org.mulesoft.language.outline.structure.structureImpl.{
-  BuilderFactory,
-  DocumentSymbol,
-  FieldTypeSymbolBuilder,
-  ObjectFieldTypeSymbolBuilder,
-  ObjectFieldTypeSymbolBuilderCompanion,
-  ScalarFieldTypeSymbolBuilder,
-  ScalarFieldTypeSymbolBuilderCompanion
+import org.mulesoft.language.outline.structure.structureImpl._
+import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.{NamedScalarFieldTypeSymbolBuilder, SingleObjectFieldSymbolBuilder}
+
+class DefaultWebApiScalarTypeSymbolBuilder(override val value: AmfScalar, override val element: FieldEntry, override val name :String)(
+    override implicit val factory: BuilderFactory)
+    extends NamedScalarFieldTypeSymbolBuilder {
 }
 
-class DefaultWebApiScalarTypeSymbolBuilder(override val value: AmfScalar, override val element: FieldEntry)(
-    override implicit val factory: BuilderFactory)
-    extends ScalarFieldTypeSymbolBuilder {
+object DefaultWebApiScalarTypeSymbolBuilderCompanion extends ScalarFieldTypeSymbolBuilderCompanion {
 
   private val mapName = Map(
     WebApiModel.Name    -> "title",
     WebApiModel.Version -> "version"
   )
 
-  override protected val name: Option[String] = mapName.get(element.field)
-}
-
-object DefaultWebApiScalarTypeSymbolBuilderCompanion extends ScalarFieldTypeSymbolBuilderCompanion {
   override def construct(element: FieldEntry, value: AmfScalar)(
       implicit factory: BuilderFactory): Option[FieldTypeSymbolBuilder[AmfScalar]] =
-    Some(new DefaultWebApiScalarTypeSymbolBuilder(value, element))
+    mapName.get(element.field).map(name => new DefaultWebApiScalarTypeSymbolBuilder(value, element, name))
 }
+
 
 class DefaultWebApiObjectTypeSymbolBuilder(override val value: AmfObject, override val element: FieldEntry)(
     override implicit val factory: BuilderFactory)
-    extends ObjectFieldTypeSymbolBuilder {
+    extends SingleObjectFieldSymbolBuilder {
 
+  // Linceese and contant are named domain eelemento, so i cannot apply this hack
   private val mapName = Map(
     WebApiModel.License  -> "License",
     WebApiModel.Provider -> "Contact"
   )
 
-  override protected val name: Option[String] = mapName.get(element.field)
+  override protected val name: String = mapName.getOrElse(element.field, element.field.value.name)
 }
 
 object DefaultWebApiObjectTypeSymbolBuilderCompanion extends ObjectFieldTypeSymbolBuilderCompanion {

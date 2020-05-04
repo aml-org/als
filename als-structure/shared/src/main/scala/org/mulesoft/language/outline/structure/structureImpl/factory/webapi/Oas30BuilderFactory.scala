@@ -1,13 +1,12 @@
 package org.mulesoft.language.outline.structure.structureImpl.factory.webapi
 
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.WebApiSymbolBuilder
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.oasbuilders.Oas30BaseUnitSymbolBuilder
-import org.mulesoft.language.outline.structure.structureImpl.{CompanionList, ElementSymbolBuilderCompanion}
+import amf.plugins.document.vocabularies.model.document.Dialect
+import org.mulesoft.amfmanager.dialect.webapi.oas.Oas30DialectWrapper
+import org.mulesoft.language.outline.structure.structureImpl.companion.FieldCompanionList
 
 object Oas30BuilderFactory extends AmfBuilderFactory {
 
-  override def baseUnitBuilder: ElementSymbolBuilderCompanion =
-    Oas30BaseUnitSymbolBuilder
+  override def companion: FieldCompanionList = super.companion
 
-  override def companion: CompanionList = super.companion + WebApiSymbolBuilder
+  override def dialect: Dialect = Oas30DialectWrapper.dialect
 }

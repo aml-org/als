@@ -7,10 +7,10 @@ import amf.core.model.domain.extensions.DomainExtension
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.StructuredSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.{
+  AmfObjectSimpleBuilderCompanion,
   BuilderFactory,
   DocumentSymbol,
-  ElementSymbolBuilder,
-  ElementSymbolBuilderCompanion
+  SymbolBuilder
 }
 
 class DomainExtensionSymbolBuilder(override val element: DomainExtension)(
@@ -29,14 +29,12 @@ class DomainExtensionSymbolBuilder(override val element: DomainExtension)(
       .map(PositionRange.apply)
 }
 
-object DomainExtensionSymbolBuilder extends ElementSymbolBuilderCompanion {
-  override type T = DomainExtension
-
+object DomainExtensionSymbolBuilder extends AmfObjectSimpleBuilderCompanion[DomainExtension] {
   override def getType: Class[_ <: AmfElement] = classOf[DomainExtension]
 
   override val supportedIri: String = DomainExtensionModel.`type`.head.iri()
 
   override def construct(element: DomainExtension)(
-      implicit factory: BuilderFactory): Option[ElementSymbolBuilder[DomainExtension]] =
+      implicit factory: BuilderFactory): Option[SymbolBuilder[DomainExtension]] =
     Some(new DomainExtensionSymbolBuilder(element))
 }

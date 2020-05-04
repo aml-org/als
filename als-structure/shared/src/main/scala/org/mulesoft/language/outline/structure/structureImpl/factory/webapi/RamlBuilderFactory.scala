@@ -1,18 +1,23 @@
 package org.mulesoft.language.outline.structure.structureImpl.factory.webapi
 
-import amf.dialects.{RAML08Dialect, RAML10Dialect}
-import org.mulesoft.language.outline.structure.structureImpl.{CompanionList, ElementSymbolBuilderCompanion}
+import amf.plugins.document.vocabularies.model.document.Dialect
+import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
+import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
+import org.mulesoft.language.outline.structure.structureImpl.companion.FieldCompanionList
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ramlbuilders.{
-  RamlBaseUnitSymbolBuilder,
-  RamlSecuritySchemesSettingsSymbolBuilder,
-  RamlWebApiSymbolBuilder
+  RamlBaseUriFieldSymbolBuilderCompanion,
+  RamlSecuritySchemesSettingsSymbolBuilder
 }
 
-object RamlBuilderFactory extends AmfBuilderFactory {
+trait RamlBuilderFactory extends AmfBuilderFactory {
+  override protected def companion: FieldCompanionList =
+    super.companion + RamlSecuritySchemesSettingsSymbolBuilder + RamlBaseUriFieldSymbolBuilderCompanion
+}
 
-  override protected def companion: CompanionList =
-    super.companion + RamlSecuritySchemesSettingsSymbolBuilder + RamlWebApiSymbolBuilder
+case class Raml10BuilderFactory() extends RamlBuilderFactory {
+  override def dialect: Dialect = Raml10TypesDialect()
+}
 
-  override def baseUnitBuilder: ElementSymbolBuilderCompanion =
-    RamlBaseUnitSymbolBuilder
+object Raml08BuilderFactory extends RamlBuilderFactory {
+  override def dialect: Dialect = Raml08TypesDialect()
 }

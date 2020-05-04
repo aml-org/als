@@ -6,8 +6,10 @@ import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, Property
 import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
-import amf.core.remote.{Oas, Oas30, Raml}
+import amf.core.remote.{Oas, Oas30, Raml, Raml08}
 import amf.core.vocabulary.Namespace.XsdTypes
+import amf.plugins.document.vocabularies.AMLPlugin
+import amf.plugins.document.vocabularies.model.document.DialectInstance
 import amf.plugins.domain.shapes.metamodel._
 import amf.plugins.domain.shapes.metamodel.common.DocumentationField
 import amf.plugins.domain.shapes.models.ScalarShape
@@ -19,16 +21,29 @@ import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.
 import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{
   Oas20BuilderFactory,
   Oas30BuilderFactory,
-  RamlBuilderFactory
+  Raml08BuilderFactory,
+  Raml10BuilderFactory
 }
 
 class StructureBuilder(unit: BaseUnit) {
 
-  private val builderFactory: BuilderFactory = unit.sourceVendor match {
-    case Some(_: Raml) => RamlBuilderFactory
+  // todo: general amf model dialect?
+  private def builderFactory: BuilderFactory = unit.sourceVendor match {
+//    case Some(Raml08) => Raml08BuilderFactory
+    case Some(_: Raml) => Raml10BuilderFactory()
     case Some(Oas30)   => Oas30BuilderFactory
     case Some(_: Oas)  => Oas20BuilderFactory
-    case _             => AmlBuilderFactory
+    case _             => amlBuilder
+  }
+
+  private def amlBuilder = {
+    val maybeFactory = unit match {
+      //case _:Dialect => AmlBuilderFactory(MetaDialect//) // todo: meta dialect merge
+      case instance: DialectInstance =>
+        AMLPlugin.registry.dialectFor(instance).map(AmlBuilderFactory)
+      case _ => None
+    }
+    maybeFactory.getOrElse(Oas30BuilderFactory) // amf model  === oas 3?
   }
 
   def listSymbols(): List[DocumentSymbol] =

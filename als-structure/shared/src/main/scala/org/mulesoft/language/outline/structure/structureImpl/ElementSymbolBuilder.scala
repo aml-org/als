@@ -18,7 +18,7 @@ trait SymbolBuilder[T] {
 
 trait SymbolBuilderCompanion[T] {
   def getType: Class[_]
-  final def construct(element: Any)(implicit factory: BuilderFactory): Option[SymbolBuilder[T]] = {
+  final def constructAny(element: Any)(implicit factory: BuilderFactory): Option[SymbolBuilder[T]] = {
     if (getType.isInstance(element)) construct(element.asInstanceOf[T])
     else None
   }
@@ -54,12 +54,6 @@ trait FieldTypeSymbolBuilder[ElementType <: AmfElement] extends FieldSymbolBuild
         .getOrElse(amf.core.parser.Range.NONE))
 }
 
-trait SingleFieldTypeSymbolBuilder[ElementType <: AmfElement] extends FieldTypeSymbolBuilder[ElementType] {
-  protected val name: Option[String]
-  def build(): Seq[DocumentSymbol] =
-    name.map(n => DocumentSymbol(n, SymbolKind.String, deprecated = false, range, range, Nil)).toSeq
-}
-
 trait FieldTypeSymbolBuilderCompanion[ElementType <: AmfElement] extends FieldSymbolBuilderCompanion {
 
   def getElementType: Class[_ <: AmfElement]
@@ -81,13 +75,14 @@ trait ArrayFieldTypeSymbolBuilderCompanion extends FieldTypeSymbolBuilderCompani
 }
 
 // separate between optional and mandatory name for aml?
-trait ScalarFieldTypeSymbolBuilder extends SingleFieldTypeSymbolBuilder[AmfScalar] {}
+trait ScalarFieldTypeSymbolBuilder extends FieldTypeSymbolBuilder[AmfScalar] {}
 
 trait ScalarFieldTypeSymbolBuilderCompanion extends FieldTypeSymbolBuilderCompanion[AmfScalar] {
   override def getElementType: Class[_ <: AmfElement] = classOf[AmfScalar]
 }
 
-trait ObjectFieldTypeSymbolBuilder extends SingleFieldTypeSymbolBuilder[AmfObject] {}
+trait ObjectFieldTypeSymbolBuilder extends FieldTypeSymbolBuilder[AmfObject] {}
+
 trait ObjectFieldTypeSymbolBuilderCompanion extends FieldTypeSymbolBuilderCompanion[AmfObject] {
   override def getElementType: Class[_ <: AmfElement] = classOf[AmfObject]
 }
@@ -100,16 +95,7 @@ trait AmfObjectSimpleBuilderCompanion[DM <: AmfObject]
 
 trait AmfObjectSymbolBuilder[DM <: AmfObject] extends SymbolBuilder[DM] {
   def ignoreFields =
-    List(WebApiModel.Name, DomainElementModel.Extends, LinkableElementModel.Target, WebApiModel.Version)
-  // WebApiModel.Version should be on it's own builder, or not?
-
-//  def customBuilders: Seq[CustomBuilder] =
-//    Seq(
-//      ExamplesCustomArrayBuilder()(factory),
-//      CustomDomainPropertiesCustomArrayBuilder()(factory),
-//      PayloadCustomArrayBuilder()(factory), // order is important here? if paylad is not first, it will match web api custom array builder.
-//      WebApiCustomArrayBuilder()(factory)
-//    )
+    List(DomainElementModel.Extends, LinkableElementModel.Target)
 
   protected def children: List[DocumentSymbol] =
     element.fields
