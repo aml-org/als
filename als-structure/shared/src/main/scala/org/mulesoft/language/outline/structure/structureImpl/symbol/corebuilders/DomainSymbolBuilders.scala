@@ -59,16 +59,16 @@ class DomainElementSymbolBuilder(override val element: DomainElement, entryAst: 
      Some(PositionRange(AmfRange(entryAst.key.range))))
 }
 
-object DomainElementSymbolBuilder extends AmfObjectSimpleBuilderCompanion[_ <: DomainElement] {
+object DomainElementSymbolBuilder extends AmfObjectSimpleBuilderCompanion[DomainElement] {
   override val supportedIri: String = DomainElementModel.`type`.head.iri()
 
   override def getType: Class[_ <: AmfElement] = classOf[DomainElement]
 
   override def construct(element: DomainElement)(
-      implicit factory: BuilderFactory): Option[SymbolBuilder[_ <: DomainElement]] =
+      implicit factory: BuilderFactory): Option[SymbolBuilder[DomainElement]] =
     element match {
       case n: NamedDomainElement if n.name.option().isDefined =>
-        NamedElementSymbolBuilder.construct(n)
+        NamedElementSymbolBuilder.construct(n).map(_.asInstanceOf[SymbolBuilder[DomainElement]])
       case _ =>
         element.annotations.find(classOf[SourceAST]).map(_.ast) match {
           case Some(entry: YMapEntry) =>

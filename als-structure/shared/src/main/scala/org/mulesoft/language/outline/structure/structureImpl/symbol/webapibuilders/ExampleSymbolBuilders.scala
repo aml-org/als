@@ -7,10 +7,10 @@ import amf.plugins.domain.shapes.models.Example
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.StructuredSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.{
+  AmfObjectSimpleBuilderCompanion,
   BuilderFactory,
   DocumentSymbol,
-  ElementSymbolBuilder,
-  ElementSymbolBuilderCompanion
+  SymbolBuilder
 }
 
 class ExampleSymbolBuilders(override val element: Example)(override implicit val factory: BuilderFactory)
@@ -31,13 +31,11 @@ class ExampleSymbolBuilders(override val element: Example)(override implicit val
     element.annotations.find(classOf[LexicalInformation]).map(_.range).map(PositionRange.apply)
 }
 
-object ExampleSymbolBuilders extends ElementSymbolBuilderCompanion {
-  override type T = Example
-
+object ExampleSymbolBuilders extends AmfObjectSimpleBuilderCompanion[Example] {
   override def getType: Class[_ <: AmfElement] = classOf[Example]
 
   override val supportedIri: String = ExampleModel.`type`.head.iri()
 
-  override def construct(element: Example)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[Example]] =
+  override def construct(element: Example)(implicit factory: BuilderFactory): Option[SymbolBuilder[Example]] =
     Some(new ExampleSymbolBuilders(element))
 }

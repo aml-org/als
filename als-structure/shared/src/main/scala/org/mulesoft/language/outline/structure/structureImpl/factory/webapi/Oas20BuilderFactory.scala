@@ -1,16 +1,13 @@
 package org.mulesoft.language.outline.structure.structureImpl.factory.webapi
 
-import amf.dialects.OAS20Dialect
-import org.mulesoft.language.outline.structure.structureImpl.{CompanionList, ElementSymbolBuilderCompanion}
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.oasbuilders.{
-  Oas20BaseUnitSymbolBuilder,
-  Oas20WebApiSymbolBuilder
-}
+import amf.plugins.document.vocabularies.model.document.Dialect
+import org.mulesoft.amfmanager.dialect.webapi.oas.Oas20DialectWrapper
+import org.mulesoft.language.outline.structure.structureImpl.companion.FieldCompanionList
+import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.oasbuilders.OasBaseUrlFieldSymbolBuilderCompanion
 
 object Oas20BuilderFactory extends AmfBuilderFactory {
 
-  override protected def companion: CompanionList =
-    super.companion + Oas20WebApiSymbolBuilder
-  override def baseUnitBuilder: ElementSymbolBuilderCompanion =
-    Oas20BaseUnitSymbolBuilder
+  override protected def companion: FieldCompanionList = super.companion + OasBaseUrlFieldSymbolBuilderCompanion
+
+  override def dialect: Dialect = Oas20DialectWrapper.dialect
 }
