@@ -30,7 +30,7 @@ class StructureBuilder(unit: BaseUnit) {
   // todo: general amf model dialect?
   private def builderFactory: BuilderFactory = unit.sourceVendor match {
 //    case Some(Raml08) => Raml08BuilderFactory
-    case Some(_: Raml) => Raml10BuilderFactory()
+    case Some(_: Raml) => Raml10BuilderFactory
     case Some(Oas30)   => Oas30BuilderFactory
     case Some(_: Oas)  => Oas20BuilderFactory
     case _             => amlBuilder

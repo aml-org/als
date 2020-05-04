@@ -8,5 +8,5 @@ object Oas30BuilderFactory extends AmfBuilderFactory {
 
   override def companion: FieldCompanionList = super.companion
 
-  override def dialect: Dialect = Oas30DialectWrapper.dialect
+  override val dialect: Dialect = Oas30DialectWrapper.dialect
 }

@@ -6,12 +6,11 @@ import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.language.outline.structure.structureImpl.companion.FieldCompanionList
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.{
   BaseUnitSymbolBuilderCompanion,
-  DomainElementSymbolBuilder
-}
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields.{
   DeclaresFieldSymbolBuilderCompanion,
-  DefaultArrayFieldTypeSymbolBuilderCompanion
+  DomainElementSymbolBuilder,
+  EncodesFieldSymbolBuilderCompanion
 }
+import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields.DefaultArrayFieldTypeSymbolBuilderCompanion
 
 trait BuilderFactory {
   implicit val factory: BuilderFactory = this
@@ -20,8 +19,12 @@ trait BuilderFactory {
 
   // separate to static in object for avoid recalculate all the list in AML factory instances
   protected def companion: FieldCompanionList =
-    FieldCompanionList(List(DeclaresFieldSymbolBuilderCompanion, DefaultArrayFieldTypeSymbolBuilderCompanion),
-                       List(BaseUnitSymbolBuilderCompanion, DomainElementSymbolBuilder))
+    FieldCompanionList(
+      List(DeclaresFieldSymbolBuilderCompanion,
+           EncodesFieldSymbolBuilderCompanion,
+           DefaultArrayFieldTypeSymbolBuilderCompanion),
+      List(BaseUnitSymbolBuilderCompanion, DomainElementSymbolBuilder)
+    )
 
   private lazy val companionList: FieldCompanionList = companion
 
