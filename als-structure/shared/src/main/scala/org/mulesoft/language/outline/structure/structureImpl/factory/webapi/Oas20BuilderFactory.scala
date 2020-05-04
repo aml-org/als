@@ -9,5 +9,5 @@ object Oas20BuilderFactory extends AmfBuilderFactory {
 
   override protected def companion: FieldCompanionList = super.companion + OasBaseUrlFieldSymbolBuilderCompanion
 
-  override def dialect: Dialect = Oas20DialectWrapper.dialect
+  override val dialect: Dialect = Oas20DialectWrapper.dialect
 }

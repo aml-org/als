@@ -11,6 +11,10 @@ import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.shapes.metamodel.NodeShapeModel
 
 object Oas30DialectWrapper {
+  def apply(): Dialect = dialect
+
+  // hack to force object initialization in amf and avoid exception
+  private val orignalId = OAS30Dialect().id
 
   lazy val dialect: Dialect = {
 

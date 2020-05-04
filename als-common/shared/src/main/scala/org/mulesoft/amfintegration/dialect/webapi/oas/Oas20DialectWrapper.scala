@@ -11,6 +11,9 @@ import amf.plugins.domain.webapi.metamodel.PayloadModel
 
 object Oas20DialectWrapper {
 
+  // hack to force object initialization in amf and avoid exception
+  private val orignalId = OAS20Dialect().id
+
   private val PayloadParameter = NodeMapping()
     .withId("#/declarations/PayloadParameter")
     .withName("PayloadPArameter")

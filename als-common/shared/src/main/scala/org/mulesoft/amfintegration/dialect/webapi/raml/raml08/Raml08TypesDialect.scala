@@ -13,6 +13,9 @@ import amf.plugins.domain.shapes.metamodel._
 
 object Raml08TypesDialect {
 
+  // hack to force object initialization in amf and avoid exception
+  private val orignalId = RAML08Dialect().id
+
   val DialectLocation = "file://parallel-als/vocabularies/dialects/raml08.yaml"
 
   val ShapeNodeId: String   = DialectLocation + "#/declarations/ShapeNode"

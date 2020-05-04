@@ -1,4 +1,4 @@
-package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields
+package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
 import amf.core.annotations.SourceLocation
 import amf.core.metamodel.document.DocumentModel
@@ -13,11 +13,11 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
 
   private val location: Option[String] = value.annotations.find(classOf[SourceLocation]).map(_.location)
 
+  private lazy val terms: Map[String, String] = factory.dialect.declarationsMapTerms
+
   private val groupedDeclarations: Map[String, Seq[AmfObject]] = value.values
     .collect({ case obj: AmfObject if location.forall(l => obj.location().contains(l)) => obj })
     .groupBy(declarationName)
-
-  private val terms: Map[String, String] = factory.dialect.declarationsMapTerms
 
   private def buildSymbol(name: String, elements: Seq[AmfObject]): Option[DocumentSymbol] = {
     val children: List[DocumentSymbol] = elements

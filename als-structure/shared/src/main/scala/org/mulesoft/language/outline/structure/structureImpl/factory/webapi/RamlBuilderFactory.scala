@@ -14,7 +14,7 @@ trait RamlBuilderFactory extends AmfBuilderFactory {
     super.companion + RamlSecuritySchemesSettingsSymbolBuilder + RamlBaseUriFieldSymbolBuilderCompanion
 }
 
-case class Raml10BuilderFactory() extends RamlBuilderFactory {
+object Raml10BuilderFactory extends RamlBuilderFactory {
   override def dialect: Dialect = Raml10TypesDialect()
 }
 
