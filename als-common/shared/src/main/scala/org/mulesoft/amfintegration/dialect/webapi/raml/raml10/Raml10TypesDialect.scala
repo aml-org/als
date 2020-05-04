@@ -15,6 +15,7 @@ import amf.plugins.document.vocabularies.model.domain.{
   PublicNodeMapping
 }
 import amf.plugins.domain.shapes.metamodel._
+import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect.dialect
 
 object Raml10TypesDialect {
 
@@ -368,4 +369,5 @@ object Raml10TypesDialect {
           .withDeclaredNodes(declaredNodes))
     dialect
   }
+  def apply(): Dialect = dialect
 }

@@ -2,15 +2,14 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 
 import amf.core.annotations.LexicalInformation
 import amf.core.model.domain.AmfElement
-import amf.core.parser.{Range => AmfRange}
 import amf.plugins.domain.webapi.metamodel.security.SettingsModel
 import amf.plugins.domain.webapi.models.security.Settings
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.StructuredSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.{
+  AmfObjectSimpleBuilderCompanion,
   BuilderFactory,
-  ElementSymbolBuilder,
-  ElementSymbolBuilderCompanion
+  SymbolBuilder
 }
 
 class RamlSecuritySchemesSettingsSymbolBuilder(override val element: Settings)(
@@ -21,13 +20,11 @@ class RamlSecuritySchemesSettingsSymbolBuilder(override val element: Settings)(
     element.annotations.find(classOf[LexicalInformation]).map(_.range).map(PositionRange.apply)
 }
 
-object RamlSecuritySchemesSettingsSymbolBuilder extends ElementSymbolBuilderCompanion {
-  override type T = Settings
-
+object RamlSecuritySchemesSettingsSymbolBuilder extends AmfObjectSimpleBuilderCompanion[Settings] {
   override def getType: Class[_ <: AmfElement] = classOf[Settings]
 
   override val supportedIri: String = SettingsModel.`type`.head.iri()
 
-  override def construct(element: Settings)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[Settings]] =
+  override def construct(element: Settings)(implicit factory: BuilderFactory): Option[SymbolBuilder[Settings]] =
     Some(new RamlSecuritySchemesSettingsSymbolBuilder(element))
 }

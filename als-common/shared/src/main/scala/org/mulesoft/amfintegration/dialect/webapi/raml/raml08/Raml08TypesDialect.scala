@@ -257,4 +257,6 @@ object Raml08TypesDialect {
       .documents()
     dialect
   }
+
+  def apply(): Dialect = dialect
 }

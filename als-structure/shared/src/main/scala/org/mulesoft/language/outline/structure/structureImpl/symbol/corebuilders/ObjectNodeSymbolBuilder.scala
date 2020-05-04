@@ -10,14 +10,14 @@ import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.lexer.InputRange
 import org.yaml.model.YMapEntry
 
-class ObjectNodeSymbolBuilder(obj: ObjectNode)(override implicit val factory: BuilderFactory)
-    extends ElementSymbolBuilder[ObjectNode] {
+class ObjectNodeSymbolBuilder(override val element: ObjectNode)(override implicit val factory: BuilderFactory)
+    extends AmfObjectSymbolBuilder[ObjectNode] {
 
   override def build(): Seq[DocumentSymbol] = {
-    obj
+    element
       .propertyFields()
       .flatMap(f => {
-        val value = obj.fields.getValueAsOption(f)
+        val value = element.fields.getValueAsOption(f)
         value.map(v => f -> v)
       })
       .flatMap {
@@ -50,14 +50,12 @@ class ObjectNodeSymbolBuilder(obj: ObjectNode)(override implicit val factory: Bu
   }
 }
 
-object ObjectNodeSymbolBuilder extends ElementSymbolBuilderCompanion {
-  override type T = ObjectNode
+object ObjectNodeSymbolBuilder extends AmfObjectSimpleBuilderCompanion[ObjectNode] {
 
   override def getType: Class[_ <: AmfElement] = classOf[ObjectNode]
 
   override val supportedIri: String = ObjectNodeModel.`type`.head.iri()
 
-  override def construct(element: ObjectNode)(
-      implicit factory: BuilderFactory): Option[ElementSymbolBuilder[ObjectNode]] =
+  override def construct(element: ObjectNode)(implicit factory: BuilderFactory): Option[SymbolBuilder[ObjectNode]] =
     Some(new ObjectNodeSymbolBuilder(element))
 }

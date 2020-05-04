@@ -42,7 +42,7 @@ object AmfImplicits {
   }
 
   implicit class DialectImplicits(d: Dialect) extends BaseUnitImp(d) {
-    val declarationsMapTerms: Map[String, String] = {
+    def declarationsMapTerms: Map[String, String] = {
       d.documents()
         .root()
         .declaredNodes()
