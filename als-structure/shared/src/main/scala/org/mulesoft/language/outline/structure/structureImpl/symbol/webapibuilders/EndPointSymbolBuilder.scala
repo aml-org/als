@@ -2,11 +2,10 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 
 import amf.core.annotations.LexicalInformation
 import amf.core.metamodel.Field
-import amf.plugins.domain.webapi.metamodel.EndPointModel
 import amf.plugins.domain.webapi.models.EndPoint
-import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, PositionRange}
-import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, RangesSplitter}
-class EndPointSymbolBuilder(override val element: EndPoint)(override implicit val factory: BuilderFactory)
+import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.language.outline.structure.structureImpl.StructureContext
+class EndPointSymbolBuilder(override val element: EndPoint)(override implicit val ctx: StructureContext)
     extends ExtendsFatherSymbolBuilder[EndPoint] {
 
   override def ignoreFields: List[Field] = super.ignoreFields

@@ -1,6 +1,7 @@
 package org.mulesoft.language.outline.structure.structureImpl.companion
 
-import org.mulesoft.language.outline.structure.structureImpl._
+import org.mulesoft.language.outline.structure.structureImpl.StructureContext
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{SymbolBuilder, SymbolBuilderCompanion}
 
 abstract class CompanionList[ElementType, ListType <: SymbolBuilderCompanion[_ <: ElementType]](list: List[ListType]) {
 
@@ -14,6 +15,6 @@ abstract class CompanionList[ElementType, ListType <: SymbolBuilderCompanion[_ <
   def replaceFor(target: ListType, newValue: ListType): CompanionList[ElementType, ListType] =
     newInstance(newValue +: list.filter(_ != target))
 
-  def find(element: ElementType): Option[SymbolBuilder[_ <: ElementType]]
+  def find(element: ElementType)(implicit ctx: StructureContext): Option[SymbolBuilder[_ <: ElementType]]
 
 }

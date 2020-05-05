@@ -8,21 +8,20 @@ import amf.plugins.domain.webapi.metamodel.PayloadModel
 import amf.plugins.domain.webapi.models.Payload
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.amfintegration.ParserRangeImplicits._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.StructuredSymbolBuilder
-import org.mulesoft.language.outline.structure.structureImpl.{
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
-  BuilderFactory,
-  DocumentSymbol,
+  StructuredSymbolBuilder,
   SymbolBuilder
 }
-class PayloadSymbolBuilder(override val element: Payload)(implicit val factory: BuilderFactory)
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
+class PayloadSymbolBuilder(override val element: Payload)(implicit val ctx: StructureContext)
     extends StructuredSymbolBuilder[Payload] {
   override def ignoreFields: List[Field] = super.ignoreFields :+ PayloadModel.Schema
 
   override protected def children: List[DocumentSymbol] =
     super.children ++
       Option(element.schema)
-        .flatMap(s => factory.builderFor(s))
+        .flatMap(s => ctx.factory.builderFor(s))
         .map(bs => bs.build().flatMap(_.children))
         .getOrElse(Nil)
 
@@ -45,6 +44,6 @@ object PayloadSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[Pay
 
   override val supportedIri: String = PayloadModel.`type`.head.iri()
 
-  override def construct(element: Payload)(implicit factory: BuilderFactory): Option[SymbolBuilder[Payload]] =
+  override def construct(element: Payload)(implicit ctx: StructureContext): Option[SymbolBuilder[Payload]] =
     Some(new PayloadSymbolBuilder(element))
 }
