@@ -5,15 +5,14 @@ import amf.core.model.domain.{AmfElement, AmfScalar}
 import amf.plugins.domain.shapes.metamodel.ExampleModel
 import amf.plugins.domain.shapes.models.Example
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.StructuredSymbolBuilder
-import org.mulesoft.language.outline.structure.structureImpl.{
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
-  BuilderFactory,
-  DocumentSymbol,
+  StructuredSymbolBuilder,
   SymbolBuilder
 }
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
-class ExampleSymbolBuilders(override val element: Example)(override implicit val factory: BuilderFactory)
+class ExampleSymbolBuilders(override val element: Example)(override implicit val ctx: StructureContext)
     extends StructuredSymbolBuilder[Example] {
   override protected val name: String =
     element.name.option() match {
@@ -36,6 +35,6 @@ object ExampleSymbolBuilders extends AmfObjectSimpleBuilderCompanion[Example] {
 
   override val supportedIri: String = ExampleModel.`type`.head.iri()
 
-  override def construct(element: Example)(implicit factory: BuilderFactory): Option[SymbolBuilder[Example]] =
+  override def construct(element: Example)(implicit ctx: StructureContext): Option[SymbolBuilder[Example]] =
     Some(new ExampleSymbolBuilders(element))
 }

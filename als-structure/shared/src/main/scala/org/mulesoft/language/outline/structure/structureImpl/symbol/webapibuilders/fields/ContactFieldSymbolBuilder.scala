@@ -3,16 +3,18 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.WebApiModel
-import org.mulesoft.language.outline.structure.structureImpl.{
-  BuilderFactory,
-  FieldTypeSymbolBuilder,
-  IriFieldSymbolBuilderCompanion,
-  ObjectFieldTypeSymbolBuilderCompanion
+import org.mulesoft.language.outline.structure.structureImpl.StructureContext
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
+  ObjectFieldTypeSymbolBuilderCompanion,
+  SingleObjectFieldSymbolBuilder
 }
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.SingleObjectFieldSymbolBuilder
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  FieldTypeSymbolBuilder,
+  IriFieldSymbolBuilderCompanion
+}
 
 class ContactFieldSymbolBuilder(override val value: AmfObject, override val element: FieldEntry)(
-    override implicit val factory: BuilderFactory)
+    override implicit val ctx: StructureContext)
     extends SingleObjectFieldSymbolBuilder {
   override protected val name: String = "Contact"
 }
@@ -24,6 +26,6 @@ object ContactFieldSymbolBuilderCompanion
   override val supportedIri: String = WebApiModel.Provider.value.iri()
 
   override def construct(element: FieldEntry, value: AmfObject)(
-      implicit factory: BuilderFactory): Option[FieldTypeSymbolBuilder[AmfObject]] =
+      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfObject]] =
     Some(new ContactFieldSymbolBuilder(value, element))
 }

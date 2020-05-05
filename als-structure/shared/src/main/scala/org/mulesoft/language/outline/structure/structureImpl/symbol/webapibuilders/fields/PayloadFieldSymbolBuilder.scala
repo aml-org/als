@@ -1,15 +1,23 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields
 
-import amf.core.model.domain.{AmfArray, AmfObject, Shape}
+import amf.core.model.domain.{AmfArray, Shape}
 import amf.core.parser.FieldEntry
 import amf.plugins.document.webapi.annotations.{BodyParameter, FormBodyParameter}
 import amf.plugins.domain.shapes.models.NodeShape
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, ParametersFieldModel}
 import amf.plugins.domain.webapi.models.{Parameter, Payload}
 import org.mulesoft.language.outline.structure.structureImpl._
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
+  ArrayFieldTypeSymbolBuilder,
+  ArrayFieldTypeSymbolBuilderCompanion
+}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  FieldTypeSymbolBuilder,
+  IriFieldSymbolBuilderCompanion
+}
 
 class PayloadFieldSymbolBuilder(override val element: FieldEntry, override val value: AmfArray)(
-    override implicit val factory: BuilderFactory)
+    override implicit val ctx: StructureContext)
     extends ArrayFieldTypeSymbolBuilder {
 
   private def buildForKey(key: String, sons: List[DocumentSymbol]): Option[DocumentSymbol] = {
@@ -46,17 +54,17 @@ class PayloadFieldSymbolBuilder(override val element: FieldEntry, override val v
     buildForKey(
       "Form Data Parameters",
       formData
-        .flatMap(f => factory.builderFor(f))
+        .flatMap(f => ctx.factory.builderFor(f))
         .flatMap(_.build())
         .map(_.copy(kind = KindForResultMatcher.getKind(Parameter())))
         .toList
     )
 
   protected def bodySymbols: Option[DocumentSymbol] =
-    buildForKey("Body Parameters", body.flatMap(b => factory.builderFor(b)).flatMap(_.build()).toList)
+    buildForKey("Body Parameters", body.flatMap(b => ctx.factory.builderFor(b)).flatMap(_.build()).toList)
 
   protected def payloadSymbols: Option[DocumentSymbol] =
-    buildForKey("payloads", realPayloads.flatMap(p => factory.builderFor(p)).flatMap(_.build()).toList)
+    buildForKey("payloads", realPayloads.flatMap(p => ctx.factory.builderFor(p)).flatMap(_.build()).toList)
 
   override def build(): Seq[DocumentSymbol] = formDataSymbols.toSeq ++ bodySymbols ++ payloadSymbols
 
@@ -67,6 +75,6 @@ object PayloadFieldSymbolCompanion extends ArrayFieldTypeSymbolBuilderCompanion 
     : String = EndPointModel.Payloads.value.iri() // same than RequestModel.Payload Apicontract.Payload
 
   override def construct(element: FieldEntry, value: AmfArray)(
-      implicit factory: BuilderFactory): Option[FieldTypeSymbolBuilder[AmfArray]] =
+      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new PayloadFieldSymbolBuilder(element, value))
 }

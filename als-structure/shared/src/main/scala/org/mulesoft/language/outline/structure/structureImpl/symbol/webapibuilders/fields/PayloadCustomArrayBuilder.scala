@@ -1,4 +1,4 @@
-package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.custom.array.builder
+package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields
 
 import amf.core.annotations.LexicalInformation
 import amf.core.model.domain.AmfArray
@@ -6,18 +6,14 @@ import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.ResponseModel
 import amf.plugins.domain.webapi.models.Payload
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields.DefaultArrayFieldTypeSymbolBuilder
-import org.mulesoft.language.outline.structure.structureImpl.{
-  ArrayFieldTypeSymbolBuilderCompanion,
-  BuilderFactory,
-  FieldTypeSymbolBuilder,
-  IriFieldSymbolBuilderCompanion
-}
+import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, StructureContext}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{FieldTypeSymbolBuilder, IriFieldSymbolBuilderCompanion}
 
 case class PayloadsArrayFieldBuilder(firstPayload: Payload,
                                      override val value: AmfArray,
-                                     override val element: FieldEntry)(override implicit val factory: BuilderFactory)
-    extends DefaultArrayFieldTypeSymbolBuilder(value, element) {
+                                     override val element: FieldEntry)(override implicit val ctx:StructureContext)
+    extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
 
   override def range: PositionRange =
     firstPayload.annotations
@@ -32,7 +28,7 @@ object PayloadsArrayFieldBuilderCompanion
   override val supportedIri: String = ResponseModel.Payloads.value.iri()
 
   override def construct(element: FieldEntry, value: AmfArray)(
-      implicit factory: BuilderFactory): Option[FieldTypeSymbolBuilder[AmfArray]] = {
+      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] = {
     firstPayload(value).map(PayloadsArrayFieldBuilder(_, value, element))
   }
 

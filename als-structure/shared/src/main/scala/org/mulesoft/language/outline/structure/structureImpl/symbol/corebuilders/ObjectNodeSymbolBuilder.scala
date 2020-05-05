@@ -7,10 +7,15 @@ import amf.core.parser.{Value, Range => AmfRange}
 import amf.core.utils._
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  AmfObjectSimpleBuilderCompanion,
+  AmfObjectSymbolBuilder,
+  SymbolBuilder
+}
 import org.mulesoft.lexer.InputRange
 import org.yaml.model.YMapEntry
 
-class ObjectNodeSymbolBuilder(override val element: ObjectNode)(override implicit val factory: BuilderFactory)
+class ObjectNodeSymbolBuilder(override val element: ObjectNode)(override implicit val ctx: StructureContext)
     extends AmfObjectSymbolBuilder[ObjectNode] {
 
   override def build(): Seq[DocumentSymbol] = {
@@ -30,7 +35,7 @@ class ObjectNodeSymbolBuilder(override val element: ObjectNode)(override implici
             .map(_.ast)
             .collect({ case e: YMapEntry => PositionRange(e.key.range) })
             .getOrElse(range)
-          factory
+          ctx.factory
             .builderFor(v)
             .map(_.build())
             .map { r =>
@@ -56,6 +61,6 @@ object ObjectNodeSymbolBuilder extends AmfObjectSimpleBuilderCompanion[ObjectNod
 
   override val supportedIri: String = ObjectNodeModel.`type`.head.iri()
 
-  override def construct(element: ObjectNode)(implicit factory: BuilderFactory): Option[SymbolBuilder[ObjectNode]] =
+  override def construct(element: ObjectNode)(implicit ctx: StructureContext): Option[SymbolBuilder[ObjectNode]] =
     Some(new ObjectNodeSymbolBuilder(element))
 }

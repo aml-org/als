@@ -5,9 +5,17 @@ import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.ParametersFieldModel
 import amf.plugins.domain.webapi.models.Parameter
 import org.mulesoft.language.outline.structure.structureImpl._
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  FieldTypeSymbolBuilder,
+  IriFieldSymbolBuilderCompanion
+}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
+  ArrayFieldTypeSymbolBuilder,
+  ArrayFieldTypeSymbolBuilderCompanion
+}
 
 class ArrayParametersSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    implicit val factory: BuilderFactory)
+    implicit val ctx: StructureContext)
     extends ArrayFieldTypeSymbolBuilder {
   override def build(): Seq[DocumentSymbol] = {
     new ParametersSymbolBuilder(value.values.collect({ case p: Parameter => p }), range, Some(element.field))
@@ -21,7 +29,7 @@ object HeadersSymbolBuilder extends ArrayFieldTypeSymbolBuilderCompanion with Ir
   override val supportedIri: String = ParametersFieldModel.Headers.value.iri()
 
   override def construct(element: FieldEntry, value: AmfArray)(
-      implicit factory: BuilderFactory): Option[FieldTypeSymbolBuilder[AmfArray]] =
+      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new ArrayParametersSymbolBuilder(value, element))
 }
 
@@ -29,7 +37,7 @@ object QueryParametersSymbolBuilder extends ArrayFieldTypeSymbolBuilderCompanion
   override val supportedIri: String = ParametersFieldModel.QueryParameters.value.iri()
 
   override def construct(element: FieldEntry, value: AmfArray)(
-      implicit factory: BuilderFactory): Option[FieldTypeSymbolBuilder[AmfArray]] =
+      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new ArrayParametersSymbolBuilder(value, element))
 }
 
@@ -37,7 +45,7 @@ object QueryStringSymbolBuilder extends ArrayFieldTypeSymbolBuilderCompanion wit
 
   override val supportedIri: String = ParametersFieldModel.QueryString.value.iri()
   override def construct(element: FieldEntry, value: AmfArray)(
-      implicit factory: BuilderFactory): Option[FieldTypeSymbolBuilder[AmfArray]] =
+      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new ArrayParametersSymbolBuilder(value, element))
 
 }
@@ -46,6 +54,6 @@ object UriParametersSymbolBuilder extends ArrayFieldTypeSymbolBuilderCompanion w
   override val supportedIri: String = ParametersFieldModel.UriParameters.value.iri()
 
   override def construct(element: FieldEntry, value: AmfArray)(
-      implicit factory: BuilderFactory): Option[FieldTypeSymbolBuilder[AmfArray]] =
+      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new ArrayParametersSymbolBuilder(value, element))
 }

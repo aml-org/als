@@ -8,6 +8,10 @@ import amf.plugins.domain.webapi.metamodel.OperationModel
 import amf.plugins.domain.webapi.models.Operation
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  AmfObjectSimpleBuilderCompanion,
+  SymbolBuilder
+}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.NamedElementSymbolBuilderTrait
 
 // if the annotations would be at the field, we could handle this in nwe interface
@@ -44,7 +48,7 @@ trait ExtendsFatherSymbolBuilder[T <: NamedDomainElement] extends NamedElementSy
   }
 }
 
-class OperationSymbolBuilder(override val element: Operation)(override implicit val factory: BuilderFactory)
+class OperationSymbolBuilder(override val element: Operation)(override implicit val ctx: StructureContext)
     extends ExtendsFatherSymbolBuilder[Operation] {
 
   override protected val name: String = element.name.option().getOrElse(element.method.value())
@@ -57,6 +61,6 @@ object OperationSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[O
 
   override val supportedIri: String = OperationModel.`type`.head.iri()
 
-  override def construct(element: Operation)(implicit factory: BuilderFactory): Option[SymbolBuilder[Operation]] =
+  override def construct(element: Operation)(implicit ctx: StructureContext): Option[SymbolBuilder[Operation]] =
     Some(new OperationSymbolBuilder(element))
 }
