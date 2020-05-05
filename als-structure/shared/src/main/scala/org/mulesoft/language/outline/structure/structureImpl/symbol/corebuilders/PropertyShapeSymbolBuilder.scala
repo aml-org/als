@@ -6,8 +6,12 @@ import amf.core.model.domain.AmfElement
 import amf.core.model.domain.extensions.PropertyShape
 import amf.plugins.domain.shapes.models.{AnyShape, ArrayShape, NodeShape, UnionShape}
 import org.mulesoft.language.outline.structure.structureImpl._
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  AmfObjectSimpleBuilderCompanion,
+  StructuredSymbolBuilder
+}
 
-class PropertyShapeSymbolBuilder(override val element: PropertyShape)(override implicit val factory: BuilderFactory)
+class PropertyShapeSymbolBuilder(override val element: PropertyShape)(override implicit val ctx: StructureContext)
     extends NamedElementSymbolBuilderTrait[PropertyShape] {
 
   private val buildRange: Boolean = element.range match {
@@ -28,6 +32,6 @@ object PropertyShapeSymbolBuilder extends AmfObjectSimpleBuilderCompanion[Proper
   override val supportedIri: String = PropertyShapeModel.`type`.head.iri()
 
   override def construct(element: PropertyShape)(
-      implicit factory: BuilderFactory): Option[StructuredSymbolBuilder[PropertyShape]] =
+      implicit ctx: StructureContext): Option[StructuredSymbolBuilder[PropertyShape]] =
     Some(new PropertyShapeSymbolBuilder(element))
 }

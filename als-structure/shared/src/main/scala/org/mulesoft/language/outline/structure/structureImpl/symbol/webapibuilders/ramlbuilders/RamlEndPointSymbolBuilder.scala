@@ -1,15 +1,14 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ramlbuilders
 
 import amf.plugins.domain.webapi.models.EndPoint
-import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.EndPointSymbolBuilder
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
-case class RamlEndPointSymbolBuilder(actual: EndPoint, all: Seq[EndPoint])(
-    override implicit val factory: BuilderFactory)
-    extends EndPointSymbolBuilder(actual)(factory) {
+case class RamlEndPointSymbolBuilder(actual: EndPoint, all: Seq[EndPoint])(override implicit val ctx: StructureContext)
+    extends EndPointSymbolBuilder(actual)(ctx) {
 
   override def children: List[DocumentSymbol] =
     super.children ++ all
-      .collect({ case e: EndPoint if e.parent.contains(actual) => RamlEndPointSymbolBuilder(e, all)(factory) })
+      .collect({ case e: EndPoint if e.parent.contains(actual) => RamlEndPointSymbolBuilder(e, all)(ctx) })
       .flatMap(_.build())
 }

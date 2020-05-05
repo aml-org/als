@@ -2,14 +2,12 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 
 import amf.core.metamodel.document.BaseUnitModel
 import amf.core.model.document.BaseUnit
-import org.mulesoft.language.outline.structure.structureImpl.{
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
   AmfObjectSymbolBuilder,
-  BuilderFactory,
-  DocumentSymbol,
-  SymbolBuilder,
-  SymbolBuilderCompanion
+  SymbolBuilder
 }
+import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, StructureContext}
 
 object BaseUnitSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[BaseUnit] {
   override val supportedIri: String = BaseUnitModel.`type`.head.iri()
@@ -17,10 +15,10 @@ object BaseUnitSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[Ba
   override def getType: Class[_] = classOf[BaseUnit]
 
   override protected def construct(element: BaseUnit)(
-      implicit factory: BuilderFactory): Option[SymbolBuilder[BaseUnit]] = Some(new BaseUnitSymbolBuilder(element))
+      implicit ctx: StructureContext): Option[SymbolBuilder[BaseUnit]] = Some(new BaseUnitSymbolBuilder(element))
 }
 
-class BaseUnitSymbolBuilder(override val element: BaseUnit)(override implicit val factory: BuilderFactory)
+class BaseUnitSymbolBuilder(override val element: BaseUnit)(override implicit val ctx: StructureContext)
     extends AmfObjectSymbolBuilder[BaseUnit] {
   override def build(): Seq[DocumentSymbol] = children
 }
