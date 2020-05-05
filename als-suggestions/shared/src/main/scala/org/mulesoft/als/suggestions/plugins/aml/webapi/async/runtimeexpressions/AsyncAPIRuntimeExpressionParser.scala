@@ -3,7 +3,8 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.async.runtimeexpressions
 import org.mulesoft.als.suggestions.plugins.aml.webapi.runtimeexpression.{
   LabeledExpressionToken,
   RuntimeExpressionParser,
-  RuntimeParsingToken
+  RuntimeParsingToken,
+  WithoutConstraint
 }
 
 import scala.util.matching.Regex
@@ -11,7 +12,6 @@ import scala.util.matching.Regex
 case class AsyncAPIRuntimeExpressionParser(override val value: String) extends RuntimeExpressionParser {
   override val rx: Regex  = "" r
   override val followedBy = Seq(MessageBaseExpressionToken)
-
 }
 
 case class MessageBaseExpressionToken(override val value: String) extends LabeledExpressionToken {
@@ -32,7 +32,4 @@ case class PayloadExpressionToken(override val value: String) extends LabeledExp
   override val followedBy: Seq[String => RuntimeParsingToken] = Seq(FragmentExpressionToken)
 }
 
-case class FragmentExpressionToken(override val value: String) extends RuntimeParsingToken {
-  override val rx: Regex                                      = "(.+)" r
-  override val followedBy: Seq[String => RuntimeParsingToken] = Nil
-}
+case class FragmentExpressionToken(override val value: String) extends WithoutConstraint

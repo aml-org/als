@@ -6,6 +6,7 @@ import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.domain.{AmfElement, AmfObject}
 import amf.core.parser.FieldEntry
 import org.mulesoft.als.actions.common.{ActionTools, RelationshipLink}
+import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
@@ -44,7 +45,7 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
         Location(
           a.ast.location.sourceName,
           LspRangeConverter.toLspRange(PositionRange(
-            Position(AmfPosition(0, a.ast.location.columnFrom)), // todo: find a nicer way to take parent entry?
+            Position(AmfPosition(a.ast.location.lineFrom, a.ast.location.columnFrom)), // todo: find a nicer way to take parent entry?
             Position(AmfPosition(a.ast.location.lineTo, a.ast.location.columnTo))
           ))
       ))
