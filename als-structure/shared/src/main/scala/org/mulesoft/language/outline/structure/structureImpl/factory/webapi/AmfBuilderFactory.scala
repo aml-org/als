@@ -5,8 +5,10 @@ import org.mulesoft.language.outline.structure.structureImpl.companion.FieldComp
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields.{
+  ContactFieldSymbolBuilderCompanion,
   DefaultWebApiArrayFieldTypeSymbolBuilderCompanion,
   DefaultWebApiScalarTypeSymbolBuilderCompanion,
+  LicenseFieldSymbolBuilderCompanion,
   OperationsArrayFieldBuilderCompanion,
   PayloadsArrayFieldBuilderCompanion,
   WebApiEncodesFieldSymbolBuilderCompanion
@@ -33,5 +35,7 @@ trait AmfBuilderFactory extends BuilderFactory {
       CustomDomainPropertySymbolBuilderCompanion +
       PayloadsArrayFieldBuilderCompanion +
       EndPointFieldBuilderCompanion +
-      WebApiEncodesFieldSymbolBuilderCompanion
+      WebApiEncodesFieldSymbolBuilderCompanion +
+      LicenseFieldSymbolBuilderCompanion +
+      ContactFieldSymbolBuilderCompanion
 }

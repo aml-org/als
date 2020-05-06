@@ -84,7 +84,7 @@ object AsyncApi20Dialect extends BaseDialect {
     "securitySchemes"   -> AsyncApi20SecuritySchemeObject,
     "messages"          -> MessageObjectNode,
     "parameters"        -> ParameterObjectNode,
-    "correlationsIds"   -> CorrelationIdObjectNode,
+    "correlationIds"    -> CorrelationIdObjectNode,
     "operationTraits"   -> OperationTraitsObjectNode,
     "messageTraits"     -> MessageTraitsObjectNode,
     "serverBindings"    -> ServerBindingsObjectNode,
