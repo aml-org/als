@@ -343,7 +343,7 @@ object Raml10TypesDialect {
       PublicNodeMapping()
         .withId(DialectLocation + "#/documents/types")
         .withName("types")
-        .withMappedNode(ShapeNode.id),
+        .withMappedNode(AnyShapeNode.id),
       PublicNodeMapping()
         .withId(DialectLocation + "#/documents/resourceTypes")
         .withName("resourceTypes")
