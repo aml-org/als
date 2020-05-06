@@ -243,7 +243,7 @@ object Raml08TypesDialect {
       PublicNodeMapping()
         .withId(DialectLocation + "#/documents/schemas")
         .withName("schemas")
-        .withMappedNode(SchemasNode.id),
+        .withMappedNode(AnyShapeNode.id),
       PublicNodeMapping()
         .withId(DialectLocation + "#/documents/traits")
         .withName("traits")
