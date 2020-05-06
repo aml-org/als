@@ -1,3 +1,3 @@
 package org.mulesoft.language.outline.structure.structureImpl.factory.webapi
 
-object Oas30BuilderFactory extends AmfBuilderFactory {}
+object Async20BuilderFactory extends AmfBuilderFactory {}
