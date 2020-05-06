@@ -12,26 +12,8 @@ import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, Ki
 trait StructuredSymbolBuilder[T <: AmfObject] extends AmfObjectSymbolBuilder[T] {
 
   protected val name: String
-  protected val selectionRange: Option[PositionRange]
 
   override def build(): Seq[DocumentSymbol] =
     if (name.isEmpty) Nil
-    else
-      range
-        .map { r =>
-          Seq(
-            DocumentSymbol(name,
-                           KindForResultMatcher.getKind(element),
-                           deprecated = false,
-                           r,
-                           selectionRange.getOrElse(r),
-                           skipLoneChild(children, name)))
-        }
-        .getOrElse(children)
-
-  private def skipLoneChild(children: List[DocumentSymbol], name: String): List[DocumentSymbol] =
-    if (children.length == 1 && children.head.name == name)
-      children.head.children
-    else
-      children
+    else build(name)
 }

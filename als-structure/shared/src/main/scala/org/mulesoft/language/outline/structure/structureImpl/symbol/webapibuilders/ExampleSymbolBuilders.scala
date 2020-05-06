@@ -1,33 +1,19 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.annotations.LexicalInformation
-import amf.core.model.domain.{AmfElement, AmfScalar}
+import amf.core.model.domain.AmfElement
 import amf.plugins.domain.shapes.metamodel.ExampleModel
 import amf.plugins.domain.shapes.models.Example
-import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
-  StructuredSymbolBuilder,
+  OptionalNameSymbolBuilder,
   SymbolBuilder
 }
-import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 class ExampleSymbolBuilders(override val element: Example)(override implicit val ctx: StructureContext)
-    extends StructuredSymbolBuilder[Example] {
-  override protected val name: String =
-    element.name.option() match {
-      case Some(n) => n
-      case _ =>
-        element.fields.fields().headOption match {
-          case Some(f) if f.field == ExampleModel.MediaType => f.value.value.asInstanceOf[AmfScalar].toString
-          case _                                            => "example"
-        }
-    }
+    extends OptionalNameSymbolBuilder[Example] {
 
-  override protected def children: List[DocumentSymbol] = Nil
-
-  override protected val selectionRange: Option[PositionRange] =
-    element.annotations.find(classOf[LexicalInformation]).map(_.range).map(PositionRange.apply)
+  override protected def optionName: Option[String] = element.name.option().orElse(element.mediaType.option())
 }
 
 object ExampleSymbolBuilders extends AmfObjectSimpleBuilderCompanion[Example] {

@@ -25,9 +25,9 @@ class DefaultWebApiArrayFieldTypeSymbolBuilder(override val value: AmfArray, ove
     ResponseModel.Payloads                    -> "Payloads",
     RequestModel.Payloads                     -> "Payloads",
     DomainElementModel.CustomDomainProperties -> "Extensions",
-    WebApiModel.Schemes                       -> "protocols"
+    WebApiModel.Schemes                       -> "protocols",
+    OperationModel.Request -> "Request",
   )
-
   override protected def name: String = mapNames.getOrElse(element.field, super.name)
 }
 
