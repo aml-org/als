@@ -4,6 +4,7 @@ import amf.core.annotations.{LexicalInformation, SourceAST}
 import amf.core.metamodel.domain.DomainElementModel
 import amf.core.model.domain._
 import amf.core.parser.{Range => AmfRange}
+import amf.plugins.document.webapi.annotations.InlineDefinition
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
