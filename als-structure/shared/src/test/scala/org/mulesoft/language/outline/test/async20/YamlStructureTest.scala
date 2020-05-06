@@ -6,6 +6,10 @@ class YamlStructureTest extends BaseStructureTest {
 
   override def rootPath: String = "Async20"
 
+  test("test root") {
+    forDir("root")
+  }
+
   test("test channel") {
     forDir("channel")
   }
