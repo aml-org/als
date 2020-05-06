@@ -241,7 +241,7 @@
   },
   {
     "name": "baseUri",
-    "kind": 7,
+    "kind": 15,
     "deprecated": false,
     "range": {
       "start": {
