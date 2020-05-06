@@ -5,7 +5,7 @@ import amf.core.metamodel.domain.{DomainElementModel, LinkableElementModel}
 import amf.core.model.domain.AmfObject
 import amf.plugins.document.webapi.annotations.InlineDefinition
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, KindForResultMatcher}
 import org.yaml.model.YMapEntry
 
 import scala.collection.immutable
@@ -17,6 +17,8 @@ trait AmfObjectSimpleBuilderCompanion[DM <: AmfObject]
 trait AmfObjectSymbolBuilder[DM <: AmfObject] extends SymbolBuilder[DM] {
   def ignoreFields =
     List(DomainElementModel.Extends, LinkableElementModel.Target)
+
+  protected val selectionRange: Option[PositionRange]
 
   protected def range: Option[PositionRange] =
     element.annotations
@@ -41,4 +43,24 @@ trait AmfObjectSymbolBuilder[DM <: AmfObject] extends SymbolBuilder[DM] {
         ctx.factory
           .builderFor(o))
       .flatMap(_.build())
+
+  protected final def build(name: String): Seq[DocumentSymbol] = {
+    range
+      .map { r =>
+        Seq(
+          DocumentSymbol(name,
+                         KindForResultMatcher.getKind(element),
+                         deprecated = false,
+                         r,
+                         selectionRange.getOrElse(r),
+                         skipLoneChild(children, name)))
+      }
+      .getOrElse(children)
+
+  }
+  private def skipLoneChild(children: List[DocumentSymbol], name: String): List[DocumentSymbol] =
+    if (children.length == 1 && children.head.name == name)
+      children.head.children
+    else
+      children
 }

@@ -6,21 +6,21 @@
     "range": {
       "start": {
         "line": 2,
-        "character": 7
+        "character": 0
       },
       "end": {
-        "line": 2,
-        "character": 11
+        "line": 3,
+        "character": 0
       }
     },
     "selectionRange": {
       "start": {
         "line": 2,
-        "character": 7
+        "character": 0
       },
       "end": {
-        "line": 2,
-        "character": 11
+        "line": 3,
+        "character": 0
       }
     },
     "children": []

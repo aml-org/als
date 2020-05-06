@@ -26,7 +26,7 @@
     "children": []
   },
   {
-    "name": "unknowns",
+    "name": "types",
     "kind": 5,
     "deprecated": false,
     "range": {

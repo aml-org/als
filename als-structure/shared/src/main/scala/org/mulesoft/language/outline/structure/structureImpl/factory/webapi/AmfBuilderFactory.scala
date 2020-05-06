@@ -9,8 +9,10 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilde
   DefaultWebApiArrayFieldTypeSymbolBuilderCompanion,
   DefaultWebApiScalarTypeSymbolBuilderCompanion,
   LicenseFieldSymbolBuilderCompanion,
+  ExampleArrayFieldCompanion,
   OperationsArrayFieldBuilderCompanion,
   PayloadsArrayFieldBuilderCompanion,
+  RequestArrayFieldSymbolBuilderCompanion,
   WebApiEncodesFieldSymbolBuilderCompanion
 }
 
@@ -37,5 +39,11 @@ trait AmfBuilderFactory extends BuilderFactory {
       EndPointFieldBuilderCompanion +
       WebApiEncodesFieldSymbolBuilderCompanion +
       LicenseFieldSymbolBuilderCompanion +
-      ContactFieldSymbolBuilderCompanion
+      ContactFieldSymbolBuilderCompanion +
+      ContentTypeIgnoredFieldBuilderCompanion +
+      AcceptsIgnoredFieldBuilderCompanion +
+      RequestSymbolBuilderCompanion +
+      RequestArrayFieldSymbolBuilderCompanion +
+      ShapeInheritsArrayFieldBuilderCompanion +
+      ExampleArrayFieldCompanion
 }
