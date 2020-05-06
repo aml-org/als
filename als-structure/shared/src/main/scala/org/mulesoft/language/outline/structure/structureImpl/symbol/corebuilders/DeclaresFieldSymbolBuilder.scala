@@ -1,31 +1,37 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
-import amf.core.annotations.SourceLocation
 import amf.core.metamodel.document.DocumentModel
-import amf.core.model.domain.{AmfArray, AmfObject}
+import amf.core.metamodel.domain.ShapeModel
+import amf.core.model.domain.{AmfArray, AmfObject, Shape}
 import amf.core.parser.FieldEntry
+import amf.plugins.domain.shapes.metamodel.AnyShapeModel
 import org.mulesoft.amfmanager.AmfImplicits._
 import org.mulesoft.language.outline.structure.structureImpl._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
-  FieldTypeSymbolBuilder,
-  IriFieldSymbolBuilderCompanion
-}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
   ArrayFieldTypeSymbolBuilder,
   ArrayFieldTypeSymbolBuilderCompanion
+}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  FieldTypeSymbolBuilder,
+  IriFieldSymbolBuilderCompanion
 }
 
 class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
     extends ArrayFieldTypeSymbolBuilder {
 
-  private val location: Option[String] = value.annotations.find(classOf[SourceLocation]).map(_.location)
-
   private lazy val terms: Map[String, String] = ctx.dialect.declarationsMapTerms
 
   private val groupedDeclarations: Map[String, Seq[AmfObject]] = value.values
-    .collect({ case obj: AmfObject if location.forall(l => obj.location().contains(l)) => obj })
+    .collect({ case obj: AmfObject if obj.location().contains(ctx.location) => obj })
     .groupBy(declarationName)
+
+  private def getMeta(obj: AmfObject): String = {
+    obj match {
+      case _: Shape => AnyShapeModel.`type`.head.iri()
+      case _        => obj.metaURIs.head
+    }
+  }
 
   private def buildSymbol(name: String, elements: Seq[AmfObject]): Option[DocumentSymbol] = {
     val children: List[DocumentSymbol] = elements
@@ -45,7 +51,7 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
     }
   }
 
-  protected def declarationName(obj: AmfObject): String = terms.getOrElse(obj.metaURIs.head, "unknowns")
+  protected def declarationName(obj: AmfObject): String = terms.getOrElse(getMeta(obj), "unknowns")
 
   override def build(): Seq[DocumentSymbol] = {
     groupedDeclarations.flatMap { case (name, elements) => buildSymbol(name, elements) }.toSeq

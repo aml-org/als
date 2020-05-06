@@ -3,9 +3,12 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.builders
 import amf.core.annotations.SourceAST
 import amf.core.metamodel.domain.{DomainElementModel, LinkableElementModel}
 import amf.core.model.domain.AmfObject
+import amf.plugins.document.webapi.annotations.InlineDefinition
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import org.yaml.model.YMapEntry
+
+import scala.collection.immutable
 
 trait AmfObjectSimpleBuilderCompanion[DM <: AmfObject]
     extends SymbolBuilderCompanion[DM]
@@ -27,6 +30,9 @@ trait AmfObjectSymbolBuilder[DM <: AmfObject] extends SymbolBuilder[DM] {
       })
 
   protected def children: List[DocumentSymbol] =
+    if (element.annotations.contains(classOf[InlineDefinition])) Nil else elementChildrens
+
+  private def elementChildrens: List[DocumentSymbol] =
     element.fields
       .fields()
       .filterNot(fe => ignoreFields.contains(fe.field))
