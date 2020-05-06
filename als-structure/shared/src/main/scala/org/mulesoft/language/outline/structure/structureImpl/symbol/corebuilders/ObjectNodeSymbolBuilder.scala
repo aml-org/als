@@ -53,6 +53,8 @@ class ObjectNodeSymbolBuilder(override val element: ObjectNode)(override implici
       }
       .toSeq
   }
+
+  override protected val selectionRange: Option[PositionRange] = None
 }
 
 object ObjectNodeSymbolBuilder extends AmfObjectSimpleBuilderCompanion[ObjectNode] {

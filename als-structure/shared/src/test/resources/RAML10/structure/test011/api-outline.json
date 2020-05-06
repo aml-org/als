@@ -6,21 +6,21 @@
     "range": {
       "start": {
         "line": 1,
-        "character": 7
+        "character": 0
       },
       "end": {
-        "line": 1,
-        "character": 24
+        "line": 2,
+        "character": 0
       }
     },
     "selectionRange": {
       "start": {
         "line": 1,
-        "character": 7
+        "character": 0
       },
       "end": {
-        "line": 1,
-        "character": 24
+        "line": 2,
+        "character": 0
       }
     },
     "children": []
@@ -150,34 +150,7 @@
                     "character": 0
                   }
                 },
-                "children": [
-                  {
-                    "name": "inherits",
-                    "kind": 7,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 11,
-                        "character": 8
-                      },
-                      "end": {
-                        "line": 12,
-                        "character": 0
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 11,
-                        "character": 8
-                      },
-                      "end": {
-                        "line": 12,
-                        "character": 0
-                      }
-                    },
-                    "children": []
-                  }
-                ]
+                "children": []
               }
             ]
           }

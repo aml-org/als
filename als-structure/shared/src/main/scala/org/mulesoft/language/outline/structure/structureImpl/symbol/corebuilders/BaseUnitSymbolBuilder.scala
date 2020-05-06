@@ -2,6 +2,7 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 
 import amf.core.metamodel.document.BaseUnitModel
 import amf.core.model.document.BaseUnit
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
   AmfObjectSymbolBuilder,
@@ -21,4 +22,6 @@ object BaseUnitSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[Ba
 class BaseUnitSymbolBuilder(override val element: BaseUnit)(override implicit val ctx: StructureContext)
     extends AmfObjectSymbolBuilder[BaseUnit] {
   override def build(): Seq[DocumentSymbol] = children
+
+  override protected val selectionRange: Option[PositionRange] = None
 }

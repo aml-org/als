@@ -1,14 +1,15 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
 import amf.core.metamodel.document.DocumentModel
+import amf.core.metamodel.domain.ShapeModel
 import amf.core.parser.FieldEntry
-import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
+import amf.plugins.domain.webapi.metamodel.WebApiModel
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldSymbolBuilder,
   IriFieldSymbolBuilderCompanion,
   SymbolBuilder
 }
-import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 trait IgnoreFieldSymbolBuilderCompanion extends IriFieldSymbolBuilderCompanion {
   override protected def construct(element: FieldEntry)(
@@ -24,4 +25,16 @@ object IgnoreFieldSymbolBuilder extends FieldSymbolBuilder {
 
 object ReferencesFieldSymbolBuilderCompanion extends IgnoreFieldSymbolBuilderCompanion {
   override val supportedIri: String = DocumentModel.References.value.iri()
+}
+
+object ContentTypeIgnoredFieldBuilderCompanion extends IgnoreFieldSymbolBuilderCompanion {
+  override val supportedIri: String = WebApiModel.ContentType.value.iri()
+}
+
+object AcceptsIgnoredFieldBuilderCompanion extends IgnoreFieldSymbolBuilderCompanion {
+  override val supportedIri: String = WebApiModel.Accepts.value.iri()
+}
+
+object ShapeInheritsArrayFieldBuilderCompanion extends IgnoreFieldSymbolBuilderCompanion {
+  override val supportedIri: String = ShapeModel.Inherits.value.iri()
 }
