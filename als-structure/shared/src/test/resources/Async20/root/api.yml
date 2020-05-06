@@ -2,3 +2,7 @@ asyncapi: 2.0.0
 info:
   title: t1
   version: 1.0.0
+  contact:
+    name: c
+  license:
+    name: l

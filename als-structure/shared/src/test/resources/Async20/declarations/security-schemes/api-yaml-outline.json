@@ -1,0 +1,55 @@
+[
+  {
+    "name": "unknowns",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 4
+      },
+      "end": {
+        "line": 4,
+        "character": 24
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 4
+      },
+      "end": {
+        "line": 3,
+        "character": 6
+      }
+    },
+    "children": [
+      {
+        "name": "ss",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 4
+          },
+          "end": {
+            "line": 4,
+            "character": 24
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 3,
+            "character": 4
+          },
+          "end": {
+            "line": 3,
+            "character": 6
+          }
+        },
+        "children": []
+      }
+    ]
+  }
+]
