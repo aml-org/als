@@ -7,7 +7,7 @@ import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, Property
 import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
-import amf.core.remote.{Oas, Oas30, Raml, Raml08}
+import amf.core.remote._
 import amf.core.vocabulary.Namespace.XsdTypes
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.DialectInstance
@@ -17,12 +17,14 @@ import amf.plugins.domain.shapes.models.ScalarShape
 import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
 import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfmanager.dialect.webapi.oas.{Oas20DialectWrapper, Oas30DialectWrapper}
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.AmlBuilderFactory
 import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{
+  Async20BuilderFactory,
   Oas20BuilderFactory,
   Oas30BuilderFactory,
   RamlBuilderFactory
@@ -34,11 +36,12 @@ class StructureBuilder(unit: BaseUnit) {
   private val contextBuilder = new StructureContextBuilder(unit)
 
   private def populateBuilder(): Unit = unit.sourceVendor match {
-    case Some(Raml08)  => contextBuilder.withDialect(Raml08TypesDialect()).withFactory(RamlBuilderFactory)
-    case Some(_: Raml) => contextBuilder.withDialect(Raml10TypesDialect()).withFactory(RamlBuilderFactory)
-    case Some(Oas30)   => contextBuilder.withDialect(Oas30DialectWrapper()).withFactory(Oas30BuilderFactory)
-    case Some(_: Oas)  => contextBuilder.withDialect(Oas20DialectWrapper.dialect).withFactory(Oas20BuilderFactory)
-    case _             => amlBuilder
+    case Some(Raml08)     => contextBuilder.withDialect(Raml08TypesDialect()).withFactory(RamlBuilderFactory)
+    case Some(_: Raml)    => contextBuilder.withDialect(Raml10TypesDialect()).withFactory(RamlBuilderFactory)
+    case Some(Oas30)      => contextBuilder.withDialect(Oas30DialectWrapper()).withFactory(Oas30BuilderFactory)
+    case Some(_: Oas)     => contextBuilder.withDialect(Oas20DialectWrapper.dialect).withFactory(Oas20BuilderFactory)
+    case Some(AsyncApi20) => contextBuilder.withDialect(AsyncApi20Dialect()).withFactory(Async20BuilderFactory)
+    case _                => amlBuilder
   }
 
   private def amlBuilder = {
