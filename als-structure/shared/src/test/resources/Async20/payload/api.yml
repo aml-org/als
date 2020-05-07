@@ -1,0 +1,9 @@
+asyncapi: 2.0.0
+channels:
+  /ch:
+    publish:
+        message:
+            payload:
+                type: boolean
+                examples:
+                    - true
