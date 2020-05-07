@@ -9,7 +9,5 @@ case class AnonymousObjectSymbolBuilder(override val element: AmfObject)(overrid
     extends AnonymousObjectSymbolBuilderTrait[AmfObject] {}
 
 trait AnonymousObjectSymbolBuilderTrait[T <: AmfObject] extends AmfObjectSymbolBuilder[T] {
-  override def build(): Seq[DocumentSymbol] = children
-
-  override protected val selectionRange: Option[PositionRange] = range
+  override protected val optionName: Option[String] = None
 }

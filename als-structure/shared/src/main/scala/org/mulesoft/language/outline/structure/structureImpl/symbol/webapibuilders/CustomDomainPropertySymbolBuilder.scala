@@ -13,7 +13,7 @@ import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, St
 class CustomDomainPropertySymbolBuilder(override val element: CustomDomainProperty)(
     override implicit val ctx: StructureContext)
     extends NamedElementSymbolBuilderTrait[CustomDomainProperty] {
-  override protected def children: List[DocumentSymbol] = Nil
+  override protected val children: List[DocumentSymbol] = Nil
 }
 
 object CustomDomainPropertySymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[CustomDomainProperty] {

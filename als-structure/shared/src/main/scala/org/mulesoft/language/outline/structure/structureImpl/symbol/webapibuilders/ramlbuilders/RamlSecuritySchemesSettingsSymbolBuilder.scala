@@ -15,11 +15,10 @@ import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, St
 class RamlSecuritySchemesSettingsSymbolBuilder(override val element: Settings)(
     override implicit val ctx: StructureContext)
     extends StructuredSymbolBuilder[Settings] {
-  override protected val name: String = "settings"
-  override protected val selectionRange: Option[PositionRange] =
-    element.annotations.find(classOf[LexicalInformation]).map(_.range).map(PositionRange.apply)
 
-  override protected def children: List[DocumentSymbol] = Nil
+  override protected val children: List[DocumentSymbol] = Nil
+
+  override protected val optionName: Option[String] = Some("settings")
 }
 
 object RamlSecuritySchemesSettingsSymbolBuilder extends AmfObjectSimpleBuilderCompanion[Settings] {

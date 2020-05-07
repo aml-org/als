@@ -14,14 +14,14 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 class PropertyShapeSymbolBuilder(override val element: PropertyShape)(override implicit val ctx: StructureContext)
     extends NamedElementSymbolBuilderTrait[PropertyShape] {
 
-  private val buildRange: Boolean = element.range match {
+  private def buildRange: Boolean = element.range match {
     case n: AnyShape if n.linkTarget.isDefined => false
     case n: NodeShape                          => n.properties.nonEmpty
     case _: ArrayShape                         => true
     case _: UnionShape                         => true
     case _                                     => false
   }
-  override val ignoreFields: List[Field] =
+  override def ignoreFields: List[Field] =
     if (buildRange) super.ignoreFields else PropertyShapeModel.Range +: super.ignoreFields
 }
 

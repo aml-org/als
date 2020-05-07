@@ -7,7 +7,7 @@ import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, St
 case class RamlEndPointSymbolBuilder(actual: EndPoint, all: Seq[EndPoint])(override implicit val ctx: StructureContext)
     extends EndPointSymbolBuilder(actual)(ctx) {
 
-  override def children: List[DocumentSymbol] =
+  override protected val children: List[DocumentSymbol] =
     super.children ++ all
       .collect({ case e: EndPoint if e.parent.contains(actual) => RamlEndPointSymbolBuilder(e, all)(ctx) })
       .flatMap(_.build())

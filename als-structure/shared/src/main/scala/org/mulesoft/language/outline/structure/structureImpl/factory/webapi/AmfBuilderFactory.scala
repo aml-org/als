@@ -16,6 +16,18 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilde
   RequestArrayFieldSymbolBuilderCompanion,
   WebApiEncodesFieldSymbolBuilderCompanion
 }
+import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields.{
+  ContactFieldSymbolBuilderCompanion,
+  DefaultWebApiArrayFieldTypeSymbolBuilderCompanion,
+  DefaultWebApiScalarTypeSymbolBuilderCompanion,
+  ExampleArrayFieldCompanion,
+  LicenseFieldSymbolBuilderCompanion,
+  OperationsArrayFieldBuilderCompanion,
+  PayloadsArrayFieldBuilderCompanion,
+  RequestArrayFieldSymbolBuilderCompanion,
+  TagsArrayFieldSymbolBuilderCompanion,
+  WebApiEncodesFieldSymbolBuilderCompanion
+}
 
 trait AmfBuilderFactory extends BuilderFactory {
 
@@ -47,5 +59,7 @@ trait AmfBuilderFactory extends BuilderFactory {
       RequestArrayFieldSymbolBuilderCompanion +
       ShapeInheritsArrayFieldBuilderCompanion +
       ExampleArrayFieldCompanion +
-      PayloadFieldSymbolCompanion
+      TagsArrayFieldSymbolBuilderCompanion +
+      ProtocolsArrayFieldBuilderCompanion
+  PayloadFieldSymbolCompanion
 }

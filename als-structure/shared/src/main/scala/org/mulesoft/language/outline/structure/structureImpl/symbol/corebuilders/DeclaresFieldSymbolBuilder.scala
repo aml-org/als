@@ -53,6 +53,7 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
 
   override def build(): Seq[DocumentSymbol] =
     groupedDeclarations.flatMap { case (name, elements) => buildSymbol(name, elements) }.toSeq
+  override protected val optionName: Option[String] = None
 }
 
 object DeclaresFieldSymbolBuilderCompanion

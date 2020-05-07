@@ -2,24 +2,23 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 
 import amf.core.annotations.LexicalInformation
 import amf.core.model.domain.AmfArray
-import amf.core.parser.FieldEntry
+import amf.core.parser.{FieldEntry, Range}
 import amf.plugins.domain.webapi.metamodel.ResponseModel
 import amf.plugins.domain.webapi.models.Payload
-import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, StructureContext}
+import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
-import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{FieldTypeSymbolBuilder, IriFieldSymbolBuilderCompanion}
-
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  FieldTypeSymbolBuilder,
+  IriFieldSymbolBuilderCompanion
+}
+import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
 case class PayloadsArrayFieldBuilder(firstPayload: Payload,
                                      override val value: AmfArray,
-                                     override val element: FieldEntry)(override implicit val ctx:StructureContext)
+                                     override val element: FieldEntry)(override implicit val ctx: StructureContext)
     extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
 
-  override def range: PositionRange =
-    firstPayload.annotations
-      .find(classOf[LexicalInformation])
-      .map(le => PositionRange(le.range))
-      .getOrElse(super.range)
+  override protected def range: Option[Range] =
+    firstPayload.annotations.range().orElse(super.range)
 }
 
 object PayloadsArrayFieldBuilderCompanion
@@ -33,9 +32,9 @@ object PayloadsArrayFieldBuilderCompanion
   }
 
   private def firstPayload(arr: AmfArray): Option[Payload] = {
-    arr.values match {
-      case (single: Payload) :: Nil => Some(single)
-      case _                        => None
+    arr.values.headOption match {
+      case Some(single: Payload) if arr.values.size == 1 => Some(single)
+      case _                                             => None
     }
   }
 }

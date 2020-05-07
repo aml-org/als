@@ -1,23 +1,14 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.builders
 
-import amf.core.annotations.LexicalInformation
 import amf.core.model.domain.AmfElement
-import amf.core.parser.FieldEntry
-import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, StructureContext}
-
+import amf.core.parser.{FieldEntry, Range}
+import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 trait FieldTypeSymbolBuilder[ElementType <: AmfElement] extends FieldSymbolBuilder {
   val value: ElementType
 
-  protected def range: PositionRange =
-    PositionRange(
-      element.value.annotations
-        .find(classOf[LexicalInformation])
-        .map(l => l.range)
-        .orElse(value.annotations
-          .find(classOf[LexicalInformation])
-          .map(l => l.range))
-        .getOrElse(amf.core.parser.Range.NONE))
+  override protected def range: Option[Range] =
+    element.value.annotations.range().orElse(value.annotations.range())
 }
 
 trait FieldTypeSymbolBuilderCompanion[ElementType <: AmfElement] extends FieldSymbolBuilderCompanion {

@@ -11,7 +11,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
-import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext, SymbolKind}
 
 class EncodesFieldSymbolBuilder(override val value: AmfObject, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
@@ -20,6 +20,9 @@ class EncodesFieldSymbolBuilder(override val value: AmfObject, override val elem
   protected val inner: AnonymousObjectSymbolBuilder = AnonymousObjectSymbolBuilder(value)
 
   override def build(): Seq[DocumentSymbol] = inner.build()
+
+  override protected val optionName: Option[String]     = None
+  override protected val children: List[DocumentSymbol] = Nil
 }
 
 object EncodesFieldSymbolBuilderCompanion

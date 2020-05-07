@@ -54,7 +54,9 @@ class ObjectNodeSymbolBuilder(override val element: ObjectNode)(override implici
       .toSeq
   }
 
-  override protected val selectionRange: Option[PositionRange] = None
+  override protected val optionName: Option[String] = None
+
+  override protected val kind: SymbolKind.SymbolKind = SymbolKind.Property
 }
 
 object ObjectNodeSymbolBuilder extends AmfObjectSimpleBuilderCompanion[ObjectNode] {
