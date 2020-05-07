@@ -4,6 +4,8 @@ import scala.collection.mutable
 import scala.util.matching.Regex
 
 trait RuntimeExpressionParser extends RuntimeParsingToken {
+  override val rx: Regex = "" r
+
   lazy val completeStack: Seq[RuntimeParsingToken] = {
     val aux: mutable.ListBuffer[RuntimeParsingToken] = mutable.ListBuffer()
     var token: Option[RuntimeParsingToken]           = Some(this)
@@ -42,7 +44,7 @@ trait RuntimeParsingToken {
 
   def nodeIsValid: Boolean = {
     value match {
-      case rx(e) => true
+      case rx(_) => true
       case _     => false
     }
   }

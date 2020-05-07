@@ -10,6 +10,10 @@ class YamlStructureTest extends BaseStructureTest {
     forDir("root")
   }
 
+  test("test payload") {
+    forDir("payload")
+  }
+
   test("test channel") {
     forDir("channel")
   }

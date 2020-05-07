@@ -63,8 +63,9 @@ class PayloadFieldSymbolBuilder(override val element: FieldEntry, override val v
   protected def bodySymbols: Option[DocumentSymbol] =
     buildForKey("Body Parameters", body.flatMap(b => ctx.factory.builderFor(b)).flatMap(_.build()).toList)
 
+  protected val payloadsLabel = "payloads"
   protected def payloadSymbols: Option[DocumentSymbol] =
-    buildForKey("payloads", realPayloads.flatMap(p => ctx.factory.builderFor(p)).flatMap(_.build()).toList)
+    buildForKey(payloadsLabel, realPayloads.flatMap(p => ctx.factory.builderFor(p)).flatMap(_.build()).toList)
 
   override def build(): Seq[DocumentSymbol] = formDataSymbols.toSeq ++ bodySymbols ++ payloadSymbols
 
