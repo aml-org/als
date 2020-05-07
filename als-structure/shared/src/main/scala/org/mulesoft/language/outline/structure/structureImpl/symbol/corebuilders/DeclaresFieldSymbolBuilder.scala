@@ -1,7 +1,6 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
 import amf.core.metamodel.document.DocumentModel
-import amf.core.metamodel.domain.ShapeModel
 import amf.core.model.domain.{AmfArray, AmfObject, Shape}
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.shapes.metamodel.AnyShapeModel
@@ -26,12 +25,11 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
     .collect({ case obj: AmfObject if obj.location().contains(ctx.location) => obj })
     .groupBy(declarationName)
 
-  private def getMeta(obj: AmfObject): String = {
+  private def getMeta(obj: AmfObject): String =
     obj match {
       case _: Shape => AnyShapeModel.`type`.head.iri()
       case _        => obj.metaURIs.head
     }
-  }
 
   private def buildSymbol(name: String, elements: Seq[AmfObject]): Option[DocumentSymbol] = {
     val children: List[DocumentSymbol] = elements
@@ -51,11 +49,10 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
     }
   }
 
-  protected def declarationName(obj: AmfObject): String = terms.getOrElse(getMeta(obj), "unknowns")
+  protected def declarationName(obj: AmfObject): String = terms.getOrElse(getMeta(obj), "unknown")
 
-  override def build(): Seq[DocumentSymbol] = {
+  override def build(): Seq[DocumentSymbol] =
     groupedDeclarations.flatMap { case (name, elements) => buildSymbol(name, elements) }.toSeq
-  }
 }
 
 object DeclaresFieldSymbolBuilderCompanion
