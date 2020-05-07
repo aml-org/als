@@ -6,6 +6,7 @@ import amf.plugins.document.webapi.annotations.{BodyParameter, FormBodyParameter
 import amf.plugins.domain.shapes.models.NodeShape
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, ParametersFieldModel}
 import amf.plugins.domain.webapi.models.{Parameter, Payload}
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
   ArrayFieldTypeSymbolBuilder,
@@ -15,23 +16,25 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
+import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ParameterBindingLabelMapper
 
 class PayloadFieldSymbolBuilder(override val element: FieldEntry, override val value: AmfArray)(
     override implicit val ctx: StructureContext)
     extends ArrayFieldTypeSymbolBuilder {
 
   private def buildForKey(key: String, sons: List[DocumentSymbol]): Option[DocumentSymbol] = {
-    if (sons.nonEmpty)
+    if (sons.nonEmpty) {
+      val r: PositionRange = range.map(PositionRange(_)).getOrElse(sons.head.range)
       Some(
         DocumentSymbol(
           key,
           KindForResultMatcher.kindForField(ParametersFieldModel.QueryParameters),
           deprecated = false,
-          range,
-          range,
+          r,
+          r,
           sons
         ))
-    else None
+    } else None
   }
 
   private val payloads: Seq[Payload] = value.values.collect({ case p: Payload => p })
@@ -52,7 +55,7 @@ class PayloadFieldSymbolBuilder(override val element: FieldEntry, override val v
 
   protected def formDataSymbols: Option[DocumentSymbol] =
     buildForKey(
-      "Form Data Parameters",
+      ParameterBindingLabelMapper.toLabel("formData"),
       formData
         .flatMap(f => ctx.factory.builderFor(f))
         .flatMap(_.build())
@@ -61,14 +64,16 @@ class PayloadFieldSymbolBuilder(override val element: FieldEntry, override val v
     )
 
   protected def bodySymbols: Option[DocumentSymbol] =
-    buildForKey("Body Parameters", body.flatMap(b => ctx.factory.builderFor(b)).flatMap(_.build()).toList)
+    buildForKey(ParameterBindingLabelMapper.toLabel("body"),
+                body.flatMap(b => ctx.factory.builderFor(b)).flatMap(_.build()).toList)
 
-  protected val payloadsLabel = "payloads"
+  protected val payloadsLabel = "Payloads"
   protected def payloadSymbols: Option[DocumentSymbol] =
     buildForKey(payloadsLabel, realPayloads.flatMap(p => ctx.factory.builderFor(p)).flatMap(_.build()).toList)
 
   override def build(): Seq[DocumentSymbol] = formDataSymbols.toSeq ++ bodySymbols ++ payloadSymbols
 
+  override protected val optionName: Option[String] = None
 }
 
 object PayloadFieldSymbolCompanion extends ArrayFieldTypeSymbolBuilderCompanion with IriFieldSymbolBuilderCompanion {

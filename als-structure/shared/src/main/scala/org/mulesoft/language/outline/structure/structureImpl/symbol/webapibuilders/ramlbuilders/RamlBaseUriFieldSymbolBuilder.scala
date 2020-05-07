@@ -26,7 +26,7 @@ class RamlBaseUriFieldSymbolBuilder(override val value: AmfArray, override val e
   override def build(): Seq[DocumentSymbol]          = if (value.values.nonEmpty) super.build() else Nil
 
   override protected val children: List[DocumentSymbol] = Nil
-  override protected def name: String                   = "baseUri"
+  override protected val name: String                   = "baseUri"
 }
 
 object RamlBaseUriFieldSymbolBuilderCompanion

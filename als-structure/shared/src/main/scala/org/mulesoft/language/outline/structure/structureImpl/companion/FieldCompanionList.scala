@@ -55,6 +55,9 @@ class FieldCompanionList(
           override implicit val ctx: StructureContext = ctx
 
           override def build(): Seq[DocumentSymbol] = b.build()
+
+          override protected val optionName: Option[String]     = None
+          override protected val children: List[DocumentSymbol] = Nil
         }
         builder
       }

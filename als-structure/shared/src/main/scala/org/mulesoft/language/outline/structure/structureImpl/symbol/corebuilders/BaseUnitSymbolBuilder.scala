@@ -8,7 +8,12 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSymbolBuilder,
   SymbolBuilder
 }
-import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, StructureContext}
+import org.mulesoft.language.outline.structure.structureImpl.{
+  BuilderFactory,
+  DocumentSymbol,
+  StructureContext,
+  SymbolKind
+}
 
 object BaseUnitSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[BaseUnit] {
   override val supportedIri: String = BaseUnitModel.`type`.head.iri()
@@ -21,7 +26,5 @@ object BaseUnitSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[Ba
 
 class BaseUnitSymbolBuilder(override val element: BaseUnit)(override implicit val ctx: StructureContext)
     extends AmfObjectSymbolBuilder[BaseUnit] {
-  override def build(): Seq[DocumentSymbol] = children
-
-  override protected val selectionRange: Option[PositionRange] = None
+  override protected val optionName: Option[String] = None
 }

@@ -16,7 +16,9 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fie
 class ShapeInheritsSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
     extends ArrayFieldTypeSymbolBuilder {
-  override def build(): Seq[DocumentSymbol] = Nil
+  override protected val children: List[DocumentSymbol] = Nil
+
+  override protected val optionName: Option[String] = None
 }
 
 object ShapeInheritsSymbolBuilder extends ArrayFieldTypeSymbolBuilderCompanion with IriFieldSymbolBuilderCompanion {

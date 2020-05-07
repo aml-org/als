@@ -4,6 +4,7 @@ import amf.core.annotations.{BasePathLexicalInformation, HostLexicalInformation}
 import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.{ServerModel, WebApiModel}
+import amf.plugins.domain.webapi.models.Server
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
@@ -28,11 +29,12 @@ object OasBaseUrlFieldSymbolBuilderCompanion
 class OasBaseUrlFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
     extends ArrayFieldTypeSymbolBuilder {
-  private val default = value.values.headOption
-  def build(): Seq[DocumentSymbol] = {
+  private val default = value.values.collectFirst({ case s: Server => s })
+  override def build(): Seq[DocumentSymbol] = {
     default
-      .map { server =>
-        val basePath = server.annotations.find(classOf[BasePathLexicalInformation]).map { a =>
+      .flatMap(_.fields.getValueAsOption(ServerModel.Url))
+      .map { value =>
+        val basePath = value.annotations.find(classOf[BasePathLexicalInformation]).map { a =>
           val range = PositionRange(a.range)
           DocumentSymbol("basePath",
                          KindForResultMatcher.kindForField(ServerModel.Url),
@@ -42,7 +44,7 @@ class OasBaseUrlFieldSymbolBuilder(override val value: AmfArray, override val el
                          Nil)
         }
 
-        val host = server.annotations.find(classOf[HostLexicalInformation]).map { a =>
+        val host = value.annotations.find(classOf[HostLexicalInformation]).map { a =>
           val range = PositionRange(a.range)
           DocumentSymbol("host",
                          KindForResultMatcher.kindForField(ServerModel.Url),
@@ -56,4 +58,6 @@ class OasBaseUrlFieldSymbolBuilder(override val value: AmfArray, override val el
       }
       .getOrElse(Nil)
   }
+
+  override protected val optionName: Option[String] = None
 }

@@ -13,25 +13,27 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   StructuredSymbolBuilder,
   SymbolBuilder
 }
+import amf.core.parser.Range
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 class PayloadSymbolBuilder(override val element: Payload)(implicit val ctx: StructureContext)
     extends StructuredSymbolBuilder[Payload] {
   override def ignoreFields: List[Field] = super.ignoreFields :+ PayloadModel.Schema
 
-  override protected def children: List[DocumentSymbol] =
+  override protected val children: List[DocumentSymbol] =
     super.children ++
       Option(element.schema)
         .flatMap(s => ctx.factory.builderFor(s))
         .map(bs => bs.build().flatMap(_.children))
         .getOrElse(Nil)
 
-  override protected val name: String = element.mediaType.option().orElse(element.name.option()).getOrElse("payload")
-  override protected val selectionRange: Option[PositionRange] =
+  override protected val optionName: Option[String] =
+    element.mediaType.option().orElse(element.name.option()).orElse(Some("payload"))
+  override protected val selectionRange: Option[Range] =
     element.mediaType
       .annotations()
       .find(classOf[LexicalInformation])
       .orElse(element.name.annotations().find(classOf[LexicalInformation]))
-      .map(_.range.toPositionRange)
+      .map(_.range)
 
   override def build(): Seq[DocumentSymbol] = {
     if (element.annotations.contains(classOf[DefaultPayload])) children

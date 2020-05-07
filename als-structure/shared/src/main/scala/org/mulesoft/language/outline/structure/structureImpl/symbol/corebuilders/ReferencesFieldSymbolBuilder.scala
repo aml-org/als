@@ -2,6 +2,7 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 
 import amf.core.metamodel.document.DocumentModel
 import amf.core.metamodel.domain.ShapeModel
+import amf.core.parser
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.WebApiModel
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
@@ -9,7 +10,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   IriFieldSymbolBuilderCompanion,
   SymbolBuilder
 }
-import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext, SymbolKind}
 
 trait IgnoreFieldSymbolBuilderCompanion extends IriFieldSymbolBuilderCompanion {
   override protected def construct(element: FieldEntry)(
@@ -21,6 +22,11 @@ object IgnoreFieldSymbolBuilder extends FieldSymbolBuilder {
   override val element: FieldEntry          = null
   override val ctx: StructureContext        = null
   override def build(): Seq[DocumentSymbol] = Nil
+
+  override protected val optionName: Option[String]     = None
+  override protected val children: List[DocumentSymbol] = Nil
+  override protected val kind: SymbolKind.SymbolKind    = SymbolKind.Property
+  override protected val range: Option[parser.Range]    = None
 }
 
 object ReferencesFieldSymbolBuilderCompanion extends IgnoreFieldSymbolBuilderCompanion {
@@ -37,4 +43,8 @@ object AcceptsIgnoredFieldBuilderCompanion extends IgnoreFieldSymbolBuilderCompa
 
 object ShapeInheritsArrayFieldBuilderCompanion extends IgnoreFieldSymbolBuilderCompanion {
   override val supportedIri: String = ShapeModel.Inherits.value.iri()
+}
+
+object ProtocolsArrayFieldBuilderCompanion extends IgnoreFieldSymbolBuilderCompanion {
+  override val supportedIri: String = WebApiModel.Schemes.value.iri()
 }

@@ -11,8 +11,9 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
+import amf.core.parser.Range
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
-
+import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
 class RequestArrayFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
     extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
@@ -22,13 +23,7 @@ class RequestArrayFieldSymbolBuilder(override val value: AmfArray, override val 
   override protected val children: List[DocumentSymbol] =
     first.flatMap(o => ctx.factory.builderFor(o).map(_.build())).getOrElse(Nil).toList
 
-  override protected def range: PositionRange =
-    PositionRange(
-      first
-        .flatMap(_.annotations
-          .find(classOf[LexicalInformation]))
-        .map(l => l.range)
-        .getOrElse(amf.core.parser.Range.NONE))
+  override protected val range: Option[Range] = first.flatMap(_.annotations.range())
 }
 
 object RequestArrayFieldSymbolBuilderCompanion
