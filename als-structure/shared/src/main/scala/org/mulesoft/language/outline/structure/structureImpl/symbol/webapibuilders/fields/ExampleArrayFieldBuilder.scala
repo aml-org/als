@@ -1,6 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields
 
+import amf.core.annotations.LexicalInformation
 import amf.core.model.domain.AmfArray
+import amf.core.parser
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.shapes.metamodel.ExampleModel
 import amf.plugins.domain.shapes.metamodel.common.ExamplesField
@@ -11,12 +13,16 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
+import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
 
 case class ExampleArrayFieldBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
     extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
 
   override protected val name: String = if (isSingleExample(element)) "example" else "examples"
+
+  override protected def range: Option[parser.Range] =
+    super.range.orElse(value.values.headOption.flatMap(_.annotations.range()))
 
   private def isSingleExample(fe: FieldEntry) = fe.array.values.exists {
     case head: Example => head.name.isNullOrEmpty && !hasMediaType(head)

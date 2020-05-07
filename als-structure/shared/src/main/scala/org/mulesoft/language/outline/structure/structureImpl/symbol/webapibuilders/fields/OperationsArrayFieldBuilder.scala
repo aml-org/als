@@ -16,7 +16,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 class OperationsArrayFieldBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
     extends ArrayFieldTypeSymbolBuilder {
-  override def build(): Seq[DocumentSymbol] = children
+  override protected val optionName: Option[String] = None
 }
 
 object OperationsArrayFieldBuilderCompanion

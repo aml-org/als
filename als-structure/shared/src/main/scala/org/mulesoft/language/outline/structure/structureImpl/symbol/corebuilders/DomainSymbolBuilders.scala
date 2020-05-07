@@ -18,9 +18,9 @@ class DomainElementSymbolBuilder(override val element: DomainElement, entryAst: 
     override implicit val ctx: StructureContext)
     extends StructuredSymbolBuilder[DomainElement] {
 
-  val (name, selectionRange) =
-    (entryAst.key.asScalar.map(_.text).getOrElse(entryAst.key.value.toString),
-     Some(PositionRange(AmfRange(entryAst.key.range))))
+  override protected val optionName: Option[String] =
+    entryAst.key.asScalar.map(_.text).orElse(entryAst.key.asScalar.map(_.text))
+  override protected val selectionRange: Option[AmfRange] = Some(AmfRange(entryAst.key.range))
 }
 
 object DomainElementSymbolBuilder extends AmfObjectSimpleBuilderCompanion[DomainElement] {
@@ -55,11 +55,12 @@ object NamedElementSymbolBuilder extends AmfObjectSimpleBuilderCompanion[NamedDo
 
 trait NamedElementSymbolBuilderTrait[T <: NamedDomainElement] extends StructuredSymbolBuilder[T] {
 
-  override protected val name: String = element.name.option().getOrElse("")
-  override protected val selectionRange: Option[PositionRange] = element.name
+  override protected val optionName: Option[String] = element.name.option()
+
+  override protected val selectionRange: Option[AmfRange] = element.name
     .annotations()
     .find(classOf[LexicalInformation])
-    .map(l => PositionRange(l.range))
+    .map(l => l.range)
     .orElse(range)
 }
 

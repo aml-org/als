@@ -4,6 +4,7 @@ import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.ParametersFieldModel
 import amf.plugins.domain.webapi.models.Parameter
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
@@ -18,10 +19,14 @@ class ArrayParametersSymbolBuilder(override val value: AmfArray, override val el
     implicit val ctx: StructureContext)
     extends ArrayFieldTypeSymbolBuilder {
   override def build(): Seq[DocumentSymbol] = {
-    new ParametersSymbolBuilder(value.values.collect({ case p: Parameter => p }), range, Some(element.field))
+    new ParametersSymbolBuilder(value.values.collect({ case p: Parameter => p }),
+                                range.map(PositionRange(_)),
+                                Some(element.field))
       .build()
       .toSeq
   }
+
+  override protected val optionName: Option[String] = None
 }
 
 object HeadersSymbolBuilder extends ArrayFieldTypeSymbolBuilderCompanion with IriFieldSymbolBuilderCompanion {

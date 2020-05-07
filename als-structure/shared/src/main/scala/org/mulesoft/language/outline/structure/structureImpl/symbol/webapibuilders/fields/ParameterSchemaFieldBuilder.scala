@@ -3,7 +3,6 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.ParameterModel
-import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
   ObjectFieldTypeSymbolBuilder,
   ObjectFieldTypeSymbolBuilderCompanion
@@ -13,7 +12,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
-import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, StructureContext}
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 class ParameterSchemaFieldBuilder(override val value: AmfObject, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
@@ -23,11 +22,12 @@ class ParameterSchemaFieldBuilder(override val value: AmfObject, override val el
     override val element: AmfObject             = value
     override implicit val ctx: StructureContext = ctx
 
-    override def build(): Seq[DocumentSymbol] = children
-
-    override protected val selectionRange: Option[PositionRange] = range
+    override protected val optionName: Option[String] = None
   }
   override def build(): Seq[DocumentSymbol] = inner.build()
+
+  override protected val optionName: Option[String]     = None
+  override protected val children: List[DocumentSymbol] = Nil
 }
 
 object ParameterSchemaFieldBuilderCompanion

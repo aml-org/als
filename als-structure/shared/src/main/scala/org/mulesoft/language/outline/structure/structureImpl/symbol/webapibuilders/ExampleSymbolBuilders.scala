@@ -3,17 +3,18 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 import amf.core.model.domain.AmfElement
 import amf.plugins.domain.shapes.metamodel.ExampleModel
 import amf.plugins.domain.shapes.models.Example
-import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
-  OptionalNameSymbolBuilder,
+  AmfObjectSymbolBuilder,
   SymbolBuilder
 }
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 class ExampleSymbolBuilders(override val element: Example)(override implicit val ctx: StructureContext)
-    extends OptionalNameSymbolBuilder[Example] {
+    extends AmfObjectSymbolBuilder[Example] {
+  override protected val children: List[DocumentSymbol] = Nil
 
-  override protected def optionName: Option[String] = element.name.option().orElse(element.mediaType.option())
+  override protected val optionName: Option[String] = element.name.option().orElse(element.mediaType.option())
 }
 
 object ExampleSymbolBuilders extends AmfObjectSimpleBuilderCompanion[Example] {

@@ -5,8 +5,14 @@ import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.WebApiModel
 import amf.plugins.domain.webapi.models.EndPoint
 import org.mulesoft.language.outline.structure.structureImpl._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{FieldTypeSymbolBuilder, IriFieldSymbolBuilderCompanion}
-import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{ArrayFieldTypeSymbolBuilder, ArrayFieldTypeSymbolBuilderCompanion}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  FieldTypeSymbolBuilder,
+  IriFieldSymbolBuilderCompanion
+}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
+  ArrayFieldTypeSymbolBuilder,
+  ArrayFieldTypeSymbolBuilderCompanion
+}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ramlbuilders.RamlEndPointSymbolBuilder
 
 object EndPointFieldBuilderCompanion extends IriFieldSymbolBuilderCompanion with ArrayFieldTypeSymbolBuilderCompanion {
@@ -19,7 +25,7 @@ object EndPointFieldBuilderCompanion extends IriFieldSymbolBuilderCompanion with
 }
 
 class EndPointFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx:StructureContext)
+    override implicit val ctx: StructureContext)
     extends ArrayFieldTypeSymbolBuilder {
 
   override def build(): Seq[DocumentSymbol] = {
@@ -32,4 +38,6 @@ class EndPointFieldSymbolBuilder(override val value: AmfArray, override val elem
       })
       .flatMap(_.build())
   }
+
+  override protected val optionName: Option[String] = None
 }

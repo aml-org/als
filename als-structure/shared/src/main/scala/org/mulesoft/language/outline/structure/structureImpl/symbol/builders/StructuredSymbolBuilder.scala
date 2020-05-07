@@ -9,11 +9,4 @@ import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, Ki
   *
   * @tparam T
   */
-trait StructuredSymbolBuilder[T <: AmfObject] extends AmfObjectSymbolBuilder[T] {
-
-  protected val name: String
-
-  override def build(): Seq[DocumentSymbol] =
-    if (name.isEmpty) Nil
-    else build(name)
-}
+trait StructuredSymbolBuilder[T <: AmfObject] extends AmfObjectSymbolBuilder[T] {}

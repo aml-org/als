@@ -1,6 +1,7 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders
 
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
