@@ -22,7 +22,7 @@ class PayloadFieldSymbolBuilder(override val element: FieldEntry, override val v
     override implicit val ctx: StructureContext)
     extends ArrayFieldTypeSymbolBuilder {
 
-  private def buildForKey(key: String, sons: List[DocumentSymbol]): Option[DocumentSymbol] = {
+  protected def buildForKey(key: String, sons: List[DocumentSymbol]): Option[DocumentSymbol] =
     if (sons.nonEmpty) {
       val r: PositionRange = range.map(PositionRange(_)).getOrElse(sons.head.range)
       Some(
@@ -35,7 +35,6 @@ class PayloadFieldSymbolBuilder(override val element: FieldEntry, override val v
           sons
         ))
     } else None
-  }
 
   private val payloads: Seq[Payload] = value.values.collect({ case p: Payload => p })
 
