@@ -44,7 +44,7 @@ object AsyncPayloadFieldSymbolCompanion
     extends ArrayFieldTypeSymbolBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
   override val supportedIri
-    : String = EndPointModel.Payloads.value.iri() // same than RequestModel.Payload Apicontract.Payload
+    : String = EndPointModel.Payloads.value.iri() // same as RequestModel.Payload APIContract.Payload
 
   override def construct(element: FieldEntry, value: AmfArray)(
       implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =

@@ -1,17 +1,16 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields
 
-import amf.core.annotations.LexicalInformation
 import amf.core.model.domain.AmfArray
 import amf.core.parser.{FieldEntry, Range}
 import amf.plugins.domain.webapi.metamodel.ResponseModel
 import amf.plugins.domain.webapi.models.Payload
+import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
-import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
 case class PayloadsArrayFieldBuilder(firstPayload: Payload,
                                      override val value: AmfArray,
                                      override val element: FieldEntry)(override implicit val ctx: StructureContext)
