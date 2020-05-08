@@ -8,6 +8,7 @@ import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.patched.{PatchedSuggestion, PatchedSuggestionsForDialect}
+import org.mulesoft.amfmanager.AmfImplicits._
 
 import scala.concurrent.Future
 
@@ -66,7 +67,7 @@ trait AbstractKnownValueCompletionPlugin extends AMLCompletionPlugin {
       case Some(fe)
           if params.yPartBranch.isKey || params.propertyMapping
             .exists(_.nodePropertyMapping().value() == fe.field.value.iri()) =>
-        innerResolver(params, fe.field, params.amfObject.meta.`type`.head.iri())
+        innerResolver(params, fe.field, params.amfObject.metaURIs.head)
       case _ => emptySuggestion
     }
 

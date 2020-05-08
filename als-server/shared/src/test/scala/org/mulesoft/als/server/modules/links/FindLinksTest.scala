@@ -22,7 +22,7 @@ trait FindLinksTest extends LanguageServerBaseTest {
 
     val managers =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager)
+    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, managers.resolutionTaskManager)
       .addRequestModule(managers.documentLinksManager)
       .build()
   }

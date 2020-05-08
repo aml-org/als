@@ -5,6 +5,7 @@ import amf.plugins.domain.webapi.metamodel.ParameterModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiKnownValueCompletionPlugin
+import org.mulesoft.amfmanager.AmfImplicits._
 
 import scala.concurrent.Future
 
@@ -20,10 +21,10 @@ object Raml08KnownValueCompletionPlugin extends WebApiKnownValueCompletionPlugin
     isScalarShape(params) && isInParams(params)
 
   private def isScalarShape(params: AmlCompletionRequest) =
-    params.amfObject.meta.`type`.headOption.map(_.iri()).contains(ScalarShapeModel.`type`.head.iri())
+    params.amfObject.metaURIs.headOption.contains(ScalarShapeModel.`type`.head.iri())
 
   private def isInParams(params: AmlCompletionRequest) = {
-    params.branchStack.headOption.exists(_.meta.`type`.headOption.exists(_.iri() == ParameterModel.`type`.head.iri()))
+    params.branchStack.headOption.exists(_.metaURIs.headOption.exists(_ == ParameterModel.`type`.head.iri()))
   }
 
   override protected def isHeader(params: AmlCompletionRequest): Boolean =

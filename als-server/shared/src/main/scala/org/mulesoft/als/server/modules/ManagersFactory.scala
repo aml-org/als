@@ -4,41 +4,32 @@ import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
-import org.mulesoft.als.server.{RequestModule, SerializationProps}
+import org.mulesoft.als.server.SerializationProps
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.actions.{
-  DocumentLinksManager,
-  FindReferenceManager,
-  GoToDefinitionManager,
-  GoToImplementationManager,
-  GoToTypeDefinitionManager
-}
-import org.mulesoft.als.server.modules.ast.BaseUnitListener
+import org.mulesoft.als.server.modules.actions._
+import org.mulesoft.als.server.modules.ast.{AccessUnits, BaseUnitListener, ResolvedUnitListener}
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
-import org.mulesoft.als.server.modules.diagnostic.{
-  ALL_TOGETHER,
-  CleanDiagnosticTreeManager,
-  DiagnosticManager,
-  DiagnosticNotificationsKind
-}
+import org.mulesoft.als.server.modules.diagnostic._
 import org.mulesoft.als.server.modules.serialization.{ConversionManager, SerializationManager}
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
-import org.mulesoft.als.server.modules.workspace.FilesInProjectManager
+import org.mulesoft.als.server.modules.workspace.resolution.ResolutionTaskManager
+import org.mulesoft.als.server.modules.workspace.{CompilableUnit, FilesInProjectManager}
 import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfintegration.{AmfInstance, AmfResolvedUnit}
 
 import scala.collection.mutable.ListBuffer
 
-class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Logger) extends PlatformSecrets {
+class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Logger, env: Environment = Environment())
+    extends PlatformSecrets {
 
   private var amfConfig: AmfInstance                        = AmfInstance.default
   private var notificationKind: DiagnosticNotificationsKind = ALL_TOGETHER
   private var givenPlatform                                 = platform
-  private var environment                                   = Environment()
-  private var directoryResolver: DirectoryResolver          = new PlatformDirectoryResolver(platform)
+  private var directoryResolver: DirectoryResolver =
+    new PlatformDirectoryResolver(platform)
 
   def withAmfConfiguration(amfConfig: AmfInstance): WorkspaceManagerFactoryBuilder = {
     this.amfConfig = amfConfig
@@ -55,30 +46,32 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
     this
   }
 
-  def withEnvironment(environment: Environment): WorkspaceManagerFactoryBuilder = {
-    this.environment = environment
-    this
-  }
-
   def withDirectoryResolver(directoryResolver: DirectoryResolver): WorkspaceManagerFactoryBuilder = {
     this.directoryResolver = directoryResolver
     this
   }
   private val projectDependencies: ListBuffer[BaseUnitListener] = ListBuffer()
+  private val resolutionDependencies: ListBuffer[ResolvedUnitListener] =
+    ListBuffer()
 
-  val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
+  val telemetryManager: TelemetryManager =
+    new TelemetryManager(clientNotifier, logger)
 
   def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
     val s = new SerializationManager(amfConfig, sp, logger)
-    projectDependencies += s
+    resolutionDependencies += s
     s
   }
 
-  def diagnosticManager(): DiagnosticManager = {
-    val dm = new DiagnosticManager(telemetryManager, clientNotifier, logger, notificationKind)
+  def diagnosticManager(): Seq[DiagnosticManager] = {
+    val gatherer = new ValidationGatherer(telemetryManager)
+    val dm       = new ParseDiagnosticManager(telemetryManager, clientNotifier, logger, env, gatherer, notificationKind)
+    val rdm      = new ResolutionDiagnosticManager(telemetryManager, clientNotifier, logger, env, gatherer)
+    resolutionDependencies += rdm
     projectDependencies += dm
-    dm
+    Seq(dm, rdm)
   }
+
   def filesInProjectManager(alsClientNotifier: AlsClientNotifier[_]): FilesInProjectManager = {
     val fip = new FilesInProjectManager(alsClientNotifier)
     projectDependencies += fip
@@ -87,8 +80,9 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
 
   def buildWorkspaceManagerFactory(): WorkspaceManagerFactory =
     WorkspaceManagerFactory(projectDependencies.toList,
+                            resolutionDependencies.toList,
                             telemetryManager,
-                            environment,
+                            env,
                             platform,
                             directoryResolver,
                             logger,
@@ -96,25 +90,50 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
 }
 
 case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
+                                   resolutionDependencies: List[ResolvedUnitListener],
                                    telemetryManager: TelemetryManager,
                                    environment: Environment,
                                    platform: Platform,
                                    directoryResolver: DirectoryResolver,
                                    logger: Logger,
                                    amfConfiguration: AmfInstance) {
-  val container: TextDocumentContainer = TextDocumentContainer(environment, platform, amfConfiguration)
+  val container: TextDocumentContainer =
+    TextDocumentContainer(environment, platform, amfConfiguration)
 
   val cleanDiagnosticManager = new CleanDiagnosticTreeManager(container, logger)
 
-  val workspaceManager: WorkspaceManager =
-    new WorkspaceManager(container, telemetryManager, projectDependencies, logger)
+  val resolutionTaskManager = new ResolutionTaskManager(
+    telemetryManager,
+    container,
+    resolutionDependencies,
+    resolutionDependencies.collect {
+      case t: AccessUnits[AmfResolvedUnit] =>
+        t // is this being used? is it correct to mix subscribers with this dependencies?
+    }
+  )
 
-  lazy val documentManager = new TextDocumentManager(container, List(workspaceManager), logger)
+  private val dependencies: List[BaseUnitListener] = projectDependencies :+ resolutionTaskManager
+
+  val workspaceManager: WorkspaceManager =
+    new WorkspaceManager(
+      container,
+      telemetryManager,
+      dependencies,
+      dependencies.collect {
+        case t: AccessUnits[CompilableUnit] =>
+          t // is this being used? is it correct to mix subscribers with this dependencies?
+      },
+      logger
+    )
+
+  lazy val documentManager =
+    new TextDocumentManager(container, List(workspaceManager), logger)
 
   lazy val completionManager =
     new SuggestionsManager(container, workspaceManager, telemetryManager, directoryResolver, logger)
 
-  lazy val structureManager = new StructureManager(workspaceManager, telemetryManager, logger)
+  lazy val structureManager =
+    new StructureManager(workspaceManager, telemetryManager, logger)
 
   lazy val definitionManager =
     new GoToDefinitionManager(workspaceManager, platform, telemetryManager, logger)
@@ -131,12 +150,14 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
   lazy val documentLinksManager =
     new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
 
-  lazy val conversionManager = new ConversionManager(workspaceManager, amfConfiguration, logger)
+  lazy val conversionManager =
+    new ConversionManager(workspaceManager, amfConfiguration, logger)
 
-  lazy val serializationManager: Option[SerializationManager[_]] = projectDependencies.collectFirst({
-    case s: SerializationManager[_] => {
-      s.withUnitAccessor(workspaceManager)
-      s
-    }
-  })
+  lazy val serializationManager: Option[SerializationManager[_]] =
+    resolutionDependencies.collectFirst({
+      case s: SerializationManager[_] => {
+        s.withUnitAccessor(resolutionTaskManager) // is this redundant with the initialization of workspace manager?
+        s
+      }
+    })
 }

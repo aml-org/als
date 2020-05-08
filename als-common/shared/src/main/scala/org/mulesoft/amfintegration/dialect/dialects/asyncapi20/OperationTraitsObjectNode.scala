@@ -49,4 +49,6 @@ trait OperationAbstractObjectNode extends DialectNode{
 
 object OperationTraitsObjectNode extends OperationAbstractObjectNode{
   override def name: String = "OperationTraitsObjectNode"
+
+  override def isAbstract: Boolean = true
 }

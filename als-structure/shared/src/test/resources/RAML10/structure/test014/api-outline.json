@@ -126,32 +126,6 @@
                 },
                 "children": [
                   {
-                    "name": "inherits",
-                    "kind": 7,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 17,
-                        "character": 6
-                      },
-                      "end": {
-                        "line": 18,
-                        "character": 0
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 17,
-                        "character": 6
-                      },
-                      "end": {
-                        "line": 18,
-                        "character": 0
-                      }
-                    },
-                    "children": []
-                  },
-                  {
                     "name": "examples",
                     "kind": 7,
                     "deprecated": false,

@@ -1,30 +1,17 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
-import amf.core.annotations.LexicalInformation
 import amf.core.metamodel.Field
 import amf.core.metamodel.domain.ShapeModel
 import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.model.domain.{AmfArray, AmfElement}
 import amf.core.model.domain.extensions.PropertyShape
+import amf.core.model.domain.{AmfArray, AmfElement}
 import amf.plugins.domain.shapes.models.{AnyShape, ArrayShape, NodeShape, UnionShape}
 import org.mulesoft.language.outline.structure.structureImpl._
-import amf.core.parser.{Range => AmfRange}
-import org.mulesoft.als.common.dtoTypes.PositionRange
 
 class ShapeInheritsSymbolBuilder(element: AmfArray)(override implicit val factory: BuilderFactory)
     extends ElementSymbolBuilder[AmfArray] {
 
-  private val range: PositionRange = PositionRange(
-    element.values.head.annotations
-      .find(classOf[LexicalInformation])
-      .map(l => l.range)
-      .getOrElse(AmfRange.NONE)) + PositionRange(
-    element.values.last.annotations
-      .find(classOf[LexicalInformation])
-      .map(l => l.range)
-      .getOrElse(AmfRange.NONE))
-  override def build(): Seq[DocumentSymbol] =
-    Seq(DocumentSymbol("inherits", SymbolKind.Array, deprecated = false, range, range, Nil))
+  override def build(): Seq[DocumentSymbol] = Seq.empty // cuts nesting
 }
 
 object ShapeInheritsSymbolBuilder extends ElementSymbolBuilderCompanion {

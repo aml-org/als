@@ -3,6 +3,7 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 import amf.core.annotations.LexicalInformation
 import amf.core.metamodel.Field
 import amf.core.metamodel.Type.{ArrayLike, Scalar}
+import amf.core.metamodel.domain.ShapeModel
 import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.{RequestModel, WebApiModel}
@@ -21,7 +22,8 @@ abstract class FieldArrayBuilder(override implicit val factory: BuilderFactory) 
     RequestModel.QueryParameters,
     RequestModel.QueryString,
     RequestModel.UriParameters,
-    RequestModel.Headers
+    RequestModel.Headers,
+    ShapeModel.Inherits
   )
 
   override def applies(fe: FieldEntry): Boolean =

@@ -26,7 +26,7 @@ class ReferenceTest extends ServerReferencesTest {
       Set(
         Location(
           "file://als-server/shared/src/test/resources/actions/reference/files/oas-anchor/api.yaml",
-          LspRangeConverter.toLspRange(PositionRange(Position(16, 10), Position(17, 38)))
+          LspRangeConverter.toLspRange(PositionRange(Position(17, 18), Position(17, 38)))
         )
       )
     )

@@ -71,3 +71,8 @@ trait LabeledExpressionToken extends RuntimeParsingToken {
 trait BaseLabeledExpressionToken extends LabeledExpressionToken {
   override val followedBy: Seq[String => RuntimeParsingToken] = Nil
 }
+
+trait WithoutConstraint extends RuntimeParsingToken {
+  override val rx: Regex                                      = "(.+)" r
+  override val followedBy: Seq[String => RuntimeParsingToken] = Nil
+}

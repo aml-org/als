@@ -225,34 +225,7 @@
                                 "character": 0
                               }
                             },
-                            "children": [
-                              {
-                                "name": "inherits",
-                                "kind": 7,
-                                "deprecated": false,
-                                "range": {
-                                  "start": {
-                                    "line": 40,
-                                    "character": 14
-                                  },
-                                  "end": {
-                                    "line": 41,
-                                    "character": 0
-                                  }
-                                },
-                                "selectionRange": {
-                                  "start": {
-                                    "line": 40,
-                                    "character": 14
-                                  },
-                                  "end": {
-                                    "line": 41,
-                                    "character": 0
-                                  }
-                                },
-                                "children": []
-                              }
-                            ]
+                            "children": []
                           },
                           {
                             "name": "application/xml",
@@ -607,32 +580,6 @@
         },
         "children": [
           {
-            "name": "inherits",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 19,
-                "character": 4
-              },
-              "end": {
-                "line": 20,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 19,
-                "character": 4
-              },
-              "end": {
-                "line": 20,
-                "character": 0
-              }
-            },
-            "children": []
-          },
-          {
             "name": "properties",
             "kind": 7,
             "deprecated": false,
@@ -739,32 +686,6 @@
         },
         "children": [
           {
-            "name": "inherits",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 24,
-                "character": 4
-              },
-              "end": {
-                "line": 25,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 24,
-                "character": 4
-              },
-              "end": {
-                "line": 25,
-                "character": 0
-              }
-            },
-            "children": []
-          },
-          {
             "name": "properties",
             "kind": 7,
             "deprecated": false,
@@ -844,32 +765,6 @@
           }
         },
         "children": [
-          {
-            "name": "inherits",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 29,
-                "character": 4
-              },
-              "end": {
-                "line": 30,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 29,
-                "character": 4
-              },
-              "end": {
-                "line": 30,
-                "character": 0
-              }
-            },
-            "children": []
-          },
           {
             "name": "properties",
             "kind": 7,

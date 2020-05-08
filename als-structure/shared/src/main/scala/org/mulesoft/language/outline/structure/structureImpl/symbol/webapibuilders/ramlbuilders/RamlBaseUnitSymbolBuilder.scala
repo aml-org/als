@@ -19,7 +19,7 @@ class RamlBaseUnitSymbolBuilder(element: BaseUnit)(override implicit val factory
     case TraitModel                => "traits"
     case SecuritySchemeModel       => "securitySchemes"
     case CustomDomainPropertyModel => "annotationTypes"
-    case _                         => "unknowns"
+    case _                         => "unknown"
   }
 }
 

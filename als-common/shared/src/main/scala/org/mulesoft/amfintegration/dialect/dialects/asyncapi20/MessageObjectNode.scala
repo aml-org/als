@@ -17,7 +17,7 @@ object MessageObjectNode extends MessageAbstractObjectNode {
       .withId(location + "#/declarations/Message/traits")
       .withName("traits")
       .withNodePropertyMapping(MessageModel.Extends.value.iri()) // ???
-      .withLiteralRange(xsdString.iri()) // ???
+      .withObjectRange(Seq(MessageTraitsObjectNode.id))
       .withAllowMultiple(true)
   )
 }

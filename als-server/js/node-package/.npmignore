@@ -1,3 +1,7 @@
+# Directories
 scripts/
 tmp/
 node_modules/
+
+# Files
+webpack.config.js

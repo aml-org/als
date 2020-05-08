@@ -4,10 +4,8 @@ import amf.core.vocabulary.Namespace.XsdTypes.xsdString
 import amf.dialects.oas.nodes.{AMLExternalDocumentationObject, AMLTagObject, DialectNode}
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.{MessageModel, PayloadModel}
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.{
-  MessageBindingObjectNode,
-  MessageBindingsObjectNode
-}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.MessageBindingsObjectNode
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.BaseShapeAsync2Node
 
 trait MessageAbstractObjectNode extends DialectNode {
   override def nodeTypeMapping: String = MessageModel.`type`.head.iri()
@@ -32,7 +30,7 @@ trait MessageAbstractObjectNode extends DialectNode {
       .withId(location + "#/declarations/Message/headers")
       .withName("headers")
       .withNodePropertyMapping(MessageModel.Headers.value.iri())
-      .withObjectRange(Seq()), // todo: schema async2 id
+      .withObjectRange(Seq(BaseShapeAsync2Node.id)), // todo: schema async2 id
     PropertyMapping()
       .withId(location + "#/declarations/Message/correlationId")
       .withName("correlationId")
@@ -90,4 +88,6 @@ trait MessageAbstractObjectNode extends DialectNode {
 
 object MessageTraitsObjectNode extends MessageAbstractObjectNode {
   override def name: String = "MessageTraitsObjectNode"
+
+  override def isAbstract: Boolean = true
 }

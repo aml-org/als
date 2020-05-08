@@ -6,6 +6,7 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{PlainText, RawSuggestion, SuggestionStructure}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.amfmanager.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -34,9 +35,10 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   private def isDeclarable(params: AmlCompletionRequest): Boolean =
     isObjectDeclarable(params) && !params.amfObject.elementIdentifier().contains(params.yPartBranch.stringValue)
 
-  protected def isObjectDeclarable(params: AmlCompletionRequest): Boolean =
-    params.amfObject.meta.`type`
-      .exists(v => params.declarationProvider.isTermDeclarable(v.iri()))
+  protected def isObjectDeclarable(params: AmlCompletionRequest): Boolean = {
+    params.amfObject.metaURIs
+      .exists(v => params.declarationProvider.isTermDeclarable(v))
+  }
 
   def getSuggestion(params: AmlCompletionRequest, style: Option[String]): Seq[RawSuggestion] = {
     style match {

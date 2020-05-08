@@ -12,6 +12,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.{AMLRamlStyleDeclarationsReferences, BooleanSuggestions}
 import org.yaml.model.YMapEntry
+import org.mulesoft.amfmanager.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -25,7 +26,7 @@ trait ShapeDeclarationReferenceCompletionPlugin extends AMLCompletionPlugin with
           val iri =
             if (s.annotations.contains(classOf[SynthesizedField]) || params.yPartBranch.isEmptyNode)
               ShapeModel.`type`.head.iri()
-            else s.meta.`type`.head.iri()
+            else s.metaURIs.head
           val declaredSuggestions = new AMLRamlStyleDeclarationsReferences(Seq(iri),
                                                                            params.prefix,
                                                                            params.declarationProvider,
