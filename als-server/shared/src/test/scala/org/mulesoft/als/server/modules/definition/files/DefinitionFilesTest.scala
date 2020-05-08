@@ -28,7 +28,7 @@ class DefinitionFilesTest extends ServerDefinitionTest {
           "file://als-server/shared/src/test/resources/actions/definition/files/oas-anchor/api.yaml",
           LspRangeConverter.toLspRange(PositionRange(Position(6, 7), Position(11, 0))),
           LspRangeConverter.toLspRange(PositionRange(Position(6, 7), Position(11, 0))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(16, 10), Position(17, 38))))
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(17, 18), Position(17, 38))))
         )
       )
     )

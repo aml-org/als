@@ -1,11 +1,9 @@
 package org.mulesoft.als.server.modules.ast
 
-import org.mulesoft.als.server.modules.workspace.DiagnosticsBundle
-import org.mulesoft.als.server.workspace.UnitRepositoriesManager
-import org.mulesoft.amfintegration.AmfResolvedUnit
+import org.mulesoft.als.server.modules.workspace.CompilableUnit
+import org.mulesoft.als.server.workspace.UnitAccessor
+import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
 import org.mulesoft.amfmanager.AmfParseResult
-
-import scala.concurrent.Future
 
 /**
   * AST listener
@@ -20,21 +18,24 @@ trait AstListener[T] {
     */
   def onNewAst(ast: T, uuid: String): Unit
 
-  def onRemoveFile(uri: String): Unit
+  def isActive: Boolean = true
 
-  def withUnitAccessor(unitAccesor: UnitRepositoriesManager): AstListener[T] = {
-    this.unitAccessor = Some(unitAccesor)
+  def onRemoveFile(uri: String): Unit
+}
+
+trait AccessUnits[T] {
+  def withUnitAccessor(unitAccessor: UnitAccessor[T]): AccessUnits[T] = {
+    this.unitAccessor = Some(unitAccessor)
     this
   }
-
-  protected var unitAccessor: Option[UnitRepositoriesManager] = None
+  protected var unitAccessor: Option[UnitAccessor[T]] = None
 }
 
 case class BaseUnitListenerParams(parseResult: AmfParseResult,
                                   diagnosticsBundle: Map[String, DiagnosticsBundle],
-                                  resolvedUnit: () => Future[AmfResolvedUnit])
+                                  tree: Boolean)
 
-trait BaseUnitListener extends AstListener[BaseUnitListenerParams]
+trait BaseUnitListener extends AstListener[BaseUnitListenerParams] with AccessUnits[CompilableUnit]
 
 trait TextListener {
 

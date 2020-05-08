@@ -8,6 +8,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.yaml.model.YMapEntry
+import org.mulesoft.amfmanager.AmfImplicits._
 
 import scala.concurrent.Future
 
@@ -38,7 +39,7 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
       .encoded()
       .option()
       .flatMap(id => dialect.declares.collectFirst({ case n: NodeMapping if id == n.id => n }))
-      .exists(i => amfObject.meta.`type`.exists(_.iri() == i.nodetypeMapping.value()))
+      .exists(i => amfObject.metaURIs.contains(i.nodetypeMapping.value()))
 
   private def buildDeclaredKeys(dialect: Dialect) = {
     dialect

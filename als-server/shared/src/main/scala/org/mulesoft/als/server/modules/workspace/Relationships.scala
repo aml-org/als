@@ -8,11 +8,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 private[workspace] object Relationships {
-  def apply(repository: Repository, fcu: () => Option[Future[CompilableUnit]]): Relationships =
+  def apply(repository: WorkspaceParserRepository, fcu: () => Option[Future[CompilableUnit]]): Relationships =
     new Relationships(repository, fcu)
 }
 
-class Relationships private (private val repository: Repository, fcu: () => Option[Future[CompilableUnit]]) {
+class Relationships private (private val repository: WorkspaceParserRepository,
+                             fcu: () => Option[Future[CompilableUnit]]) {
 
   private def getVisitorResult[T](uri: String)(fromTree: () => Seq[T],
                                                fallBack: AmfElementVisitors => Seq[T]): Future[Seq[T]] = {
@@ -31,12 +32,12 @@ class Relationships private (private val repository: Repository, fcu: () => Opti
   }
 
   def getDocumentLinks(uri: String): Future[Seq[DocumentLink]] =
-    getVisitorResult(uri)(() => repository.getDocumentLinks().getOrElse(uri, Nil),
+    getVisitorResult(uri)(() => repository.documentLinks().getOrElse(uri, Nil),
                           visitors => visitors.getDocumentLinksFromVisitors.getOrElse(uri, Nil))
 
   def getAliases(uri: String): Future[Seq[AliasInfo]] =
-    getVisitorResult(uri)(repository.getAliases, visitors => visitors.getAliasesFromVisitors)
+    getVisitorResult(uri)(repository.aliases, visitors => visitors.getAliasesFromVisitors)
 
   def getRelationships(uri: String): Future[Seq[RelationshipLink]] =
-    getVisitorResult(uri)(repository.getRelationships, visitors => visitors.getRelationshipsFromVisitors)
+    getVisitorResult(uri)(repository.relationships, visitors => visitors.getRelationshipsFromVisitors)
 }

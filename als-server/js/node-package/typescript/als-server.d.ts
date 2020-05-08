@@ -2064,6 +2064,11 @@ declare module '@mulesoft/als-server' {
     model: any
   }
 
+  export class DiagnosticNotificationsKind {
+    static readonly parsingBefore: 'PARSING_BEFORE'
+    static readonly allTogether: 'ALL_TOGETHER'
+  }
+
   export interface AlsClientNotifier{
     notifyProjectFiles(params: FilesInProjectParams): void
     notifySerialization(params: SerializationResult): void
@@ -2085,7 +2090,11 @@ declare module '@mulesoft/als-server' {
     fromLoaders(clientNotifier: ClientNotifier,
                 serializationProps: JsSerializationProps,
                 clientLoaders?: resource.ResourceLoader[],
-                clientDirResolver?: ClientDirectoryResolver): LanguageServer
+                clientDirResolver?: ClientDirectoryResolver,
+                logger?: ClientLogger,
+                withDiagnostics?: boolean,
+                notificationKind?: DiagnosticNotificationsKind,
+                amfPlugins?: client.plugins.ClientAMFPayloadValidationPlugin[]): LanguageServer
   }
 
   export interface ClientLogger extends VsCodeLogger {}

@@ -1,19 +1,24 @@
 package org.mulesoft.amfintegration
 
+import amf.Core.platform
+import amf.client.convert.CoreRegister
 import amf.client.plugins.AMFPlugin
 import amf.core.AMF
 import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
+import amf.plugins.document.{Vocabularies, WebApi}
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.document.webapi.{Async20Plugin, Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
+import amf.plugins.features.AMFValidation
 import amf.plugins.features.validation.AMFValidatorPlugin
 import org.mulesoft.als.{CompilerEnvironment, ModelBuilder}
 import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
-import scala.concurrent.ExecutionContext.Implicits.global
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 // todo: move to another module
 class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Environment)
@@ -28,14 +33,11 @@ class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Envi
     initialization match {
       case Some(f) => f
       case _ =>
-        amf.core.AMF.registerPlugin(AMLPlugin)
-        amf.core.AMF.registerPlugin(Raml10Plugin)
-        amf.core.AMF.registerPlugin(Raml08Plugin)
-        amf.core.AMF.registerPlugin(Oas20Plugin)
-        amf.core.AMF.registerPlugin(Oas30Plugin)
-        amf.core.AMF.registerPlugin(Async20Plugin)
-        amf.core.AMF.registerPlugin(AMFValidatorPlugin)
-        amf.core.AMF.registerPlugin(PayloadValidatorPlugin)
+        WebApi.register(platform.defaultExecutionEnvironment)
+        Vocabularies.register()
+        AMFValidation.register()
+        amf.Core.registerPlugin(PayloadValidatorPlugin)
+        CoreRegister.register(platform)
         plugins.foreach(amf.core.AMF.registerPlugin)
         val f = AMF.init()
         initialization = Some(f)

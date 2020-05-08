@@ -6,7 +6,6 @@ import amf.client.plugins.AMFPlugin
 import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.{Environment => InternalEnvironment}
-import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.configuration.{ClientDirectoryResolver, DirectoryResolverAdapter}
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
@@ -15,9 +14,9 @@ import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, 
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{EmptyJvmSerializationProps, JvmSerializationProps, LanguageServerBuilder}
 import org.mulesoft.amfintegration.AmfInstance
-import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.collection.JavaConverters._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 // todo: standarize in one only converter (js and jvm) with generics
 class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecrets {
@@ -72,9 +71,8 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
   }
 
   def build(): LanguageServer = {
-    val factory = new WorkspaceManagerFactoryBuilder(clientNotifier, logger)
+    val factory = new WorkspaceManagerFactoryBuilder(clientNotifier, logger, environment)
       .withAmfConfiguration(new AmfInstance(amfPlugins.asScala, platform, environment))
-      .withEnvironment(environment)
 
     directoryResolver.foreach(cdr => factory.withDirectoryResolver(DirectoryResolverAdapter.convert(cdr)))
     factory.withNotificationKind(notificationsKind) // move to initialization param
@@ -83,9 +81,9 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
     val builders = factory.buildWorkspaceManagerFactory()
 
     val languageBuilder =
-      new LanguageServerBuilder(builders.documentManager, builders.workspaceManager)
+      new LanguageServerBuilder(builders.documentManager, builders.workspaceManager, builders.resolutionTaskManager)
         .addInitializable(builders.workspaceManager)
-        .addInitializableModule(dm)
+        .addInitializable(builders.resolutionTaskManager)
         .addInitializableModule(sm)
         .addRequestModule(builders.cleanDiagnosticManager)
         .addRequestModule(builders.conversionManager)
@@ -97,6 +95,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
         .addRequestModule(builders.referenceManager)
         .addRequestModule(builders.documentLinksManager)
         .addInitializable(builders.telemetryManager)
+    dm.foreach(languageBuilder.addInitializableModule)
     builders.serializationManager.foreach(languageBuilder.addRequestModule)
     languageBuilder.build()
   }

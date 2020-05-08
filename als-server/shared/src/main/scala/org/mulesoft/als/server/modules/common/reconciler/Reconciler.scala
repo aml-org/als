@@ -19,31 +19,26 @@ class Reconciler(logger: Logger,
   private var waitingList: ListBuffer[Runnable[Any]] = ListBuffer[Runnable[Any]]()
   private var runningList: ListBuffer[Runnable[Any]] = ListBuffer[Runnable[Any]]()
 
-  def shedule[ResultType](runnable: Runnable[ResultType]): Promise[ResultType] = {
-    var result = Promise[ResultType]()
+  def schedule[ResultType](runnable: Runnable[ResultType]): Promise[ResultType] = {
+    val result = Promise[ResultType]()
 
     addToWaitingList(runnable)
 
     setTimeout(
       () => {
-        if (runnable.isCanceled()) {
+        if (runnable.isCanceled())
           removeFromWaitingList(runnable)
-        } else {
+        else
           findConflictingInRunningList(runnable) match {
-            case Some(found) => shedule(runnable)
-
-            case _ => {
+            case Some(_) => schedule(runnable)
+            case _ =>
               removeFromWaitingList(runnable)
-
               addToRunningList(runnable)
-
               run(runnable).future.andThen {
                 case Success(value) => result.success(value)
                 case Failure(error) => result.failure(error)
               }
-            }
           }
-        }
       },
       timeout
     )
@@ -52,55 +47,44 @@ class Reconciler(logger: Logger,
   }
 
   private def run[ResultType](runnable: Runnable[ResultType]): Promise[ResultType] = {
-    var result = Promise[ResultType]()
-
+    val result = Promise[ResultType]()
     runnable.run().future.andThen {
       case Success(success) => {
         removeFromRunningList(runnable)
-
         result.success(success)
       }
-
       case Failure(error) => {
         removeFromRunningList(runnable)
-
         result.failure(error)
       }
     }
-
     result
   }
 
   private def addToWaitingList[ResultType](runnable: Runnable[ResultType]) {
-    waitingList = waitingList.filter(current => {
-      var conflicts = runnable.conflicts(current)
-
-      if (conflicts) {
-        current.cancel()
-      }
-
-      !conflicts
-    })
-
-    waitingList += runnable.asInstanceOf[Runnable[Any]]
+    if (!waitingList.contains(runnable)) {
+      waitingList = waitingList.filterNot(current => {
+        val conflicts = runnable.conflicts(current)
+        if (conflicts) current.cancel()
+        conflicts
+      })
+      waitingList += runnable.asInstanceOf[Runnable[Any]]
+    } else
+      logger.debug("Adding to waiting list element that's already there", "Reconciler", "addToWaitingList")
   }
 
   private def addToRunningList[ResultType](runnable: Runnable[ResultType]) {
-    runningList += runnable.asInstanceOf[Runnable[Any]]
+    synchronized(runningList += runnable.asInstanceOf[Runnable[Any]])
   }
 
   private def removeFromWaitingList[ResultType](runnable: Runnable[ResultType]) {
-    if (waitingList.contains(runnable)) {
-      waitingList -= runnable.asInstanceOf[Runnable[Any]]
-    }
+    synchronized(waitingList = waitingList.filterNot(_.eq(runnable)))
   }
 
   private def removeFromRunningList[ResultType](runnable: Runnable[ResultType]) {
-    if (runningList.contains(runnable)) {
-      runningList -= runnable.asInstanceOf[Runnable[Any]]
-    }
+    synchronized(runningList = runningList.filterNot(_.eq(runnable)))
   }
 
   private def findConflictingInRunningList[ResultType](runnable: Runnable[ResultType]): Option[Runnable[ResultType]] =
-    runningList.find(runnable.conflicts(_)).asInstanceOf[Option[Runnable[ResultType]]]
+    runningList.find(runnable.conflicts).asInstanceOf[Option[Runnable[ResultType]]]
 }

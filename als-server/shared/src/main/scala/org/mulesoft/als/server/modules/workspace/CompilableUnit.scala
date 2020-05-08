@@ -2,21 +2,17 @@ package org.mulesoft.als.server.modules.workspace
 
 import amf.core.model.document.BaseUnit
 import org.mulesoft.als.common.dtoTypes.ReferenceStack
+import org.mulesoft.amfintegration.UnitWithNextReference
 
 import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
 
 case class CompilableUnit(uri: String,
                           unit: BaseUnit,
                           mainFile: Option[String],
-                          next: Option[Future[CompilableUnit]],
                           stack: Seq[ReferenceStack],
-                          isDirty: Boolean = false) {
-
-  def getLast: Future[CompilableUnit] = {
-    next match {
-      case Some(f) => f.flatMap(cu => cu.getLast)
-      case _       => Future.successful(this)
-    }
-  }
+                          isDirty: Boolean = false,
+                          private val n: Option[Future[CompilableUnit]])
+    extends UnitWithNextReference {
+  override protected type T = CompilableUnit
+  override def next: Option[Future[T]] = n
 }

@@ -60,6 +60,36 @@
     "command": null
   },
   {
+    "label": "double-slash.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11double-slash.raml",
+    "filterText": "double-slash.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 27
+        },
+        "end": {
+          "line": 5,
+          "character": 27
+        }
+      },
+      "newText": "double-slash.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "expected/",
     "kind": [],
     "detail": "unknown",

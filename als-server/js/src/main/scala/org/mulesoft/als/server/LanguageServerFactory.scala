@@ -30,7 +30,7 @@ object LanguageServerFactory {
                   clientDirResolver: ClientDirectoryResolver = EmptyJsDirectoryResolver,
                   logger: Logger = PrintLnLogger,
                   withDiagnostics: Boolean = true,
-                  notificationKind: Option[DiagnosticNotificationsKind] = None,
+                  notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined,
                   amfPlugins: js.Array[ClientAMFPayloadValidationPlugin] = js.Array.apply()): LanguageServer = {
     fromSystemConfig(clientNotifier,
                      serializationProps,
@@ -47,38 +47,38 @@ object LanguageServerFactory {
                        plugins: js.Array[ClientAMFPayloadValidationPlugin] = js.Array(),
                        logger: Logger = PrintLnLogger,
                        withDiagnostics: Boolean = true,
-                       notificationKind: Option[DiagnosticNotificationsKind] = None): LanguageServer = {
+                       notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined): LanguageServer = {
 
-    val builders = new WorkspaceManagerFactoryBuilder(clientNotifier, logger)
+    val builders = new WorkspaceManagerFactoryBuilder(clientNotifier, logger, jsServerSystemConf.environment)
       .withAmfConfiguration(
         new AmfInstance(plugins.toSeq.map(ClientPayloadPluginConverter.convert),
                         jsServerSystemConf.platform,
                         jsServerSystemConf.environment))
-      .withEnvironment(jsServerSystemConf.environment)
       .withPlatform(jsServerSystemConf.platform)
       .withDirectoryResolver(jsServerSystemConf.directoryResolver)
 
-    notificationKind.foreach(builders.withNotificationKind)
+    notificationKind.toOption.foreach(builders.withNotificationKind)
 
     val diagnosticManager     = builders.diagnosticManager()
     val filesInProjectManager = builders.filesInProjectManager(serializationProps.alsClientNotifier)
     val serializationManager  = builders.serializationManager(serializationProps)
 
     val factory = builders.buildWorkspaceManagerFactory()
-    val builder = new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
-      .addInitializableModule(diagnosticManager)
-      .addInitializableModule(serializationManager)
-      .addInitializableModule(filesInProjectManager)
-      .addInitializable(factory.cleanDiagnosticManager)
-      .addInitializable(factory.workspaceManager)
-      .addRequestModule(factory.cleanDiagnosticManager)
-      .addRequestModule(factory.completionManager)
-      .addRequestModule(factory.conversionManager)
-      .addRequestModule(factory.structureManager)
-      .addRequestModule(factory.definitionManager)
-      .addRequestModule(factory.referenceManager)
-      .addRequestModule(factory.documentLinksManager)
-      .addInitializable(factory.telemetryManager)
+    val builder =
+      new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+        .addInitializableModule(serializationManager)
+        .addInitializableModule(filesInProjectManager)
+        .addInitializable(factory.cleanDiagnosticManager)
+        .addInitializable(factory.workspaceManager)
+        .addRequestModule(factory.cleanDiagnosticManager)
+        .addRequestModule(factory.completionManager)
+        .addRequestModule(factory.conversionManager)
+        .addRequestModule(factory.structureManager)
+        .addRequestModule(factory.definitionManager)
+        .addRequestModule(factory.referenceManager)
+        .addRequestModule(factory.documentLinksManager)
+        .addInitializable(factory.telemetryManager)
+    diagnosticManager.foreach(builder.addInitializableModule)
     factory.serializationManager.foreach(builder.addRequestModule)
     builder
       .build()

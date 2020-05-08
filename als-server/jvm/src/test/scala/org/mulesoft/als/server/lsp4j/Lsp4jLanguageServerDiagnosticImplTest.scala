@@ -5,15 +5,15 @@ import java.util
 import amf.ProfileNames
 import amf.core.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.ExecuteCommandParams
-import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 
 import scala.concurrent.Future
 
 class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with PlatformSecrets {
 
-  val diagnosticsClient = new MockDiagnosticClientNotifier
+  val diagnosticsClient = new MockDiagnosticClientNotifier(10000)
   // TODO: check if a new validation should be sent from WorkspaceContentCollection when "onFocus" (when the BU is already parsed)
   test("Lsp4j LanguageServerImpl Command - Did Focus: Command should notify DidFocus") {
     def wrapJson(uri: String, version: String): String =
@@ -23,7 +23,6 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
       val args: java.util.List[AnyRef] = new util.ArrayList[AnyRef]()
       args.add(wrapJson(file, version.toString))
       server.getWorkspaceService.executeCommand(new ExecuteCommandParams("didFocusChange", args))
-//      MockDiagnosticClientNotifier.nextCall
       Future.successful(Unit)
     }
 
@@ -63,29 +62,26 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
         open lib -> open main -> focus lib -> fix lib -> focus main
        */
       for {
-        _      <- openFileNotification(s)(libFilePath, libFileContent)
-        a      <- diagnosticsClient.nextCall
-        _      <- openFileNotification(s)(mainFilePath, mainContent)
-        b      <- diagnosticsClient.nextCall
-        c      <- diagnosticsClient.nextCall // dependency of main
-        _      <- executeCommandFocus(server)(libFilePath, 0)
-        focus1 <- diagnosticsClient.nextCall
-        _      <- changeNotification(s)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
-        d      <- diagnosticsClient.nextCall
-        _      <- executeCommandFocus(server)(mainFilePath, 0)
-        focus2 <- diagnosticsClient.nextCall
-        focus3 <- diagnosticsClient.nextCall
+        _       <- openFileNotification(s)(libFilePath, libFileContent)
+        a       <- diagnosticsClient.nextCall
+        _       <- openFileNotification(s)(mainFilePath, mainContent)
+        b       <- diagnosticsClient.nextCall
+        c       <- diagnosticsClient.nextCall
+        _       <- executeCommandFocus(server)(libFilePath, 0)
+        focus11 <- diagnosticsClient.nextCall
+        _       <- changeNotification(s)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
+        d1      <- diagnosticsClient.nextCall
+        _       <- executeCommandFocus(server)(mainFilePath, 0)
+        focus21 <- diagnosticsClient.nextCall
+        focus22 <- diagnosticsClient.nextCall
       } yield {
         server.shutdown()
-        assert(
-          a.diagnostics.isEmpty && a.uri == libFilePath &&
-            b.diagnostics.length == 1 && b.uri == mainFilePath && // todo: search coinciding message between JS and JVM
-            c.diagnostics.isEmpty && c.uri == libFilePath &&
-            d.diagnostics.isEmpty && d.uri == libFilePath &&
-            focus1 == a &&
-            focus2.diagnostics.isEmpty && focus2.uri == mainFilePath &&
-            focus3 == d
-        )
+        val firstMain   = Seq(b, c)
+        val secondFocus = Seq(focus21, focus22)
+        assert(a.diagnostics.isEmpty && a.uri == libFilePath)
+        assert(firstMain.find(_.uri == libFilePath).contains(focus11))
+        assert(firstMain.exists(i => i.uri == mainFilePath && i.diagnostics.length == 1))
+        assert(secondFocus.exists(i => i.uri == mainFilePath && i.diagnostics.isEmpty))
       }
     }
   }
@@ -125,16 +121,15 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
           |      b: string
         """.stripMargin
 
-      /*
-        open lib -> open main -> focus lib -> fix lib -> focus main
-       */
       for {
-        _ <- {
-          openFileNotification(s)(libFilePath, libFileContent)
-          openFileNotification(s)(mainFilePath, mainContent)
-        }
+        _  <- openFileNotification(s)(libFilePath, libFileContent)
+        _  <- diagnosticsClient.nextCall
+        _  <- openFileNotification(s)(mainFilePath, mainContent)
+        _  <- diagnosticsClient.nextCall
+        _  <- diagnosticsClient.nextCall
         v1 <- requestCleanDiagnostic(s)(mainFilePath)
         _  <- changeNotification(s)(libFilePath, libFileContent.replace("b: string", "a: string"), 1)
+        _  <- diagnosticsClient.nextCall
         v2 <- requestCleanDiagnostic(s)(mainFilePath)
 
       } yield {
@@ -156,10 +151,11 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
     val dm       = builder.diagnosticManager()
     val managers = builder.buildWorkspaceManagerFactory()
 
-    new LanguageServerBuilder(managers.documentManager, managers.workspaceManager)
-      .addInitializableModule(dm)
-      .addRequestModule(managers.cleanDiagnosticManager)
-      .build()
+    val b =
+      new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, managers.resolutionTaskManager)
+        .addRequestModule(managers.cleanDiagnosticManager)
+    dm.foreach(b.addInitializableModule)
+    b.build()
   }
 
   override def rootPath: String = ""

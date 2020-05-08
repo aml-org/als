@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 
 import amf.core.model.domain.Shape
+import amf.core.model.domain.extensions.PropertyShape
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import amf.plugins.domain.webapi.models.{Payload, Server}
@@ -12,7 +13,7 @@ import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.{NumberSha
 
 import scala.concurrent.Future
 
-object Async20TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin {
+object Async20TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin with AsyncMediaTypePluginFinder {
 
   override def id: String = "AsyncTypeFacetsCompletionPlugin"
 
@@ -33,7 +34,9 @@ object Async20TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugi
     params.branchStack.headOption match {
       case Some(_: Payload)                                       => emptySuggestion
       case _ if params.branchStack.exists(_.isInstanceOf[Server]) => emptySuggestion
-      case _                                                      => super.resolve(params)
+      case Some(_: PropertyShape) if params.branchStack.exists(_.isInstanceOf[Payload]) =>
+        findPluginForMediaType(params.branchStack.collectFirst { case p: Payload => p }.get).resolve(params)
+      case _ => super.resolve(params)
     }
   }
 

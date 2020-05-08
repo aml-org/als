@@ -20,7 +20,7 @@ import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectLibrary}
 import amf.{ProfileName, ProfileNames}
 import org.mulesoft.als.ModelBuilder
-import org.mulesoft.amfmanager.BaseUnitImplicits._
+import org.mulesoft.amfmanager.AmfImplicits._
 import org.yaml.builder.DocBuilder
 
 import scala.concurrent.{ExecutionContext, Future}

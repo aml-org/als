@@ -238,6 +238,7 @@ val buildJsServerLibrary = TaskKey[Unit]("buildJsServerLibrary", "Build server l
 buildJsServerLibrary := {
   (fastOptJS in Compile in serverJS).value
   (fullOptJS in Compile in serverJS).value
+  (installJsDependencies in serverJS).value
   Process(
     "./scripts/build.sh",
     new File("./als-server/js/node-package/")

@@ -4,7 +4,7 @@ import java.io.StringWriter
 
 import amf.client.remote.Content
 import amf.core.CompilerContextBuilder
-import amf.core.model.document.{Document, ExternalFragment}
+import amf.core.model.document.Document
 import amf.core.parser.UnspecifiedReference
 import amf.core.remote.{Amf, Mimes}
 import amf.core.services.RuntimeCompiler
@@ -264,7 +264,8 @@ class SerializationTest extends LanguageServerBaseTest {
   }
 
   override def buildServer(): LanguageServer = {
-    val builder = new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
+    val builder =
+      new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
     builder.addInitializableModule(serializationManager)
     builder.addRequestModule(serializationManager)
     builder.build()

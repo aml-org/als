@@ -90,7 +90,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
     val container: TextDocumentContainer   = TextDocumentContainer(Environment(), platform, AmfInstance.default)
 
     val workspaceManager: WorkspaceManager =
-      new WorkspaceManager(container, telemetryManager, Nil, logger)
+      new WorkspaceManager(container, telemetryManager, Nil, Nil, logger)
     val documentLinksManager: DocumentLinksManager =
       new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
 
@@ -119,7 +119,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   }
 
   override def buildServer(): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()
 

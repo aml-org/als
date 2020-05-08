@@ -1,13 +1,13 @@
 [
   {
-    "label": "components/messageTraits/messageDef",
+    "label": "components/messages/messageDef",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Reference to #/components/messageTraits/messageDef",
+    "documentation": "Reference to #/components/messages/messageDef",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11components/messageTraits/messageDef",
-    "filterText": "\"#/components/messageTraits/messageDef\"",
+    "sortText": "11components/messages/messageDef",
+    "filterText": "\"#/components/messages/messageDef\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 17
         }
       },
-      "newText": "\"#/components/messageTraits/messageDef\""
+      "newText": "\"#/components/messages/messageDef\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

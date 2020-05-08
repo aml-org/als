@@ -6,6 +6,7 @@ import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
+import org.mulesoft.amfmanager.AmfImplicits._
 
 import scala.concurrent.Future
 
@@ -15,7 +16,7 @@ trait AMLCompletionPlugin extends CompletionPlugin[AmlCompletionRequest] with Am
 
 trait AmfObjectKnowledge {
   protected def isEncodes(amfObject: AmfObject, dialect: Dialect): Boolean = {
-    val iri = amfObject.meta.`type`.head.iri()
+    val iri = amfObject.metaURIs.head
 
     dialect.declares
       .find(nm => dialect.documents().root().encoded().option().contains(nm.id))

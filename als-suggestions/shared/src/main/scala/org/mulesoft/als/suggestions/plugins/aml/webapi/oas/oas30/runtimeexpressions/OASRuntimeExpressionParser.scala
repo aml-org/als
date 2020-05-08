@@ -4,7 +4,8 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.runtimeexpression.{
   BaseLabeledExpressionToken,
   LabeledExpressionToken,
   RuntimeExpressionParser,
-  RuntimeParsingToken
+  RuntimeParsingToken,
+  WithoutConstraint
 }
 
 import scala.util.matching.Regex
@@ -36,20 +37,11 @@ case class StatusCodeBaseExpressionToken(override val value: String) extends Bas
 
 }
 
-case class NameExpressionToken(override val value: String) extends RuntimeParsingToken {
-  override val rx: Regex                                      = "(.+)" r
-  override val followedBy: Seq[String => RuntimeParsingToken] = Nil
-}
+case class NameExpressionToken(override val value: String) extends WithoutConstraint
 
-case class FragmentExpressionToken(override val value: String) extends RuntimeParsingToken {
-  override val rx: Regex                                      = "(.+)" r
-  override val followedBy: Seq[String => RuntimeParsingToken] = Nil
-}
+case class FragmentExpressionToken(override val value: String) extends WithoutConstraint
 
-case class TokenExpressionToken(override val value: String) extends RuntimeParsingToken {
-  override val rx: Regex                                      = "(.+)" r
-  override val followedBy: Seq[String => RuntimeParsingToken] = Nil
-}
+case class TokenExpressionToken(override val value: String) extends WithoutConstraint
 
 trait WithNameExpression extends LabeledExpressionToken {
   override val followedBy = Seq(NameExpressionToken)
