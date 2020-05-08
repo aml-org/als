@@ -1,0 +1,8 @@
+asyncapi: 2.0.0
+servers:
+    s1:
+        url: s1.com
+        description: server 1
+    s2:
+        url: s2.com
+        description: server 2

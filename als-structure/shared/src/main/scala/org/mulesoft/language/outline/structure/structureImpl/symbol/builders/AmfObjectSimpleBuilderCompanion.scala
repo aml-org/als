@@ -3,13 +3,10 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.builders
 import amf.core.annotations.SourceAST
 import amf.core.metamodel.domain.{DomainElementModel, LinkableElementModel}
 import amf.core.model.domain.AmfObject
+import amf.core.parser.Range
 import amf.plugins.document.webapi.annotations.InlineDefinition
-import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, KindForResultMatcher, SymbolKind}
 import org.yaml.model.YMapEntry
-import amf.core.parser.Range
-
-import scala.collection.immutable
 
 trait AmfObjectSimpleBuilderCompanion[DM <: AmfObject]
     extends SymbolBuilderCompanion[DM]
