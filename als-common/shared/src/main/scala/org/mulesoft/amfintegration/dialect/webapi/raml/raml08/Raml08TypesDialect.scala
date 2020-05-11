@@ -13,6 +13,9 @@ import amf.plugins.domain.shapes.metamodel._
 
 object Raml08TypesDialect {
 
+  // hack to force object initialization in amf and avoid exception
+  private val orignalId = RAML08Dialect().id
+
   val DialectLocation = "file://parallel-als/vocabularies/dialects/raml08.yaml"
 
   val ShapeNodeId: String   = DialectLocation + "#/declarations/ShapeNode"
@@ -217,6 +220,7 @@ object Raml08TypesDialect {
     dialect.withDeclares(
       dialect.declares ++
         Seq(
+          ShapeNode,
           AnyShapeNode,
           PropertyShapeNode,
           NodeShapeNode,
@@ -240,7 +244,7 @@ object Raml08TypesDialect {
       PublicNodeMapping()
         .withId(DialectLocation + "#/documents/schemas")
         .withName("schemas")
-        .withMappedNode(SchemasNode.id),
+        .withMappedNode(ShapeNode.id),
       PublicNodeMapping()
         .withId(DialectLocation + "#/documents/traits")
         .withName("traits")
@@ -257,4 +261,6 @@ object Raml08TypesDialect {
       .documents()
     dialect
   }
+
+  def apply(): Dialect = dialect
 }

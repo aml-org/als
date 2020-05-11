@@ -1,0 +1,28 @@
+[
+  {
+    "name": "servers",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 7,
+        "character": 29
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 7,
+        "character": 29
+      }
+    },
+    "children": []
+  }
+]

@@ -1,60 +1,64 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.model.domain.{AmfArray, AmfElement}
-import amf.plugins.domain.webapi.metamodel.ParametersFieldModel
+import amf.core.model.domain.AmfArray
+import amf.core.parser.FieldEntry
+import amf.plugins.domain.webapi.metamodel.{EndPointModel, ParametersFieldModel}
 import amf.plugins.domain.webapi.models.Parameter
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
-
-class ArrayParametersSymbolBuilder(amfArray: AmfArray)(implicit val factory: BuilderFactory)
-    extends ElementSymbolBuilder[AmfArray] {
-  override def build(): Seq[DocumentSymbol] = {
-    val ranges = RangesSplitter(amfArray.annotations)
-    new ParametersSymbolBuilder(amfArray.values.collect({ case p: Parameter => p }),
-                                ranges.range,
-                                ranges.selectionRange).build()
-  }
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  FieldTypeSymbolBuilder,
+  IriFieldSymbolBuilderCompanion
+}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
+  ArrayFieldTypeSymbolBuilder,
+  ArrayFieldTypeSymbolBuilderCompanion
 }
 
-object HeadersSymbolBuilder extends ElementSymbolBuilderCompanion {
-  override type T = AmfArray
+class ArrayParametersSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
+    implicit val ctx: StructureContext)
+    extends ArrayFieldTypeSymbolBuilder {
+  override def build(): Seq[DocumentSymbol] = {
+    new ParametersSymbolBuilder(value.values.collect({ case p: Parameter => p }),
+                                range.map(PositionRange(_)),
+                                Some(element.field))
+      .build()
+      .toSeq
+  }
 
-  override def getType: Class[_ <: AmfElement] = classOf[AmfArray]
+  override protected val optionName: Option[String] = None
+}
+
+object HeadersSymbolBuilder extends ArrayFieldTypeSymbolBuilderCompanion with IriFieldSymbolBuilderCompanion {
 
   override val supportedIri: String = ParametersFieldModel.Headers.value.iri()
 
-  override def construct(element: AmfArray)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[AmfArray]] =
-    Some(new ArrayParametersSymbolBuilder(element))
+  override def construct(element: FieldEntry, value: AmfArray)(
+      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+    Some(new ArrayParametersSymbolBuilder(value, element))
 }
 
-object QueryParametersSymbolBuilder extends ElementSymbolBuilderCompanion {
-  override type T = AmfArray
-
-  override def getType: Class[_ <: AmfElement] = classOf[AmfArray]
-
+object QueryParametersSymbolBuilder extends ArrayFieldTypeSymbolBuilderCompanion with IriFieldSymbolBuilderCompanion {
   override val supportedIri: String = ParametersFieldModel.QueryParameters.value.iri()
 
-  override def construct(element: AmfArray)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[AmfArray]] =
-    Some(new ArrayParametersSymbolBuilder(element))
+  override def construct(element: FieldEntry, value: AmfArray)(
+      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+    Some(new ArrayParametersSymbolBuilder(value, element))
 }
 
-object QueryStringSymbolBuilder extends ElementSymbolBuilderCompanion {
-  override type T = AmfArray
-
-  override def getType: Class[_ <: AmfElement] = classOf[AmfArray]
+object QueryStringSymbolBuilder extends ArrayFieldTypeSymbolBuilderCompanion with IriFieldSymbolBuilderCompanion {
 
   override val supportedIri: String = ParametersFieldModel.QueryString.value.iri()
+  override def construct(element: FieldEntry, value: AmfArray)(
+      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+    Some(new ArrayParametersSymbolBuilder(value, element))
 
-  override def construct(element: AmfArray)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[AmfArray]] =
-    Some(new ArrayParametersSymbolBuilder(element))
 }
 
-object UriParametersSymbolBuilder extends ElementSymbolBuilderCompanion {
-  override type T = AmfArray
-
-  override def getType: Class[_ <: AmfElement] = classOf[AmfArray]
-
+object UriParametersSymbolBuilder extends ArrayFieldTypeSymbolBuilderCompanion with IriFieldSymbolBuilderCompanion {
   override val supportedIri: String = ParametersFieldModel.UriParameters.value.iri()
 
-  override def construct(element: AmfArray)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[AmfArray]] =
-    Some(new ArrayParametersSymbolBuilder(element))
+  override def construct(element: FieldEntry, value: AmfArray)(
+      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+    Some(new ArrayParametersSymbolBuilder(value, element))
 }

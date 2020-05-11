@@ -6,21 +6,21 @@
     "range": {
       "start": {
         "line": 4,
-        "character": 9
+        "character": 2
       },
       "end": {
-        "line": 4,
-        "character": 27
+        "line": 5,
+        "character": 0
       }
     },
     "selectionRange": {
       "start": {
         "line": 4,
-        "character": 9
+        "character": 2
       },
       "end": {
-        "line": 4,
-        "character": 27
+        "line": 5,
+        "character": 0
       }
     },
     "children": []
@@ -32,21 +32,21 @@
     "range": {
       "start": {
         "line": 3,
-        "character": 11
+        "character": 2
       },
       "end": {
-        "line": 3,
-        "character": 21
+        "line": 4,
+        "character": 0
       }
     },
     "selectionRange": {
       "start": {
         "line": 3,
-        "character": 11
+        "character": 2
       },
       "end": {
-        "line": 3,
-        "character": 21
+        "line": 4,
+        "character": 0
       }
     },
     "children": []
@@ -158,7 +158,7 @@
                     "range": {
                       "start": {
                         "line": 13,
-                        "character": 18
+                        "character": 10
                       },
                       "end": {
                         "line": 23,
@@ -168,7 +168,7 @@
                     "selectionRange": {
                       "start": {
                         "line": 13,
-                        "character": 18
+                        "character": 10
                       },
                       "end": {
                         "line": 23,
@@ -308,32 +308,6 @@
                         "children": []
                       }
                     ]
-                  },
-                  {
-                    "name": "Payloads",
-                    "kind": 7,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 11,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 13,
-                        "character": 0
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 11,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 13,
-                        "character": 0
-                      }
-                    },
-                    "children": []
                   }
                 ]
               },
@@ -361,34 +335,7 @@
                     "character": 15
                   }
                 },
-                "children": [
-                  {
-                    "name": "Payloads",
-                    "kind": 7,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 32,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 34,
-                        "character": 0
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 32,
-                        "character": 10
-                      },
-                      "end": {
-                        "line": 34,
-                        "character": 0
-                      }
-                    },
-                    "children": []
-                  }
-                ]
+                "children": []
               }
             ]
           }
