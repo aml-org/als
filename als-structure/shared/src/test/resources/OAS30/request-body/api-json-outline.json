@@ -6,7 +6,7 @@
     "range": {
       "start": {
         "line": 3,
-        "character": 13
+        "character": 4
       },
       "end": {
         "line": 3,
@@ -16,7 +16,7 @@
     "selectionRange": {
       "start": {
         "line": 3,
-        "character": 13
+        "character": 4
       },
       "end": {
         "line": 3,
@@ -32,7 +32,7 @@
     "range": {
       "start": {
         "line": 4,
-        "character": 15
+        "character": 4
       },
       "end": {
         "line": 4,
@@ -42,7 +42,7 @@
     "selectionRange": {
       "start": {
         "line": 4,
-        "character": 15
+        "character": 4
       },
       "end": {
         "line": 4,
@@ -127,6 +127,59 @@
             },
             "children": [
               {
+                "name": "Payloads",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 24,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 24,
+                    "character": 36
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 24,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 24,
+                    "character": 36
+                  }
+                },
+                "children": [
+                  {
+                    "name": "application/json",
+                    "kind": 13,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 24,
+                        "character": 12
+                      },
+                      "end": {
+                        "line": 24,
+                        "character": 36
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 24,
+                        "character": 12
+                      },
+                      "end": {
+                        "line": 24,
+                        "character": 30
+                      }
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
                 "name": "Query Parameters",
                 "kind": 2,
                 "deprecated": false,
@@ -146,8 +199,8 @@
                     "character": 8
                   },
                   "end": {
-                    "line": 11,
-                    "character": 20
+                    "line": 20,
+                    "character": 9
                   }
                 },
                 "children": [
@@ -199,8 +252,8 @@
                     "character": 8
                   },
                   "end": {
-                    "line": 11,
-                    "character": 20
+                    "line": 20,
+                    "character": 9
                   }
                 },
                 "children": [
@@ -226,59 +279,6 @@
                       "end": {
                         "line": 17,
                         "character": 28
-                      }
-                    },
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "name": "payloads",
-                "kind": 2,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 0,
-                    "character": 0
-                  },
-                  "end": {
-                    "line": 0,
-                    "character": 1
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 0,
-                    "character": 0
-                  },
-                  "end": {
-                    "line": 0,
-                    "character": 1
-                  }
-                },
-                "children": [
-                  {
-                    "name": "application/json",
-                    "kind": 13,
-                    "deprecated": false,
-                    "range": {
-                      "start": {
-                        "line": 24,
-                        "character": 12
-                      },
-                      "end": {
-                        "line": 24,
-                        "character": 36
-                      }
-                    },
-                    "selectionRange": {
-                      "start": {
-                        "line": 24,
-                        "character": 12
-                      },
-                      "end": {
-                        "line": 24,
-                        "character": 30
                       }
                     },
                     "children": []

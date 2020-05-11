@@ -11,21 +11,24 @@ import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, Ki
   */
 class ParametersSymbolBuilder(parameters: Seq[Parameter], range: Option[PositionRange], field: Option[Field])(
     implicit val ctx: StructureContext) {
-  val children: Seq[DocumentSymbol] =
-    parameters.flatMap(e => ctx.factory.builderFor(e).map(_.build()).getOrElse(Nil))
-  private val r = range.orElse(children.headOption.map(_.range)).getOrElse(EmptyPositionRange)
-  def build(): Option[DocumentSymbol] = {
-    parameters.headOption.map { p =>
-      DocumentSymbol(
-        ParameterBindingLabelMapper.toLabel(p.binding.value()),
-        KindForResultMatcher
-          .kindForField(field.getOrElse(fieldFromBinding(p.binding.value()))), // all param fields are the same
-        deprecated = false,
-        r,
-        r,
-        children.toList
-      )
-    }
+  def build(): List[DocumentSymbol] = {
+    parameters
+      .groupBy(_.binding.value())
+      .map {
+        case (k, parameters) =>
+          val children = parameters.flatMap(e => ctx.factory.builderFor(e).map(_.build()).getOrElse(Nil))
+          val r        = range.orElse(children.headOption.map(_.range)).getOrElse(EmptyPositionRange)
+          DocumentSymbol(
+            ParameterBindingLabelMapper.toLabel(k),
+            KindForResultMatcher
+              .kindForField(field.getOrElse(fieldFromBinding(k))), // all param fields are the same
+            deprecated = false,
+            r,
+            r,
+            children.toList
+          )
+      }
+      .toList
   }
 
   private def fieldFromBinding(binding: String): Field = {
