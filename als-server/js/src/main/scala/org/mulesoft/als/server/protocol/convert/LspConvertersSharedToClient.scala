@@ -21,6 +21,7 @@ import org.mulesoft.als.server.protocol.textsync.{
   IndexDialectParams
 }
 import org.mulesoft.lsp.configuration._
+import org.mulesoft.lsp.feature.diagnostic.{ClientPublishDiagnosticsParams, PublishDiagnosticsParams}
 
 import scala.language.implicitConversions
 import scala.scalajs.js

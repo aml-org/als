@@ -1,13 +1,21 @@
 package org.mulesoft.amfmanager
 
+import amf.core.annotations.LexicalInformation
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfObject, AmfScalar}
-import amf.core.parser.Value
+import amf.core.parser
+import amf.core.parser.{Annotations, Value}
+import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping}
 import amf.plugins.domain.webapi.metamodel.AbstractModel
 
 import scala.collection.mutable
 
 object AmfImplicits {
+
+  implicit class AmfAnnotationsImp(ann: Annotations) {
+    def range(): Option[parser.Range] = ann.find(classOf[LexicalInformation]).map(_.range)
+  }
 
   implicit class AmfObjectImp(amfObject: AmfObject) {
     def metaURIs: List[String] = amfObject.meta.`type` match {
@@ -39,4 +47,20 @@ object AmfImplicits {
     def identifier: String = bu.location().getOrElse(bu.id)
   }
 
+  implicit class DialectImplicits(d: Dialect) extends BaseUnitImp(d) {
+    def declarationsMapTerms: Map[String, String] = {
+      d.documents()
+        .root()
+        .declaredNodes()
+        .flatMap { pnm =>
+          d.declares
+            .find(_.id == pnm.mappedNode().value())
+            .collect({ case nm: NodeMapping => nm })
+            .map { declared =>
+              declared.nodetypeMapping.value() -> pnm.name().value()
+            }
+        }
+        .toMap
+    }
+  }
 }

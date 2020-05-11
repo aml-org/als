@@ -10,7 +10,6 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.runtimeexpression.{
 import scala.util.matching.Regex
 
 case class AsyncAPIRuntimeExpressionParser(override val value: String) extends RuntimeExpressionParser {
-  override val rx: Regex  = "" r
   override val followedBy = Seq(MessageBaseExpressionToken)
 }
 

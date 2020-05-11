@@ -1,0 +1,55 @@
+[
+  {
+    "name": "correlationIds",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 4,
+        "character": 0
+      },
+      "end": {
+        "line": 4,
+        "character": 17
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 4,
+        "character": 0
+      },
+      "end": {
+        "line": 4,
+        "character": 17
+      }
+    },
+    "children": [
+      {
+        "name": "c",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 4,
+            "character": 0
+          },
+          "end": {
+            "line": 4,
+            "character": 17
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 4,
+            "character": 0
+          },
+          "end": {
+            "line": 4,
+            "character": 17
+          }
+        },
+        "children": []
+      }
+    ]
+  }
+]

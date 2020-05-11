@@ -3,28 +3,25 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 import amf.core.metamodel.domain.extensions.CustomDomainPropertyModel
 import amf.core.model.domain.AmfElement
 import amf.core.model.domain.extensions.CustomDomainProperty
-import org.mulesoft.language.outline.structure.structureImpl.{
-  BuilderFactory,
-  DocumentSymbol,
-  ElementSymbolBuilder,
-  ElementSymbolBuilderCompanion
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  AmfObjectSimpleBuilderCompanion,
+  SymbolBuilder
 }
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.NamedElementSymbolBuilderTrait
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 class CustomDomainPropertySymbolBuilder(override val element: CustomDomainProperty)(
-    override implicit val factory: BuilderFactory)
+    override implicit val ctx: StructureContext)
     extends NamedElementSymbolBuilderTrait[CustomDomainProperty] {
-  override protected def children: List[DocumentSymbol] = Nil
+  override protected val children: List[DocumentSymbol] = Nil
 }
 
-object CustomDomainPropertySymbolBuilderCompanion extends ElementSymbolBuilderCompanion {
-  override type T = CustomDomainProperty
-
+object CustomDomainPropertySymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[CustomDomainProperty] {
   override def getType: Class[_ <: AmfElement] = classOf[CustomDomainProperty]
 
   override val supportedIri: String = CustomDomainPropertyModel.`type`.head.iri()
 
   override def construct(element: CustomDomainProperty)(
-      implicit factory: BuilderFactory): Option[ElementSymbolBuilder[CustomDomainProperty]] =
+      implicit ctx: StructureContext): Option[SymbolBuilder[CustomDomainProperty]] =
     Some(new CustomDomainPropertySymbolBuilder(element))
 }

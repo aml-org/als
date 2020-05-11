@@ -1,13 +1,13 @@
 [
   {
-    "label": "components/correlationsIds/correlationName",
+    "label": "components/correlationIds/correlationName",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Reference to #/components/correlationsIds/correlationName",
+    "documentation": "Reference to #/components/correlationIds/correlationName",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11components/correlationsIds/correlationName",
-    "filterText": "\"#/components/correlationsIds/correlationName\"",
+    "sortText": "11components/correlationIds/correlationName",
+    "filterText": "\"#/components/correlationIds/correlationName\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 17
         }
       },
-      "newText": "\"#/components/correlationsIds/correlationName\""
+      "newText": "\"#/components/correlationIds/correlationName\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
