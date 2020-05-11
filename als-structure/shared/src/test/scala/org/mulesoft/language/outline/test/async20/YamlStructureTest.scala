@@ -22,6 +22,10 @@ class YamlStructureTest extends BaseStructureTest {
     forDir("channel")
   }
 
+  test("test schemas") {
+    forDir("schemas")
+  }
+
   test("test declarations/channel-bindings") {
     forDir("declarations/channel-bindings")
   }
