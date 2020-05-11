@@ -5,7 +5,7 @@ import amf.dialects.OAS20Dialect
 import amf.dialects.OAS20Dialect.DialectLocation
 import amf.dialects.oas.nodes.Oas20SchemaObject
 import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping, PublicNodeMapping}
 import amf.plugins.domain.shapes.metamodel.{ArrayShapeModel, NodeShapeModel}
 import amf.plugins.domain.webapi.metamodel.PayloadModel
 
@@ -22,6 +22,12 @@ object Oas20DialectWrapper {
   lazy val dialect: Dialect = {
 
     val d = OAS20Dialect()
+
+    d.documents().root().withDeclaredNodes(d.documents().root().declaredNodes() :+      PublicNodeMapping()
+      .withId(orignalId + "#/documents/types")
+      .withName("definitions")
+      .withMappedNode(JsonSchemas.AnySchemaObject.id))
+
     d.withDeclares(
       d.declares.filter(p => !(p.id == Oas20SchemaObject.id)) ++ Seq(
         JsonSchemas.SchemaObject,

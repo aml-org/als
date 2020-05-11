@@ -6,7 +6,7 @@
     "range": {
       "start": {
         "line": 4,
-        "character": 13
+        "character": 4
       },
       "end": {
         "line": 4,
@@ -16,7 +16,7 @@
     "selectionRange": {
       "start": {
         "line": 4,
-        "character": 13
+        "character": 4
       },
       "end": {
         "line": 4,
@@ -32,7 +32,7 @@
     "range": {
       "start": {
         "line": 3,
-        "character": 15
+        "character": 4
       },
       "end": {
         "line": 3,
@@ -42,7 +42,7 @@
     "selectionRange": {
       "start": {
         "line": 3,
-        "character": 15
+        "character": 4
       },
       "end": {
         "line": 3,

@@ -2,7 +2,7 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 
 import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.ParametersFieldModel
+import amf.plugins.domain.webapi.metamodel.{EndPointModel, ParametersFieldModel}
 import amf.plugins.domain.webapi.models.Parameter
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
