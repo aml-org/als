@@ -37,7 +37,7 @@ trait SymbolBuilder[T] {
     }
   }
 
-  private def skipLoneChild(children: List[DocumentSymbol], name: String): List[DocumentSymbol] =
+  protected def skipLoneChild(children: List[DocumentSymbol], name: String): List[DocumentSymbol] =
     if (children.length == 1 && children.head.name == name)
       children.head.children
     else

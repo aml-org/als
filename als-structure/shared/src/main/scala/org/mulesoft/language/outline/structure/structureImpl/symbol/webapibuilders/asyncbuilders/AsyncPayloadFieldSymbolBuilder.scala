@@ -28,7 +28,7 @@ class AsyncPayloadFieldSymbolBuilder(override val element: FieldEntry, override 
             deprecated = false,
             r,
             r,
-            sons
+            skipLoneChild(sons, key)
         ))
 
   override protected val payloadsLabel      = "payload"
