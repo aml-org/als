@@ -340,7 +340,7 @@
             ]
           },
           {
-            "name": "server",
+            "name": "servers",
             "kind": 7,
             "deprecated": false,
             "range": {

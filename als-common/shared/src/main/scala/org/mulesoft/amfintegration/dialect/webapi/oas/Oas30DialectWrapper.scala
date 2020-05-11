@@ -7,7 +7,7 @@ import amf.dialects.OAS30Dialect
 import amf.dialects.OAS30Dialect.DialectLocation
 import amf.dialects.oas.nodes._
 import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import amf.plugins.document.vocabularies.model.domain.{PropertyMapping, PublicNodeMapping}
 import amf.plugins.domain.shapes.metamodel.NodeShapeModel
 
 object Oas30DialectWrapper {

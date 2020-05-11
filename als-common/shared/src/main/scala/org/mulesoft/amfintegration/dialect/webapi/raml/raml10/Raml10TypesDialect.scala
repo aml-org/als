@@ -322,6 +322,7 @@ object Raml10TypesDialect {
     dialect.withDeclares(
       dialect.declares ++
         Seq(
+          ShapeNode,
           AnyShapeNode,
           PropertyShapeNode,
           NodeShapeNode,
@@ -343,7 +344,7 @@ object Raml10TypesDialect {
       PublicNodeMapping()
         .withId(DialectLocation + "#/documents/types")
         .withName("types")
-        .withMappedNode(AnyShapeNode.id),
+        .withMappedNode(ShapeNode.id),
       PublicNodeMapping()
         .withId(DialectLocation + "#/documents/resourceTypes")
         .withName("resourceTypes")

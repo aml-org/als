@@ -220,6 +220,7 @@ object Raml08TypesDialect {
     dialect.withDeclares(
       dialect.declares ++
         Seq(
+          ShapeNode,
           AnyShapeNode,
           PropertyShapeNode,
           NodeShapeNode,
@@ -243,7 +244,7 @@ object Raml08TypesDialect {
       PublicNodeMapping()
         .withId(DialectLocation + "#/documents/schemas")
         .withName("schemas")
-        .withMappedNode(AnyShapeNode.id),
+        .withMappedNode(ShapeNode.id),
       PublicNodeMapping()
         .withId(DialectLocation + "#/documents/traits")
         .withName("traits")

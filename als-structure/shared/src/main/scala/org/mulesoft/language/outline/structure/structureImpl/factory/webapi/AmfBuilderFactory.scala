@@ -11,6 +11,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilde
   ExampleArrayFieldCompanion,
   LicenseFieldSymbolBuilderCompanion,
   OperationsArrayFieldBuilderCompanion,
+  ParameterLinksArrayFieldSymbolBuilderCompanion,
   PayloadFieldSymbolCompanion,
   PayloadsArrayFieldBuilderCompanion,
   RequestArrayFieldSymbolBuilderCompanion,
@@ -50,6 +51,7 @@ trait AmfBuilderFactory extends BuilderFactory {
       ExampleArrayFieldCompanion +
       TagsArrayFieldSymbolBuilderCompanion +
       ProtocolsArrayFieldBuilderCompanion +
-      ServerSymbolBuilderCompanion
-  PayloadFieldSymbolCompanion
+      ServerSymbolBuilderCompanion +
+      PayloadFieldSymbolCompanion +
+      ParameterLinksArrayFieldSymbolBuilderCompanion
 }

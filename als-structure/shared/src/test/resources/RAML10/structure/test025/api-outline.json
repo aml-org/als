@@ -127,12 +127,12 @@
                 "children": [
                   {
                     "name": "Payloads",
-                    "kind": 7,
+                    "kind": 2,
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 10,
-                        "character": 10
+                        "line": 9,
+                        "character": 8
                       },
                       "end": {
                         "line": 11,
@@ -141,8 +141,8 @@
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 10,
-                        "character": 10
+                        "line": 9,
+                        "character": 8
                       },
                       "end": {
                         "line": 11,

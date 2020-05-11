@@ -1,6 +1,6 @@
 [
   {
-    "name": "securitySchemes",
+    "name": "securityDefinitions",
     "kind": 7,
     "deprecated": false,
     "range": {
