@@ -32,7 +32,7 @@ class PayloadFieldSymbolBuilder(override val element: FieldEntry, override val v
           deprecated = false,
           r,
           r,
-          sons
+          skipLoneChild(sons, key)
         ))
     } else None
 
