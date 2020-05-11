@@ -17,7 +17,7 @@ class Oas20DeclaresFieldSymbolBuilder(value: AmfArray, element: FieldEntry)(
     extends DeclaresFieldSymbolBuilder(value, element) {
   override protected def declarationName(obj: AmfObject): String = {
     obj match {
-      case s: SecurityScheme => "securityDefinitions"
+      case _: SecurityScheme => "securityDefinitions"
       case _                 => super.declarationName(obj)
     }
   }

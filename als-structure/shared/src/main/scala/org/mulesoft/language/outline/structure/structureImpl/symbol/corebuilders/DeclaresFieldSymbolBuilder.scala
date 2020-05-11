@@ -1,7 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
 import amf.core.metamodel.document.DocumentModel
-import amf.core.model.domain.{AmfArray, AmfObject, Shape}
+import amf.core.metamodel.domain.ShapeModel
+import amf.core.model.domain.{AmfArray, AmfObject, DomainElement, Shape}
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.shapes.metamodel.AnyShapeModel
 import org.mulesoft.amfmanager.AmfImplicits._
@@ -12,7 +13,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fie
 }
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
-  IriFieldSymbolBuilderCompanion
+  IriFieldSymbolBuilderCompanion,
+  SymbolBuilder
 }
 
 class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
@@ -27,13 +29,15 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
 
   private def getMeta(obj: AmfObject): String =
     obj match {
-      case _: Shape => AnyShapeModel.`type`.head.iri()
+      case _: Shape => ShapeModel.`type`.head.iri()
       case _        => obj.metaURIs.head
     }
 
+  protected def builderFor(obj: AmfObject): Option[SymbolBuilder[_]] = ctx.factory.builderFor(obj)
+
   private def buildSymbol(name: String, elements: Seq[AmfObject]): Option[DocumentSymbol] = {
     val children: List[DocumentSymbol] = elements
-      .flatMap(e => ctx.factory.builderFor(e).map(_.build()).getOrElse(Nil))
+      .flatMap(o => builderFor(o).map(_.build()).getOrElse(Nil))
       .sortWith((ds1, ds2) => ds1.range.start < ds2.range.start)
       .toList
     children match {

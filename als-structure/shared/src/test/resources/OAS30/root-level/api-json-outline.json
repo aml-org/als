@@ -6,7 +6,7 @@
     "range": {
       "start": {
         "line": 3,
-        "character": 13
+        "character": 4
       },
       "end": {
         "line": 3,
@@ -16,7 +16,7 @@
     "selectionRange": {
       "start": {
         "line": 3,
-        "character": 13
+        "character": 4
       },
       "end": {
         "line": 3,
@@ -26,27 +26,27 @@
     "children": []
   },
   {
-    "name": "Security",
-    "kind": 15,
+    "name": "servers",
+    "kind": 7,
     "deprecated": false,
     "range": {
       "start": {
-        "line": 8,
+        "line": 5,
         "character": 2
       },
       "end": {
-        "line": 8,
-        "character": 16
+        "line": 5,
+        "character": 15
       }
     },
     "selectionRange": {
       "start": {
-        "line": 8,
+        "line": 5,
         "character": 2
       },
       "end": {
-        "line": 8,
-        "character": 16
+        "line": 5,
+        "character": 15
       }
     },
     "children": []
@@ -73,6 +73,32 @@
       "end": {
         "line": 9,
         "character": 12
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "Security",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 16
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 16
       }
     },
     "children": []
