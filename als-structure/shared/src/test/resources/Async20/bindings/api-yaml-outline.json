@@ -1,1 +1,135 @@
-[]
+[
+  {
+    "name": "user/signedup",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 23
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 2,
+        "character": 15
+      }
+    },
+    "children": [
+      {
+        "name": "subscribe",
+        "kind": 6,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 4
+          },
+          "end": {
+            "line": 8,
+            "character": 23
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 3,
+            "character": 4
+          },
+          "end": {
+            "line": 3,
+            "character": 13
+          }
+        },
+        "children": [
+          {
+            "name": "binding",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 5,
+                "character": 0
+              },
+              "end": {
+                "line": 8,
+                "character": 23
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 5,
+                "character": 0
+              },
+              "end": {
+                "line": 8,
+                "character": 23
+              }
+            },
+            "children": [
+              {
+                "name": "amqp",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 5,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 7,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 5,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 5,
+                    "character": 12
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "http",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 7,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 8,
+                    "character": 23
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 7,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 7,
+                    "character": 12
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

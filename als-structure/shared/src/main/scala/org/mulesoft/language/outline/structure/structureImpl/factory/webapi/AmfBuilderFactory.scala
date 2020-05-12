@@ -1,23 +1,11 @@
 package org.mulesoft.language.outline.structure.structureImpl.factory.webapi
 
-import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, StructureContext}
+import org.mulesoft.language.outline.structure.structureImpl.BuilderFactory
 import org.mulesoft.language.outline.structure.structureImpl.companion.FieldCompanionList
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields.{
-  ContactFieldSymbolBuilderCompanion,
-  DefaultWebApiArrayFieldTypeSymbolBuilderCompanion,
-  DefaultWebApiScalarTypeSymbolBuilderCompanion,
-  ExampleArrayFieldCompanion,
-  LicenseFieldSymbolBuilderCompanion,
-  OperationsArrayFieldBuilderCompanion,
-  ParameterLinksArrayFieldSymbolBuilderCompanion,
-  PayloadFieldSymbolCompanion,
-  PayloadsArrayFieldBuilderCompanion,
-  RequestArrayFieldSymbolBuilderCompanion,
-  TagsArrayFieldSymbolBuilderCompanion,
-  WebApiEncodesFieldSymbolBuilderCompanion
-}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.asyncbuilders.OperationBindingsSymbolBuilderCompanion
+import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields._
 
 trait AmfBuilderFactory extends BuilderFactory {
 
@@ -53,5 +41,6 @@ trait AmfBuilderFactory extends BuilderFactory {
       ProtocolsArrayFieldBuilderCompanion +
       ServerSymbolBuilderCompanion +
       PayloadFieldSymbolCompanion +
-      ParameterLinksArrayFieldSymbolBuilderCompanion
+      ParameterLinksArrayFieldSymbolBuilderCompanion +
+      OperationBindingsSymbolBuilderCompanion
 }
