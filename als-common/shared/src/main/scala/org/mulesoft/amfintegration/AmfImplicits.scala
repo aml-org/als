@@ -1,6 +1,6 @@
 package org.mulesoft.amfmanager
 
-import amf.core.annotations.LexicalInformation
+import amf.core.annotations.{LexicalInformation, SynthesizedField}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfObject, AmfScalar}
 import amf.core.parser
@@ -15,6 +15,8 @@ object AmfImplicits {
 
   implicit class AmfAnnotationsImp(ann: Annotations) {
     def range(): Option[parser.Range] = ann.find(classOf[LexicalInformation]).map(_.range)
+
+    def isSynthesized(): Boolean = ann.contains(classOf[SynthesizedField])
   }
 
   implicit class AmfObjectImp(amfObject: AmfObject) {
