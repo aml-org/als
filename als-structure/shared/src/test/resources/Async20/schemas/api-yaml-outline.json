@@ -55,8 +55,8 @@
             "deprecated": false,
             "range": {
               "start": {
-                "line": 5,
-                "character": 0
+                "line": 4,
+                "character": 6
               },
               "end": {
                 "line": 9,
@@ -65,12 +65,12 @@
             },
             "selectionRange": {
               "start": {
-                "line": 5,
-                "character": 0
+                "line": 4,
+                "character": 6
               },
               "end": {
-                "line": 9,
-                "character": 32
+                "line": 4,
+                "character": 15
               }
             },
             "children": [
