@@ -10,7 +10,7 @@ import amf.core.model.domain._
 import amf.core.remote._
 import amf.core.vocabulary.Namespace.XsdTypes
 import amf.plugins.document.vocabularies.AMLPlugin
-import amf.plugins.document.vocabularies.model.document.DialectInstance
+import amf.plugins.document.vocabularies.model.document.{DialectInstance, DialectInstanceUnit}
 import amf.plugins.domain.shapes.metamodel._
 import amf.plugins.domain.shapes.metamodel.common.DocumentationField
 import amf.plugins.domain.shapes.models.ScalarShape
@@ -47,7 +47,7 @@ class StructureBuilder(unit: BaseUnit) {
   private def amlBuilder = {
     val maybeFactory = unit match {
       //case _:Dialect => AmlBuilderFactory(MetaDialect//) // todo: meta dialect merge
-      case instance: DialectInstance =>
+      case instance: DialectInstanceUnit => // todo: I cannot  assume that declared elements in a dialect instance will be the same that for library. Declared uris dependens on context/
         AMLPlugin.registry.dialectFor(instance)
       case _ => None
     }
