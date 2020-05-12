@@ -3,3 +3,10 @@ components:
   parameters:
     p:
       description: parameter
+      schema:
+        type: object
+        properties:
+          a:
+            type: string
+          b:
+            type: integer

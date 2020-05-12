@@ -12,6 +12,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   StructuredSymbolBuilder,
   SymbolBuilder
 }
+import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
 import org.yaml.model.YMapEntry
 
 class DomainElementSymbolBuilder(override val element: DomainElement, entryAst: YMapEntry)(
@@ -55,7 +56,8 @@ object NamedElementSymbolBuilder extends AmfObjectSimpleBuilderCompanion[NamedDo
 
 trait NamedElementSymbolBuilderTrait[T <: NamedDomainElement] extends StructuredSymbolBuilder[T] {
 
-  override protected val optionName: Option[String] = element.name.option()
+  override protected val optionName: Option[String] =
+    if (element.name.annotations().isSynthesized()) None else element.name.option()
 
   override protected val selectionRange: Option[AmfRange] = element.name
     .annotations()
