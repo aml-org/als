@@ -4,7 +4,9 @@ import org.mulesoft.language.outline.structure.structureImpl.BuilderFactory
 import org.mulesoft.language.outline.structure.structureImpl.companion.FieldCompanionList
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.asyncbuilders.OperationBindingsSymbolBuilderCompanion
+import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.asyncbuilders.{
+  BindingsArrayFieldCompanion
+}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields._
 
 trait AmfBuilderFactory extends BuilderFactory {
@@ -42,5 +44,5 @@ trait AmfBuilderFactory extends BuilderFactory {
       ServerSymbolBuilderCompanion +
       PayloadFieldSymbolCompanion +
       ParameterLinksArrayFieldSymbolBuilderCompanion +
-      OperationBindingsSymbolBuilderCompanion
+      BindingsArrayFieldCompanion
 }

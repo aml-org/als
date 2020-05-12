@@ -5,7 +5,7 @@ import amf.core.parser.Range
 import amf.plugins.domain.webapi.metamodel.bindings.OperationBindingsModel
 import amf.plugins.domain.webapi.models.bindings.OperationBindings
 import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
-import org.mulesoft.language.outline.structure.structureImpl.StructureContext
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
   StructuredSymbolBuilder,
@@ -18,10 +18,9 @@ class OperationBindingsSymbolBuilder(override val element: OperationBindings)(
 
   override def ignoreFields: List[Field] = super.ignoreFields
   override protected val optionName: Option[String] =
-    element.name.option()
+    element.name.option().orElse(Some("bindings"))
 
-  override protected val selectionRange: Option[Range] =
-    element.annotations.range()
+  override protected def children: List[DocumentSymbol] = Nil
 }
 
 object OperationBindingsSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[OperationBindings] {
