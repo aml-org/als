@@ -6,7 +6,11 @@ import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.models.{Parameter, Request}
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
-import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{FieldTypeSymbolBuilder, IriFieldSymbolBuilderCompanion, SymbolBuilder}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  FieldTypeSymbolBuilder,
+  IriFieldSymbolBuilderCompanion,
+  SymbolBuilder
+}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.NamedElementSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.oasbuilders.Oas20DeclaresFieldSymbolBuilder
 
@@ -21,8 +25,8 @@ class EventedDeclaresFieldSymbolBuilder(value: AmfArray, element: FieldEntry)(
   }
 
   override protected def builderFor(obj: AmfObject): Option[SymbolBuilder[_]] = obj match {
-    case r:Request => Some(new NamedElementSymbolBuilder(r))
-    case _ => super.builderFor(obj)
+    case r: Request => Some(new NamedElementSymbolBuilder(r))
+    case _          => super.builderFor(obj)
   }
 }
 

@@ -48,61 +48,7 @@
             "character": 18
           }
         },
-        "children": [
-          {
-            "name": "binding",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 4,
-                "character": 0
-              },
-              "end": {
-                "line": 5,
-                "character": 18
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 4,
-                "character": 0
-              },
-              "end": {
-                "line": 5,
-                "character": 18
-              }
-            },
-            "children": [
-              {
-                "name": "amqp",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 4,
-                    "character": 6
-                  },
-                  "end": {
-                    "line": 5,
-                    "character": 18
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 4,
-                    "character": 6
-                  },
-                  "end": {
-                    "line": 4,
-                    "character": 10
-                  }
-                },
-                "children": []
-              }
-            ]
-          }
-        ]
+        "children": []
       }
     ]
   }
