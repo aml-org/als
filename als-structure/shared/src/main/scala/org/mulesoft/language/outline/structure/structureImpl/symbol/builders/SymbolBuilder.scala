@@ -47,7 +47,8 @@ trait SymbolBuilder[T] {
 trait SymbolBuilderCompanion[T] {
   def getType: Class[_]
   final def constructAny(element: Any)(implicit ctx: StructureContext): Option[SymbolBuilder[T]] = {
-    if (getType.isInstance(element)) construct(element.asInstanceOf[T])
+    if (getType.isInstance(element))
+      construct(element.asInstanceOf[T])
     else None
   }
 

@@ -5,3 +5,5 @@ channels:
       bindings:
         amqp:
             ack: true
+        http:
+          type: request
