@@ -1,16 +1,14 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.asyncbuilders
 
 import amf.core.metamodel.Field
-import amf.core.parser.Range
 import amf.plugins.domain.webapi.metamodel.bindings.OperationBindingsModel
 import amf.plugins.domain.webapi.models.bindings.OperationBindings
-import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
-import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
   StructuredSymbolBuilder,
   SymbolBuilder
 }
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 class OperationBindingsSymbolBuilder(override val element: OperationBindings)(
     override implicit val ctx: StructureContext)

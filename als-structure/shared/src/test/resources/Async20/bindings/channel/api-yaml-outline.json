@@ -1,12 +1,12 @@
 [
   {
-    "name": "channelBindings",
-    "kind": 7,
+    "name": "user/signedup",
+    "kind": 12,
     "deprecated": false,
     "range": {
       "start": {
-        "line": 4,
-        "character": 0
+        "line": 2,
+        "character": 2
       },
       "end": {
         "line": 5,
@@ -15,17 +15,17 @@
     },
     "selectionRange": {
       "start": {
-        "line": 4,
-        "character": 0
+        "line": 2,
+        "character": 2
       },
       "end": {
-        "line": 5,
-        "character": 17
+        "line": 2,
+        "character": 15
       }
     },
     "children": [
       {
-        "name": "cb",
+        "name": "bindings",
         "kind": 7,
         "deprecated": false,
         "range": {

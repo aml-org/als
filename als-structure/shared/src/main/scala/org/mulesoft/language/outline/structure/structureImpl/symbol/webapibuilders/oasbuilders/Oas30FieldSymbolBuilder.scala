@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.oasbuilders
 
-import amf.core.model.domain.AmfArray
+import amf.core.model.domain.{AmfArray, AmfObject}
 import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.WebApiModel
+import amf.plugins.domain.webapi.metamodel.{ServerModel, WebApiModel}
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
@@ -26,5 +26,17 @@ class ServerArrayFieldSymbolBuilder(override val value: AmfArray, override val e
     extends DefaultArrayFieldTypeSymbolBuilder(value, element) {
   override def name: String = "servers"
 
-  override protected val children: List[DocumentSymbol] = Nil
+  override protected val children: List[DocumentSymbol] =
+    if (hasValueWithName(value))
+      value.values
+        .collect({ case obj: AmfObject => obj })
+        .flatMap(o => ctx.factory.builderFor(o).map(_.build()).getOrElse(Nil))
+        .toList
+    else Nil
+
+  private def hasValueWithName(value: AmfArray): Boolean =
+    value.values.headOption.exists {
+      case a: AmfObject => a.fields.fields.exists(_.field == ServerModel.Name)
+      case _            => false
+    }
 }

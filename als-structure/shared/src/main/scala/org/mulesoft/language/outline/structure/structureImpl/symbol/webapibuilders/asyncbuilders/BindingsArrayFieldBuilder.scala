@@ -3,15 +3,15 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 import amf.core.model.domain.AmfArray
 import amf.core.parser
 import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.OperationModel
+import amf.plugins.domain.webapi.metamodel.bindings.OperationBindingsModel
 import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
-import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields.DefaultWebApiArrayFieldTypeSymbolBuilder
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 case class BindingsArrayFieldBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
@@ -30,5 +30,5 @@ object BindingsArrayFieldCompanion extends ArrayFieldTypeSymbolBuilderCompanion 
       implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(BindingsArrayFieldBuilder(value, element))
 
-  override val supportedIri: String = OperationModel.Bindings.value.iri()
+  override val supportedIri: String = OperationBindingsModel.Bindings.value.iri()
 }

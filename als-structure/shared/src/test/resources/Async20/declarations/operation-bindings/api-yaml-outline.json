@@ -48,34 +48,7 @@
             "character": 18
           }
         },
-        "children": [
-          {
-            "name": "bindings",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 4,
-                "character": 0
-              },
-              "end": {
-                "line": 5,
-                "character": 18
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 4,
-                "character": 0
-              },
-              "end": {
-                "line": 5,
-                "character": 18
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       }
     ]
   }

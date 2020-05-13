@@ -4,12 +4,24 @@ import org.mulesoft.language.outline.structure.structureImpl.companion.FieldComp
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.asyncbuilders.{
   AsyncPayloadFieldSymbolCompanion,
   BindingsArrayFieldCompanion,
+  ChannelBindingsSymbolBuilderCompanion,
   MessageBindingsSymbolBuilderCompanion,
-  OperationBindingsSymbolBuilderCompanion
+  OperationBindingsSymbolBuilderCompanion,
+  ResponseSymbolBuilderCompanion,
+  ResponsesArrayFieldCompanion,
+  ServerBindingsSymbolBuilderCompanion
 }
 
 object Async20BuilderFactory extends EventedLikeBuilderFactory {
 
   override protected def companion: FieldCompanionList =
-    super.companion + AsyncPayloadFieldSymbolCompanion + BindingsArrayFieldCompanion + OperationBindingsSymbolBuilderCompanion + MessageBindingsSymbolBuilderCompanion
+    super.companion +
+      AsyncPayloadFieldSymbolCompanion +
+      BindingsArrayFieldCompanion +
+      OperationBindingsSymbolBuilderCompanion +
+      MessageBindingsSymbolBuilderCompanion +
+      ChannelBindingsSymbolBuilderCompanion +
+      ServerBindingsSymbolBuilderCompanion +
+      ResponseSymbolBuilderCompanion +
+      ResponsesArrayFieldCompanion
 }

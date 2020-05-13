@@ -13,12 +13,11 @@ class AmfObjectCompanionList(list: List[AmfObjectSimpleBuilderCompanion[_ <: Amf
   private val map: Map[String, AmfObjectSimpleBuilderCompanion[_ <: AmfObject]] =
     list.map(c => c.supportedIri -> c).toMap
 
-  override def find(element: AmfObject)(implicit ctx: StructureContext): Option[SymbolBuilder[_ <: AmfObject]] = {
+  override def find(element: AmfObject)(implicit ctx: StructureContext): Option[SymbolBuilder[_ <: AmfObject]] =
     find(element.metaURIs, element)
-  }
 
   private def find(definitions: Seq[String], element: AmfObject)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[_ <: AmfObject]] = {
+      implicit ctx: StructureContext): Option[SymbolBuilder[_ <: AmfObject]] =
     definitions match {
       case Nil => None
       case head :: tail =>
@@ -26,7 +25,6 @@ class AmfObjectCompanionList(list: List[AmfObjectSimpleBuilderCompanion[_ <: Amf
           map.get(head).flatMap(b => b.constructAny(element).map(_.asInstanceOf[SymbolBuilder[AmfObject]]))
         maybeOption.orElse(find(tail, element))
     }
-  }
 
   override protected def newInstance(list: List[AmfObjectSimpleBuilderCompanion[_ <: AmfObject]])
     : CompanionList[AmfObject, AmfObjectSimpleBuilderCompanion[_ <: AmfObject]] = new AmfObjectCompanionList(list)
