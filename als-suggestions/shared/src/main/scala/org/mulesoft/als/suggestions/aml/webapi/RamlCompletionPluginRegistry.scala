@@ -1,6 +1,5 @@
 package org.mulesoft.als.suggestions.aml.webapi
 
-import amf.dialects.RAML10Dialect
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml._
@@ -12,6 +11,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   WebApiKnownValueCompletionPlugin
 }
 import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPluginHandler}
+import org.mulesoft.amfintegration.dialect.dialects.raml.RAML10Dialect
 
 object RamlCompletionPluginRegistry {
 

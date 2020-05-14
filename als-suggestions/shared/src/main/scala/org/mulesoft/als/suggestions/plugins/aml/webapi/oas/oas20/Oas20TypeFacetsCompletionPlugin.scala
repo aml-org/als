@@ -2,10 +2,12 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20
 
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OasTypeFacetsCompletionPlugin
-import org.mulesoft.amfmanager.dialect.webapi.oas.{JsonSchemaForOasWrapper, Oas20DialectWrapper}
+import org.mulesoft.amfintegration.dialect.dialects.jsonschema.JsonSchemaForOasWrapper
+import org.mulesoft.amfintegration.dialect.dialects.jsonschema.oas.oas2.JsonSchemas
+import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect
 
 object Oas20TypeFacetsCompletionPlugin extends OasTypeFacetsCompletionPlugin {
-  override def jsonSchameObj: JsonSchemaForOasWrapper = Oas20DialectWrapper.JsonSchemas
+  override def jsonSchemaObj: JsonSchemaForOasWrapper = JsonSchemas
 
-  override def dialect: Dialect = Oas20DialectWrapper.dialect
+  override def dialect: Dialect = OAS20Dialect.dialect
 }

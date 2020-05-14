@@ -19,20 +19,12 @@ import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitMo
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
-import org.mulesoft.amfmanager.dialect.webapi.oas.{Oas20DialectWrapper, Oas30DialectWrapper}
-import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
-import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
+import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
+import org.mulesoft.amfintegration.dialect.webapi.raml.raml08.Raml08TypesDialect
+import org.mulesoft.amfintegration.dialect.webapi.raml.raml10.Raml10TypesDialect
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
-import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.{
-  AmlBuilderFactory,
-  AmlMetaDialectBuilderFactory
-}
-import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{
-  Async20BuilderFactory,
-  Oas20BuilderFactory,
-  Oas30BuilderFactory,
-  RamlBuilderFactory
-}
+import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.{AmlBuilderFactory, AmlMetaDialectBuilderFactory}
+import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{Async20BuilderFactory, Oas20BuilderFactory, Oas30BuilderFactory, RamlBuilderFactory}
 
 class StructureBuilder(unit: BaseUnit) {
 
@@ -42,8 +34,8 @@ class StructureBuilder(unit: BaseUnit) {
   private def populateBuilder(): Unit = unit.sourceVendor match {
     case Some(Raml08)     => contextBuilder.withDialect(Raml08TypesDialect()).withFactory(RamlBuilderFactory)
     case Some(_: Raml)    => contextBuilder.withDialect(Raml10TypesDialect()).withFactory(RamlBuilderFactory)
-    case Some(Oas30)      => contextBuilder.withDialect(Oas30DialectWrapper()).withFactory(Oas30BuilderFactory)
-    case Some(_: Oas)     => contextBuilder.withDialect(Oas20DialectWrapper.dialect).withFactory(Oas20BuilderFactory)
+    case Some(Oas30)      => contextBuilder.withDialect(OAS30Dialect()).withFactory(Oas30BuilderFactory)
+    case Some(_: Oas)     => contextBuilder.withDialect(OAS20Dialect.dialect).withFactory(Oas20BuilderFactory)
     case Some(AsyncApi20) => contextBuilder.withDialect(AsyncApi20Dialect()).withFactory(Async20BuilderFactory)
     case _ if unit.isInstanceOf[Dialect] || unit.isInstanceOf[DialectLibrary] || unit.isInstanceOf[DialectFragment] =>
       contextBuilder.withDialect(MetaDialect()).withFactory(AmlMetaDialectBuilderFactory)
@@ -56,7 +48,7 @@ class StructureBuilder(unit: BaseUnit) {
         AMLPlugin.registry.dialectFor(instance)
       case _ => None
     }
-    val d = maybeFactory.getOrElse(Oas30DialectWrapper.dialect) // amf model  === oas 3?
+    val d = maybeFactory.getOrElse(OAS30Dialect.dialect) // amf model  === oas 3?
     contextBuilder.withDialect(d).withFactory(AmlBuilderFactory)
   }
 

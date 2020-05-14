@@ -1,12 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
 import amf.core.model.domain.Shape
-import amf.dialects.oas.nodes.Oas30VariableObject
 import amf.plugins.domain.webapi.metamodel.{ParameterModel, ServerModel}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.ExceptionPlugin
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.Oas30VariableObject
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

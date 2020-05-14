@@ -1,13 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
 import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.dialects.oas.nodes.DialectNode
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.{ParameterModel, ServerModel}
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.{
-  ServerBindingObjectNode,
-  ServerBindingsObjectNode
-}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.ServerBindingsObjectNode
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object AsyncApiServerObject extends DialectNode {
 

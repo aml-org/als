@@ -1,10 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings
 
-import amf.client.model.domain.Amqp091OperationBinding
 import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.dialects.oas.nodes.DialectNode
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.bindings.{Amqp091MessageBindingModel, Amqp091OperationBindingModel, HttpOperationBindingModel, KafkaOperationBindingModel, MqttOperationBindingModel, OperationBindingModel, OperationBindingsModel}
+import amf.plugins.domain.webapi.metamodel.bindings._
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object OperationBindingObjectNode extends BindingObjectNode {
 
@@ -13,14 +12,13 @@ object OperationBindingObjectNode extends BindingObjectNode {
   override def nodeTypeMapping: String = OperationBindingModel.`type`.head.iri()
 }
 
-object OperationBindingsObjectNode extends DialectNode{
+object OperationBindingsObjectNode extends DialectNode {
   override def name: String = "OperationBindingsObjectNode"
 
   override def nodeTypeMapping: String = OperationBindingsModel.`type`.head.iri()
 
   override def properties: Seq[PropertyMapping] = Nil
 }
-
 
 object HttpOperationBindingObjectNode extends DialectNode {
   override def name: String = "HttpOperationBindingObjectNode"

@@ -1,9 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
-import amf.dialects.oas.nodes.{DialectNode, Oauth2Properties}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.security.{ApiKeySettingsModel, HttpApiKeySettingsModel, HttpSettingsModel, OAuth2FlowModel, OAuth2SettingsModel, OpenIdConnectSettingsModel, ScopeModel, SecuritySchemeModel, SettingsModel}
 import amf.core.vocabulary.Namespace.XsdTypes._
+import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import amf.plugins.domain.webapi.metamodel.security._
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{DialectNode, Oauth2Properties}
 
 object AsyncApi20SecuritySchemeObject extends DialectNode {
   override def name: String = "SecuritySchemeNode"

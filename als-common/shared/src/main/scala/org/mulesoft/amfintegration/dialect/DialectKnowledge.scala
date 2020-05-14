@@ -1,25 +1,25 @@
-package org.mulesoft.amfmanager.dialect
+package org.mulesoft.amfintegration.dialect
 
 import amf.core.model.document.BaseUnit
-import amf.core.remote.{AsyncApi20, Oas20, Oas30, Raml08, Raml10}
-import amf.dialects._
+import amf.core.remote._
 import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceUnit}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
+import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
+import org.mulesoft.amfintegration.dialect.dialects.raml.{RAML08Dialect, RAML10Dialect}
+import org.mulesoft.amfintegration.dialect.webapi.raml.raml08.Raml08TypesDialect
+import org.mulesoft.amfintegration.dialect.webapi.raml.raml10.Raml10TypesDialect
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
-import org.mulesoft.amfmanager.dialect.webapi.oas.{Oas20DialectWrapper, Oas30DialectWrapper}
-import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
-import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
 
 object DialectKnowledge {
   def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
     case _: Dialect             => Some(MetaDialect.dialect)
     case _: DialectInstanceUnit => WebApiDialectsRegistry.dialectFor(bu)
     case d if d.sourceVendor.contains(Oas20) && !OAS20Dialect().id.isEmpty =>
-      Some(Oas20DialectWrapper.dialect)
+      Some(OAS20Dialect.dialect)
     case d if d.sourceVendor.contains(Oas30) && !OAS30Dialect().id.isEmpty =>
-      Some(Oas30DialectWrapper.dialect)
+      Some(OAS30Dialect.dialect)
     case d if d.sourceVendor.contains(Raml10) && !RAML10Dialect().id.isEmpty =>
       Some(Raml10TypesDialect.dialect)
     case d if d.sourceVendor.contains(Raml08) && !RAML08Dialect().id.isEmpty =>

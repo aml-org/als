@@ -1,4 +1,4 @@
-package org.mulesoft.amfmanager.dialect
+package org.mulesoft.amfintegration.dialect
 
 import amf.ProfileName
 import amf.client.remote.Content
@@ -9,8 +9,9 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
 import org.mulesoft.als.CompilerEnvironment
+import org.mulesoft.amfintegration.dialect.dialects.AsyncAPIDialect
+import org.mulesoft.amfmanager.dialect.DialectConf
 import org.mulesoft.amfmanager.{AmfParseResult, InitOptions}
-import org.mulesoft.amfmanager.dialect.dialects.AsyncAPIDialect
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -77,5 +78,5 @@ object LoaderForDialects extends ResourceLoader with PlatformSecrets {
   override def accepts(resource: String): Boolean =
     dialectsMap.contains(resource)
 
-  val env = Environment(this)
+  val env: Environment = Environment(this)
 }
