@@ -1,16 +1,15 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure
 
 import amf.core.annotations.DeclaredElement
-import amf.core.model.domain.Shape
-import amf.dialects.oas.nodes.{AMLInfoObject, Oas20ResponseObject}
 import amf.plugins.domain.webapi.models._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
 import org.mulesoft.als.suggestions.plugins.aml._
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.Oas20ResponseObject
+import org.mulesoft.amfmanager.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import org.mulesoft.amfmanager.AmfImplicits._
 import scala.concurrent.Future
 
 object ResolveDeclaredResponse extends ResolveIfApplies {

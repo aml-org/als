@@ -1,12 +1,12 @@
-package org.mulesoft.amfmanager.dialect.webapi.raml.raml08
+package org.mulesoft.amfintegration.dialect.webapi.raml.raml08
 
 import amf.core.metamodel.domain.ShapeModel
 import amf.core.metamodel.domain.extensions.PropertyShapeModel
 import amf.core.vocabulary.Namespace
 import amf.core.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdFloat, xsdInteger, xsdString}
-import amf.dialects.RAML08Dialect
-import amf.dialects.RAML08Dialect.DialectNodes
-import amf.dialects.RAML08Dialect.DialectNodes.ExampleNode
+import org.mulesoft.amfintegration.dialect.dialects.raml.RAML08Dialect
+import org.mulesoft.amfintegration.dialect.dialects.raml.RAML08Dialect.DialectNodes
+import org.mulesoft.amfintegration.dialect.dialects.raml.RAML08Dialect.DialectNodes.ExampleNode
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping, PublicNodeMapping}
 import amf.plugins.domain.shapes.metamodel._

@@ -9,8 +9,8 @@ import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
-import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.amfmanager.{CustomDialects, DialectInitializer, InitOptions}
+import org.mulesoft.amfintegration.{AmfInstance, DialectInitializer}
+import org.mulesoft.amfmanager.{CustomDialects, InitOptions}
 import org.mulesoft.lsp.feature.completion.CompletionItem
 
 import scala.concurrent.ExecutionContext.Implicits.global

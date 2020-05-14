@@ -16,6 +16,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.async.{
   _
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OaslikeSecurityScopesCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure.ResolveInfo
 import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
 import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPluginHandler}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect

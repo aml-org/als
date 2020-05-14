@@ -8,8 +8,8 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.CompilerEnvironment
 import org.mulesoft.als.common.diff.FileAssertionTest
-import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.amfmanager.{AmfParseResult, DialectInitializer, InitOptions}
+import org.mulesoft.amfintegration.{AmfInstance, DialectInitializer}
+import org.mulesoft.amfmanager.{AmfParseResult, InitOptions}
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}

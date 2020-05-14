@@ -1,11 +1,11 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import amf.dialects.oas.nodes.{AMLExternalDocumentationObject, AMLTagObject, DialectNode}
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.OperationModel
-import amf.plugins.domain.webapi.metamodel.bindings.{OperationBindingModel, OperationBindingsModel}
+import amf.plugins.domain.webapi.metamodel.bindings.OperationBindingsModel
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.OperationBindingObjectNode
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{AMLExternalDocumentationObject, AMLTagObject, DialectNode}
 
 trait OperationAbstractObjectNode extends DialectNode{
 

@@ -1,11 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure
 
-import amf.dialects.oas.nodes.AMLInfoObject
 import amf.plugins.domain.webapi.models._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
 import org.mulesoft.als.suggestions.plugins.aml._
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.AMLInfoObject
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

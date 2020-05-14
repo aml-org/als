@@ -1,12 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.model.domain.ObjectNode
-import amf.dialects.RAML10Dialect
 import amf.plugins.domain.shapes.models.Example
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
+import org.mulesoft.amfintegration.dialect.dialects.raml.RAML10Dialect
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

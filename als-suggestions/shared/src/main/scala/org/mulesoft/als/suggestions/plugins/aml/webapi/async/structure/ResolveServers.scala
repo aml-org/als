@@ -1,6 +1,5 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async.structure
 
-import amf.dialects.oas.nodes.AMLInfoObject
 import amf.plugins.domain.shapes.models.ScalarShape
 import amf.plugins.domain.webapi.models.{Server, WebApi}
 import org.mulesoft.als.suggestions.RawSuggestion
