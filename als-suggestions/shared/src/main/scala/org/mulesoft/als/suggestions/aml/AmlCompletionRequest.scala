@@ -5,7 +5,6 @@ import amf.core.model.document.{BaseUnit, Document}
 import amf.core.model.domain.{AmfArray, AmfObject, DomainElement}
 import amf.core.parser.{FieldEntry, Position => AmfPosition}
 import amf.core.remote.Platform
-import amf.dialects.{RAML08Dialect, RAML10Dialect}
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
@@ -15,6 +14,7 @@ import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
+import org.mulesoft.amfintegration.dialect.dialects.raml.{RAML08Dialect, RAML10Dialect}
 import org.yaml.model.YNode.MutRef
 import org.yaml.model.{YDocument, YNode, YType}
 

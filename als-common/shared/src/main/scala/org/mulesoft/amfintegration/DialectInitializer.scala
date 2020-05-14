@@ -1,10 +1,11 @@
-package org.mulesoft.amfmanager
+package org.mulesoft.amfintegration
 
 import amf.ProfileName
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.DialectsRegistry
 import org.mulesoft.als.CompilerEnvironment
-import org.mulesoft.amfmanager.dialect.DialectUniversesProvider
+import org.mulesoft.amfintegration.dialect.DialectUniversesProvider
+import org.mulesoft.amfmanager.{AmfParseResult, InitOptions}
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer

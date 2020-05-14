@@ -1,12 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
 import amf.core.model.domain.Shape
+import org.mulesoft.als.suggestions.plugins.aml._
 import amf.core.parser.FieldEntry
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml._
-import org.mulesoft.amfmanager.dialect.webapi.oas.Oas30DialectWrapper
+import org.mulesoft.amfintegration.dialect.dialects.jsonschema.oas.oas3.JsonSchemas
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -23,7 +23,7 @@ object DiscriminatorFacet extends AMLCompletionPlugin {
   }
 
   private lazy val discriminatorSuggestion: RawSuggestion =
-    Oas30DialectWrapper.JsonSchemas.discriminatorProperty.toRaw("schemas")
+    JsonSchemas.discriminatorProperty.toRaw("schemas")
 
   private def applies(s: Shape, fieldEntry: Option[FieldEntry]) = logicalInheritance(s).nonEmpty && fieldEntry.isEmpty
 

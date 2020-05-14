@@ -1,9 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
 import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.dialects.oas.nodes.DialectNode
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.CorrelationIdModel
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object CorrelationIdObjectNode extends DialectNode {
   override def name: String = "CorrelationIdObjectNode"

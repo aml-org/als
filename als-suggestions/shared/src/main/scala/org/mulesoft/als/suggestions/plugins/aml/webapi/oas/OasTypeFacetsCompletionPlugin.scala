@@ -3,17 +3,17 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
-import org.mulesoft.amfmanager.dialect.webapi.oas.{JsonSchemaForOasWrapper, Oas20DialectWrapper}
+import org.mulesoft.amfintegration.dialect.dialects.jsonschema.JsonSchemaForOasWrapper
 
 trait OasTypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin {
-  def jsonSchameObj: JsonSchemaForOasWrapper
+  def jsonSchemaObj: JsonSchemaForOasWrapper
   def dialect: Dialect
 
-  override def stringShapeNode: NodeMapping = jsonSchameObj.StringSchemaObject
+  override def stringShapeNode: NodeMapping = jsonSchemaObj.StringSchemaObject
 
-  override def numberShapeNode: NodeMapping = jsonSchameObj.NumberSchemaObject
+  override def numberShapeNode: NodeMapping = jsonSchemaObj.NumberSchemaObject
 
-  override def integerShapeNode: NodeMapping = jsonSchameObj.IntegerSchemaObject
+  override def integerShapeNode: NodeMapping = jsonSchemaObj.IntegerSchemaObject
 
   override def declarations: Seq[NodeMapping] = dialect.declares.collect({ case n: NodeMapping => n })
 

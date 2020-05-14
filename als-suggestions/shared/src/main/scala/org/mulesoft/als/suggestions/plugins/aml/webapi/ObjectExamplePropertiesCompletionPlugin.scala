@@ -10,14 +10,14 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.LocalIgnoreErrorHandler
-import org.mulesoft.amfmanager.dialect.webapi.oas.Oas20DialectWrapper
+import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 case class ObjectExamplePropertiesCompletionPlugin(objectNode: ObjectNode, dialect: Dialect, branch: Seq[AmfObject]) {
 
-  private val profile = if (dialect.id == Oas20DialectWrapper.dialect.id) ProfileNames.OAS20 else ProfileNames.RAML
+  private val profile = if (dialect.id == OAS20Dialect.dialect.id) ProfileNames.OAS20 else ProfileNames.RAML
 
   def suggest(): Seq[RawSuggestion] = {
     val definitionNode =

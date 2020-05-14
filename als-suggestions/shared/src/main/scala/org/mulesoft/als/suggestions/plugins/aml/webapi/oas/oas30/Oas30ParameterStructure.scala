@@ -1,10 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
 import amf.core.annotations.{LexicalInformation, SynthesizedField}
-import amf.core.model.StrField
 import amf.core.model.domain.AmfScalar
 import amf.core.parser.Value
-import amf.dialects.oas.nodes.{Oas30AMLHeaderObject, Oas30ParamObject}
 import amf.plugins.domain.webapi.metamodel.{OperationModel, ParameterModel}
 import amf.plugins.domain.webapi.models.{Operation, Parameter}
 import org.mulesoft.als.common.AmfSonElementFinder.AlsLexicalInformation
@@ -14,6 +12,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{Oas30AMLHeaderObject, Oas30ParamObject}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

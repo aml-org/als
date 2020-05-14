@@ -1,18 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings
 
 import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.dialects.oas.nodes.DialectNode
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.bindings.{
-  Amqp091ChannelBindingModel,
-  Amqp091ChannelExchangeModel,
-  Amqp091QueueModel,
-  ChannelBindingModel,
-  ChannelBindingsModel,
-  WebSocketsChannelBindingModel
-}
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.AmqpChannelBindingObject.{location, name}
+import amf.plugins.domain.webapi.metamodel.bindings._
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.BaseShapeAsync2Node
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object ChannelBindingObjectNode extends BindingObjectNode {
 
