@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11enum",
-    "filterText": "enum: ",
+    "filterText": "enum:\n        - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 6
         }
       },
-      "newText": "enum: "
+      "newText": "enum:\n        - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
