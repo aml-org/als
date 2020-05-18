@@ -78,7 +78,8 @@ trait JsonSchemaForOasWrapper {
       .withId(DialectLocation + s"#/declarations/Schema/enum")
       .withName("enum")
       .withNodePropertyMapping(ShapeModel.Values.value.iri())
-      .withLiteralRange(xsdAnyType.iri()),
+      .withLiteralRange(xsdAnyType.iri())
+      .withAllowMultiple(true),
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/Schema/allOf")
       .withName("allOf")
