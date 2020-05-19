@@ -11,7 +11,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   SecuredByCompletionPlugin
 }
 import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPluginHandler}
-import org.mulesoft.amfintegration.dialect.dialects.raml.RAML08Dialect
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08Dialect
 
 object Raml08CompletionPluginRegistry {
 
@@ -50,5 +50,5 @@ object Raml08CompletionPluginRegistry {
       Raml08KnownValueCompletionPlugin
 
   def init(): Unit =
-    CompletionsPluginHandler.registerPlugins(all, RAML08Dialect().id)
+    CompletionsPluginHandler.registerPlugins(all, Raml08Dialect().id)
 }

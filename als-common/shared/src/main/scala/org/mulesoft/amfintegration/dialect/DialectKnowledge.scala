@@ -7,9 +7,8 @@ import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanc
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
-import org.mulesoft.amfintegration.dialect.dialects.raml.{RAML08Dialect, RAML10Dialect}
-import org.mulesoft.amfintegration.dialect.webapi.raml.raml08.Raml08TypesDialect
-import org.mulesoft.amfintegration.dialect.webapi.raml.raml10.Raml10TypesDialect
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.{Raml08Dialect, Raml08TypesDialect}
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.{Raml10Dialect, Raml10TypesDialect}
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
 
 object DialectKnowledge {
@@ -20,9 +19,9 @@ object DialectKnowledge {
       Some(OAS20Dialect.dialect)
     case d if d.sourceVendor.contains(Oas30) && !OAS30Dialect().id.isEmpty =>
       Some(OAS30Dialect.dialect)
-    case d if d.sourceVendor.contains(Raml10) && !RAML10Dialect().id.isEmpty =>
+    case d if d.sourceVendor.contains(Raml10) && !Raml10Dialect().id.isEmpty =>
       Some(Raml10TypesDialect.dialect)
-    case d if d.sourceVendor.contains(Raml08) && !RAML08Dialect().id.isEmpty =>
+    case d if d.sourceVendor.contains(Raml08) && !Raml08Dialect().id.isEmpty =>
       Some(Raml08TypesDialect.dialect)
     case d if d.sourceVendor.contains(AsyncApi20) =>
       Some(AsyncApi20Dialect.dialect)

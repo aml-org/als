@@ -13,10 +13,10 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
   AMLTagObject,
   DialectNode
 }
-import org.mulesoft.amfintegration.dialect.dialects.raml.RAML10Dialect
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10Dialect
 
 object AsyncApi20Dialect extends BaseDialect {
-  private val _                        = RAML10Dialect().id // hack for ExampleNode.id
+  private val _                        = Raml10Dialect().id // hack for ExampleNode.id
   override def DialectLocation: String = "file://vocabularies/dialects/asyncapi20.yaml"
 
   override val declares: Seq[DialectNode] = Seq(

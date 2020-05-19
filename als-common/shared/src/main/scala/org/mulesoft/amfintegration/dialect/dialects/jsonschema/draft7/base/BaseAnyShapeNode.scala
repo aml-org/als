@@ -1,6 +1,6 @@
 package org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.base
 
-import org.mulesoft.amfintegration.dialect.dialects.raml.RAML10Dialect.DialectNodes.ExampleNode
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10DialectNodes.ExampleNode
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, ExampleModel}
 
