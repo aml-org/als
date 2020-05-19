@@ -4,9 +4,9 @@ import amf.core.annotations.Aliases
 import amf.core.metamodel.domain.ModelVocabularies
 import amf.core.model.domain.DomainElement
 import amf.core.vocabulary.Namespace
-import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, DocumentsModel, External, PublicNodeMapping}
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 trait BaseDialect {
 

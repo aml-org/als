@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.metadialect
 
-import amf.dialects.oas.nodes.DialectNode
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, DocumentsModel}
 import org.mulesoft.amfintegration.dialect.BaseDialect
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object MetaDialect extends BaseDialect {
 
