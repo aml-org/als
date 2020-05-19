@@ -7,10 +7,10 @@ import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, Property
 import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
-import amf.core.remote._
+import amf.core.remote.{Oas, Oas30, Raml, _}
 import amf.core.vocabulary.Namespace.XsdTypes
 import amf.plugins.document.vocabularies.AMLPlugin
-import amf.plugins.document.vocabularies.model.document.{DialectInstance, DialectInstanceUnit}
+import amf.plugins.document.vocabularies.model.document.{Dialect, DialectFragment, DialectInstanceUnit, DialectLibrary}
 import amf.plugins.domain.shapes.metamodel._
 import amf.plugins.domain.shapes.metamodel.common.DocumentationField
 import amf.plugins.domain.shapes.models.ScalarShape
@@ -18,11 +18,15 @@ import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
+import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
 import org.mulesoft.amfmanager.dialect.webapi.oas.{Oas20DialectWrapper, Oas30DialectWrapper}
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
-import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.AmlBuilderFactory
+import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.{
+  AmlBuilderFactory,
+  AmlMetaDialectBuilderFactory
+}
 import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{
   Async20BuilderFactory,
   Oas20BuilderFactory,
@@ -41,12 +45,13 @@ class StructureBuilder(unit: BaseUnit) {
     case Some(Oas30)      => contextBuilder.withDialect(Oas30DialectWrapper()).withFactory(Oas30BuilderFactory)
     case Some(_: Oas)     => contextBuilder.withDialect(Oas20DialectWrapper.dialect).withFactory(Oas20BuilderFactory)
     case Some(AsyncApi20) => contextBuilder.withDialect(AsyncApi20Dialect()).withFactory(Async20BuilderFactory)
-    case _                => amlBuilder
+    case _ if unit.isInstanceOf[Dialect] || unit.isInstanceOf[DialectLibrary] || unit.isInstanceOf[DialectFragment] =>
+      contextBuilder.withDialect(MetaDialect()).withFactory(AmlMetaDialectBuilderFactory)
+    case _ => amlBuilder
   }
 
   private def amlBuilder = {
-    val maybeFactory = unit match {
-      //case _:Dialect => AmlBuilderFactory(MetaDialect//) // todo: meta dialect merge
+    val maybeFactory: Option[Dialect] = unit match {
       case instance: DialectInstanceUnit => // todo: I cannot  assume that declared elements in a dialect instance will be the same that for library. Declared uris dependens on context/
         AMLPlugin.registry.dialectFor(instance)
       case _ => None

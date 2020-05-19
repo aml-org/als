@@ -1,0 +1,62 @@
+[
+  {
+    "label": "!include",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "inclusion tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11!include",
+    "filterText": "!include ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 13
+        },
+        "end": {
+          "line": 7,
+          "character": 13
+        }
+      },
+      "newText": "!include "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "myClass",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "myClass",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11myClass",
+    "filterText": "myClass",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 13
+        },
+        "end": {
+          "line": 7,
+          "character": 13
+        }
+      },
+      "newText": "myClass"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

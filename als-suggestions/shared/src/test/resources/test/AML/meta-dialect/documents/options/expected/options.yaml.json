@@ -1,0 +1,122 @@
+[
+  {
+    "label": "selfEncoded",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "selfEncoded",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11selfEncoded",
+    "filterText": "selfEncoded",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "selfEncoded: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "declarationsPath",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "declarationsPath",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11declarationsPath",
+    "filterText": "declarationsPath",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "declarationsPath: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "keyProperty",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "keyProperty",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11keyProperty",
+    "filterText": "keyProperty",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "keyProperty: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "referenceStyle",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "referenceStyle",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11referenceStyle",
+    "filterText": "referenceStyle",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "referenceStyle: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
