@@ -1,9 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.metadialect
 
-import amf.dialects.oas.nodes.DialectNode
 import amf.plugins.document.vocabularies.metamodel.domain.UnionNodeMappingModel
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.core.vocabulary.Namespace.XsdTypes._
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 object UnionMappingObjectNode extends DialectNode {
   override def name: String = "UnionMappingObjectNode"
 

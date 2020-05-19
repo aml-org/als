@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration.dialect.dialects.metadialect
 
 import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.dialects.oas.nodes.DialectNode
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 import amf.plugins.document.vocabularies.metamodel.domain.DocumentsModelModel
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 
