@@ -1,14 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.metadialect
 
 import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.dialects.oas.nodes.DialectNode
-import amf.plugins.document.vocabularies.metamodel.document.DialectModel
-import amf.plugins.document.vocabularies.metamodel.domain.{
-  NodeMappingModel,
-  PropertyMappingModel,
-  UnionNodeMappingModel
-}
-import amf.plugins.document.vocabularies.model.domain.{PropertyMapping, UnionNodeMapping}
+import amf.plugins.document.vocabularies.metamodel.domain.{NodeMappingModel, PropertyMappingModel}
+import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object NodeMappingObjectNode extends DialectNode {
   override def name: String = "NodeMappingObjectNode"

@@ -1,10 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.metadialect
 
 import amf.core.vocabulary.Namespace.XsdTypes.xsdUri
-import amf.dialects.oas.nodes.DialectNode
 import amf.plugins.document.vocabularies.metamodel.domain.{DocumentMappingModel, PublicNodeMappingModel}
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
-import org.mulesoft.amfintegration.dialect.dialects.metadialect.RootDocumentObjectNode.{location, name}
+import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 trait DocumentMappingObjectNode extends DialectNode {
   override def nodeTypeMapping: String = DocumentMappingModel.`type`.head.iri()
