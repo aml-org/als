@@ -1,31 +1,20 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields
 
-import amf.core.model.domain.{AmfObject, AmfScalar}
+import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.{ResponseModel, WebApiModel}
+import amf.plugins.domain.webapi.metamodel.WebApiModel
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.FieldTypeSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
   DefaultObjectTypeSymbolBuilder,
-  DefaultScalarTypeSymbolBuilder,
-  NamedScalarFieldTypeSymbolBuilder,
   SingleObjectFieldSymbolBuilder
 }
+import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.DefaultMappedScalarTypeSymbolBuilderCompanion
 
-class DefaultWebApiScalarTypeSymbolBuilder(override val value: AmfScalar,
-                                           override val element: FieldEntry,
-                                           override val name: String)(override implicit val ctx: StructureContext)
-    extends NamedScalarFieldTypeSymbolBuilder {}
-
-object DefaultWebApiScalarTypeSymbolBuilderCompanion extends DefaultScalarTypeSymbolBuilder {
-
-  private val mapName = Map(
+object DefaultWebApiScalarTypeSymbolBuilderCompanion extends DefaultMappedScalarTypeSymbolBuilderCompanion {
+  override protected val mapName = Map(
     WebApiModel.Version -> "version"
   )
-
-  override def construct(element: FieldEntry, value: AmfScalar)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfScalar]] =
-    mapName.get(element.field).map(name => new DefaultWebApiScalarTypeSymbolBuilder(value, element, name))
 }
 
 class DefaultWebApiObjectTypeSymbolBuilder(override val value: AmfObject, override val element: FieldEntry)(

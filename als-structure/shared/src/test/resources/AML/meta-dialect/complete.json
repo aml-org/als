@@ -5,22 +5,22 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 3,
-        "character": 9
+        "line": 2,
+        "character": 0
       },
       "end": {
         "line": 3,
-        "character": 12
+        "character": 0
       }
     },
     "selectionRange": {
       "start": {
-        "line": 3,
-        "character": 9
+        "line": 2,
+        "character": 0
       },
       "end": {
         "line": 3,
-        "character": 12
+        "character": 0
       }
     },
     "children": []
@@ -32,24 +32,263 @@
     "range": {
       "start": {
         "line": 3,
-        "character": 9
+        "character": 0
       },
       "end": {
-        "line": 3,
-        "character": 12
+        "line": 5,
+        "character": 0
       }
     },
     "selectionRange": {
       "start": {
         "line": 3,
-        "character": 9
+        "character": 0
       },
       "end": {
-        "line": 3,
-        "character": 12
+        "line": 5,
+        "character": 0
       }
     },
     "children": []
+  },
+  {
+    "name": "NodeMappings",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 9,
+        "character": 0
+      },
+      "end": {
+        "line": 27,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 9,
+        "character": 0
+      },
+      "end": {
+        "line": 17,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "NodeMapping1",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 9,
+            "character": 0
+          },
+          "end": {
+            "line": 17,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 9,
+            "character": 0
+          },
+          "end": {
+            "line": 17,
+            "character": 0
+          }
+        },
+        "children": [
+          {
+            "name": "property",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 10,
+                "character": 4
+              },
+              "end": {
+                "line": 17,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 10,
+                "character": 4
+              },
+              "end": {
+                "line": 17,
+                "character": 0
+              }
+            },
+            "children": [
+              {
+                "name": "Mapping2",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 15,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 17,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 15,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 17,
+                    "character": 0
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "Mapping1",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 12,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 14,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 12,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 14,
+                    "character": 0
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "NodeMapping2",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 18,
+            "character": 0
+          },
+          "end": {
+            "line": 27,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 18,
+            "character": 0
+          },
+          "end": {
+            "line": 27,
+            "character": 0
+          }
+        },
+        "children": [
+          {
+            "name": "property",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 19,
+                "character": 4
+              },
+              "end": {
+                "line": 27,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 19,
+                "character": 4
+              },
+              "end": {
+                "line": 27,
+                "character": 0
+              }
+            },
+            "children": [
+              {
+                "name": "Mapping1",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 21,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 23,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 21,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 23,
+                    "character": 0
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "Mapping2",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 24,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 27,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 24,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 27,
+                    "character": 0
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "name": "documents",
@@ -77,87 +316,7 @@
     },
     "children": [
       {
-        "name": "MyDialect 1.0",
-        "kind": 7,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 28,
-            "character": 7
-          },
-          "end": {
-            "line": 32,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 28,
-            "character": 7
-          },
-          "end": {
-            "line": 32,
-            "character": 0
-          }
-        },
-        "children": [
-          {
-            "name": "declaredNode",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 30,
-                "character": 4
-              },
-              "end": {
-                "line": 32,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 30,
-                "character": 4
-              },
-              "end": {
-                "line": 32,
-                "character": 0
-              }
-            },
-            "children": [
-              {
-                "name": "types",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 31,
-                    "character": 6
-                  },
-                  "end": {
-                    "line": 32,
-                    "character": 0
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 31,
-                    "character": 6
-                  },
-                  "end": {
-                    "line": 31,
-                    "character": 11
-                  }
-                },
-                "children": []
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "MyDialect 1.0 / Library",
+        "name": "library",
         "kind": 7,
         "deprecated": false,
         "range": {
@@ -176,8 +335,8 @@
             "character": 2
           },
           "end": {
-            "line": 35,
-            "character": 27
+            "line": 32,
+            "character": 9
           }
         },
         "children": [
@@ -259,191 +418,6 @@
                 "children": []
               }
             ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "NodeMappings",
-    "kind": 7,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 9,
-        "character": 0
-      },
-      "end": {
-        "line": 27,
-        "character": 0
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 9,
-        "character": 0
-      },
-      "end": {
-        "line": 17,
-        "character": 0
-      }
-    },
-    "children": [
-      {
-        "name": "NodeMapping1",
-        "kind": 7,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 9,
-            "character": 0
-          },
-          "end": {
-            "line": 17,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 9,
-            "character": 0
-          },
-          "end": {
-            "line": 17,
-            "character": 0
-          }
-        },
-        "children": [
-          {
-            "name": "Mapping1",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 12,
-                "character": 0
-              },
-              "end": {
-                "line": 14,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 12,
-                "character": 0
-              },
-              "end": {
-                "line": 14,
-                "character": 0
-              }
-            },
-            "children": []
-          },
-          {
-            "name": "Mapping2",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 15,
-                "character": 0
-              },
-              "end": {
-                "line": 17,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 15,
-                "character": 0
-              },
-              "end": {
-                "line": 17,
-                "character": 0
-              }
-            },
-            "children": []
-          }
-        ]
-      },
-      {
-        "name": "NodeMapping2",
-        "kind": 7,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 18,
-            "character": 0
-          },
-          "end": {
-            "line": 27,
-            "character": 0
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 18,
-            "character": 0
-          },
-          "end": {
-            "line": 27,
-            "character": 0
-          }
-        },
-        "children": [
-          {
-            "name": "Mapping1",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 21,
-                "character": 0
-              },
-              "end": {
-                "line": 23,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 21,
-                "character": 0
-              },
-              "end": {
-                "line": 23,
-                "character": 0
-              }
-            },
-            "children": []
-          },
-          {
-            "name": "Mapping2",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 24,
-                "character": 0
-              },
-              "end": {
-                "line": 27,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 24,
-                "character": 0
-              },
-              "end": {
-                "line": 27,
-                "character": 0
-              }
-            },
-            "children": []
           }
         ]
       }
