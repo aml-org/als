@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import org.mulesoft.als.suggestions.plugins.aml.webapi.ShapeNumberShapeFormatValues
-import org.mulesoft.amfintegration.dialect.webapi.raml.raml10.Raml10TypesDialect
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
 object RamlNumberShapeFormatValues extends ShapeNumberShapeFormatValues {
   override def id: String = "RamlNumberShapeFormatValues"

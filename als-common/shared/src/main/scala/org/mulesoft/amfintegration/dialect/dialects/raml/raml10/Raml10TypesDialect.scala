@@ -1,26 +1,22 @@
-package org.mulesoft.amfintegration.dialect.webapi.raml.raml08
+package org.mulesoft.amfintegration.dialect.dialects.raml.raml10
 
 import amf.core.metamodel.domain.ShapeModel
-import amf.core.metamodel.domain.extensions.PropertyShapeModel
+import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, PropertyShapeModel}
 import amf.core.vocabulary.Namespace
 import amf.core.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdFloat, xsdInteger, xsdString}
-import org.mulesoft.amfintegration.dialect.dialects.raml.RAML08Dialect
-import org.mulesoft.amfintegration.dialect.dialects.raml.RAML08Dialect.DialectNodes
-import org.mulesoft.amfintegration.dialect.dialects.raml.RAML08Dialect.DialectNodes.ExampleNode
+import Raml10DialectNodes.ExampleNode
 import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping, PublicNodeMapping}
+import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping, PublicNodeMapping}
 import amf.plugins.domain.shapes.metamodel._
 
-object Raml08TypesDialect {
+object Raml10TypesDialect {
+
+  val DialectLocation = "file://parallel-als/vocabularies/dialects/raml10.yaml"
 
   // hack to force object initialization in amf and avoid exception
-  private val orignalId = RAML08Dialect().id
+  private val orignalId = Raml10Dialect().id
 
-  val DialectLocation = "file://parallel-als/vocabularies/dialects/raml08.yaml"
-
-  val ShapeNodeId: String   = DialectLocation + "#/declarations/ShapeNode"
-  val SchemasNodeId: String = DialectLocation + "#/declarations/SchemasNode"
-
+  val ShapeNodeId: String = DialectLocation + "#/declarations/ShapeNode"
   val shapeTypesProperty: PropertyMapping = PropertyMapping()
     .withId(DialectLocation + "#/declarations/ShapeNode/inherits")
     .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
@@ -31,13 +27,17 @@ object Raml08TypesDialect {
         "number",
         "integer",
         "boolean",
+        "array",
         "file",
-        "date"
+        "object",
+        "date-only",
+        "time-only",
+        "datetime-only",
+        "datetime",
+        "nil",
+        "any"
       ))
     .withLiteralRange(xsdString.iri())
-
-  val schemasProperties: Seq[PropertyMapping] = Seq(shapeTypesProperty)
-
   val shapeProperties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/ShapeNode/in")
@@ -60,6 +60,12 @@ object Raml08TypesDialect {
       .withNodePropertyMapping(ShapeModel.Description.value.iri())
       .withName("description")
       .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(DialectLocation + "#/declarations/ShapeNode/facets")
+      .withNodePropertyMapping(ShapeModel.CustomShapeProperties.value.iri())
+      .withName("facets")
+      .withObjectRange(Seq(CustomDomainPropertyModel.`type`.head.iri()))
+      .withMapTermKeyProperty(CustomDomainPropertyModel.Name.value.iri()),
     shapeTypesProperty
   )
 
@@ -69,18 +75,23 @@ object Raml08TypesDialect {
     .withNodeTypeMapping(ShapeModel.`type`.head.iri())
     .withPropertiesMapping(shapeProperties)
 
-  val SchemasNode: NodeMapping = NodeMapping()
-    .withId(SchemasNodeId)
-    .withName("SchemasNode")
-    .withNodeTypeMapping(ShapeModel.`type`.head.iri())
-    .withPropertiesMapping(schemasProperties)
-
   val anyShapeProperties: Seq[PropertyMapping] = Seq(
+    PropertyMapping()
+      .withId(DialectLocation + "#/declarations/AnyShapeNode/xmlSerialization")
+      .withNodePropertyMapping(AnyShapeModel.XMLSerialization.value.iri())
+      .withName("xml")
+      .withObjectRange(Seq(XMLSerializerModel.`type`.head.iri())),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/AnyShapeNode/example")
       .withNodePropertyMapping(AnyShapeModel.Examples.value.iri())
       .withName("example")
+      .withObjectRange(Seq(ExampleNode.id)),
+    PropertyMapping()
+      .withId(DialectLocation + "#/declarations/AnyShapeNode/examples")
+      .withNodePropertyMapping(AnyShapeModel.Examples.value.iri())
+      .withName("examples")
       .withObjectRange(Seq(ExampleNode.id))
+      .withMapTermKeyProperty(ExampleModel.Name.value.iri())
   ) ++ shapeProperties
 
   val AnyShapeNode: NodeMapping = NodeMapping()
@@ -106,15 +117,66 @@ object Raml08TypesDialect {
     .withId(DialectLocation + "#/declarations/NodeShapeNode")
     .withName("NodeShapeNode")
     .withNodeTypeMapping(NodeShapeModel.`type`.head.iri())
-    .withPropertiesMapping(
-      anyShapeProperties ++ Seq(
-        PropertyMapping()
-          .withId(DialectLocation + "#/declarations/NodeShapeNode/properties")
-          .withNodePropertyMapping(NodeShapeModel.Properties.value.iri())
-          .withName("properties")
-          .withObjectRange(Seq(PropertyShapeNode.id))
-          .withMapTermKeyProperty(PropertyShapeModel.Name.value.iri())
-      ))
+    .withPropertiesMapping(anyShapeProperties ++ Seq(
+      PropertyMapping()
+        .withId(DialectLocation + "#/declarations/NodeShapeNode/minProperties")
+        .withNodePropertyMapping(NodeShapeModel.MinProperties.value.iri())
+        .withName("minProperties")
+        withLiteralRange xsdInteger.iri(),
+      PropertyMapping()
+        .withId(DialectLocation + "#/declarations/NodeShapeNode/maxProperties")
+        .withNodePropertyMapping(NodeShapeModel.MaxProperties.value.iri())
+        .withName("maxProperties")
+        withLiteralRange xsdInteger.iri(),
+      PropertyMapping()
+        .withId(DialectLocation + "#/declarations/NodeShapeNode/additionalProperties")
+        .withNodePropertyMapping(NodeShapeModel.Closed.value.iri())
+        .withName("additionalProperties")
+        withLiteralRange xsdBoolean.iri(),
+      PropertyMapping()
+        .withId(DialectLocation + "#/declarations/NodeShapeNode/discriminator")
+        .withNodePropertyMapping(NodeShapeModel.Discriminator.value.iri())
+        .withName("discriminator")
+        withLiteralRange xsdString.iri(),
+      PropertyMapping()
+        .withId(DialectLocation + "#/declarations/NodeShapeNode/discriminatorValue")
+        .withNodePropertyMapping(NodeShapeModel.DiscriminatorValue.value.iri())
+        .withName("discriminatorValue")
+        withLiteralRange xsdString.iri(),
+      PropertyMapping()
+        .withId(DialectLocation + "#/declarations/NodeShapeNode/properties")
+        .withNodePropertyMapping(NodeShapeModel.Properties.value.iri())
+        .withName("properties")
+        .withObjectRange(Seq(PropertyShapeNode.id))
+        .withMapTermKeyProperty(PropertyShapeModel.Name.value.iri())
+    ))
+
+  val ArrayShapeNode: NodeMapping = NodeMapping()
+    .withId(DialectLocation + "#/declarations/ArrayShapeNode")
+    .withName("ArrayShapeNode")
+    .withNodeTypeMapping(ArrayShapeModel.`type`.head.iri())
+    .withPropertiesMapping(anyShapeProperties ++ Seq(
+      PropertyMapping()
+        .withId(DialectLocation + "#/declarations/ArrayShapeNode/items")
+        .withNodePropertyMapping(ArrayShapeModel.Items.value.iri())
+        .withName("items")
+        .withObjectRange(Seq(ShapeNodeId)),
+      PropertyMapping()
+        .withId(DialectLocation + "#/declarations/ArrayShapeNode/minItems")
+        .withNodePropertyMapping(ArrayShapeModel.MinItems.value.iri())
+        .withName("minItems")
+        .withLiteralRange(xsdInteger.iri()),
+      PropertyMapping()
+        .withId(DialectLocation + "#/declarations/ArrayShapeNode/maxItems")
+        .withNodePropertyMapping(ArrayShapeModel.MaxItems.value.iri())
+        .withName("maxItems")
+        .withLiteralRange(xsdInteger.iri()),
+      PropertyMapping()
+        .withId(DialectLocation + "#/declarations/ArrayShapeNode/uniqueItems")
+        .withNodePropertyMapping(ArrayShapeModel.UniqueItems.value.iri())
+        .withName("uniqueItems")
+        .withLiteralRange(xsdBoolean.iri())
+    ))
 
   val UnionShapeNode: NodeMapping = NodeMapping()
     .withId(DialectLocation + "#/declarations/UnionShapeNode")
@@ -215,8 +277,40 @@ object Raml08TypesDialect {
     .withName("NilShapeNode")
     .withNodeTypeMapping(NilShapeModel.`type`.head.iri())
 
+  val AnnotationType: NodeMapping = NodeMapping()
+    .withId(DialectLocation + "#/declarations/AnnotationType")
+    .withName("AnnotationType")
+    .withNodeTypeMapping(CustomDomainPropertyModel.`type`.head.iri())
+    .withPropertiesMapping(
+      Seq(
+        PropertyMapping()
+          .withId(DialectLocation + "#/declarations/AnnotationType/allowedTargets")
+          .withNodePropertyMapping(CustomDomainPropertyModel.Domain.value.iri())
+          .withName("allowedTargets")
+          .withAllowMultiple(true)
+          .withEnum(Seq(
+            "API",
+            "DocumentationItem",
+            "Resource",
+            "Method",
+            "Response",
+            "RequestBody",
+            "ResponseBody",
+            "TypeDeclaration",
+            "Example",
+            "ResourceType",
+            "Trait",
+            "SecurityScheme",
+            "SecuritySchemeSettings",
+            "AnnotationType",
+            "Library",
+            "Overlay",
+            "Extension"
+          ))
+          .withLiteralRange(xsdString.iri())))
+
   val dialect: Dialect = {
-    val dialect = RAML08Dialect()
+    val dialect = Raml10Dialect()
     dialect.withDeclares(
       dialect.declares ++
         Seq(
@@ -224,43 +318,52 @@ object Raml08TypesDialect {
           AnyShapeNode,
           PropertyShapeNode,
           NodeShapeNode,
+          ArrayShapeNode,
           UnionShapeNode,
           StringShapeNode,
           NumberShapeNode,
           FileShapeNode,
           NilShapeNode,
           ScalarShapeNode,
-          Raml08SecuritySchemesDialect.SecurityScheme,
-          Raml08SecuritySchemesDialect.OAuth1Settings,
-          Raml08SecuritySchemesDialect.OAuth2Settings,
-          Raml08SecuritySchemesDialect.OAuth2Flows
+          Raml10SecuritySchemesDialect.SecurityScheme,
+          Raml10SecuritySchemesDialect.OAuth1Settings,
+          Raml10SecuritySchemesDialect.OAuth2Settings,
+          Raml10SecuritySchemesDialect.OAuth2Flows,
+          AnnotationType
         ))
 
     val declaredNodes = Seq(
       PublicNodeMapping()
+        .withId(DialectLocation + "#/documents/types")
+        .withName("types")
+        .withMappedNode(ShapeNode.id),
+      PublicNodeMapping()
         .withId(DialectLocation + "#/documents/resourceTypes")
         .withName("resourceTypes")
-        .withMappedNode(DialectNodes.ResourceTypeNode.id),
-      PublicNodeMapping()
-        .withId(DialectLocation + "#/documents/schemas")
-        .withName("schemas")
-        .withMappedNode(ShapeNode.id),
+        .withMappedNode(Raml10DialectNodes.ResourceTypeNode.id),
       PublicNodeMapping()
         .withId(DialectLocation + "#/documents/traits")
         .withName("traits")
-        .withMappedNode(DialectNodes.TraitNode.id),
+        .withMappedNode(Raml10DialectNodes.TraitNode.id),
       PublicNodeMapping()
         .withId(DialectLocation + "#/documents/securitySchemes")
         .withName("securitySchemes")
-        .withMappedNode(Raml08SecuritySchemesDialect.SecurityScheme.id) // todo
+        .withMappedNode(Raml10SecuritySchemesDialect.SecurityScheme.id), // todo
+      PublicNodeMapping()
+        .withId(DialectLocation + "#/documents/annotationTypes")
+        .withName("annotationTypes")
+        .withMappedNode(AnnotationType.id) // todo
     )
 
     dialect.documents().root().withDeclaredNodes(declaredNodes)
 
     dialect
       .documents()
+      .withLibrary(
+        DocumentMapping()
+          .withId(DialectLocation + "#/library")
+          .withDeclaredNodes(declaredNodes))
     dialect
   }
-
   def apply(): Dialect = dialect
 }

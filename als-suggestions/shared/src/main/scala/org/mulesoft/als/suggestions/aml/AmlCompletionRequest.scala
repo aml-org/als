@@ -14,7 +14,8 @@ import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
-import org.mulesoft.amfintegration.dialect.dialects.raml.{RAML08Dialect, RAML10Dialect}
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08Dialect
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10Dialect
 import org.yaml.model.YNode.MutRef
 import org.yaml.model.{YDocument, YNode, YType}
 
@@ -37,9 +38,9 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
   def prefix: String = styler.params.prefix
 
   private val strict = actualDialect.id match {
-    case RAML10Dialect.DialectLocation => false
-    case RAML08Dialect.DialectLocation => false
-    case _                             => true
+    case Raml10Dialect.`dialectLocation` => false
+    case Raml08Dialect.`dialectLocation` => false
+    case _                               => true
   }
 
   lazy val fieldEntry: Option[FieldEntry] = { // todo: maybe this should be a seq and not an option

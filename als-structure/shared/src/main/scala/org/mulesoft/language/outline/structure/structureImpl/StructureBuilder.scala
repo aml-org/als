@@ -20,8 +20,8 @@ import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
-import org.mulesoft.amfintegration.dialect.webapi.raml.raml08.Raml08TypesDialect
-import org.mulesoft.amfintegration.dialect.webapi.raml.raml10.Raml10TypesDialect
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.{AmlBuilderFactory, AmlMetaDialectBuilderFactory}
 import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{Async20BuilderFactory, Oas20BuilderFactory, Oas30BuilderFactory, RamlBuilderFactory}
