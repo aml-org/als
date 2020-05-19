@@ -7,12 +7,14 @@ import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceUnit}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
+import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
 import org.mulesoft.amfmanager.dialect.webapi.oas.{Oas20DialectWrapper, Oas30DialectWrapper}
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
 
 object DialectKnowledge {
   def dialectFor(bu: BaseUnit): Option[Dialect] = bu match {
+    case _: Dialect             => Some(MetaDialect.dialect)
     case _: DialectInstanceUnit => WebApiDialectsRegistry.dialectFor(bu)
     case d if d.sourceVendor.contains(Oas20) && !OAS20Dialect().id.isEmpty =>
       Some(Oas20DialectWrapper.dialect)

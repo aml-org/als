@@ -1,0 +1,122 @@
+[
+  {
+    "label": "fragments",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "fragments",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11fragments",
+    "filterText": "fragments:\n    ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      },
+      "newText": "fragments:\n    "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "library",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "library",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11library",
+    "filterText": "library:\n    ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      },
+      "newText": "library:\n    "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "options",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "options",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11options",
+    "filterText": "options:\n    ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      },
+      "newText": "options:\n    "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "root",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "root",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11root",
+    "filterText": "root:\n    ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      },
+      "newText": "root:\n    "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

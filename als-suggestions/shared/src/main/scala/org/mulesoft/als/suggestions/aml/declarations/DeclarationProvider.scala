@@ -6,7 +6,7 @@ import amf.core.model.document.{BaseUnit, DeclaresModel}
 import amf.core.model.domain.DomainElement
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
-import org.mulesoft.als.common.ElementNameExtractor._
+import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.amfmanager.AmfImplicits._
 
 import scala.collection.mutable

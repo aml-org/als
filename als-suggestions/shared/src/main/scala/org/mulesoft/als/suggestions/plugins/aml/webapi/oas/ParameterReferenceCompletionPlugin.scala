@@ -6,7 +6,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLJsonSchemaStyleDeclarationReferences
-import org.mulesoft.als.common.ElementNameExtractor._
+import org.mulesoft.als.common.SemanticNamedElement._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
