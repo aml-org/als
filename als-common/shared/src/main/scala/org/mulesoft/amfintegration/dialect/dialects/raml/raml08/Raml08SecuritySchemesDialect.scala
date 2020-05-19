@@ -1,18 +1,16 @@
-package org.mulesoft.amfintegration.dialect.webapi.raml.raml10
+package org.mulesoft.amfintegration.dialect.dialects.raml.raml08
 
 import amf.core.metamodel.domain.ShapeModel
 import amf.core.metamodel.domain.extensions.PropertyShapeModel
 import amf.core.vocabulary.Namespace
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import org.mulesoft.amfintegration.dialect.dialects.raml.RAML10Dialect.DialectNodes
-import org.mulesoft.amfintegration.dialect.dialects.raml.RAML10Dialect.DialectNodes.DataTypeNodeId
+import Raml08DialectNodes.DataTypeNodeId
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import amf.plugins.domain.webapi.metamodel.security.{OAuth1SettingsModel, OAuth2FlowModel, OAuth2SettingsModel, SecuritySchemeModel}
 import amf.plugins.domain.webapi.metamodel.{OperationModel, ParameterModel, RequestModel, ResponseModel}
-import Raml10TypesDialect.{DialectLocation, ShapeNodeId}
+import Raml08TypesDialect.{DialectLocation, ShapeNodeId}
 
-
-object Raml10SecuritySchemesDialect {
+object Raml08SecuritySchemesDialect {
 
   val shapeTypesProperty: PropertyMapping = PropertyMapping()
     .withId(DialectLocation + "#/declarations/ShapeNode/inherits")
@@ -54,7 +52,7 @@ object Raml10SecuritySchemesDialect {
         .withId(DialectLocation + "#/declarations/DescribedBy/parameters")
         .withName("queryParameters")
         .withNodePropertyMapping(RequestModel.QueryParameters.value.iri())
-        .withMapTermKeyProperty(ParameterModel.Name.value.iri())
+        .withMapTermKeyProperty(ShapeModel.Name.value.iri())
         .withObjectRange(Seq(
           DataTypeNodeId
         )),
@@ -72,7 +70,7 @@ object Raml10SecuritySchemesDialect {
         .withNodePropertyMapping(OperationModel.Responses.value.iri())
         .withMapTermKeyProperty(ResponseModel.StatusCode.value.iri())
         .withObjectRange(Seq(
-          DialectNodes.ResponseNode.id
+          Raml08DialectNodes.ResponseNode.id
         )),
     ))
 
@@ -121,14 +119,10 @@ object Raml10SecuritySchemesDialect {
         .withName("authorizationGrants")
         .withNodePropertyMapping(
           OAuth2SettingsModel.AuthorizationGrants.value.iri())
-        .withEnum(Seq("authorization_code",
-          "password",
-          "client_credentials",
-          "implicit"))
+        .withEnum(Seq("code", "token", "owner", "credentials"))
         .withAllowMultiple(true)
         .withLiteralRange(xsdString.iri()),
     ))
-
   val OAuth2Flows: NodeMapping = NodeMapping()
     .withId(DialectLocation + "#/declarations/OAuth2Settings")
     .withName("OAuth2Settings")
@@ -170,14 +164,8 @@ object Raml10SecuritySchemesDialect {
             "OAuth 2.0",
             "Basic Authentication",
             "Digest Authentication",
-            "Pass Through",
             "x-"
           ))
-        .withLiteralRange(xsdString.iri()),
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/SecuritySchemes/displayName")
-        .withNodePropertyMapping(SecuritySchemeModel.DisplayName.value.iri())
-        .withName("displayName")
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
         .withId(DialectLocation + "#/declarations/SecuritySchemes/description")
@@ -190,4 +178,5 @@ object Raml10SecuritySchemesDialect {
         .withName("describedBy")
         .withObjectRange(Seq(DescribedBy.id))
     ))
+
 }

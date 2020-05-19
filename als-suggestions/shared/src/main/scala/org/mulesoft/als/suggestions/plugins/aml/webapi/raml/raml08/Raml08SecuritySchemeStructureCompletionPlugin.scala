@@ -6,7 +6,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLStructureCompletionsPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
-import org.mulesoft.amfintegration.dialect.webapi.raml.raml08.Raml08SecuritySchemesDialect
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08SecuritySchemesDialect
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global

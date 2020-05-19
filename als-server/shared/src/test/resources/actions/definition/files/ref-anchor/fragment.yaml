@@ -1,0 +1,4 @@
+mySchema:
+  type: object
+  properties:
+    id: string

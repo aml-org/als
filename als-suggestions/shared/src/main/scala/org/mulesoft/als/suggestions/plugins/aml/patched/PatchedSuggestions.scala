@@ -5,8 +5,8 @@ import amf.plugins.domain.webapi.metamodel._
 import org.mulesoft.als.suggestions.plugins.aml.webapi._
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
-import org.mulesoft.amfintegration.dialect.webapi.raml.raml08.Raml08TypesDialect
-import org.mulesoft.amfintegration.dialect.webapi.raml.raml10.Raml10TypesDialect
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
 case class PatchedSuggestion(text: String, description: Option[String] = None, isObj: Boolean = false)
 

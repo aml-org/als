@@ -46,6 +46,7 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
       case None => ActionTools.sourceLocationToLocation(obj.annotations.sourceLocation)
     }
 
+  @scala.annotation.tailrec
   private def findLastChild(ast: YPart): YPart = ast match {
     case m: YMap =>
       if (m.children.size == 1)
@@ -66,10 +67,11 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
       .map(a =>
         Location(
           a.ast.location.sourceName,
-          LspRangeConverter.toLspRange(PositionRange(
-            Position(AmfPosition(a.ast.location.lineFrom, a.ast.location.columnFrom)), // todo: find a nicer way to take parent entry?
-            Position(AmfPosition(a.ast.location.lineTo, a.ast.location.columnTo))
-          ))
+          LspRangeConverter.toLspRange(
+            PositionRange(
+              Position(AmfPosition(a.ast.location.lineFrom, a.ast.location.columnFrom)),
+              Position(AmfPosition(a.ast.location.lineTo, a.ast.location.columnTo))
+            ))
       ))
   }
 }
