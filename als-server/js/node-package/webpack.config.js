@@ -23,6 +23,9 @@ const baseConfig = {
     library: 'AlsServer',
     globalObject: 'this'
   },
+  resolve: {
+    modules: [path.resolve(__dirname, 'node_modules')]
+  },
   module: {
 
     rules: [
@@ -58,7 +61,7 @@ const baseConfig = {
 const fastOptConfig = {
   entry: {
     'als-server': [
-        path.resolve('@babel/polyfill'),
+        '@babel/polyfill',
         path.resolve(__dirname, 'lib/als-server.js')
       ]
   },
@@ -69,7 +72,7 @@ const fullOptIgnoredChunks = [{name: 'als-server.min'}]
 const fullOptConfig = {
   entry: {
     'als-server.min': [
-        path.resolve('@babel/polyfill'),
+        '@babel/polyfill',
         path.resolve(__dirname, 'lib/als-server.min.js')
       ]
   },
