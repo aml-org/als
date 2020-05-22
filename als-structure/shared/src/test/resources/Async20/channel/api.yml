@@ -1,0 +1,14 @@
+asyncapi: 2.0.0
+info:
+  title: t1
+channels:
+  test/first:
+    publish:
+      description: desc1
+      message:
+        contentType: application/json
+  other:
+    publish:
+      description: desc2
+      message:
+        contentType: application/xml

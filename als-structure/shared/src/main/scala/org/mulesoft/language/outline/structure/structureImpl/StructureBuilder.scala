@@ -2,21 +2,29 @@ package org.mulesoft.language.outline.structure.structureImpl
 
 import amf.client.model.DataTypes
 import amf.core.metamodel.Field
+import amf.core.metamodel.Type.Scalar
 import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, PropertyShapeModel}
 import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
-import amf.core.remote.{Oas, Oas30, Raml}
+import amf.core.remote._
 import amf.core.vocabulary.Namespace.XsdTypes
+import amf.plugins.document.vocabularies.AMLPlugin
+import amf.plugins.document.vocabularies.model.document.{DialectInstance, DialectInstanceUnit}
 import amf.plugins.domain.shapes.metamodel._
 import amf.plugins.domain.shapes.metamodel.common.DocumentationField
 import amf.plugins.domain.shapes.models.ScalarShape
 import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
 import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
+import org.mulesoft.amfmanager.dialect.webapi.oas.{Oas20DialectWrapper, Oas30DialectWrapper}
+import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect
+import org.mulesoft.amfmanager.dialect.webapi.raml.raml10.Raml10TypesDialect
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.AmlBuilderFactory
 import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{
+  Async20BuilderFactory,
   Oas20BuilderFactory,
   Oas30BuilderFactory,
   RamlBuilderFactory
@@ -24,15 +32,34 @@ import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{
 
 class StructureBuilder(unit: BaseUnit) {
 
-  private val builderFactory: BuilderFactory = unit.sourceVendor match {
-    case Some(_: Raml) => RamlBuilderFactory
-    case Some(Oas30)   => Oas30BuilderFactory
-    case Some(_: Oas)  => Oas20BuilderFactory
-    case _             => AmlBuilderFactory
+  // todo: general amf model dialect?
+  private val contextBuilder = new StructureContextBuilder(unit)
+
+  private def populateBuilder(): Unit = unit.sourceVendor match {
+    case Some(Raml08)     => contextBuilder.withDialect(Raml08TypesDialect()).withFactory(RamlBuilderFactory)
+    case Some(_: Raml)    => contextBuilder.withDialect(Raml10TypesDialect()).withFactory(RamlBuilderFactory)
+    case Some(Oas30)      => contextBuilder.withDialect(Oas30DialectWrapper()).withFactory(Oas30BuilderFactory)
+    case Some(_: Oas)     => contextBuilder.withDialect(Oas20DialectWrapper.dialect).withFactory(Oas20BuilderFactory)
+    case Some(AsyncApi20) => contextBuilder.withDialect(AsyncApi20Dialect()).withFactory(Async20BuilderFactory)
+    case _                => amlBuilder
   }
 
-  def listSymbols(): List[DocumentSymbol] =
-    builderFactory.builderFor(unit).map(_.build().toList).getOrElse(Nil)
+  private def amlBuilder = {
+    val maybeFactory = unit match {
+      //case _:Dialect => AmlBuilderFactory(MetaDialect//) // todo: meta dialect merge
+      case instance: DialectInstanceUnit => // todo: I cannot  assume that declared elements in a dialect instance will be the same that for library. Declared uris dependens on context/
+        AMLPlugin.registry.dialectFor(instance)
+      case _ => None
+    }
+    val d = maybeFactory.getOrElse(Oas30DialectWrapper.dialect) // amf model  === oas 3?
+    contextBuilder.withDialect(d).withFactory(AmlBuilderFactory)
+  }
+
+  def listSymbols(): List[DocumentSymbol] = {
+    populateBuilder()
+    val context = contextBuilder.build()
+    context.factory.builderFor(unit)(context).map(_.build().toList).getOrElse(Nil)
+  }
 
   // unused?
   def fullRange(ranges: Seq[PositionRange]): PositionRange = {
@@ -62,7 +89,8 @@ object KindForResultMatcher {
     DomainElementModel.CustomDomainProperties.value.iri() -> SymbolKind.Enum,
     (new TagsModel {}).Tags.value.iri() -> SymbolKind.Package,
     WebApiModel.Security.value.iri() -> SymbolKind.String,
-    ServerModel.Url.value.iri()      -> SymbolKind.String
+    ServerModel.Url.value.iri()      -> SymbolKind.String,
+    WebApiModel.Version.value.iri()  -> SymbolKind.String
   )
 
   private val documentationField: String =
@@ -114,8 +142,14 @@ object KindForResultMatcher {
     }
   }
 
-  def kindForField(f: Field): SymbolKind = kindForIri(f.value.iri())
+  def kindForField(f: Field): SymbolKind = irisMap.getOrElse(f.value.iri(), kindForFieldType(f))
 
-  def kindForIri(iri: String): SymbolKind =
-    irisMap.getOrElse(iri, SymbolKind.Property)
+  def kindForFieldType(f: Field): SymbolKind = f.`type` match {
+    case s: Scalar => SymbolKind.String
+    case amf.core.metamodel.Type.Int | amf.core.metamodel.Type.Float | amf.core.metamodel.Type.Double =>
+      SymbolKind.Number
+    case amf.core.metamodel.Type.Bool => SymbolKind.Boolean
+    case _                            => SymbolKind.Property
+  }
+
 }

@@ -1,0 +1,6 @@
+asyncapi: 2.0.0
+components:
+  operationBindings:
+    ob:
+      amqp:
+        ack: false

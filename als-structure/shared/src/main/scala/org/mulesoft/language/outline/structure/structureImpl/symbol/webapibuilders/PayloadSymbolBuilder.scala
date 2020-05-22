@@ -8,31 +8,32 @@ import amf.plugins.domain.webapi.metamodel.PayloadModel
 import amf.plugins.domain.webapi.models.Payload
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.amfintegration.ParserRangeImplicits._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.AmfObjSymbolBuilder
-import org.mulesoft.language.outline.structure.structureImpl.{
-  BuilderFactory,
-  DocumentSymbol,
-  ElementSymbolBuilder,
-  ElementSymbolBuilderCompanion
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  AmfObjectSimpleBuilderCompanion,
+  StructuredSymbolBuilder,
+  SymbolBuilder
 }
-class PayloadSymbolBuilder(override val element: Payload)(implicit val factory: BuilderFactory)
-    extends AmfObjSymbolBuilder[Payload] {
+import amf.core.parser.Range
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
+class PayloadSymbolBuilder(override val element: Payload)(implicit val ctx: StructureContext)
+    extends StructuredSymbolBuilder[Payload] {
   override def ignoreFields: List[Field] = super.ignoreFields :+ PayloadModel.Schema
 
-  override protected def children: List[DocumentSymbol] =
+  override protected val children: List[DocumentSymbol] =
     super.children ++
       Option(element.schema)
-        .flatMap(factory.builderForElement)
+        .flatMap(s => ctx.factory.builderFor(s))
         .map(bs => bs.build().flatMap(_.children))
         .getOrElse(Nil)
 
-  override protected val name: String = element.mediaType.option().orElse(element.name.option()).getOrElse("payload")
-  override protected val selectionRange: Option[PositionRange] =
+  override protected val optionName: Option[String] =
+    element.mediaType.option().orElse(element.name.option()).orElse(Some("payload"))
+  override protected val selectionRange: Option[Range] =
     element.mediaType
       .annotations()
       .find(classOf[LexicalInformation])
       .orElse(element.name.annotations().find(classOf[LexicalInformation]))
-      .map(_.range.toPositionRange)
+      .map(_.range)
 
   override def build(): Seq[DocumentSymbol] = {
     if (element.annotations.contains(classOf[DefaultPayload])) children
@@ -40,13 +41,11 @@ class PayloadSymbolBuilder(override val element: Payload)(implicit val factory: 
   }
 }
 
-object PayloadSymbolBuilderCompanion extends ElementSymbolBuilderCompanion {
-  override type T = Payload
-
+object PayloadSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[Payload] {
   override def getType: Class[_ <: AmfElement] = classOf[Payload]
 
   override val supportedIri: String = PayloadModel.`type`.head.iri()
 
-  override def construct(element: Payload)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[Payload]] =
+  override def construct(element: Payload)(implicit ctx: StructureContext): Option[SymbolBuilder[Payload]] =
     Some(new PayloadSymbolBuilder(element))
 }

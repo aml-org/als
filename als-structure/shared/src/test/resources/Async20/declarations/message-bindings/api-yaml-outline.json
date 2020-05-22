@@ -1,0 +1,55 @@
+[
+  {
+    "name": "messageBindings",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 4,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 25
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 4,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 25
+      }
+    },
+    "children": [
+      {
+        "name": "mb",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 4,
+            "character": 0
+          },
+          "end": {
+            "line": 5,
+            "character": 25
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 4,
+            "character": 0
+          },
+          "end": {
+            "line": 5,
+            "character": 25
+          }
+        },
+        "children": []
+      }
+    ]
+  }
+]

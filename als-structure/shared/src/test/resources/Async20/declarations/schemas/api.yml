@@ -1,0 +1,8 @@
+asyncapi: 2.0.0
+components:
+  schemas:
+    s:
+      type: object
+      properties:
+        p:
+          type: string

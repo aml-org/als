@@ -1,0 +1,109 @@
+[
+  {
+    "name": "user/signedup",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 7,
+        "character": 26
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 2,
+        "character": 15
+      }
+    },
+    "children": [
+      {
+        "name": "subscribe",
+        "kind": 6,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 4
+          },
+          "end": {
+            "line": 7,
+            "character": 26
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 3,
+            "character": 4
+          },
+          "end": {
+            "line": 3,
+            "character": 13
+          }
+        },
+        "children": [
+          {
+            "name": "message",
+            "kind": 9,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 5,
+                "character": 0
+              },
+              "end": {
+                "line": 7,
+                "character": 26
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 5,
+                "character": 0
+              },
+              "end": {
+                "line": 7,
+                "character": 26
+              }
+            },
+            "children": [
+              {
+                "name": "bindings",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 6,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 7,
+                    "character": 26
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 6,
+                    "character": 0
+                  },
+                  "end": {
+                    "line": 7,
+                    "character": 26
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

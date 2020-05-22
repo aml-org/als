@@ -5,6 +5,7 @@ import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, ExampleModel}
 
 trait BaseAnyShapeNode extends BaseShapeNode {
+
   override def properties: Seq[PropertyMapping] = super.properties ++ Seq(
     PropertyMapping()
       .withId(location + "#/declarations/AnyShapeNode/examples")

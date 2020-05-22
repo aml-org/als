@@ -123,6 +123,14 @@ pipeline {
             }
         }
         stage("Report to Slack") {
+            when {
+                anyOf {
+                    branch 'master'
+                    branch 'rc/*'
+                    branch 'support/*'
+                    branch 'devel'
+                }
+            }
             steps {
                 script {
                     if (!failedStage.isEmpty()) {
