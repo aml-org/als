@@ -57,7 +57,10 @@ const baseConfig = {
 
 const fastOptConfig = {
   entry: {
-    'als-server': path.resolve(__dirname, 'lib/als-server.js')
+    'als-server': [
+        path.resolve('@babel/polyfill'),
+        path.resolve(__dirname, 'lib/als-server.js')
+      ]
   },
 }
 
@@ -65,7 +68,10 @@ const fullOptIgnoredChunks = [{name: 'als-server.min'}]
 
 const fullOptConfig = {
   entry: {
-    'als-server.min': path.resolve(__dirname, 'lib/als-server.min.js'),
+    'als-server.min': [
+        path.resolve('@babel/polyfill'),
+        path.resolve(__dirname, 'lib/als-server.min.js')
+      ]
   },
   optimization: {
     minimize: true,
