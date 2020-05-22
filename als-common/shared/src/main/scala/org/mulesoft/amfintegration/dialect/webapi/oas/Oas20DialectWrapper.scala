@@ -3,13 +3,16 @@ package org.mulesoft.amfmanager.dialect.webapi.oas
 import amf.core.vocabulary.Namespace.XsdTypes._
 import amf.dialects.OAS20Dialect
 import amf.dialects.OAS20Dialect.DialectLocation
-import amf.dialects.oas.nodes.Oas20SchemaObject
+import amf.dialects.oas.nodes.{Oas20SchemaObject, Oas20SecuritySchemeObject}
 import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping, PublicNodeMapping}
 import amf.plugins.domain.shapes.metamodel.{ArrayShapeModel, NodeShapeModel}
 import amf.plugins.domain.webapi.metamodel.PayloadModel
 
 object Oas20DialectWrapper {
+
+  // hack to force object initialization in amf and avoid exception
+  private val orignalId = OAS20Dialect().id
 
   private val PayloadParameter = NodeMapping()
     .withId("#/declarations/PayloadParameter")
@@ -19,6 +22,7 @@ object Oas20DialectWrapper {
   lazy val dialect: Dialect = {
 
     val d = OAS20Dialect()
+
     d.withDeclares(
       d.declares.filter(p => !(p.id == Oas20SchemaObject.id)) ++ Seq(
         JsonSchemas.SchemaObject,

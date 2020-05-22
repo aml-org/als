@@ -15,10 +15,14 @@ import amf.plugins.document.vocabularies.model.domain.{
   PublicNodeMapping
 }
 import amf.plugins.domain.shapes.metamodel._
+import org.mulesoft.amfmanager.dialect.webapi.raml.raml08.Raml08TypesDialect.dialect
 
 object Raml10TypesDialect {
 
   val DialectLocation = "file://parallel-als/vocabularies/dialects/raml10.yaml"
+
+  // hack to force object initialization in amf and avoid exception
+  private val orignalId = RAML10Dialect().id
 
   val ShapeNodeId: String = DialectLocation + "#/declarations/ShapeNode"
   val shapeTypesProperty: PropertyMapping = PropertyMapping()
@@ -318,6 +322,7 @@ object Raml10TypesDialect {
     dialect.withDeclares(
       dialect.declares ++
         Seq(
+          ShapeNode,
           AnyShapeNode,
           PropertyShapeNode,
           NodeShapeNode,
@@ -368,4 +373,5 @@ object Raml10TypesDialect {
           .withDeclaredNodes(declaredNodes))
     dialect
   }
+  def apply(): Dialect = dialect
 }

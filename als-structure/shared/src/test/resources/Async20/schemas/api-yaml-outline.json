@@ -1,0 +1,136 @@
+[
+  {
+    "name": "user/{paramName}/signedup",
+    "kind": 12,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 9,
+        "character": 32
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 2,
+        "character": 27
+      }
+    },
+    "children": [
+      {
+        "name": "Path/URI Parameters",
+        "kind": 2,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 15
+          },
+          "end": {
+            "line": 9,
+            "character": 32
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 3,
+            "character": 15
+          },
+          "end": {
+            "line": 9,
+            "character": 32
+          }
+        },
+        "children": [
+          {
+            "name": "paramName",
+            "kind": 13,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 5,
+                "character": 0
+              },
+              "end": {
+                "line": 9,
+                "character": 32
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 5,
+                "character": 0
+              },
+              "end": {
+                "line": 9,
+                "character": 32
+              }
+            },
+            "children": [
+              {
+                "name": "properties",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 7,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 9,
+                    "character": 32
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 7,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 9,
+                    "character": 32
+                  }
+                },
+                "children": [
+                  {
+                    "name": "n",
+                    "kind": 5,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 8,
+                        "character": 16
+                      },
+                      "end": {
+                        "line": 9,
+                        "character": 32
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 8,
+                        "character": 16
+                      },
+                      "end": {
+                        "line": 9,
+                        "character": 32
+                      }
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

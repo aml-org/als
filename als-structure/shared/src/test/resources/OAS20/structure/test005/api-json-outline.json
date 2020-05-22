@@ -6,7 +6,7 @@
     "range": {
       "start": {
         "line": 4,
-        "character": 13
+        "character": 4
       },
       "end": {
         "line": 4,
@@ -16,7 +16,7 @@
     "selectionRange": {
       "start": {
         "line": 4,
-        "character": 13
+        "character": 4
       },
       "end": {
         "line": 4,
@@ -32,7 +32,7 @@
     "range": {
       "start": {
         "line": 3,
-        "character": 15
+        "character": 4
       },
       "end": {
         "line": 3,
@@ -42,7 +42,7 @@
     "selectionRange": {
       "start": {
         "line": 3,
-        "character": 15
+        "character": 4
       },
       "end": {
         "line": 3,
@@ -100,34 +100,7 @@
             "character": 8
           }
         },
-        "children": [
-          {
-            "name": "Payloads",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 9,
-                "character": 6
-              },
-              "end": {
-                "line": 11,
-                "character": 7
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 9,
-                "character": 6
-              },
-              "end": {
-                "line": 11,
-                "character": 7
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "name": "r2",
@@ -153,34 +126,7 @@
             "character": 8
           }
         },
-        "children": [
-          {
-            "name": "Payloads",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 15,
-                "character": 6
-              },
-              "end": {
-                "line": 18,
-                "character": 7
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 15,
-                "character": 6
-              },
-              "end": {
-                "line": 18,
-                "character": 7
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       }
     ]
   }

@@ -1,0 +1,7 @@
+asyncapi: 2.0.0
+servers:
+  s1:
+    url: s.com
+    bindings:
+      amqp:
+        is: queue

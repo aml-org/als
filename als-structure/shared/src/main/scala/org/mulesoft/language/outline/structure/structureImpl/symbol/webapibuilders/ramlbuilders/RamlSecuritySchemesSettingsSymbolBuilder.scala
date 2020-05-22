@@ -2,32 +2,30 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 
 import amf.core.annotations.LexicalInformation
 import amf.core.model.domain.AmfElement
-import amf.core.parser.{Range => AmfRange}
 import amf.plugins.domain.webapi.metamodel.security.SettingsModel
 import amf.plugins.domain.webapi.models.security.Settings
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.AmfObjSymbolBuilder
-import org.mulesoft.language.outline.structure.structureImpl.{
-  BuilderFactory,
-  ElementSymbolBuilder,
-  ElementSymbolBuilderCompanion
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  AmfObjectSimpleBuilderCompanion,
+  StructuredSymbolBuilder,
+  SymbolBuilder
 }
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 class RamlSecuritySchemesSettingsSymbolBuilder(override val element: Settings)(
-    override implicit val factory: BuilderFactory)
-    extends AmfObjSymbolBuilder[Settings] {
-  override protected val name: String = "settings"
-  override protected val selectionRange: Option[PositionRange] =
-    element.annotations.find(classOf[LexicalInformation]).map(_.range).map(PositionRange.apply)
+    override implicit val ctx: StructureContext)
+    extends StructuredSymbolBuilder[Settings] {
+
+  override protected val children: List[DocumentSymbol] = Nil
+
+  override protected val optionName: Option[String] = Some("settings")
 }
 
-object RamlSecuritySchemesSettingsSymbolBuilder extends ElementSymbolBuilderCompanion {
-  override type T = Settings
-
+object RamlSecuritySchemesSettingsSymbolBuilder extends AmfObjectSimpleBuilderCompanion[Settings] {
   override def getType: Class[_ <: AmfElement] = classOf[Settings]
 
   override val supportedIri: String = SettingsModel.`type`.head.iri()
 
-  override def construct(element: Settings)(implicit factory: BuilderFactory): Option[ElementSymbolBuilder[Settings]] =
+  override def construct(element: Settings)(implicit ctx: StructureContext): Option[SymbolBuilder[Settings]] =
     Some(new RamlSecuritySchemesSettingsSymbolBuilder(element))
 }

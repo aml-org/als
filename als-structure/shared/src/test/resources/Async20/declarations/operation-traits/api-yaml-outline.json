@@ -1,0 +1,55 @@
+[
+  {
+    "name": "operationTraits",
+    "kind": 6,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 4
+      },
+      "end": {
+        "line": 4,
+        "character": 33
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 4
+      },
+      "end": {
+        "line": 4,
+        "character": 33
+      }
+    },
+    "children": [
+      {
+        "name": "o",
+        "kind": 6,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 4
+          },
+          "end": {
+            "line": 4,
+            "character": 33
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 3,
+            "character": 4
+          },
+          "end": {
+            "line": 4,
+            "character": 33
+          }
+        },
+        "children": []
+      }
+    ]
+  }
+]

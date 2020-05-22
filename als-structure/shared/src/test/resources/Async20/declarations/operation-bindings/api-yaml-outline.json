@@ -1,0 +1,55 @@
+[
+  {
+    "name": "operationBindings",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 4,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 18
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 4,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 18
+      }
+    },
+    "children": [
+      {
+        "name": "ob",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 4,
+            "character": 0
+          },
+          "end": {
+            "line": 5,
+            "character": 18
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 4,
+            "character": 0
+          },
+          "end": {
+            "line": 5,
+            "character": 18
+          }
+        },
+        "children": []
+      }
+    ]
+  }
+]

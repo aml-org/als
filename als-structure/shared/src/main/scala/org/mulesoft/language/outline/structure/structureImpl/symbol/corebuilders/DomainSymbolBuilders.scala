@@ -1,114 +1,39 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
 import amf.core.annotations.{LexicalInformation, SourceAST}
-import amf.core.metamodel.domain.{DomainElementModel, LinkableElementModel}
+import amf.core.metamodel.domain.DomainElementModel
 import amf.core.model.domain._
-import amf.core.parser.{FieldEntry, Range => AmfRange}
-import amf.plugins.domain.webapi.metamodel.WebApiModel
+import amf.core.parser.{Range => AmfRange}
+import amf.plugins.document.webapi.annotations.InlineDefinition
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.custom.array.builder.{
-  CustomDomainPropertiesCustomArrayBuilder,
-  ExamplesCustomArrayBuilder,
-  PayloadCustomArrayBuilder,
-  WebApiCustomArrayBuilder
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  AmfObjectSimpleBuilderCompanion,
+  StructuredSymbolBuilder,
+  SymbolBuilder
 }
+import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
 import org.yaml.model.YMapEntry
 
-trait FatherSymbolBuilder[T <: AmfObject] extends ElementSymbolBuilder[T] {
-  val element: T
-
-  def ignoreFields =
-    List(WebApiModel.Name, DomainElementModel.Extends, LinkableElementModel.Target, WebApiModel.Version)
-  // WebApiModel.Version should be on it's own builder, or not?
-
-  def customBuilders: Seq[CustomBuilder] =
-    Seq(
-      ExamplesCustomArrayBuilder()(factory),
-      CustomDomainPropertiesCustomArrayBuilder()(factory),
-      PayloadCustomArrayBuilder()(factory), // order is important here? if paylad is not first, it will match web api custom array builder.
-      WebApiCustomArrayBuilder()(factory)
-    )
-
-  def getCustomFromFieldEntry(fe: FieldEntry): Option[Seq[DocumentSymbol]] =
-    customBuilders.find(c => c.applies(fe)).map(_.build(fe))
-
-  protected def children: List[DocumentSymbol] =
-    element.fields
-      .fields()
-      .filterNot(fe => ignoreFields.contains(fe.field))
-      .toList
-      .flatMap { getAllDocumentSymbols }
-
-  private def getAllDocumentSymbols(fe: FieldEntry): Seq[DocumentSymbol] =
-    getCustomFromFieldEntry(fe)
-      .orElse {
-        factory
-          .builderFor(fe, element.location())
-          .map(_.build())
-      }
-      .getOrElse(Nil)
-      .toList
-}
-
-trait AmfObjSymbolBuilder[T <: AmfObject] extends FatherSymbolBuilder[T] {
-
-  protected val name: String
-  protected val selectionRange: Option[PositionRange]
-
-  protected def range: Option[PositionRange] =
-    element.annotations
-      .find(classOf[SourceAST])
-      .flatMap(_.ast match {
-        case yme: YMapEntry if yme.key.sourceName.isEmpty => None
-        case yme: YMapEntry if yme.value.sourceName != yme.key.sourceName =>
-          Some(PositionRange(yme.key.range))
-        case y if y.sourceName.isEmpty => None
-        case y                         => Some(PositionRange(y.range))
-      })
-
-  override def build(): Seq[DocumentSymbol] =
-    if (name.isEmpty) Nil
-    else
-      range
-        .map { r =>
-          Seq(
-            DocumentSymbol(name,
-                           KindForResultMatcher.getKind(element),
-                           deprecated = false,
-                           r,
-                           selectionRange.getOrElse(r),
-                           skipLoneChild(children, name)))
-        }
-        .getOrElse(children)
-
-  private def skipLoneChild(children: List[DocumentSymbol], name: String): List[DocumentSymbol] =
-    if (children.length == 1 && children.head.name == name)
-      children.head.children
-    else
-      children
-}
-
 class DomainElementSymbolBuilder(override val element: DomainElement, entryAst: YMapEntry)(
-    override implicit val factory: BuilderFactory)
-    extends AmfObjSymbolBuilder[DomainElement] {
+    override implicit val ctx: StructureContext)
+    extends StructuredSymbolBuilder[DomainElement] {
 
-  val (name, selectionRange) =
-    (entryAst.key.asScalar.map(_.text).getOrElse(entryAst.key.value.toString),
-     Some(PositionRange(AmfRange(entryAst.key.range))))
+  override protected val optionName: Option[String] =
+    entryAst.key.asScalar.map(_.text).orElse(entryAst.key.asScalar.map(_.text))
+  override protected val selectionRange: Option[AmfRange] = Some(AmfRange(entryAst.key.range))
 }
 
-object DomainElementSymbolBuilder extends ElementSymbolBuilderCompanion {
-  override type T = DomainElement
+object DomainElementSymbolBuilder extends AmfObjectSimpleBuilderCompanion[DomainElement] {
   override val supportedIri: String = DomainElementModel.`type`.head.iri()
 
   override def getType: Class[_ <: AmfElement] = classOf[DomainElement]
 
   override def construct(element: DomainElement)(
-      implicit factory: BuilderFactory): Option[ElementSymbolBuilder[_ <: DomainElement]] =
+      implicit ctx: StructureContext): Option[SymbolBuilder[DomainElement]] =
     element match {
       case n: NamedDomainElement if n.name.option().isDefined =>
-        NamedElementSymbolBuilder.construct(n)
+        NamedElementSymbolBuilder.construct(n).map(_.asInstanceOf[SymbolBuilder[DomainElement]])
       case _ =>
         element.annotations.find(classOf[SourceAST]).map(_.ast) match {
           case Some(entry: YMapEntry) =>
@@ -118,27 +43,28 @@ object DomainElementSymbolBuilder extends ElementSymbolBuilderCompanion {
     }
 }
 
-object NamedElementSymbolBuilder extends ElementSymbolBuilderCompanion {
-  override type T = NamedDomainElement
+object NamedElementSymbolBuilder extends AmfObjectSimpleBuilderCompanion[NamedDomainElement] {
 
   override def getType: Class[_ <: AmfElement] = classOf[NamedDomainElement]
 
   override val supportedIri: String = DomainElementModel.`type`.head.iri()
 
   override def construct(element: NamedDomainElement)(
-      implicit factory: BuilderFactory): Option[NamedElementSymbolBuilder] =
-    Some(new NamedElementSymbolBuilder(element)(factory))
+      implicit ctx: StructureContext): Option[NamedElementSymbolBuilder] =
+    Some(new NamedElementSymbolBuilder(element))
 }
 
-trait NamedElementSymbolBuilderTrait[T <: NamedDomainElement] extends AmfObjSymbolBuilder[T] {
+trait NamedElementSymbolBuilderTrait[T <: NamedDomainElement] extends StructuredSymbolBuilder[T] {
 
-  override protected val name: String = element.name.option().getOrElse("")
-  override protected val selectionRange: Option[PositionRange] = element.name
+  override protected val optionName: Option[String] =
+    if (element.name.annotations().isSynthesized()) None else element.name.option()
+
+  override protected val selectionRange: Option[AmfRange] = element.name
     .annotations()
     .find(classOf[LexicalInformation])
-    .map(l => PositionRange(l.range))
+    .map(l => l.range)
     .orElse(range)
 }
 
-class NamedElementSymbolBuilder(override val element: NamedDomainElement)(override val factory: BuilderFactory)
+class NamedElementSymbolBuilder(override val element: NamedDomainElement)(override implicit val ctx: StructureContext)
     extends NamedElementSymbolBuilderTrait[NamedDomainElement]

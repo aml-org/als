@@ -1,0 +1,81 @@
+[
+  {
+    "name": "servers",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 7,
+        "character": 29
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 7,
+        "character": 29
+      }
+    },
+    "children": [
+      {
+        "name": "s1",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 0
+          },
+          "end": {
+            "line": 5,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 3,
+            "character": 0
+          },
+          "end": {
+            "line": 5,
+            "character": 0
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "s2",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 6,
+            "character": 0
+          },
+          "end": {
+            "line": 7,
+            "character": 29
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 6,
+            "character": 0
+          },
+          "end": {
+            "line": 7,
+            "character": 29
+          }
+        },
+        "children": []
+      }
+    ]
+  }
+]

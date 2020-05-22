@@ -8,10 +8,15 @@ import amf.plugins.domain.webapi.metamodel.OperationModel
 import amf.plugins.domain.webapi.models.Operation
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  AmfObjectSimpleBuilderCompanion,
+  SymbolBuilder
+}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.NamedElementSymbolBuilderTrait
-
+import amf.core.parser.Range
+// if the annotations would be at the field, we could handle this in nwe interface
 trait ExtendsFatherSymbolBuilder[T <: NamedDomainElement] extends NamedElementSymbolBuilderTrait[T] {
-  override def children: List[DocumentSymbol] = super.children ++ getExtendsChildren
+  override protected def children: List[DocumentSymbol] = super.children ++ getExtendsChildren
 
   protected def getExtendsChildren: Seq[DocumentSymbol] = {
     val traitSons = element.annotations
@@ -43,22 +48,19 @@ trait ExtendsFatherSymbolBuilder[T <: NamedDomainElement] extends NamedElementSy
   }
 }
 
-class OperationSymbolBuilder(override val element: Operation)(override implicit val factory: BuilderFactory)
+class OperationSymbolBuilder(override val element: Operation)(override implicit val ctx: StructureContext)
     extends ExtendsFatherSymbolBuilder[Operation] {
 
-  override protected val name: String = element.name.option().getOrElse(element.method.value())
-  override protected val selectionRange: Option[PositionRange] =
-    element.method.annotations().find(classOf[LexicalInformation]).map(l => PositionRange(l.range)).orElse(range)
+  override protected val optionName: Option[String] = Some(element.name.option().getOrElse(element.method.value()))
+  override protected val selectionRange: Option[Range] =
+    element.method.annotations().find(classOf[LexicalInformation]).map(l => l.range)
 }
 
-object OperationSymbolBuilderCompanion extends ElementSymbolBuilderCompanion {
-  override type T = Operation
-
+object OperationSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[Operation] {
   override def getType: Class[_ <: AmfElement] = classOf[Operation]
 
   override val supportedIri: String = OperationModel.`type`.head.iri()
 
-  override def construct(element: Operation)(
-      implicit factory: BuilderFactory): Option[ElementSymbolBuilder[Operation]] =
+  override def construct(element: Operation)(implicit ctx: StructureContext): Option[SymbolBuilder[Operation]] =
     Some(new OperationSymbolBuilder(element))
 }

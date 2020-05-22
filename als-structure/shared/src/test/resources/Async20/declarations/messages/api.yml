@@ -1,0 +1,25 @@
+asyncapi: 2.0.0
+components:
+  messages:
+    m:
+      name: UserSignup
+      title: User signup
+      headers:
+        type: object
+        properties:
+          correlationId:
+            description: Correlation ID set by application
+            type: string
+          applicationInstanceId:
+            description: Unique identifier for a given instance of the publishing application
+            type: string
+      payload:
+        type: object
+        properties:
+          user:
+            type: string
+          signup:
+            type: string
+      correlationId:
+        description: Default Correlation ID
+        location: $message.header#/correlationId
