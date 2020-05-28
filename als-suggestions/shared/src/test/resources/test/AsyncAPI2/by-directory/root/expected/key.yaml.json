@@ -210,6 +210,36 @@
     "command": null
   },
   {
+    "label": "#%Patch / Test 1.0.0",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a %Patch / Test 1.0.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#%Patch / Test 1.0.0",
+    "filterText": "#%Patch / Test 1.0.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "#%Patch / Test 1.0.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "#%Schema / AsyncAPI 0.6",
     "kind": [],
     "detail": "unknown",
@@ -264,6 +294,36 @@
         }
       },
       "newText": "#%SecurityScheme / AsyncAPI 0.6"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%Test 1.0.0",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a %Test 1.0.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#%Test 1.0.0",
+    "filterText": "#%Test 1.0.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "#%Test 1.0.0"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -16,7 +16,7 @@ object AMLHeadersCompletionPlugin extends HeaderCompletionPlugin {
     (AMLPlugin.registry
       .allDialects()
       .filterNot(d => Configuration.internalDialects.contains(d.id))
-      .filterNot(_.documents().keyProperty().value())
+      .filterNot(d => Option(d.documents()).exists(_.keyProperty().value()))
       .toSeq :+ MetaDialect.dialect)
       .flatMap(computeHeaders)
       .distinct
@@ -32,10 +32,15 @@ object AMLHeadersCompletionPlugin extends HeaderCompletionPlugin {
   private def computeHeaders(dialect: Dialect) = {
 
     Seq(s"#%${dialect.nameAndVersion()}") ++
-      Option(dialect.documents().library()).map(_ => s"#%Library / ${dialect.nameAndVersion()}") ++
-      dialect.documents().fragments().map { fragment =>
-        s"#%${fragment.documentName().value()} / ${dialect.nameAndVersion()}"
-      } ++
+      Option(dialect.documents())
+        .flatMap(d => Option(d.library()))
+        .map(_ => s"#%Library / ${dialect.nameAndVersion()}") ++
+      Option(dialect.documents())
+        .map(_.fragments())
+        .getOrElse(Seq.empty)
+        .map { fragment =>
+          s"#%${fragment.documentName().value()} / ${dialect.nameAndVersion()}"
+        } ++
       Option(s"#%Patch / ${dialect.nameAndVersion()}")
   }
 }
