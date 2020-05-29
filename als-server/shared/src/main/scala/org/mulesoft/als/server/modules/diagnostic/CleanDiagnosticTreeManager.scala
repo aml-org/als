@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.validation.AMFValidationResult
+import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.diagnostic._
 import org.mulesoft.als.server.logger.Logger
@@ -38,9 +39,10 @@ class CleanDiagnosticTreeManager(environmentProvider: EnvironmentProvider, logge
   override def initialize(): Future[Unit] = Future.successful()
 
   def validate(uri: String): Future[Seq[AlsPublishDiagnosticsParams]] = {
-    val helper = environmentProvider.amfConfiguration.parserHelper
+    val helper     = environmentProvider.amfConfiguration.parserHelper
+    val refinedUri = FileUtils.getDecodedUri(uri, environmentProvider.platform)
     helper
-      .parse(uri, environmentProvider.environmentSnapshot())
+      .parse(refinedUri, environmentProvider.environmentSnapshot())
       .flatMap(pr => {
         logger.debug(s"about to report: $uri", "RequestAMFFullValidationCommandExecutor", "runCommand")
         ParserHelper.report(pr.baseUnit).map(r => (r, pr))
