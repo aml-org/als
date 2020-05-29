@@ -49,7 +49,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
 
   override def rootPath: String = ???
 
-  test("Test resource loader inqvocation from clean diagnostic with encoded uri") {
+  test("Test resource loader invocation from clean diagnostic with encoded uri") {
     withServer { server =>
       val apiPath = s"file://file%20with%20spaces.raml"
 
