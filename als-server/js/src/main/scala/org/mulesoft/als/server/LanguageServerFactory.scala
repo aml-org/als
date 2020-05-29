@@ -75,6 +75,8 @@ object LanguageServerFactory {
         .addRequestModule(factory.conversionManager)
         .addRequestModule(factory.structureManager)
         .addRequestModule(factory.definitionManager)
+        .addRequestModule(factory.typeDefinitionManager)
+        .addRequestModule(factory.implementationManager)
         .addRequestModule(factory.referenceManager)
         .addRequestModule(factory.documentLinksManager)
         .addInitializable(factory.telemetryManager)
