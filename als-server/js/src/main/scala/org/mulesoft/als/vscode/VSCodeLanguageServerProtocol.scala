@@ -267,6 +267,24 @@ object DefinitionRequest extends js.Object {
 }
 
 @js.native
+@JSImport("vscode-languageserver-protocol", "ImplementationRequest")
+object ImplementationRequest extends js.Object {
+  val `type`: RequestType[ClientTextDocumentPositionParams,
+                          ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
+                          js.Any,
+                          js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "TypeDefinitionRequest")
+object TypeDefinitionRequest extends js.Object {
+  val `type`: RequestType[ClientTextDocumentPositionParams,
+                          ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
+                          js.Any,
+                          js.Any] = js.native
+}
+
+@js.native
 @JSImport("vscode-languageserver-protocol", "ReferencesRequest")
 object ReferencesRequest extends js.Object {
   val `type`: RequestType[ClientReferenceParams, js.Array[ClientLocation], js.Any, js.Any] = js.native
