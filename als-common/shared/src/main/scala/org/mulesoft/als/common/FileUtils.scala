@@ -16,7 +16,7 @@ object FileUtils {
           case _: URISyntaxException => // Fallback, encode and try
             new URI(platform.encodeURI(iri))
         }
-      Option(url.getHost).getOrElse("") + url.getPath
+      Option(url.getHost).orElse(Option(url.getAuthority)).getOrElse("") + url.getPath
     } else iri
 
   def getEncodedUri(path: String, platform: Platform): String =
