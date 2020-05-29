@@ -246,7 +246,7 @@ object ProtocolConnectionBinder {
           .asInstanceOf[Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]]
 
     protocolConnection.onRequest(
-      DefinitionRequest.`type`,
+      ImplementationRequest.`type`,
       onImplementationHandlerJs
         .asInstanceOf[ClientRequestHandler[ClientTextDocumentPositionParams,
                                            ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
@@ -266,7 +266,7 @@ object ProtocolConnectionBinder {
           .asInstanceOf[Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]]
 
     protocolConnection.onRequest(
-      DefinitionRequest.`type`,
+      TypeDefinitionRequest.`type`,
       onTypeDefinitionHandlerJs
         .asInstanceOf[ClientRequestHandler[ClientTextDocumentPositionParams,
                                            ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
