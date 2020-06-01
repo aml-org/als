@@ -23,7 +23,7 @@ class YamlContentPatcher(override val textRaw: String, override val offsetRaw: I
         val leftOfSentence =
           leftPart.substring(0 max leftPart.lastIndexOf('\n'), offsetRaw)
         if (colonIndex < 0)
-          textRaw.substring(0, offsetRaw) + "k: " + textRaw.substring(offsetRaw)
+          insertKWithColon
         else if (colonIndex == 0) {
           val rightPart = textRaw.substring(offsetRaw)
           val rightOfSentence =
@@ -41,5 +41,16 @@ class YamlContentPatcher(override val textRaw: String, override val offsetRaw: I
     }
 
     PatchedContent(result, textRaw, Nil) // add same logic that for json?
+  }
+
+  private def insertKWithColon() = {
+    val pre  = textRaw.substring(0, offsetRaw)
+    val post = textRaw.substring(offsetRaw)
+    if (post.contains("'"))
+      pre + "k': " + post.replaceFirst("'", "")
+    else if (post.contains("\""))
+      pre + "k\": " + post.replaceFirst("\"", "")
+    else
+      pre + "k: " + post
   }
 }
