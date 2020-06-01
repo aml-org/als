@@ -114,7 +114,7 @@ object AmfSonElementFinder {
           stack.prepend(result)
           result = head
         })
-      } while (a.nonEmpty)
+      } while (a.nonEmpty && !stack.contains(result))
       (result, stack)
     }
   }

@@ -146,6 +146,49 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
     }
   }
 
+  // todo: here for HF, in devel move it to new suit ServerCleanDiagnosticTest
+  test("Clean diagnostic test, compare notification against clean") {
+    def wrapJson(uri: String): String =
+      s"""{"mainUri": "$uri"}"""
+
+    withServer { s =>
+      val mainFilePath = s"file://api.raml"
+
+      val mainContent =
+        """#%RAML 1.0
+          |title: Recursive
+          |types:
+          |  Recursive:
+          |    type: object
+          |    properties:
+          |      myP:
+          |        type: Recursive
+          |/recursiveType:
+          |  post:
+          |    responses:
+          |      201:
+          |        body:
+          |          application/json:
+          |            type: Recursive
+        """.stripMargin
+
+      for {
+        _  <- openFileNotification(s)(mainFilePath, mainContent)
+        d  <- diagnosticsClient.nextCall
+        v1 <- requestCleanDiagnostic(s)(mainFilePath)
+
+      } yield {
+        s.shutdown()
+
+        diagnosticsClient.promises.clear()
+        d.diagnostics.size should be(1)
+        v1.length should be(1)
+        val fileDiagnostic = v1.head
+        fileDiagnostic.diagnostics.size should be(1)
+      }
+    }
+  }
+
   override def buildServer(): LanguageServer = {
     val builder  = new WorkspaceManagerFactoryBuilder(diagnosticsClient, logger)
     val dm       = builder.diagnosticManager()
