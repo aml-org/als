@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.aml
 
-import amf.core.annotations.{LexicalInformation, SourceAST, SynthesizedField}
+import amf.core.annotations.SourceAST
 import amf.core.model.document.{BaseUnit, Document}
-import amf.core.model.domain.{AmfArray, AmfObject, DomainElement}
+import amf.core.model.domain.{AmfObject, DomainElement}
 import amf.core.parser.{FieldEntry, Position => AmfPosition}
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
@@ -35,34 +35,10 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
 
   lazy val amfObject: AmfObject = objectInTree.obj
 
+  lazy val fieldEntry: Option[FieldEntry] =
+    objectInTree.getFieldEntry(position.toAmfPosition, FieldEntryOrdering)
+
   def prefix: String = styler.params.prefix
-
-  private val strict = actualDialect.id match {
-    case Raml10Dialect.`dialectLocation` => false
-    case Raml08Dialect.`dialectLocation` => false
-    case _                               => true
-  }
-
-  lazy val fieldEntry: Option[FieldEntry] = { // todo: maybe this should be a seq and not an option
-    objectInTree.obj.fields
-      .fields()
-      .filter(f =>
-        f.value.value match {
-          case _: AmfArray =>
-            f.value.annotations
-              .find(classOf[LexicalInformation])
-              .exists(_.containsCompletely(position.toAmfPosition))
-          case v =>
-            v.position()
-              .exists(_.contains(position.toAmfPosition)) && (f.value.annotations
-              .find(classOf[LexicalInformation])
-              .forall(_.containsCompletely(position.toAmfPosition)) && !f.value.value.annotations
-              .contains(classOf[SynthesizedField]))
-      })
-      .toList
-      .sorted(FieldEntryOrdering)
-      .lastOption
-  }
 
   val propertyMapping: List[PropertyMapping] = {
 
@@ -147,6 +123,7 @@ object AmlCompletionRequestBuilder {
                                                snippetSupport,
                                                indentation(baseUnit, dtoPosition))
     val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
+
     new AmlCompletionRequest(baseUnit,
                              DtoPosition(position),
                              dialect,
