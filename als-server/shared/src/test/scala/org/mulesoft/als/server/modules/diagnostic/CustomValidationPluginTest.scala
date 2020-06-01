@@ -65,7 +65,7 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
     override def init()(implicit executionContext: ExecutionContext): Future[AMFPlugin] = Future(this)
   }
 
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
     val amfInstance = new AmfInstance(Seq(plugin), platform, env)
     val builder     = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, env).withAmfConfiguration(amfInstance)
     val dm          = builder.diagnosticManager()
@@ -79,7 +79,7 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
   override def rootPath: String = ???
 
   test("Test resource loader invocation from custom plugin") {
-    withServer { server =>
+    withServer(buildServer()) { server =>
       val apiPath = s"file://api.raml"
 
       val apiContent =

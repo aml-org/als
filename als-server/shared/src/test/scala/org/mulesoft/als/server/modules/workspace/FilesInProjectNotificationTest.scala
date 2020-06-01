@@ -18,7 +18,7 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
 
     val factoryBuilder: WorkspaceManagerFactoryBuilder =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
@@ -35,7 +35,7 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
   override def rootPath: String = "workspace/"
 
   test("Receive simple dependency tree") {
-    withServer { server =>
+    withServer(buildServer()) { server =>
       for {
         _              <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
         filesInProject <- alsClient.nextCall
@@ -48,7 +48,7 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
   }
 
   test("Open isolated file") {
-    withServer { server =>
+    withServer(buildServer()) { server =>
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
         _ <- platform

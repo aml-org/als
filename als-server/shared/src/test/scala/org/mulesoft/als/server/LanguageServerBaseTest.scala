@@ -72,10 +72,7 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
       changeFile(server)(file, content, version)
     }
 
-  def buildServer(): LanguageServer
-
-  def withServer[R](fn: LanguageServer => Future[R]): Future[R] = {
-    val server = buildServer()
+  def withServer[R](server: LanguageServer)(fn: LanguageServer => Future[R]): Future[R] = {
     server
       .initialize(initializeParams)
       .flatMap(_ => {

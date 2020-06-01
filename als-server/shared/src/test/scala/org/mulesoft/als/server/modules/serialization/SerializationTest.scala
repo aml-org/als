@@ -41,7 +41,7 @@ class SerializationTest extends LanguageServerBaseTest {
     Some(TraceKind.Off))
 
   test("Parse Model and check serialized json ld notification") {
-    withServer { server =>
+    withServer(buildServer()) { server =>
       val content =
         """#%RAML 1.0
           |title: test
@@ -77,7 +77,7 @@ class SerializationTest extends LanguageServerBaseTest {
   }
 
   test("Request serialized model") {
-    withServer { server =>
+    withServer(buildServer()) { server =>
       val content =
         """#%RAML 1.0
           |title: test
@@ -114,7 +114,7 @@ class SerializationTest extends LanguageServerBaseTest {
   }
 
   test("Request serialized model twice and change") {
-    withServer { server =>
+    withServer(buildServer()) { server =>
       val content =
         """#%RAML 1.0
           |title: test
@@ -179,7 +179,7 @@ class SerializationTest extends LanguageServerBaseTest {
   }
 
   test("basic test") {
-    withServer { server =>
+    withServer(buildServer()) { server =>
       val url = filePath("raml-endpoint-sorting.raml")
 
       for {
@@ -212,7 +212,7 @@ class SerializationTest extends LanguageServerBaseTest {
   }
 
   test("two requests") {
-    withServer { server =>
+    withServer(buildServer()) { server =>
       val url = filePath("raml-endpoint-sorting.raml")
 
       for {
@@ -263,7 +263,7 @@ class SerializationTest extends LanguageServerBaseTest {
     }
   }
 
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
     val builder =
       new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
     builder.addInitializableModule(serializationManager)

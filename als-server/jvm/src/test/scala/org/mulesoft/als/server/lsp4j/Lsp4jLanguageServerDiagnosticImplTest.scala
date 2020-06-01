@@ -26,7 +26,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
       Future.successful(Unit)
     }
 
-    withServer { s =>
+    withServer(buildServer()) { s =>
       val server       = new LanguageServerImpl(s)
       val mainFilePath = s"file://api.raml"
       val libFilePath  = s"file://lib1.raml"
@@ -90,7 +90,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
     def wrapJson(uri: String): String =
       s"""{"mainUri": "$uri"}"""
 
-    withServer { s =>
+    withServer(buildServer()) { s =>
       val mainFilePath = s"file://api.raml"
       val libFilePath  = s"file://lib1.raml"
 
@@ -146,7 +146,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
     }
   }
 
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
     val builder  = new WorkspaceManagerFactoryBuilder(diagnosticsClient, logger)
     val dm       = builder.diagnosticManager()
     val managers = builder.buildWorkspaceManagerFactory()

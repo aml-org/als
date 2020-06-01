@@ -31,7 +31,7 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
         |  b: string
       """.stripMargin
     val fragmentUri = s"${filePath("ws2/fragment.raml")}"
-    withServer[Assertion] { server =>
+    withServer[Assertion](buildServer()) { server =>
       for {
         _               <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws2")}")))
         apiContent      <- platform.resolve(s"${filePath("ws2/api.raml")}")
@@ -72,7 +72,7 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
     }
   }
 
-  override def buildServer(): LanguageServer =
+  def buildServer(): LanguageServer =
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()

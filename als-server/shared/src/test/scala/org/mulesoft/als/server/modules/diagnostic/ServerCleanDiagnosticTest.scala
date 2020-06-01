@@ -36,7 +36,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
   }
   val env: Environment = Environment().add(rl)
 
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
     val amfInstance = new AmfInstance(Nil, platform, env)
     val builder     = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, env).withAmfConfiguration(amfInstance)
     val dm          = builder.diagnosticManager()
@@ -50,7 +50,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
   override def rootPath: String = ???
 
   test("Test resource loader invocation from clean diagnostic with encoded uri") {
-    withServer { server =>
+    withServer(buildServer()) { server =>
       val apiPath = s"file://file%20with%20spaces.raml"
 
       for {
@@ -64,7 +64,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
 
   test("Clean diagnostic test, compare notification against clean") {
 
-    withServer { s =>
+    withServer(buildServer()) { s =>
       val mainFilePath = s"file://api.raml"
 
       val mainContent =

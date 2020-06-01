@@ -42,25 +42,25 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager check Symbol - main") {
-    withServer[Assertion] { server =>
+    withServer[Assertion](buildServer()) { server =>
       testStructureForFile(server, s"${filePath("ws1")}/api.raml")
     }
   }
 
   // TODO: Why is this not returning structure??
   ignore("Workspace Manager check Symbol - dependency") {
-    withServer[Assertion] { server =>
+    withServer[Assertion](buildServer()) { server =>
       testStructureForFile(server, s"${filePath("ws1")}/sub/type.raml")
     }
   }
 
   test("Workspace Manager check Symbol - independent") {
-    withServer[Assertion] { server =>
+    withServer[Assertion](buildServer()) { server =>
       testStructureForFile(server, s"${filePath("ws1")}/independent.raml")
     }
   }
 
-  override def buildServer(): LanguageServer =
+  def buildServer(): LanguageServer =
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()

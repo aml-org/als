@@ -10,7 +10,7 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
   val clientNotifier                                       = new MockDiagnosticClientNotifier
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(clientNotifier, logger)
       .withNotificationKind(PARSING_BEFORE)
 
@@ -31,7 +31,7 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
         |a b
         |""".stripMargin
     val filePath = "file://api.raml"
-    withServer { server =>
+    withServer(buildServer()) { server =>
       for {
         _       <- openFileNotification(server)(filePath, api)
         parsing <- clientNotifier.nextCall
@@ -54,7 +54,7 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
         |a b
         |""".stripMargin
     val filePath = "file://api.raml"
-    withServer { server =>
+    withServer(buildServer()) { server =>
       for {
         _       <- openFileNotification(server)(filePath, api)
         parsing <- clientNotifier.nextCall
@@ -83,7 +83,7 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
         |description: a description
         |""".stripMargin
     val filePath = "file://api.raml"
-    withServer { server =>
+    withServer(buildServer()) { server =>
       for {
         _            <- openFileNotification(server)(filePath, api)
         parsing      <- clientNotifier.nextCall
@@ -120,7 +120,7 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
         |description: a description
         |""".stripMargin
     val filePath = "file://api.raml"
-    withServer { server =>
+    withServer(buildServer()) { server =>
       for {
         _           <- openFileNotification(server)(filePath, api)
         parsing     <- clientNotifier.nextCall

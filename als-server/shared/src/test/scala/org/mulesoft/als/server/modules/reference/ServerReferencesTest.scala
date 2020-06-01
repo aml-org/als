@@ -21,7 +21,7 @@ trait ServerReferencesTest extends LanguageServerBaseTest {
 
   override def rootPath: String = "actions/reference"
 
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
 
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
@@ -32,7 +32,7 @@ trait ServerReferencesTest extends LanguageServerBaseTest {
   }
 
   def runTest(path: String, expectedDefinitions: Set[Location]): Future[Assertion] =
-    withServer[Assertion] { server =>
+    withServer[Assertion](buildServer()) { server =>
       val resolved = filePath(platform.encodeURI(path))
       for {
         content <- this.platform.resolve(resolved)
@@ -48,7 +48,7 @@ trait ServerReferencesTest extends LanguageServerBaseTest {
     }
 
   def runTestImplementations(path: String, expectedDefinitions: Set[Location]): Future[Assertion] =
-    withServer[Assertion] { server =>
+    withServer[Assertion](buildServer()) { server =>
       val resolved = filePath(platform.encodeURI(path))
       for {
         content <- this.platform.resolve(resolved)

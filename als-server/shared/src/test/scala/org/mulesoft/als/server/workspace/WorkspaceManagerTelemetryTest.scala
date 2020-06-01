@@ -27,7 +27,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     val independent = s"${filePath("ws1")}/independent.raml"
     val subdir      = s"${filePath("ws1")}/sub/type.raml"
 
-    withServer[Assertion] { server =>
+    withServer[Assertion](buildServer()) { server =>
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
 
       for {
@@ -63,7 +63,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     val independent = s"${filePath("ws1")}/independent.raml"
     val subdir      = s"${filePath("ws1")}/sub/type.raml"
 
-    withServer[Assertion] { server =>
+    withServer[Assertion](buildServer()) { server =>
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
 
       for {
@@ -91,7 +91,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     }
   }
 
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()
