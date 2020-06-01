@@ -14,8 +14,6 @@ import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
-import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08Dialect
-import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10Dialect
 import org.yaml.model.YNode.MutRef
 import org.yaml.model.{YDocument, YNode, YType}
 

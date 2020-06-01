@@ -8,10 +8,9 @@ import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
 class YamlAstRawBuilder(val raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
     extends AstRawBuilder(raw, isSnippet, yPartBranch) {
 
-  def ast: YNode = {
+  def ast: YNode =
     if (raw.options.isKey) YNode(YMap(IndexedSeq(emitRootKey), ""))
     else value(raw.newText, raw.options)
-  }
 
   override protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder =
     (raw: RawSuggestion, isSnippet: Boolean) =>

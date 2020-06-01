@@ -7,9 +7,12 @@ import org.mulesoft.als.suggestions.interfaces.LocationKind.{
   SEQUENCE_KEY_COPLETION
 }
 
+import scala.collection.mutable
+
 class YamlContentPatcher(override val textRaw: String, override val offsetRaw: Int) extends ContentPatcher {
 
   override def prepareContent(): PatchedContent = {
+    val tokens: mutable.ListBuffer[PatchToken] = mutable.ListBuffer()
     val completionKind =
       LocationKindDetectTool.determineCompletionKind(textRaw, offsetRaw)
     val result = completionKind match {
@@ -22,9 +25,11 @@ class YamlContentPatcher(override val textRaw: String, override val offsetRaw: I
         val leftPart   = textRaw.substring(0, offsetRaw)
         val leftOfSentence =
           leftPart.substring(0 max leftPart.lastIndexOf('\n'), offsetRaw)
-        if (colonIndex < 0)
-          insertKWithColon
-        else if (colonIndex == 0) {
+        if (colonIndex < 0) {
+          val tuple = insertKWithColon()
+          tuple._2.foreach(t => tokens += t)
+          tuple._1
+        } else if (colonIndex == 0) {
           val rightPart = textRaw.substring(offsetRaw)
           val rightOfSentence =
             rightPart.substring(0, rightPart.length min (0 max rightPart.indexOf('\n')))
@@ -40,17 +45,17 @@ class YamlContentPatcher(override val textRaw: String, override val offsetRaw: I
         else textRaw
     }
 
-    PatchedContent(result, textRaw, Nil) // add same logic that for json?
+    PatchedContent(result, textRaw, tokens.toList) // add same logic that for json?
   }
 
-  private def insertKWithColon() = {
+  private def insertKWithColon(): (String, List[PatchToken]) = {
     val pre  = textRaw.substring(0, offsetRaw)
     val post = textRaw.substring(offsetRaw)
     if (post.contains("'"))
-      pre + "k': " + post.replaceFirst("'", "")
+      (pre + "k': " + post.replaceFirst("'", ""), List(ColonToken, QuoteToken))
     else if (post.contains("\""))
-      pre + "k\": " + post.replaceFirst("\"", "")
+      (pre + "k\": " + post.replaceFirst("\"", ""), List(ColonToken, QuoteToken))
     else
-      pre + "k: " + post
+      (pre + "k: " + post, List(ColonToken))
   }
 }
