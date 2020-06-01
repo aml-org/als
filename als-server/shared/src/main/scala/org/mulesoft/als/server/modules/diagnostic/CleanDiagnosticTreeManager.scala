@@ -45,7 +45,8 @@ class CleanDiagnosticTreeManager(environmentProvider: EnvironmentProvider, logge
       .parse(refinedUri, environmentProvider.environmentSnapshot())
       .flatMap(pr => {
         logger.debug(s"about to report: $uri", "RequestAMFFullValidationCommandExecutor", "runCommand")
-        ParserHelper.report(pr.baseUnit).map(r => (r, pr))
+        val resolved = helper.editingResolve(pr.baseUnit, pr.eh)
+        ParserHelper.reportResolved(resolved).map(r => (r, pr))
       })
       .map { t =>
         val profile                                    = t._1.profile
