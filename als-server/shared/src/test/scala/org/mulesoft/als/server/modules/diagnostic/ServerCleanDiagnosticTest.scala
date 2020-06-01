@@ -61,4 +61,44 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
       }
     }
   }
+
+  test("Clean diagnostic test, compare notification against clean") {
+
+    withServer { s =>
+      val mainFilePath = s"file://api.raml"
+
+      val mainContent =
+        """#%RAML 1.0
+          |title: Recursive
+          |types:
+          |  Recursive:
+          |    type: object
+          |    properties:
+          |      myP:
+          |        type: Recursive
+          |/recursiveType:
+          |  post:
+          |    responses:
+          |      201:
+          |        body:
+          |          application/json:
+          |            type: Recursive
+        """.stripMargin
+
+      for {
+        _  <- openFileNotification(s)(mainFilePath, mainContent)
+        d  <- diagnosticNotifier.nextCall
+        v1 <- requestCleanDiagnostic(s)(mainFilePath)
+
+      } yield {
+        s.shutdown()
+
+        diagnosticNotifier.promises.clear()
+        d.diagnostics.size should be(1)
+        v1.length should be(1)
+        val fileDiagnostic = v1.head
+        fileDiagnostic.diagnostics.size should be(1)
+      }
+    }
+  }
 }
