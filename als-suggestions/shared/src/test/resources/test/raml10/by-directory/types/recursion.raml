@@ -1,0 +1,11 @@
+#%RAML 1.0
+title: Recursive
+types:
+  product:
+    properties:
+      id: string
+      product_prop:
+        *type: product
+        required: false
+        xml:
+          name: xml-product
