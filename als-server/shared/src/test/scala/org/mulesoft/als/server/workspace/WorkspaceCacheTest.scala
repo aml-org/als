@@ -5,10 +5,8 @@ import amf.client.resource.ResourceNotFound
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
-import org.mulesoft.als.server.MockDiagnosticClientNotifier
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.EmptyLogger
-import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.ast.{CHANGE_CONFIG, CHANGE_FILE}
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager

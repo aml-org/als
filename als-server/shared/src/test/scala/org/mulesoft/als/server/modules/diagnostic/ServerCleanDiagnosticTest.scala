@@ -14,7 +14,6 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
 
   override implicit val executionContext = ExecutionContext.Implicits.global
 
-  val diagnosticNotifier = new MockDiagnosticClientNotifier
   val rl: ResourceLoader = new ResourceLoader {
 
     private val files: Map[String, String] = Map(
@@ -36,7 +35,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
   }
   val env: Environment = Environment().add(rl)
 
-  def buildServer(): LanguageServer = {
+  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
     val amfInstance = new AmfInstance(Nil, platform, env)
     val builder     = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, env).withAmfConfiguration(amfInstance)
     val dm          = builder.diagnosticManager()
@@ -50,7 +49,8 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
   override def rootPath: String = ???
 
   test("Test resource loader invocation from clean diagnostic with encoded uri") {
-    withServer(buildServer()) { server =>
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    withServer(buildServer(diagnosticNotifier)) { server =>
       val apiPath = s"file://file%20with%20spaces.raml"
 
       for {
@@ -63,8 +63,8 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
   }
 
   test("Clean diagnostic test, compare notification against clean") {
-
-    withServer(buildServer()) { s =>
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    withServer(buildServer(diagnosticNotifier)) { s =>
       val mainFilePath = s"file://api.raml"
 
       val mainContent =
@@ -93,7 +93,6 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
       } yield {
         s.shutdown()
 
-        diagnosticNotifier.promises.clear()
         d.diagnostics.size should be(1)
         v1.length should be(1)
         val fileDiagnostic = v1.head

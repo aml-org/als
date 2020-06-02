@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.workspace
 
-import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
@@ -15,14 +15,12 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  val diagnosticClientNotifier = new MockDiagnosticClientNotifier
-
-  private val factory =
-    new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-
-  private val editorFiles = factory.container
-
   test("on close notification") {
+    val diagnosticClientNotifier = new MockDiagnosticClientNotifier
+
+    val factory: WorkspaceManagerFactory =
+      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
+
     val changedFragment =
       """#%RAML 1.0 DataType
         |
@@ -31,7 +29,7 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
         |  b: string
       """.stripMargin
     val fragmentUri = s"${filePath("ws2/fragment.raml")}"
-    withServer[Assertion](buildServer()) { server =>
+    withServer[Assertion](buildServer(factory)) { server =>
       for {
         _               <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws2")}")))
         apiContent      <- platform.resolve(s"${filePath("ws2/api.raml")}")
@@ -72,7 +70,7 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
     }
   }
 
-  def buildServer(): LanguageServer =
+  def buildServer(factory: WorkspaceManagerFactory): LanguageServer =
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()

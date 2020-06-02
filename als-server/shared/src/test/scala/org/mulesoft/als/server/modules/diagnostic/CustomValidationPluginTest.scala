@@ -19,7 +19,6 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
 
   override implicit val executionContext = ExecutionContext.Implicits.global
 
-  val diagnosticNotifier = new MockDiagnosticClientNotifier
   val rl: ResourceLoader = new ResourceLoader {
     override def fetch(resource: String): Future[Content] = Future.failed(new Exception("error"))
 
@@ -65,7 +64,7 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
     override def init()(implicit executionContext: ExecutionContext): Future[AMFPlugin] = Future(this)
   }
 
-  def buildServer(): LanguageServer = {
+  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
     val amfInstance = new AmfInstance(Seq(plugin), platform, env)
     val builder     = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, env).withAmfConfiguration(amfInstance)
     val dm          = builder.diagnosticManager()
@@ -79,7 +78,8 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
   override def rootPath: String = ???
 
   test("Test resource loader invocation from custom plugin") {
-    withServer(buildServer()) { server =>
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    withServer(buildServer(diagnosticNotifier)) { server =>
       val apiPath = s"file://api.raml"
 
       val apiContent =
@@ -102,7 +102,6 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
       /*
         register dialect -> open invalid instance -> fix -> invalid again
        */
-      diagnosticNotifier.promises.clear()
       for {
         _ <- openFileNotification(server)(apiPath, apiContent)
         _ <- diagnosticNotifier.nextCall

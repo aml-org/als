@@ -24,24 +24,21 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class SerializationTest extends LanguageServerBaseTest {
 
-  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
-
-  private val alsClient = new MockAlsClientNotifier
-  protected val factoryBuilder: WorkspaceManagerFactoryBuilder =
-    new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
-  private val serializationProps: SerializationProps[StringWriter] = new SerializationProps[StringWriter](alsClient) {
-    override def newDocBuilder(): DocBuilder[StringWriter] = JsonOutputBuilder()
-  }
-  protected val serializationManager: SerializationManager[StringWriter] =
-    factoryBuilder.serializationManager(serializationProps)
-  protected val factory: WorkspaceManagerFactory = factoryBuilder.buildWorkspaceManagerFactory()
+  override implicit val executionContext: ExecutionContext =
+    ExecutionContext.Implicits.global
 
   override val initializeParams: AlsInitializeParams = AlsInitializeParams(
     Some(AlsClientCapabilities(serialization = Some(SerializationClientCapabilities(true)))),
     Some(TraceKind.Off))
 
   test("Parse Model and check serialized json ld notification") {
-    withServer(buildServer()) { server =>
+    val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
+    val serializationProps: SerializationProps[StringWriter] =
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(): DocBuilder[StringWriter] =
+          JsonOutputBuilder()
+      }
+    withServer(buildServer(alsClient, serializationProps)) { server =>
       val content =
         """#%RAML 1.0
           |title: test
@@ -57,14 +54,17 @@ class SerializationTest extends LanguageServerBaseTest {
           val env = Environment(new ResourceLoader {
 
             /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
-            override def fetch(resource: String): Future[Content] = Future.successful(new Content(s, api))
+            override def fetch(resource: String): Future[Content] =
+              Future.successful(new Content(s, api))
 
             /** Accepts specified resource. */
             override def accepts(resource: String): Boolean = resource == api
           })
           RuntimeCompiler
             .forContext(
-              new CompilerContextBuilder(api, platform).withEnvironment(env).build(),
+              new CompilerContextBuilder(api, platform)
+                .withEnvironment(env)
+                .build(),
               Some(Mimes.`APPLICATION/LD+JSONLD`),
               Some(Amf.name),
               UnspecifiedReference
@@ -77,7 +77,13 @@ class SerializationTest extends LanguageServerBaseTest {
   }
 
   test("Request serialized model") {
-    withServer(buildServer()) { server =>
+    val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
+    val serializationProps: SerializationProps[StringWriter] =
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(): DocBuilder[StringWriter] =
+          JsonOutputBuilder()
+      }
+    withServer(buildServer(alsClient, serializationProps)) { server =>
       val content =
         """#%RAML 1.0
           |title: test
@@ -89,19 +95,22 @@ class SerializationTest extends LanguageServerBaseTest {
 
       for {
         _ <- alsClient.nextCall.map(_.model.toString)
-        s <- serialized(server, api)
+        s <- serialized(server, api, serializationProps)
         parsed <- {
           val env = Environment(new ResourceLoader {
 
             /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
-            override def fetch(resource: String): Future[Content] = Future.successful(new Content(s, api))
+            override def fetch(resource: String): Future[Content] =
+              Future.successful(new Content(s, api))
 
             /** Accepts specified resource. */
             override def accepts(resource: String): Boolean = resource == api
           })
           RuntimeCompiler
             .forContext(
-              new CompilerContextBuilder(api, platform).withEnvironment(env).build(),
+              new CompilerContextBuilder(api, platform)
+                .withEnvironment(env)
+                .build(),
               Some(Mimes.`APPLICATION/LD+JSONLD`),
               Some(Amf.name),
               UnspecifiedReference
@@ -114,7 +123,13 @@ class SerializationTest extends LanguageServerBaseTest {
   }
 
   test("Request serialized model twice and change") {
-    withServer(buildServer()) { server =>
+    val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
+    val serializationProps: SerializationProps[StringWriter] =
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(): DocBuilder[StringWriter] =
+          JsonOutputBuilder()
+      }
+    withServer(buildServer(alsClient, serializationProps)) { server =>
       val content =
         """#%RAML 1.0
           |title: test
@@ -126,18 +141,18 @@ class SerializationTest extends LanguageServerBaseTest {
 
       for {
         _       <- alsClient.nextCall.map(_.model.toString)
-        s       <- serialized(server, api)
+        s       <- serialized(server, api, serializationProps)
         parsed  <- parsedApi(api, s)
-        s2      <- serialized(server, api)
+        s2      <- serialized(server, api, serializationProps)
         parsed2 <- parsedApi(api, s2)
         s3 <- {
           changeFile(server)(api, "", 1)
-          serialized(server, api)
+          serialized(server, api, serializationProps)
         }
         parsed3 <- parsedApi(api, s3)
         s4 <- {
           changeFile(server)(api, content, 2)
-          serialized(server, api)
+          serialized(server, api, serializationProps)
         }
         parsed4 <- parsedApi(api, s4)
       } yield {
@@ -150,7 +165,7 @@ class SerializationTest extends LanguageServerBaseTest {
     }
   }
 
-  private def serialized(server: LanguageServer, api: String) = {
+  private def serialized(server: LanguageServer, api: String, serializationProps: SerializationProps[StringWriter]) = {
     server
       .resolveHandler(serializationProps.requestType)
       .value
@@ -163,7 +178,8 @@ class SerializationTest extends LanguageServerBaseTest {
     val env = Environment(new ResourceLoader {
 
       /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
-      override def fetch(resource: String): Future[Content] = Future.successful(new Content(s, api))
+      override def fetch(resource: String): Future[Content] =
+        Future.successful(new Content(s, api))
 
       /** Accepts specified resource. */
       override def accepts(resource: String): Boolean = resource == api
@@ -179,7 +195,13 @@ class SerializationTest extends LanguageServerBaseTest {
   }
 
   test("basic test") {
-    withServer(buildServer()) { server =>
+    val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
+    val serializationProps: SerializationProps[StringWriter] =
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(): DocBuilder[StringWriter] =
+          JsonOutputBuilder()
+      }
+    withServer(buildServer(alsClient, serializationProps)) { server =>
       val url = filePath("raml-endpoint-sorting.raml")
 
       for {
@@ -187,19 +209,22 @@ class SerializationTest extends LanguageServerBaseTest {
           server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
             TextDocumentItem(url, "RAML", 0, c.stream.toString))) // why clean empty lines was necessary?
         }
-        s <- serialized(server, url)
+        s <- serialized(server, url, serializationProps)
         parsed <- {
           val env = Environment(new ResourceLoader {
 
             /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
-            override def fetch(resource: String): Future[Content] = Future.successful(new Content(s, url))
+            override def fetch(resource: String): Future[Content] =
+              Future.successful(new Content(s, url))
 
             /** Accepts specified resource. */
             override def accepts(resource: String): Boolean = resource == url
           })
           RuntimeCompiler
             .forContext(
-              new CompilerContextBuilder(url, platform).withEnvironment(env).build(),
+              new CompilerContextBuilder(url, platform)
+                .withEnvironment(env)
+                .build(),
               Some(Mimes.`APPLICATION/LD+JSONLD`),
               Some(Amf.name),
               UnspecifiedReference
@@ -212,7 +237,13 @@ class SerializationTest extends LanguageServerBaseTest {
   }
 
   test("two requests") {
-    withServer(buildServer()) { server =>
+    val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
+    val serializationProps: SerializationProps[StringWriter] =
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(): DocBuilder[StringWriter] =
+          JsonOutputBuilder()
+      }
+    withServer(buildServer(alsClient, serializationProps)) { server =>
       val url = filePath("raml-endpoint-sorting.raml")
 
       for {
@@ -220,37 +251,43 @@ class SerializationTest extends LanguageServerBaseTest {
           server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
             TextDocumentItem(url, "RAML", 0, c.stream.toString))) // why clean empty lines was necessary?
         }
-        s <- serialized(server, url)
+        s <- serialized(server, url, serializationProps)
         parsed <- {
           val env = Environment(new ResourceLoader {
 
             /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
-            override def fetch(resource: String): Future[Content] = Future.successful(new Content(s, url))
+            override def fetch(resource: String): Future[Content] =
+              Future.successful(new Content(s, url))
 
             /** Accepts specified resource. */
             override def accepts(resource: String): Boolean = resource == url
           })
           RuntimeCompiler
             .forContext(
-              new CompilerContextBuilder(url, platform).withEnvironment(env).build(),
+              new CompilerContextBuilder(url, platform)
+                .withEnvironment(env)
+                .build(),
               Some(Mimes.`APPLICATION/LD+JSONLD`),
               Some(Amf.name),
               UnspecifiedReference
             )
         }
-        s2 <- serialized(server, url)
+        s2 <- serialized(server, url, serializationProps)
         parsed2 <- {
           val env = Environment(new ResourceLoader {
 
             /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
-            override def fetch(resource: String): Future[Content] = Future.successful(new Content(s2, url))
+            override def fetch(resource: String): Future[Content] =
+              Future.successful(new Content(s2, url))
 
             /** Accepts specified resource. */
             override def accepts(resource: String): Boolean = resource == url
           })
           RuntimeCompiler
             .forContext(
-              new CompilerContextBuilder(url, platform).withEnvironment(env).build(),
+              new CompilerContextBuilder(url, platform)
+                .withEnvironment(env)
+                .build(),
               Some(Mimes.`APPLICATION/LD+JSONLD`),
               Some(Amf.name),
               UnspecifiedReference
@@ -263,7 +300,14 @@ class SerializationTest extends LanguageServerBaseTest {
     }
   }
 
-  def buildServer(): LanguageServer = {
+  def buildServer(alsClient: MockAlsClientNotifier,
+                  serializationProps: SerializationProps[StringWriter]): LanguageServer = {
+    val factoryBuilder: WorkspaceManagerFactoryBuilder =
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+    val serializationManager: SerializationManager[StringWriter] =
+      factoryBuilder.serializationManager(serializationProps)
+    val factory: WorkspaceManagerFactory =
+      factoryBuilder.buildWorkspaceManagerFactory()
     val builder =
       new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
     builder.addInitializableModule(serializationManager)

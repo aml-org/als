@@ -14,11 +14,10 @@ import org.mulesoft.lsp.configuration.TraceKind
 import scala.concurrent.{ExecutionContext, Future}
 
 class FilesInProjectNotificationTest extends LanguageServerBaseTest {
-  val alsClient = new MockFilesInClientNotifier
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  def buildServer(): LanguageServer = {
+  def buildServer(alsClient: MockFilesInClientNotifier): LanguageServer = {
 
     val factoryBuilder: WorkspaceManagerFactoryBuilder =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
@@ -35,7 +34,8 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
   override def rootPath: String = "workspace/"
 
   test("Receive simple dependency tree") {
-    withServer(buildServer()) { server =>
+    val alsClient: MockFilesInClientNotifier = new MockFilesInClientNotifier
+    withServer(buildServer(alsClient)) { server =>
       for {
         _              <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
         filesInProject <- alsClient.nextCall
@@ -48,7 +48,8 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
   }
 
   test("Open isolated file") {
-    withServer(buildServer()) { server =>
+    val alsClient: MockFilesInClientNotifier = new MockFilesInClientNotifier
+    withServer(buildServer(alsClient)) { server =>
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
         _ <- platform
