@@ -1,18 +1,16 @@
 package org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.plugins
 
 import amf.core.annotations.{SourceAST, SourceNode}
-import amf.core.parser.{Position => AmfPosition}
 import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.domain.{AmfElement, AmfObject}
-import amf.core.parser.FieldEntry
+import amf.core.parser.{FieldEntry, Position => AmfPosition}
 import org.mulesoft.als.actions.common.{ActionTools, RelationshipLink}
-import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 import org.mulesoft.lsp.feature.common.Location
-import org.yaml.model.{YMap, YMapEntry, YNode, YPart, YSequence}
+import org.yaml.model._
 
 /**
   * @test: org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - oas-anchor

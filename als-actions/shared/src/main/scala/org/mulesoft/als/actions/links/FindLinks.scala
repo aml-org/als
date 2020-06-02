@@ -5,12 +5,15 @@ import amf.core.model.document.BaseUnit
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.link.DocumentLink
+import org.mulesoft.amfmanager.AmfImplicits._
 
 object FindLinks {
   def getLinks(bu: BaseUnit): Seq[DocumentLink] =
     bu.annotations
-      .collect { case rt: ReferenceTargets => rt }
-      .map { rt =>
-        DocumentLink(LspRangeConverter.toLspRange(PositionRange(rt.originRange)), rt.targetLocation, None)
+      .targets()
+      .map {
+        case (targetLocation, originRange) =>
+          DocumentLink(LspRangeConverter.toLspRange(PositionRange(originRange)), targetLocation, None)
       }
+      .toSeq
 }
