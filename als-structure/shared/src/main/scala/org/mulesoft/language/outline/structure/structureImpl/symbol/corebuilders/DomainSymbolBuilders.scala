@@ -58,7 +58,7 @@ object NamedElementSymbolBuilder extends AmfObjectSimpleBuilderCompanion[NamedDo
 trait NamedElementSymbolBuilderTrait[T <: NamedDomainElement] extends StructuredSymbolBuilder[T] {
 
   override protected val optionName: Option[String] =
-    if (element.name.annotations().isSynthesized()) None else element.name.option()
+    if (element.name.annotations().isSynthesized) None else element.name.option()
 
   override protected val selectionRange: Option[AmfRange] = element.name
     .annotations()
