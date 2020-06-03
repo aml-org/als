@@ -17,7 +17,7 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
@@ -25,7 +25,7 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
       .build()
   }
 
-  def runTest(path: String, newName: String): Future[Assertion] = withServer[Assertion] { server =>
+  def runTest(path: String, newName: String): Future[Assertion] = withServer[Assertion](buildServer()) { server =>
     val resultPath                     = path.replace(".", "-renamed.")
     val resolved                       = filePath(path)
     val resolvedResultPath             = filePath(resultPath)

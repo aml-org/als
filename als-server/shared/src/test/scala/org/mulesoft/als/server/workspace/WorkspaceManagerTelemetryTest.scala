@@ -17,17 +17,12 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  private val notifier = new MockTelemetryClientNotifier()
-
-  val alsClientNotifier: MockAlsClientNotifier = new MockAlsClientNotifier
-  private val factory                          = new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
-
   test("Workspace Manager check parsing times (project should have 1, independent file 1)") {
-    val main        = s"${filePath("ws1")}/api.raml"
-    val independent = s"${filePath("ws1")}/independent.raml"
-    val subdir      = s"${filePath("ws1")}/sub/type.raml"
-
-    withServer[Assertion] { server =>
+    val main                                  = s"${filePath("ws1")}/api.raml"
+    val independent                           = s"${filePath("ws1")}/independent.raml"
+    val subdir                                = s"${filePath("ws1")}/sub/type.raml"
+    val notifier: MockTelemetryClientNotifier = new MockTelemetryClientNotifier()
+    withServer[Assertion](buildServer(notifier)) { server =>
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
 
       for {
@@ -59,11 +54,11 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager check parsing times when reference removed from Project") {
-    val main        = s"${filePath("ws1")}/api.raml"
-    val independent = s"${filePath("ws1")}/independent.raml"
-    val subdir      = s"${filePath("ws1")}/sub/type.raml"
-
-    withServer[Assertion] { server =>
+    val main                                  = s"${filePath("ws1")}/api.raml"
+    val independent                           = s"${filePath("ws1")}/independent.raml"
+    val subdir                                = s"${filePath("ws1")}/sub/type.raml"
+    val notifier: MockTelemetryClientNotifier = new MockTelemetryClientNotifier()
+    withServer[Assertion](buildServer(notifier)) { server =>
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
 
       for {
@@ -91,7 +86,8 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     }
   }
 
-  override def buildServer(): LanguageServer = {
+  def buildServer(notifier: MockTelemetryClientNotifier): LanguageServer = {
+    val factory = new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()

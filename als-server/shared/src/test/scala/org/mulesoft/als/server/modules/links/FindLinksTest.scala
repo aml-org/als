@@ -18,7 +18,7 @@ trait FindLinksTest extends LanguageServerBaseTest {
 
   override def rootPath: String = "actions/links"
 
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
 
     val managers =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
@@ -27,8 +27,8 @@ trait FindLinksTest extends LanguageServerBaseTest {
       .build()
   }
 
-  def runTest(path: String, expectedDefinitions: Set[DocumentLink]): Future[Assertion] = withServer[Assertion] {
-    server =>
+  def runTest(path: String, expectedDefinitions: Set[DocumentLink]): Future[Assertion] =
+    withServer[Assertion](buildServer()) { server =>
       val resolved = filePath(platform.encodeURI(path))
       for {
         content <- this.platform.resolve(resolved)
@@ -41,7 +41,7 @@ trait FindLinksTest extends LanguageServerBaseTest {
       } yield {
         assert(definitions.toSet == expectedDefinitions)
       }
-  }
+    }
 
   def getServerLinks(filePath: String, server: LanguageServer, markerInfo: MarkerInfo): Future[Seq[DocumentLink]] = {
 

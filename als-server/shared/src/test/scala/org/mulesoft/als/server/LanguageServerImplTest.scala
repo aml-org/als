@@ -19,7 +19,7 @@ class LanguageServerImplTest extends LanguageServerBaseTest {
   private val editorFiles = factory.container
 
   test("LanguageServerImpl -> open file") {
-    withServer[Assertion] { server =>
+    withServer[Assertion](buildServer()) { server =>
       server.textDocumentSyncConsumer.didOpen(
         DidOpenTextDocumentParams(
           TextDocumentItem("file://api.raml", "raml", 0, "#%RAML 1.0")
@@ -32,7 +32,7 @@ class LanguageServerImplTest extends LanguageServerBaseTest {
     }
   }
 
-  override def buildServer(): LanguageServer =
+  def buildServer(): LanguageServer =
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager).build()
 
   override def rootPath: String = ""

@@ -15,7 +15,7 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
 
   private val mockTelemetryClientNotifier = new MockTelemetryClientNotifier
 
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(mockTelemetryClientNotifier,logger)
     val dm = builder.diagnosticManager()
     val factory = builder.buildWorkspaceManagerFactory()
@@ -38,7 +38,7 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
 
   //TODO: test again once Telemetry messaging is stable
   ignore("diagnostics test 001 - onFocus") {
-    withServer { server =>
+    withServer(buildServer()) { server =>
       val mainFilePath = s"file://api.raml"
       val libFilePath  = s"file://lib1.raml"
 

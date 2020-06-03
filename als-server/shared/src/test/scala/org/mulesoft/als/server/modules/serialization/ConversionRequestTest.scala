@@ -12,7 +12,7 @@ import scala.concurrent.Future
 
 class ConversionRequestTest extends LanguageServerBaseTest {
   override implicit val executionContext = scala.concurrent.ExecutionContext.Implicits.global
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
 
@@ -51,7 +51,7 @@ class ConversionRequestTest extends LanguageServerBaseTest {
 
   private def run(from: Vendor, to: Vendor, forcedSyntax: Option[String] = None): Future[Assertion] = {
     val conf = apiFromVendor(from)
-    withServer { server =>
+    withServer(buildServer()) { server =>
       openFile(server)(conf.name, conf.content)
       requestConversion(server, to.name, conf.name, forcedSyntax.getOrElse(syntaxFromVendor(to)))
         .map(assertions(to)) // media types over vendor

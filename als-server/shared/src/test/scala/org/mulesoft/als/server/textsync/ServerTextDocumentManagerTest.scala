@@ -14,7 +14,7 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
   override def rootPath: String = ""
 
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
 
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
@@ -24,7 +24,7 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
   }
 
   test("change document test 001") {
-    withServer { server =>
+    withServer(buildServer()) { server =>
       val content1 = "#%RAML 1.0\ntitle: test\n"
       val content2 = "#%RAML 1.0\ntitle: test\ntypes:\n  MyType: number\n"
 
@@ -45,7 +45,7 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
   }
 
   test("change document test 002") {
-    withServer { server =>
+    withServer(buildServer()) { server =>
       val content1 = "#%RAML 1.0\ntitle: test\n"
       val content2 = "#%RAML 1.0\ntitle: test\n"
       val content3 = "#%RAML 1.0\ntitle: test\nsome invalid string\ntypes:\n  MyType: number\n"
@@ -69,7 +69,7 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
   // todo: encoded URIs not working correctly
   test("change document with uri spaces test 003") {
-    withServer { server =>
+    withServer(buildServer()) { server =>
       val content1 = "#%RAML 1.0\ntitle: test\n"
       val content2 = "#%RAML 1.0\ntitle: test\nsome invalid string\ntypes:\n  MyType: number\n"
 
