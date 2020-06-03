@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.protocol.convert
 
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions, CleanDiagnosticTreeParams}
+import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
 import org.mulesoft.als.server.feature.serialization._
 import org.mulesoft.als.server.protocol.configuration._
 import org.mulesoft.als.server.protocol.diagnostic.ClientCleanDiagnosticTreeParams
@@ -24,6 +25,11 @@ object LspConvertersClientToShared {
       ConversionRequestOptions(v.supported.toSeq.map(s => ConversionConfig(s.from, s.to)))
   }
 
+  implicit class ClientFileUsageOptionsConverter(v: ClientFileUsageOptions) {
+    def toShared: FileUsageOptions =
+      FileUsageOptions(v.supported)
+  }
+
   implicit class ClientCleanDiagnosticTreeOptionsConverter(v: ClientCleanDiagnosticTreeOptions) {
     def toShared: CleanDiagnosticTreeOptions =
       CleanDiagnosticTreeOptions(v.supported)
@@ -41,6 +47,7 @@ object LspConvertersClientToShared {
       v.experimental.toOption,
       serialization = v.serialization.map(_.toShared).toOption,
       cleanDiagnosticTree = v.cleanDiagnosticTree.map(_.toShared).toOption,
+      fileUsage = v.fileUsage.map(_.toShared).toOption,
       conversion =  v.conversion.map(_.toShared).toOption
     )
   }
@@ -76,6 +83,12 @@ object LspConvertersClientToShared {
     }
   }
 
+  implicit class FileUsageClientCapabilitiesConverter(v: ClientFileUsageClientCapabilities) {
+    def toShared: FileUsageClientCapabilities = {
+      FileUsageClientCapabilities(v.fileUsageSupport)
+    }
+  }
+
   implicit class CleanDiagnosticTreeClientCapabilitiesConverter(v: ClientCleanDiagnosticTreeClientCapabilities) {
     def toShared: CleanDiagnosticTreeClientCapabilities = {
       CleanDiagnosticTreeClientCapabilities(v.enableCleanDiagnostic)
@@ -102,6 +115,7 @@ object LspConvertersClientToShared {
         v.experimental.toOption,
         v.serialization.toOption.map(_.toShared),
         v.cleanDiagnostics.toOption.map(_.toShared),
+        v.fileUsage.toOption.map(_.toShared),
         v.conversion.toOption.map(_.toShared)
       )
   }

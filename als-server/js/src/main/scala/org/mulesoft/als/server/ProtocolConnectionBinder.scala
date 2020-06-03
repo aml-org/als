@@ -1,6 +1,7 @@
 package org.mulesoft.als.server
 
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeRequestType
+import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
 import org.mulesoft.als.server.feature.serialization.{ConversionRequestType, SerializationResult}
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -24,7 +25,12 @@ import org.mulesoft.lsp.client.{LspLanguageClient, LspLanguageClientAware}
 import org.mulesoft.lsp.convert.LspConvertersClientToShared._
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 import org.mulesoft.lsp.feature.RequestHandler
-import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
+import org.mulesoft.lsp.feature.common.{
+  ClientLocation,
+  ClientLocationLink,
+  ClientTextDocumentIdentifier,
+  ClientTextDocumentPositionParams
+}
 import org.mulesoft.lsp.feature.completion.{
   ClientCompletionItem,
   ClientCompletionList,
@@ -213,6 +219,22 @@ object ProtocolConnectionBinder {
         .asInstanceOf[ClientRequestHandler[ClientDocumentLinkParams, js.Array[ClientDocumentLink], js.Any]]
     )
     // End DocumentLink
+
+    // FindFileUsage
+    val onFindFileUsageHandlerJs
+      : js.Function2[ClientTextDocumentIdentifier, CancellationToken, Thenable[js.Array[ClientLocation]]] =
+      (param: ClientTextDocumentIdentifier, _: CancellationToken) =>
+        resolveHandler(FileUsageRequestType)(param.toShared)
+          .map(_.map(_.toClient).toJSArray)
+          .toJSPromise
+          .asInstanceOf[Thenable[js.Array[ClientLocation]]]
+
+    protocolConnection.onRequest(
+      FileUsageRequest.`type`,
+      onFindFileUsageHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any]]
+    )
+    // End FindFileUsage
 
     // Definition
     val onDefinitionHandlerJs

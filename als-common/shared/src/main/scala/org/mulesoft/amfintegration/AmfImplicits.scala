@@ -6,7 +6,7 @@ import amf.core.model.domain.{AmfObject, AmfScalar}
 import amf.core.parser
 import amf.core.parser.{Annotations, Value}
 import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping}
+import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import amf.plugins.domain.webapi.metamodel.AbstractModel
 
 import scala.collection.mutable

@@ -1,6 +1,7 @@
 package org.mulesoft.als.server
 
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeConfigType
+import org.mulesoft.als.server.feature.fileusage.FileUsageConfigType
 import org.mulesoft.als.server.feature.serialization.{ConversionConfigType, SerializationConfigType}
 import org.mulesoft.als.server.protocol.configuration.{
   AlsClientCapabilities,
@@ -43,6 +44,7 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       None,
       applyConfig(SerializationConfigType, clientCapabilities.serialization),
       applyConfig(CleanDiagnosticTreeConfigType, clientCapabilities.cleanDiagnosticTree),
+      applyConfig(FileUsageConfigType, clientCapabilities.fileUsage),
       applyConfig(ConversionConfigType, clientCapabilities.conversion)
     )
   }

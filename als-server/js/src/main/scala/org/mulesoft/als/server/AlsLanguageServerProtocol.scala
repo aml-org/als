@@ -13,6 +13,7 @@ import org.mulesoft.als.server.protocol.serialization.{
   ClientSerializedDocument
 }
 import org.mulesoft.als.vscode.{NotificationType, RequestType}
+import org.mulesoft.lsp.feature.common.{ClientLocation, ClientTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
 
 import scala.scalajs.js
@@ -41,6 +42,12 @@ object ClientCleanDiagnosticTreeRequestType {
     : RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any, js.Any] =
     new RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any, js.Any](
       "CleanDiagnosticTree")
+}
+
+@JSExportTopLevel("FileUsageRequestType")
+object FileUsageRequest {
+  val `type`: RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any, js.Any] =
+    new RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any, js.Any]("FileUsage")
 }
 
 @JSExportTopLevel("ConversionRequestType")

@@ -45,6 +45,7 @@ object AlsJConversions {
     result.setExperimental(capabilities.experimental)
     result.setExecuteCommandProvider(new ExecuteCommandOptions(Lists.newArrayList("didFocusChange")))
 
+    capabilities.fileUsage.foreach(fu => result.setFileUsage(new extension.FileUsageServerOptions(fu.supported)))
     capabilities.cleanDiagnostics.foreach(cd =>
       result.setCleanDiagnosticTree(new extension.CleanDiagnosticTreeServerOptions(cd.supported)))
     capabilities.serialization.foreach(s =>

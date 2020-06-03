@@ -28,15 +28,16 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     with UnitsManager[CompilableUnit, BaseUnitListenerParams]
     with AlsWorkspaceService {
 
-  override def subscribers: List[BaseUnitListener]            = allSubscribers.filter(_.isActive)
-  private val rootHandler                                     = new WorkspaceRootHandler(environmentProvider.platform)
+  override def subscribers: List[BaseUnitListener] = allSubscribers.filter(_.isActive)
+  private val rootHandler =
+    new WorkspaceRootHandler(environmentProvider.platform, environmentProvider.environmentSnapshot())
   private val workspaces: ListBuffer[WorkspaceContentManager] = ListBuffer()
 
   def getWorkspace(uri: String): WorkspaceContentManager =
     workspaces.find(ws => uri.startsWith(ws.folder)).getOrElse(defaultWorkspace)
 
   def initializeWS(root: String): Future[Unit] =
-    rootHandler.extractConfiguration(root).flatMap { mainOption =>
+    rootHandler.extractConfiguration(root, logger).flatMap { mainOption =>
       if (!workspaces.exists(w => root.startsWith(w.folder))) { // if there is an existing WS containing the new one, dont add it
         logger
           .debug("Adding workspace: " + root, "WorkspaceManager", "initializeWS")
@@ -149,6 +150,16 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
   override def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]] =
     getLastUnit(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getDocumentLinks(uri))
+
+  override def getAllDocumentLinks(uri: String, uuid: String): Future[Map[String, Seq[DocumentLink]]] = {
+    val workspace = getWorkspace(uri)
+    workspace.mainFileUri match {
+      case Some(mf) =>
+        getLastUnit(mf, uuid)
+          .flatMap(_ => workspace.getRelationships(mf).getAllDocumentLinks())
+      case _ => Future.successful(Map.empty)
+    }
+  }
 
   override def getAliases(uri: String, uuid: String): Future[Seq[AliasInfo]] =
     getLastUnit(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getAliases(uri))

@@ -2,12 +2,13 @@ package org.mulesoft.als.server.workspace.extract
 
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
+import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
 
 import scala.concurrent.Future
 
 trait WorkspaceConfigurationProvider {
-  def obtainConfiguration(platform: Platform, environment: Environment): Future[Option[WorkspaceConf]]
+  def obtainConfiguration(platform: Platform, environment: Environment, logger: Logger): Future[Option[WorkspaceConf]]
 }
 
 case class DefaultWorkspaceConfigurationProvider(manager: WorkspaceContentManager,
@@ -15,7 +16,9 @@ case class DefaultWorkspaceConfigurationProvider(manager: WorkspaceContentManage
                                                  dependencies: Set[String],
                                                  reader: Option[ConfigReader])
     extends WorkspaceConfigurationProvider {
-  override def obtainConfiguration(platform: Platform, environment: Environment): Future[Option[WorkspaceConf]] =
+  override def obtainConfiguration(platform: Platform,
+                                   environment: Environment,
+                                   logger: Logger): Future[Option[WorkspaceConf]] =
     Future.successful(
       Some(
         WorkspaceConf(
@@ -28,10 +31,12 @@ case class DefaultWorkspaceConfigurationProvider(manager: WorkspaceContentManage
 
 case class ReaderWorkspaceConfigurationProvider(manager: WorkspaceContentManager)
     extends WorkspaceConfigurationProvider {
-  override def obtainConfiguration(platform: Platform, environment: Environment): Future[Option[WorkspaceConf]] = {
+  override def obtainConfiguration(platform: Platform,
+                                   environment: Environment,
+                                   logger: Logger): Future[Option[WorkspaceConf]] = {
     manager.workspaceConfiguration.flatMap(_.configReader) match {
       case Some(configReader) =>
-        configReader.readRoot(manager.folder, platform, environment)
+        configReader.readRoot(manager.folder, platform, environment, logger)
       case _ => Future.successful(None)
     }
   }
