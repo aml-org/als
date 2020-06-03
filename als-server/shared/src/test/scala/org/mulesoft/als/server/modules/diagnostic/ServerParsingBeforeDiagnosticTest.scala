@@ -9,8 +9,8 @@ import scala.concurrent.ExecutionContext
 class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
-  val clientNotifier                                       = new MockDiagnosticClientNotifier
-  override def buildServer(): LanguageServer = {
+
+  def buildServer(clientNotifier: MockDiagnosticClientNotifier): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(clientNotifier, logger)
       .withNotificationKind(PARSING_BEFORE)
 
@@ -30,8 +30,9 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
         |title: test
         |a b
         |""".stripMargin
-    val filePath = "file://api.raml"
-    withServer { server =>
+    val filePath                                     = "file://api.raml"
+    val clientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    withServer(buildServer(clientNotifier)) { server =>
       for {
         _       <- openFileNotification(server)(filePath, api)
         parsing <- clientNotifier.nextCall
@@ -53,8 +54,9 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
         |description: a description
         |a b
         |""".stripMargin
-    val filePath = "file://api.raml"
-    withServer { server =>
+    val filePath                                     = "file://api.raml"
+    val clientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    withServer(buildServer(clientNotifier)) { server =>
       for {
         _       <- openFileNotification(server)(filePath, api)
         parsing <- clientNotifier.nextCall
@@ -82,8 +84,9 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
       """#%RAML 1.0
         |description: a description
         |""".stripMargin
-    val filePath = "file://api.raml"
-    withServer { server =>
+    val filePath                                     = "file://api.raml"
+    val clientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    withServer(buildServer(clientNotifier)) { server =>
       for {
         _            <- openFileNotification(server)(filePath, api)
         parsing      <- clientNotifier.nextCall
@@ -119,8 +122,9 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
       """#%RAML 1.0
         |description: a description
         |""".stripMargin
-    val filePath = "file://api.raml"
-    withServer { server =>
+    val filePath                                     = "file://api.raml"
+    val clientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    withServer(buildServer(clientNotifier)) { server =>
       for {
         _           <- openFileNotification(server)(filePath, api)
         parsing     <- clientNotifier.nextCall

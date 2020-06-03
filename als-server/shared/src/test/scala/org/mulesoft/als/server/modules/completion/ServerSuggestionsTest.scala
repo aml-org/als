@@ -15,7 +15,7 @@ import scala.concurrent.Future
 
 abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherValues {
 
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
 
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
@@ -24,29 +24,30 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
       .build()
   }
 
-  def runTest(path: String, expectedSuggestions: Set[String]): Future[Assertion] = withServer[Assertion] { server =>
-    val resolved = filePath(platform.encodeURI(path))
-    for {
-      content <- this.platform.resolve(resolved)
-      suggestions <- {
-        val fileContentsStr = content.stream.toString
-        val markerInfo      = this.findMarker(fileContentsStr)
+  def runTest(path: String, expectedSuggestions: Set[String]): Future[Assertion] =
+    withServer[Assertion](buildServer()) { server =>
+      val resolved = filePath(platform.encodeURI(path))
+      for {
+        content <- this.platform.resolve(resolved)
+        suggestions <- {
+          val fileContentsStr = content.stream.toString
+          val markerInfo      = this.findMarker(fileContentsStr)
 
-        getServerCompletions(resolved, server, markerInfo)
+          getServerCompletions(resolved, server, markerInfo)
+        }
+      } yield {
+        val resultSet = suggestions
+          .map(item => item.textEdit.map(_.newText).orElse(item.insertText).value)
+          .toSet
+        val diff1 = resultSet.diff(expectedSuggestions)
+        val diff2 = expectedSuggestions.diff(resultSet)
+
+        if (diff1.isEmpty && diff2.isEmpty) succeed
+        else
+          fail(
+            s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
       }
-    } yield {
-      val resultSet = suggestions
-        .map(item => item.textEdit.map(_.newText).orElse(item.insertText).value)
-        .toSet
-      val diff1 = resultSet.diff(expectedSuggestions)
-      val diff2 = expectedSuggestions.diff(resultSet)
-
-      if (diff1.isEmpty && diff2.isEmpty) succeed
-      else
-        fail(
-          s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
     }
-  }
 
   def getServerCompletions(filePath: String,
                            server: LanguageServer,

@@ -83,7 +83,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
     }
 
-    withServer { s =>
+    withServer(buildServer()) { s =>
       val server       = new LanguageServerImpl(s)
       val mainFilePath = s"file://api.raml"
 
@@ -185,7 +185,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
   }
 
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
     val builder  = new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
     val dm       = builder.diagnosticManager()
     val managers = builder.buildWorkspaceManagerFactory()

@@ -20,7 +20,7 @@ trait ServerDefinitionTest extends LanguageServerBaseTest {
 
   override def rootPath: String = "actions/definition"
 
-  override def buildServer(): LanguageServer = {
+  def buildServer(): LanguageServer = {
 
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
@@ -30,8 +30,8 @@ trait ServerDefinitionTest extends LanguageServerBaseTest {
       .build()
   }
 
-  def runTest(path: String, expectedDefinitions: Set[LocationLink]): Future[Assertion] = withServer[Assertion] {
-    server =>
+  def runTest(path: String, expectedDefinitions: Set[LocationLink]): Future[Assertion] =
+    withServer[Assertion](buildServer()) { server =>
       val resolved = filePath(platform.encodeURI(path))
       for {
         content <- this.platform.resolve(resolved)
@@ -44,10 +44,10 @@ trait ServerDefinitionTest extends LanguageServerBaseTest {
       } yield {
         assert(definitions.toSet == expectedDefinitions)
       }
-  }
+    }
 
   def runTestTypeDefinition(path: String, expectedDefinitions: Set[LocationLink]): Future[Assertion] =
-    withServer[Assertion] { server =>
+    withServer[Assertion](buildServer()) { server =>
       val resolved = filePath(platform.encodeURI(path))
       for {
         content <- this.platform.resolve(resolved)

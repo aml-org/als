@@ -94,13 +94,11 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
     val documentLinksManager: DocumentLinksManager =
       new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
 
-    def init(): Future[Unit] = {
+    def init(): Future[Unit] =
       workspaceManager.initializeWS(filePath(rootFolder))
-    }
 
-    def openFileAndGetLinks(path: String): Future[Seq[DocumentLink]] = {
+    def openFileAndGetLinks(path: String): Future[Seq[DocumentLink]] =
       openFile(path).getDocumentLinks(path)
-    }
 
     def openFile(path: String): WorkspaceLinkHandler = {
       workspaceManager.notify(filePath(path), OPEN_FILE)
@@ -112,13 +110,12 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
       this
     }
 
-    def getDocumentLinks(path: String): Future[Seq[DocumentLink]] = {
+    def getDocumentLinks(path: String): Future[Seq[DocumentLink]] =
       documentLinksManager.documentLinks(filePath(path))
-    }
 
   }
 
-  override def buildServer(): LanguageServer =
+  def buildServer(): LanguageServer =
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()
