@@ -228,6 +228,42 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
+  test("Workspace Manager check validation Stack - No stack in error") {
+    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
+      assert(diagnosticClientNotifier.promises.isEmpty)
+      val rootFolder = s"${filePath("ws-error-stack-5")}"
+      for {
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
+        a <- diagnosticClientNotifier.nextCall
+      } yield {
+        server.shutdown()
+        val allDiagnostics = Seq(a)
+        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
+        val root = allDiagnostics.find(_.uri == s"$rootFolder/api.yaml")
+        assert(root.isDefined)
+
+        root match {
+          case Some(m) =>
+            m.diagnostics.size should be(2)
+
+            m.diagnostics.exists { d => // header
+              d.range == Range(Position(0, 8), Position(0, 14)) &&
+              d.relatedInformation.isEmpty
+            } should be(true)
+
+            m.diagnostics.exists { d => // wrong array
+              d.range == Range(Position(1, 0), Position(17, 9)) &&
+              d.relatedInformation.isEmpty
+            } should be(true)
+
+            succeed
+          case _ => fail("No Main detected")
+        }
+      }
+    }
+  }
+
   test("Workspace Manager check change in Config [changing exchange.json] - Should notify validations of new tree") {
     val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
