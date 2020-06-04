@@ -1,0 +1,18 @@
+openapi: 3.0.0
+  - url: https://anotherUrl.com
+    description: another
+servers: []
+info:
+  description: |
+    The transactional messaging API sends transactional (aka operational) messages initiated by a recipient or systsem confirming the casdfasdfompletion of a process (for non-promotional reasons), with expectations of immediate delivery. For example, sending a confirmation message after a customer makes a purchase.
+    A transactional send is invoked outside of the application using API calls. Configure the content and contact behavior via the `definitions` API resource.
+    Use a API `messages` resource to provide automated, personalized responses to your customers' activities on your website. Emails and SMS are trackable, targeted, and sent in real time.
+    To get started:
+    1. Create email content in Content Builder
+    1. Create a TriggereSendDataExtension using a standar Triggered Send DE templates
+    1. Create a definition object `POST /messaging/v1/email/definitions/`
+    1. Send an email `POST /messaging/v1/email/messageKey/your_message_key`
+    1. Get the send status `GET /messaging/v1/email/messageKey/your_message_key`
+  version: v1.216.181229
+  title: Transactional Email Messaging APIs
+paths: {}
