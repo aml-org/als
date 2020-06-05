@@ -1,9 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7
 
-import amf.dialects.oas.nodes.DialectNode
 import amf.plugins.document.vocabularies.model.domain.DocumentsModel
 import org.mulesoft.amfintegration.dialect.BaseDialect
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.BaseShapeAsync2Node
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object JsonSchemaDraft7Dialect extends BaseDialect {
 

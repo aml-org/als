@@ -5,13 +5,16 @@ import amf.core.model.domain.{AmfObject, AmfScalar}
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.WebApiModel
 import amf.plugins.domain.webapi.models.WebApi
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.EncodesFieldSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl._
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ObjectFieldTypeSymbolBuilderCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
-import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ObjectFieldTypeSymbolBuilderCompanion
+import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.{
+  DefaultNamedScalarTypeSymbolBuilder,
+  EncodesFieldSymbolBuilder
+}
 
 class WebApiEncodesFieldSymbolBuilder(override val value: WebApi, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
@@ -20,7 +23,7 @@ class WebApiEncodesFieldSymbolBuilder(override val value: WebApi, override val e
   val titleField: Seq[DocumentSymbol] = value.fields
     .fields()
     .find(_.field == WebApiModel.Name)
-    .map(fe => new DefaultWebApiScalarTypeSymbolBuilder(fe.value.value.asInstanceOf[AmfScalar], fe, "title").build())
+    .map(fe => new DefaultNamedScalarTypeSymbolBuilder(fe.value.value.asInstanceOf[AmfScalar], fe, "title").build())
     .getOrElse(Nil)
 
   override def build(): Seq[DocumentSymbol] = titleField ++ inner.build()

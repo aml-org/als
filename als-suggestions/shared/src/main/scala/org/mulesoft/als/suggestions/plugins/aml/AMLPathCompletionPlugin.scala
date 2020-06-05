@@ -8,7 +8,7 @@ import org.mulesoft.als.common.{DirectoryResolver, FileUtils}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.amfmanager.dialect.DialectKnowledge
+import org.mulesoft.amfintegration.dialect.DialectKnowledge
 
 import scala.concurrent.Future
 

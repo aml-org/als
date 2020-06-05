@@ -1,0 +1,32 @@
+[
+  {
+    "label": "otherLabel",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "otherLabel",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11otherLabel",
+    "filterText": "otherLabel",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 16,
+          "character": 16
+        },
+        "end": {
+          "line": 16,
+          "character": 16
+        }
+      },
+      "newText": "otherLabel"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

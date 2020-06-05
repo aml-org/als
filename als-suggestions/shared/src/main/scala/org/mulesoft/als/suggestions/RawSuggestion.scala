@@ -13,6 +13,34 @@ case class RawSuggestion(newText: String,
                          options: SuggestionStructure = SuggestionStructure(),
                          children: Seq[RawSuggestion] = Nil) {
 
+  def withStringKey: RawSuggestion =
+    RawSuggestion(
+      this.newText,
+      this.displayText,
+      this.description,
+      this.textEdits,
+      this.category,
+      this.range,
+      SuggestionStructure(this.options.rangeKind,
+                          this.options.isKey,
+                          StringScalarRange,
+                          this.options.isMandatory,
+                          this.options.isTopLevel),
+      this.children
+    )
+
+  def withPositionRange(positionRange: Option[PositionRange]): RawSuggestion =
+    RawSuggestion(
+      this.newText,
+      this.displayText,
+      this.description,
+      this.textEdits,
+      this.category,
+      positionRange,
+      this.options,
+      this.children
+    )
+
   implicit def bool2InsertTextFormat(v: Boolean): InsertTextFormat.Value =
     if (v) InsertTextFormat.Snippet
     else InsertTextFormat.PlainText

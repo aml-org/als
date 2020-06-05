@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.workspace
 
-import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
@@ -14,12 +14,8 @@ import scala.concurrent.ExecutionContext
 
 class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
 
-  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
-
-  val diagnosticClientNotifier = new MockDiagnosticClientNotifier
-
-  private val factory =
-    new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
+  override implicit val executionContext: ExecutionContext =
+    ExecutionContext.Implicits.global
 
   private def testStructureForFile(server: LanguageServer, url: String) = {
     for {
@@ -42,25 +38,43 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager check Symbol - main") {
-    withServer[Assertion] { server =>
+
+    val diagnosticClientNotifier = new MockDiagnosticClientNotifier
+
+    val factory: WorkspaceManagerFactory =
+      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
+        .buildWorkspaceManagerFactory()
+    withServer[Assertion](buildServer(factory)) { server =>
       testStructureForFile(server, s"${filePath("ws1")}/api.raml")
     }
   }
 
   // TODO: Why is this not returning structure??
   ignore("Workspace Manager check Symbol - dependency") {
-    withServer[Assertion] { server =>
+
+    val diagnosticClientNotifier = new MockDiagnosticClientNotifier
+
+    val factory: WorkspaceManagerFactory =
+      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
+        .buildWorkspaceManagerFactory()
+    withServer[Assertion](buildServer(factory)) { server =>
       testStructureForFile(server, s"${filePath("ws1")}/sub/type.raml")
     }
   }
 
   test("Workspace Manager check Symbol - independent") {
-    withServer[Assertion] { server =>
+
+    val diagnosticClientNotifier = new MockDiagnosticClientNotifier
+
+    val factory: WorkspaceManagerFactory =
+      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
+        .buildWorkspaceManagerFactory()
+    withServer[Assertion](buildServer(factory)) { server =>
       testStructureForFile(server, s"${filePath("ws1")}/independent.raml")
     }
   }
 
-  override def buildServer(): LanguageServer =
+  def buildServer(factory: WorkspaceManagerFactory): LanguageServer =
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()

@@ -1,5 +1,5 @@
-package org.mulesoft.als.suggestions.aml.dialects
+package org.mulesoft.amfintegration.dialect.dialects
 
-package object asyncapi20 {
+package object dialects {
   val dialectLocation: String = "file://vocabularies/dialects/asyncapi20.yaml"
 }

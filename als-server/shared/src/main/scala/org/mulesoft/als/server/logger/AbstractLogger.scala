@@ -21,7 +21,7 @@ trait AbstractLogger extends Logger {
     * @param subComponent - sub-component name
     */
   override def log(message: String, severity: MessageSeverity, component: String, subComponent: String): Unit = {
-    val filtered = this.filterLogMessage(LogMessage(message, severity, component, subComponent))
+    val filtered = this.filterLogMessage(LogMessage(Option(message).getOrElse(""), severity, component, subComponent))
 
     filtered.foreach(logMessage => {
       val toLog =

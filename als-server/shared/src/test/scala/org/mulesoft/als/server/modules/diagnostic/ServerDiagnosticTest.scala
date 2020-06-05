@@ -23,8 +23,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
   override def rootPath: String = ""
 
   var container: Option[TextDocumentContainer] = None
-  val diagnosticNotifier                       = new MockDiagnosticClientNotifier(10000)
-  override def buildServer(): LanguageServer = {
+
+  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
     val dm      = builder.diagnosticManager()
     val factory = builder.buildWorkspaceManagerFactory()
@@ -36,8 +36,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
   }
 
   test("diagnostics test 001 - onFocus") {
-    diagnosticNotifier.promises.clear()
-    withServer { server =>
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    withServer(buildServer(diagnosticNotifier)) { server =>
       val mainFilePath = s"file://api.raml"
       val libFilePath  = s"file://lib1.raml"
 
@@ -104,8 +104,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
   }
 
   test("diagnostics test 002 - AML") {
-    diagnosticNotifier.promises.clear()
-    withServer { server =>
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    withServer(buildServer(diagnosticNotifier)) { server =>
       val dialectPath  = s"file://dialect.yaml"
       val instancePath = s"file://instance.yaml"
 
@@ -183,8 +183,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
       override def location(): Option[String] = Some("location")
     }
-
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    val builder                                          = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
     builder
       .diagnosticManager()
     val factory = builder.buildWorkspaceManagerFactory()
@@ -196,7 +196,6 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
     for {
       _ <- Future {
-        diagnosticNotifier.promises.clear()
         factory.resolutionTaskManager.onNewAst(
           BaseUnitListenerParams(
             amfParseResult,
@@ -216,7 +215,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
   }
 
   test("Trait resolution with error( test resolution error handler") {
-    withServer { server =>
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    withServer(buildServer(diagnosticNotifier)) { server =>
       val apiPath = s"file://api.raml"
 
       val apiContent =
@@ -238,7 +238,6 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
       /*
         register dialect -> open invalid instance -> fix -> invalid again
        */
-      diagnosticNotifier.promises.clear()
       for {
         _  <- openFileNotification(server)(apiPath, apiContent)
         d1 <- diagnosticNotifier.nextCall
@@ -251,7 +250,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
   }
 
   test("Error without location") {
-    withServer { server =>
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    withServer(buildServer(diagnosticNotifier)) { server =>
       val apiPath = s"file://api.json"
 
       val apiContent =
@@ -267,7 +267,6 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
       /*
         register dialect -> open invalid instance -> fix -> invalid again
        */
-      diagnosticNotifier.promises.clear()
       for {
         _  <- openFileNotification(server)(apiPath, apiContent)
         d1 <- diagnosticNotifier.nextCall

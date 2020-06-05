@@ -1,7 +1,6 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings
 
 import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.dialects.oas.nodes.DialectNode
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.bindings.{
   Amqp091MessageBindingModel,
@@ -11,6 +10,7 @@ import amf.plugins.domain.webapi.metamodel.bindings.{
   MessageBindingsModel,
   MqttMessageBindingModel
 }
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object MessageBindingObjectNode extends BindingObjectNode {
   override def name: String = "MessageBindingObjectNode"

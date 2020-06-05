@@ -8,7 +8,7 @@ import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.plugins.document.{Vocabularies, WebApi}
-import amf.plugins.document.vocabularies.AMLPlugin
+import amf.plugins.document.vocabularies.{AMLPlugin, DialectsRegistry}
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.document.webapi.{Async20Plugin, Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
 import amf.plugins.features.AMFValidation
@@ -39,6 +39,7 @@ class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Envi
         amf.Core.registerPlugin(PayloadValidatorPlugin)
         CoreRegister.register(platform)
         plugins.foreach(amf.core.AMF.registerPlugin)
+        WebApi.register()
         val f = AMF.init()
         initialization = Some(f)
         f

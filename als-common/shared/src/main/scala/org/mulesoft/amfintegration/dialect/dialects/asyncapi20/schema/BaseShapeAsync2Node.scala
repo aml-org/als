@@ -1,12 +1,12 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema
 
 import amf.core.metamodel.domain.ShapeModel
+import org.mulesoft.amfintegration.dialect.dialects.dialects.dialectLocation
 import amf.core.vocabulary.Namespace.XsdTypes.{xsdBoolean, _}
-import amf.dialects.oas.nodes.AMLExternalDocumentationObject
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, NodeShapeModel, ScalarShapeModel}
-import org.mulesoft.als.suggestions.aml.dialects.asyncapi20.dialectLocation
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.base._
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.AMLExternalDocumentationObject
 
 trait BaseShapeAsync2Node extends BaseShapeNode {
 

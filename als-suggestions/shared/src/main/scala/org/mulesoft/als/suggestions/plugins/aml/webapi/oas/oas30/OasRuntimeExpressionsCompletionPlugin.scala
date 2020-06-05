@@ -5,8 +5,7 @@ import amf.plugins.domain.webapi.metamodel.{CallbackModel, IriTemplateMappingMod
 import amf.plugins.domain.webapi.models.Callback
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.AbstractRuntimeExpressionsCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30.runtimeexpressions.OASRuntimeExpressionParser
-import org.mulesoft.als.suggestions.plugins.aml.webapi.runtimeexpression.RuntimeExpressionParser
+import amf.plugins.document.webapi.validation.runtimeexpression.{OAS3RuntimeExpressionParser, RuntimeExpressionParser}
 
 object OasRuntimeExpressionsCompletionPlugin extends AbstractRuntimeExpressionsCompletionPlugin {
 
@@ -25,5 +24,5 @@ object OasRuntimeExpressionsCompletionPlugin extends AbstractRuntimeExpressionsC
           } else request.amfObject.fields.fields().exists(fe => applicableFields.contains(fe.field))
     }
 
-  override def parserObject(value: String): RuntimeExpressionParser = OASRuntimeExpressionParser(value)
+  override def parserObject(value: String): RuntimeExpressionParser = OAS3RuntimeExpressionParser(value)
 }

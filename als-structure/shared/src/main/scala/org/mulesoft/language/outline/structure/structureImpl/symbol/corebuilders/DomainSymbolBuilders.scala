@@ -34,6 +34,7 @@ object DomainElementSymbolBuilder extends AmfObjectSimpleBuilderCompanion[Domain
     element match {
       case n: NamedDomainElement if n.name.option().isDefined =>
         NamedElementSymbolBuilder.construct(n).map(_.asInstanceOf[SymbolBuilder[DomainElement]])
+      case SemanticNamedDomainElementSymbolBuilder(builder) => Some(builder)
       case _ =>
         element.annotations.find(classOf[SourceAST]).map(_.ast) match {
           case Some(entry: YMapEntry) =>
@@ -57,7 +58,7 @@ object NamedElementSymbolBuilder extends AmfObjectSimpleBuilderCompanion[NamedDo
 trait NamedElementSymbolBuilderTrait[T <: NamedDomainElement] extends StructuredSymbolBuilder[T] {
 
   override protected val optionName: Option[String] =
-    if (element.name.annotations().isSynthesized()) None else element.name.option()
+    if (element.name.annotations().isSynthesized) None else element.name.option()
 
   override protected val selectionRange: Option[AmfRange] = element.name
     .annotations()

@@ -3,8 +3,8 @@ package org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.base
 import amf.core.metamodel.domain.ShapeModel
 import amf.core.metamodel.domain.extensions.PropertyShapeModel
 import amf.core.vocabulary.Namespace.XsdTypes.{xsdAnyType, _}
-import amf.dialects.oas.nodes.DialectNode
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 trait BaseShapeNode extends DialectNode{
 

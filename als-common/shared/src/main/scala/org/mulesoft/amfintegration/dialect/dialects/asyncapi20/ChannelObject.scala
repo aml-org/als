@@ -1,13 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
-import amf.dialects.oas.nodes.DialectNode
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel, ParameterModel}
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.{
-  ChannelBindingObjectNode,
-  ChannelBindingsObjectNode
-}
+import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import amf.plugins.domain.webapi.metamodel.{EndPointModel, ParameterModel}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.ChannelBindingsObjectNode
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object ChannelObject extends DialectNode {
   override def name: String = "ChannelObject"

@@ -13,7 +13,6 @@ import scala.concurrent.Future
 
 class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with PlatformSecrets {
 
-  val diagnosticsClient = new MockDiagnosticClientNotifier(10000)
   // TODO: check if a new validation should be sent from WorkspaceContentCollection when "onFocus" (when the BU is already parsed)
   test("Lsp4j LanguageServerImpl Command - Did Focus: Command should notify DidFocus") {
     def wrapJson(uri: String, version: String): String =
@@ -26,7 +25,8 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
       Future.successful(Unit)
     }
 
-    withServer { s =>
+    val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    withServer(buildServer(diagnosticsClient)) { s =>
       val server       = new LanguageServerImpl(s)
       val mainFilePath = s"file://api.raml"
       val libFilePath  = s"file://lib1.raml"
@@ -90,7 +90,8 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
     def wrapJson(uri: String): String =
       s"""{"mainUri": "$uri"}"""
 
-    withServer { s =>
+    val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    withServer(buildServer(diagnosticsClient)) { s =>
       val mainFilePath = s"file://api.raml"
       val libFilePath  = s"file://lib1.raml"
 
@@ -146,50 +147,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
     }
   }
 
-  // todo: here for HF, in devel move it to new suit ServerCleanDiagnosticTest
-  test("Clean diagnostic test, compare notification against clean") {
-    def wrapJson(uri: String): String =
-      s"""{"mainUri": "$uri"}"""
-
-    withServer { s =>
-      val mainFilePath = s"file://api.raml"
-
-      val mainContent =
-        """#%RAML 1.0
-          |title: Recursive
-          |types:
-          |  Recursive:
-          |    type: object
-          |    properties:
-          |      myP:
-          |        type: Recursive
-          |/recursiveType:
-          |  post:
-          |    responses:
-          |      201:
-          |        body:
-          |          application/json:
-          |            type: Recursive
-        """.stripMargin
-
-      for {
-        _  <- openFileNotification(s)(mainFilePath, mainContent)
-        d  <- diagnosticsClient.nextCall
-        v1 <- requestCleanDiagnostic(s)(mainFilePath)
-
-      } yield {
-        s.shutdown()
-
-        diagnosticsClient.promises.clear()
-        d.diagnostics.size should be(1)
-        v1.length should be(1)
-        val fileDiagnostic = v1.head
-        fileDiagnostic.diagnostics.size should be(1)
-      }
-    }
-  }
-
-  override def buildServer(): LanguageServer = {
+  def buildServer(diagnosticsClient: MockDiagnosticClientNotifier): LanguageServer = {
     val builder  = new WorkspaceManagerFactoryBuilder(diagnosticsClient, logger)
     val dm       = builder.diagnosticManager()
     val managers = builder.buildWorkspaceManagerFactory()

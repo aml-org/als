@@ -12,7 +12,7 @@ import org.mulesoft.amfintegration.DiagnosticsBundle
 import org.mulesoft.amfmanager.AmfImplicits._
 import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.feature.link.DocumentLink
-
+import org.mulesoft.amfmanager.AmfImplicits._
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -43,17 +43,19 @@ class ParsedMainFileTree(eh: ErrorCollector,
     if (!isRecursive(stack, bu)) { // stop: recursion
       units.put(bu.identifier, bu)
       intoInners(bu, stack)
-      bu.annotations
-        .collect[ReferenceTargets] { case rt: ReferenceTargets => rt }
-        .flatMap { rt =>
-          bu.references.find(_.identifier == rt.targetLocation).map { r =>
-            index(
-              r,
-              stack.through(ReferenceOrigins(bu.identifier, PositionRange(rt.originRange)))
-            )
-          }
+      val targets = bu.annotations.targets()
+      targets
+        .flatMap {
+          case (targetLocation, originRange) =>
+            bu.references.find(_.identifier == targetLocation).map { r =>
+              index(
+                r,
+                stack.through(ReferenceOrigins(bu.identifier, PositionRange(originRange)))
+              )
+            }
         }
-    } else Nil
+    }.toSeq
+    else Nil
 
   private def intoInners(bu: BaseUnit, stack: ReferenceStack) = {
     innerRefs.get(bu.identifier) match {

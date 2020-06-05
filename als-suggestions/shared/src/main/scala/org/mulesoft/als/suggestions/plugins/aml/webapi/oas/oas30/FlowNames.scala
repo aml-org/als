@@ -1,11 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
-import amf.dialects.oas.nodes.Oauth2FlowObject
 import amf.plugins.domain.webapi.metamodel.security.OAuth2FlowModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.AMLEnumCompletionPlugin
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.Oauth2FlowObject
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

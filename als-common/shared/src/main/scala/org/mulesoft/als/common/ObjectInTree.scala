@@ -1,13 +1,41 @@
 package org.mulesoft.als.common
 
 import amf.core.model.document.BaseUnit
-import amf.core.model.domain.{AmfObject, DomainElement}
+import amf.core.model.domain.{AmfArray, AmfObject, DomainElement}
 import amf.core.parser.{Position => AmfPosition}
 import AmfSonElementFinder._
+import amf.core.annotations.{LexicalInformation, SynthesizedField}
 import amf.core.metamodel.document.BaseUnitModel
 import amf.core.parser.FieldEntry
 
-case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject])
+case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject]) {
+  def getFieldEntry: (AmfPosition, Ordering[FieldEntry]) => Option[FieldEntry] = ObjectInTree.getFieldEntry(this, _, _)
+}
+
+object ObjectInTree {
+  def getFieldEntry(objectInTree: ObjectInTree,
+                    position: AmfPosition,
+                    fieldEntryOrdering: Ordering[FieldEntry]): Option[FieldEntry] =
+    // todo: maybe this should be a seq and not an option
+    objectInTree.obj.fields
+      .fields()
+      .filter(f =>
+        f.value.value match {
+          case _: AmfArray =>
+            f.value.annotations
+              .find(classOf[LexicalInformation])
+              .exists(_.containsCompletely(position))
+          case v =>
+            v.position()
+              .exists(_.contains(position)) && (f.value.annotations
+              .find(classOf[LexicalInformation])
+              .forall(_.containsCompletely(position)) && !f.value.value.annotations
+              .contains(classOf[SynthesizedField]))
+      })
+      .toList
+      .sorted(fieldEntryOrdering)
+      .lastOption
+}
 
 object ObjectInTreeBuilder {
 

@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions
 
+import org.mulesoft.als.suggestions.aml.MetaDialectPluginRegistry
 import org.mulesoft.als.suggestions.aml.webapi.{
   AsyncApiCompletionPluginRegistry,
   Oas20CompletionPluginRegistry,
@@ -7,8 +8,8 @@ import org.mulesoft.als.suggestions.aml.webapi.{
   Raml08CompletionPluginRegistry,
   RamlCompletionPluginRegistry
 }
-import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.amfmanager.{DialectInitializer, InitOptions}
+import org.mulesoft.amfintegration.{AmfInstance, DialectInitializer}
+import org.mulesoft.amfmanager.InitOptions
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -27,6 +28,7 @@ object Core {
         RamlCompletionPluginRegistry.init()
         Raml08CompletionPluginRegistry.init()
         AsyncApiCompletionPluginRegistry.init()
+        MetaDialectPluginRegistry.init()
       })
   }
 }

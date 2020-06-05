@@ -213,4 +213,31 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       )
     )
   }
+
+  ignore("ref-anchor") {
+    runTest(
+      "files/ref-anchor/api.yaml",
+      Set(
+        LocationLink(
+          "file://als-server/shared/src/test/resources/actions/definition/files/ref-anchor/fragment.yaml",
+          LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(3, 14))),
+          LspRangeConverter.toLspRange(PositionRange(Position(0, 0), Position(3, 14))),
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(4, 13), Position(4, 38))))
+        ))
+    )
+  }
+
+  ignore("yaml path navigation to type") {
+    runTest(
+      "files/path-nav/api.yaml",
+      Set(
+        LocationLink(
+          "file://als-server/shared/src/test/resources/actions/definition/files/path-nav/ref.yaml",
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
+        )
+      )
+    )
+  }
 }

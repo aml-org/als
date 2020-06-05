@@ -48,7 +48,7 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
   private def getSuggestions(isJson: Boolean, hasBracket: Boolean = false): Seq[RawSuggestion] = {
     AMLPlugin.registry
       .allDialects()
-      .filter(_.documents().keyProperty().value())
+      .filter(d => Option(d.documents()).exists(_.keyProperty().value()))
       .map(d => {
         val (text, isASnippet) =
           if (isJson)

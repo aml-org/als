@@ -25,7 +25,7 @@ class FindLinksBaseTest extends FindLinksTest {
       "files/simple-ref/simple.yaml",
       Set(
         DocumentLink(
-          LspRangeConverter.toLspRange(PositionRange(Position(2, 8), Position(2, 29))),
+          LspRangeConverter.toLspRange(PositionRange(Position(2, 9), Position(2, 28))),
           "file://als-server/shared/src/test/resources/actions/links/files/simple-ref/simple%20contact.json",
           None
         )
@@ -53,6 +53,19 @@ class FindLinksBaseTest extends FindLinksTest {
         DocumentLink(
           LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(3, 90))),
           "file://als-server/shared/src/test/resources/actions/links/files/simple-uri/lib.raml",
+          None
+        )
+      )
+    )
+  }
+
+  test("Uri with path navigation") {
+    runTest(
+      "files/path-nav/path-nav-include.yaml",
+      Set(
+        DocumentLink(
+          LspRangeConverter.toLspRange(PositionRange(Position(14, 23), Position(14, 31))),
+          "file://als-server/shared/src/test/resources/actions/links/files/path-nav/ref.yaml",
           None
         )
       )

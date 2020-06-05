@@ -1,10 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import amf.dialects.OAS30Dialect.DialectLocation
-import amf.dialects.oas.nodes.{DialectNode, Oas30VariableObject}
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.ParameterModel
+import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect.DialectLocation
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{DialectNode, Oas30VariableObject}
 
 object AsyncApiVariableObject extends DialectNode {
 
