@@ -1,10 +1,15 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import amf.dialects.OAS20Dialect.OwlSameAs
-import amf.dialects.oas.nodes.{AMLExternalDocumentationObject, AMLInfoObject, AMLTagObject, DialectNode}
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, ServerModel, WebApiModel}
+import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.OwlSameAs
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
+  AMLExternalDocumentationObject,
+  AMLInfoObject,
+  AMLTagObject,
+  DialectNode
+}
 
 object AsyncApi20WebApiNode extends DialectNode {
   override val location: String = AsyncApi20Dialect.DialectLocation

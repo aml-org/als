@@ -1,6 +1,5 @@
 package org.mulesoft.als.suggestions.aml.webapi
 
-import amf.dialects.RAML10Dialect
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml._
@@ -12,6 +11,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   WebApiKnownValueCompletionPlugin
 }
 import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPluginHandler}
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10Dialect
 
 object RamlCompletionPluginRegistry {
 
@@ -52,5 +52,5 @@ object RamlCompletionPluginRegistry {
       WebApiKnownValueCompletionPlugin
 
   def init(): Unit =
-    CompletionsPluginHandler.registerPlugins(all, RAML10Dialect().id)
+    CompletionsPluginHandler.registerPlugins(all, Raml10Dialect().id)
 }

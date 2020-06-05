@@ -1,11 +1,15 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import amf.dialects.oas.nodes.{AMLExternalDocumentationObject, AMLTagObject, DialectNode}
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.{MessageModel, PayloadModel}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.MessageBindingsObjectNode
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.BaseShapeAsync2Node
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
+  AMLExternalDocumentationObject,
+  AMLTagObject,
+  DialectNode
+}
 
 trait MessageAbstractObjectNode extends DialectNode {
   override def nodeTypeMapping: String = MessageModel.`type`.head.iri()

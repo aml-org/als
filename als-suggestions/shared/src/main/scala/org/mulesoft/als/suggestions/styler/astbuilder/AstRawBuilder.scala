@@ -9,9 +9,8 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
   protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder
   protected var snippet: Boolean = false
 
-  def forSnippet(): Unit = {
+  def forSnippet(): Unit =
     snippet = true
-  }
 
   def asSnippet: Boolean = snippet
 
@@ -67,10 +66,9 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
     wrapArray(options, node)
   }
 
-  private def wrapArray(options: SuggestionStructure, node: YNode): YNode = {
+  private def wrapArray(options: SuggestionStructure, node: YNode): YNode =
     if (options.isArray && !yPartBranch.isInArray) YNode(YSequence(node))
     else node
-  }
 
   private def plainValue(text: String): YNode = {
     val yType = if (valueTag == YType.Str && text.isEmpty) YType.Empty else valueTag
@@ -78,5 +76,4 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
   }
 
   private def scalar(text: String, yType: YType) = YNode(YScalar(text), yType)
-
 }

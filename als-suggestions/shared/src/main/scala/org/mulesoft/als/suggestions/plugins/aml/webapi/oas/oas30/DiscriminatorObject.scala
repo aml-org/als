@@ -1,12 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
-import amf.dialects.oas.nodes.AMLDiscriminatorObject
 import amf.plugins.domain.shapes.metamodel.NodeShapeModel
 import amf.plugins.domain.shapes.models.NodeShape
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.ExceptionPlugin
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.AMLDiscriminatorObject
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

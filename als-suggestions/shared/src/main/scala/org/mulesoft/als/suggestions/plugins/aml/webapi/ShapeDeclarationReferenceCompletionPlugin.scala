@@ -6,7 +6,7 @@ import amf.core.model.domain.Shape
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.shapes.models.UnresolvedShape
 import amf.plugins.domain.webapi.models.{Parameter, Payload}
-import org.mulesoft.als.common.ElementNameExtractor._
+import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

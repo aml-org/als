@@ -43,7 +43,7 @@ object DiagnosticConverters {
                                                  s"at ${s.originUri} ${s.originRange}"))
             )
           }
-        case Some(t) if t.references.nonEmpty =>
+        case Some(t) if t.references.nonEmpty && t.references.exists(_.stack.nonEmpty) =>
           // invert order of stack, put root as last element of the trace
           val range = LspRangeConverter.toLspRange(
             r.position
@@ -57,23 +57,24 @@ object DiagnosticConverters {
             s"from ${r.location.getOrElse("")} $range"
           )
 
-          t.references.map { stackContainer =>
-            val newHead = stackContainer.stack.last
-
-            buildIssue(
-              newHead.originUri,
-              newHead.originRange,
-              r.message,
-              r.level,
-              stackContainer.stack.reverse
-                .drop(1)
-                .map(s =>
-                  DiagnosticRelatedInformation(Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
-                                               s"from ${s.originUri}")) :+
-                rootAsRelatedInfo,
-              r.validationId
-            )
-          }
+          t.references
+            .flatMap(stackContainer => stackContainer.stack.lastOption.map(newHead => (newHead, stackContainer)))
+            .map { x =>
+              val (newHead, stackContainer) = x
+              buildIssue(
+                newHead.originUri,
+                newHead.originRange,
+                r.message,
+                r.level,
+                stackContainer.stack.reverse
+                  .drop(1)
+                  .map(s =>
+                    DiagnosticRelatedInformation(Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
+                                                 s"from ${s.originUri}")) :+
+                  rootAsRelatedInfo,
+                r.validationId
+              )
+            }
         case _ =>
           Seq(buildIssue(uri, r, Nil))
       }

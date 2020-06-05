@@ -1,9 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
-import amf.dialects.oas.nodes.DialectNode
-import amf.plugins.domain.webapi.metamodel.security.ScopeModel
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
+import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import amf.plugins.domain.webapi.metamodel.security.ScopeModel
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object AsyncAPI20ScopeObject extends DialectNode {
   override def name: String            = "ScopeObject"

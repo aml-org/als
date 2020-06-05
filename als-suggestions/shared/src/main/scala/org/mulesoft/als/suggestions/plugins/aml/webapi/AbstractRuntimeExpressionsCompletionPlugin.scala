@@ -3,11 +3,8 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.webapi.runtimeexpression.{
-  InvalidExpressionToken,
-  RuntimeExpressionParser
-}
-import org.mulesoft.amfmanager.dialect.DialectKnowledge
+import amf.plugins.document.webapi.validation.runtimeexpression.{InvalidExpressionToken, RuntimeExpressionParser}
+import org.mulesoft.amfintegration.dialect.DialectKnowledge
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

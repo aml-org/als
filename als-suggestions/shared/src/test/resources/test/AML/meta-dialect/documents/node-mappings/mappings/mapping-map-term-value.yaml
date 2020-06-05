@@ -1,0 +1,17 @@
+#%Dialect 1.0
+
+external:
+  schema-org: http://schema-org.com
+
+nodeMappings:
+  otherMapping:
+    classTerm: schema-org.other
+    mapping:
+      otherMapping:
+        propertyTerm: schema-org.otherMapping
+  myNodeMapping:
+    classTerm: schema-org.unreal
+    mapping:
+      myMapping:
+        range: otherMapping
+        mapTermValue: *

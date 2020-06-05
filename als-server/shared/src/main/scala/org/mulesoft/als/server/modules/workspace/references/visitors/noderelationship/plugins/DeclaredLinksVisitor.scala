@@ -1,18 +1,16 @@
 package org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.plugins
 
 import amf.core.annotations.{SourceAST, SourceNode}
-import amf.core.parser.{Position => AmfPosition}
 import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.domain.{AmfElement, AmfObject}
-import amf.core.parser.FieldEntry
+import amf.core.parser.{FieldEntry, Position => AmfPosition}
 import org.mulesoft.als.actions.common.{ActionTools, RelationshipLink}
-import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 import org.mulesoft.lsp.feature.common.Location
-import org.yaml.model.{YMap, YMapEntry, YNode, YPart, YSequence}
+import org.yaml.model._
 
 /**
   * @test: org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - oas-anchor
@@ -46,6 +44,7 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
       case None => ActionTools.sourceLocationToLocation(obj.annotations.sourceLocation)
     }
 
+  @scala.annotation.tailrec
   private def findLastChild(ast: YPart): YPart = ast match {
     case m: YMap =>
       if (m.children.size == 1)
@@ -66,10 +65,11 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
       .map(a =>
         Location(
           a.ast.location.sourceName,
-          LspRangeConverter.toLspRange(PositionRange(
-            Position(AmfPosition(a.ast.location.lineFrom, a.ast.location.columnFrom)), // todo: find a nicer way to take parent entry?
-            Position(AmfPosition(a.ast.location.lineTo, a.ast.location.columnTo))
-          ))
+          LspRangeConverter.toLspRange(
+            PositionRange(
+              Position(AmfPosition(a.ast.location.lineFrom, a.ast.location.columnFrom)),
+              Position(AmfPosition(a.ast.location.lineTo, a.ast.location.columnTo))
+            ))
       ))
   }
 }

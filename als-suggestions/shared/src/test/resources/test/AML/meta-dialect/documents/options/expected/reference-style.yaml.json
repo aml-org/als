@@ -1,0 +1,62 @@
+[
+  {
+    "label": "RamlStyle",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "RamlStyle",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11RamlStyle",
+    "filterText": "RamlStyle",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "RamlStyle"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "JsonSchemaStyle",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "JsonSchemaStyle",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11JsonSchemaStyle",
+    "filterText": "JsonSchemaStyle",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "JsonSchemaStyle"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

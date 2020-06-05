@@ -1,9 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings
 
-import amf.dialects.oas.nodes.DialectNode
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.bindings.{BindingType, DynamicBindingModel}
-import amf.core.vocabulary.Namespace.XsdTypes._
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 trait BindingObjectNode extends DialectNode {
 

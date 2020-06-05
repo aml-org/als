@@ -9,7 +9,6 @@ import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.protocol.textsync.DidFocusParams
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
-import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.documentsymbol.{
   DocumentSymbol,
   DocumentSymbolParams,
@@ -73,10 +72,7 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
       changeFile(server)(file, content, version)
     }
 
-  def buildServer(): LanguageServer
-
-  def withServer[R](fn: LanguageServer => Future[R]): Future[R] = {
-    val server = buildServer()
+  def withServer[R](server: LanguageServer)(fn: LanguageServer => Future[R]): Future[R] = {
     server
       .initialize(initializeParams)
       .flatMap(_ => {

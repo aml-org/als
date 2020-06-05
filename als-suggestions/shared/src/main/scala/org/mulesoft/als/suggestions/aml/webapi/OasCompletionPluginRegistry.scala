@@ -1,6 +1,5 @@
 package org.mulesoft.als.suggestions.aml.webapi
 
-import amf.dialects.{OAS20Dialect, OAS30Dialect}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.structure.{ResolveParameterEndpoint, ResolveRequest}
@@ -22,6 +21,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.{
 }
 import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
 import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPluginHandler}
+import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 
 trait OasBaseCompletionRegistry {
   val common: Seq[AMLCompletionPlugin] = AMLBaseCompletionPlugins.all :+

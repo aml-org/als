@@ -25,19 +25,18 @@ class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) {
         params.actualDialect.documents().declarationsPath().option().map(v => (v, "\n  ")).toSeq
       case d: DeclaresModel =>
         params.baseUnit match {
-          case _: DialectInstance | _: Document =>
-            params.actualDialect
-              .documents()
-              .root()
-              .declaredNodes()
-              .map(extractText)
           case _: DialectInstanceLibrary | _: Module =>
             params.actualDialect
               .documents()
               .library()
               .declaredNodes()
               .map(extractText)
-          case _ => Nil
+          case _ =>
+            params.actualDialect
+              .documents()
+              .root()
+              .declaredNodes()
+              .map(extractText)
         }
       case _ => Nil
     }

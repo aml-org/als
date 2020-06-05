@@ -300,6 +300,36 @@
     "command": null
   },
   {
+    "label": "reponses-quoted.yml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11reponses-quoted.yml",
+    "filterText": "reponses-quoted.yml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 16
+        },
+        "end": {
+          "line": 8,
+          "character": 16
+        }
+      },
+      "newText": "reponses-quoted.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "reponses.yml",
     "kind": [],
     "detail": "unknown",

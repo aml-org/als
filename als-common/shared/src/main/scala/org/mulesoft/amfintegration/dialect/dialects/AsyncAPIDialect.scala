@@ -1,4 +1,4 @@
-package org.mulesoft.amfmanager.dialect.dialects
+package org.mulesoft.amfintegration.dialect.dialects
 
 import amf.ProfileName
 import org.mulesoft.amfmanager.AsyncAPIProfile
