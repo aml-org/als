@@ -153,6 +153,9 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
   lazy val documentLinksManager =
     new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
 
+  lazy val renameManager =
+    new RenameManager(workspaceManager, telemetryManager, logger)
+
   lazy val conversionManager =
     new ConversionManager(workspaceManager, amfConfiguration, logger)
 

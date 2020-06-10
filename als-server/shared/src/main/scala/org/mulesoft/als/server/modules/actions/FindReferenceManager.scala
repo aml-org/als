@@ -49,8 +49,8 @@ class FindReferenceManager(val workspace: WorkspaceManager,
     workspace
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
-      .flatMap(bu => {
-        FindReferences.getReferences(bu.unit, uri, position, workspace.getRelationships(uri, uuid))
+      .flatMap(_ => {
+        FindReferences.getReferences(uri, position, workspace.getRelationships(uri, uuid)).map(_.map(_.source))
       })
   }
 
