@@ -45,7 +45,7 @@ object ClientCleanDiagnosticTreeRequestType {
 }
 
 @JSExportTopLevel("FileUsageRequestType")
-object FileUsageRequest {
+object FileUsageRequestType {
   val `type`: RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any, js.Any] =
     new RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any, js.Any]("FileUsage")
 }

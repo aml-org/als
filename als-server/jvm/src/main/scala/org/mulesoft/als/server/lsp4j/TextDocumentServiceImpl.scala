@@ -3,6 +3,7 @@ package org.mulesoft.als.server.lsp4j
 import java.util
 import java.util.concurrent.CompletableFuture
 
+import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages
 import org.eclipse.lsp4j.{
   CodeAction,
@@ -30,6 +31,7 @@ import org.eclipse.lsp4j.{
 }
 import org.mulesoft.als.server.custom.{CustomEvents, CustomTextDocumentService}
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeRequestType
+import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
 import org.mulesoft.als.server.feature.serialization.ConversionRequestType
 import org.mulesoft.als.server.lsp4j.AlsJConversions._
 import org.mulesoft.als.server.lsp4j.LspConversions._
@@ -113,6 +115,10 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
   override def cleanDiagnosticTree(
       params: CleanDiagnosticTreeParams): CompletableFuture[util.List[PublishDiagnosticsParams]] = {
     javaFuture(resolveHandler(CleanDiagnosticTreeRequestType)(params), lsp4JPublishDiagnosticsParamsSeq)
+  }
+
+  override def fileUsage(params: lsp4j.TextDocumentIdentifier): CompletableFuture[util.List[Location]] = {
+    javaFuture(resolveHandler(FileUsageRequestType)(params), lsp4JLocations)
   }
 
   override def serialization(params: SerializationParams): CompletableFuture[SerializedDocument] = {
