@@ -80,6 +80,7 @@ object LanguageServerFactory {
         .addRequestModule(factory.referenceManager)
         .addRequestModule(factory.fileUsageManager)
         .addRequestModule(factory.documentLinksManager)
+        .addRequestModule(factory.renameManager)
         .addInitializable(factory.telemetryManager)
     diagnosticManager.foreach(builder.addInitializableModule)
     factory.serializationManager.foreach(builder.addRequestModule)

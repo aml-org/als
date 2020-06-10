@@ -24,6 +24,7 @@ import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestH
 import org.mulesoft.lsp.client.{LspLanguageClient, LspLanguageClientAware}
 import org.mulesoft.lsp.convert.LspConvertersClientToShared._
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
+import org.mulesoft.lsp.edit.ClientWorkspaceEdit
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.common.{
   ClientLocation,
@@ -48,6 +49,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
 import org.mulesoft.lsp.feature.implementation.{ClientImplementationParams, ImplementationRequestType}
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams, DocumentLinkRequestType}
 import org.mulesoft.lsp.feature.reference.{ClientReferenceParams, ReferenceRequestType}
+import org.mulesoft.lsp.feature.rename.{ClientRenameParams, RenameRequestType}
 import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryMessage, TelemetryMessage}
 import org.mulesoft.lsp.feature.typedefinition.{ClientTypeDefinitionParams, TypeDefinitionRequestType}
 import org.mulesoft.lsp.textsync.{
@@ -311,6 +313,21 @@ object ProtocolConnectionBinder {
         .asInstanceOf[ClientRequestHandler[ClientReferenceParams, js.Array[ClientLocation], js.Any]]
     )
     // End References
+
+    // Rename
+    val onRenameHandlerJs: js.Function2[ClientRenameParams, CancellationToken, Thenable[ClientWorkspaceEdit]] =
+      (param: ClientRenameParams, _: CancellationToken) =>
+        resolveHandler(RenameRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientWorkspaceEdit]]
+
+    protocolConnection.onRequest(
+      RenameRequest.`type`,
+      onRenameHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientRenameParams, ClientWorkspaceEdit, js.Any]]
+    )
+    // End Rename
 
     // CleanDiagnosticTree
     val onCleanDiagnosticTreeHandlerJs: js.Function2[ClientCleanDiagnosticTreeParams,
