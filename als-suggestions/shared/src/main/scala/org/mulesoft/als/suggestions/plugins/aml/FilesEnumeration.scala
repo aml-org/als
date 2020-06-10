@@ -14,16 +14,15 @@ case class FilesEnumeration(directoryResolver: DirectoryResolver,
                             relativePath: String)
     extends PathCompletion {
 
-  def filesIn(fullPath: String): Future[Seq[RawSuggestion]] = {
-    directoryResolver.isDirectory(fullPath).flatMap { isDir =>
-      if (isDir) listDirectory(fullPath)
+  def filesIn(fullURI: String): Future[Seq[RawSuggestion]] =
+    directoryResolver.isDirectory(platform.resolvePath(fullURI)).flatMap { isDir =>
+      if (isDir) listDirectory(fullURI)
       else Future.successful(Nil)
     }
-  }
 
   private def listDirectory(fullURI: String): Future[Seq[RawSuggestion]] =
     directoryResolver
-      .readDir(fullURI)
+      .readDir(platform.resolvePath(fullURI))
       .flatMap(withIsDir(_, fullURI))
       .map(s => {
         s.filter(tuple => s"${fullURI.toPath}${tuple._1}" != actual && (tuple._2 || supportedExtension(tuple._1)))
@@ -36,7 +35,7 @@ case class FilesEnumeration(directoryResolver: DirectoryResolver,
       files.map(
         file =>
           directoryResolver
-            .isDirectory(s"${fullUri.toPath}$file".toAmfUri)
+            .isDirectory(platform.resolvePath(s"${fullUri.toPath}$file".toAmfUri))
             .map(isDir => (file, isDir)))
     }
 
