@@ -38,7 +38,7 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
 
       override def readDir(path: String): Future[Seq[String]] = {
         def getNextPathBlock(p: String): String = {
-          var i = p.lastIndexOf('/')
+          var i = p.indexOf('/')
           if (i < 0) i = p.length
           p.substring(0, i)
         }
@@ -99,15 +99,34 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
             |type: string""".stripMargin
       ),
       Set("/t.raml", "/sub (1)/")
+    ),
+    TestEntry(
+      "file:///r/root%20%281%29/api.raml",
+      Set(("file:///r/root%20%281%29/api.raml", "file:///r/root%20(1)/api.raml")),
+      Position(2, 17),
+      Map(
+        "file:///r/exchange.json" -> """{"main": "root (1)/api.raml"}""",
+        "file:///r/root%20(1)/api.raml" ->
+          """#%RAML 1.0
+            |types:
+            |  t: !include ../""".stripMargin,
+        "file:///r/root%20(1)/t.raml" ->
+          """#%RAML 1.0 DataType
+            |type: string""".stripMargin,
+        "file:///r/root%20(1)/sub%20(1)/t.raml" ->
+          """#%RAML 1.0 DataType
+            |type: string""".stripMargin
+      ),
+      Set("exchange.json", "root (1)/")
     )
   )
 
-  test("Check workspace suggestion with different encoding on URI - Project Root file inclusions") {
+  test("Check workspace suggestion with different encoding on URI - Project Root file inclusions and sub folder") {
     for {
       results <- Future.sequence {
         testSets.map { test =>
           for {
-            (server, wsManager) <- buildServer(test.root, test.ws)
+            (server, _) <- buildServer(test.root, test.ws)
             _ <- Future {
               test.filesToOpen.foreach { t =>
                 server.textDocumentSyncConsumer.didOpen(

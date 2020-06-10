@@ -85,5 +85,6 @@ class FileUtilsTest extends FunSuite with PlatformSecrets {
     assert(goodEncode.toAmfUri == goodEncode)
     assert(noEncode.toAmfUri == goodEncode)
     assert(path.toAmfUri == goodEncode)
+    assert(wrongEncode.toPath == path)
   }
 }
