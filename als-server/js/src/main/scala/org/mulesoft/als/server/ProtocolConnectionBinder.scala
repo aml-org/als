@@ -230,7 +230,7 @@ object ProtocolConnectionBinder {
           .asInstanceOf[Thenable[js.Array[ClientLocation]]]
 
     protocolConnection.onRequest(
-      FileUsageRequestType.`type`,
+      FileUsageRequest.`type`,
       onFindFileUsageHandlerJs
         .asInstanceOf[ClientRequestHandler[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any]]
     )
