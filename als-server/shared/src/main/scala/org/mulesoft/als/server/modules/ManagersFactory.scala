@@ -147,6 +147,9 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
   lazy val referenceManager =
     new FindReferenceManager(workspaceManager, telemetryManager, logger)
 
+  lazy val fileUsageManager =
+    new FindFileUsageManager(workspaceManager, telemetryManager, logger)
+
   lazy val documentLinksManager =
     new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
 

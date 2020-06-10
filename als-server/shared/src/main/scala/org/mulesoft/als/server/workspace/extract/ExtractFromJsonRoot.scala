@@ -3,7 +3,8 @@ package org.mulesoft.als.server.workspace.extract
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.FileUtils
-import org.mulesoft.common.io.SyncFile
+import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.common.io.{Id, SyncFile}
 import org.yaml.model.{YDocument, YMap, YMapEntry}
 import org.yaml.parser.JsonParser
 
@@ -32,19 +33,29 @@ object ExchangeConfigReader extends ConfigReader {
 
   override protected def buildConfig(content: String,
                                      path: String,
-                                     platform: Platform): Option[Future[WorkspaceConf]] =
+                                     platform: Platform,
+                                     logger: Logger): Option[Future[WorkspaceConf]] =
     new ExtractFromJsonRoot(content).getMain.map { m =>
-      getSubList(platform.fs.syncFile(path), platform).map { dependencies =>
-        // the encoding should be handled by each config reader plugin? or in general?
-        // How to know if a config file already encoded the main file?
-        WorkspaceConf(path, platform.encodeURI(m), dependencies, Some(this))
+      try {
+        getSubList(platform.fs.syncFile(path), platform).map { dependencies =>
+          // the encoding should be handled by each config reader plugin? or in general?
+          // How to know if a config file already encoded the main file?
+          WorkspaceConf(path, platform.encodeURI(m), dependencies, Some(this))
+        }
+      } catch {
+        case e: Exception =>
+          logger.error(Option(e.getMessage).getOrElse("Error while reading dependencies"),
+                       "ExtractFromJsonRoot",
+                       "buildConfig")
+          Future.successful(WorkspaceConf(path, platform.encodeURI(m), Set.empty, Some(this)))
       }
     }
 
   private def getSubList(dir: SyncFile, platform: Platform): Future[Set[String]] =
-    if (dir.list != null)
+    if (dir.list != null && dir.list.nonEmpty)
       findDependencies(dir.list.map(l => platform.fs.syncFile(dir.path + "/" + l)).filter(_.isDirectory), platform)
-    else Future.successful(Set.empty)
+    else
+      Future.successful(Set.empty)
 
   private def findDependencies(subDirs: Array[SyncFile],
                                platform: Platform,

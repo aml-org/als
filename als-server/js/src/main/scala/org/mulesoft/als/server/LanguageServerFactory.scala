@@ -78,6 +78,7 @@ object LanguageServerFactory {
         .addRequestModule(factory.typeDefinitionManager)
         .addRequestModule(factory.implementationManager)
         .addRequestModule(factory.referenceManager)
+        .addRequestModule(factory.fileUsageManager)
         .addRequestModule(factory.documentLinksManager)
         .addInitializable(factory.telemetryManager)
     diagnosticManager.foreach(builder.addInitializableModule)
