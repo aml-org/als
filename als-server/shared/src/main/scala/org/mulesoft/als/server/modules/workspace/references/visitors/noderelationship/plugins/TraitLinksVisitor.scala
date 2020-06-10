@@ -9,10 +9,9 @@ import amf.core.parser.FieldEntry
 import amf.core.vocabulary.Namespace
 import amf.plugins.domain.webapi.models.{EndPoint, Operation}
 import org.mulesoft.als.actions.common.LinkTypes.LinkTypes
-import org.mulesoft.als.actions.common.{ActionTools, LinkTypes, RelationshipLink}
+import org.mulesoft.als.actions.common.{LinkTypes, RelationshipLink}
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
-import org.mulesoft.lexer.SourceLocation
 import org.yaml.model.YMapEntry
 
 /**
@@ -61,32 +60,21 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
   private def fieldEntryToLocation(fe: FieldEntry,
                                    p: ParametrizedDeclaration,
                                    linkTypes: LinkTypes): Option[RelationshipLink] = {
+    val maybeParent = fe.value.value.annotations
+      .find(classOf[SourceAST])
+      .map(_.ast)
+      .collect { case entry: YMapEntry => entry }
     fe.value.value.annotations
       .find(classOf[SourceNode])
-      .map { sn =>
-        val sourceLocation = p.annotations
-          .find(classOf[SourceAST])
-          .map { sast =>
-            sast.ast match {
-              case entry: YMapEntry =>
-                entry.value.value.range
-                SourceLocation(entry.sourceName,
-                               entry.value.value.range.lineFrom,
-                               entry.value.value.range.columnFrom,
-                               entry.value.value.range.lineTo,
-                               entry.value.value.range.columnTo)
-              case _ => p.annotations.sourceLocation
-            }
+      .flatMap { sn =>
+        locationFromObj(p)
+          .map { sourceEntry =>
+            RelationshipLink(
+              sourceEntry,
+              maybeParent.getOrElse(sn.node),
+              linkTypes
+            )
           }
-          .getOrElse(p.annotations.sourceLocation)
-        RelationshipLink(
-          ActionTools.sourceLocationToLocation(sourceLocation),
-          ActionTools.sourceLocationToLocation(sn.node.location),
-          fe.value.value.annotations
-            .find(classOf[SourceAST])
-            .map(a => ActionTools.sourceLocationToLocation(a.ast.location)),
-          linkTypes
-        )
       }
   }
 }
