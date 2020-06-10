@@ -8,6 +8,7 @@ import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.patched.{PatchedSuggestion, PatchedSuggestionsForDialect}
+import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 import org.mulesoft.amfmanager.AmfImplicits._
 
 import scala.concurrent.Future
@@ -41,7 +42,7 @@ sealed class AMLKnownValueCompletions(field: Field,
     })
 
   def keyRange(input: String): ScalarRange = {
-    if ((field == ResponseModel.StatusCode || field == ResponseModel.Name) && input.forall(_.isDigit))
+    if ((field == ResponseModel.StatusCode || field == ResponseModel.Name) && input.forall(_.isDigit) && dialect.id != OAS30Dialect.dialect.id) // hack for oas 3.0 status codes
       NumberScalarRange
     else StringScalarRange
   }
