@@ -1,15 +1,11 @@
 package org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.plugins
 
-import amf.core.annotations.{SourceAST, SourceNode}
+import amf.core.annotations.SourceNode
 import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.domain.{AmfElement, AmfObject}
-import amf.core.parser.{FieldEntry, Position => AmfPosition}
-import org.mulesoft.als.actions.common.{ActionTools, RelationshipLink}
-import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.actions.common.RelationshipLink
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
-import org.mulesoft.lsp.feature.common.Location
 import org.yaml.model._
 
 /**
