@@ -26,8 +26,8 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       Set(
         LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/oas-anchor/api.yaml",
-          LspRangeConverter.toLspRange(PositionRange(Position(6, 7), Position(11, 0))),
-          LspRangeConverter.toLspRange(PositionRange(Position(6, 7), Position(11, 0))),
+          LspRangeConverter.toLspRange(PositionRange(Position(6, 2), Position(11, 0))),
+          LspRangeConverter.toLspRange(PositionRange(Position(6, 2), Position(11, 0))),
           Some(LspRangeConverter.toLspRange(PositionRange(Position(17, 18), Position(17, 38))))
         )
       )
@@ -72,8 +72,8 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       Set(
         LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-trait/api-1.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(8, 7), Position(11, 0))),
-          LspRangeConverter.toLspRange(PositionRange(Position(8, 7), Position(11, 0))),
+          LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(11, 0))),
+          LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(11, 0))),
           Some(LspRangeConverter.toLspRange(PositionRange(Position(14, 8), Position(14, 10))))
         ))
     )
@@ -85,8 +85,8 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       Set(
         LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-trait/library.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
           Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
         )
       )
@@ -99,8 +99,8 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       Set(
         LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-resource/api-1.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(8, 13), Position(11, 0))),
-          LspRangeConverter.toLspRange(PositionRange(Position(8, 13), Position(11, 0))),
+          LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(11, 0))),
+          LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(11, 0))),
           Some(LspRangeConverter.toLspRange(PositionRange(Position(13, 6), Position(13, 14))))
         ))
     )
@@ -112,8 +112,8 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       Set(
         LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-resource/library.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 13), Position(4, 12))),
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 13), Position(4, 12))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 12))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 12))),
           Some(LspRangeConverter.toLspRange(PositionRange(Position(13, 6), Position(13, 18))))
         )
       )
@@ -126,8 +126,8 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       Set(
         LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-trait/api-1.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(8, 7), Position(11, 0))),
-          LspRangeConverter.toLspRange(PositionRange(Position(8, 7), Position(11, 0))),
+          LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(11, 0))),
+          LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(11, 0))),
           Some(LspRangeConverter.toLspRange(PositionRange(Position(14, 8), Position(14, 10))))
         ))
     )
@@ -139,8 +139,8 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       Set(
         LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-trait/library.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
           Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
         )
       )
@@ -153,8 +153,8 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       Set(
         LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-resource/api-1.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(8, 13), Position(11, 0))),
-          LspRangeConverter.toLspRange(PositionRange(Position(8, 13), Position(11, 0))),
+          LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(11, 0))),
+          LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(11, 0))),
           Some(LspRangeConverter.toLspRange(PositionRange(Position(13, 6), Position(13, 14))))
         ))
     )
@@ -166,8 +166,8 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       Set(
         LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-resource/library.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 13), Position(4, 12))),
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 13), Position(4, 12))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 12))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 12))),
           Some(LspRangeConverter.toLspRange(PositionRange(Position(13, 6), Position(13, 18))))
         )
       )
@@ -186,8 +186,8 @@ class DefinitionFilesTest extends ServerDefinitionTest {
         ),
         LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-library/library.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
           Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
         )
       )
@@ -206,8 +206,8 @@ class DefinitionFilesTest extends ServerDefinitionTest {
         ),
         LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-library/library.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
           Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
         )
       )
