@@ -2,9 +2,9 @@ package org.mulesoft.als.server.modules.workspace.references.visitors.noderelati
 
 import amf.core.annotations.SourceNode
 import amf.core.model.domain.AmfElement
-import org.mulesoft.als.actions.common.{ActionTools, RelationshipLink}
+import org.mulesoft.als.actions.common.RelationshipLink
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
-import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.{NodeRelationshipVisitorType}
+import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 import org.yaml.model.{YNode, YPart}
 
 /**
@@ -22,10 +22,7 @@ class YNodeAliasVisitor extends NodeRelationshipVisitorType {
   private def aliasForNode(part: YPart): Option[RelationshipLink] =
     part match {
       case alias: YNode.Alias =>
-        Some(
-          RelationshipLink(ActionTools.sourceLocationToLocation(alias.location),
-                           ActionTools.sourceLocationToLocation(alias.target.location),
-                           None))
+        Some(RelationshipLink(alias, alias.target))
       case _ => None
     }
 }

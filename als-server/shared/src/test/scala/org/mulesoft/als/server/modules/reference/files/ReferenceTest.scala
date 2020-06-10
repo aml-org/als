@@ -3,7 +3,7 @@ package org.mulesoft.als.server.modules.reference.files
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.reference.ServerReferencesTest
-import org.mulesoft.lsp.feature.common.{Location, LocationLink}
+import org.mulesoft.lsp.feature.common.Location
 
 import scala.concurrent.ExecutionContext
 
