@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.protocol.configuration
 
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeOptions
+import org.mulesoft.als.server.feature.fileusage.FileUsageOptions
 import org.mulesoft.als.server.feature.serialization.{ConversionRequestOptions, SerializationServerOptions}
 import org.mulesoft.lsp.configuration.{StaticRegistrationOptions, WorkspaceServerCapabilities}
 import org.mulesoft.lsp.feature.codeactions.CodeActionOptions
@@ -41,6 +42,7 @@ case class AlsServerCapabilities(
     experimental: Option[AnyRef] = None,
     serialization: Option[SerializationServerOptions] = None,
     cleanDiagnostics: Option[CleanDiagnosticTreeOptions] = None,
+    fileUsage: Option[FileUsageOptions] = None,
     conversion: Option[ConversionRequestOptions] = None)
 
 object AlsServerCapabilities {

@@ -154,7 +154,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     class TestWorkspaceManager
         extends WorkspaceManager(
           new EnvironmentProvider with PlatformSecrets {
-            override def environmentSnapshot(): Environment = ???
+            override def environmentSnapshot(): Environment = Environment()
 
             override val amfConfiguration: AmfInstance = AmfInstance.default
           },

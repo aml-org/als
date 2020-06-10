@@ -30,6 +30,7 @@ trait ClientAlsServerCapabilities extends js.Object {
   def experimental: UndefOr[js.Object]                                           = js.native
   def serialization: UndefOr[ClientSerializationServerOptions]                   = js.native
   def cleanDiagnostics: UndefOr[ClientCleanDiagnosticTreeOptions]                = js.native
+  def fileUsage: UndefOr[ClientFileUsageOptions]                                 = js.native
   def conversion: UndefOr[ClientConversionOptions]                               = js.native
 
 }
@@ -59,6 +60,7 @@ object ClientAlsServerCapabilities {
         experimental = internal.experimental.collect { case js: js.Object => js }.orUndefined,
         serialization = internal.serialization.map(_.toClient).orUndefined,
         cleanDiagnostics = internal.cleanDiagnostics.map(_.toClient).orUndefined,
+        fileUsage = internal.fileUsage.map(_.toClient).orUndefined,
         conversion = internal.conversion.map(_.toClient).orUndefined
       )
       .asInstanceOf[ClientAlsServerCapabilities]

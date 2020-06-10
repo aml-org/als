@@ -3,6 +3,7 @@ package org.mulesoft.als.server.workspace.extract
 import amf.core.remote.{Platform, UnsupportedUrlScheme}
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.FileUtils
+import org.mulesoft.als.server.logger.Logger
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -12,15 +13,24 @@ trait ConfigReader {
 
   def readRoot(rootPath: String,
                platform: Platform,
-               environment: Environment = Environment()): Future[Option[WorkspaceConf]] =
-    readFile(FileUtils.getEncodedUri(s"$rootPath/$configFileName", platform), platform, environment).flatMap {
+               environment: Environment = Environment(),
+               logger: Logger): Future[Option[WorkspaceConf]] =
+    readFile(FileUtils.getEncodedUri(appendFileToUri(rootPath), platform), platform, environment).flatMap {
       case Some(content) =>
-        buildConfig(content, FileUtils.getPath(rootPath, platform), platform) match {
-          case Some(f) => f.map(Some(_))
-          case _       => Future.successful(None)
+        buildConfig(content, FileUtils.getPath(rootPath, platform), platform, logger) match {
+          case Some(f) =>
+            f.map(Some(_))
+          case _ =>
+            Future.successful(None)
         }
-      case _ => Future.successful(None)
+      case _ =>
+        Future.successful(None)
     }
+
+  private def appendFileToUri(rootPath: String): String =
+    if (rootPath.endsWith("/"))
+      s"$rootPath$configFileName"
+    else s"$rootPath/$configFileName"
 
   protected def readFile(uri: String, platform: Platform, environment: Environment): Future[Option[String]] = {
     try {
@@ -33,5 +43,8 @@ trait ConfigReader {
     }
   }
 
-  protected def buildConfig(content: String, path: String, platform: Platform): Option[Future[WorkspaceConf]]
+  protected def buildConfig(content: String,
+                            path: String,
+                            platform: Platform,
+                            logger: Logger): Option[Future[WorkspaceConf]]
 }

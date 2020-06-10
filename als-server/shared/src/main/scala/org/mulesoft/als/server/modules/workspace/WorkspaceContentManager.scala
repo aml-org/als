@@ -35,6 +35,8 @@ class WorkspaceContentManager(val folder: String,
   }
 
   def mainFile: Option[String] = configMainFile.map(_.mainFile)
+  def mainFileUri: Option[String] =
+    mainFile.map(mf => s"$folder$mf") // TODO: Analyze if we really need knowladge of both paths and uris (maybe set all to URI)
 
   def configFile: Option[String] =
     configMainFile.flatMap(ic => ic.configReader.map(cr => s"${ic.rootFolder}/${cr.configFileName}"))
@@ -113,7 +115,7 @@ class WorkspaceContentManager(val folder: String,
     stagingArea.enqueue(snapshot.files.filterNot(t => t._2 == CHANGE_CONFIG))
     workspaceConfigurationProvider match {
       case Some(cp) =>
-        cp.obtainConfiguration(environmentProvider.platform, snapshot.environment)
+        cp.obtainConfiguration(environmentProvider.platform, snapshot.environment, logger)
           .flatMap(processChangeConfig)
       case _ => Future.failed(new Exception("Expected Configuration Provider"))
     }

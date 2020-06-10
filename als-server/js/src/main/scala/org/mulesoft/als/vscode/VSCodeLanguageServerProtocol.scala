@@ -1,7 +1,12 @@
 package org.mulesoft.als.vscode
 
 import org.mulesoft.als.server.protocol.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
-import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
+import org.mulesoft.lsp.feature.common.{
+  ClientLocation,
+  ClientLocationLink,
+  ClientTextDocumentIdentifier,
+  ClientTextDocumentPositionParams
+}
 import org.mulesoft.lsp.feature.completion.{ClientCompletionItem, ClientCompletionList, ClientCompletionParams}
 import org.mulesoft.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
 import org.mulesoft.lsp.feature.documentsymbol.{
