@@ -9,6 +9,7 @@ import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance}
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping}
 import org.mulesoft.als.common.PlatformDirectoryResolver
+import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.test.SuggestionsTest
@@ -48,7 +49,11 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
                                 url: String,
                                 patchedContent: PatchedContent,
                                 position: Int): Future[Seq[String]] = {
-    new Suggestions(platform, Environment(), new PlatformDirectoryResolver(platform), AmfInstance.default)
+    new Suggestions(platform,
+                    Environment(),
+                    AlsConfiguration(),
+                    new PlatformDirectoryResolver(platform),
+                    AmfInstance.default)
       .buildProvider(bu, position, url, patchedContent, snippetSupport = true, None)
       .suggest()
       .map(suggestions =>

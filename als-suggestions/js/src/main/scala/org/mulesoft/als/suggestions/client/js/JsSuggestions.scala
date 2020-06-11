@@ -4,6 +4,7 @@ import amf.client.resource.ClientResourceLoader
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import org.mulesoft.als.configuration.{
+  AlsConfiguration,
   ClientDirectoryResolver,
   DirectoryResolverAdapter,
   EmptyJsDirectoryResolver,
@@ -14,6 +15,7 @@ import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfmanager.InitOptions
 import org.mulesoft.lsp.feature.completion.ClientCompletionItem
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
@@ -36,7 +38,11 @@ object JsSuggestions extends PlatformSecrets {
 
     val environment = Environment(loaders.map(ResourceLoaderConverter.internalResourceLoader).toSeq)
 
-    new Suggestions(platform, environment, DirectoryResolverAdapter.convert(dirResolver), AmfInstance(environment))
+    new Suggestions(platform,
+                    environment,
+                    AlsConfiguration(),
+                    DirectoryResolverAdapter.convert(dirResolver),
+                    AmfInstance(environment))
       .suggest(url, position, snippetSupport, None)
       .map(_.map(_.toClient).toJSArray)
       .toJSPromise

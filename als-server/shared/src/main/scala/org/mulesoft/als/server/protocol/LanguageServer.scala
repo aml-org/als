@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.protocol
 
+import org.mulesoft.als.server.feature.configuration.{UpdateConfigurationParams, UpdateFormatOptionsParams}
 import org.mulesoft.als.server.protocol.configuration.{AlsInitializeParams, AlsInitializeResult}
 import org.mulesoft.als.server.protocol.textsync.AlsTextDocumentSyncConsumer
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
@@ -11,6 +12,8 @@ trait LanguageServer {
   def initialize(params: AlsInitializeParams): Future[AlsInitializeResult]
 
   def initialized(): Unit
+
+  def updateConfiguration(params: UpdateConfigurationParams): Unit
 
   def shutdown(): Unit
 

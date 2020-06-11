@@ -6,7 +6,12 @@ import org.mulesoft.als.server.feature.serialization.{ConversionRequestType, Ser
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.client.{AlsLanguageClient, AlsLanguageClientAware}
-import org.mulesoft.als.server.protocol.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
+import org.mulesoft.als.server.protocol.configuration.{
+  ClientAlsInitializeParams,
+  ClientAlsInitializeResult,
+  ClientUpdateConfigurationParams,
+  ClientUpdateFormatOptionsParams
+}
 import org.mulesoft.als.server.protocol.convert.LspConvertersClientToShared._
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.server.protocol.diagnostic.{
@@ -157,6 +162,14 @@ object ProtocolConnectionBinder {
     protocolConnection.onNotification(
       DidOpenTextDocumentNotification.`type`,
       onDidOpenHandlerJs.asInstanceOf[NotificationHandler[ClientDidOpenTextDocumentParams]])
+
+    val onUpdateClientConfigurationJs: js.Function2[ClientUpdateConfigurationParams, CancellationToken, Unit] =
+      (param: ClientUpdateConfigurationParams, _: CancellationToken) =>
+        languageServer.updateConfiguration(param.toShared)
+
+    protocolConnection.onNotification(
+      UpdateClientConfigurationNotification.`type`,
+      onUpdateClientConfigurationJs.asInstanceOf[NotificationHandler[ClientUpdateConfigurationParams]])
 
     val onDidCloseHandlerJs: js.Function2[ClientDidCloseTextDocumentParams, CancellationToken, Unit] =
       (param: ClientDidCloseTextDocumentParams, _: CancellationToken) =>

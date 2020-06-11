@@ -11,6 +11,7 @@ import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapp
 import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
+import org.mulesoft.als.configuration.AlsFormattingOptions
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
@@ -25,6 +26,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val platform: Platform,
                            val styler: SuggestionRender,
                            val yPartBranch: YPartBranch,
+                           val formattingConfiguration: AlsFormattingOptions,
                            private val objectInTree: ObjectInTree,
                            val inheritedProvider: Option[DeclarationProvider] = None,
                            val rootUri: Option[String]) {
@@ -101,7 +103,8 @@ object AmlCompletionRequestBuilder {
             platform: Platform,
             patchedContent: PatchedContent,
             snippetSupport: Boolean,
-            rootLocation: Option[String]): AmlCompletionRequest = {
+            rootLocation: Option[String],
+            formattingConfiguration: AlsFormattingOptions): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
       val ast = baseUnit match {
         case d: Document =>
@@ -113,25 +116,31 @@ object AmlCompletionRequestBuilder {
     }
 
     val dtoPosition = DtoPosition(position)
-    val styler = SuggestionStylerBuilder.build(!yPartBranch.isJson,
-                                               prefix(yPartBranch, dtoPosition),
-                                               patchedContent,
-                                               dtoPosition,
-                                               yPartBranch,
-                                               snippetSupport,
-                                               indentation(baseUnit, dtoPosition))
+    val styler = SuggestionStylerBuilder.build(
+      !yPartBranch.isJson,
+      prefix(yPartBranch, dtoPosition),
+      patchedContent,
+      dtoPosition,
+      yPartBranch,
+      formattingConfiguration,
+      snippetSupport,
+      indentation(baseUnit, dtoPosition)
+    )
     val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
 
-    new AmlCompletionRequest(baseUnit,
-                             DtoPosition(position),
-                             dialect,
-                             environment,
-                             directoryResolver,
-                             platform,
-                             styler,
-                             yPartBranch,
-                             objectInTree,
-                             rootUri = rootLocation)
+    new AmlCompletionRequest(
+      baseUnit,
+      DtoPosition(position),
+      dialect,
+      environment,
+      directoryResolver,
+      platform,
+      styler,
+      yPartBranch,
+      formattingConfiguration,
+      objectInTree,
+      rootUri = rootLocation
+    )
   }
 
   private def prefix(yPartBranch: YPartBranch, position: DtoPosition): String = {
@@ -184,6 +193,7 @@ object AmlCompletionRequestBuilder {
       parent.platform,
       parent.styler,
       parent.yPartBranch,
+      parent.formattingConfiguration,
       objectInTree,
       Some(filterProvider),
       parent.rootUri

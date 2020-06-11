@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.protocol.configuration
 
+import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.lsp.configuration.TraceKind.TraceKind
 import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 
@@ -38,7 +39,8 @@ class AlsInitializeParams private (val capabilities: AlsClientCapabilities,
                                    val processId: Option[Int] = None,
                                    val workspaceFolders: Option[Seq[WorkspaceFolder]] = None,
                                    val rootPath: Option[String] = None,
-                                   val initializationOptions: Option[Any] = None)
+                                   val initializationOptions: Option[Any] = None,
+                                   val alsConfiguration: Option[AlsConfiguration] = None)
 
 object AlsInitializeParams {
 
@@ -48,14 +50,18 @@ object AlsInitializeParams {
             processId: Option[Int] = None,
             workspaceFolders: Option[Seq[WorkspaceFolder]] = None,
             rootPath: Option[String] = None,
-            initializationOptions: Option[Any] = None): AlsInitializeParams =
-    new AlsInitializeParams(capabilities.getOrElse(AlsClientCapabilities()),
-                            trace.getOrElse(TraceKind.Off),
-                            rootUri,
-                            processId,
-                            workspaceFolders,
-                            rootPath,
-                            initializationOptions)
+            initializationOptions: Option[Any] = None,
+            alsConfiguration: Option[AlsConfiguration] = None): AlsInitializeParams =
+    new AlsInitializeParams(
+      capabilities.getOrElse(AlsClientCapabilities()),
+      trace.getOrElse(TraceKind.Off),
+      rootUri,
+      processId,
+      workspaceFolders,
+      rootPath,
+      initializationOptions,
+      alsConfiguration
+    )
 
   def default: AlsInitializeParams = apply(None, Some(TraceKind.Off))
 }

@@ -65,11 +65,15 @@ object LanguageServerFactory {
 
     val factory = builders.buildWorkspaceManagerFactory()
     val builder =
-      new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+      new LanguageServerBuilder(factory.documentManager,
+                                factory.workspaceManager,
+                                factory.configurationManager,
+                                factory.resolutionTaskManager)
         .addInitializableModule(serializationManager)
         .addInitializableModule(filesInProjectManager)
         .addInitializable(factory.cleanDiagnosticManager)
         .addInitializable(factory.workspaceManager)
+        .addInitializable(factory.configurationManager)
         .addRequestModule(factory.cleanDiagnosticManager)
         .addRequestModule(factory.completionManager)
         .addRequestModule(factory.conversionManager)

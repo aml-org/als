@@ -4,6 +4,7 @@ import java.util.{List => JList}
 
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
+import org.mulesoft.als.configuration.{AlsConfiguration, AlsFormattingOptions}
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeParams}
 import org.mulesoft.als.server.feature.fileusage.FileUsageClientCapabilities
 import org.mulesoft.als.server.feature.serialization.{
@@ -63,6 +64,20 @@ object LspConversions {
       Option(capabilities.getConversion).map(c => conversionClientCapabilities(c))
     )
 
+  implicit def formattingOptions(formattingOptions: lsp4j.FormattingOptions): AlsFormattingOptions = {
+    AlsFormattingOptions(
+      formattingOptions.getTabSize,
+      formattingOptions.isInsertSpaces,
+    )
+  }
+
+  implicit def alsConfiguration(alsConfiguration: extension.AlsConfiguration): AlsConfiguration = {
+    if(alsConfiguration == null) AlsConfiguration()
+    else AlsConfiguration(
+      Option(alsConfiguration.getFormattingOptions)
+    )
+  }
+
   implicit def alsInitializeParams(params: extension.AlsInitializeParams): AlsInitializeParams =
     Option(params).map { p =>
       Option(p.getClientCapabilities).foreach(p.setCapabilities)
@@ -73,7 +88,8 @@ object LspConversions {
         Option(p.getProcessId),
         Option(p.getWorkspaceFolders).map(wf => seq(wf, workspaceFolder)),
         Option(p.getRootPath),
-        Option(p.getInitializationOptions)
+        Option(p.getInitializationOptions),
+        Option(p.getAlsConfiguration)
       )
     } getOrElse AlsInitializeParams.default
 
@@ -116,6 +132,14 @@ object LspConversions {
     ConversionParams(Option(result.getUri).getOrElse(""),
                      Option(result.getTarget).getOrElse(""),
                      Option(result.getSyntax))
+  }
+
+  implicit def jvmUpdateFormatOptionsParams(v: extension.UpdateFormatOptionsParams): UpdateFormatOptionsParams = {
+    UpdateFormatOptionsParams(v.getTabSize, v.preferSpaces())
+  }
+
+  implicit def jvmUpdateFormatOptionsParams(v: extension.UpdateConfigurationParams): UpdateConfigurationParams = {
+    UpdateConfigurationParams(Option(v.getUpdateFormatOptionsParams))
   }
 
   implicit def jvmCleanDiagnosticTreeParams(result: extension.CleanDiagnosticTreeParams): CleanDiagnosticTreeParams = {

@@ -6,12 +6,13 @@ import org.mulesoft.als.suggestions.patcher.QuoteToken
 import org.mulesoft.als.suggestions.styler.astbuilder.{AstRawBuilder, YamlAstRawBuilder}
 import org.yaml.model._
 import org.yaml.render.YamlRender
+import org.yaml.render.YamlRenderOptions
 
 case class YamlSuggestionStyler(override val params: StylerParams) extends SuggestionRender {
 
   private def fixEmptyMap(rendered: String): String =
     if (rendered.endsWith("{}"))
-      rendered.stripSuffix(" {}") + "\n  " + stringIndentation
+      rendered.stripSuffix(" {}") + "\n" + (" " * tabSize) + stringIndentation
     else rendered
 
   private def fixPrefix(prefix: String, text: String) =
@@ -26,10 +27,14 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends Sugge
       else ""
     val ast = builder.ast
     val indentation = ast match {
-      case n: YNode if n.value.isInstanceOf[YSequence] => params.indentation + 2
-      case _                                           => params.indentation
+      case n: YNode if n.value.isInstanceOf[YSequence] => initialIndentationSize * tabSize + 2
+      case _                                           => initialIndentationSize * tabSize
     }
-    fixPrefix(prefix, fixEmptyMap(YamlRender.render(ast, indentation)))
+    fixPrefix(prefix, fixEmptyMap(YamlRender.render(ast, indentation, buildYamlRenderOptions)))
+  }
+
+  def buildYamlRenderOptions: YamlRenderOptions = {
+    new YamlRenderOptions().withIndentationSize(params.formattingConfiguration.tabSize)
   }
 
   override def style(raw: RawSuggestion): Styled = super.style(fixTokens(raw))

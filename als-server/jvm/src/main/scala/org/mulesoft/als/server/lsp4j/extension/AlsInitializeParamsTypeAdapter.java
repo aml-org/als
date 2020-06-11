@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import org.eclipse.lsp4j.ClientCapabilities;
+import org.eclipse.lsp4j.FormattingOptions;
 import org.eclipse.lsp4j.InitializeParams;
 import org.eclipse.lsp4j.adapters.InitializeParamsTypeAdapter;
 import org.eclipse.lsp4j.generator.TypeAdapterImpl;
@@ -37,6 +38,9 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
         return gson.fromJson(in, AlsClientCapabilities.class);
     }
 
+    protected AlsConfiguration readConfiguration(JsonReader in) throws IOException {
+        return gson.fromJson(in, AlsConfiguration.class);
+    }
     @Override
     public AlsInitializeParams read(final JsonReader in) throws IOException {
         JsonToken nextToken = in.peek();
@@ -72,6 +76,9 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
                     break;
                 case "workspaceFolders":
                     result.setWorkspaceFolders(readWorkspaceFolders(in));
+                    break;
+                case "alsConfiguration":
+                    result.setAlsConfiguration(readConfiguration(in));
                     break;
                 default:
                     in.skipValue();
