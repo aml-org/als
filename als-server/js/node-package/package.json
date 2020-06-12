@@ -17,8 +17,8 @@
   "dependencies": {
     "ajv": "6.5.2",
     "amf-shacl-node": "1.1.0",
-    "vscode-jsonrpc": "4.0.0",
-    "vscode-languageserver-protocol": "3.14.1"
+    "vscode-jsonrpc": "5.0.1",
+    "vscode-languageserver-protocol": "3.15.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

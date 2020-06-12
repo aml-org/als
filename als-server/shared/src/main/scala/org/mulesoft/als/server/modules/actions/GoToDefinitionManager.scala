@@ -13,7 +13,12 @@ import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.common.{Location, LocationLink, TextDocumentPositionParams}
-import org.mulesoft.lsp.feature.definition.{DefinitionClientCapabilities, DefinitionConfigType, DefinitionRequestType}
+import org.mulesoft.lsp.feature.definition.{
+  DefinitionClientCapabilities,
+  DefinitionConfigType,
+  DefinitionParams,
+  DefinitionRequestType
+}
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -31,10 +36,10 @@ class GoToDefinitionManager(val workspace: WorkspaceManager,
     DefinitionConfigType
 
   override val getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
-    new RequestHandler[TextDocumentPositionParams, Either[Seq[Location], Seq[LocationLink]]] {
+    new RequestHandler[DefinitionParams, Either[Seq[Location], Seq[LocationLink]]] {
       override def `type`: DefinitionRequestType.type = DefinitionRequestType
 
-      override def apply(params: TextDocumentPositionParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
+      override def apply(params: DefinitionParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
         goToDefinition(params.textDocument.uri, LspRangeConverter.toPosition(params.position))
     }
   )
