@@ -2,8 +2,9 @@ package org.mulesoft.als.server.modules.workspace
 
 import java.util.UUID
 
+import amf.core.remote.Platform
 import amf.internal.environment.Environment
-import org.mulesoft.als.common.FileUtils
+import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
@@ -22,6 +23,8 @@ class WorkspaceContentManager(val folder: String,
                               allSubscribers: List[BaseUnitListener])
     extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind] {
 
+  implicit val platform: Platform = environmentProvider.platform // used for URI utils
+
   private val subscribers = allSubscribers.filter(_.isActive)
 
   private var configMainFile: Option[WorkspaceConf] = None
@@ -30,16 +33,16 @@ class WorkspaceContentManager(val folder: String,
 
   def setConfigMainFile(workspaceConf: Option[WorkspaceConf]): Unit = {
     repository.cleanTree()
-    repository.setCachables(workspaceConf.map(_.cachables).getOrElse(Set.empty))
+    repository.setCachables(workspaceConf.map(_.cachables.map(_.toAmfUri)).getOrElse(Set.empty))
     configMainFile = workspaceConf
   }
 
   def mainFile: Option[String] = configMainFile.map(_.mainFile)
   def mainFileUri: Option[String] =
-    mainFile.map(mf => s"$folder$mf") // TODO: Analyze if we really need knowladge of both paths and uris (maybe set all to URI)
+    mainFile.map(mf => s"$folder$mf".toAmfUri) // TODO: Analyze if we really need knowledge of both paths and uris (maybe set all to URI)
 
   def configFile: Option[String] =
-    configMainFile.flatMap(ic => ic.configReader.map(cr => s"${ic.rootFolder}/${cr.configFileName}"))
+    configMainFile.flatMap(ic => ic.configReader.map(cr => s"${ic.rootFolder}/${cr.configFileName}".toAmfUri))
 
   override protected val stagingArea: ParserStagingArea = new ParserStagingArea(environmentProvider)
 
@@ -48,7 +51,7 @@ class WorkspaceContentManager(val folder: String,
   private var workspaceConfigurationProvider: Option[WorkspaceConfigurationProvider] = None
 
   def getCompilableUnit(uri: String): Future[CompilableUnit] = {
-    val encodedUri = FileUtils.getEncodedUri(uri, environmentProvider.platform)
+    val encodedUri = uri.toAmfUri
     repository.getUnit(encodedUri) match {
       case Some(pu) =>
         Future.successful(toResult(encodedUri, pu))
@@ -57,7 +60,7 @@ class WorkspaceContentManager(val folder: String,
   }
 
   override protected def toResult(uri: String, pu: ParsedUnit): CompilableUnit =
-    pu.toCU(getNext(uri), mainFile, repository.getReferenceStack(uri), state == NotAvailable)
+    pu.toCU(getNext(uri), mainFileUri, repository.getReferenceStack(uri), state == NotAvailable)
 
   def withConfiguration(confProvider: WorkspaceConfigurationProvider): WorkspaceContentManager = {
     workspaceConfigurationProvider = Some(confProvider)
@@ -66,13 +69,13 @@ class WorkspaceContentManager(val folder: String,
 
   override protected def processTask(): Future[Unit] = {
     val snapshot: Snapshot    = stagingArea.snapshot()
-    val (treeUnits, isolated) = snapshot.files.partition(u => repository.inTree(u._1)) // what if a new file is added between the partition and the override down
+    val (treeUnits, isolated) = snapshot.files.partition(u => repository.inTree(u._1.toAmfUri)) // what if a new file is added between the partition and the override down
     val changedTreeUnits =
       treeUnits.filter(tu => tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE)
 
     if (hasChangedConfigFile(snapshot)) processChangeConfigChanges(snapshot)
     else if (changedTreeUnits.nonEmpty)
-      processMFChanges(configMainFile.get.mainFile, snapshot)
+      processMFChanges(mainFile.get, snapshot) // it should not be possible for mainFile to be None if it gets here
     else
       processIsolatedChanges(isolated, snapshot.environment)
   }
@@ -125,7 +128,7 @@ class WorkspaceContentManager(val folder: String,
     configMainFile = maybeConfig
     maybeConfig match {
       case Some(conf) =>
-        repository.setCachables(conf.cachables)
+        repository.setCachables(conf.cachables.map(_.toAmfUri))
         processMFChanges(conf.mainFile, stagingArea.snapshot())
       case _ =>
         repository.cleanTree()
@@ -154,8 +157,7 @@ class WorkspaceContentManager(val folder: String,
                                       uri,
                                       uuid)
     environmentProvider.amfConfiguration.parserHelper
-      .parse(FileUtils.getDecodedUri(uri, environmentProvider.platform),
-             environment.withResolver(repository.resolverCache)) andThen {
+      .parse(uri.toAmfDecodedUri, environment.withResolver(repository.resolverCache)) andThen {
       case _ =>
         telemetryProvider
           .addTimedMessage("End AMF Parse", "WorkspaceContentManager", "parse", MessageTypes.END_PARSE, uri, uuid)
@@ -163,12 +165,12 @@ class WorkspaceContentManager(val folder: String,
   }
 
   def getRelationships(uri: String): Relationships =
-    Relationships(repository, () => Some(getCompilableUnit(uri)))
+    Relationships(repository, () => Some(getCompilableUnit(uri.toAmfUri)))
 
   override protected def log(msg: String): Unit =
     logger.error(msg, "WorkspaceContentManager", "Processing request")
 
   override protected def disableTasks(): Future[Unit] = Future {
-    subscribers.map(d => repository.getAllFilesUris.foreach(d.onRemoveFile))
+    subscribers.map(d => repository.getAllFilesUris.map(_.toAmfUri).foreach(d.onRemoveFile))
   }
 }

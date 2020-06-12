@@ -3,7 +3,8 @@ package org.mulesoft.als.server.modules.completion
 import java.util.UUID
 
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.common.{DirectoryResolver, FileUtils}
+import org.mulesoft.als.common.DirectoryResolver
+import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
@@ -61,13 +62,14 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
 
   override def initialize(): Future[Unit] = suggestions.init()
 
-  protected def onDocumentCompletion(uri: String, position: Position): Future[Seq[CompletionItem]] = {
+  protected def onDocumentCompletion(lspUri: String, position: Position): Future[Seq[CompletionItem]] = {
     val telemetryUUID: String = UUID.randomUUID().toString
+    val uri                   = lspUri.toAmfUri(editorEnvironment.platform)
+    // we need to normalize the URI encoding so we can find it both on RL and memory
 
     logger.debug(s"Calling for completion for uri $uri and position $position",
                  "SuggestionsManager",
                  "onDocumentCompletion")
-
     editorEnvironment.get(uri) match {
       case Some(textDocument) =>
         val startTime    = System.currentTimeMillis()
@@ -136,7 +138,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                  syntax: Syntax,
                                  patchedContent: PatchedContent,
                                  uuid: String): Future[CompletionProvider] = {
-    val amfRefinedUri = FileUtils.getDecodedUri(uri, editorEnvironment.platform)
+    val amfRefinedUri = uri.toAmfDecodedUri(editorEnvironment.platform)
     telemetryProvider.addTimedMessage("Start parsing for completion",
                                       "SuggestionsManager",
                                       "buildCompletionProviderAST",
@@ -170,7 +172,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
       uri,
       patchedContent,
       snippetSupport,
-      workspace.getRootOf(uri)
+      workspace.getProjectRootOf(uri)
     )
   }
 }

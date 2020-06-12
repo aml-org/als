@@ -7,6 +7,7 @@ import scala.concurrent.Future
 
 trait UnitWorkspaceManager {
   def getRootOf(uri: String): Option[String]
+  def getProjectRootOf(uri: String): Option[String]
   def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]]
 
   /** gets all Project document links */
