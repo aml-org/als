@@ -1,18 +1,16 @@
 swagger: '2.0'
-info:
-  title: titulo
-  version: 2
-
 definitions:
-  Use[*]r:
+  Use*r:
     properties:
       name:
         type: string
-
 paths:
   /users/{userId}:
     get:
       responses:
         200:
+          schema:
+            $ref: '#/definitions/User'
+        404:
           schema:
             $ref: '#/definitions/User'

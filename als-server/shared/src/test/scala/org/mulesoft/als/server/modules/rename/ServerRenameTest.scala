@@ -8,7 +8,7 @@ import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.lsp.feature.rename.{RenameParams, RenameRequestType}
+import org.mulesoft.lsp.feature.rename.{PrepareRenameParams, PrepareRenameRequestType, RenameParams, RenameRequestType}
 import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -22,6 +22,7 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
       .addInitializable(factory.documentManager)
+      .addRequestModule(factory.renameManager)
       .build()
   }
 
@@ -45,26 +46,33 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
 
         val filePath = s"file:///$path"
         openFile(server)(filePath, markerInfo.patchedContent.original)
-        val handler = server.resolveHandler(RenameRequestType).value
+        val renameHandler        = server.resolveHandler(RenameRequestType).value
+        val prepareRenameHandler = server.resolveHandler(PrepareRenameRequestType).value
+        prepareRenameHandler(
+          PrepareRenameParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(position)))
+          .flatMap {
+            pr =>
+              assert(pr.isDefined) // check if the rename is actually valid
+              renameHandler(
+                RenameParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(position), newName))
+                .map(workspaceEdit => {
+                  closeFile(server)(filePath)
 
-        handler(RenameParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(position), newName))
-          .map(workspaceEdit => {
-            closeFile(server)(filePath)
+                  val edits = workspaceEdit.changes.flatMap { case (_, textEdits) => textEdits }.toList
 
-            val edits = workspaceEdit.changes.flatMap { case (_, textEdits) => textEdits }.toList
+                  var newText = content.get
+                  edits
+                    .sortBy(edit => LspRangeConverter.toPosition(edit.range.start))(DescendingPositionOrdering)
+                    .foreach(edit =>
+                      newText = newText.substring(0, LspRangeConverter.toPosition(edit.range.start).offset(newText)) +
+                        edit.newText +
+                        newText.substring(LspRangeConverter.toPosition(edit.range.end).offset(newText)))
+                  val result = renamedContent.contains(newText.trim)
 
-            var newText = content.get
-            edits
-              .sortBy(edit => LspRangeConverter.toPosition(edit.range.start))(DescendingPositionOrdering)
-              .foreach(edit =>
-                newText = newText.substring(0, LspRangeConverter.toPosition(edit.range.start).offset(newText)) +
-                  edit.newText +
-                  newText.substring(LspRangeConverter.toPosition(edit.range.end).offset(newText)))
-            val result = renamedContent.contains(newText.trim)
-
-            if (result) succeed
-            else fail(s"Difference for $path: got [$newText] while expecting [${renamedContent.get}]")
-          })
+                  if (result) succeed
+                  else fail(s"Difference for $path: got [$newText] while expecting [${renamedContent.get}]")
+                })
+          }
       })
   }
 
@@ -79,7 +87,6 @@ abstract class ServerRenameTest extends LanguageServerBaseTest {
       val preparedContent = ContentPatcher(rawContent, offset, YAML).prepareContent()
       new MarkerInfo(preparedContent, Position(offset, str))
     }
-
   }
 
   class MarkerInfo(val patchedContent: PatchedContent, val position: Position)

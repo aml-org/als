@@ -11,5 +11,4 @@ object LspRangeConverter {
 
   def toLspRange(position: PositionRange): LspRange =
     LspRange(toLspPosition(position.start), toLspPosition(position.end))
-
 }
