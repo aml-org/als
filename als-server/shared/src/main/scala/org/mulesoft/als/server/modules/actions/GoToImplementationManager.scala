@@ -13,10 +13,11 @@ import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.configuration.StaticRegistrationOptions
 import org.mulesoft.lsp.feature.RequestHandler
-import org.mulesoft.lsp.feature.common.{Location, LocationLink, TextDocumentPositionParams}
+import org.mulesoft.lsp.feature.common.{Location, LocationLink}
 import org.mulesoft.lsp.feature.implementation.{
   ImplementationClientCapabilities,
   ImplementationConfigType,
+  ImplementationParams,
   ImplementationRequestType
 }
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
@@ -36,11 +37,11 @@ class GoToImplementationManager(val workspace: WorkspaceManager,
     ImplementationConfigType
 
   override val getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
-    new RequestHandler[TextDocumentPositionParams, Either[Seq[Location], Seq[LocationLink]]] {
+    new RequestHandler[ImplementationParams, Either[Seq[Location], Seq[LocationLink]]] {
       override def `type`: ImplementationRequestType.type =
         ImplementationRequestType
 
-      override def apply(params: TextDocumentPositionParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
+      override def apply(params: ImplementationParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
         goToImplementation(params.textDocument.uri, LspRangeConverter.toPosition(params.position))
     }
   )

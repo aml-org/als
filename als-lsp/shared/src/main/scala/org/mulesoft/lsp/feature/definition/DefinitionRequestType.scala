@@ -1,6 +1,6 @@
 package org.mulesoft.lsp.feature.definition
 
-import org.mulesoft.lsp.feature.common.{Location, LocationLink, TextDocumentPositionParams}
 import org.mulesoft.lsp.feature.RequestType
+import org.mulesoft.lsp.feature.common.{Location, LocationLink}
 
-case object DefinitionRequestType extends RequestType[TextDocumentPositionParams, Either[Seq[Location], Seq[LocationLink]]]
+case object DefinitionRequestType extends RequestType[DefinitionParams, Either[Seq[Location], Seq[LocationLink]]]
