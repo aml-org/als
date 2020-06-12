@@ -72,6 +72,7 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
             RelationshipLink(
               sourceEntry,
               maybeParent.getOrElse(sn.node),
+              getName(fe.value.value),
               linkTypes
             )
           }

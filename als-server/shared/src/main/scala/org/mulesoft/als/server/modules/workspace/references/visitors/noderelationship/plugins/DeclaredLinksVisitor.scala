@@ -23,10 +23,12 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
               .find(classOf[SourceNode])
               .flatMap { sn =>
                 locationFromObj(obj).map { sourceEntry =>
+                  //fe.value.value.asInstanceOf[NamedDomainElement].name
                   Seq(
                     RelationshipLink(
                       checkYNodePlain(sourceEntry),
-                      locationFromObj(fe.value.value).getOrElse(sn.node)
+                      locationFromObj(fe.value.value).getOrElse(sn.node),
+                      getName(fe.value.value)
                     ))
                 }
               }

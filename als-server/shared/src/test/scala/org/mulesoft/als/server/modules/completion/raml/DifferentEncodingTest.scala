@@ -161,5 +161,5 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
                        position: Position,
                        ws: Map[String, String],
                        result: Set[String],
-                       root: String = "file:///r/")
+                       root: String = "file:///r")
 }

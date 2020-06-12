@@ -80,8 +80,15 @@ case class RenameLocation(newName: String, uri: String, replaceRange: PositionRa
 
 object RenameLocation {
   def apply(yPart: YPart, newName: String, oldName: String): RenameLocation = {
-    val completeNewName
-      : String = yPart.toString.replaceAllLiterally(oldName, newName) // is there a cleaner way to get just the part of the name??
+    val nodeContent = yPart.toString
+    val i = nodeContent
+      .lastIndexOf(oldName)
+    val completeNewName: String =
+      if (i == -1) newName
+      else {
+        val (pre, post) = nodeContent.splitAt(i)
+        s"$pre$newName${post.substring(oldName.length)}"
+      }
     RenameLocation(completeNewName, yPart.location.sourceName, PositionRange(yPart.range))
   }
 
