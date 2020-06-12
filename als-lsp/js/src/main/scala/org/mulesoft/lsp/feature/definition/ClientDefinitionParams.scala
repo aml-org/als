@@ -1,16 +1,14 @@
 package org.mulesoft.lsp.feature.definition
 
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
-import org.mulesoft.lsp.feature.common.{ClientPosition, ClientTextDocumentIdentifier, ClientTextDocumentPositionParams}
+import org.mulesoft.lsp.feature.common.ClientTextDocumentPositionParams
 
 import scala.scalajs.js
 
-@js.native
-trait ClientDefinitionParams extends js.Object {
-  def textDocument: ClientTextDocumentIdentifier = js.native
+// $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
-  def position: ClientPosition = js.native
-}
+@js.native
+trait ClientDefinitionParams extends ClientTextDocumentPositionParams {}
 
 object ClientDefinitionParams {
   def apply(internal: DefinitionParams): ClientDefinitionParams =
@@ -18,3 +16,4 @@ object ClientDefinitionParams {
       .literal(textDocument = internal.textDocument.toClient, position = internal.position.toClient)
       .asInstanceOf[ClientDefinitionParams]
 }
+// $COVERAGE-ON Incompatibility between scoverage and scalaJS
