@@ -5,28 +5,34 @@ import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
-import org.mulesoft.lsp.feature.common.VersionedTextDocumentIdentifier
-import org.yaml.model.{YMapEntry, YPart}
+import org.mulesoft.lsp.feature.common.{Range, VersionedTextDocumentIdentifier}
+import org.yaml.model.{YMapEntry, YPart, YScalar}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+
 object FindRenameLocations {
+
+  def canChangeDeclaredName(uri: String,
+                            position: Position,
+                            references: Future[Seq[RelationshipLink]]): Future[Option[Range]] =
+    FindReferences
+      .getReferences(uri, position, references)
+      .map { refs =>
+        getOriginKey(refs)
+          .map(_.range)
+          .map(PositionRange(_))
+          .map(LspRangeConverter.toLspRange)
+      }
 
   def changeDeclaredName(uri: String,
                          position: Position,
                          newName: String,
-                         references: Future[Seq[RelationshipLink]]): Future[WorkspaceEdit] = {
-
+                         references: Future[Seq[RelationshipLink]]): Future[WorkspaceEdit] =
     FindReferences
       .getReferences(uri, position, references)
       .map { refs =>
-        refs
-          .map(_.targetEntry)
-          .collectFirst {
-            case e: YMapEntry => e.key
-//            case a: YNodePlain if a.anchor.isDefined => a
-          }
-          .flatMap(_.asScalar)
+        getOriginKey(refs)
           .map { origKey =>
             refs
               .map(_.sourceEntry)
@@ -44,6 +50,15 @@ object FindRenameLocations {
           toTextDocumentEdit(stringToEdits).map(Left(_))
         )
       }
+
+  private def getOriginKey(refs: Seq[RelationshipLink]): Option[YScalar] = {
+    refs
+      .map(_.targetEntry)
+      .collectFirst {
+        case e: YMapEntry => e.key
+        //            case a: YNodePlain if a.anchor.isDefined => a
+      }
+      .flatMap(_.asScalar)
   }
 
   private def toTextEdit(renameLocation: RenameLocation): TextEdit =

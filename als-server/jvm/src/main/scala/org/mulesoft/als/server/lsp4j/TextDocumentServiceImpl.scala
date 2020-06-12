@@ -49,7 +49,7 @@ import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
 import org.mulesoft.lsp.feature.implementation.ImplementationRequestType
 import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
 import org.mulesoft.lsp.feature.reference.ReferenceRequestType
-import org.mulesoft.lsp.feature.rename.RenameRequestType
+import org.mulesoft.lsp.feature.rename.{PrepareRenameParams, PrepareRenameRequestType, RenameRequestType}
 import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionRequestType
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 
@@ -57,7 +57,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomTextDocumentService with CustomEvents {
 
-  private val textDocumentSyncConsumer: AlsTextDocumentSyncConsumer = inner.textDocumentSyncConsumer
+  private val textDocumentSyncConsumer: AlsTextDocumentSyncConsumer =
+    inner.textDocumentSyncConsumer
 
   override def didOpen(params: DidOpenTextDocumentParams): Unit =
     textDocumentSyncConsumer.didOpen(params)
@@ -75,7 +76,8 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
 
   private def resolveHandler[P, R](`type`: RequestType[P, R]): RequestHandler[P, R] = {
     val maybeHandler = inner.resolveHandler(`type`)
-    if (maybeHandler.isEmpty) throw new UnsupportedOperationException else maybeHandler.get
+    if (maybeHandler.isEmpty) throw new UnsupportedOperationException
+    else maybeHandler.get
   }
 
   override def references(params: ReferenceParams): CompletableFuture[util.List[_ <: Location]] =
@@ -99,6 +101,12 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
 
   override def rename(params: RenameParams): CompletableFuture[WorkspaceEdit] =
     javaFuture(resolveHandler(RenameRequestType)(params), lsp4JWorkspaceEdit)
+
+  override def prepareRename(
+      params: TextDocumentPositionParams): CompletableFuture[messages.Either[lsp4j.Range, lsp4j.PrepareRenameResult]] =
+    javaFuture(
+      resolveHandler(PrepareRenameRequestType)(PrepareRenameParams(params.getTextDocument, params.getPosition)),
+      lsp4JOptionEitherRangeWithPlaceholder)
 
   override def documentSymbol(
       params: DocumentSymbolParams): CompletableFuture[util.List[messages.Either[SymbolInformation, DocumentSymbol]]] =

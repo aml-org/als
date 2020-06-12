@@ -40,7 +40,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
 import org.mulesoft.lsp.feature.implementation.{ImplementationClientCapabilities, ImplementationParams}
 import org.mulesoft.lsp.feature.link.{DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
-import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
+import org.mulesoft.lsp.feature.rename.{PrepareRenameParams, RenameClientCapabilities, RenameOptions, RenameParams}
 import org.mulesoft.lsp.feature.typedefinition.{TypeDefinitionClientCapabilities, TypeDefinitionParams}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._

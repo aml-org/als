@@ -427,6 +427,11 @@ object LspConvertersClientToShared {
       RenameParams(v.textDocument.toShared, v.position.toShared, v.newName)
   }
 
+  implicit class PrepareRenameParamsConverter(v: ClientPrepareRenameParams) {
+    def toShared: PrepareRenameParams =
+      PrepareRenameParams(v.textDocument.toShared, v.position.toShared)
+  }
+
   implicit class TelemetryMessageConverter(v: ClientTelemetryMessage) {
     def toShared: TelemetryMessage =
       TelemetryMessage(v.event, v.messageType, v.message, v.uri, v.time.toLong, v.uuid)

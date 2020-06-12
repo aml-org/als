@@ -316,6 +316,19 @@ object LspConvertersSharedToClient {
       ClientRenameOptions(v)
   }
 
+  implicit class ClientPrepareRenameCompleteResultConverter(v: Either[Range, PrepareRenameResult]) {
+    def toClient: ClientRange | ClientPrepareRenameResult =
+      v match {
+        case Right(r) => r.toClient
+        case Left(l) => l.toClient
+      }
+  }
+
+  implicit class ClientPrepareRenameResultConverter(v: PrepareRenameResult) {
+    def toClient: ClientPrepareRenameResult =
+      ClientPrepareRenameResult(v)
+  }
+
   implicit class ClientRenameParamsConverter(v: RenameParams) {
     def toClient: ClientRenameParams =
       ClientRenameParams(v)
