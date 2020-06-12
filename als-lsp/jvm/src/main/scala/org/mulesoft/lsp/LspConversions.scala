@@ -301,7 +301,7 @@ object LspConversions {
       diagnostic.getRange,
       diagnostic.getMessage,
       Option(diagnostic.getSeverity).map(diagnosticSeverity),
-      Option(diagnostic.getCode),
+      either(diagnostic.getCode, (s: String) => s, (n: Number) => n.toString).toOption,
       Option(diagnostic.getSource),
       Option(diagnostic.getRelatedInformation).map(_.asScala.map(diagnosticRelatedInformation)).getOrElse(Seq())
     )

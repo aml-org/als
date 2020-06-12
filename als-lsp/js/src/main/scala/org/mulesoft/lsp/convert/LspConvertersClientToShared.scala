@@ -23,12 +23,19 @@ import org.mulesoft.lsp.feature.common.{
   VersionedTextDocumentIdentifier
 }
 import org.mulesoft.lsp.feature.completion._
-import org.mulesoft.lsp.feature.definition.{ClientDefinitionClientCapabilities, DefinitionClientCapabilities}
+import org.mulesoft.lsp.feature.definition.{
+  ClientDefinitionClientCapabilities,
+  ClientDefinitionParams,
+  DefinitionClientCapabilities,
+  DefinitionParams
+}
 import org.mulesoft.lsp.feature.diagnostic._
 import org.mulesoft.lsp.feature.documentsymbol._
 import org.mulesoft.lsp.feature.implementation.{
   ClientImplementationClientCapabilities,
-  ImplementationClientCapabilities
+  ClientImplementationParams,
+  ImplementationClientCapabilities,
+  ImplementationParams
 }
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.reference._
@@ -41,7 +48,9 @@ import org.mulesoft.lsp.feature.telemetry.{
 }
 import org.mulesoft.lsp.feature.typedefinition.{
   ClientTypeDefinitionClientCapabilities,
-  TypeDefinitionClientCapabilities
+  ClientTypeDefinitionParams,
+  TypeDefinitionClientCapabilities,
+  TypeDefinitionParams
 }
 import org.mulesoft.lsp.textsync.{TextDocumentSyncKind, _}
 import org.mulesoft.lsp.workspace._
@@ -105,6 +114,21 @@ object LspConvertersClientToShared {
   implicit class TextDocumentPositionParamsConverter(v: ClientTextDocumentPositionParams) {
     def toShared: TextDocumentPositionParams =
       TextDocumentPositionParams(v.textDocument.toShared, v.position.toShared)
+  }
+
+  implicit class TypeDefinitionParamsConverter(v: ClientTypeDefinitionParams) {
+    def toShared: TypeDefinitionParams =
+      TypeDefinitionParams(v.textDocument.toShared, v.position.toShared)
+  }
+
+  implicit class DefinitionParamsConverter(v: ClientDefinitionParams) {
+    def toShared: DefinitionParams =
+      DefinitionParams(v.textDocument.toShared, v.position.toShared)
+  }
+
+  implicit class ImplementationParamsConverter(v: ClientImplementationParams) {
+    def toShared: ImplementationParams =
+      ImplementationParams(v.textDocument.toShared, v.position.toShared)
   }
 
   implicit class TextDocumentClientCapabilitiesConverter(v: ClientTextDocumentClientCapabilities) {

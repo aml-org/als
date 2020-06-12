@@ -8,15 +8,18 @@ import org.mulesoft.lsp.feature.common.{
   ClientTextDocumentPositionParams
 }
 import org.mulesoft.lsp.feature.completion.{ClientCompletionItem, ClientCompletionList, ClientCompletionParams}
+import org.mulesoft.lsp.feature.definition.ClientDefinitionParams
 import org.mulesoft.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
 import org.mulesoft.lsp.feature.documentsymbol.{
   ClientDocumentSymbol,
   ClientDocumentSymbolParams,
   ClientSymbolInformation
 }
+import org.mulesoft.lsp.feature.implementation.ClientImplementationParams
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.ClientReferenceParams
 import org.mulesoft.lsp.feature.telemetry.ClientTelemetryMessage
+import org.mulesoft.lsp.feature.typedefinition.ClientTypeDefinitionParams
 import org.mulesoft.lsp.textsync.{
   ClientDidChangeTextDocumentParams,
   ClientDidCloseTextDocumentParams,
@@ -265,7 +268,7 @@ object DocumentLinkRequest extends js.Object {
 @js.native
 @JSImport("vscode-languageserver-protocol", "DefinitionRequest")
 object DefinitionRequest extends js.Object {
-  val `type`: RequestType[ClientTextDocumentPositionParams,
+  val `type`: RequestType[ClientDefinitionParams,
                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
                           js.Any,
                           js.Any] = js.native
@@ -274,7 +277,7 @@ object DefinitionRequest extends js.Object {
 @js.native
 @JSImport("vscode-languageserver-protocol", "ImplementationRequest")
 object ImplementationRequest extends js.Object {
-  val `type`: RequestType[ClientTextDocumentPositionParams,
+  val `type`: RequestType[ClientImplementationParams,
                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
                           js.Any,
                           js.Any] = js.native
@@ -283,7 +286,7 @@ object ImplementationRequest extends js.Object {
 @js.native
 @JSImport("vscode-languageserver-protocol", "TypeDefinitionRequest")
 object TypeDefinitionRequest extends js.Object {
-  val `type`: RequestType[ClientTextDocumentPositionParams,
+  val `type`: RequestType[ClientTypeDefinitionParams,
                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
                           js.Any,
                           js.Any] = js.native
