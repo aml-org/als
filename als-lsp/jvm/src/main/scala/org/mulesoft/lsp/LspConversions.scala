@@ -27,7 +27,7 @@ import org.mulesoft.lsp.feature.codeactions.{CodeActionContext, CodeActionKind, 
 import org.mulesoft.lsp.feature.completion.CompletionItemKind.CompletionItemKind
 import org.mulesoft.lsp.feature.completion.CompletionTriggerKind.CompletionTriggerKind
 import org.mulesoft.lsp.feature.completion._
-import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
+import org.mulesoft.lsp.feature.definition.{DefinitionClientCapabilities, DefinitionParams}
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
 import org.mulesoft.lsp.feature.diagnostic._
 import org.mulesoft.lsp.feature.documentsymbol.SymbolKind.SymbolKind
@@ -37,11 +37,11 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolKind,
   SymbolKindClientCapabilities
 }
-import org.mulesoft.lsp.feature.implementation.ImplementationClientCapabilities
+import org.mulesoft.lsp.feature.implementation.{ImplementationClientCapabilities, ImplementationParams}
 import org.mulesoft.lsp.feature.link.{DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
-import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionClientCapabilities
+import org.mulesoft.lsp.feature.typedefinition.{TypeDefinitionClientCapabilities, TypeDefinitionParams}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
 
@@ -280,6 +280,15 @@ object LspConversions {
 
   implicit def textDocumentPositionParams(params: lsp4j.TextDocumentPositionParams): TextDocumentPositionParams =
     TextDocumentPositionParams(params.getTextDocument, params.getPosition)
+
+  implicit def definitionParams(params: lsp4j.DefinitionParams): DefinitionParams =
+    DefinitionParams(params.getTextDocument, params.getPosition)
+
+  implicit def typeDefinitionParams(params: lsp4j.TypeDefinitionParams): TypeDefinitionParams =
+    TypeDefinitionParams(params.getTextDocument, params.getPosition)
+
+  implicit def implementationParams(params: lsp4j.ImplementationParams): ImplementationParams =
+    ImplementationParams(params.getTextDocument, params.getPosition)
 
   implicit def completionParams(params: lsp4j.CompletionParams): CompletionParams =
     CompletionParams(params.getTextDocument, params.getPosition, Option(params.getContext).map(completionContext))

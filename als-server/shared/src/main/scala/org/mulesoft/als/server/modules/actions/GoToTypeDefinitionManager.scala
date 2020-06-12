@@ -18,6 +18,7 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.feature.typedefinition.{
   TypeDefinitionClientCapabilities,
   TypeDefinitionConfigType,
+  TypeDefinitionParams,
   TypeDefinitionRequestType
 }
 
@@ -36,11 +37,11 @@ class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
     TypeDefinitionConfigType
 
   override val getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
-    new RequestHandler[TextDocumentPositionParams, Either[Seq[Location], Seq[LocationLink]]] {
+    new RequestHandler[TypeDefinitionParams, Either[Seq[Location], Seq[LocationLink]]] {
       override def `type`: TypeDefinitionRequestType.type =
         TypeDefinitionRequestType
 
-      override def apply(params: TextDocumentPositionParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
+      override def apply(params: TypeDefinitionParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
         goToTypeDefinition(params.textDocument.uri, LspRangeConverter.toPosition(params.position))
     }
   )
