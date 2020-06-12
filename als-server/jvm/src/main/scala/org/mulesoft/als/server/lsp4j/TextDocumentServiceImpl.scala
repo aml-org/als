@@ -24,6 +24,7 @@ import org.eclipse.lsp4j.{
   ImplementationParams,
   Location,
   LocationLink,
+  PrepareRenameParams,
   PublishDiagnosticsParams,
   ReferenceParams,
   RenameParams,
@@ -49,7 +50,7 @@ import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
 import org.mulesoft.lsp.feature.implementation.ImplementationRequestType
 import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
 import org.mulesoft.lsp.feature.reference.ReferenceRequestType
-import org.mulesoft.lsp.feature.rename.{PrepareRenameParams, PrepareRenameRequestType, RenameRequestType}
+import org.mulesoft.lsp.feature.rename.{PrepareRenameRequestType, RenameRequestType}
 import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionRequestType
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 
@@ -103,10 +104,8 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
     javaFuture(resolveHandler(RenameRequestType)(params), lsp4JWorkspaceEdit)
 
   override def prepareRename(
-      params: TextDocumentPositionParams): CompletableFuture[messages.Either[lsp4j.Range, lsp4j.PrepareRenameResult]] =
-    javaFuture(
-      resolveHandler(PrepareRenameRequestType)(PrepareRenameParams(params.getTextDocument, params.getPosition)),
-      lsp4JOptionEitherRangeWithPlaceholder)
+      params: PrepareRenameParams): CompletableFuture[messages.Either[lsp4j.Range, lsp4j.PrepareRenameResult]] =
+    javaFuture(resolveHandler(PrepareRenameRequestType)(params), lsp4JOptionEitherRangeWithPlaceholder)
 
   override def documentSymbol(
       params: DocumentSymbolParams): CompletableFuture[util.List[messages.Either[SymbolInformation, DocumentSymbol]]] =
