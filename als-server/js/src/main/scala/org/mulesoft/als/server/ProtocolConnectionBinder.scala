@@ -29,6 +29,7 @@ import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.common.{
   ClientLocation,
   ClientLocationLink,
+  ClientRange,
   ClientTextDocumentIdentifier,
   ClientTextDocumentPositionParams
 }
@@ -49,7 +50,13 @@ import org.mulesoft.lsp.feature.documentsymbol.{
 import org.mulesoft.lsp.feature.implementation.{ClientImplementationParams, ImplementationRequestType}
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams, DocumentLinkRequestType}
 import org.mulesoft.lsp.feature.reference.{ClientReferenceParams, ReferenceRequestType}
-import org.mulesoft.lsp.feature.rename.{ClientRenameParams, RenameRequestType}
+import org.mulesoft.lsp.feature.rename.{
+  ClientPrepareRenameParams,
+  ClientPrepareRenameResult,
+  ClientRenameParams,
+  PrepareRenameRequestType,
+  RenameRequestType
+}
 import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryMessage, TelemetryMessage}
 import org.mulesoft.lsp.feature.typedefinition.{ClientTypeDefinitionParams, TypeDefinitionRequestType}
 import org.mulesoft.lsp.textsync.{
@@ -328,6 +335,22 @@ object ProtocolConnectionBinder {
         .asInstanceOf[ClientRequestHandler[ClientRenameParams, ClientWorkspaceEdit, js.Any]]
     )
     // End Rename
+
+    // PrepareRename
+    val onPrepareRenameHandlerJs
+      : js.Function2[ClientPrepareRenameParams, CancellationToken, Thenable[ClientRange | ClientPrepareRenameResult]] =
+      (param: ClientPrepareRenameParams, _: CancellationToken) =>
+        resolveHandler(PrepareRenameRequestType)(param.toShared)
+          .map(_.map(_.toClient).orUndefined)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientRange | ClientPrepareRenameResult]]
+
+    protocolConnection.onRequest(
+      PrepareRenameRequest.`type`,
+      onPrepareRenameHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientPrepareRenameParams, ClientRange | ClientPrepareRenameResult, js.Any]]
+    )
+    // End PrepareRename
 
     // CleanDiagnosticTree
     val onCleanDiagnosticTreeHandlerJs: js.Function2[ClientCleanDiagnosticTreeParams,

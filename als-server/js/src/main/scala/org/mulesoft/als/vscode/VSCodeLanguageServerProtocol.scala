@@ -2,18 +2,31 @@ package org.mulesoft.als.vscode
 
 import org.mulesoft.als.server.protocol.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
 import org.mulesoft.lsp.edit.ClientWorkspaceEdit
-import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
+import org.mulesoft.lsp.feature.common.{
+  ClientLocation,
+  ClientLocationLink,
+  ClientRange,
+  ClientTextDocumentPositionParams
+}
 import org.mulesoft.lsp.feature.completion.{ClientCompletionItem, ClientCompletionList, ClientCompletionParams}
 import org.mulesoft.lsp.feature.definition.ClientDefinitionParams
 import org.mulesoft.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
-import org.mulesoft.lsp.feature.documentsymbol.{ClientDocumentSymbol, ClientDocumentSymbolParams, ClientSymbolInformation}
+import org.mulesoft.lsp.feature.documentsymbol.{
+  ClientDocumentSymbol,
+  ClientDocumentSymbolParams,
+  ClientSymbolInformation
+}
 import org.mulesoft.lsp.feature.implementation.ClientImplementationParams
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.ClientReferenceParams
-import org.mulesoft.lsp.feature.rename.ClientRenameParams
+import org.mulesoft.lsp.feature.rename.{ClientPrepareRenameParams, ClientPrepareRenameResult, ClientRenameParams}
 import org.mulesoft.lsp.feature.telemetry.ClientTelemetryMessage
 import org.mulesoft.lsp.feature.typedefinition.ClientTypeDefinitionParams
-import org.mulesoft.lsp.textsync.{ClientDidChangeTextDocumentParams, ClientDidCloseTextDocumentParams, ClientDidOpenTextDocumentParams}
+import org.mulesoft.lsp.textsync.{
+  ClientDidChangeTextDocumentParams,
+  ClientDidCloseTextDocumentParams,
+  ClientDidOpenTextDocumentParams
+}
 import org.mulesoft.lsp.workspace.ClientExecuteCommandParams
 
 import scala.scalajs.js
@@ -291,6 +304,13 @@ object ReferencesRequest extends js.Object {
 @JSImport("vscode-languageserver-protocol", "RenameRequest")
 object RenameRequest extends js.Object {
   val `type`: RequestType[ClientRenameParams, ClientWorkspaceEdit, js.Any, js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "PrepareRenameRequest")
+object PrepareRenameRequest extends js.Object {
+  val `type`: RequestType[ClientPrepareRenameParams, ClientRange | ClientPrepareRenameResult, js.Any, js.Any] =
+    js.native
 }
 
 @js.native

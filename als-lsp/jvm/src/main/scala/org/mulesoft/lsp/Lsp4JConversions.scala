@@ -18,7 +18,7 @@ import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
 import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticRelatedInformation, PublishDiagnosticsParams}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbol, SymbolInformation}
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkOptions, DocumentLinkParams}
-import org.mulesoft.lsp.feature.rename.RenameOptions
+import org.mulesoft.lsp.feature.rename.{PrepareRenameResult, RenameOptions}
 import org.mulesoft.lsp.textsync.{SaveOptions, TextDocumentSyncKind, TextDocumentSyncOptions}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 
@@ -237,6 +237,17 @@ object Lsp4JConversions {
 
     result
   }
+
+  implicit def lsp4JOptionEitherRangeWithPlaceholder(
+      p: Option[Either[Range, PrepareRenameResult]]): JEither[lsp4j.Range, lsp4j.PrepareRenameResult] =
+    p.map {
+      case Left(r) =>
+        JEither.forLeft(lsp4JRange(r)): JEither[lsp4j.Range, lsp4j.PrepareRenameResult]
+      case Right(r) =>
+        JEither.forRight(new lsp4j.PrepareRenameResult(lsp4JRange(r.range), r.placeholder)): JEither[
+          lsp4j.Range,
+          lsp4j.PrepareRenameResult]
+    }.orNull
 
   implicit def lsp4JStaticRegistrationOptions(options: StaticRegistrationOptions): lsp4j.StaticRegistrationOptions = {
     val result = new lsp4j.StaticRegistrationOptions()
