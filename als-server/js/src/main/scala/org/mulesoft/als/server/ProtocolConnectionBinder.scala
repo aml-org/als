@@ -37,7 +37,7 @@ import org.mulesoft.lsp.feature.completion.{
   ClientCompletionParams,
   CompletionRequestType
 }
-import org.mulesoft.lsp.feature.definition.DefinitionRequestType
+import org.mulesoft.lsp.feature.definition.{ClientDefinitionParams, DefinitionRequestType}
 import org.mulesoft.lsp.feature.diagnostic.{ClientPublishDiagnosticsParams, PublishDiagnosticsParams}
 import org.mulesoft.lsp.feature.documentsymbol.{
   ClientDocumentSymbol,
@@ -45,11 +45,11 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   ClientSymbolInformation,
   DocumentSymbolRequestType
 }
-import org.mulesoft.lsp.feature.implementation.ImplementationRequestType
+import org.mulesoft.lsp.feature.implementation.{ClientImplementationParams, ImplementationRequestType}
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams, DocumentLinkRequestType}
 import org.mulesoft.lsp.feature.reference.{ClientReferenceParams, ReferenceRequestType}
 import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryMessage, TelemetryMessage}
-import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionRequestType
+import org.mulesoft.lsp.feature.typedefinition.{ClientTypeDefinitionParams, TypeDefinitionRequestType}
 import org.mulesoft.lsp.textsync.{
   ClientDidChangeTextDocumentParams,
   ClientDidCloseTextDocumentParams,
@@ -238,10 +238,10 @@ object ProtocolConnectionBinder {
 
     // Definition
     val onDefinitionHandlerJs
-      : js.Function2[ClientTextDocumentPositionParams,
+      : js.Function2[ClientDefinitionParams,
                      CancellationToken,
                      Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
-      (param: ClientTextDocumentPositionParams, _: CancellationToken) =>
+      (param: ClientDefinitionParams, _: CancellationToken) =>
         resolveHandler(DefinitionRequestType)(param.toShared)
           .map(_.toClient)
           .toJSPromise
@@ -250,7 +250,7 @@ object ProtocolConnectionBinder {
     protocolConnection.onRequest(
       DefinitionRequest.`type`,
       onDefinitionHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientTextDocumentPositionParams,
+        .asInstanceOf[ClientRequestHandler[ClientDefinitionParams,
                                            ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
                                            js.Any]]
     )
@@ -258,10 +258,10 @@ object ProtocolConnectionBinder {
 
     // Implementation
     val onImplementationHandlerJs
-      : js.Function2[ClientTextDocumentPositionParams,
+      : js.Function2[ClientImplementationParams,
                      CancellationToken,
                      Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
-      (param: ClientTextDocumentPositionParams, _: CancellationToken) =>
+      (param: ClientImplementationParams, _: CancellationToken) =>
         resolveHandler(ImplementationRequestType)(param.toShared)
           .map(_.toClient)
           .toJSPromise
@@ -270,7 +270,7 @@ object ProtocolConnectionBinder {
     protocolConnection.onRequest(
       ImplementationRequest.`type`,
       onImplementationHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientTextDocumentPositionParams,
+        .asInstanceOf[ClientRequestHandler[ClientImplementationParams,
                                            ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
                                            js.Any]]
     )
@@ -278,10 +278,10 @@ object ProtocolConnectionBinder {
 
     // TypeDefinition
     val onTypeDefinitionHandlerJs
-      : js.Function2[ClientTextDocumentPositionParams,
+      : js.Function2[ClientTypeDefinitionParams,
                      CancellationToken,
                      Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
-      (param: ClientTextDocumentPositionParams, _: CancellationToken) =>
+      (param: ClientTypeDefinitionParams, _: CancellationToken) =>
         resolveHandler(TypeDefinitionRequestType)(param.toShared)
           .map(_.toClient)
           .toJSPromise
@@ -290,7 +290,7 @@ object ProtocolConnectionBinder {
     protocolConnection.onRequest(
       TypeDefinitionRequest.`type`,
       onTypeDefinitionHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientTextDocumentPositionParams,
+        .asInstanceOf[ClientRequestHandler[ClientTypeDefinitionParams,
                                            ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
                                            js.Any]]
     )

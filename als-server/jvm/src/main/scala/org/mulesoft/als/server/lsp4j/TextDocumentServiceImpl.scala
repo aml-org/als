@@ -12,6 +12,7 @@ import org.eclipse.lsp4j.{
   CompletionItem,
   CompletionList,
   CompletionParams,
+  DefinitionParams,
   DidChangeTextDocumentParams,
   DidCloseTextDocumentParams,
   DidOpenTextDocumentParams,
@@ -20,13 +21,14 @@ import org.eclipse.lsp4j.{
   DocumentLinkParams,
   DocumentSymbol,
   DocumentSymbolParams,
+  ImplementationParams,
   Location,
   LocationLink,
   PublishDiagnosticsParams,
   ReferenceParams,
   RenameParams,
   SymbolInformation,
-  TextDocumentPositionParams,
+  TypeDefinitionParams,
   WorkspaceEdit
 }
 import org.mulesoft.als.server.custom.{CustomEvents, CustomTextDocumentService}
@@ -79,15 +81,15 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
   override def references(params: ReferenceParams): CompletableFuture[util.List[_ <: Location]] =
     javaFuture(resolveHandler(ReferenceRequestType)(params), lsp4JLocations)
 
-  override def definition(params: TextDocumentPositionParams)
+  override def definition(params: DefinitionParams)
     : CompletableFuture[messages.Either[util.List[_ <: Location], util.List[_ <: LocationLink]]] =
     javaFuture(resolveHandler(DefinitionRequestType)(params), lsp4JLocationsEither)
 
-  override def implementation(params: TextDocumentPositionParams)
+  override def implementation(params: ImplementationParams)
     : CompletableFuture[messages.Either[util.List[_ <: Location], util.List[_ <: LocationLink]]] =
     javaFuture(resolveHandler(ImplementationRequestType)(params), lsp4JLocationsEither)
 
-  override def typeDefinition(params: TextDocumentPositionParams)
+  override def typeDefinition(params: TypeDefinitionParams)
     : CompletableFuture[messages.Either[util.List[_ <: Location], util.List[_ <: LocationLink]]] =
     javaFuture(resolveHandler(TypeDefinitionRequestType)(params), lsp4JLocationsEither)
 
