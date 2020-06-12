@@ -296,6 +296,9 @@ object LspConversions {
   implicit def renameParams(params: lsp4j.RenameParams): RenameParams =
     RenameParams(params.getTextDocument, params.getPosition, params.getNewName)
 
+  implicit def prepareRenameParams(params: lsp4j.PrepareRenameParams): PrepareRenameParams =
+    PrepareRenameParams(params.getTextDocument, params.getPosition)
+
   implicit def location(location: lsp4j.Location): Location =
     Location(location.getUri, location.getRange)
 
