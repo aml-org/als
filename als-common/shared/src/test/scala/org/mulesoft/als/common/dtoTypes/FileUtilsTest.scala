@@ -1,5 +1,7 @@
 package org.mulesoft.als.common.dtoTypes
 
+import amf.core.remote.Platform
+import org.mulesoft.als.common.URIImplicits._
 import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.als.common.FileUtils
 import org.scalatest.FunSuite
@@ -71,5 +73,17 @@ class FileUtilsTest extends FunSuite with PlatformSecrets {
 
   ignore("getEncodedUri from relative decoded URI") { // TODO: this cant be done as we can't tell if the original was or not encoded
     assert(FileUtils.getEncodedUri(relUri(path), platform) == relUri(path))
+  }
+
+  test("URIImplicits") {
+    val wrongEncode                 = "file:///test-sugg%20%281%29/folder2/api%20root.raml"
+    val goodEncode                  = "file:///test-sugg%20(1)/folder2/api%20root.raml"
+    val path                        = "/test-sugg (1)/folder2/api root.raml"
+    val noEncode                    = "file:///test-sugg (1)/folder2/api root.raml"
+    implicit val platform: Platform = this.platform
+    assert(wrongEncode.toAmfUri == goodEncode)
+    assert(goodEncode.toAmfUri == goodEncode)
+    assert(noEncode.toAmfUri == goodEncode)
+    assert(path.toAmfUri == goodEncode)
   }
 }

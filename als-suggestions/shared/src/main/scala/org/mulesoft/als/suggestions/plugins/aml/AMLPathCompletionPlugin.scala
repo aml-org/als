@@ -4,7 +4,8 @@ import amf.client.plugins.AMFSyntaxPlugin
 import amf.core.registries.AMFPluginsRegistry
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
-import org.mulesoft.als.common.{DirectoryResolver, FileUtils}
+import org.mulesoft.als.common.DirectoryResolver
+import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -42,18 +43,18 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
     val baseLocation: String =
       if (prefix.startsWith("/")) rootLocation.getOrElse(actualLocation)
       else actualLocation
-    val fullPath = FileUtils.getPath(baseLocation, platform)
+    val fullPath = baseLocation.toPath(platform)
     val baseDir  = extractPath(fullPath) // root path for file
 
     val relativePath = extractPath(prefix)
     val fullURI =
-      FileUtils.getEncodedUri(s"${baseDir.stripSuffix("/")}/${relativePath.stripPrefix("/")}", platform)
+      s"${baseDir.stripSuffix("/")}/${relativePath.stripPrefix("/")}".toAmfUri(platform)
 
     if (!prefix.startsWith("#"))
       if (fullURI.contains("#") && !fullURI.startsWith("#"))
         PathNavigation(fullURI, platform, environment, prefix).suggest()
       else
-        FilesEnumeration(directoryResolver, platform, FileUtils.getPath(actualLocation, platform), relativePath)
+        FilesEnumeration(directoryResolver, platform, actualLocation.toPath(platform), relativePath)
           .filesIn(fullURI)
     else emptySuggestion
 
