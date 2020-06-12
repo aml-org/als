@@ -2,14 +2,14 @@ package org.mulesoft.als.server.workspace.extract
 
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
-import org.mulesoft.als.common.FileUtils
+import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.common.io.{Id, SyncFile}
+import org.mulesoft.common.io.SyncFile
 import org.yaml.model.{YDocument, YMap, YMapEntry}
 import org.yaml.parser.JsonParser
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class ExtractFromJsonRoot(content: String) {
 
@@ -66,7 +66,7 @@ object ExchangeConfigReader extends ConfigReader {
         Future.sequence {
           dependencies.map(
             d =>
-              readFile(FileUtils.getEncodedUri(d.path + "/" + configFileName, platform), platform, environment)
+              readFile((d.path + "/" + configFileName).toAmfUri(platform), platform, environment)
                 .map(_.flatMap { c =>
                   new ExtractFromJsonRoot(c).getMain.map(m => d.path + "/" + m)
                 })) map (_.collect { case Some(c) => c })
