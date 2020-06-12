@@ -39,7 +39,10 @@ class WorkspaceContentManager(val folder: String,
 
   def mainFile: Option[String] = configMainFile.map(_.mainFile)
   def mainFileUri: Option[String] =
-    mainFile.map(mf => s"$folder$mf".toAmfUri) // TODO: Analyze if we really need knowledge of both paths and uris (maybe set all to URI)
+    mainFile.map(mf => s"${trailSlash(folder)}$mf".toAmfUri) // TODO: Analyze if we really need knowledge of both paths and uris (maybe set all to URI)
+
+  private def trailSlash(f: String): String =
+    if (f.endsWith("/")) f else s"$f/"
 
   def configFile: Option[String] =
     configMainFile.flatMap(ic => ic.configReader.map(cr => s"${ic.rootFolder}/${cr.configFileName}".toAmfUri))

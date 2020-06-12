@@ -12,6 +12,7 @@ import org.mulesoft.lsp.edit.WorkspaceEdit
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.rename._
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.lsp.feature.common.Range
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -32,12 +33,19 @@ class RenameManager(val workspace: WorkspaceManager,
 
       override def apply(params: RenameParams): Future[WorkspaceEdit] =
         rename(params.textDocument.uri, Position(params.position.line, params.position.character), params.newName)
+    },
+    new RequestHandler[PrepareRenameParams, Option[Either[Range, PrepareRenameResult]]] {
+      override def `type`: PrepareRenameRequestType.type = PrepareRenameRequestType
+
+      override def apply(params: PrepareRenameParams): Future[Option[Either[Range, PrepareRenameResult]]] =
+        // check if enabled?
+        prepareRename(params.textDocument.uri, Position(params.position.line, params.position.character))
     }
   )
 
   override def applyConfig(config: Option[RenameClientCapabilities]): RenameOptions = {
     conf = config
-    RenameOptions(Some(false))
+    RenameOptions(Some(true))
   }
 
   def rename(uri: String, position: Position, newName: String): Future[WorkspaceEdit] = {
@@ -48,6 +56,16 @@ class RenameManager(val workspace: WorkspaceManager,
       .flatMap(_ => {
         FindRenameLocations.changeDeclaredName(uri, position, newName, workspace.getRelationships(uri, uuid))
       })
+  }
+
+  def prepareRename(uri: String, position: Position): Future[Option[Either[Range, PrepareRenameResult]]] = {
+    val uuid = UUID.randomUUID().toString
+    workspace
+      .getLastUnit(uri, uuid)
+      .flatMap(_.getLast)
+      .flatMap(_ => {
+        FindRenameLocations.canChangeDeclaredName(uri, position, workspace.getRelationships(uri, uuid))
+      }.map(_.map(r => Left(r))))
   }
 
   override def initialize(): Future[Unit] =
