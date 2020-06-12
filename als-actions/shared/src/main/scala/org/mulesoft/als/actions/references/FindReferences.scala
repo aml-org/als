@@ -14,12 +14,15 @@ object FindReferences {
     references.map { refs =>
       refs
         .filter { t =>
-          containsPosition(uri, position, t.destination) &&
+          containsPosition(uri, position, t.destination.uri, t.nameRange.getOrElse(PositionRange(t.targetEntry.range))) &&
           t.source.uri.nonEmpty
         }
     }
 
-  private def containsPosition(uri: String, position: Position, destination: Location) =
-    destination.uri == uri && PositionRange(destination.range)
+  private def containsPosition(uri: String,
+                               position: Position,
+                               destinationUri: String,
+                               destinationRange: PositionRange) =
+    destinationUri == uri && destinationRange
       .contains(position)
 }

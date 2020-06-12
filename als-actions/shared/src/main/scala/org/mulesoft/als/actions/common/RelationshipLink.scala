@@ -1,10 +1,14 @@
 package org.mulesoft.als.actions.common
 
 import org.mulesoft.als.actions.common.LinkTypes.LinkTypes
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.lsp.feature.common.Location
 import org.yaml.model.{YMapEntry, YPart}
 
-case class RelationshipLink(sourceEntry: YPart, targetEntry: YPart, linkType: LinkTypes = LinkTypes.OTHER) {
+case class RelationshipLink(sourceEntry: YPart,
+                            targetEntry: YPart,
+                            nameRange: Option[PositionRange] = None,
+                            linkType: LinkTypes = LinkTypes.OTHER) {
   def destination: Location = ActionTools.yPartToLocation(targetEntry)
   def parentEntry: Option[Location] = sourceEntry match {
     case e: YMapEntry => Some(ActionTools.yPartToLocation(e))
