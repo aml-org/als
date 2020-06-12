@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.workspace
 
+import amf.core.remote.Platform
 import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
-import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.AlsWorkspaceService
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
@@ -13,6 +13,7 @@ import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
+import org.mulesoft.als.common.URIImplicits._
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -28,6 +29,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     with UnitsManager[CompilableUnit, BaseUnitListenerParams]
     with AlsWorkspaceService {
 
+  implicit val platform: Platform                  = environmentProvider.platform
   override def subscribers: List[BaseUnitListener] = allSubscribers.filter(_.isActive)
   private val rootHandler =
     new WorkspaceRootHandler(environmentProvider.platform, environmentProvider.environmentSnapshot())
@@ -86,7 +88,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   override def notify(uri: String, kind: NotificationKind): Unit = {
     val manager: WorkspaceContentManager = getWorkspace(uri)
     if (manager.configFile
-          .map(FileUtils.getEncodedUri(_, environmentProvider.platform))
+          .map(_.toAmfUri)
           .contains(uri)) {
       manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
       manager.stage(uri, CHANGE_CONFIG)
@@ -122,7 +124,16 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     new WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers)
 
   override def getRootOf(uri: String): Option[String] =
-    getWorkspace(uri).workspaceConfiguration.map(c => s"${c.rootFolder}/")
+    getWorkspace(uri).workspaceConfiguration
+      .map(c => s"${c.rootFolder}/") // todo: check if the workspace config comes with trailing slash or not (or either way)
+
+  private def stripToLastFolder(uri: String): String =
+    uri.substring(0, (uri.lastIndexOf('/') + 1).min(uri.length))
+
+  override def getProjectRootOf(uri: String): Option[String] =
+    getWorkspace(uri).mainFileUri
+      .map(stripToLastFolder)
+      .orElse(getRootOf(uri))
 
   override def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit] = {
     // Drop all old workspaces

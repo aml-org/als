@@ -4,7 +4,7 @@ import java.net.{URI, URISyntaxException}
 
 import amf.core.remote.Platform
 
-object FileUtils {
+private object FileUtils {
 
   val FILE_PROTOCOL: String = amf.core.remote.File.FILE_PROTOCOL
 

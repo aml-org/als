@@ -1,14 +1,15 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.remote.Platform
-import org.mulesoft.als.common.{DirectoryResolver, FileUtils}
+import org.mulesoft.als.common.DirectoryResolver
+import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.suggestions.RawSuggestion
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 case class FilesEnumeration(directoryResolver: DirectoryResolver,
-                            override val platform: Platform,
+                            override implicit val platform: Platform,
                             actual: String,
                             relativePath: String)
     extends PathCompletion {
@@ -25,9 +26,7 @@ case class FilesEnumeration(directoryResolver: DirectoryResolver,
       .readDir(fullURI)
       .flatMap(withIsDir(_, fullURI))
       .map(s => {
-        s.filter(tuple =>
-            s"${FileUtils.getPath(fullURI, platform)}${tuple._1}" != actual && (tuple._2 || supportedExtension(
-              tuple._1)))
+        s.filter(tuple => s"${fullURI.toPath}${tuple._1}" != actual && (tuple._2 || supportedExtension(tuple._1)))
           .map(t => if (t._2) s"${t._1}/" else t._1)
           .map(toRawSuggestion)
       })
@@ -37,11 +36,10 @@ case class FilesEnumeration(directoryResolver: DirectoryResolver,
       files.map(
         file =>
           directoryResolver
-            .isDirectory(FileUtils.getEncodedUri(s"${FileUtils.getPath(fullUri, platform)}$file", platform))
+            .isDirectory(s"${fullUri.toPath}$file".toAmfUri)
             .map(isDir => (file, isDir)))
     }
 
   private def toRawSuggestion(file: String) =
     RawSuggestion(s"$relativePath$file", s"$relativePath$file", "Path suggestion", Nil)
-
 }
