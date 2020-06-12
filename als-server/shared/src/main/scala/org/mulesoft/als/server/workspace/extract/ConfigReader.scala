@@ -2,7 +2,7 @@ package org.mulesoft.als.server.workspace.extract
 
 import amf.core.remote.{Platform, UnsupportedUrlScheme}
 import amf.internal.environment.Environment
-import org.mulesoft.als.common.FileUtils
+import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.server.logger.Logger
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -15,9 +15,9 @@ trait ConfigReader {
                platform: Platform,
                environment: Environment = Environment(),
                logger: Logger): Future[Option[WorkspaceConf]] =
-    readFile(FileUtils.getEncodedUri(appendFileToUri(rootPath), platform), platform, environment).flatMap {
+    readFile(appendFileToUri(rootPath).toAmfUri(platform), platform, environment).flatMap {
       case Some(content) =>
-        buildConfig(content, FileUtils.getPath(rootPath, platform), platform, logger) match {
+        buildConfig(content, rootPath.toPath(platform), platform, logger) match {
           case Some(f) =>
             f.map(Some(_))
           case _ =>
